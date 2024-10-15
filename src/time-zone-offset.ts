@@ -10,9 +10,11 @@ export type TimeZoneOffsetVariables = {
 };
 
 export class TimeZoneOffset {
+  static TIME_ZONE_OFFSET_HEADER_NAME = "time-zone-offset";
+
   static attach = createMiddleware(async (c, next) => {
     const timeZoneOffsetMinutes = bg.Schema.TimeZoneOffsetHeaderValue.parse(
-      c.req.header("time-zone-offset")
+      c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME)
     );
 
     const timeZoneOffset = {

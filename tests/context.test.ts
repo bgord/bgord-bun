@@ -1,59 +1,28 @@
-import { describe, test, expect } from "vitest";
-import express from "express";
-import request from "supertest";
+import { Hono } from "hono";
+import { requestId } from "hono/request-id";
+import { describe, test, expect } from "bun:test";
 
-import * as Schema from "../src/schema";
-import { TimeZoneOffsetsType } from "../src/time-zone-offset";
-import { Context } from "../src/context";
-
-type ContextType = {
-  requestId: Schema.CorrelationIdType;
-  timeZoneOffset: TimeZoneOffsetsType;
-};
-
-declare global {
-  namespace Express {
-    interface Request {
-      requestId: Schema.CorrelationIdType;
-      context: ContextType;
-    }
-  }
-}
+import { Context, ContextVariables } from "../src/context";
+import { TimeZoneOffset } from "../src/time-zone-offset";
 
 describe("Context class", () => {
   test("applyTo method adds context to the request", async () => {
-    const app = express();
+    const app = new Hono<{ Variables: ContextVariables }>();
+    app.use(requestId());
+    app.use(TimeZoneOffset.attach);
+    app.use(Context.attach);
+    app.get("/ping", (c) => c.json(c.get("context")));
 
-    const mockRequestId = "mock-request-id";
-    const mockTimeZoneOffset = {
-      minutes: 60,
-      seconds: 3600,
-      miliseconds: 3600000,
-    };
+    const result = await app.request("/ping", { method: "GET" });
+    const body = await result.json();
 
-    app.use((req, _res, next) => {
-      req.requestId = mockRequestId as any;
-      req.timeZoneOffset = mockTimeZoneOffset;
-      return next();
+    expect(result.status).toEqual(200);
+    expect(typeof body.requestId).toEqual("string");
+    expect(body.requestId.length).toEqual(36);
+    expect(body.timeZoneOffset).toEqual({
+      miliseconds: 0,
+      seconds: 0,
+      minutes: 0,
     });
-
-    // Apply Context middleware
-    Context.applyTo(app);
-
-    // Define a route that uses the context
-    app.get("/ping", (req, res) => {
-      res.json(req.context);
-    });
-
-    // Make a request to the route
-    const result = await request(app).get("/ping").expect(200);
-
-    // Verify that the context is added to the request
-    const expectedContext = {
-      requestId: mockRequestId,
-      timeZoneOffset: mockTimeZoneOffset,
-    };
-
-    expect(result.body).toEqual(expectedContext);
   });
 });

@@ -1,102 +1,54 @@
-import { describe, test, expect, vi } from "vitest";
-import express from "express";
-import request from "supertest";
+import * as bg from "@bgord/node";
+import { Hono } from "hono";
+import { describe, test, expect, setSystemTime } from "bun:test";
 
-import { Time } from "../src/time";
-import { RateLimitShield } from "../src/rate-limit-shield";
-import * as Errors from "../src/errors";
+import { rateLimitShield } from "../src/rate-limit-shield";
 
-describe("RateLimitShield middleware", () => {
+describe("rateLimitShield middleware", () => {
   test("allows the request when within rate limit", async () => {
-    const app = express();
-
-    app.get(
-      "/ping",
-      RateLimitShield.build({ ms: 1000 }),
-      (_request: express.Request, response: express.Response) => {
-        response.status(200).send("pong");
-      },
-      (
-        error: express.Errback,
-        _request: express.Request,
-        response: express.Response,
-        _next: express.NextFunction,
-      ) => {
-        if (error instanceof Errors.TooManyRequestsError) {
-          response.status(429).send();
-          return;
-        }
-        expect.unreachable();
-      },
+    const app = new Hono();
+    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) =>
+      c.text("pong")
     );
 
-    const result = await request(app).get("/ping").expect(200);
+    const result = await app.request("/ping", { method: "GET" });
 
-    expect(result.text).toEqual("pong");
+    expect(result.status).toEqual(200);
+    expect(await result.text()).toEqual("pong");
   });
 
   test("throws TooManyRequestsError when exceeding rate limit", async () => {
-    const app = express();
-
-    app.get(
-      "/ping",
-      RateLimitShield.build({ ms: 1000 }),
-      (_request: express.Request, response: express.Response) => {
-        response.status(200).send("pong");
-      },
-      (
-        error: express.Errback,
-        _request: express.Request,
-        response: express.Response,
-        _next: express.NextFunction,
-      ) => {
-        if (error instanceof Errors.TooManyRequestsError) {
-          response.status(429).send();
-          return;
-        }
-        expect.unreachable();
-      },
+    const app = new Hono();
+    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) =>
+      c.text("pong")
     );
 
-    // Send two requests within 1000 milliseconds
-    await request(app).get("/ping").expect(200);
+    // Send two requests immediately 1000 milliseconds
+    const first = await app.request("/ping", { method: "GET" });
+    expect(first.status).toEqual(200);
 
-    await request(app).get("/ping").expect(429);
+    const second = await app.request("/ping", { method: "GET" });
+    expect(second.status).toEqual(429);
   });
 
   test("allows the request after waiting for the rate limit", async () => {
-    vi.useFakeTimers();
-    const app = express();
-
-    app.get(
-      "/ping",
-      RateLimitShield.build({ ms: 1000 }),
-      (_request: express.Request, response: express.Response) => {
-        response.status(200).send("pong");
-      },
-      (
-        error: express.Errback,
-        _request: express.Request,
-        response: express.Response,
-        _next: express.NextFunction,
-      ) => {
-        if (error instanceof Errors.TooManyRequestsError) {
-          response.status(429).send();
-          return;
-        }
-        expect.unreachable();
-      },
+    const app = new Hono();
+    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) =>
+      c.text("pong")
     );
 
-    // Send two requests within 1000 milliseconds
-    await request(app).get("/ping").expect(200);
+    const now = Date.now();
 
-    vi.advanceTimersByTime(Time.Seconds(1).ms);
+    // Send two requests immediately 1000 milliseconds
+    const first = await app.request("/ping", { method: "GET" });
+    expect(first.status).toEqual(200);
 
-    // Send another request after waiting
-    const result = await request(app).get("/ping").expect(200);
+    const fiveSecondsLater = now + bg.Time.Seconds(5).ms;
+    setSystemTime(fiveSecondsLater);
 
-    expect(result.text).toEqual("pong");
-    vi.useRealTimers();
+    const second = await app.request("/ping", { method: "GET" });
+    expect(second.status).toEqual(200);
+
+    setSystemTime();
   });
 });

@@ -1,8 +1,7 @@
-import express from "express";
-import { describe, test, expect } from "vitest";
-import request from "supertest";
+import { Hono } from "hono";
+import { describe, test, expect } from "bun:test";
+
 import { ApiKeyShield } from "../src/api-key-shield";
-import { AccessDeniedError } from "../src/errors";
 
 const VALID_API_KEY = "valid-api-key";
 const INVALID_API_KEY = "invalid-api-key";
@@ -11,93 +10,45 @@ const apiKeyShield = new ApiKeyShield({ API_KEY: VALID_API_KEY });
 
 describe("ApiKeyShield middleware", () => {
   test("allows access with valid API key", async () => {
-    const app = express();
+    const app = new Hono();
+    app.use(apiKeyShield.verify);
+    app.get("/ping", (c) => c.text("OK"));
 
-    app.get("/ping", apiKeyShield.verify, (_request, response) => {
-      response.status(200).send("pong");
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [ApiKeyShield.HEADER_NAME]: VALID_API_KEY }),
     });
 
-    await request(app)
-      .get("/ping")
-      .set(ApiKeyShield.HEADER_NAME, VALID_API_KEY)
-      .expect(200);
+    expect(result.status).toEqual(200);
   });
 
   test("denies access with missing API key", async () => {
-    const app = express();
+    const app = new Hono();
+    app.use(apiKeyShield.verify);
+    app.get("/ping", () => {
+      expect.unreachable();
+    });
 
-    app.get(
-      "/ping",
-      apiKeyShield.verify,
-      (_request: express.Request, _response: express.Response) =>
-        expect.unreachable(),
-      (
-        error: express.Errback,
-        _request: express.Request,
-        response: express.Response,
-        next: express.NextFunction,
-      ) => {
-        if (error instanceof AccessDeniedError) {
-          response.status(403).send("Access denied");
-          return;
-        }
-        return next();
-      },
-    );
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [ApiKeyShield.HEADER_NAME]: "" }),
+    });
 
-    const result = await request(app).get("/ping").expect(403);
-
-    expect(result.text).toEqual("Access denied");
+    expect(result.status).toEqual(403);
   });
 
   test("denies access with invalid API key", async () => {
-    const app = express();
+    const app = new Hono();
+    app.use(apiKeyShield.verify);
+    app.get("/ping", () => {
+      expect.unreachable();
+    });
 
-    app.get(
-      "/ping",
-      apiKeyShield.verify,
-      (_request: express.Request, _response: express.Response) =>
-        expect.unreachable(),
-      (
-        error: express.Errback,
-        _request: express.Request,
-        response: express.Response,
-        next: express.NextFunction,
-      ) => {
-        if (error instanceof AccessDeniedError) {
-          response.status(403).send("Access denied");
-          return;
-        }
-        return next();
-      },
-    );
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [ApiKeyShield.HEADER_NAME]: INVALID_API_KEY }),
+    });
 
-    const result = await request(app)
-      .get("/ping")
-      .set(ApiKeyShield.HEADER_NAME, INVALID_API_KEY)
-      .expect(403);
-
-    expect(result.text).toContain("Access denied");
-  });
-
-  test("works with multiple middlewares", async () => {
-    const app = express();
-
-    app.get(
-      "/ping",
-      (_request, _response, next) => {
-        // Another middleware
-        next();
-      },
-      apiKeyShield.verify,
-      (_request, response) => {
-        response.status(200).send("pong");
-      },
-    );
-
-    await request(app)
-      .get("/ping")
-      .set(ApiKeyShield.HEADER_NAME, VALID_API_KEY)
-      .expect(200);
+    expect(result.status).toEqual(403);
   });
 });
