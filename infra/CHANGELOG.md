@@ -1,9 +1,13 @@
 # Changelog
+- 2024-10-15 17:37 a064e46 **Merge pull request #2 from bgord/dependabot/npm_and_yarn/knip-5.33.3**
+- 2024-10-15 17:37 695e978 **Merge pull request #3 from bgord/dependabot/npm_and_yarn/cspell-8.15.2**
+- 2024-10-15 17:36 32af6fa **Merge pull request #1 from bgord/dependabot/npm_and_yarn/hono-4.6.5**
 ## 2024-10-15 17:22 v0.1.0
 - 2024-10-15 17:22 de768d9 **0.1.0**
 - 2024-10-15 15:41 cd5b3cf **step: set base version**
 - 2024-10-15 15:39 fc56fe6 **step: switch to bun in git hooks**
 - 2024-10-15 15:37 4cfee63 **step: try bun as package manager**
+- 2024-10-15 15:22 eb0b3f3 **docs: generate CHANGELOG**
 - 2024-10-15 14:57 e0527bc **step: rewrite tests**
 - 2024-10-15 14:30 c017ebf **refactor: remove unused packages**
 - 2024-10-15 14:29 d45ceeb **refactor: remove unused packages**
@@ -12,6 +16,9 @@
 - 2024-10-15 14:24 6ae7f78 **step: remove commit-msg hook**
 - 2024-10-15 14:22 fb861bd **step: bump bgord/node**
 - 2024-10-15 13:42 c274697 **docs: generate CHANGELOG**
+- 2024-10-15 13:42 8c99017 **build(deps-dev): bump cspell from 8.14.4 to 8.15.2**
+- 2024-10-15 13:41 294f9f0 **build(deps-dev): bump knip from 5.33.2 to 5.33.3**
+- 2024-10-15 13:41 026a2b4 **build(deps): bump hono from 4.6.4 to 4.6.5**
 - 2024-10-15 13:40 9fce1c1 **docs: generate CHANGELOG**
 - 2024-10-15 11:52 61abb27 **refactor: adjust bun modules to bgord/node**
 - 2024-10-15 11:47 8c97670 **refactor: remove non-bun files**
