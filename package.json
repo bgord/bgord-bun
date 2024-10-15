@@ -16,7 +16,7 @@
   "scripts": {
     "build": "microbundle",
     "prepare": "husky",
-    "preinstall": "npx only-allow npm"
+    "preinstall": "npx only-allow bun"
   },
   "files": [
     "dist",
