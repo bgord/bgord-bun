@@ -1,7 +1,7 @@
 import * as bg from "@bgord/node";
 import { createMiddleware } from "hono/factory";
-import _ from "lodash";
 import { getConnInfo } from "hono/bun";
+import _ from "lodash";
 
 export class HttpLogger {
   private static simplify(response: unknown) {
