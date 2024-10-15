@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@bgord/node": "0.82.0",
-    "hono": "4.6.4",
+    "hono": "4.6.5",
     "lodash": "4.17.21"
   },
   "resolutions": {
