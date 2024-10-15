@@ -1,13 +1,7 @@
 import * as bg from "@bgord/node";
 import { createMiddleware } from "hono/factory";
 
-export type TimeZoneOffsetVariables = {
-  timeZoneOffset: {
-    minutes: bg.Schema.TimeZoneOffsetValueType;
-    seconds: bg.Schema.TimeZoneOffsetValueType;
-    miliseconds: bg.Schema.TimeZoneOffsetValueType;
-  };
-};
+import { TimeZoneOffsetVariables } from "./time-zone-offset";
 
 export type ContextVariables = {
   context: bg.ContextType;
