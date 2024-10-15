@@ -1,9 +1,8 @@
-import * as Schema from "../schema";
-
+import * as bg from "@bgord/node";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 
-type ApiKeyShieldConfigType = { API_KEY: Schema.ApiKeyType };
+type ApiKeyShieldConfigType = { API_KEY: bg.Schema.ApiKeyType };
 
 export const AccessDeniedApiKeyError = new HTTPException(403, {
   message: "access_denied_api_key",

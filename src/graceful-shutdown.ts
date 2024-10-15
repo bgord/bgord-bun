@@ -1,11 +1,11 @@
-import { noop } from "../noop";
+import * as bg from "@bgord/node";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
 export class GracefulShutdown {
   private static async shutdown(
     server: ServerType,
-    callback: () => any = noop,
+    callback: () => any = bg.noop
   ) {
     server.stop();
     await callback();
@@ -13,7 +13,7 @@ export class GracefulShutdown {
     console.log("HTTP server closed");
   }
 
-  static applyTo(server: ServerType, callback: () => any = noop) {
+  static applyTo(server: ServerType, callback: () => any = bg.noop) {
     process.on("SIGTERM", async () => {
       // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log("SIGTERM signal received: closing HTTP server");
@@ -31,7 +31,7 @@ export class GracefulShutdown {
     process.on("unhandledRejection", async (event) => {
       // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log(
-        "UnhandledPromiseRejectionWarning received: closing HTTP server",
+        "UnhandledPromiseRejectionWarning received: closing HTTP server"
       );
 
       // biome-ignore lint: lint/suspicious/noConsoleLog

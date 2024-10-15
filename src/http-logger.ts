@@ -1,15 +1,12 @@
+import * as bg from "@bgord/node";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 import { getConnInfo } from "hono/bun";
 
-import * as Schema from "../schema";
-import { Logger } from "../logger";
-import { CacheHitEnum, CacheResponse } from "../cache-response";
-
 export class HttpLogger {
   private static simplify(response: unknown) {
     const result = JSON.stringify(response, (_key, value) =>
-      Array.isArray(value) ? { type: "Array", length: value.length } : value,
+      Array.isArray(value) ? { type: "Array", length: value.length } : value
     );
 
     return JSON.parse(result);
@@ -37,9 +34,9 @@ export class HttpLogger {
     "if-none-match",
   ];
 
-  static build = (logger: Logger) =>
+  static build = (logger: bg.Logger) =>
     createMiddleware(async (c, next) => {
-      const correlationId = c.get("requestId") as Schema.CorrelationIdType;
+      const correlationId = c.get("requestId") as bg.Schema.CorrelationIdType;
       const info = getConnInfo(c);
       const url = c.req.url;
       const method = c.req.method;
@@ -62,7 +59,7 @@ export class HttpLogger {
         params: c.req.param(),
         headers: _.omit(
           c.req.raw.headers.toJSON(),
-          HttpLogger.uninformativeHeaders,
+          HttpLogger.uninformativeHeaders
         ),
         body,
         query: c.req.queries(),
@@ -77,16 +74,20 @@ export class HttpLogger {
         client,
         metadata: _.pickBy(
           httpRequestBeforeMetadata,
-          (value) => !_.isEmpty(value),
+          (value) => !_.isEmpty(value)
         ),
       });
 
       await next();
 
-      const cacheHitHeader = c.res.headers.get(CacheResponse.CACHE_HIT_HEADER);
+      const cacheHitHeader = c.res.headers.get(
+        bg.CacheResponse.CACHE_HIT_HEADER
+      );
 
       const cacheHit =
-        cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
+        cacheHitHeader === bg.CacheHitEnum.hit
+          ? bg.CacheHitEnum.hit
+          : undefined;
 
       let response: any;
       try {

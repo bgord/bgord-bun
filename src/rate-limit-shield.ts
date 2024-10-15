@@ -1,17 +1,16 @@
+import * as bg from "@bgord/node";
+
 import { HTTPException } from "hono/http-exception";
 import { createMiddleware } from "hono/factory";
 
-import * as Schema from "../schema";
-import { RateLimiter } from "../rate-limiter";
-
-type RateLimitShieldOptionsType = { ms: Schema.TimestampType };
+type RateLimitShieldOptionsType = { ms: bg.Schema.TimestampType };
 
 export const TooManyRequestsError = new HTTPException(429, {
   message: "app.too_many_requests",
 });
 
 export const rateLimitShield = (options: RateLimitShieldOptionsType) => {
-  const rateLimiter = new RateLimiter(options);
+  const rateLimiter = new bg.RateLimiter(options);
 
   return createMiddleware(async (_c, next) => {
     const currentTimestampMs = Date.now();

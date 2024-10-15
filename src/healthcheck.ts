@@ -1,42 +1,30 @@
+import * as bg from "@bgord/node";
 import { createFactory } from "hono/factory";
-
-import * as Schema from "../schema";
-import {
-  AbstractPrerequisite,
-  BasePrerequisiteConfig,
-  PrerequisiteStatusEnum,
-  PrerequisiteLabelType,
-} from "../prerequisites";
-import { BuildInfoRepository } from "../build-info-repository";
-import { Stopwatch, StopwatchResultType } from "../stopwatch";
-import { Uptime, UptimeResultType } from "../uptime";
-import { MemoryConsumption } from "../memory-consumption";
-import { Size, SizeUnit } from "../size";
 
 const handler = createFactory();
 
 type HealthcheckResultType = {
-  ok: PrerequisiteStatusEnum;
-  version: Schema.BuildVersionType;
+  ok: bg.PrerequisiteStatusEnum;
+  version: bg.Schema.BuildVersionType;
   details: {
-    label: PrerequisiteLabelType;
-    status: PrerequisiteStatusEnum;
+    label: bg.PrerequisiteLabelType;
+    status: bg.PrerequisiteStatusEnum;
   }[];
-  uptime: UptimeResultType;
+  uptime: bg.UptimeResultType;
   memory: {
-    bytes: Size["bytes"];
-    formatted: ReturnType<Size["format"]>;
+    bytes: bg.Size["bytes"];
+    formatted: ReturnType<bg.Size["format"]>;
   };
-} & StopwatchResultType;
+} & bg.StopwatchResultType;
 
 export class Healthcheck {
   static build = (
-    prerequisites: AbstractPrerequisite<BasePrerequisiteConfig>[],
+    prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[]
   ) =>
     handler.createHandlers(async (c) => {
-      const stopwatch = new Stopwatch();
+      const stopwatch = new bg.Stopwatch();
 
-      const build = await BuildInfoRepository.extract();
+      const build = await bg.BuildInfoRepository.extract();
 
       const details: HealthcheckResultType["details"][number][] = [];
 
@@ -46,21 +34,21 @@ export class Healthcheck {
       }
 
       const ok = details.every(
-        (result) => result.status !== PrerequisiteStatusEnum.failure,
+        (result) => result.status !== bg.PrerequisiteStatusEnum.failure
       )
-        ? PrerequisiteStatusEnum.success
-        : PrerequisiteStatusEnum.failure;
+        ? bg.PrerequisiteStatusEnum.success
+        : bg.PrerequisiteStatusEnum.failure;
 
-      const code = ok === PrerequisiteStatusEnum.success ? 200 : 424;
+      const code = ok === bg.PrerequisiteStatusEnum.success ? 200 : 424;
 
       const result: HealthcheckResultType = {
         ok,
         details,
-        version: build.BUILD_VERSION ?? Schema.BuildVersion.parse("unknown"),
-        uptime: Uptime.get(),
+        version: build.BUILD_VERSION ?? bg.Schema.BuildVersion.parse("unknown"),
+        uptime: bg.Uptime.get(),
         memory: {
-          bytes: MemoryConsumption.get().toBytes(),
-          formatted: MemoryConsumption.get().format(SizeUnit.MB),
+          bytes: bg.MemoryConsumption.get().toBytes(),
+          formatted: bg.MemoryConsumption.get().format(bg.SizeUnit.MB),
         },
         ...stopwatch.stop(),
       };
