@@ -1,8 +1,89 @@
 {
-  "devDependencies": {
-    "husky": "^9.1.5"
+  "version": "0.1.0",
+  "license": "MIT",
+  "name": "@bgord/bun",
+  "type": "module",
+  "author": "Bartosz Gordon",
+  "source": "src/index.ts",
+  "exports": {
+    "require": "./dist/bgord-bun.cjs",
+    "default": "./dist/bgord-bun.modern.js"
   },
+  "main": "./dist/bgord-bun.cjs",
+  "module": "./dist/bgord-bun.module.js",
+  "unpkg": "./dist/bgord-bun.umd.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
-    "prepare": "husky"
+    "build": "microbundle",
+    "test": "vitest run",
+    "prepare": "husky",
+    "preinstall": "npx only-allow npm"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "1.9.3",
+    "@commitlint/cli": "19.5.0",
+    "@commitlint/config-conventional": "19.5.0",
+    "@types/accept-language-parser": "1.5.6",
+    "@types/bun": "1.1.11",
+    "@types/cookie-parser": "1.4.7",
+    "@types/cors": "2.8.17",
+    "@types/express": "5.0.0",
+    "@types/express-form-data": "2.0.5",
+    "@types/express-handlebars": "6.0.0",
+    "@types/lodash": "4.17.10",
+    "@types/method-override": "0.0.35",
+    "@types/mime-types": "2.1.4",
+    "@types/nodemailer": "6.4.16",
+    "@types/on-headers": "1.0.3",
+    "@types/pluralize": "0.0.33",
+    "@types/supertest": "6.0.2",
+    "cspell": "8.14.4",
+    "husky": "9.1.6",
+    "knip": "5.33.2",
+    "microbundle": "0.15.1",
+    "only-allow": "1.2.1",
+    "shellcheck": "3.0.0",
+    "standard-version": "9.5.0",
+    "supertest": "7.0.0",
+    "typescript": "5.6.3",
+    "vitest": "2.1.2"
+  },
+  "dependencies": {
+    "@lucia-auth/adapter-prisma": "4.0.1",
+    "accept-language-parser": "1.5.0",
+    "check-disk-space": "3.4.0",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.5",
+    "croner": "8.1.2",
+    "date-fns": "4.1.0",
+    "execa": "9.3.1",
+    "express": "5.0.1",
+    "express-form-data": "2.0.23",
+    "express-handlebars": "8.0.1",
+    "express-recaptcha": "5.1.0",
+    "express-static-gzip": "2.1.8",
+    "hcaptcha": "0.2.0",
+    "helmet": "8.0.0",
+    "hono": "4.6.4",
+    "lodash": "4.17.21",
+    "lucia": "3.2.1",
+    "method-override": "3.0.0",
+    "mime-types": "2.1.35",
+    "node-cache": "5.1.2",
+    "nodemailer": "6.9.15",
+    "on-headers": "1.0.2",
+    "oslo": "1.2.1",
+    "pluralize": "8.0.0",
+    "sharp": "0.33.5",
+    "ssl-checker": "2.0.10",
+    "winston": "3.15.0",
+    "zod": "3.22.4"
+  },
+  "resolutions": {
+    "typescript": "4.7.4"
   }
 }
