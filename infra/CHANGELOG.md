@@ -1,6 +1,7 @@
 # Changelog
+## 2024-10-15 17:22 v0.1.0
+- 2024-10-15 17:22 de768d9 **0.1.0**
 - 2024-10-15 15:41 cd5b3cf **step: set base version**
-## 2024-10-15 15:41 
 - 2024-10-15 15:39 fc56fe6 **step: switch to bun in git hooks**
 - 2024-10-15 15:37 4cfee63 **step: try bun as package manager**
 - 2024-10-15 14:57 e0527bc **step: rewrite tests**
@@ -10,6 +11,7 @@
 - 2024-10-15 14:24 e0aadf2 **fix: context type exports**
 - 2024-10-15 14:24 6ae7f78 **step: remove commit-msg hook**
 - 2024-10-15 14:22 fb861bd **step: bump bgord/node**
+- 2024-10-15 13:42 c274697 **docs: generate CHANGELOG**
 - 2024-10-15 13:40 9fce1c1 **docs: generate CHANGELOG**
 - 2024-10-15 11:52 61abb27 **refactor: adjust bun modules to bgord/node**
 - 2024-10-15 11:47 8c97670 **refactor: remove non-bun files**
