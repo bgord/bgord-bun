@@ -2,6 +2,7 @@ import hono from "hono";
 import * as bgn from "@bgord/node";
 import { Lucia } from "lucia";
 import { createMiddleware } from "hono/factory";
+import { HTTPException } from "hono/http-exception";
 
 class SessionId {
   private value: string | null;
@@ -22,6 +23,10 @@ type AuthShieldConfigType<T> = {
   lucia: Lucia;
   findUniqueUserOrThrow: (username: bgn.Username) => Promise<T>;
 };
+
+export const AccessDeniedAuthShieldError = new HTTPException(403, {
+  message: "access_denied_auth_shield",
+});
 
 export class AuthShield<
   T extends { password: bgn.PasswordType; id: bgn.IdType }
@@ -53,9 +58,7 @@ export class AuthShield<
     const user = c.get("user");
 
     if (!user) {
-      throw new bgn.Errors.AccessDeniedError({
-        reason: bgn.Errors.AccessDeniedErrorReasonType.auth,
-      });
+      throw AccessDeniedAuthShieldError;
     }
 
     return next();
@@ -65,9 +68,7 @@ export class AuthShield<
     const user = c.get("user");
 
     if (user) {
-      throw new bgn.Errors.AccessDeniedError({
-        reason: bgn.Errors.AccessDeniedErrorReasonType.auth,
-      });
+      throw AccessDeniedAuthShieldError;
     }
 
     return next();
@@ -145,9 +146,7 @@ export class AuthShield<
 
       return next();
     } catch (error) {
-      throw new bgn.Errors.AccessDeniedError({
-        reason: bgn.Errors.AccessDeniedErrorReasonType.auth,
-      });
+      throw AccessDeniedAuthShieldError;
     }
   });
 }
