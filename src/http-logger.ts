@@ -52,13 +52,13 @@ export class HttpLogger {
       let body: any;
 
       try {
-        body = await c.req.json();
+        body = await c.req.raw.clone().json();
       } catch (error) {}
 
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
         headers: _.omit(
-          c.req.raw.headers.toJSON(),
+          c.req.raw.clone().headers.toJSON(),
           HttpLogger.uninformativeHeaders
         ),
         body,
@@ -80,9 +80,9 @@ export class HttpLogger {
 
       await next();
 
-      const cacheHitHeader = c.res.headers.get(
-        bg.CacheResponse.CACHE_HIT_HEADER
-      );
+      const cacheHitHeader = c.res
+        .clone()
+        .headers.get(bg.CacheResponse.CACHE_HIT_HEADER);
 
       const cacheHit =
         cacheHitHeader === bg.CacheHitEnum.hit
@@ -99,7 +99,7 @@ export class HttpLogger {
         cacheHit,
       };
 
-      const serverTimingMs = c.res.headers.get("Server-Timing");
+      const serverTimingMs = c.res.clone().headers.get("Server-Timing");
 
       const durationMsMatch =
         serverTimingMs?.match(/dur=([0-9]*\.?[0-9]+)/) ?? undefined;
