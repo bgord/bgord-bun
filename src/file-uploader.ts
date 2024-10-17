@@ -1,31 +1,39 @@
 import * as bgn from "@bgord/node";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import { bodyLimit } from "hono/body-limit";
 
 export const InvalidFileMimeTypeError = new HTTPException(400, {
   message: "invalid_file_mime_type_error",
 });
 
-type FileUploaderConfigType = { mimeTypes: string[] };
+type FileUploaderConfigType = {
+  mimeTypes: string[];
+  maxFilesSize: bgn.SizeValueType;
+};
 
 export class FileUploader {
   static validate(config: FileUploaderConfigType) {
-    return createMiddleware(async (c, next) => {
-      const body = await c.req.raw.clone().formData();
+    return [
+      bodyLimit({ maxSize: config.maxFilesSize }),
 
-      const file = body.get("file");
+      createMiddleware(async (c, next) => {
+        const body = await c.req.raw.clone().formData();
 
-      if (!(file instanceof File)) {
-        throw InvalidFileMimeTypeError;
-      }
+        const file = body.get("file");
 
-      const contentType = new bgn.Mime(file.type);
-      const accepted = config.mimeTypes.some((acceptedMimeType) =>
-        new bgn.Mime(acceptedMimeType).isSatisfiedBy(contentType)
-      );
+        if (!(file instanceof File)) {
+          throw InvalidFileMimeTypeError;
+        }
 
-      if (!accepted) throw InvalidFileMimeTypeError;
-      return next();
-    });
+        const contentType = new bgn.Mime(file.type);
+        const accepted = config.mimeTypes.some((acceptedMimeType) =>
+          new bgn.Mime(acceptedMimeType).isSatisfiedBy(contentType)
+        );
+
+        if (!accepted) throw InvalidFileMimeTypeError;
+        return next();
+      }),
+    ];
   }
 }
