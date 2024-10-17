@@ -40,7 +40,8 @@
   "dependencies": {
     "@bgord/node": "0.82.0",
     "hono": "4.6.5",
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "sharp": "0.33.5"
   },
   "resolutions": {
     "typescript": "4.7.4"
