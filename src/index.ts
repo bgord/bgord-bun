@@ -13,3 +13,4 @@ export * from "./cache-response";
 export * from "./download-file";
 export * from "./i18n";
 export * from "./file-uploader";
+export * from "./image-processor";
