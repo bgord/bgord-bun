@@ -1,6 +1,20 @@
 # Changelog
+- 2024-10-17 19:54 67ba6c3 **step: add image processor**
+- 2024-10-17 19:41 d3b78f9 **step: install sharp**
+- 2024-10-17 19:41 9ed1db8 **step: add body limit to file uploader**
+- 2024-10-17 17:09 cf7d6cc **refactor: add size validation to file uploader**
+- 2024-10-17 17:02 b2a0b14 **feature: add file uploader**
+- 2024-10-17 15:45 ded0170 **step: rewrite i18n**
+- 2024-10-17 15:09 9106aa3 **step: port download file**
 - 2024-10-17 08:09 3ca2fc8 **Merge pull request #4 from bgord/dependabot/npm_and_yarn/cspell-8.15.3**
+- 2024-10-17 06:10 73b0d38 **docs: generate CHANGELOG**
 - 2024-10-17 06:03 b80f68f **build(deps-dev): bump cspell from 8.15.2 to 8.15.3**
+- 2024-10-16 16:45 ddd9fbf **step: Add cache static files middleware**
+- 2024-10-16 16:45 2b411f8 **step: add AccessDeniedAuthShieldError**
+- 2024-10-16 16:45 007f470 **step: add cache response middleware**
+- 2024-10-16 15:36 351f94d **feature: add auth shield**
+- 2024-10-16 15:33 4cb7d5c **fix: http logger req/res consumption**
+- 2024-10-16 13:13 e4d77d8 **step: update packages**
 - 2024-10-15 17:37 a064e46 **Merge pull request #2 from bgord/dependabot/npm_and_yarn/knip-5.33.3**
 - 2024-10-15 17:37 695e978 **Merge pull request #3 from bgord/dependabot/npm_and_yarn/cspell-8.15.2**
 - 2024-10-15 17:36 32af6fa **Merge pull request #1 from bgord/dependabot/npm_and_yarn/hono-4.6.5**
