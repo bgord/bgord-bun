@@ -7,6 +7,10 @@ export const InvalidFileMimeTypeError = new HTTPException(400, {
   message: "invalid_file_mime_type_error",
 });
 
+export const FileTooBigError = new HTTPException(400, {
+  message: "file_too_big_error",
+});
+
 type FileUploaderConfigType = {
   mimeTypes: string[];
   maxFilesSize: bgn.SizeValueType;
@@ -15,7 +19,12 @@ type FileUploaderConfigType = {
 export class FileUploader {
   static validate(config: FileUploaderConfigType) {
     return [
-      bodyLimit({ maxSize: config.maxFilesSize }),
+      bodyLimit({
+        maxSize: config.maxFilesSize,
+        onError: () => {
+          throw FileTooBigError;
+        },
+      }),
 
       createMiddleware(async (c, next) => {
         const body = await c.req.raw.clone().formData();
