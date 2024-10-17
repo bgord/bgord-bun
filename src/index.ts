@@ -14,3 +14,4 @@ export * from "./download-file";
 export * from "./i18n";
 export * from "./file-uploader";
 export * from "./image-processor";
+export * from "./setup";
