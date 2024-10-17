@@ -1,4 +1,6 @@
 # Changelog
+- 2024-10-17 08:09 3ca2fc8 **Merge pull request #4 from bgord/dependabot/npm_and_yarn/cspell-8.15.3**
+- 2024-10-17 06:03 b80f68f **build(deps-dev): bump cspell from 8.15.2 to 8.15.3**
 - 2024-10-15 17:37 a064e46 **Merge pull request #2 from bgord/dependabot/npm_and_yarn/knip-5.33.3**
 - 2024-10-15 17:37 695e978 **Merge pull request #3 from bgord/dependabot/npm_and_yarn/cspell-8.15.2**
 - 2024-10-15 17:36 32af6fa **Merge pull request #1 from bgord/dependabot/npm_and_yarn/hono-4.6.5**
@@ -7,6 +9,7 @@
 - 2024-10-15 15:41 cd5b3cf **step: set base version**
 - 2024-10-15 15:39 fc56fe6 **step: switch to bun in git hooks**
 - 2024-10-15 15:37 4cfee63 **step: try bun as package manager**
+- 2024-10-15 15:37 07bbff4 **docs: generate CHANGELOG**
 - 2024-10-15 15:22 eb0b3f3 **docs: generate CHANGELOG**
 - 2024-10-15 14:57 e0527bc **step: rewrite tests**
 - 2024-10-15 14:30 c017ebf **refactor: remove unused packages**
