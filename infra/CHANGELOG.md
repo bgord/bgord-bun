@@ -1,7 +1,10 @@
 # Changelog
+## 2024-10-17 20:28 v0.2.0
+- 2024-10-17 20:28 6dc8372 **0.2.0**
 - 2024-10-17 19:54 67ba6c3 **step: add image processor**
 - 2024-10-17 19:41 d3b78f9 **step: install sharp**
 - 2024-10-17 19:41 9ed1db8 **step: add body limit to file uploader**
+- 2024-10-17 18:27 d5766c0 **docs: generate CHANGELOG**
 - 2024-10-17 17:09 cf7d6cc **refactor: add size validation to file uploader**
 - 2024-10-17 17:02 b2a0b14 **feature: add file uploader**
 - 2024-10-17 15:45 ded0170 **step: rewrite i18n**
