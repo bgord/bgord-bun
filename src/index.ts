@@ -11,3 +11,4 @@ export * from "./time-zone-offset";
 export * from "./cache-static-files";
 export * from "./cache-response";
 export * from "./download-file";
+export * from "./i18n";
