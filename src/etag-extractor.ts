@@ -30,7 +30,7 @@ export class WeakETagExtractor {
         const header = String(c.req.header(bg.WeakETag.IF_MATCH_HEADER_NAME));
 
         if (!header || header === "undefined") c.set("WeakETag", null);
-        else c.set("WeakETag", bg.ETag.fromHeader(header));
+        else c.set("WeakETag", bg.WeakETag.fromHeader(header));
       } catch (error) {
         c.set("WeakETag", null);
       }
