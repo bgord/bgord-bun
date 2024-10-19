@@ -1,6 +1,9 @@
 # Changelog
 - 2024-10-19 15:40 8507c6b **Merge pull request #5 from bgord/dependabot/npm_and_yarn/biomejs/biome-1.9.4**
+- 2024-10-19 13:41 356daf5 **docs: generate CHANGELOG**
+- 2024-10-19 00:00 ca317f3 **fix: weak etag extractor**
 - 2024-10-18 05:50 8529d82 **build(deps-dev): bump @biomejs/biome from 1.9.3 to 1.9.4**
+- 2024-10-17 20:49 c632805 **step: add setup**
 ## 2024-10-17 20:28 v0.2.0
 - 2024-10-17 20:28 6dc8372 **0.2.0**
 - 2024-10-17 19:54 67ba6c3 **step: add image processor**
