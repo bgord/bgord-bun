@@ -1,5 +1,8 @@
 # Changelog
+## 2024-10-19 15:54 v0.3.0
+- 2024-10-19 15:54 d7b544d **0.3.0**
 - 2024-10-19 15:40 8507c6b **Merge pull request #5 from bgord/dependabot/npm_and_yarn/biomejs/biome-1.9.4**
+- 2024-10-19 13:54 0ce3ce0 **docs: generate CHANGELOG**
 - 2024-10-19 13:41 356daf5 **docs: generate CHANGELOG**
 - 2024-10-19 00:00 ca317f3 **fix: weak etag extractor**
 - 2024-10-18 05:50 8529d82 **build(deps-dev): bump @biomejs/biome from 1.9.3 to 1.9.4**
