@@ -1,4 +1,6 @@
 # Changelog
+## 2024-10-23 08:42 v0.3.2
+- 2024-10-23 08:42 e015802 **0.3.2**
 - 2024-10-23 08:41 4c7eaeb **refactor: make preinstall script use bunx**
 - 2024-10-23 08:40 fd17aee **fix: etag extractor tests**
 - 2024-10-23 08:34 49cf5aa **step: bump packages**
@@ -8,6 +10,7 @@
 - 2024-10-23 08:30 e2347f8 **Merge branch 'master' into dependabot/npm_and_yarn/cspell-8.15.4**
 - 2024-10-23 08:30 9c25566 **Merge pull request #7 from bgord/dependabot/npm_and_yarn/cspell-8.15.4**
 - 2024-10-23 08:29 12ed758 **Merge pull request #6 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.12**
+- 2024-10-23 06:42 6d118fb **docs: generate CHANGELOG**
 - 2024-10-23 06:40 91f187e **docs: generate CHANGELOG**
 - 2024-10-23 06:35 2a8c512 **docs: generate CHANGELOG**
 - 2024-10-23 06:32 fc2d8b7 **docs: generate CHANGELOG**
