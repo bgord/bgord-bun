@@ -28,7 +28,7 @@
     "@commitlint/config-conventional": "19.5.0",
     "@types/bun": "1.1.11",
     "@types/lodash": "4.17.12",
-    "cspell": "8.15.3",
+    "cspell": "8.15.4",
     "husky": "9.1.6",
     "knip": "5.33.3",
     "microbundle": "0.15.1",
