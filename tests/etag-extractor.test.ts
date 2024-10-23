@@ -68,7 +68,7 @@ describe("ETagExtractor middleware", () => {
       const result = await app.request("/ping", {
         method: "GET",
         headers: new Headers({
-          [bg.WeakETag.IF_MATCH_HEADER_NAME]: "12345",
+          [bg.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345",
         }),
       });
 
@@ -76,7 +76,7 @@ describe("ETagExtractor middleware", () => {
 
       expect(result.status).toEqual(200);
       expect(json.revision).toEqual(12345);
-      expect(json.value).toEqual("12345");
+      expect(json.value).toEqual("W/12345");
     });
 
     test("handles missing WeakETag header gracefully", async () => {
