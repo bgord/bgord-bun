@@ -1,8 +1,11 @@
 # Changelog
 - 2024-10-23 08:31 fe6cf34 **Merge pull request #8 from bgord/dependabot/npm_and_yarn/hono-4.6.6**
+- 2024-10-23 08:31 112f80c **Merge pull request #9 from bgord/dependabot/npm_and_yarn/types/bun-1.1.12**
 - 2024-10-23 08:30 e2347f8 **Merge branch 'master' into dependabot/npm_and_yarn/cspell-8.15.4**
 - 2024-10-23 08:30 9c25566 **Merge pull request #7 from bgord/dependabot/npm_and_yarn/cspell-8.15.4**
 - 2024-10-23 08:29 12ed758 **Merge pull request #6 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.12**
+- 2024-10-23 06:31 c53bdc5 **docs: generate CHANGELOG**
+- 2024-10-23 06:31 5338578 **build(deps-dev): bump @types/bun from 1.1.11 to 1.1.12**
 - 2024-10-23 06:30 fe1c108 **docs: generate CHANGELOG**
 - 2024-10-23 06:29 da7f7f1 **docs: generate CHANGELOG**
 - 2024-10-22 05:58 e7022b3 **build(deps): bump hono from 4.6.5 to 4.6.6**
