@@ -38,7 +38,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@bgord/node": "0.83.2",
+    "@bgord/node": "0.83.3",
     "hono": "4.6.6",
     "lodash": "4.17.21",
     "sharp": "0.33.5"
