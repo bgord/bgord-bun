@@ -1,6 +1,9 @@
 # Changelog
+- 2024-10-29 07:59 1b06739 **Merge pull request #11 from bgord/dependabot/npm_and_yarn/hono-4.6.7**
 - 2024-10-29 07:58 77c232f **Merge pull request #13 from bgord/dependabot/npm_and_yarn/knip-5.34.2**
+- 2024-10-29 06:58 c20c220 **docs: generate CHANGELOG**
 - 2024-10-29 05:39 29c76e3 **build(deps-dev): bump knip from 5.34.0 to 5.34.2**
+- 2024-10-28 06:04 fc132e7 **build(deps): bump hono from 4.6.6 to 4.6.7**
 ## 2024-10-26 14:15 v0.3.4
 - 2024-10-26 14:15 3141cee **0.3.4**
 - 2024-10-26 14:14 68cbc9a **step: bump packages**
