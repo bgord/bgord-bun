@@ -1,6 +1,13 @@
 # Changelog
+- 2024-10-31 08:54 f370f55 **Merge pull request #17 from bgord/dependabot/npm_and_yarn/knip-5.34.4**
+- 2024-10-31 08:54 676e9f1 **Merge pull request #16 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.13**
+- 2024-10-31 08:54 1ed192a **Merge pull request #15 from bgord/dependabot/npm_and_yarn/hono-4.6.8**
+- 2024-10-31 05:57 cb3ad31 **build(deps-dev): bump knip from 5.34.2 to 5.34.4**
+- 2024-10-30 05:26 d2c2b65 **build(deps): bump hono from 4.6.7 to 4.6.8**
+- 2024-10-30 05:26 7894e2f **build(deps-dev): bump @types/lodash from 4.17.12 to 4.17.13**
 - 2024-10-29 07:59 1b06739 **Merge pull request #11 from bgord/dependabot/npm_and_yarn/hono-4.6.7**
 - 2024-10-29 07:58 77c232f **Merge pull request #13 from bgord/dependabot/npm_and_yarn/knip-5.34.2**
+- 2024-10-29 06:59 758e21c **docs: generate CHANGELOG**
 - 2024-10-29 06:58 c20c220 **docs: generate CHANGELOG**
 - 2024-10-29 05:39 29c76e3 **build(deps-dev): bump knip from 5.34.0 to 5.34.2**
 - 2024-10-28 06:04 fc132e7 **build(deps): bump hono from 4.6.6 to 4.6.7**
