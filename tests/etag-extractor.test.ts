@@ -1,12 +1,8 @@
+import { describe, expect, test } from "bun:test";
 import * as bg from "@bgord/node";
 import { Hono } from "hono";
-import { describe, test, expect } from "bun:test";
 
-import {
-  ETagExtractor,
-  WeakETagExtractor,
-  EtagVariables,
-} from "../src/etag-extractor";
+import { ETagExtractor, EtagVariables, WeakETagExtractor } from "../src/etag-extractor";
 
 describe("ETagExtractor middleware", () => {
   test("extracts ETag from valid header", async () => {

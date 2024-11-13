@@ -1,5 +1,5 @@
+import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { describe, test, expect } from "bun:test";
 
 import { ApiKeyShield } from "../src/api-key-shield";
 

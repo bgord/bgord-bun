@@ -3,10 +3,7 @@ import * as bg from "@bgord/node";
 type ServerType = ReturnType<typeof Bun.serve>;
 
 export class GracefulShutdown {
-  private static async shutdown(
-    server: ServerType,
-    callback: () => any = bg.noop
-  ) {
+  private static async shutdown(server: ServerType, callback: () => any = bg.noop) {
     server.stop();
     await callback();
     // biome-ignore lint: lint/suspicious/noConsoleLog
@@ -30,9 +27,7 @@ export class GracefulShutdown {
 
     process.on("unhandledRejection", async (event) => {
       // biome-ignore lint: lint/suspicious/noConsoleLog
-      console.log(
-        "UnhandledPromiseRejectionWarning received: closing HTTP server"
-      );
+      console.log("UnhandledPromiseRejectionWarning received: closing HTTP server");
 
       // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log(JSON.stringify(event));

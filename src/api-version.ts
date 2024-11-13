@@ -9,10 +9,7 @@ export class ApiVersion {
   static attach = createMiddleware(async (c, next) => {
     const build = await bg.BuildInfoRepository.extract();
 
-    c.res.headers.set(
-      ApiVersion.HEADER_NAME,
-      build.BUILD_VERSION ?? ApiVersion.DEFAULT_API_VERSION
-    );
+    c.res.headers.set(ApiVersion.HEADER_NAME, build.BUILD_VERSION ?? ApiVersion.DEFAULT_API_VERSION);
 
     await next();
   });

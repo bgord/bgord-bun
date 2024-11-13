@@ -1,5 +1,5 @@
-import * as bgn from "@bgord/node";
 import type { PathLike } from "node:fs";
+import * as bgn from "@bgord/node";
 
 export type DownloadFileConfigType = { filename: PathLike; mime: bgn.Mime };
 

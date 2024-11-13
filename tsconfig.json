@@ -17,7 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["bgord-scripts", "tests", "vite.config.ts"],
+  "exclude": ["bgord-scripts", "tests", "vite.config.ts"]
 }

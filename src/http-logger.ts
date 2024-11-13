@@ -1,12 +1,12 @@
 import * as bg from "@bgord/node";
-import { createMiddleware } from "hono/factory";
 import { getConnInfo } from "hono/bun";
+import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 
 export class HttpLogger {
   private static simplify(response: unknown) {
     const result = JSON.stringify(response, (_key, value) =>
-      Array.isArray(value) ? { type: "Array", length: value.length } : value
+      Array.isArray(value) ? { type: "Array", length: value.length } : value,
     );
 
     return JSON.parse(result);
@@ -42,10 +42,7 @@ export class HttpLogger {
       const method = c.req.method;
 
       const client = {
-        ip:
-          c.req.header("x-real-ip") ||
-          c.req.header("x-forwarded-for") ||
-          info.remote.address,
+        ip: c.req.header("x-real-ip") || c.req.header("x-forwarded-for") || info.remote.address,
         userAgent: c.req.header("user-agent"),
       };
 
@@ -57,10 +54,7 @@ export class HttpLogger {
 
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
-        headers: _.omit(
-          c.req.raw.clone().headers.toJSON(),
-          HttpLogger.uninformativeHeaders
-        ),
+        headers: _.omit(c.req.raw.clone().headers.toJSON(), HttpLogger.uninformativeHeaders),
         body,
         query: c.req.queries(),
       };
@@ -72,22 +66,14 @@ export class HttpLogger {
         method,
         url,
         client,
-        metadata: _.pickBy(
-          httpRequestBeforeMetadata,
-          (value) => !_.isEmpty(value)
-        ),
+        metadata: _.pickBy(httpRequestBeforeMetadata, (value) => !_.isEmpty(value)),
       });
 
       await next();
 
-      const cacheHitHeader = c.res
-        .clone()
-        .headers.get(bg.CacheResponse.CACHE_HIT_HEADER);
+      const cacheHitHeader = c.res.clone().headers.get(bg.CacheResponse.CACHE_HIT_HEADER);
 
-      const cacheHit =
-        cacheHitHeader === bg.CacheHitEnum.hit
-          ? bg.CacheHitEnum.hit
-          : undefined;
+      const cacheHit = cacheHitHeader === bg.CacheHitEnum.hit ? bg.CacheHitEnum.hit : undefined;
 
       let response: any;
       try {
@@ -101,12 +87,9 @@ export class HttpLogger {
 
       const serverTimingMs = c.res.clone().headers.get("Server-Timing");
 
-      const durationMsMatch =
-        serverTimingMs?.match(/dur=([0-9]*\.?[0-9]+)/) ?? undefined;
+      const durationMsMatch = serverTimingMs?.match(/dur=([0-9]*\.?[0-9]+)/) ?? undefined;
 
-      const durationMs = durationMsMatch?.[1]
-        ? Number(durationMsMatch[1])
-        : undefined;
+      const durationMs = durationMsMatch?.[1] ? Number(durationMsMatch[1]) : undefined;
 
       logger.http({
         operation: "http_request_after",

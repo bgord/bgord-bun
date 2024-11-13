@@ -1,8 +1,8 @@
-import hono from "hono";
 import * as bgn from "@bgord/node";
-import { Lucia } from "lucia";
+import hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import { Lucia } from "lucia";
 
 class SessionId {
   private value: string | null;
@@ -28,20 +28,15 @@ export const AccessDeniedAuthShieldError = new HTTPException(403, {
   message: "access_denied_auth_shield",
 });
 
-export class AuthShield<
-  T extends { password: bgn.PasswordType; id: bgn.IdType }
-> {
+export class AuthShield<T extends { password: bgn.PasswordType; id: bgn.IdType }> {
   private readonly config: AuthShieldConfigType<T>;
 
   constructor(
-    overrides: Omit<
-      AuthShieldConfigType<T>,
-      "Username" | "Password" | "HashedPassword"
-    > & {
+    overrides: Omit<AuthShieldConfigType<T>, "Username" | "Password" | "HashedPassword"> & {
       Username?: typeof bgn.Username;
       Password?: typeof bgn.Password;
       HashedPassword?: typeof bgn.HashedPassword;
-    }
+    },
   ) {
     const config = {
       Username: overrides.Username ?? bgn.Username,
@@ -98,15 +93,10 @@ export class AuthShield<
       return next();
     }
 
-    const { session, user } = await this.config.lucia.validateSession(
-      sessionId
-    );
+    const { session, user } = await this.config.lucia.validateSession(sessionId);
 
     if (!session) {
-      c.res.headers.set(
-        "Set-Cookie",
-        this.config.lucia.createBlankSessionCookie().serialize()
-      );
+      c.res.headers.set("Set-Cookie", this.config.lucia.createBlankSessionCookie().serialize());
       c.set("user", null);
       c.set("session", null);
 
@@ -114,10 +104,7 @@ export class AuthShield<
     }
 
     if (session.fresh) {
-      c.res.headers.set(
-        "Set-Cookie",
-        this.config.lucia.createSessionCookie(session.id).serialize()
-      );
+      c.res.headers.set("Set-Cookie", this.config.lucia.createSessionCookie(session.id).serialize());
     }
     c.set("user", user);
     c.set("session", session);
@@ -134,9 +121,7 @@ export class AuthShield<
 
       const user = await this.config.findUniqueUserOrThrow(username);
 
-      const hashedPassword = await this.config.HashedPassword.fromHash(
-        user.password
-      );
+      const hashedPassword = await this.config.HashedPassword.fromHash(user.password);
       await hashedPassword.matchesOrThrow(password);
 
       const session = await this.config.lucia.createSession(user.id, {});

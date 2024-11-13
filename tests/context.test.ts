@@ -1,6 +1,6 @@
+import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
-import { describe, test, expect } from "bun:test";
 
 import { Context, ContextVariables } from "../src/context";
 import { TimeZoneOffset } from "../src/time-zone-offset";

@@ -1,15 +1,13 @@
+import { describe, expect, setSystemTime, test } from "bun:test";
 import * as bg from "@bgord/node";
 import { Hono } from "hono";
-import { describe, test, expect, setSystemTime } from "bun:test";
 
 import { rateLimitShield } from "../src/rate-limit-shield";
 
 describe("rateLimitShield middleware", () => {
   test("allows the request when within rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) =>
-      c.text("pong")
-    );
+    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) => c.text("pong"));
 
     const result = await app.request("/ping", { method: "GET" });
 
@@ -19,9 +17,7 @@ describe("rateLimitShield middleware", () => {
 
   test("throws TooManyRequestsError when exceeding rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) =>
-      c.text("pong")
-    );
+    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) => c.text("pong"));
 
     // Send two requests immediately 1000 milliseconds
     const first = await app.request("/ping", { method: "GET" });
@@ -33,9 +29,7 @@ describe("rateLimitShield middleware", () => {
 
   test("allows the request after waiting for the rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) =>
-      c.text("pong")
-    );
+    app.get("/ping", rateLimitShield(bg.Time.Seconds(1)), (c) => c.text("pong"));
 
     const now = Date.now();
 

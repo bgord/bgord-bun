@@ -1,7 +1,7 @@
 import * as bgn from "@bgord/node";
+import { bodyLimit } from "hono/body-limit";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { bodyLimit } from "hono/body-limit";
 
 export const InvalidFileMimeTypeError = new HTTPException(400, {
   message: "invalid_file_mime_type_error",
@@ -37,7 +37,7 @@ export class FileUploader {
 
         const contentType = new bgn.Mime(file.type);
         const accepted = config.mimeTypes.some((acceptedMimeType) =>
-          new bgn.Mime(acceptedMimeType).isSatisfiedBy(contentType)
+          new bgn.Mime(acceptedMimeType).isSatisfiedBy(contentType),
         );
 
         if (!accepted) throw InvalidFileMimeTypeError;

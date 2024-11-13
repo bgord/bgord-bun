@@ -14,7 +14,7 @@ export class TimeZoneOffset {
 
   static attach = createMiddleware(async (c, next) => {
     const timeZoneOffsetMinutes = bg.Schema.TimeZoneOffsetHeaderValue.parse(
-      c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME)
+      c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME),
     );
 
     const timeZoneOffset = {
@@ -30,14 +30,14 @@ export class TimeZoneOffset {
 
   static adjustTimestamp(
     timestamp: bg.Schema.TimestampType,
-    timeZoneOffsetMs: bg.Schema.TimeZoneOffsetValueType
+    timeZoneOffsetMs: bg.Schema.TimeZoneOffsetValueType,
   ): bg.Schema.TimestampType {
     return timestamp - timeZoneOffsetMs;
   }
 
   static adjustDate(
     timestamp: bg.Schema.TimestampType,
-    timeZoneOffsetMs: bg.Schema.TimeZoneOffsetValueType
+    timeZoneOffsetMs: bg.Schema.TimeZoneOffsetValueType,
   ): Date {
     return new Date(timestamp - timeZoneOffsetMs);
   }
