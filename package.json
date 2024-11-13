@@ -17,10 +17,7 @@
     "build": "microbundle",
     "preinstall": "bunx only-allow bun"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "19.5.0",
@@ -29,6 +26,7 @@
     "@types/lodash": "4.17.13",
     "cspell": "8.16.0",
     "knip": "5.36.7",
+    "lefthook": "1.8.2",
     "microbundle": "0.15.1",
     "only-allow": "1.2.1",
     "shellcheck": "3.0.0",
