@@ -1,5 +1,8 @@
 # Changelog
+## 2024-11-13 18:11 v0.3.5
+- 2024-11-13 18:11 9147dfe **0.3.5**
 - 2024-11-13 18:10 e165192 **step: bump bgord/scripts**
+- 2024-11-13 17:10 26cbed4 **docs: generate CHANGELOG**
 - 2024-11-13 15:23 84ffbcf **step: setup lefthook**
 - 2024-11-13 15:23 12dce65 **fix: formatting**
 - 2024-11-13 15:20 f2623dc **step: bump bgord/scripts**
