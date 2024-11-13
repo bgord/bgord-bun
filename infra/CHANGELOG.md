@@ -1,8 +1,15 @@
 # Changelog
+- 2024-11-13 18:10 e165192 **step: bump bgord/scripts**
+- 2024-11-13 15:23 84ffbcf **step: setup lefthook**
+- 2024-11-13 15:23 12dce65 **fix: formatting**
+- 2024-11-13 15:20 f2623dc **step: bump bgord/scripts**
+- 2024-11-13 15:20 df65044 **refactor: remove husky**
+- 2024-11-13 15:20 1ba5209 **step: update packages**
 - 2024-11-04 08:08 c092264 **Merge pull request #23 from bgord/dependabot/npm_and_yarn/knip-5.36.2**
 - 2024-11-04 08:08 a182dea **Merge pull request #22 from bgord/dependabot/npm_and_yarn/types/bun-1.1.13**
 - 2024-11-04 08:08 50a98c3 **Merge pull request #20 from bgord/dependabot/npm_and_yarn/hono-4.6.9**
 - 2024-11-04 08:08 2bdd7e7 **Merge pull request #21 from bgord/dependabot/npm_and_yarn/cspell-8.15.7**
+- 2024-11-04 07:08 0e41ebe **docs: generate CHANGELOG**
 - 2024-11-04 06:02 cea5213 **build(deps-dev): bump cspell from 8.15.5 to 8.15.7**
 - 2024-11-04 06:02 a767da6 **build(deps-dev): bump knip from 5.34.4 to 5.36.2**
 - 2024-11-04 06:02 85eda37 **build(deps): bump hono from 4.6.8 to 4.6.9**
