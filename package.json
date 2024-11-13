@@ -15,7 +15,6 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "microbundle",
-    "prepare": "husky",
     "preinstall": "bunx only-allow bun"
   },
   "files": [
