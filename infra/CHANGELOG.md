@@ -1,5 +1,10 @@
 # Changelog
+- 2024-11-23 14:04 a7e4bbc **Merge pull request #32 from bgord/dependabot/npm_and_yarn/commitlint/cli-19.6.0**
+- 2024-11-23 14:04 1395476 **Merge pull request #31 from bgord/dependabot/npm_and_yarn/lefthook-1.8.4**
 - 2024-11-23 13:54 6386842 **Merge pull request #30 from bgord/dependabot/npm_and_yarn/knip-5.37.1**
+- 2024-11-23 12:55 d9d315b **build(deps-dev): bump lefthook from 1.8.2 to 1.8.4**
+- 2024-11-23 12:54 278e6d5 **docs: generate CHANGELOG**
+- 2024-11-20 06:21 4109d8a **build(deps-dev): bump @commitlint/cli from 19.5.0 to 19.6.0**
 - 2024-11-18 05:32 f12092c **build(deps-dev): bump knip from 5.36.7 to 5.37.1**
 ## 2024-11-13 18:11 v0.3.5
 - 2024-11-13 18:11 9147dfe **0.3.5**
