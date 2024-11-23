@@ -1,7 +1,10 @@
 # Changelog
+- 2024-11-23 13:54 6386842 **Merge pull request #30 from bgord/dependabot/npm_and_yarn/knip-5.37.1**
+- 2024-11-18 05:32 f12092c **build(deps-dev): bump knip from 5.36.7 to 5.37.1**
 ## 2024-11-13 18:11 v0.3.5
 - 2024-11-13 18:11 9147dfe **0.3.5**
 - 2024-11-13 18:10 e165192 **step: bump bgord/scripts**
+- 2024-11-13 17:11 4b2c750 **docs: generate CHANGELOG**
 - 2024-11-13 17:10 26cbed4 **docs: generate CHANGELOG**
 - 2024-11-13 15:23 84ffbcf **step: setup lefthook**
 - 2024-11-13 15:23 12dce65 **fix: formatting**
