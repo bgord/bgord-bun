@@ -1,6 +1,9 @@
 # Changelog
+- 2024-11-23 15:45 0c88878 **refactor: rename tests**
 - 2024-11-23 15:44 aee80af **step: update packages**
+- 2024-11-23 15:44 39497fb **step: bump bgord/scripts**
 - 2024-11-23 15:03 e22e39a **Merge pull request #33 from bgord/dependabot/npm_and_yarn/commitlint/config-conventional-19.6.0**
+- 2024-11-23 14:44 563fc19 **docs: generate CHANGELOG**
 - 2024-11-23 14:04 a7e4bbc **Merge pull request #32 from bgord/dependabot/npm_and_yarn/commitlint/cli-19.6.0**
 - 2024-11-23 14:04 7241669 **docs: generate CHANGELOG**
 - 2024-11-23 14:04 1395476 **Merge pull request #31 from bgord/dependabot/npm_and_yarn/lefthook-1.8.4**
