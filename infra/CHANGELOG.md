@@ -1,6 +1,8 @@
 # Changelog
+- 2024-11-23 15:44 aee80af **step: update packages**
 - 2024-11-23 15:03 e22e39a **Merge pull request #33 from bgord/dependabot/npm_and_yarn/commitlint/config-conventional-19.6.0**
 - 2024-11-23 14:04 a7e4bbc **Merge pull request #32 from bgord/dependabot/npm_and_yarn/commitlint/cli-19.6.0**
+- 2024-11-23 14:04 7241669 **docs: generate CHANGELOG**
 - 2024-11-23 14:04 1395476 **Merge pull request #31 from bgord/dependabot/npm_and_yarn/lefthook-1.8.4**
 - 2024-11-23 13:54 6386842 **Merge pull request #30 from bgord/dependabot/npm_and_yarn/knip-5.37.1**
 - 2024-11-23 13:05 9a81322 **build(deps-dev): bump @commitlint/config-conventional**
