@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@bgord/node": "0.83.3",
-    "hono": "4.6.9",
+    "hono": "4.6.19",
     "lodash": "4.17.21",
     "sharp": "0.33.5"
   },
