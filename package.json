@@ -23,7 +23,7 @@
     "@commitlint/cli": "19.6.0",
     "@commitlint/config-conventional": "19.6.0",
     "@types/bun": "1.1.13",
-    "@types/lodash": "4.17.13",
+    "@types/lodash": "4.17.15",
     "cspell": "8.16.0",
     "knip": "5.37.1",
     "lefthook": "1.8.4",
