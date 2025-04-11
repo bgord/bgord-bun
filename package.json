@@ -37,6 +37,7 @@
     "@bgord/node": "0.83.3",
     "hono": "4.6.9",
     "lodash": "4.17.21",
+    "node-cache": "^5.1.2",
     "sharp": "0.33.5"
   },
   "resolutions": {
