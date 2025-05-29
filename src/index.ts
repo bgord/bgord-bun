@@ -10,6 +10,7 @@ export * from "./rate-limit-shield";
 export * from "./time-zone-offset";
 export * from "./cache-static-files";
 export * from "./cache-response";
+export * from "./cache-resolver";
 export * from "./download-file";
 export * from "./i18n";
 export * from "./file-uploader";
