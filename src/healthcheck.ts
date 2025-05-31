@@ -1,13 +1,16 @@
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 
-import { BuildInfoRepository } from "./build-info-repository";
+import {
+  BuildInfoRepository,
+  BuildVersionSchemaType,
+} from "./build-info-repository";
 
 const handler = createFactory();
 
 type HealthcheckResultType = {
   ok: bg.PrerequisiteStatusEnum;
-  version: bg.Schema.BuildVersionType;
+  version: BuildVersionSchemaType;
   details: {
     label: bg.PrerequisiteLabelType;
     status: bg.PrerequisiteStatusEnum;
@@ -20,7 +23,9 @@ type HealthcheckResultType = {
 } & bg.StopwatchResultType;
 
 export class Healthcheck {
-  static build = (prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[]) =>
+  static build = (
+    prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[],
+  ) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new bg.Stopwatch();
 
@@ -33,7 +38,9 @@ export class Healthcheck {
         details.push({ label: prerequisite.label, status });
       }
 
-      const ok = details.every((result) => result.status !== bg.PrerequisiteStatusEnum.failure)
+      const ok = details.every(
+        (result) => result.status !== bg.PrerequisiteStatusEnum.failure,
+      )
         ? bg.PrerequisiteStatusEnum.success
         : bg.PrerequisiteStatusEnum.failure;
 

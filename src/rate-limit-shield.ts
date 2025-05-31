@@ -1,7 +1,9 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 
-type RateLimitShieldOptionsType = { ms: bg.Schema.TimestampType };
+import { TimestampType } from "./timestamp";
+
+type RateLimitShieldOptionsType = { ms: TimestampType };
 
 export const TooManyRequestsError = new HTTPException(429, {
   message: "app.too_many_requests",
