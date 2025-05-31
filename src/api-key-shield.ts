@@ -1,7 +1,11 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import { z } from "zod/v4";
 
-type ApiKeyShieldConfigType = { API_KEY: bg.Schema.ApiKeyType };
+export const ApiKeySchema = z.string().trim().length(64);
+export type ApiKeySchemaType = z.infer<typeof ApiKeySchema>;
+
+type ApiKeyShieldConfigType = { API_KEY: ApiKeySchemaType };
 
 export const AccessDeniedApiKeyError = new HTTPException(403, {
   message: "access_denied_api_key",
