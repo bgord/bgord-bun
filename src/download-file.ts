@@ -1,6 +1,7 @@
+import * as tools from "@bgord/tools";
 import type { PathLike } from "node:fs";
 
-export type DownloadFileConfigType = { filename: PathLike; mime: bgn.Mime };
+export type DownloadFileConfigType = { filename: PathLike; mime: tools.Mime };
 
 export class DownloadFile {
   static attach(config: DownloadFileConfigType) {
