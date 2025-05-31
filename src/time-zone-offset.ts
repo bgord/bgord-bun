@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 
 export type TimeZoneOffsetVariables = {
@@ -18,8 +19,8 @@ export class TimeZoneOffset {
 
     const timeZoneOffset = {
       minutes: timeZoneOffsetMinutes,
-      seconds: bg.Time.Minutes(timeZoneOffsetMinutes).seconds,
-      miliseconds: bg.Time.Minutes(timeZoneOffsetMinutes).ms,
+      seconds: tools.Time.Minutes(timeZoneOffsetMinutes).seconds,
+      miliseconds: tools.Time.Minutes(timeZoneOffsetMinutes).ms,
     };
 
     c.set("timeZoneOffset", timeZoneOffset);

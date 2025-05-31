@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
 import { TimeZoneOffset, TimeZoneOffsetVariables } from "../src/time-zone-offset";
@@ -18,9 +19,9 @@ describe("TimeZoneOffset middleware", () => {
 
     expect(result.status).toEqual(200);
     expect(await result.json()).toEqual({
-      minutes: bg.Time.Minutes(120).minutes,
-      seconds: bg.Time.Minutes(120).seconds,
-      miliseconds: bg.Time.Minutes(120).ms,
+      minutes: tools.Time.Minutes(120).minutes,
+      seconds: tools.Time.Minutes(120).seconds,
+      miliseconds: tools.Time.Minutes(120).ms,
     });
   });
 
