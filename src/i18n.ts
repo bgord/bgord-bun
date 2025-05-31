@@ -26,7 +26,8 @@ export type I18nVariablesType = {
 export class I18n {
   static LANGUAGE_COOKIE_NAME = "accept-language";
 
-  static DEFAULT_TRANSLATIONS_PATH = bgn.Schema.Path.parse("infra/translations");
+  // TODO: fix bgord/node types
+  static DEFAULT_TRANSLATIONS_PATH = bgn.Schema.Path.parse("infra/translations") as string;
 
   static FALLBACK_LANGUAGE = "en";
 

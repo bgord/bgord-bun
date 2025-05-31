@@ -11,10 +11,11 @@ import { ETagExtractor, WeakETagExtractor } from "./etag-extractor";
 import { HttpLogger } from "./http-logger";
 import { TimeZoneOffset } from "./time-zone-offset";
 
+// TODO: fix bgord/node types
 export const BODY_LIMIT_MAX_SIZE = new bgn.Size({
   value: 128,
   unit: bgn.SizeUnit.kB,
-}).toBytes();
+}).toBytes() as number;
 
 export class Setup {
   static essentials(logger: bgn.Logger) {
