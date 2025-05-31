@@ -1,4 +1,4 @@
-import * as bg from "@bgord/node";
+import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 
 const handler = createFactory();
@@ -12,8 +12,8 @@ type HealthcheckResultType = {
   }[];
   uptime: bg.UptimeResultType;
   memory: {
-    bytes: bg.Size["bytes"];
-    formatted: ReturnType<bg.Size["format"]>;
+    bytes: tools.Size["bytes"];
+    formatted: ReturnType<tools.Size["format"]>;
   };
 } & bg.StopwatchResultType;
 
