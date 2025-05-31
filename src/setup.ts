@@ -5,6 +5,7 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 
+import { Logger } from "./logger";
 import { ApiVersion } from "./api-version";
 import { Context } from "./context";
 import { ETagExtractor, WeakETagExtractor } from "./etag-extractor";
@@ -18,7 +19,7 @@ export const BODY_LIMIT_MAX_SIZE = new tools.Size({
 }).toBytes() as number;
 
 export class Setup {
-  static essentials(logger: bgn.Logger) {
+  static essentials(logger: Logger) {
     return [
       secureHeaders(),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),

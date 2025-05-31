@@ -3,6 +3,8 @@ import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 
 import { CacheHitEnum, CacheResponse } from "./cache-response";
+import { CorrelationIdType } from "./correlation-id";
+import { Logger } from "./logger";
 
 export class HttpLogger {
   private static simplify(response: unknown) {
@@ -35,9 +37,9 @@ export class HttpLogger {
     "if-none-match",
   ];
 
-  static build = (logger: bg.Logger) =>
+  static build = (logger: Logger) =>
     createMiddleware(async (c, next) => {
-      const correlationId = c.get("requestId") as bg.Schema.CorrelationIdType;
+      const correlationId = c.get("requestId") as CorrelationIdType;
       const info = getConnInfo(c);
       const url = c.req.url;
       const method = c.req.method;
