@@ -31,15 +31,12 @@
     "only-allow": "1.2.1",
     "shellcheck": "3.0.0",
     "supertest": "7.0.0",
-    "typescript": "5.6.3"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@bgord/node": "0.84.0",
     "hono": "4.6.9",
     "lodash": "4.17.21",
     "sharp": "0.33.5"
-  },
-  "resolutions": {
-    "typescript": "4.7.4"
   }
 }
