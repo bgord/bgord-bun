@@ -1,16 +1,16 @@
-import * as bg from "@bgord/node";
+import * as tools from "@bgord/tools";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
 export class GracefulShutdown {
-  private static async shutdown(server: ServerType, callback: () => any = bg.noop) {
+  private static async shutdown(server: ServerType, callback: () => any = tools.noop) {
     server.stop();
     await callback();
     // biome-ignore lint: lint/suspicious/noConsoleLog
     console.log("HTTP server closed");
   }
 
-  static applyTo(server: ServerType, callback: () => any = bg.noop) {
+  static applyTo(server: ServerType, callback: () => any = tools.noop) {
     process.on("SIGTERM", async () => {
       // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log("SIGTERM signal received: closing HTTP server");
