@@ -9,7 +9,7 @@ export const TooManyRequestsError = new HTTPException(429, {
 });
 
 export const rateLimitShield = (options: RateLimitShieldOptionsType) => {
-  const rateLimiter = new bg.RateLimiter(options);
+  const rateLimiter = new tools.RateLimiter(options);
 
   return createMiddleware(async (_c, next) => {
     const currentTimestampMs = Date.now();
