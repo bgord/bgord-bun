@@ -35,9 +35,9 @@ export class FileUploader {
           throw InvalidFileMimeTypeError;
         }
 
-        const contentType = new bgn.Mime(file.type);
+        const contentType = new tools.Mime(file.type);
         const accepted = config.mimeTypes.some((acceptedMimeType) =>
-          new bgn.Mime(acceptedMimeType).isSatisfiedBy(contentType),
+          new tools.Mime(acceptedMimeType).isSatisfiedBy(contentType),
         );
 
         if (!accepted) throw InvalidFileMimeTypeError;
