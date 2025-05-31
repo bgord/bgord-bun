@@ -1,4 +1,5 @@
 import path from "node:path";
+import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { z } from "zod/v4";
 
