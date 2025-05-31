@@ -1,11 +1,25 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
+import { z } from "zod/v4";
+
+import type { TimestampType } from "./timestamp";
+
+export const TimeZoneOffsetHeaderValue = z
+  .string()
+  .trim()
+  .or(z.undefined())
+  .transform((value) => Number(value))
+  .transform((value) => (Number.isNaN(value) ? 0 : value));
+export type TimeZoneOffsetType = z.infer<typeof TimeZoneOffsetHeaderValue>;
+
+export const TimeZoneOffsetValue = z.number().int();
+export type TimeZoneOffsetValueType = z.infer<typeof TimeZoneOffsetValue>;
 
 export type TimeZoneOffsetVariables = {
   timeZoneOffset: {
-    minutes: bg.Schema.TimeZoneOffsetValueType;
-    seconds: bg.Schema.TimeZoneOffsetValueType;
-    miliseconds: bg.Schema.TimeZoneOffsetValueType;
+    minutes: TimeZoneOffsetValueType;
+    seconds: TimeZoneOffsetValueType;
+    miliseconds: TimeZoneOffsetValueType;
   };
 };
 
@@ -13,7 +27,7 @@ export class TimeZoneOffset {
   static TIME_ZONE_OFFSET_HEADER_NAME = "time-zone-offset";
 
   static attach = createMiddleware(async (c, next) => {
-    const timeZoneOffsetMinutes = bg.Schema.TimeZoneOffsetHeaderValue.parse(
+    const timeZoneOffsetMinutes = TimeZoneOffsetHeaderValue.parse(
       c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME),
     );
 
@@ -28,17 +42,11 @@ export class TimeZoneOffset {
     await next();
   });
 
-  static adjustTimestamp(
-    timestamp: bg.Schema.TimestampType,
-    timeZoneOffsetMs: bg.Schema.TimeZoneOffsetValueType,
-  ): bg.Schema.TimestampType {
+  static adjustTimestamp(timestamp: TimestampType, timeZoneOffsetMs: TimeZoneOffsetValueType): TimestampType {
     return timestamp - timeZoneOffsetMs;
   }
 
-  static adjustDate(
-    timestamp: bg.Schema.TimestampType,
-    timeZoneOffsetMs: bg.Schema.TimeZoneOffsetValueType,
-  ): Date {
+  static adjustDate(timestamp: TimestampType, timeZoneOffsetMs: TimeZoneOffsetValueType): Date {
     return new Date(timestamp - timeZoneOffsetMs);
   }
 }
