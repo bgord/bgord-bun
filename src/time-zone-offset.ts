@@ -2,8 +2,6 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { z } from "zod/v4";
 
-import type { TimestampType } from "./timestamp";
-
 export const TimeZoneOffsetHeaderValue = z
   .string()
   .trim()
@@ -42,11 +40,14 @@ export class TimeZoneOffset {
     await next();
   });
 
-  static adjustTimestamp(timestamp: TimestampType, timeZoneOffsetMs: TimeZoneOffsetValueType): TimestampType {
+  static adjustTimestamp(
+    timestamp: tools.TimestampType,
+    timeZoneOffsetMs: TimeZoneOffsetValueType,
+  ): tools.TimestampType {
     return timestamp - timeZoneOffsetMs;
   }
 
-  static adjustDate(timestamp: TimestampType, timeZoneOffsetMs: TimeZoneOffsetValueType): Date {
+  static adjustDate(timestamp: tools.TimestampType, timeZoneOffsetMs: TimeZoneOffsetValueType): Date {
     return new Date(timestamp - timeZoneOffsetMs);
   }
 }
