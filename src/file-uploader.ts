@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import { bodyLimit } from "hono/body-limit";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
@@ -12,7 +13,7 @@ export const FileTooBigError = new HTTPException(400, {
 
 type FileUploaderConfigType = {
   mimeTypes: string[];
-  maxFilesSize: bgn.SizeValueType;
+  maxFilesSize: tools.SizeValueType;
 };
 
 export class FileUploader {

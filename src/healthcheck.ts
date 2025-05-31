@@ -44,7 +44,7 @@ export class Healthcheck {
         uptime: bg.Uptime.get(),
         memory: {
           bytes: bg.MemoryConsumption.get().toBytes(),
-          formatted: bg.MemoryConsumption.get().format(bg.SizeUnit.MB),
+          formatted: bg.MemoryConsumption.get().format(tools.SizeUnit.MB),
         },
         ...stopwatch.stop(),
       };
