@@ -1,4 +1,3 @@
-import * as bgn from "@bgord/node";
 import hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";

@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import * as bg from "@bgord/node";
 import { Hono } from "hono";
 
 import { ETagExtractor, EtagVariables, WeakETagExtractor } from "../src/etag-extractor";

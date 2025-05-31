@@ -1,5 +1,4 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as bg from "@bgord/node";
 import { Hono } from "hono";
 
 import { ApiVersion } from "../src/api-version";

@@ -1,5 +1,4 @@
 import { describe, expect, setSystemTime, test } from "bun:test";
-import * as bg from "@bgord/node";
 import { Hono } from "hono";
 
 import { rateLimitShield } from "../src/rate-limit-shield";

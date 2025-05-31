@@ -1,6 +1,4 @@
 import path from "node:path";
-import * as bgn from "@bgord/node";
-import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 
 export type TranslationsKeyType = string;

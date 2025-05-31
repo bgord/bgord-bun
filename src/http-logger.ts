@@ -1,4 +1,3 @@
-import * as bg from "@bgord/node";
 import { getConnInfo } from "hono/bun";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
