@@ -1,23 +1,24 @@
 {
   "compilerOptions": {
-    "lib": ["esnext", "dom"],
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["esnext"],
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
-    "importHelpers": true,
-    "jsx": "react",
-    "jsxFragmentFactory": "React.Fragment",
-    "jsxFactory": "React.createElement",
     "noUncheckedIndexedAccess": true,
-    "skipLibCheck": true,
-    "incremental": true,
-    "declaration": true,
-    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true,
+    "incremental": true
   },
-  "exclude": ["bgord-scripts", "tests", "vite.config.ts"]
+  "include": ["src"],
+  "exclude": ["tests", "bgord-scripts", "vite.config.ts"]
 }
