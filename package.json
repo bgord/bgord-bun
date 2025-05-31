@@ -38,6 +38,7 @@
     "sharp": "0.33.5",
     "oslo": "1.2.1",
     "@lucia-auth/adapter-prisma": "4.0.1",
-    "lucia": "3.2.2"
+    "lucia": "3.2.2",
+    "winston": "3.17.0"
   }
 }
