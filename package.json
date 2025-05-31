@@ -1,23 +1,21 @@
 {
+  "name": "@bgord/bun",
   "version": "0.4.0",
   "license": "MIT",
-  "name": "@bgord/bun",
   "type": "module",
   "author": "Bartosz Gordon",
-  "source": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/bgord-bun.cjs",
-    "default": "./dist/bgord-bun.modern.js"
-  },
-  "main": "./dist/bgord-bun.cjs",
-  "module": "./dist/bgord-bun.module.js",
-  "unpkg": "./dist/bgord-bun.umd.js",
-  "typings": "./dist/index.d.ts",
-  "scripts": {
-    "build": "microbundle",
-    "preinstall": "bunx only-allow bun"
+    "import": "./dist/index.js",
+    "types": "./dist/index.d.ts"
   },
   "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc --build",
+    "preinstall": "bunx only-allow bun"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "19.6.0",
@@ -27,7 +25,6 @@
     "cspell": "8.16.0",
     "knip": "5.37.2",
     "lefthook": "1.8.4",
-    "microbundle": "0.15.1",
     "only-allow": "1.2.1",
     "shellcheck": "3.0.0",
     "supertest": "7.0.0",
