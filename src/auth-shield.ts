@@ -3,6 +3,8 @@ import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { Lucia } from "lucia";
 
+import * as Credentials from "./credentials";
+
 class SessionId {
   private value: string | null;
 
@@ -16,31 +18,31 @@ class SessionId {
 }
 
 type AuthShieldConfigType<T> = {
-  Username: typeof bgn.Username;
-  Password: typeof bgn.Password;
-  HashedPassword: typeof bgn.HashedPassword;
+  Username: typeof Credentials.Username;
+  Password: typeof Credentials.Password;
+  HashedPassword: typeof Credentials.HashedPassword;
   lucia: Lucia;
-  findUniqueUserOrThrow: (username: bgn.Username) => Promise<T>;
+  findUniqueUserOrThrow: (username: Credentials.Username) => Promise<T>;
 };
 
 export const AccessDeniedAuthShieldError = new HTTPException(403, {
   message: "access_denied_auth_shield",
 });
 
-export class AuthShield<T extends { password: bgn.PasswordType; id: bgn.IdType }> {
+export class AuthShield<T extends { password: Credentials.PasswordType; id: Credentials.IdType }> {
   private readonly config: AuthShieldConfigType<T>;
 
   constructor(
     overrides: Omit<AuthShieldConfigType<T>, "Username" | "Password" | "HashedPassword"> & {
-      Username?: typeof bgn.Username;
-      Password?: typeof bgn.Password;
-      HashedPassword?: typeof bgn.HashedPassword;
+      Username?: typeof Credentials.Username;
+      Password?: typeof Credentials.Password;
+      HashedPassword?: typeof Credentials.HashedPassword;
     },
   ) {
     const config = {
-      Username: overrides.Username ?? bgn.Username,
-      Password: overrides.Password ?? bgn.Password,
-      HashedPassword: overrides.HashedPassword ?? bgn.HashedPassword,
+      Username: overrides.Username ?? Credentials.Username,
+      Password: overrides.Password ?? Credentials.Password,
+      HashedPassword: overrides.HashedPassword ?? Credentials.HashedPassword,
       lucia: overrides.lucia,
       findUniqueUserOrThrow: overrides.findUniqueUserOrThrow,
     };
