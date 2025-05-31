@@ -2,6 +2,8 @@ import { getConnInfo } from "hono/bun";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 
+import { CacheHitEnum } from "./cache-response";
+
 export class HttpLogger {
   private static simplify(response: unknown) {
     const result = JSON.stringify(response, (_key, value) =>
@@ -72,7 +74,7 @@ export class HttpLogger {
 
       const cacheHitHeader = c.res.clone().headers.get(bg.CacheResponse.CACHE_HIT_HEADER);
 
-      const cacheHit = cacheHitHeader === bg.CacheHitEnum.hit ? bg.CacheHitEnum.hit : undefined;
+      const cacheHit = cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
 
       let response: any;
       try {
