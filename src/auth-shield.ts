@@ -4,6 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import { Lucia } from "lucia";
 
 import * as Credentials from "./credentials";
+import { Username } from "./username";
 
 class SessionId {
   private value: string | null;
@@ -18,11 +19,11 @@ class SessionId {
 }
 
 type AuthShieldConfigType<T> = {
-  Username: typeof Credentials.Username;
+  Username: typeof Username;
   Password: typeof Credentials.Password;
   HashedPassword: typeof Credentials.HashedPassword;
   lucia: Lucia;
-  findUniqueUserOrThrow: (username: Credentials.Username) => Promise<T>;
+  findUniqueUserOrThrow: (username: Username) => Promise<T>;
 };
 
 export const AccessDeniedAuthShieldError = new HTTPException(403, {
@@ -34,13 +35,13 @@ export class AuthShield<T extends { password: Credentials.PasswordType; id: Cred
 
   constructor(
     overrides: Omit<AuthShieldConfigType<T>, "Username" | "Password" | "HashedPassword"> & {
-      Username?: typeof Credentials.Username;
+      Username?: typeof Username;
       Password?: typeof Credentials.Password;
       HashedPassword?: typeof Credentials.HashedPassword;
     },
   ) {
     const config = {
-      Username: overrides.Username ?? Credentials.Username,
+      Username: overrides.Username ?? Username,
       Password: overrides.Password ?? Credentials.Password,
       HashedPassword: overrides.HashedPassword ?? Credentials.HashedPassword,
       lucia: overrides.lucia,

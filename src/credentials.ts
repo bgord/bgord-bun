@@ -3,23 +3,7 @@ import { z } from "zod/v4";
 
 export type IdType = string;
 export type PasswordType = string;
-type UsernameType = string;
 type HashedPasswordType = string;
-
-export class Username {
-  private readonly schema: z.ZodSchema = z.string().max(256);
-
-  private readonly value: UsernameType;
-
-  constructor(value: UsernameType, schema?: z.ZodSchema) {
-    this.schema = schema ?? this.schema;
-    this.value = this.schema.parse(value) as UsernameType;
-  }
-
-  read(): UsernameType {
-    return this.value;
-  }
-}
 
 export class Password {
   private schema: z.ZodSchema = z.string().min(1).max(256);
@@ -28,7 +12,7 @@ export class Password {
 
   constructor(value: PasswordType, schema?: z.ZodSchema) {
     this.schema = schema ?? this.schema;
-    this.value = this.schema.parse(value) as UsernameType;
+    this.value = this.schema.parse(value) as PasswordType;
   }
 
   async hash(): Promise<HashedPassword> {
