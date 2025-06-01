@@ -2,24 +2,16 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
-import { z } from "zod/v4";
 
-const Path = z.string().min(1).brand<"path">();
-type PathType = z.infer<typeof Path>;
+import { Path, PathType } from "./path";
 
 export type TranslationsKeyType = string;
 export type TranslationsValueType = string;
-export type TranslationsType = Record<
-  TranslationsKeyType,
-  TranslationsValueType
->;
+export type TranslationsType = Record<TranslationsKeyType, TranslationsValueType>;
 
 export type TranslationPlaceholderType = string;
 export type TranslationPlaceholderValueType = string | number;
-export type TranslationVariableType = Record<
-  TranslationPlaceholderType,
-  TranslationPlaceholderValueType
->;
+export type TranslationVariableType = Record<TranslationPlaceholderType, TranslationPlaceholderValueType>;
 
 export type I18nConfigType = {
   translationsPath?: PathType;
@@ -42,17 +34,13 @@ export class I18n {
 
   static applyTo(config: I18nConfigType) {
     return createMiddleware(async (c, next) => {
-      const translationsPath =
-        config?.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
+      const translationsPath = config?.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
       const defaultLanguage = config?.defaultLanguage ?? I18n.FALLBACK_LANGUAGE;
 
-      const chosenLanguage =
-        getCookie(c, I18n.LANGUAGE_COOKIE_NAME) ?? defaultLanguage;
+      const chosenLanguage = getCookie(c, I18n.LANGUAGE_COOKIE_NAME) ?? defaultLanguage;
 
-      const language = Object.keys(config.supportedLanguages).find(
-        (language) => language === chosenLanguage,
-      )
+      const language = Object.keys(config.supportedLanguages).find((language) => language === chosenLanguage)
         ? chosenLanguage
         : I18n.FALLBACK_LANGUAGE;
 
@@ -69,9 +57,7 @@ export class I18n {
     translationsPath: PathType,
   ): Promise<TranslationsType> {
     try {
-      return Bun.file(
-        I18n.getTranslationPathForLanguage(language, translationsPath),
-      ).json();
+      return Bun.file(I18n.getTranslationPathForLanguage(language, translationsPath)).json();
     } catch (error) {
       // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log("I18n#getTranslations", error);
@@ -81,10 +67,7 @@ export class I18n {
   }
 
   static useTranslations(translations: TranslationsType) {
-    return function translate(
-      key: TranslationsKeyType,
-      variables?: TranslationVariableType,
-    ) {
+    return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
       const translation = translations[key];
 
       if (!translation) {
@@ -95,8 +78,7 @@ export class I18n {
       if (!variables) return translation;
 
       return Object.entries(variables).reduce(
-        (result, [placeholder, value]) =>
-          result.replace(`{{${placeholder}}}`, String(value)),
+        (result, [placeholder, value]) => result.replace(`{{${placeholder}}}`, String(value)),
         translation,
       );
     };

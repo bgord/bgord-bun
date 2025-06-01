@@ -1,8 +1,6 @@
 import { Argon2id } from "oslo/password";
 import { z } from "zod/v4";
 
-// TODO: Extract the structure
-
 export type IdType = string;
 export type PasswordType = string;
 type UsernameType = string;
