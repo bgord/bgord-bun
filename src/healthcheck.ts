@@ -1,8 +1,13 @@
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 
-import { BuildInfoRepository, BuildVersionSchema, BuildVersionSchemaType } from "./build-info-repository";
+import {
+  BuildInfoRepository,
+  BuildVersionSchema,
+  BuildVersionSchemaType,
+} from "./build-info-repository";
 import { MemoryConsumption } from "./memory-consumption";
+import { Uptime, UptimeResultType } from "./uptime";
 
 const handler = createFactory();
 
@@ -13,7 +18,7 @@ type HealthcheckResultType = {
     label: bg.PrerequisiteLabelType;
     status: bg.PrerequisiteStatusEnum;
   }[];
-  uptime: bg.UptimeResultType;
+  uptime: UptimeResultType;
   memory: {
     bytes: tools.Size["bytes"];
     formatted: ReturnType<tools.Size["format"]>;
@@ -21,7 +26,9 @@ type HealthcheckResultType = {
 } & tools.StopwatchResultType;
 
 export class Healthcheck {
-  static build = (prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[]) =>
+  static build = (
+    prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[],
+  ) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch();
 
@@ -34,7 +41,9 @@ export class Healthcheck {
         details.push({ label: prerequisite.label, status });
       }
 
-      const ok = details.every((result) => result.status !== bg.PrerequisiteStatusEnum.failure)
+      const ok = details.every(
+        (result) => result.status !== bg.PrerequisiteStatusEnum.failure,
+      )
         ? bg.PrerequisiteStatusEnum.success
         : bg.PrerequisiteStatusEnum.failure;
 
@@ -44,7 +53,7 @@ export class Healthcheck {
         ok,
         details,
         version: build.BUILD_VERSION ?? BuildVersionSchema.parse("unknown"),
-        uptime: bg.Uptime.get(),
+        uptime: Uptime.get(),
         memory: {
           bytes: MemoryConsumption.get().toBytes(),
           formatted: MemoryConsumption.get().format(tools.SizeUnit.MB),
