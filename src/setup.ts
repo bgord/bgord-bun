@@ -5,11 +5,11 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 
-import { Logger } from "./logger";
 import { ApiVersion } from "./api-version";
 import { Context } from "./context";
 import { ETagExtractor, WeakETagExtractor } from "./etag-extractor";
 import { HttpLogger } from "./http-logger";
+import { Logger } from "./logger";
 import { TimeZoneOffset } from "./time-zone-offset";
 
 // TODO: fix bgord/node types
