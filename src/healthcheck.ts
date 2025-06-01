@@ -18,12 +18,12 @@ type HealthcheckResultType = {
     bytes: tools.Size["bytes"];
     formatted: ReturnType<tools.Size["format"]>;
   };
-} & bg.StopwatchResultType;
+} & tools.StopwatchResultType;
 
 export class Healthcheck {
   static build = (prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[]) =>
     handler.createHandlers(async (c) => {
-      const stopwatch = new bg.Stopwatch();
+      const stopwatch = new tools.Stopwatch();
 
       const build = await BuildInfoRepository.extract();
 
