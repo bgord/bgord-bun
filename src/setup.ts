@@ -12,11 +12,10 @@ import { HttpLogger } from "./http-logger";
 import { Logger } from "./logger";
 import { TimeZoneOffset } from "./time-zone-offset";
 
-// TODO: fix bgord/node types
 export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   value: 128,
   unit: tools.SizeUnit.kB,
-}).toBytes() as number;
+}).toBytes();
 
 export class Setup {
   static essentials(logger: Logger) {

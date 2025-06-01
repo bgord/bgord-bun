@@ -1,5 +1,5 @@
-import * as tools from "@bgord/tools";
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
 import { ApiVersion } from "../src/api-version";
@@ -36,9 +36,7 @@ describe("ApiVersion middleware", () => {
     const result = await app.request("/ping", { method: "GET" });
     expect(result.status).toEqual(200);
     expect(spy).toBeCalledTimes(1);
-    expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(
-      ApiVersion.DEFAULT_API_VERSION,
-    );
+    expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(ApiVersion.DEFAULT_API_VERSION);
     spy.mockRestore();
   });
 });
