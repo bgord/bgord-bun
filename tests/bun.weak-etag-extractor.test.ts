@@ -2,18 +2,19 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import { ETagExtractor, EtagVariables } from "../src/etag-extractor";
+import { EtagVariables } from "../src/etag-extractor";
+import { WeakETagExtractor } from "../src/weak-etag-extractor";
 
-describe("ETagExtractor middleware", () => {
-  test("extracts ETag from valid header", async () => {
+describe("WeakETagExtractor middleware", () => {
+  test("extracts WeakETag from valid header", async () => {
     const app = new Hono<{ Variables: EtagVariables }>();
-    app.use(ETagExtractor.attach);
-    app.get("/ping", (c) => c.json(c.get("ETag")));
+    app.use(WeakETagExtractor.attach);
+    app.get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({
-        [tools.ETag.IF_MATCH_HEADER_NAME]: "12345",
+        [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345",
       }),
     });
 
@@ -21,13 +22,13 @@ describe("ETagExtractor middleware", () => {
 
     expect(result.status).toEqual(200);
     expect(json.revision).toEqual(12345);
-    expect(json.value).toEqual("12345");
+    expect(json.value).toEqual("W/12345");
   });
 
-  test("handles missing ETag header gracefully", async () => {
+  test("handles missing WeakETag header gracefully", async () => {
     const app = new Hono<{ Variables: EtagVariables }>();
-    app.use(ETagExtractor.attach);
-    app.get("/ping", (c) => c.json(c.get("ETag")));
+    app.use(WeakETagExtractor.attach);
+    app.get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", { method: "GET" });
 
@@ -37,15 +38,15 @@ describe("ETagExtractor middleware", () => {
     expect(json).toBeNull();
   });
 
-  test("handles invalid ETag header gracefully", async () => {
+  test("handles invalid WeakETag header gracefully", async () => {
     const app = new Hono<{ Variables: EtagVariables }>();
-    app.use(ETagExtractor.attach);
-    app.get("/ping", (c) => c.json(c.get("ETag")));
+    app.use(WeakETagExtractor.attach);
+    app.get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({
-        [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid",
+        [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid",
       }),
     });
 

@@ -7,10 +7,11 @@ import { timing } from "hono/timing";
 
 import { ApiVersion } from "./api-version";
 import { Context } from "./context";
-import { ETagExtractor, WeakETagExtractor } from "./etag-extractor";
+import { ETagExtractor } from "./etag-extractor";
 import { HttpLogger } from "./http-logger";
 import { Logger } from "./logger";
 import { TimeZoneOffset } from "./time-zone-offset";
+import { WeakETagExtractor } from "./weak-etag-extractor";
 
 export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   value: 128,
