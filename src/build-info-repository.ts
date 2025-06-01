@@ -1,11 +1,11 @@
+import * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 
 export const BuildVersionSchema = z.string().min(1).max(128);
 export type BuildVersionSchemaType = z.infer<typeof BuildVersionSchema>;
 
 export type BuildInfoType = {
-  // TODO: previously Schema.TimestampType
-  BUILD_DATE: number;
+  BUILD_DATE: tools.TimestampType;
   BUILD_VERSION?: BuildVersionSchemaType;
 };
 
