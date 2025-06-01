@@ -2,12 +2,13 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 
 import { ApiVersion } from "../src/api-version";
+import { BuildInfoRepository, BuildVersionSchema } from "../src/build-info-repository";
 
 describe("ApiVersion middleware", () => {
   test("sets API version in header with known build version", async () => {
-    const spy = spyOn(bg.BuildInfoRepository, "extract").mockResolvedValue({
+    const spy = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE: 123,
-      BUILD_VERSION: bg.Schema.BuildVersion.parse("1.0.0"),
+      BUILD_VERSION: BuildVersionSchema.parse("1.0.0"),
     });
 
     const app = new Hono();
@@ -22,9 +23,9 @@ describe("ApiVersion middleware", () => {
   });
 
   test("sets default API version in header with unknown build version", async () => {
-    const spy = spyOn(bg.BuildInfoRepository, "extract").mockResolvedValue({
+    const spy = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE: 123,
-      BUILD_VERSION: bg.Schema.BuildVersion.parse("unknown"),
+      BUILD_VERSION: BuildVersionSchema.parse("unknown"),
     });
 
     const app = new Hono();

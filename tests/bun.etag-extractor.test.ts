@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
 import { ETagExtractor, EtagVariables, WeakETagExtractor } from "../src/etag-extractor";
@@ -12,7 +13,7 @@ describe("ETagExtractor middleware", () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({
-        [bg.ETag.IF_MATCH_HEADER_NAME]: "12345",
+        [tools.ETag.IF_MATCH_HEADER_NAME]: "12345",
       }),
     });
 
@@ -44,7 +45,7 @@ describe("ETagExtractor middleware", () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({
-        [bg.ETag.IF_MATCH_HEADER_NAME]: "invalid",
+        [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid",
       }),
     });
 
@@ -63,7 +64,7 @@ describe("ETagExtractor middleware", () => {
       const result = await app.request("/ping", {
         method: "GET",
         headers: new Headers({
-          [bg.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345",
+          [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345",
         }),
       });
 
@@ -95,7 +96,7 @@ describe("ETagExtractor middleware", () => {
       const result = await app.request("/ping", {
         method: "GET",
         headers: new Headers({
-          [bg.WeakETag.IF_MATCH_HEADER_NAME]: "invalid",
+          [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid",
         }),
       });
 
