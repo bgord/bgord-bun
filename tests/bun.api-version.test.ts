@@ -1,14 +1,15 @@
+import * as tools from "@bgord/tools";
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 
 import { ApiVersion } from "../src/api-version";
-import { BuildInfoRepository, BuildVersionSchema } from "../src/build-info-repository";
+import { BuildInfoRepository } from "../src/build-info-repository";
 
 describe("ApiVersion middleware", () => {
   test("sets API version in header with known build version", async () => {
     const spy = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE: 123,
-      BUILD_VERSION: BuildVersionSchema.parse("1.0.0"),
+      BUILD_VERSION: tools.BuildVersion.parse("1.0.0"),
     });
 
     const app = new Hono();
@@ -25,7 +26,7 @@ describe("ApiVersion middleware", () => {
   test("sets default API version in header with unknown build version", async () => {
     const spy = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE: 123,
-      BUILD_VERSION: BuildVersionSchema.parse("unknown"),
+      BUILD_VERSION: tools.BuildVersion.parse("unknown"),
     });
 
     const app = new Hono();
@@ -35,7 +36,9 @@ describe("ApiVersion middleware", () => {
     const result = await app.request("/ping", { method: "GET" });
     expect(result.status).toEqual(200);
     expect(spy).toBeCalledTimes(1);
-    expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(ApiVersion.DEFAULT_API_VERSION);
+    expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(
+      ApiVersion.DEFAULT_API_VERSION,
+    );
     spy.mockRestore();
   });
 });

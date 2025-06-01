@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 
-import { BuildInfoRepository, BuildVersionSchema, BuildVersionSchemaType } from "./build-info-repository";
+import { BuildInfoRepository } from "./build-info-repository";
 import { MemoryConsumption } from "./memory-consumption";
 import {
   AbstractPrerequisite,
@@ -15,7 +15,7 @@ const handler = createFactory();
 
 type HealthcheckResultType = {
   ok: PrerequisiteStatusEnum;
-  version: BuildVersionSchemaType;
+  version: tools.BuildVersionType;
   details: {
     label: PrerequisiteLabelType;
     status: PrerequisiteStatusEnum;
@@ -50,7 +50,7 @@ export class Healthcheck {
       const result: HealthcheckResultType = {
         ok,
         details,
-        version: build.BUILD_VERSION ?? BuildVersionSchema.parse("unknown"),
+        version: build.BUILD_VERSION ?? tools.BuildVersion.parse("unknown"),
         uptime: Uptime.get(),
         memory: {
           bytes: MemoryConsumption.get().toBytes(),
