@@ -9,9 +9,7 @@ export class Uptime {
   static get(): UptimeResultType {
     const rounding = new tools.RoundToNearest();
     const uptime = tools.Time.Seconds(rounding.round(process.uptime()));
-    const uptimeFormatted = tools.DateFormatters.relative(
-      Date.now() - uptime.ms,
-    );
+    const uptimeFormatted = tools.DateFormatters.relative(Date.now() - uptime.ms);
 
     return { seconds: uptime.seconds, formatted: uptimeFormatted };
   }

@@ -1,22 +1,24 @@
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 
-import {
-  BuildInfoRepository,
-  BuildVersionSchema,
-  BuildVersionSchemaType,
-} from "./build-info-repository";
+import { BuildInfoRepository, BuildVersionSchema, BuildVersionSchemaType } from "./build-info-repository";
 import { MemoryConsumption } from "./memory-consumption";
+import {
+  AbstractPrerequisite,
+  BasePrerequisiteConfig,
+  PrerequisiteLabelType,
+  PrerequisiteStatusEnum,
+} from "./prerequisites";
 import { Uptime, UptimeResultType } from "./uptime";
 
 const handler = createFactory();
 
 type HealthcheckResultType = {
-  ok: bg.PrerequisiteStatusEnum;
+  ok: PrerequisiteStatusEnum;
   version: BuildVersionSchemaType;
   details: {
-    label: bg.PrerequisiteLabelType;
-    status: bg.PrerequisiteStatusEnum;
+    label: PrerequisiteLabelType;
+    status: PrerequisiteStatusEnum;
   }[];
   uptime: UptimeResultType;
   memory: {
@@ -26,9 +28,7 @@ type HealthcheckResultType = {
 } & tools.StopwatchResultType;
 
 export class Healthcheck {
-  static build = (
-    prerequisites: bg.AbstractPrerequisite<bg.BasePrerequisiteConfig>[],
-  ) =>
+  static build = (prerequisites: AbstractPrerequisite<BasePrerequisiteConfig>[]) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch();
 
@@ -41,13 +41,11 @@ export class Healthcheck {
         details.push({ label: prerequisite.label, status });
       }
 
-      const ok = details.every(
-        (result) => result.status !== bg.PrerequisiteStatusEnum.failure,
-      )
-        ? bg.PrerequisiteStatusEnum.success
-        : bg.PrerequisiteStatusEnum.failure;
+      const ok = details.every((result) => result.status !== PrerequisiteStatusEnum.failure)
+        ? PrerequisiteStatusEnum.success
+        : PrerequisiteStatusEnum.failure;
 
-      const code = ok === bg.PrerequisiteStatusEnum.success ? 200 : 424;
+      const code = ok === PrerequisiteStatusEnum.success ? 200 : 424;
 
       const result: HealthcheckResultType = {
         ok,
