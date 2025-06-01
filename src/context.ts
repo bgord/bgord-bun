@@ -10,7 +10,7 @@ export type ContextType = {
 
 export type ContextVariables = {
   context: ContextType;
-  requestId: string;
+  requestId: CorrelationIdType;
 } & TimeZoneOffsetVariables;
 
 export class Context {
