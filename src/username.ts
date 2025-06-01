@@ -1,5 +1,7 @@
 import { z } from "zod/v4";
 
+export type IdType = string;
+
 type UsernameType = string;
 
 export class Username {

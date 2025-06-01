@@ -6,7 +6,7 @@ export * from "./cache-response";
 export * from "./cache-static-files";
 export * from "./context";
 export * from "./correlation-id";
-export * from "./credentials";
+export * from "./passwords";
 export * from "./download-file";
 export * from "./etag-extractor";
 export * from "./file-uploader";
