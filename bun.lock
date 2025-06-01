@@ -4,7 +4,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "0.4.0",
+        "@bgord/tools": "file:../bgord-tools",
         "@lucia-auth/adapter-prisma": "4.0.1",
         "hono": "4.6.9",
         "lodash": "4.17.21",
@@ -35,7 +35,7 @@
 
     "@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.27.1", "", {}, "sha512-D2hP9eA+Sqx1kBZgzxZh0y1trbuU+JoDkiEwqhQ36nodYqJwyEIhPSdMNd7lOm/4io72luTPWH20Yda0xOuUow=="],
 
-    "@bgord/tools": ["@bgord/tools@0.4.0", "", { "dependencies": { "date-fns": "4.1.0", "zod": "3.25.46" } }, "sha512-RuqIgMy7VN3NJAMQPcWzE9TzZHmijO9tqKfWMRvICul8JKQ03lYrSI5JZFL8IzgRd99X+lWmwTAXZx15coZCQA=="],
+    "@bgord/tools": ["@bgord/tools@file:../bgord-tools", { "dependencies": { "date-fns": "4.1.0", "zod": "3.25.46" }, "devDependencies": { "@biomejs/biome": "1.9.4", "@commitlint/cli": "19.8.1", "@commitlint/config-conventional": "19.8.1", "@types/bun": "1.2.15", "cspell": "9.0.2", "lefthook": "1.11.13", "only-allow": "1.2.1", "shellcheck": "3.1.0", "typescript": "5.8.3" } }],
 
     "@biomejs/biome": ["@biomejs/biome@1.9.4", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "1.9.4", "@biomejs/cli-darwin-x64": "1.9.4", "@biomejs/cli-linux-arm64": "1.9.4", "@biomejs/cli-linux-arm64-musl": "1.9.4", "@biomejs/cli-linux-x64": "1.9.4", "@biomejs/cli-linux-x64-musl": "1.9.4", "@biomejs/cli-win32-arm64": "1.9.4", "@biomejs/cli-win32-x64": "1.9.4" }, "bin": { "biome": "bin/biome" } }, "sha512-1rkd7G70+o9KkTn5KLmDYXihGoTaIGO9PIIN2ZB7UJxFrWw04CZHPYiMRjYsaDvVV7hP1dYNRLxSANLaBFGpog=="],
 
@@ -137,6 +137,8 @@
 
     "@cspell/dict-en-gb": ["@cspell/dict-en-gb@1.1.33", "", {}, "sha512-tKSSUf9BJEV+GJQAYGw5e+ouhEe2ZXE620S7BLKe3ZmpnjlNG9JqlnaBhkIMxKnNFkLY2BP/EARzw31AZnOv4g=="],
 
+    "@cspell/dict-en-gb-mit": ["@cspell/dict-en-gb-mit@3.0.7", "", {}, "sha512-fdZbu4jbkzjjTO0jPBGINwQwzNFGapMnhH9D4mDa4UzGGyQFVRx6n/FFwxnfs7CXbuCV6UFSwjHZEAB8pfWn0A=="],
+
     "@cspell/dict-en_us": ["@cspell/dict-en_us@4.4.9", "", {}, "sha512-5gjqpUwhE+qP9A9wxD1+MGGJ3DNqTgSpiOsS10cGJfV4p/Z194XkDUZrUrJsnJA/3fsCZHAzcNWh8m0bw1v++A=="],
 
     "@cspell/dict-filetypes": ["@cspell/dict-filetypes@3.0.12", "", {}, "sha512-+ds5wgNdlUxuJvhg8A1TjuSpalDFGCh7SkANCWvIplg6QZPXL4j83lqxP7PgjHpx7PsBUS7vw0aiHPjZy9BItw=="],
@@ -168,6 +170,8 @@
     "@cspell/dict-julia": ["@cspell/dict-julia@1.1.0", "", {}, "sha512-CPUiesiXwy3HRoBR3joUseTZ9giFPCydSKu2rkh6I2nVjXnl5vFHzOMLXpbF4HQ1tH2CNfnDbUndxD+I+7eL9w=="],
 
     "@cspell/dict-k8s": ["@cspell/dict-k8s@1.0.10", "", {}, "sha512-313haTrX9prep1yWO7N6Xw4D6tvUJ0Xsx+YhCP+5YrrcIKoEw5Rtlg8R4PPzLqe6zibw6aJ+Eqq+y76Vx5BZkw=="],
+
+    "@cspell/dict-kotlin": ["@cspell/dict-kotlin@1.1.0", "", {}, "sha512-vySaVw6atY7LdwvstQowSbdxjXG6jDhjkWVWSjg1XsUckyzH1JRHXe9VahZz1i7dpoFEUOWQrhIe5B9482UyJQ=="],
 
     "@cspell/dict-latex": ["@cspell/dict-latex@4.0.3", "", {}, "sha512-2KXBt9fSpymYHxHfvhUpjUFyzrmN4c4P8mwIzweLyvqntBT3k0YGZJSriOdjfUjwSygrfEwiuPI1EMrvgrOMJw=="],
 
@@ -949,6 +953,18 @@
 
     "zod-validation-error": ["zod-validation-error@3.4.1", "", { "peerDependencies": { "zod": "^3.24.4" } }, "sha512-1KP64yqDPQ3rupxNv7oXhf7KdhHHgaqbKuspVoiN93TT0xrBjql+Svjkdjq/Qh/7GSMmgQs3AfvBT0heE35thw=="],
 
+    "@bgord/tools/@commitlint/cli": ["@commitlint/cli@19.8.1", "", { "dependencies": { "@commitlint/format": "^19.8.1", "@commitlint/lint": "^19.8.1", "@commitlint/load": "^19.8.1", "@commitlint/read": "^19.8.1", "@commitlint/types": "^19.8.1", "tinyexec": "^1.0.0", "yargs": "^17.0.0" }, "bin": { "commitlint": "./cli.js" } }, "sha512-LXUdNIkspyxrlV6VDHWBmCZRtkEVRpBKxi2Gtw3J54cGWhLCTouVD/Q6ZSaSvd2YaDObWK8mDjrz3TIKtaQMAA=="],
+
+    "@bgord/tools/@commitlint/config-conventional": ["@commitlint/config-conventional@19.8.1", "", { "dependencies": { "@commitlint/types": "^19.8.1", "conventional-changelog-conventionalcommits": "^7.0.2" } }, "sha512-/AZHJL6F6B/G959CsMAzrPKKZjeEiAVifRyEwXxcT6qtqbPwGw+iQxmNS+Bu+i09OCtdNRW6pNpBvgPrtMr9EQ=="],
+
+    "@bgord/tools/@types/bun": ["@types/bun@1.2.15", "", { "dependencies": { "bun-types": "1.2.15" } }, "sha512-U1ljPdBEphF0nw1MIk0hI7kPg7dFdPyM7EenHsp6W5loNHl7zqy6JQf/RKCgnUn2KDzUpkBwHPnEJEjII594bA=="],
+
+    "@bgord/tools/cspell": ["cspell@9.0.2", "", { "dependencies": { "@cspell/cspell-json-reporter": "9.0.2", "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-types": "9.0.2", "@cspell/dynamic-import": "9.0.2", "@cspell/url": "9.0.2", "chalk": "^5.4.1", "chalk-template": "^1.1.0", "commander": "^14.0.0", "cspell-dictionary": "9.0.2", "cspell-gitignore": "9.0.2", "cspell-glob": "9.0.2", "cspell-io": "9.0.2", "cspell-lib": "9.0.2", "fast-json-stable-stringify": "^2.1.0", "file-entry-cache": "^9.1.0", "semver": "^7.7.2", "tinyglobby": "^0.2.13" }, "bin": { "cspell": "bin.mjs", "cspell-esm": "bin.mjs" } }, "sha512-VwPNTTivvv/NyovXUMcTYc7BaOgun7k8FhRWaVKxZPEsl/9r9WTLmQ1dNbHRq56LajH2b7wKGQYuRsfov3UWTg=="],
+
+    "@bgord/tools/lefthook": ["lefthook@1.11.13", "", { "optionalDependencies": { "lefthook-darwin-arm64": "1.11.13", "lefthook-darwin-x64": "1.11.13", "lefthook-freebsd-arm64": "1.11.13", "lefthook-freebsd-x64": "1.11.13", "lefthook-linux-arm64": "1.11.13", "lefthook-linux-x64": "1.11.13", "lefthook-openbsd-arm64": "1.11.13", "lefthook-openbsd-x64": "1.11.13", "lefthook-windows-arm64": "1.11.13", "lefthook-windows-x64": "1.11.13" }, "bin": { "lefthook": "bin/index.js" } }, "sha512-SDTk3D4nW1XRpR9u9fdYQ/qj1xeZVIwZmIFdJUnyq+w9ZLdCCvIrOmtD8SFiJowSevISjQDC+f9nqyFXUxc0SQ=="],
+
+    "@bgord/tools/shellcheck": ["shellcheck@3.1.0", "", { "dependencies": { "decompress": "^4.2.1", "envalid": "^8.0.0", "global-agent": "^3.0.0" }, "bin": { "shellcheck": "bin/shellcheck.js" } }, "sha512-C6IM1sziNIhCLyVszKZ/mKHQN2/CZ8qZ3sFt8mFOmL0ApoaXLTqyeEVfo+t4MlTVw+hS+kIqSaaGDDrrS0nKBA=="],
+
     "@bgord/tools/zod": ["zod@3.25.46", "", {}, "sha512-IqRxcHEIjqLd4LNS/zKffB3Jzg3NwqJxQQ0Ns7pdrvgGkwQsEBdEQcOHaBVqvvZArShRzI39+aMST3FBGmTrLQ=="],
 
     "@commitlint/read/tinyexec": ["tinyexec@1.0.1", "", {}, "sha512-5uC6DDlmeqiOwCPmK9jMSdOuZTh8bU39Ys6yidB+UTt5hfZUPGAypSgFRiEp+jbi9qH40BLDvy85jIU88wKSqw=="],
@@ -993,10 +1009,76 @@
 
     "tar-stream/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, "sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA=="],
 
+    "@bgord/tools/@commitlint/cli/tinyexec": ["tinyexec@1.0.1", "", {}, "sha512-5uC6DDlmeqiOwCPmK9jMSdOuZTh8bU39Ys6yidB+UTt5hfZUPGAypSgFRiEp+jbi9qH40BLDvy85jIU88wKSqw=="],
+
+    "@bgord/tools/@types/bun/bun-types": ["bun-types@1.2.15", "", { "dependencies": { "@types/node": "*" } }, "sha512-NarRIaS+iOaQU1JPfyKhZm4AsUOrwUOqRNHY0XxI8GI8jYxiLXLcdjYMG9UKS+fwWasc1uw1htV9AX24dD+p4w=="],
+
+    "@bgord/tools/cspell/@cspell/cspell-json-reporter": ["@cspell/cspell-json-reporter@9.0.2", "", { "dependencies": { "@cspell/cspell-types": "9.0.2" } }, "sha512-Hy9hKG53cFhLwiSZuRVAd5YfBb5pPj3V2Val69TW1j4+sy3podewqm4sb3RqoB01LcDkLI/mOeMwHz1xyIjfoA=="],
+
+    "@bgord/tools/cspell/@cspell/cspell-pipe": ["@cspell/cspell-pipe@9.0.2", "", {}, "sha512-M1e+u3dyGCJicSZ16xmoVut4pI8ynfqILYiDAYC9+rbn04wJdnWD46ElIZnRriFXx7fu/UsUEexu3lFaqKVGEg=="],
+
+    "@bgord/tools/cspell/@cspell/cspell-types": ["@cspell/cspell-types@9.0.2", "", {}, "sha512-RioULo34qbUXuCCLi/DCDxdb++Nm1ospNXzVkKZrSvTG4AjkC95ZhfIOp9jbGSWqL2PGdaHVXgG77EyQbAk5xA=="],
+
+    "@bgord/tools/cspell/@cspell/dynamic-import": ["@cspell/dynamic-import@9.0.2", "", { "dependencies": { "@cspell/url": "9.0.2", "import-meta-resolve": "^4.1.0" } }, "sha512-KhcoNUj6Ij2P8fbRC7QOn3jzbTZFxoQpFGanGU9f+4DfZBH86PCADyKYH+ZpJPlYgrI+Jh4wKzF5y5YKKNrdrw=="],
+
+    "@bgord/tools/cspell/@cspell/url": ["@cspell/url@9.0.2", "", {}, "sha512-KwCDL0ejgwVSZB8KTp8FhDe42UOaebTVIMi3O5GcYHi9Cut8B5QU4tbQOFGXP6E4pjimeO9yIkr9Z34kTljj/g=="],
+
+    "@bgord/tools/cspell/commander": ["commander@14.0.0", "", {}, "sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA=="],
+
+    "@bgord/tools/cspell/cspell-dictionary": ["cspell-dictionary@9.0.2", "", { "dependencies": { "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-types": "9.0.2", "cspell-trie-lib": "9.0.2", "fast-equals": "^5.2.2" } }, "sha512-u1jLnqu+2IJiGKdUP9LF1/vseOrCh6hUACHZQ8JsCbHC2KU/DL68s4IgS5jDyK5lBcwPOWzQOiTuXQSEardpFQ=="],
+
+    "@bgord/tools/cspell/cspell-gitignore": ["cspell-gitignore@9.0.2", "", { "dependencies": { "@cspell/url": "9.0.2", "cspell-glob": "9.0.2", "cspell-io": "9.0.2" }, "bin": { "cspell-gitignore": "bin.mjs" } }, "sha512-2CXpUYa+mf1I0oMH/V0qzT0zP95IqYzaS9BfEB7AcSmjrvuIgmiGLztUNrG5mMMBAlHk7sfI8gAEMMvr/Q7sTQ=="],
+
+    "@bgord/tools/cspell/cspell-glob": ["cspell-glob@9.0.2", "", { "dependencies": { "@cspell/url": "9.0.2", "picomatch": "^4.0.2" } }, "sha512-trTskAU7tw9RpCb+/uPM4zWByZEavHh3SIrjz7Du/ritjZi85O80HItNw5O3ext4zSPfNNLL3kBT7fLLphFHrw=="],
+
+    "@bgord/tools/cspell/cspell-io": ["cspell-io@9.0.2", "", { "dependencies": { "@cspell/cspell-service-bus": "9.0.2", "@cspell/url": "9.0.2" } }, "sha512-TO93FTgQjjp62nAn213885RdyOTsQwdjSHdeYaaNiaTBOBgj2jR8M8bi3+h2imGBlinlYERoVbPF9wghJEK2nw=="],
+
+    "@bgord/tools/cspell/cspell-lib": ["cspell-lib@9.0.2", "", { "dependencies": { "@cspell/cspell-bundled-dicts": "9.0.2", "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-resolver": "9.0.2", "@cspell/cspell-types": "9.0.2", "@cspell/dynamic-import": "9.0.2", "@cspell/filetypes": "9.0.2", "@cspell/strong-weak-map": "9.0.2", "@cspell/url": "9.0.2", "clear-module": "^4.1.2", "comment-json": "^4.2.5", "cspell-config-lib": "9.0.2", "cspell-dictionary": "9.0.2", "cspell-glob": "9.0.2", "cspell-grammar": "9.0.2", "cspell-io": "9.0.2", "cspell-trie-lib": "9.0.2", "env-paths": "^3.0.0", "fast-equals": "^5.2.2", "gensequence": "^7.0.0", "import-fresh": "^3.3.1", "resolve-from": "^5.0.0", "vscode-languageserver-textdocument": "^1.0.12", "vscode-uri": "^3.1.0", "xdg-basedir": "^5.1.0" } }, "sha512-uoPQ0f+umOGUQB/q0H+K/gWfd7xJMaPlt5rXMMTeKIPHLDRBE7lBx4mHVCmgevL+oTNSLpIE5FdqRDbr+Q+Awg=="],
+
+    "@bgord/tools/lefthook/lefthook-darwin-arm64": ["lefthook-darwin-arm64@1.11.13", "", { "os": "darwin", "cpu": "arm64" }, "sha512-gHwHofXupCtzNLN+8esdWfFTnAEkmBxE/WKA0EwxPPJXdZYa1GUsiG5ipq/CdG/0j8ekYyM9Hzyrrk5BqJ42xw=="],
+
+    "@bgord/tools/lefthook/lefthook-darwin-x64": ["lefthook-darwin-x64@1.11.13", "", { "os": "darwin", "cpu": "x64" }, "sha512-zYxkWNUirmTidhskY9J9AwxvdMi3YKH+TqZ3AQ1EOqkOwPBWJQW5PbnzsXDrd3YnrtZScYm/tE/moXJpEPPIpQ=="],
+
+    "@bgord/tools/lefthook/lefthook-freebsd-arm64": ["lefthook-freebsd-arm64@1.11.13", "", { "os": "freebsd", "cpu": "arm64" }, "sha512-gJzWnllcMcivusmPorEkXPpEciKotlBHn7QxWwYaSjss/U3YdZu+NTjDO30b3qeiVlyq4RAZ4BPKJODXxHHwUA=="],
+
+    "@bgord/tools/lefthook/lefthook-freebsd-x64": ["lefthook-freebsd-x64@1.11.13", "", { "os": "freebsd", "cpu": "x64" }, "sha512-689XdchgtDvZQWFFx1szUvm/mqrq/v6laki0odq5FAfcSgUeLu3w+z6UicBS5l55eFJuQTDNKARFqrKJ04e+Vw=="],
+
+    "@bgord/tools/lefthook/lefthook-linux-arm64": ["lefthook-linux-arm64@1.11.13", "", { "os": "linux", "cpu": "arm64" }, "sha512-ujCLbaZg5S/Ao8KZAcNSb+Y3gl898ZEM0YKyiZmZo22dFFpm/5gcV46pF3xaqIw5IpH+3YYDTKDU+qTetmARyQ=="],
+
+    "@bgord/tools/lefthook/lefthook-linux-x64": ["lefthook-linux-x64@1.11.13", "", { "os": "linux", "cpu": "x64" }, "sha512-O5WdodeBtFOXQlvPcckqp4W/yqVM9DbVQBkvOxwSJlmsxO4sGYK1TqdxH9ihLB85B2kPPssZj9ze36/oizzhVQ=="],
+
+    "@bgord/tools/lefthook/lefthook-openbsd-arm64": ["lefthook-openbsd-arm64@1.11.13", "", { "os": "openbsd", "cpu": "arm64" }, "sha512-SyBpciUfvY/lUDbZu7L6MtL/SVG2+yMTckBgb4PdJQhJlisY0IsyOYdlTw2icPPrY7JnwdsFv8UW0EJOB76W4g=="],
+
+    "@bgord/tools/lefthook/lefthook-openbsd-x64": ["lefthook-openbsd-x64@1.11.13", "", { "os": "openbsd", "cpu": "x64" }, "sha512-6+/0j6O2dzo9cjTWUKfL2J6hRR7Krna/ssqnW8cWh8QHZKO9WJn34epto9qgjeHwSysou8byI7Mwv5zOGthLCQ=="],
+
+    "@bgord/tools/lefthook/lefthook-windows-arm64": ["lefthook-windows-arm64@1.11.13", "", { "os": "win32", "cpu": "arm64" }, "sha512-w5TwZ8bsZ17uOMtYGc5oEb4tCHjNTSeSXRy6H9Yic8E7IsPZtZLkaZGnIIwgXFuhhrcCdc6FuTvKt2tyV7EW2g=="],
+
+    "@bgord/tools/lefthook/lefthook-windows-x64": ["lefthook-windows-x64@1.11.13", "", { "os": "win32", "cpu": "x64" }, "sha512-7lvwnIs8CNOXKU4y3i1Pbqna+QegIORkSD2VCuHBNpIJ8H84NpjoG3tKU91IM/aI1a2eUvCk+dw+1rfMRz7Ytg=="],
+
     "bl/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g=="],
 
     "colorspace/color/color-convert": ["color-convert@1.9.3", "", { "dependencies": { "color-name": "1.1.3" } }, "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="],
 
+    "@bgord/tools/cspell/cspell-dictionary/cspell-trie-lib": ["cspell-trie-lib@9.0.2", "", { "dependencies": { "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-types": "9.0.2", "gensequence": "^7.0.0" } }, "sha512-inXu6YEoJFLYnxgcXy3quCoGgSWYRye1kM4dj8kbYtNAQgUVD93hPFdmPWObwhVawsS3rQybckG3DSnmxBe9Fg=="],
+
+    "@bgord/tools/cspell/cspell-io/@cspell/cspell-service-bus": ["@cspell/cspell-service-bus@9.0.2", "", {}, "sha512-OjfZ3vnBjmkctC9xs/87/9bx/3kZYUPJkWsZxzfH4rla/HeIUrm9UZlDqCibhWifhPHrDdV9hDW5QEGXkYR2hw=="],
+
+    "@bgord/tools/cspell/cspell-lib/@cspell/cspell-bundled-dicts": ["@cspell/cspell-bundled-dicts@9.0.2", "", { "dependencies": { "@cspell/dict-ada": "^4.1.0", "@cspell/dict-al": "^1.1.0", "@cspell/dict-aws": "^4.0.10", "@cspell/dict-bash": "^4.2.0", "@cspell/dict-companies": "^3.2.1", "@cspell/dict-cpp": "^6.0.8", "@cspell/dict-cryptocurrencies": "^5.0.4", "@cspell/dict-csharp": "^4.0.6", "@cspell/dict-css": "^4.0.17", "@cspell/dict-dart": "^2.3.0", "@cspell/dict-data-science": "^2.0.8", "@cspell/dict-django": "^4.1.4", "@cspell/dict-docker": "^1.1.14", "@cspell/dict-dotnet": "^5.0.9", "@cspell/dict-elixir": "^4.0.7", "@cspell/dict-en-common-misspellings": "^2.0.11", "@cspell/dict-en-gb-mit": "^3.0.6", "@cspell/dict-en_us": "^4.4.8", "@cspell/dict-filetypes": "^3.0.12", "@cspell/dict-flutter": "^1.1.0", "@cspell/dict-fonts": "^4.0.4", "@cspell/dict-fsharp": "^1.1.0", "@cspell/dict-fullstack": "^3.2.6", "@cspell/dict-gaming-terms": "^1.1.1", "@cspell/dict-git": "^3.0.5", "@cspell/dict-golang": "^6.0.21", "@cspell/dict-google": "^1.0.8", "@cspell/dict-haskell": "^4.0.5", "@cspell/dict-html": "^4.0.11", "@cspell/dict-html-symbol-entities": "^4.0.3", "@cspell/dict-java": "^5.0.11", "@cspell/dict-julia": "^1.1.0", "@cspell/dict-k8s": "^1.0.10", "@cspell/dict-kotlin": "^1.1.0", "@cspell/dict-latex": "^4.0.3", "@cspell/dict-lorem-ipsum": "^4.0.4", "@cspell/dict-lua": "^4.0.7", "@cspell/dict-makefile": "^1.0.4", "@cspell/dict-markdown": "^2.0.10", "@cspell/dict-monkeyc": "^1.0.10", "@cspell/dict-node": "^5.0.7", "@cspell/dict-npm": "^5.2.3", "@cspell/dict-php": "^4.0.14", "@cspell/dict-powershell": "^5.0.14", "@cspell/dict-public-licenses": "^2.0.13", "@cspell/dict-python": "^4.2.18", "@cspell/dict-r": "^2.1.0", "@cspell/dict-ruby": "^5.0.8", "@cspell/dict-rust": "^4.0.11", "@cspell/dict-scala": "^5.0.7", "@cspell/dict-shell": "^1.1.0", "@cspell/dict-software-terms": "^5.0.9", "@cspell/dict-sql": "^2.2.0", "@cspell/dict-svelte": "^1.0.6", "@cspell/dict-swift": "^2.0.5", "@cspell/dict-terraform": "^1.1.1", "@cspell/dict-typescript": "^3.2.1", "@cspell/dict-vue": "^3.0.4" } }, "sha512-gGFSfVIvYtO95O3Yhcd1o0sOZHjVaCPwYq3MnaNsBBzaMviIZli4FZW9Z+XNKsgo1zRzbl2SdOXJPP0VcyAY0A=="],
+
+    "@bgord/tools/cspell/cspell-lib/@cspell/cspell-resolver": ["@cspell/cspell-resolver@9.0.2", "", { "dependencies": { "global-directory": "^4.0.1" } }, "sha512-JkMQb+hcEyZ2ALvEeJvfxoIblRpZlnek50Ew5sLSSZciRuhNvQZS5+Apwt1GXHitTo8/bqXFxABNP36O++YAwA=="],
+
+    "@bgord/tools/cspell/cspell-lib/@cspell/filetypes": ["@cspell/filetypes@9.0.2", "", {}, "sha512-8KEIgptldoZT3pM+yhYV8nXq5T9Sz0YvZIqwDGEqKJ6j447K+I91QWS7RQDrvHkElMi/2g/h08Efg0RIT+QEaQ=="],
+
+    "@bgord/tools/cspell/cspell-lib/@cspell/strong-weak-map": ["@cspell/strong-weak-map@9.0.2", "", {}, "sha512-SHTPUcu2e6aYxI5sr1L/9pzz68CArV6WzMvAio//5LbtKI6NtDp/7tARBwLi1G3A3C0289zDHbDKm3wc1lRNhQ=="],
+
+    "@bgord/tools/cspell/cspell-lib/cspell-config-lib": ["cspell-config-lib@9.0.2", "", { "dependencies": { "@cspell/cspell-types": "9.0.2", "comment-json": "^4.2.5", "yaml": "^2.8.0" } }, "sha512-8rCmGUEzlytnNeAazvbBdLeUoN18Cct8k6KLePiUS0GglYomSAvcPWsamSk9jeh947m0cu2dhjZPnKQlp11XBA=="],
+
+    "@bgord/tools/cspell/cspell-lib/cspell-grammar": ["cspell-grammar@9.0.2", "", { "dependencies": { "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-types": "9.0.2" }, "bin": { "cspell-grammar": "bin.mjs" } }, "sha512-3hrNZJYEgWSaCvH3rpFq43PX9pxdJt60+pFG3CTZAdpcI97DDsrdH3f7a6h8sNAb+pN59JnV2DtWexsAVL6vjA=="],
+
+    "@bgord/tools/cspell/cspell-lib/cspell-trie-lib": ["cspell-trie-lib@9.0.2", "", { "dependencies": { "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-types": "9.0.2", "gensequence": "^7.0.0" } }, "sha512-inXu6YEoJFLYnxgcXy3quCoGgSWYRye1kM4dj8kbYtNAQgUVD93hPFdmPWObwhVawsS3rQybckG3DSnmxBe9Fg=="],
+
     "colorspace/color/color-convert/color-name": ["color-name@1.1.3", "", {}, "sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw=="],
+
+    "@bgord/tools/cspell/cspell-lib/@cspell/cspell-bundled-dicts/@cspell/dict-software-terms": ["@cspell/dict-software-terms@5.0.10", "", {}, "sha512-2nTcVKTYJKU5GzeviXGPtRRC9d23MtfpD4PM4pLSzl29/5nx5MxOUHkzPuJdyaw9mXIz8Rm9IlGeVAvQoTI8aw=="],
   }
 }
