@@ -4,7 +4,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "0.3.0",
+        "@bgord/tools": "0.4.0",
         "@lucia-auth/adapter-prisma": "4.0.1",
         "hono": "4.6.9",
         "lodash": "4.17.21",
@@ -35,7 +35,7 @@
 
     "@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.27.1", "", {}, "sha512-D2hP9eA+Sqx1kBZgzxZh0y1trbuU+JoDkiEwqhQ36nodYqJwyEIhPSdMNd7lOm/4io72luTPWH20Yda0xOuUow=="],
 
-    "@bgord/tools": ["@bgord/tools@0.3.0", "", { "dependencies": { "date-fns": "4.1.0", "zod": "3.25.46" } }, "sha512-yY3XPOEWdginaxLsRqHhhLPj+0qECW16ntD3oQCpkmm7WR5+BD+3AEHl0jaBrEzRznGrGbH2SshHKtAa+8SvJQ=="],
+    "@bgord/tools": ["@bgord/tools@0.4.0", "", { "dependencies": { "date-fns": "4.1.0", "zod": "3.25.46" } }, "sha512-RuqIgMy7VN3NJAMQPcWzE9TzZHmijO9tqKfWMRvICul8JKQ03lYrSI5JZFL8IzgRd99X+lWmwTAXZx15coZCQA=="],
 
     "@biomejs/biome": ["@biomejs/biome@1.9.4", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "1.9.4", "@biomejs/cli-darwin-x64": "1.9.4", "@biomejs/cli-linux-arm64": "1.9.4", "@biomejs/cli-linux-arm64-musl": "1.9.4", "@biomejs/cli-linux-x64": "1.9.4", "@biomejs/cli-linux-x64-musl": "1.9.4", "@biomejs/cli-win32-arm64": "1.9.4", "@biomejs/cli-win32-x64": "1.9.4" }, "bin": { "biome": "bin/biome" } }, "sha512-1rkd7G70+o9KkTn5KLmDYXihGoTaIGO9PIIN2ZB7UJxFrWw04CZHPYiMRjYsaDvVV7hP1dYNRLxSANLaBFGpog=="],
 
