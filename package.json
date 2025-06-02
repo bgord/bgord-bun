@@ -27,7 +27,6 @@
     "lefthook": "1.11.13",
     "only-allow": "1.2.1",
     "shellcheck": "3.1.0",
-    "supertest": "7.1.1",
     "typescript": "5.8.3"
   },
   "dependencies": {
