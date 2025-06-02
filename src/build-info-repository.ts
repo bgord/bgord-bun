@@ -10,7 +10,7 @@ export class BuildInfoRepository {
     const BUILD_DATE = Date.now();
 
     try {
-      const packageJson = await Bun.file("package.json").json();
+      const packageJson = await BuildInfoRepository.getPackageJson();
 
       const BUILD_VERSION = tools.BuildVersion.parse(packageJson.version);
 
@@ -18,5 +18,9 @@ export class BuildInfoRepository {
     } catch (error) {
       return { BUILD_DATE };
     }
+  }
+
+  static async getPackageJson() {
+    return Bun.file("package.json").json();
   }
 }
