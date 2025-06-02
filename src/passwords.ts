@@ -1,4 +1,3 @@
-import { Argon2id } from "oslo/password";
 import { z } from "zod/v4";
 
 export type PasswordType = string;
@@ -27,7 +26,7 @@ export class HashedPassword {
   private constructor(private value: HashedPasswordType) {}
 
   static async fromPassword(password: Password) {
-    const hash = await new Argon2id().hash(password.read());
+    const hash = await Bun.password.hash(password.read());
 
     return new HashedPassword(hash);
   }
@@ -41,11 +40,11 @@ export class HashedPassword {
   }
 
   async matches(password: Password): Promise<boolean> {
-    return new Argon2id().verify(this.read(), password.read());
+    return Bun.password.verify(password.read(), this.read());
   }
 
   async matchesOrThrow(password: Password): Promise<true> {
-    const matches = await new Argon2id().verify(this.read(), password.read());
+    const matches = await Bun.password.verify(password.read(), this.read());
 
     if (!matches) {
       throw new Error("HashedPassword does not match the provided password");
