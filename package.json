@@ -11,10 +11,7 @@
     "import": "./dist/index.js",
     "types": "./dist/index.d.ts"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "files": ["dist", "src"],
   "scripts": {
     "build": "tsc --build",
     "preinstall": "bunx only-allow bun"

@@ -1,0 +1,28 @@
+import { describe, expect, it, spyOn } from "bun:test";
+
+import * as NewUUIDModule from "../src/new-uuid";
+import { UUID } from "../src/uuid";
+
+describe("UUID schema", () => {
+  it("parses a valid UUID", () => {
+    const validUUID = "123e4567-e89b-12d3-a456-426614174000";
+    const parsed = UUID.parse(validUUID);
+    expect(parsed).toBe(validUUID);
+  });
+
+  it("throws on invalid UUID", () => {
+    const invalidUUID = "not-a-uuid";
+    expect(() => UUID.parse(invalidUUID)).toThrow();
+  });
+
+  it("uses NewUUID.generate() as default", () => {
+    const fakeUUID = "11111111-2222-3333-4444-555555555555";
+    const spy = spyOn(NewUUIDModule.NewUUID, "generate").mockReturnValue(fakeUUID);
+
+    const parsed = UUID.parse(undefined);
+    expect(parsed).toBe(fakeUUID);
+    expect(spy).toHaveBeenCalled();
+
+    spy.mockRestore();
+  });
+});
