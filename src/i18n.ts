@@ -1,7 +1,5 @@
 import path from "node:path";
 import * as tools from "@bgord/tools";
-import { getCookie } from "hono/cookie";
-import { createMiddleware } from "hono/factory";
 
 import { Path, PathType } from "./path";
 
@@ -19,45 +17,12 @@ export type I18nConfigType = {
   supportedLanguages: Record<string, tools.LanguageType>;
 };
 
-export type I18nVariablesType = {
-  language: tools.LanguageType;
-  supportedLanguages: tools.LanguageType[];
-  translationsPath: PathType;
-};
-
 export class I18n {
-  static LANGUAGE_COOKIE_NAME = "accept-language";
+  constructor(private translationsPath: PathType = Path.parse("infra/translations")) {}
 
-  static DEFAULT_TRANSLATIONS_PATH = Path.parse("infra/translations");
-
-  static FALLBACK_LANGUAGE = "en";
-
-  static applyTo(config: I18nConfigType) {
-    return createMiddleware(async (c, next) => {
-      const translationsPath = config?.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
-
-      const defaultLanguage = config?.defaultLanguage ?? I18n.FALLBACK_LANGUAGE;
-
-      const chosenLanguage = getCookie(c, I18n.LANGUAGE_COOKIE_NAME) ?? defaultLanguage;
-
-      const language = Object.keys(config.supportedLanguages).find((language) => language === chosenLanguage)
-        ? chosenLanguage
-        : I18n.FALLBACK_LANGUAGE;
-
-      c.set("supportedLanguages", Object.keys(config.supportedLanguages));
-      c.set("language", language);
-      c.set("translationsPath", translationsPath);
-
-      return next();
-    });
-  }
-
-  static async getTranslations(
-    language: tools.LanguageType,
-    translationsPath: PathType,
-  ): Promise<TranslationsType> {
+  async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
-      return Bun.file(I18n.getTranslationPathForLanguage(language, translationsPath)).json();
+      return Bun.file(this.getTranslationPathForLanguage(language)).json();
     } catch (error) {
       // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log("I18n#getTranslations", error);
@@ -66,7 +31,7 @@ export class I18n {
     }
   }
 
-  static useTranslations(translations: TranslationsType) {
+  useTranslations(translations: TranslationsType) {
     return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
       const translation = translations[key];
 
@@ -84,10 +49,7 @@ export class I18n {
     };
   }
 
-  static getTranslationPathForLanguage(
-    language: tools.LanguageType,
-    translationsPath = I18n.DEFAULT_TRANSLATIONS_PATH,
-  ): PathType {
-    return Path.parse(path.join(translationsPath, `${language}.json`));
+  getTranslationPathForLanguage(language: tools.LanguageType): PathType {
+    return Path.parse(path.join(this.translationsPath, `${language}.json`));
   }
 }
