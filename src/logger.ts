@@ -84,7 +84,7 @@ export class Logger {
   constructor(options: LoggerOptionsType) {
     this.app = options.app;
     this.environment = options.environment;
-    this.level = options.level ?? this.level;
+    this.level = options.level ?? LogLevelEnum.verbose;
 
     const formats = [
       winston.format.json(),
