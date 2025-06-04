@@ -34,6 +34,7 @@
     "@bgord/tools": "file:../bgord-tools",
     "@lucia-auth/adapter-prisma": "4.0.1",
     "check-disk-space": "^3.4.0",
+    "croner": "^9.0.0",
     "hono": "4.7.11",
     "lodash": "4.17.21",
     "lucia": "3.2.2",

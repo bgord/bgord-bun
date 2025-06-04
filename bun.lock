@@ -7,6 +7,7 @@
         "@bgord/tools": "file:../bgord-tools",
         "@lucia-auth/adapter-prisma": "4.0.1",
         "check-disk-space": "^3.4.0",
+        "croner": "^9.0.0",
         "hono": "4.7.11",
         "lodash": "4.17.21",
         "lucia": "3.2.2",
@@ -416,6 +417,8 @@
     "cosmiconfig": ["cosmiconfig@9.0.0", "", { "dependencies": { "env-paths": "^2.2.1", "import-fresh": "^3.3.0", "js-yaml": "^4.1.0", "parse-json": "^5.2.0" }, "peerDependencies": { "typescript": ">=4.9.5" }, "optionalPeers": ["typescript"] }, "sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg=="],
 
     "cosmiconfig-typescript-loader": ["cosmiconfig-typescript-loader@6.1.0", "", { "dependencies": { "jiti": "^2.4.1" }, "peerDependencies": { "@types/node": "*", "cosmiconfig": ">=9", "typescript": ">=5" } }, "sha512-tJ1w35ZRUiM5FeTzT7DtYWAFFv37ZLqSRkGi2oeCK1gPhvaWjkAtfXvLmvE1pRfxxp9aQo6ba/Pvg1dKj05D4g=="],
+
+    "croner": ["croner@9.0.0", "", {}, "sha512-onMB0OkDjkXunhdW9htFjEhqrD54+M94i6ackoUkjHKbRnXdyEyKRelp4nJ1kAz32+s27jP1FsebpJCVl0BsvA=="],
 
     "cspell": ["cspell@9.0.2", "", { "dependencies": { "@cspell/cspell-json-reporter": "9.0.2", "@cspell/cspell-pipe": "9.0.2", "@cspell/cspell-types": "9.0.2", "@cspell/dynamic-import": "9.0.2", "@cspell/url": "9.0.2", "chalk": "^5.4.1", "chalk-template": "^1.1.0", "commander": "^14.0.0", "cspell-dictionary": "9.0.2", "cspell-gitignore": "9.0.2", "cspell-glob": "9.0.2", "cspell-io": "9.0.2", "cspell-lib": "9.0.2", "fast-json-stable-stringify": "^2.1.0", "file-entry-cache": "^9.1.0", "semver": "^7.7.2", "tinyglobby": "^0.2.13" }, "bin": { "cspell": "bin.mjs", "cspell-esm": "bin.mjs" } }, "sha512-VwPNTTivvv/NyovXUMcTYc7BaOgun7k8FhRWaVKxZPEsl/9r9WTLmQ1dNbHRq56LajH2b7wKGQYuRsfov3UWTg=="],
 
