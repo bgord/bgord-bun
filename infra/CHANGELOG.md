@@ -1,4 +1,5 @@
 # Changelog
+- 2025-06-05 00:46 01a4e84 **refactor: do not export prereq config types**
 - 2025-06-05 00:41 f88b7b5 **step: update knip**
 - 2025-06-05 00:40 c373d66 **step: pin deps**
 - 2025-06-05 00:36 781c76a **fix: workflows ubuntu**
@@ -14,6 +15,7 @@
 - 2025-06-04 23:25 5325cd2 **step: test session id**
 - 2025-06-04 23:21 2e61db7 **step: extract session id**
 - 2025-06-04 23:14 a63aca1 **step: test healthcheck**
+- 2025-06-04 22:41 44490ba **docs: generate CHANGELOG**
 - 2025-06-04 22:40 a92ec5e **docs: generate CHANGELOG**
 - 2025-06-04 22:36 c955874 **docs: generate CHANGELOG**
 - 2025-06-04 17:57 8f6b5a3 **step: rename tests**
