@@ -1,4 +1,5 @@
-import { describe, expect, jest, mock, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
+import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
 import {
@@ -13,13 +14,9 @@ import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
 describe("Prerequisites.check", () => {
   test("exits the process if at least one prerequisite fails", async () => {
-    await mock.module("node:fs/promises", () => ({
-      default: {
-        access: () => {
-          throw new Error("Access denied");
-        },
-      },
-    }));
+    const accessSpy = spyOn(fsp, "access").mockRejectedValue(() => {
+      throw new Error("Access denied");
+    });
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
@@ -43,15 +40,11 @@ describe("Prerequisites.check", () => {
     expect(processExit).toHaveBeenCalledWith(1);
 
     processExit.mockRestore();
-    jest.restoreAllMocks();
+    accessSpy.mockRestore();
   });
 
   test("does not exit the process if all prerequisites succeed", async () => {
-    await mock.module("node:fs/promises", () => ({
-      default: {
-        access: async () => Promise.resolve(),
-      },
-    }));
+    const accessSpy = spyOn(fsp, "access").mockResolvedValue();
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
@@ -75,7 +68,7 @@ describe("Prerequisites.check", () => {
     expect(processExit).not.toHaveBeenCalled();
 
     processExit.mockRestore();
-    jest.restoreAllMocks();
+    accessSpy.mockRestore();
   });
 
   test("handles unexpected exceptions gracefully", async () => {

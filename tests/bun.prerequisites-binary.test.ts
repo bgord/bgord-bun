@@ -1,61 +1,66 @@
-import { expect, mock, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, jest, mock, test } from "bun:test";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
 
-// Mock `bun` module for the `$` function
-mock.module("bun", () => ({
-  $: async (...args: any[]) => {
-    return {
-      exitCode: args[0]?.raw?.includes("node") ? 0 : 1,
-    };
-  },
-}));
-
-test("returns success if binary is found", async () => {
-  const prerequisite = new PrerequisiteBinary({
-    label: "Node.js",
-    binary: "node",
+describe("prerequisites - binary", () => {
+  beforeEach(() => {
+    mock.module("bun", () => ({
+      $: async (...args: any[]) => {
+        return {
+          exitCode: args[0]?.raw?.includes("node") ? 0 : 1,
+        };
+      },
+    }));
   });
 
-  const result = await prerequisite.verify();
+  afterEach(() => jest.restoreAllMocks());
 
-  expect(result).toBe(PrerequisiteStatusEnum.success);
-  expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
-});
+  test("returns success if binary is found", async () => {
+    const prerequisite = new PrerequisiteBinary({
+      label: "Node.js",
+      binary: "node",
+    });
 
-test("returns failure if binary is not found", async () => {
-  const prerequisite = new PrerequisiteBinary({
-    label: "FakeBinary",
-    binary: "fake-binary",
+    const result = await prerequisite.verify();
+
+    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
   });
 
-  const result = await prerequisite.verify();
+  test("returns failure if binary is not found", async () => {
+    const prerequisite = new PrerequisiteBinary({
+      label: "FakeBinary",
+      binary: "fake-binary",
+    });
 
-  expect(result).toBe(PrerequisiteStatusEnum.failure);
-  expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
-});
+    const result = await prerequisite.verify();
 
-test("returns undetermined if disabled", async () => {
-  const prerequisite = new PrerequisiteBinary({
-    label: "Node.js",
-    binary: "node",
-    enabled: false,
+    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
   });
 
-  const result = await prerequisite.verify();
+  test("returns undetermined if disabled", async () => {
+    const prerequisite = new PrerequisiteBinary({
+      label: "Node.js",
+      binary: "node",
+      enabled: false,
+    });
 
-  expect(result).toBe(PrerequisiteStatusEnum.undetermined);
-  expect(prerequisite.status).toBe(PrerequisiteStatusEnum.undetermined);
-});
+    const result = await prerequisite.verify();
 
-test("returns failure if binary name is invalid", async () => {
-  const prerequisite = new PrerequisiteBinary({
-    label: "InvalidBinary",
-    binary: "invalid binary", // Invalid due to space
+    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.undetermined);
   });
 
-  const result = await prerequisite.verify();
+  test("returns failure if binary name is invalid", async () => {
+    const prerequisite = new PrerequisiteBinary({
+      label: "InvalidBinary",
+      binary: "invalid binary", // Invalid due to space
+    });
 
-  expect(result).toBe(PrerequisiteStatusEnum.failure);
-  expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
+    const result = await prerequisite.verify();
+
+    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
+  });
 });

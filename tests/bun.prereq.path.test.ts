@@ -1,56 +1,51 @@
-import { expect, jest, mock, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
+import fsp from "node:fs/promises";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisitePath } from "../src/prerequisites/path";
 
 const DUMMY_PATH = "/mocked/path";
 
-test("returns success if path is accessible with required flags", async () => {
-  mock.module("node:fs/promises", () => ({
-    default: {
-      access: async () => {},
-    },
-  }));
+describe("prerequisites - path", () => {
+  test("returns success if path is accessible with required flags", async () => {
+    const accessSpy = spyOn(fsp, "access").mockResolvedValue();
 
-  const prerequisite = new PrerequisitePath({
-    label: "Test Path",
-    path: DUMMY_PATH,
-    access: { write: true },
+    const prerequisite = new PrerequisitePath({
+      label: "Test Path",
+      path: DUMMY_PATH,
+      access: { write: true },
+    });
+
+    const result = await prerequisite.verify();
+    expect(result).toBe(PrerequisiteStatusEnum.success);
+
+    accessSpy.mockRestore();
   });
 
-  const result = await prerequisite.verify();
-  expect(result).toBe(PrerequisiteStatusEnum.success);
+  test("returns failure if access throws error", async () => {
+    const accessSpy = spyOn(fsp, "access").mockRejectedValue(() => {
+      throw new Error("No access");
+    });
 
-  jest.restoreAllMocks();
-});
+    const prerequisite = new PrerequisitePath({
+      label: "Test Path",
+      path: DUMMY_PATH,
+      access: { write: true },
+    });
 
-test("returns failure if access throws error", async () => {
-  mock.module("node:fs/promises", () => ({
-    default: {
-      access: async () => {
-        throw new Error("No access");
-      },
-    },
-  }));
+    const result = await prerequisite.verify();
+    expect(result).toBe(PrerequisiteStatusEnum.failure);
 
-  const prerequisite = new PrerequisitePath({
-    label: "Test Path",
-    path: DUMMY_PATH,
-    access: { write: true },
+    accessSpy.mockRestore();
   });
 
-  const result = await prerequisite.verify();
-  expect(result).toBe(PrerequisiteStatusEnum.failure);
+  test("returns undetermined if prerequisite is disabled", async () => {
+    const prerequisite = new PrerequisitePath({
+      label: "Disabled Path",
+      path: DUMMY_PATH,
+      enabled: false,
+    });
 
-  jest.restoreAllMocks();
-});
-
-test("returns undetermined if prerequisite is disabled", async () => {
-  const prerequisite = new PrerequisitePath({
-    label: "Disabled Path",
-    path: DUMMY_PATH,
-    enabled: false,
+    const result = await prerequisite.verify();
+    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
   });
-
-  const result = await prerequisite.verify();
-  expect(result).toBe(PrerequisiteStatusEnum.undetermined);
 });
