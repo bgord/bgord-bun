@@ -5,7 +5,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteOutsideConnectivityConfigType = {
+type PrerequisiteOutsideConnectivityConfigType = {
   label: PrerequisiteLabelType;
   enabled?: boolean;
 };

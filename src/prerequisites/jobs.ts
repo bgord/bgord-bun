@@ -7,7 +7,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteJobsConfigType = {
+type PrerequisiteJobsConfigType = {
   jobs: MultipleJobsType;
   label: PrerequisiteLabelType;
   enabled?: boolean;

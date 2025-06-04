@@ -10,7 +10,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteTranslationsConfigType = {
+type PrerequisiteTranslationsConfigType = {
   translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
   supportedLanguages: I18nConfigType["supportedLanguages"];
   label: PrerequisiteLabelType;

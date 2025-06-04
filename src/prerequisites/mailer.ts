@@ -6,7 +6,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteMailerConfigType = {
+type PrerequisiteMailerConfigType = {
   mailer: Mailer;
   label: PrerequisiteLabelType;
   enabled?: boolean;

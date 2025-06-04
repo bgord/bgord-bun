@@ -5,7 +5,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteSelfConfigType = {
+type PrerequisiteSelfConfigType = {
   label: PrerequisiteLabelType;
   enabled?: boolean;
 };

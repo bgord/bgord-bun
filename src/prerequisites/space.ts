@@ -9,7 +9,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteSpaceConfigType = {
+type PrerequisiteSpaceConfigType = {
   minimum: tools.Size;
   label: PrerequisiteLabelType;
   enabled?: boolean;

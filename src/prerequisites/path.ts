@@ -8,7 +8,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisitePathConfigType = {
+type PrerequisitePathConfigType = {
   path: string;
   access?: { write?: boolean; execute?: boolean };
   label: PrerequisiteLabelType;

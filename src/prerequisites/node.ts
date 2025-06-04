@@ -8,7 +8,7 @@ import {
 } from "../prerequisites";
 import { shell } from "../shell";
 
-export type PrerequisiteNodeConfigType = {
+type PrerequisiteNodeConfigType = {
   version: tools.PackageVersion;
   label: PrerequisiteLabelType;
   enabled?: boolean;

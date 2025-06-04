@@ -8,7 +8,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteTimezoneUtcConfigType = {
+type PrerequisiteTimezoneUtcConfigType = {
   timezone: tools.TimezoneType;
   label: PrerequisiteLabelType;
   enabled?: boolean;

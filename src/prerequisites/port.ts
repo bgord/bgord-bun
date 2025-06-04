@@ -9,7 +9,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisitePortConfigType = {
+type PrerequisitePortConfigType = {
   port: PortType;
   label: PrerequisiteLabelType;
   enabled?: boolean;

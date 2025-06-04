@@ -7,7 +7,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteSSLCertificateExpiryConfigType = {
+type PrerequisiteSSLCertificateExpiryConfigType = {
   host: string;
   validDaysMinimum: number;
   label: PrerequisiteLabelType;

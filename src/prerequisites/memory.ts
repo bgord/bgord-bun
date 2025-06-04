@@ -8,7 +8,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteMemoryConfigType = {
+type PrerequisiteMemoryConfigType = {
   maximum: tools.Size;
   label: PrerequisiteLabelType;
   enabled?: boolean;

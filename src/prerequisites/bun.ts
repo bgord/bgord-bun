@@ -7,7 +7,7 @@ import {
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
 
-export type PrerequisiteBunConfigType = {
+type PrerequisiteBunConfigType = {
   version: tools.PackageVersion;
   label: PrerequisiteLabelType;
   enabled?: boolean;
