@@ -1,6 +1,131 @@
 # Changelog
+- 2025-06-05 00:36 781c76a **fix: workflows ubuntu**
+- 2025-06-05 00:35 c96d0dd **step: bump bgord/scripts**
+- 2025-06-05 00:19 6b46db4 **refactor: remove unused dep**
+- 2025-06-05 00:12 3acb8b5 **refactor: reexport prereqs**
+- 2025-06-05 00:09 bc1adfb **fix: prereq mailer test**
+- 2025-06-05 00:05 71225f1 **step: bump bgord/tools**
+- 2025-06-04 23:59 d6aa4c1 **fix: exports**
+- 2025-06-04 23:59 4d17ef4 **step: add prereqs export**
+- 2025-06-04 23:54 60ef641 **step: test auth shield**
+- 2025-06-04 23:26 929f176 **refactor: rewrite auth shield**
+- 2025-06-04 23:25 5325cd2 **step: test session id**
+- 2025-06-04 23:21 2e61db7 **step: extract session id**
+- 2025-06-04 23:14 a63aca1 **step: test healthcheck**
+- 2025-06-04 17:57 8f6b5a3 **step: rename tests**
+- 2025-06-04 17:55 277ba7e **step: migrate jobs prereq**
+- 2025-06-04 17:54 46f4f6d **step: migrate jobs**
+- 2025-06-04 17:29 9ce5622 **step: install croner**
+- 2025-06-04 17:28 aea165c **step: cleanup tests**
+- 2025-06-04 17:07 bda9bc5 **step: migrate port prereq**
+- 2025-06-04 16:56 df43791 **step: migrate eailer prereq**
+- 2025-06-04 16:51 b5f38a3 **step: migrate mailer**
+- 2025-06-04 16:50 5d456af **step: migrate port**
+- 2025-06-04 16:47 ff20ca0 **step: install nodemailer**
+- 2025-06-04 16:47 dfe20c2 **step: migrate ssl cert expiry**
+- 2025-06-04 16:42 5992203 **step: install ssl-checker**
+- 2025-06-04 16:41 d9ac349 **refactor: simplify tests**
+- 2025-06-04 16:24 88a2717 **step: migrate translations prereq**
+- 2025-06-04 16:18 dafa747 **refactor: readd i18n default translations path**
+- 2025-06-04 16:14 7642e5e **step: migrate outside connectivity**
+- 2025-06-04 16:11 23303c5 **step: migrate memory prereq**
+- 2025-06-04 16:00 2fbc538 **step: migrate node prereq**
+- 2025-06-04 15:41 58016fa **step: test space prereq**
+- 2025-06-04 15:40 804f6c2 **step: install check-disk-space**
+- 2025-06-04 15:35 f6fcf20 **step: test prereqs**
+- 2025-06-04 15:28 ffcba51 **step: migrate ram prereq**
+- 2025-06-03 23:35 41bca63 **step: migrate path prereq**
+- 2025-06-03 23:30 5b93da6 **step: migrate self prereq**
+- 2025-06-03 23:29 2a67e07 **step: migrate timezone utc prereq**
+- 2025-06-03 23:19 6aad64e **step: migrate bun prereq**
+- 2025-06-03 23:14 41d876b **step: migrate binary prereq**
+- 2025-06-03 23:06 4b04213 **step: test image processor**
+- 2025-06-03 23:01 96a5233 **refactor: simplify i18n**
+- 2025-06-03 22:36 9d3f340 **step: test i18n**
+- 2025-06-03 16:04 3e9f333 **step: setup http logger tests**
+- 2025-06-03 15:18 1b1383e **step: test logger**
+- 2025-06-03 14:59 d37f2e6 **fix: this.level assignment in constructor**
+- 2025-06-03 00:29 f7be7c8 **step: test graceful shutdown**
+- 2025-06-03 00:14 0dc2af5 **step: test file uploader**
+- 2025-06-02 22:29 9568062 **step: test cache static files**
+- 2025-06-02 22:26 09c12e9 **step: add cache response tests**
+- 2025-06-02 22:11 82fc372 **step: remove supertest**
+- 2025-06-02 21:37 d77af67 **step: test download file**
+- 2025-06-02 17:16 9bb8fdc **step: test path**
+- 2025-06-02 17:15 2e0e34c **step: test correlation id**
+- 2025-06-02 17:13 cb296d8 **step: test build repo**
+- 2025-06-02 16:44 eb5de08 **step: test username**
+- 2025-06-02 16:37 d3912f2 **refactor: use built-in password hashing**
+- 2025-06-02 16:26 512caa8 **step: test passwords**
+- 2025-06-02 16:20 7eddfa1 **step: test memory consumption**
+- 2025-06-02 16:08 2bd9278 **step: test uptime**
+- 2025-06-02 15:58 c577045 **step: test new-uuid**
+- 2025-06-02 15:56 6a9d980 **step: test uuid**
+- 2025-06-01 19:35 d9368c5 **step: bump bgord/scripts**
+- 2025-06-01 19:02 c6c9ddf **step: bump types/bun**
+- 2025-06-01 19:00 a688ac2 **step: update commitlint**
+- 2025-06-01 18:43 ef65988 **refactor: rename passwords**
+- 2025-06-01 18:29 13d4ac4 **refactor: extract username**
+- 2025-06-01 18:04 0f5454f **refactor: split etag and weak etag**
+- 2025-06-01 17:51 8f0eb64 **refactor: extract path**
+- 2025-06-01 16:45 7b8a4df **refactor: move language vo to tools**
+- 2025-06-01 16:40 dab1273 **refactor: adjust timezone offset**
+- 2025-06-01 16:29 a8b6115 **refactor: move build version to tools**
+- 2025-06-01 16:25 26ed356 **refactor: move api key schema to tools**
+- 2025-06-01 16:24 806b312 **step: switch to local bgord/tools**
+- 2025-06-01 16:19 190c11d **refactor: adjust requestId type**
+- 2025-06-01 16:18 aaafcca **refactor: adjust BUILD_DATE type**
+- 2025-06-01 16:03 fad92b4 **refactor: reorganize exports**
+- 2025-06-01 15:59 6ad6e90 **refactor: adjust tests**
+- 2025-06-01 15:53 6d42fb1 **step: update bgord/tools**
+- 2025-06-01 15:49 e12fd5a **step: update bgord/tools**
+- 2025-06-01 13:29 43b0007 **refactor: migrate prereqs**
+- 2025-06-01 13:20 5039eef **refactor: migrate uptime**
+- 2025-06-01 13:06 cf41bb5 **refactor: use stopwatch**
+- 2025-06-01 12:54 8edea6e **refactor: migrate memory consumption**
+- 2025-06-01 00:54 c3ba581 **step: migrate node env enum**
+- 2025-06-01 00:53 1e0f9f0 **step: migrate logger**
+- 2025-06-01 00:48 70e5114 **step: install winston**
+- 2025-06-01 00:47 1110fab **refactor: fix rate limiter import**
+- 2025-06-01 00:44 7eecf72 **refactor: use timestamp from bgord/tools**
+- 2025-06-01 00:42 e5561d1 **refactor: fix getCookie import**
+- 2025-06-01 00:40 0b49f6f **refactor: migrate context variables**
+- 2025-06-01 00:21 260f0f1 **refactor: migrate language and path types**
+- 2025-05-31 19:37 6665122 **refactor: migrate timezone offset**
+- 2025-05-31 19:32 ef481b0 **refactor: migrate api key schema**
+- 2025-05-31 19:30 07166c5 **refactor: fix cache hit enum**
+- 2025-05-31 19:28 1105bbb **refactor: migrate credentials**
+- 2025-05-31 17:51 ab93697 **step: install missing node-cache**
+- 2025-05-31 17:50 daf9f06 **refactor: use time from tools**
+- 2025-05-31 17:45 af51c5c **refactor: migrate build-info-repository**
+- 2025-05-31 17:39 83f6ffe **refactor: use etags from tools**
+- 2025-05-31 17:34 218e316 **refactor: use mime from tools**
+- 2025-05-31 17:31 d33827e **refactor: use size from bgord/tools**
+- 2025-05-31 17:30 8eb3ab7 **refactor: remove bgord/node references**
+- 2025-05-31 17:29 7d4f68d **refactor: use bgord/tools exports**
+- 2025-05-31 17:27 ef69ec2 **step: install bgord/tools locally**
+- 2025-05-31 17:12 f7c55ce **step: migrate gracefeul-shutdown to bgord/tools**
+- 2025-05-31 17:12 4a202ad **step: bump bgord/tools**
+- 2025-05-31 17:08 857dea2 **step: bump bgord/tools**
+- 2025-05-31 17:01 72fd6a4 **step: remove bgord/node**
+- 2025-05-31 16:58 97a10bd **step: install bgord/tools**
+## 2025-05-31 15:47 v0.5.0
+- 2025-05-31 15:47 c178750 **0.5.0**
+- 2025-05-31 15:46 72d3979 **fix: httpRequestBeforeMetadata.headers**
+- 2025-05-31 15:46 633ef13 **step: adjust tsconfig.json**
+- 2025-05-31 15:03 802aa10 **fix: types from bgord/node**
+- 2025-05-31 15:02 be0961f **refactor: switch from microbundle to tsc**
+- 2025-05-31 14:59 77cc4e8 **refactor: update typescript**
+## 2025-05-29 21:28 v0.4.0
+- 2025-05-29 21:28 c74e7d9 **0.4.0**
+- 2025-05-29 21:27 a8a9ac7 **step: update knip**
+- 2025-05-29 21:26 29d0a04 **step: bump bgord/node**
+- 2025-02-03 21:58 f02e40d **step: bump bgord/scripts**
+- 2024-11-23 15:45 0c88878 **refactor: rename tests**
 - 2024-11-23 15:44 aee80af **step: update packages**
+- 2024-11-23 15:44 39497fb **step: bump bgord/scripts**
 - 2024-11-23 15:03 e22e39a **Merge pull request #33 from bgord/dependabot/npm_and_yarn/commitlint/config-conventional-19.6.0**
+- 2024-11-23 14:44 563fc19 **docs: generate CHANGELOG**
 - 2024-11-23 14:04 a7e4bbc **Merge pull request #32 from bgord/dependabot/npm_and_yarn/commitlint/cli-19.6.0**
 - 2024-11-23 14:04 7241669 **docs: generate CHANGELOG**
 - 2024-11-23 14:04 1395476 **Merge pull request #31 from bgord/dependabot/npm_and_yarn/lefthook-1.8.4**
