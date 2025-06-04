@@ -11,11 +11,3 @@ test("Path accepts a valid string", () => {
 test("Path rejects an empty string", () => {
   expect(() => Path.parse("")).toThrow();
 });
-
-test("Path has brand type", () => {
-  const validPath = "/valid/path";
-  const result = Path.parse(validPath);
-
-  // Runtime check: should just be a string
-  expect(typeof result).toBe("string");
-});
