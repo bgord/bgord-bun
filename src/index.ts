@@ -24,6 +24,7 @@ export * from "./passwords";
 export * from "./path";
 export * from "./port";
 export * from "./prerequisites";
+export * from "./prerequisites/index";
 export * from "./rate-limit-shield";
 export * from "./session-id";
 export * from "./setup";
