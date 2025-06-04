@@ -18,7 +18,9 @@ export type I18nConfigType = {
 };
 
 export class I18n {
-  constructor(private translationsPath: PathType = Path.parse("infra/translations")) {}
+  static DEFAULT_TRANSLATIONS_PATH = Path.parse("infra/translations");
+
+  constructor(private translationsPath: PathType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
