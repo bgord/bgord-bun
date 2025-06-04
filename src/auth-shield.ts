@@ -4,19 +4,8 @@ import { HTTPException } from "hono/http-exception";
 import { Lucia } from "lucia";
 
 import { HashedPassword, Password, PasswordType } from "./passwords";
+import { SessionId } from "./session-id";
 import { IdType, Username } from "./username";
-
-class SessionId {
-  private value: string | null;
-
-  constructor(cookie: string | undefined, lucia: Lucia) {
-    this.value = lucia.readSessionCookie(cookie ?? "");
-  }
-
-  get(): SessionId["value"] {
-    return this.value;
-  }
-}
 
 type AuthShieldConfigType<T> = {
   Username: typeof Username;
