@@ -38,6 +38,7 @@
     "lucia": "3.2.2",
     "node-cache": "5.1.2",
     "sharp": "0.34.2",
+    "ssl-checker": "^2.0.10",
     "winston": "3.17.0"
   }
 }
