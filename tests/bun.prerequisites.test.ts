@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
@@ -11,6 +11,11 @@ import {
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
+
+beforeEach(() => {
+  console.log = jest.fn();
+});
+afterEach(() => jest.restoreAllMocks());
 
 describe("Prerequisites.check", () => {
   test("exits the process if at least one prerequisite fails", async () => {

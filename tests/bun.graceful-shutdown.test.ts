@@ -4,11 +4,10 @@ import { GracefulShutdown } from "../src/graceful-shutdown";
 beforeEach(() => {
   // @ts-expect-error
   process.exit = jest.fn();
+  console.log = jest.fn();
 });
 
-afterEach(() => {
-  jest.restoreAllMocks();
-});
+afterEach(() => jest.restoreAllMocks());
 
 test("gracefully shuts down on SIGINT", async () => {
   const stop = jest.fn();
