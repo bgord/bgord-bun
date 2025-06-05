@@ -6,12 +6,7 @@ import { timing } from "hono/timing";
 import { HttpLogger } from "../src/http-logger";
 import { Logger } from "../src/logger";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-
-const ip = {
-  server: {
-    requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }),
-  },
-};
+import * as testcases from "./testcases";
 
 describe("HttpLogger middleware", () => {
   test("logs correct 200 HTTP log", async () => {
@@ -28,7 +23,7 @@ describe("HttpLogger middleware", () => {
     app.use(timing());
     app.get("/ping", (c) => c.json({ message: "OK" }));
 
-    const result = await app.request("/ping", { method: "GET" }, ip);
+    const result = await app.request("/ping", { method: "GET" }, testcases.ip);
 
     expect(result.status).toEqual(200);
     expect(loggerHttpSpy).toHaveBeenCalledTimes(2);
@@ -82,7 +77,7 @@ describe("HttpLogger middleware", () => {
       return c.json({ message: "general.unknown" }, 500);
     });
 
-    const result = await app.request("/ping", { method: "GET" }, ip);
+    const result = await app.request("/ping", { method: "GET" }, testcases.ip);
 
     expect(result.status).toEqual(500);
     expect(loggerHttpSpy).toHaveBeenCalledTimes(2);
