@@ -1,6 +1,7 @@
 export * from "./binary";
 export * from "./bun";
 export * from "./jobs";
+export * from "./log-file";
 export * from "./mailer";
 export * from "./memory";
 export * from "./node";
