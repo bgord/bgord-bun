@@ -2,10 +2,7 @@ import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 import NodeCache from "node-cache";
 
-export enum CacheHitEnum {
-  hit = "hit",
-  miss = "miss",
-}
+import { CacheHitEnum } from "./cache-resolver";
 
 export class CacheResponse {
   static readonly CACHE_HIT_HEADER = "Cache-Hit";
