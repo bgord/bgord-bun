@@ -31,6 +31,9 @@ export type EmailSubjectType = z.infer<typeof EmailSubject>;
 export const EmailContentHtml = z.string().min(1).max(10_000);
 export type EmailContentHtmlType = z.infer<typeof EmailContentHtml>;
 
+export const EmailFrom = z.email();
+export type EmailFromType = z.infer<typeof EmailFrom>;
+
 export const EmailTo = z.email();
 export type EmailToType = z.infer<typeof EmailTo>;
 

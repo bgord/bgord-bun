@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import { EmailAttachment, EmailContentHtml, EmailSubject, EmailTo, Mailer } from "../src/mailer";
+import { EmailAttachment, EmailContentHtml, EmailFrom, EmailSubject, EmailTo, Mailer } from "../src/mailer";
 
 describe("Mailer class", () => {
   test("Mailer can be instantiated with valid configuration", () => {
@@ -90,6 +90,14 @@ describe("Email validators", () => {
   test("EmailContentHtml - too long", () => {
     const longContent = "a".repeat(10_001);
     expect(() => EmailContentHtml.parse(longContent)).toThrow();
+  });
+
+  test("EmailFrom - valid", () => {
+    expect(() => EmailFrom.parse("test@example.com")).not.toThrow();
+  });
+
+  test("EmailFrom - invalid", () => {
+    expect(() => EmailFrom.parse("not-an-email")).toThrow();
   });
 
   test("EmailTo - valid", () => {
