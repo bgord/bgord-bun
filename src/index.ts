@@ -27,7 +27,6 @@ export * from "./prerequisites/index";
 export * from "./rate-limit-shield";
 export * from "./session-id";
 export * from "./setup";
-export * from "./shell";
 export * from "./time-zone-offset";
 export * from "./uptime";
 export * from "./username";
