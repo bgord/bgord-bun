@@ -15,7 +15,7 @@ export class CacheResponse {
     if (this.cache.has(url)) {
       c.res.headers.set(CacheResponse.CACHE_HIT_HEADER, CacheHitEnum.hit);
 
-      // @ts-ignore
+      // @ts-expect-error
       return c.json(this.cache.get(url));
     }
 

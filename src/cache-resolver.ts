@@ -77,7 +77,7 @@ export class CacheResolver {
           respond: (c: Context) => {
             c.header("cache-hit", hit ? CacheHitEnum.hit : CacheHitEnum.miss);
 
-            // @ts-ignore
+            // @ts-expect-error
             return c.json(data);
           },
           header: {

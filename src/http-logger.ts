@@ -2,7 +2,8 @@ import { getConnInfo } from "hono/bun";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 
-import { CacheHitEnum, CacheResponse } from "./cache-response";
+import { CacheHitEnum } from "./cache-resolver";
+import { CacheResponse } from "./cache-response";
 import { CorrelationIdType } from "./correlation-id";
 import { Logger } from "./logger";
 

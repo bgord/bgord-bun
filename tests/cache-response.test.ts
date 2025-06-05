@@ -3,7 +3,8 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import NodeCache from "node-cache";
 
-import { CacheHitEnum, CacheResponse } from "../src/cache-response";
+import { CacheHitEnum } from "../src/cache-resolver";
+import { CacheResponse } from "../src/cache-response";
 
 const ResponseCache = new NodeCache();
 const cacheResponse = new CacheResponse(ResponseCache);
