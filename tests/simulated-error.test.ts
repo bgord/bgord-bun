@@ -6,9 +6,7 @@ describe("SimulatedError", () => {
   test("responds with Cache-Hit: miss on first uncached request", async () => {
     const app = new Hono();
 
-    app.get("/simulated-error", SimulatedError.handle, (_c) =>
-      expect.unreachable(),
-    );
+    app.get("/simulated-error", SimulatedError.handle, (_c) => expect.unreachable());
 
     await app.request("/simulated-error");
   });
