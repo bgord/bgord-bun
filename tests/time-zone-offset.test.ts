@@ -61,4 +61,8 @@ describe("TimeZoneOffset middleware", () => {
       miliseconds: 0,
     });
   });
+
+  test("adjustTimestamp", async () => {
+    expect(TimeZoneOffset.adjustTimestamp(1_000_000, 100_000)).toEqual(900_000);
+  });
 });
