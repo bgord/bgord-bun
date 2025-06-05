@@ -24,16 +24,11 @@ mock.module("winston", async () => {
   };
 });
 
-const baseOptions = {
-  app: "test-app",
-  environment: NodeEnvironmentEnum.local,
-};
-
 describe("Logger", () => {
   beforeEach(() => jest.clearAllMocks());
 
   it("creates a logger with default level 'verbose'", () => {
-    new Logger(baseOptions);
+    new Logger({ app: "test-app", environment: NodeEnvironmentEnum.local });
 
     expect(winston.createLogger).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -45,7 +40,11 @@ describe("Logger", () => {
   });
 
   it("creates a logger with specified level", () => {
-    new Logger({ ...baseOptions, level: LogLevelEnum.warn });
+    new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.warn,
+    });
 
     expect(winston.createLogger).toHaveBeenCalledWith(expect.objectContaining({ level: LogLevelEnum.warn }));
   });
@@ -61,14 +60,17 @@ describe("Logger", () => {
   });
 
   it("does not add file transport outside production", () => {
-    new Logger(baseOptions);
+    new Logger({ app: "test-app", environment: NodeEnvironmentEnum.local });
 
     const instance = (winston.createLogger as any).mock.results[0].value;
     expect(instance.add).not.toHaveBeenCalled();
   });
 
   it("logs info message", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+    });
     const instance = (winston.createLogger as any).mock.results[0].value;
 
     const logData = { message: "Info log", operation: "op" };
@@ -78,7 +80,10 @@ describe("Logger", () => {
   });
 
   it("logs warn message", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+    });
     const instance = (winston.createLogger as any).mock.results[0].value;
 
     const logData = { message: "Warning log", operation: "op" };
@@ -88,7 +93,10 @@ describe("Logger", () => {
   });
 
   it("logs error message", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+    });
     const instance = (winston.createLogger as any).mock.results[0].value;
 
     const logData = { message: "Error log", operation: "op" };
@@ -98,7 +106,10 @@ describe("Logger", () => {
   });
 
   it("logs http message", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+    });
     const instance = (winston.createLogger as any).mock.results[0].value;
 
     const logData = {
@@ -114,7 +125,10 @@ describe("Logger", () => {
   });
 
   it("formats an error object correctly", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+    });
 
     const error = new Error("Test error");
     const formatted = logger.formatError(error);
@@ -127,7 +141,10 @@ describe("Logger", () => {
   });
 
   it("formats non-error objects as empty error", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+    });
     const formatted = logger.formatError("not an error");
 
     expect(formatted).toEqual({
@@ -140,10 +157,11 @@ describe("Logger", () => {
   });
 
   it("getProductionLogFilePath", () => {
-    const logger = new Logger(baseOptions);
+    const logger = new Logger({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.production,
+    });
 
-    expect(logger.getProductionLogFilePath()).toEqual(
-      `/var/log/${baseOptions.app}-${baseOptions.environment}.log`,
-    );
+    expect(logger.getProductionLogFilePath()).toEqual("/var/log/test-app-production.log");
   });
 });
