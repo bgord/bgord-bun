@@ -138,4 +138,12 @@ describe("Logger", () => {
       stack: undefined,
     });
   });
+
+  it("getProductionLogFilePath", () => {
+    const logger = new Logger(baseOptions);
+
+    expect(logger.getProductionLogFilePath()).toEqual(
+      `/var/log/${baseOptions.app}-${baseOptions.environment}.log`,
+    );
+  });
 });

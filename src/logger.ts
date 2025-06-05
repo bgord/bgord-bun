@@ -4,6 +4,7 @@ import { z } from "zod/v4";
 
 import { CorrelationIdType } from "./correlation-id";
 import { NodeEnvironmentEnum } from "./node-env.vo";
+import { PathType } from "./path";
 
 export enum LogLevelEnum {
   /** @public */
@@ -104,7 +105,7 @@ export class Logger {
     if (this.environment === NodeEnvironmentEnum.production) {
       this.instance.add(
         new winston.transports.File({
-          filename: `/var/log/${this.app}-${this.environment}.log`,
+          filename: this.getProductionLogFilePath(),
           maxsize: tools.Size.toBytes({ unit: tools.SizeUnit.MB, value: 100 }),
         }),
       );
@@ -137,6 +138,10 @@ export class Logger {
 
   http(log: LogHttpType) {
     this.instance.http({ level: LogLevelEnum.http, ...this.getBase(), ...log });
+  }
+
+  getProductionLogFilePath(): PathType {
+    return `/var/log/${this.app}-${this.environment}.log`;
   }
 
   formatError(_error: unknown) {
