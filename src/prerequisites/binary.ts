@@ -1,4 +1,4 @@
-import { $ } from "bun";
+import bun from "bun";
 import { z } from "zod/v4";
 
 import {
@@ -34,7 +34,7 @@ export class PrerequisiteBinary extends AbstractPrerequisite<PrerequisiteBinaryC
     try {
       const binary = PrerequisiteBinaryValue.parse(this.config.binary);
 
-      const result = await $`which ${binary}`;
+      const result = await bun.$`which ${binary}`;
 
       return result.exitCode === 0 ? this.pass() : this.reject();
     } catch (error) {
