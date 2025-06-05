@@ -30,6 +30,7 @@ export * from "./prerequisites/index";
 export * from "./rate-limit-shield";
 export * from "./session-id";
 export * from "./setup";
+export * from "./simulated-error";
 export * from "./slower";
 export * from "./time-zone-offset";
 export * from "./uptime";

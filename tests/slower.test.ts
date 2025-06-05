@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { Slower } from "../src/slower";
 
-describe("CacheResponse", () => {
+describe("Slower", () => {
   test("responds with Cache-Hit: miss on first uncached request", async () => {
     const time = tools.Time.Seconds(3);
 
