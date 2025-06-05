@@ -14,6 +14,8 @@ type PrerequisiteTimezoneUtcConfigType = {
   enabled?: boolean;
 };
 
+export const TimezoneUtc = z.literal("UTC");
+
 export class PrerequisiteTimezoneUTC extends AbstractPrerequisite<PrerequisiteTimezoneUtcConfigType> {
   readonly strategy = PrerequisiteStrategyEnum.timezoneUTC;
 
@@ -25,7 +27,7 @@ export class PrerequisiteTimezoneUTC extends AbstractPrerequisite<PrerequisiteTi
     if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
 
     try {
-      z.literal("UTC").parse(this.config.timezone);
+      TimezoneUtc.parse(this.config.timezone);
       return this.pass();
     } catch (error) {
       return this.reject();
