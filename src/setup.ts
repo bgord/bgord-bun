@@ -31,7 +31,7 @@ export class Setup {
         supportedLanguages: Object.keys(i18n.supportedLanguages),
         fallbackLanguage: i18n.defaultLanguage,
       }),
-      requestId(),
+      requestId({ limitLength: 36 }),
       TimeZoneOffset.attach,
       Context.attach,
       WeakETagExtractor.attach,
