@@ -31,7 +31,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@bgord/tools": "0.5.0",
+    "@bgord/tools": "0.6.0",
     "check-disk-space": "3.4.0",
     "croner": "9.0.0",
     "hono": "4.7.11",
