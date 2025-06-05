@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import bun from "bun";
 
 import {
   AbstractPrerequisite,
@@ -6,7 +7,6 @@ import {
   PrerequisiteStatusEnum,
   PrerequisiteStrategyEnum,
 } from "../prerequisites";
-import { shell } from "../shell";
 
 type PrerequisiteNodeConfigType = {
   version: tools.PackageVersion;
@@ -24,7 +24,7 @@ export class PrerequisiteNode extends AbstractPrerequisite<PrerequisiteNodeConfi
   async verify(): Promise<PrerequisiteStatusEnum> {
     if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
 
-    const { stdout } = await shell`node -v`;
+    const { stdout } = await bun.$`node -v`;
     const version = stdout.toString().trim();
     const current = tools.PackageVersion.fromStringWithV(version);
 

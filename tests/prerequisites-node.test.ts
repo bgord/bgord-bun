@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as shell from "../src/shell";
+import bun from "bun";
 
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteNode } from "../src/prerequisites/node";
@@ -8,7 +8,7 @@ import { PrerequisiteNode } from "../src/prerequisites/node";
 describe("PrerequisiteNode", () => {
   test("passes if current Node.js version is sufficient", async () => {
     // @ts-expect-error
-    const shellSpy = spyOn(shell, "shell").mockResolvedValue({
+    const spy = spyOn(bun, "$").mockResolvedValue({
       stdout: Buffer.from("v20.10.0"),
     });
 
@@ -20,12 +20,12 @@ describe("PrerequisiteNode", () => {
     const result = await node.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
 
-    shellSpy.mockRestore();
+    spy.mockRestore();
   });
 
   test("fails if current Node.js version is too low", async () => {
     // @ts-expect-error
-    const shellSpy = spyOn(shell, "shell").mockResolvedValue({
+    const spy = spyOn(bun, "$").mockResolvedValue({
       stdout: Buffer.from("v16.10.0"),
     });
 
@@ -37,7 +37,7 @@ describe("PrerequisiteNode", () => {
     const result = await node.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
 
-    shellSpy.mockRestore();
+    spy.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {
