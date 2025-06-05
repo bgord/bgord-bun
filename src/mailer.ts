@@ -1,6 +1,7 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
 import { z } from "zod/v4";
 
+import { Path } from "./path";
 import { Port } from "./port";
 
 export const SmtpHost = z.string().trim().min(1);
@@ -23,6 +24,18 @@ type MailerConfigType = {
 };
 
 type MailerSendOptionsType = SendMailOptions;
+
+export const EmailSubject = z.string().min(1).max(128);
+export type EmailSubjectType = z.infer<typeof EmailSubject>;
+
+export const EmailContentHtml = z.string().min(1).max(10_000);
+export type EmailContentHtmlType = z.infer<typeof EmailContentHtml>;
+
+export const EmailTo = z.email();
+export type EmailToType = z.infer<typeof EmailTo>;
+
+export const EmailAttachment = z.object({ filename: Path, path: Path });
+export type EmailAttachmentType = z.infer<typeof EmailAttachment>;
 
 export class Mailer {
   private readonly transport: nodemailer.Transporter;
