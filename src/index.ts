@@ -1,6 +1,7 @@
 export * from "./api-key-shield";
 export * from "./api-version";
 export * from "./auth-shield";
+export * from "./basic-auth";
 export * from "./build-info-repository";
 export * from "./cache-resolver";
 export * from "./cache-response";
