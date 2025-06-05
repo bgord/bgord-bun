@@ -1,4 +1,32 @@
 # Changelog
+## 2025-06-05 20:53 v0.7.0
+- 2025-06-05 20:53 001d686 **0.7.0**
+- 2025-06-05 20:51 e448e99 **step: test env validator**
+- 2025-06-05 20:51 67aa680 **refactor: remove quiet option**
+- 2025-06-05 20:39 0737670 **step: define env validator**
+- 2025-06-05 20:36 dd6447a **step: test basic auth**
+- 2025-06-05 20:35 b637342 **refactor: define basic auth validators**
+- 2025-06-05 20:33 7ec5a64 **refactor: export timezone utc**
+- 2025-06-05 20:31 f8c715f **step: add email from schema**
+- 2025-06-05 20:17 34fea63 **step: test email related validators**
+- 2025-06-05 20:16 17bd2c8 **step: define email related validators**
+## 2025-06-05 20:05 v0.6.0
+- 2025-06-05 20:05 9cdf73a **0.6.0**
+- 2025-06-05 20:03 2f93d13 **step: bump bgord/tools**
+- 2025-06-05 20:02 cd5552a **refactor: remove infra keepme**
+- 2025-06-05 19:55 714975a **step: test cache resolver**
+- 2025-06-05 19:51 c651c57 **step: add cache resolver**
+- 2025-06-05 15:47 ae35b58 **step: test time zone offset adjustTimestamp**
+- 2025-06-05 15:47 87fc48e **step: update knip**
+- 2025-06-05 15:43 a8b99bd **step: test log file prereq**
+- 2025-06-05 15:32 214cf0f **feature: define log file prereq**
+- 2025-06-05 15:26 52369e5 **step: add logger.getProductionLogFilePath**
+- 2025-06-05 15:24 9d2b8a6 **step: add logger.getProductionLogFilePath**
+- 2025-06-05 13:10 83eb2cd **step: setup coverage config**
+- 2025-06-05 13:06 b4f5cec **refactor: improve node prereqs**
+- 2025-06-05 13:06 9c8765a **refactor: improve prereq binary tests**
+- 2025-06-05 13:05 745eb9b **refactor: remove shell helper**
+- 2025-06-05 01:25 9cfecfb **refactor: remove image processor**
 - 2025-06-05 00:59 6325ade **refactor: rename test files**
 - 2025-06-05 00:55 cd09194 **step: bump bgord/scripts**
 - 2025-06-05 00:51 e3bb906 **refactor: remove brand types**
@@ -18,6 +46,7 @@
 - 2025-06-04 23:25 5325cd2 **step: test session id**
 - 2025-06-04 23:21 2e61db7 **step: extract session id**
 - 2025-06-04 23:14 a63aca1 **step: test healthcheck**
+- 2025-06-04 23:04 5fabff2 **docs: generate CHANGELOG**
 - 2025-06-04 22:55 2dcac26 **docs: generate CHANGELOG**
 - 2025-06-04 22:52 d11d34c **docs: generate CHANGELOG**
 - 2025-06-04 22:49 6c3a49b **docs: generate CHANGELOG**
