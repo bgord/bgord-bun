@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import { Mailer } from "../src/mailer";
+import { EmailAttachment, EmailContentHtml, EmailSubject, EmailTo, Mailer } from "../src/mailer";
 
 describe("Mailer class", () => {
   test("Mailer can be instantiated with valid configuration", () => {
@@ -62,5 +62,53 @@ describe("Mailer class", () => {
 
     expect(verify).toHaveBeenCalled();
     spy.mockRestore();
+  });
+});
+
+describe("Email validators", () => {
+  test("EmailSubject - valid", () => {
+    expect(() => EmailSubject.parse("Welcome to our newsletter")).not.toThrow();
+  });
+
+  test("EmailSubject - too short", () => {
+    expect(() => EmailSubject.parse("")).toThrow();
+  });
+
+  test("EmailSubject - too long", () => {
+    const longSubject = "a".repeat(129);
+    expect(() => EmailSubject.parse(longSubject)).toThrow();
+  });
+
+  test("EmailContentHtml - valid", () => {
+    expect(() => EmailContentHtml.parse("<p>Hello, world!</p>")).not.toThrow();
+  });
+
+  test("EmailContentHtml - empty", () => {
+    expect(() => EmailContentHtml.parse("")).toThrow();
+  });
+
+  test("EmailContentHtml - too long", () => {
+    const longContent = "a".repeat(10_001);
+    expect(() => EmailContentHtml.parse(longContent)).toThrow();
+  });
+
+  test("EmailTo - valid", () => {
+    expect(() => EmailTo.parse("test@example.com")).not.toThrow();
+  });
+
+  test("EmailTo - invalid", () => {
+    expect(() => EmailTo.parse("not-an-email")).toThrow();
+  });
+
+  test("EmailAttachment - valid", () => {
+    expect(() => EmailAttachment.parse({ filename: "file.pdf", path: "/tmp/file.pdf" })).not.toThrow();
+  });
+
+  test("EmailAttachment - missing filename", () => {
+    expect(() => EmailAttachment.parse({ path: "/tmp/file.pdf" })).toThrow();
+  });
+
+  test("EmailAttachment - empty path", () => {
+    expect(() => EmailAttachment.parse({ filename: "file.pdf", path: "" })).toThrow();
   });
 });
