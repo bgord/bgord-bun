@@ -5,25 +5,21 @@ import { NodeEnvironment } from "../src/node-env.vo";
 type NodeEnvironmentEnumType = z.infer<typeof NodeEnvironment>;
 
 type AnyZodSchema = z.ZodSchema<any, any>;
-type QuietType = boolean;
 type QuitType = boolean;
 
 type EnvironmentValidatorConfig = {
   type: unknown;
   schema: AnyZodSchema;
-  quiet?: QuietType;
   quit?: QuitType;
 };
 
 export class EnvironmentValidator<SchemaType> {
   type: NodeEnvironmentEnumType;
   schema: z.Schema<SchemaType>;
-  quiet: QuietType;
   quit: QuitType;
 
   constructor(config: EnvironmentValidatorConfig) {
     this.schema = config.schema;
-    this.quiet = config?.quiet ?? false;
     this.quit = config?.quit ?? true;
 
     const result = NodeEnvironment.safeParse(config.type);
