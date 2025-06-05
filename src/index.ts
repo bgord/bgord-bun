@@ -13,6 +13,7 @@ export * from "./env-validator";
 export * from "./etag-extractor";
 export * from "./file-uploader";
 export * from "./graceful-shutdown";
+export * from "./gzip";
 export * from "./healthcheck";
 export * from "./http-logger";
 export * from "./i18n";
