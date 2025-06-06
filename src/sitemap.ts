@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { Path, PathType } from "./path";
+import { PathType } from "./path";
 import { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash";
 
 export const SitemapLoc = z.string().min(1);
@@ -57,9 +57,9 @@ export type SitemapConfigType = {
 };
 
 export class Sitemap {
-  static DEFAULT_PATH = Path.parse("static/sitemap.xml");
+  static DEFAULT_PATH = "static/sitemap.xml";
 
-  private static generate(config: SitemapConfigType) {
+  static generate(config: SitemapConfigType) {
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     sitemap += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
