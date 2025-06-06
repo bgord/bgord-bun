@@ -17,7 +17,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true,
-    "incremental": true
+    "incremental": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false
   },
   "include": ["src"],
   "exclude": ["tests", "bgord-scripts", "vite.config.ts"]
