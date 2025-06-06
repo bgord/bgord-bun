@@ -18,6 +18,7 @@ export enum PrerequisiteStrategyEnum {
   sslCertificateExpiry = "sslCertificateExpiry",
   logFile = "logFile",
   dependencyVulnerabilities = "dependencyVulnerabilities",
+  externalApi = "externalApi",
   /** @public */
   custom = "custom",
 }
