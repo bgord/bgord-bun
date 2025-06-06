@@ -1,11 +1,11 @@
 import { expect, test } from "bun:test";
-import { join } from "node:path";
+import path from "node:path";
 
 import { Gzip } from "../src/gzip";
 
-const inputFilePath = join(__dirname, "test-input.txt");
-const compressedFilePath = join(__dirname, "test-compressed.gz");
-const decompressedFilePath = join(__dirname, "test-decompressed.txt");
+const inputFilePath = path.join(__dirname, "test-input.txt");
+const compressedFilePath = path.join(__dirname, "test-compressed.gz");
+const decompressedFilePath = path.join(__dirname, "test-decompressed.txt");
 
 async function checkFileContent(filePath: string, expectedContent: string) {
   const content = await Bun.file(filePath).text();
