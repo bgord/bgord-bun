@@ -17,6 +17,7 @@ export enum PrerequisiteStrategyEnum {
   outsideConnectivity = "outsideConnectivity",
   sslCertificateExpiry = "sslCertificateExpiry",
   logFile = "logFile",
+  dependencyVulnerabilities = "dependencyVulnerabilities",
   /** @public */
   custom = "custom",
 }

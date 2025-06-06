@@ -45,8 +45,7 @@ describe("gzip", () => {
   });
 
   test("Gzip.compress and Gzip.uncompress work together", async () => {
-    const originalContent =
-      "This is the original content to compress and decompress!";
+    const originalContent = "This is the original content to compress and decompress!";
     await Bun.file(inputFilePath).write(originalContent);
 
     await Gzip.compress({
