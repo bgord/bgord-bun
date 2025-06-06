@@ -7,7 +7,7 @@ import { BuildInfoRepository } from "../src/build-info-repository";
 
 describe("ApiVersion middleware", () => {
   test("sets API version in header with known build version", async () => {
-    const spy = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
+    const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE: 123,
       BUILD_VERSION: tools.BuildVersion.parse("1.0.0"),
     });
@@ -18,13 +18,14 @@ describe("ApiVersion middleware", () => {
 
     const result = await app.request("/ping", { method: "GET" });
     expect(result.status).toEqual(200);
-    expect(spy).toBeCalledTimes(1);
+    expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
     expect(result.headers.get(ApiVersion.HEADER_NAME)).toEqual("1.0.0");
-    spy.mockRestore();
+
+    buildInfoRepositoryExtract.mockRestore();
   });
 
   test("sets default API version in header with unknown build version", async () => {
-    const spy = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
+    const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE: 123,
       BUILD_VERSION: tools.BuildVersion.parse("unknown"),
     });
@@ -35,8 +36,9 @@ describe("ApiVersion middleware", () => {
 
     const result = await app.request("/ping", { method: "GET" });
     expect(result.status).toEqual(200);
-    expect(spy).toBeCalledTimes(1);
+    expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
     expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(ApiVersion.DEFAULT_API_VERSION);
-    spy.mockRestore();
+
+    buildInfoRepositoryExtract.mockRestore();
   });
 });
