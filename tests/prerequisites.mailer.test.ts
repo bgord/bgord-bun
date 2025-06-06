@@ -3,12 +3,10 @@ import { expect, jest, spyOn, test } from "bun:test";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteMailer } from "../src/prerequisites/mailer";
 
-const mockMailer = {
-  verify: jest.fn(),
-};
+const mockMailer = { verify: jest.fn() };
 
 test("passes if mailer.verify succeeds", async () => {
-  const mailerVerifySpy = spyOn(mockMailer, "verify").mockResolvedValue(() => Promise.resolve());
+  const mailerVerify = spyOn(mockMailer, "verify").mockResolvedValue(() => Promise.resolve());
 
   const prerequisite = new PrerequisiteMailer({
     label: "MAILER" as const,
@@ -20,11 +18,11 @@ test("passes if mailer.verify succeeds", async () => {
   expect(result).toBe(PrerequisiteStatusEnum.success);
   expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
 
-  mailerVerifySpy.mockRestore();
+  mailerVerify.mockRestore();
 });
 
 test("fails if mailer.verify throws", async () => {
-  const mailerVerifySpy = spyOn(mockMailer, "verify").mockRejectedValue(() => {
+  const mailerVerify = spyOn(mockMailer, "verify").mockRejectedValue(() => {
     throw new Error("SMTP error");
   });
 
@@ -38,7 +36,7 @@ test("fails if mailer.verify throws", async () => {
   expect(result).toBe(PrerequisiteStatusEnum.failure);
   expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
 
-  mailerVerifySpy.mockRestore();
+  mailerVerify.mockRestore();
 });
 
 test("returns undetermined if disabled", async () => {

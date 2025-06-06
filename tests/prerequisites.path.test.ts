@@ -8,7 +8,7 @@ const DUMMY_PATH = "/mocked/path";
 
 describe("prerequisites - path", () => {
   test("returns success if path is accessible with required flags", async () => {
-    const accessSpy = spyOn(fsp, "access").mockResolvedValue();
+    const fspAccess = spyOn(fsp, "access").mockResolvedValue();
 
     const prerequisite = new PrerequisitePath({
       label: "Test Path",
@@ -19,11 +19,11 @@ describe("prerequisites - path", () => {
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
 
-    accessSpy.mockRestore();
+    fspAccess.mockRestore();
   });
 
   test("returns failure if access throws error", async () => {
-    const accessSpy = spyOn(fsp, "access").mockRejectedValue(() => {
+    const fspAccess = spyOn(fsp, "access").mockRejectedValue(() => {
       throw new Error("No access");
     });
 
@@ -36,7 +36,7 @@ describe("prerequisites - path", () => {
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
 
-    accessSpy.mockRestore();
+    fspAccess.mockRestore();
   });
 
   test("returns undetermined if prerequisite is disabled", async () => {

@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test, jest } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";

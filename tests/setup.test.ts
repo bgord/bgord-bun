@@ -18,7 +18,7 @@ describe("Setup", () => {
       environment: NodeEnvironmentEnum.local,
     });
 
-    const loggerSpy = spyOn(logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const i18n: I18nConfigType = {
       supportedLanguages: { pl: "pl", en: "en" },
@@ -78,6 +78,6 @@ describe("Setup", () => {
       weakEtag: null,
     });
 
-    loggerSpy.mockRestore();
+    loggerHttp.mockRestore();
   });
 });

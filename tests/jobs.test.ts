@@ -18,6 +18,7 @@ describe("JobHandler", () => {
       stop: jest.fn(),
     }));
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+
     const jobHandler = new JobHandler(logger);
 
     const job = jobHandler.handle({
@@ -42,7 +43,6 @@ describe("JobHandler", () => {
       isRunning: jest.fn().mockReturnValue(false),
       stop: jest.fn(),
     }));
-
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
     const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
 
@@ -60,7 +60,6 @@ describe("JobHandler", () => {
 
     loggerInfoSpy.mockRestore();
     loggerErrorSpy.mockRestore();
-
     cronerSpy.mockRestore();
   });
 

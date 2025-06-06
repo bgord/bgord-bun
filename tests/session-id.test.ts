@@ -9,32 +9,38 @@ const luciaStub = {
 
 describe("SessionId", () => {
   test("returns session ID if cookie is valid", () => {
-    const spy = spyOn(luciaStub, "readSessionCookie");
+    const luciaReadSessionCookie = spyOn(luciaStub, "readSessionCookie");
 
     const session = new SessionId("valid", luciaStub);
     const result = session.get();
 
     expect(result).toBe("session_123");
-    expect(spy).toHaveBeenCalledWith("valid");
+    expect(luciaReadSessionCookie).toHaveBeenCalledWith("valid");
+
+    luciaReadSessionCookie.mockRestore();
   });
 
   test("returns null if cookie is missing", () => {
-    const spy = spyOn(luciaStub, "readSessionCookie");
+    const luciaReadSessionCookie = spyOn(luciaStub, "readSessionCookie");
 
     const session = new SessionId(undefined, luciaStub);
     const result = session.get();
 
     expect(result).toBe(null);
-    expect(spy).toHaveBeenCalledWith("");
+    expect(luciaReadSessionCookie).toHaveBeenCalledWith("");
+
+    luciaReadSessionCookie.mockRestore();
   });
 
   test("returns null if cookie is invalid", () => {
-    const spy = spyOn(luciaStub, "readSessionCookie");
+    const luciaReadSessionCookie = spyOn(luciaStub, "readSessionCookie");
 
     const session = new SessionId("invalid", luciaStub);
     const result = session.get();
 
     expect(result).toBe(null);
-    expect(spy).toHaveBeenCalledWith("invalid");
+    expect(luciaReadSessionCookie).toHaveBeenCalledWith("invalid");
+
+    luciaReadSessionCookie.mockRestore();
   });
 });

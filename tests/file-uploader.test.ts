@@ -2,11 +2,7 @@ import { expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import {
-  FileTooBigError,
-  FileUploader,
-  InvalidFileMimeTypeError,
-} from "../src/file-uploader";
+import { FileTooBigError, FileUploader, InvalidFileMimeTypeError } from "../src/file-uploader";
 
 const boundary = "----bun-test-boundary";
 
@@ -91,9 +87,7 @@ test("rejects file too big", async () => {
     unit: tools.SizeUnit.b,
   }).toBytes();
 
-  app.use(
-    ...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize }),
-  );
+  app.use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize }));
 
   app.post("/uploader", (c) => c.text("uploaded"));
 

@@ -7,7 +7,7 @@ import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
 describe("PrerequisiteRAM class", () => {
   test("verify method returns success for valid RAM", async () => {
-    const spy = spyOn(os, "freemem").mockReturnValue(
+    const osFreemem = spyOn(os, "freemem").mockReturnValue(
       new tools.Size({ unit: tools.SizeUnit.GB, value: 1 }).toBytes(),
     );
 
@@ -18,11 +18,11 @@ describe("PrerequisiteRAM class", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.success);
 
-    spy.mockRestore();
+    osFreemem.mockRestore();
   });
 
   test("verify method returns failure for insufficient RAM", async () => {
-    const spy = spyOn(os, "freemem").mockReturnValue(
+    const osFreemem = spyOn(os, "freemem").mockReturnValue(
       new tools.Size({ value: 256, unit: tools.SizeUnit.MB }).toBytes(),
     );
 
@@ -33,6 +33,6 @@ describe("PrerequisiteRAM class", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
 
-    spy.mockRestore();
+    osFreemem.mockRestore();
   });
 });

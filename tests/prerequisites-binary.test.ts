@@ -9,7 +9,7 @@ describe("prerequisites - binary", () => {
 
   test("returns success if binary is found", async () => {
     // @ts-expect-error
-    const spy = spyOn(bun, "$").mockResolvedValue({ exitCode: 0 });
+    const bunShell = spyOn(bun, "$").mockResolvedValue({ exitCode: 0 });
 
     const prerequisite = new PrerequisiteBinary({
       label: "Node.js",
@@ -21,12 +21,12 @@ describe("prerequisites - binary", () => {
     expect(result).toBe(PrerequisiteStatusEnum.success);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
 
-    spy.mockRestore();
+    bunShell.mockRestore();
   });
 
   test("returns failure if binary is not found", async () => {
     // @ts-expect-error
-    const spy = spyOn(bun, "$").mockResolvedValue({ exitCode: 1 });
+    const bunShell = spyOn(bun, "$").mockResolvedValue({ exitCode: 1 });
 
     const prerequisite = new PrerequisiteBinary({
       label: "FakeBinary",
@@ -38,7 +38,7 @@ describe("prerequisites - binary", () => {
     expect(result).toBe(PrerequisiteStatusEnum.failure);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
 
-    spy.mockRestore();
+    bunShell.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {

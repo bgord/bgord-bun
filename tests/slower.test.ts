@@ -8,7 +8,7 @@ describe("Slower", () => {
   test("responds with Cache-Hit: miss on first uncached request", async () => {
     const time = tools.Time.Seconds(3);
 
-    const bunSleepSpy = spyOn(Bun, "sleep").mockResolvedValue();
+    const bunSleep = spyOn(Bun, "sleep").mockResolvedValue();
 
     const app = new Hono();
 
@@ -16,8 +16,8 @@ describe("Slower", () => {
 
     const response = await app.request("/slower");
     expect(await response.text()).toEqual("OK");
-    expect(bunSleepSpy).toHaveBeenCalledWith(time.ms);
+    expect(bunSleep).toHaveBeenCalledWith(time.ms);
 
-    bunSleepSpy.mockRestore();
+    bunSleep.mockRestore();
   });
 });

@@ -13,7 +13,7 @@ describe("PrerequisiteLogFile", () => {
 
   test("returns success when log file exists", async () => {
     // @ts-expect-error
-    const existsSpy = spyOn(Bun, "file").mockReturnValue({
+    const bunFileExists = spyOn(Bun, "file").mockReturnValue({
       exists: async () => true,
     });
 
@@ -26,12 +26,12 @@ describe("PrerequisiteLogFile", () => {
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
 
-    existsSpy.mockRestore();
+    bunFileExists.mockRestore();
   });
 
   test("returns failure when log file does not exist", async () => {
     // @ts-expect-error
-    const existsSpy = spyOn(Bun, "file").mockReturnValue({
+    const bunFileExists = spyOn(Bun, "file").mockReturnValue({
       exists: async () => false,
     });
 
@@ -44,7 +44,7 @@ describe("PrerequisiteLogFile", () => {
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
 
-    existsSpy.mockRestore();
+    bunFileExists.mockRestore();
   });
 
   test("returns undetermined when disabled", async () => {
@@ -60,7 +60,7 @@ describe("PrerequisiteLogFile", () => {
 
   test("returns failure on exception", async () => {
     // @ts-expect-error
-    const existsSpy = spyOn(Bun, "file").mockReturnValue({
+    const bunFileExists = spyOn(Bun, "file").mockReturnValue({
       exists: async () => {
         throw new Error("Mock error");
       },
@@ -75,6 +75,6 @@ describe("PrerequisiteLogFile", () => {
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
 
-    existsSpy.mockRestore();
+    bunFileExists.mockRestore();
   });
 });

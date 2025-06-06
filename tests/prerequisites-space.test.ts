@@ -7,7 +7,7 @@ import { PrerequisiteSpace } from "../src/prerequisites/space";
 
 describe("PrerequisiteSpace", () => {
   test("passes when enough space is available", async () => {
-    const checkDiskSpaceMock = spyOn(checkDiskSpace, "default").mockResolvedValue({
+    const checkDiskSpaceDefault = spyOn(checkDiskSpace, "default").mockResolvedValue({
       diskPath: "",
       size: 0,
       free: new tools.Size({ value: 100, unit: tools.SizeUnit.MB }).toBytes(),
@@ -23,11 +23,11 @@ describe("PrerequisiteSpace", () => {
     expect(result).toBe(PrerequisiteStatusEnum.success);
     expect(space.status).toBe(PrerequisiteStatusEnum.success);
 
-    checkDiskSpaceMock.mockRestore();
+    checkDiskSpaceDefault.mockRestore();
   });
 
   test("fails when not enough space is available", async () => {
-    const checkDiskSpaceMock = spyOn(checkDiskSpace, "default").mockResolvedValue({
+    const checkDiskSpaceDefault = spyOn(checkDiskSpace, "default").mockResolvedValue({
       diskPath: "",
       size: 0,
       free: new tools.Size({ value: 10, unit: tools.SizeUnit.MB }).toBytes(),
@@ -43,7 +43,7 @@ describe("PrerequisiteSpace", () => {
     expect(result).toBe(PrerequisiteStatusEnum.failure);
     expect(space.status).toBe(PrerequisiteStatusEnum.failure);
 
-    checkDiskSpaceMock.mockRestore();
+    checkDiskSpaceDefault.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {

@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test, jest } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 
@@ -80,9 +80,7 @@ describe("I18n.getTranslationPathForLanguage", () => {
   });
 
   test("uses custom translation path if provided", () => {
-    const path = new I18n(
-      Path.parse("custom/path"),
-    ).getTranslationPathForLanguage("pl");
+    const path = new I18n(Path.parse("custom/path")).getTranslationPathForLanguage("pl");
     expect(path.endsWith("custom/path/pl.json")).toBe(true);
   });
 });
@@ -101,16 +99,16 @@ describe("I18n.useTranslations", () => {
   });
 
   test("returns key if translation is missing", () => {
-    const consoleSpy = spyOn(console, "warn").mockImplementation(jest.fn());
+    const consoleWarn = spyOn(console, "warn").mockImplementation(jest.fn());
     expect(t("nonexistent")).toBe("nonexistent");
-    consoleSpy.mockRestore();
+    consoleWarn.mockRestore();
   });
 });
 
 describe("I18n.getTranslations", () => {
   test("reads and parses translation file", async () => {
     // @ts-expect-error
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue({
+    const bunFileJson = spyOn(Bun, "file").mockReturnValue({
       json: async () => ({ hello: "Hello" }),
     });
 
@@ -118,17 +116,17 @@ describe("I18n.getTranslations", () => {
     expect(result).toEqual({ hello: "Hello" });
     expect(Bun.file).toHaveBeenCalledWith(expect.stringContaining("en.json"));
 
-    bunFileSpy.mockRestore();
+    bunFileJson.mockRestore();
   });
 
   test("returns empty object on error", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockImplementationOnce(() => {
+    const bunFile = spyOn(Bun, "file").mockImplementationOnce(() => {
       throw new Error("fail");
     });
 
     const result = await new I18n().getTranslations("en");
     expect(result).toEqual({});
 
-    bunFileSpy.mockRestore();
+    bunFile.mockRestore();
   });
 });

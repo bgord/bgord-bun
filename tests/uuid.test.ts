@@ -17,12 +17,13 @@ describe("UUID schema", () => {
 
   test("uses NewUUID.generate() as default", () => {
     const fakeUUID = "11111111-2222-3333-4444-555555555555";
-    const spy = spyOn(NewUUIDModule.NewUUID, "generate").mockReturnValue(fakeUUID);
+
+    const newUUIDGenerate = spyOn(NewUUIDModule.NewUUID, "generate").mockReturnValue(fakeUUID);
 
     const parsed = UUID.parse(undefined);
     expect(parsed).toBe(fakeUUID);
-    expect(spy).toHaveBeenCalled();
+    expect(newUUIDGenerate).toHaveBeenCalled();
 
-    spy.mockRestore();
+    newUUIDGenerate.mockRestore();
   });
 });

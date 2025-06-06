@@ -12,10 +12,11 @@ test("NewUUID.generate returns a valid UUID", () => {
 });
 
 test("NewUUID.generate calls crypto.randomUUID", () => {
-  const s = spyOn(crypto, "randomUUID");
+  const cryptoRandomUUID = spyOn(crypto, "randomUUID");
 
   NewUUID.generate();
 
-  expect(s).toHaveBeenCalled();
-  s.mockRestore();
+  expect(cryptoRandomUUID).toHaveBeenCalled();
+
+  cryptoRandomUUID.mockRestore();
 });

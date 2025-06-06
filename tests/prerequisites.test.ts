@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
@@ -7,14 +7,10 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
-beforeEach(() => {
-  console.log = jest.fn();
-});
-afterEach(() => jest.restoreAllMocks());
-
 describe("Prerequisites.check", () => {
   test("exits the process if at least one prerequisite fails", async () => {
-    const accessSpy = spyOn(fsp, "access").mockRejectedValue(() => {
+    const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
+    const fspAccess = spyOn(fsp, "access").mockRejectedValue(() => {
       throw new Error("Access denied");
     });
 
@@ -40,11 +36,13 @@ describe("Prerequisites.check", () => {
     expect(processExit).toHaveBeenCalledWith(1);
 
     processExit.mockRestore();
-    accessSpy.mockRestore();
+    fspAccess.mockRestore();
+    consoleLog.mockRestore();
   });
 
   test("does not exit the process if all prerequisites succeed", async () => {
-    const accessSpy = spyOn(fsp, "access").mockResolvedValue();
+    const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
+    const fspAccess = spyOn(fsp, "access").mockResolvedValue();
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
@@ -68,7 +66,8 @@ describe("Prerequisites.check", () => {
     expect(processExit).not.toHaveBeenCalled();
 
     processExit.mockRestore();
-    accessSpy.mockRestore();
+    fspAccess.mockRestore();
+    consoleLog.mockRestore();
   });
 
   test("handles unexpected exceptions gracefully", async () => {
@@ -91,11 +90,13 @@ describe("Prerequisites.check", () => {
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
+    const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
 
     await prereqs.Prerequisites.check([new Broken({ label: "Broken", enabled: true })]);
 
     expect(processExit).not.toHaveBeenCalled();
 
     processExit.mockRestore();
+    consoleLog.mockRestore();
   });
 });
