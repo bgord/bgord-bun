@@ -4,4 +4,5 @@ node_modules
 dist
 .cspellcache
 tsconfig.tsbuildinfo
-tmp/
+tests/tmp/*
+!tests/tmp/.gitkeep
