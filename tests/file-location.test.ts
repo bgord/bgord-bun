@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 
-import { FileLocation } from "../src/file-location.vo";
+import { FileLocation } from "../src/file-location";
 
 describe("FileLocation", () => {
   it("should create a FileLocation instance with valid configuration", () => {

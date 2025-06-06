@@ -8,6 +8,7 @@ export * from "./cache-response";
 export * from "./cache-static-files";
 export * from "./context";
 export * from "./correlation-id";
+export * from "./decorators";
 export * from "./download-file";
 export * from "./encryption";
 export * from "./env-validator";
