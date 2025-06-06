@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test, jest } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
@@ -15,7 +15,7 @@ describe("HttpLogger middleware", () => {
       environment: NodeEnvironmentEnum.local,
     });
 
-    const loggerHttpSpy = spyOn(logger, "http");
+    const loggerHttpSpy = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const app = new Hono();
     app.use(requestId());
@@ -59,6 +59,8 @@ describe("HttpLogger middleware", () => {
         metadata: { response: { message: "OK" } },
       }),
     );
+
+    loggerHttpSpy.mockRestore();
   });
 
   test("logs correct 400 HTTP log", async () => {
@@ -67,7 +69,7 @@ describe("HttpLogger middleware", () => {
       environment: NodeEnvironmentEnum.local,
     });
 
-    const loggerHttpSpy = spyOn(logger, "http");
+    const loggerHttpSpy = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const app = new Hono();
     app.use(requestId());
@@ -113,5 +115,7 @@ describe("HttpLogger middleware", () => {
         metadata: { response: { message: "general.unknown" } },
       }),
     );
+
+    loggerHttpSpy.mockRestore();
   });
 });

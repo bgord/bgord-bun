@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test, jest } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 
@@ -80,7 +80,9 @@ describe("I18n.getTranslationPathForLanguage", () => {
   });
 
   test("uses custom translation path if provided", () => {
-    const path = new I18n(Path.parse("custom/path")).getTranslationPathForLanguage("pl");
+    const path = new I18n(
+      Path.parse("custom/path"),
+    ).getTranslationPathForLanguage("pl");
     expect(path.endsWith("custom/path/pl.json")).toBe(true);
   });
 });
@@ -99,7 +101,9 @@ describe("I18n.useTranslations", () => {
   });
 
   test("returns key if translation is missing", () => {
+    const consoleSpy = spyOn(console, "warn").mockImplementation(jest.fn());
     expect(t("nonexistent")).toBe("nonexistent");
+    consoleSpy.mockRestore();
   });
 });
 

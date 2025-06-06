@@ -2,7 +2,11 @@ import { expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import { FileTooBigError, FileUploader, InvalidFileMimeTypeError } from "../src/file-uploader";
+import {
+  FileTooBigError,
+  FileUploader,
+  InvalidFileMimeTypeError,
+} from "../src/file-uploader";
 
 const boundary = "----bun-test-boundary";
 
@@ -49,17 +53,14 @@ test("accepts valid file upload", async () => {
 test("rejects invalid MIME type", async () => {
   const app = new Hono();
 
-  app.use(
-    ...FileUploader.validate({
-      mimeTypes: ["image/png"], // Only PNG is allowed
-      maxFilesSize: new tools.Size({
-        value: 10,
-        unit: tools.SizeUnit.kB,
-      }).toBytes(),
-    }),
-  );
+  const maxFilesSize = new tools.Size({
+    value: 10,
+    unit: tools.SizeUnit.kB,
+  }).toBytes();
 
-  app.post("/", (c) => c.text("uploaded"));
+  app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize }));
+
+  app.post("/uploader", (c) => c.text("uploaded"));
 
   const content = [
     `--${boundary}`,
@@ -71,13 +72,11 @@ test("rejects invalid MIME type", async () => {
     "",
   ].join("\r\n");
 
-  const request = new Request("http://localhost/", {
+  const response = await app.request("/uploader", {
     method: "POST",
     body: new TextEncoder().encode(content),
     headers,
   });
-
-  const response = await app.request(request);
   const result = await response.text();
 
   expect(response.status).toBe(400);
@@ -87,17 +86,16 @@ test("rejects invalid MIME type", async () => {
 test("rejects file too big", async () => {
   const app = new Hono();
 
+  const maxFilesSize = new tools.Size({
+    value: 1,
+    unit: tools.SizeUnit.b,
+  }).toBytes();
+
   app.use(
-    ...FileUploader.validate({
-      mimeTypes: ["text/plain"],
-      maxFilesSize: new tools.Size({
-        value: 1,
-        unit: tools.SizeUnit.b,
-      }).toBytes(),
-    }),
+    ...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize }),
   );
 
-  app.post("/", (c) => c.text("uploaded"));
+  app.post("/uploader", (c) => c.text("uploaded"));
 
   const content = [
     `--${boundary}`,
@@ -109,13 +107,11 @@ test("rejects file too big", async () => {
     "",
   ].join("\r\n");
 
-  const request = new Request("http://localhost/", {
+  const response = await app.request("/uploader", {
     method: "POST",
     body: new TextEncoder().encode(content),
     headers,
   });
-
-  const response = await app.request(request);
   const result = await response.text();
 
   expect(response.status).toBe(400);

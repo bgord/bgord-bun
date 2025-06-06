@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 
 import { EtagVariables } from "../src/etag-extractor";
@@ -17,6 +17,8 @@ describe("Setup", () => {
       app: "bgord-bun-api",
       environment: NodeEnvironmentEnum.local,
     });
+
+    const loggerSpy = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const i18n: I18nConfigType = {
       supportedLanguages: { pl: "pl", en: "en" },
@@ -75,5 +77,7 @@ describe("Setup", () => {
       etag: null,
       weakEtag: null,
     });
+
+    loggerSpy.mockRestore();
   });
 });
