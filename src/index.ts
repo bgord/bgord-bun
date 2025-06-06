@@ -41,6 +41,7 @@ export * from "./simulated-error";
 export * from "./slower";
 export * from "./time-zone-offset";
 export * from "./uptime";
+export * from "./url-wo-trailing-slash";
 export * from "./username";
 export * from "./uuid";
 export * from "./weak-etag-extractor";
