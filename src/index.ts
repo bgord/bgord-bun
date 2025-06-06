@@ -20,6 +20,7 @@ export * from "./gzip";
 export * from "./healthcheck";
 export * from "./http-logger";
 export * from "./i18n";
+export * from "./image-exif";
 export * from "./jobs";
 export * from "./logger";
 export * from "./mailer";
