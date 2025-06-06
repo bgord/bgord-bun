@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest, mock } from "bun:test";
+import { beforeEach, describe, expect, jest, mock, test } from "bun:test";
 import * as winston from "winston";
 
 import { LogLevelEnum, Logger } from "../src/logger";
@@ -28,7 +28,7 @@ mock.module("winston", async () => {
 describe("Logger", () => {
   beforeEach(() => jest.clearAllMocks());
 
-  it("creates a logger with default level 'verbose'", () => {
+  test("creates a logger with default level 'verbose'", () => {
     new Logger({ app: "test-app", environment: NodeEnvironmentEnum.local });
 
     expect(winston.createLogger).toHaveBeenCalledWith(
@@ -40,7 +40,7 @@ describe("Logger", () => {
     );
   });
 
-  it("creates a logger with specified level", () => {
+  test("creates a logger with specified level", () => {
     new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -50,7 +50,7 @@ describe("Logger", () => {
     expect(winston.createLogger).toHaveBeenCalledWith(expect.objectContaining({ level: LogLevelEnum.warn }));
   });
 
-  it("adds file transport in production", () => {
+  test("adds file transport in production", () => {
     new Logger({
       app: "prod-app",
       environment: NodeEnvironmentEnum.production,
@@ -60,14 +60,14 @@ describe("Logger", () => {
     expect(instance.add).toHaveBeenCalled();
   });
 
-  it("does not add file transport outside production", () => {
+  test("does not add file transport outside production", () => {
     new Logger({ app: "test-app", environment: NodeEnvironmentEnum.local });
 
     const instance = (winston.createLogger as any).mock.results[0].value;
     expect(instance.add).not.toHaveBeenCalled();
   });
 
-  it("logs info message", () => {
+  test("logs info message", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -80,7 +80,7 @@ describe("Logger", () => {
     expect(instance.info).toHaveBeenCalledWith(expect.objectContaining(logData));
   });
 
-  it("logs warn message", () => {
+  test("logs warn message", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -93,7 +93,7 @@ describe("Logger", () => {
     expect(instance.warn).toHaveBeenCalledWith(expect.objectContaining(logData));
   });
 
-  it("logs error message", () => {
+  test("logs error message", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -106,7 +106,7 @@ describe("Logger", () => {
     expect(instance.error).toHaveBeenCalledWith(expect.objectContaining(logData));
   });
 
-  it("logs http message", () => {
+  test("logs http message", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -125,7 +125,7 @@ describe("Logger", () => {
     expect(instance.http).toHaveBeenCalledWith(expect.objectContaining(logData));
   });
 
-  it("formats an error object correctly", () => {
+  test("formats an error object correctly", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -141,7 +141,7 @@ describe("Logger", () => {
     });
   });
 
-  it("formats non-error objects as empty error", () => {
+  test("formats non-error objects as empty error", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
@@ -157,7 +157,7 @@ describe("Logger", () => {
     });
   });
 
-  it("getProductionLogFilePath", () => {
+  test("getProductionLogFilePath", () => {
     const logger = new Logger({
       app: "test-app",
       environment: NodeEnvironmentEnum.production,

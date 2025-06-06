@@ -1,4 +1,4 @@
-import { describe, expect, it, spyOn } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 
@@ -8,7 +8,7 @@ import { Path } from "../src/path";
 describe("I18n middleware", () => {
   const supportedLanguages = { en: "en", pl: "pl" };
 
-  it("sets fallback language when cookie is missing", async () => {
+  test("sets fallback language when cookie is missing", async () => {
     const app = new Hono();
     app.use(
       languageDetector({
@@ -24,7 +24,7 @@ describe("I18n middleware", () => {
     expect(json.language).toBe("en");
   });
 
-  it("uses language from supported cookie", async () => {
+  test("uses language from supported cookie", async () => {
     const app = new Hono();
     app.use(
       languageDetector({
@@ -41,7 +41,7 @@ describe("I18n middleware", () => {
     expect(await res.text()).toBe("pl");
   });
 
-  it("falls back to default for unsupported language cookie", async () => {
+  test("falls back to default for unsupported language cookie", async () => {
     const app = new Hono();
     app.use(
       languageDetector({
@@ -58,7 +58,7 @@ describe("I18n middleware", () => {
     expect(await res.text()).toBe("en");
   });
 
-  it("uses custom defaultLanguage if provided", async () => {
+  test("uses custom defaultLanguage if provided", async () => {
     const app = new Hono();
     app.use(
       languageDetector({
@@ -74,12 +74,12 @@ describe("I18n middleware", () => {
 });
 
 describe("I18n.getTranslationPathForLanguage", () => {
-  it("returns the correct path for language", () => {
+  test("returns the correct path for language", () => {
     const path = new I18n().getTranslationPathForLanguage("en");
     expect(path.endsWith("infra/translations/en.json")).toBe(true);
   });
 
-  it("uses custom translation path if provided", () => {
+  test("uses custom translation path if provided", () => {
     const path = new I18n(Path.parse("custom/path")).getTranslationPathForLanguage("pl");
     expect(path.endsWith("custom/path/pl.json")).toBe(true);
   });
@@ -90,21 +90,21 @@ describe("I18n.useTranslations", () => {
 
   const t = new I18n().useTranslations(translations);
 
-  it("returns the correct translation", () => {
+  test("returns the correct translation", () => {
     expect(t("greeting")).toBe("Hello");
   });
 
-  it("replaces placeholders with variables", () => {
+  test("replaces placeholders with variables", () => {
     expect(t("welcome", { name: "John" })).toBe("Welcome, John!");
   });
 
-  it("returns key if translation is missing", () => {
+  test("returns key if translation is missing", () => {
     expect(t("nonexistent")).toBe("nonexistent");
   });
 });
 
 describe("I18n.getTranslations", () => {
-  it("reads and parses translation file", async () => {
+  test("reads and parses translation file", async () => {
     // @ts-expect-error
     const bunFileSpy = spyOn(Bun, "file").mockReturnValue({
       json: async () => ({ hello: "Hello" }),
@@ -117,7 +117,7 @@ describe("I18n.getTranslations", () => {
     bunFileSpy.mockRestore();
   });
 
-  it("returns empty object on error", async () => {
+  test("returns empty object on error", async () => {
     const bunFileSpy = spyOn(Bun, "file").mockImplementationOnce(() => {
       throw new Error("fail");
     });

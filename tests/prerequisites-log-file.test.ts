@@ -1,4 +1,4 @@
-import { describe, expect, it, spyOn } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 
 import { Logger } from "../src/logger";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -11,7 +11,7 @@ describe("PrerequisiteLogFile", () => {
     environment: NodeEnvironmentEnum.production,
   });
 
-  it("returns success when log file exists", async () => {
+  test("returns success when log file exists", async () => {
     // @ts-expect-error
     const existsSpy = spyOn(Bun, "file").mockReturnValue({
       exists: async () => true,
@@ -29,7 +29,7 @@ describe("PrerequisiteLogFile", () => {
     existsSpy.mockRestore();
   });
 
-  it("returns failure when log file does not exist", async () => {
+  test("returns failure when log file does not exist", async () => {
     // @ts-expect-error
     const existsSpy = spyOn(Bun, "file").mockReturnValue({
       exists: async () => false,
@@ -47,7 +47,7 @@ describe("PrerequisiteLogFile", () => {
     existsSpy.mockRestore();
   });
 
-  it("returns undetermined when disabled", async () => {
+  test("returns undetermined when disabled", async () => {
     const prerequisite = new PrerequisiteLogFile({
       logger,
       label: "log-file",
@@ -58,7 +58,7 @@ describe("PrerequisiteLogFile", () => {
     expect(result).toBe(PrerequisiteStatusEnum.undetermined);
   });
 
-  it("returns failure on exception", async () => {
+  test("returns failure on exception", async () => {
     // @ts-expect-error
     const existsSpy = spyOn(Bun, "file").mockReturnValue({
       exists: async () => {
