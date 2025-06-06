@@ -26,6 +26,7 @@ export * from "./new-uuid";
 export * from "./node-env.vo";
 export * from "./passwords";
 export * from "./path";
+export * from "./policy.service";
 export * from "./port";
 export * from "./prerequisites";
 export * from "./prerequisites/index";
