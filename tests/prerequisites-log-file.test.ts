@@ -47,17 +47,6 @@ describe("prerequisites - log file", () => {
     bunFileExists.mockRestore();
   });
 
-  test("returns undetermined when disabled", async () => {
-    const prerequisite = new PrerequisiteLogFile({
-      logger,
-      label: "log-file",
-      enabled: false,
-    });
-
-    const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
-  });
-
   test("returns failure on exception", async () => {
     // @ts-expect-error
     const bunFileExists = spyOn(Bun, "file").mockReturnValue({
@@ -76,5 +65,16 @@ describe("prerequisites - log file", () => {
     expect(result).toBe(PrerequisiteStatusEnum.failure);
 
     bunFileExists.mockRestore();
+  });
+
+  test("returns undetermined when disabled", async () => {
+    const prerequisite = new PrerequisiteLogFile({
+      logger,
+      label: "log-file",
+      enabled: false,
+    });
+
+    const result = await prerequisite.verify();
+    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
   });
 });

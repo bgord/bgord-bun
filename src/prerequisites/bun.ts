@@ -17,6 +17,8 @@ export class PrerequisiteBun extends prereqs.AbstractPrerequisite<PrerequisiteBu
   }
 
   async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+
     const current = tools.PackageVersion.fromString(this.config.current);
 
     if (current.isGreaterThanOrEqual(this.config.version)) {

@@ -43,4 +43,18 @@ describe("prerequisites - bun", () => {
     expect(result).toBe(PrerequisiteStatusEnum.failure);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
   });
+
+  test("returns undetermined if disabled", async () => {
+    const prerequisite = new PrerequisiteBun({
+      label: "Bun",
+      enabled: false,
+      version: tools.PackageVersion.fromString("1.2.0"),
+      current: "1.1.0",
+    });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.undetermined);
+  });
 });

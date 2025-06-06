@@ -62,4 +62,15 @@ describe("prerequisites - translations", () => {
     processExit.mockRestore();
     i18nGetTranslations.mockRestore();
   });
+
+  test("returns undetermined when disabled", async () => {
+    const prerequisite = new PrerequisiteTranslations({
+      label: "prerequisite",
+      enabled: false,
+      supportedLanguages: { en: "English", es: "Spanish" },
+    });
+
+    const result = await prerequisite.verify();
+    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+  });
 });

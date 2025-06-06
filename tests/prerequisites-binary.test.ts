@@ -41,9 +41,21 @@ describe("prerequisites - binary", () => {
     bunShell.mockRestore();
   });
 
+  test("returns failure if binary name is invalid", async () => {
+    const prerequisite = new PrerequisiteBinary({
+      label: "InvalidBinary",
+      binary: "invalid binary",
+    });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
+  });
+
   test("returns undetermined if disabled", async () => {
     const prerequisite = new PrerequisiteBinary({
-      label: "Node.js",
+      label: "binary",
       binary: "node",
       enabled: false,
     });
@@ -52,17 +64,5 @@ describe("prerequisites - binary", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.undetermined);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.undetermined);
-  });
-
-  test("returns failure if binary name is invalid", async () => {
-    const prerequisite = new PrerequisiteBinary({
-      label: "InvalidBinary",
-      binary: "invalid binary", // Invalid due to space
-    });
-
-    const result = await prerequisite.verify();
-
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
   });
 });

@@ -35,4 +35,15 @@ describe("prerequisites - ram", () => {
 
     osFreemem.mockRestore();
   });
+
+  test("returns undetermined when disabled", async () => {
+    const prerequisite = new PrerequisiteRAM({
+      label: "prerequisite",
+      enabled: false,
+      minimum: new tools.Size({ value: 512, unit: tools.SizeUnit.MB }),
+    });
+
+    const result = await prerequisite.verify();
+    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+  });
 });

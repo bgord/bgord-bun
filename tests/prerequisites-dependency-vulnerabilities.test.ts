@@ -74,12 +74,12 @@ describe("prerequisites - dependency vulnerabilities", () => {
   });
 
   test("returns undetermined if disabled", async () => {
-    const node = new PrerequisiteDependencyVulnerabilities({
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({
       label: "dependency-vulnerabilities",
       enabled: false,
     });
 
-    const result = await node.verify();
+    const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.undetermined);
   });
 });
