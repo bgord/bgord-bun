@@ -183,7 +183,7 @@ export type OpenGraphImageConfigType = {
   type: OpenGraphImageType;
 };
 
-class OpenGraphImage {
+export class OpenGraphImage {
   private readonly value: OpenGraphImageConfigType;
 
   constructor(value: OpenGraphImageConfigType) {
