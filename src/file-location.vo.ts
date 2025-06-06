@@ -1,4 +1,3 @@
-import fs from "node:fs/promises";
 import * as path from "node:path";
 
 import { Path, PathType } from "./path";
@@ -66,6 +65,6 @@ export class FileLocation {
   }
 
   async delete(): Promise<void> {
-    return fs.unlink(this.getPath());
+    return Bun.file(this.getPath()).unlink();
   }
 }
