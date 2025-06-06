@@ -1,9 +1,11 @@
 import { z } from "zod/v4";
 
 const Take = z.number().int().positive();
+
 type TakeType = z.infer<typeof Take>;
 
 const Skip = z.number().int().positive();
+
 type SkipType = z.infer<typeof Skip>;
 
 const Page = z.coerce
@@ -11,12 +13,14 @@ const Page = z.coerce
   .int()
   .transform((value) => (value <= 0 ? 1 : value))
   .default(1);
+
 export type PageType = z.infer<typeof Page>;
 
 export type PaginationType = {
   values: { take: TakeType; skip: SkipType };
   page: PageType;
 };
+
 export type PaginationValuesType = Record<string, unknown>;
 
 export type TotalType = number;

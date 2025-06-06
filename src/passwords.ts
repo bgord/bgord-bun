@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 
 export type PasswordType = string;
+
 type HashedPasswordType = string;
 
 export class Password {

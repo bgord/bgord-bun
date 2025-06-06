@@ -18,11 +18,17 @@ export enum LogLevelEnum {
 export const LogLevel = z.enum(LogLevelEnum);
 
 type LogTimestampType = number;
+
 type LogAppType = string;
+
 type LogEnvironmentType = NodeEnvironmentEnum;
+
 type LogMessageType = string;
+
 type LogOperationType = string;
+
 type LogMetadataType = Record<string, any>;
+
 type LogCorrelationIdType = CorrelationIdType;
 
 const levels: Record<LogLevelEnum, number> = {

@@ -2,28 +2,23 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import checkDiskSpace from "check-disk-space";
 
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteSpaceConfigType = {
   minimum: tools.Size;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteSpace extends AbstractPrerequisite<PrerequisiteSpaceConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.space;
+export class PrerequisiteSpace extends prereqs.AbstractPrerequisite<PrerequisiteSpaceConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.space;
 
   constructor(readonly config: PrerequisiteSpaceConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     const fsRoot = path.sep;
     const bytes = await checkDiskSpace(fsRoot);

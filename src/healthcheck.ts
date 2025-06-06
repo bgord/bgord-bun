@@ -3,22 +3,17 @@ import { createFactory } from "hono/factory";
 
 import { BuildInfoRepository } from "./build-info-repository";
 import { MemoryConsumption } from "./memory-consumption";
-import {
-  AbstractPrerequisite,
-  BasePrerequisiteConfig,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-} from "./prerequisites";
+import * as prereqs from "./prerequisites";
 import { Uptime, UptimeResultType } from "./uptime";
 
 const handler = createFactory();
 
 type HealthcheckResultType = {
-  ok: PrerequisiteStatusEnum;
+  ok: prereqs.PrerequisiteStatusEnum;
   version: tools.BuildVersionType;
   details: {
-    label: PrerequisiteLabelType;
-    status: PrerequisiteStatusEnum;
+    label: prereqs.PrerequisiteLabelType;
+    status: prereqs.PrerequisiteStatusEnum;
   }[];
   uptime: UptimeResultType;
   memory: {
@@ -28,7 +23,7 @@ type HealthcheckResultType = {
 } & tools.StopwatchResultType;
 
 export class Healthcheck {
-  static build = (prerequisites: AbstractPrerequisite<BasePrerequisiteConfig>[]) =>
+  static build = (prerequisites: prereqs.AbstractPrerequisite<prereqs.BasePrerequisiteConfig>[]) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch();
 
@@ -41,11 +36,11 @@ export class Healthcheck {
         details.push({ label: prerequisite.label, status });
       }
 
-      const ok = details.every((result) => result.status !== PrerequisiteStatusEnum.failure)
-        ? PrerequisiteStatusEnum.success
-        : PrerequisiteStatusEnum.failure;
+      const ok = details.every((result) => result.status !== prereqs.PrerequisiteStatusEnum.failure)
+        ? prereqs.PrerequisiteStatusEnum.success
+        : prereqs.PrerequisiteStatusEnum.failure;
 
-      const code = ok === PrerequisiteStatusEnum.success ? 200 : 424;
+      const code = ok === prereqs.PrerequisiteStatusEnum.success ? 200 : 424;
 
       const result: HealthcheckResultType = {
         ok,

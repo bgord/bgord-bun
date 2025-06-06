@@ -1,33 +1,28 @@
 import sslChecker from "ssl-checker";
 
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteSSLCertificateExpiryConfigType = {
   host: string;
   validDaysMinimum: number;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteSSLCertificateExpiry extends AbstractPrerequisite<PrerequisiteSSLCertificateExpiryConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.sslCertificateExpiry;
+export class PrerequisiteSSLCertificateExpiry extends prereqs.AbstractPrerequisite<PrerequisiteSSLCertificateExpiryConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.sslCertificateExpiry;
 
   constructor(readonly config: PrerequisiteSSLCertificateExpiryConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     try {
       const result = await sslChecker(this.config.host);
 
-      if (!result.valid) return PrerequisiteStatusEnum.failure;
+      if (!result.valid) return prereqs.PrerequisiteStatusEnum.failure;
 
       return result.daysRemaining <= this.config.validDaysMinimum ? this.reject() : this.pass();
     } catch (error) {

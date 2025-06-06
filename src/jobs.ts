@@ -6,6 +6,7 @@ import { Logger } from "./logger";
 import { NewUUID } from "./new-uuid";
 
 export type JobNameType = string;
+
 export type MultipleJobsType = Record<JobNameType, Cron>;
 
 export enum UTC_DAY_OF_THE_WEEK {

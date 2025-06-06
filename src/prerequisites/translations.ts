@@ -2,44 +2,39 @@ import { constants } from "node:fs";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
-import { I18n, I18nConfigType, TranslationsKeyType } from "../i18n";
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as i18n from "../i18n";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteTranslationsConfigType = {
-  translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
-  supportedLanguages: I18nConfigType["supportedLanguages"];
-  label: PrerequisiteLabelType;
+  translationsPath?: typeof i18n.I18n.DEFAULT_TRANSLATIONS_PATH;
+  supportedLanguages: i18n.I18nConfigType["supportedLanguages"];
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
 type PrerequisiteTranslationsProblemType = {
-  translationKey: TranslationsKeyType;
+  translationKey: i18n.TranslationsKeyType;
   existsInLanguage: tools.LanguageType;
   missingInLanguage: tools.LanguageType;
 };
 
-export class PrerequisiteTranslations extends AbstractPrerequisite<PrerequisiteTranslationsConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.translations;
+export class PrerequisiteTranslations extends prereqs.AbstractPrerequisite<PrerequisiteTranslationsConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.translations;
 
   constructor(readonly config: PrerequisiteTranslationsConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
-    const translationsPath = this.config.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
+    const translationsPath = this.config.translationsPath ?? i18n.I18n.DEFAULT_TRANSLATIONS_PATH;
 
     try {
       await fsp.access(translationsPath, constants.R_OK);
 
       for (const language in this.config.supportedLanguages) {
-        await fsp.access(new I18n().getTranslationPathForLanguage(language), constants.R_OK);
+        await fsp.access(new i18n.I18n().getTranslationPathForLanguage(language), constants.R_OK);
       }
     } catch (error) {
       return this.reject();
@@ -49,12 +44,12 @@ export class PrerequisiteTranslations extends AbstractPrerequisite<PrerequisiteT
 
     if (supportedLanguages.length === 1) return this.pass();
 
-    const languageToTranslationKeys: Record<tools.LanguageType, TranslationsKeyType[]> = {};
+    const languageToTranslationKeys: Record<tools.LanguageType, i18n.TranslationsKeyType[]> = {};
 
     const problems: PrerequisiteTranslationsProblemType[] = [];
 
     for (const language of supportedLanguages) {
-      const translations = await new I18n().getTranslations(language);
+      const translations = await new i18n.I18n().getTranslations(language);
       const translationKeys = Object.keys(translations);
 
       languageToTranslationKeys[language] = translationKeys;

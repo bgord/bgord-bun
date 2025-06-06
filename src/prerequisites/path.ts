@@ -1,29 +1,24 @@
 import { constants } from "node:fs";
 import fsp from "node:fs/promises";
 
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisitePathConfigType = {
   path: string;
   access?: { write?: boolean; execute?: boolean };
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisitePath extends AbstractPrerequisite<PrerequisitePathConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.path;
+export class PrerequisitePath extends prereqs.AbstractPrerequisite<PrerequisitePathConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.path;
 
   constructor(readonly config: PrerequisitePathConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     const write = this.config.access?.write ?? false;
     const execute = this.config.access?.execute ?? false;

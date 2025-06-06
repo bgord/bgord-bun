@@ -1,26 +1,21 @@
 import { Mailer } from "../mailer";
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteMailerConfigType = {
   mailer: Mailer;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteMailer extends AbstractPrerequisite<PrerequisiteMailerConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.mailer;
+export class PrerequisiteMailer extends prereqs.AbstractPrerequisite<PrerequisiteMailerConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.mailer;
 
   constructor(readonly config: PrerequisiteMailerConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     try {
       await this.config.mailer.verify();

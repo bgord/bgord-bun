@@ -1,29 +1,23 @@
 import net from "node:net";
 
 import type { PortType } from "../port";
-
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisitePortConfigType = {
   port: PortType;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisitePort extends AbstractPrerequisite<PrerequisitePortConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.port;
+export class PrerequisitePort extends prereqs.AbstractPrerequisite<PrerequisitePortConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.port;
 
   constructor(readonly config: PrerequisitePortConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     return new Promise((resolve) => {
       const server = net.createServer();
@@ -31,13 +25,13 @@ export class PrerequisitePort extends AbstractPrerequisite<PrerequisitePortConfi
       server.listen(this.config.port, () =>
         server.close(() => {
           this.pass();
-          return resolve(PrerequisiteStatusEnum.success);
+          return resolve(prereqs.PrerequisiteStatusEnum.success);
         }),
       );
 
       server.on("error", () => {
         this.reject();
-        return resolve(PrerequisiteStatusEnum.failure);
+        return resolve(prereqs.PrerequisiteStatusEnum.failure);
       });
     });
   }

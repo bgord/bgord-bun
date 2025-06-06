@@ -4,11 +4,15 @@ import * as tools from "@bgord/tools";
 import { Path, PathType } from "./path";
 
 export type TranslationsKeyType = string;
+
 export type TranslationsValueType = string;
+
 export type TranslationsType = Record<TranslationsKeyType, TranslationsValueType>;
 
 export type TranslationPlaceholderType = string;
+
 export type TranslationPlaceholderValueType = string | number;
+
 export type TranslationVariableType = Record<TranslationPlaceholderType, TranslationPlaceholderValueType>;
 
 export type I18nConfigType = {

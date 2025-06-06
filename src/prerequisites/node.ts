@@ -1,28 +1,23 @@
 import * as tools from "@bgord/tools";
 import bun from "bun";
 
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteNodeConfigType = {
   version: tools.PackageVersion;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteNode extends AbstractPrerequisite<PrerequisiteNodeConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.node;
+export class PrerequisiteNode extends prereqs.AbstractPrerequisite<PrerequisiteNodeConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.node;
 
   constructor(readonly config: PrerequisiteNodeConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     const { stdout } = await bun.$`node -v`;
     const version = stdout.toString().trim();

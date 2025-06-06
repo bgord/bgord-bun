@@ -1,24 +1,19 @@
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteSelfConfigType = {
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteSelf extends AbstractPrerequisite<PrerequisiteSelfConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.self;
+export class PrerequisiteSelf extends prereqs.AbstractPrerequisite<PrerequisiteSelfConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.self;
 
   constructor(readonly config: PrerequisiteSelfConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
     return this.pass();
   }
 }

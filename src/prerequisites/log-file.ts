@@ -1,26 +1,21 @@
 import { Logger } from "../logger";
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteLogFileConfigType = {
   logger: Logger;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteLogFile extends AbstractPrerequisite<PrerequisiteLogFileConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.logFile;
+export class PrerequisiteLogFile extends prereqs.AbstractPrerequisite<PrerequisiteLogFileConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.logFile;
 
   constructor(readonly config: PrerequisiteLogFileConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     try {
       const path = this.config.logger.getProductionLogFilePath();

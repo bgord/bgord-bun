@@ -6,4 +6,5 @@ export enum NodeEnvironmentEnum {
   staging = "staging",
   production = "production",
 }
+
 export const NodeEnvironment = z.enum(NodeEnvironmentEnum);

@@ -1,28 +1,23 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
 
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites";
+import * as prereqs from "../prerequisites";
 
 type PrerequisiteRAMConfigType = {
   minimum: tools.Size;
-  label: PrerequisiteLabelType;
+  label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisiteRAM extends AbstractPrerequisite<PrerequisiteRAMConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.RAM;
+export class PrerequisiteRAM extends prereqs.AbstractPrerequisite<PrerequisiteRAMConfigType> {
+  readonly strategy = prereqs.PrerequisiteStrategyEnum.RAM;
 
   constructor(readonly config: PrerequisiteRAMConfigType) {
     super(config);
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
+    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     const freeRAM = new tools.Size({
       unit: tools.SizeUnit.b,
