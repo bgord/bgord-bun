@@ -3,7 +3,7 @@ import { describe, expect, test } from "bun:test";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteJobs } from "../src/prerequisites/jobs";
 
-describe("PrerequisiteJobs class", () => {
+describe("prerequisites - jobs", () => {
   test("verify method returns success for all jobs running", async () => {
     const result = await new PrerequisiteJobs({
       label: "jobs",

@@ -5,7 +5,7 @@ import { I18n } from "../src/i18n";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 
-describe("PrerequisiteTranslations class", () => {
+describe("prerequisites - translations", () => {
   test("verify method returns failure for translations that not exist", async () => {
     const fspAccess = spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
 

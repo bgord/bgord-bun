@@ -7,7 +7,7 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
-describe("Prerequisites.check", () => {
+describe("Prerequisites", () => {
   test("exits the process if at least one prerequisite fails", async () => {
     const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
     const fspAccess = spyOn(fsp, "access").mockRejectedValue(() => {

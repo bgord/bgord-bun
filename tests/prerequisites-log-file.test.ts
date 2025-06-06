@@ -5,7 +5,7 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
 
-describe("PrerequisiteLogFile", () => {
+describe("prerequisites - log file", () => {
   const logger = new Logger({
     app: "test-app",
     environment: NodeEnvironmentEnum.production,

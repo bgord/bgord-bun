@@ -5,7 +5,7 @@ import * as checkDiskSpace from "check-disk-space";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteSpace } from "../src/prerequisites/space";
 
-describe("PrerequisiteSpace", () => {
+describe("prerequisites - space", () => {
   test("passes when enough space is available", async () => {
     const checkDiskSpaceDefault = spyOn(checkDiskSpace, "default").mockResolvedValue({
       diskPath: "",

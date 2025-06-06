@@ -1,63 +1,65 @@
-import { afterEach, beforeEach, expect, jest, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, jest, test } from "bun:test";
 
 import { GracefulShutdown } from "../src/graceful-shutdown";
 
-beforeEach(() => {
-  // @ts-expect-error
-  process.exit = jest.fn();
-  console.log = jest.fn();
-});
+describe("graceful shutdown", () => {
+  beforeEach(() => {
+    // @ts-expect-error
+    process.exit = jest.fn();
+    console.log = jest.fn();
+  });
 
-afterEach(() => jest.restoreAllMocks());
+  afterEach(() => jest.restoreAllMocks());
 
-test("gracefully shuts down on SIGINT", async () => {
-  const stop = jest.fn();
-  const callback = jest.fn();
+  test("gracefully shuts down on SIGINT", async () => {
+    const stop = jest.fn();
+    const callback = jest.fn();
 
-  const mockServer = { stop };
+    const mockServer = { stop };
 
-  // @ts-expect-error
-  GracefulShutdown.applyTo(mockServer, callback);
+    // @ts-expect-error
+    GracefulShutdown.applyTo(mockServer, callback);
 
-  try {
-    process.emit("SIGINT");
-  } catch (_) {}
+    try {
+      process.emit("SIGINT");
+    } catch (_) {}
 
-  expect(stop).toHaveBeenCalled();
-  expect(callback).toHaveBeenCalled();
-});
+    expect(stop).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalled();
+  });
 
-test("gracefully shuts down on SIGTERM", async () => {
-  const stop = jest.fn();
-  const callback = jest.fn();
+  test("gracefully shuts down on SIGTERM", async () => {
+    const stop = jest.fn();
+    const callback = jest.fn();
 
-  const mockServer = { stop };
+    const mockServer = { stop };
 
-  // @ts-expect-error
-  GracefulShutdown.applyTo(mockServer, callback);
+    // @ts-expect-error
+    GracefulShutdown.applyTo(mockServer, callback);
 
-  try {
-    process.emit("SIGTERM");
-  } catch (_) {}
+    try {
+      process.emit("SIGTERM");
+    } catch (_) {}
 
-  expect(stop).toHaveBeenCalled();
-  expect(callback).toHaveBeenCalled();
-});
+    expect(stop).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalled();
+  });
 
-test("handles unhandledRejection and exits with code 1", async () => {
-  const stop = jest.fn();
-  const callback = jest.fn();
+  test("handles unhandledRejection and exits with code 1", async () => {
+    const stop = jest.fn();
+    const callback = jest.fn();
 
-  const mockServer = { stop };
+    const mockServer = { stop };
 
-  //@ts-expect-error
-  GracefulShutdown.applyTo(mockServer, callback);
-
-  try {
     //@ts-expect-error
-    process.emit("unhandledRejection", new Error("oops"));
-  } catch (_) {}
+    GracefulShutdown.applyTo(mockServer, callback);
 
-  expect(stop).toHaveBeenCalled();
-  expect(callback).toHaveBeenCalled();
+    try {
+      //@ts-expect-error
+      process.emit("unhandledRejection", new Error("oops"));
+    } catch (_) {}
+
+    expect(stop).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalled();
+  });
 });

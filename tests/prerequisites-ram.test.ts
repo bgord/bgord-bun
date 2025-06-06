@@ -5,7 +5,7 @@ import * as tools from "@bgord/tools";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
-describe("PrerequisiteRAM class", () => {
+describe("prerequisites - ram", () => {
   test("verify method returns success for valid RAM", async () => {
     const osFreemem = spyOn(os, "freemem").mockReturnValue(
       new tools.Size({ unit: tools.SizeUnit.GB, value: 1 }).toBytes(),

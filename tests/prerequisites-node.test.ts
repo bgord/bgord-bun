@@ -5,7 +5,7 @@ import bun from "bun";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteNode } from "../src/prerequisites/node";
 
-describe("PrerequisiteNode", () => {
+describe("prerequisites - node", () => {
   test("passes if current Node.js version is sufficient", async () => {
     // @ts-expect-error
     const bunShellStdout = spyOn(bun, "$").mockResolvedValue({

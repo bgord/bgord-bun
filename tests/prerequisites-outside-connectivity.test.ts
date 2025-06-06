@@ -3,7 +3,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-connectivity";
 
-describe("PrerequisiteOutsideConnectivity class", () => {
+describe("prerequisites - outside connectivity", () => {
   test("verify method returns success for successful outside connectivity", async () => {
     const globalFetch = spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
