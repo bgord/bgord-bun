@@ -28,6 +28,7 @@ export * from "./mailer";
 export * from "./memory-consumption";
 export * from "./new-uuid";
 export * from "./node-env.vo";
+export * from "./open-graph";
 export * from "./passwords";
 export * from "./path";
 export * from "./policy.service";
