@@ -60,4 +60,17 @@ export class Decorators {
       };
     };
   }
+
+  timeout(ms: number) {
+    return (_target: any, _key: string, descriptor: PropertyDescriptor) => {
+      const original: (...args: unknown[]) => unknown = descriptor.value;
+
+      descriptor.value = async function (...args: any[]) {
+        return await Promise.race([
+          original.apply(this, args),
+          new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout exceeded")), ms)),
+        ]);
+      };
+    };
+  }
 }
