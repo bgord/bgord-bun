@@ -2,9 +2,9 @@ import { expect, test } from "bun:test";
 
 import { Gzip } from "../src/gzip";
 
-const inputFilePath = "tmp/test-input.txt";
-const compressedFilePath = "tmp/test-compressed.gz";
-const decompressedFilePath = "tmp/test-decompressed.txt";
+const inputFilePath = "tests/tmp/test-input.txt";
+const compressedFilePath = "tests/tmp/test-compressed.gz";
+const decompressedFilePath = "tests/tmp/test-decompressed.txt";
 
 async function checkFileContent(filePath: string, expectedContent: string) {
   const content = await Bun.file(filePath).text();
