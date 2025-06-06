@@ -2,6 +2,8 @@ import * as tools from "@bgord/tools";
 
 import { Logger } from "./logger";
 
+export class DecoratorTimeoutError extends Error {}
+
 export class Decorators {
   private readonly rounding = new tools.RoundToDecimal(2);
 
@@ -68,7 +70,7 @@ export class Decorators {
       descriptor.value = async function (...args: any[]) {
         return await Promise.race([
           original.apply(this, args),
-          new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout exceeded")), ms)),
+          new Promise((_, reject) => setTimeout(() => reject(new DecoratorTimeoutError()), ms)),
         ]);
       };
     };
