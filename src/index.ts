@@ -12,7 +12,7 @@ export * from "./download-file";
 export * from "./encryption";
 export * from "./env-validator";
 export * from "./etag-extractor";
-export * from "./file-location.vo";
+export * from "./file-location";
 export * from "./file-uploader";
 export * from "./graceful-shutdown";
 export * from "./gzip";
