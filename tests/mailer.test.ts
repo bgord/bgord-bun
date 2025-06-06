@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
+
 import { EmailAttachment, EmailContentHtml, EmailFrom, EmailSubject, EmailTo, Mailer } from "../src/mailer";
 
 describe("Mailer class", () => {

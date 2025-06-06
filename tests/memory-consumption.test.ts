@@ -1,5 +1,6 @@
 import { expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+
 import { MemoryConsumption } from "../src/memory-consumption";
 
 test("MemoryConsumption.get returns current RSS memory as Size", () => {

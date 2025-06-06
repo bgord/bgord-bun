@@ -1,4 +1,5 @@
 import { expect, spyOn, test } from "bun:test";
+
 import { Uptime } from "../src/uptime";
 
 test("Uptime.get returns seconds and formatted uptime", () => {

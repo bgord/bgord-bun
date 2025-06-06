@@ -1,6 +1,7 @@
 import { describe, expect, it, spyOn } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
+
 import { I18n } from "../src/i18n";
 import { Path } from "../src/path";
 

@@ -1,4 +1,5 @@
 import { expect, spyOn, test } from "bun:test";
+
 import { NewUUID } from "../src/new-uuid";
 
 test("NewUUID.generate returns a valid UUID", () => {

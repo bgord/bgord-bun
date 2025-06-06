@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Size, SizeUnit } from "@bgord/tools";
 import { Hono } from "hono";
 
 import { BuildInfoRepository } from "../src/build-info-repository";
@@ -36,7 +35,10 @@ class FakeFailurePrerequisite extends AbstractPrerequisite<TestPrerequisiteConfi
 }
 
 const buildInfo = { BUILD_DATE: Date.now(), BUILD_VERSION: "1.0.0" };
-const memoryConsumption = new Size({ value: 12345678, unit: SizeUnit.b });
+const memoryConsumption = new tools.Size({
+  value: 12345678,
+  unit: tools.SizeUnit.b,
+});
 const uptime = { seconds: 5, formatted: "5 seconds ago" };
 
 describe("Healthcheck", () => {

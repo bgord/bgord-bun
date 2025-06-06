@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+
 import { Port } from "../src/port";
 
 test("valid ports: 0, 80, 443, 99999", () => {

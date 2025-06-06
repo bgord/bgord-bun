@@ -1,6 +1,7 @@
 import { expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { Lucia } from "lucia";
+
 import { AuthShield } from "../src/auth-shield";
 import { Password } from "../src/passwords";
 

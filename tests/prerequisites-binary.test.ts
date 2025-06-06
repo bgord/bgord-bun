@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, jest, spyOn, test } from "bun:test";
 import bun from "bun";
+
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
 

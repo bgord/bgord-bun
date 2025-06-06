@@ -1,6 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as croner from "croner";
-import { JobHandler } from "../src/jobs"; // Adjust the import path
+
+import { JobHandler } from "../src/jobs";
 import { Logger } from "../src/logger";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 

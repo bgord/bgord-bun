@@ -1,5 +1,6 @@
 import { expect, test } from "bun:test";
 import { z } from "zod/v4";
+
 import { Username } from "../src/username";
 
 test("Username accepts a valid username", () => {

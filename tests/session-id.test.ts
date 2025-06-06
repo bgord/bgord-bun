@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Lucia } from "lucia";
+
 import { SessionId } from "../src/session-id";
 
 const luciaStub = {

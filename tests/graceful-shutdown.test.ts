@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, expect, jest, test } from "bun:test";
+
 import { GracefulShutdown } from "../src/graceful-shutdown";
 
 beforeEach(() => {

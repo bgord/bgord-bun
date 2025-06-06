@@ -1,5 +1,6 @@
 import { expect, spyOn, test } from "bun:test";
 import * as sslChecker from "ssl-checker";
+
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteSSLCertificateExpiry } from "../src/prerequisites/ssl-certificate-expiry";
 

@@ -1,4 +1,4 @@
-import { expect, jest, spyOn, test } from "bun:test";
+import { expect, test } from "bun:test";
 import { z } from "zod/v4";
 
 import { EnvironmentValidator } from "../src/env-validator";

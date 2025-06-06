@@ -2,12 +2,7 @@ import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
-import {
-  AbstractPrerequisite,
-  PrerequisiteLabelType,
-  PrerequisiteStrategyEnum,
-  Prerequisites,
-} from "../src/prerequisites";
+import * as prereqs from "../src/prerequisites";
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
@@ -37,7 +32,7 @@ describe("Prerequisites.check", () => {
       access: { write: true },
     });
 
-    await Prerequisites.check([ram, path]);
+    await prereqs.Prerequisites.check([ram, path]);
 
     expect(ram.status).toBe(PrerequisiteStatusEnum.success);
     expect(path.status).toBe(PrerequisiteStatusEnum.failure);
@@ -65,7 +60,7 @@ describe("Prerequisites.check", () => {
       access: { write: true },
     });
 
-    await Prerequisites.check([ram, path]);
+    await prereqs.Prerequisites.check([ram, path]);
 
     expect(ram.status).toBe(PrerequisiteStatusEnum.success);
     expect(path.status).toBe(PrerequisiteStatusEnum.success);
@@ -78,12 +73,12 @@ describe("Prerequisites.check", () => {
 
   test("handles unexpected exceptions gracefully", async () => {
     type PrerequisiteBrokenConfigType = {
-      label: PrerequisiteLabelType;
+      label: prereqs.PrerequisiteLabelType;
       enabled?: boolean;
     };
 
-    class Broken extends AbstractPrerequisite<PrerequisiteBrokenConfigType> {
-      readonly strategy = PrerequisiteStrategyEnum.custom;
+    class Broken extends prereqs.AbstractPrerequisite<PrerequisiteBrokenConfigType> {
+      readonly strategy = prereqs.PrerequisiteStrategyEnum.custom;
 
       constructor(readonly config: PrerequisiteBrokenConfigType) {
         super(config);
@@ -97,7 +92,7 @@ describe("Prerequisites.check", () => {
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
 
-    await Prerequisites.check([new Broken({ label: "Broken", enabled: true })]);
+    await prereqs.Prerequisites.check([new Broken({ label: "Broken", enabled: true })]);
 
     expect(processExit).not.toHaveBeenCalled();
 

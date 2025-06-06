@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+
 import { PrerequisiteStatusEnum } from "../src/prerequisites";
 import { PrerequisiteSelf } from "../src/prerequisites/self";
 

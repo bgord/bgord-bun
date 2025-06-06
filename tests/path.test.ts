@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+
 import { Path, PathType } from "../src/path";
 
 test("Path accepts a valid string", () => {

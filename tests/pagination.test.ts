@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+
 import { Pagination } from "../src/pagination";
 
 describe("Pagination", () => {

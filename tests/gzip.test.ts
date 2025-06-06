@@ -1,5 +1,6 @@
 import { expect, test } from "bun:test";
 import { join } from "node:path";
+
 import { Gzip } from "../src/gzip";
 
 const inputFilePath = join(__dirname, "test-input.txt");
