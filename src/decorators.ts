@@ -11,9 +11,13 @@ export class Decorators {
     const that = this;
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+      const className =
+        // @ts-expect-error
+        this?.constructor?.name || target?.name || target?.constructor?.name || "UnknownClass";
+
       const original: (...args: unknown[]) => unknown = descriptor.value;
 
-      const label = `${target.name}.${propertyKey}`;
+      const label = `${className}.${propertyKey}`;
 
       descriptor.value = function (...args: unknown[]) {
         const before = performance.now();
@@ -35,9 +39,13 @@ export class Decorators {
     const that = this;
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+      const className =
+        // @ts-expect-error
+        this?.constructor?.name || target?.name || target?.constructor?.name || "UnknownClass";
+
       const original: (...args: unknown[]) => unknown = descriptor.value;
 
-      const label = `${target.name}.${propertyKey}`;
+      const label = `${className}.${propertyKey}`;
 
       descriptor.value = async function (...args: unknown[]) {
         const value = await original.apply(this, args);
