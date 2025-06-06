@@ -9,6 +9,7 @@ export * from "./cache-static-files";
 export * from "./context";
 export * from "./correlation-id";
 export * from "./download-file";
+export * from "./encryption";
 export * from "./env-validator";
 export * from "./etag-extractor";
 export * from "./file-uploader";
