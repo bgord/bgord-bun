@@ -23,7 +23,9 @@ export const Event = z.object({
     .transform((value) => JSON.stringify(value)),
 });
 
-export const ParsedEvent = Event.merge(z.object({ payload: z.record(z.string(), z.any()) }));
+export const ParsedEvent = Event.merge(
+  z.object({ payload: z.record(z.string(), z.any()) }),
+);
 
 export type EventType = z.infer<typeof Event>;
 export type ParsedEventType = z.infer<typeof ParsedEvent>;
