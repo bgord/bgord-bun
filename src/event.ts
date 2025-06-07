@@ -14,7 +14,7 @@ export const Event = z.object({
     .record(z.string(), z.any())
     .refine((value) => {
       try {
-        JSON.parse(String(value));
+        JSON.parse(JSON.stringify(value));
         return true;
       } catch (error) {
         return false;
@@ -23,9 +23,7 @@ export const Event = z.object({
     .transform((value) => JSON.stringify(value)),
 });
 
-export const ParsedEvent = Event.merge(
-  z.object({ payload: z.record(z.string(), z.any()) }),
-);
+export const ParsedEvent = Event.merge(z.object({ payload: z.record(z.string(), z.any()) }));
 
 export type EventType = z.infer<typeof Event>;
 export type ParsedEventType = z.infer<typeof ParsedEvent>;
