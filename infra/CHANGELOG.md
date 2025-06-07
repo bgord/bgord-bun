@@ -1,4 +1,63 @@
 # Changelog
+- 2025-06-07 13:56 0900f5d **step: remove testcases**
+- 2025-06-07 13:54 74f5ee9 **step: pin package versions**
+- 2025-06-07 13:53 4dd95d2 **step: test hcaptcha shield**
+- 2025-06-07 13:07 019c3e7 **step: migrate hcaptcha**
+- 2025-06-07 12:45 17bc490 **step: install hcaptcha**
+- 2025-06-07 12:37 3937e99 **step: migrate recaptcha**
+- 2025-06-07 10:48 9ceb548 **step: test event handler**
+- 2025-06-07 10:45 ed63816 **step: test event logger**
+- 2025-06-07 10:44 8ef2eda **step: test event**
+- 2025-06-07 10:12 3c9454e **step: export event relatedd helpers**
+- 2025-06-07 10:11 4ad4d71 **refactor: extract event handler**
+- 2025-06-07 10:10 4b2f76d **refactor: extract event handler**
+- 2025-06-07 10:08 11186b0 **step: migrate event**
+- 2025-06-07 01:37 eabae4f **fix: unused files in knip**
+- 2025-06-07 01:33 5f2b684 **step: export open graph**
+- 2025-06-07 01:30 84a85ca **step: update bgord-tools**
+- 2025-06-07 01:25 53d0ab4 **step: test open graph**
+- 2025-06-07 01:11 19aa471 **step: migrate open graph**
+- 2025-06-07 00:57 48f2dfb **step: test sitemaps**
+- 2025-06-07 00:37 9d5998c **step: migrate sitemap**
+- 2025-06-07 00:26 62aa2ee **step: add url without trailing slash**
+- 2025-06-07 00:19 e585e9c **refactor: always test disabled prerequisite**
+- 2025-06-07 00:06 515373f **feature: add basic auth headers**
+- 2025-06-06 23:55 dc4f391 **feature: add external api prereq**
+- 2025-06-06 23:27 1e0679d **feature: add dependency vulnerabilities**
+- 2025-06-06 22:25 a553b6c **step: always use describe in tests**
+- 2025-06-06 22:12 e31d802 **step: cleanup test files**
+- 2025-06-06 22:04 a99e2e6 **step: add tests/tmp to gitignore**
+- 2025-06-06 21:47 d965162 **refactor: make tests use local tmp/**
+- 2025-06-06 21:42 0484fe0 **step: add image exif tests**
+- 2025-06-06 21:39 dc45610 **step: add test image fixture**
+- 2025-06-06 21:29 fda7c2e **step: migrate image-exif**
+- 2025-06-06 21:28 8c5f57d **step: switch to local bgord-bun**
+- 2025-06-06 21:23 bac847d **step: install mime-types**
+- 2025-06-06 21:12 58374d1 **feature: add timeout decorator**
+- 2025-06-06 21:02 43f7c4d **step: add timeout decorator**
+- 2025-06-06 20:54 242d6a5 **step: add experimental decorators support**
+- 2025-06-06 19:13 46d0e89 **step: test decorators**
+- 2025-06-06 18:47 c9d23f1 **step: migrate decorators**
+- 2025-06-06 18:43 2a7f738 **refactor: rename file location**
+- 2025-06-06 18:31 b9f0f73 **refactor: remove fs dep**
+- 2025-06-06 18:30 5628563 **step: migrate file location**
+- 2025-06-06 18:22 b881edd **step: migrate policy**
+- 2025-06-06 18:19 b729180 **step: unify spyOn**
+- 2025-06-06 18:00 2dad1f1 **refactor: unify spyOn calls in tests**
+- 2025-06-06 17:46 1955e56 **step: cleanup test output**
+- 2025-06-06 17:42 fc78e9b **step: test encryption**
+- 2025-06-06 17:35 b9e925f **step: migrate encryption**
+- 2025-06-06 16:44 1673d0f **refactor: reorganize tests**
+- 2025-06-06 16:43 ab912df **refactor: migrate pagination to tools**
+- 2025-06-06 16:37 8b41525 **refactor: reorganize tests**
+- 2025-06-06 16:27 5356474 **step: bump bgord/scripts**
+- 2025-06-06 00:56 8d7411d **step: test setup**
+- 2025-06-06 00:56 3bbac6b **step: bump bgord/scripts**
+- 2025-06-06 00:33 a79ebce **refactor: migrate gzip**
+- 2025-06-06 00:25 e803ca3 **step: migrate pagination**
+- 2025-06-06 00:20 acead69 **step: test requestid**
+- 2025-06-05 23:59 3345393 **step: migrate simulated error**
+- 2025-06-05 23:57 cdf9b65 **step: migrate slower**
 ## 2025-06-05 20:53 v0.7.0
 - 2025-06-05 20:53 001d686 **0.7.0**
 - 2025-06-05 20:51 e448e99 **step: test env validator**
@@ -16,6 +75,7 @@
 - 2025-06-05 20:02 cd5552a **refactor: remove infra keepme**
 - 2025-06-05 19:55 714975a **step: test cache resolver**
 - 2025-06-05 19:51 c651c57 **step: add cache resolver**
+- 2025-06-05 18:59 f3171e3 **docs: generate CHANGELOG**
 - 2025-06-05 15:47 ae35b58 **step: test time zone offset adjustTimestamp**
 - 2025-06-05 15:47 87fc48e **step: update knip**
 - 2025-06-05 15:43 a8b99bd **step: test log file prereq**
