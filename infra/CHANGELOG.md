@@ -1,4 +1,7 @@
 # Changelog
+- 2025-06-07 15:52 5da36f1 **step: bump bgord/scripts**
+- 2025-06-07 15:51 57f230c **step: bump bgord/scripts**
+- 2025-06-07 15:40 47f8c32 **step: bump bgord/scripts**
 - 2025-06-07 15:31 8237770 **step: bump bgord/scripts**
 ## 2025-06-07 14:00 v0.8.0
 - 2025-06-07 14:00 78c91eb **0.8.0**
@@ -6,6 +9,7 @@
 - 2025-06-07 13:56 0900f5d **step: remove testcases**
 - 2025-06-07 13:54 74f5ee9 **step: pin package versions**
 - 2025-06-07 13:53 4dd95d2 **step: test hcaptcha shield**
+- 2025-06-07 13:31 b9e09d8 **docs: generate CHANGELOG**
 - 2025-06-07 13:07 019c3e7 **step: migrate hcaptcha**
 - 2025-06-07 12:45 17bc490 **step: install hcaptcha**
 - 2025-06-07 12:37 3937e99 **step: migrate recaptcha**
