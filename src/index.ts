@@ -20,6 +20,7 @@ export * from "./file-location";
 export * from "./file-uploader";
 export * from "./graceful-shutdown";
 export * from "./gzip";
+export * from "./hcaptcha-shield";
 export * from "./healthcheck";
 export * from "./http-logger";
 export * from "./i18n";
