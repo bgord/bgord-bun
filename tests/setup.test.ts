@@ -7,7 +7,12 @@ import { Logger } from "../src/logger";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Setup } from "../src/setup";
 import { TimeZoneOffsetVariables } from "../src/time-zone-offset";
-import * as testcases from "./testcases";
+
+const ip = {
+  server: {
+    requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }),
+  },
+};
 
 describe("Setup", () => {
   test("sets the essentials", async () => {
@@ -47,7 +52,7 @@ describe("Setup", () => {
         method: "GET",
         headers: new Headers({ "x-request-id": predefinedRequestId }),
       },
-      testcases.ip,
+      ip,
     );
 
     expect(response.headers.toJSON()).toMatchObject({
