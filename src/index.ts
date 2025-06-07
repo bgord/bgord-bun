@@ -39,6 +39,7 @@ export * from "./port";
 export * from "./prerequisites";
 export * from "./prerequisites/index";
 export * from "./rate-limit-shield";
+export * from "./recaptcha-shield";
 export * from "./session-id";
 export * from "./setup";
 export * from "./simulated-error";
