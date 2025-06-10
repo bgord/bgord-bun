@@ -1,8 +1,8 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
 import { z } from "zod/v4";
 
-import { Path } from "./path";
-import { Port } from "./port";
+import { Path } from "./path.vo";
+import { Port } from "./port.vo";
 
 export const SmtpHost = z.string().trim().min(1);
 

@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 
-import { PathType } from "./path";
-import { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash";
+import { PathType } from "./path.vo";
+import { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
 
 export const SitemapLoc = z.string().min(1);
 

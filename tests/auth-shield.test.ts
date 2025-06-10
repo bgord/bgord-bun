@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { Lucia } from "lucia";
 
 import { AuthShield } from "../src/auth-shield.middleware";
-import { Password } from "../src/passwords";
+import { Password } from "../src/passwords.vo";
 
 const mockLucia = {
   readSessionCookie: (cookie: string) => (cookie === "valid" ? "session-id" : null),

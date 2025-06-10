@@ -1,4 +1,4 @@
-import { EventType } from "./event";
+import type { EventType } from "./event.vo";
 import { Logger } from "./logger.service";
 
 export class EventHandler {

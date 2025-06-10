@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { Event, ParsedEvent } from "../src/event";
+import { Event, ParsedEvent } from "../src/event.vo";
 import { NewUUID } from "../src/new-uuid.service";
 
 const validUUID = NewUUID.generate();

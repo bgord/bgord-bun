@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Lucia } from "lucia";
 
-import { SessionId } from "../src/session-id";
+import { SessionId } from "../src/session-id.vo";
 
 const luciaStub = {
   readSessionCookie: (cookie: string) => (cookie === "valid" ? "session_123" : null),

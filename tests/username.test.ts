@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod/v4";
 
-import { Username } from "../src/username";
+import { Username } from "../src/username.vo";
 
 describe("username", () => {
   test("Username accepts a valid username", () => {

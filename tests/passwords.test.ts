@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { HashedPassword, Password } from "../src/passwords";
+import { HashedPassword, Password } from "../src/passwords.vo";
 
 describe("Passwords", () => {
   test("Password stores and returns a valid password", () => {

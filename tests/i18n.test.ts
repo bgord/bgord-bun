@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 
 import { I18n } from "../src/i18n.service";
-import { Path } from "../src/path";
+import { Path } from "../src/path.vo";
 
 describe("I18n middleware", () => {
   const supportedLanguages = { en: "en", pl: "pl" };

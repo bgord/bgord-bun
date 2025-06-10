@@ -3,9 +3,9 @@ import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { Lucia } from "lucia";
 
-import { HashedPassword, Password, PasswordType } from "./passwords";
-import { SessionId } from "./session-id";
-import { IdType, Username } from "./username";
+import { HashedPassword, Password, PasswordType } from "./passwords.vo";
+import { SessionId } from "./session-id.vo";
+import { IdType, Username } from "./username.vo";
 
 type AuthShieldConfigType<T> = {
   Username: typeof Username;

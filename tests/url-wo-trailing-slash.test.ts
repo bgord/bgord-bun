@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 
-import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash";
+import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash.vo";
 
 describe("UrlWithoutTrailingSlash", () => {
   it("should pass with a valid URL without trailing slash", () => {

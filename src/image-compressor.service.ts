@@ -1,7 +1,7 @@
 import sharp from "sharp";
 import { z } from "zod/v4";
 
-import { PathType } from "../src/path";
+import type { PathType } from "../src/path.vo";
 
 export const ImageCompressionQuality = z.number().int().min(1).max(100).default(85);
 

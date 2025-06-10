@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import mime from "mime-types";
 import sharp from "sharp";
 
-import { PathType } from "./path";
+import type { PathType } from "./path.vo";
 
 export type ImageExifOutputType = {
   width: tools.WidthType;

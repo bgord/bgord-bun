@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { Port } from "../src/port";
+import { Port } from "../src/port.vo";
 
 describe("Port", () => {
   test("valid ports: 0, 80, 443, 99999", () => {

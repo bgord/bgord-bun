@@ -1,6 +1,6 @@
 import * as path from "node:path";
 
-import { Path, PathType } from "./path";
+import { Path, PathType } from "./path.vo";
 
 type FileLocationBasenameType = string;
 

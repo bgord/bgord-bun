@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import { Cron } from "croner";
 
-import { CorrelationId } from "./correlation-id";
+import { CorrelationId } from "./correlation-id.vo";
 import { Logger } from "./logger.service";
 import { NewUUID } from "./new-uuid.service";
 
