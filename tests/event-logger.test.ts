@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 
-import { EventLogger } from "../src/event-logger";
+import { EventLogger } from "../src/event-logger.service";
 
 class FakeLogger {
   info = (_: any) => {};

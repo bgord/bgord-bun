@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { Gzip } from "../src/gzip";
+import { Gzip } from "../src/gzip.service";
 
 const inputFilePath = "tests/tmp/test-input.txt";
 const compressedFilePath = "tests/tmp/test-compressed.gz";

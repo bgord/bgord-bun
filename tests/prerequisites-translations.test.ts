@@ -1,8 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 
-import { I18n } from "../src/i18n";
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { I18n } from "../src/i18n.service";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 
 describe("prerequisites - translations", () => {

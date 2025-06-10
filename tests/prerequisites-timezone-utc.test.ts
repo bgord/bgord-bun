@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteTimezoneUTC } from "../src/prerequisites/timezone-utc";
 
 describe("prerequisites - timezone utc", () => {

@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import bun from "bun";
 
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteNodeConfigType = {
   version: tools.PackageVersion;

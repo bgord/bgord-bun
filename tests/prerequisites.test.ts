@@ -2,8 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
-import * as prereqs from "../src/prerequisites";
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import * as prereqs from "../src/prerequisites.service";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
@@ -30,8 +29,8 @@ describe("Prerequisites", () => {
 
     await prereqs.Prerequisites.check([ram, path]);
 
-    expect(ram.status).toBe(PrerequisiteStatusEnum.success);
-    expect(path.status).toBe(PrerequisiteStatusEnum.failure);
+    expect(ram.status).toBe(prereqs.PrerequisiteStatusEnum.success);
+    expect(path.status).toBe(prereqs.PrerequisiteStatusEnum.failure);
 
     expect(processExit).toHaveBeenCalledWith(1);
 
@@ -60,8 +59,8 @@ describe("Prerequisites", () => {
 
     await prereqs.Prerequisites.check([ram, path]);
 
-    expect(ram.status).toBe(PrerequisiteStatusEnum.success);
-    expect(path.status).toBe(PrerequisiteStatusEnum.success);
+    expect(ram.status).toBe(prereqs.PrerequisiteStatusEnum.success);
+    expect(path.status).toBe(prereqs.PrerequisiteStatusEnum.success);
 
     expect(processExit).not.toHaveBeenCalled();
 
@@ -83,7 +82,7 @@ describe("Prerequisites", () => {
         super(config);
       }
 
-      async verify(): Promise<PrerequisiteStatusEnum> {
+      async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
         throw new Error("Unexpected failure");
       }
     }

@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteBunConfigType = {
   version: tools.PackageVersion;

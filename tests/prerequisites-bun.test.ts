@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteBun } from "../src/prerequisites/bun";
 
 describe("prerequisites - bun", () => {

@@ -1,5 +1,5 @@
-import { Jobs, MultipleJobsType } from "../jobs";
-import * as prereqs from "../prerequisites";
+import { Jobs, MultipleJobsType } from "../jobs.service";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteJobsConfigType = {
   jobs: MultipleJobsType;

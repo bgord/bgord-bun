@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteTimezoneUtcConfigType = {
   timezone: tools.TimezoneType;

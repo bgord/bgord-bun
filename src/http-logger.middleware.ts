@@ -2,10 +2,10 @@ import { getConnInfo } from "hono/bun";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 
-import { CacheHitEnum } from "./cache-resolver";
+import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import { CorrelationIdType } from "./correlation-id";
-import { Logger } from "./logger";
+import { Logger } from "./logger.service";
 
 export class HttpLogger {
   private static simplify(response: unknown) {
@@ -46,10 +46,7 @@ export class HttpLogger {
       const method = c.req.method;
 
       const client = {
-        ip:
-          c.req.header("x-real-ip") ||
-          c.req.header("x-forwarded-for") ||
-          info.remote.address,
+        ip: c.req.header("x-real-ip") || c.req.header("x-forwarded-for") || info.remote.address,
         userAgent: c.req.header("user-agent"),
       };
 
@@ -61,10 +58,7 @@ export class HttpLogger {
 
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
-        headers: _.omit(
-          Object.fromEntries(c.req.raw.clone().headers),
-          HttpLogger.uninformativeHeaders,
-        ),
+        headers: _.omit(Object.fromEntries(c.req.raw.clone().headers), HttpLogger.uninformativeHeaders),
         body,
         query: c.req.queries(),
       };
@@ -76,20 +70,14 @@ export class HttpLogger {
         method,
         url,
         client,
-        metadata: _.pickBy(
-          httpRequestBeforeMetadata,
-          (value) => !_.isEmpty(value),
-        ),
+        metadata: _.pickBy(httpRequestBeforeMetadata, (value) => !_.isEmpty(value)),
       });
 
       await next();
 
-      const cacheHitHeader = c.res
-        .clone()
-        .headers.get(CacheResponse.CACHE_HIT_HEADER);
+      const cacheHitHeader = c.res.clone().headers.get(CacheResponse.CACHE_HIT_HEADER);
 
-      const cacheHit =
-        cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
+      const cacheHit = cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
 
       let response: any;
       try {
@@ -103,12 +91,9 @@ export class HttpLogger {
 
       const serverTimingMs = c.res.clone().headers.get("Server-Timing");
 
-      const durationMsMatch =
-        serverTimingMs?.match(/dur=([0-9]*\.?[0-9]+)/) ?? undefined;
+      const durationMsMatch = serverTimingMs?.match(/dur=([0-9]*\.?[0-9]+)/) ?? undefined;
 
-      const durationMs = durationMsMatch?.[1]
-        ? Number(durationMsMatch[1])
-        : undefined;
+      const durationMs = durationMsMatch?.[1] ? Number(durationMsMatch[1]) : undefined;
 
       logger.http({
         operation: "http_request_after",

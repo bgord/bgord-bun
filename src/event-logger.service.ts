@@ -1,4 +1,4 @@
-import { Logger } from "./logger";
+import { Logger } from "./logger.service";
 
 export class EventLogger {
   constructor(private readonly logger: Logger) {}

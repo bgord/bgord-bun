@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
 
 describe("prerequisites - ram", () => {

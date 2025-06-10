@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteMemory } from "../src/prerequisites/memory";
 
 describe("prerequisites - memory", () => {

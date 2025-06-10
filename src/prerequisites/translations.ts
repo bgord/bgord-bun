@@ -2,8 +2,8 @@ import { constants } from "node:fs";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
-import * as i18n from "../i18n";
-import * as prereqs from "../prerequisites";
+import * as i18n from "../i18n.service";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteTranslationsConfigType = {
   translationsPath?: typeof i18n.I18n.DEFAULT_TRANSLATIONS_PATH;

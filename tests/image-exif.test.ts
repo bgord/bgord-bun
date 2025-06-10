@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { ImageEXIF } from "../src/image-exif";
+import { ImageEXIF } from "../src/image-exif.service";
 import { PathType } from "../src/path";
 
 const inputImagePath: PathType = path.join(import.meta.dir, "fixtures", "sample.jpg");

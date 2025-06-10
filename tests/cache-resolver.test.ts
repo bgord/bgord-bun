@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import NodeCache from "node-cache";
 
-import { CacheHitEnum, CacheResolver, CacheResolverStrategy } from "../src/cache-resolver";
+import { CacheHitEnum, CacheResolver, CacheResolverStrategy } from "../src/cache-resolver.service";
 
 describe("cache-resolver", () => {
   test("simple - miss", async () => {

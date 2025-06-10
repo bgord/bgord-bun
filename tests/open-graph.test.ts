@@ -11,7 +11,7 @@ import {
   OpenGraphTitleValue,
   OpenGraphTypeValue,
   OpenGraphUrlValue,
-} from "../src/open-graph";
+} from "../src/open-graph.service";
 
 describe("OpenGraphTitleValue", () => {
   test("passes with non-empty string", () => {

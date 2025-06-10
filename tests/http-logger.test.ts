@@ -4,7 +4,7 @@ import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
 
 import { HttpLogger } from "../src/http-logger.middleware";
-import { Logger } from "../src/logger";
+import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const ip = {

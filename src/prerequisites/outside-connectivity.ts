@@ -1,4 +1,4 @@
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteOutsideConnectivityConfigType = {
   label: prereqs.PrerequisiteLabelType;

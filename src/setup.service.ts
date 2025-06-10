@@ -10,8 +10,8 @@ import { ApiVersion } from "./api-version.middleware";
 import { Context } from "./context.middleware";
 import { ETagExtractor } from "./etag-extractor.middleware";
 import { HttpLogger } from "./http-logger.middleware";
-import { I18nConfigType } from "./i18n";
-import { Logger } from "./logger";
+import { I18nConfigType } from "./i18n.service";
+import { Logger } from "./logger.service";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 

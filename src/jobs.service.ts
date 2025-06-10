@@ -2,8 +2,8 @@ import * as tools from "@bgord/tools";
 import { Cron } from "croner";
 
 import { CorrelationId } from "./correlation-id";
-import { Logger } from "./logger";
-import { NewUUID } from "./new-uuid";
+import { Logger } from "./logger.service";
+import { NewUUID } from "./new-uuid.service";
 
 export type JobNameType = string;
 

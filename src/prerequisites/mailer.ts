@@ -1,5 +1,5 @@
-import { Mailer } from "../mailer";
-import * as prereqs from "../prerequisites";
+import { Mailer } from "../mailer.service";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteMailerConfigType = {
   mailer: Mailer;

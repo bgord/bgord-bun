@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as checkDiskSpace from "check-disk-space";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteSpace } from "../src/prerequisites/space";
 
 describe("prerequisites - space", () => {

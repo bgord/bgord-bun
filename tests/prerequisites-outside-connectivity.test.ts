@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-connectivity";
 
 describe("prerequisites - outside connectivity", () => {

@@ -2,7 +2,7 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import checkDiskSpace from "check-disk-space";
 
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteSpaceConfigType = {
   minimum: tools.Size;

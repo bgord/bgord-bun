@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 
-import { Logger } from "./logger";
+import { Logger } from "./logger.service";
 
 export class DecoratorTimeoutError extends Error {}
 

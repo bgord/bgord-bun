@@ -1,5 +1,5 @@
-import { Logger } from "../logger";
-import * as prereqs from "../prerequisites";
+import { Logger } from "../logger.service";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteLogFileConfigType = {
   logger: Logger;

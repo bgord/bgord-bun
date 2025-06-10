@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { BasicAuth, BasicAuthPassword, BasicAuthUsername } from "../src/basic-auth";
+import { BasicAuth, BasicAuthPassword, BasicAuthUsername } from "../src/basic-auth.service";
 
 describe("Basic auth validators", () => {
   test("BasicAuthUsername - valid", () => {

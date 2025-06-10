@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 
-import * as NewUUIDModule from "../src/new-uuid";
+import * as NewUUIDModule from "../src/new-uuid.service";
 import { UUID } from "../src/uuid";
 
 describe("UUID schema", () => {

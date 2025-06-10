@@ -1,8 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 
-import { Logger } from "../src/logger";
+import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
 
 describe("prerequisites - log file", () => {

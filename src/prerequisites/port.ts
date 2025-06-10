@@ -1,7 +1,7 @@
 import net from "node:net";
 
 import type { PortType } from "../port";
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisitePortConfigType = {
   port: PortType;

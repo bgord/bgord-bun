@@ -1,5 +1,5 @@
 import { EventType } from "./event";
-import { Logger } from "./logger";
+import { Logger } from "./logger.service";
 
 export class EventHandler {
   constructor(private readonly logger: Logger) {}

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, jest, spyOn, test } from "bun:test";
 import bun from "bun";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
 
 describe("prerequisites - binary", () => {

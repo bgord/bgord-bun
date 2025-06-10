@@ -1,6 +1,6 @@
 import sslChecker from "ssl-checker";
 
-import * as prereqs from "../prerequisites";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteSSLCertificateExpiryConfigType = {
   host: string;

@@ -7,7 +7,7 @@ import {
   SitemapLastmod,
   SitemapLoc,
   SitemapPriority,
-} from "../src/sitemap";
+} from "../src/sitemap.service";
 
 describe("SitemapLoc", () => {
   test("passes with non-empty string", () => {

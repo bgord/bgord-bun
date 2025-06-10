@@ -2,11 +2,11 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import { BuildInfoRepository } from "../src/build-info-repository";
-import { Healthcheck } from "../src/healthcheck";
-import { MemoryConsumption } from "../src/memory-consumption";
-import { AbstractPrerequisite, PrerequisiteStatusEnum, PrerequisiteStrategyEnum } from "../src/prerequisites";
-import { Uptime } from "../src/uptime";
+import { BuildInfoRepository } from "../src/build-info-repository.service";
+import { Healthcheck } from "../src/healthcheck.service";
+import { MemoryConsumption } from "../src/memory-consumption.service";
+import { AbstractPrerequisite, PrerequisiteStatusEnum, PrerequisiteStrategyEnum } from "../src/prerequisites.service";
+import { Uptime } from "../src/uptime.service";
 
 type TestPrerequisiteConfigType = { label: string; enabled?: boolean };
 

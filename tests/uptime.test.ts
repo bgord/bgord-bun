@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 
-import { Uptime } from "../src/uptime";
+import { Uptime } from "../src/uptime.service";
 
 describe("Uptime", () => {
   test("Uptime.get returns seconds and formatted uptime", () => {

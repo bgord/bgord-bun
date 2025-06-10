@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 
-import { BuildInfoRepository } from "../src/build-info-repository";
+import { BuildInfoRepository } from "../src/build-info-repository.service";
 
 describe("BuildInfoRepository", () => {
   test("extract returns BUILD_DATE and BUILD_VERSION if package.json has version", async () => {

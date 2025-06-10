@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import { DecoratorTimeoutError, Decorators } from "../src/decorators";
+import { DecoratorTimeoutError, Decorators } from "../src/decorators.service";
 
 class FakeLogger {
   public logs: any[] = [];

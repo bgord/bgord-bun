@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 
-import { I18n } from "../src/i18n";
+import { I18n } from "../src/i18n.service";
 import { Path } from "../src/path";
 
 describe("I18n middleware", () => {

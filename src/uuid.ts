@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
 
-import { NewUUID } from "./new-uuid";
+import { NewUUID } from "./new-uuid.service";
 
 export const UUID = z.uuid().default(() => NewUUID.generate());
 

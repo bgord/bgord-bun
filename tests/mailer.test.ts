@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
 
-import { EmailAttachment, EmailContentHtml, EmailFrom, EmailSubject, EmailTo, Mailer } from "../src/mailer";
+import { EmailAttachment, EmailContentHtml, EmailFrom, EmailSubject, EmailTo, Mailer } from "../src/mailer.service";
 
 describe("Mailer class", () => {
   test("Mailer can be instantiated with valid configuration", () => {

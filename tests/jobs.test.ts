@@ -1,8 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as croner from "croner";
 
-import { JobHandler } from "../src/jobs";
-import { Logger } from "../src/logger";
+import { JobHandler } from "../src/jobs.service";
+import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const logger = new Logger({

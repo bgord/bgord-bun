@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
 import { ApiVersion } from "../src/api-version.middleware";
-import { BuildInfoRepository } from "../src/build-info-repository";
+import { BuildInfoRepository } from "../src/build-info-repository.service";
 
 describe("ApiVersion middleware", () => {
   test("sets API version in header with known build version", async () => {

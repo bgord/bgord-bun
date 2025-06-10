@@ -5,7 +5,7 @@ import {
   PrerequisiteLabelType,
   PrerequisiteStatusEnum,
   PrerequisiteStrategyEnum,
-} from "../prerequisites";
+} from "../prerequisites.service";
 
 type PrerequisiteDependencyVulnerabilityConfigType = {
   label: PrerequisiteLabelType;

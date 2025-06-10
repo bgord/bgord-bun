@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 
-import { PrerequisiteStatusEnum } from "../src/prerequisites";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteDependencyVulnerabilities } from "../src/prerequisites/dependency-vulnerabilities";
 
 const BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE = {

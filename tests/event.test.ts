@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 
 import { Event, ParsedEvent } from "../src/event";
-import { NewUUID } from "../src/new-uuid";
+import { NewUUID } from "../src/new-uuid.service";
 
 const validUUID = NewUUID.generate();
 const now = new Date();

@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 
-import { MemoryConsumption } from "../memory-consumption";
-import * as prereqs from "../prerequisites";
+import { MemoryConsumption } from "../memory-consumption.service";
+import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteMemoryConfigType = {
   maximum: tools.Size;

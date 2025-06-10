@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 
-import { NewUUID } from "../src/new-uuid";
+import { NewUUID } from "../src/new-uuid.service";
 
 describe("New UUID", () => {
   test("NewUUID.generate returns a valid UUID", () => {
