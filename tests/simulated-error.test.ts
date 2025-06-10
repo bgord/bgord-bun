@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 
-import { SimulatedError } from "../src/simulated-error";
+import { SimulatedError } from "../src/simulated-error.middleware";
 
 describe("SimulatedError", () => {
   test("responds with Cache-Hit: miss on first uncached request", async () => {

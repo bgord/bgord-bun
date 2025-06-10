@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import NodeCache from "node-cache";
 
 import { CacheHitEnum } from "../src/cache-resolver";
-import { CacheResponse } from "../src/cache-response";
+import { CacheResponse } from "../src/cache-response.middleware";
 
 const ResponseCache = new NodeCache();
 const cacheResponse = new CacheResponse(ResponseCache);

@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 
-import { Context, ContextVariables } from "../src/context";
-import { TimeZoneOffset } from "../src/time-zone-offset";
+import { Context, ContextVariables } from "../src/context.middleware";
+import { TimeZoneOffset } from "../src/time-zone-offset.middleware";
 
 describe("Context class", () => {
   test("applyTo method adds context to the request", async () => {

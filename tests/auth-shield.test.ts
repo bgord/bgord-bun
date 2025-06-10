@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { Lucia } from "lucia";
 
-import { AuthShield } from "../src/auth-shield";
+import { AuthShield } from "../src/auth-shield.middleware";
 import { Password } from "../src/passwords";
 
 const mockLucia = {

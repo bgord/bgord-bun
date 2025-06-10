@@ -1,7 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 
-import { CacheStaticFiles, CacheStaticFilesStrategy } from "../src/cache-static-files";
+import {
+  CacheStaticFiles,
+  CacheStaticFilesStrategy,
+} from "../src/cache-static-files.middleware";
 
 describe("Cache static files", () => {
   test("sets cache-control header for strategy 'never'", async () => {
@@ -10,7 +13,9 @@ describe("Cache static files", () => {
     app.get("/", (c) => c.text("Never"));
 
     const res = await app.request("/");
-    expect(res.headers.get("cache-control")).toBe("private, no-cache, no-store, must-revalidate");
+    expect(res.headers.get("cache-control")).toBe(
+      "private, no-cache, no-store, must-revalidate",
+    );
   });
 
   test("sets cache-control header for strategy 'always'", async () => {
@@ -19,7 +24,9 @@ describe("Cache static files", () => {
     app.get("/", (c) => c.text("Always"));
 
     const res = await app.request("/");
-    expect(res.headers.get("cache-control")).toMatch(/^public, max-age=\d+, immutable$/);
+    expect(res.headers.get("cache-control")).toMatch(
+      /^public, max-age=\d+, immutable$/,
+    );
   });
 
   test("sets cache-control header for strategy 'five_minutes'", async () => {
@@ -30,7 +37,9 @@ describe("Cache static files", () => {
     const res = await app.request("/");
     expect(res.headers.get("cache-control")).toMatch(/^public, max-age=\d+$/);
 
-    const maxAge = Number(res.headers.get("cache-control")?.match(/max-age=(\d+)/)?.[1]);
+    const maxAge = Number(
+      res.headers.get("cache-control")?.match(/max-age=(\d+)/)?.[1],
+    );
     expect(maxAge).toBeGreaterThanOrEqual(299); // account for rounding
     expect(maxAge).toBeLessThanOrEqual(301);
   });

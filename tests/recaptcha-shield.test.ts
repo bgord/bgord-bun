@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import { RecaptchaShield } from "../src/recaptcha-shield";
+import { RecaptchaShield } from "../src/recaptcha-shield.middleware";
 
 const VALID_SECRET_KEY = "test_secret_key";
 

@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import { ApiVersion } from "../src/api-version";
+import { ApiVersion } from "../src/api-version.middleware";
 import { BuildInfoRepository } from "../src/build-info-repository";
 
 describe("ApiVersion middleware", () => {

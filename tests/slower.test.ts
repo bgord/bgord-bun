@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import { Slower } from "../src/slower";
+import { Slower } from "../src/slower.middleware";
 
 describe("Slower", () => {
   test("responds with Cache-Hit: miss on first uncached request", async () => {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 
-import { ApiKeyShield } from "../src/api-key-shield";
+import { ApiKeyShield } from "../src/api-key-shield.middleware";
 
 const VALID_API_KEY = "valid-api-key";
 const INVALID_API_KEY = "invalid-api-key";

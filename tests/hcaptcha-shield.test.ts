@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import { HcaptchaShield } from "../src/hcaptcha-shield";
+import { HcaptchaShield } from "../src/hcaptcha-shield.middleware";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";
 

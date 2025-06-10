@@ -2,7 +2,7 @@ import { describe, expect, setSystemTime, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
-import { rateLimitShield } from "../src/rate-limit-shield";
+import { rateLimitShield } from "../src/rate-limit-shield.middleware";
 
 describe("rateLimitShield middleware", () => {
   test("allows the request when within rate limit", async () => {

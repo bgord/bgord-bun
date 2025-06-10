@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 
 import { CorrelationIdType } from "./correlation-id";
-import { TimeZoneOffsetVariables } from "./time-zone-offset";
+import { TimeZoneOffsetVariables } from "./time-zone-offset.middleware";
 
 export type ContextType = {
   requestId: CorrelationIdType;

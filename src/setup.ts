@@ -6,14 +6,14 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 
-import { ApiVersion } from "./api-version";
-import { Context } from "./context";
-import { ETagExtractor } from "./etag-extractor";
-import { HttpLogger } from "./http-logger";
+import { ApiVersion } from "./api-version.middleware";
+import { Context } from "./context.middleware";
+import { ETagExtractor } from "./etag-extractor.middleware";
+import { HttpLogger } from "./http-logger.middleware";
 import { I18nConfigType } from "./i18n";
 import { Logger } from "./logger";
-import { TimeZoneOffset } from "./time-zone-offset";
-import { WeakETagExtractor } from "./weak-etag-extractor";
+import { TimeZoneOffset } from "./time-zone-offset.middleware";
+import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
 export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   value: 128,
