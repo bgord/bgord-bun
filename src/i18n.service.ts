@@ -16,9 +16,9 @@ export type TranslationPlaceholderValueType = string | number;
 export type TranslationVariableType = Record<TranslationPlaceholderType, TranslationPlaceholderValueType>;
 
 export type I18nConfigType = {
+  supportedLanguages: Record<string, tools.LanguageType>;
   translationsPath?: PathType;
   defaultLanguage?: tools.LanguageType;
-  supportedLanguages: Record<string, tools.LanguageType>;
 };
 
 export class I18n {
