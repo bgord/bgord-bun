@@ -1,4 +1,5 @@
 # Changelog
+- 2025-06-11 22:29 54d081d **refactor: migrate safe-parse-body**
 ## 2025-06-11 16:53 v0.10.0
 - 2025-06-11 16:53 e818335 **0.10.0**
 ## 2025-06-11 16:52 v0.9.2
@@ -11,6 +12,7 @@
 - 2025-06-11 15:31 8408655 **fix: prerequisites service export**
 ## 2025-06-11 14:58 v0.9.0
 - 2025-06-11 14:58 7a4cddb **0.9.0**
+- 2025-06-11 14:53 5eedaed **docs: generate CHANGELOG**
 - 2025-06-11 14:52 d91d1c5 **docs: generate CHANGELOG**
 - 2025-06-11 14:51 a86c894 **docs: generate CHANGELOG**
 - 2025-06-11 13:56 3acbe5b **refactor: adjust build script**
