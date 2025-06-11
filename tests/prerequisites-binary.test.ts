@@ -1,19 +1,19 @@
-import { afterEach, describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
 
 describe("prerequisites - binary", () => {
-  afterEach(() => jest.restoreAllMocks());
-
   test("returns success if binary is found", async () => {
-    // @ts-expect-error
-    const bunShell = spyOn(bun, "$").mockResolvedValue({ exitCode: 0 });
+    const bunShell = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({ exitCode: 0 }),
+    }));
 
     const prerequisite = new PrerequisiteBinary({
-      label: "Node.js",
-      binary: "node",
+      label: "RealBinary",
+      binary: "real-binary",
     });
 
     const result = await prerequisite.verify();
@@ -25,8 +25,10 @@ describe("prerequisites - binary", () => {
   });
 
   test("returns failure if binary is not found", async () => {
-    // @ts-expect-error
-    const bunShell = spyOn(bun, "$").mockResolvedValue({ exitCode: 1 });
+    const bunShell = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({ exitCode: 1 }),
+    }));
 
     const prerequisite = new PrerequisiteBinary({
       label: "FakeBinary",
