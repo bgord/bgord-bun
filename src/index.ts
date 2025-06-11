@@ -41,6 +41,7 @@ export * from "./prerequisites.service";
 export * from "./prerequisites/index";
 export * from "./rate-limit-shield.middleware";
 export * from "./recaptcha-shield.middleware";
+export * from "./safe-parse-body.service";
 export * from "./session-id.vo";
 export * from "./setup.service";
 export * from "./simulated-error.middleware";
