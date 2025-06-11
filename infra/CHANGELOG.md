@@ -1,4 +1,7 @@
 # Changelog
+- 2025-06-11 16:51 aa41f5e **refactor: avoid bun.$ stdout in node prereqs**
+- 2025-06-11 16:49 e79ed38 **refactor: avoid bun.$ stdout in binary prereqs**
+- 2025-06-11 16:46 d669a56 **refactor: avoid bun.$ stdout in deps vulns prereqs**
 ## 2025-06-11 15:39 v0.9.1
 - 2025-06-11 15:39 cf4beb0 **0.9.1**
 - 2025-06-11 15:31 8408655 **fix: prerequisites service export**
@@ -8,6 +11,7 @@
 ## 2025-06-11 13:51 v0.8.2
 - 2025-06-11 13:51 a502867 **0.8.2**
 - 2025-06-11 13:50 b5b2688 **refactor: remove protected methods from abstract prerequisite**
+- 2025-06-11 13:40 d4bf273 **docs: generate CHANGELOG**
 ## 2025-06-11 13:35 v0.8.1
 - 2025-06-11 13:35 3f72420 **0.8.1**
 - 2025-06-11 13:34 e9d89be **step: update bgord tools**
