@@ -68,11 +68,13 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
 
 describe("prerequisites - dependency vulnerabilities", () => {
   test("passes if bun audit returns no high and critical vulnerabilities", async () => {
-    // @ts-expect-error
-    const bunShellStdout = spyOn(bun, "$").mockResolvedValue({
-      exitCode: 0,
-      stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE)),
-    });
+    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({
+        exitCode: 0,
+        stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE)),
+      }),
+    }));
 
     const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
       label: "dependency-vulnerabilities",
@@ -85,11 +87,13 @@ describe("prerequisites - dependency vulnerabilities", () => {
   });
 
   test("rejects if bun audit returns high and critical vulnerabilities", async () => {
-    // @ts-expect-error
-    const bunShellStdout = spyOn(bun, "$").mockResolvedValue({
-      exitCode: 0,
-      stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES)),
-    });
+    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({
+        exitCode: 0,
+        stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES)),
+      }),
+    }));
 
     const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
       label: "dependency-vulnerabilities",
@@ -102,10 +106,12 @@ describe("prerequisites - dependency vulnerabilities", () => {
   });
 
   test("rejects if bun audit exits with 1", async () => {
-    // @ts-expect-error
-    const bunShellStdout = spyOn(bun, "$").mockResolvedValue({
-      exitCode: 1,
-    });
+    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({
+        exitCode: 1,
+      }),
+    }));
 
     const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
       label: "dependency-vulnerabilities",
@@ -118,11 +124,10 @@ describe("prerequisites - dependency vulnerabilities", () => {
   });
 
   test("rejects if bun audit parsing fails", async () => {
-    // @ts-expect-error
-    const bunShellStdout = spyOn(bun, "$").mockResolvedValue({
-      exitCode: 0,
-      stdout: Buffer.from("abc"),
-    });
+    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({ exitCode: 0, stdout: Buffer.from("abc") }),
+    }));
 
     const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
       label: "dependency-vulnerabilities",

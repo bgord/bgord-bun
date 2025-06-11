@@ -29,7 +29,7 @@ export class PrerequisiteDependencyVulnerabilities extends AbstractPrerequisite<
     if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
 
     try {
-      const result = await bun.$`bun audit --json`;
+      const result = await bun.$`bun audit --json`.quiet();
 
       if (result.exitCode !== 0) return this.reject();
 
