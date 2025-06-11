@@ -1,6 +1,9 @@
 # Changelog
+## 2025-06-11 13:35 v0.8.1
+- 2025-06-11 13:35 3f72420 **0.8.1**
 - 2025-06-11 13:34 e9d89be **step: update bgord tools**
 - 2025-06-11 12:44 74cb98b **step: add enabled flag to rate limit shield**
+- 2025-06-11 11:35 cc2548c **docs: generate CHANGELOG**
 - 2025-06-11 00:01 a9fae5b **refactor: reorder i18n config type**
 - 2025-06-10 22:36 3f17fab **refactor: rename vo**
 - 2025-06-10 22:21 baf3338 **refactor: rename services**
