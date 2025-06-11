@@ -1,4 +1,6 @@
 # Changelog
+## 2025-06-11 15:39 v0.9.1
+- 2025-06-11 15:39 cf4beb0 **0.9.1**
 - 2025-06-11 15:31 8408655 **fix: prerequisites service export**
 ## 2025-06-11 14:58 v0.9.0
 - 2025-06-11 14:58 7a4cddb **0.9.0**
@@ -9,6 +11,7 @@
 ## 2025-06-11 13:35 v0.8.1
 - 2025-06-11 13:35 3f72420 **0.8.1**
 - 2025-06-11 13:34 e9d89be **step: update bgord tools**
+- 2025-06-11 13:32 5576245 **docs: generate CHANGELOG**
 - 2025-06-11 12:58 34544b1 **docs: generate CHANGELOG**
 - 2025-06-11 12:44 74cb98b **step: add enabled flag to rate limit shield**
 - 2025-06-11 11:57 0d2fded **docs: generate CHANGELOG**
