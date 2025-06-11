@@ -1,4 +1,11 @@
 # Changelog
+- 2025-06-11 13:34 e9d89be **step: update bgord tools**
+- 2025-06-11 12:44 74cb98b **step: add enabled flag to rate limit shield**
+- 2025-06-11 00:01 a9fae5b **refactor: reorder i18n config type**
+- 2025-06-10 22:36 3f17fab **refactor: rename vo**
+- 2025-06-10 22:21 baf3338 **refactor: rename services**
+- 2025-06-10 21:59 a8f3705 **refactor: rename middlewares**
+- 2025-06-10 20:12 97b62c2 **step: improve readme**
 - 2025-06-07 15:52 5da36f1 **step: bump bgord/scripts**
 - 2025-06-07 15:51 57f230c **step: bump bgord/scripts**
 - 2025-06-07 15:40 47f8c32 **step: bump bgord/scripts**
@@ -8,6 +15,7 @@
 - 2025-06-07 13:59 d7b463e **step: update packages**
 - 2025-06-07 13:56 0900f5d **step: remove testcases**
 - 2025-06-07 13:54 74f5ee9 **step: pin package versions**
+- 2025-06-07 13:53 7f74373 **docs: generate CHANGELOG**
 - 2025-06-07 13:53 4dd95d2 **step: test hcaptcha shield**
 - 2025-06-07 13:31 b9e09d8 **docs: generate CHANGELOG**
 - 2025-06-07 13:07 019c3e7 **step: migrate hcaptcha**
