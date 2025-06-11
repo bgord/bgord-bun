@@ -77,6 +77,7 @@ export abstract class AbstractPrerequisite<T extends BasePrerequisiteConfig> {
   }
 }
 
+/** @public */
 export class Prerequisites {
   static async check(prerequisites: AbstractPrerequisite<BasePrerequisiteConfig>[]) {
     try {

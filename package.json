@@ -32,7 +32,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@bgord/tools": "0.7.0",
+    "@bgord/tools": "0.8.0",
     "check-disk-space": "3.4.0",
     "croner": "9.0.0",
     "hcaptcha": "0.2.0",
