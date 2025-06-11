@@ -1,4 +1,6 @@
 # Changelog
+## 2025-06-11 16:52 v0.9.2
+- 2025-06-11 16:52 92fbc5a **0.9.2**
 - 2025-06-11 16:51 aa41f5e **refactor: avoid bun.$ stdout in node prereqs**
 - 2025-06-11 16:49 e79ed38 **refactor: avoid bun.$ stdout in binary prereqs**
 - 2025-06-11 16:46 d669a56 **refactor: avoid bun.$ stdout in deps vulns prereqs**
@@ -7,6 +9,7 @@
 - 2025-06-11 15:31 8408655 **fix: prerequisites service export**
 ## 2025-06-11 14:58 v0.9.0
 - 2025-06-11 14:58 7a4cddb **0.9.0**
+- 2025-06-11 14:51 a86c894 **docs: generate CHANGELOG**
 - 2025-06-11 13:56 3acbe5b **refactor: adjust build script**
 ## 2025-06-11 13:51 v0.8.2
 - 2025-06-11 13:51 a502867 **0.8.2**
