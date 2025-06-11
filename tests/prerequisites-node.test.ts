@@ -7,10 +7,12 @@ import { PrerequisiteNode } from "../src/prerequisites/node";
 
 describe("prerequisites - node", () => {
   test("passes if current Node.js version is sufficient", async () => {
-    // @ts-expect-error
-    const bunShellStdout = spyOn(bun, "$").mockResolvedValue({
-      stdout: Buffer.from("v20.10.0"),
-    });
+    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({
+        stdout: Buffer.from("v20.10.0"),
+      }),
+    }));
 
     const node = new PrerequisiteNode({
       label: "Node",
@@ -24,10 +26,12 @@ describe("prerequisites - node", () => {
   });
 
   test("fails if current Node.js version is too low", async () => {
-    // @ts-expect-error
-    const bunShellStdout = spyOn(bun, "$").mockResolvedValue({
-      stdout: Buffer.from("v16.10.0"),
-    });
+    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      quiet: () => ({
+        stdout: Buffer.from("v16.10.0"),
+      }),
+    }));
 
     const node = new PrerequisiteNode({
       label: "Node",

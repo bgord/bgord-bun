@@ -19,7 +19,7 @@ export class PrerequisiteNode extends prereqs.AbstractPrerequisite<PrerequisiteN
   async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
     if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
-    const { stdout } = await bun.$`node -v`;
+    const { stdout } = await bun.$`node -v`.quiet();
     const version = stdout.toString().trim();
     const current = tools.PackageVersion.fromStringWithV(version);
 
