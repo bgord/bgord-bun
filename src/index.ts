@@ -37,7 +37,7 @@ export * from "./passwords.vo";
 export * from "./path.vo";
 export * from "./policy.service";
 export * from "./port.vo";
-export * from "./prerequisites";
+export * from "./prerequisites.service";
 export * from "./prerequisites/index";
 export * from "./rate-limit-shield.middleware";
 export * from "./recaptcha-shield.middleware";
