@@ -1,5 +1,7 @@
 # Changelog
+- 2025-06-11 22:35 21f3ba7 **step: bump bgord/scripts**
 - 2025-06-11 22:29 54d081d **refactor: migrate safe-parse-body**
+- 2025-06-11 20:29 ff56be1 **docs: generate CHANGELOG**
 ## 2025-06-11 16:53 v0.10.0
 - 2025-06-11 16:53 e818335 **0.10.0**
 ## 2025-06-11 16:52 v0.9.2
