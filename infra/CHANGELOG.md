@@ -1,4 +1,6 @@
 # Changelog
+## 2025-06-11 14:58 v0.9.0
+- 2025-06-11 14:58 7a4cddb **0.9.0**
 - 2025-06-11 13:56 3acbe5b **refactor: adjust build script**
 ## 2025-06-11 13:51 v0.8.2
 - 2025-06-11 13:51 a502867 **0.8.2**
@@ -7,6 +9,7 @@
 - 2025-06-11 13:35 3f72420 **0.8.1**
 - 2025-06-11 13:34 e9d89be **step: update bgord tools**
 - 2025-06-11 12:44 74cb98b **step: add enabled flag to rate limit shield**
+- 2025-06-11 11:57 0d2fded **docs: generate CHANGELOG**
 - 2025-06-11 11:51 36338aa **docs: generate CHANGELOG**
 - 2025-06-11 11:50 f12daf3 **docs: generate CHANGELOG**
 - 2025-06-11 11:36 b7bf935 **docs: generate CHANGELOG**
