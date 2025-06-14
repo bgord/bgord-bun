@@ -1,4 +1,5 @@
 # Changelog
+- 2025-06-14 14:15 238dcf9 **fix: formatting**
 ## 2025-06-14 14:14 v0.11.0
 - 2025-06-14 14:14 a870b97 **0.11.0**
 - 2025-06-14 14:01 cf3b24f **step: introduce brand types in bgord-bun**
@@ -12,6 +13,7 @@
 - 2025-06-14 12:27 0bd0897 **refactor: adjust file uploader**
 - 2025-06-14 12:17 10f61b8 **refactor: adjust uptime**
 - 2025-06-14 12:16 884d849 **refactor: adjust time zone offset**
+- 2025-06-14 12:14 0d990d6 **docs: generate CHANGELOG**
 - 2025-06-14 12:13 0eefae5 **docs: generate CHANGELOG**
 - 2025-06-14 11:27 6402e30 **refactor: adjust build info repo**
 - 2025-06-14 11:25 74183cd **docs: generate CHANGELOG**
