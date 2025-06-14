@@ -19,7 +19,7 @@ export const rateLimitShield = (options: RateLimitShieldOptionsType) => {
     if (!enabled) return next();
 
     const currentTimestampMs = Date.now();
-    const check = rateLimiter.verify(currentTimestampMs);
+    const check = rateLimiter.verify(tools.Timestamp.parse(currentTimestampMs));
 
     if (!check.allowed) {
       throw TooManyRequestsError;
