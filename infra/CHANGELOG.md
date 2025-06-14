@@ -1,4 +1,5 @@
 # Changelog
+- 2025-06-14 13:08 792c325 **step: bump bgord/scripts**
 - 2025-06-14 13:04 cd3bc4b **step: update bgord tools**
 - 2025-06-14 12:42 f109ce9 **refactor: adjust translations prereq**
 - 2025-06-14 12:36 1c4002a **refactor: adjust rate limit shield**
@@ -8,6 +9,7 @@
 - 2025-06-14 12:17 10f61b8 **refactor: adjust uptime**
 - 2025-06-14 12:16 884d849 **refactor: adjust time zone offset**
 - 2025-06-14 11:27 6402e30 **refactor: adjust build info repo**
+- 2025-06-14 11:04 87ce8ef **docs: generate CHANGELOG**
 - 2025-06-14 10:07 361ba79 **step: update packages**
 - 2025-06-14 10:07 2a48bf1 **step: update bgord tools**
 - 2025-06-14 08:07 e14089b **docs: generate CHANGELOG**
