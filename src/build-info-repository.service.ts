@@ -7,7 +7,7 @@ export type BuildInfoType = {
 
 export class BuildInfoRepository {
   static async extract(): Promise<BuildInfoType> {
-    const BUILD_DATE = Date.now();
+    const BUILD_DATE = tools.Timestamp.parse(Date.now());
 
     try {
       const packageJson = await BuildInfoRepository.getPackageJson();
