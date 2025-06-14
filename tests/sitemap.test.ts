@@ -8,6 +8,7 @@ import {
   SitemapLoc,
   SitemapPriority,
 } from "../src/sitemap.service";
+import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash.vo";
 
 describe("SitemapLoc", () => {
   test("passes with non-empty string", () => {
@@ -31,7 +32,7 @@ describe("SitemapLastmod", () => {
     const result = SitemapLastmod.safeParse("10/05/2023");
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error.issues[0].message).toBe("sitemap.lastmod.invalid");
+      expect(result.error.issues[0]?.message).toBe("sitemap.lastmod.invalid");
     }
   });
 
@@ -92,7 +93,7 @@ describe("SitemapPriority", () => {
 describe("Sitemap.generate", () => {
   test("generates correct XML for full entry", () => {
     const config: SitemapConfigType = {
-      BASE_URL: "https://example.com",
+      BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
       entries: [
         {
           loc: "/page",
@@ -115,7 +116,7 @@ describe("Sitemap.generate", () => {
 
   test("omits optional fields if not present", () => {
     const config: SitemapConfigType = {
-      BASE_URL: "https://example.com",
+      BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
       entries: [
         {
           loc: "/home",
@@ -142,7 +143,7 @@ describe("Sitemap.save", () => {
 
     const config: SitemapConfigType = {
       path: "my-custom-sitemap.xml",
-      BASE_URL: "https://example.com",
+      BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
       entries: [
         {
           loc: "/about",
@@ -165,7 +166,7 @@ describe("Sitemap.save", () => {
     });
 
     const config: SitemapConfigType = {
-      BASE_URL: "https://example.com",
+      BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
       entries: [
         {
           loc: "/contact",

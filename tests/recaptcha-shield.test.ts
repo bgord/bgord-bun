@@ -1,15 +1,20 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import { RecaptchaShield } from "../src/recaptcha-shield.middleware";
+import {
+  RecaptchaSecretKey,
+  RecaptchaShield,
+} from "../src/recaptcha-shield.middleware";
 
-const VALID_SECRET_KEY = "test_secret_key";
+const VALID_SECRET_KEY = "x".repeat(40);
 
 const VALID_TOKEN = "valid_token";
 const INVALID_TOKEN = "invalid_token";
 
 describe("RecaptchaShield", () => {
   test("body - passes when recaptcha verification is successful", async () => {
-    const shield = new RecaptchaShield({ secretKey: VALID_SECRET_KEY });
+    const shield = new RecaptchaShield({
+      secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
+    });
 
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
@@ -33,7 +38,9 @@ describe("RecaptchaShield", () => {
   });
 
   test("headers - passes when recaptcha verification is successful", async () => {
-    const shield = new RecaptchaShield({ secretKey: VALID_SECRET_KEY });
+    const shield = new RecaptchaShield({
+      secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
+    });
 
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
@@ -57,7 +64,9 @@ describe("RecaptchaShield", () => {
   });
 
   test("query - passes when recaptcha verification is successful", async () => {
-    const shield = new RecaptchaShield({ secretKey: VALID_SECRET_KEY });
+    const shield = new RecaptchaShield({
+      secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
+    });
 
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
@@ -66,10 +75,13 @@ describe("RecaptchaShield", () => {
     const app = new Hono();
     app.post("/", shield.build, (c) => c.text("ok"));
 
-    const response = await app.request(`http://localhost/?recaptchaToken=${VALID_TOKEN}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
+    const response = await app.request(
+      `http://localhost/?recaptchaToken=${VALID_TOKEN}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      },
+    );
     const body = await response.text();
 
     expect(response.status).toBe(200);
@@ -78,7 +90,9 @@ describe("RecaptchaShield", () => {
   });
 
   test("throws AccessDeniedError when recaptcha fails", async () => {
-    const shield = new RecaptchaShield({ secretKey: VALID_SECRET_KEY });
+    const shield = new RecaptchaShield({
+      secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
+    });
 
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: false }), { status: 200 }),

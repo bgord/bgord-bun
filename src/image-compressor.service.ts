@@ -3,7 +3,13 @@ import { z } from "zod/v4";
 
 import type { PathType } from "../src/path.vo";
 
-export const ImageCompressionQuality = z.number().int().min(1).max(100).default(85);
+export const ImageCompressionQuality = z
+  .number()
+  .int()
+  .min(1)
+  .max(100)
+  .default(85)
+  .brand("ImageCompressionQuality");
 
 type ImageCompressionQualityType = z.infer<typeof ImageCompressionQuality>;
 

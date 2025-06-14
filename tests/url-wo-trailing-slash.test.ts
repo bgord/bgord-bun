@@ -12,7 +12,7 @@ describe("UrlWithoutTrailingSlash", () => {
     const result = UrlWithoutTrailingSlash.safeParse("https://example.com/");
     expect(result.success).toBe(false);
     if (!result.success) {
-      expect(result.error.issues[0].message).toBe("url_cannot_end_with_trailing_slash");
+      expect(result.error.issues[0]?.message).toBe("url_cannot_end_with_trailing_slash");
     }
   });
 

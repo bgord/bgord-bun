@@ -1,9 +1,10 @@
 import { describe, expect, test } from "bun:test";
 
+import { Port } from "../src/port.vo";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisitePort } from "../src/prerequisites/port";
 
-const PORT = 43210;
+const PORT = Port.parse(43210);
 
 describe("prerequisites - port", () => {
   test("passes if port is available", async () => {

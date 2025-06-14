@@ -35,7 +35,7 @@ describe("ImageCompressionQuality", () => {
 
   it("uses the default value of 85 when undefined", () => {
     const result = ImageCompressionQuality.parse(undefined);
-    expect(result).toBe(85);
+    expect(result).toEqual(ImageCompressionQuality.parse(85));
   });
 });
 
@@ -56,7 +56,7 @@ describe("ImageCompressor", () => {
     const result = await ImageCompressor.compress({
       input: SAMPLE_IMAGE,
       output: CUSTOM_QUALITY_IMAGE,
-      quality: 30,
+      quality: ImageCompressionQuality.parse(30),
     });
 
     expect(result.size).toBeGreaterThan(0);

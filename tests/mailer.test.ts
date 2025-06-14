@@ -8,6 +8,7 @@ import {
   EmailSubject,
   EmailTo,
   Mailer,
+  SmtpPort,
 } from "../src/mailer.service";
 
 describe("Mailer class", () => {
@@ -16,7 +17,7 @@ describe("Mailer class", () => {
 
     const validConfig = {
       SMTP_HOST: "smtp.example.com",
-      SMTP_PORT: 587,
+      SMTP_PORT: SmtpPort.parse(587),
       SMTP_USER: "user@example.com",
       SMTP_PASS: "password",
     };
@@ -37,7 +38,7 @@ describe("Mailer class", () => {
 
     const mailer = new Mailer({
       SMTP_HOST: "smtp.example.com",
-      SMTP_PORT: 587,
+      SMTP_PORT: SmtpPort.parse(587),
       SMTP_USER: "user@example.com",
       SMTP_PASS: "password",
     });
@@ -65,7 +66,7 @@ describe("Mailer class", () => {
 
     const mailer = new Mailer({
       SMTP_HOST: "smtp.example.com",
-      SMTP_PORT: 587,
+      SMTP_PORT: SmtpPort.parse(587),
       SMTP_USER: "user@example.com",
       SMTP_PASS: "password",
     });

@@ -31,8 +31,8 @@ describe("Basic auth validators", () => {
 });
 
 describe("BasicAuth", () => {
-  const username = "admin";
-  const password = "password";
+  const username = BasicAuthUsername.parse("admin");
+  const password = BasicAuthPassword.parse("password");
 
   // cSpell:ignore YWRtaW46cGFzc3dvcmQ
   const result = { authorization: "Basic YWRtaW46cGFzc3dvcmQ=" };

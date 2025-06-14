@@ -3,7 +3,11 @@ import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
 
-export const HCaptchaSecretKey = z.string().trim().length(42);
+export const HCaptchaSecretKey = z
+  .string()
+  .trim()
+  .length(42)
+  .brand("HCaptchaSecretKey");
 
 export type HCaptchaSecretKeyType = z.infer<typeof HCaptchaSecretKey>;
 
@@ -28,7 +32,8 @@ export class HcaptchaShield {
   private readonly secretKey: HCaptchaSecretKeyType;
   private readonly mode: HCaptchaVerifierModeType;
 
-  private readonly LOCAL_HCAPTCHA_RESPONSE_PLACEHOLDER = "10000000-aaaa-bbbb-cccc-000000000001";
+  private readonly LOCAL_HCAPTCHA_RESPONSE_PLACEHOLDER =
+    "10000000-aaaa-bbbb-cccc-000000000001";
 
   constructor(config: HCaptchaVerifierConfigType) {
     this.mode = config.mode;
@@ -39,11 +44,15 @@ export class HcaptchaShield {
     try {
       const form = await c.req.formData();
 
-      const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as HCaptchaResponseTokenType;
+      const hcaptchaTokenFormData = form
+        .get("h-captcha-response")
+        ?.toString() as HCaptchaResponseTokenType;
 
       const result = await hcaptcha.verify(
         this.secretKey,
-        this.mode === "production" ? hcaptchaTokenFormData : this.LOCAL_HCAPTCHA_RESPONSE_PLACEHOLDER,
+        this.mode === "production"
+          ? hcaptchaTokenFormData
+          : this.LOCAL_HCAPTCHA_RESPONSE_PLACEHOLDER,
       );
 
       if (!result?.success) {
