@@ -52,7 +52,7 @@ type LogFullType = {
   client: { ip?: string; userAgent?: string };
   correlationId?: LogCorrelationIdType;
   responseCode?: number;
-  durationMs?: tools.TimestampType;
+  durationMs?: number;
   metadata?: LogMetadataType;
 };
 
