@@ -15,6 +15,7 @@ describe("Memory consumption", () => {
     const result = MemoryConsumption.get();
 
     expect(result).toBeInstanceOf(tools.Size);
+    // @ts-expect-error
     expect(result.toBytes()).toBe(fakeRss);
     expect(result.format(tools.SizeUnit.MB)).toBe("117.74 MB");
 

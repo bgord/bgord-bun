@@ -1,4 +1,5 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
 import { EtagVariables } from "../src/etag-extractor.middleware";
@@ -26,8 +27,11 @@ describe("Setup", () => {
     const loggerHttp = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const i18n: I18nConfigType = {
-      supportedLanguages: { pl: "pl", en: "en" },
-      defaultLanguage: "en",
+      supportedLanguages: {
+        pl: tools.Language.parse("pl"),
+        en: tools.Language.parse("en"),
+      },
+      defaultLanguage: tools.Language.parse("en"),
     };
 
     const app = new Hono<{

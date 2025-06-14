@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
+import * as tools from "@bgord/tools";
 
 import { I18n } from "../src/i18n.service";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
@@ -11,7 +12,10 @@ describe("prerequisites - translations", () => {
 
     const result = await new PrerequisiteTranslations({
       label: "translations",
-      supportedLanguages: { en: "en", es: "es" },
+      supportedLanguages: {
+        en: tools.Language.parse("en"),
+        es: tools.Language.parse("es"),
+      },
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
@@ -24,7 +28,7 @@ describe("prerequisites - translations", () => {
 
     const result = await new PrerequisiteTranslations({
       label: "translations",
-      supportedLanguages: { en: "en" },
+      supportedLanguages: { en: tools.Language.parse("en") },
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.success);
@@ -54,7 +58,10 @@ describe("prerequisites - translations", () => {
 
     const result = await new PrerequisiteTranslations({
       label: "translations",
-      supportedLanguages: { en: "English", es: "Spanish" },
+      supportedLanguages: {
+        en: tools.Language.parse("en"),
+        es: tools.Language.parse("en"),
+      },
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
@@ -67,7 +74,10 @@ describe("prerequisites - translations", () => {
     const prerequisite = new PrerequisiteTranslations({
       label: "prerequisite",
       enabled: false,
-      supportedLanguages: { en: "English", es: "Spanish" },
+      supportedLanguages: {
+        en: tools.Language.parse("en"),
+        es: tools.Language.parse("es"),
+      },
     });
 
     const result = await prerequisite.verify();

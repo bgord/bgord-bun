@@ -1,10 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 
 import { Uptime } from "../src/uptime.service";
 
 describe("Uptime", () => {
   test("Uptime.get returns seconds and formatted uptime", () => {
-    const uptime = 12_000;
+    const uptime = tools.Timestamp.parse(12_000);
 
     const processUptime = spyOn(process, "uptime").mockImplementation(() => uptime);
 

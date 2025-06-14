@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteTimezoneUTC } from "../src/prerequisites/timezone-utc";
@@ -7,7 +8,7 @@ describe("prerequisites - timezone utc", () => {
   test("returns success if timezone is valid UTC", async () => {
     const prerequisite = new PrerequisiteTimezoneUTC({
       label: "Timezone Check",
-      timezone: "UTC",
+      timezone: tools.Timezone.parse("UTC"),
     });
 
     const result = await prerequisite.verify();
@@ -19,7 +20,7 @@ describe("prerequisites - timezone utc", () => {
   test("returns failure if timezone is invalid", async () => {
     const prerequisite = new PrerequisiteTimezoneUTC({
       label: "Timezone Check",
-      timezone: "Europe/Warsaw",
+      timezone: tools.Timezone.parse("Europe/Warsaw"),
     });
 
     const result = await prerequisite.verify();
@@ -31,7 +32,7 @@ describe("prerequisites - timezone utc", () => {
   test("returns undetermined if disabled", async () => {
     const prerequisite = new PrerequisiteTimezoneUTC({
       label: "Timezone Check",
-      timezone: "UTC",
+      timezone: tools.Timezone.parse("UTC"),
       enabled: false,
     });
 

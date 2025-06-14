@@ -2,11 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { safeParseBody } from "../src/safe-parse-body.service";
 
 function createMockContext(body: string) {
-  return {
-    req: {
-      text: async () => body,
-    },
-  } as any;
+  return { req: { text: async () => body } } as any;
 }
 
 describe("safeParseBody", () => {

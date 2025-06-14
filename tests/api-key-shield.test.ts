@@ -1,12 +1,15 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 
 import { ApiKeyShield } from "../src/api-key-shield.middleware";
 
-const VALID_API_KEY = "valid-api-key";
+const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const apiKeyShield = new ApiKeyShield({ API_KEY: VALID_API_KEY });
+const apiKeyShield = new ApiKeyShield({
+  API_KEY: tools.ApiKey.parse(VALID_API_KEY),
+});
 
 describe("ApiKeyShield middleware", () => {
   test("allows access with valid API key", async () => {

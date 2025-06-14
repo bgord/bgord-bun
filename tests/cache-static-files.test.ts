@@ -31,7 +31,7 @@ describe("Cache static files", () => {
     expect(res.headers.get("cache-control")).toMatch(/^public, max-age=\d+$/);
 
     const maxAge = Number(res.headers.get("cache-control")?.match(/max-age=(\d+)/)?.[1]);
-    expect(maxAge).toBeGreaterThanOrEqual(299); // account for rounding
+    expect(maxAge).toBeGreaterThanOrEqual(299);
     expect(maxAge).toBeLessThanOrEqual(301);
   });
 });
