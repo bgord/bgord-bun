@@ -32,7 +32,7 @@ export class TimeZoneOffset {
     timestamp: tools.TimestampType,
     timeZoneOffsetMs: tools.TimeResult["ms"],
   ): tools.TimestampType {
-    return timestamp - timeZoneOffsetMs;
+    return tools.Timestamp.parse(timestamp - timeZoneOffsetMs);
   }
 
   static adjustDate(timestamp: tools.TimestampType, timeZoneOffsetMs: tools.TimeResult["ms"]): Date {
