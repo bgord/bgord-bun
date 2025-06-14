@@ -6,11 +6,7 @@ export const RecaptchaSiteKey = z.string().trim().length(40);
 
 export type RecaptchaSiteKeyType = z.infer<typeof RecaptchaSiteKey>;
 
-export const RecaptchaSecretKey = z
-  .string()
-  .trim()
-  .length(40)
-  .brand("RecaptchaSecretKey");
+export const RecaptchaSecretKey = z.string().trim().length(40).brand("RecaptchaSecretKey");
 
 export type RecaptchaSecretKeyType = z.infer<typeof RecaptchaSecretKey>;
 
@@ -40,16 +36,13 @@ export class RecaptchaShield {
       const recaptchaTokenQuery = c.req.query("recaptchaToken");
 
       const form = await c.req.formData();
-      const recaptchaTokenFormData = form
-        .get("g-recaptcha-response")
-        ?.toString();
+      const recaptchaTokenFormData = form.get("g-recaptcha-response")?.toString();
 
       const xForwardedForHeader = c.req.header("x-forwarded-for");
       // cSpell:ignore remoteip
       const remoteip = xForwardedForHeader ?? "";
 
-      const token =
-        recaptchaTokenHeader ?? recaptchaTokenQuery ?? recaptchaTokenFormData;
+      const token = recaptchaTokenHeader ?? recaptchaTokenQuery ?? recaptchaTokenFormData;
 
       if (!token) {
         throw AccessDeniedRecaptchaError;
@@ -61,16 +54,13 @@ export class RecaptchaShield {
         remoteip,
       });
 
-      const response = await fetch(
-        "https://www.google.com/recaptcha/api/siteverify",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: params,
+      const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-      );
+        body: params,
+      });
 
       const result = (await response.json()) as RecaptchaResultType;
 

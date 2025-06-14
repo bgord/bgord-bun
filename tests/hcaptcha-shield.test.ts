@@ -1,10 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import {
-  HCaptchaSecretKey,
-  HcaptchaShield,
-} from "../src/hcaptcha-shield.middleware";
+import { HCaptchaSecretKey, HcaptchaShield } from "../src/hcaptcha-shield.middleware";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";
 
@@ -87,10 +84,7 @@ describe("RecaptchaShield", () => {
       body: new FormData(),
     });
 
-    expect(hcaptchaVerify).toHaveBeenCalledWith(
-      SECRET_KEY,
-      "10000000-aaaa-bbbb-cccc-000000000001",
-    );
+    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "10000000-aaaa-bbbb-cccc-000000000001");
     expect(response.status).toBe(200);
     expect(await response.text()).toBe("LOCAL OK");
 

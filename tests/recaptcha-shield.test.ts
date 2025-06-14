@@ -1,9 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import {
-  RecaptchaSecretKey,
-  RecaptchaShield,
-} from "../src/recaptcha-shield.middleware";
+import { RecaptchaSecretKey, RecaptchaShield } from "../src/recaptcha-shield.middleware";
 
 const VALID_SECRET_KEY = "x".repeat(40);
 
@@ -75,13 +72,10 @@ describe("RecaptchaShield", () => {
     const app = new Hono();
     app.post("/", shield.build, (c) => c.text("ok"));
 
-    const response = await app.request(
-      `http://localhost/?recaptchaToken=${VALID_TOKEN}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      },
-    );
+    const response = await app.request(`http://localhost/?recaptchaToken=${VALID_TOKEN}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    });
     const body = await response.text();
 
     expect(response.status).toBe(200);
