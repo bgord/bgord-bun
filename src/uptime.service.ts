@@ -11,6 +11,9 @@ export class Uptime {
     const uptime = tools.Time.Seconds(rounding.round(process.uptime()));
     const uptimeFormatted = tools.DateFormatters.relative(Date.now() - uptime.ms);
 
-    return { seconds: uptime.seconds, formatted: uptimeFormatted };
+    return {
+      seconds: tools.Timestamp.parse(uptime.seconds),
+      formatted: uptimeFormatted,
+    };
   }
 }
