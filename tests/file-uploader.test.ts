@@ -20,7 +20,7 @@ describe("File uploader", () => {
         maxFilesSize: new tools.Size({
           value: 10,
           unit: tools.SizeUnit.kB,
-        }).toBytes(),
+        }),
       }),
     );
 
@@ -53,7 +53,7 @@ describe("File uploader", () => {
     const maxFilesSize = new tools.Size({
       value: 10,
       unit: tools.SizeUnit.kB,
-    }).toBytes();
+    });
 
     app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize }));
 
@@ -86,7 +86,7 @@ describe("File uploader", () => {
     const maxFilesSize = new tools.Size({
       value: 1,
       unit: tools.SizeUnit.b,
-    }).toBytes();
+    });
 
     app.use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize }));
 

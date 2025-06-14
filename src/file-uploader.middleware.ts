@@ -13,14 +13,14 @@ export const FileTooBigError = new HTTPException(400, {
 
 type FileUploaderConfigType = {
   mimeTypes: string[];
-  maxFilesSize: tools.SizeValueType;
+  maxFilesSize: tools.Size;
 };
 
 export class FileUploader {
   static validate(config: FileUploaderConfigType) {
     return [
       bodyLimit({
-        maxSize: config.maxFilesSize,
+        maxSize: config.maxFilesSize.toBytes(),
         onError: () => {
           throw FileTooBigError;
         },
