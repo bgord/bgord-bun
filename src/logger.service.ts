@@ -58,20 +58,47 @@ type LogFullType = {
 
 type LogErrorType = Omit<
   LogFullType,
-  "app" | "client" | "environment" | "duration" | "level" | "method" | "responseCode" | "timestamp" | "url"
+  | "app"
+  | "client"
+  | "environment"
+  | "duration"
+  | "level"
+  | "method"
+  | "responseCode"
+  | "timestamp"
+  | "url"
 >;
 
 type LogWarnType = Omit<
   LogFullType,
-  "app" | "client" | "environment" | "duration" | "level" | "method" | "responseCode" | "timestamp" | "url"
+  | "app"
+  | "client"
+  | "environment"
+  | "duration"
+  | "level"
+  | "method"
+  | "responseCode"
+  | "timestamp"
+  | "url"
 >;
 
 type LogInfoType = Omit<
   LogFullType,
-  "app" | "client" | "environment" | "duration" | "level" | "method" | "responseCode" | "timestamp" | "url"
+  | "app"
+  | "client"
+  | "environment"
+  | "duration"
+  | "level"
+  | "method"
+  | "responseCode"
+  | "timestamp"
+  | "url"
 >;
 
-type LogHttpType = Omit<LogFullType, "app" | "environment" | "timestamp" | "level">;
+type LogHttpType = Omit<
+  LogFullType,
+  "app" | "environment" | "timestamp" | "level"
+>;
 
 type LoggerOptionsType = {
   app: LogAppType;
@@ -96,15 +123,20 @@ export class Logger {
     const formats = [
       winston.format.json(),
 
-      this.environment !== NodeEnvironmentEnum.production ? winston.format.prettyPrint() : undefined,
+      this.environment !== NodeEnvironmentEnum.production
+        ? winston.format.prettyPrint()
+        : undefined,
     ].filter(Boolean);
 
     this.instance = winston.createLogger({
       level: this.level,
       levels,
+      defaultMeta: this.getBase(),
       handleExceptions: true,
       handleRejections: true,
-      format: winston.format.combine(...(formats as NonNullable<winston.LoggerOptions["format"]>[])),
+      format: winston.format.combine(
+        ...(formats as NonNullable<winston.LoggerOptions["format"]>[]),
+      ),
       transports: [new winston.transports.Console()],
     });
 
@@ -127,23 +159,22 @@ export class Logger {
   }
 
   info(log: LogInfoType) {
-    this.instance.info({ level: LogLevelEnum.info, ...this.getBase(), ...log });
+    this.instance.info({ level: LogLevelEnum.info, ...log });
   }
 
   error(log: LogErrorType) {
     this.instance.error({
       level: LogLevelEnum.error,
-      ...this.getBase(),
       ...log,
     });
   }
 
   warn(log: LogWarnType) {
-    this.instance.warn({ level: LogLevelEnum.warn, ...this.getBase(), ...log });
+    this.instance.warn({ level: LogLevelEnum.warn, ...log });
   }
 
   http(log: LogHttpType) {
-    this.instance.http({ level: LogLevelEnum.http, ...this.getBase(), ...log });
+    this.instance.http({ level: LogLevelEnum.http, ...log });
   }
 
   getProductionLogFilePath(): PathType {
