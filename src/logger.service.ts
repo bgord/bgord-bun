@@ -58,47 +58,20 @@ type LogFullType = {
 
 type LogErrorType = Omit<
   LogFullType,
-  | "app"
-  | "client"
-  | "environment"
-  | "duration"
-  | "level"
-  | "method"
-  | "responseCode"
-  | "timestamp"
-  | "url"
+  "app" | "client" | "environment" | "duration" | "level" | "method" | "responseCode" | "timestamp" | "url"
 >;
 
 type LogWarnType = Omit<
   LogFullType,
-  | "app"
-  | "client"
-  | "environment"
-  | "duration"
-  | "level"
-  | "method"
-  | "responseCode"
-  | "timestamp"
-  | "url"
+  "app" | "client" | "environment" | "duration" | "level" | "method" | "responseCode" | "timestamp" | "url"
 >;
 
 type LogInfoType = Omit<
   LogFullType,
-  | "app"
-  | "client"
-  | "environment"
-  | "duration"
-  | "level"
-  | "method"
-  | "responseCode"
-  | "timestamp"
-  | "url"
+  "app" | "client" | "environment" | "duration" | "level" | "method" | "responseCode" | "timestamp" | "url"
 >;
 
-type LogHttpType = Omit<
-  LogFullType,
-  "app" | "environment" | "timestamp" | "level"
->;
+type LogHttpType = Omit<LogFullType, "app" | "environment" | "timestamp" | "level">;
 
 type LoggerOptionsType = {
   app: LogAppType;
@@ -123,9 +96,7 @@ export class Logger {
     const formats = [
       winston.format.json(),
 
-      this.environment !== NodeEnvironmentEnum.production
-        ? winston.format.prettyPrint()
-        : undefined,
+      this.environment !== NodeEnvironmentEnum.production ? winston.format.prettyPrint() : undefined,
     ].filter(Boolean);
 
     this.instance = winston.createLogger({
@@ -134,9 +105,7 @@ export class Logger {
       defaultMeta: this.getBase(),
       handleExceptions: true,
       handleRejections: true,
-      format: winston.format.combine(
-        ...(formats as NonNullable<winston.LoggerOptions["format"]>[]),
-      ),
+      format: winston.format.combine(...(formats as NonNullable<winston.LoggerOptions["format"]>[])),
       transports: [new winston.transports.Console()],
     });
 

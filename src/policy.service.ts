@@ -1,4 +1,5 @@
 import type { Constructor } from "@bgord/tools";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 type BasePolicyConfig = Record<string, unknown>;
 
@@ -9,7 +10,7 @@ export abstract class Policy<T extends BasePolicyConfig> {
 
   abstract message: string;
 
-  abstract code: number;
+  abstract code: ContentfulStatusCode;
 
   throw() {
     throw new this.error();
