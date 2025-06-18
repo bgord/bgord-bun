@@ -9,6 +9,8 @@ export abstract class Policy<T extends BasePolicyConfig> {
 
   abstract message: string;
 
+  abstract code: number;
+
   throw() {
     throw new this.error();
   }

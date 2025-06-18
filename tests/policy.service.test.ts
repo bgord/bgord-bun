@@ -12,6 +12,8 @@ class SamplePolicy extends Policy<{ threshold: number }> {
   error = MockError;
 
   message = "SamplePolicy failed";
+
+  code = 400;
 }
 
 describe("Policy class", () => {
