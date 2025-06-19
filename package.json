@@ -11,7 +11,10 @@
     "import": "./dist/index.js",
     "types": "./dist/index.d.ts"
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "rm -rf dist && tsc --build",
     "preinstall": "bunx only-allow bun"
@@ -34,7 +37,7 @@
   "dependencies": {
     "@bgord/tools": "0.9.3",
     "check-disk-space": "3.4.0",
-    "croner": "9.0.0",
+    "croner": "9.1.0",
     "hcaptcha": "0.2.0",
     "hono": "4.7.11",
     "lodash": "4.17.21",
