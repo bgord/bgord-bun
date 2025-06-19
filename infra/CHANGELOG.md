@@ -1,8 +1,23 @@
 # Changelog
+- 2025-06-19 12:27 02475c8 **refactor: regenerate packages**
+- 2025-06-19 12:17 cdf1d93 **step: update croner**
+- 2025-06-19 12:17 3387cf4 **step: migrate to biome v2**
+- 2025-06-19 12:15 dfda241 **step: update cspell**
+- 2025-06-19 12:15 6772a4a **step: update biome**
+- 2025-06-19 12:15 5901573 **step: bump bgord/scripts**
+- 2025-06-19 12:15 51017bc **step: update bgord/tools**
+- 2025-06-19 12:14 8a44b00 **step: update knip**
+- 2025-06-19 12:14 602050e **step: update cspell**
+- 2025-06-19 12:13 cdaea7a **step: update lodash**
+- 2025-06-19 12:13 58bdc42 **step: update lefthook**
+- 2025-06-19 01:12 b4a28b2 **step: define policy.code**
+- 2025-06-19 01:12 02d7b63 **step: define policy.code**
+- 2025-06-17 17:52 02716de **step: simplify logger**
 ## 2025-06-14 17:03 v0.11.1
 - 2025-06-14 17:03 65b3487 **0.11.1**
 - 2025-06-14 17:02 e61aaa9 **refactor: loosen i18n config types**
 - 2025-06-14 15:03 9643f3c **docs: generate CHANGELOG**
+- 2025-06-14 15:03 60e29c0 **docs: generate CHANGELOG**
 - 2025-06-14 14:15 238dcf9 **fix: formatting**
 ## 2025-06-14 14:14 v0.11.0
 - 2025-06-14 14:14 a870b97 **0.11.0**
