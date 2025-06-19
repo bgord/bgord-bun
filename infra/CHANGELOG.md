@@ -1,4 +1,6 @@
 # Changelog
+- 2025-06-19 23:19 e9d239e **feature: use uaBlocker for bots**
+- 2025-06-19 23:07 7a47770 **step: install hono/ua-blocker**
 ## 2025-06-19 21:08 v0.12.0
 - 2025-06-19 21:08 4a8f2dd **0.12.0**
 - 2025-06-19 20:43 8f031d8 **feature: add generic event store**
@@ -7,6 +9,7 @@
 - 2025-06-19 20:36 629db7c **refactor: define event types**
 - 2025-06-19 20:35 c8006a4 **feature: define event stream vo**
 - 2025-06-19 20:34 c7461f6 **feature: define event stream vo**
+- 2025-06-19 19:08 53a8455 **docs: generate CHANGELOG**
 - 2025-06-19 19:07 e2babe6 **docs: generate CHANGELOG**
 ## 2025-06-19 12:32 v0.11.2
 - 2025-06-19 12:32 fbd6858 **0.11.2**
