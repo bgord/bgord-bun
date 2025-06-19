@@ -1,10 +1,10 @@
+import type { GenericEventSchema } from "./event.types";
 import { Logger } from "./logger.service";
 
 export class EventHandler {
   constructor(private readonly logger: Logger) {}
 
-  // TODO: take from the generic event schema
-  handle<T extends { name: string }>(fn: (event: T) => Promise<void>) {
+  handle<T extends { name: GenericEventSchema["shape"]["name"] }>(fn: (event: T) => Promise<void>) {
     return async (event: T) => {
       try {
         await fn(event);
