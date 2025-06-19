@@ -50,7 +50,7 @@ export class HcaptchaShield {
         throw AccessDeniedHcaptchaError;
       }
       return next();
-    } catch (error) {
+    } catch (_error) {
       throw AccessDeniedHcaptchaError;
     }
   });

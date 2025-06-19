@@ -203,10 +203,7 @@ export class OpenGraphImage {
 }
 
 class OpenGraphImageGenerator {
-  static async generate(config: {
-    path: PathType;
-    BASE_URL: UrlWithoutTrailingSlashType;
-  }) {
+  static async generate(config: { path: PathType; BASE_URL: UrlWithoutTrailingSlashType }) {
     const exif = await ImageEXIF.read(config.path);
 
     return new OpenGraphImage({

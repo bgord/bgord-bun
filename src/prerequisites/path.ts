@@ -29,7 +29,7 @@ export class PrerequisitePath extends prereqs.AbstractPrerequisite<PrerequisiteP
       await fsp.access(this.config.path, flags);
 
       return this.pass();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

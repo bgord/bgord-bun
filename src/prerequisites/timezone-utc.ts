@@ -24,7 +24,7 @@ export class PrerequisiteTimezoneUTC extends prereqs.AbstractPrerequisite<Prereq
     try {
       TimezoneUtc.parse(this.config.timezone);
       return this.pass();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

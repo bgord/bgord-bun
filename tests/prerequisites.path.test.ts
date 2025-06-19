@@ -1,8 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisitePath } from "../src/prerequisites/path";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 const DUMMY_PATH = "/mocked/path";
 

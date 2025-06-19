@@ -20,7 +20,7 @@ export class PrerequisiteMailer extends prereqs.AbstractPrerequisite<Prerequisit
     try {
       await this.config.mailer.verify();
       return this.pass();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

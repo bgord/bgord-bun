@@ -30,7 +30,6 @@ export class I18n {
     try {
       return Bun.file(this.getTranslationPathForLanguage(language)).json();
     } catch (error) {
-      // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log("I18n#getTranslations", error);
 
       return {};
@@ -42,6 +41,7 @@ export class I18n {
       const translation = translations[key];
 
       if (!translation) {
+        // biome-ignore lint: lint/suspicious/noConsole
         console.warn(`[@bgord/node] missing translation for key: ${key}`);
         return key;
       }

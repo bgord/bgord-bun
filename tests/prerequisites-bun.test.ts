@@ -1,8 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteBun } from "../src/prerequisites/bun";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - bun", () => {
   test("returns success if current Bun version is equal to required version", async () => {

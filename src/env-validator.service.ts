@@ -27,7 +27,6 @@ export class EnvironmentValidator<SchemaType> {
     if (result.success) {
       this.type = result.data;
     } else if (this.quit) {
-      // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log(`Invalid EnvironmentType: ${config.type}`);
       process.exit(1);
     } else {

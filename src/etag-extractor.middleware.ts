@@ -13,7 +13,7 @@ export class ETagExtractor {
 
       if (!header || header === "undefined") c.set("ETag", null);
       else c.set("ETag", tools.ETag.fromHeader(header));
-    } catch (error) {
+    } catch (_error) {
       c.set("ETag", null);
     }
 

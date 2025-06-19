@@ -3,8 +3,8 @@ import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 
 import { I18n } from "../src/i18n.service";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - translations", () => {
   test("verify method returns failure for translations that not exist", async () => {

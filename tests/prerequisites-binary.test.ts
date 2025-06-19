@@ -1,8 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - binary", () => {
   test("returns success if binary is found", async () => {

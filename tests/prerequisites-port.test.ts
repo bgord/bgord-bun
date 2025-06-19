@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 
 import { Port } from "../src/port.vo";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisitePort } from "../src/prerequisites/port";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 const PORT = Port.parse(43210);
 

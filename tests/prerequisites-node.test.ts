@@ -1,9 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import bun from "bun";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteNode } from "../src/prerequisites/node";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - node", () => {
   test("passes if current Node.js version is sufficient", async () => {

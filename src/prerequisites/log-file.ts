@@ -23,7 +23,7 @@ export class PrerequisiteLogFile extends prereqs.AbstractPrerequisite<Prerequisi
       const result = await Bun.file(path).exists();
 
       return result ? this.pass() : this.reject();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

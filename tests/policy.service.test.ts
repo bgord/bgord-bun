@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 import { Policy } from "../src/policy.service";
 
@@ -13,7 +14,7 @@ class SamplePolicy extends Policy<{ threshold: number }> {
 
   message = "SamplePolicy failed";
 
-  code = 400;
+  code = 400 as ContentfulStatusCode;
 }
 
 describe("Policy class", () => {
@@ -38,7 +39,7 @@ describe("Policy class", () => {
       const policy = new SamplePolicy();
       await policy.perform({ threshold: 15 });
       expect.unreachable();
-    } catch (error) {}
+    } catch (_error) {}
   });
 
   test("perform method does not throw error when policy passes", async () => {

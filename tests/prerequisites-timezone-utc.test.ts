@@ -1,8 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteTimezoneUTC } from "../src/prerequisites/timezone-utc";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - timezone utc", () => {
   test("returns success if timezone is valid UTC", async () => {

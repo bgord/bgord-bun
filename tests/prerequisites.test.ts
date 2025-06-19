@@ -1,10 +1,9 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
-
-import * as prereqs from "../src/prerequisites.service";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("Prerequisites", () => {
   test("exits the process if at least one prerequisite fails", async () => {

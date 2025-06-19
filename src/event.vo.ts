@@ -16,7 +16,7 @@ export const Event = z.object({
       try {
         JSON.parse(JSON.stringify(value));
         return true;
-      } catch (error) {
+      } catch (_error) {
         return false;
       }
     })

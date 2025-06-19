@@ -10,7 +10,7 @@ export class WeakETagExtractor {
 
       if (!header || header === "undefined") c.set("WeakETag", null);
       else c.set("WeakETag", tools.WeakETag.fromHeader(header));
-    } catch (error) {
+    } catch (_error) {
       c.set("WeakETag", null);
     }
 

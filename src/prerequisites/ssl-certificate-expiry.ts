@@ -25,7 +25,7 @@ export class PrerequisiteSSLCertificateExpiry extends prereqs.AbstractPrerequisi
       if (!result.valid) return prereqs.PrerequisiteStatusEnum.failure;
 
       return result.daysRemaining <= this.config.validDaysMinimum ? this.reject() : this.pass();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

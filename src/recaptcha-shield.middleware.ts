@@ -69,7 +69,7 @@ export class RecaptchaShield {
       }
 
       await next();
-    } catch (error) {
+    } catch (_error) {
       throw AccessDeniedRecaptchaError;
     }
   });

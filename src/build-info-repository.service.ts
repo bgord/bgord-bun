@@ -15,7 +15,7 @@ export class BuildInfoRepository {
       const BUILD_VERSION = tools.BuildVersion.parse(packageJson.version);
 
       return { BUILD_DATE, BUILD_VERSION };
-    } catch (error) {
+    } catch (_error) {
       return { BUILD_DATE };
     }
   }

@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - external api", () => {
   test("passes when ok = true is returned", async () => {

@@ -1,7 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteMailer } from "../src/prerequisites/mailer";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 const mockMailer = { verify: jest.fn() };
 

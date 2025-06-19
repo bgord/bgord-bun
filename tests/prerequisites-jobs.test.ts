@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteJobs } from "../src/prerequisites/jobs";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - jobs", () => {
   test("verify method returns success for all jobs running", async () => {

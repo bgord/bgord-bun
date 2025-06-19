@@ -61,17 +61,14 @@ export abstract class AbstractPrerequisite<T extends BasePrerequisiteConfig> {
 
   report() {
     if (this.status === PrerequisiteStatusEnum.success) {
-      // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log(`[x] ${this.config.label} verified correctly with ${this.strategy} strategy`);
     }
 
     if (this.status === PrerequisiteStatusEnum.failure) {
-      // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log(`[-] ${this.config.label} not verified correctly with ${this.strategy} strategy`);
     }
 
     if (this.status === PrerequisiteStatusEnum.undetermined) {
-      // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log(`[?] ${this.config.label} not enabled with ${this.strategy} strategy`);
     }
   }
@@ -95,13 +92,11 @@ export class Prerequisites {
       if (failedPrerequisiteLabels.length > 0) {
         const failedPrerequisiteLabelsFormatted = failedPrerequisiteLabels.join(", ");
 
-        // biome-ignore lint: lint/suspicious/noConsoleLog
         console.log(`Prerequisites failed: ${failedPrerequisiteLabelsFormatted}, quitting...`);
 
         process.exit(1);
       }
     } catch (error) {
-      // biome-ignore lint: lint/suspicious/noConsoleLog
       console.log("Prerequisites error", String(error));
     }
   }

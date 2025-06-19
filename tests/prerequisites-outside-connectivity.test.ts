@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-connectivity";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - outside connectivity", () => {
   test("verify method returns success for successful outside connectivity", async () => {

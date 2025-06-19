@@ -33,7 +33,7 @@ export class PrerequisiteBinary extends prereqs.AbstractPrerequisite<Prerequisit
       const result = await bun.$`which ${binary}`.quiet();
 
       return result.exitCode === 0 ? this.pass() : this.reject();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

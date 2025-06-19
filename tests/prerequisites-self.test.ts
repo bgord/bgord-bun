@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteSelf } from "../src/prerequisites/self";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - self", () => {
   test("verify method returns success for self strategy", async () => {

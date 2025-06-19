@@ -47,7 +47,7 @@ export class PrerequisiteDependencyVulnerabilities extends AbstractPrerequisite<
         return this.reject();
       }
       return this.pass();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

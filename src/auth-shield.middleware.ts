@@ -121,7 +121,7 @@ export class AuthShield<T extends { password: PasswordType; id: IdType }> {
       c.res.headers.set("Set-Cookie", sessionCookie.serialize());
 
       return next();
-    } catch (error) {
+    } catch (_error) {
       throw AccessDeniedAuthShieldError;
     }
   });

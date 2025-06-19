@@ -54,7 +54,7 @@ export class HttpLogger {
 
       try {
         body = await c.req.raw.clone().json();
-      } catch (error) {}
+      } catch (_error) {}
 
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
@@ -82,7 +82,7 @@ export class HttpLogger {
       let response: any;
       try {
         response = await c.res.clone().json();
-      } catch (error) {}
+      } catch (_error) {}
 
       const httpRequestAfterMetadata = {
         response,

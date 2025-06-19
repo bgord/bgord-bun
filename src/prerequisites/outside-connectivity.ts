@@ -19,7 +19,7 @@ export class PrerequisiteOutsideConnectivity extends prereqs.AbstractPrerequisit
       const result = await fetch("https://google.com");
 
       return result.ok ? this.pass() : this.reject();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

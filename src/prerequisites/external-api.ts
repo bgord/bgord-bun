@@ -20,7 +20,7 @@ export class PrerequisiteExternalApi extends prereqs.AbstractPrerequisite<Prereq
       const result = await this.config.request();
 
       return result.ok ? this.pass() : this.reject();
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
   }

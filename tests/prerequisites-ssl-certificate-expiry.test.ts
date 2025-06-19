@@ -1,8 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as sslChecker from "ssl-checker";
-
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import { PrerequisiteSSLCertificateExpiry } from "../src/prerequisites/ssl-certificate-expiry";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - ssl certificate expiry", () => {
   test("passes when certificate is valid and has enough days remaining", async () => {

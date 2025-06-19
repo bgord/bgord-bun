@@ -39,7 +39,7 @@ export class PrerequisiteTranslations extends prereqs.AbstractPrerequisite<Prere
           constants.R_OK,
         );
       }
-    } catch (error) {
+    } catch (_error) {
       return this.reject();
     }
 
@@ -82,7 +82,6 @@ export class PrerequisiteTranslations extends prereqs.AbstractPrerequisite<Prere
 
     if (problems.length === 0) return this.pass();
 
-    // biome-ignore lint: lint/suspicious/noConsoleLog
     console.log(problems);
 
     return this.reject();
