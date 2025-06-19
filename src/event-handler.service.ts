@@ -1,10 +1,10 @@
-import type { EventType } from "./event.vo";
 import { Logger } from "./logger.service";
 
 export class EventHandler {
   constructor(private readonly logger: Logger) {}
 
-  handle<T extends Pick<EventType, "name">>(fn: (event: T) => Promise<void>) {
+  // TODO: take from the generic event schema
+  handle<T extends { name: string }>(fn: (event: T) => Promise<void>) {
     return async (event: T) => {
       try {
         await fn(event);
