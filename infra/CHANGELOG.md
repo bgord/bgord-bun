@@ -1,4 +1,10 @@
 # Changelog
+- 2025-06-19 20:43 8f031d8 **feature: add generic event store**
+- 2025-06-19 20:40 6cfdab4 **fix: event stream inference**
+- 2025-06-19 20:37 4402fe4 **refactor: fix EventHandler types**
+- 2025-06-19 20:36 629db7c **refactor: define event types**
+- 2025-06-19 20:35 c8006a4 **feature: define event stream vo**
+- 2025-06-19 20:34 c7461f6 **feature: define event stream vo**
 ## 2025-06-19 12:32 v0.11.2
 - 2025-06-19 12:32 fbd6858 **0.11.2**
 - 2025-06-19 12:28 d64500b **step: update hono**
@@ -14,6 +20,7 @@
 - 2025-06-19 12:13 cdaea7a **step: update lodash**
 - 2025-06-19 12:13 58bdc42 **step: update lefthook**
 - 2025-06-19 10:32 ef37448 **docs: generate CHANGELOG**
+- 2025-06-19 10:32 0d80724 **docs: generate CHANGELOG**
 - 2025-06-19 10:27 4c3e33b **docs: generate CHANGELOG**
 - 2025-06-19 01:12 b4a28b2 **step: define policy.code**
 - 2025-06-19 01:12 02d7b63 **step: define policy.code**
