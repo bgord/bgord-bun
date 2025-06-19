@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import { uaBlocker } from "@hono/ua-blocker";
 import { bodyLimit } from "hono/body-limit";
 import { cors } from "hono/cors";
 import { languageDetector } from "hono/language";
@@ -7,6 +8,7 @@ import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 
 import { ApiVersion } from "./api-version.middleware";
+import { BOTS_REGEX } from "./bots.vo";
 import { Context } from "./context.middleware";
 import { ETagExtractor } from "./etag-extractor.middleware";
 import { HttpLogger } from "./http-logger.middleware";
@@ -25,6 +27,7 @@ export class Setup {
     return [
       secureHeaders(),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
+      uaBlocker({ blocklist: BOTS_REGEX }),
       ApiVersion.attach,
       cors({ origin: "*" }),
       languageDetector({
