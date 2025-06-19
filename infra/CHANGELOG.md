@@ -1,4 +1,5 @@
 # Changelog
+- 2025-06-19 12:28 d64500b **step: update hono**
 - 2025-06-19 12:27 02475c8 **refactor: regenerate packages**
 - 2025-06-19 12:17 cdf1d93 **step: update croner**
 - 2025-06-19 12:17 3387cf4 **step: migrate to biome v2**
@@ -10,6 +11,7 @@
 - 2025-06-19 12:14 602050e **step: update cspell**
 - 2025-06-19 12:13 cdaea7a **step: update lodash**
 - 2025-06-19 12:13 58bdc42 **step: update lefthook**
+- 2025-06-19 10:27 4c3e33b **docs: generate CHANGELOG**
 - 2025-06-19 01:12 b4a28b2 **step: define policy.code**
 - 2025-06-19 01:12 02d7b63 **step: define policy.code**
 - 2025-06-17 17:52 02716de **step: simplify logger**
