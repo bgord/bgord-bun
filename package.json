@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@bgord/tools": "0.9.3",
+    "@hono/ua-blocker": "^0.1.2",
     "check-disk-space": "3.4.0",
     "croner": "9.1.0",
     "hcaptcha": "0.2.0",

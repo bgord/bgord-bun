@@ -5,6 +5,7 @@
       "name": "@bgord/bun",
       "dependencies": {
         "@bgord/tools": "0.9.3",
+        "@hono/ua-blocker": "^0.1.2",
         "check-disk-space": "3.4.0",
         "croner": "9.1.0",
         "hcaptcha": "0.2.0",
@@ -239,6 +240,8 @@
     "@emnapi/runtime": ["@emnapi/runtime@1.4.3", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-pBPWdu6MLKROBX05wSNKcNb++m5Er+KQ9QkB+WVM+pW2Kx9hoSrVTnu3BdkI5eBLZoKu/J6mW/B6i6bJB2ytXQ=="],
 
     "@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.0.2", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-5n3nTJblwRi8LlXkJ9eBzu+kZR8Yxcc7ubakyQTFzPMtIhFpUBRbsnc2Dv88IZDIbCDlBiWrknhB4Lsz7mg6BA=="],
+
+    "@hono/ua-blocker": ["@hono/ua-blocker@0.1.2", "", { "peerDependencies": { "hono": "*" } }, "sha512-8XqX0v32vaM/DKcOo/Km+3BHKNPcBx3m5kOtzlm8FHrguJ4gxrK41JVYSIlKKhfVKJTIMwvp3F10f0rq8YNjbA=="],
 
     "@img/sharp-darwin-arm64": ["@img/sharp-darwin-arm64@0.34.2", "", { "optionalDependencies": { "@img/sharp-libvips-darwin-arm64": "1.1.0" }, "os": "darwin", "cpu": "arm64" }, "sha512-OfXHZPppddivUJnqyKoi5YVeHRkkNE2zUFT2gbpKxp/JZCFYEYubnMg+gOp6lWfasPrTS+KPosKqdI+ELYVDtg=="],
 
