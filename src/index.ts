@@ -17,6 +17,7 @@ export * from "./etag-extractor.middleware";
 export * from "./event.types";
 export * from "./event-handler.service";
 export * from "./event-logger.service";
+export * from "./event-store";
 export * from "./event-stream.vo";
 export * from "./file-location.service";
 export * from "./file-uploader.middleware";
