@@ -25,7 +25,7 @@
     "@types/mime-types": "3.0.1",
     "@types/nodemailer": "6.4.17",
     "cspell": "9.1.0",
-    "knip": "5.61.0",
+    "knip": "5.61.2",
     "lefthook": "1.11.14",
     "only-allow": "1.2.1",
     "shellcheck": "3.1.0",
