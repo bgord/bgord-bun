@@ -1,6 +1,8 @@
 # Changelog
+- 2025-06-20 11:24 092ea74 **step: bump bgord/scripts**
 - 2025-06-19 23:19 e9d239e **feature: use uaBlocker for bots**
 - 2025-06-19 23:07 7a47770 **step: install hono/ua-blocker**
+- 2025-06-19 21:21 dde92ae **docs: generate CHANGELOG**
 ## 2025-06-19 21:08 v0.12.0
 - 2025-06-19 21:08 4a8f2dd **0.12.0**
 - 2025-06-19 20:43 8f031d8 **feature: add generic event store**
