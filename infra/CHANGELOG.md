@@ -1,5 +1,7 @@
 # Changelog
+- 2025-06-20 11:58 485a48d **step: regenerate packages**
 - 2025-06-20 11:24 092ea74 **step: bump bgord/scripts**
+- 2025-06-20 09:25 bb90e3c **docs: generate CHANGELOG**
 - 2025-06-19 23:19 e9d239e **feature: use uaBlocker for bots**
 - 2025-06-19 23:07 7a47770 **step: install hono/ua-blocker**
 - 2025-06-19 21:21 dde92ae **docs: generate CHANGELOG**
