@@ -1,6 +1,12 @@
 # Changelog
+- 2025-06-22 00:08 d111e88 **step: bump bgord/scripts**
+- 2025-06-22 00:08 c3c3ac0 **refactor: adjust event handler name type**
+- 2025-06-21 17:14 c8d869a **step: use to-event-map internally in dispatching event store**
+- 2025-06-21 17:09 9e86984 **step: create to-event-map helper**
+- 2025-06-21 17:08 f5bb533 **feature: add dispatching event store**
 - 2025-06-20 11:58 485a48d **step: regenerate packages**
 - 2025-06-20 11:24 092ea74 **step: bump bgord/scripts**
+- 2025-06-20 09:59 5c8c96c **docs: generate CHANGELOG**
 - 2025-06-20 09:25 bb90e3c **docs: generate CHANGELOG**
 - 2025-06-19 23:19 e9d239e **feature: use uaBlocker for bots**
 - 2025-06-19 23:07 7a47770 **step: install hono/ua-blocker**
