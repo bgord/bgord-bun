@@ -10,6 +10,7 @@ export * from "./cache-static-files.middleware";
 export * from "./context.middleware";
 export * from "./correlation-id.vo";
 export * from "./decorators.service";
+export * from "./dispatching-event-store";
 export * from "./download-file.service";
 export * from "./encryption.service";
 export * from "./env-validator.service";
