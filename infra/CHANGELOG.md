@@ -1,6 +1,9 @@
 # Changelog
+## 2025-06-22 00:12 v0.12.1
+- 2025-06-22 00:12 6abf667 **0.12.1**
 - 2025-06-22 00:08 d111e88 **step: bump bgord/scripts**
 - 2025-06-22 00:08 c3c3ac0 **refactor: adjust event handler name type**
+- 2025-06-21 22:10 89754c1 **docs: generate CHANGELOG**
 - 2025-06-21 17:14 c8d869a **step: use to-event-map internally in dispatching event store**
 - 2025-06-21 17:09 9e86984 **step: create to-event-map helper**
 - 2025-06-21 17:08 f5bb533 **feature: add dispatching event store**
