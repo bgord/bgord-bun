@@ -7,6 +7,8 @@ export * from "./build-info-repository.service";
 export * from "./cache-resolver.service";
 export * from "./cache-response.middleware";
 export * from "./cache-static-files.middleware";
+export * from "./command.types";
+export * from "./command-handler.service";
 export * from "./command-logger";
 export * from "./context.middleware";
 export * from "./correlation-id.vo";
