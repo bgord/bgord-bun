@@ -2,6 +2,7 @@ import { z } from "zod/v4";
 
 export type GenericEventSchema = z.ZodObject<{
   id: z.ZodType<string>;
+  correlationId: z.ZodType<string>;
   createdAt: z.ZodType<number>;
   stream: z.ZodString;
   name: z.ZodLiteral<string>;
