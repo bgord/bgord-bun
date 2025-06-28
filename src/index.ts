@@ -60,3 +60,4 @@ export * from "./url-wo-trailing-slash.vo";
 export * from "./username.vo";
 export * from "./uuid.vo";
 export * from "./weak-etag-extractor.middleware";
+export * from "./correlation-storage.service";
