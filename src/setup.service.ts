@@ -10,13 +10,13 @@ import { timing } from "hono/timing";
 import { ApiVersion } from "./api-version.middleware";
 import { BOTS_REGEX } from "./bots.vo";
 import { Context } from "./context.middleware";
+import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
 import { HttpLogger } from "./http-logger.middleware";
 import { I18nConfigType } from "./i18n.service";
 import { Logger } from "./logger.service";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
-import { CorrelationStorage } from "./correlation-storage.service";
 
 export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   value: 128,

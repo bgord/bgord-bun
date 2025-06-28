@@ -1,5 +1,5 @@
-import { createMiddleware } from "hono/factory";
 import { AsyncLocalStorage } from "node:async_hooks";
+import { createMiddleware } from "hono/factory";
 
 import type { CorrelationIdType } from "./correlation-id.vo";
 
@@ -12,7 +12,8 @@ export class CorrelationStorage {
 
   private static readonly als: AsyncLocalStorage<CorrelationContext> = ((globalThis as any)[
     this.GLOBAL_KEY
-  ] ??= new AsyncLocalStorage<CorrelationContext>());
+  ] ??=
+    new AsyncLocalStorage<CorrelationContext>());
 
   static run<T>(correlationId: CorrelationIdType, fn: () => T | Promise<T>): T | Promise<T> {
     return CorrelationStorage.als.run({ correlationId }, fn);
