@@ -1,8 +1,26 @@
 # Changelog
+- 2025-06-28 19:14 97f66ba **step: update packages**
+- 2025-06-28 19:13 19bcbc0 **fix: formatting**
+- 2025-06-28 19:12 6585adc **fix: formatting**
+- 2025-06-28 19:12 25304e4 **step: bump bgord/scripts**
+- 2025-06-28 19:12 1bd2a65 **step: test command logger**
+- 2025-06-28 18:23 a582f11 **step: add event correlation id field**
+- 2025-06-28 18:07 ad38e06 **step: add correlationId to commands**
+- 2025-06-28 18:01 e6e4a35 **step: use correlation storage in setup**
+- 2025-06-28 18:00 33f7d49 **step: test correlation storage**
+- 2025-06-28 17:55 06be530 **feature: add correlation storage service**
+- 2025-06-28 17:25 bae575b **step: change request id header name**
+- 2025-06-27 20:37 88d2799 **refactor: remove command handler**
+- 2025-06-27 16:08 862e477 **step: bump bgord/scripts**
+- 2025-06-27 16:08 7d39bee **feature: create command handler service**
+- 2025-06-27 14:42 1183d37 **step: add command logger**
+- 2025-06-25 14:32 1155864 **step: update packages**
+- 2025-06-25 14:31 c488d80 **step: pinpoint dependencies**
 ## 2025-06-22 00:12 v0.12.1
 - 2025-06-22 00:12 6abf667 **0.12.1**
 - 2025-06-22 00:08 d111e88 **step: bump bgord/scripts**
 - 2025-06-22 00:08 c3c3ac0 **refactor: adjust event handler name type**
+- 2025-06-21 22:13 64b74a9 **docs: generate CHANGELOG**
 - 2025-06-21 22:10 89754c1 **docs: generate CHANGELOG**
 - 2025-06-21 17:14 c8d869a **step: use to-event-map internally in dispatching event store**
 - 2025-06-21 17:09 9e86984 **step: create to-event-map helper**
