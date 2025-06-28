@@ -1,6 +1,5 @@
 import { Logger } from "./logger.service";
 
-// TODO: add tests
 export class CommandLogger {
   constructor(private readonly logger: Logger) {}
 
