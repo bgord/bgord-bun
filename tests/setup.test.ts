@@ -54,7 +54,7 @@ describe("Setup", () => {
       "/ping",
       {
         method: "GET",
-        headers: new Headers({ "x-request-id": predefinedRequestId }),
+        headers: new Headers({ "x-correlation-id": predefinedRequestId }),
       },
       ip,
     );
@@ -74,7 +74,7 @@ describe("Setup", () => {
       "x-download-options": "noopen",
       "x-frame-options": "SAMEORIGIN",
       "x-permitted-cross-domain-policies": "none",
-      "x-request-id": expect.any(String),
+      "x-correlation-id": expect.any(String),
       "x-xss-protection": "0",
     });
 

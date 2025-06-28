@@ -34,7 +34,7 @@ export class Setup {
         supportedLanguages: Object.keys(i18n.supportedLanguages),
         fallbackLanguage: i18n.defaultLanguage,
       }),
-      requestId({ limitLength: 36 }),
+      requestId({ limitLength: 36, headerName: "x-correlation-id" }),
       TimeZoneOffset.attach,
       Context.attach,
       WeakETagExtractor.attach,
