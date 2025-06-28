@@ -16,6 +16,7 @@ import { I18nConfigType } from "./i18n.service";
 import { Logger } from "./logger.service";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
+import { CorrelationStorage } from "./correlation-storage.service";
 
 export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   value: 128,
@@ -41,6 +42,7 @@ export class Setup {
       ETagExtractor.attach,
       HttpLogger.build(logger),
       timing(),
+      CorrelationStorage.handle(),
     ];
   }
 }
