@@ -20,15 +20,15 @@
     "preinstall": "bunx only-allow bun"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.5",
+    "@biomejs/biome": "2.0.6",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
     "@types/bun": "1.2.17",
-    "@types/lodash": "4.17.18",
+    "@types/lodash": "4.17.19",
     "@types/mime-types": "3.0.1",
     "@types/nodemailer": "6.4.17",
     "cspell": "9.1.2",
-    "knip": "5.61.2",
+    "knip": "5.61.3",
     "lefthook": "1.11.14",
     "only-allow": "1.2.1",
     "shellcheck": "3.1.0",

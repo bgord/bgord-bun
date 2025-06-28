@@ -10,6 +10,7 @@ interface CorrelationContext {
 export class CorrelationStorage {
   private static readonly GLOBAL_KEY = Symbol.for("bgord.CorrelationStorage");
 
+  // biome-ignore lint: lint/suspicious/noAssignInExpressions
   private static readonly als: AsyncLocalStorage<CorrelationContext> = ((globalThis as any)[
     this.GLOBAL_KEY
   ] ??=
