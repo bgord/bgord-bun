@@ -164,3 +164,6 @@ export class Logger {
     };
   }
 }
+
+// cspell:disable-next-line
+export { WinstonTransport as AxiomTransport } from "@axiomhq/winston";
