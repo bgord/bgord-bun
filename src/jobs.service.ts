@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import { Cron } from "croner";
 
 import { CorrelationId } from "./correlation-id.vo";
+import { CorrelationStorage } from "./correlation-storage.service";
 import { Logger } from "./logger.service";
 import { NewUUID } from "./new-uuid.service";
 
@@ -56,7 +57,7 @@ export class JobHandler {
           correlationId,
         });
 
-        await jobProcessor.process();
+        await CorrelationStorage.run(NewUUID.generate(), jobProcessor.process);
 
         that.logger.info({
           message: `${jobProcessor.label} success`,
