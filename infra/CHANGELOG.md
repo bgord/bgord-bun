@@ -1,4 +1,7 @@
 # Changelog
+- 2025-06-30 19:17 2ea7f7c **step: update packages**
+- 2025-06-30 19:16 853b7c0 **step: bump bgord/scripts**
+- 2025-06-30 15:03 e8cacb2 **step: run job handlers in correlation storage**
 ## 2025-06-28 19:15 v0.13.0
 - 2025-06-28 19:15 3bb43b3 **0.13.0**
 - 2025-06-28 19:14 97f66ba **step: update packages**
@@ -13,6 +16,7 @@
 - 2025-06-28 17:55 06be530 **feature: add correlation storage service**
 - 2025-06-28 17:25 bae575b **step: change request id header name**
 - 2025-06-28 17:15 bebcbd6 **docs: generate CHANGELOG**
+- 2025-06-28 17:15 0a454fd **docs: generate CHANGELOG**
 - 2025-06-27 20:37 88d2799 **refactor: remove command handler**
 - 2025-06-27 16:08 862e477 **step: bump bgord/scripts**
 - 2025-06-27 16:08 7d39bee **feature: create command handler service**
