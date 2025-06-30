@@ -77,6 +77,7 @@ type LoggerOptionsType = {
   app: LogAppType;
   environment: NodeEnvironmentEnum;
   level?: LogLevelEnum;
+  transports?: winston.transport[];
 };
 
 export class Logger {
@@ -95,7 +96,6 @@ export class Logger {
 
     const formats = [
       winston.format.json(),
-
       this.environment !== NodeEnvironmentEnum.production ? winston.format.prettyPrint() : undefined,
     ].filter(Boolean);
 
@@ -116,6 +116,10 @@ export class Logger {
           maxsize: tools.Size.toBytes({ unit: tools.SizeUnit.MB, value: 100 }),
         }),
       );
+    }
+
+    for (const transport of options.transports ?? []) {
+      this.instance.add(transport);
     }
   }
 
