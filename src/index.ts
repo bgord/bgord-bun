@@ -44,6 +44,7 @@ export * from "./open-graph.service";
 export * from "./passwords.vo";
 export * from "./path.vo";
 export * from "./policy.service";
+export * from "./policy-error-handler.service";
 export * from "./port.vo";
 export * from "./prerequisites/index";
 export * from "./prerequisites.service";
