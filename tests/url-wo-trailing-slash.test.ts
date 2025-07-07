@@ -8,6 +8,11 @@ describe("UrlWithoutTrailingSlash", () => {
     expect(result.success).toBe(true);
   });
 
+  it("should work with trimmed URL that still ends with slash", () => {
+    const result = UrlWithoutTrailingSlash.safeParse("  https://example.com/ ");
+    expect(result.success).toBe(true);
+  });
+
   it("should fail with a URL that ends with a trailing slash", () => {
     const result = UrlWithoutTrailingSlash.safeParse("https://example.com/");
     expect(result.success).toBe(false);
@@ -29,10 +34,5 @@ describe("UrlWithoutTrailingSlash", () => {
   it("should trim leading/trailing whitespace before validation", () => {
     const result = UrlWithoutTrailingSlash.safeParse("   https://example.com   ");
     expect(result.success).toBe(true);
-  });
-
-  it("should fail with trimmed URL that still ends with slash", () => {
-    const result = UrlWithoutTrailingSlash.safeParse("  https://example.com/ ");
-    expect(result.success).toBe(false);
   });
 });
