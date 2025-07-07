@@ -1,6 +1,9 @@
 # Changelog
+## 2025-07-07 16:41 v0.15.0
+- 2025-07-07 16:41 e512bb2 **0.15.0**
 - 2025-07-07 16:40 72e8f10 **fix: changed test**
 - 2025-07-07 16:37 f2c892e **step: update packages**
+- 2025-07-07 14:41 8720274 **docs: generate CHANGELOG**
 - 2025-07-07 14:39 babef7c **step: bump bgord/scripts**
 - 2025-07-07 13:54 003d56c **step: bump bgord/scripts**
 - 2025-07-07 13:49 d91a115 **step: update packages**
