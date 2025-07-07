@@ -1,7 +1,10 @@
 # Changelog
+- 2025-07-07 16:40 72e8f10 **fix: changed test**
+- 2025-07-07 16:37 f2c892e **step: update packages**
 - 2025-07-07 14:39 babef7c **step: bump bgord/scripts**
 - 2025-07-07 13:54 003d56c **step: bump bgord/scripts**
 - 2025-07-07 13:49 d91a115 **step: update packages**
+- 2025-07-07 12:39 8687e4c **docs: generate CHANGELOG**
 - 2025-07-07 11:55 ed0edd0 **docs: generate CHANGELOG**
 - 2025-07-04 16:54 274242c **step: update packages**
 - 2025-07-04 16:26 5e29752 **feature: add polcy error handler service**
