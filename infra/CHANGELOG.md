@@ -1,8 +1,11 @@
 # Changelog
+## 2025-07-10 21:26 v0.15.1
+- 2025-07-10 21:26 b9290af **0.15.1**
 - 2025-07-10 21:25 52ae4ca **step: add zod 4.0.3 resolution**
 - 2025-07-10 21:23 d69f7d6 **step: regenerate packages**
 - 2025-07-10 21:23 682a7a2 **refactor: remove zod/v4 reference**
 - 2025-07-10 21:21 ac96c55 **step: update packages**
+- 2025-07-10 19:26 2c47008 **docs: generate CHANGELOG**
 ## 2025-07-07 16:41 v0.15.0
 - 2025-07-07 16:41 e512bb2 **0.15.0**
 - 2025-07-07 16:40 72e8f10 **fix: changed test**
