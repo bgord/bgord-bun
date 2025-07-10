@@ -50,5 +50,8 @@
     "sharp": "0.34.3",
     "ssl-checker": "2.0.10",
     "winston": "3.17.0"
+  },
+  "resolutions": {
+    "zod": "4.0.3"
   }
 }
