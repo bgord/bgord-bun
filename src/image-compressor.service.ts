@@ -1,5 +1,5 @@
 import sharp from "sharp";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import type { PathType } from "../src/path.vo";
 

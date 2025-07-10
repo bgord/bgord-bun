@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { ImageEXIF } from "./image-exif.service";
 import { Path, PathType } from "./path.vo";

@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import * as prereqs from "../prerequisites.service";
 

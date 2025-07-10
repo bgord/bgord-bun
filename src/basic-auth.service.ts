@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 
 export const BasicAuthUsername = z.string().min(1).max(128).brand("BasicAuthUsername");
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { EnvironmentValidator } from "../src/env-validator.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";

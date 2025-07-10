@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import { z } from "zod";
 
 import { PathType } from "./path.vo";
 import { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
