@@ -1,7 +1,10 @@
 # Changelog
+## 2025-07-12 17:44 v0.16.0
+- 2025-07-12 17:44 2667edc **0.16.0**
 - 2025-07-12 17:43 93c9cc1 **refactor: switch to zod/v4**
 - 2025-07-12 17:42 0763ea3 **step: update packages**
 - 2025-07-12 17:41 dc261dc **step: update tools**
+- 2025-07-12 15:44 892580c **docs: generate CHANGELOG**
 - 2025-07-12 15:07 f8a9996 **feature: add translations service**
 ## 2025-07-10 21:26 v0.15.1
 - 2025-07-10 21:26 b9290af **0.15.1**
