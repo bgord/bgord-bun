@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const RecaptchaSiteKey = z.string().trim().length(40);
 

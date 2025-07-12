@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 import * as winston from "winston";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { CorrelationIdType } from "./correlation-id.vo";
 import { NodeEnvironmentEnum } from "./node-env.vo";

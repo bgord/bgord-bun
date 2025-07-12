@@ -1,5 +1,5 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import { Path } from "./path.vo";
 import { Port } from "./port.vo";

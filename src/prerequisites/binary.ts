@@ -1,5 +1,5 @@
 import bun from "bun";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 import * as prereqs from "../prerequisites.service";
 
