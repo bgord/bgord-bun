@@ -58,6 +58,7 @@ export * from "./sitemap.service";
 export * from "./slower.middleware";
 export * from "./time-zone-offset.middleware";
 export * from "./to-event-map.types";
+export * from "./translations.service";
 export * from "./uptime.service";
 export * from "./url-wo-trailing-slash.vo";
 export * from "./username.vo";
