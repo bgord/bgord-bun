@@ -1,8 +1,11 @@
 # Changelog
+## 2025-07-13 17:14 v0.17.0
+- 2025-07-13 17:14 b75090f **0.17.0**
 - 2025-07-13 17:13 dff9fb8 **step: update packages**
 - 2025-07-13 16:47 ec6c879 **step: define   static EMPTY_STREAM_REVISION = -1**
 - 2025-07-13 16:25 b47ce66 **feature: resurface events with revisions enriched by the inserter**
 - 2025-07-13 15:53 19c8bdb **fix: optional revision**
+- 2025-07-13 15:13 b15e7b2 **docs: generate CHANGELOG**
 - 2025-07-13 14:04 2688902 **step: make revision optional in generic event schema**
 - 2025-07-13 13:56 eb19e2b **feature: add event store save unique stream check**
 - 2025-07-13 11:53 3691514 **fix: event revision**
