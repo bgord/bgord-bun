@@ -9,20 +9,24 @@ export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends
   constructor(
     config: {
       finder: (stream: EventStreamType, names: string[]) => Promise<z.infer<GenericEventSchema>[]>;
-      inserter: (events: z.infer<GenericParsedEventSchema>[]) => Promise<void>;
+      inserter: (events: z.infer<GenericParsedEventSchema>[]) => Promise<z.infer<GenericParsedEventSchema>[]>;
     },
     private readonly publisher: EventPublisher<ToEventMap<z.infer<AllEvents>>>,
   ) {
     super(config);
   }
 
-  async save(events: z.infer<AllEvents>[]) {
-    await super.save(events);
+  async save(_events: z.infer<AllEvents>[]): Promise<z.infer<AllEvents>[]> {
+    // We receive the events with the `revision` fields added by the inserter,
+    // so the read models can receive them.
+    const events = await super.save(_events);
 
     await Promise.all(
       events.map((event) =>
         this.publisher.emit(event.name as keyof ToEventMap<z.infer<AllEvents>>, event as any),
       ),
     );
+
+    return events;
   }
 }

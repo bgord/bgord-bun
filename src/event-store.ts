@@ -9,7 +9,9 @@ type FindEventsHandler = (
   acceptedEventsNames: EventNameType[],
 ) => Promise<z.infer<GenericEventSchema>[]>;
 
-type InserterEventsHandler = (events: z.infer<GenericParsedEventSchema>[]) => Promise<void>;
+type InserterEventsHandler = (
+  events: z.infer<GenericParsedEventSchema>[],
+) => Promise<z.infer<GenericParsedEventSchema>[]>;
 
 type EventStoreConfigType = {
   finder: FindEventsHandler;
@@ -33,8 +35,8 @@ export class EventStore<AllEvents extends GenericEventSchema> {
       .filter((event): event is z.infer<AcceptedEvents[number]> => event !== undefined);
   }
 
-  async save(events: z.infer<AllEvents>[]) {
-    if (!events[0]) return;
+  async save(events: z.infer<AllEvents>[]): Promise<z.infer<AllEvents>[]> {
+    if (!events[0]) return [];
 
     const stream = events[0].stream;
 
@@ -42,12 +44,19 @@ export class EventStore<AllEvents extends GenericEventSchema> {
       throw new EventStoreSaveUniqueStream();
     }
 
-    await this.config.inserter(
+    // The returned variable has the `revision` fields added by the inserter,
+    // but we need to re-parse it to keep the contract.
+    const processed = await this.config.inserter(
       events.map((event) => ({
         ...event,
         payload: JSON.stringify(event.payload),
       })),
     );
+
+    return processed.map((event) => ({
+      ...event,
+      payload: JSON.parse(event.payload),
+    })) as z.infer<AllEvents>[];
   }
 }
 
