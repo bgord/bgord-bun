@@ -6,6 +6,8 @@ import type { EventStreamType } from "./event-stream.vo";
 import { ToEventMap } from "./to-event-map.types";
 
 export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends BaseStore<AllEvents> {
+  static EMPTY_STREAM_REVISION = -1;
+
   constructor(
     config: {
       finder: (stream: EventStreamType, names: string[]) => Promise<z.infer<GenericEventSchema>[]>;

@@ -21,6 +21,8 @@ type EventStoreConfigType = {
 export class EventStore<AllEvents extends GenericEventSchema> {
   constructor(private readonly config: EventStoreConfigType) {}
 
+  static EMPTY_STREAM_REVISION = -1;
+
   async find<AcceptedEvents extends readonly AllEvents[]>(
     acceptedEvents: AcceptedEvents,
     stream: EventStreamType,

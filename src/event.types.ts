@@ -5,7 +5,7 @@ export type GenericEventSchema = z.ZodObject<{
   correlationId: z.ZodType<string>;
   createdAt: z.ZodType<number>;
   stream: z.ZodString;
-  revision: z.ZodOptional<z.ZodType<number>>; // ← optional now
+  revision: z.ZodOptional<z.ZodType<number>>;
   name: z.ZodLiteral<string>;
   version: z.ZodLiteral<number>;
   payload: z.ZodType<any>;
