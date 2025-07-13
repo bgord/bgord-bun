@@ -1,4 +1,12 @@
 # Changelog
+- 2025-07-13 17:13 dff9fb8 **step: update packages**
+- 2025-07-13 16:47 ec6c879 **step: define   static EMPTY_STREAM_REVISION = -1**
+- 2025-07-13 16:25 b47ce66 **feature: resurface events with revisions enriched by the inserter**
+- 2025-07-13 15:53 19c8bdb **fix: optional revision**
+- 2025-07-13 14:04 2688902 **step: make revision optional in generic event schema**
+- 2025-07-13 13:56 eb19e2b **feature: add event store save unique stream check**
+- 2025-07-13 11:53 3691514 **fix: event revision**
+- 2025-07-13 11:24 015300c **fix: revision type**
 ## 2025-07-12 19:33 v0.16.1
 - 2025-07-12 19:33 62b1eeb **0.16.1**
 - 2025-07-12 19:32 08624a3 **step: bump bgord/scripts**
@@ -11,6 +19,7 @@
 - 2025-07-12 17:43 93c9cc1 **refactor: switch to zod/v4**
 - 2025-07-12 17:42 0763ea3 **step: update packages**
 - 2025-07-12 17:41 dc261dc **step: update tools**
+- 2025-07-12 17:33 7db59b8 **docs: generate CHANGELOG**
 - 2025-07-12 17:31 cc6a6b3 **docs: generate readme**
 - 2025-07-12 17:31 42f6552 **docs: generate CHANGELOG**
 - 2025-07-12 15:44 892580c **docs: generate CHANGELOG**
