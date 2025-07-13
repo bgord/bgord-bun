@@ -34,11 +34,26 @@ export class EventStore<AllEvents extends GenericEventSchema> {
   }
 
   async save(events: z.infer<AllEvents>[]) {
+    if (!events[0]) return;
+
+    const stream = events[0].stream;
+
+    if (!events.every((event) => event.stream === stream)) {
+      throw new EventStoreSaveUniqueStream();
+    }
+
     await this.config.inserter(
       events.map((event) => ({
         ...event,
         payload: JSON.stringify(event.payload),
       })),
     );
+  }
+}
+
+export class EventStoreSaveUniqueStream extends Error {
+  constructor() {
+    super();
+    Object.setPrototypeOf(this, EventStoreSaveUniqueStream.prototype);
   }
 }
