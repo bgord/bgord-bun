@@ -23,14 +23,21 @@ export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   unit: tools.SizeUnit.kB,
 }).toBytes();
 
+// TODO: test custom cors options
+type CorsOptions = Parameters<typeof cors>[0];
+
+type SetupOverridesType = { cors?: CorsOptions };
+
 export class Setup {
-  static essentials(logger: Logger, i18n: I18nConfigType) {
+  static essentials(logger: Logger, i18n: I18nConfigType, overrides?: SetupOverridesType) {
+    const corsOptions = overrides?.cors ?? { origin: "*" };
+
     return [
       secureHeaders(),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
       uaBlocker({ blocklist: BOTS_REGEX }),
       ApiVersion.attach,
-      cors({ origin: "*" }),
+      cors(corsOptions),
       languageDetector({
         supportedLanguages: Object.keys(i18n.supportedLanguages),
         fallbackLanguage: i18n.defaultLanguage,
