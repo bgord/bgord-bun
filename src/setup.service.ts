@@ -41,6 +41,7 @@ export class Setup {
       languageDetector({
         supportedLanguages: Object.keys(i18n.supportedLanguages),
         fallbackLanguage: i18n.defaultLanguage,
+        caches: false,
       }),
       requestId({ limitLength: 36, headerName: "x-correlation-id" }),
       TimeZoneOffset.attach,
