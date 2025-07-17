@@ -44,7 +44,6 @@
     "hcaptcha": "0.2.0",
     "hono": "4.8.4",
     "lodash": "4.17.21",
-    "lucia": "3.2.2",
     "mime-types": "3.0.1",
     "node-cache": "5.1.2",
     "nodemailer": "7.0.5",
