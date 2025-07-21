@@ -4,7 +4,7 @@ import type { ContentfulStatusCode } from "hono/utils/http-status";
 type BasePolicyConfig = Record<string, unknown>;
 
 export abstract class Policy<T extends BasePolicyConfig> {
-  abstract fails(config: T): Promise<boolean> | boolean;
+  abstract fails(config: T): boolean;
 
   abstract error: Constructor<Error>;
 
@@ -16,13 +16,13 @@ export abstract class Policy<T extends BasePolicyConfig> {
     throw new this.error();
   }
 
-  async perform(config: T) {
-    if (await this.fails(config)) {
+  perform(config: T) {
+    if (this.fails(config)) {
       this.throw();
     }
   }
 
-  async passes(config: T) {
-    return !(await this.fails(config));
+  passes(config: T) {
+    return !this.fails(config);
   }
 }
