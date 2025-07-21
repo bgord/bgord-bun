@@ -1,7 +1,10 @@
 # Changelog
+## 2025-07-21 15:20 v0.18.0
+- 2025-07-21 15:20 115fc06 **0.18.0**
 - 2025-07-21 15:18 8ae011f **step: update packages**
 - 2025-07-21 15:16 ddc7d20 **step: update packages**
 - 2025-07-21 14:22 689c1d6 **step: make policies sync**
+- 2025-07-21 13:19 e95a4c6 **docs: generate CHANGELOG**
 - 2025-07-21 13:17 f548d12 **docs: generate CHANGELOG**
 - 2025-07-21 13:17 a501084 **docs: generate readme**
 - 2025-07-20 09:56 330a4a7 **step: update packages**
