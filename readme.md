@@ -67,7 +67,6 @@ src/
 ├── new-uuid.service.ts
 ├── node-env.vo.ts
 ├── open-graph.service.ts
-├── passwords.vo.ts
 ├── path.vo.ts
 ├── policy-error-handler.service.ts
 ├── policy.service.ts
@@ -95,7 +94,6 @@ src/
 ├── rate-limit-shield.middleware.ts
 ├── recaptcha-shield.middleware.ts
 ├── safe-parse-body.service.ts
-├── session-id.vo.ts
 ├── setup.service.ts
 ├── simulated-error.middleware.ts
 ├── sitemap.service.ts
@@ -105,7 +103,6 @@ src/
 ├── translations.service.ts
 ├── uptime.service.ts
 ├── url-wo-trailing-slash.vo.ts
-├── username.vo.ts
 ├── uuid.vo.ts
 └── weak-etag-extractor.middleware.ts
 ```
