@@ -1,6 +1,9 @@
 # Changelog
+- 2025-07-21 15:18 8ae011f **step: update packages**
 - 2025-07-21 15:16 ddc7d20 **step: update packages**
 - 2025-07-21 14:22 689c1d6 **step: make policies sync**
+- 2025-07-21 13:17 f548d12 **docs: generate CHANGELOG**
+- 2025-07-21 13:17 a501084 **docs: generate readme**
 - 2025-07-20 09:56 330a4a7 **step: update packages**
 - 2025-07-17 14:38 31f4f0b **step: update packages**
 - 2025-07-17 14:37 d62667a **refactor: remove unused test**
