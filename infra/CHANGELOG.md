@@ -1,10 +1,23 @@
 # Changelog
+- 2025-07-21 15:16 ddc7d20 **step: update packages**
+- 2025-07-21 14:22 689c1d6 **step: make policies sync**
+- 2025-07-20 09:56 330a4a7 **step: update packages**
+- 2025-07-17 14:38 31f4f0b **step: update packages**
+- 2025-07-17 14:37 d62667a **refactor: remove unused test**
+- 2025-07-17 14:37 0fd4a42 **feature: define auth-shield**
+- 2025-07-17 14:35 a2ff8e7 **refactor: remove lucia**
+- 2025-07-17 14:35 49f1530 **refactor: remove auth related vos**
+- 2025-07-17 14:35 3d94672 **refactor: remove old auth shield**
+- 2025-07-17 14:33 1991d23 **step: install better auth**
+- 2025-07-17 14:32 0beb9ac **fix: language detector ovevrriding all cookies**
+- 2025-07-16 15:53 f2ec7bf **step: allow cors overrides**
 ## 2025-07-13 17:14 v0.17.0
 - 2025-07-13 17:14 b75090f **0.17.0**
 - 2025-07-13 17:13 dff9fb8 **step: update packages**
 - 2025-07-13 16:47 ec6c879 **step: define   static EMPTY_STREAM_REVISION = -1**
 - 2025-07-13 16:25 b47ce66 **feature: resurface events with revisions enriched by the inserter**
 - 2025-07-13 15:53 19c8bdb **fix: optional revision**
+- 2025-07-13 15:14 31ee28f **docs: generate CHANGELOG**
 - 2025-07-13 15:13 b15e7b2 **docs: generate CHANGELOG**
 - 2025-07-13 14:04 2688902 **step: make revision optional in generic event schema**
 - 2025-07-13 13:56 eb19e2b **feature: add event store save unique stream check**
