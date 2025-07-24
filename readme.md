@@ -64,7 +64,6 @@ src/
 ├── logger.service.ts
 ├── mailer.service.ts
 ├── memory-consumption.service.ts
-├── new-uuid.service.ts
 ├── node-env.vo.ts
 ├── open-graph.service.ts
 ├── path.vo.ts
