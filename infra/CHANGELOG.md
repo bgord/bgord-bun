@@ -1,9 +1,12 @@
 # Changelog
+- 2025-07-24 16:58 c81b764 **feature: add file draft**
+- 2025-07-24 16:53 62e7114 **step: remove download file**
 ## 2025-07-24 13:35 v0.18.4
 - 2025-07-24 13:35 6b8ffec **0.18.4**
 - 2025-07-24 13:20 469db7c **step: add DAY_TIME job schedule**
 - 2025-07-24 12:58 9a6653a **refactor: simplify uuids**
 - 2025-07-24 11:35 bc65d89 **docs: generate readme**
+- 2025-07-24 11:35 0314793 **docs: generate CHANGELOG**
 - 2025-07-24 11:34 91ea64d **docs: generate CHANGELOG**
 ## 2025-07-23 16:56 v0.18.3
 - 2025-07-23 16:56 2819516 **0.18.3**
