@@ -15,7 +15,6 @@ export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
 export * from "./decorators.service";
 export * from "./dispatching-event-store";
-export * from "./download-file.service";
 export * from "./encryption.service";
 export * from "./env-validator.service";
 export * from "./etag-extractor.middleware";
