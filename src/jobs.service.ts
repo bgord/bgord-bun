@@ -4,7 +4,6 @@ import { Cron } from "croner";
 import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { Logger } from "./logger.service";
-import { NewUUID } from "./new-uuid.service";
 
 export type JobNameType = string;
 
@@ -42,7 +41,7 @@ export class JobHandler {
   constructor(private readonly logger: Logger) {}
 
   handle(jobProcessor: JobProcessorType) {
-    const correlationId = CorrelationId.parse(NewUUID.generate());
+    const correlationId = CorrelationId.parse(crypto.randomUUID());
 
     // biome-ignore lint: lint/complexity/noUselessThisAlias
     const that = this;
@@ -57,7 +56,7 @@ export class JobHandler {
           correlationId,
         });
 
-        await CorrelationStorage.run(NewUUID.generate(), jobProcessor.process);
+        await CorrelationStorage.run(correlationId, jobProcessor.process);
 
         that.logger.info({
           message: `${jobProcessor.label} success`,

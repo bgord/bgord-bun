@@ -1,6 +1,5 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 
-import * as NewUUIDModule from "../src/new-uuid.service";
 import { UUID } from "../src/uuid.vo";
 
 describe("UUID schema", () => {
@@ -13,17 +12,5 @@ describe("UUID schema", () => {
   test("throws on invalid UUID", () => {
     const invalidUUID = "not-a-uuid";
     expect(() => UUID.parse(invalidUUID)).toThrow();
-  });
-
-  test("uses NewUUID.generate() as default", () => {
-    const fakeUUID = "11111111-2222-3333-4444-555555555555";
-
-    const newUUIDGenerate = spyOn(NewUUIDModule.NewUUID, "generate").mockReturnValue(fakeUUID);
-
-    const parsed = UUID.parse(undefined);
-    expect(parsed).toBe(fakeUUID);
-    expect(newUUIDGenerate).toHaveBeenCalled();
-
-    newUUIDGenerate.mockRestore();
   });
 });

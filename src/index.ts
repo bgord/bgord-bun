@@ -38,7 +38,6 @@ export * from "./jobs.service";
 export * from "./logger.service";
 export * from "./mailer.service";
 export * from "./memory-consumption.service";
-export * from "./new-uuid.service";
 export * from "./node-env.vo";
 export * from "./open-graph.service";
 export * from "./path.vo";
