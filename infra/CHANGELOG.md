@@ -1,4 +1,6 @@
 # Changelog
+## 2025-07-24 19:35 v0.18.8
+- 2025-07-24 19:35 f71fccf **0.18.8**
 - 2025-07-24 19:34 8a23221 **step: test zip draft**
 - 2025-07-24 19:29 ccf8fe1 **refactor: rename zip draft service**
 - 2025-07-24 19:28 f36caf3 **refactor: rename file draft service**
@@ -7,6 +9,8 @@
 ## 2025-07-24 17:47 v0.18.7
 - 2025-07-24 17:47 4c45d1e **0.18.7**
 - 2025-07-24 17:45 f6a8c89 **refactor: remove protecteed from file draft create**
+- 2025-07-24 17:34 88d38aa **docs: generate CHANGELOG**
+- 2025-07-24 17:34 22214e9 **docs: generate readme**
 ## 2025-07-24 17:14 v0.18.6
 - 2025-07-24 17:14 b85e16d **step: update tools**
 - 2025-07-24 17:14 8703cbe **0.18.6**
