@@ -23,7 +23,7 @@ export * from "./event-handler.service";
 export * from "./event-logger.service";
 export * from "./event-store";
 export * from "./event-stream.vo";
-export * from "./file-draft";
+export * from "./file-draft.service";
 export * from "./file-location.service";
 export * from "./file-uploader.middleware";
 export * from "./graceful-shutdown.service";
