@@ -49,7 +49,7 @@ src/
 ├── event-store.ts
 ├── event-stream.vo.ts
 ├── event.types.ts
-├── file-draft.ts
+├── file-draft.service.ts
 ├── file-location.service.ts
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
@@ -103,6 +103,7 @@ src/
 ├── uptime.service.ts
 ├── url-wo-trailing-slash.vo.ts
 ├── uuid.vo.ts
-└── weak-etag-extractor.middleware.ts
+├── weak-etag-extractor.middleware.ts
+└── zip-draft.service.ts
 ```
 
