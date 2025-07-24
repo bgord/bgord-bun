@@ -1,7 +1,10 @@
 # Changelog
+- 2025-07-24 13:20 469db7c **step: add DAY_TIME job schedule**
+- 2025-07-24 12:58 9a6653a **refactor: simplify uuids**
 ## 2025-07-23 16:56 v0.18.3
 - 2025-07-23 16:56 2819516 **0.18.3**
 - 2025-07-23 16:55 fa24380 **step: update packages**
+- 2025-07-23 14:56 e559ee0 **docs: generate CHANGELOG**
 - 2025-07-23 14:56 012cfc6 **docs: generate CHANGELOG**
 ## 2025-07-22 21:24 v0.18.2
 - 2025-07-22 21:24 00ad271 **0.18.2**
