@@ -1,4 +1,5 @@
 # Changelog
+- 2025-07-24 17:45 f6a8c89 **refactor: remove protecteed from file draft create**
 ## 2025-07-24 17:14 v0.18.6
 - 2025-07-24 17:14 b85e16d **step: update tools**
 - 2025-07-24 17:14 8703cbe **0.18.6**
@@ -6,6 +7,7 @@
 - 2025-07-24 17:07 1e6baee **0.18.5**
 - 2025-07-24 16:58 c81b764 **feature: add file draft**
 - 2025-07-24 16:53 62e7114 **step: remove download file**
+- 2025-07-24 15:15 2142999 **docs: generate CHANGELOG**
 - 2025-07-24 15:14 be2a5a8 **docs: generate CHANGELOG**
 - 2025-07-24 15:08 4861d25 **docs: generate CHANGELOG**
 - 2025-07-24 15:07 81656ad **docs: generate CHANGELOG**
