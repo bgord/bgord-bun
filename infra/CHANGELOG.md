@@ -1,4 +1,9 @@
 # Changelog
+- 2025-07-24 19:34 8a23221 **step: test zip draft**
+- 2025-07-24 19:29 ccf8fe1 **refactor: rename zip draft service**
+- 2025-07-24 19:28 f36caf3 **refactor: rename file draft service**
+- 2025-07-24 19:27 3992788 **feature: add zip draft**
+- 2025-07-24 19:26 d5eebe0 **step: install yazl**
 ## 2025-07-24 17:47 v0.18.7
 - 2025-07-24 17:47 4c45d1e **0.18.7**
 - 2025-07-24 17:45 f6a8c89 **refactor: remove protecteed from file draft create**
@@ -9,6 +14,7 @@
 - 2025-07-24 17:07 1e6baee **0.18.5**
 - 2025-07-24 16:58 c81b764 **feature: add file draft**
 - 2025-07-24 16:53 62e7114 **step: remove download file**
+- 2025-07-24 15:47 d91ca5c **docs: generate CHANGELOG**
 - 2025-07-24 15:46 98c5e18 **docs: generate CHANGELOG**
 - 2025-07-24 15:15 2142999 **docs: generate CHANGELOG**
 - 2025-07-24 15:14 be2a5a8 **docs: generate CHANGELOG**
