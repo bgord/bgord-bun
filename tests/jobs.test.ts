@@ -1,7 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import * as croner from "croner";
 
-import { JobHandler } from "../src/jobs.service";
+import { JobHandler, Jobs, UTC_DAY_OF_THE_WEEK } from "../src/jobs.service";
 import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
@@ -76,5 +77,11 @@ describe("JobHandler", () => {
     expect(loggerInfoSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "undefined overrun" }));
 
     loggerInfoSpy.mockRestore();
+  });
+
+  test("DAY_TIME schedule", () => {
+    expect(Jobs.SCHEDULES.DAY_TIME(UTC_DAY_OF_THE_WEEK.Monday, new tools.Hour(18))).toEqual(
+      `0 18 * * ${UTC_DAY_OF_THE_WEEK.Monday}`,
+    );
   });
 });
