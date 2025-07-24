@@ -1,6 +1,10 @@
 # Changelog
+## 2025-07-24 17:07 v0.18.5
+- 2025-07-24 17:07 1e6baee **0.18.5**
 - 2025-07-24 16:58 c81b764 **feature: add file draft**
 - 2025-07-24 16:53 62e7114 **step: remove download file**
+- 2025-07-24 15:07 81656ad **docs: generate CHANGELOG**
+- 2025-07-24 15:07 720de63 **docs: generate readme**
 ## 2025-07-24 13:35 v0.18.4
 - 2025-07-24 13:35 6b8ffec **0.18.4**
 - 2025-07-24 13:20 469db7c **step: add DAY_TIME job schedule**
