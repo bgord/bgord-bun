@@ -13,7 +13,7 @@ export abstract class FileDraft {
     });
   }
 
-  protected abstract create(): DraftBody | Promise<DraftBody>;
+  abstract create(): DraftBody | Promise<DraftBody>;
 
   async toResponse(): Promise<Response> {
     const body = await this.create();
