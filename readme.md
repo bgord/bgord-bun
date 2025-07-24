@@ -40,7 +40,6 @@ src/
 ├── correlation-storage.service.ts
 ├── decorators.service.ts
 ├── dispatching-event-store.ts
-├── download-file.service.ts
 ├── encryption.service.ts
 ├── env-validator.service.ts
 ├── etag-extractor.middleware.ts
@@ -50,6 +49,7 @@ src/
 ├── event-store.ts
 ├── event-stream.vo.ts
 ├── event.types.ts
+├── file-draft.ts
 ├── file-location.service.ts
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
