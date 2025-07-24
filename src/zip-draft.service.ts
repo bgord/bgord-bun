@@ -1,7 +1,7 @@
 import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
 import { ZipFile } from "yazl";
-import { FileDraft } from "./file-draft";
+import { FileDraft } from "./file-draft.service";
 
 export class ZipDraft extends FileDraft {
   private readonly parts: FileDraft[];

@@ -60,4 +60,4 @@ export * from "./uptime.service";
 export * from "./url-wo-trailing-slash.vo";
 export * from "./uuid.vo";
 export * from "./weak-etag-extractor.middleware";
-export * from "./zip-draft";
+export * from "./zip-draft.service";
