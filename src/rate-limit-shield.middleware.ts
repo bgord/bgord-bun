@@ -11,7 +11,7 @@ export const TooManyRequestsError = new HTTPException(429, {
   message: "app.too_many_requests",
 });
 
-export const rateLimitShield = (options: RateLimitShieldOptionsType) => {
+export const RateLimitShield = (options: RateLimitShieldOptionsType) => {
   const enabled = options.enabled;
   const rateLimiter = new tools.RateLimiter(options.time);
 
