@@ -39,6 +39,7 @@ export * from "./logger.service";
 export * from "./mailer.port";
 export * from "./memory-consumption.service";
 export * from "./node-env.vo";
+export * from "./noop-mailer.adapter";
 export * from "./open-graph.service";
 export * from "./path.vo";
 export * from "./policy.service";

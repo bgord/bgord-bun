@@ -64,8 +64,8 @@ export class SmtpMailerAdapter implements MailerPort {
     });
   }
 
-  async send(options: MailerSendOptionsType): Promise<unknown> {
-    return this.transport.sendMail(options);
+  async send(message: MailerSendOptionsType): Promise<unknown> {
+    return this.transport.sendMail(message);
   }
 
   async verify() {
