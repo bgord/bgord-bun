@@ -62,9 +62,10 @@ src/
 ├── image-exif.service.ts
 ├── jobs.service.ts
 ├── logger.service.ts
-├── mailer.service.ts
+├── mailer.port.ts
 ├── memory-consumption.service.ts
 ├── node-env.vo.ts
+├── noop-mailer.adapter.ts
 ├── open-graph.service.ts
 ├── path.vo.ts
 ├── policy-error-handler.service.ts
@@ -97,6 +98,7 @@ src/
 ├── simulated-error.middleware.ts
 ├── sitemap.service.ts
 ├── slower.middleware.ts
+├── smtp-mailer.adapter.ts
 ├── time-zone-offset.middleware.ts
 ├── to-event-map.types.ts
 ├── translations.service.ts
