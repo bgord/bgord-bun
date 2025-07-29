@@ -1,8 +1,8 @@
+import { MailerPort } from "../mailer.port";
 import * as prereqs from "../prerequisites.service";
-import { SmtpMailerAdapter } from "../smtp-mailer.adapter";
 
 type PrerequisiteMailerConfigType = {
-  mailer: SmtpMailerAdapter;
+  mailer: MailerPort;
   label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
