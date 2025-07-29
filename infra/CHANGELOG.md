@@ -1,9 +1,13 @@
 # Changelog
+## 2025-07-29 23:01 v0.18.9
+- 2025-07-29 23:01 0135998 **0.18.9**
 - 2025-07-29 22:59 3763eed **step: update packages**
 - 2025-07-29 22:57 4003c9a **step: add noop mailer adapter**
 - 2025-07-29 22:52 72d8295 **refactor: expect a mailer port in prereq**
 - 2025-07-29 22:50 0389cbe **refactor: rename smtp mailer adapter**
 - 2025-07-29 22:48 ff64ac3 **step: add mailer port**
+- 2025-07-29 21:01 cacc886 **docs: generate CHANGELOG**
+- 2025-07-29 21:01 841ca4f **docs: generate readme**
 - 2025-07-29 20:46 b48dea1 **docs: generate readme**
 - 2025-07-29 20:46 738b028 **docs: generate CHANGELOG**
 - 2025-07-24 20:18 cc7759a **refactor: unify naming**
