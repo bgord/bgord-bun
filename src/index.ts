@@ -36,6 +36,7 @@ export * from "./image-compressor.service";
 export * from "./image-exif.service";
 export * from "./jobs.service";
 export * from "./logger.service";
+export * from "./mailer.port";
 export * from "./mailer.service";
 export * from "./memory-consumption.service";
 export * from "./node-env.vo";

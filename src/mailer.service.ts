@@ -1,5 +1,6 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
 import { z } from "zod/v4";
+import { MailerPort } from "./mailer.port";
 
 import { Path } from "./path.vo";
 import { Port } from "./port.vo";
@@ -49,7 +50,7 @@ export const EmailAttachment = z.object({ filename: Path, path: Path });
 
 export type EmailAttachmentType = z.infer<typeof EmailAttachment>;
 
-export class Mailer {
+export class Mailer implements MailerPort {
   private readonly transport: nodemailer.Transporter;
 
   constructor(config: MailerConfigType) {
