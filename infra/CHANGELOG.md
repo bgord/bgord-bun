@@ -1,4 +1,8 @@
 # Changelog
+- 2025-07-24 20:18 cc7759a **refactor: unify naming**
+- 2025-07-24 19:52 31ec760 **fix: rate limit shield name**
+- 2025-07-24 19:37 b578842 **step: pinpoint yazl**
+- 2025-07-24 19:37 4f48b40 **step: bump bgord/scripts**
 ## 2025-07-24 19:35 v0.18.8
 - 2025-07-24 19:35 f71fccf **0.18.8**
 - 2025-07-24 19:34 8a23221 **step: test zip draft**
@@ -9,6 +13,7 @@
 ## 2025-07-24 17:47 v0.18.7
 - 2025-07-24 17:47 4c45d1e **0.18.7**
 - 2025-07-24 17:45 f6a8c89 **refactor: remove protecteed from file draft create**
+- 2025-07-24 17:36 c6c91ca **docs: generate CHANGELOG**
 - 2025-07-24 17:34 88d38aa **docs: generate CHANGELOG**
 - 2025-07-24 17:34 22214e9 **docs: generate readme**
 ## 2025-07-24 17:14 v0.18.6
