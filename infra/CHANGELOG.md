@@ -1,4 +1,5 @@
 # Changelog
+- 2025-07-30 17:31 bbd7f5a **step: add file draft to attachment**
 ## 2025-07-29 23:01 v0.18.9
 - 2025-07-29 23:01 0135998 **0.18.9**
 - 2025-07-29 22:59 3763eed **step: update packages**
@@ -8,6 +9,7 @@
 - 2025-07-29 22:48 ff64ac3 **step: add mailer port**
 - 2025-07-29 21:01 cacc886 **docs: generate CHANGELOG**
 - 2025-07-29 21:01 841ca4f **docs: generate readme**
+- 2025-07-29 21:01 0421238 **docs: generate CHANGELOG**
 - 2025-07-29 20:46 b48dea1 **docs: generate readme**
 - 2025-07-29 20:46 738b028 **docs: generate CHANGELOG**
 - 2025-07-24 20:18 cc7759a **refactor: unify naming**
