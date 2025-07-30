@@ -1,5 +1,8 @@
 # Changelog
+## 2025-07-30 17:32 v0.18.10
+- 2025-07-30 17:32 ad63c3b **0.18.10**
 - 2025-07-30 17:31 bbd7f5a **step: add file draft to attachment**
+- 2025-07-30 15:31 9e5a9c0 **docs: generate CHANGELOG**
 ## 2025-07-29 23:01 v0.18.9
 - 2025-07-29 23:01 0135998 **0.18.9**
 - 2025-07-29 22:59 3763eed **step: update packages**
