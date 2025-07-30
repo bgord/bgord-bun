@@ -35,4 +35,10 @@ describe("FileDraft", () => {
     expect(result.headers.get("content-type")).toEqual("text/plain");
     expect(result.headers.get("content-disposition")).toEqual(`attachment; filename="alphabet.txt"`);
   });
+
+  test("toAttachment", async () => {
+    const attachment = await new AlphabetFile().toAttachment();
+
+    expect(attachment).toEqual({ filename: "alphabet.txt", contentType: "text/plain", content: "abc" });
+  });
 });

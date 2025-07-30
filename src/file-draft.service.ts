@@ -20,4 +20,10 @@ export abstract class FileDraft {
 
     return new Response(body as BodyInit, { headers: this.getHeaders() });
   }
+
+  async toAttachment() {
+    const body = await this.create();
+
+    return { filename: this.config.filename, content: body, contentType: this.config.mime.raw };
+  }
 }
