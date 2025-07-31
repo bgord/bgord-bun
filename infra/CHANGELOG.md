@@ -1,5 +1,8 @@
 # Changelog
+## 2025-07-31 16:28 v0.18.11
+- 2025-07-31 16:28 e00a6d1 **0.18.11**
 - 2025-07-31 16:27 92519ca **step: update packages**
+- 2025-07-31 14:27 cd75cd9 **docs: generate CHANGELOG**
 - 2025-07-31 12:35 0a4a626 **feature: add save after to event store**
 ## 2025-07-30 17:32 v0.18.10
 - 2025-07-30 17:32 ad63c3b **0.18.10**
