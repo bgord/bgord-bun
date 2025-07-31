@@ -60,6 +60,12 @@ export class EventStore<AllEvents extends GenericEventSchema> {
       payload: JSON.parse(event.payload),
     })) as z.infer<AllEvents>[];
   }
+
+  async saveAfter(events: z.infer<AllEvents>[], ms: number): Promise<z.infer<AllEvents>[]> {
+    await Bun.sleep(ms);
+
+    return this.save(events);
+  }
 }
 
 export class EventStoreSaveUniqueStream extends Error {
