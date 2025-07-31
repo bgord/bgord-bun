@@ -1,7 +1,10 @@
 # Changelog
+- 2025-07-31 16:27 92519ca **step: update packages**
+- 2025-07-31 12:35 0a4a626 **feature: add save after to event store**
 ## 2025-07-30 17:32 v0.18.10
 - 2025-07-30 17:32 ad63c3b **0.18.10**
 - 2025-07-30 17:31 bbd7f5a **step: add file draft to attachment**
+- 2025-07-30 15:32 3614b14 **docs: generate CHANGELOG**
 - 2025-07-30 15:31 9e5a9c0 **docs: generate CHANGELOG**
 ## 2025-07-29 23:01 v0.18.9
 - 2025-07-29 23:01 0135998 **0.18.9**
