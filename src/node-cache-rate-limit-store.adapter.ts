@@ -15,10 +15,11 @@ export class NodeCacheRateLimitStore implements RateLimitStore {
     });
   }
 
-  get(subject: RateLimitStoreSubjectType) {
+  async get(subject: RateLimitStoreSubjectType) {
     return this.store.get<tools.RateLimiter>(subject);
   }
-  set(subject: RateLimitStoreSubjectType, limiter: tools.RateLimiter) {
-    return this.store.set(subject, limiter);
+
+  async set(subject: RateLimitStoreSubjectType, limiter: tools.RateLimiter) {
+    this.store.set(subject, limiter);
   }
 }

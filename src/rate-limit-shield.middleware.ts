@@ -2,14 +2,9 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 
-type RateLimitShieldOptionsType = {
-  time: tools.TimeResult;
-  enabled: boolean;
-};
+export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 
-export const TooManyRequestsError = new HTTPException(429, {
-  message: "app.too_many_requests",
-});
+type RateLimitShieldOptionsType = { time: tools.TimeResult; enabled: boolean };
 
 export const RateLimitShield = (options: RateLimitShieldOptionsType) => {
   const enabled = options.enabled;
