@@ -18,18 +18,24 @@ type RateLimitShieldOptionsType = {
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 
 export const RateLimitShield = (options: RateLimitShieldOptionsType) => {
-  const enabled = options.enabled;
-  const rateLimiter = new tools.RateLimiter(options.time);
+  return createMiddleware(async (c, next) => {
+    if (!options.enabled) return next();
 
-  return createMiddleware(async (_c, next) => {
-    if (!enabled) return next();
+    const subject = options.subject(c);
 
-    const currentTimestampMs = Date.now();
-    const check = rateLimiter.verify(tools.Timestamp.parse(currentTimestampMs));
+    let limiter = await options.store.get(subject);
 
-    if (!check.allowed) {
-      throw TooManyRequestsError;
+    if (!limiter) {
+      limiter = new tools.RateLimiter(options.time);
+      options.store.set(subject, limiter);
     }
+
+    const now = tools.Timestamp.parse(Date.now());
+    const check = limiter.verify(now);
+
+    if (!check.allowed) throw TooManyRequestsError;
+
+    options.store.set(subject, limiter);
 
     return next();
   });

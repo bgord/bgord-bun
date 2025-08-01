@@ -7,7 +7,24 @@ import { AnonSubjectResolver, RateLimitShield } from "../src/rate-limit-shield.m
 const store = new NodeCacheRateLimitStore(tools.Time.Minutes(1));
 
 describe("rateLimitShield middleware", () => {
-  test("allows the request when within rate limit", async () => {
+  test("respects the enabled flag", async () => {
+    const app = new Hono();
+    app.get(
+      "/ping",
+      RateLimitShield({ time: tools.Time.Seconds(1), enabled: false, store, subject: AnonSubjectResolver }),
+      (c) => c.text("pong"),
+    );
+
+    const first = await app.request("/ping", { method: "GET" });
+    expect(first.status).toEqual(200);
+
+    const second = await app.request("/ping", { method: "GET" });
+    expect(second.status).toEqual(200);
+
+    store.flushAll();
+  });
+
+  test("anon - allows the request when within rate limit", async () => {
     const app = new Hono();
     app.get(
       "/ping",
@@ -23,7 +40,7 @@ describe("rateLimitShield middleware", () => {
     store.flushAll();
   });
 
-  test("throws TooManyRequestsError when exceeding rate limit", async () => {
+  test("anon - throws TooManyRequestsError when exceeding rate limit", async () => {
     const app = new Hono();
     app.get(
       "/ping",
@@ -40,7 +57,7 @@ describe("rateLimitShield middleware", () => {
     store.flushAll();
   });
 
-  test("allows the request after waiting for the rate limit", async () => {
+  test("anon - allows the request after waiting for the rate limit", async () => {
     const app = new Hono();
     app.get(
       "/ping",
@@ -60,23 +77,6 @@ describe("rateLimitShield middleware", () => {
     expect(second.status).toEqual(200);
 
     setSystemTime();
-    store.flushAll();
-  });
-
-  test("respects the enabled flag", async () => {
-    const app = new Hono();
-    app.get(
-      "/ping",
-      RateLimitShield({ time: tools.Time.Seconds(1), enabled: false, store, subject: AnonSubjectResolver }),
-      (c) => c.text("pong"),
-    );
-
-    const first = await app.request("/ping", { method: "GET" });
-    expect(first.status).toEqual(200);
-
-    const second = await app.request("/ping", { method: "GET" });
-    expect(second.status).toEqual(200);
-
     store.flushAll();
   });
 });
