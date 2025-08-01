@@ -2,15 +2,17 @@ import { describe, expect, setSystemTime, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { NodeCacheRateLimitStore } from "../src/node-cache-rate-limit-store.adapter";
-import { RateLimitShield } from "../src/rate-limit-shield.middleware";
+import { AnonSubjectResolver, RateLimitShield } from "../src/rate-limit-shield.middleware";
 
 const store = new NodeCacheRateLimitStore(tools.Time.Minutes(1));
 
 describe("rateLimitShield middleware", () => {
   test("allows the request when within rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", RateLimitShield({ time: tools.Time.Seconds(1), enabled: true, store }), (c) =>
-      c.text("pong"),
+    app.get(
+      "/ping",
+      RateLimitShield({ time: tools.Time.Seconds(1), enabled: true, store, subject: AnonSubjectResolver }),
+      (c) => c.text("pong"),
     );
 
     const result = await app.request("/ping", { method: "GET" });
@@ -23,8 +25,10 @@ describe("rateLimitShield middleware", () => {
 
   test("throws TooManyRequestsError when exceeding rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", RateLimitShield({ time: tools.Time.Seconds(1), enabled: true, store }), (c) =>
-      c.text("pong"),
+    app.get(
+      "/ping",
+      RateLimitShield({ time: tools.Time.Seconds(1), enabled: true, store, subject: AnonSubjectResolver }),
+      (c) => c.text("pong"),
     );
 
     const first = await app.request("/ping", { method: "GET" });
@@ -38,8 +42,10 @@ describe("rateLimitShield middleware", () => {
 
   test("allows the request after waiting for the rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", RateLimitShield({ time: tools.Time.Seconds(1), enabled: true, store }), (c) =>
-      c.text("pong"),
+    app.get(
+      "/ping",
+      RateLimitShield({ time: tools.Time.Seconds(1), enabled: true, store, subject: AnonSubjectResolver }),
+      (c) => c.text("pong"),
     );
 
     const now = Date.now();
@@ -59,8 +65,10 @@ describe("rateLimitShield middleware", () => {
 
   test("respects the enabled flag", async () => {
     const app = new Hono();
-    app.get("/ping", RateLimitShield({ time: tools.Time.Seconds(1), enabled: false, store }), (c) =>
-      c.text("pong"),
+    app.get(
+      "/ping",
+      RateLimitShield({ time: tools.Time.Seconds(1), enabled: false, store, subject: AnonSubjectResolver }),
+      (c) => c.text("pong"),
     );
 
     const first = await app.request("/ping", { method: "GET" });
