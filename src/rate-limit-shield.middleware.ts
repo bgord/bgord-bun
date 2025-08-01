@@ -8,6 +8,8 @@ type SubjectResolver = (c: Context) => string;
 
 export const AnonSubjectResolver: SubjectResolver = () => "anon";
 
+export const UserSubjectResolver: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
+
 type RateLimitShieldOptionsType = {
   time: tools.TimeResult;
   enabled: boolean;
