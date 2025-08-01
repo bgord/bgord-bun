@@ -22,4 +22,8 @@ export class NodeCacheRateLimitStore implements RateLimitStore {
   async set(subject: RateLimitStoreSubjectType, limiter: tools.RateLimiter) {
     this.store.set(subject, limiter);
   }
+
+  flushAll() {
+    this.store.flushAll();
+  }
 }
