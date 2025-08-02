@@ -11,6 +11,7 @@ export class ZipDraft extends FileDraft {
     this.parts = config.parts;
   }
 
+  // @ts-ignore
   async create(): Promise<Buffer> {
     const zip = new ZipFile();
     const chunks: Buffer[] = [];
