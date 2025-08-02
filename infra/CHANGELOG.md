@@ -1,11 +1,14 @@
 # Changelog
+## 2025-08-02 18:22 v0.18.15
 - 2025-08-02 18:22 b9fbcba **fix: add missing node cahe rate limiter store**
+- 2025-08-02 18:22 9bd60b1 **0.18.15**
 ## 2025-08-02 18:11 v0.18.14
 - 2025-08-02 18:11 2a29dd3 **0.18.14**
 ## 2025-08-02 18:10 v0.18.13
 - 2025-08-02 18:10 6634f61 **0.18.13**
 - 2025-08-02 18:07 5ea087c **step: update packages**
 - 2025-08-02 18:04 0808248 **step: update hono**
+- 2025-08-02 16:22 4c71bca **docs: generate CHANGELOG**
 - 2025-08-02 16:11 868aeb6 **docs: generate CHANGELOG**
 - 2025-08-02 16:10 dd4c855 **docs: generate CHANGELOG**
 - 2025-08-02 16:10 6317c11 **docs: generate readme**
