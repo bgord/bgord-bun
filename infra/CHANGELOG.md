@@ -1,10 +1,22 @@
 # Changelog
+- 2025-08-02 18:07 5ea087c **step: update packages**
+- 2025-08-02 18:04 0808248 **step: update hono**
+- 2025-08-01 11:52 9fe67c7 **step: test rate limiter per user**
+- 2025-08-01 10:41 f4090eb **step: define user subject resolver**
+- 2025-08-01 10:36 56a5a5d **step: use store in rate limit shield**
+- 2025-08-01 10:28 36367b0 **step: add anon subject resolver**
+- 2025-08-01 10:22 44d529a **step: plug-in store in shield tests**
+- 2025-08-01 10:21 87da936 **step: add flush all to node cache rts**
+- 2025-08-01 09:59 24d8c4e **refactor: make get/set async to allow future redis implementation**
+- 2025-08-01 09:57 1f537b9 **step: add node cache rls adapter**
+- 2025-08-01 09:56 ed4dfa2 **step: add rate limit store port**
 ## 2025-07-31 16:34 v0.18.12
 - 2025-07-31 16:34 0edd06d **0.18.12**
 - 2025-07-31 16:33 dd10b12 **refactor: use tools.TimeResult in EventStore.saveAfter**
 ## 2025-07-31 16:28 v0.18.11
 - 2025-07-31 16:28 e00a6d1 **0.18.11**
 - 2025-07-31 16:27 92519ca **step: update packages**
+- 2025-07-31 14:34 df31370 **docs: generate CHANGELOG**
 - 2025-07-31 14:34 4d99938 **docs: generate CHANGELOG**
 - 2025-07-31 14:28 16ff491 **docs: generate CHANGELOG**
 - 2025-07-31 14:27 cd75cd9 **docs: generate CHANGELOG**
