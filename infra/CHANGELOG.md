@@ -1,6 +1,9 @@
 # Changelog
+- 2025-08-02 18:10 6634f61 **0.18.13**
 - 2025-08-02 18:07 5ea087c **step: update packages**
 - 2025-08-02 18:04 0808248 **step: update hono**
+- 2025-08-02 16:10 dd4c855 **docs: generate CHANGELOG**
+- 2025-08-02 16:10 6317c11 **docs: generate readme**
 - 2025-08-01 11:52 9fe67c7 **step: test rate limiter per user**
 - 2025-08-01 10:41 f4090eb **step: define user subject resolver**
 - 2025-08-01 10:36 56a5a5d **step: use store in rate limit shield**
