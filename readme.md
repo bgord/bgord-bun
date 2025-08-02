@@ -64,6 +64,7 @@ src/
 ├── logger.service.ts
 ├── mailer.port.ts
 ├── memory-consumption.service.ts
+├── node-cache-rate-limit-store.adapter.ts
 ├── node-env.vo.ts
 ├── noop-mailer.adapter.ts
 ├── open-graph.service.ts
@@ -92,6 +93,7 @@ src/
 │   └── translations.ts
 ├── prerequisites.service.ts
 ├── rate-limit-shield.middleware.ts
+├── rate-limit-store.port.ts
 ├── recaptcha-shield.middleware.ts
 ├── safe-parse-body.service.ts
 ├── setup.service.ts
