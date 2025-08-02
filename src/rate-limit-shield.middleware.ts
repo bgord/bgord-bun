@@ -11,7 +11,6 @@ export const AnonSubjectResolver: SubjectResolver = () => "anon";
 export const UserSubjectResolver: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
 
 type RateLimitShieldOptionsType = {
-  time: tools.TimeResult;
   enabled: boolean;
   store: RateLimitStore;
   subject: SubjectResolver;
@@ -28,7 +27,7 @@ export const RateLimitShield = (options: RateLimitShieldOptionsType) => {
     let limiter = await options.store.get(subject);
 
     if (!limiter) {
-      limiter = new tools.RateLimiter(options.time);
+      limiter = new tools.RateLimiter(options.store.time);
       options.store.set(subject, limiter);
     }
 

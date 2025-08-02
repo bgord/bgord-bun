@@ -6,7 +6,7 @@ import { RateLimitStore, RateLimitStoreSubjectType } from "./rate-limit-store.po
 export class NodeCacheRateLimitStore implements RateLimitStore {
   private readonly store: NodeCache;
 
-  constructor(private readonly time: tools.TimeResult) {
+  constructor(readonly time: tools.TimeResult) {
     this.store = new NodeCache({
       stdTTL: this.time.seconds,
       checkperiod: this.time.seconds,
