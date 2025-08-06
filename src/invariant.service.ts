@@ -1,9 +1,9 @@
 import type { Constructor } from "@bgord/tools";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 
-type BasePolicyConfig = Record<string, unknown>;
+type BaseInvariantConfig = Record<string, unknown>;
 
-export abstract class Policy<T extends BasePolicyConfig> {
+export abstract class Invariant<T extends BaseInvariantConfig> {
   abstract fails(config: T): boolean;
 
   abstract error: Constructor<Error>;
