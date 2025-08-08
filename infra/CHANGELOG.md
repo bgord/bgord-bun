@@ -1,6 +1,10 @@
 # Changelog
+## 2025-08-08 20:58 v0.18.17
+- 2025-08-08 20:58 847f414 **0.18.17**
 - 2025-08-08 20:57 904bcf8 **step: update tools**
 - 2025-08-08 20:57 0e85992 **step: update hono**
+- 2025-08-08 18:58 be2c37e **docs: generate readme**
+- 2025-08-08 18:58 88ad1bc **docs: generate CHANGELOG**
 - 2025-08-06 14:36 bc8996c **refactor: rename policy to invariant**
 ## 2025-08-02 18:46 v0.18.16
 - 2025-08-02 18:46 da8069e **0.18.16**
