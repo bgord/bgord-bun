@@ -60,6 +60,8 @@ src/
 ├── i18n.service.ts
 ├── image-compressor.service.ts
 ├── image-exif.service.ts
+├── invariant-error-handler.service.ts
+├── invariant.service.ts
 ├── jobs.service.ts
 ├── logger.service.ts
 ├── mailer.port.ts
@@ -69,8 +71,6 @@ src/
 ├── noop-mailer.adapter.ts
 ├── open-graph.service.ts
 ├── path.vo.ts
-├── policy-error-handler.service.ts
-├── policy.service.ts
 ├── port.vo.ts
 ├── prerequisites
 │   ├── binary.ts
