@@ -23,7 +23,7 @@
     "@biomejs/biome": "2.0.6",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
-    "@types/bun": "1.2.19",
+    "@types/bun": "1.2.20",
     "@types/lodash": "4.17.20",
     "@types/mime-types": "3.0.1",
     "@types/nodemailer": "6.4.17",
