@@ -1,7 +1,9 @@
 # Changelog
+- 2025-08-13 22:29 9cb6e1b **step: update packages**
 ## 2025-08-12 14:00 v0.18.18
 - 2025-08-12 14:00 fa2007e **step: update packages**
 - 2025-08-12 14:00 290fa1c **0.18.18**
+- 2025-08-12 12:01 243c987 **docs: generate CHANGELOG**
 - 2025-08-12 12:00 12cc402 **docs: generate CHANGELOG**
 ## 2025-08-08 20:58 v0.18.17
 - 2025-08-08 20:58 847f414 **0.18.17**
