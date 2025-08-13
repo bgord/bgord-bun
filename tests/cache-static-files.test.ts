@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-
 import { CacheStaticFiles, CacheStaticFilesStrategy } from "../src/cache-static-files.middleware";
 
 describe("Cache static files", () => {

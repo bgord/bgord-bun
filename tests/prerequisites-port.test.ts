@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-
 import { Port } from "../src/port.vo";
 import { PrerequisitePort } from "../src/prerequisites/port";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";

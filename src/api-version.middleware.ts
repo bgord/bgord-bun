@@ -1,5 +1,4 @@
 import { createMiddleware } from "hono/factory";
-
 import { BuildInfoRepository } from "./build-info-repository.service";
 
 export class ApiVersion {

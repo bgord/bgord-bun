@@ -1,5 +1,4 @@
 import net from "node:net";
-
 import type { PortType } from "../port.vo";
 import * as prereqs from "../prerequisites.service";
 

@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, jest, test } from "bun:test";
-
 import { GracefulShutdown } from "../src/graceful-shutdown.service";
 
 describe("graceful shutdown", () => {

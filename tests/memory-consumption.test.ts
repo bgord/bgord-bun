@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-
 import { MemoryConsumption } from "../src/memory-consumption.service";
 
 describe("Memory consumption", () => {

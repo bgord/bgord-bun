@@ -1,6 +1,5 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createMiddleware } from "hono/factory";
-
 import type { CorrelationIdType } from "./correlation-id.vo";
 
 interface CorrelationContext {

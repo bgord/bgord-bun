@@ -1,5 +1,4 @@
 import { describe, expect, spyOn, test } from "bun:test";
-
 import { EventHandler } from "../src/event-handler.service";
 
 class FakeLogger {

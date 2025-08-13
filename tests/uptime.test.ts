@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-
 import { Uptime } from "../src/uptime.service";
 
 describe("Uptime", () => {

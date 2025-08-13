@@ -1,5 +1,4 @@
 import { describe, expect, it } from "bun:test";
-
 import { ImageCompressionQuality, ImageCompressor } from "../src/image-compressor.service";
 
 const SAMPLE_IMAGE = "tests/fixtures/sample.jpg";

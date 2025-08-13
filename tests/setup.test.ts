@@ -1,7 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-
 import { EtagVariables } from "../src/etag-extractor.middleware";
 import { I18nConfigType } from "../src/i18n.service";
 import { Logger } from "../src/logger.service";

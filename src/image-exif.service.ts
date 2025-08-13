@@ -2,7 +2,6 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import mime from "mime-types";
 import sharp from "sharp";
-
 import type { PathType } from "./path.vo";
 
 export type ImageExifOutputType = {

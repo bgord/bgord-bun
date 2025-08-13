@@ -1,5 +1,4 @@
 import { describe, expect, it } from "bun:test";
-
 import { FileLocation } from "../src/file-location.service";
 
 describe("FileLocation", () => {

@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, jest, mock, test } from "bun:test";
 import * as winston from "winston";
-
 import { Logger, LogLevelEnum } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 

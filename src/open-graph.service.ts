@@ -1,5 +1,4 @@
 import { z } from "zod/v4";
-
 import { ImageEXIF } from "./image-exif.service";
 import { Path, PathType } from "./path.vo";
 import { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";

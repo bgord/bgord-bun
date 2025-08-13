@@ -1,6 +1,5 @@
-import * as tools from "@bgord/tools";
 import bun from "bun";
-
+import * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteNodeConfigType = {

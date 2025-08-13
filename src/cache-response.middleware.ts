@@ -1,7 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 import NodeCache from "node-cache";
-
 import { CacheHitEnum } from "./cache-resolver.service";
 
 export class CacheResponse {

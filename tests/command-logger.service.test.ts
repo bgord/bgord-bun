@@ -1,5 +1,4 @@
 import { describe, expect, spyOn, test } from "bun:test";
-
 import { CommandLogger } from "../src/command-logger.service";
 
 class FakeLogger {

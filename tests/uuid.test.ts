@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-
 import { UUID } from "../src/uuid.vo";
 
 describe("UUID schema", () => {

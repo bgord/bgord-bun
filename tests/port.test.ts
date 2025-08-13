@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-
 import { Port } from "../src/port.vo";
 
 describe("Port", () => {

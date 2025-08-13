@@ -1,7 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as croner from "croner";
-
 import { JobHandler, Jobs, UTC_DAY_OF_THE_WEEK } from "../src/jobs.service";
 import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";

@@ -1,6 +1,5 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
-
 import { EtagVariables } from "./etag-extractor.middleware";
 
 export class WeakETagExtractor {

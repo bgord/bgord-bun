@@ -1,7 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
 import fs from "node:fs/promises";
 import path from "node:path";
-
 import { ImageEXIF } from "../src/image-exif.service";
 import { PathType } from "../src/path.vo";
 

@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-
 import { SimulatedError } from "../src/simulated-error.middleware";
 
 describe("SimulatedError", () => {

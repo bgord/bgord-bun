@@ -1,5 +1,4 @@
 import { describe, expect, it } from "bun:test";
-
 import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash.vo";
 
 describe("UrlWithoutTrailingSlash", () => {

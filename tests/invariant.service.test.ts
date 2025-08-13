@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-
 import { Invariant } from "../src/invariant.service";
 
 class MockError extends Error {}

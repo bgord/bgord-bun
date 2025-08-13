@@ -1,5 +1,4 @@
 import sslChecker from "ssl-checker";
-
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteSSLCertificateExpiryConfigType = {

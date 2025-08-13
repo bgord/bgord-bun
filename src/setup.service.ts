@@ -6,7 +6,6 @@ import { languageDetector } from "hono/language";
 import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
-
 import { ApiVersion } from "./api-version.middleware";
 import { BOTS_REGEX } from "./bots.vo";
 import { Context } from "./context.middleware";

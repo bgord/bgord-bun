@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-
 import { Encryption, EncryptionIVType, EncryptionSecretType } from "../src/encryption.service";
 
 const ORIGINAL_FILE = "tests/tmp/original.txt";

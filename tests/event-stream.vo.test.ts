@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-
 import { EventStream } from "../src/event-stream.vo";
 
 describe("EventStream", () => {

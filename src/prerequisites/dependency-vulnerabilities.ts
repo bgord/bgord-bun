@@ -1,5 +1,4 @@
 import bun from "bun";
-
 import {
   AbstractPrerequisite,
   PrerequisiteLabelType,

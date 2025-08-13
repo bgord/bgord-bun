@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-
 import { ApiKeyShield } from "../src/api-key-shield.middleware";
 
 const VALID_API_KEY = "x".repeat(64);

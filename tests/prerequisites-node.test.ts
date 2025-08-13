@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import bun from "bun";
+import * as tools from "@bgord/tools";
 import { PrerequisiteNode } from "../src/prerequisites/node";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 

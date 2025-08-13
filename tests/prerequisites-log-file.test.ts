@@ -1,5 +1,4 @@
 import { describe, expect, spyOn, test } from "bun:test";
-
 import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
