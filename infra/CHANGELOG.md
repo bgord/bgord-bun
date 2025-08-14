@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-14 21:09 v0.18.21
+- 2025-08-14 21:09 1222d9f **0.18.21**
 - 2025-08-14 21:07 8d3348d **refactor: improve the better auth logger**
 - 2025-08-14 20:59 19378db **step: add better-auth-logger service**
 - 2025-08-14 19:47 63ac52f **fix: unused rule**
@@ -6,6 +8,7 @@
 ## 2025-08-14 19:43 v0.18.20
 - 2025-08-14 19:43 ccd0000 **0.18.20**
 - 2025-08-14 19:42 0daeae5 **fix: biome errors**
+- 2025-08-14 19:07 8e874dd **docs: generate CHANGELOG**
 - 2025-08-14 18:59 4fad8e9 **docs: generate CHANGELOG**
 - 2025-08-14 18:59 0317fde **docs: generate readme**
 - 2025-08-14 17:47 a9e63e1 **docs: generate CHANGELOG**
