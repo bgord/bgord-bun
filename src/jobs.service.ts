@@ -26,6 +26,7 @@ export class Jobs {
   };
 
   static stopAll(jobs: MultipleJobsType) {
+    // biome-ignore lint: lint/suspicious/useIterableCallbackReturn
     Object.values(jobs).forEach((job) => job.stop());
   }
 
