@@ -28,6 +28,7 @@ src/
 ├── api-version.middleware.ts
 ├── auth-shield.middleware.ts
 ├── basic-auth.service.ts
+├── better-auth-logger.service.ts
 ├── bots.vo.ts
 ├── build-info-repository.service.ts
 ├── cache-resolver.service.ts
