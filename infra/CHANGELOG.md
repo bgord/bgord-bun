@@ -1,9 +1,11 @@
 # Changelog
+- 2025-08-14 20:59 19378db **step: add better-auth-logger service**
 - 2025-08-14 19:47 63ac52f **fix: unused rule**
 - 2025-08-14 19:47 4081abe **step: bump bgord/scripts**
 ## 2025-08-14 19:43 v0.18.20
 - 2025-08-14 19:43 ccd0000 **0.18.20**
 - 2025-08-14 19:42 0daeae5 **fix: biome errors**
+- 2025-08-14 17:47 a9e63e1 **docs: generate CHANGELOG**
 - 2025-08-14 17:43 5a25c3d **docs: generate CHANGELOG**
 - 2025-08-14 17:42 1ae91b1 **docs: generate CHANGELOG**
 - 2025-08-14 00:19 ae41119 **step: bump bgord/scripts**
