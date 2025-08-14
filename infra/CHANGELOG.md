@@ -1,4 +1,5 @@
 # Changelog
+- 2025-08-14 19:42 0daeae5 **fix: biome errors**
 - 2025-08-14 00:19 ae41119 **step: bump bgord/scripts**
 - 2025-08-14 00:19 442c7a5 **refactor: format imports**
 - 2025-08-13 23:32 478aaaf **step: update packages**
@@ -6,6 +7,7 @@
 ## 2025-08-13 22:30 v0.18.19
 - 2025-08-13 22:30 07f182c **0.18.19**
 - 2025-08-13 22:29 9cb6e1b **step: update packages**
+- 2025-08-13 22:19 a3231dc **docs: generate CHANGELOG**
 - 2025-08-13 21:32 b69a1f4 **docs: generate CHANGELOG**
 - 2025-08-13 20:30 6e7302d **docs: generate CHANGELOG**
 - 2025-08-13 20:30 48dacb2 **docs: generate CHANGELOG**
