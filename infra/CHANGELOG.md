@@ -1,4 +1,5 @@
 # Changelog
+- 2025-08-15 09:58 c41b5df **step: add smtp mailer with logger adapter**
 ## 2025-08-14 21:09 v0.18.21
 - 2025-08-14 21:09 1222d9f **0.18.21**
 - 2025-08-14 21:07 8d3348d **refactor: improve the better auth logger**
@@ -8,6 +9,7 @@
 ## 2025-08-14 19:43 v0.18.20
 - 2025-08-14 19:43 ccd0000 **0.18.20**
 - 2025-08-14 19:42 0daeae5 **fix: biome errors**
+- 2025-08-14 19:09 93fcfd0 **docs: generate CHANGELOG**
 - 2025-08-14 19:07 8e874dd **docs: generate CHANGELOG**
 - 2025-08-14 18:59 4fad8e9 **docs: generate CHANGELOG**
 - 2025-08-14 18:59 0317fde **docs: generate readme**
