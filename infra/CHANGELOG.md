@@ -1,5 +1,8 @@
 # Changelog
+- 2025-08-15 19:43 1777425 **step: update packages**
 - 2025-08-15 09:58 c41b5df **step: add smtp mailer with logger adapter**
+- 2025-08-15 08:19 99984b7 **docs: generate readme**
+- 2025-08-15 08:19 304f5ff **docs: generate CHANGELOG**
 ## 2025-08-14 21:09 v0.18.21
 - 2025-08-14 21:09 1222d9f **0.18.21**
 - 2025-08-14 21:07 8d3348d **refactor: improve the better auth logger**
