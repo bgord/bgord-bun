@@ -56,6 +56,7 @@ export * from "./simulated-error.middleware";
 export * from "./sitemap.service";
 export * from "./slower.middleware";
 export * from "./smtp-mailer.adapter";
+export * from "./smtp-mailer-with-mailer.adapter";
 export * from "./time-zone-offset.middleware";
 export * from "./to-event-map.types";
 export * from "./translations.service";
