@@ -101,6 +101,7 @@ src/
 ├── simulated-error.middleware.ts
 ├── sitemap.service.ts
 ├── slower.middleware.ts
+├── smtp-mailer-with-mailer.adapter.ts
 ├── smtp-mailer.adapter.ts
 ├── time-zone-offset.middleware.ts
 ├── to-event-map.types.ts
