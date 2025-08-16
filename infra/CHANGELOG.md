@@ -1,7 +1,11 @@
 # Changelog
+- 2025-08-16 12:11 05e56da **step: export history module**
+- 2025-08-16 12:10 cf5e578 **refactor: move modules to src**
+- 2025-08-16 12:07 255dc9e **feature: add history module**
 ## 2025-08-15 19:44 v0.18.22
 - 2025-08-15 19:44 8ef8118 **0.18.22**
 - 2025-08-15 19:43 1777425 **step: update packages**
+- 2025-08-15 17:46 372aeed **docs: generate CHANGELOG**
 - 2025-08-15 17:44 e5d558a **docs: generate CHANGELOG**
 - 2025-08-15 09:58 c41b5df **step: add smtp mailer with logger adapter**
 - 2025-08-15 08:19 99984b7 **docs: generate readme**
