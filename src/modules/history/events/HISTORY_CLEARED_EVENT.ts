@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 import { z } from "zod/v4";
-import { UUID } from "../../../src/uuid.vo";
+import { UUID } from "../../../uuid.vo";
 import * as VO from "../value-objects";
 
 export const HISTORY_CLEARED_EVENT = "HISTORY_CLEARED_EVENT";
