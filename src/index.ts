@@ -40,6 +40,7 @@ export * from "./jobs.service";
 export * from "./logger.service";
 export * from "./mailer.port";
 export * from "./memory-consumption.service";
+export * as History from "./modules/history";
 export * from "./node-cache-rate-limit-store.adapter";
 export * from "./node-env.vo";
 export * from "./noop-mailer.adapter";
