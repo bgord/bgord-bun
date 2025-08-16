@@ -1,8 +1,12 @@
 # Changelog
+## 2025-08-16 12:17 v0.18.24
+## 2025-08-16 12:17 v0.18.23
 - 2025-08-16 12:17 ac2130e **0.18.23**
+- 2025-08-16 12:17 97f391e **0.18.24**
 - 2025-08-16 12:11 05e56da **step: export history module**
 - 2025-08-16 12:10 cf5e578 **refactor: move modules to src**
 - 2025-08-16 12:07 255dc9e **feature: add history module**
+- 2025-08-16 10:17 f538049 **docs: generate CHANGELOG**
 - 2025-08-16 10:12 c976781 **docs: generate CHANGELOG**
 - 2025-08-16 10:12 b82c5e2 **docs: generate readme**
 ## 2025-08-15 19:44 v0.18.22
