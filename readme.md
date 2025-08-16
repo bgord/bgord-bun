@@ -67,6 +67,24 @@ src/
 ├── logger.service.ts
 ├── mailer.port.ts
 ├── memory-consumption.service.ts
+├── modules
+│   └── history
+│       ├── event-handlers
+│       │   ├── onHistoryClearedEvent.ts
+│       │   └── onHistoryPopulatedEvent.ts
+│       ├── events
+│       │   ├── HISTORY_CLEARED_EVENT.ts
+│       │   ├── HISTORY_POPULATED_EVENT.ts
+│       ├── repositories
+│       │   ├── history-repository.ts
+│       ├── services
+│       │   ├── history-writer.ts
+│       └── value-objects
+│           ├── history-id.ts
+│           ├── history-operation.ts
+│           ├── history-payload.ts
+│           ├── history-subject.ts
+│           ├── history.ts
 ├── node-cache-rate-limit-store.adapter.ts
 ├── node-env.vo.ts
 ├── noop-mailer.adapter.ts
