@@ -1,7 +1,7 @@
 import * as Events from "../events";
-import * as Repos from "../repositories";
+import * as Ports from "../ports";
 
 export const onHistoryClearedEvent =
-  (repository: Repos.HistoryRepositoryPort) => async (event: Events.HistoryClearedEventType) => {
-    await repository.clear(event.payload.subject);
+  (projection: Ports.HistoryProjectionPort) => async (event: Events.HistoryClearedEventType) => {
+    await projection.clear(event.payload.subject);
   };
