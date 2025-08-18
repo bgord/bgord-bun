@@ -75,8 +75,8 @@ src/
 │       ├── events
 │       │   ├── HISTORY_CLEARED_EVENT.ts
 │       │   ├── HISTORY_POPULATED_EVENT.ts
-│       ├── repositories
-│       │   ├── history-repository.ts
+│       ├── ports
+│       │   ├── history-projection.ts
 │       ├── services
 │       │   ├── history-writer.ts
 │       └── value-objects
