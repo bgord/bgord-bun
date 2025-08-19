@@ -130,6 +130,9 @@ src/
 ├── uptime.service.ts
 ├── url-wo-trailing-slash.vo.ts
 ├── uuid.vo.ts
+├── visitor-id-hash-hono.adapter.ts
+├── visitor-id-hash.adapter.ts
+├── visitor-id.port.ts
 ├── weak-etag-extractor.middleware.ts
 └── zip-draft.service.ts
 ```
