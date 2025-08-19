@@ -49,7 +49,7 @@ export const EmailAttachment = z.object({ filename: Path, path: Path });
 
 export type EmailAttachmentType = z.infer<typeof EmailAttachment>;
 
-export class SmtpMailerAdapter implements MailerPort {
+export class MailerSmtpAdapter implements MailerPort {
   private readonly transport: nodemailer.Transporter;
 
   constructor(config: MailerConfigType) {

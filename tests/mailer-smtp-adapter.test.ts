@@ -6,9 +6,9 @@ import {
   EmailFrom,
   EmailSubject,
   EmailTo,
-  SmtpMailerAdapter,
+  MailerSmtpAdapter,
   SmtpPort,
-} from "../src/smtp-mailer.adapter";
+} from "../src/mailer-smtp.adapter";
 
 describe("Mailer class", () => {
   test("Mailer can be instantiated with valid configuration", () => {
@@ -21,9 +21,9 @@ describe("Mailer class", () => {
       SMTP_PASS: "password",
     };
 
-    const mailer = new SmtpMailerAdapter(validConfig);
+    const mailer = new MailerSmtpAdapter(validConfig);
 
-    expect(mailer).toBeInstanceOf(SmtpMailerAdapter);
+    expect(mailer).toBeInstanceOf(MailerSmtpAdapter);
 
     nodemailerCreateTransport.mockRestore();
   });
@@ -35,7 +35,7 @@ describe("Mailer class", () => {
       sendMail,
     } as any);
 
-    const mailer = new SmtpMailerAdapter({
+    const mailer = new MailerSmtpAdapter({
       SMTP_HOST: "smtp.example.com",
       SMTP_PORT: SmtpPort.parse(587),
       SMTP_USER: "user@example.com",
@@ -63,7 +63,7 @@ describe("Mailer class", () => {
       () => ({ verify }) as any,
     );
 
-    const mailer = new SmtpMailerAdapter({
+    const mailer = new MailerSmtpAdapter({
       SMTP_HOST: "smtp.example.com",
       SMTP_PORT: SmtpPort.parse(587),
       SMTP_USER: "user@example.com",

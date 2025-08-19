@@ -4,7 +4,7 @@ import { MailerPort } from "./mailer.port";
 
 type MailerSendOptionsType = SendMailOptions;
 
-export class NoopMailerAdapter implements MailerPort {
+export class MailerNoopAdapter implements MailerPort {
   constructor(private readonly logger: Logger) {}
 
   async send(message: MailerSendOptionsType): Promise<unknown> {

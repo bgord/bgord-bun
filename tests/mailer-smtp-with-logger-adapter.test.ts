@@ -1,8 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
 import { Logger } from "../src/logger.service";
-import { SmtpMailerAdapter, SmtpPort } from "../src/smtp-mailer.adapter";
-import { SmtpMailerWithLoggerAdapter } from "../src/smtp-mailer-with-mailer.adapter";
+import { MailerSmtpAdapter, SmtpPort } from "../src/mailer-smtp.adapter";
+import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
 
 class FakeLogger {
   info = (_: any) => {};
@@ -14,20 +14,20 @@ class FakeLogger {
 
 const logger = new FakeLogger() as unknown as Logger;
 
-const smtpMailer = new SmtpMailerAdapter({
+const smtpMailer = new MailerSmtpAdapter({
   SMTP_HOST: "smtp.example.com",
   SMTP_PORT: SmtpPort.parse(587),
   SMTP_USER: "user@example.com",
   SMTP_PASS: "password",
 });
 
-const mailer = new SmtpMailerWithLoggerAdapter({ logger, smtpMailer });
+const mailer = new MailerSmtpWithLoggerAdapter({ logger, smtpMailer });
 
 describe("SmtpMailerWithLogger class", () => {
   test("Mailer can be instantiated with valid configuration", () => {
     const nodemailerCreateTransport = spyOn(nodemailer, "createTransport");
 
-    expect(mailer).toBeInstanceOf(SmtpMailerWithLoggerAdapter);
+    expect(mailer).toBeInstanceOf(MailerSmtpWithLoggerAdapter);
 
     nodemailerCreateTransport.mockRestore();
   });

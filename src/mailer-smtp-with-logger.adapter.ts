@@ -1,16 +1,16 @@
 import { SendMailOptions } from "nodemailer";
 import { Logger } from "./logger.service";
 import { MailerPort } from "./mailer.port";
-import { SmtpMailerAdapter } from "./smtp-mailer.adapter";
+import { MailerSmtpAdapter } from "./mailer-smtp.adapter";
 
 type MailerSendOptionsType = SendMailOptions;
 
 type SmtpMailerWithLoggerConfigType = {
-  smtpMailer: SmtpMailerAdapter;
+  smtpMailer: MailerSmtpAdapter;
   logger: Logger;
 };
 
-export class SmtpMailerWithLoggerAdapter implements MailerPort {
+export class MailerSmtpWithLoggerAdapter implements MailerPort {
   constructor(private readonly config: SmtpMailerWithLoggerConfigType) {}
 
   async send(message: MailerSendOptionsType): Promise<unknown> {
