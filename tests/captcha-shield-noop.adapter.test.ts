@@ -7,7 +7,7 @@ describe("CaptchaShieldNoop", () => {
     const shield = new CaptchaShieldNoop();
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", {

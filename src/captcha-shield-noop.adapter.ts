@@ -2,5 +2,5 @@ import { createMiddleware } from "hono/factory";
 import type { CaptchaShieldPort } from "./captcha-shield.port";
 
 export class CaptchaShieldNoop implements CaptchaShieldPort {
-  build = createMiddleware(async (_c, next) => next());
+  verify = createMiddleware(async (_c, next) => next());
 }

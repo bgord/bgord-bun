@@ -21,7 +21,7 @@ export const AccessDeniedHcaptchaError = new HTTPException(403, {
 export class CaptchaShieldHcaptcha implements CaptchaShieldPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
-  build = createMiddleware(async (c, next) => {
+  verify = createMiddleware(async (c, next) => {
     try {
       const form = await c.req.formData();
 

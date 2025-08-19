@@ -14,7 +14,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
     const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY));
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const form = new FormData();
@@ -41,7 +41,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
     const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY) as any);
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const form = new FormData();
@@ -68,7 +68,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
     const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY));
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", {
@@ -90,7 +90,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
     const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY) as any);
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const form = new FormData();

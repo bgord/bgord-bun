@@ -11,7 +11,7 @@ export const AccessDeniedHcaptchaLocalError = new HTTPException(403, {
 export class CaptchaShieldHcaptchaLocal implements CaptchaShieldPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
-  build = createMiddleware(async (_c, next) => {
+  verify = createMiddleware(async (_c, next) => {
     try {
       const result = await hcaptcha.verify(this.secretKey, "10000000-aaaa-bbbb-cccc-000000000001");
 

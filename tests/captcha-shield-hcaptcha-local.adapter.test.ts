@@ -17,7 +17,7 @@ describe("CaptchaShieldHcaptchaLocal", () => {
     const shield = new CaptchaShieldHcaptchaLocal(SECRET_KEY as any);
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", {
@@ -41,7 +41,7 @@ describe("CaptchaShieldHcaptchaLocal", () => {
     const shield = new CaptchaShieldHcaptchaLocal(SECRET_KEY as any);
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", {
@@ -63,7 +63,7 @@ describe("CaptchaShieldHcaptchaLocal", () => {
     const shield = new CaptchaShieldHcaptchaLocal(SECRET_KEY as any);
 
     const app = new Hono();
-    app.use("/secure", shield.build);
+    app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", {
