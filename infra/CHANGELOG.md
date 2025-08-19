@@ -1,6 +1,17 @@
 # Changelog
+- 2025-08-19 21:36 d020b27 **step: add hcaptcha local tests**
+- 2025-08-19 21:33 ef0c2c6 **step: test noop adapter**
+- 2025-08-19 21:33 5c0c911 **step: remove old tests**
+- 2025-08-19 21:29 69c0405 **refactor: unify error handling**
+- 2025-08-19 21:28 b01bcb3 **refactor: simplify captcha port**
+- 2025-08-19 21:21 daee14c **refactor: split hcaptcha shields**
+- 2025-08-19 21:20 e40685d **step: add CaptchaHcaptchaLocalShield**
+- 2025-08-19 21:17 0012c80 **step: add captcha noop adapter**
+- 2025-08-19 21:10 31d47ec **refactor: rename current hcaptcha shield adapter**
+- 2025-08-19 21:04 509ea3d **step: setup captcha-shield port**
 ## 2025-08-19 20:24 v0.18.25
 - 2025-08-19 20:24 730bf4a **0.18.25**
+- 2025-08-19 18:24 96b12a7 **docs: generate CHANGELOG**
 - 2025-08-18 22:43 012c3e0 **step: update packages**
 - 2025-08-18 20:43 d2ab9f6 **docs: generate readme**
 - 2025-08-18 20:43 9f8be46 **docs: generate CHANGELOG**
