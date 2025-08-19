@@ -15,7 +15,7 @@ export const HCaptchaResponseToken = z.string().trim();
 export type HCaptchaResponseTokenType = z.infer<typeof HCaptchaResponseToken>;
 
 export const AccessDeniedHcaptchaError = new HTTPException(403, {
-  message: "access_denied_recaptcha",
+  message: "access_denied_hcaptcha",
 });
 
 export class CaptchaHcaptchaShield implements CaptchaShieldPort {

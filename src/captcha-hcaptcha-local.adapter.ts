@@ -1,8 +1,12 @@
 import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
+import { HTTPException } from "hono/http-exception";
 import { CaptchaShieldPort } from "./captcha.port";
 import type { HCaptchaSecretKeyType } from "./captcha-hcaptcha-shield.adapter";
-import { AccessDeniedHcaptchaError } from "./captcha-hcaptcha-shield.adapter";
+
+export const AccessDeniedHcaptchaLocalError = new HTTPException(403, {
+  message: "access_denied_hcaptcha_local",
+});
 
 export class CaptchaHcaptchaLocalShield implements CaptchaShieldPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
@@ -12,11 +16,11 @@ export class CaptchaHcaptchaLocalShield implements CaptchaShieldPort {
       const result = await hcaptcha.verify(this.secretKey, "10000000-aaaa-bbbb-cccc-000000000001");
 
       if (!result?.success) {
-        throw AccessDeniedHcaptchaError;
+        throw AccessDeniedHcaptchaLocalError;
       }
       return next();
     } catch (_error) {
-      throw AccessDeniedHcaptchaError;
+      throw AccessDeniedHcaptchaLocalError;
     }
   });
 }
