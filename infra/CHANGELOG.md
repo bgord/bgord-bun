@@ -1,4 +1,7 @@
 # Changelog
+- 2025-08-19 23:14 3c79cf9 **step: add visitor id hash hono adapter**
+- 2025-08-19 23:05 dc85c3c **step: add visitor-id-hash adapter**
+- 2025-08-19 22:58 5205a62 **step: add visitor id port**
 - 2025-08-19 21:58 02f4144 **refactor: adjust recaptcha shield**
 ## 2025-08-19 21:48 v0.19.0
 - 2025-08-19 21:48 c9a0ad4 **0.19.0**
@@ -20,6 +23,8 @@
 - 2025-08-19 21:04 509ea3d **step: setup captcha-shield port**
 ## 2025-08-19 20:24 v0.18.25
 - 2025-08-19 20:24 730bf4a **0.18.25**
+- 2025-08-19 19:59 daca52e **docs: generate CHANGELOG**
+- 2025-08-19 19:59 7d7e5d9 **docs: generate readme**
 - 2025-08-19 19:48 4707a6c **docs: generate CHANGELOG**
 - 2025-08-19 19:48 17035bf **docs: generate CHANGELOG**
 - 2025-08-19 19:46 c267041 **docs: generate readme**
