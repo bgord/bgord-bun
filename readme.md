@@ -37,6 +37,7 @@ src/
 ├── captcha-shield-hcaptcha-local.adapter.ts
 ├── captcha-shield-hcaptcha.adapter.ts
 ├── captcha-shield-noop.adapter.ts
+├── captcha-shield-recaptcha.adapter.ts
 ├── captcha-shield.port.ts
 ├── command-logger.service.ts
 ├── command.types.ts
@@ -118,7 +119,6 @@ src/
 ├── prerequisites.service.ts
 ├── rate-limit-shield.middleware.ts
 ├── rate-limit-store.port.ts
-├── recaptcha-shield.middleware.ts
 ├── safe-parse-body.service.ts
 ├── setup.service.ts
 ├── simulated-error.middleware.ts
