@@ -34,10 +34,10 @@ src/
 ├── cache-resolver.service.ts
 ├── cache-response.middleware.ts
 ├── cache-static-files.middleware.ts
-├── captcha-hcaptcha-local.adapter.ts
-├── captcha-hcaptcha.adapter.ts
-├── captcha-noop.adapter.ts
-├── captcha.port.ts
+├── captcha-shield-hcaptcha-local.adapter.ts
+├── captcha-shield-hcaptcha.adapter.ts
+├── captcha-shield-noop.adapter.ts
+├── captcha-shield.port.ts
 ├── command-logger.service.ts
 ├── command.types.ts
 ├── context.middleware.ts
