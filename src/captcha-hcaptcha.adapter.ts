@@ -2,7 +2,7 @@ import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
-import { CaptchaShieldPort } from "./captcha.port";
+import { CaptchaPort } from "./captcha.port";
 
 export const HCaptchaSecretKey = z.string().trim().length(42).brand("HCaptchaSecretKey");
 
@@ -18,7 +18,7 @@ export const AccessDeniedHcaptchaError = new HTTPException(403, {
   message: "access_denied_hcaptcha",
 });
 
-export class CaptchaHcaptchaShield implements CaptchaShieldPort {
+export class CaptchaHcaptcha implements CaptchaPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   build = createMiddleware(async (c, next) => {
