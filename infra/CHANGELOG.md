@@ -1,5 +1,9 @@
 # Changelog
+## 2025-08-19 20:24 v0.18.25
+- 2025-08-19 20:24 730bf4a **0.18.25**
 - 2025-08-18 22:43 012c3e0 **step: update packages**
+- 2025-08-18 20:43 d2ab9f6 **docs: generate readme**
+- 2025-08-18 20:43 9f8be46 **docs: generate CHANGELOG**
 - 2025-08-17 14:22 67be425 **refactor: rename history projection port**
 ## 2025-08-16 12:17 v0.18.24
 ## 2025-08-16 12:17 v0.18.23
