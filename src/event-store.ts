@@ -1,5 +1,5 @@
-import * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import type * as tools from "@bgord/tools";
+import type { z } from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
 import type { EventStreamType } from "./event-stream.vo";
 

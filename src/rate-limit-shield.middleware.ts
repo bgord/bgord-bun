@@ -1,8 +1,8 @@
 import * as tools from "@bgord/tools";
-import { Context } from "hono";
+import type { Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { RateLimitStore } from "./rate-limit-store.port";
+import type { RateLimitStore } from "./rate-limit-store.port";
 
 type SubjectResolver = (c: Context) => string;
 

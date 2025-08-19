@@ -1,7 +1,7 @@
 import bun from "bun";
 import {
   AbstractPrerequisite,
-  PrerequisiteLabelType,
+  type PrerequisiteLabelType,
   PrerequisiteStatusEnum,
   PrerequisiteStrategyEnum,
 } from "../prerequisites.service";

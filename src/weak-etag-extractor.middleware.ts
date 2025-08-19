@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
-import { EtagVariables } from "./etag-extractor.middleware";
+import type { EtagVariables } from "./etag-extractor.middleware";
 
 export class WeakETagExtractor {
   static attach = createMiddleware<{ Variables: EtagVariables }>(async (c, next) => {

@@ -1,7 +1,7 @@
 // TODO: tests
 
 import type { betterAuth } from "better-auth";
-import hono from "hono";
+import type hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 

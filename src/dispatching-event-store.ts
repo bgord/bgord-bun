@@ -1,9 +1,9 @@
-import { z } from "zod/v4";
+import type { z } from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
 import type { EventPublisher } from "./event-publisher.types";
 import { EventStore as BaseStore } from "./event-store";
 import type { EventStreamType } from "./event-stream.vo";
-import { ToEventMap } from "./to-event-map.types";
+import type { ToEventMap } from "./to-event-map.types";
 
 export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends BaseStore<AllEvents> {
   static EMPTY_STREAM_REVISION = -1;

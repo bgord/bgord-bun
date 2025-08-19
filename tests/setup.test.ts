@@ -1,12 +1,12 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { EtagVariables } from "../src/etag-extractor.middleware";
-import { I18nConfigType } from "../src/i18n.service";
+import type { EtagVariables } from "../src/etag-extractor.middleware";
+import type { I18nConfigType } from "../src/i18n.service";
 import { Logger } from "../src/logger.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Setup } from "../src/setup.service";
-import { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
+import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
 
 const ip = {
   server: {

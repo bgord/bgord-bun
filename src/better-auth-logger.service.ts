@@ -1,5 +1,5 @@
 import type { LogLevel } from "better-auth";
-import { Logger, LogLevelEnum } from "./logger.service";
+import { type Logger, LogLevelEnum } from "./logger.service";
 
 export class BetterAuthLogger {
   constructor(private readonly logger: Logger) {}

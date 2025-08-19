@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { EtagVariables } from "../src/etag-extractor.middleware";
+import type { EtagVariables } from "../src/etag-extractor.middleware";
 import { WeakETagExtractor } from "../src/weak-etag-extractor.middleware";
 
 describe("WeakETagExtractor middleware", () => {

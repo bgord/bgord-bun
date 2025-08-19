@@ -1,6 +1,6 @@
-import nodemailer, { SendMailOptions } from "nodemailer";
+import nodemailer, { type SendMailOptions } from "nodemailer";
 import { z } from "zod/v4";
-import { MailerPort } from "./mailer.port";
+import type { MailerPort } from "./mailer.port";
 import { Path } from "./path.vo";
 import { Port } from "./port.vo";
 

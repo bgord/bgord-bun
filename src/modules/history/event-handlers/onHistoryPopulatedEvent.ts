@@ -1,5 +1,5 @@
-import * as Events from "../events";
-import * as Ports from "../ports";
+import type * as Events from "../events";
+import type * as Ports from "../ports";
 import * as VO from "../value-objects";
 
 export const onHistoryPopulatedEvent =

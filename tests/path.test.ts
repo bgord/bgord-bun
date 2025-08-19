@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Path, PathType } from "../src/path.vo";
+import { Path, type PathType } from "../src/path.vo";
 
 describe("Path", () => {
   test("Path accepts a valid string", () => {

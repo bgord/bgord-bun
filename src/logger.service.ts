@@ -1,9 +1,9 @@
 import * as tools from "@bgord/tools";
 import * as winston from "winston";
 import { z } from "zod/v4";
-import { CorrelationIdType } from "./correlation-id.vo";
+import type { CorrelationIdType } from "./correlation-id.vo";
 import { NodeEnvironmentEnum } from "./node-env.vo";
-import { PathType } from "./path.vo";
+import type { PathType } from "./path.vo";
 
 export enum LogLevelEnum {
   /** @public */

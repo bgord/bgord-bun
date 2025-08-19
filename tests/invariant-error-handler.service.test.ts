@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { ErrorHandler as ErrorHandlerType, Hono } from "hono";
+import { type ErrorHandler as ErrorHandlerType, Hono } from "hono";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Invariant } from "../src/invariant.service";
 import { InvariantErrorHandler } from "../src/invariant-error-handler.service";

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { TimeZoneOffset, TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
+import { TimeZoneOffset, type TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
 
 describe("TimeZoneOffset middleware", () => {
   test("sets timeZoneOffset for valid header", async () => {

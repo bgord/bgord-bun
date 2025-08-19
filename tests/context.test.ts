@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
-import { Context, ContextVariables } from "../src/context.middleware";
+import { Context, type ContextVariables } from "../src/context.middleware";
 import { TimeZoneOffset } from "../src/time-zone-offset.middleware";
 
 describe("Context class", () => {

@@ -6,7 +6,7 @@ export const HistoryPayloadParsed = HistoryPayload.refine((value) => {
   try {
     JSON.parse(JSON.stringify(value));
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }).transform((value) => JSON.stringify(value));

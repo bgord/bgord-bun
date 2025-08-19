@@ -1,7 +1,7 @@
 import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { CaptchaShieldPort } from "./captcha-shield.port";
+import type { CaptchaShieldPort } from "./captcha-shield.port";
 import type { HCaptchaSecretKeyType } from "./captcha-shield-hcaptcha.adapter";
 
 export const AccessDeniedHcaptchaLocalError = new HTTPException(403, {

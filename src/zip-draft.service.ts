@@ -1,4 +1,4 @@
-import { Readable } from "node:stream";
+import type { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
 import { ZipFile } from "yazl";
 import { FileDraft } from "./file-draft.service";

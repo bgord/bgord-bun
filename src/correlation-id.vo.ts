@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import type { z } from "zod/v4";
 import { UUID } from "./uuid.vo";
 
 export const CorrelationId = UUID;

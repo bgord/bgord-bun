@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import {
   Sitemap,
   SitemapChangefreq,
-  SitemapConfigType,
+  type SitemapConfigType,
   SitemapLastmod,
   SitemapLoc,
   SitemapPriority,

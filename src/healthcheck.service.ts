@@ -3,7 +3,7 @@ import { createFactory } from "hono/factory";
 import { BuildInfoRepository } from "./build-info-repository.service";
 import { MemoryConsumption } from "./memory-consumption.service";
 import * as prereqs from "./prerequisites.service";
-import { Uptime, UptimeResultType } from "./uptime.service";
+import { Uptime, type UptimeResultType } from "./uptime.service";
 
 const handler = createFactory();
 

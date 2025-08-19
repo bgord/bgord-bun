@@ -1,4 +1,4 @@
-import { MailerPort } from "../mailer.port";
+import type { MailerPort } from "../mailer.port";
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteMailerConfigType = {

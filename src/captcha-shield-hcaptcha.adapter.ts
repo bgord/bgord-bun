@@ -2,7 +2,7 @@ import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
-import { CaptchaShieldPort } from "./captcha-shield.port";
+import type { CaptchaShieldPort } from "./captcha-shield.port";
 
 export const HCaptchaSecretKey = z.string().trim().length(42).brand("HCaptchaSecretKey");
 

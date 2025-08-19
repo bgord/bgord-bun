@@ -1,5 +1,5 @@
-import * as tools from "@bgord/tools";
-import * as VO from "../value-objects";
+import type * as tools from "@bgord/tools";
+import type * as VO from "../value-objects";
 
 export interface HistoryProjectionPort {
   append(data: VO.HistoryParsedType, createdAt: tools.TimestampType): Promise<void>;

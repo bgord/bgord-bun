@@ -1,6 +1,6 @@
-import { z } from "zod/v4";
+import type { z } from "zod/v4";
 import type { GenericEventSchema } from "./event.types";
-import { Logger } from "./logger.service";
+import type { Logger } from "./logger.service";
 
 export class EventHandler {
   constructor(private readonly logger: Logger) {}

@@ -1,5 +1,6 @@
-import { Context } from "hono";
-import NodeCache, { Key } from "node-cache";
+import type { Context } from "hono";
+import type NodeCache from "node-cache";
+import type { Key } from "node-cache";
 
 export enum CacheHitEnum {
   hit = "hit",

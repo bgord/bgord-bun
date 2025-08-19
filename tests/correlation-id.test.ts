@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { CorrelationId, CorrelationIdType } from "../src/correlation-id.vo";
+import { CorrelationId, type CorrelationIdType } from "../src/correlation-id.vo";
 
 describe("CorrelationId", () => {
   test("CorrelationId accepts a valid UUID", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import { Logger } from "../src/logger.service";
+import type { Logger } from "../src/logger.service";
 import { MailerSmtpAdapter, SmtpPort } from "../src/mailer-smtp.adapter";
 import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
 

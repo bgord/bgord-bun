@@ -4,7 +4,7 @@ import _ from "lodash";
 import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import type { CorrelationIdType } from "./correlation-id.vo";
-import { Logger } from "./logger.service";
+import type { Logger } from "./logger.service";
 
 export class HttpLogger {
   private static simplify(response: unknown) {

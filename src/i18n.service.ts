@@ -1,6 +1,6 @@
 import path from "node:path";
-import * as tools from "@bgord/tools";
-import { Path, PathType } from "./path.vo";
+import type * as tools from "@bgord/tools";
+import { Path, type PathType } from "./path.vo";
 
 export type TranslationsKeyType = string;
 

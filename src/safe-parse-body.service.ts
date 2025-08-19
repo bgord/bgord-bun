@@ -1,4 +1,4 @@
-import hono from "hono";
+import type hono from "hono";
 
 export async function safeParseBody(c: hono.Context): Promise<any> {
   try {

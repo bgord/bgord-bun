@@ -1,6 +1,6 @@
-import * as tools from "@bgord/tools";
+import type * as tools from "@bgord/tools";
 import NodeCache from "node-cache";
-import { RateLimitStore, RateLimitStoreSubjectType } from "./rate-limit-store.port";
+import type { RateLimitStore, RateLimitStoreSubjectType } from "./rate-limit-store.port";
 
 export class NodeCacheRateLimitStore implements RateLimitStore {
   private readonly store: NodeCache;

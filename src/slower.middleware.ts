@@ -1,4 +1,4 @@
-import * as tools from "@bgord/tools";
+import type * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 
 export class Slower {

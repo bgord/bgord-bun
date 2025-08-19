@@ -1,4 +1,4 @@
-import * as VO from "../value-objects";
+import type * as VO from "../value-objects";
 
 export interface HistoryWriterPort {
   populate(history: Omit<VO.HistoryType, "id">): Promise<void>;

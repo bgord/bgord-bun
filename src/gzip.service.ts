@@ -1,4 +1,4 @@
-import { createReadStream, createWriteStream, PathLike } from "node:fs";
+import { createReadStream, createWriteStream, type PathLike } from "node:fs";
 import { pipeline } from "node:stream/promises";
 import { createGunzip, createGzip } from "node:zlib";
 

@@ -1,4 +1,4 @@
-import * as tools from "@bgord/tools";
+import type * as tools from "@bgord/tools";
 
 export type RateLimitStoreSubjectType = string;
 

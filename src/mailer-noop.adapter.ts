@@ -1,6 +1,6 @@
-import { SendMailOptions } from "nodemailer";
-import { Logger } from "./logger.service";
-import { MailerPort } from "./mailer.port";
+import type { SendMailOptions } from "nodemailer";
+import type { Logger } from "./logger.service";
+import type { MailerPort } from "./mailer.port";
 
 type MailerSendOptionsType = SendMailOptions;
 
