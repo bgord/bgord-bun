@@ -2,7 +2,7 @@ import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
-import { CaptchaShieldPort } from "./captcha-shield.port";
+import { CaptchaShieldPort } from "./captcha.port";
 
 export const HCaptchaSecretKey = z.string().trim().length(42).brand("HCaptchaSecretKey");
 
@@ -14,27 +14,12 @@ export type HCaptchaSiteKeyType = z.infer<typeof HCaptchaSiteKey>;
 export const HCaptchaResponseToken = z.string().trim();
 export type HCaptchaResponseTokenType = z.infer<typeof HCaptchaResponseToken>;
 
-type HCaptchaVerifierModeType = "local" | "production";
-
 export const AccessDeniedHcaptchaError = new HTTPException(403, {
   message: "access_denied_recaptcha",
 });
 
-export type HCaptchaVerifierConfigType = {
-  secretKey: HCaptchaSecretKeyType;
-  mode: HCaptchaVerifierModeType;
-};
-
-export class HcaptchaShield implements CaptchaShieldPort {
-  private readonly secretKey: HCaptchaSecretKeyType;
-  private readonly mode: HCaptchaVerifierModeType;
-
-  private readonly LOCAL_HCAPTCHA_RESPONSE_PLACEHOLDER = "10000000-aaaa-bbbb-cccc-000000000001";
-
-  constructor(config: HCaptchaVerifierConfigType) {
-    this.mode = config.mode;
-    this.secretKey = config.secretKey;
-  }
+export class CaptchaHcaptchaShield implements CaptchaShieldPort {
+  constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   build = createMiddleware(async (c, next) => {
     try {
@@ -42,10 +27,7 @@ export class HcaptchaShield implements CaptchaShieldPort {
 
       const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as HCaptchaResponseTokenType;
 
-      const result = await hcaptcha.verify(
-        this.secretKey,
-        this.mode === "production" ? hcaptchaTokenFormData : this.LOCAL_HCAPTCHA_RESPONSE_PLACEHOLDER,
-      );
+      const result = await hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
 
       if (!result?.success) {
         throw AccessDeniedHcaptchaError;

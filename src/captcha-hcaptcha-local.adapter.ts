@@ -1,17 +1,11 @@
 import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
-import { CaptchaShieldPort } from "./captcha-shield.port";
-import type { HCaptchaSecretKeyType } from "./hcaptcha-shield.adapter";
-import { AccessDeniedHcaptchaError } from "./hcaptcha-shield.adapter";
-
-export type CaptchaHcaptchaLocalConfigType = { secretKey: HCaptchaSecretKeyType };
+import { CaptchaShieldPort } from "./captcha.port";
+import type { HCaptchaSecretKeyType } from "./captcha-hcaptcha-shield.adapter";
+import { AccessDeniedHcaptchaError } from "./captcha-hcaptcha-shield.adapter";
 
 export class CaptchaHcaptchaLocalShield implements CaptchaShieldPort {
-  private readonly secretKey: HCaptchaSecretKeyType;
-
-  constructor(config: CaptchaHcaptchaLocalConfigType) {
-    this.secretKey = config.secretKey;
-  }
+  constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   build = createMiddleware(async (_c, next) => {
     try {
