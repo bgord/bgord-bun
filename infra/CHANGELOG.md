@@ -1,4 +1,7 @@
 # Changelog
+- 2025-08-19 21:46 ff81ffb **refactor: use import type**
+- 2025-08-19 21:45 c40e54e **step: bump bgord/scripts**
+- 2025-08-19 21:42 eb6a962 **refactor: unify naming**
 - 2025-08-19 21:36 d020b27 **step: add hcaptcha local tests**
 - 2025-08-19 21:33 ef0c2c6 **step: test noop adapter**
 - 2025-08-19 21:33 5c0c911 **step: remove old tests**
@@ -11,6 +14,8 @@
 - 2025-08-19 21:04 509ea3d **step: setup captcha-shield port**
 ## 2025-08-19 20:24 v0.18.25
 - 2025-08-19 20:24 730bf4a **0.18.25**
+- 2025-08-19 19:40 6852662 **docs: generate readme**
+- 2025-08-19 19:40 1ab3ac0 **docs: generate CHANGELOG**
 - 2025-08-19 18:24 96b12a7 **docs: generate CHANGELOG**
 - 2025-08-18 22:43 012c3e0 **step: update packages**
 - 2025-08-18 20:43 d2ab9f6 **docs: generate readme**
