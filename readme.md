@@ -34,6 +34,10 @@ src/
 ├── cache-resolver.service.ts
 ├── cache-response.middleware.ts
 ├── cache-static-files.middleware.ts
+├── captcha-hcaptcha-local.adapter.ts
+├── captcha-hcaptcha.adapter.ts
+├── captcha-noop.adapter.ts
+├── captcha.port.ts
 ├── command-logger.service.ts
 ├── command.types.ts
 ├── context.middleware.ts
@@ -55,7 +59,6 @@ src/
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
 ├── gzip.service.ts
-├── hcaptcha-shield.middleware.ts
 ├── healthcheck.service.ts
 ├── http-logger.middleware.ts
 ├── i18n.service.ts
@@ -65,6 +68,9 @@ src/
 ├── invariant.service.ts
 ├── jobs.service.ts
 ├── logger.service.ts
+├── mailer-noop.adapter.ts
+├── mailer-smtp-with-logger.adapter.ts
+├── mailer-smtp.adapter.ts
 ├── mailer.port.ts
 ├── memory-consumption.service.ts
 ├── modules
@@ -87,7 +93,6 @@ src/
 │           ├── history.ts
 ├── node-cache-rate-limit-store.adapter.ts
 ├── node-env.vo.ts
-├── noop-mailer.adapter.ts
 ├── open-graph.service.ts
 ├── path.vo.ts
 ├── port.vo.ts
@@ -119,8 +124,6 @@ src/
 ├── simulated-error.middleware.ts
 ├── sitemap.service.ts
 ├── slower.middleware.ts
-├── smtp-mailer-with-mailer.adapter.ts
-├── smtp-mailer.adapter.ts
 ├── time-zone-offset.middleware.ts
 ├── to-event-map.types.ts
 ├── translations.service.ts
