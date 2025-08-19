@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import { CaptchaHcaptcha, HCaptchaSecretKey } from "../src/captcha-hcaptcha.adapter";
+import { CaptchaShieldHcaptcha, HCaptchaSecretKey } from "../src/captcha-shield-hcaptcha.adapter";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";
 
@@ -11,7 +11,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
       success: true,
     });
 
-    const shield = new CaptchaHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY));
+    const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY));
 
     const app = new Hono();
     app.use("/secure", shield.build);
@@ -38,7 +38,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
       success: false,
     });
 
-    const shield = new CaptchaHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY) as any);
+    const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY) as any);
 
     const app = new Hono();
     app.use("/secure", shield.build);
@@ -65,7 +65,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
       success: false,
     });
 
-    const shield = new CaptchaHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY));
+    const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY));
 
     const app = new Hono();
     app.use("/secure", shield.build);
@@ -87,7 +87,7 @@ describe("CaptchaHcaptchaShield (production)", () => {
   test("rejects request when hcaptcha.verify throws", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error("network"));
 
-    const shield = new CaptchaHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY) as any);
+    const shield = new CaptchaShieldHcaptcha(HCaptchaSecretKey.parse(SECRET_KEY) as any);
 
     const app = new Hono();
     app.use("/secure", shield.build);

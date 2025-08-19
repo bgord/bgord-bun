@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { CaptchaNoopShield } from "../src/captcha-noop.adapter";
+import { CaptchaShieldNoop } from "../src/captcha-shield-noop.adapter";
 
-describe("CaptchaNoopShield", () => {
+describe("CaptchaShieldNoop", () => {
   test("allows requests through to downstream handler", async () => {
-    const shield = new CaptchaNoopShield();
+    const shield = new CaptchaShieldNoop();
 
     const app = new Hono();
     app.use("/secure", shield.build);

@@ -1,5 +1,5 @@
 import { MiddlewareHandler } from "hono";
 
-export interface CaptchaPort {
+export interface CaptchaShieldPort {
   build: MiddlewareHandler;
 }
