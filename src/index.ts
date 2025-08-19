@@ -69,5 +69,6 @@ export * from "./url-wo-trailing-slash.vo";
 export * from "./uuid.vo";
 export * from "./visitor-id.port";
 export * from "./visitor-id-hash.adapter";
+export * from "./visitor-id-hash-hono.adapter";
 export * from "./weak-etag-extractor.middleware";
 export * from "./zip-draft.service";
