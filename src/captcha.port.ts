@@ -1,5 +1,5 @@
-import { createMiddleware } from "hono/factory";
+import { MiddlewareHandler } from "hono";
 
 export interface CaptchaShieldPort {
-  build: ReturnType<typeof createMiddleware>;
+  build: MiddlewareHandler;
 }
