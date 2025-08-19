@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import { RecaptchaSecretKey, RecaptchaShield } from "../src/recaptcha-shield.middleware";
+import { CaptchaShieldRecaptcha, RecaptchaSecretKey } from "../src/captcha-shield-recaptcha.adapter";
 
 const VALID_SECRET_KEY = "x".repeat(40);
 
@@ -9,7 +9,7 @@ const INVALID_TOKEN = "invalid_token";
 
 describe("RecaptchaShield", () => {
   test("body - passes when recaptcha verification is successful", async () => {
-    const shield = new RecaptchaShield({
+    const shield = new CaptchaShieldRecaptcha({
       secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
     });
 
@@ -18,7 +18,7 @@ describe("RecaptchaShield", () => {
     );
 
     const app = new Hono();
-    app.post("/", shield.build, (c) => c.text("ok"));
+    app.post("/", shield.verify, (c) => c.text("ok"));
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -35,7 +35,7 @@ describe("RecaptchaShield", () => {
   });
 
   test("headers - passes when recaptcha verification is successful", async () => {
-    const shield = new RecaptchaShield({
+    const shield = new CaptchaShieldRecaptcha({
       secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
     });
 
@@ -44,7 +44,7 @@ describe("RecaptchaShield", () => {
     );
 
     const app = new Hono();
-    app.post("/", shield.build, (c) => c.text("ok"));
+    app.post("/", shield.verify, (c) => c.text("ok"));
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -61,7 +61,7 @@ describe("RecaptchaShield", () => {
   });
 
   test("query - passes when recaptcha verification is successful", async () => {
-    const shield = new RecaptchaShield({
+    const shield = new CaptchaShieldRecaptcha({
       secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
     });
 
@@ -70,7 +70,7 @@ describe("RecaptchaShield", () => {
     );
 
     const app = new Hono();
-    app.post("/", shield.build, (c) => c.text("ok"));
+    app.post("/", shield.verify, (c) => c.text("ok"));
 
     const response = await app.request(`http://localhost/?recaptchaToken=${VALID_TOKEN}`, {
       method: "POST",
@@ -84,7 +84,7 @@ describe("RecaptchaShield", () => {
   });
 
   test("throws AccessDeniedError when recaptcha fails", async () => {
-    const shield = new RecaptchaShield({
+    const shield = new CaptchaShieldRecaptcha({
       secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
     });
 
@@ -93,7 +93,7 @@ describe("RecaptchaShield", () => {
     );
 
     const app = new Hono();
-    app.post("/", shield.build, (c) => c.text("ok"));
+    app.post("/", shield.verify, (c) => c.text("ok"));
 
     const response = await app.request("http://localhost/", {
       method: "POST",
