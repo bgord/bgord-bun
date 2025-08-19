@@ -2,6 +2,7 @@ import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
+import { CaptchaShieldPort } from "./captcha-shield.port";
 
 export const HCaptchaSecretKey = z.string().trim().length(42).brand("HCaptchaSecretKey");
 
@@ -24,7 +25,7 @@ export type HCaptchaVerifierConfigType = {
   mode: HCaptchaVerifierModeType;
 };
 
-export class HcaptchaShield {
+export class HcaptchaShield implements CaptchaShieldPort {
   private readonly secretKey: HCaptchaSecretKeyType;
   private readonly mode: HCaptchaVerifierModeType;
 
