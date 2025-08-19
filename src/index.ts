@@ -8,6 +8,7 @@ export * from "./build-info-repository.service";
 export * from "./cache-resolver.service";
 export * from "./cache-response.middleware";
 export * from "./cache-static-files.middleware";
+export * from "./captcha-noop.adapter";
 export * from "./command.types";
 export * from "./command-logger.service";
 export * from "./context.middleware";
