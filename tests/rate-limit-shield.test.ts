@@ -1,14 +1,14 @@
 import { describe, expect, setSystemTime, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { NodeCacheRateLimitStore } from "../src/node-cache-rate-limit-store.adapter";
 import {
   AnonSubjectResolver,
   RateLimitShield,
   UserSubjectResolver,
 } from "../src/rate-limit-shield.middleware";
+import { RateLimitStoreNodeCache } from "../src/rate-limit-store-node-cache.adapter";
 
-const store = new NodeCacheRateLimitStore(tools.Time.Seconds(1));
+const store = new RateLimitStoreNodeCache(tools.Time.Seconds(1));
 
 describe("rateLimitShield middleware", () => {
   test("respects the enabled flag", async () => {

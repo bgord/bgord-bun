@@ -2,7 +2,7 @@ import type * as tools from "@bgord/tools";
 import NodeCache from "node-cache";
 import type { RateLimitStore, RateLimitStoreSubjectType } from "./rate-limit-store.port";
 
-export class NodeCacheRateLimitStore implements RateLimitStore {
+export class RateLimitStoreNodeCache implements RateLimitStore {
   private readonly store: NodeCache;
 
   constructor(readonly time: tools.TimeResult) {
