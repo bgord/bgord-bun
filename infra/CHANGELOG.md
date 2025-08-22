@@ -1,4 +1,6 @@
 # Changelog
+- 2025-08-22 13:48 fe917f3 **step: add event envelope**
+- 2025-08-22 12:00 a251254 **refactor: rename event envelope**
 ## 2025-08-22 11:51 v0.19.2
 - 2025-08-22 11:51 a44ad56 **0.19.2**
 - 2025-08-22 11:50 5e0cfaa **step: update hono**
@@ -7,6 +9,7 @@
 - 2025-08-22 11:10 55c09d9 **step: rename shields**
 - 2025-08-22 11:05 3c1d8e6 **refactor: rename file draft zip**
 - 2025-08-22 10:59 31ffa8a **refactor: rename adapter**
+- 2025-08-22 09:51 690cf1d **docs: generate CHANGELOG**
 - 2025-08-22 09:50 eac9334 **docs: generate CHANGELOG**
 - 2025-08-22 09:50 8b9aab3 **docs: generate readme**
 - 2025-08-21 16:38 d28ff02 **step: update packages**
