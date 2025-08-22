@@ -32,6 +32,7 @@ src/
 ├── cache-resolver.service.ts
 ├── cache-response.middleware.ts
 ├── cache-static-files.middleware.ts
+├── command-envelope.ts
 ├── command-logger.service.ts
 ├── command.types.ts
 ├── context.middleware.ts
