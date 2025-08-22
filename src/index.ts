@@ -18,6 +18,7 @@ export * from "./encryption.service";
 export * from "./env-validator.service";
 export * from "./etag-extractor.middleware";
 export * from "./event.types";
+export * from "./event-bus-like.types";
 export * from "./event-envelope";
 export * from "./event-handler.service";
 export * from "./event-logger.service";
