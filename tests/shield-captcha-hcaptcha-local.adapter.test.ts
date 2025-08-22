@@ -1,20 +1,20 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import { CaptchaShieldHcaptchaLocal } from "../src/captcha-shield-hcaptcha-local.adapter";
+import { ShieldCaptchaHcaptchaLocal } from "../src/shield-captcha-hcaptcha-local.adapter";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";
 
 // The fixed token used by the local shield implementation
 const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
 
-describe("CaptchaShieldHcaptchaLocal", () => {
+const shield = new ShieldCaptchaHcaptchaLocal(SECRET_KEY as any);
+
+describe("ShieldCaptchaHcaptchaLocal", () => {
   test("allows request when hcaptcha.verify resolves success=true", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({
       success: true,
     });
-
-    const shield = new CaptchaShieldHcaptchaLocal(SECRET_KEY as any);
 
     const app = new Hono();
     app.use("/secure", shield.verify);
@@ -38,8 +38,6 @@ describe("CaptchaShieldHcaptchaLocal", () => {
       success: false,
     });
 
-    const shield = new CaptchaShieldHcaptchaLocal(SECRET_KEY as any);
-
     const app = new Hono();
     app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
@@ -59,8 +57,6 @@ describe("CaptchaShieldHcaptchaLocal", () => {
 
   test("rejects request when hcaptcha.verify throws", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error("network"));
-
-    const shield = new CaptchaShieldHcaptchaLocal(SECRET_KEY as any);
 
     const app = new Hono();
     app.use("/secure", shield.verify);

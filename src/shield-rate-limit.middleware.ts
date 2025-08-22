@@ -18,7 +18,7 @@ type RateLimitShieldOptionsType = {
 
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 
-export const RateLimitShield = (options: RateLimitShieldOptionsType) => {
+export const ShieldRateLimit = (options: RateLimitShieldOptionsType) => {
   return createMiddleware(async (c, next) => {
     if (!options.enabled) return next();
 

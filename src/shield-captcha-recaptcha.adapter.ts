@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
-import type { CaptchaShieldPort } from "./captcha-shield.port";
+import type { ShieldCaptchaPort } from "./shield-captcha.port";
 
 export const RecaptchaSiteKey = z.string().trim().length(40);
 
@@ -24,7 +24,7 @@ export const AccessDeniedRecaptchaError = new HTTPException(403, {
   message: "access_denied_recaptcha",
 });
 
-export class CaptchaShieldRecaptcha implements CaptchaShieldPort {
+export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
   private readonly secretKey: RecaptchaVerifierConfigType["secretKey"];
 
   constructor(config: RecaptchaVerifierConfigType) {

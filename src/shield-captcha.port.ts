@@ -1,5 +1,5 @@
 import type { MiddlewareHandler } from "hono";
 
-export interface CaptchaShieldPort {
+export interface ShieldCaptchaPort {
   verify: MiddlewareHandler;
 }

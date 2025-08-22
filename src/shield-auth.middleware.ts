@@ -9,7 +9,7 @@ export const AccessDeniedAuthShieldError = new HTTPException(403, {
   message: "access_denied_auth_shield",
 });
 
-export class AuthShield {
+export class ShieldAuth {
   cors = {
     origin: ["http://localhost:5173", "http://localhost:3000"],
     credentials: true,
