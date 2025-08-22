@@ -1,5 +1,12 @@
 # Changelog
+- 2025-08-22 11:50 5e0cfaa **step: update hono**
+- 2025-08-22 11:49 a70b4c2 **step: add base event data**
+- 2025-08-22 11:24 db72965 **step: expose rate limit store port**
+- 2025-08-22 11:10 55c09d9 **step: rename shields**
+- 2025-08-22 11:05 3c1d8e6 **refactor: rename file draft zip**
+- 2025-08-22 10:59 31ffa8a **refactor: rename adapter**
 - 2025-08-21 16:38 d28ff02 **step: update packages**
+- 2025-08-21 14:38 7d96623 **docs: generate CHANGELOG**
 ## 2025-08-19 23:24 v0.19.1
 - 2025-08-19 23:24 6f68d7d **0.19.1**
 - 2025-08-19 23:14 3c79cf9 **step: add visitor id hash hono adapter**
