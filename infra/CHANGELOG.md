@@ -1,10 +1,13 @@
 # Changelog
+- 2025-08-22 13:49 d7bbbe0 **0.19.3**
 - 2025-08-22 13:48 fe917f3 **step: add event envelope**
 - 2025-08-22 12:00 a251254 **refactor: rename event envelope**
 ## 2025-08-22 11:51 v0.19.2
 - 2025-08-22 11:51 a44ad56 **0.19.2**
 - 2025-08-22 11:50 5e0cfaa **step: update hono**
+- 2025-08-22 11:49 a823ccd **docs: generate readme**
 - 2025-08-22 11:49 a70b4c2 **step: add base event data**
+- 2025-08-22 11:49 a674b14 **docs: generate CHANGELOG**
 - 2025-08-22 11:24 db72965 **step: expose rate limit store port**
 - 2025-08-22 11:10 55c09d9 **step: rename shields**
 - 2025-08-22 11:05 3c1d8e6 **refactor: rename file draft zip**
