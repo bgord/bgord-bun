@@ -48,6 +48,7 @@ export * from "./path.vo";
 export * from "./port.vo";
 export * from "./prerequisites/index";
 export * from "./prerequisites.service";
+export * from "./rate-limit-store.port";
 export * from "./rate-limit-store-node-cache.adapter";
 export * from "./safe-parse-body.service";
 export * from "./setup.service";
