@@ -19,7 +19,7 @@ export type GenericParsedEventSchema = z.ZodObject<
   }
 >;
 
-export const BaseEventData = {
+export const EventEnvelope = {
   id: UUID,
   correlationId: UUID,
   createdAt: tools.Timestamp,
