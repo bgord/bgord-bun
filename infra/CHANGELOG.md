@@ -1,4 +1,5 @@
 # Changelog
+- 2025-08-22 14:31 13bdcec **step: add command envelope**
 ## 2025-08-22 13:50 v0.19.4
 - 2025-08-22 13:50 2125070 **0.19.4**
 ## 2025-08-22 13:49 v0.19.3
@@ -8,6 +9,7 @@
 ## 2025-08-22 11:51 v0.19.2
 - 2025-08-22 11:51 a44ad56 **0.19.2**
 - 2025-08-22 11:50 f2952ce **docs: generate CHANGELOG**
+- 2025-08-22 11:50 7a2e402 **docs: generate CHANGELOG**
 - 2025-08-22 11:50 5e0cfaa **step: update hono**
 - 2025-08-22 11:49 a823ccd **docs: generate readme**
 - 2025-08-22 11:49 a70b4c2 **step: add base event data**
