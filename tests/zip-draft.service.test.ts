@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { Readable } from "node:stream";
 import * as bg from "@bgord/bun";
 import * as tools from "@bgord/tools";
-import { ZipDraft } from "../src/zip-draft.service";
+import { FileDraftZip } from "../src/file-draft-zip.service";
 
 class MockDraft extends bg.FileDraft {
   constructor(
@@ -18,7 +18,7 @@ class MockDraft extends bg.FileDraft {
 
 describe("ZipDraft", () => {
   test("ZipDraft returns a buffer with ZIP signature", async () => {
-    const zip = new ZipDraft({
+    const zip = new FileDraftZip({
       filename: "bundle.zip",
       parts: [new MockDraft("a.txt", "alpha")],
     });
@@ -34,7 +34,7 @@ describe("ZipDraft", () => {
     const draftA = new MockDraft("first.csv", "id\n1");
     const draftB = new MockDraft("second.csv", "id\n2");
 
-    const zip = new ZipDraft({ filename: "two.csv.zip", parts: [draftA, draftB] });
+    const zip = new FileDraftZip({ filename: "two.csv.zip", parts: [draftA, draftB] });
 
     const buf = await zip.create();
     const txt = buf.toString("utf8"); // cheap way to search

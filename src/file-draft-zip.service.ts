@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { ZipFile } from "yazl";
 import { FileDraft } from "./file-draft.service";
 
-export class ZipDraft extends FileDraft {
+export class FileDraftZip extends FileDraft {
   private readonly parts: FileDraft[];
 
   constructor(config: { filename: string; parts: FileDraft[] }) {
