@@ -6,6 +6,7 @@ type WinstonLoggerOptions = {
   app: LogAppType;
   environment: NodeEnvironmentEnum;
   level: LogLevelEnum;
+  formats?: winston.Logform.Format[];
   transports?: winston.transport[];
 };
 
@@ -17,7 +18,7 @@ export class LoggerWinstonAdapter implements LoggerPort {
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
-      // winston.format.prettyPrint(),
+      ...(options.formats ?? []),
     );
 
     this.logger = winston.createLogger({
