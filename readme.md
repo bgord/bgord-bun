@@ -43,6 +43,7 @@ src/
 ├── encryption.service.ts
 ├── env-validator.service.ts
 ├── etag-extractor.middleware.ts
+├── event-bus-like.types.ts
 ├── event-envelope.ts
 ├── event-handler.service.ts
 ├── event-logger.service.ts
