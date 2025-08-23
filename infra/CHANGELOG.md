@@ -1,4 +1,6 @@
 # Changelog
+- 2025-08-23 17:48 1f858b8 **step: update packages**
+- 2025-08-22 14:57 335d7c4 **step: add event-bus-like types**
 ## 2025-08-22 14:32 v0.19.5
 - 2025-08-22 14:32 eaccee5 **0.19.5**
 - 2025-08-22 14:31 13bdcec **step: add command envelope**
@@ -7,6 +9,7 @@
 ## 2025-08-22 13:49 v0.19.3
 - 2025-08-22 13:49 d7bbbe0 **0.19.3**
 - 2025-08-22 13:48 fe917f3 **step: add event envelope**
+- 2025-08-22 12:32 e8c50e9 **docs: generate CHANGELOG**
 - 2025-08-22 12:31 e1b0888 **docs: generate readme**
 - 2025-08-22 12:31 8903a5f **docs: generate CHANGELOG**
 - 2025-08-22 12:00 a251254 **refactor: rename event envelope**
