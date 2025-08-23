@@ -4,6 +4,15 @@ import type { NodeEnvironmentEnum } from "./node-env.vo";
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
 export type HttpClientInfo = { ip?: string; userAgent?: string };
 
+export type ErrorInfo = {
+  name?: string;
+  message?: string;
+  stack?: string;
+  code?: string;
+  /** One-level nested cause for chained errors */
+  cause?: { name?: string; message?: string };
+};
+
 export enum LogLevelEnum {
   error = "error",
   warn = "warn",
@@ -31,6 +40,7 @@ export type LogCoreType = {
 };
 
 export type LogHttpType = LogCoreType & {
+  level: LogLevelEnum.http;
   component: "http";
   method: HttpMethod;
   url: string;
@@ -39,3 +49,5 @@ export type LogHttpType = LogCoreType & {
   client: HttpClientInfo;
   cacheHit?: boolean;
 };
+
+export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo };
