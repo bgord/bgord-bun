@@ -1,3 +1,4 @@
+import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
@@ -25,6 +26,8 @@ export type LogCoreType = {
   operation: string;
   /** Short human-readable sentence */
   message: string;
+  correlationId?: CorrelationIdType;
+  metadata?: Record<string, unknown>;
 };
 
 export type LogHttpType = LogCoreType & {
@@ -35,5 +38,4 @@ export type LogHttpType = LogCoreType & {
   durationMs?: number;
   client: HttpClientInfo;
   cacheHit?: boolean;
-  metadata?: Record<string, unknown>;
 };
