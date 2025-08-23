@@ -23,6 +23,7 @@ export * from "./event-envelope";
 export * from "./event-handler.service";
 export * from "./event-logger.service";
 export * from "./event-store";
+export * from "./event-store-like.types";
 export * from "./event-stream.vo";
 export * from "./file-draft.service";
 export * from "./file-draft-zip.service";
