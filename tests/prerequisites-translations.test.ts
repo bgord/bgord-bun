@@ -11,10 +11,7 @@ describe("prerequisites - translations", () => {
 
     const result = await new PrerequisiteTranslations({
       label: "translations",
-      supportedLanguages: {
-        en: tools.Language.parse("en"),
-        es: tools.Language.parse("es"),
-      },
+      supportedLanguages: { en: "en", es: "es" },
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
@@ -27,7 +24,7 @@ describe("prerequisites - translations", () => {
 
     const result = await new PrerequisiteTranslations({
       label: "translations",
-      supportedLanguages: { en: tools.Language.parse("en") },
+      supportedLanguages: { en: "en" },
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.success);
@@ -57,10 +54,7 @@ describe("prerequisites - translations", () => {
 
     const result = await new PrerequisiteTranslations({
       label: "translations",
-      supportedLanguages: {
-        en: tools.Language.parse("en"),
-        es: tools.Language.parse("en"),
-      },
+      supportedLanguages: { en: "en", es: "en" },
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
@@ -73,10 +67,7 @@ describe("prerequisites - translations", () => {
     const prerequisite = new PrerequisiteTranslations({
       label: "prerequisite",
       enabled: false,
-      supportedLanguages: {
-        en: tools.Language.parse("en"),
-        es: tools.Language.parse("es"),
-      },
+      supportedLanguages: { en: "en", es: "es" },
     });
 
     const result = await prerequisite.verify();

@@ -5,7 +5,7 @@
       "name": "@bgord/bun",
       "dependencies": {
         "@axiomhq/winston": "1.3.1",
-        "@bgord/tools": "0.12.11",
+        "@bgord/tools": "0.12.12",
         "@hono/ua-blocker": "0.1.8",
         "better-auth": "1.3.7",
         "check-disk-space": "3.4.0",
@@ -112,7 +112,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.18", "", {}, "sha512-rEFOE1MYIsBmoMJtQbl32PGHHXuG2hDxvEd7rUHE0vCBoFQVSDqaVs9hkZEtHCxRoY+CljXKFCOuJ8uxqw1LcA=="],
 
-    "@bgord/tools": ["@bgord/tools@0.12.11", "", { "dependencies": { "date-fns": "4.1.0", "zod": "3.25.76" } }, "sha512-QGV+lsHUyrb4cnfrzoexSuBWVipP6JydAc2dbnmgRroPHge/9c8w+as4N0+HaPnkSwCtLJzq1Uxl6RO40AVlAA=="],
+    "@bgord/tools": ["@bgord/tools@0.12.12", "", { "dependencies": { "date-fns": "4.1.0", "zod": "3.25.76" } }, "sha512-ppY10ROczaLREyDr8kIRlgUJz/sY5s4zWJnAmFu4Wf70qlccbAWxieT8XdWgPv2J71pTnrC60eS36EFBkV/Gxg=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.2.2", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.2.2", "@biomejs/cli-darwin-x64": "2.2.2", "@biomejs/cli-linux-arm64": "2.2.2", "@biomejs/cli-linux-arm64-musl": "2.2.2", "@biomejs/cli-linux-x64": "2.2.2", "@biomejs/cli-linux-x64-musl": "2.2.2", "@biomejs/cli-win32-arm64": "2.2.2", "@biomejs/cli-win32-x64": "2.2.2" }, "bin": { "biome": "bin/biome" } }, "sha512-j1omAiQWCkhuLgwpMKisNKnsM6W8Xtt1l0WZmqY/dFj8QPNkIoTvk4tSsi40FaAAkBE1PU0AFG2RWFBWenAn+w=="],
 
