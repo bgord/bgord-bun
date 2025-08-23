@@ -4,6 +4,8 @@ import type { NodeEnvironmentEnum } from "./node-env.vo";
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
 export type HttpClientInfo = { ip?: string; userAgent?: string };
 
+export type LogAppType = string;
+
 export type ErrorInfo = {
   name?: string;
   message?: string;
@@ -26,7 +28,7 @@ export type LogCoreType = {
   /** ISO-8601 UTC string with milliseconds, e.g. 2025-08-23T18:42:31.123Z */
   timestamp: string;
   level: LogLevelEnum;
-  app: string;
+  app: LogAppType;
   environment: NodeEnvironmentEnum;
   /** Bounded context / subsystem, e.g., "http" | "emotions" | "publishing" | "infra" */
   component: string;
