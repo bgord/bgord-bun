@@ -1,5 +1,8 @@
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
+export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
+export type HttpClientInfo = { ip?: string; userAgent?: string };
+
 export enum LogLevelEnum {
   error = "error",
   warn = "warn",
@@ -22,4 +25,15 @@ export type LogCoreType = {
   operation: string;
   /** Short human-readable sentence */
   message: string;
+};
+
+export type LogHttpType = LogCoreType & {
+  component: "http";
+  method: HttpMethod;
+  url: string;
+  status?: number;
+  durationMs?: number;
+  client: HttpClientInfo;
+  cacheHit?: boolean;
+  metadata?: Record<string, unknown>;
 };
