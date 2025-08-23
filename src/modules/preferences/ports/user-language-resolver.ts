@@ -1,5 +1,7 @@
+import type * as tools from "@bgord/tools";
+
 export interface UserLanguageResolverPort {
-  resolve(input: string | null): string | Promise<string>;
+  resolve(input: tools.LanguageType | null): tools.LanguageType | Promise<tools.LanguageType>;
 }
 
 /** @public */
@@ -12,16 +14,16 @@ export class UserLanguagePreferenceMissingError extends Error {
 
 /** @public */
 export class UserLanguageResolverThrowIfMissing implements UserLanguageResolverPort {
-  resolve(stored: string | null) {
+  resolve(stored: tools.LanguageType | null) {
     if (stored == null) throw new UserLanguagePreferenceMissingError();
     return stored;
   }
 }
 
 export class UserLanguageResolverSystemDefaultFallback implements UserLanguageResolverPort {
-  constructor(private readonly systemDefaultLanguage: string) {}
+  constructor(private readonly systemDefaultLanguage: tools.LanguageType) {}
 
-  resolve(stored: string | null) {
+  resolve(stored: tools.LanguageType | null) {
     return stored ?? this.systemDefaultLanguage;
   }
 }

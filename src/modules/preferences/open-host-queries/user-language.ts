@@ -1,9 +1,10 @@
+import type { UUIDType } from "../../../uuid.vo";
 import type * as Ports from "../ports";
 import type * as VO from "../value-objects";
 
 // TODO
 export interface UserLanguagePort<L extends readonly string[]> {
-  get(userId: string): Promise<L[number]>;
+  get(userId: UUIDType): Promise<L[number]>;
 }
 
 export class UserLanguageAdapter<L extends readonly string[]> implements UserLanguagePort<L> {
@@ -13,7 +14,7 @@ export class UserLanguageAdapter<L extends readonly string[]> implements UserLan
     private readonly resolver: Ports.UserLanguageResolverPort,
   ) {}
 
-  async get(userId: string): Promise<L[number]> {
+  async get(userId: UUIDType): Promise<L[number]> {
     const stored = await this.query.get(userId);
     const candidate = await this.resolver.resolve(stored);
 

@@ -1,4 +1,5 @@
+import type * as tools from "@bgord/tools";
+
 export interface UserLanguageQueryPort {
-  // TODO
-  get(userId: string): Promise<string | null>;
+  get(userId: tools.LanguageType): Promise<tools.LanguageType | null>;
 }
