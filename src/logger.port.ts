@@ -9,7 +9,6 @@ export type ErrorInfo = {
   message?: string;
   stack?: string;
   code?: string;
-  /** One-level nested cause for chained errors */
   cause?: { name?: string; message?: string };
 };
 
@@ -53,3 +52,17 @@ export type LogHttpType = LogCoreType & {
 export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo };
 
 export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: ErrorInfo };
+
+export type AdapterInjectedFields = "timestamp" | "level" | "app" | "environment";
+
+export interface LoggerPort {
+  error(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
+  warn(entry: Omit<LogWarnType, AdapterInjectedFields>): void;
+  info(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
+  http(entry: Omit<LogHttpType, AdapterInjectedFields>): void;
+  verbose(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
+  debug(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
+  silly(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
+
+  setSilent(silent: boolean): void;
+}
