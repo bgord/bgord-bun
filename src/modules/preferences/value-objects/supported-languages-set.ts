@@ -7,7 +7,7 @@ export class UnsupportedLanguageError extends Error {
   }
 }
 
-export class SupportedLanguagesSet<L extends readonly string[]> {
+export class SupportedLanguagesSet<L extends readonly tools.LanguageType[]> {
   private readonly index: Set<tools.LanguageType>;
 
   constructor(allowed: L) {

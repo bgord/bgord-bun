@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import { createEventEnvelope } from "../../../event-envelope";
 import type { EventStoreLike } from "../../../event-store-like.types";
 import type * as Commands from "../commands";
@@ -9,7 +10,7 @@ import type * as VO from "../value-objects";
 type AcceptedEvent = Events.UserLanguageSetEventType;
 
 export const handleSetUserLanguageCommand =
-  <L extends readonly string[]>(
+  <L extends readonly tools.LanguageType[]>(
     EventStore: EventStoreLike<AcceptedEvent>,
     query: Ports.UserLanguageQueryPort,
     supported: VO.SupportedLanguagesSet<L>,
