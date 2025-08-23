@@ -17,7 +17,7 @@ export class LoggerWinstonAdapter implements LoggerPort {
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
-      winston.format.prettyPrint(),
+      // winston.format.prettyPrint(),
     );
 
     this.logger = winston.createLogger({
