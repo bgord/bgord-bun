@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-23 19:09 v0.20.0
+- 2025-08-23 19:09 e275557 **0.20.0**
 - 2025-08-23 19:07 264839c **Merge pull request #133 from bgord/preferences**
 - 2025-08-23 19:01 aad41ce **step: cleanup tests**
 - 2025-08-23 18:58 0ddf64a **step: move history writer to ports**
@@ -14,6 +16,8 @@
 ## 2025-08-23 17:50 v0.19.6
 - 2025-08-23 17:50 9f46075 **0.19.6**
 - 2025-08-23 17:48 1f858b8 **step: update packages**
+- 2025-08-23 17:07 80a8faa **docs: generate readme**
+- 2025-08-23 17:07 1ba4298 **docs: generate CHANGELOG**
 - 2025-08-23 15:58 83727cc **docs: generate CHANGELOG**
 - 2025-08-23 15:57 b89e37d **docs: generate readme**
 - 2025-08-23 15:57 8c8afdf **docs: generate CHANGELOG**
