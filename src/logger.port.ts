@@ -1,7 +1,6 @@
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
-export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
 export type HttpClientInfo = { ip?: string; userAgent?: string };
 
 export type LogAppType = string;
@@ -43,7 +42,7 @@ export type LogCoreType = {
 export type LogHttpType = LogCoreType & {
   level: LogLevelEnum.http;
   component: "http";
-  method: HttpMethod;
+  method: string;
   url: string;
   status?: number;
   durationMs?: number;
