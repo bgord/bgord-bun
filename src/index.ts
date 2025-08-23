@@ -39,7 +39,6 @@ export * from "./image-exif.service";
 export * from "./invariant.service";
 export * from "./invariant-error-handler.service";
 export * from "./jobs.service";
-export * from "./logger.service";
 export * from "./mailer.port";
 export * from "./mailer-noop.adapter";
 export * from "./mailer-smtp.adapter";
