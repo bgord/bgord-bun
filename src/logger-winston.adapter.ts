@@ -26,7 +26,6 @@ export class LoggerWinstonAdapter implements LoggerPort {
       defaultMeta: { app: options.app, environment: options.environment },
       handleExceptions: true,
       handleRejections: true,
-      exitOnError: false,
       format,
       transports: [new winston.transports.Console(), ...(options.transports ?? [])],
     });
