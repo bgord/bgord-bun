@@ -58,7 +58,7 @@ export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: Erro
 export type AdapterInjectedFields = "timestamp" | "level" | "app" | "environment";
 
 export interface LoggerPort {
-  error(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
+  error(entry: Omit<LogErrorType, AdapterInjectedFields>): void;
   warn(entry: Omit<LogWarnType, AdapterInjectedFields>): void;
   info(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
   http(entry: Omit<LogHttpType, AdapterInjectedFields>): void;
