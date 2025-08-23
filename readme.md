@@ -48,6 +48,7 @@ src/
 ├── event-handler.service.ts
 ├── event-logger.service.ts
 ├── event-publisher.types.ts
+├── event-store-like.types.ts
 ├── event-store.ts
 ├── event-stream.vo.ts
 ├── event.types.ts
