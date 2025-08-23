@@ -1,5 +1,9 @@
 # Changelog
+## 2025-08-23 17:50 v0.19.6
+- 2025-08-23 17:50 9f46075 **0.19.6**
 - 2025-08-23 17:48 1f858b8 **step: update packages**
+- 2025-08-23 15:49 6614579 **docs: generate CHANGELOG**
+- 2025-08-23 15:49 5902421 **docs: generate readme**
 - 2025-08-22 14:57 335d7c4 **step: add event-bus-like types**
 ## 2025-08-22 14:32 v0.19.5
 - 2025-08-22 14:32 eaccee5 **0.19.5**
