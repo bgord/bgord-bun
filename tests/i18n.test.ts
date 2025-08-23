@@ -75,14 +75,12 @@ describe("I18n middleware", () => {
 
 describe("I18n.getTranslationPathForLanguage", () => {
   test("returns the correct path for language", () => {
-    const path = new I18n().getTranslationPathForLanguage(tools.Language.parse("en"));
+    const path = new I18n().getTranslationPathForLanguage("en");
     expect(path.endsWith("infra/translations/en.json")).toBe(true);
   });
 
   test("uses custom translation path if provided", () => {
-    const path = new I18n(Path.parse("custom/path")).getTranslationPathForLanguage(
-      tools.Language.parse("pl"),
-    );
+    const path = new I18n(Path.parse("custom/path")).getTranslationPathForLanguage("pl");
     expect(path.endsWith("custom/path/pl.json")).toBe(true);
   });
 });
@@ -114,7 +112,7 @@ describe("I18n.getTranslations", () => {
       json: async () => ({ hello: "Hello" }),
     });
 
-    const result = await new I18n().getTranslations(tools.Language.parse("en"));
+    const result = await new I18n().getTranslations("en");
     expect(result).toEqual({ hello: "Hello" });
     expect(Bun.file).toHaveBeenCalledWith(expect.stringContaining("en.json"));
 
@@ -126,7 +124,7 @@ describe("I18n.getTranslations", () => {
       throw new Error("fail");
     });
 
-    const result = await new I18n().getTranslations(tools.Language.parse("en"));
+    const result = await new I18n().getTranslations("en");
     expect(result).toEqual({});
 
     bunFile.mockRestore();

@@ -27,10 +27,10 @@ describe("Setup", () => {
 
     const i18n: I18nConfigType = {
       supportedLanguages: {
-        pl: tools.Language.parse("pl"),
-        en: tools.Language.parse("en"),
+        pl: "pl",
+        en: "en",
       },
-      defaultLanguage: tools.Language.parse("en"),
+      defaultLanguage: "en",
     };
 
     const app = new Hono<{
