@@ -73,23 +73,38 @@ src/
 ├── mailer.port.ts
 ├── memory-consumption.service.ts
 ├── modules
-│   └── history
-│       ├── event-handlers
-│       │   ├── onHistoryClearedEvent.ts
-│       │   └── onHistoryPopulatedEvent.ts
+│   ├── history
+│   │   ├── event-handlers
+│   │   │   ├── onHistoryClearedEvent.ts
+│   │   │   └── onHistoryPopulatedEvent.ts
+│   │   ├── events
+│   │   │   ├── HISTORY_CLEARED_EVENT.ts
+│   │   │   ├── HISTORY_POPULATED_EVENT.ts
+│   │   ├── ports
+│   │   │   ├── history-projection.ts
+│   │   │   ├── history-writer.ts
+│   │   └── value-objects
+│   │       ├── history-id.ts
+│   │       ├── history-operation.ts
+│   │       ├── history-payload.ts
+│   │       ├── history-subject.ts
+│   │       ├── history.ts
+│   └── preferences
+│       ├── command-handlers
+│       │   ├── handleSetUserLanguageCommand.ts
+│       ├── commands
+│       │   ├── SET_USER_LANGUAGE_COMMAND.ts
 │       ├── events
-│       │   ├── HISTORY_CLEARED_EVENT.ts
-│       │   ├── HISTORY_POPULATED_EVENT.ts
+│       │   ├── USER_LANGUAGE_SET_EVENT.ts
+│       ├── invariants
+│       │   └── user-language-has-changed.ts
+│       ├── open-host-queries
+│       │   └── user-language.ts
 │       ├── ports
-│       │   ├── history-projection.ts
-│       ├── services
-│       │   ├── history-writer.ts
+│       │   ├── user-language-query.ts
+│       │   └── user-language-resolver.ts
 │       └── value-objects
-│           ├── history-id.ts
-│           ├── history-operation.ts
-│           ├── history-payload.ts
-│           ├── history-subject.ts
-│           ├── history.ts
+│           └── supported-languages-set.ts
 ├── node-env.vo.ts
 ├── open-graph.service.ts
 ├── path.vo.ts
