@@ -1,10 +1,20 @@
 # Changelog
+- 2025-08-23 19:07 264839c **Merge pull request #133 from bgord/preferences**
+- 2025-08-23 19:01 aad41ce **step: cleanup tests**
+- 2025-08-23 18:58 0ddf64a **step: move history writer to ports**
+- 2025-08-23 18:55 a01026f **refactor: replace strings with language type**
+- 2025-08-23 18:47 adfe762 **refactor: use language type and uuid when applicable**
+- 2025-08-23 18:42 450e4fa **refactor: remove language parsing**
+- 2025-08-23 18:39 a47d0a0 **step: update tools**
+- 2025-08-23 18:22 caebf5e **step: add tests**
+- 2025-08-23 18:11 0165903 **feature: define preferences module**
 ## 2025-08-23 17:58 v0.19.7
 - 2025-08-23 17:58 ad2dfe1 **0.19.7**
 - 2025-08-23 17:56 1c496f7 **step: add event store like types**
 ## 2025-08-23 17:50 v0.19.6
 - 2025-08-23 17:50 9f46075 **0.19.6**
 - 2025-08-23 17:48 1f858b8 **step: update packages**
+- 2025-08-23 15:58 83727cc **docs: generate CHANGELOG**
 - 2025-08-23 15:57 b89e37d **docs: generate readme**
 - 2025-08-23 15:57 8c8afdf **docs: generate CHANGELOG**
 - 2025-08-23 15:50 665afc5 **docs: generate CHANGELOG**
