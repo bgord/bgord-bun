@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import type * as tools from "@bgord/tools";
 import * as Preferences from "../src/modules/preferences";
 
-/** @public */
 export enum SupportedLanguages {
   en = "en",
   pl = "pl",
@@ -10,7 +10,7 @@ export enum SupportedLanguages {
 export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl] as const;
 
 class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQueryPort {
-  async get(_userId: string) {
+  async get(_userId: tools.LanguageType) {
     return SupportedLanguages.en;
   }
 }

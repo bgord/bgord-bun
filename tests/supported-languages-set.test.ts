@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { SupportedLanguagesSet, UnsupportedLanguageError } from "../src/modules/preferences/value-objects";
 
-/** @public */
 export enum SupportedLanguages {
   en = "en",
   pl = "pl",
