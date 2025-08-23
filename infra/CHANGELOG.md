@@ -1,8 +1,12 @@
 # Changelog
+## 2025-08-23 17:58 v0.19.7
+- 2025-08-23 17:58 ad2dfe1 **0.19.7**
 - 2025-08-23 17:56 1c496f7 **step: add event store like types**
 ## 2025-08-23 17:50 v0.19.6
 - 2025-08-23 17:50 9f46075 **0.19.6**
 - 2025-08-23 17:48 1f858b8 **step: update packages**
+- 2025-08-23 15:57 b89e37d **docs: generate readme**
+- 2025-08-23 15:57 8c8afdf **docs: generate CHANGELOG**
 - 2025-08-23 15:50 665afc5 **docs: generate CHANGELOG**
 - 2025-08-23 15:49 6614579 **docs: generate CHANGELOG**
 - 2025-08-23 15:49 5902421 **docs: generate readme**
