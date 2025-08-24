@@ -1,10 +1,33 @@
 # Changelog
+- 2025-08-24 12:39 1f7c304 **refactor: use client in visitor id**
+- 2025-08-24 12:36 44864f5 **refactor: use client from hono in http logger**
+- 2025-08-24 12:34 967c324 **step: add client from hono adapter tests**
+- 2025-08-24 12:27 b262eba **step: add client from hono adapter**
+- 2025-08-24 12:26 a612c8f **step: add test**
+- 2025-08-24 12:24 2dc0ecb **step: define client vo**
+- 2025-08-24 12:21 94a816e **step: define client vo**
+- 2025-08-24 12:12 c4e8e2e **refactor: use simplifier**
+- 2025-08-24 12:10 77ce8ac **step: add logger simplify service**
+- 2025-08-24 12:05 cb906a0 **refactor: extract parse json**
+- 2025-08-24 11:58 4b8934c **refactor: simplify result**
+- 2025-08-24 11:57 ec4c073 **refactor: move cache hit to top level**
+- 2025-08-24 11:55 5402848 **refactor: clone response after next**
+- 2025-08-24 11:53 ee98175 **refactor: make cache hit boolean**
+- 2025-08-24 11:51 f120261 **refactor: simplify durationMs**
+- 2025-08-24 11:42 b2cbe92 **refactor: use stopwatch**
+- 2025-08-24 11:41 2ab7cc3 **refactor: rename result**
+- 2025-08-24 11:24 c4b28d0 **refactor: clone request once**
+- 2025-08-24 11:23 e656228 **refactor: extract uninformative headers**
+- 2025-08-24 11:22 6e081bc **refactor: group fields in http logger**
+- 2025-08-24 11:09 b0d22fa **step: add log level schema**
+- 2025-08-24 10:56 4d395b1 **refactor: adjust local adapter config**
 ## 2025-08-24 10:47 v0.21.0
 - 2025-08-24 10:47 eda3200 **0.21.0**
 - 2025-08-24 10:46 7a08b01 **Merge pull request #134 from bgord/logger**
 - 2025-08-24 10:44 63dbb26 **step: add proper exports**
 - 2025-08-24 10:19 bceaa65 **refactor: cleanup tests**
 - 2025-08-24 09:52 a6d31c0 **refactor: use new logger port across the package**
+- 2025-08-24 08:47 cc54460 **docs: generate CHANGELOG**
 - 2025-08-24 08:46 bb51936 **docs: generate readme**
 - 2025-08-24 08:46 249bbe3 **docs: generate CHANGELOG**
 - 2025-08-24 01:24 f4b43f2 **refactor: remove old logger**
