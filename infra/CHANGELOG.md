@@ -1,8 +1,12 @@
 # Changelog
+## 2025-08-24 10:47 v0.21.0
+- 2025-08-24 10:47 eda3200 **0.21.0**
 - 2025-08-24 10:46 7a08b01 **Merge pull request #134 from bgord/logger**
 - 2025-08-24 10:44 63dbb26 **step: add proper exports**
 - 2025-08-24 10:19 bceaa65 **refactor: cleanup tests**
 - 2025-08-24 09:52 a6d31c0 **refactor: use new logger port across the package**
+- 2025-08-24 08:46 bb51936 **docs: generate readme**
+- 2025-08-24 08:46 249bbe3 **docs: generate CHANGELOG**
 - 2025-08-24 01:24 f4b43f2 **refactor: remove old logger**
 - 2025-08-24 01:21 bcc3955 **refactor: adjust http logger**
 - 2025-08-24 01:18 a61155b **step: use string for http method**
