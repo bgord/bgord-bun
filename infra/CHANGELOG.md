@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-24 12:43 v0.21.1
+- 2025-08-24 12:43 87432ef **0.21.1**
 - 2025-08-24 12:39 1f7c304 **refactor: use client in visitor id**
 - 2025-08-24 12:36 44864f5 **refactor: use client from hono in http logger**
 - 2025-08-24 12:34 967c324 **step: add client from hono adapter tests**
@@ -25,6 +27,8 @@
 - 2025-08-24 10:47 eda3200 **0.21.0**
 - 2025-08-24 10:46 7a08b01 **Merge pull request #134 from bgord/logger**
 - 2025-08-24 10:44 63dbb26 **step: add proper exports**
+- 2025-08-24 10:42 9977b3f **docs: generate CHANGELOG**
+- 2025-08-24 10:42 55572dc **docs: generate readme**
 - 2025-08-24 10:19 bceaa65 **refactor: cleanup tests**
 - 2025-08-24 09:52 a6d31c0 **refactor: use new logger port across the package**
 - 2025-08-24 08:47 cc54460 **docs: generate CHANGELOG**
