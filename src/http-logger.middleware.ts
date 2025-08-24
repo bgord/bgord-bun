@@ -77,7 +77,7 @@ export class HttpLogger {
 
       let result: any;
       try {
-        result = await c.res.clone().json();
+        result = await response.json();
       } catch (_error) {}
 
       logger.http({

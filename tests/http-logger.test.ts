@@ -14,7 +14,6 @@ const ip = {
 describe("HttpLogger middleware", () => {
   test("logs correct 200 HTTP log", async () => {
     const logger = new LoggerNoopAdapter();
-
     const loggerHttpSpy = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const app = new Hono();
@@ -68,7 +67,6 @@ describe("HttpLogger middleware", () => {
 
   test("logs correct 400 HTTP log", async () => {
     const logger = new LoggerNoopAdapter();
-
     const loggerHttpSpy = spyOn(logger, "http").mockImplementation(jest.fn());
 
     const app = new Hono();
