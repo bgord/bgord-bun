@@ -1,4 +1,27 @@
 # Changelog
+- 2025-08-24 10:46 7a08b01 **Merge pull request #134 from bgord/logger**
+- 2025-08-24 10:44 63dbb26 **step: add proper exports**
+- 2025-08-24 10:19 bceaa65 **refactor: cleanup tests**
+- 2025-08-24 09:52 a6d31c0 **refactor: use new logger port across the package**
+- 2025-08-24 01:24 f4b43f2 **refactor: remove old logger**
+- 2025-08-24 01:21 bcc3955 **refactor: adjust http logger**
+- 2025-08-24 01:18 a61155b **step: use string for http method**
+- 2025-08-24 01:17 fa66901 **step: add pretty print for the local logger**
+- 2025-08-24 01:14 584fed8 **step: write tests**
+- 2025-08-24 01:12 44f4d48 **fix: log error type**
+- 2025-08-24 01:00 01be287 **step: add logger format error service**
+- 2025-08-24 00:51 9a79283 **step: add logger winston production adapter**
+- 2025-08-24 00:46 b089652 **step: add logger winston local adapter**
+- 2025-08-24 00:45 06489e5 **refactor: define app type**
+- 2025-08-24 00:34 5400ba1 **step: setup logger winston adapter**
+- 2025-08-24 00:22 4b68262 **step: add logger noop adapter**
+- 2025-08-24 00:05 6baee53 **step: define logger port**
+- 2025-08-23 23:51 3380a99 **step: add log warn type**
+- 2025-08-23 23:49 d4c96a7 **step: define log error type**
+- 2025-08-23 23:43 919ddf2 **step: move correlation id and metadata to log core**
+- 2025-08-23 23:40 ab64653 **step: add LogHttpType**
+- 2025-08-23 23:39 f5493e8 **step: add log core type**
+- 2025-08-23 23:20 9dc0db3 **step: define new log level enum**
 ## 2025-08-23 19:09 v0.20.0
 - 2025-08-23 19:09 e275557 **0.20.0**
 - 2025-08-23 19:07 264839c **Merge pull request #133 from bgord/preferences**
@@ -16,6 +39,7 @@
 ## 2025-08-23 17:50 v0.19.6
 - 2025-08-23 17:50 9f46075 **0.19.6**
 - 2025-08-23 17:48 1f858b8 **step: update packages**
+- 2025-08-23 17:09 70d37dd **docs: generate CHANGELOG**
 - 2025-08-23 17:07 80a8faa **docs: generate readme**
 - 2025-08-23 17:07 1ba4298 **docs: generate CHANGELOG**
 - 2025-08-23 15:58 83727cc **docs: generate CHANGELOG**
