@@ -80,7 +80,7 @@ export class HttpLogger {
 
       const stopwatch = new tools.Stopwatch();
       await next();
-      const duration = stopwatch.stop();
+      const { durationMs } = stopwatch.stop();
 
       const cacheHitHeader = response.headers.get(CacheResponse.CACHE_HIT_HEADER);
 
@@ -104,7 +104,7 @@ export class HttpLogger {
         method,
         url,
         status: c.res.status,
-        durationMs: duration.durationMs,
+        durationMs,
         client,
         metadata: HttpLogger.simplify(httpRequestAfterMetadata),
       });
