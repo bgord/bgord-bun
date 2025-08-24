@@ -66,7 +66,12 @@ src/
 ├── invariant-error-handler.service.ts
 ├── invariant.service.ts
 ├── jobs.service.ts
-├── logger.service.ts
+├── logger-format-error.service.ts
+├── logger-noop.adapter.ts
+├── logger-winston-local.adapter.ts
+├── logger-winston-production.adapter.ts
+├── logger-winston.adapter.ts
+├── logger.port.ts
 ├── mailer-noop.adapter.ts
 ├── mailer-smtp-with-logger.adapter.ts
 ├── mailer-smtp.adapter.ts
