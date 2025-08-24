@@ -30,14 +30,6 @@ const UNINFORMATIVE_HEADERS = [
 ];
 
 export class HttpLogger {
-  private static simplify(response: unknown) {
-    const result = JSON.stringify(response, (_key, value) =>
-      Array.isArray(value) ? { type: "Array", length: value.length } : value,
-    );
-
-    return JSON.parse(result);
-  }
-
   static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
       const request = c.req.raw.clone();
@@ -82,9 +74,7 @@ export class HttpLogger {
       await next();
       const { durationMs } = stopwatch.stop();
 
-      const cacheHitHeader = response.headers.get(CacheResponse.CACHE_HIT_HEADER);
-
-      const cacheHit = cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
+      const cacheHit = response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit;
 
       let result: any;
       try {
@@ -109,4 +99,12 @@ export class HttpLogger {
         metadata: HttpLogger.simplify(httpRequestAfterMetadata),
       });
     });
+
+  private static simplify(response: unknown) {
+    const result = JSON.stringify(response, (_key, value) =>
+      Array.isArray(value) ? { type: "Array", length: value.length } : value,
+    );
+
+    return JSON.parse(result);
+  }
 }
