@@ -1,7 +1,7 @@
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
 
 export class CommandLogger {
-  constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   private _handle(
     type: string,
@@ -15,6 +15,7 @@ export class CommandLogger {
 
     this.logger.info({
       message: `${commandName} emitted`,
+      component: "infra",
       operation: "command_emitted",
       metadata: commandData,
     });

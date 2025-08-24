@@ -6,10 +6,14 @@ import { LoggerWinstonAdapter } from "./logger-winston.adapter";
 import { NodeEnvironmentEnum } from "./node-env.vo";
 
 export class LoggerWinstonProductionAdapter {
+  readonly prodLogFile: string;
+
   constructor(
     private readonly app: LogAppType,
     private readonly AXIOM_API_TOKEN: string,
-  ) {}
+  ) {
+    this.prodLogFile = this.createProdLogFile();
+  }
 
   create(level: LogLevelEnum): LoggerPort {
     const file = new winston.transports.File({
@@ -27,5 +31,9 @@ export class LoggerWinstonProductionAdapter {
       level,
       transports: [file, axiom],
     });
+  }
+
+  private createProdLogFile() {
+    return `/var/log/${this.app}-${NodeEnvironmentEnum.production}.log`;
   }
 }

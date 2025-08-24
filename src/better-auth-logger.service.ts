@@ -1,19 +1,42 @@
 import type { LogLevel } from "better-auth";
-import { type Logger, LogLevelEnum } from "./logger.service";
+import { type LoggerPort, LogLevelEnum } from "./logger.port";
+import { formatError } from "./logger-format-error.service";
 
 export class BetterAuthLogger {
-  constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   attach() {
     return {
       disabled: false,
       level: "debug",
-      log: (level: LogLevel | undefined, message: string, ...args: unknown[]) =>
-        this.logger[this.mapLevel(level)]({
-          message,
+      log: (lvl: LogLevel | undefined, message: string, ...args: unknown[]) => {
+        const level = this.mapLevel(lvl);
+
+        const base = {
+          component: "infra",
           operation: "better-auth",
+          message,
           metadata: { args },
-        }),
+        } as const;
+
+        switch (level) {
+          case LogLevelEnum.error: {
+            this.logger.error({
+              ...base,
+              error: formatError(args.find((a) => a instanceof Error) ?? new Error(message)),
+            });
+            break;
+          }
+          case LogLevelEnum.warn: {
+            this.logger.warn(base);
+            break;
+          }
+          default: {
+            this.logger.info(base);
+            break;
+          }
+        }
+      },
     } as const;
   }
 

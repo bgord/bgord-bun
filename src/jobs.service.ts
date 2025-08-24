@@ -2,7 +2,8 @@ import * as tools from "@bgord/tools";
 import type { Cron } from "croner";
 import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
+import { formatError } from "./logger-format-error.service";
 
 export type JobNameType = string;
 
@@ -41,7 +42,7 @@ export type JobProcessorType = {
 };
 
 export class JobHandler {
-  constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   handle(jobProcessor: JobProcessorType) {
     const correlationId = CorrelationId.parse(crypto.randomUUID());
@@ -55,6 +56,7 @@ export class JobHandler {
       try {
         that.logger.info({
           message: `${jobProcessor.label} start`,
+          component: "infra",
           operation: "job_start",
           correlationId,
         });
@@ -63,6 +65,7 @@ export class JobHandler {
 
         that.logger.info({
           message: `${jobProcessor.label} success`,
+          component: "infra",
           operation: "job_success",
           correlationId,
           metadata: stopwatch.stop(),
@@ -70,12 +73,11 @@ export class JobHandler {
       } catch (error) {
         that.logger.error({
           message: `${jobProcessor.label} error`,
+          component: "infra",
           operation: "job_error",
           correlationId,
-          metadata: {
-            ...that.logger.formatError(error),
-            ...stopwatch.stop(),
-          },
+          error: formatError(error),
+          metadata: { ...stopwatch.stop() },
         });
       }
     };
@@ -85,11 +87,7 @@ export class JobHandler {
     // biome-ignore lint: lint/complexity/noUselessThisAlias
     const that = this;
 
-    return async () => {
-      that.logger.info({
-        message: `${cron.name} overrun`,
-        operation: "job_overrun",
-      });
-    };
+    return async () =>
+      that.logger.info({ message: `${cron.name} overrun`, component: "infra", operation: "job_overrun" });
   }
 }

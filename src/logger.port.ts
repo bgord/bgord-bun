@@ -36,7 +36,7 @@ export type LogCoreType = {
   /** Short human-readable sentence */
   message: string;
   correlationId?: CorrelationIdType;
-  metadata?: Record<string, unknown>;
+  metadata?: Record<string, any>;
 };
 
 export type LogHttpType = LogCoreType & {
