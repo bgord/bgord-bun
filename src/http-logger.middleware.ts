@@ -44,17 +44,11 @@ export class HttpLogger {
         userAgent: c.req.header("user-agent"),
       };
 
-      let body: any;
-
-      try {
-        body = await request.json();
-      } catch (_error) {}
-
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
         // @ts-expect-error
         headers: _.omit(Object.fromEntries(request.headers), UNINFORMATIVE_HEADERS),
-        body,
+        body: await HttpLogger.parseJSON(request),
         query: c.req.queries(),
       };
 
@@ -75,11 +69,6 @@ export class HttpLogger {
 
       const response = c.res.clone();
 
-      let result: any;
-      try {
-        result = await response.json();
-      } catch (_error) {}
-
       logger.http({
         component: "http",
         operation: "http_request_after",
@@ -91,7 +80,7 @@ export class HttpLogger {
         durationMs,
         client,
         cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
-        metadata: HttpLogger.simplify({ response: result }),
+        metadata: HttpLogger.simplify({ response: await HttpLogger.parseJSON(response) }),
       });
     });
 
@@ -101,5 +90,14 @@ export class HttpLogger {
     );
 
     return JSON.parse(result);
+  }
+
+  private static async parseJSON(resource: Request | Response) {
+    let result: any;
+    try {
+      result = await resource.json();
+    } catch (_error) {}
+
+    return result;
   }
 }
