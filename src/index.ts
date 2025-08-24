@@ -42,6 +42,7 @@ export * from "./jobs.service";
 export * from "./logger.port";
 export * from "./logger-format-error.service";
 export * from "./logger-noop.adapter";
+export * from "./logger-simplify.service";
 export * from "./logger-winston.adapter";
 export * from "./logger-winston-local.adapter";
 export * from "./logger-winston-production.adapter";
