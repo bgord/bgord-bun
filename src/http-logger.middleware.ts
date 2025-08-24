@@ -33,7 +33,6 @@ export class HttpLogger {
   static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
       const request = c.req.raw.clone();
-      const response = c.res.clone();
       const info = getConnInfo(c);
 
       const correlationId = c.get("requestId") as CorrelationIdType;
@@ -74,7 +73,7 @@ export class HttpLogger {
       await next();
       const { durationMs } = stopwatch.stop();
 
-      const cacheHit = response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit;
+      const response = c.res.clone();
 
       let result: any;
       try {
@@ -83,7 +82,7 @@ export class HttpLogger {
 
       const httpRequestAfterMetadata = {
         response: result,
-        cacheHit,
+        cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
       };
 
       logger.http({
