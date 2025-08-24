@@ -1,7 +1,10 @@
 # Changelog
+## 2025-08-24 15:50 v0.21.2
+- 2025-08-24 15:50 43b0760 **0.21.2**
 - 2025-08-24 15:49 42fb280 **fix: tests**
 - 2025-08-24 15:48 2505bcb **step: add zod as dev and peer dep**
 - 2025-08-24 15:46 16ac470 **step: update bgord-tools**
+- 2025-08-24 13:50 666fcd4 **docs: generate CHANGELOG**
 ## 2025-08-24 12:43 v0.21.1
 - 2025-08-24 12:43 87432ef **0.21.1**
 - 2025-08-24 12:39 1f7c304 **refactor: use client in visitor id**
