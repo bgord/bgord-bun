@@ -1,3 +1,4 @@
+import { z } from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
@@ -22,6 +23,8 @@ export enum LogLevelEnum {
   debug = "debug",
   silly = "silly",
 }
+
+export const LogLevel = z.enum(LogLevelEnum);
 
 export type LogCoreType = {
   /** ISO-8601 UTC string with milliseconds, e.g. 2025-08-23T18:42:31.123Z */
