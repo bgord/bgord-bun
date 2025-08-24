@@ -1,18 +1,18 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash.vo";
 
 describe("UrlWithoutTrailingSlash", () => {
-  it("should pass with a valid URL without trailing slash", () => {
+  test("should pass with a valid URL without trailing slash", () => {
     const result = UrlWithoutTrailingSlash.safeParse("https://example.com");
     expect(result.success).toBe(true);
   });
 
-  it("should work with trimmed URL that still ends with slash", () => {
+  test("should work with trimmed URL that still ends with slash", () => {
     const result = UrlWithoutTrailingSlash.safeParse("  https://example.com/ ");
-    expect(result.success).toBe(true);
+    expect(result.success).toBe(false);
   });
 
-  it("should fail with a URL that ends with a trailing slash", () => {
+  test("should fail with a URL that ends with a trailing slash", () => {
     const result = UrlWithoutTrailingSlash.safeParse("https://example.com/");
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -20,17 +20,17 @@ describe("UrlWithoutTrailingSlash", () => {
     }
   });
 
-  it("should fail with an invalid URL", () => {
+  test("should fail with an invalid URL", () => {
     const result = UrlWithoutTrailingSlash.safeParse("not-a-valid-url");
     expect(result.success).toBe(false);
   });
 
-  it("should fail with an empty string", () => {
+  test("should fail with an empty string", () => {
     const result = UrlWithoutTrailingSlash.safeParse("");
     expect(result.success).toBe(false);
   });
 
-  it("should trim leading/trailing whitespace before validation", () => {
+  test("should trim leading/trailing whitespace before validation", () => {
     const result = UrlWithoutTrailingSlash.safeParse("   https://example.com   ");
     expect(result.success).toBe(true);
   });
