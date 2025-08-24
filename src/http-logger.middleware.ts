@@ -6,6 +6,7 @@ import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { LoggerPort } from "./logger.port";
+import { LogSimplifier } from "./logger-simplify.service";
 
 const UNINFORMATIVE_HEADERS = [
   "accept",
@@ -80,17 +81,9 @@ export class HttpLogger {
         durationMs,
         client,
         cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
-        metadata: HttpLogger.simplify({ response: await HttpLogger.parseJSON(response) }),
+        metadata: LogSimplifier.simplify({ response: await HttpLogger.parseJSON(response) }),
       });
     });
-
-  private static simplify(response: unknown) {
-    const result = JSON.stringify(response, (_key, value) =>
-      Array.isArray(value) ? { type: "Array", length: value.length } : value,
-    );
-
-    return JSON.parse(result);
-  }
 
   private static async parseJSON(resource: Request | Response) {
     let result: any;
