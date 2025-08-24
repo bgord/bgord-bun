@@ -80,11 +80,6 @@ export class HttpLogger {
         result = await c.res.clone().json();
       } catch (_error) {}
 
-      const httpRequestAfterMetadata = {
-        response: result,
-        cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
-      };
-
       logger.http({
         component: "http",
         operation: "http_request_after",
@@ -95,7 +90,8 @@ export class HttpLogger {
         status: c.res.status,
         durationMs,
         client,
-        metadata: HttpLogger.simplify(httpRequestAfterMetadata),
+        cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
+        metadata: HttpLogger.simplify({ response: result }),
       });
     });
 

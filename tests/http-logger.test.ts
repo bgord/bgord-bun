@@ -58,7 +58,8 @@ describe("HttpLogger middleware", () => {
         status: 200,
         durationMs: expect.any(Number),
         client: { ip: "127.0.0.1", userAgent: undefined },
-        metadata: { response: { message: "OK" }, cacheHit: false },
+        cacheHit: false,
+        metadata: { response: { message: "OK" } },
       }),
     );
 
@@ -111,7 +112,8 @@ describe("HttpLogger middleware", () => {
         status: 500,
         durationMs: expect.any(Number),
         client: { ip: "127.0.0.1", userAgent: undefined },
-        metadata: { response: { message: "general.unknown" }, cacheHit: false },
+        cacheHit: false,
+        metadata: { response: { message: "general.unknown" } },
       }),
     );
 
