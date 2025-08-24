@@ -82,13 +82,13 @@ export class HttpLogger {
 
       const cacheHit = cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
 
-      let response: any;
+      let result: any;
       try {
-        response = await c.res.clone().json();
+        result = await c.res.clone().json();
       } catch (_error) {}
 
       const httpRequestAfterMetadata = {
-        response,
+        response: result,
         cacheHit,
       };
 
