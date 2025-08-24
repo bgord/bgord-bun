@@ -32,6 +32,8 @@ src/
 ├── cache-resolver.service.ts
 ├── cache-response.middleware.ts
 ├── cache-static-files.middleware.ts
+├── client-from-hono.adapter.ts
+├── client.vo.ts
 ├── command-envelope.ts
 ├── command-logger.service.ts
 ├── command.types.ts
@@ -68,6 +70,7 @@ src/
 ├── jobs.service.ts
 ├── logger-format-error.service.ts
 ├── logger-noop.adapter.ts
+├── logger-simplify.service.ts
 ├── logger-winston-local.adapter.ts
 ├── logger-winston-production.adapter.ts
 ├── logger-winston.adapter.ts
