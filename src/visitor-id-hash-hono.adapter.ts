@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { getConnInfo } from "hono/bun";
+import { ClientFromHono } from "./client-from-hono.adapter";
 import type { VisitorIdPort } from "./visitor-id.port";
 import { VisitorIdHash } from "./visitor-id-hash.adapter";
 
@@ -7,23 +7,12 @@ export class VisitorIdHashHono implements VisitorIdPort {
   private readonly delegate: VisitorIdHash;
 
   constructor(context: Context) {
-    const ip = this.extractIpFrom(context);
-    const ua = this.extractUaFrom(context);
+    const client = ClientFromHono.extract(context);
 
-    this.delegate = new VisitorIdHash(ip, ua);
+    this.delegate = new VisitorIdHash(client);
   }
 
   async get() {
     return this.delegate.get();
-  }
-
-  private extractIpFrom(c: Context): string {
-    const info = getConnInfo(c);
-
-    return (c.req.header("x-real-ip") || c.req.header("x-forwarded-for") || info.remote.address) ?? "anon";
-  }
-
-  private extractUaFrom(c: Context): string {
-    return c.req.header("user-agent") ?? "anon";
   }
 }

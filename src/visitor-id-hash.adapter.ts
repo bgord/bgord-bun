@@ -1,13 +1,13 @@
+import type { Client } from "./client.vo";
 import type { VisitorIdPort } from "./visitor-id.port";
 
 export class VisitorIdHash implements VisitorIdPort {
-  constructor(
-    private readonly ip: string,
-    private readonly ua: string,
-  ) {}
+  constructor(private readonly client: Client) {}
 
   async get() {
-    const prepared = `${this.ip}|${this.ua}`;
+    const { ip, ua } = this.client.toJSON();
+
+    const prepared = `${ip}|${ua}`;
     const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(prepared));
 
     return Array.from(new Uint8Array(buffer))
