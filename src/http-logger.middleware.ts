@@ -49,10 +49,12 @@ export class HttpLogger {
         userAgent: c.req.header("user-agent"),
       };
 
+      const request = c.req.raw.clone();
+
       let body: any;
 
       try {
-        body = await c.req.raw.clone().json();
+        body = await request.json();
       } catch (_error) {}
 
       const httpRequestBeforeMetadata = {
