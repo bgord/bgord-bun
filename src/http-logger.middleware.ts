@@ -1,9 +1,9 @@
 import * as tools from "@bgord/tools";
-import { getConnInfo } from "hono/bun";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
+import { ClientFromHono } from "./client-from-hono.adapter";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { LoggerPort } from "./logger.port";
 import { LogSimplifier } from "./logger-simplify.service";
@@ -34,16 +34,12 @@ export class HttpLogger {
   static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
       const request = c.req.raw.clone();
-      const info = getConnInfo(c);
 
       const correlationId = c.get("requestId") as CorrelationIdType;
       const url = c.req.url;
       const method = c.req.method;
 
-      const client = {
-        ip: c.req.header("x-real-ip") || c.req.header("x-forwarded-for") || info.remote.address,
-        userAgent: c.req.header("user-agent"),
-      };
+      const client = ClientFromHono.extract(c).toJSON();
 
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
