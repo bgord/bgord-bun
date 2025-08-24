@@ -1,4 +1,7 @@
 # Changelog
+- 2025-08-24 15:49 42fb280 **fix: tests**
+- 2025-08-24 15:48 2505bcb **step: add zod as dev and peer dep**
+- 2025-08-24 15:46 16ac470 **step: update bgord-tools**
 ## 2025-08-24 12:43 v0.21.1
 - 2025-08-24 12:43 87432ef **0.21.1**
 - 2025-08-24 12:39 1f7c304 **refactor: use client in visitor id**
@@ -27,6 +30,7 @@
 - 2025-08-24 10:47 eda3200 **0.21.0**
 - 2025-08-24 10:46 7a08b01 **Merge pull request #134 from bgord/logger**
 - 2025-08-24 10:44 63dbb26 **step: add proper exports**
+- 2025-08-24 10:43 743d20a **docs: generate CHANGELOG**
 - 2025-08-24 10:42 9977b3f **docs: generate CHANGELOG**
 - 2025-08-24 10:42 55572dc **docs: generate readme**
 - 2025-08-24 10:19 bceaa65 **refactor: cleanup tests**
