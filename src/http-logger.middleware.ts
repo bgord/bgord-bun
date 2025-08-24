@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import { getConnInfo } from "hono/bun";
 import { createMiddleware } from "hono/factory";
 import _ from "lodash";
@@ -39,17 +40,18 @@ export class HttpLogger {
 
   static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
+      const request = c.req.raw.clone();
+      const response = c.res.clone();
       const info = getConnInfo(c);
 
       const correlationId = c.get("requestId") as CorrelationIdType;
       const url = c.req.url;
       const method = c.req.method;
+
       const client = {
         ip: c.req.header("x-real-ip") || c.req.header("x-forwarded-for") || info.remote.address,
         userAgent: c.req.header("user-agent"),
       };
-
-      const request = c.req.raw.clone();
 
       let body: any;
 
@@ -76,9 +78,11 @@ export class HttpLogger {
         metadata: _.pickBy(httpRequestBeforeMetadata, (value) => !_.isEmpty(value)),
       });
 
+      const stopwatch = new tools.Stopwatch();
       await next();
+      const duration = stopwatch.stop();
 
-      const cacheHitHeader = c.res.clone().headers.get(CacheResponse.CACHE_HIT_HEADER);
+      const cacheHitHeader = response.headers.get(CacheResponse.CACHE_HIT_HEADER);
 
       const cacheHit = cacheHitHeader === CacheHitEnum.hit ? CacheHitEnum.hit : undefined;
 
@@ -92,12 +96,6 @@ export class HttpLogger {
         cacheHit,
       };
 
-      const serverTimingMs = c.res.clone().headers.get("Server-Timing");
-
-      const durationMsMatch = serverTimingMs?.match(/dur=([0-9]*\.?[0-9]+)/) ?? undefined;
-
-      const durationMs = durationMsMatch?.[1] ? Number(durationMsMatch[1]) : undefined;
-
       logger.http({
         component: "http",
         operation: "http_request_after",
@@ -106,7 +104,7 @@ export class HttpLogger {
         method,
         url,
         status: c.res.status,
-        durationMs,
+        durationMs: duration.durationMs,
         client,
         metadata: HttpLogger.simplify(httpRequestAfterMetadata),
       });
