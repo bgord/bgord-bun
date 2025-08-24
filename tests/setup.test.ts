@@ -1,10 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
 import type { I18nConfigType } from "../src/i18n.service";
-import { Logger } from "../src/logger.service";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Setup } from "../src/setup.service";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
 
@@ -18,10 +16,7 @@ describe("Setup", () => {
   test("sets the essentials", async () => {
     const predefinedRequestId = "123";
 
-    const logger = new Logger({
-      app: "bgord-bun-api",
-      environment: NodeEnvironmentEnum.local,
-    });
+    const logger = new LoggerNoopAdapter();
 
     const loggerHttp = spyOn(logger, "http").mockImplementation(jest.fn());
 

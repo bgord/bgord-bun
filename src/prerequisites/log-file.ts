@@ -1,8 +1,8 @@
-import type { Logger } from "../logger.service";
+import type { LoggerWinstonProductionAdapter } from "../logger-winston-production.adapter";
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteLogFileConfigType = {
-  logger: Logger;
+  logger: LoggerWinstonProductionAdapter;
   label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
@@ -18,8 +18,9 @@ export class PrerequisiteLogFile extends prereqs.AbstractPrerequisite<Prerequisi
     if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
 
     try {
-      const path = this.config.logger.getProductionLogFilePath();
+      const path = this.config.logger.prodLogFile;
 
+      // TODO: adjust checks
       const result = await Bun.file(path).exists();
 
       return result ? this.pass() : this.reject();

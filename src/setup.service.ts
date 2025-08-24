@@ -13,7 +13,7 @@ import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
 import { HttpLogger } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
@@ -28,7 +28,7 @@ type CorsOptions = Parameters<typeof cors>[0];
 type SetupOverridesType = { cors?: CorsOptions };
 
 export class Setup {
-  static essentials(logger: Logger, i18n: I18nConfigType, overrides?: SetupOverridesType) {
+  static essentials(logger: LoggerPort, i18n: I18nConfigType, overrides?: SetupOverridesType) {
     const corsOptions = overrides?.cors ?? { origin: "*" };
 
     return [

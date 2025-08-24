@@ -1,7 +1,7 @@
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
 
 export class EventLogger {
-  constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   private _handle(
     type: string,
@@ -15,6 +15,7 @@ export class EventLogger {
 
     this.logger.info({
       message: `${eventName} emitted`,
+      component: "infra",
       operation: "event_emitted",
       metadata: eventData,
     });

@@ -4,7 +4,7 @@ import _ from "lodash";
 import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import type { CorrelationIdType } from "./correlation-id.vo";
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
 
 export class HttpLogger {
   private static simplify(response: unknown) {
@@ -37,7 +37,7 @@ export class HttpLogger {
     "if-none-match",
   ];
 
-  static build = (logger: Logger) =>
+  static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
       const correlationId = c.get("requestId") as CorrelationIdType;
       const info = getConnInfo(c);
@@ -64,6 +64,7 @@ export class HttpLogger {
       };
 
       logger.http({
+        component: "http",
         operation: "http_request_before",
         correlationId,
         message: "request",
@@ -96,12 +97,13 @@ export class HttpLogger {
       const durationMs = durationMsMatch?.[1] ? Number(durationMsMatch[1]) : undefined;
 
       logger.http({
+        component: "http",
         operation: "http_request_after",
         correlationId,
         message: "response",
         method,
         url,
-        responseCode: c.res.status,
+        status: c.res.status,
         durationMs,
         client,
         metadata: HttpLogger.simplify(httpRequestAfterMetadata),

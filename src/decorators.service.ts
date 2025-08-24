@@ -1,12 +1,12 @@
 import * as tools from "@bgord/tools";
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
 
 export class DecoratorTimeoutError extends Error {}
 
 export class Decorators {
   private readonly rounding = new tools.RoundToDecimal(2);
 
-  constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: LoggerPort) {}
 
   duration() {
     const that = this;
@@ -27,6 +27,7 @@ export class Decorators {
 
         that.logger.info({
           message: `${label} duration`,
+          component: "infra",
           operation: "decorators_duration_ms",
           metadata: { durationMs: that.rounding.round(after - before) },
         });
@@ -53,6 +54,7 @@ export class Decorators {
 
         that.logger.info({
           message: `${label} inspector`,
+          component: "infra",
           operation: "decorators_inspector",
           metadata: { arguments: args, output: value },
         });

@@ -1,5 +1,6 @@
 import type { SendMailOptions } from "nodemailer";
-import type { Logger } from "./logger.service";
+import type { LoggerPort } from "./logger.port";
+import { formatError } from "./logger-format-error.service";
 import type { MailerPort } from "./mailer.port";
 import type { MailerSmtpAdapter } from "./mailer-smtp.adapter";
 
@@ -7,7 +8,7 @@ type MailerSendOptionsType = SendMailOptions;
 
 type SmtpMailerWithLoggerConfigType = {
   smtpMailer: MailerSmtpAdapter;
-  logger: Logger;
+  logger: LoggerPort;
 };
 
 export class MailerSmtpWithLoggerAdapter implements MailerPort {
@@ -15,12 +16,18 @@ export class MailerSmtpWithLoggerAdapter implements MailerPort {
 
   async send(message: MailerSendOptionsType): Promise<unknown> {
     try {
-      this.config.logger.info({ message: "Mailer attempt", operation: "mailer", metadata: message });
+      this.config.logger.info({
+        message: "Mailer attempt",
+        component: "infra",
+        operation: "mailer",
+        metadata: message,
+      });
 
       const result = await this.config.smtpMailer.send(message);
 
       this.config.logger.info({
         message: "Mailer success",
+        component: "infra",
         operation: "mailer",
         metadata: { message, result },
       });
@@ -29,8 +36,9 @@ export class MailerSmtpWithLoggerAdapter implements MailerPort {
     } catch (error) {
       this.config.logger.error({
         message: "Mailer error",
+        component: "infra",
         operation: "mailer",
-        metadata: this.config.logger.formatError(error),
+        error: formatError(error),
       });
 
       throw error;
