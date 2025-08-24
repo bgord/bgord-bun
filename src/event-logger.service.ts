@@ -15,7 +15,7 @@ export class EventLogger {
 
     this.logger.info({
       message: `${eventName} emitted`,
-      component: "infra'",
+      component: "infra",
       operation: "event_emitted",
       metadata: eventData,
     });

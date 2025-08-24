@@ -1,18 +1,10 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import type { Logger } from "../src/logger.service";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MailerSmtpAdapter, SmtpPort } from "../src/mailer-smtp.adapter";
 import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
 
-class FakeLogger {
-  info = (_: any) => {};
-  error = (_: any) => {};
-  formatError(_: any) {
-    return "formatted_error";
-  }
-}
-
-const logger = new FakeLogger() as unknown as Logger;
+const logger = new LoggerNoopAdapter();
 
 const smtpMailer = new MailerSmtpAdapter({
   SMTP_HOST: "smtp.example.com",

@@ -1,15 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { Logger } from "../src/logger.service";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
-describe("prerequisites - log file", () => {
-  const logger = new Logger({
-    app: "test-app",
-    environment: NodeEnvironmentEnum.production,
-  });
+const logger = new LoggerWinstonProductionAdapter({
+  app: "test-app",
+  AXIOM_API_TOKEN: "ok",
+});
 
+describe("prerequisites - log file", () => {
   test("returns success when log file exists", async () => {
     // @ts-expect-error
     const bunFileExists = spyOn(Bun, "file").mockReturnValue({

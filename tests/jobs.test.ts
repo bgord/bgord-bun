@@ -2,13 +2,9 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as croner from "croner";
 import { JobHandler, Jobs, UTC_DAY_OF_THE_WEEK } from "../src/jobs.service";
-import { Logger } from "../src/logger.service";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
-const logger = new Logger({
-  app: "test",
-  environment: NodeEnvironmentEnum.local,
-});
+const logger = new LoggerNoopAdapter();
 
 describe("JobHandler", () => {
   test("should log job start and success when job is processed successfully", async () => {
