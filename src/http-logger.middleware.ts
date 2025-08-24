@@ -6,6 +6,28 @@ import { CacheResponse } from "./cache-response.middleware";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { LoggerPort } from "./logger.port";
 
+const UNINFORMATIVE_HEADERS = [
+  "accept",
+  "accept-encoding",
+  "cache-control",
+  "connection",
+  "content-length",
+  "content-type",
+  "cookie",
+  "dnt",
+  "host",
+  "origin",
+  "pragma",
+  "sec-fetch-dest",
+  "sec-fetch-mode",
+  "sec-fetch-site",
+  "sec-fetch-user",
+  "sec-gpc",
+  "upgrade-insecure-requests",
+  "user-agent",
+  "if-none-match",
+];
+
 export class HttpLogger {
   private static simplify(response: unknown) {
     const result = JSON.stringify(response, (_key, value) =>
@@ -15,28 +37,6 @@ export class HttpLogger {
     return JSON.parse(result);
   }
 
-  private static uninformativeHeaders = [
-    "accept",
-    "accept-encoding",
-    "cache-control",
-    "connection",
-    "content-length",
-    "content-type",
-    "cookie",
-    "dnt",
-    "host",
-    "origin",
-    "pragma",
-    "sec-fetch-dest",
-    "sec-fetch-mode",
-    "sec-fetch-site",
-    "sec-fetch-user",
-    "sec-gpc",
-    "upgrade-insecure-requests",
-    "user-agent",
-    "if-none-match",
-  ];
-
   static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
       const info = getConnInfo(c);
@@ -44,7 +44,6 @@ export class HttpLogger {
       const correlationId = c.get("requestId") as CorrelationIdType;
       const url = c.req.url;
       const method = c.req.method;
-
       const client = {
         ip: c.req.header("x-real-ip") || c.req.header("x-forwarded-for") || info.remote.address,
         userAgent: c.req.header("user-agent"),
@@ -59,7 +58,7 @@ export class HttpLogger {
       const httpRequestBeforeMetadata = {
         params: c.req.param(),
         // @ts-expect-error
-        headers: _.omit(Object.fromEntries(c.req.raw.clone().headers), HttpLogger.uninformativeHeaders),
+        headers: _.omit(Object.fromEntries(request.headers), UNINFORMATIVE_HEADERS),
         body,
         query: c.req.queries(),
       };
