@@ -39,8 +39,9 @@ export class HttpLogger {
 
   static build = (logger: LoggerPort) =>
     createMiddleware(async (c, next) => {
-      const correlationId = c.get("requestId") as CorrelationIdType;
       const info = getConnInfo(c);
+
+      const correlationId = c.get("requestId") as CorrelationIdType;
       const url = c.req.url;
       const method = c.req.method;
 
