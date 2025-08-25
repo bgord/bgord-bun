@@ -56,7 +56,6 @@ src/
 ├── event.types.ts
 ├── file-draft-zip.service.ts
 ├── file-draft.service.ts
-├── file-location.service.ts
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
 ├── gzip.service.ts
@@ -115,7 +114,6 @@ src/
 │           └── supported-languages-set.ts
 ├── node-env.vo.ts
 ├── open-graph.service.ts
-├── path.vo.ts
 ├── port.vo.ts
 ├── prerequisites
 │   ├── binary.ts
@@ -152,6 +150,7 @@ src/
 ├── simulated-error.middleware.ts
 ├── sitemap.service.ts
 ├── slower.middleware.ts
+├── temporary-file.port.ts
 ├── time-zone-offset.middleware.ts
 ├── to-event-map.types.ts
 ├── translations.service.ts
