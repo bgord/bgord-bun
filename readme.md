@@ -150,6 +150,8 @@ src/
 ├── simulated-error.middleware.ts
 ├── sitemap.service.ts
 ├── slower.middleware.ts
+├── temporary-file-absolute.adapter.ts
+├── temporary-file-noop.adapter.ts
 ├── temporary-file.port.ts
 ├── time-zone-offset.middleware.ts
 ├── to-event-map.types.ts
