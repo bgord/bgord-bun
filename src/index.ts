@@ -74,6 +74,7 @@ export * from "./shield-rate-limit.middleware";
 export * from "./simulated-error.middleware";
 export * from "./sitemap.service";
 export * from "./slower.middleware";
+export * from "./temporary-file.port";
 export * from "./time-zone-offset.middleware";
 export * from "./to-event-map.types";
 export * from "./translations.service";
