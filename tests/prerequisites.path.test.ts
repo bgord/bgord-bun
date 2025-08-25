@@ -1,9 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
+import * as tools from "@bgord/tools";
 import { PrerequisitePath } from "../src/prerequisites/path";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
-const DUMMY_PATH = "/mocked/path";
+const DUMMY_PATH = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
 describe("prerequisites - path", () => {
   test("returns success if path is accessible with required flags", async () => {
