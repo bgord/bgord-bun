@@ -1,7 +1,7 @@
-import type { PathType } from "./path.vo";
+import type * as tools from "@bgord/tools";
 
 export interface TemporaryFilePort {
-  write(file: File, filename: PathType): Promise<{ path: PathType }>;
+  write(path: tools.AbsoluteFilePath): Promise<{ path: tools.AbsoluteFilePath }>;
 
-  cleanup(path: PathType): Promise<void>;
+  cleanup(path: tools.AbsoluteFilePath): Promise<void>;
 }
