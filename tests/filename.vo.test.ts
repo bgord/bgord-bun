@@ -6,20 +6,20 @@ import { Filename } from "../src/filename.vo";
 
 describe("Filename (minimal)", () => {
   test("fromParts returns 'name.ext' and normalizes the extension", () => {
-    const filenameValue = Filename.fromParts("report", " .PNG ").get();
-    expect(filenameValue).toBe("report.png");
+    const filename = Filename.fromParts("report", " .PNG ").get();
+    expect(filename).toBe("report.png");
   });
 
   test("fromPartsSafe accepts branded values and returns 'name.ext'", () => {
     const basenameBranded = BasenameSchema.parse("avatar");
     const extensionBranded = ExtensionSchema.parse("webp");
-    const filenameValue = Filename.fromPartsSafe(basenameBranded, extensionBranded).get();
-    expect(filenameValue).toBe("avatar.webp");
+    const filename = Filename.fromPartsSafe(basenameBranded, extensionBranded).get();
+    expect(filename).toBe("avatar.webp");
   });
 
   test("fromString parses 'name.ext' and normalizes the extension", () => {
-    const filenameValue = Filename.fromString("  image .WEBP ").get();
-    expect(filenameValue).toBe("image.webp");
+    const filename = Filename.fromString("  image .WEBP ").get();
+    expect(filename).toBe("image.webp");
   });
 
   test("fromString rejects input without a proper dot-separated extension", () => {
@@ -29,7 +29,19 @@ describe("Filename (minimal)", () => {
   });
 
   test("get returns the internal string value", () => {
-    const filenameObject = Filename.fromParts("user-photo", "jpg");
-    expect(filenameObject.get()).toBe("user-photo.jpg");
+    const filename = Filename.fromParts("user-photo", "jpg");
+    expect(filename.get()).toBe("user-photo.jpg");
+  });
+
+  test("get basename", () => {
+    const filename = Filename.fromString("user-photo.jpg");
+    // @ts-expect-error
+    expect(filename.getBasename()).toBe("user-photo");
+  });
+
+  test("get extension", () => {
+    const filename = Filename.fromString("user-photo.jpg");
+    // @ts-expect-error
+    expect(filename.getExtension()).toBe("jpg");
   });
 });

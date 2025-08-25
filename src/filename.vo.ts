@@ -4,8 +4,8 @@ import { FilenameFromStringSchema } from "./filename-from-string.vo";
 
 export class Filename {
   private constructor(
-    private basename: BasenameType,
-    private extension: ExtensionType,
+    private readonly basename: BasenameType,
+    private readonly extension: ExtensionType,
   ) {}
 
   static fromParts(basename: string, extension: string) {
@@ -24,5 +24,13 @@ export class Filename {
 
   get() {
     return `${this.basename}.${this.extension}`;
+  }
+
+  getBasename(): BasenameType {
+    return this.basename;
+  }
+
+  getExtension(): ExtensionType {
+    return this.extension;
   }
 }
