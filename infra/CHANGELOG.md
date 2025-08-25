@@ -1,10 +1,36 @@
 # Changelog
+- 2025-08-25 22:31 0a8c79d **Merge pull request #135 from bgord/files**
+- 2025-08-25 22:29 5fa7f6f **fix: exports**
+- 2025-08-25 22:26 c1881e2 **refactor: adjust mailer**
+- 2025-08-25 22:21 fae5fcc **refactor: adjust i18n**
+- 2025-08-25 18:02 7968b09 **refactor: path prereq**
+- 2025-08-25 17:59 7132564 **refactor: reimplement temporary file port**
+- 2025-08-25 17:57 d0d6b34 **step: remove path**
+- 2025-08-25 17:57 890fab0 **step: update packages**
+- 2025-08-25 17:56 46ee59e **refactor: move to tools**
+- 2025-08-25 17:36 1c5e5c2 **step: add file path vo**
+- 2025-08-25 17:12 89faab0 **step: add directory path absolute**
+- 2025-08-25 17:10 6268ff1 **step: add directory path relative**
+- 2025-08-25 16:41 246aa7d **step: add with suffix safe**
+- 2025-08-25 16:38 f3d63ea **step: add creator methods**
+- 2025-08-25 16:27 77c9a49 **step: add suffix**
+- 2025-08-25 16:19 e8396be **step: add getters**
+- 2025-08-25 16:17 2c7e05a **refactor: use basename and extension internally**
+- 2025-08-25 16:14 50d99ce **refactor: adjust tests**
+- 2025-08-25 16:06 02100eb **step: add filename from string vo**
+- 2025-08-25 16:01 78c0d7f **step: add from parts safe**
+- 2025-08-25 15:55 01deab5 **step: setup filename**
+- 2025-08-25 15:50 897f56d **step: add extension vo**
+- 2025-08-25 15:32 64df7d2 **step: add basename vo**
+- 2025-08-25 15:04 f507db4 **step: add temporary file port**
+- 2025-08-25 15:04 7618d4a **refactor: remove legacy file location**
 ## 2025-08-24 15:50 v0.21.2
 - 2025-08-24 15:50 43b0760 **0.21.2**
 - 2025-08-24 15:49 42fb280 **fix: tests**
 - 2025-08-24 15:48 2505bcb **step: add zod as dev and peer dep**
 - 2025-08-24 15:46 16ac470 **step: update bgord-tools**
 - 2025-08-24 13:50 666fcd4 **docs: generate CHANGELOG**
+- 2025-08-24 13:50 3047713 **docs: generate CHANGELOG**
 ## 2025-08-24 12:43 v0.21.1
 - 2025-08-24 12:43 87432ef **0.21.1**
 - 2025-08-24 12:39 1f7c304 **refactor: use client in visitor id**
