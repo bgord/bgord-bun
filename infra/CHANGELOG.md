@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-25 23:51 v0.21.5
+- 2025-08-25 23:51 90893f1 **0.21.5**
 - 2025-08-25 23:50 9065bf7 **refactor: update naming**
 - 2025-08-25 23:47 50ad5c2 **step: update packages**
 ## 2025-08-25 23:15 v0.21.4
@@ -10,6 +12,7 @@
 - 2025-08-25 22:29 5fa7f6f **fix: exports**
 - 2025-08-25 22:26 c1881e2 **refactor: adjust mailer**
 - 2025-08-25 22:21 fae5fcc **refactor: adjust i18n**
+- 2025-08-25 21:50 dda5f21 **docs: generate CHANGELOG**
 - 2025-08-25 21:15 5c4cbf1 **docs: generate CHANGELOG**
 - 2025-08-25 21:11 b1278bf **docs: generate readme**
 - 2025-08-25 21:11 1cffad9 **docs: generate CHANGELOG**
