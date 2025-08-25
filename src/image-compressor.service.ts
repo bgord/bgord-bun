@@ -1,6 +1,5 @@
 import sharp from "sharp";
 import { z } from "zod/v4";
-import type { PathType } from "../src/path.vo";
 
 export const ImageCompressionQuality = z
   .number()
@@ -13,8 +12,8 @@ export const ImageCompressionQuality = z
 type ImageCompressionQualityType = z.infer<typeof ImageCompressionQuality>;
 
 export type ImageCompressorConfigType = {
-  input: PathType;
-  output: PathType;
+  input: string;
+  output: string;
   quality?: ImageCompressionQualityType;
 };
 

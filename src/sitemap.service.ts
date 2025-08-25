@@ -1,5 +1,4 @@
 import { z } from "zod/v4";
-import type { PathType } from "./path.vo";
 import type { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
 
 export const SitemapLoc = z.string().min(1);
@@ -50,7 +49,7 @@ export const SitemapEntry = z.object({
 export type SitemapEntryType = z.infer<typeof SitemapEntry>;
 
 export type SitemapConfigType = {
-  path?: PathType;
+  path?: string;
   entries: SitemapEntryType[];
   BASE_URL: UrlWithoutTrailingSlashType;
 };

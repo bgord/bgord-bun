@@ -33,10 +33,7 @@ export class PrerequisiteTranslations extends prereqs.AbstractPrerequisite<Prere
       await fsp.access(translationsPath, constants.R_OK);
 
       for (const language in this.config.supportedLanguages) {
-        await fsp.access(
-          new i18n.I18n().getTranslationPathForLanguage(language as tools.LanguageType),
-          constants.R_OK,
-        );
+        await fsp.access(new i18n.I18n().getTranslationPathForLanguage(language).get(), constants.R_OK);
       }
     } catch (_error) {
       return this.reject();

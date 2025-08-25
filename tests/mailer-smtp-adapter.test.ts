@@ -1,7 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
 import {
-  EmailAttachment,
   EmailContentHtml,
   EmailFrom,
   EmailSubject,
@@ -119,17 +118,5 @@ describe("Email validators", () => {
 
   test("EmailTo - invalid", () => {
     expect(() => EmailTo.parse("not-an-email")).toThrow();
-  });
-
-  test("EmailAttachment - valid", () => {
-    expect(() => EmailAttachment.parse({ filename: "file.pdf", path: "/tmp/file.pdf" })).not.toThrow();
-  });
-
-  test("EmailAttachment - missing filename", () => {
-    expect(() => EmailAttachment.parse({ path: "/tmp/file.pdf" })).toThrow();
-  });
-
-  test("EmailAttachment - empty path", () => {
-    expect(() => EmailAttachment.parse({ filename: "file.pdf", path: "" })).toThrow();
   });
 });

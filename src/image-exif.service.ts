@@ -2,7 +2,6 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import mime from "mime-types";
 import sharp from "sharp";
-import type { PathType } from "./path.vo";
 
 export type ImageExifOutputType = {
   width: tools.WidthType;
@@ -12,12 +11,12 @@ export type ImageExifOutputType = {
 };
 
 export type ImageExifClearConfigType = {
-  input: PathType;
-  output: PathType;
+  input: string;
+  output: string;
 };
 
 export class ImageEXIF {
-  static async read(input: PathType): Promise<ImageExifOutputType> {
+  static async read(input: string): Promise<ImageExifOutputType> {
     const image = sharp(input);
     const metadata = await image.metadata();
 
