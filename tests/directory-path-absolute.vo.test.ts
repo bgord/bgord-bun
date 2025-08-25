@@ -1,10 +1,9 @@
-import { describe, test, expect } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { ZodError } from "zod/v4";
 import { DirectoryPathAbsoluteSchema } from "../src/directory-path-absolute.vo";
 
 function expectZodIssue(inputString: string, expectedMessage: string) {
   try {
-    // @ts-ignore we intentionally expect a throw
     DirectoryPathAbsoluteSchema.parse(inputString);
     throw new Error("Expected DirectoryPathAbsoluteSchema to fail, but it passed");
   } catch (error) {
