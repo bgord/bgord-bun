@@ -1,10 +1,12 @@
 # Changelog
+- 2025-08-25 22:57 1f240da **feature: create temporary file adapters**
 ## 2025-08-25 22:32 v0.21.3
 - 2025-08-25 22:32 dd01724 **0.21.3**
 - 2025-08-25 22:31 0a8c79d **Merge pull request #135 from bgord/files**
 - 2025-08-25 22:29 5fa7f6f **fix: exports**
 - 2025-08-25 22:26 c1881e2 **refactor: adjust mailer**
 - 2025-08-25 22:21 fae5fcc **refactor: adjust i18n**
+- 2025-08-25 20:32 4b87273 **docs: generate CHANGELOG**
 - 2025-08-25 20:31 5eafc32 **docs: generate CHANGELOG**
 - 2025-08-25 20:31 0b3f2fa **docs: generate readme**
 - 2025-08-25 18:02 7968b09 **refactor: path prereq**
