@@ -3,28 +3,26 @@ import { ExtensionSchema, type ExtensionType } from "./extension.vo";
 import { FilenameFromStringSchema } from "./filename-from-string.vo";
 
 export class Filename {
-  private constructor(private readonly value: string) {}
+  private constructor(
+    private basename: BasenameType,
+    private extension: ExtensionType,
+  ) {}
 
   static fromParts(basename: string, extension: string) {
-    const value = `${BasenameSchema.parse(basename)}.${ExtensionSchema.parse(extension)}`;
-
-    return new Filename(value);
+    return new Filename(BasenameSchema.parse(basename), ExtensionSchema.parse(extension));
   }
 
   static fromPartsSafe(basename: BasenameType, extension: ExtensionType) {
-    const value = `${basename}.${extension}`;
-
-    return new Filename(value);
+    return new Filename(basename, extension);
   }
 
   static fromString(candidate: string) {
     const { basename, extension } = FilenameFromStringSchema.parse(candidate);
-    const value = `${basename}.${extension}`;
 
-    return new Filename(value);
+    return new Filename(basename, extension);
   }
 
   get() {
-    return this.value;
+    return `${this.basename}.${this.extension}`;
   }
 }
