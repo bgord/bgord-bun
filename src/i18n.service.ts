@@ -54,9 +54,9 @@ export class I18n {
     };
   }
 
-  getTranslationPathForLanguage(language: tools.LanguageType): tools.RelativeFilePath {
+  getTranslationPathForLanguage(language: tools.LanguageType): tools.FilePathRelative {
     const filename = tools.Filename.fromParts(language, "json");
 
-    return tools.RelativeFilePath.fromParts(this.translationsPath, filename);
+    return tools.FilePathRelative.fromParts(this.translationsPath, filename);
   }
 }

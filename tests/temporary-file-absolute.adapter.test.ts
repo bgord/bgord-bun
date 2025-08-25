@@ -7,8 +7,8 @@ const base = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
 const adapter = new TemporaryFileAbsolute(base);
 const filename = tools.Filename.fromString("avatar.webp");
 
-const partPath = tools.AbsoluteFilePath.fromPartsSafe(base, filename.withSuffix("-part")).get();
-const finalPath = tools.AbsoluteFilePath.fromPartsSafe(base, filename).get();
+const partPath = tools.FilePathAbsolute.fromPartsSafe(base, filename.withSuffix("-part")).get();
+const finalPath = tools.FilePathAbsolute.fromPartsSafe(base, filename).get();
 
 describe("TemporaryFileAbsolute", () => {
   test("write performs atomic .part write then rename and returns final AbsoluteFilePath", async () => {
@@ -47,7 +47,7 @@ describe("TemporaryFileAbsolute", () => {
   test("write propagates errors from Bun.write and does not call rename", async () => {
     const fileData = new File([new Uint8Array([1, 2, 3])], "ignored.bin");
 
-    const partPath = tools.AbsoluteFilePath.fromPartsSafe(base, filename.withSuffix("-part")).get();
+    const partPath = tools.FilePathAbsolute.fromPartsSafe(base, filename.withSuffix("-part")).get();
 
     const writeSpy = spyOn(Bun, "write").mockRejectedValue(new Error("disk full"));
     const renameSpy = spyOn(fs, "rename").mockResolvedValue();

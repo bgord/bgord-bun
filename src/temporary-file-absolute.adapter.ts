@@ -6,8 +6,8 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
   constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
 
   async write(filename: tools.Filename, data: File) {
-    const partPath = tools.AbsoluteFilePath.fromPartsSafe(this.directory, filename.withSuffix("-part"));
-    const finalPath = tools.AbsoluteFilePath.fromPartsSafe(this.directory, filename);
+    const partPath = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
+    const finalPath = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
     // POSIX atomic write
     await Bun.write(partPath.get(), data);
@@ -17,7 +17,7 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
   }
 
   async cleanup(filename: tools.Filename) {
-    const path = tools.AbsoluteFilePath.fromPartsSafe(this.directory, filename);
+    const path = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
     try {
       await fs.unlink(path.get());
