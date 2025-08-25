@@ -1,6 +1,4 @@
-import path from "node:path";
-import type * as tools from "@bgord/tools";
-import { Path, type PathType } from "./path.vo";
+import * as tools from "@bgord/tools";
 
 export type TranslationsKeyType = string;
 
@@ -16,18 +14,20 @@ export type TranslationVariableType = Record<TranslationPlaceholderType, Transla
 
 export type I18nConfigType = {
   supportedLanguages: Record<string, string>;
-  translationsPath?: PathType;
+  translationsPath?: tools.DirectoryPathRelativeType;
   defaultLanguage?: string;
 };
 
 export class I18n {
-  static DEFAULT_TRANSLATIONS_PATH = Path.parse("infra/translations");
+  static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
-  constructor(private translationsPath: PathType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
+  constructor(private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
-      return Bun.file(this.getTranslationPathForLanguage(language)).json();
+      const path = this.getTranslationPathForLanguage(language).get();
+
+      return Bun.file(path).json();
     } catch (error) {
       console.log("I18n#getTranslations", error);
 
@@ -54,7 +54,9 @@ export class I18n {
     };
   }
 
-  getTranslationPathForLanguage(language: tools.LanguageType): PathType {
-    return Path.parse(path.join(this.translationsPath, `${language}.json`));
+  getTranslationPathForLanguage(language: tools.LanguageType): tools.RelativeFilePath {
+    const filename = tools.Filename.fromParts(language, "json");
+
+    return tools.RelativeFilePath.fromParts(this.translationsPath, filename);
   }
 }

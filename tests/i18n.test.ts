@@ -1,8 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 import { I18n } from "../src/i18n.service";
-import { Path } from "../src/path.vo";
 
 describe("I18n middleware", () => {
   const supportedLanguages = { en: "en", pl: "pl" };
@@ -75,12 +75,16 @@ describe("I18n middleware", () => {
 describe("I18n.getTranslationPathForLanguage", () => {
   test("returns the correct path for language", () => {
     const path = new I18n().getTranslationPathForLanguage("en");
-    expect(path.endsWith("infra/translations/en.json")).toBe(true);
+
+    expect(path.get()).toBe("infra/translations/en.json");
   });
 
   test("uses custom translation path if provided", () => {
-    const path = new I18n(Path.parse("custom/path")).getTranslationPathForLanguage("pl");
-    expect(path.endsWith("custom/path/pl.json")).toBe(true);
+    const path = new I18n(
+      tools.DirectoryPathRelativeSchema.parse("custom/path"),
+    ).getTranslationPathForLanguage("pl");
+
+    expect(path.get()).toBe("custom/path/pl.json");
   });
 });
 
