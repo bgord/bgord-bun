@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 
 export interface TemporaryFilePort {
-  write(path: tools.AbsoluteFilePath): Promise<{ path: tools.AbsoluteFilePath }>;
+  write(filename: tools.Filename, data: File): Promise<{ path: tools.AbsoluteFilePath }>;
 
-  cleanup(path: tools.AbsoluteFilePath): Promise<void>;
+  cleanup(filename: tools.Filename): Promise<void>;
 }
