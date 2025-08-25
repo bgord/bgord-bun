@@ -1,7 +1,7 @@
 import { BasenameSchema, type BasenameType } from "./basename.vo";
 import { ExtensionSchema, type ExtensionType } from "./extension.vo";
 import { FilenameFromStringSchema } from "./filename-from-string.vo";
-import { FilenameSuffixSchema } from "./filename-suffix.vo";
+import { FilenameSuffixSchema, type FilenameSuffixSchemaType } from "./filename-suffix.vo";
 
 export class Filename {
   private constructor(
@@ -45,6 +45,12 @@ export class Filename {
 
   withSuffix(candidate: string): Filename {
     const suffix = FilenameSuffixSchema.parse(candidate);
+    const basename = BasenameSchema.parse(`${this.basename}${suffix}`);
+
+    return new Filename(basename, this.extension);
+  }
+
+  withSuffixSafe(suffix: FilenameSuffixSchemaType): Filename {
     const basename = BasenameSchema.parse(`${this.basename}${suffix}`);
 
     return new Filename(basename, this.extension);

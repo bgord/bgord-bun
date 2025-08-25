@@ -3,6 +3,7 @@ import { ZodError } from "zod/v4";
 import { BasenameSchema } from "../src/basename.vo";
 import { ExtensionSchema } from "../src/extension.vo";
 import { Filename } from "../src/filename.vo";
+import { FilenameSuffixSchema } from "../src/filename-suffix.vo";
 
 describe("Filename", () => {
   test("fromParts returns 'name.ext' and normalizes the extension", () => {
@@ -71,5 +72,12 @@ describe("Filename", () => {
     // disallowed characters are stripped → no change
     const unchanged = filename.withSuffix(" /@!🙂 ");
     expect(unchanged.get()).toBe("avatar.webp");
+  });
+
+  test("withSuffixSafe appends a suffix before the extension", () => {
+    const filename = Filename.fromString("avatar.webp");
+    const suffix = FilenameSuffixSchema.parse("-sm");
+    const updated = filename.withSuffixSafe(suffix);
+    expect(updated.get()).toBe("avatar-sm.webp");
   });
 });
