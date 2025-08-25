@@ -1,9 +1,10 @@
 import { constants } from "node:fs";
 import fsp from "node:fs/promises";
+import type * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisitePathConfigType = {
-  path: string;
+  path: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
   access?: { write?: boolean; execute?: boolean };
   label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;

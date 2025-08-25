@@ -1,6 +1,5 @@
 import { z } from "zod/v4";
 import { ImageEXIF } from "./image-exif.service";
-import { Path, type PathType } from "./path.vo";
 import type { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
 
 export const OpenGraphTitleValue = z.string().min(1);
@@ -114,7 +113,7 @@ class OpenGraphType {
 class OpenGraphImageUrl {
   private readonly value: OpenGraphImageUrlValueType;
 
-  constructor(path: PathType) {
+  constructor(path: string) {
     this.value = OpenGraphImageUrlValue.parse(path);
   }
 
@@ -202,11 +201,11 @@ export class OpenGraphImage {
 }
 
 class OpenGraphImageGenerator {
-  static async generate(config: { path: PathType; BASE_URL: UrlWithoutTrailingSlashType }) {
+  static async generate(config: { path: string; BASE_URL: UrlWithoutTrailingSlashType }) {
     const exif = await ImageEXIF.read(config.path);
 
     return new OpenGraphImage({
-      url: new OpenGraph.image.url(Path.parse(`${config.BASE_URL}/${exif.name}`)),
+      url: new OpenGraph.image.url(`${config.BASE_URL}/${exif.name}`),
       type: new OpenGraph.image.type(exif.mimeType),
       width: new OpenGraph.image.width(exif.width),
       height: new OpenGraph.image.height(exif.height),
