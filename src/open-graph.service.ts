@@ -1,6 +1,6 @@
 import { z } from "zod/v4";
-import { ImageEXIF } from "./image-exif.service";
-import type { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
+// import { ImageEXIF } from "./image-exif.service";
+// import type { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
 
 export const OpenGraphTitleValue = z.string().min(1);
 
@@ -201,16 +201,16 @@ export class OpenGraphImage {
 }
 
 class OpenGraphImageGenerator {
-  static async generate(config: { path: string; BASE_URL: UrlWithoutTrailingSlashType }) {
-    const exif = await ImageEXIF.read(config.path);
-
-    return new OpenGraphImage({
-      url: new OpenGraph.image.url(`${config.BASE_URL}/${exif.name}`),
-      type: new OpenGraph.image.type(exif.mimeType),
-      width: new OpenGraph.image.width(exif.width),
-      height: new OpenGraph.image.height(exif.height),
-    });
-  }
+  // TODO: use image port
+  // static async generate(config: { path: string; BASE_URL: UrlWithoutTrailingSlashType }) {
+  //   const exif = await ImageEXIF.read(config.path);
+  //   return new OpenGraphImage({
+  //     url: new OpenGraph.image.url(`${config.BASE_URL}/${exif.name}`),
+  //     type: new OpenGraph.image.type(exif.mimeType),
+  //     width: new OpenGraph.image.width(exif.width),
+  //     height: new OpenGraph.image.height(exif.height),
+  //   });
+  // }
 }
 
 type OpenGraphConfigType = {
