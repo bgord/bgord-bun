@@ -1,4 +1,7 @@
 # Changelog
+- 2025-08-26 20:06 8222fd0 **step: add image processor**
+- 2025-08-26 17:53 9f5e736 **docs: generate readme**
+- 2025-08-26 17:53 190b76a **docs: generate CHANGELOG**
 - 2025-08-26 16:57 6717c97 **step: add tests**
 - 2025-08-26 16:54 2a257be **step: define image alpha**
 ## 2025-08-26 16:10 v0.22.0
