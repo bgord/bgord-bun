@@ -8,7 +8,7 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-export type RemoteFileStorageDiskConfig = {
+type RemoteFileStorageDiskConfig = {
   root: tools.DirectoryPathAbsoluteType;
   hasher: FileHashPort;
   publicBaseUrl?: string;

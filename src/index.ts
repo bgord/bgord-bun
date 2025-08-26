@@ -87,6 +87,8 @@ export * from "./prerequisites.service";
 export * from "./rate-limit-store.port";
 export * from "./rate-limit-store-node-cache.adapter";
 export * from "./remote-file-storage.port";
+export * from "./remote-file-storage-disk.adapter";
+export * from "./remote-file-storage-noop.adapter";
 export * from "./safe-parse-body.service";
 export * from "./setup.service";
 export * from "./shield-api-key.middleware";
