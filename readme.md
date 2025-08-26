@@ -62,6 +62,9 @@ src/
 ├── healthcheck.service.ts
 ├── http-logger.middleware.ts
 ├── i18n.service.ts
+├── image-alpha-noop.adapter.ts
+├── image-alpha-sharp.adapter.ts
+├── image-alpha.port.ts
 ├── image-blur-noop.adapter.ts
 ├── image-blur-sharp.adapter.ts
 ├── image-blur.port.ts
