@@ -9,6 +9,10 @@ export class FileHashSha256BunAdapter implements FileHashPort {
     const digest = await crypto.subtle.digest("SHA-256", arrayBuffer);
     const hex = Buffer.from(digest).toString("hex");
 
-    return { hex, size: tools.Size.fromBytes(arrayBuffer.byteLength) };
+    return {
+      hex,
+      size: tools.Size.fromBytes(arrayBuffer.byteLength),
+      lastModified: tools.Timestamp.parse(file.lastModified),
+    };
   }
 }
