@@ -1,6 +1,9 @@
 # Changelog
+## 2025-08-26 12:35 v0.21.7
 - 2025-08-26 12:35 f9ec989 **step: update packages**
+- 2025-08-26 12:35 07c8c45 **0.21.7**
 - 2025-08-26 12:34 1e8eb45 **step: update packages**
+- 2025-08-26 10:35 74c9532 **docs: generate CHANGELOG**
 ## 2025-08-26 00:35 v0.21.6
 - 2025-08-26 00:35 bf1ebfb **0.21.6**
 - 2025-08-26 00:35 3415ceb **step: update packages**
