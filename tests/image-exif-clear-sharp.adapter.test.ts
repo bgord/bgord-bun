@@ -20,7 +20,7 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline as any);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageExifClearSharpAdapter();
@@ -40,11 +40,11 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
   });
 
   test("output_path: writes temp beside output (based on final) and atomically renames onto output", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline as any);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined as any);
+    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
+    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline as any);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageExifClearSharpAdapter();
@@ -64,11 +64,11 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
   });
 
   test("in_place also works with relative paths", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline as any);
+    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
 
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline as any);
+    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageExifClearSharpAdapter();
@@ -88,7 +88,7 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
 
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline as any);
+    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageExifClearSharpAdapter();

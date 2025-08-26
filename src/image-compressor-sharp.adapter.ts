@@ -14,7 +14,7 @@ export class ImageCompressorSharpAdapter implements ImageCompressorPort {
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
     const filename = final.getFilename();
-    const temporary = final.withFilename(filename.withSuffix("-exif-cleared"));
+    const temporary = final.withFilename(filename.withSuffix("-compressed"));
 
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
