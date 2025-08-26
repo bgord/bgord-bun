@@ -29,6 +29,8 @@ export * from "./event-store-like.types";
 export * from "./event-stream.vo";
 export * from "./file-draft.service";
 export * from "./file-draft-zip.service";
+export * from "./file-hash.port";
+export * from "./file-hash-sha256-bun.port";
 export * from "./file-uploader.middleware";
 export * from "./graceful-shutdown.service";
 export * from "./gzip.service";
