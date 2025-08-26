@@ -1,7 +1,21 @@
 # Changelog
+- 2025-08-26 23:24 a378daa **fix: exports**
+- 2025-08-26 23:23 3a75d11 **step: add noop**
+- 2025-08-26 23:06 731c85e **step: add tests**
+- 2025-08-26 22:53 c5e97d0 **feature: add remote file storage adapter**
+- 2025-08-26 22:46 42a7848 **refactor: file hash return type**
+- 2025-08-26 22:40 4bd96ea **step: return lastModified form file hash**
+- 2025-08-26 22:30 12f86c6 **step: add tests**
+- 2025-08-26 22:26 926b5e9 **step: define noop**
+- 2025-08-26 22:20 5e996d6 **step: add file hash sha 256 bun**
+- 2025-08-26 22:18 d6ecdc5 **step: setup file hash port**
+- 2025-08-26 21:54 c33505a **feature: add remote file storage**
+- 2025-08-26 21:53 76f8709 **step: update packages**
+- 2025-08-26 20:16 8694b30 **refactor: export image info type**
 ## 2025-08-26 20:08 v0.22.1
 - 2025-08-26 20:08 568e202 **0.22.1**
 - 2025-08-26 20:06 8222fd0 **step: add image processor**
+- 2025-08-26 18:08 f6df3f3 **docs: generate CHANGELOG**
 - 2025-08-26 18:08 94674d8 **docs: generate readme**
 - 2025-08-26 18:08 017a6a9 **docs: generate CHANGELOG**
 - 2025-08-26 17:53 9f5e736 **docs: generate readme**
