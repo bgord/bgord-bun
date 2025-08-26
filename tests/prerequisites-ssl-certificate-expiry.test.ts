@@ -50,9 +50,7 @@ describe("prerequisites - ssl certificate expiry", () => {
   });
 
   test("fails when sslChecker throws", async () => {
-    spyOn(sslChecker, "default").mockImplementation(() => {
-      throw new Error("SSL check failed");
-    });
+    spyOn(sslChecker, "default").mockRejectedValue(new Error("SSL check failed"));
 
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",

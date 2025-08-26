@@ -39,9 +39,7 @@ describe("SmtpMailerWithLogger class", () => {
   });
 
   test("Mailer sends email using send method - success", async () => {
-    const sendMail = spyOn(smtpMailer, "send").mockImplementation(() => {
-      throw new Error("FAILURE");
-    });
+    const sendMail = spyOn(smtpMailer, "send").mockRejectedValue(new Error("FAILURE"));
     const loggerInfo = spyOn(logger, "info");
     const loggerError = spyOn(logger, "error");
 

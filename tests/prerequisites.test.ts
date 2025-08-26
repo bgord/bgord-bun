@@ -8,9 +8,7 @@ import * as prereqs from "../src/prerequisites.service";
 describe("Prerequisites", () => {
   test("exits the process if at least one prerequisite fails", async () => {
     spyOn(console, "log").mockImplementation(jest.fn());
-    spyOn(fsp, "access").mockRejectedValue(() => {
-      throw new Error("Access denied");
-    });
+    spyOn(fsp, "access").mockRejectedValue(new Error("Access denied"));
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});

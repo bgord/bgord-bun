@@ -20,9 +20,7 @@ describe("prerequisites - mailer", () => {
   });
 
   test("fails if mailer.verify throws", async () => {
-    spyOn(mockMailer, "verify").mockRejectedValue(() => {
-      throw new Error("SMTP error");
-    });
+    spyOn(mockMailer, "verify").mockRejectedValue(new Error("SMTP error"));
 
     const prerequisite = new PrerequisiteMailer({
       label: "MAILER" as const,

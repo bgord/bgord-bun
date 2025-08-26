@@ -16,9 +16,7 @@ describe("BuildInfoRepository", () => {
   });
 
   test("extract returns only BUILD_DATE if package.json loading fails", async () => {
-    spyOn(BuildInfoRepository, "getPackageJson").mockImplementation(async () => {
-      throw new Error("File not found");
-    });
+    spyOn(BuildInfoRepository, "getPackageJson").mockRejectedValue(new Error("File not found"));
 
     const result = await BuildInfoRepository.extract();
 

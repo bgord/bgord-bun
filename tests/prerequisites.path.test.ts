@@ -21,9 +21,7 @@ describe("prerequisites - path", () => {
   });
 
   test("returns failure if access throws error", async () => {
-    spyOn(fsp, "access").mockRejectedValue(() => {
-      throw new Error("No access");
-    });
+    spyOn(fsp, "access").mockRejectedValue(new Error("No access"));
 
     const prerequisite = new PrerequisitePath({
       label: "Test Path",
