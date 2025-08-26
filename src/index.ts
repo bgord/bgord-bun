@@ -36,7 +36,6 @@ export * from "./healthcheck.service";
 export * from "./http-logger.middleware";
 export * from "./i18n.service";
 export * from "./image-compressor.service";
-export * from "./image-exif.service";
 export * from "./image-exif-clear.port";
 export * from "./image-exif-clear-noop.adapter";
 export * from "./image-exif-clear-sharp.adapter";
