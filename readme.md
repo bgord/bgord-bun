@@ -80,6 +80,9 @@ src/
 ├── image-info-noop.adapter.ts
 ├── image-info-sharp.adapter.ts
 ├── image-info.port.ts
+├── image-processor-noop.adapter.ts
+├── image-processor-sharp.adapter.ts
+├── image-processor.port.ts
 ├── image-resizer-noop.adapter.ts
 ├── image-resizer-sharp.adapter.ts
 ├── image-resizer.port.ts
