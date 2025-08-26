@@ -6,7 +6,7 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - node", () => {
   test("passes if current Node.js version is sufficient", async () => {
-    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
         stdout: Buffer.from("v20.10.0"),
@@ -20,12 +20,10 @@ describe("prerequisites - node", () => {
 
     const result = await node.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
-
-    bunShellStdout.mockRestore();
   });
 
   test("fails if current Node.js version is too low", async () => {
-    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
         stdout: Buffer.from("v16.10.0"),
@@ -39,8 +37,6 @@ describe("prerequisites - node", () => {
 
     const result = await node.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    bunShellStdout.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {

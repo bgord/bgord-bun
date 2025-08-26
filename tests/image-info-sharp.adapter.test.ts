@@ -14,7 +14,7 @@ describe("ImageInfoSharpAdapter", () => {
       format: "jpeg",
     });
     const destroySpy = spyOn(instance, "destroy").mockReturnValue();
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
+    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
     const bunFileSpy = spyOn(Bun, "file").mockReturnValue({ size: 1337 } as any);
 
     const info = await adapter.inspect(tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg"));
@@ -27,9 +27,6 @@ describe("ImageInfoSharpAdapter", () => {
     expect(bunFileSpy).toHaveBeenCalledWith("/var/uploads/avatar.jpeg");
     expect(metadataSpy).toHaveBeenCalledTimes(1);
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-    sharpSpy.mockRestore();
-    bunFileSpy.mockRestore();
   });
 
   test("inspects a PNG from a relative path", async () => {
@@ -40,7 +37,7 @@ describe("ImageInfoSharpAdapter", () => {
       format: "png",
     });
     const destroySpy = spyOn(instance, "destroy").mockReturnValue();
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
+    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
     const bunFileSpy = spyOn(Bun, "file").mockReturnValue({ size: 2048 } as any);
 
     const info = await adapter.inspect(tools.FilePathRelative.fromString("tmp/icon.png"));
@@ -50,9 +47,6 @@ describe("ImageInfoSharpAdapter", () => {
     expect(bunFileSpy).toHaveBeenCalledWith("tmp/icon.png");
     expect(metadataSpy).toHaveBeenCalledTimes(1);
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-    sharpSpy.mockRestore();
-    bunFileSpy.mockRestore();
   });
 
   test("propagates VO errors", async () => {
@@ -60,16 +54,13 @@ describe("ImageInfoSharpAdapter", () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
     const destroySpy = spyOn(instance, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue({ size: 1 } as any);
+    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
+    spyOn(Bun, "file").mockReturnValue({ size: 1 } as any);
 
     const pathLike = { get: () => "x" };
 
     expect(async () => adapter.inspect(pathLike as any)).toThrow();
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-    sharpSpy.mockRestore();
-    bunFileSpy.mockRestore();
   });
 
   test("propagates VO errors (missing width -> Width.parse throws)", async () => {
@@ -81,15 +72,12 @@ describe("ImageInfoSharpAdapter", () => {
     });
     const destroySpy = spyOn(instance, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue({ size: 999 } as any);
+    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => instance as any);
+    spyOn(Bun, "file").mockReturnValue({ size: 999 } as any);
 
     const pathLike = { get: () => "/x.jpeg" };
 
     expect(async () => adapter.inspect(pathLike as any)).toThrow();
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-    sharpSpy.mockRestore();
-    bunFileSpy.mockRestore();
   });
 });

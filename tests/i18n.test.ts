@@ -102,34 +102,27 @@ describe("I18n.useTranslations", () => {
   });
 
   test("returns key if translation is missing", () => {
-    const consoleWarn = spyOn(console, "warn").mockImplementation(jest.fn());
+    spyOn(console, "warn").mockImplementation(jest.fn());
     expect(t("nonexistent")).toBe("nonexistent");
-    consoleWarn.mockRestore();
   });
 });
 
 describe("I18n.getTranslations", () => {
   test("reads and parses translation file", async () => {
     // @ts-expect-error
-    const bunFileJson = spyOn(Bun, "file").mockReturnValue({
-      json: async () => ({ hello: "Hello" }),
-    });
+    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) });
 
     const result = await new I18n().getTranslations("en");
     expect(result).toEqual({ hello: "Hello" });
     expect(Bun.file).toHaveBeenCalledWith(expect.stringContaining("en.json"));
-
-    bunFileJson.mockRestore();
   });
 
   test("returns empty object on error", async () => {
-    const bunFile = spyOn(Bun, "file").mockImplementationOnce(() => {
+    spyOn(Bun, "file").mockImplementationOnce(() => {
       throw new Error("fail");
     });
 
     const result = await new I18n().getTranslations("en");
     expect(result).toEqual({});
-
-    bunFile.mockRestore();
   });
 });

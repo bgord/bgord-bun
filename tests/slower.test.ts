@@ -16,7 +16,5 @@ describe("Slower", () => {
     const response = await app.request("/slower");
     expect(await response.text()).toEqual("OK");
     expect(bunSleep).toHaveBeenCalledWith(time.ms);
-
-    bunSleep.mockRestore();
   });
 });

@@ -9,7 +9,7 @@ const logger = new LoggerNoopAdapter();
 describe("JobHandler", () => {
   test("should log job start and success when job is processed successfully", async () => {
     // @ts-expect-error
-    const cronerSpy = spyOn(croner, "Cron").mockImplementation(() => ({
+    spyOn(croner, "Cron").mockImplementation(() => ({
       isRunning: jest.fn().mockReturnValue(false),
       stop: jest.fn(),
     }));
@@ -28,14 +28,11 @@ describe("JobHandler", () => {
       2,
       expect.objectContaining({ message: "Test Job success" }),
     );
-
-    loggerInfoSpy.mockRestore();
-    cronerSpy.mockRestore();
   });
 
   test("should log job error when job fails", async () => {
     // @ts-expect-error
-    const cronerSpy = spyOn(croner, "Cron").mockImplementation(() => ({
+    spyOn(croner, "Cron").mockImplementation(() => ({
       isRunning: jest.fn().mockReturnValue(false),
       stop: jest.fn(),
     }));
@@ -53,10 +50,6 @@ describe("JobHandler", () => {
 
     expect(loggerInfoSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job start" }));
     expect(loggerErrorSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job error" }));
-
-    loggerInfoSpy.mockRestore();
-    loggerErrorSpy.mockRestore();
-    cronerSpy.mockRestore();
   });
 
   test("should handle job overrun", async () => {
@@ -70,8 +63,6 @@ describe("JobHandler", () => {
 
     // Verify that the overrun log was triggered
     expect(loggerInfoSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "undefined overrun" }));
-
-    loggerInfoSpy.mockRestore();
   });
 
   test("DAY_TIME schedule", () => {

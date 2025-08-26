@@ -29,8 +29,6 @@ describe("ShieldCaptchaHcaptcha", () => {
     expect(await response.text()).toBe("OK");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "valid-token");
-
-    hcaptchaVerify.mockRestore();
   });
 
   test("rejects request when hcaptcha.verify resolves success=false", async () => {
@@ -54,8 +52,6 @@ describe("ShieldCaptchaHcaptcha", () => {
     expect(await response.text()).toBe("access_denied_hcaptcha");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "invalid-token");
-
-    hcaptchaVerify.mockRestore();
   });
 
   test("rejects request when hcaptcha token is missing", async () => {
@@ -76,8 +72,6 @@ describe("ShieldCaptchaHcaptcha", () => {
     expect(await response.text()).toBe("access_denied_hcaptcha");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, undefined);
-
-    hcaptchaVerify.mockRestore();
   });
 
   test("rejects request when hcaptcha.verify throws", async () => {
@@ -99,7 +93,5 @@ describe("ShieldCaptchaHcaptcha", () => {
     expect(await response.text()).toBe("access_denied_hcaptcha");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "any-token");
-
-    hcaptchaVerify.mockRestore();
   });
 });

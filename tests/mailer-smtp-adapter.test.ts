@@ -11,7 +11,7 @@ import {
 
 describe("Mailer class", () => {
   test("Mailer can be instantiated with valid configuration", () => {
-    const nodemailerCreateTransport = spyOn(nodemailer, "createTransport");
+    spyOn(nodemailer, "createTransport");
 
     const validConfig = {
       SMTP_HOST: "smtp.example.com",
@@ -23,16 +23,12 @@ describe("Mailer class", () => {
     const mailer = new MailerSmtpAdapter(validConfig);
 
     expect(mailer).toBeInstanceOf(MailerSmtpAdapter);
-
-    nodemailerCreateTransport.mockRestore();
   });
 
   test("Mailer sends email using send method", async () => {
     const sendMail = jest.fn();
 
-    const nodemailerCreateTransport = spyOn(nodemailer, "createTransport").mockReturnValue({
-      sendMail,
-    } as any);
+    spyOn(nodemailer, "createTransport").mockReturnValue({ sendMail } as any);
 
     const mailer = new MailerSmtpAdapter({
       SMTP_HOST: "smtp.example.com",
@@ -51,16 +47,12 @@ describe("Mailer class", () => {
     await mailer.send(sendOptions);
 
     expect(sendMail).toHaveBeenCalledWith(sendOptions);
-
-    nodemailerCreateTransport.mockRestore();
   });
 
   test("Mailer verifies the configuration using verify method", async () => {
     const verify = jest.fn();
 
-    const nodemailerCreateTransport = spyOn(nodemailer, "createTransport").mockImplementation(
-      () => ({ verify }) as any,
-    );
+    spyOn(nodemailer, "createTransport").mockImplementation(() => ({ verify }) as any);
 
     const mailer = new MailerSmtpAdapter({
       SMTP_HOST: "smtp.example.com",
@@ -72,8 +64,6 @@ describe("Mailer class", () => {
     await mailer.verify();
 
     expect(verify).toHaveBeenCalled();
-
-    nodemailerCreateTransport.mockRestore();
   });
 });
 

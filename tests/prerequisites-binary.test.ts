@@ -5,7 +5,7 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - binary", () => {
   test("returns success if binary is found", async () => {
-    const bunShell = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({ exitCode: 0 }),
     }));
@@ -19,12 +19,10 @@ describe("prerequisites - binary", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.success);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
-
-    bunShell.mockRestore();
   });
 
   test("returns failure if binary is not found", async () => {
-    const bunShell = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({ exitCode: 1 }),
     }));
@@ -38,8 +36,6 @@ describe("prerequisites - binary", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
-
-    bunShell.mockRestore();
   });
 
   test("returns failure if binary name is invalid", async () => {

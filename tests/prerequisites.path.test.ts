@@ -8,7 +8,7 @@ const DUMMY_PATH = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
 describe("prerequisites - path", () => {
   test("returns success if path is accessible with required flags", async () => {
-    const fspAccess = spyOn(fsp, "access").mockResolvedValue();
+    spyOn(fsp, "access").mockResolvedValue();
 
     const prerequisite = new PrerequisitePath({
       label: "Test Path",
@@ -18,12 +18,10 @@ describe("prerequisites - path", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
-
-    fspAccess.mockRestore();
   });
 
   test("returns failure if access throws error", async () => {
-    const fspAccess = spyOn(fsp, "access").mockRejectedValue(() => {
+    spyOn(fsp, "access").mockRejectedValue(() => {
       throw new Error("No access");
     });
 
@@ -35,8 +33,6 @@ describe("prerequisites - path", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    fspAccess.mockRestore();
   });
 
   test("returns undetermined if prerequisite is disabled", async () => {

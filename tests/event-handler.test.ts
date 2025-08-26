@@ -15,7 +15,6 @@ describe("Event handler", () => {
     await handler.handle(fn)(event);
 
     expect(errorSpy).not.toHaveBeenCalled();
-    errorSpy.mockRestore();
   });
 
   test("logs structured error if handler throws", async () => {

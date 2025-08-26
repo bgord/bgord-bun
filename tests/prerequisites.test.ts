@@ -7,8 +7,8 @@ import * as prereqs from "../src/prerequisites.service";
 
 describe("Prerequisites", () => {
   test("exits the process if at least one prerequisite fails", async () => {
-    const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
-    const fspAccess = spyOn(fsp, "access").mockRejectedValue(() => {
+    spyOn(console, "log").mockImplementation(jest.fn());
+    spyOn(fsp, "access").mockRejectedValue(() => {
       throw new Error("Access denied");
     });
 
@@ -34,13 +34,11 @@ describe("Prerequisites", () => {
     expect(processExit).toHaveBeenCalledWith(1);
 
     processExit.mockRestore();
-    fspAccess.mockRestore();
-    consoleLog.mockRestore();
   });
 
   test("does not exit the process if all prerequisites succeed", async () => {
-    const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
-    const fspAccess = spyOn(fsp, "access").mockResolvedValue();
+    spyOn(console, "log").mockImplementation(jest.fn());
+    spyOn(fsp, "access").mockResolvedValue();
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
@@ -62,10 +60,6 @@ describe("Prerequisites", () => {
     expect(path.status).toBe(prereqs.PrerequisiteStatusEnum.success);
 
     expect(processExit).not.toHaveBeenCalled();
-
-    processExit.mockRestore();
-    fspAccess.mockRestore();
-    consoleLog.mockRestore();
   });
 
   test("handles unexpected exceptions gracefully", async () => {
@@ -88,13 +82,10 @@ describe("Prerequisites", () => {
 
     // @ts-expect-error
     const processExit = spyOn(process, "exit").mockImplementation(() => {});
-    const consoleLog = spyOn(console, "log").mockImplementation(jest.fn());
+    spyOn(console, "log").mockImplementation(jest.fn());
 
     await prereqs.Prerequisites.check([new Broken({ label: "Broken", enabled: true })]);
 
     expect(processExit).not.toHaveBeenCalled();
-
-    processExit.mockRestore();
-    consoleLog.mockRestore();
   });
 });

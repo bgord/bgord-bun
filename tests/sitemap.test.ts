@@ -154,8 +154,6 @@ describe("Sitemap.save", () => {
     await Sitemap.save(config);
 
     expect(bunFileWrite).toHaveBeenCalledTimes(1);
-
-    bunFileWrite.mockRestore();
   });
 
   test("writes sitemap to default path if not specified", async () => {
@@ -177,7 +175,5 @@ describe("Sitemap.save", () => {
     await Sitemap.save(config);
 
     expect(bunFileWrite).toHaveBeenCalledTimes(1);
-
-    bunFileWrite.mockRestore();
   });
 });

@@ -6,9 +6,7 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - ram", () => {
   test("verify method returns success for valid RAM", async () => {
-    const osFreemem = spyOn(os, "freemem").mockReturnValue(
-      new tools.Size({ unit: tools.SizeUnit.GB, value: 1 }).toBytes(),
-    );
+    spyOn(os, "freemem").mockReturnValue(new tools.Size({ unit: tools.SizeUnit.GB, value: 1 }).toBytes());
 
     const result = await new PrerequisiteRAM({
       label: "ram",
@@ -16,14 +14,10 @@ describe("prerequisites - ram", () => {
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.success);
-
-    osFreemem.mockRestore();
   });
 
   test("verify method returns failure for insufficient RAM", async () => {
-    const osFreemem = spyOn(os, "freemem").mockReturnValue(
-      new tools.Size({ value: 256, unit: tools.SizeUnit.MB }).toBytes(),
-    );
+    spyOn(os, "freemem").mockReturnValue(new tools.Size({ value: 256, unit: tools.SizeUnit.MB }).toBytes());
 
     const result = await new PrerequisiteRAM({
       label: "ram",
@@ -31,8 +25,6 @@ describe("prerequisites - ram", () => {
     }).verify();
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    osFreemem.mockRestore();
   });
 
   test("returns undetermined when disabled", async () => {

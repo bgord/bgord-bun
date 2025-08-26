@@ -6,10 +6,8 @@ describe("Memory consumption", () => {
   test("MemoryConsumption.get returns current RSS memory as Size", () => {
     const fakeRss = 123456789;
 
-    const processMemoryUsage = spyOn(process, "memoryUsage").mockImplementation(
-      // @ts-expect-error
-      () => ({ rss: fakeRss }),
-    );
+    // @ts-expect-error
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: fakeRss }));
 
     const result = MemoryConsumption.get();
 
@@ -17,7 +15,5 @@ describe("Memory consumption", () => {
     // @ts-expect-error
     expect(result.toBytes()).toBe(fakeRss);
     expect(result.format(tools.SizeUnit.MB)).toBe("117.74 MB");
-
-    processMemoryUsage.mockRestore();
   });
 });

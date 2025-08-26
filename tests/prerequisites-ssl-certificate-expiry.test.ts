@@ -5,10 +5,8 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - ssl certificate expiry", () => {
   test("passes when certificate is valid and has enough days remaining", async () => {
-    const sslCheckerDefault = spyOn(sslChecker, "default").mockImplementation(
-      // @ts-expect-error
-      async () => ({ valid: true, daysRemaining: 100 }),
-    );
+    // @ts-expect-error
+    spyOn(sslChecker, "default").mockImplementation(async () => ({ valid: true, daysRemaining: 100 }));
 
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
@@ -19,15 +17,11 @@ describe("prerequisites - ssl certificate expiry", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
-
-    sslCheckerDefault.mockRestore();
   });
 
   test("fails when certificate is valid but expires too soon", async () => {
-    const sslCheckerDefault = spyOn(sslChecker, "default").mockImplementation(
-      // @ts-expect-error
-      async () => ({ valid: true, daysRemaining: 10 }),
-    );
+    // @ts-expect-error
+    spyOn(sslChecker, "default").mockImplementation(async () => ({ valid: true, daysRemaining: 10 }));
 
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
@@ -38,15 +32,11 @@ describe("prerequisites - ssl certificate expiry", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    sslCheckerDefault.mockRestore();
   });
 
   test("fails when certificate is invalid", async () => {
-    const sslCheckerDefault = spyOn(sslChecker, "default").mockImplementation(
-      // @ts-expect-error
-      async () => ({ valid: false, daysRemaining: 0 }),
-    );
+    // @ts-expect-error
+    spyOn(sslChecker, "default").mockImplementation(async () => ({ valid: false, daysRemaining: 0 }));
 
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
@@ -57,12 +47,10 @@ describe("prerequisites - ssl certificate expiry", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    sslCheckerDefault.mockRestore();
   });
 
   test("fails when sslChecker throws", async () => {
-    const sslCheckerDefault = spyOn(sslChecker, "default").mockImplementation(() => {
+    spyOn(sslChecker, "default").mockImplementation(() => {
       throw new Error("SSL check failed");
     });
 
@@ -75,8 +63,6 @@ describe("prerequisites - ssl certificate expiry", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    sslCheckerDefault.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {

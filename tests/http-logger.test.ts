@@ -61,8 +61,6 @@ describe("HttpLogger middleware", () => {
         metadata: { response: { message: "OK" } },
       }),
     );
-
-    loggerHttpSpy.mockRestore();
   });
 
   test("logs correct 400 HTTP log", async () => {
@@ -114,7 +112,5 @@ describe("HttpLogger middleware", () => {
         metadata: { response: { message: "general.unknown" } },
       }),
     );
-
-    loggerHttpSpy.mockRestore();
   });
 });

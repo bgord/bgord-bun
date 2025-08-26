@@ -17,8 +17,7 @@ describe("Setup", () => {
     const predefinedRequestId = "123";
 
     const logger = new LoggerNoopAdapter();
-
-    const loggerHttp = spyOn(logger, "http").mockImplementation(jest.fn());
+    spyOn(logger, "http").mockImplementation(jest.fn());
 
     const i18n: I18nConfigType = {
       supportedLanguages: {
@@ -80,7 +79,5 @@ describe("Setup", () => {
       etag: null,
       weakEtag: null,
     });
-
-    loggerHttp.mockRestore();
   });
 });

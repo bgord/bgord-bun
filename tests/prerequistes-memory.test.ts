@@ -5,7 +5,7 @@ import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 describe("prerequisites - memory", () => {
   test("returns failure when memory usage exceeds the maximum", async () => {
-    const processMemoryUsage = spyOn(process, "memoryUsage").mockImplementation(
+    spyOn(process, "memoryUsage").mockImplementation(
       // @ts-expect-error
       () => ({
         rss: new tools.Size({ value: 1, unit: tools.SizeUnit.MB }).toBytes(),
@@ -20,12 +20,10 @@ describe("prerequisites - memory", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    processMemoryUsage.mockRestore();
   });
 
   test("returns success when memory usage is below the maximum", async () => {
-    const processMemoryUsage = spyOn(process, "memoryUsage").mockImplementation(
+    spyOn(process, "memoryUsage").mockImplementation(
       // @ts-expect-error
       () => ({
         rss: new tools.Size({ value: 1, unit: tools.SizeUnit.MB }).toBytes(),
@@ -40,12 +38,10 @@ describe("prerequisites - memory", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
-
-    processMemoryUsage.mockRestore();
   });
 
   test("returns undetermined when the check is disabled", async () => {
-    const processMemoryUsage = spyOn(process, "memoryUsage").mockImplementation(
+    spyOn(process, "memoryUsage").mockImplementation(
       // @ts-expect-error
       () => ({
         rss: new tools.Size({ value: 1, unit: tools.SizeUnit.MB }).toBytes(),
@@ -60,7 +56,5 @@ describe("prerequisites - memory", () => {
 
     const result = await prerequisite.verify();
     expect(result).toBe(PrerequisiteStatusEnum.undetermined);
-
-    processMemoryUsage.mockRestore();
   });
 });

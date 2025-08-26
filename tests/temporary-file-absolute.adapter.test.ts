@@ -28,9 +28,6 @@ describe("TemporaryFileAbsolute", () => {
     expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
 
     expect(path.get()).toBe(finalPath);
-
-    writeSpy.mockRestore();
-    renameSpy.mockRestore();
   });
 
   test("cleanup removes the final file", async () => {
@@ -40,8 +37,6 @@ describe("TemporaryFileAbsolute", () => {
 
     expect(unlinkSpy).toHaveBeenCalledTimes(1);
     expect(unlinkSpy).toHaveBeenCalledWith(finalPath);
-
-    unlinkSpy.mockRestore();
   });
 
   test("write propagates errors from Bun.write and does not call rename", async () => {
@@ -56,9 +51,6 @@ describe("TemporaryFileAbsolute", () => {
 
     expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
     expect(renameSpy).not.toHaveBeenCalled();
-
-    writeSpy.mockRestore();
-    renameSpy.mockRestore();
   });
 
   test("write propagates errors from fs.rename", async () => {
@@ -71,8 +63,5 @@ describe("TemporaryFileAbsolute", () => {
 
     expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
     expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
-
-    writeSpy.mockRestore();
-    renameSpy.mockRestore();
   });
 });

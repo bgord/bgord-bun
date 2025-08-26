@@ -29,8 +29,6 @@ describe("ShieldCaptchaHcaptchaLocal", () => {
     expect(await response.text()).toBe("OK");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
-
-    hcaptchaVerify.mockRestore();
   });
 
   test("rejects request when hcaptcha.verify resolves success=false", async () => {
@@ -51,8 +49,6 @@ describe("ShieldCaptchaHcaptchaLocal", () => {
     expect(await response.text()).toBe("access_denied_hcaptcha_local");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
-
-    hcaptchaVerify.mockRestore();
   });
 
   test("rejects request when hcaptcha.verify throws", async () => {
@@ -71,7 +67,5 @@ describe("ShieldCaptchaHcaptchaLocal", () => {
     expect(await response.text()).toBe("access_denied_hcaptcha_local");
 
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
-
-    hcaptchaVerify.mockRestore();
   });
 });

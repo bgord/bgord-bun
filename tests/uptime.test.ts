@@ -6,13 +6,11 @@ describe("Uptime", () => {
   test("Uptime.get returns seconds and formatted uptime", () => {
     const uptime = tools.Timestamp.parse(12_000);
 
-    const processUptime = spyOn(process, "uptime").mockImplementation(() => uptime);
+    spyOn(process, "uptime").mockImplementation(() => uptime);
 
     const result = Uptime.get();
 
     expect(result.seconds).toBe(uptime);
     expect(result.formatted).toBe("about 3 hours ago");
-
-    processUptime.mockRestore();
   });
 });

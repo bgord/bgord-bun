@@ -19,8 +19,6 @@ describe("ApiVersion middleware", () => {
     expect(result.status).toEqual(200);
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
     expect(result.headers.get(ApiVersion.HEADER_NAME)).toEqual("1.0.0");
-
-    buildInfoRepositoryExtract.mockRestore();
   });
 
   test("sets default API version in header with unknown build version", async () => {
@@ -37,7 +35,5 @@ describe("ApiVersion middleware", () => {
     expect(result.status).toEqual(200);
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
     expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(ApiVersion.DEFAULT_API_VERSION);
-
-    buildInfoRepositoryExtract.mockRestore();
   });
 });

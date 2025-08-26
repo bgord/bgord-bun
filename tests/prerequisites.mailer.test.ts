@@ -6,7 +6,7 @@ const mockMailer = { verify: jest.fn() };
 
 describe("prerequisites - mailer", () => {
   test("passes if mailer.verify succeeds", async () => {
-    const mailerVerify = spyOn(mockMailer, "verify").mockResolvedValue(() => Promise.resolve());
+    spyOn(mockMailer, "verify").mockResolvedValue(() => Promise.resolve());
 
     const prerequisite = new PrerequisiteMailer({
       label: "MAILER" as const,
@@ -17,12 +17,10 @@ describe("prerequisites - mailer", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.success);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
-
-    mailerVerify.mockRestore();
   });
 
   test("fails if mailer.verify throws", async () => {
-    const mailerVerify = spyOn(mockMailer, "verify").mockRejectedValue(() => {
+    spyOn(mockMailer, "verify").mockRejectedValue(() => {
       throw new Error("SMTP error");
     });
 
@@ -35,8 +33,6 @@ describe("prerequisites - mailer", () => {
 
     expect(result).toBe(PrerequisiteStatusEnum.failure);
     expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
-
-    mailerVerify.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {

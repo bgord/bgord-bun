@@ -67,7 +67,7 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
 
 describe("prerequisites - dependency vulnerabilities", () => {
   test("passes if bun audit returns no high and critical vulnerabilities", async () => {
-    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
         exitCode: 0,
@@ -81,12 +81,10 @@ describe("prerequisites - dependency vulnerabilities", () => {
 
     const result = await dependencyVulnerabilities.verify();
     expect(result).toBe(PrerequisiteStatusEnum.success);
-
-    bunShellStdout.mockRestore();
   });
 
   test("rejects if bun audit returns high and critical vulnerabilities", async () => {
-    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
         exitCode: 0,
@@ -100,16 +98,12 @@ describe("prerequisites - dependency vulnerabilities", () => {
 
     const result = await dependencyVulnerabilities.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    bunShellStdout.mockRestore();
   });
 
   test("rejects if bun audit exits with 1", async () => {
-    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
-      quiet: () => ({
-        exitCode: 1,
-      }),
+      quiet: () => ({ exitCode: 1 }),
     }));
 
     const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
@@ -118,12 +112,10 @@ describe("prerequisites - dependency vulnerabilities", () => {
 
     const result = await dependencyVulnerabilities.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    bunShellStdout.mockRestore();
   });
 
   test("rejects if bun audit parsing fails", async () => {
-    const bunShellStdout = spyOn(bun, "$").mockImplementation(() => ({
+    spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({ exitCode: 0, stdout: Buffer.from("abc") }),
     }));
@@ -134,8 +126,6 @@ describe("prerequisites - dependency vulnerabilities", () => {
 
     const result = await dependencyVulnerabilities.verify();
     expect(result).toBe(PrerequisiteStatusEnum.failure);
-
-    bunShellStdout.mockRestore();
   });
 
   test("returns undetermined if disabled", async () => {

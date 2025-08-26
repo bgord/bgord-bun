@@ -17,11 +17,8 @@ const mailer = new MailerSmtpWithLoggerAdapter({ logger, smtpMailer });
 
 describe("SmtpMailerWithLogger class", () => {
   test("Mailer can be instantiated with valid configuration", () => {
-    const nodemailerCreateTransport = spyOn(nodemailer, "createTransport");
-
+    spyOn(nodemailer, "createTransport");
     expect(mailer).toBeInstanceOf(MailerSmtpWithLoggerAdapter);
-
-    nodemailerCreateTransport.mockRestore();
   });
 
   test("Mailer sends email using send method - success", async () => {
