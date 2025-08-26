@@ -10,7 +10,7 @@ import { ImageCompressorSharpAdapter } from "../src/image-compressor-sharp.adapt
 
 const pipeline = {
   rotate: () => pipeline,
-  toFormat: (_fmt: any, _opts?: any) => pipeline,
+  toFormat: (_format: any, _opts?: any) => pipeline,
   toFile: async (_: string) => {},
   destroy: () => {},
 };
@@ -33,8 +33,8 @@ describe("ImageCompressorSharpAdapter.compress", () => {
     const result = await adapter.compress(recipe);
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("jpeg");
+    const [format, opts] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("jpeg");
     expect(opts).toMatchObject({ quality: 85 });
 
     expect(toFileSpy).toHaveBeenCalledTimes(1);
@@ -66,8 +66,8 @@ describe("ImageCompressorSharpAdapter.compress", () => {
     const result = await adapter.compress(recipe);
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("webp");
+    const [format, opts] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("webp");
     expect(opts).toMatchObject({ quality: 73 });
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
@@ -92,8 +92,8 @@ describe("ImageCompressorSharpAdapter.compress", () => {
 
     await adapter.compress(recipe);
 
-    const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("png");
+    const [format, opts] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("png");
     expect(opts).toMatchObject({ quality: 85 });
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
@@ -117,8 +117,8 @@ describe("ImageCompressorSharpAdapter.compress", () => {
 
     await adapter.compress(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("jpeg");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("jpeg");
 
     expect(renameSpy).toHaveBeenCalledWith("/x/out/photo-compressed.jpg", "/x/out/photo.jpg");
   });

@@ -8,7 +8,7 @@ import { ImageBlurSharpAdapter } from "../src/image-blur-sharp.adapter";
 const pipeline = {
   rotate: () => pipeline,
   blur: (_?: number) => pipeline,
-  toFormat: (_fmt: any) => pipeline,
+  toFormat: (_format: any) => pipeline,
   toFile: async (_: string) => {},
   destroy: () => {},
 };
@@ -38,8 +38,8 @@ describe("ImageBlurSharpAdapter.blur", () => {
     expect(rotateSpy).toHaveBeenCalledTimes(1);
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("jpeg");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("jpeg");
 
     // Temp based on FINAL path & rename
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
@@ -78,8 +78,8 @@ describe("ImageBlurSharpAdapter.blur", () => {
     expect(blurSpy).toHaveBeenCalledWith(2.5);
 
     // Encoder from FINAL output extension
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("webp");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("webp");
 
     // Temp based on FINAL output & rename
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
@@ -109,8 +109,8 @@ describe("ImageBlurSharpAdapter.blur", () => {
 
     await adapter.blur(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("png");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("png");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
     expect(tempWritten).toBe("images/pic-blurred.png");
@@ -134,8 +134,8 @@ describe("ImageBlurSharpAdapter.blur", () => {
 
     await adapter.blur(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("jpeg");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("jpeg");
 
     const expectedTemp = "/x/out/photo-blurred.jpg";
     expect(renameSpy).toHaveBeenCalledWith(expectedTemp, "/x/out/photo.jpg");

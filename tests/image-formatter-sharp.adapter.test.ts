@@ -6,7 +6,7 @@ import type { ImageFormatterStrategy } from "../src/image-formatter.port";
 import { ImageFormatterSharpAdapter } from "../src/image-formatter-sharp.adapter";
 
 const pipeline = {
-  toFormat: (_fmt: any) => pipeline,
+  toFormat: (_format: any) => pipeline,
   toFile: async (_: string) => {},
   destroy: () => {},
 };
@@ -29,8 +29,8 @@ describe("ImageFormatterSharpAdapter.format", () => {
 
     const finalVo = await adapter.format(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("webp");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("webp");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
     expect(tempWritten).toBe("/var/in/img-formatted.webp");
@@ -61,8 +61,8 @@ describe("ImageFormatterSharpAdapter.format", () => {
 
     const finalVo = await adapter.format(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("png");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("png");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
     expect(tempWritten).toBe("/var/in/picture-formatted.png");
@@ -89,8 +89,8 @@ describe("ImageFormatterSharpAdapter.format", () => {
 
     const finalVo = await adapter.format(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("webp");
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("webp");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
     expect(tempWritten).toBe("/var/out/dest-formatted.webp");
@@ -117,8 +117,8 @@ describe("ImageFormatterSharpAdapter.format", () => {
 
     await adapter.format(recipe);
 
-    const [fmt] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("jpeg"); // mapped
+    const [format] = toFormatSpy.mock.calls[0] as any[];
+    expect(format).toBe("jpeg"); // mapped
 
     const expectedTemp = "/img/out/photo-formatted.jpg";
     expect(renameSpy).toHaveBeenCalledWith(expectedTemp, "/img/out/photo.jpg");
