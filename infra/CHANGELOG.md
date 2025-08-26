@@ -1,8 +1,29 @@
 # Changelog
+- 2025-08-26 16:02 8c18554 **step: add tests**
+- 2025-08-26 15:58 59ba36c **step: add blur**
+- 2025-08-26 15:49 c7cbfdf **step: add tests**
+- 2025-08-26 15:41 f8f5ab6 **refactor: cleanup exports**
+- 2025-08-26 15:36 ab2a58b **step: add image formatters**
+- 2025-08-26 15:21 499bfc2 **step: add tests**
+- 2025-08-26 15:16 86a17b4 **step: add image resizer**
+- 2025-08-26 15:13 dfbfa8b **refactor: renamem compress**
+- 2025-08-26 15:07 7fca6bf **step: add tests**
+- 2025-08-26 15:01 befbd57 **refactor: remove old image compressor**
+- 2025-08-26 15:01 960be07 **feature: add image compressors**
+- 2025-08-26 14:53 9f2b8d2 **refactor: improve mock rejected value**
+- 2025-08-26 14:40 08cfeed **refactor: remove old image exif**
+- 2025-08-26 14:26 91f4c3c **refactor: remove manual mock restoring**
+- 2025-08-26 14:23 ea3c109 **step: add image exif clear tests**
+- 2025-08-26 14:23 2ede100 **step: add tests setup**
+- 2025-08-26 14:13 e352389 **step: add image exif clear port and adapters**
+- 2025-08-26 13:09 450ae58 **step: add tests**
+- 2025-08-26 12:53 84e556e **feature: add image info port and adapters**
+- 2025-08-26 12:44 631914b **refactor: delete image exif read**
 ## 2025-08-26 12:35 v0.21.7
 - 2025-08-26 12:35 f9ec989 **step: update packages**
 - 2025-08-26 12:35 07c8c45 **0.21.7**
 - 2025-08-26 12:34 1e8eb45 **step: update packages**
+- 2025-08-26 10:36 efa0742 **docs: generate CHANGELOG**
 - 2025-08-26 10:35 74c9532 **docs: generate CHANGELOG**
 ## 2025-08-26 00:35 v0.21.6
 - 2025-08-26 00:35 bf1ebfb **0.21.6**
