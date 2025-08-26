@@ -1,0 +1,27 @@
+import * as tools from "@bgord/tools";
+import sharp from "sharp";
+import type { ImageInfoPort } from "./image-info.port";
+
+export class ImageInfoSharpAdapter implements ImageInfoPort {
+  async inspect(filePath: tools.FilePathRelative | tools.FilePathAbsolute) {
+    const path = filePath.get();
+
+    const image = sharp(path);
+
+    using _sharp = {
+      [Symbol.dispose]: () => image.destroy(),
+    };
+
+    const metadata = await image.metadata();
+    const extension = tools.ExtensionSchema.parse(metadata.format);
+
+    const sizeBytes = Bun.file(path).size;
+
+    return {
+      width: tools.Width.parse(metadata.width),
+      height: tools.Height.parse(metadata.height),
+      mime: tools.Mime.fromExtension(extension),
+      size: tools.Size.fromBytes(sizeBytes),
+    };
+  }
+}
