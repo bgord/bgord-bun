@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-26 16:10 v0.22.0
+- 2025-08-26 16:10 29024c5 **0.22.0**
 - 2025-08-26 16:02 8c18554 **step: add tests**
 - 2025-08-26 15:58 59ba36c **step: add blur**
 - 2025-08-26 15:49 c7cbfdf **step: add tests**
@@ -16,6 +18,8 @@
 - 2025-08-26 14:23 ea3c109 **step: add image exif clear tests**
 - 2025-08-26 14:23 2ede100 **step: add tests setup**
 - 2025-08-26 14:13 e352389 **step: add image exif clear port and adapters**
+- 2025-08-26 14:08 caca9f2 **docs: generate readme**
+- 2025-08-26 14:08 c4817fe **docs: generate CHANGELOG**
 - 2025-08-26 13:09 450ae58 **step: add tests**
 - 2025-08-26 12:53 84e556e **feature: add image info port and adapters**
 - 2025-08-26 12:44 631914b **refactor: delete image exif read**
