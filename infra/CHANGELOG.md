@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-26 23:42 v0.23.1
+- 2025-08-26 23:42 16a5574 **0.23.1**
 - 2025-08-26 23:36 b3e6746 **refactor: remove root from noop**
 ## 2025-08-26 23:25 v0.23.0
 - 2025-08-26 23:25 28f45b1 **0.23.0**
@@ -14,6 +16,7 @@
 - 2025-08-26 22:18 d6ecdc5 **step: setup file hash port**
 - 2025-08-26 21:54 c33505a **feature: add remote file storage**
 - 2025-08-26 21:53 76f8709 **step: update packages**
+- 2025-08-26 21:36 a0a0856 **docs: generate CHANGELOG**
 - 2025-08-26 21:26 0ab225a **docs: generate CHANGELOG**
 - 2025-08-26 21:25 d1439b3 **docs: generate CHANGELOG**
 - 2025-08-26 21:25 77a3515 **docs: generate readme**
