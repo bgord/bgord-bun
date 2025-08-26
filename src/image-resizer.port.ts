@@ -1,0 +1,20 @@
+import type * as tools from "@bgord/tools";
+
+export type ImageResizerOutputPathStrategy = {
+  strategy: "output_path";
+  input: tools.FilePathRelative | tools.FilePathAbsolute;
+  output: tools.FilePathRelative | tools.FilePathAbsolute;
+  maxSide: number;
+};
+
+export type ImageResizerInPlaceStrategy = {
+  strategy: "in_place";
+  input: tools.FilePathRelative | tools.FilePathAbsolute;
+  maxSide: number;
+};
+
+export interface ImageResizerPort {
+  resize(
+    recipe: ImageResizerInPlaceStrategy | ImageResizerOutputPathStrategy,
+  ): Promise<tools.FilePathRelative | tools.FilePathAbsolute>;
+}
