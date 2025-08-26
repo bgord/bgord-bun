@@ -15,7 +15,7 @@ const pipeline = {
   destroy: () => {},
 };
 
-describe("ImageCompressorSharpAdapter.clear", () => {
+describe("ImageCompressorSharpAdapter.compress", () => {
   test("in_place: uses default quality (85), maps jpg→jpeg, writes temp next to final, atomic rename", async () => {
     const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -30,7 +30,7 @@ describe("ImageCompressorSharpAdapter.clear", () => {
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg"); // jpg extension should map to jpeg
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
 
-    const result = await adapter.clear(recipe);
+    const result = await adapter.compress(recipe);
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
@@ -63,7 +63,7 @@ describe("ImageCompressorSharpAdapter.clear", () => {
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.webp");
     const recipe: ImageCompressorOutputPathStrategy = { strategy: "output_path", input, output, quality: 73 };
 
-    const result = await adapter.clear(recipe);
+    const result = await adapter.compress(recipe);
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
@@ -90,7 +90,7 @@ describe("ImageCompressorSharpAdapter.clear", () => {
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
 
-    await adapter.clear(recipe);
+    await adapter.compress(recipe);
 
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
     expect(fmt).toBe("png");
@@ -115,7 +115,7 @@ describe("ImageCompressorSharpAdapter.clear", () => {
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg"); // .jpg should → "jpeg"
     const recipe: ImageCompressorOutputPathStrategy = { strategy: "output_path", input, output };
 
-    await adapter.clear(recipe);
+    await adapter.compress(recipe);
 
     const [fmt] = toFormatSpy.mock.calls[0] as any[];
     expect(fmt).toBe("jpeg");

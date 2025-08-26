@@ -9,7 +9,7 @@ import type {
 export class ImageCompressorSharpAdapter implements ImageCompressorPort {
   private static readonly DEFAULT_QUALITY = 85;
 
-  async clear(recipe: ImageCompressorOutputPathStrategy | ImageCompressorInPlaceStrategy) {
+  async compress(recipe: ImageCompressorOutputPathStrategy | ImageCompressorInPlaceStrategy) {
     const quality = recipe.quality ?? ImageCompressorSharpAdapter.DEFAULT_QUALITY;
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

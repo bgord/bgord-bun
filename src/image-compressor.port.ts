@@ -14,7 +14,7 @@ export type ImageCompressorInPlaceStrategy = {
 };
 
 export interface ImageCompressorPort {
-  clear(
+  compress(
     recipe: ImageCompressorInPlaceStrategy | ImageCompressorOutputPathStrategy,
   ): Promise<tools.FilePathRelative | tools.FilePathAbsolute>;
 }
