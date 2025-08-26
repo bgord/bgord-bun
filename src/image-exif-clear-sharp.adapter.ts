@@ -1,13 +1,9 @@
 import fs from "node:fs/promises";
 import sharp from "sharp";
-import type {
-  ImageExifClearInPlaceStrategy,
-  ImageExifClearOutputPathStrategy,
-  ImageExifClearPort,
-} from "./image-exif-clear.port";
+import type { ImageExifClearPort, ImageExifClearStrategy } from "./image-exif-clear.port";
 
 export class ImageExifClearSharpAdapter implements ImageExifClearPort {
-  async clear(recipe: ImageExifClearInPlaceStrategy | ImageExifClearOutputPathStrategy) {
+  async clear(recipe: ImageExifClearStrategy) {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
     const filename = final.getFilename();

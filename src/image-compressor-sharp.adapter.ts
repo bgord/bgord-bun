@@ -1,15 +1,11 @@
 import fs from "node:fs/promises";
 import sharp from "sharp";
-import type {
-  ImageCompressorInPlaceStrategy,
-  ImageCompressorOutputPathStrategy,
-  ImageCompressorPort,
-} from "./image-compressor.port";
+import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
 export class ImageCompressorSharpAdapter implements ImageCompressorPort {
   private static readonly DEFAULT_QUALITY = 85;
 
-  async compress(recipe: ImageCompressorOutputPathStrategy | ImageCompressorInPlaceStrategy) {
+  async compress(recipe: ImageCompressorStrategy) {
     const quality = recipe.quality ?? ImageCompressorSharpAdapter.DEFAULT_QUALITY;
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

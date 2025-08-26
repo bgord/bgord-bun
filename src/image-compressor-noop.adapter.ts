@@ -1,13 +1,7 @@
-import type {
-  ImageCompressorInPlaceStrategy,
-  ImageCompressorOutputPathStrategy,
-  ImageCompressorPort,
-} from "./image-compressor.port";
+import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
 export class ImageCompressorNoopAdapter implements ImageCompressorPort {
-  async compress(recipe: ImageCompressorOutputPathStrategy | ImageCompressorInPlaceStrategy) {
-    const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
-
-    return final;
+  async compress(recipe: ImageCompressorStrategy) {
+    return recipe.strategy === "output_path" ? recipe.output : recipe.input;
   }
 }

@@ -1,20 +1,20 @@
 import type * as tools from "@bgord/tools";
 
-export type ImageCompressorOutputPathStrategy = {
+type ImageCompressorOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
   quality?: number;
 };
 
-export type ImageCompressorInPlaceStrategy = {
+type ImageCompressorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   quality?: number;
 };
 
+export type ImageCompressorStrategy = ImageCompressorInPlaceStrategy | ImageCompressorOutputPathStrategy;
+
 export interface ImageCompressorPort {
-  compress(
-    recipe: ImageCompressorInPlaceStrategy | ImageCompressorOutputPathStrategy,
-  ): Promise<tools.FilePathRelative | tools.FilePathAbsolute>;
+  compress(recipe: ImageCompressorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute>;
 }

@@ -1,13 +1,9 @@
 import fs from "node:fs/promises";
 import sharp from "sharp";
-import type {
-  ImageResizerInPlaceStrategy,
-  ImageResizerOutputPathStrategy,
-  ImageResizerPort,
-} from "./image-resizer.port";
+import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
 export class ImageResizerSharpAdapter implements ImageResizerPort {
-  async resize(recipe: ImageResizerOutputPathStrategy | ImageResizerInPlaceStrategy) {
+  async resize(recipe: ImageResizerStrategy) {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
     const filename = final.getFilename();
     const temporary = final.withFilename(filename.withSuffix("-resized"));
