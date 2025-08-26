@@ -56,6 +56,9 @@ src/
 ├── event.types.ts
 ├── file-draft-zip.service.ts
 ├── file-draft.service.ts
+├── file-hash-noop.adapter.ts
+├── file-hash-sha256-bun.adapter.ts
+├── file-hash.port.ts
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
 ├── gzip.service.ts
@@ -159,6 +162,9 @@ src/
 ├── prerequisites.service.ts
 ├── rate-limit-store-node-cache.adapter.ts
 ├── rate-limit-store.port.ts
+├── remote-file-storage-disk.adapter.ts
+├── remote-file-storage-noop.adapter.ts
+├── remote-file-storage.port.ts
 ├── safe-parse-body.service.ts
 ├── setup.service.ts
 ├── shield-api-key.middleware.ts
