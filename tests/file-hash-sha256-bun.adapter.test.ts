@@ -14,7 +14,7 @@ describe("FileHashBunWebCryptoAdapter.hash", () => {
     const result = await adapter.hash(input);
 
     expect(bunFileSpy).toHaveBeenCalledWith("/var/data/hello.txt");
-    expect(result.hex).toBe("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824");
+    expect(result.etag).toBe("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824");
     // @ts-expect-error
     expect(result.size.toBytes()).toBe(5);
     expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
@@ -31,7 +31,7 @@ describe("FileHashBunWebCryptoAdapter.hash", () => {
     const result = await adapter.hash(input);
 
     expect(bunFileSpy).toHaveBeenCalledWith("images/payload.bin");
-    expect(result.hex).toBe("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
+    expect(result.etag).toBe("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
     // @ts-expect-error
     expect(result.size.toBytes()).toBe(3);
     expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
