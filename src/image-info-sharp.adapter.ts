@@ -8,7 +8,7 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
 
     const image = sharp(path);
 
-    using _sharp = {
+    using _sharp_ = {
       [Symbol.dispose]: () => image.destroy(),
     };
 
