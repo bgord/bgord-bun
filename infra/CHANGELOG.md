@@ -1,5 +1,8 @@
 # Changelog
+## 2025-08-27 13:58 v0.23.2
+- 2025-08-27 13:58 9f2f72a **0.23.2**
 - 2025-08-27 13:44 c7e89c3 **fix: empty size in file storage noop adapter**
+- 2025-08-27 11:56 0b4e397 **docs: generate CHANGELOG**
 ## 2025-08-26 23:42 v0.23.1
 - 2025-08-26 23:42 16a5574 **0.23.1**
 - 2025-08-26 23:36 b3e6746 **refactor: remove root from noop**
