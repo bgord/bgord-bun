@@ -1,7 +1,11 @@
 # Changelog
+## 2025-08-28 21:30 v0.23.4
+- 2025-08-28 21:30 61816aa **0.23.4**
 - 2025-08-28 21:28 e0c792a **step: update packages**
 - 2025-08-28 21:23 70bffc9 **step: add cache file**
 - 2025-08-28 21:02 8015d55 **refactor: remove old cache code**
+- 2025-08-28 19:29 ab8f73b **docs: generate CHANGELOG**
+- 2025-08-28 19:29 1f740e2 **docs: generate readme**
 ## 2025-08-28 17:09 v0.23.3
 - 2025-08-28 17:09 4ccf29e **0.23.3**
 - 2025-08-28 17:08 2748b1a **step: update packages**
