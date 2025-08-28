@@ -1,4 +1,5 @@
 # Changelog
+- 2025-08-28 23:52 22fd8a4 **step: bump bgord/scripts**
 - 2025-08-28 23:18 bed8c5e **refactor: adjust naming**
 ## 2025-08-28 23:16 v0.24.1
 - 2025-08-28 23:16 23bebdd **0.24.1**
@@ -15,6 +16,8 @@
 - 2025-08-28 21:30 61816aa **0.23.4**
 - 2025-08-28 21:28 e0c792a **step: update packages**
 - 2025-08-28 21:23 70bffc9 **step: add cache file**
+- 2025-08-28 21:18 1623ed4 **docs: generate CHANGELOG**
+- 2025-08-28 21:18 0c6cd26 **docs: generate readme**
 - 2025-08-28 21:16 cd332da **docs: generate CHANGELOG**
 - 2025-08-28 21:16 9cda3e0 **docs: generate CHANGELOG**
 - 2025-08-28 21:16 298da3a **docs: generate readme**
