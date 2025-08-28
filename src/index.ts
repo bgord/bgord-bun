@@ -5,7 +5,6 @@ export * from "./better-auth-logger.service";
 export * from "./build-info-repository.service";
 export * from "./cache-resolver.service";
 export * from "./cache-response.middleware";
-export * from "./cache-static-files.middleware";
 export * from "./client.vo";
 export * from "./client-from-hono.adapter";
 export * from "./command.types";
