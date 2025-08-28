@@ -29,9 +29,9 @@ src/
 ├── better-auth-logger.service.ts
 ├── bots.vo.ts
 ├── build-info-repository.service.ts
+├── cache-file.service.ts
 ├── cache-resolver.service.ts
 ├── cache-response.middleware.ts
-├── cache-static-files.middleware.ts
 ├── client-from-hono.adapter.ts
 ├── client.vo.ts
 ├── command-envelope.ts
