@@ -40,7 +40,6 @@ src/
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
-├── csv-stringifier-noop.adapter.ts
 ├── csv-stringifier-sync.adapter.ts
 ├── csv-stringifier.port.ts
 ├── decorators.service.ts
