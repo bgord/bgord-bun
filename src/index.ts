@@ -3,6 +3,7 @@ export * from "./api-version.middleware";
 export * from "./basic-auth.service";
 export * from "./better-auth-logger.service";
 export * from "./build-info-repository.service";
+export * from "./cache-file.service";
 export * from "./cache-resolver.service";
 export * from "./cache-response.middleware";
 export * from "./client.vo";
