@@ -1,8 +1,12 @@
 # Changelog
+- 2025-08-28 21:28 e0c792a **step: update packages**
+- 2025-08-28 21:23 70bffc9 **step: add cache file**
+- 2025-08-28 21:02 8015d55 **refactor: remove old cache code**
 ## 2025-08-28 17:09 v0.23.3
 - 2025-08-28 17:09 4ccf29e **0.23.3**
 - 2025-08-28 17:08 2748b1a **step: update packages**
 - 2025-08-28 17:01 9356543 **refactor: return mime from file hash**
+- 2025-08-28 15:09 0b51441 **docs: generate CHANGELOG**
 - 2025-08-28 15:08 f8db862 **docs: generate CHANGELOG**
 ## 2025-08-27 13:58 v0.23.2
 - 2025-08-27 13:58 9f2f72a **0.23.2**
