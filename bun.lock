@@ -5,7 +5,7 @@
       "name": "@bgord/bun",
       "dependencies": {
         "@axiomhq/winston": "1.3.1",
-        "@bgord/tools": "0.12.19",
+        "@bgord/tools": "0.12.20",
         "@hono/ua-blocker": "0.1.9",
         "better-auth": "1.3.7",
         "check-disk-space": "3.4.0",
@@ -36,10 +36,10 @@
         "only-allow": "1.2.1",
         "shellcheck": "4.1.0",
         "typescript": "5.9.2",
-        "zod": "4.1.4",
+        "zod": "4.1.5",
       },
       "peerDependencies": {
-        "zod": "4.1.4",
+        "zod": "4.1.5",
       },
     },
   },
@@ -116,7 +116,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.18", "", {}, "sha512-rEFOE1MYIsBmoMJtQbl32PGHHXuG2hDxvEd7rUHE0vCBoFQVSDqaVs9hkZEtHCxRoY+CljXKFCOuJ8uxqw1LcA=="],
 
-    "@bgord/tools": ["@bgord/tools@0.12.19", "", { "dependencies": { "date-fns": "4.1.0", "mime-types": "^3.0.1" }, "peerDependencies": { "zod": "4.1.4" } }, "sha512-qJcIeunftWYSqBaurJ0leQum2KdB/2wjutfKUmD+79Ix9dzwZHmQGvfMrNG2OSODidTz08m5S+KSZj38UKobHw=="],
+    "@bgord/tools": ["@bgord/tools@0.12.20", "", { "dependencies": { "date-fns": "4.1.0", "mime-types": "^3.0.1" }, "peerDependencies": { "zod": "4.1.5" } }, "sha512-dboUay2ZJpxPUlpnH2/Cu4GvU1ZfkK7Ua4yxjFGehr/mdpkDF7hUlDAJWVZdTVeIOBbvY5ApAYPR924+jf0XVg=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.2.2", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.2.2", "@biomejs/cli-darwin-x64": "2.2.2", "@biomejs/cli-linux-arm64": "2.2.2", "@biomejs/cli-linux-arm64-musl": "2.2.2", "@biomejs/cli-linux-x64": "2.2.2", "@biomejs/cli-linux-x64-musl": "2.2.2", "@biomejs/cli-win32-arm64": "2.2.2", "@biomejs/cli-win32-x64": "2.2.2" }, "bin": { "biome": "bin/biome" } }, "sha512-j1omAiQWCkhuLgwpMKisNKnsM6W8Xtt1l0WZmqY/dFj8QPNkIoTvk4tSsi40FaAAkBE1PU0AFG2RWFBWenAn+w=="],
 
@@ -1126,7 +1126,7 @@
 
     "yocto-queue": ["yocto-queue@1.2.1", "", {}, "sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg=="],
 
-    "zod": ["zod@4.1.4", "", {}, "sha512-2YqJuWkU6IIK9qcE4k1lLLhyZ6zFw7XVRdQGpV97jEIZwTrscUw+DY31Xczd8nwaoksyJUIxCojZXwckJovWxA=="],
+    "zod": ["zod@4.1.5", "", {}, "sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg=="],
 
     "zod-validation-error": ["zod-validation-error@3.5.3", "", { "peerDependencies": { "zod": "^3.25.0 || ^4.0.0" } }, "sha512-OT5Y8lbUadqVZCsnyFaTQ4/O2mys4tj7PqhdbBCp7McPwvIEKfPtdA6QfPeFQK2/Rz5LgwmAXRJTugBNBi0btw=="],
 
