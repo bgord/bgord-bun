@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-28 22:59 v0.24.0
+- 2025-08-28 22:59 2200aac **0.24.0**
 - 2025-08-28 22:48 0c27f89 **step: add tests**
 - 2025-08-28 22:39 e1012e8 **step: add exports**
 - 2025-08-28 22:38 7d2be6d **step: add csv strigifier noop adapter**
@@ -10,6 +12,8 @@
 - 2025-08-28 21:28 e0c792a **step: update packages**
 - 2025-08-28 21:23 70bffc9 **step: add cache file**
 - 2025-08-28 21:02 8015d55 **refactor: remove old cache code**
+- 2025-08-28 20:54 aa84859 **docs: generate readme**
+- 2025-08-28 20:54 04d1e41 **docs: generate CHANGELOG**
 - 2025-08-28 19:30 95641c2 **docs: generate CHANGELOG**
 - 2025-08-28 19:29 ab8f73b **docs: generate CHANGELOG**
 - 2025-08-28 19:29 1f740e2 **docs: generate readme**
