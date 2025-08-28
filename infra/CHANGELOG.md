@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-28 23:16 v0.24.1
+- 2025-08-28 23:16 23bebdd **0.24.1**
 - 2025-08-28 23:15 20e495e **step: keep csv stream based**
 ## 2025-08-28 22:59 v0.24.0
 - 2025-08-28 22:59 2200aac **0.24.0**
@@ -12,6 +14,8 @@
 - 2025-08-28 21:30 61816aa **0.23.4**
 - 2025-08-28 21:28 e0c792a **step: update packages**
 - 2025-08-28 21:23 70bffc9 **step: add cache file**
+- 2025-08-28 21:16 cd332da **docs: generate CHANGELOG**
+- 2025-08-28 21:16 298da3a **docs: generate readme**
 - 2025-08-28 21:02 8015d55 **refactor: remove old cache code**
 - 2025-08-28 20:59 8c362ee **docs: generate CHANGELOG**
 - 2025-08-28 20:54 aa84859 **docs: generate readme**
