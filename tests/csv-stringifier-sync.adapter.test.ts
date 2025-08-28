@@ -1,7 +1,8 @@
 import { describe, expect, test } from "bun:test";
+import { text } from "node:stream/consumers";
 import { CsvStringifierSyncAdapter } from "../src/csv-stringifier-sync.adapter";
 
-describe("CsvStringifierSyncAdapter", () => {
+describe("CsvStringifierSyncAdapter", async () => {
   test("works", async () => {
     const columns = ["id", "name"];
     const data = [
@@ -11,7 +12,7 @@ describe("CsvStringifierSyncAdapter", () => {
 
     const strigifier = new CsvStringifierSyncAdapter();
 
-    expect(strigifier.process(columns, data)).toEqualIgnoringWhitespace(`
+    expect(await text(strigifier.process(columns, data))).toEqualIgnoringWhitespace(`
       id, name
       1,Anne
       2, Bart`);

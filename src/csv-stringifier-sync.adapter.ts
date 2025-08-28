@@ -1,4 +1,4 @@
-import { stringify } from "csv/sync";
+import { stringify } from "csv";
 import type { CsvColumnType, CsvRowType, CsvStringifierPort } from "./csv-stringifier.port";
 
 export class CsvStringifierSyncAdapter implements CsvStringifierPort {

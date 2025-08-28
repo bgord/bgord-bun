@@ -15,7 +15,6 @@ export * from "./context.middleware";
 export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
 export * from "./csv-stringifier.port";
-export * from "./csv-stringifier-noop.adapter";
 export * from "./csv-stringifier-sync.adapter";
 export * from "./decorators.service";
 export * from "./dispatching-event-store";
