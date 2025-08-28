@@ -1,6 +1,9 @@
 # Changelog
+## 2025-08-28 17:09 v0.23.3
+- 2025-08-28 17:09 4ccf29e **0.23.3**
 - 2025-08-28 17:08 2748b1a **step: update packages**
 - 2025-08-28 17:01 9356543 **refactor: return mime from file hash**
+- 2025-08-28 15:08 f8db862 **docs: generate CHANGELOG**
 ## 2025-08-27 13:58 v0.23.2
 - 2025-08-27 13:58 9f2f72a **0.23.2**
 - 2025-08-27 13:44 c7e89c3 **fix: empty size in file storage noop adapter**
