@@ -1,4 +1,6 @@
 # Changelog
+- 2025-08-29 15:28 d538d6b **step: update hono**
+- 2025-08-29 15:28 a7b79a4 **step: define pdf generator port**
 - 2025-08-28 23:52 22fd8a4 **step: bump bgord/scripts**
 - 2025-08-28 23:18 bed8c5e **refactor: adjust naming**
 ## 2025-08-28 23:16 v0.24.1
@@ -12,6 +14,7 @@
 - 2025-08-28 22:38 002df27 **step: add csv strigifier sync adapter**
 - 2025-08-28 22:36 0dfaa2a **step: add csv stringifier port**
 - 2025-08-28 22:16 ba557dc **step: install csv**
+- 2025-08-28 21:52 a5c3d45 **docs: generate CHANGELOG**
 ## 2025-08-28 21:30 v0.23.4
 - 2025-08-28 21:30 61816aa **0.23.4**
 - 2025-08-28 21:28 e0c792a **step: update packages**
