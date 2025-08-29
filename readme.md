@@ -24,6 +24,9 @@ Run the tests
 
 ```
 src/
+├── antivirus-clamav.adapter.ts
+├── antivirus-noop.adapter.ts
+├── antivirus.port.ts
 ├── api-version.middleware.ts
 ├── basic-auth.service.ts
 ├── better-auth-logger.service.ts
