@@ -1,6 +1,10 @@
 # Changelog
+## 2025-08-29 15:29 v0.24.2
+- 2025-08-29 15:29 1f6c185 **0.24.2**
 - 2025-08-29 15:28 d538d6b **step: update hono**
 - 2025-08-29 15:28 a7b79a4 **step: define pdf generator port**
+- 2025-08-29 13:29 6cc927e **docs: generate CHANGELOG**
+- 2025-08-29 13:29 1ce3e8d **docs: generate readme**
 - 2025-08-28 23:52 22fd8a4 **step: bump bgord/scripts**
 - 2025-08-28 23:18 bed8c5e **refactor: adjust naming**
 ## 2025-08-28 23:16 v0.24.1
