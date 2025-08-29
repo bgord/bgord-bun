@@ -1,6 +1,9 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import type * as tools from "@bgord/tools";
+import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import * as Preferences from "../src/modules/preferences";
+
+const userId = new IdProviderCryptoAdapter().generate();
 
 export enum SupportedLanguages {
   en = "en",
@@ -27,7 +30,7 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
 
-    const language = await UserLanguageOHQ.get(crypto.randomUUID());
+    const language = await UserLanguageOHQ.get(userId);
     expect(language).toEqual(SupportedLanguages.pl);
   });
 
@@ -41,7 +44,7 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
 
-    expect(async () => UserLanguageOHQ.get(crypto.randomUUID())).toThrow(
+    expect(async () => UserLanguageOHQ.get(userId)).toThrow(
       Preferences.Ports.UserLanguagePreferenceMissingError,
     );
   });
@@ -56,7 +59,7 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(SupportedLanguages.en),
     );
 
-    const result = await UserLanguageOHQ.get(crypto.randomUUID());
+    const result = await UserLanguageOHQ.get(userId);
     expect(result).toEqual(SupportedLanguages.en);
   });
 });
