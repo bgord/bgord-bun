@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { EventStreamType } from "./event-stream.vo";
+import type { IdProviderPort } from "./id-provider.port";
 import { UUID } from "./uuid.vo";
 
 export const EventEnvelopeSchema = {
@@ -13,9 +14,9 @@ export const EventEnvelopeSchema = {
   revision: tools.RevisionValue.optional(),
 };
 
-export const createEventEnvelope = (stream: EventStreamType) =>
+export const createEventEnvelope = (IdProvider: IdProviderPort, stream: EventStreamType) =>
   ({
-    id: crypto.randomUUID(),
+    id: IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
     createdAt: tools.Time.Now().value,
     stream,

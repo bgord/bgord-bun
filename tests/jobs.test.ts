@@ -1,10 +1,12 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as croner from "croner";
+import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import { JobHandler, Jobs, UTC_DAY_OF_THE_WEEK } from "../src/jobs.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 const logger = new LoggerNoopAdapter();
+const IdProvider = new IdProviderCryptoAdapter();
 
 describe("JobHandler", () => {
   test("should log job start and success when job is processed successfully", async () => {
@@ -15,7 +17,7 @@ describe("JobHandler", () => {
     }));
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(logger);
+    const jobHandler = new JobHandler(logger, IdProvider);
 
     const job = jobHandler.handle({
       cron: "* * * * *",
@@ -39,7 +41,7 @@ describe("JobHandler", () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
     const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(logger);
+    const jobHandler = new JobHandler(logger, IdProvider);
 
     const job = jobHandler.handle({
       cron: "* * * * *",
@@ -55,7 +57,7 @@ describe("JobHandler", () => {
   test("should handle job overrun", async () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(logger);
+    const jobHandler = new JobHandler(logger, IdProvider);
     const protectJob = jobHandler.protect({} as croner.Cron);
 
     // Run the protect function

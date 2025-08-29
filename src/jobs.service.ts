@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import type { Cron } from "croner";
-import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
+import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
 
@@ -42,10 +42,13 @@ export type JobProcessorType = {
 };
 
 export class JobHandler {
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(
+    private readonly logger: LoggerPort,
+    private readonly IdProvider: IdProviderPort,
+  ) {}
 
   handle(jobProcessor: JobProcessorType) {
-    const correlationId = CorrelationId.parse(crypto.randomUUID());
+    const correlationId = this.IdProvider.generate();
 
     // biome-ignore lint: lint/complexity/noUselessThisAlias
     const that = this;

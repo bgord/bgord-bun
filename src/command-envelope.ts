@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import { CorrelationStorage } from "./correlation-storage.service";
+import type { IdProviderPort } from "./id-provider.port";
 import { UUID } from "./uuid.vo";
 
 export const CommandEnvelopeSchema = {
@@ -8,9 +9,9 @@ export const CommandEnvelopeSchema = {
   createdAt: tools.Timestamp,
 };
 
-export const createCommandEnvelope = () =>
+export const createCommandEnvelope = (IdProvider: IdProviderPort) =>
   ({
-    id: crypto.randomUUID(),
+    id: IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
     createdAt: tools.Time.Now().value,
   }) as const;
