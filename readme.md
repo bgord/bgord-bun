@@ -141,6 +141,8 @@ src/
 │           └── supported-languages-set.ts
 ├── node-env.vo.ts
 ├── open-graph.service.ts
+├── pdf-generator-noop.adapter.ts
+├── pdf-generator.port.ts
 ├── port.vo.ts
 ├── prerequisites
 │   ├── binary.ts
