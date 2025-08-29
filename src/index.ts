@@ -1,4 +1,7 @@
 export { default as sharp } from "sharp";
+export * from "./antivirus.port";
+export * from "./antivirus-clamav.adapter";
+export * from "./antivirus-noop.adapter";
 export * from "./api-version.middleware";
 export * from "./basic-auth.service";
 export * from "./better-auth-logger.service";
