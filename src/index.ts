@@ -83,6 +83,8 @@ export * as History from "./modules/history";
 export * as Preferences from "./modules/preferences";
 export * from "./node-env.vo";
 export * from "./open-graph.service";
+export * from "./pdf-generator.port";
+export * from "./pdf-generator-noop.adapter";
 export * from "./port.vo";
 export * from "./prerequisites/index";
 export * from "./prerequisites.service";
