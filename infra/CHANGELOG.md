@@ -1,8 +1,11 @@
 # Changelog
+## 2025-08-29 22:01 v0.25.0
+- 2025-08-29 22:01 d2cfed0 **0.25.0**
 - 2025-08-29 21:51 217455c **refactor: use id port in job handler**
 - 2025-08-29 21:46 334b5f9 **step: use id provider crypto adapter**
 - 2025-08-29 21:39 f4c3598 **step: add tests**
 - 2025-08-29 21:37 fa64f68 **step: add id provider port and adapters**
+- 2025-08-29 19:58 175e926 **docs: generate CHANGELOG**
 - 2025-08-29 19:42 5e3ec79 **docs: generate readme**
 - 2025-08-29 19:41 6d326ca **docs: generate CHANGELOG**
 - 2025-08-29 16:57 3ac6ed6 **step: add test**
