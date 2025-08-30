@@ -2,6 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
 import type { I18nConfigType } from "../src/i18n.service";
+import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Setup } from "../src/setup.service";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
@@ -12,14 +13,15 @@ const ip = {
   },
 };
 
+const predefinedRequestId = "123";
+const Logger = new LoggerNoopAdapter();
+const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
+
 describe("Setup", () => {
   test("sets the essentials", async () => {
-    const predefinedRequestId = "123";
+    spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const logger = new LoggerNoopAdapter();
-    spyOn(logger, "http").mockImplementation(jest.fn());
-
-    const i18n: I18nConfigType = {
+    const I18n: I18nConfigType = {
       supportedLanguages: {
         pl: "pl",
         en: "en",
@@ -31,7 +33,7 @@ describe("Setup", () => {
       Variables: TimeZoneOffsetVariables & EtagVariables;
     }>();
 
-    app.use(...Setup.essentials(logger, i18n));
+    app.use(...Setup.essentials({ Logger, I18n, IdProvider }));
 
     app.get("/ping", (c) =>
       c.json({
@@ -67,7 +69,7 @@ describe("Setup", () => {
       "x-download-options": "noopen",
       "x-frame-options": "SAMEORIGIN",
       "x-permitted-cross-domain-policies": "none",
-      "x-correlation-id": expect.any(String),
+      "x-correlation-id": predefinedRequestId,
       "x-xss-protection": "0",
     });
 

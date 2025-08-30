@@ -13,6 +13,7 @@ import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
 import { HttpLogger } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
+import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
@@ -27,8 +28,10 @@ type CorsOptions = Parameters<typeof cors>[0];
 
 type SetupOverridesType = { cors?: CorsOptions };
 
+type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; I18n: I18nConfigType };
+
 export class Setup {
-  static essentials(logger: LoggerPort, i18n: I18nConfigType, overrides?: SetupOverridesType) {
+  static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
     const corsOptions = overrides?.cors ?? { origin: "*" };
 
     return [
@@ -38,16 +41,20 @@ export class Setup {
       ApiVersion.attach,
       cors(corsOptions),
       languageDetector({
-        supportedLanguages: Object.keys(i18n.supportedLanguages),
-        fallbackLanguage: i18n.defaultLanguage,
+        supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
+        fallbackLanguage: deps.I18n.defaultLanguage,
         caches: false,
       }),
-      requestId({ limitLength: 36, headerName: "x-correlation-id" }),
+      requestId({
+        limitLength: 36,
+        headerName: "x-correlation-id",
+        generator: () => deps.IdProvider.generate(),
+      }),
       TimeZoneOffset.attach,
       Context.attach,
       WeakETagExtractor.attach,
       ETagExtractor.attach,
-      HttpLogger.build(logger),
+      HttpLogger.build(deps.Logger),
       timing(),
       CorrelationStorage.handle(),
     ];
