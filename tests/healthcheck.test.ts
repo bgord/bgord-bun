@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
-import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import {
@@ -12,7 +12,8 @@ import {
 } from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
 
-const deps = { Clock: new ClockSystemAdapter() };
+const Clock = new ClockFixedAdapter(1234);
+const deps = { Clock };
 
 type TestPrerequisiteConfigType = { label: string; enabled?: boolean };
 
@@ -41,7 +42,7 @@ class FakeFailurePrerequisite extends AbstractPrerequisite<TestPrerequisiteConfi
 }
 
 const buildInfo = {
-  BUILD_DATE: tools.Timestamp.parse(Date.now()),
+  BUILD_DATE: Clock.nowMs(),
   BUILD_VERSION: tools.BuildVersion.parse("1.0.0"),
 };
 const memoryConsumption = new tools.Size({
@@ -74,16 +75,8 @@ describe("Healthcheck", () => {
       ok: PrerequisiteStatusEnum.success,
       version: buildInfo.BUILD_VERSION,
       uptime,
-      memory: {
-        bytes: memoryConsumption.toBytes(),
-        formatted: memoryConsumption.format(tools.SizeUnit.MB),
-      },
-      details: [
-        {
-          label: "successful-prerequisite",
-          status: PrerequisiteStatusEnum.success,
-        },
-      ],
+      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.SizeUnit.MB) },
+      details: [{ label: "successful-prerequisite", status: PrerequisiteStatusEnum.success }],
       durationMs: expect.any(Number),
     });
   });
@@ -111,19 +104,10 @@ describe("Healthcheck", () => {
       ok: PrerequisiteStatusEnum.failure,
       version: buildInfo.BUILD_VERSION,
       uptime,
-      memory: {
-        bytes: memoryConsumption.toBytes(),
-        formatted: memoryConsumption.format(tools.SizeUnit.MB),
-      },
+      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.SizeUnit.MB) },
       details: [
-        {
-          label: "success-prerequisite",
-          status: PrerequisiteStatusEnum.success,
-        },
-        {
-          label: "failure-prerequisite",
-          status: PrerequisiteStatusEnum.failure,
-        },
+        { label: "success-prerequisite", status: PrerequisiteStatusEnum.success },
+        { label: "failure-prerequisite", status: PrerequisiteStatusEnum.failure },
       ],
       durationMs: expect.any(Number),
     });
