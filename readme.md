@@ -37,6 +37,9 @@ src/
 ├── cache-response.middleware.ts
 ├── client-from-hono.adapter.ts
 ├── client.vo.ts
+├── clock-fixed.adapter.ts
+├── clock-system.adapter.ts
+├── clock.port.ts
 ├── command-envelope.ts
 ├── command-logger.service.ts
 ├── command.types.ts
