@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
 import type { EventStoreLike } from "../../../event-store-like.types";
 import type { IdProviderPort } from "../../../id-provider.port";
@@ -14,6 +15,7 @@ export const handleSetUserLanguageCommand =
   <L extends readonly tools.LanguageType[]>(
     EventStore: EventStoreLike<AcceptedEvent>,
     IdProvider: IdProviderPort,
+    Clock: ClockPort,
     query: Ports.UserLanguageQueryPort,
     supported: VO.SupportedLanguagesSet<L>,
   ) =>
@@ -24,7 +26,7 @@ export const handleSetUserLanguageCommand =
     if (Invariants.UserLanguageHasChanged.fails({ current, candidate: command.payload.language })) return;
 
     const event = Events.UserLanguageSetEvent.parse({
-      ...createEventEnvelope(IdProvider, `preferences_${command.payload.userId}`),
+      ...createEventEnvelope(`preferences_${command.payload.userId}`, { IdProvider, Clock }),
       name: Events.USER_LANGUAGE_SET_EVENT,
       payload: { userId: command.payload.userId, language: candidate },
     } satisfies Events.UserLanguageSetEventType);

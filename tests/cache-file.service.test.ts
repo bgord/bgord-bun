@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheFileMustRevalidate } from "../src/cache-file.service";
 
-const now = tools.Time.Now().value;
+const now = 1000 as tools.TimestampType;
 
 const meta = {
   etag: "abc123etag",

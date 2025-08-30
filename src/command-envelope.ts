@@ -1,7 +1,10 @@
 import * as tools from "@bgord/tools";
+import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
 import { UUID } from "./uuid.vo";
+
+type Dependencies = { IdProvider: IdProviderPort; Clock: ClockPort };
 
 export const CommandEnvelopeSchema = {
   id: UUID,
@@ -9,9 +12,9 @@ export const CommandEnvelopeSchema = {
   createdAt: tools.Timestamp,
 };
 
-export const createCommandEnvelope = (IdProvider: IdProviderPort) =>
+export const createCommandEnvelope = (deps: Dependencies) =>
   ({
-    id: IdProvider.generate(),
+    id: deps.IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
-    createdAt: tools.Time.Now().value,
+    createdAt: deps.Clock.nowMs(),
   }) as const;
