@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import {
@@ -10,6 +11,9 @@ import {
   PrerequisiteStrategyEnum,
 } from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
+
+const Clock = new ClockSystemAdapter();
+const deps = { Clock };
 
 type TestPrerequisiteConfigType = { label: string; enabled?: boolean };
 
@@ -57,7 +61,10 @@ describe("Healthcheck", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
     const app = new Hono();
-    const handler = Healthcheck.build([new FakeSuccessPrerequisite({ label: "successful-prerequisite" })]);
+    const handler = Healthcheck.build(
+      [new FakeSuccessPrerequisite({ label: "successful-prerequisite" })],
+      deps,
+    );
     app.get("/health", ...handler);
 
     const response = await app.request("/health");
@@ -88,10 +95,13 @@ describe("Healthcheck", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
     const app = new Hono();
-    const handler = Healthcheck.build([
-      new FakeSuccessPrerequisite({ label: "success-prerequisite" }),
-      new FakeFailurePrerequisite({ label: "failure-prerequisite" }),
-    ]);
+    const handler = Healthcheck.build(
+      [
+        new FakeSuccessPrerequisite({ label: "success-prerequisite" }),
+        new FakeFailurePrerequisite({ label: "failure-prerequisite" }),
+      ],
+      deps,
+    );
     app.get("/health", ...handler);
 
     const response = await app.request("/health");
