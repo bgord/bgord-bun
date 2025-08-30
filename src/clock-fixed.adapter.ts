@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 
 export class ClockFixedAdapter implements ClockPort {
-  constructor(private readonly value: number) {}
+  constructor(private value: number) {}
 
   nowMs() {
     return tools.Timestamp.parse(this.value);
@@ -10,5 +10,9 @@ export class ClockFixedAdapter implements ClockPort {
 
   now(): ReturnType<typeof tools.Time.Now> {
     return tools.Time.Now(this.value);
+  }
+
+  advanceBy(time: tools.TimeResult): void {
+    this.value += time.ms;
   }
 }

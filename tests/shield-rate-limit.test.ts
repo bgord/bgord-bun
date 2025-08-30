@@ -1,7 +1,7 @@
-import { describe, expect, setSystemTime, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { RateLimitStoreNodeCache } from "../src/rate-limit-store-node-cache.adapter";
 import {
   AnonSubjectResolver,
@@ -9,7 +9,7 @@ import {
   UserSubjectResolver,
 } from "../src/shield-rate-limit.middleware";
 
-const Clock = new ClockSystemAdapter();
+const Clock = new ClockFixedAdapter(1000);
 const deps = { Clock };
 
 const store = new RateLimitStoreNodeCache(tools.Time.Seconds(1));
@@ -60,23 +60,22 @@ describe("rateLimitShield middleware", () => {
   });
 
   test("anon - allows the request after waiting for the rate limit", async () => {
+    const Clock = new ClockFixedAdapter(1000);
+    const deps = { Clock };
+
     const app = new Hono();
     app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps), (c) =>
       c.text("pong"),
     );
 
-    const now = Date.now();
-
     const first = await app.request("/ping", { method: "GET" });
     expect(first.status).toEqual(200);
 
-    const fiveSecondsLater = now + tools.Time.Seconds(5).ms;
-    setSystemTime(fiveSecondsLater);
+    Clock.advanceBy(tools.Time.Seconds(5));
 
     const second = await app.request("/ping", { method: "GET" });
     expect(second.status).toEqual(200);
 
-    setSystemTime();
     store.flushAll();
   });
 
@@ -117,6 +116,9 @@ describe("rateLimitShield middleware", () => {
   });
 
   test("user - allows the request after waiting for the rate limit", async () => {
+    const Clock = new ClockFixedAdapter(1000);
+    const deps = { Clock };
+
     const app = new Hono();
     app.get(
       "/ping",
@@ -129,22 +131,21 @@ describe("rateLimitShield middleware", () => {
       (c) => c.text("pong"),
     );
 
-    const now = Date.now();
-
     const first = await app.request("/ping", { method: "GET" });
     expect(first.status).toEqual(200);
 
-    const fiveSecondsLater = now + tools.Time.Seconds(5).ms;
-    setSystemTime(fiveSecondsLater);
+    Clock.advanceBy(tools.Time.Seconds(5));
 
     const second = await app.request("/ping", { method: "GET" });
     expect(second.status).toEqual(200);
 
-    setSystemTime();
     store.flushAll();
   });
 
   test("user - does not impact other users", async () => {
+    const Clock = new ClockFixedAdapter(1000);
+    const deps = { Clock };
+
     const app = new Hono();
     app.get(
       "/ping",
@@ -157,8 +158,6 @@ describe("rateLimitShield middleware", () => {
       (c) => c.text("pong"),
     );
 
-    const now = Date.now();
-
     const firstUserFirstRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
     expect(firstUserFirstRequest.status).toEqual(200);
 
@@ -168,13 +167,11 @@ describe("rateLimitShield middleware", () => {
     const secondUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
     expect(secondUserSecondRequest.status).toEqual(429);
 
-    const fiveSecondsLater = now + tools.Time.Seconds(5).ms;
-    setSystemTime(fiveSecondsLater);
+    Clock.advanceBy(tools.Time.Seconds(5));
 
     const firstUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
     expect(firstUserSecondRequest.status).toEqual(200);
 
-    setSystemTime();
     store.flushAll();
   });
 });
