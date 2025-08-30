@@ -7,6 +7,7 @@ export class ClockSystemAdapter implements ClockPort {
   }
 
   now(): ReturnType<typeof tools.Time.Now> {
-    return tools.Time.Now();
+    const now = tools.Timestamp.parse(Date.now());
+    return tools.Time.Now(now);
   }
 }

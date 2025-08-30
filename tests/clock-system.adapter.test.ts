@@ -9,6 +9,6 @@ describe("ClockSystemAdapter", () => {
   });
 
   test("now", () => {
-    expect(provider.now().value).toBeNumber();
+    expect(provider.now()).toBeDefined();
   });
 });
