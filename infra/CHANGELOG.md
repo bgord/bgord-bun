@@ -1,4 +1,6 @@
 # Changelog
+## 2025-08-30 15:56 v0.25.1
+- 2025-08-30 15:56 b65a285 **0.25.1**
 - 2025-08-30 15:55 c8ee968 **step: update packages**
 - 2025-08-30 15:43 bc45820 **refactor: adjust envelopes**
 - 2025-08-30 15:34 2c07a56 **step: advance by**
@@ -9,6 +11,8 @@
 - 2025-08-30 15:08 f7d7d35 **refactor: adjust healthcheck**
 - 2025-08-30 15:06 ab66b35 **refactor: uptime**
 - 2025-08-30 14:59 1c21aee **step: rename nowMs**
+- 2025-08-30 13:56 c5d9267 **docs: generate readme**
+- 2025-08-30 13:56 95fcbea **docs: generate CHANGELOG**
 - 2025-08-30 10:29 e90a315 **step: add fixed clock**
 - 2025-08-30 10:23 04a0c34 **step: add clock system adapter**
 - 2025-08-30 10:21 883e513 **step: add clock port**
