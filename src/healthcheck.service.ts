@@ -24,7 +24,7 @@ export class Healthcheck {
     deps: Dependencies,
   ) =>
     handler.createHandlers(async (c) => {
-      const stopwatch = new tools.Stopwatch();
+      const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
 
       const build = await BuildInfoRepository.extract(deps);
 

@@ -60,7 +60,7 @@ export class Setup {
       Context.attach,
       WeakETagExtractor.attach,
       ETagExtractor.attach,
-      HttpLogger.build(deps.Logger),
+      HttpLogger.build(deps),
       timing(),
       CorrelationStorage.handle(),
     ];

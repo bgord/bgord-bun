@@ -4,6 +4,7 @@ import _ from "lodash";
 import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import { ClientFromHono } from "./client-from-hono.adapter";
+import type { ClockPort } from "./clock.port";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { LoggerPort } from "./logger.port";
 import { LogSimplifier } from "./logger-simplify.service";
@@ -30,8 +31,10 @@ const UNINFORMATIVE_HEADERS = [
   "if-none-match",
 ];
 
+type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
+
 export class HttpLogger {
-  static build = (logger: LoggerPort) =>
+  static build = (deps: Dependencies) =>
     createMiddleware(async (c, next) => {
       const request = c.req.raw.clone();
 
@@ -49,7 +52,7 @@ export class HttpLogger {
         query: c.req.queries(),
       };
 
-      logger.http({
+      deps.Logger.http({
         component: "http",
         operation: "http_request_before",
         correlationId,
@@ -60,13 +63,13 @@ export class HttpLogger {
         metadata: _.pickBy(httpRequestBeforeMetadata, (value) => !_.isEmpty(value)),
       });
 
-      const stopwatch = new tools.Stopwatch();
+      const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
       await next();
       const { durationMs } = stopwatch.stop();
 
       const response = c.res.clone();
 
-      logger.http({
+      deps.Logger.http({
         component: "http",
         operation: "http_request_after",
         correlationId,

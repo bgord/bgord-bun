@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import type { Cron } from "croner";
+import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
@@ -41,23 +42,22 @@ export type JobProcessorType = {
   process: () => Promise<void>;
 };
 
+type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
+
 export class JobHandler {
-  constructor(
-    private readonly logger: LoggerPort,
-    private readonly IdProvider: IdProviderPort,
-  ) {}
+  constructor(private readonly deps: Dependencies) {}
 
   handle(jobProcessor: JobProcessorType) {
-    const correlationId = this.IdProvider.generate();
+    const correlationId = this.deps.IdProvider.generate();
 
     // biome-ignore lint: lint/complexity/noUselessThisAlias
     const that = this;
 
     return async () => {
-      const stopwatch = new tools.Stopwatch();
+      const stopwatch = new tools.Stopwatch(this.deps.Clock.nowMs());
 
       try {
-        that.logger.info({
+        that.deps.Logger.info({
           message: `${jobProcessor.label} start`,
           component: "infra",
           operation: "job_start",
@@ -66,7 +66,7 @@ export class JobHandler {
 
         await CorrelationStorage.run(correlationId, jobProcessor.process);
 
-        that.logger.info({
+        that.deps.Logger.info({
           message: `${jobProcessor.label} success`,
           component: "infra",
           operation: "job_success",
@@ -74,7 +74,7 @@ export class JobHandler {
           metadata: stopwatch.stop(),
         });
       } catch (error) {
-        that.logger.error({
+        that.deps.Logger.error({
           message: `${jobProcessor.label} error`,
           component: "infra",
           operation: "job_error",
@@ -91,6 +91,10 @@ export class JobHandler {
     const that = this;
 
     return async () =>
-      that.logger.info({ message: `${cron.name} overrun`, component: "infra", operation: "job_overrun" });
+      that.deps.Logger.info({
+        message: `${cron.name} overrun`,
+        component: "infra",
+        operation: "job_overrun",
+      });
   }
 }

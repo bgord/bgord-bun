@@ -2,6 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HttpLogger } from "../src/http-logger.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
@@ -13,12 +14,16 @@ const ip = {
 
 describe("HttpLogger middleware", () => {
   test("logs correct 200 HTTP log", async () => {
-    const logger = new LoggerNoopAdapter();
-    const loggerHttpSpy = spyOn(logger, "http").mockImplementation(jest.fn());
+    const Logger = new LoggerNoopAdapter();
+    const Clock = new ClockSystemAdapter();
+
+    const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
+
+    const deps = { Logger, Clock };
 
     const app = new Hono();
     app.use(requestId());
-    app.use(HttpLogger.build(logger));
+    app.use(HttpLogger.build(deps));
     app.use(timing());
     app.get("/ping", (c) => c.json({ message: "OK" }));
 
@@ -64,12 +69,15 @@ describe("HttpLogger middleware", () => {
   });
 
   test("logs correct 400 HTTP log", async () => {
-    const logger = new LoggerNoopAdapter();
-    const loggerHttpSpy = spyOn(logger, "http").mockImplementation(jest.fn());
+    const Logger = new LoggerNoopAdapter();
+    const Clock = new ClockSystemAdapter();
+    const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
+
+    const deps = { Logger, Clock };
 
     const app = new Hono();
     app.use(requestId());
-    app.use(HttpLogger.build(logger));
+    app.use(HttpLogger.build(deps));
     app.use(timing());
     app.get("/ping", (c) => {
       return c.json({ message: "general.unknown" }, 500);

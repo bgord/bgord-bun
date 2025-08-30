@@ -1,12 +1,16 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as croner from "croner";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import { JobHandler, Jobs, UTC_DAY_OF_THE_WEEK } from "../src/jobs.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
-const logger = new LoggerNoopAdapter();
+const Logger = new LoggerNoopAdapter();
+const Clock = new ClockSystemAdapter();
 const IdProvider = new IdProviderCryptoAdapter();
+
+const deps = { Logger, Clock, IdProvider };
 
 describe("JobHandler", () => {
   test("should log job start and success when job is processed successfully", async () => {
@@ -15,9 +19,9 @@ describe("JobHandler", () => {
       isRunning: jest.fn().mockReturnValue(false),
       stop: jest.fn(),
     }));
-    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(logger, IdProvider);
+    const jobHandler = new JobHandler(deps);
 
     const job = jobHandler.handle({
       cron: "* * * * *",
@@ -38,10 +42,10 @@ describe("JobHandler", () => {
       isRunning: jest.fn().mockReturnValue(false),
       stop: jest.fn(),
     }));
-    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
-    const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
+    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const loggerErrorSpy = spyOn(Logger, "error").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(logger, IdProvider);
+    const jobHandler = new JobHandler(deps);
 
     const job = jobHandler.handle({
       cron: "* * * * *",
@@ -55,9 +59,9 @@ describe("JobHandler", () => {
   });
 
   test("should handle job overrun", async () => {
-    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(logger, IdProvider);
+    const jobHandler = new JobHandler(deps);
     const protectJob = jobHandler.protect({} as croner.Cron);
 
     // Run the protect function
