@@ -12,6 +12,7 @@ export * from "./cache-response.middleware";
 export * from "./client.vo";
 export * from "./client-from-hono.adapter";
 export * from "./clock.port";
+export * from "./clock-system.adapter";
 export * from "./command.types";
 export * from "./command-envelope";
 export * from "./command-logger.service";
