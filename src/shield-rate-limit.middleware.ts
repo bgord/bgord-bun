@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import type { ClockPort } from "./clock.port";
 import type { RateLimitStore } from "./rate-limit-store.port";
 
 type SubjectResolver = (c: Context) => string;
@@ -16,9 +17,11 @@ type RateLimitShieldOptionsType = {
   subject: SubjectResolver;
 };
 
+type Dependencies = { Clock: ClockPort };
+
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 
-export const ShieldRateLimit = (options: RateLimitShieldOptionsType) => {
+export const ShieldRateLimit = (options: RateLimitShieldOptionsType, deps: Dependencies) => {
   return createMiddleware(async (c, next) => {
     if (!options.enabled) return next();
 
@@ -31,8 +34,7 @@ export const ShieldRateLimit = (options: RateLimitShieldOptionsType) => {
       options.store.set(subject, limiter);
     }
 
-    const now = tools.Timestamp.parse(Date.now());
-    const check = limiter.verify(now);
+    const check = limiter.verify(deps.Clock.nowMs());
 
     if (!check.allowed) throw TooManyRequestsError;
 

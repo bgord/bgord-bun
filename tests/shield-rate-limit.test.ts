@@ -1,6 +1,7 @@
 import { describe, expect, setSystemTime, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { RateLimitStoreNodeCache } from "../src/rate-limit-store-node-cache.adapter";
 import {
   AnonSubjectResolver,
@@ -8,12 +9,15 @@ import {
   UserSubjectResolver,
 } from "../src/shield-rate-limit.middleware";
 
+const Clock = new ClockSystemAdapter();
+const deps = { Clock };
+
 const store = new RateLimitStoreNodeCache(tools.Time.Seconds(1));
 
 describe("rateLimitShield middleware", () => {
   test("respects the enabled flag", async () => {
     const app = new Hono();
-    app.get("/ping", ShieldRateLimit({ enabled: false, store, subject: AnonSubjectResolver }), (c) =>
+    app.get("/ping", ShieldRateLimit({ enabled: false, store, subject: AnonSubjectResolver }, deps), (c) =>
       c.text("pong"),
     );
 
@@ -28,7 +32,7 @@ describe("rateLimitShield middleware", () => {
 
   test("anon - allows the request when within rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }), (c) =>
+    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps), (c) =>
       c.text("pong"),
     );
 
@@ -42,7 +46,7 @@ describe("rateLimitShield middleware", () => {
 
   test("anon - throws TooManyRequestsError when exceeding rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }), (c) =>
+    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps), (c) =>
       c.text("pong"),
     );
 
@@ -57,7 +61,7 @@ describe("rateLimitShield middleware", () => {
 
   test("anon - allows the request after waiting for the rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }), (c) =>
+    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps), (c) =>
       c.text("pong"),
     );
 
@@ -78,7 +82,7 @@ describe("rateLimitShield middleware", () => {
 
   test("user - allows the request when within rate limit", async () => {
     const app = new Hono();
-    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }), (c) =>
+    app.get("/ping", ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps), (c) =>
       c.text("pong"),
     );
 
@@ -99,7 +103,7 @@ describe("rateLimitShield middleware", () => {
         c.set("user", { id: "abc" });
         return next();
       },
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }),
+      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
       (c) => c.text("pong"),
     );
 
@@ -121,7 +125,7 @@ describe("rateLimitShield middleware", () => {
         c.set("user", { id: "abc" });
         return next();
       },
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }),
+      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
       (c) => c.text("pong"),
     );
 
@@ -149,7 +153,7 @@ describe("rateLimitShield middleware", () => {
         c.set("user", { id: c.req.header("id") });
         return next();
       },
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }),
+      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
       (c) => c.text("pong"),
     );
 
