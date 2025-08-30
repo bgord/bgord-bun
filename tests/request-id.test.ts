@@ -1,27 +1,34 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
-
-const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 
 describe("RequestId", () => {
   test("generates requestId when x-correlation-id header is not provided", async () => {
+    const fresh = "fresh";
+    const IdProvider = new IdProviderDeterministicAdapter([fresh]);
+
     const app = new Hono();
-    app.use(requestId({ limitLength: 36, headerName: "x-correlation-id" }));
+    app.use(
+      requestId({ limitLength: 36, headerName: "x-correlation-id", generator: () => IdProvider.generate() }),
+    );
     app.get("/ping", async (c) => c.json({ requestId: c.get("requestId") }));
 
     const result = await app.request("/ping");
     expect(result.status).toEqual(200);
 
     const json = await result.json();
-    expect(json).toEqual({ requestId: expect.stringMatching(regex) });
-    expect(result.headers.get("x-correlation-id")).toEqual(json.requestId);
+    expect(json).toEqual({ requestId: fresh });
+    expect(result.headers.get("x-correlation-id")).toEqual(fresh);
   });
 
   test("sets requestId when x-correlation-id header is provided", async () => {
     const predefinedRequestId = "18b33a92-afbf-4a0c-8d2d-49716921d0af";
+    const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
     const app = new Hono();
-    app.use(requestId({ limitLength: 36, headerName: "x-correlation-id" }));
+    app.use(
+      requestId({ limitLength: 36, headerName: "x-correlation-id", generator: () => IdProvider.generate() }),
+    );
     app.get("/ping", async (c) => c.json({ requestId: c.get("requestId") }));
 
     const result = await app.request("/ping", {
@@ -36,8 +43,12 @@ describe("RequestId", () => {
 
   test("handles invalid continue-request-id header gracefully", async () => {
     const predefinedRequestId = "x".repeat(37);
+    const fresh = "fresh";
+    const IdProvider = new IdProviderDeterministicAdapter([fresh]);
     const app = new Hono();
-    app.use(requestId({ limitLength: 36, headerName: "x-correlation-id" }));
+    app.use(
+      requestId({ limitLength: 36, headerName: "x-correlation-id", generator: () => IdProvider.generate() }),
+    );
     app.get("/ping", async (c) => c.json({ requestId: c.get("requestId") }));
 
     const result = await app.request("/ping", {
@@ -46,9 +57,7 @@ describe("RequestId", () => {
     expect(result.status).toEqual(200);
 
     const json = await result.json();
-    expect(json).toEqual({
-      requestId: expect.not.stringContaining(predefinedRequestId),
-    });
-    expect(result.headers.get("x-correlation-id")).not.toEqual(predefinedRequestId);
+    expect(json).toEqual({ requestId: fresh });
+    expect(result.headers.get("x-correlation-id")).toEqual(fresh);
   });
 });
