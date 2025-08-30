@@ -1,7 +1,10 @@
 # Changelog
+## 2025-08-30 21:25 v0.25.2
+- 2025-08-30 21:25 0be748d **0.25.2**
 - 2025-08-30 21:24 64ee861 **fix: clock system adapter**
 - 2025-08-30 21:23 ef932e4 **refactor: remove time.now.value**
 - 2025-08-30 21:22 fe2fa58 **step: update packages**
+- 2025-08-30 19:25 457e531 **docs: generate CHANGELOG**
 ## 2025-08-30 15:56 v0.25.1
 - 2025-08-30 15:56 b65a285 **0.25.1**
 - 2025-08-30 15:55 c8ee968 **step: update packages**
