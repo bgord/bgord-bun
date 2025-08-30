@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Hono } from "hono";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
 import type { I18nConfigType } from "../src/i18n.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -16,6 +17,7 @@ const ip = {
 const predefinedRequestId = "123";
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
+const Clock = new ClockSystemAdapter();
 
 describe("Setup", () => {
   test("sets the essentials", async () => {
@@ -33,7 +35,7 @@ describe("Setup", () => {
       Variables: TimeZoneOffsetVariables & EtagVariables;
     }>();
 
-    app.use(...Setup.essentials({ Logger, I18n, IdProvider }));
+    app.use(...Setup.essentials({ Logger, I18n, IdProvider, Clock }));
 
     app.get("/ping", (c) =>
       c.json({

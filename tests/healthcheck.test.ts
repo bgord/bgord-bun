@@ -12,8 +12,7 @@ import {
 } from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
 
-const Clock = new ClockSystemAdapter();
-const deps = { Clock };
+const deps = { Clock: new ClockSystemAdapter() };
 
 type TestPrerequisiteConfigType = { label: string; enabled?: boolean };
 

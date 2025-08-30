@@ -3,6 +3,10 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ApiVersion } from "../src/api-version.middleware";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
+
+const Clock = new ClockSystemAdapter();
+const deps = { Clock };
 
 describe("ApiVersion middleware", () => {
   test("sets API version in header with known build version", async () => {
@@ -12,7 +16,7 @@ describe("ApiVersion middleware", () => {
     });
 
     const app = new Hono();
-    app.use(ApiVersion.attach);
+    app.use(ApiVersion.build(deps));
     app.get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET" });
@@ -28,7 +32,7 @@ describe("ApiVersion middleware", () => {
     });
 
     const app = new Hono();
-    app.use(ApiVersion.attach);
+    app.use(ApiVersion.build(deps));
     app.get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET" });

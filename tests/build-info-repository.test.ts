@@ -1,6 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
+
+const Clock = new ClockSystemAdapter();
+const deps = { Clock };
 
 describe("BuildInfoRepository", () => {
   test("extract returns BUILD_DATE and BUILD_VERSION if package.json has version", async () => {
@@ -8,7 +12,7 @@ describe("BuildInfoRepository", () => {
 
     spyOn(BuildInfoRepository, "getPackageJson").mockImplementation(async () => ({ version: fakeVersion }));
 
-    const result = await BuildInfoRepository.extract();
+    const result = await BuildInfoRepository.extract(deps);
 
     expect(typeof result.BUILD_DATE).toBe("number");
     expect(result.BUILD_VERSION).toBeDefined();
@@ -18,7 +22,7 @@ describe("BuildInfoRepository", () => {
   test("extract returns only BUILD_DATE if package.json loading fails", async () => {
     spyOn(BuildInfoRepository, "getPackageJson").mockRejectedValue(new Error("File not found"));
 
-    const result = await BuildInfoRepository.extract();
+    const result = await BuildInfoRepository.extract(deps);
 
     expect(typeof result.BUILD_DATE).toBe("number");
     expect(result.BUILD_VERSION).toBeUndefined();

@@ -26,7 +26,7 @@ export class Healthcheck {
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch();
 
-      const build = await BuildInfoRepository.extract();
+      const build = await BuildInfoRepository.extract(deps);
 
       const details: HealthcheckResultType["details"][number][] = [];
 

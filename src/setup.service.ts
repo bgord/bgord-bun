@@ -8,6 +8,7 @@ import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { ApiVersion } from "./api-version.middleware";
 import { BOTS_REGEX } from "./bots.vo";
+import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
@@ -28,7 +29,12 @@ type CorsOptions = Parameters<typeof cors>[0];
 
 type SetupOverridesType = { cors?: CorsOptions };
 
-type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; I18n: I18nConfigType };
+type Dependencies = {
+  Logger: LoggerPort;
+  IdProvider: IdProviderPort;
+  I18n: I18nConfigType;
+  Clock: ClockPort;
+};
 
 export class Setup {
   static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
@@ -38,7 +44,7 @@ export class Setup {
       secureHeaders(),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
       uaBlocker({ blocklist: BOTS_REGEX }),
-      ApiVersion.attach,
+      ApiVersion.build({ Clock: deps.Clock }),
       cors(corsOptions),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
