@@ -1,8 +1,11 @@
 # Changelog
+- 2025-09-02 00:05 70125fe **step: update packages**
+- 2025-09-02 00:04 cb62bc1 **step: add overrides for secure headers**
 ## 2025-08-30 23:56 v0.25.3
 - 2025-08-30 23:56 9ef0bc0 **refactor: adjust stopwatch**
 - 2025-08-30 23:56 7c1d1dd **0.25.3**
 - 2025-08-30 23:50 bc0e8a6 **step: update packages**
+- 2025-08-30 21:56 2f7e013 **docs: generate CHANGELOG**
 - 2025-08-30 21:56 2ab5cf4 **docs: generate CHANGELOG**
 ## 2025-08-30 21:25 v0.25.2
 - 2025-08-30 21:25 0be748d **0.25.2**
