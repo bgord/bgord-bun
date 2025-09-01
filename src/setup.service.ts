@@ -24,10 +24,10 @@ export const BODY_LIMIT_MAX_SIZE = new tools.Size({
   unit: tools.SizeUnit.kB,
 }).toBytes();
 
-// TODO: test custom cors options
-type CorsOptions = Parameters<typeof cors>[0];
-
-type SetupOverridesType = { cors?: CorsOptions };
+type SetupOverridesType = {
+  cors?: Parameters<typeof cors>[0];
+  secureHeaders?: Parameters<typeof secureHeaders>[0];
+};
 
 type Dependencies = {
   Logger: LoggerPort;
@@ -39,9 +39,10 @@ type Dependencies = {
 export class Setup {
   static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
     const corsOptions = overrides?.cors ?? { origin: "*" };
+    const secureHeadersOptions = overrides?.secureHeaders ?? undefined;
 
     return [
-      secureHeaders(),
+      secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
       uaBlocker({ blocklist: BOTS_REGEX }),
       ApiVersion.build({ Clock: deps.Clock }),
