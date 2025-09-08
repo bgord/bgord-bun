@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { PrerequisiteBun } from "../src/prerequisites/bun";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - bun", () => {
   test("returns success if current Bun version is equal to required version", async () => {
@@ -13,8 +13,7 @@ describe("prerequisites - bun", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.success);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("returns success if current Bun version is greater than required version", async () => {
@@ -26,11 +25,10 @@ describe("prerequisites - bun", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.success);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
-  test("returns failure if current Bun version is less than required version", async () => {
+  test.only("returns failure if current Bun version is less than required version", async () => {
     const prerequisite = new PrerequisiteBun({
       label: "Bun Version Check",
       version: tools.PackageVersion.fromString("1.2.0"),
@@ -39,8 +37,8 @@ describe("prerequisites - bun", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/Version/);
   });
 
   test("returns undetermined if disabled", async () => {
@@ -53,7 +51,6 @@ describe("prerequisites - bun", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });

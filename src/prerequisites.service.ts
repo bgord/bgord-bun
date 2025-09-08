@@ -38,8 +38,11 @@ export class Verification {
   static success(): VerifySuccess {
     return { status: PrerequisiteStatusEnum.success };
   }
-  static failure(error?: unknown): VerifyFailure {
-    return { status: PrerequisiteStatusEnum.failure, error: formatError(error) };
+  static failure(meta?: Error | ErrorInfo): VerifyFailure {
+    return {
+      status: PrerequisiteStatusEnum.failure,
+      error: meta instanceof Error ? formatError(meta) : meta,
+    };
   }
   static undetermined(): VerifyUndetermined {
     return { status: PrerequisiteStatusEnum.undetermined };
