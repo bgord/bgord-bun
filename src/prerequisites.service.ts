@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { ErrorInfo } from "../src/logger.port";
+import { formatError } from "../src/logger-format-error.service";
 
 export type PrerequisiteLabelType = string;
 
@@ -37,13 +38,15 @@ export class Verification {
   static success(): VerifySuccess {
     return { status: PrerequisiteStatusEnum.success };
   }
-  static failure(error?: ErrorInfo): VerifyFailure {
-    return { status: PrerequisiteStatusEnum.failure, error };
+  static failure(error?: unknown): VerifyFailure {
+    return { status: PrerequisiteStatusEnum.failure, error: formatError(error) };
   }
   static undetermined(): VerifyUndetermined {
     return { status: PrerequisiteStatusEnum.undetermined };
   }
 }
+
+export type PrerequisiteConfigType = { label: string; enabled?: boolean };
 
 /** @public */
 export class Prerequisites {

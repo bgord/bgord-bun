@@ -1,26 +1,28 @@
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteOutsideConnectivityConfigType = {
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
+  readonly kind = "network";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteOutsideConnectivity extends prereqs.AbstractPrerequisite<PrerequisiteOutsideConnectivityConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.outsideConnectivity;
+  private readonly url = "https://google.com";
 
-  constructor(readonly config: PrerequisiteOutsideConnectivityConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
-
+  async verify(): Promise<prereqs.VerifyOutcome> {
     try {
-      const result = await fetch("https://google.com");
+      if (!this.enabled) return prereqs.Verification.undetermined();
 
-      return result.ok ? this.pass() : this.reject();
-    } catch (_error) {
-      return this.reject();
+      const response = await fetch(this.url, { method: "HEAD" });
+
+      if (response.ok) return prereqs.Verification.success();
+
+      return prereqs.Verification.failure({ message: `HTTP ${response.status}` });
+    } catch (error) {
+      return prereqs.Verification.failure(error);
     }
   }
 }
