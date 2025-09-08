@@ -3,21 +3,20 @@ import * as tools from "@bgord/tools";
 import checkDiskSpace from "check-disk-space";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteSpaceConfigType = {
-  minimum: tools.Size;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteSpace implements prereqs.Prerequisite {
+  readonly kind = "space";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
+  private readonly minimum: tools.Size;
 
-export class PrerequisiteSpace extends prereqs.AbstractPrerequisite<PrerequisiteSpaceConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.space;
-
-  constructor(readonly config: PrerequisiteSpaceConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { minimum: tools.Size }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.minimum = config.minimum;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const fsRoot = path.sep;
     const bytes = await checkDiskSpace(fsRoot);
@@ -27,7 +26,10 @@ export class PrerequisiteSpace extends prereqs.AbstractPrerequisite<Prerequisite
       value: bytes.free,
     });
 
-    if (freeDiskSpace.isGreaterThan(this.config.minimum)) return this.pass();
-    return this.reject();
+    if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success();
+
+    return prereqs.Verification.failure({
+      message: `Free disk space: ${freeDiskSpace.format(tools.SizeUnit.MB)}`,
+    });
   }
 }

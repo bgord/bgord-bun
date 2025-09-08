@@ -35,7 +35,7 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
         ? prereqs.Verification.success()
         : prereqs.Verification.failure({ message: `Exit code ${result.exitCode}` });
     } catch (error) {
-      return prereqs.Verification.failure(error);
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }
