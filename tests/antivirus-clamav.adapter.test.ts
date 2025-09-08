@@ -25,7 +25,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
     const result = await adapter.scanBytes(new Uint8Array([1, 2, 3]));
     expect(result).toEqual({ clean: true });
 
-    const call = spawnSpy.mock.calls[0][0];
+    const call = spawnSpy.mock.calls[0]?.[0];
     // @ts-expect-error
     expect(call.cmd).toEqual(["clamscan", "--infected", "--no-summary", "--stdout", "-"]);
     // @ts-expect-error
