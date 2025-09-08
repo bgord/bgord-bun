@@ -12,6 +12,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
       etag: "etag-123",
       size: tools.Size.fromBytes(42),
       lastModified: tools.Timestamp.parse(1000),
+      mime: new tools.Mime("text/plain"),
     });
 
     const adapter = new RemoteFileStorageDiskAdapter({
@@ -54,6 +55,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
         etag: "abc",
         size: tools.Size.fromBytes(7),
         lastModified: tools.Timestamp.parse(1000),
+        mime: new tools.Mime("text/plain"),
       })
       .mockRejectedValueOnce(new Error("missing"));
 
