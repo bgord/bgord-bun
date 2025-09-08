@@ -1,13 +1,13 @@
 import type * as tools from "@bgord/tools";
 
-type ImageCompressorOutputPathStrategy = {
+export type ImageCompressorOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
   quality?: number;
 };
 
-type ImageCompressorInPlaceStrategy = {
+export type ImageCompressorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   quality?: number;

@@ -1,12 +1,12 @@
 import type * as tools from "@bgord/tools";
 
-type ImageExifClearOutputPathStrategy = {
+export type ImageExifClearOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
 };
 
-type ImageExifClearInPlaceStrategy = {
+export type ImageExifClearInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
 };
