@@ -21,6 +21,5 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false
   },
-  "include": ["src"],
-  "exclude": ["tests", "bgord-scripts", "vite.config.ts"]
+  "exclude": ["bgord-scripts", "vite.config.ts"]
 }
