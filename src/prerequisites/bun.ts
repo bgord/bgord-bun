@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteBun implements prereqs.Prerequisite {
-  readonly kind = "binary";
+  readonly kind = "bun";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { PrerequisiteSelf } from "../src/prerequisites/self";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - self", () => {
   test("verify method returns success for self strategy", async () => {
     const result = await new PrerequisiteSelf({ label: "self" }).verify();
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("returns undetermined when disabled", async () => {
@@ -15,6 +15,6 @@ describe("prerequisites - self", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });
