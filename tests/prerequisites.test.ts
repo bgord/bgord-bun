@@ -20,7 +20,7 @@ describe("Prerequisites", () => {
 
     const path = new PrerequisitePath({
       label: "Writable Dir",
-      path: "/fake/path",
+      path: tools.DirectoryPathAbsoluteSchema.parse("/fake/path"),
       access: { write: true },
     });
 
@@ -48,7 +48,7 @@ describe("Prerequisites", () => {
 
     const path = new PrerequisitePath({
       label: "Writable Dir",
-      path: "/tmp",
+      path: tools.DirectoryPathAbsoluteSchema.parse("/tmp"),
       access: { write: true },
     });
 
