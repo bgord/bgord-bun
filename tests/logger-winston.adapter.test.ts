@@ -36,7 +36,7 @@ describe("LoggerWinstonAdapter", () => {
     });
 
     expect(lines.length).toBeGreaterThan(0);
-    const obj = JSON.parse(lines[0]);
+    const obj = JSON.parse(lines[0] as string);
     expect(obj.app).toBe("test-app");
     expect(obj.environment).toBe("local");
     expect(obj.component).toBe("emotions");
@@ -72,7 +72,7 @@ describe("LoggerWinstonAdapter", () => {
     });
 
     expect(lines.length).toBe(1);
-    const obj = JSON.parse(lines[0]);
+    const obj = JSON.parse(lines[0] as string);
     expect(obj.level).toBe("warn");
   });
 
@@ -92,7 +92,7 @@ describe("LoggerWinstonAdapter", () => {
       error: { name: "InvariantViolationError", message: "limit exceeded" },
     });
 
-    const obj = JSON.parse(lines[0]);
+    const obj = JSON.parse(lines[0] as string);
     expect(obj.error.name).toBe("InvariantViolationError");
     expect(obj.error.message).toBe("limit exceeded");
   });
@@ -117,7 +117,7 @@ describe("LoggerWinstonAdapter", () => {
       client: { ip: "1.2.3.4", userAgent: "UA" },
     });
 
-    const obj = JSON.parse(lines[0]);
+    const obj = JSON.parse(lines[0] as string);
     expect(obj.method).toBe("GET");
     expect(obj.status).toBe(200);
     expect(obj.durationMs).toBe(42);
