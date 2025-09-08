@@ -1,8 +1,11 @@
 # Changelog
+- 2025-09-08 17:09 cef34a5 **step: update packages**
+- 2025-09-08 17:08 6ed4565 **step: bump bgord/scripts**
 ## 2025-09-02 00:05 v0.25.4
 - 2025-09-02 00:05 70125fe **step: update packages**
 - 2025-09-02 00:05 3f4b6c0 **0.25.4**
 - 2025-09-02 00:04 cb62bc1 **step: add overrides for secure headers**
+- 2025-09-01 22:05 df6323a **docs: generate CHANGELOG**
 - 2025-09-01 22:05 010510e **docs: generate CHANGELOG**
 ## 2025-08-30 23:56 v0.25.3
 - 2025-08-30 23:56 9ef0bc0 **refactor: adjust stopwatch**
