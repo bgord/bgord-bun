@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - binary", () => {
   test("returns success if binary is found", async () => {
@@ -17,8 +17,7 @@ describe("prerequisites - binary", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.success);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure if binary is not found", async () => {
@@ -34,8 +33,7 @@ describe("prerequisites - binary", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: `Exit code ${1}` }));
   });
 
   test("returns failure if binary name is invalid", async () => {
@@ -46,8 +44,8 @@ describe("prerequisites - binary", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.failure);
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/binary_invalid/);
   });
 
   test("returns undetermined if disabled", async () => {
@@ -59,7 +57,6 @@ describe("prerequisites - binary", () => {
 
     const result = await prerequisite.verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
-    expect(prerequisite.status).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });
