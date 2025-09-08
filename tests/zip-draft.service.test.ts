@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Readable } from "node:stream";
-import * as bg from "@bgord/bun";
 import * as tools from "@bgord/tools";
+import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
 
-class MockDraft extends bg.FileDraft {
+class MockDraft extends FileDraft {
   constructor(
     filename: string,
     private readonly content: string,
