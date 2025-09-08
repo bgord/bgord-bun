@@ -1,4 +1,13 @@
 # Changelog
+- 2025-09-08 17:33 cb024a6 **fix: image adapter tests**
+- 2025-09-08 17:32 423cecf **fix: clamav adapter tests**
+- 2025-09-08 17:32 343c1bf **fix: event handler tests**
+- 2025-09-08 17:30 19078ae **fix: logger winston adapter tests**
+- 2025-09-08 17:29 f455311 **fix: prerequisites tests**
+- 2025-09-08 17:28 b62ff34 **fix: remote file storage disk adapter tests**
+- 2025-09-08 17:27 c5eff34 **fix: timezone offset tests**
+- 2025-09-08 17:26 d4a1460 **fix: zip draft tests**
+- 2025-09-08 17:26 205e54a **MVP**
 ## 2025-09-08 17:18 v0.25.5
 - 2025-09-08 17:18 fc9d6e4 **step: update packages**
 - 2025-09-08 17:18 f238001 **0.25.5**
@@ -6,6 +15,7 @@
 - 2025-09-08 17:18 225b06a **step: bump bgord/scripts**
 - 2025-09-08 17:09 cef34a5 **step: update packages**
 - 2025-09-08 17:08 6ed4565 **step: bump bgord/scripts**
+- 2025-09-08 15:19 355e197 **docs: generate CHANGELOG**
 - 2025-09-08 15:18 38504f9 **docs: generate CHANGELOG**
 - 2025-09-08 15:09 fae2650 **docs: generate CHANGELOG**
 ## 2025-09-02 00:05 v0.25.4
