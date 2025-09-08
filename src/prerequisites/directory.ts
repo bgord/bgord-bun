@@ -3,17 +3,17 @@ import fsp from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisitePathConfigType = {
-  path: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
+type PrerequisiteDirectoryConfigType = {
+  directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
   access?: { write?: boolean; execute?: boolean };
   label: prereqs.PrerequisiteLabelType;
   enabled?: boolean;
 };
 
-export class PrerequisitePath extends prereqs.AbstractPrerequisite<PrerequisitePathConfigType> {
+export class PrerequisiteDirectory extends prereqs.AbstractPrerequisite<PrerequisiteDirectoryConfigType> {
   readonly strategy = prereqs.PrerequisiteStrategyEnum.path;
 
-  constructor(readonly config: PrerequisitePathConfigType) {
+  constructor(readonly config: PrerequisiteDirectoryConfigType) {
     super(config);
   }
 
@@ -26,7 +26,7 @@ export class PrerequisitePath extends prereqs.AbstractPrerequisite<PrerequisiteP
     const flags = constants.R_OK | (write ? constants.W_OK : 0) | (execute ? constants.X_OK : 0);
 
     try {
-      await fsp.access(this.config.path, flags);
+      await fsp.access(this.config.directory, flags);
 
       return this.pass();
     } catch (_error) {

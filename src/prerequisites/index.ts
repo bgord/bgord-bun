@@ -1,6 +1,7 @@
 export * from "./binary";
 export * from "./bun";
 export * from "./dependency-vulnerabilities";
+export * from "./directory";
 export * from "./external-api";
 export * from "./jobs";
 export * from "./log-file";
@@ -8,7 +9,6 @@ export * from "./mailer";
 export * from "./memory";
 export * from "./node";
 export * from "./outside-connectivity";
-export * from "./path";
 export * from "./port";
 export * from "./ram";
 export * from "./self";

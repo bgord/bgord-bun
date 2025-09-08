@@ -1,18 +1,18 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
-import { PrerequisitePath } from "../src/prerequisites/path";
+import { PrerequisiteDirectory } from "../src/prerequisites/directory";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
-const DUMMY_PATH = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
+const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
-describe("prerequisites - path", () => {
-  test("returns success if path is accessible with required flags", async () => {
+describe("prerequisites - directory", () => {
+  test("returns success if directory is accessible with required flags", async () => {
     spyOn(fsp, "access").mockResolvedValue();
 
-    const prerequisite = new PrerequisitePath({
-      label: "Test Path",
-      path: DUMMY_PATH,
+    const prerequisite = new PrerequisiteDirectory({
+      label: "Test directory",
+      directory: directory,
       access: { write: true },
     });
 
@@ -23,9 +23,9 @@ describe("prerequisites - path", () => {
   test("returns failure if access throws error", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("No access"));
 
-    const prerequisite = new PrerequisitePath({
-      label: "Test Path",
-      path: DUMMY_PATH,
+    const prerequisite = new PrerequisiteDirectory({
+      label: "Test directory",
+      directory: directory,
       access: { write: true },
     });
 
@@ -34,9 +34,9 @@ describe("prerequisites - path", () => {
   });
 
   test("returns undetermined if prerequisite is disabled", async () => {
-    const prerequisite = new PrerequisitePath({
-      label: "Disabled Path",
-      path: DUMMY_PATH,
+    const prerequisite = new PrerequisiteDirectory({
+      label: "Disabled directory",
+      directory: directory,
       enabled: false,
     });
 

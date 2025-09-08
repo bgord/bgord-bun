@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
-import { PrerequisitePath } from "../src/prerequisites/path";
+import { PrerequisiteDirectory } from "../src/prerequisites/directory";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
 import * as prereqs from "../src/prerequisites.service";
 
@@ -18,16 +18,16 @@ describe("Prerequisites", () => {
       minimum: new tools.Size({ value: 100_000, unit: tools.SizeUnit.b }),
     });
 
-    const path = new PrerequisitePath({
+    const directory = new PrerequisiteDirectory({
       label: "Writable Dir",
-      path: tools.DirectoryPathAbsoluteSchema.parse("/fake/path"),
+      directory: tools.DirectoryPathAbsoluteSchema.parse("/fake/path"),
       access: { write: true },
     });
 
-    await prereqs.Prerequisites.check([ram, path]);
+    await prereqs.Prerequisites.check([ram, directory]);
 
     expect(ram.status).toBe(prereqs.PrerequisiteStatusEnum.success);
-    expect(path.status).toBe(prereqs.PrerequisiteStatusEnum.failure);
+    expect(directory.status).toBe(prereqs.PrerequisiteStatusEnum.failure);
 
     expect(processExit).toHaveBeenCalledWith(1);
 
@@ -46,16 +46,16 @@ describe("Prerequisites", () => {
       minimum: new tools.Size({ value: 100_000, unit: tools.SizeUnit.b }),
     });
 
-    const path = new PrerequisitePath({
+    const directory = new PrerequisiteDirectory({
       label: "Writable Dir",
-      path: tools.DirectoryPathAbsoluteSchema.parse("/tmp"),
+      directory: tools.DirectoryPathAbsoluteSchema.parse("/tmp"),
       access: { write: true },
     });
 
-    await prereqs.Prerequisites.check([ram, path]);
+    await prereqs.Prerequisites.check([ram, directory]);
 
     expect(ram.status).toBe(prereqs.PrerequisiteStatusEnum.success);
-    expect(path.status).toBe(prereqs.PrerequisiteStatusEnum.success);
+    expect(directory.status).toBe(prereqs.PrerequisiteStatusEnum.success);
 
     expect(processExit).not.toHaveBeenCalled();
   });
