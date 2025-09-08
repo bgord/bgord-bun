@@ -33,6 +33,18 @@ export type PrerequisiteResult = Readonly<{
   error?: ErrorInfo;
 }>;
 
+export class Verification {
+  static success(): VerifySuccess {
+    return { status: PrerequisiteStatusEnum.success };
+  }
+  static failure(error?: ErrorInfo): VerifyFailure {
+    return { status: PrerequisiteStatusEnum.failure, error };
+  }
+  static undetermined(): VerifyUndetermined {
+    return { status: PrerequisiteStatusEnum.undetermined };
+  }
+}
+
 /** @public */
 export class Prerequisites {
   static async check(prerequisites: Prerequisite[]) {
