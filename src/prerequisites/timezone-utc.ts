@@ -2,29 +2,27 @@ import type * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteTimezoneUtcConfigType = {
-  timezone: tools.TimezoneType;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
-
 export const TimezoneUtc = z.literal("UTC");
 
-export class PrerequisiteTimezoneUTC extends prereqs.AbstractPrerequisite<PrerequisiteTimezoneUtcConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.timezoneUTC;
+export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
+  readonly kind = "timezone-utc";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-  constructor(readonly config: PrerequisiteTimezoneUtcConfigType) {
-    super(config);
+  private readonly timezone: tools.TimezoneType;
+
+  constructor(config: prereqs.PrerequisiteConfigType & { timezone: tools.TimezoneType }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.timezone = config.timezone;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
-    try {
-      TimezoneUtc.parse(this.config.timezone);
-      return this.pass();
-    } catch (_error) {
-      return this.reject();
-    }
+    const result = TimezoneUtc.safeParse(this.timezone);
+
+    if (result.success) return prereqs.Verification.success();
+    return prereqs.Verification.failure({ message: `Timezone: ${this.timezone}` });
   }
 }
