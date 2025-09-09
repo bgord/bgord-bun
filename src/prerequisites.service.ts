@@ -77,6 +77,6 @@ export class Prerequisites {
       });
     }
 
-    process.exit(1);
+    throw new Error("Prerequisites failed");
   }
 }

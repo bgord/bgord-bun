@@ -34,11 +34,9 @@ const runner = new prereqs.Prerequisites(logger);
 
 describe("Prerequisites", () => {
   test("exits and logs error when any prerequisite fails", async () => {
-    // @ts-expect-error process.exit is typed as never
-    const exitSpy = spyOn(process, "exit").mockImplementation(() => {});
     const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
 
-    await runner.check([new Ok(), new Fail()]);
+    expect(async () => runner.check([new Ok(), new Fail()])).toThrow(/Prerequisites failed/);
 
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -49,7 +47,6 @@ describe("Prerequisites", () => {
         error: expect.objectContaining({ message: "boom" }),
       }),
     );
-    expect(exitSpy).toHaveBeenCalledWith(1);
   });
 
   test("logs Prerequisites ok and does not exit when all succeed", async () => {
