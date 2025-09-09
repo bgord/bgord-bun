@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { ErrorInfo } from "../src/logger.port";
+import type { ErrorInfo, LoggerPort } from "../src/logger.port";
 import { formatError } from "../src/logger-format-error.service";
 
 export type PrerequisiteLabelType = string;
@@ -53,27 +53,30 @@ export type PrerequisiteConfigType = { label: string; enabled?: boolean };
 
 /** @public */
 export class Prerequisites {
-  static async check(prerequisites: Prerequisite[]) {
-    try {
-      const failedPrerequisiteLabels: PrerequisiteLabelType[] = [];
+  constructor(private readonly logger: LoggerPort) {}
 
-      for (const prerequisite of prerequisites) {
-        const result = await prerequisite.verify();
+  async check(prerequisites: Prerequisite[]) {
+    const results = await Promise.all(
+      prerequisites.map(async (prerequisite) => ({ prerequisite, outcome: await prerequisite.verify() })),
+    );
 
-        if (result.status === PrerequisiteStatusEnum.failure) {
-          failedPrerequisiteLabels.push(prerequisite.label);
-        }
-      }
+    const failed = results.filter((result) => result.outcome.status === PrerequisiteStatusEnum.failure);
 
-      if (failedPrerequisiteLabels.length > 0) {
-        const failedPrerequisiteLabelsFormatted = failedPrerequisiteLabels.join(", ");
-
-        console.log(`Prerequisites failed: ${failedPrerequisiteLabelsFormatted}, quitting...`);
-
-        process.exit(1);
-      }
-    } catch (error) {
-      console.log("Prerequisites error", String(error));
+    if (failed.length === 0) {
+      return this.logger.info({ message: "Prerequisites ok", component: "infra", operation: "startup" });
     }
+
+    for (const failure of failed) {
+      this.logger.error({
+        component: "infra",
+        operation: "startup",
+        message: "Prerequisite failed",
+        metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
+        // @ts-expect-error
+        error: failure.outcome.error ?? { message: "unknown error" },
+      });
+    }
+
+    process.exit(1);
   }
 }

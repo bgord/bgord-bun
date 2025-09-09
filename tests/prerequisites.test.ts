@@ -1,89 +1,76 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import fsp from "node:fs/promises";
-import * as tools from "@bgord/tools";
-import { PrerequisiteDirectory } from "../src/prerequisites/directory";
-import { PrerequisiteRAM } from "../src/prerequisites/ram";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as prereqs from "../src/prerequisites.service";
 
+class Ok implements prereqs.Prerequisite {
+  readonly label = "ok";
+  readonly kind = "test";
+  readonly enabled = true;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.success();
+  }
+}
+
+class Fail implements prereqs.Prerequisite {
+  readonly label = "fail";
+  readonly kind = "test";
+  readonly enabled = true;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.failure({ message: "boom" });
+  }
+}
+
+class Undetermined implements prereqs.Prerequisite {
+  readonly label = "undetermined";
+  readonly kind = "test";
+  readonly enabled = false;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.undetermined();
+  }
+}
+
+const logger = new LoggerNoopAdapter();
+const runner = new prereqs.Prerequisites(logger);
+
 describe("Prerequisites", () => {
-  test("exits the process if at least one prerequisite fails", async () => {
-    spyOn(console, "log").mockImplementation(jest.fn());
-    spyOn(fsp, "access").mockRejectedValue(new Error("Access denied"));
+  test("exits and logs error when any prerequisite fails", async () => {
+    // @ts-expect-error process.exit is typed as never
+    const exitSpy = spyOn(process, "exit").mockImplementation(() => {});
+    const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
 
-    // @ts-expect-error
-    const processExit = spyOn(process, "exit").mockImplementation(() => {});
+    await runner.check([new Ok(), new Fail()]);
 
-    const ram = new PrerequisiteRAM({
-      label: "RAM",
-      minimum: new tools.Size({ value: 100_000, unit: tools.SizeUnit.b }),
-    });
+    expect(loggerErrorSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        component: "infra",
+        operation: "startup",
+        message: "Prerequisite failed",
+        metadata: expect.objectContaining({ label: "fail", kind: "test" }),
+        error: expect.objectContaining({ message: "boom" }),
+      }),
+    );
+    expect(exitSpy).toHaveBeenCalledWith(1);
 
-    const directory = new PrerequisiteDirectory({
-      label: "Writable Dir",
-      directory: tools.DirectoryPathAbsoluteSchema.parse("/fake/path"),
-      access: { write: true },
-    });
-
-    await prereqs.Prerequisites.check([ram, directory]);
-
-    expect(ram.status).toBe(prereqs.PrerequisiteStatusEnum.success);
-    expect(directory.status).toBe(prereqs.PrerequisiteStatusEnum.failure);
-
-    expect(processExit).toHaveBeenCalledWith(1);
-
-    processExit.mockRestore();
+    exitSpy.mockRestore();
   });
 
-  test("does not exit the process if all prerequisites succeed", async () => {
-    spyOn(console, "log").mockImplementation(jest.fn());
-    spyOn(fsp, "access").mockResolvedValue();
+  test("logs Prerequisites ok and does not exit when all succeed", async () => {
+    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
 
-    // @ts-expect-error
-    const processExit = spyOn(process, "exit").mockImplementation(() => {});
+    await runner.check([new Ok(), new Ok()]);
 
-    const ram = new PrerequisiteRAM({
-      label: "RAM",
-      minimum: new tools.Size({ value: 100_000, unit: tools.SizeUnit.b }),
-    });
-
-    const directory = new PrerequisiteDirectory({
-      label: "Writable Dir",
-      directory: tools.DirectoryPathAbsoluteSchema.parse("/tmp"),
-      access: { write: true },
-    });
-
-    await prereqs.Prerequisites.check([ram, directory]);
-
-    expect(ram.status).toBe(prereqs.PrerequisiteStatusEnum.success);
-    expect(directory.status).toBe(prereqs.PrerequisiteStatusEnum.success);
-
-    expect(processExit).not.toHaveBeenCalled();
+    expect(loggerInfoSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
+    );
   });
 
-  test("handles unexpected exceptions gracefully", async () => {
-    type PrerequisiteBrokenConfigType = {
-      label: prereqs.PrerequisiteLabelType;
-      enabled?: boolean;
-    };
+  test("treats undetermined as ok (no exit)", async () => {
+    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
 
-    class Broken extends prereqs.AbstractPrerequisite<PrerequisiteBrokenConfigType> {
-      readonly strategy = prereqs.PrerequisiteStrategyEnum.custom;
+    await runner.check([new Ok(), new Undetermined()]);
 
-      constructor(readonly config: PrerequisiteBrokenConfigType) {
-        super(config);
-      }
-
-      async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-        throw new Error("Unexpected failure");
-      }
-    }
-
-    // @ts-expect-error
-    const processExit = spyOn(process, "exit").mockImplementation(() => {});
-    spyOn(console, "log").mockImplementation(jest.fn());
-
-    await prereqs.Prerequisites.check([new Broken({ label: "Broken", enabled: true })]);
-
-    expect(processExit).not.toHaveBeenCalled();
+    expect(loggerInfoSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
+    );
   });
 });
