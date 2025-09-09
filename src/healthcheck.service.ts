@@ -11,7 +11,7 @@ const handler = createFactory();
 type HealthcheckResultType = {
   ok: prereqs.PrerequisiteStatusEnum;
   version: tools.BuildVersionType;
-  details: { label: prereqs.PrerequisiteLabelType; status: prereqs.PrerequisiteStatusEnum }[];
+  details: { label: prereqs.PrerequisiteLabelType; outcome: prereqs.VerifyOutcome }[];
   uptime: UptimeResultType;
   memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
 } & tools.StopwatchResultType;
@@ -19,10 +19,7 @@ type HealthcheckResultType = {
 type Dependencies = { Clock: ClockPort };
 
 export class Healthcheck {
-  static build = (
-    prerequisites: prereqs.AbstractPrerequisite<prereqs.BasePrerequisiteConfig>[],
-    deps: Dependencies,
-  ) =>
+  static build = (prerequisites: prereqs.Prerequisite[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
 
@@ -31,11 +28,10 @@ export class Healthcheck {
       const details: HealthcheckResultType["details"][number][] = [];
 
       for (const prerequisite of prerequisites) {
-        const status = await prerequisite.verify();
-        details.push({ label: prerequisite.label, status });
+        details.push({ label: prerequisite.label, outcome: await prerequisite.verify() });
       }
 
-      const ok = details.every((result) => result.status !== prereqs.PrerequisiteStatusEnum.failure)
+      const ok = details.every((result) => result.outcome.status !== prereqs.PrerequisiteStatusEnum.failure)
         ? prereqs.PrerequisiteStatusEnum.success
         : prereqs.PrerequisiteStatusEnum.failure;
 

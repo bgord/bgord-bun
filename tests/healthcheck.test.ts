@@ -5,39 +5,27 @@ import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
 import { MemoryConsumption } from "../src/memory-consumption.service";
-import {
-  AbstractPrerequisite,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
 
 const Clock = new ClockFixedAdapter(1234);
 const deps = { Clock };
 
-type TestPrerequisiteConfigType = { label: string; enabled?: boolean };
-
-class FakeSuccessPrerequisite extends AbstractPrerequisite<TestPrerequisiteConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.custom;
-
-  constructor(readonly config: TestPrerequisiteConfigType) {
-    super(config);
-  }
-
-  async verify() {
-    return PrerequisiteStatusEnum.success;
+class Ok implements prereqs.Prerequisite {
+  readonly label = "ok";
+  readonly kind = "test";
+  readonly enabled = true;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.success();
   }
 }
 
-class FakeFailurePrerequisite extends AbstractPrerequisite<TestPrerequisiteConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.custom;
-
-  constructor(readonly config: TestPrerequisiteConfigType) {
-    super(config);
-  }
-
-  async verify() {
-    return PrerequisiteStatusEnum.failure;
+class Fail implements prereqs.Prerequisite {
+  readonly label = "fail";
+  readonly kind = "test";
+  readonly enabled = true;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.failure({ message: "boom" });
   }
 }
 
@@ -61,10 +49,7 @@ describe("Healthcheck", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
     const app = new Hono();
-    const handler = Healthcheck.build(
-      [new FakeSuccessPrerequisite({ label: "successful-prerequisite" })],
-      deps,
-    );
+    const handler = Healthcheck.build([new Ok()], deps);
     app.get("/health", ...handler);
 
     const response = await app.request("/health");
@@ -72,11 +57,11 @@ describe("Healthcheck", () => {
 
     expect(response.status).toBe(200);
     expect(data).toEqual({
-      ok: PrerequisiteStatusEnum.success,
+      ok: prereqs.PrerequisiteStatusEnum.success,
       version: buildInfo.BUILD_VERSION,
       uptime,
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.SizeUnit.MB) },
-      details: [{ label: "successful-prerequisite", status: PrerequisiteStatusEnum.success }],
+      details: [{ label: "ok", outcome: { status: prereqs.PrerequisiteStatusEnum.success } }],
       durationMs: expect.any(Number),
     });
   });
@@ -87,13 +72,7 @@ describe("Healthcheck", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
     const app = new Hono();
-    const handler = Healthcheck.build(
-      [
-        new FakeSuccessPrerequisite({ label: "success-prerequisite" }),
-        new FakeFailurePrerequisite({ label: "failure-prerequisite" }),
-      ],
-      deps,
-    );
+    const handler = Healthcheck.build([new Ok(), new Fail()], deps);
     app.get("/health", ...handler);
 
     const response = await app.request("/health");
@@ -101,13 +80,16 @@ describe("Healthcheck", () => {
 
     expect(response.status).toBe(424);
     expect(data).toEqual({
-      ok: PrerequisiteStatusEnum.failure,
+      ok: prereqs.PrerequisiteStatusEnum.failure,
       version: buildInfo.BUILD_VERSION,
       uptime,
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.SizeUnit.MB) },
       details: [
-        { label: "success-prerequisite", status: PrerequisiteStatusEnum.success },
-        { label: "failure-prerequisite", status: PrerequisiteStatusEnum.failure },
+        { label: "ok", outcome: { status: prereqs.PrerequisiteStatusEnum.success } },
+        {
+          label: "fail",
+          outcome: { status: prereqs.PrerequisiteStatusEnum.failure, error: { message: "boom" } },
+        },
       ],
       durationMs: expect.any(Number),
     });
