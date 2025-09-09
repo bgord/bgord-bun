@@ -1,68 +1,43 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
-const logger = new LoggerWinstonProductionAdapter({
-  app: "test-app",
-  AXIOM_API_TOKEN: "ok",
-});
+const logger = new LoggerWinstonProductionAdapter({ app: "test-app", AXIOM_API_TOKEN: "ok" });
 
 describe("prerequisites - log file", () => {
   test("returns success when log file exists", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
-
-    const prerequisite = new PrerequisiteLogFile({
-      logger,
-      label: "log-file",
-      enabled: true,
-    });
-
+    const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure when log file does not exist", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false });
-
-    const prerequisite = new PrerequisiteLogFile({
-      logger,
-      label: "log-file",
-      enabled: true,
-    });
-
+    const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: `Missing file: ${logger.prodLogFile}` }));
   });
 
   test("returns failure on exception", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockReturnValue({
       exists: async () => {
-        throw new Error("Mock error");
+        throw new Error("FS error");
       },
     });
-
-    const prerequisite = new PrerequisiteLogFile({
-      logger,
-      label: "log-file",
-      enabled: true,
-    });
-
+    const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/FS error/);
   });
 
   test("returns undetermined when disabled", async () => {
-    const prerequisite = new PrerequisiteLogFile({
-      logger,
-      label: "log-file",
-      enabled: false,
-    });
-
+    const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file", enabled: false });
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });
