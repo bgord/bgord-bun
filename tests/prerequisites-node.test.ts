@@ -24,7 +24,7 @@ describe("prerequisites - node", () => {
 
     const result = await node.verify();
     // @ts-expect-error
-    expect(result.error.message).toMatch(/Version/);
+    expect(result.error.message).toEqual("Version: 18.0.0");
   });
 
   test("fails if invalid Node.js version is passed", async () => {

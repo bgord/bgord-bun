@@ -35,7 +35,7 @@ describe("prerequisites - bun", () => {
     const result = await prerequisite.verify();
 
     // @ts-expect-error
-    expect(result.error.message).toMatch(/Version/);
+    expect(result.error.message).toEqual("Version: 1.2.0");
   });
 
   test("fails if invalid bun version gets passed", async () => {
