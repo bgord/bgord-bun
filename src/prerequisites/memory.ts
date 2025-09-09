@@ -1,28 +1,31 @@
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 import { MemoryConsumption } from "../memory-consumption.service";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteMemoryConfigType = {
-  maximum: tools.Size;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteMemory implements prereqs.Prerequisite {
+  readonly kind = "memory-consumption";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteMemory extends prereqs.AbstractPrerequisite<PrerequisiteMemoryConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.memory;
+  private readonly maximum: tools.Size;
 
-  constructor(readonly config: PrerequisiteMemoryConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { maximum: tools.Size }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+
+    this.maximum = config.maximum;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const memoryConsumption = MemoryConsumption.get();
 
-    if (memoryConsumption.isGreaterThan(this.config.maximum)) {
-      return this.reject();
+    if (memoryConsumption.isGreaterThan(this.maximum)) {
+      return prereqs.Verification.failure({
+        message: `Memory consumption: ${memoryConsumption.format(tools.SizeUnit.MB)}`,
+      });
     }
-    return this.pass();
+    return prereqs.Verification.success();
   }
 }
