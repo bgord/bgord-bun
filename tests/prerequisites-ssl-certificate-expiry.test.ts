@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as sslChecker from "ssl-checker";
 import { PrerequisiteSSLCertificateExpiry } from "../src/prerequisites/ssl-certificate-expiry";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - ssl certificate expiry", () => {
   test("passes when certificate is valid and has enough days remaining", async () => {
@@ -12,11 +12,10 @@ describe("prerequisites - ssl certificate expiry", () => {
       host: "example.com",
       validDaysMinimum: 30,
       label: "ssl-certificate",
-      enabled: true,
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("fails when certificate is valid but expires too soon", async () => {
@@ -27,11 +26,10 @@ describe("prerequisites - ssl certificate expiry", () => {
       host: "example.com",
       validDaysMinimum: 30,
       label: "ssl-certificate",
-      enabled: true,
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: "Days remaining: 10" }));
   });
 
   test("fails when certificate is invalid", async () => {
@@ -42,11 +40,10 @@ describe("prerequisites - ssl certificate expiry", () => {
       host: "example.com",
       validDaysMinimum: 30,
       label: "ssl-certificate",
-      enabled: true,
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid" }));
   });
 
   test("fails when sslChecker throws", async () => {
@@ -56,11 +53,11 @@ describe("prerequisites - ssl certificate expiry", () => {
       host: "example.com",
       validDaysMinimum: 30,
       label: "ssl-certificate",
-      enabled: true,
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/SSL check failed/);
   });
 
   test("returns undetermined if disabled", async () => {
@@ -72,6 +69,6 @@ describe("prerequisites - ssl certificate expiry", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });
