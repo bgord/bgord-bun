@@ -49,7 +49,6 @@ describe("prerequisites - bun", () => {
     });
 
     const result = await prerequisite.verify();
-
     expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid version passed: abc" }));
   });
 

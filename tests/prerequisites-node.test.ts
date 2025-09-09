@@ -27,6 +27,17 @@ describe("prerequisites - node", () => {
     expect(result.error.message).toMatch(/Version/);
   });
 
+  test("fails if invalid Node.js version is passed", async () => {
+    const node = new PrerequisiteNode({
+      label: "Node",
+      version: tools.PackageVersion.fromString("18.0.0"),
+      current: "abc",
+    });
+
+    const result = await node.verify();
+    expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid version passed: abc" }));
+  });
+
   test("returns undetermined if disabled", async () => {
     const node = new PrerequisiteNode({
       label: "Node",

@@ -19,9 +19,13 @@ export class PrerequisiteNode implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
-    const current = tools.PackageVersion.fromStringWithV(this.current);
+    try {
+      const current = tools.PackageVersion.fromStringWithV(this.current);
 
-    if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success();
-    return prereqs.Verification.failure({ message: `Version: ${this.version.major}` });
+      if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success();
+      return prereqs.Verification.failure({ message: `Version: ${this.version.major}` });
+    } catch (error) {
+      return prereqs.Verification.failure({ message: `Invalid version passed: ${this.current}` });
+    }
   }
 }
