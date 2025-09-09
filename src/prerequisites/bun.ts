@@ -20,6 +20,7 @@ export class PrerequisiteBun implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const current = tools.PackageVersion.fromString(this.current);
+
     if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success();
     return prereqs.Verification.failure({ message: `Version: ${this.version.major}` });
   }
