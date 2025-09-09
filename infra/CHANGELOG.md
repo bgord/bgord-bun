@@ -1,4 +1,35 @@
 # Changelog
+- 2025-09-09 13:02 5f9cb66 **step: update packages**
+- 2025-09-09 12:57 be38b69 **refactor: improve naming**
+- 2025-09-09 12:56 2f3b144 **refactor: healthcheck service**
+- 2025-09-09 12:50 7a3e1bf **refactor: prerequisites service**
+- 2025-09-09 12:19 59ceacf **refactor: space try catch**
+- 2025-09-09 12:16 ebb29c9 **refactor: node try catch**
+- 2025-09-09 12:14 b1fd185 **refactor: bun try catch**
+- 2025-09-09 12:08 0ebd4d9 **refactor: improve formatting**
+- 2025-09-09 11:59 94f7560 **refactor: improve formatting**
+- 2025-09-09 11:52 2d0e849 **refactor: rewrite translations prereq**
+- 2025-09-09 11:36 866fa0e **refactor: rewrite deps prereq**
+- 2025-09-09 11:22 e88c084 **refactor: rewrite directory prereq**
+- 2025-09-09 11:17 4f7f50e **refactor: rewrite log file prereq**
+- 2025-09-09 11:11 5d15c9f **refactor: rewrite ssl expiry prereq**
+- 2025-09-09 11:04 08c3582 **refactor: rewrite port prereq**
+- 2025-09-09 10:59 84f4f7c **refactor: rewrite external api prereq**
+- 2025-09-09 10:53 d5847e9 **refactor: rewrite mailer prereq**
+- 2025-09-09 10:48 80ec5c6 **refactor: rewrite jobs prereq**
+- 2025-09-09 10:44 a3b9906 **refactor: rewrite memory prereq**
+- 2025-09-09 10:35 1c048a5 **refactor: rewrite node prereq**
+- 2025-09-09 10:25 6073724 **fix: formatting**
+- 2025-09-09 10:23 c8063d3 **refactor: rewrite ram prereq**
+- 2025-09-09 10:19 dd2b8fd **refactor: rewrite utc prereq**
+- 2025-09-09 00:05 d26787f **refactor: rewrite space prereq**
+- 2025-09-08 23:59 6de3f91 **refactor: rewrite self prereq**
+- 2025-09-08 23:21 57afc21 **refactor: rewrite bun prereq**
+- 2025-09-08 23:05 9db714d **refactor: rewrite binary**
+- 2025-09-08 22:55 c4de1d2 **refactor: rewrite outside connectivity**
+- 2025-09-08 22:34 4bcc1ab **step: add verification helper**
+- 2025-09-08 22:32 65f645b **refactor: reorganize prereq shape**
+- 2025-09-08 17:37 b9b5228 **refactor: rename path prereq to directory**
 - 2025-09-08 17:33 cb024a6 **fix: image adapter tests**
 - 2025-09-08 17:32 423cecf **fix: clamav adapter tests**
 - 2025-09-08 17:32 343c1bf **fix: event handler tests**
@@ -15,6 +46,7 @@
 - 2025-09-08 17:18 225b06a **step: bump bgord/scripts**
 - 2025-09-08 17:09 cef34a5 **step: update packages**
 - 2025-09-08 17:08 6ed4565 **step: bump bgord/scripts**
+- 2025-09-08 15:34 e0a9cf1 **docs: generate CHANGELOG**
 - 2025-09-08 15:19 355e197 **docs: generate CHANGELOG**
 - 2025-09-08 15:18 38504f9 **docs: generate CHANGELOG**
 - 2025-09-08 15:09 fae2650 **docs: generate CHANGELOG**
