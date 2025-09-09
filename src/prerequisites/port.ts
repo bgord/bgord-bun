@@ -2,36 +2,27 @@ import net from "node:net";
 import type { PortType } from "../port.vo";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisitePortConfigType = {
-  port: PortType;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisitePort implements prereqs.Prerequisite {
+  readonly kind = "port";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisitePort extends prereqs.AbstractPrerequisite<PrerequisitePortConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.port;
+  private readonly port: PortType;
 
-  constructor(readonly config: PrerequisitePortConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { port: PortType }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.port = config.port;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     return new Promise((resolve) => {
       const server = net.createServer();
 
-      server.listen(this.config.port, () =>
-        server.close(() => {
-          this.pass();
-          return resolve(prereqs.PrerequisiteStatusEnum.success);
-        }),
-      );
-
-      server.on("error", () => {
-        this.reject();
-        return resolve(prereqs.PrerequisiteStatusEnum.failure);
-      });
+      server.listen(this.port, () => server.close(() => resolve(prereqs.Verification.success())));
+      server.on("error", () => resolve(prereqs.Verification.failure()));
     });
   }
 }
