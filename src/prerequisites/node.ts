@@ -1,30 +1,27 @@
-import bun from "bun";
 import * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteNodeConfigType = {
-  version: tools.PackageVersion;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteNode implements prereqs.Prerequisite {
+  readonly kind = "node";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteNode extends prereqs.AbstractPrerequisite<PrerequisiteNodeConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.node;
+  private readonly version: tools.PackageVersion;
+  private readonly current: string;
 
-  constructor(readonly config: PrerequisiteNodeConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { version: tools.PackageVersion; current: string }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.version = config.version;
+    this.current = config.current;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
-    const { stdout } = await bun.$`node -v`.quiet();
-    const version = stdout.toString().trim();
-    const current = tools.PackageVersion.fromStringWithV(version);
+    const current = tools.PackageVersion.fromStringWithV(this.current);
 
-    if (current.isGreaterThanOrEqual(this.config.version)) {
-      return this.pass();
-    }
-    return this.reject();
+    if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success();
+    return prereqs.Verification.failure({ message: `Version: ${this.version.major}` });
   }
 }

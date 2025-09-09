@@ -28,7 +28,7 @@ describe("prerequisites - bun", () => {
     expect(result).toEqual(prereqs.Verification.success());
   });
 
-  test.only("returns failure if current Bun version is less than required version", async () => {
+  test("returns failure if current Bun version is less than required version", async () => {
     const prerequisite = new PrerequisiteBun({
       label: "Bun Version Check",
       version: tools.PackageVersion.fromString("1.2.0"),
