@@ -29,18 +29,9 @@ class Fail implements prereqs.Prerequisite {
   }
 }
 
-const buildInfo = {
-  BUILD_DATE: Clock.nowMs(),
-  BUILD_VERSION: tools.BuildVersion.parse("1.0.0"),
-};
-const memoryConsumption = new tools.Size({
-  value: 12345678,
-  unit: tools.SizeUnit.b,
-});
-const uptime = {
-  seconds: tools.Timestamp.parse(5),
-  formatted: "5 seconds ago",
-};
+const buildInfo = { BUILD_DATE: Clock.nowMs(), BUILD_VERSION: tools.BuildVersion.parse("1.0.0") };
+const memoryConsumption = tools.Size.fromBytes(12345678);
+const uptime = { seconds: tools.Timestamp.parse(5), formatted: "5 seconds ago" };
 
 describe("Healthcheck", () => {
   test("healthcheck returns 200 if all prerequisites pass", async () => {

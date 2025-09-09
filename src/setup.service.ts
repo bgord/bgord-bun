@@ -19,10 +19,7 @@ import type { LoggerPort } from "./logger.port";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
-export const BODY_LIMIT_MAX_SIZE = new tools.Size({
-  value: 128,
-  unit: tools.SizeUnit.kB,
-}).toBytes();
+export const BODY_LIMIT_MAX_SIZE = tools.Size.fromKb(128).toBytes();
 
 type SetupOverridesType = {
   cors?: Parameters<typeof cors>[0];

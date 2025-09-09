@@ -3,30 +3,24 @@ import * as tools from "@bgord/tools";
 import { PrerequisiteMemory } from "../src/prerequisites/memory";
 import * as prereqs from "../src/prerequisites.service";
 
+const maximum = tools.Size.fromMB(2);
+
 describe("prerequisites - memory", () => {
   test("returns success when memory usage is below the maximum", async () => {
     // @ts-expect-error
-    spyOn(process, "memoryUsage").mockImplementation(() => ({
-      rss: new tools.Size({ value: 1, unit: tools.SizeUnit.MB }).toBytes(),
-    }));
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));
 
-    const prerequisite = new PrerequisiteMemory({
-      maximum: new tools.Size({ value: 2, unit: tools.SizeUnit.MB }),
-      label: "pass-case",
-    });
+    const prerequisite = new PrerequisiteMemory({ maximum, label: "pass-case" });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure when memory usage exceeds the maximum", async () => {
-    const memoryConsumption = new tools.Size({ value: 1, unit: tools.SizeUnit.MB });
+    const memoryConsumption = tools.Size.fromMB(3);
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
 
-    const prerequisite = new PrerequisiteMemory({
-      maximum: new tools.Size({ value: 500, unit: tools.SizeUnit.b }),
-      label: "fail-case",
-    });
+    const prerequisite = new PrerequisiteMemory({ maximum, label: "fail-case" });
 
     expect(await prerequisite.verify()).toEqual(
       prereqs.Verification.failure({
@@ -36,16 +30,10 @@ describe("prerequisites - memory", () => {
   });
 
   test("returns undetermined when the check is disabled", async () => {
-    spyOn(process, "memoryUsage").mockImplementation(
-      // @ts-expect-error
-      () => ({ rss: new tools.Size({ value: 1, unit: tools.SizeUnit.MB }).toBytes() }),
-    );
+    // @ts-expect-error
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: maximum }));
 
-    const prerequisite = new PrerequisiteMemory({
-      maximum: new tools.Size({ value: 500, unit: tools.SizeUnit.b }),
-      label: "disabled-case",
-      enabled: false,
-    });
+    const prerequisite = new PrerequisiteMemory({ maximum, label: "disabled-case", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });

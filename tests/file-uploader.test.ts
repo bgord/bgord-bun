@@ -12,14 +12,7 @@ const headers = {
 describe("File uploader", () => {
   test("accepts valid file upload", async () => {
     const app = new Hono();
-
-    app.use(
-      ...FileUploader.validate({
-        mimeTypes: ["image/png"],
-        maxFilesSize: new tools.Size({ value: 10, unit: tools.SizeUnit.kB }),
-      }),
-    );
-
+    app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }));
     app.post("/uploader", (c) => c.text("uploaded"));
 
     const content = [
@@ -45,14 +38,7 @@ describe("File uploader", () => {
 
   test("rejects invalid MIME type", async () => {
     const app = new Hono();
-
-    const maxFilesSize = new tools.Size({
-      value: 10,
-      unit: tools.SizeUnit.kB,
-    });
-
-    app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize }));
-
+    app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }));
     app.post("/uploader", (c) => c.text("uploaded"));
 
     const content = [
@@ -78,14 +64,7 @@ describe("File uploader", () => {
 
   test("rejects file too big", async () => {
     const app = new Hono();
-
-    const maxFilesSize = new tools.Size({
-      value: 1,
-      unit: tools.SizeUnit.b,
-    });
-
-    app.use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize }));
-
+    app.use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize: tools.Size.fromBytes(1) }));
     app.post("/uploader", (c) => c.text("uploaded"));
 
     const content = [

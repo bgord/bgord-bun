@@ -18,7 +18,7 @@ export class PrerequisiteRAM implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
-    const freeRAM = new tools.Size({ unit: tools.SizeUnit.b, value: os.freemem() });
+    const freeRAM = tools.Size.fromBytes(os.freemem());
 
     if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success();
     return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.SizeUnit.MB)}` });
