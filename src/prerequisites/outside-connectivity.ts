@@ -1,7 +1,7 @@
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
-  readonly kind = "network";
+  readonly kind = "outside-connectivity";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

@@ -13,7 +13,6 @@ describe("prerequisites - memory", () => {
     const prerequisite = new PrerequisiteMemory({
       maximum: new tools.Size({ value: 2, unit: tools.SizeUnit.MB }),
       label: "pass-case",
-      enabled: true,
     });
 
     const result = await prerequisite.verify();
@@ -28,7 +27,6 @@ describe("prerequisites - memory", () => {
     const prerequisite = new PrerequisiteMemory({
       maximum: new tools.Size({ value: 500, unit: tools.SizeUnit.b }),
       label: "fail-case",
-      enabled: true,
     });
 
     const result = await prerequisite.verify();

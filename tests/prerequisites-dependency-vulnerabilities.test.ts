@@ -90,7 +90,6 @@ describe("prerequisites - dependency vulnerabilities", () => {
     }));
 
     const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
-
     const result = await dependencyVulnerabilities.verify();
     expect(result).toEqual(prereqs.Verification.failure({ message: "Critical: 1 and high: 1" }));
   });

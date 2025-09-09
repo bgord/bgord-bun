@@ -10,7 +10,6 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.0.0"),
       current: "1.0.0",
     });
-
     const result = await prerequisite.verify();
 
     expect(result).toEqual(prereqs.Verification.success());
@@ -22,7 +21,6 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.0.0"),
       current: "1.1.0",
     });
-
     const result = await prerequisite.verify();
 
     expect(result).toEqual(prereqs.Verification.success());
@@ -34,7 +32,6 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.2.0"),
       current: "1.1.0",
     });
-
     const result = await prerequisite.verify();
 
     // @ts-expect-error
@@ -47,7 +44,6 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.2.0"),
       current: "abc",
     });
-
     const result = await prerequisite.verify();
     expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid version passed: abc" }));
   });
@@ -59,7 +55,6 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.2.0"),
       current: "1.1.0",
     });
-
     const result = await prerequisite.verify();
 
     expect(result).toEqual(prereqs.Verification.undetermined());

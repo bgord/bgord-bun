@@ -3,7 +3,7 @@ import { MemoryConsumption } from "../memory-consumption.service";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteMemory implements prereqs.Prerequisite {
-  readonly kind = "memory-consumption";
+  readonly kind = "memory";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

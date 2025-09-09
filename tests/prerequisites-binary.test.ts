@@ -10,11 +10,7 @@ describe("prerequisites - binary", () => {
       quiet: () => ({ exitCode: 0 }),
     }));
 
-    const prerequisite = new PrerequisiteBinary({
-      label: "RealBinary",
-      binary: "real-binary",
-    });
-
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary: "real-binary" });
     const result = await prerequisite.verify();
 
     expect(result).toEqual(prereqs.Verification.success());
@@ -26,22 +22,14 @@ describe("prerequisites - binary", () => {
       quiet: () => ({ exitCode: 1 }),
     }));
 
-    const prerequisite = new PrerequisiteBinary({
-      label: "FakeBinary",
-      binary: "fake-binary",
-    });
-
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary: "fake-binary" });
     const result = await prerequisite.verify();
 
     expect(result).toEqual(prereqs.Verification.failure({ message: `Exit code ${1}` }));
   });
 
   test("returns failure if binary name is invalid", async () => {
-    const prerequisite = new PrerequisiteBinary({
-      label: "InvalidBinary",
-      binary: "invalid binary",
-    });
-
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary: "invalid binary" });
     const result = await prerequisite.verify();
 
     // @ts-expect-error
@@ -49,12 +37,7 @@ describe("prerequisites - binary", () => {
   });
 
   test("returns undetermined if disabled", async () => {
-    const prerequisite = new PrerequisiteBinary({
-      label: "binary",
-      binary: "node",
-      enabled: false,
-    });
-
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary: "node", enabled: false });
     const result = await prerequisite.verify();
 
     expect(result).toEqual(prereqs.Verification.undetermined());

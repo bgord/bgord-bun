@@ -9,11 +9,7 @@ describe("prerequisites - self", () => {
   });
 
   test("returns undetermined when disabled", async () => {
-    const prerequisite = new PrerequisiteSelf({
-      label: "prerequisite",
-      enabled: false,
-    });
-
+    const prerequisite = new PrerequisiteSelf({ label: "prerequisite", enabled: false });
     const result = await prerequisite.verify();
     expect(result).toEqual(prereqs.Verification.undetermined());
   });
