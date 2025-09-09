@@ -41,6 +41,18 @@ describe("prerequisites - bun", () => {
     expect(result.error.message).toMatch(/Version/);
   });
 
+  test("fails if invalid bun version gets passed", async () => {
+    const prerequisite = new PrerequisiteBun({
+      label: "Bun Version Check",
+      version: tools.PackageVersion.fromString("1.2.0"),
+      current: "abc",
+    });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid version passed: abc" }));
+  });
+
   test("returns undetermined if disabled", async () => {
     const prerequisite = new PrerequisiteBun({
       label: "Bun",
