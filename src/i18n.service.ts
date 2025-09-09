@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import type { LoggerPort } from "../src/logger.port";
 
 export type TranslationsKeyType = string;
 
@@ -21,27 +22,34 @@ export type I18nConfigType = {
 export class I18n {
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
-  constructor(private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
+  constructor(
+    private readonly logger: LoggerPort,
+    private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH,
+  ) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
       const path = this.getTranslationPathForLanguage(language).get();
 
       return Bun.file(path).json();
-    } catch (error) {
-      console.log("I18n#getTranslations", error);
-
+    } catch (_error) {
       return {};
     }
   }
 
   useTranslations(translations: TranslationsType) {
+    const that = this;
+
     return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
       const translation = translations[key];
 
       if (!translation) {
-        // biome-ignore lint: lint/suspicious/noConsole
-        console.warn(`[@bgord/node] missing translation for key: ${key}`);
+        that.logger.warn({
+          message: `Missing translation for key ${key}`,
+          component: "infra",
+          operation: "translations",
+        });
+
         return key;
       }
 
