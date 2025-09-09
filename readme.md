@@ -157,6 +157,7 @@ src/
 │   ├── binary.ts
 │   ├── bun.ts
 │   ├── dependency-vulnerabilities.ts
+│   ├── directory.ts
 │   ├── external-api.ts
 │   ├── jobs.ts
 │   ├── log-file.ts
@@ -164,7 +165,6 @@ src/
 │   ├── memory.ts
 │   ├── node.ts
 │   ├── outside-connectivity.ts
-│   ├── path.ts
 │   ├── port.ts
 │   ├── ram.ts
 │   ├── self.ts
