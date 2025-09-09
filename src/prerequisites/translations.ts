@@ -5,9 +5,9 @@ import * as i18n from "../i18n.service";
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteTranslationsProblemType = {
-  translationKey: i18n.TranslationsKeyType;
-  existsInLanguage: tools.LanguageType;
-  missingInLanguage: tools.LanguageType;
+  key: i18n.TranslationsKeyType;
+  existsIn: tools.LanguageType;
+  missingIn: tools.LanguageType;
 };
 
 export class PrerequisiteTranslations implements prereqs.Prerequisite {
@@ -55,29 +55,25 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     const problems: PrerequisiteTranslationsProblemType[] = [];
 
     for (const language of supportedLanguages) {
-      const translations = await new i18n.I18n().getTranslations(language as tools.LanguageType);
+      const translations = await new i18n.I18n().getTranslations(language);
       const translationKeys = Object.keys(translations);
 
-      languageToTranslationKeys[language as tools.LanguageType] = translationKeys;
+      languageToTranslationKeys[language] = translationKeys;
     }
 
     for (const currentLanguage in languageToTranslationKeys) {
-      const translationKeys = languageToTranslationKeys[currentLanguage as tools.LanguageType] ?? [];
+      const translationKeys = languageToTranslationKeys[currentLanguage] ?? [];
 
       for (const translationKey of translationKeys) {
         for (const supportedLanguage of supportedLanguages) {
           if (supportedLanguage === currentLanguage) continue;
 
-          const translationKeyExists = languageToTranslationKeys[
-            supportedLanguage as tools.LanguageType
-          ]?.some((key) => translationKey === key);
+          const translationKeyExists = languageToTranslationKeys[supportedLanguage]?.some(
+            (key) => translationKey === key,
+          );
 
           if (!translationKeyExists) {
-            problems.push({
-              translationKey,
-              existsInLanguage: currentLanguage as tools.LanguageType,
-              missingInLanguage: supportedLanguage as tools.LanguageType,
-            });
+            problems.push({ key: translationKey, existsIn: currentLanguage, missingIn: supportedLanguage });
           }
         }
       }
@@ -86,10 +82,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     if (problems.length === 0) return prereqs.Verification.success();
 
     const summary = problems
-      .map(
-        (problem) =>
-          `Key: ${problem.translationKey}, exists in ${problem.existsInLanguage}, missing in ${problem.missingInLanguage}`,
-      )
+      .map((problem) => `Key: ${problem.key}, exists in ${problem.existsIn}, missing in ${problem.missingIn}`)
       .join("\n");
 
     return prereqs.Verification.failure({ message: summary });

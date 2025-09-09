@@ -21,9 +21,7 @@ class UserLanguageHasChangedFactory extends Invariant<UserLanguageHasChangedConf
   }
 
   message = "UserLanguageHasChanged";
-
   error = UserLanguageHasChangedError;
-
   code = 403 as ContentfulStatusCode;
 }
 

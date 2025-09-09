@@ -19,6 +19,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.directory = config.directory;
     this.access = config.access;
   }
@@ -33,7 +34,6 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
 
     try {
       await fsp.access(this.directory, flags);
-
       return prereqs.Verification.success();
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
