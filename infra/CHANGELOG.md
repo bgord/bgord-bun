@@ -1,4 +1,7 @@
 # Changelog
+- 2025-09-09 14:11 644a9a0 **refactor: pass logger in i18n where needed**
+- 2025-09-09 14:04 ee30b44 **refactor: eliminate console.log from i18n**
+- 2025-09-09 14:01 a0ed02f **refactor: eliminate console.log from env validator**
 - 2025-09-09 13:51 0f59505 **refactor: restore tsconfig**
 - 2025-09-09 13:17 a05b394 **refactor: unify tests**
 - 2025-09-09 13:08 2fcf9eb **refactor: improve version reporting in bun and node**
@@ -13,6 +16,7 @@
 - 2025-09-09 12:08 0ebd4d9 **refactor: improve formatting**
 - 2025-09-09 11:59 94f7560 **refactor: improve formatting**
 - 2025-09-09 11:52 2d0e849 **refactor: rewrite translations prereq**
+- 2025-09-09 11:51 c6cf2a6 **docs: generate CHANGELOG**
 - 2025-09-09 11:50 40fe061 **docs: generate CHANGELOG**
 - 2025-09-09 11:36 866fa0e **refactor: rewrite deps prereq**
 - 2025-09-09 11:22 e88c084 **refactor: rewrite directory prereq**
