@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { PrerequisiteDirectory } from "../src/prerequisites/directory";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
@@ -17,7 +17,7 @@ describe("prerequisites - directory", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure if access throws error", async () => {
@@ -30,7 +30,8 @@ describe("prerequisites - directory", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/No access/);
   });
 
   test("returns undetermined if prerequisite is disabled", async () => {
@@ -41,6 +42,6 @@ describe("prerequisites - directory", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });

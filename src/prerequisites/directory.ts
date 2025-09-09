@@ -3,34 +3,40 @@ import fsp from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteDirectoryConfigType = {
-  directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
-  access?: { write?: boolean; execute?: boolean };
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteDirectory implements prereqs.Prerequisite {
+  readonly kind = "directory";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteDirectory extends prereqs.AbstractPrerequisite<PrerequisiteDirectoryConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.path;
+  private readonly directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
+  private readonly access?: { write?: boolean; execute?: boolean };
 
-  constructor(readonly config: PrerequisiteDirectoryConfigType) {
-    super(config);
+  constructor(
+    config: prereqs.PrerequisiteConfigType & {
+      directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
+      access?: { write?: boolean; execute?: boolean };
+    },
+  ) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.directory = config.directory;
+    this.access = config.access;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
-    const write = this.config.access?.write ?? false;
-    const execute = this.config.access?.execute ?? false;
+    const write = this.access?.write ?? false;
+    const execute = this.access?.execute ?? false;
 
     const flags = constants.R_OK | (write ? constants.W_OK : 0) | (execute ? constants.X_OK : 0);
 
     try {
-      await fsp.access(this.config.directory, flags);
+      await fsp.access(this.directory, flags);
 
-      return this.pass();
-    } catch (_error) {
-      return this.reject();
+      return prereqs.Verification.success();
+    } catch (error) {
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }
