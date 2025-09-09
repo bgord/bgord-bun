@@ -1,4 +1,5 @@
 # Changelog
+- 2025-09-09 13:51 0f59505 **refactor: restore tsconfig**
 - 2025-09-09 13:17 a05b394 **refactor: unify tests**
 - 2025-09-09 13:08 2fcf9eb **refactor: improve version reporting in bun and node**
 - 2025-09-09 13:05 f884c3c **step: update packages**
@@ -12,6 +13,7 @@
 - 2025-09-09 12:08 0ebd4d9 **refactor: improve formatting**
 - 2025-09-09 11:59 94f7560 **refactor: improve formatting**
 - 2025-09-09 11:52 2d0e849 **refactor: rewrite translations prereq**
+- 2025-09-09 11:50 40fe061 **docs: generate CHANGELOG**
 - 2025-09-09 11:36 866fa0e **refactor: rewrite deps prereq**
 - 2025-09-09 11:22 e88c084 **refactor: rewrite directory prereq**
 - 2025-09-09 11:17 4f7f50e **refactor: rewrite log file prereq**
