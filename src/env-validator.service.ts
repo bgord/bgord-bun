@@ -1,12 +1,11 @@
 import type { z } from "zod/v4";
-import type { LoggerPort } from "../src/logger.port";
 import { NodeEnvironment } from "../src/node-env.vo";
 
 type NodeEnvironmentEnumType = z.infer<typeof NodeEnvironment>;
 
 type AnyZodSchema = z.ZodSchema<any, any>;
 
-type EnvironmentValidatorConfig = { type: unknown; schema: AnyZodSchema; logger: LoggerPort };
+type EnvironmentValidatorConfig = { type: unknown; schema: AnyZodSchema };
 
 export class EnvironmentValidator<SchemaType> {
   type: NodeEnvironmentEnumType;
@@ -22,13 +21,7 @@ export class EnvironmentValidator<SchemaType> {
       return;
     }
 
-    config.logger.error({
-      message: "Invalid EnvironmentType",
-      component: "infra",
-      operation: "env_validator",
-      error: { message: `Invalid EnvironmentType: ${config.type}` },
-    });
-    process.exit(1);
+    throw new Error("Invalid node environment");
   }
 
   load(): SchemaType & { type: NodeEnvironmentEnumType } {
