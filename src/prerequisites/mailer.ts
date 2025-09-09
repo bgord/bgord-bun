@@ -1,27 +1,28 @@
 import type { MailerPort } from "../mailer.port";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteMailerConfigType = {
-  mailer: MailerPort;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteMailer implements prereqs.Prerequisite {
+  readonly kind = "mailer";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteMailer extends prereqs.AbstractPrerequisite<PrerequisiteMailerConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.mailer;
+  private readonly mailer: MailerPort;
 
-  constructor(readonly config: PrerequisiteMailerConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { mailer: MailerPort }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.mailer = config.mailer;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
-      await this.config.mailer.verify();
-      return this.pass();
-    } catch (_error) {
-      return this.reject();
+      await this.mailer.verify();
+
+      return prereqs.Verification.success();
+    } catch (error) {
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }

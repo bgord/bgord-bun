@@ -19,10 +19,9 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
       const response = await fetch(this.url, { method: "HEAD" });
 
       if (response.ok) return prereqs.Verification.success();
-
       return prereqs.Verification.failure({ message: `HTTP ${response.status}` });
     } catch (error) {
-      return prereqs.Verification.failure(error);
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }
