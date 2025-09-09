@@ -1,4 +1,7 @@
 # Changelog
+- 2025-09-09 13:17 a05b394 **refactor: unify tests**
+- 2025-09-09 13:08 2fcf9eb **refactor: improve version reporting in bun and node**
+- 2025-09-09 13:05 f884c3c **step: update packages**
 - 2025-09-09 13:02 5f9cb66 **step: update packages**
 - 2025-09-09 12:57 be38b69 **refactor: improve naming**
 - 2025-09-09 12:56 2f3b144 **refactor: healthcheck service**
@@ -14,6 +17,8 @@
 - 2025-09-09 11:17 4f7f50e **refactor: rewrite log file prereq**
 - 2025-09-09 11:11 5d15c9f **refactor: rewrite ssl expiry prereq**
 - 2025-09-09 11:04 08c3582 **refactor: rewrite port prereq**
+- 2025-09-09 11:03 e0d3b37 **docs: generate CHANGELOG**
+- 2025-09-09 11:03 81d64fc **docs: generate readme**
 - 2025-09-09 10:59 84f4f7c **refactor: rewrite external api prereq**
 - 2025-09-09 10:53 d5847e9 **refactor: rewrite mailer prereq**
 - 2025-09-09 10:48 80ec5c6 **refactor: rewrite jobs prereq**
