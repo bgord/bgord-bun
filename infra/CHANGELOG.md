@@ -1,4 +1,6 @@
 # Changelog
+## 2025-09-09 14:11 v0.26.0
+- 2025-09-09 14:11 aad00fa **0.26.0**
 - 2025-09-09 14:11 644a9a0 **refactor: pass logger in i18n where needed**
 - 2025-09-09 14:04 ee30b44 **refactor: eliminate console.log from i18n**
 - 2025-09-09 14:01 a0ed02f **refactor: eliminate console.log from env validator**
@@ -13,6 +15,7 @@
 - 2025-09-09 12:19 59ceacf **refactor: space try catch**
 - 2025-09-09 12:16 ebb29c9 **refactor: node try catch**
 - 2025-09-09 12:14 b1fd185 **refactor: bun try catch**
+- 2025-09-09 12:11 792aa6c **docs: generate CHANGELOG**
 - 2025-09-09 12:08 0ebd4d9 **refactor: improve formatting**
 - 2025-09-09 11:59 94f7560 **refactor: improve formatting**
 - 2025-09-09 11:52 2d0e849 **refactor: rewrite translations prereq**
