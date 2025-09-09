@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@axiomhq/winston": "1.3.1",
-    "@bgord/tools": "0.12.24",
+    "@bgord/tools": "0.12.25",
     "@hono/ua-blocker": "0.1.9",
     "better-auth": "1.3.9",
     "check-disk-space": "3.4.0",
