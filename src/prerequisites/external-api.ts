@@ -1,27 +1,29 @@
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteExternalApiConnectivityConfigType = {
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-  request: () => Promise<Response>;
-};
+export class PrerequisiteExternalApi implements prereqs.Prerequisite {
+  readonly kind = "external-api";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteExternalApi extends prereqs.AbstractPrerequisite<PrerequisiteExternalApiConnectivityConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.externalApi;
+  private readonly request: () => Promise<Response>;
 
-  constructor(readonly config: PrerequisiteExternalApiConnectivityConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { request: () => Promise<Response> }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+
+    this.request = config.request;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
-      const result = await this.config.request();
+      const response = await this.request();
 
-      return result.ok ? this.pass() : this.reject();
-    } catch (_error) {
-      return this.reject();
+      if (response.ok) return prereqs.Verification.success();
+      return prereqs.Verification.failure({ message: `HTTP ${response.status}` });
+    } catch (error) {
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }

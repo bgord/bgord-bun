@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - external api", () => {
   test("passes when ok = true is returned", async () => {
@@ -10,18 +10,18 @@ describe("prerequisites - external api", () => {
       request: () => fetch("http://some-api"),
     }).verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("rejects when ok = false is returned", async () => {
-    spyOn(global, "fetch").mockResolvedValue({ ok: false } as any);
+    spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
     const result = await new PrerequisiteExternalApi({
       label: "external-api",
       request: () => fetch("http://some-api"),
     }).verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
   });
 
   test("returns undetermined if disabled", async () => {
@@ -32,6 +32,6 @@ describe("prerequisites - external api", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });
