@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 import { PrerequisiteDependencyVulnerabilities } from "../src/prerequisites/dependency-vulnerabilities";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 const BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE = {
   "@mozilla/readability": [
@@ -75,12 +75,9 @@ describe("prerequisites - dependency vulnerabilities", () => {
       }),
     }));
 
-    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
-      label: "dependency-vulnerabilities",
-    });
-
+    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
     const result = await dependencyVulnerabilities.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("rejects if bun audit returns high and critical vulnerabilities", async () => {
@@ -92,26 +89,18 @@ describe("prerequisites - dependency vulnerabilities", () => {
       }),
     }));
 
-    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
-      label: "dependency-vulnerabilities",
-    });
+    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
     const result = await dependencyVulnerabilities.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: "Critical: 1 and high: 1" }));
   });
 
   test("rejects if bun audit exits with 1", async () => {
-    spyOn(bun, "$").mockImplementation(() => ({
-      // @ts-expect-error
-      quiet: () => ({ exitCode: 1 }),
-    }));
-
-    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
-      label: "dependency-vulnerabilities",
-    });
-
+    // @ts-expect-error
+    spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
+    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
     const result = await dependencyVulnerabilities.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure({ message: "Audit failure" }));
   });
 
   test("rejects if bun audit parsing fails", async () => {
@@ -120,21 +109,15 @@ describe("prerequisites - dependency vulnerabilities", () => {
       quiet: () => ({ exitCode: 0, stdout: Buffer.from("abc") }),
     }));
 
-    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({
-      label: "dependency-vulnerabilities",
-    });
-
+    const dependencyVulnerabilities = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
     const result = await dependencyVulnerabilities.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/Unexpected identifier "abc"/);
   });
 
   test("returns undetermined if disabled", async () => {
-    const prerequisite = new PrerequisiteDependencyVulnerabilities({
-      label: "dependency-vulnerabilities",
-      enabled: false,
-    });
-
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false });
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });

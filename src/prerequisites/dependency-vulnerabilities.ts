@@ -1,36 +1,25 @@
 import bun from "bun";
-import {
-  AbstractPrerequisite,
-  type PrerequisiteLabelType,
-  PrerequisiteStatusEnum,
-  PrerequisiteStrategyEnum,
-} from "../prerequisites.service";
+import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteDependencyVulnerabilityConfigType = {
-  label: PrerequisiteLabelType;
-  enabled?: boolean;
-};
+type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
 
-type BunAuditOutput = {
-  [packageName: string]: {
-    severity: "low" | "moderate" | "high" | "critical";
-  }[];
-};
+export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisite {
+  readonly kind = "dependency-vulnerabilities";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteDependencyVulnerabilities extends AbstractPrerequisite<PrerequisiteDependencyVulnerabilityConfigType> {
-  readonly strategy = PrerequisiteStrategyEnum.dependencyVulnerabilities;
-
-  constructor(readonly config: PrerequisiteDependencyVulnerabilityConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
   }
 
-  async verify(): Promise<PrerequisiteStatusEnum> {
-    if (!this.enabled) return PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const result = await bun.$`bun audit --json`.quiet();
 
-      if (result.exitCode !== 0) return this.reject();
+      if (result.exitCode !== 0) return prereqs.Verification.failure({ message: "Audit failure" });
 
       const audit = JSON.parse(result.stdout.toString()) as BunAuditOutput;
 
@@ -42,12 +31,14 @@ export class PrerequisiteDependencyVulnerabilities extends AbstractPrerequisite<
         name.some((vulnerability) => vulnerability.severity === "high"),
       ).length;
 
-      if (criticalVulnerabilitiesCount > 0 || highVulnerabilitiesCount > 0) {
-        return this.reject();
-      }
-      return this.pass();
-    } catch (_error) {
-      return this.reject();
+      if (criticalVulnerabilitiesCount > 0 || highVulnerabilitiesCount > 0)
+        return prereqs.Verification.failure({
+          message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
+        });
+
+      return prereqs.Verification.success();
+    } catch (error) {
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }
