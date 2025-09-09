@@ -9,7 +9,6 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
     const partPath = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
     const finalPath = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
-    // POSIX atomic write
     await Bun.write(partPath.get(), data);
     await fs.rename(partPath.get(), finalPath.get());
 

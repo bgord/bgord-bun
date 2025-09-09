@@ -6,7 +6,6 @@ export class TemporaryFileNoop implements TemporaryFilePort {
 
   async write(filename: tools.Filename) {
     const path = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
-
     return { path };
   }
 

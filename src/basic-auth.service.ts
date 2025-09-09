@@ -16,7 +16,6 @@ export class BasicAuth {
     password: BasicAuthPasswordType,
   ): BasicAuthHeaderValueType {
     const credentials = btoa(`${username}:${password}`);
-
     return { authorization: `Basic ${credentials}` };
   }
 

@@ -12,7 +12,5 @@ export type GenericEventSchema = z.ZodObject<{
 }>;
 
 export type GenericParsedEventSchema = z.ZodObject<
-  Omit<GenericEventSchema["shape"], "payload"> & {
-    payload: z.ZodString;
-  }
+  Omit<GenericEventSchema["shape"], "payload"> & { payload: z.ZodString }
 >;

@@ -26,10 +26,7 @@ type CacheResolverWithMetadataResult<T> = {
 
 type CacheResolverRequestHeadersResult<T> = {
   data: T;
-  header: {
-    name: "cache-hit";
-    value: CacheHitEnum;
-  };
+  header: { name: "cache-hit"; value: CacheHitEnum };
   respond: (c: Context) => Promise<void>;
 };
 
@@ -67,24 +64,17 @@ export class CacheResolver {
 
     switch (strategy) {
       case CacheResolverStrategy.with_metadata:
-        return {
-          data,
-          meta: { hit: hit ? CacheHitEnum.hit : CacheHitEnum.miss },
-        };
+        return { data, meta: { hit: hit ? CacheHitEnum.hit : CacheHitEnum.miss } };
 
       case CacheResolverStrategy.request_headers:
         return {
           data,
           respond: (c: Context) => {
             c.header("cache-hit", hit ? CacheHitEnum.hit : CacheHitEnum.miss);
-
             // @ts-expect-error
             return c.json(data);
           },
-          header: {
-            name: "cache-hit",
-            value: hit ? CacheHitEnum.hit : CacheHitEnum.miss,
-          },
+          header: { name: "cache-hit", value: hit ? CacheHitEnum.hit : CacheHitEnum.miss },
         };
 
       default:

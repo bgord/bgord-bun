@@ -14,9 +14,6 @@ export class Uptime {
 
     const uptimeFormatted = tools.DateFormatters.relative(clock.now().Minus(uptime).ms);
 
-    return {
-      seconds: tools.Timestamp.parse(uptime.seconds),
-      formatted: uptimeFormatted,
-    };
+    return { seconds: tools.Timestamp.parse(uptime.seconds), formatted: uptimeFormatted };
   }
 }

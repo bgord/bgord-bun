@@ -9,7 +9,5 @@ export type GenericCommandSchema = z.ZodObject<{
 }>;
 
 export type GenericParsedCommandSchema = z.ZodObject<
-  Omit<GenericCommandSchema["shape"], "payload"> & {
-    payload: z.ZodString;
-  }
+  Omit<GenericCommandSchema["shape"], "payload"> & { payload: z.ZodString }
 >;

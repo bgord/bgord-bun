@@ -11,13 +11,7 @@ export class BetterAuthLogger {
       level: "debug",
       log: (lvl: LogLevel | undefined, message: string, ...args: unknown[]) => {
         const level = this.mapLevel(lvl);
-
-        const base = {
-          component: "infra",
-          operation: "better-auth",
-          message,
-          metadata: { args },
-        } as const;
+        const base = { component: "infra", operation: "better-auth", message, metadata: { args } } as const;
 
         switch (level) {
           case LogLevelEnum.error: {

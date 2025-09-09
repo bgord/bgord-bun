@@ -14,11 +14,7 @@ export type ContextVariables = {
 
 export class Context {
   static attach = createMiddleware(async (c, next) => {
-    c.set("context", {
-      requestId: c.get("requestId") as CorrelationIdType,
-      timeZoneOffset: c.get("timeZoneOffset"),
-    });
-
+    c.set("context", { requestId: c.get("requestId"), timeZoneOffset: c.get("timeZoneOffset") });
     await next();
   });
 }

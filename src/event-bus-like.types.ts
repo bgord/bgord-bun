@@ -7,6 +7,4 @@ export type EventBusLike<E extends { name: string }> = {
   ): void;
 };
 
-export type CommandBusLike<C extends { name: string }> = {
-  emit(name: C["name"], command: C): Promise<void>;
-};
+export type CommandBusLike<C extends { name: string }> = { emit(name: C["name"], command: C): Promise<void> };

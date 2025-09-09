@@ -6,11 +6,7 @@ type NodeEnvironmentEnumType = z.infer<typeof NodeEnvironment>;
 type AnyZodSchema = z.ZodSchema<any, any>;
 type QuitType = boolean;
 
-type EnvironmentValidatorConfig = {
-  type: unknown;
-  schema: AnyZodSchema;
-  quit?: QuitType;
-};
+type EnvironmentValidatorConfig = { type: unknown; schema: AnyZodSchema; quit?: QuitType };
 
 export class EnvironmentValidator<SchemaType> {
   type: NodeEnvironmentEnumType;
