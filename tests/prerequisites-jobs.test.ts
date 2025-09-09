@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { PrerequisiteJobs } from "../src/prerequisites/jobs";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - jobs", () => {
   test("verify method returns success for all jobs running", async () => {
@@ -9,19 +9,16 @@ describe("prerequisites - jobs", () => {
       jobs: { a: { isRunning: () => true } as any },
     }).verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("verify method returns failure for at least one job not running", async () => {
     const result = await new PrerequisiteJobs({
       label: "jobs",
-      jobs: {
-        a: { isRunning: () => false } as any,
-        b: { isRunning: () => true } as any,
-      },
+      jobs: { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any },
     }).verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(prereqs.Verification.failure());
   });
 
   test("returns undetermined if disabled", async () => {
@@ -32,6 +29,6 @@ describe("prerequisites - jobs", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });

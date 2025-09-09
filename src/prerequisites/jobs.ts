@@ -1,22 +1,25 @@
 import { Jobs, type MultipleJobsType } from "../jobs.service";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteJobsConfigType = {
-  jobs: MultipleJobsType;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteJobs implements prereqs.Prerequisite {
+  readonly kind = "jobs";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteJobs extends prereqs.AbstractPrerequisite<PrerequisiteJobsConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.jobs;
+  private readonly jobs: MultipleJobsType;
 
-  constructor(readonly config: PrerequisiteJobsConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { jobs: MultipleJobsType }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.jobs = config.jobs;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
-    return Jobs.areAllRunning(this.config.jobs) ? this.pass() : this.reject();
+    const areAllJobsRunning = Jobs.areAllRunning(this.jobs);
+
+    if (areAllJobsRunning) return prereqs.Verification.success();
+    return prereqs.Verification.failure();
   }
 }
