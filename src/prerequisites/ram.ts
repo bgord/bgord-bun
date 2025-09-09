@@ -2,28 +2,25 @@ import os from "node:os";
 import * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
-type PrerequisiteRAMConfigType = {
-  minimum: tools.Size;
-  label: prereqs.PrerequisiteLabelType;
-  enabled?: boolean;
-};
+export class PrerequisiteRAM implements prereqs.Prerequisite {
+  readonly kind = "ram";
+  readonly label: prereqs.PrerequisiteLabelType;
+  readonly enabled?: boolean = true;
 
-export class PrerequisiteRAM extends prereqs.AbstractPrerequisite<PrerequisiteRAMConfigType> {
-  readonly strategy = prereqs.PrerequisiteStrategyEnum.RAM;
+  private readonly minimum: tools.Size;
 
-  constructor(readonly config: PrerequisiteRAMConfigType) {
-    super(config);
+  constructor(config: prereqs.PrerequisiteConfigType & { minimum: tools.Size }) {
+    this.label = config.label;
+    this.enabled = config.enabled === undefined ? true : config.enabled;
+    this.minimum = config.minimum;
   }
 
-  async verify(): Promise<prereqs.PrerequisiteStatusEnum> {
-    if (!this.enabled) return prereqs.PrerequisiteStatusEnum.undetermined;
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
-    const freeRAM = new tools.Size({
-      unit: tools.SizeUnit.b,
-      value: os.freemem(),
-    });
+    const freeRAM = new tools.Size({ unit: tools.SizeUnit.b, value: os.freemem() });
 
-    if (freeRAM.isGreaterThan(this.config.minimum)) return this.pass();
-    return this.reject();
+    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success();
+    return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.SizeUnit.MB)}` });
   }
 }

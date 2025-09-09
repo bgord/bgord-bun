@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - ram", () => {
   test("verify method returns success for valid RAM", async () => {
@@ -13,18 +13,21 @@ describe("prerequisites - ram", () => {
       minimum: new tools.Size({ value: 512, unit: tools.SizeUnit.MB }),
     }).verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.success);
+    expect(result).toEqual(prereqs.Verification.success());
   });
 
   test("verify method returns failure for insufficient RAM", async () => {
-    spyOn(os, "freemem").mockReturnValue(new tools.Size({ value: 256, unit: tools.SizeUnit.MB }).toBytes());
+    const freeRAM = new tools.Size({ value: 256, unit: tools.SizeUnit.MB });
+    spyOn(os, "freemem").mockReturnValue(freeRAM.toBytes());
 
     const result = await new PrerequisiteRAM({
       label: "ram",
       minimum: new tools.Size({ value: 512, unit: tools.SizeUnit.MB }),
     }).verify();
 
-    expect(result).toBe(PrerequisiteStatusEnum.failure);
+    expect(result).toEqual(
+      prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.SizeUnit.MB)}` }),
+    );
   });
 
   test("returns undetermined when disabled", async () => {
@@ -35,6 +38,6 @@ describe("prerequisites - ram", () => {
     });
 
     const result = await prerequisite.verify();
-    expect(result).toBe(PrerequisiteStatusEnum.undetermined);
+    expect(result).toEqual(prereqs.Verification.undetermined());
   });
 });
