@@ -22,10 +22,7 @@ export type I18nConfigType = {
 export class I18n {
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
-  constructor(
-    private readonly logger: LoggerPort,
-    private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH,
-  ) {}
+  constructor(private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
@@ -37,14 +34,12 @@ export class I18n {
     }
   }
 
-  useTranslations(translations: TranslationsType) {
-    const that = this;
-
+  useTranslations(logger: LoggerPort, translations: TranslationsType) {
     return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
       const translation = translations[key];
 
       if (!translation) {
-        that.logger.warn({
+        logger.warn({
           message: `Missing translation for key ${key}`,
           component: "infra",
           operation: "translations",
