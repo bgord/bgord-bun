@@ -6,9 +6,7 @@ import { ShieldApiKey } from "../src/shield-api-key.middleware";
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const apiKeyShield = new ShieldApiKey({
-  API_KEY: tools.ApiKey.parse(VALID_API_KEY),
-});
+const apiKeyShield = new ShieldApiKey({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
 
 describe("ApiKeyShield middleware", () => {
   test("allows access with valid API key", async () => {
@@ -27,9 +25,7 @@ describe("ApiKeyShield middleware", () => {
   test("denies access with missing API key", async () => {
     const app = new Hono();
     app.use(apiKeyShield.verify);
-    app.get("/ping", () => {
-      expect.unreachable();
-    });
+    app.get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",
@@ -42,9 +38,7 @@ describe("ApiKeyShield middleware", () => {
   test("denies access with invalid API key", async () => {
     const app = new Hono();
     app.use(apiKeyShield.verify);
-    app.get("/ping", () => {
-      expect.unreachable();
-    });
+    app.get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",

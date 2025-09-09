@@ -8,7 +8,6 @@ const clock = new ClockSystemAdapter();
 describe("Uptime", () => {
   test("Uptime.get returns seconds and formatted uptime", () => {
     const uptime = tools.Timestamp.parse(12_000);
-
     spyOn(process, "uptime").mockImplementation(() => uptime);
 
     const result = Uptime.get(clock);

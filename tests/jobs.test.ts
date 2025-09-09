@@ -29,6 +29,7 @@ describe("JobHandler", () => {
       process: jest.fn().mockResolvedValue(undefined),
     });
     await job();
+
     expect(loggerInfoSpy).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: "Test Job start" }));
     expect(loggerInfoSpy).toHaveBeenNthCalledWith(
       2,

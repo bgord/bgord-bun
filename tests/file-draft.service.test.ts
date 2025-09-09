@@ -27,9 +27,9 @@ describe("FileDraft", () => {
     app.get("/file", async () => new AlphabetFile().toResponse());
 
     const result = await app.request("/file");
-    expect(result.status).toEqual(200);
-
     const text = await result.text();
+
+    expect(result.status).toEqual(200);
     expect(text).toEqual("abc");
     expect(result.headers.get("content-type")).toEqual("text/plain");
     expect(result.headers.get("content-disposition")).toEqual(`attachment; filename="alphabet.txt"`);

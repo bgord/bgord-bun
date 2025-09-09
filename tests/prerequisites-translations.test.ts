@@ -8,31 +8,27 @@ describe("prerequisites - translations", () => {
   test("verify method returns success for translations that exists", async () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
 
-    const result = await new PrerequisiteTranslations({
-      label: "i18n",
-      supportedLanguages: { en: "en" },
-    }).verify();
+    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } });
 
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("verify method returns failure for translations that not exist", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
 
-    const result = await new PrerequisiteTranslations({
+    const prerequisite = new PrerequisiteTranslations({
       label: "translations",
       supportedLanguages: { en: "en", es: "es" },
-    }).verify();
+    });
 
     // @ts-expect-error
-    expect(result.error.message).toMatch(/Does not exist/);
+    expect((await prerequisite.verify()).error.message).toMatch(/Does not exist/);
   });
 
   test("verify method returns failure for inconsistent translations", async () => {
     // @ts-expect-error
     spyOn(process, "exit").mockImplementation(() => {});
     spyOn(fsp, "access").mockImplementation(jest.fn());
-
     spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
       switch (language) {
         case "en":
@@ -44,12 +40,12 @@ describe("prerequisites - translations", () => {
       }
     });
 
-    const result = await new PrerequisiteTranslations({
+    const prerequisite = new PrerequisiteTranslations({
       label: "translations",
       supportedLanguages: { en: "en", es: "en" },
-    }).verify();
+    });
 
-    expect(result).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }),
     );
   });
@@ -57,10 +53,10 @@ describe("prerequisites - translations", () => {
   test("returns undetermined when disabled", async () => {
     const prerequisite = new PrerequisiteTranslations({
       label: "prerequisite",
-      enabled: false,
       supportedLanguages: { en: "en", es: "es" },
+      enabled: false,
     });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.undetermined());
+
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

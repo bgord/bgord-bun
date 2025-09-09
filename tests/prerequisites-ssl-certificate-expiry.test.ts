@@ -11,11 +11,10 @@ describe("prerequisites - ssl certificate expiry", () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
       validDaysMinimum: 30,
-      label: "ssl-certificate",
+      label: "ssl",
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("fails when certificate is valid but expires too soon", async () => {
@@ -28,8 +27,9 @@ describe("prerequisites - ssl certificate expiry", () => {
       label: "ssl-certificate",
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.failure({ message: "Days remaining: 10" }));
+    expect(await prerequisite.verify()).toEqual(
+      prereqs.Verification.failure({ message: "Days remaining: 10" }),
+    );
   });
 
   test("fails when certificate is invalid", async () => {
@@ -42,8 +42,7 @@ describe("prerequisites - ssl certificate expiry", () => {
       label: "ssl-certificate",
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid" }));
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "Invalid" }));
   });
 
   test("fails when sslChecker throws", async () => {
@@ -54,10 +53,8 @@ describe("prerequisites - ssl certificate expiry", () => {
       validDaysMinimum: 30,
       label: "ssl-certificate",
     });
-
-    const result = await prerequisite.verify();
     // @ts-expect-error
-    expect(result.error.message).toMatch(/SSL check failed/);
+    expect((await prerequisite.verify()).error.message).toMatch(/SSL check failed/);
   });
 
   test("returns undetermined if disabled", async () => {
@@ -68,7 +65,6 @@ describe("prerequisites - ssl certificate expiry", () => {
       enabled: false,
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.undetermined());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

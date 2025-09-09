@@ -23,10 +23,8 @@ describe("TemporaryFileAbsolute", () => {
 
     expect(writeSpy).toHaveBeenCalledTimes(1);
     expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
-
     expect(renameSpy).toHaveBeenCalledTimes(1);
     expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
-
     expect(path.get()).toBe(finalPath);
   });
 
@@ -48,7 +46,6 @@ describe("TemporaryFileAbsolute", () => {
     const renameSpy = spyOn(fs, "rename").mockResolvedValue();
 
     expect(adapter.write(filename, fileData)).rejects.toThrow("disk full");
-
     expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
     expect(renameSpy).not.toHaveBeenCalled();
   });
@@ -60,7 +57,6 @@ describe("TemporaryFileAbsolute", () => {
     const renameSpy = spyOn(fs, "rename").mockRejectedValue(new Error("permission denied"));
 
     expect(adapter.write(filename, fileData)).rejects.toThrow("permission denied");
-
     expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
     expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
   });

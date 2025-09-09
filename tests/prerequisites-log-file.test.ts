@@ -9,17 +9,21 @@ describe("prerequisites - log file", () => {
   test("returns success when log file exists", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
+
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.success());
+
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure when log file does not exist", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false });
+
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.failure({ message: `Missing file: ${logger.prodLogFile}` }));
+
+    expect(await prerequisite.verify()).toEqual(
+      prereqs.Verification.failure({ message: `Missing file: ${logger.prodLogFile}` }),
+    );
   });
 
   test("returns failure on exception", async () => {
@@ -29,15 +33,15 @@ describe("prerequisites - log file", () => {
         throw new Error("FS error");
       },
     });
+
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
-    const result = await prerequisite.verify();
     // @ts-expect-error
-    expect(result.error.message).toMatch(/FS error/);
+    expect((await prerequisite.verify()).error.message).toMatch(/FS error/);
   });
 
   test("returns undetermined when disabled", async () => {
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file", enabled: false });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.undetermined());
+
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

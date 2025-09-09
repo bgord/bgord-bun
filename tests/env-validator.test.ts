@@ -21,12 +21,7 @@ describe("Env validator", () => {
 
   test("EnvironmentValidator throws if NodeEnvironment is invalid and quit=false", () => {
     expect(
-      () =>
-        new EnvironmentValidator({
-          type: "invalid-env",
-          schema: DummySchema,
-          quit: false,
-        }),
+      () => new EnvironmentValidator({ type: "invalid-env", schema: DummySchema, quit: false }),
     ).toThrow();
   });
 
@@ -34,11 +29,7 @@ describe("Env validator", () => {
     process.env.APP_NAME = undefined;
 
     expect(() =>
-      new EnvironmentValidator({
-        type: NodeEnvironmentEnum.local,
-        schema: DummySchema,
-        quit: false,
-      }).load(),
+      new EnvironmentValidator({ type: NodeEnvironmentEnum.local, schema: DummySchema, quit: false }).load(),
     ).toThrow(/expected string, received undefined/);
   });
 });

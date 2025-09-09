@@ -15,8 +15,7 @@ describe("prerequisites - memory", () => {
       label: "pass-case",
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure when memory usage exceeds the maximum", async () => {
@@ -29,8 +28,7 @@ describe("prerequisites - memory", () => {
       label: "fail-case",
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       prereqs.Verification.failure({
         message: `Memory consumption: ${memoryConsumption.format(tools.SizeUnit.MB)}`,
       }),
@@ -49,7 +47,6 @@ describe("prerequisites - memory", () => {
       enabled: false,
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.undetermined());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

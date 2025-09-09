@@ -44,12 +44,7 @@ describe("ImageProcessorSharpAdapter.process", () => {
     expect(flattenSpy).toHaveBeenCalledWith({ background: "#FFFFFF" });
     expect(resizeSpy).toHaveBeenCalledTimes(1);
     const [resizeOpts] = resizeSpy.mock.calls[0] as any[];
-    expect(resizeOpts).toMatchObject({
-      width: 256,
-      height: 256,
-      fit: "inside",
-      withoutEnlargement: true,
-    });
+    expect(resizeOpts).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
     expect(fmt).toBe("webp");
@@ -109,12 +104,7 @@ describe("ImageProcessorSharpAdapter.process", () => {
     expect(flattenSpy).not.toHaveBeenCalled();
 
     const [resizeOpts] = resizeSpy.mock.calls[0] as any[];
-    expect(resizeOpts).toMatchObject({
-      width: 512,
-      height: 512,
-      fit: "inside",
-      withoutEnlargement: true,
-    });
+    expect(resizeOpts).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
     expect(fmt).toBe("jpeg");

@@ -10,10 +10,7 @@ describe("ShieldCaptchaNoop", () => {
     app.use("/secure", shield.verify);
     app.post("/secure", (c) => c.text("OK"));
 
-    const response = await app.request("/secure", {
-      method: "POST",
-      body: new FormData(),
-    });
+    const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
     expect(response.status).toBe(200);
     expect(await response.text()).toBe("OK");

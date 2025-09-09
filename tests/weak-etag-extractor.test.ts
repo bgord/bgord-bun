@@ -12,11 +12,8 @@ describe("WeakETagExtractor middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({
-        [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345",
-      }),
+      headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" }),
     });
-
     const json = await result.json();
 
     expect(result.status).toEqual(200);
@@ -30,7 +27,6 @@ describe("WeakETagExtractor middleware", () => {
     app.get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", { method: "GET" });
-
     const json = await result.json();
 
     expect(result.status).toEqual(200);
@@ -44,11 +40,8 @@ describe("WeakETagExtractor middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({
-        [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid",
-      }),
+      headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid" }),
     });
-
     const json = await result.json();
 
     expect(result.status).toEqual(200);

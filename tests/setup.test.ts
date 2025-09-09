@@ -8,11 +8,7 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Setup } from "../src/setup.service";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
 
-const ip = {
-  server: {
-    requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }),
-  },
-};
+const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };
 
 const predefinedRequestId = "123";
 const Logger = new LoggerNoopAdapter();
@@ -23,20 +19,10 @@ describe("Setup", () => {
   test("sets the essentials", async () => {
     spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const I18n: I18nConfigType = {
-      supportedLanguages: {
-        pl: "pl",
-        en: "en",
-      },
-      defaultLanguage: "en",
-    };
+    const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
 
-    const app = new Hono<{
-      Variables: TimeZoneOffsetVariables & EtagVariables;
-    }>();
-
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>();
     app.use(...Setup.essentials({ Logger, I18n, IdProvider, Clock }));
-
     app.get("/ping", (c) =>
       c.json({
         requestId: c.get("requestId"),
@@ -49,10 +35,7 @@ describe("Setup", () => {
 
     const response = await app.request(
       "/ping",
-      {
-        method: "GET",
-        headers: new Headers({ "x-correlation-id": predefinedRequestId }),
-      },
+      { method: "GET", headers: new Headers({ "x-correlation-id": predefinedRequestId }) },
       ip,
     );
 

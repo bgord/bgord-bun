@@ -10,9 +10,8 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.0.0"),
       current: "1.0.0",
     });
-    const result = await prerequisite.verify();
 
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("returns success if current Bun version is greater than required version", async () => {
@@ -21,9 +20,8 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.0.0"),
       current: "1.1.0",
     });
-    const result = await prerequisite.verify();
 
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure if current Bun version is less than required version", async () => {
@@ -32,10 +30,9 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.2.0"),
       current: "1.1.0",
     });
-    const result = await prerequisite.verify();
-
     // @ts-expect-error
-    expect(result.error.message).toEqual("Version: 1.2.0");
+
+    expect((await prerequisite.verify()).error.message).toEqual("Version: 1.2.0");
   });
 
   test("fails if invalid bun version gets passed", async () => {
@@ -44,8 +41,10 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.2.0"),
       current: "abc",
     });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.failure({ message: "Invalid version passed: abc" }));
+
+    expect(await prerequisite.verify()).toEqual(
+      prereqs.Verification.failure({ message: "Invalid version passed: abc" }),
+    );
   });
 
   test("returns undetermined if disabled", async () => {
@@ -55,8 +54,7 @@ describe("prerequisites - bun", () => {
       version: tools.PackageVersion.fromString("1.2.0"),
       current: "1.1.0",
     });
-    const result = await prerequisite.verify();
 
-    expect(result).toEqual(prereqs.Verification.undetermined());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

@@ -51,7 +51,6 @@ describe("SmtpMailerWithLogger class", () => {
     };
 
     expect(async () => mailer.send(sendOptions)).toThrow();
-
     expect(sendMail).toHaveBeenCalledWith(sendOptions);
     expect(loggerInfo).toHaveBeenCalled();
     expect(loggerError).toHaveBeenCalled();

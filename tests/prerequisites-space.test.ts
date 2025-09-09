@@ -17,9 +17,7 @@ describe("prerequisites - space", () => {
       minimum: new tools.Size({ value: 50, unit: tools.SizeUnit.MB }),
     });
 
-    const result = await space.verify();
-
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await space.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("fails when not enough space is available", async () => {
@@ -30,11 +28,10 @@ describe("prerequisites - space", () => {
       label: "Disk",
       minimum: new tools.Size({ value: 50, unit: tools.SizeUnit.MB }),
     });
-
-    const result = await space.verify();
-
     // @ts-expect-error
-    expect(result.error.message).toMatch(`Free disk space: ${free.format(tools.SizeUnit.MB)}`);
+    expect((await space.verify()).error.message).toMatch(
+      `Free disk space: ${free.format(tools.SizeUnit.MB)}`,
+    );
   });
 
   test("fails on error", async () => {
@@ -44,11 +41,8 @@ describe("prerequisites - space", () => {
       label: "Disk",
       minimum: new tools.Size({ value: 50, unit: tools.SizeUnit.MB }),
     });
-
-    const result = await space.verify();
-
     // @ts-expect-error
-    expect(result.error.message).toMatch(/Check disk error/);
+    expect((await space.verify()).error.message).toMatch(/Check disk error/);
   });
 
   test("returns undetermined if disabled", async () => {
@@ -58,8 +52,6 @@ describe("prerequisites - space", () => {
       enabled: false,
     });
 
-    const result = await space.verify();
-
-    expect(result).toEqual(prereqs.Verification.undetermined());
+    expect(await space.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

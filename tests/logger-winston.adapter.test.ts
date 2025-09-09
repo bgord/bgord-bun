@@ -29,11 +29,7 @@ describe("LoggerWinstonAdapter", () => {
       transports: [transport],
     });
 
-    logger.info({
-      component: "emotions",
-      operation: "entry_create",
-      message: "Created entry",
-    });
+    logger.info({ component: "emotions", operation: "entry_create", message: "Created entry" });
 
     expect(lines.length).toBeGreaterThan(0);
     const obj = JSON.parse(lines[0] as string);
@@ -65,11 +61,7 @@ describe("LoggerWinstonAdapter", () => {
 
     expect(lines.length).toBe(0);
 
-    logger.warn({
-      component: "infra",
-      operation: "rate_limit_hit",
-      message: "Too many requests",
-    });
+    logger.warn({ component: "infra", operation: "rate_limit_hit", message: "Too many requests" });
 
     expect(lines.length).toBe(1);
     const obj = JSON.parse(lines[0] as string);

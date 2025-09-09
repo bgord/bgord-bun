@@ -7,26 +7,26 @@ function createMockContext(body: string) {
 
 describe("safeParseBody", () => {
   test("returns empty object for truly empty body", async () => {
-    const c = createMockContext("");
-    const result = await safeParseBody(c);
+    const result = await safeParseBody(createMockContext(""));
+
     expect(result).toEqual({});
   });
 
   test("parses valid JSON body", async () => {
-    const c = createMockContext(JSON.stringify({ hello: "world" }));
-    const result = await safeParseBody(c);
+    const result = await safeParseBody(createMockContext(JSON.stringify({ hello: "world" })));
+
     expect(result).toEqual({ hello: "world" });
   });
 
   test("returns empty object for invalid JSON body", async () => {
-    const c = createMockContext("{ this is not json");
-    const result = await safeParseBody(c);
+    const result = await safeParseBody(createMockContext("{ this is not json"));
+
     expect(result).toEqual({});
   });
 
   test("returns empty object for whitespace-only body", async () => {
-    const c = createMockContext("   \n   ");
-    const result = await safeParseBody(c);
+    const result = await safeParseBody(createMockContext("   \n   "));
+
     expect(result).toEqual({});
   });
 });

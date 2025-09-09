@@ -11,20 +11,17 @@ import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash.vo";
 
 describe("SitemapLoc", () => {
   test("passes with non-empty string", () => {
-    const result = SitemapLoc.safeParse("https://example.com");
-    expect(result.success).toBe(true);
+    expect(SitemapLoc.safeParse("https://example.com").success).toBe(true);
   });
 
   test("fails with empty string", () => {
-    const result = SitemapLoc.safeParse("");
-    expect(result.success).toBe(false);
+    expect(SitemapLoc.safeParse("").success).toBe(false);
   });
 });
 
 describe("SitemapLastmod", () => {
   test("passes with valid YYYY-MM-DD date string", () => {
-    const result = SitemapLastmod.safeParse("2023-01-05");
-    expect(result.success).toBe(true);
+    expect(SitemapLastmod.safeParse("2023-01-05").success).toBe(true);
   });
 
   test("fails with invalid format", () => {
@@ -36,13 +33,11 @@ describe("SitemapLastmod", () => {
   });
 
   test("passes when omitted (optional)", () => {
-    const result = SitemapLastmod.safeParse(undefined);
-    expect(result.success).toBe(true);
+    expect(SitemapLastmod.safeParse(undefined).success).toBe(true);
   });
 
   test("fails with invalid parts", () => {
-    const result = SitemapLastmod.safeParse("2023-AB-12");
-    expect(result.success).toBe(false);
+    expect(SitemapLastmod.safeParse("2023-AB-12").success).toBe(false);
   });
 });
 
@@ -51,41 +46,34 @@ describe("SitemapChangefreq", () => {
 
   for (const value of validValues) {
     test(`passes with value: ${value}`, () => {
-      const result = SitemapChangefreq.safeParse(value);
-      expect(result.success).toBe(true);
+      expect(SitemapChangefreq.safeParse(value).success).toBe(true);
     });
   }
 
   test("fails with invalid string", () => {
-    const result = SitemapChangefreq.safeParse("sometimes");
-    expect(result.success).toBe(false);
+    expect(SitemapChangefreq.safeParse("sometimes").success).toBe(false);
   });
 
   test("passes when omitted (optional)", () => {
-    const result = SitemapChangefreq.safeParse(undefined);
-    expect(result.success).toBe(true);
+    expect(SitemapChangefreq.safeParse(undefined).success).toBe(true);
   });
 });
 
 describe("SitemapPriority", () => {
   test("passes with a number between 0 and 1", () => {
-    const result = SitemapPriority.safeParse(0.8);
-    expect(result.success).toBe(true);
+    expect(SitemapPriority.safeParse(0.8).success).toBe(true);
   });
 
   test("fails with number less than 0", () => {
-    const result = SitemapPriority.safeParse(-0.1);
-    expect(result.success).toBe(false);
+    expect(SitemapPriority.safeParse(-0.1).success).toBe(false);
   });
 
   test("fails with number greater than 1", () => {
-    const result = SitemapPriority.safeParse(1.1);
-    expect(result.success).toBe(false);
+    expect(SitemapPriority.safeParse(1.1).success).toBe(false);
   });
 
   test("applies default value when undefined", () => {
-    const result = SitemapPriority.parse(undefined);
-    expect(result).toBe(0.5);
+    expect(SitemapPriority.parse(undefined)).toBe(0.5);
   });
 });
 
@@ -93,14 +81,7 @@ describe("Sitemap.generate", () => {
   test("generates correct XML for full entry", () => {
     const config: SitemapConfigType = {
       BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
-      entries: [
-        {
-          loc: "/page",
-          lastmod: "2023-10-01",
-          changefreq: "monthly",
-          priority: 0.8,
-        },
-      ],
+      entries: [{ loc: "/page", lastmod: "2023-10-01", changefreq: "monthly", priority: 0.8 }],
     };
 
     const xml = Sitemap.generate(config);
@@ -116,12 +97,7 @@ describe("Sitemap.generate", () => {
   test("omits optional fields if not present", () => {
     const config: SitemapConfigType = {
       BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
-      entries: [
-        {
-          loc: "/home",
-          priority: 0.5,
-        },
-      ],
+      entries: [{ loc: "/home", priority: 0.5 }],
     };
 
     const xml = Sitemap.generate(config);
@@ -136,19 +112,12 @@ describe("Sitemap.generate", () => {
 describe("Sitemap.save", () => {
   test("writes sitemap to specified path", async () => {
     // @ts-expect-error
-    const bunFileWrite = spyOn(Bun, "file").mockReturnValue({
-      write: async () => 0,
-    });
+    const bunFileWrite = spyOn(Bun, "file").mockReturnValue({ write: async () => 0 });
 
     const config: SitemapConfigType = {
       path: "my-custom-sitemap.xml",
       BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
-      entries: [
-        {
-          loc: "/about",
-          priority: 0.7,
-        },
-      ],
+      entries: [{ loc: "/about", priority: 0.7 }],
     };
 
     await Sitemap.save(config);
@@ -158,18 +127,11 @@ describe("Sitemap.save", () => {
 
   test("writes sitemap to default path if not specified", async () => {
     // @ts-expect-error
-    const bunFileWrite = spyOn(Bun, "file").mockReturnValue({
-      write: async () => 0,
-    });
+    const bunFileWrite = spyOn(Bun, "file").mockReturnValue({ write: async () => 0 });
 
     const config: SitemapConfigType = {
       BASE_URL: UrlWithoutTrailingSlash.parse("https://example.com"),
-      entries: [
-        {
-          loc: "/contact",
-          priority: 0.6,
-        },
-      ],
+      entries: [{ loc: "/contact", priority: 0.6 }],
     };
 
     await Sitemap.save(config);

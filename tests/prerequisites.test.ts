@@ -50,15 +50,11 @@ describe("Prerequisites", () => {
       }),
     );
     expect(exitSpy).toHaveBeenCalledWith(1);
-
-    exitSpy.mockRestore();
   });
 
   test("logs Prerequisites ok and does not exit when all succeed", async () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
-
     await runner.check([new Ok(), new Ok()]);
-
     expect(loggerInfoSpy).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
     );
@@ -66,9 +62,7 @@ describe("Prerequisites", () => {
 
   test("treats undetermined as ok (no exit)", async () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
-
     await runner.check([new Ok(), new Undetermined()]);
-
     expect(loggerInfoSpy).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
     );

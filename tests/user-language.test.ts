@@ -29,8 +29,8 @@ describe("UserLanguageOHQ", () => {
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
-
     const language = await UserLanguageOHQ.get(userId);
+
     expect(language).toEqual(SupportedLanguages.pl);
   });
 
@@ -58,8 +58,8 @@ describe("UserLanguageOHQ", () => {
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
       new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(SupportedLanguages.en),
     );
-
     const result = await UserLanguageOHQ.get(userId);
+
     expect(result).toEqual(SupportedLanguages.en);
   });
 });

@@ -23,9 +23,7 @@ describe("Command logger", () => {
     const loggerInfo = spyOn(logger, "info");
     const commandLogger = new CommandLogger(logger as any);
 
-    commandLogger.handle("subscribe", "debug:name", "user.created", {
-      userId: 123,
-    });
+    commandLogger.handle("subscribe", "debug:name", "user.created", { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();
   });
@@ -35,9 +33,7 @@ describe("Command logger", () => {
     const loggerInfo = spyOn(logger, "info");
     const commandLogger = new CommandLogger(logger as any);
 
-    commandLogger.handle("emit", "debug:name", Symbol("user.created") as any, {
-      userId: 123,
-    });
+    commandLogger.handle("emit", "debug:name", Symbol("user.created") as any, { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();
   });

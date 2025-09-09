@@ -18,10 +18,6 @@ describe("Context class", () => {
     expect(result.status).toEqual(200);
     expect(typeof body.requestId).toEqual("string");
     expect(body.requestId.length).toEqual(36);
-    expect(body.timeZoneOffset).toEqual({
-      miliseconds: 0,
-      seconds: 0,
-      minutes: 0,
-    });
+    expect(body.timeZoneOffset).toEqual({ miliseconds: 0, seconds: 0, minutes: 0 });
   });
 });

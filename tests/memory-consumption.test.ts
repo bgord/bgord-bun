@@ -5,7 +5,6 @@ import { MemoryConsumption } from "../src/memory-consumption.service";
 describe("Memory consumption", () => {
   test("MemoryConsumption.get returns current RSS memory as Size", () => {
     const fakeRss = 123456789;
-
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: fakeRss }));
 

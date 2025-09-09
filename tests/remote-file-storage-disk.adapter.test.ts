@@ -8,6 +8,13 @@ const hasher = new FileHashNoopAdapter();
 
 describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath: writes -part, renames atomically, returns hasher result", async () => {
+    // @ts-expect-error
+    spyOn(Bun, "file").mockImplementation((p: string) => {
+      expect(p).toBe("/tmp/upload/avatar.webp");
+      return {};
+    });
+    const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(undefined as any);
+
     const hashSpy = spyOn(hasher, "hash").mockResolvedValue({
       etag: "etag-123",
       size: tools.Size.fromBytes(42),
@@ -22,13 +29,6 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
     const mkdirSpy = spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    // @ts-expect-error
-    spyOn(Bun, "file").mockImplementation((p: string) => {
-      expect(p).toBe("/tmp/upload/avatar.webp");
-      return {};
-    });
-    const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(undefined as any);
 
     const key = tools.ObjectKey.parse("users/u-1/avatar.webp");
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
@@ -76,11 +76,6 @@ describe("RemoteFileStorageDiskAdapter", () => {
   });
 
   test("getStream: returns Bun.file(...).stream()", async () => {
-    const adapter = new RemoteFileStorageDiskAdapter({
-      root: tools.DirectoryPathAbsoluteSchema.parse("/srv/store"),
-      hasher,
-    });
-
     const stream = new ReadableStream();
     // @ts-expect-error
     spyOn(Bun, "file").mockImplementation((path: string) => {
@@ -88,18 +83,23 @@ describe("RemoteFileStorageDiskAdapter", () => {
       return { stream: () => stream };
     });
 
+    const adapter = new RemoteFileStorageDiskAdapter({
+      root: tools.DirectoryPathAbsoluteSchema.parse("/srv/store"),
+      hasher,
+    });
+
     expect(await adapter.getStream(tools.ObjectKey.parse("users/u/avatar.webp"))).toBe(stream);
   });
 
   test("delete: best-effort unlink", async () => {
+    const unlinkSpy = spyOn(fs, "unlink").mockResolvedValue(undefined);
+
     const adapter = new RemoteFileStorageDiskAdapter({
       root: tools.DirectoryPathAbsoluteSchema.parse("/opt/storage"),
       hasher,
     });
-
-    const unlinkSpy = spyOn(fs, "unlink").mockResolvedValue(undefined);
-
     await adapter.delete(tools.ObjectKey.parse("users/z/avatar.webp"));
+
     expect(unlinkSpy).toHaveBeenCalledWith("/opt/storage/users/z/avatar.webp");
   });
 

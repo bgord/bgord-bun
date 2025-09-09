@@ -15,9 +15,9 @@ describe("RequestId", () => {
     app.get("/ping", async (c) => c.json({ requestId: c.get("requestId") }));
 
     const result = await app.request("/ping");
-    expect(result.status).toEqual(200);
-
     const json = await result.json();
+
+    expect(result.status).toEqual(200);
     expect(json).toEqual({ requestId: fresh });
     expect(result.headers.get("x-correlation-id")).toEqual(fresh);
   });
@@ -34,9 +34,9 @@ describe("RequestId", () => {
     const result = await app.request("/ping", {
       headers: new Headers({ "x-correlation-id": predefinedRequestId }),
     });
-    expect(result.status).toEqual(200);
-
     const json = await result.json();
+
+    expect(result.status).toEqual(200);
     expect(json).toEqual({ requestId: predefinedRequestId });
     expect(result.headers.get("x-correlation-id")).toEqual(predefinedRequestId);
   });
@@ -54,9 +54,9 @@ describe("RequestId", () => {
     const result = await app.request("/ping", {
       headers: new Headers({ "x-correlation-id": predefinedRequestId }),
     });
-    expect(result.status).toEqual(200);
-
     const json = await result.json();
+
+    expect(result.status).toEqual(200);
     expect(json).toEqual({ requestId: fresh });
     expect(result.headers.get("x-correlation-id")).toEqual(fresh);
   });

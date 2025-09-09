@@ -41,9 +41,7 @@ describe("InvariantErrorHandler", () => {
   test("throws formatted error", async () => {
     const app = new Hono();
     app.post("/ping", async (c) => {
-      console.log({ before: "before" });
       SampleInvariant.perform({ threshold: 15 });
-      console.log({ after: "after" });
       return c.text("OK");
     });
     app.onError(ErrorHandler.handle);

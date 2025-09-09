@@ -16,10 +16,7 @@ describe("File uploader", () => {
     app.use(
       ...FileUploader.validate({
         mimeTypes: ["image/png"],
-        maxFilesSize: new tools.Size({
-          value: 10,
-          unit: tools.SizeUnit.kB,
-        }),
+        maxFilesSize: new tools.Size({ value: 10, unit: tools.SizeUnit.kB }),
       }),
     );
 

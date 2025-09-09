@@ -7,9 +7,7 @@ describe("CorrelationStorage.run / get", () => {
   test("makes the correlationId available inside the callback", () => {
     const id = "cid-1";
 
-    CorrelationStorage.run(id, () => {
-      expect(CorrelationStorage.get()).toBe(id);
-    });
+    CorrelationStorage.run(id, () => expect(CorrelationStorage.get()).toBe(id));
   });
 
   test("propagates across awaits/promises", async () => {
@@ -30,11 +28,7 @@ describe("Nested run() calls", () => {
   test("restores the outer id after the inner context finishes", () => {
     CorrelationStorage.run("outer", () => {
       expect(CorrelationStorage.get()).toBe("outer");
-
-      CorrelationStorage.run("inner", () => {
-        expect(CorrelationStorage.get()).toBe("inner");
-      });
-
+      CorrelationStorage.run("inner", () => expect(CorrelationStorage.get()).toBe("inner"));
       expect(CorrelationStorage.get()).toBe("outer");
     });
   });
@@ -44,9 +38,7 @@ describe("CorrelationStorage.handle() middleware", () => {
   test("seeds AsyncLocalStorage with requestId", async () => {
     const id = "cid-mw";
 
-    const ctx = {
-      get: (key: string) => (key === "requestId" ? id : undefined),
-    } as any;
+    const ctx = { get: (key: string) => (key === "requestId" ? id : undefined) } as any;
 
     let seen: string | undefined;
 

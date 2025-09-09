@@ -29,10 +29,8 @@ describe("ImageBlurSharpAdapter.blur", () => {
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg"); // jpg → jpeg encoder
     const recipe: ImageBlurStrategy = { strategy: "in_place", input };
 
-    // Act
     const finalVo = await adapter.blur(recipe);
 
-    // Assert: blur called with undefined (default), rotate called, encoder from final extension
     expect(blurSpy).toHaveBeenCalledTimes(1);
     expect(blurSpy).toHaveBeenCalledWith(undefined);
     expect(rotateSpy).toHaveBeenCalledTimes(1);
@@ -41,19 +39,12 @@ describe("ImageBlurSharpAdapter.blur", () => {
     const [format] = toFormatSpy.mock.calls[0] as any[];
     expect(format).toBe("jpeg");
 
-    // Temp based on FINAL path & rename
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
     expect(tempWritten).toBe("/var/img/photo-blurred.jpg");
     expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-blurred.jpg", "/var/img/photo.jpg");
-
-    // Returns same VO for in_place
     expect(finalVo).toBe(input);
-
-    // sharp called with input, disposed
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpg");
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-    // Cleanup
   });
 
   test("output_path: applies provided sigma, picks encoder from output extension, temp next to output, atomic rename", async () => {
@@ -74,21 +65,13 @@ describe("ImageBlurSharpAdapter.blur", () => {
 
     const finalVo = await adapter.blur(recipe);
 
-    // sigma passed through
     expect(blurSpy).toHaveBeenCalledWith(2.5);
-
-    // Encoder from FINAL output extension
     const [format] = toFormatSpy.mock.calls[0] as any[];
     expect(format).toBe("webp");
-
-    // Temp based on FINAL output & rename
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
     expect(tempWritten).toBe("/out/dest-blurred.webp");
     expect(renameSpy).toHaveBeenCalledWith("/out/dest-blurred.webp", "/out/dest.webp");
-
-    // Returned VO is the provided output
     expect(finalVo).toBe(output);
-
     expect(sharpSpy).toHaveBeenCalledWith("/in/source.png");
   });
 

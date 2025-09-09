@@ -4,21 +4,21 @@ import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - jobs", () => {
   test("verify method returns success for all jobs running", async () => {
-    const result = await new PrerequisiteJobs({
+    const prerequisite = new PrerequisiteJobs({
       label: "jobs",
       jobs: { a: { isRunning: () => true } as any },
-    }).verify();
+    });
 
-    expect(result).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("verify method returns failure for at least one job not running", async () => {
-    const result = await new PrerequisiteJobs({
+    const prerequisite = new PrerequisiteJobs({
       label: "jobs",
       jobs: { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any },
-    }).verify();
+    });
 
-    expect(result).toEqual(prereqs.Verification.failure());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure());
   });
 
   test("returns undetermined if disabled", async () => {
@@ -28,7 +28,6 @@ describe("prerequisites - jobs", () => {
       jobs: { a: { isRunning: () => true } as any },
     });
 
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.undetermined());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

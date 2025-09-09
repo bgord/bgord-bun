@@ -2,11 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { VisitorIdHashHono } from "../src/visitor-id-hash-hono.adapter";
 
-const ip = {
-  server: {
-    requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }),
-  },
-};
+const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };
 
 describe("VisitorIdHashHono", () => {
   test("works", async () => {

@@ -9,15 +9,17 @@ describe("prerequisites - timezone utc", () => {
       label: "Timezone Check",
       timezone: tools.Timezone.parse("UTC"),
     });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.success());
+
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("returns failure if timezone is invalid", async () => {
     const timezone = tools.Timezone.parse("Europe/Warsaw");
     const prerequisite = new PrerequisiteTimezoneUTC({ label: "Timezone Check", timezone });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.failure({ message: `Timezone: ${timezone}` }));
+
+    expect(await prerequisite.verify()).toEqual(
+      prereqs.Verification.failure({ message: `Timezone: ${timezone}` }),
+    );
   });
 
   test("returns undetermined if disabled", async () => {
@@ -26,7 +28,7 @@ describe("prerequisites - timezone utc", () => {
       timezone: tools.Timezone.parse("UTC"),
       enabled: false,
     });
-    const result = await prerequisite.verify();
-    expect(result).toEqual(prereqs.Verification.undetermined());
+
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });

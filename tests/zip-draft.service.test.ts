@@ -37,7 +37,7 @@ describe("ZipDraft", () => {
     const zip = new FileDraftZip({ filename: "two.csv.zip", parts: [draftA, draftB] });
 
     const buf = await zip.create();
-    const txt = buf.toString("utf8"); // cheap way to search
+    const txt = buf.toString("utf8");
 
     expect(txt).toContain("first.csv");
     expect(txt).toContain("second.csv");

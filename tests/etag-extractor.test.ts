@@ -11,9 +11,7 @@ describe("ETagExtractor middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({
-        [tools.ETag.IF_MATCH_HEADER_NAME]: "12345",
-      }),
+      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "12345" }),
     });
 
     const json = await result.json();
@@ -43,9 +41,7 @@ describe("ETagExtractor middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({
-        [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid",
-      }),
+      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid" }),
     });
 
     const json = await result.json();
