@@ -37,6 +37,20 @@ describe("prerequisites - space", () => {
     expect(result.error.message).toMatch(`Free disk space: ${free.format(tools.SizeUnit.MB)}`);
   });
 
+  test("fails on error", async () => {
+    spyOn(checkDiskSpace, "default").mockRejectedValue(new Error("Check disk error"));
+
+    const space = new PrerequisiteSpace({
+      label: "Disk",
+      minimum: new tools.Size({ value: 50, unit: tools.SizeUnit.MB }),
+    });
+
+    const result = await space.verify();
+
+    // @ts-expect-error
+    expect(result.error.message).toMatch(/Check disk error/);
+  });
+
   test("returns undetermined if disabled", async () => {
     const space = new PrerequisiteSpace({
       label: "Disk",
