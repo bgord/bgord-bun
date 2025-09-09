@@ -1,4 +1,5 @@
 # Changelog
+- 2025-09-09 14:43 17c9d86 **refactor: do not process exit**
 ## 2025-09-09 14:39 v0.26.1
 - 2025-09-09 14:39 f16a277 **fix: env validator**
 - 2025-09-09 14:39 159a29b **0.26.1**
@@ -15,6 +16,7 @@
 - 2025-09-09 12:57 be38b69 **refactor: improve naming**
 - 2025-09-09 12:56 2f3b144 **refactor: healthcheck service**
 - 2025-09-09 12:50 7a3e1bf **refactor: prerequisites service**
+- 2025-09-09 12:40 eccdd39 **docs: generate CHANGELOG**
 - 2025-09-09 12:39 cb8704b **docs: generate CHANGELOG**
 - 2025-09-09 12:19 59ceacf **refactor: space try catch**
 - 2025-09-09 12:16 ebb29c9 **refactor: node try catch**
