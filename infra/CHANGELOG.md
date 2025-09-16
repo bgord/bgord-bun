@@ -1,7 +1,10 @@
 # Changelog
+## 2025-09-16 20:44 v0.28.0
+- 2025-09-16 20:44 e578f44 **0.28.0**
 - 2025-09-16 20:42 aae6aaa **refactor: tidy up types**
 - 2025-09-16 20:31 f209c1d **step: update packages**
 - 2025-09-16 19:34 7429ac3 **refactor: simplify if throw new**
+- 2025-09-16 18:42 4eb2bfa **docs: generate CHANGELOG**
 - 2025-09-16 15:56 6e08493 **refactor: do not use build version**
 ## 2025-09-16 13:14 v0.27.0
 - 2025-09-16 13:14 d9f372c **0.27.0**
