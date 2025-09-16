@@ -1,33 +1,40 @@
 import * as tools from "@bgord/tools";
+import type { LoggerPort } from "./logger.port";
+import { formatError } from "./logger-format-error.service";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
 export class GracefulShutdown {
-  private static async shutdown(server: ServerType, callback: () => any = tools.noop) {
+  constructor(private readonly logger: LoggerPort) {}
+
+  private async shutdown(server: ServerType, callback: () => any = tools.noop) {
     server.stop();
     await callback();
-    console.log("HTTP server closed");
+    this.logger.info({ message: "HTTP server closed", operation: "shutdown", component: "infra" });
   }
 
-  static applyTo(server: ServerType, callback: () => any = tools.noop) {
-    process.on("SIGTERM", async () => {
-      console.log("SIGTERM signal received: closing HTTP server");
-      await GracefulShutdown.shutdown(server, callback);
+  applyTo(server: ServerType, callback: () => any = tools.noop) {
+    process.once("SIGTERM", async () => {
+      this.logger.info({ message: "SIGTERM signal received", operation: "shutdown", component: "infra" });
+      await this.shutdown(server, callback);
       process.exit(0);
     });
 
-    process.on("SIGINT", async () => {
-      console.log("SIGINT signal received: closing HTTP server");
-      await GracefulShutdown.shutdown(server, callback);
+    process.once("SIGINT", async () => {
+      this.logger.info({ message: "SIGINT signal received", operation: "shutdown", component: "infra" });
+      await this.shutdown(server, callback);
       process.exit(0);
     });
 
-    process.on("unhandledRejection", async (event) => {
-      console.log("UnhandledPromiseRejectionWarning received: closing HTTP server");
+    process.once("unhandledRejection", async (event) => {
+      this.logger.error({
+        message: "UnhandledPromiseRejectionWarning received",
+        operation: "shutdown",
+        component: "infra",
+        error: formatError(event),
+      });
 
-      console.log(JSON.stringify(event));
-
-      await GracefulShutdown.shutdown(server, callback);
+      await this.shutdown(server, callback);
       process.exit(1);
     });
   }
