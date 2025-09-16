@@ -28,12 +28,23 @@ export class GracefulShutdown {
 
     process.once("unhandledRejection", async (event) => {
       this.logger.error({
-        message: "UnhandledPromiseRejectionWarning received",
+        message: "UnhandledRejection received",
         operation: "shutdown",
         component: "infra",
         error: formatError(event),
       });
 
+      await this.shutdown(server, callback);
+      process.exit(1);
+    });
+
+    process.once("uncaughtException", async (error) => {
+      this.logger.error({
+        message: "UncaughtException received",
+        operation: "shutdown",
+        component: "infra",
+        error: formatError(error),
+      });
       await this.shutdown(server, callback);
       process.exit(1);
     });
