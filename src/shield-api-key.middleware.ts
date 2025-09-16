@@ -4,9 +4,7 @@ import { HTTPException } from "hono/http-exception";
 
 type ApiKeyShieldConfigType = { API_KEY: tools.ApiKeyType };
 
-export const AccessDeniedApiKeyError = new HTTPException(403, {
-  message: "access_denied_api_key",
-});
+export const AccessDeniedApiKeyError = new HTTPException(403, { message: "access_denied_api_key" });
 
 export class ShieldApiKey {
   static readonly HEADER_NAME = "bgord-api-key";

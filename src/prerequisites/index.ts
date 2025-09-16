@@ -11,6 +11,7 @@ export * from "./node";
 export * from "./outside-connectivity";
 export * from "./port";
 export * from "./ram";
+export * from "./running-user";
 export * from "./self";
 export * from "./space";
 export * from "./ssl-certificate-expiry";

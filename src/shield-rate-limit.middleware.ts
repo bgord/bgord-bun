@@ -11,11 +11,7 @@ export const AnonSubjectResolver: SubjectResolver = () => "anon";
 
 export const UserSubjectResolver: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
 
-type RateLimitShieldOptionsType = {
-  enabled: boolean;
-  store: RateLimitStore;
-  subject: SubjectResolver;
-};
+type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStore; subject: SubjectResolver };
 
 type Dependencies = { Clock: ClockPort };
 

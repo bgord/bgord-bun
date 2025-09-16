@@ -11,18 +11,11 @@ export const RecaptchaSecretKey = z.string().trim().length(40).brand("RecaptchaS
 
 export type RecaptchaSecretKeyType = z.infer<typeof RecaptchaSecretKey>;
 
-export type RecaptchaVerifierConfigType = {
-  secretKey: RecaptchaSecretKeyType;
-};
+export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
 
-export type RecaptchaResultType = {
-  success: boolean;
-  score: number;
-};
+export type RecaptchaResultType = { success: boolean; score: number };
 
-export const AccessDeniedRecaptchaError = new HTTPException(403, {
-  message: "access_denied_recaptcha",
-});
+export const AccessDeniedRecaptchaError = new HTTPException(403, { message: "access_denied_recaptcha" });
 
 export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
   private readonly secretKey: RecaptchaVerifierConfigType["secretKey"];
@@ -49,17 +42,11 @@ export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
         throw AccessDeniedRecaptchaError;
       }
 
-      const params = new URLSearchParams({
-        secret: this.secretKey,
-        response: token,
-        remoteip,
-      });
+      const params = new URLSearchParams({ secret: this.secretKey, response: token, remoteip });
 
       const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params,
       });
 

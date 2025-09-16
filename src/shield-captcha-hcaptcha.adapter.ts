@@ -14,9 +14,7 @@ export type HCaptchaSiteKeyType = z.infer<typeof HCaptchaSiteKey>;
 export const HCaptchaResponseToken = z.string().trim();
 export type HCaptchaResponseTokenType = z.infer<typeof HCaptchaResponseToken>;
 
-export const AccessDeniedHcaptchaError = new HTTPException(403, {
-  message: "access_denied_hcaptcha",
-});
+export const AccessDeniedHcaptchaError = new HTTPException(403, { message: "access_denied_hcaptcha" });
 
 export class ShieldCaptchaHcaptcha implements ShieldCaptchaPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}

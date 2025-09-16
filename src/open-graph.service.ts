@@ -30,9 +30,7 @@ export const OpenGraphImageWidthValue = z
   .number()
   .int()
   .positive()
-  .refine((value) => value === 1200, {
-    message: "open.graph.image.width.invalid",
-  });
+  .refine((value) => value === 1200, { message: "open.graph.image.width.invalid" });
 
 export type OpenGraphImageWidthValueType = z.infer<typeof OpenGraphImageWidthValue>;
 
@@ -40,9 +38,7 @@ export const OpenGraphImageHeightValue = z
   .number()
   .int()
   .positive()
-  .refine((value) => value === 630, {
-    message: "open.graph.image.height.invalid",
-  });
+  .refine((value) => value === 630, { message: "open.graph.image.height.invalid" });
 
 export type OpenGraphImageHeightValueType = z.infer<typeof OpenGraphImageHeightValue>;
 
