@@ -25,25 +25,25 @@ export class GracefulShutdown {
     process.once("SIGTERM", async () => {
       this.logger.info({ message: "SIGTERM received", ...this.base });
       await this.shutdown(server, cleanup);
-      process.exit(0);
+      process.exitCode = 0;
     });
 
     process.once("SIGINT", async () => {
       this.logger.info({ message: "SIGINT received", ...this.base });
       await this.shutdown(server, cleanup);
-      process.exit(0);
+      process.exitCode = 0;
     });
 
     process.once("unhandledRejection", async (event) => {
       this.logger.error({ message: "UnhandledRejection received", error: formatError(event), ...this.base });
       await this.shutdown(server, cleanup);
-      process.exit(1);
+      process.exitCode = 1;
     });
 
     process.once("uncaughtException", async (error) => {
       this.logger.error({ message: "UncaughtException received", error: formatError(error), ...this.base });
       await this.shutdown(server, cleanup);
-      process.exit(1);
+      process.exitCode = 1;
     });
   }
 }
