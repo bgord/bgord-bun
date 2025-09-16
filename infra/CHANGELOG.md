@@ -1,4 +1,10 @@
 # Changelog
+- 2025-09-16 11:47 e2be2d9 **refactor: reformat files**
+- 2025-09-16 11:41 88c6e94 **refactor: improve prereq tests**
+- 2025-09-16 11:12 1e1342d **step: update packages**
+- 2025-09-16 11:03 7569403 **refactor: reformat files**
+- 2025-09-16 09:41 a68759c **step: update packages**
+- 2025-09-09 19:42 4630e5c **refactor: simplify size**
 ## 2025-09-09 14:43 v0.26.2
 - 2025-09-09 14:43 17c9d86 **refactor: do not process exit**
 - 2025-09-09 14:43 09a529a **0.26.2**
@@ -18,6 +24,7 @@
 - 2025-09-09 12:57 be38b69 **refactor: improve naming**
 - 2025-09-09 12:56 2f3b144 **refactor: healthcheck service**
 - 2025-09-09 12:50 7a3e1bf **refactor: prerequisites service**
+- 2025-09-09 12:44 74a1b2c **docs: generate CHANGELOG**
 - 2025-09-09 12:43 de77076 **docs: generate CHANGELOG**
 - 2025-09-09 12:40 eccdd39 **docs: generate CHANGELOG**
 - 2025-09-09 12:39 cb8704b **docs: generate CHANGELOG**
