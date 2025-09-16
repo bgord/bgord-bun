@@ -14,6 +14,7 @@ export * from "./ram";
 export * from "./running-user";
 export * from "./self";
 export * from "./space";
+export * from "./sqlite";
 export * from "./ssl-certificate-expiry";
 export * from "./timezone-utc";
 export * from "./translations";
