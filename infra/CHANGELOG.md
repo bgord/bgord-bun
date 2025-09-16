@@ -1,4 +1,11 @@
 # Changelog
+- 2025-09-16 13:11 7cc1e6a **refactor: update tests**
+- 2025-09-16 12:37 a0e0658 **fix: process exit code**
+- 2025-09-16 12:33 6638d55 **refactor: simplify logs**
+- 2025-09-16 12:31 edc7a49 **step: add cleanup error handler**
+- 2025-09-16 12:30 ebd97c4 **refactor: rename callback to cleanup**
+- 2025-09-16 12:29 b24a94e **step: add missing uncaught exception**
+- 2025-09-16 12:27 ab258a5 **refactor: use logger in graceful shutdown**
 - 2025-09-16 12:10 7e39fca **feature: add sqlite prereq**
 ## 2025-09-16 11:48 v0.26.3
 - 2025-09-16 11:48 c2f3183 **0.26.3**
@@ -6,6 +13,8 @@
 - 2025-09-16 11:41 88c6e94 **refactor: improve prereq tests**
 - 2025-09-16 11:12 1e1342d **step: update packages**
 - 2025-09-16 11:03 7569403 **refactor: reformat files**
+- 2025-09-16 10:10 ddeaddc **docs: generate CHANGELOG**
+- 2025-09-16 10:10 33ffca8 **docs: generate readme**
 - 2025-09-16 09:49 78f27b1 **docs: generate CHANGELOG**
 - 2025-09-16 09:47 8b41840 **docs: generate CHANGELOG**
 - 2025-09-16 09:47 16e8dab **docs: generate readme**
