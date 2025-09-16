@@ -1,64 +1,160 @@
-import { afterEach, beforeEach, describe, expect, jest, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import { GracefulShutdown } from "../src/graceful-shutdown.service";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
-describe("graceful shutdown", () => {
-  beforeEach(() => {
-    // @ts-expect-error
-    process.exit = jest.fn();
-    console.log = jest.fn();
+type ServerType = ReturnType<typeof Bun.serve>;
+
+const logger = new LoggerNoopAdapter();
+
+describe("GracefulShutdown", () => {
+  test("SIGTERM", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
+
+    process.removeAllListeners("SIGTERM");
+    const previousExitCode = process.exitCode;
+    process.exitCode = undefined;
+
+    const infoSpy = spyOn(logger, "info");
+
+    new GracefulShutdown(logger).applyTo(server);
+
+    process.emit("SIGTERM");
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(server.stop).toHaveBeenCalled();
+    expect(process.exitCode).toBe(0 as any);
+
+    expect(infoSpy.mock.calls[0][0].message).toEqual("SIGTERM received");
+    expect(infoSpy.mock.calls[1][0].message).toEqual("HTTP server closed");
+
+    process.exitCode = previousExitCode;
   });
 
-  afterEach(() => jest.restoreAllMocks());
+  test("SIGINT", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
 
-  test("gracefully shuts down on SIGINT", async () => {
-    const stop = jest.fn();
-    const callback = jest.fn();
+    process.removeAllListeners("SIGINT");
+    const previousExitCode = process.exitCode;
+    process.exitCode = undefined;
 
-    const mockServer = { stop };
+    const infoSpy = spyOn(logger, "info");
 
-    // @ts-expect-error
-    GracefulShutdown.applyTo(mockServer, callback);
+    new GracefulShutdown(logger).applyTo(server);
 
-    try {
-      process.emit("SIGINT");
-    } catch (_) {}
+    process.emit("SIGINT");
+    await Promise.resolve();
+    await Promise.resolve();
 
-    expect(stop).toHaveBeenCalled();
-    expect(callback).toHaveBeenCalled();
+    expect(server.stop).toHaveBeenCalledTimes(1);
+    expect(process.exitCode).toEqual(0 as any);
+
+    expect(infoSpy.mock.calls[0][0].message).toEqual("SIGINT received");
+    expect(infoSpy.mock.calls[1][0].message).toEqual("HTTP server closed");
+
+    process.exitCode = previousExitCode;
   });
 
-  test("gracefully shuts down on SIGTERM", async () => {
-    const stop = jest.fn();
-    const callback = jest.fn();
+  test("unhandledRejection", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
 
-    const mockServer = { stop };
+    process.removeAllListeners("unhandledRejection");
+    const previousExitCode = process.exitCode;
+    process.exitCode = undefined;
 
-    // @ts-expect-error
-    GracefulShutdown.applyTo(mockServer, callback);
+    const errorSpy = spyOn(logger, "error");
+    const infoSpy = spyOn(logger, "info");
 
-    try {
-      process.emit("SIGTERM");
-    } catch (_) {}
+    new GracefulShutdown(logger).applyTo(server);
 
-    expect(stop).toHaveBeenCalled();
-    expect(callback).toHaveBeenCalled();
+    // emit with a harmless second arg to avoid creating a truly unhandled rejected promise
+    process.emit("unhandledRejection", new Error("Panic"), {} as any);
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(server.stop).toHaveBeenCalledTimes(1);
+    expect(process.exitCode).toEqual(1 as any);
+
+    expect(errorSpy.mock.calls[0][0].message).toEqual("UnhandledRejection received");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("HTTP server closed");
+
+    process.exitCode = previousExitCode;
   });
 
-  test("handles unhandledRejection and exits with code 1", async () => {
-    const stop = jest.fn();
-    const callback = jest.fn();
+  test("uncaughtException", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
 
-    const mockServer = { stop };
+    process.removeAllListeners("uncaughtException");
+    const previousExitCode = process.exitCode;
+    process.exitCode = undefined;
 
-    //@ts-expect-error
-    GracefulShutdown.applyTo(mockServer, callback);
+    const errorSpy = spyOn(logger, "error");
+    const infoSpy = spyOn(logger, "info");
 
-    try {
-      //@ts-expect-error
-      process.emit("unhandledRejection", new Error("oops"));
-    } catch (_) {}
+    new GracefulShutdown(logger).applyTo(server);
 
-    expect(stop).toHaveBeenCalled();
-    expect(callback).toHaveBeenCalled();
+    process.emit("uncaughtException", new Error("Panic"));
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(server.stop).toHaveBeenCalledTimes(1);
+    expect(process.exitCode).toEqual(1 as any);
+
+    expect(errorSpy.mock.calls[0][0].message).toEqual("UncaughtException received");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("HTTP server closed");
+
+    process.exitCode = previousExitCode;
+  });
+
+  test("cleanup failure", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
+
+    process.removeAllListeners("SIGTERM");
+    const previousExitCode = process.exitCode;
+    process.exitCode = undefined;
+
+    const cleanup = jest.fn().mockRejectedValue(new Error("Panic"));
+
+    const infoSpy = spyOn(logger, "info");
+    const errorSpy = spyOn(logger, "error");
+
+    new GracefulShutdown(logger).applyTo(server, cleanup);
+
+    process.emit("SIGTERM");
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(cleanup).toHaveBeenCalledTimes(1);
+    expect(process.exitCode).toEqual(0 as any);
+
+    expect(infoSpy.mock.calls[0][0].message).toEqual("SIGTERM received");
+    expect(errorSpy.mock.calls[0][0].message).toEqual("Cleanup hook failed");
+
+    process.exitCode = previousExitCode;
+  });
+
+  test("process.once handlers fire only once per signal", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
+
+    process.removeAllListeners("SIGINT");
+    const previousExitCode = process.exitCode;
+    process.exitCode = undefined;
+
+    const cleanup = jest.fn().mockRejectedValue(new Error("Panic"));
+
+    new GracefulShutdown(logger).applyTo(server, cleanup);
+
+    process.emit("SIGINT");
+    await Promise.resolve();
+    await Promise.resolve();
+
+    process.emit("SIGINT");
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(server.stop).toHaveBeenCalledTimes(1);
+    expect(cleanup).toHaveBeenCalledTimes(1);
+
+    process.exitCode = previousExitCode;
   });
 });
