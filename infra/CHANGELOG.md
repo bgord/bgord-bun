@@ -1,4 +1,8 @@
 # Changelog
+- 2025-09-16 20:42 aae6aaa **refactor: tidy up types**
+- 2025-09-16 20:31 f209c1d **step: update packages**
+- 2025-09-16 19:34 7429ac3 **refactor: simplify if throw new**
+- 2025-09-16 15:56 6e08493 **refactor: do not use build version**
 ## 2025-09-16 13:14 v0.27.0
 - 2025-09-16 13:14 d9f372c **0.27.0**
 - 2025-09-16 13:11 7cc1e6a **refactor: update tests**
@@ -13,6 +17,7 @@
 - 2025-09-16 11:48 c2f3183 **0.26.3**
 - 2025-09-16 11:47 e2be2d9 **refactor: reformat files**
 - 2025-09-16 11:41 88c6e94 **refactor: improve prereq tests**
+- 2025-09-16 11:14 ecdc072 **docs: generate CHANGELOG**
 - 2025-09-16 11:14 95f58e0 **docs: generate CHANGELOG**
 - 2025-09-16 11:12 1e1342d **step: update packages**
 - 2025-09-16 11:03 7569403 **refactor: reformat files**
