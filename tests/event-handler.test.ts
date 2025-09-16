@@ -30,7 +30,6 @@ describe("Event handler", () => {
 
     expect(errorSpy).toHaveBeenCalledTimes(1);
 
-    // @ts-expect-error
     const [arg] = errorSpy.mock.calls[0];
     expect(arg).toMatchObject({
       message: "Unknown user.created event handler error",

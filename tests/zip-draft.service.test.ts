@@ -18,10 +18,7 @@ class MockDraft extends FileDraft {
 
 describe("ZipDraft", () => {
   test("ZipDraft returns a buffer with ZIP signature", async () => {
-    const zip = new FileDraftZip({
-      filename: "bundle.zip",
-      parts: [new MockDraft("a.txt", "alpha")],
-    });
+    const zip = new FileDraftZip({ filename: "bundle.zip", parts: [new MockDraft("a.txt", "alpha")] });
 
     const buf = await zip.create();
 

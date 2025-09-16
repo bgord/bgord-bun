@@ -3,9 +3,9 @@ import { Client } from "../src/client.vo";
 
 describe("Client VO", () => {
   test("works", () => {
-    const c = Client.from("1.1.1.1", "UA").toJSON();
+    const client = Client.from("1.1.1.1", "UA").toJSON();
 
-    expect(c.ip).toBe("1.1.1.1");
-    expect(c.ua).toBe("UA");
+    expect(client.ip).toBe("1.1.1.1");
+    expect(client.ua).toBe("UA");
   });
 });

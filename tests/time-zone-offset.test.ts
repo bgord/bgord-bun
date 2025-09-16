@@ -11,9 +11,7 @@ describe("TimeZoneOffset middleware", () => {
   test("sets timeZoneOffset for valid header", async () => {
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({
-        [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "120",
-      }),
+      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "120" }),
     });
 
     expect(result.status).toEqual(200);

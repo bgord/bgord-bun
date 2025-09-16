@@ -19,8 +19,7 @@ app.get("/get-translations", ...Translations.build());
 
 describe("GET /translations", () => {
   test("happy path - no language specified", async () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) });
+    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
 
     const response = await app.request("/get-translations", { method: "GET" });
     const json = await response.json();
@@ -30,8 +29,7 @@ describe("GET /translations", () => {
   });
 
   test("happy path - en", async () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) });
+    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
 
     const response = await app.request("/get-translations", {
       method: "GET",
@@ -44,8 +42,7 @@ describe("GET /translations", () => {
   });
 
   test("happy path - pl", async () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) });
+    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
 
     const response = await app.request("/get-translations", {
       method: "GET",
@@ -58,8 +55,7 @@ describe("GET /translations", () => {
   });
 
   test("happy path - other", async () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) });
+    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
 
     const response = await app.request("/get-translations", {
       method: "GET",

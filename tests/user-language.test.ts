@@ -35,8 +35,7 @@ describe("UserLanguageOHQ", () => {
   });
 
   test("UserLanguageResolverThrowIfMissing", async () => {
-    // @ts-expect-error
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
+    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null as any);
 
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
@@ -50,8 +49,7 @@ describe("UserLanguageOHQ", () => {
   });
 
   test("UserLanguageResolverSystemDefaultFallback", async () => {
-    // @ts-expect-error
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
+    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null as any);
 
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
