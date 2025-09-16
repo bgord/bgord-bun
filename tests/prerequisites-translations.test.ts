@@ -4,6 +4,8 @@ import { I18n } from "../src/i18n.service";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 import * as prereqs from "../src/prerequisites.service";
 
+const supportedLanguages = { en: "en", es: "es" };
+
 describe("prerequisites - translations", () => {
   test("verify method returns success for translations that exists", async () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
@@ -16,10 +18,7 @@ describe("prerequisites - translations", () => {
   test("verify method returns failure for translations that not exist", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
 
-    const prerequisite = new PrerequisiteTranslations({
-      label: "translations",
-      supportedLanguages: { en: "en", es: "es" },
-    });
+    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages });
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(/Does not exist/);
@@ -40,10 +39,7 @@ describe("prerequisites - translations", () => {
       }
     });
 
-    const prerequisite = new PrerequisiteTranslations({
-      label: "translations",
-      supportedLanguages: { en: "en", es: "en" },
-    });
+    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages });
 
     expect(await prerequisite.verify()).toEqual(
       prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }),
@@ -51,11 +47,7 @@ describe("prerequisites - translations", () => {
   });
 
   test("returns undetermined when disabled", async () => {
-    const prerequisite = new PrerequisiteTranslations({
-      label: "prerequisite",
-      supportedLanguages: { en: "en", es: "es" },
-      enabled: false,
-    });
+    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });

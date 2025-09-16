@@ -6,12 +6,12 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
-  private readonly user: string;
+  private readonly username: string;
 
-  constructor(config: prereqs.PrerequisiteConfigType & { user: string }) {
+  constructor(config: prereqs.PrerequisiteConfigType & { username: string }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
-    this.user = config.user;
+    this.username = config.username;
   }
 
   async verify(): Promise<prereqs.VerifyOutcome> {
@@ -19,7 +19,7 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
 
     const current = os.userInfo().username;
 
-    if (current === this.user) return prereqs.Verification.success();
-    return prereqs.Verification.failure({ message: `Current user: ${this.user}` });
+    if (current === this.username) return prereqs.Verification.success();
+    return prereqs.Verification.failure({ message: `Current user: ${current}` });
   }
 }

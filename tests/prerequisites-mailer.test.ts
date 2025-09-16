@@ -8,7 +8,7 @@ describe("prerequisites - mailer", () => {
   test("passes if mailer.verify succeeds", async () => {
     spyOn(mockMailer, "verify").mockResolvedValue(() => Promise.resolve());
 
-    const prerequisite = new PrerequisiteMailer({ label: "Mailer", mailer: mockMailer as any });
+    const prerequisite = new PrerequisiteMailer({ label: "mailer", mailer: mockMailer as any });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
@@ -16,13 +16,13 @@ describe("prerequisites - mailer", () => {
   test("fails if mailer.verify throws", async () => {
     spyOn(mockMailer, "verify").mockRejectedValue(new Error("SMTP error"));
 
-    const prerequisite = new PrerequisiteMailer({ label: "Mailer", mailer: mockMailer as any });
+    const prerequisite = new PrerequisiteMailer({ label: "mailer", mailer: mockMailer as any });
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(/SMTP error/);
   });
 
   test("returns undetermined if disabled", async () => {
-    const prerequisite = new PrerequisiteMailer({ label: "Mailer", enabled: false, mailer: mockMailer });
+    const prerequisite = new PrerequisiteMailer({ label: "mailer", enabled: false, mailer: mockMailer });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });

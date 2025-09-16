@@ -7,8 +7,7 @@ const logger = new LoggerWinstonProductionAdapter({ app: "test-app", AXIOM_API_T
 
 describe("prerequisites - log file", () => {
   test("returns success when log file exists", async () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
 
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
 
@@ -16,8 +15,7 @@ describe("prerequisites - log file", () => {
   });
 
   test("returns failure when log file does not exist", async () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => false });
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
 
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
 
@@ -27,12 +25,11 @@ describe("prerequisites - log file", () => {
   });
 
   test("returns failure on exception", async () => {
-    // @ts-expect-error
     spyOn(Bun, "file").mockReturnValue({
       exists: async () => {
         throw new Error("FS error");
       },
-    });
+    } as any);
 
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file" });
     // @ts-expect-error

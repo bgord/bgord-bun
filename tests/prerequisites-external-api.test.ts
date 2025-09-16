@@ -6,10 +6,7 @@ describe("prerequisites - external api", () => {
   test("passes when ok = true is returned", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
-    const prerequisite = new PrerequisiteExternalApi({
-      label: "api",
-      request: () => fetch("http://some-api"),
-    });
+    const prerequisite = new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
@@ -17,10 +14,7 @@ describe("prerequisites - external api", () => {
   test("rejects when ok = false is returned", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
-    const prerequisite = new PrerequisiteExternalApi({
-      label: "api",
-      request: () => fetch("http://some-api"),
-    });
+    const prerequisite = new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
   });
@@ -28,7 +22,7 @@ describe("prerequisites - external api", () => {
   test("returns undetermined if disabled", async () => {
     const prerequisite = new PrerequisiteExternalApi({
       label: "api",
-      request: () => fetch("http://some-api"),
+      request: () => fetch("http://api"),
       enabled: false,
     });
 

@@ -8,7 +8,7 @@ const maximum = tools.Size.fromMB(2);
 describe("prerequisites - memory", () => {
   test("returns success when memory usage is below the maximum", async () => {
     // @ts-expect-error
-    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }) as any);
 
     const prerequisite = new PrerequisiteMemory({ maximum, label: "pass-case" });
 

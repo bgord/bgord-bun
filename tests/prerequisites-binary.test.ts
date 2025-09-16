@@ -5,10 +5,8 @@ import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - binary", () => {
   test("returns success if binary is found", async () => {
-    spyOn(bun, "$").mockImplementation(() => ({
-      // @ts-expect-error
-      quiet: () => ({ exitCode: 0 }),
-    }));
+    // @ts-expect-error
+    spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 0 }) }));
 
     const prerequisite = new PrerequisiteBinary({ label: "binary", binary: "real-binary" });
 
@@ -16,10 +14,8 @@ describe("prerequisites - binary", () => {
   });
 
   test("returns failure if binary is not found", async () => {
-    spyOn(bun, "$").mockImplementation(() => ({
-      // @ts-expect-error
-      quiet: () => ({ exitCode: 1 }),
-    }));
+    // @ts-expect-error
+    spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
 
     const prerequisite = new PrerequisiteBinary({ label: "binary", binary: "fake-binary" });
 

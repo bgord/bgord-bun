@@ -19,6 +19,7 @@ describe("prerequisites - directory", () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("No access"));
 
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
+
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(/No access/);
   });
