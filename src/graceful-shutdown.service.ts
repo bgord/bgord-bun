@@ -9,8 +9,17 @@ export class GracefulShutdown {
 
   private async shutdown(server: ServerType, cleanup: () => any = tools.noop) {
     server.stop();
-    await cleanup();
-    this.logger.info({ message: "HTTP server closed", operation: "shutdown", component: "infra" });
+    try {
+      await cleanup();
+      this.logger.info({ message: "HTTP server closed", operation: "shutdown", component: "infra" });
+    } catch (error) {
+      this.logger.error({
+        message: "Cleanup hook failed",
+        operation: "shutdown",
+        component: "infra",
+        error: formatError(error),
+      });
+    }
   }
 
   applyTo(server: ServerType, cleanup: () => any = tools.noop) {
