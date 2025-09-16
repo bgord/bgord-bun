@@ -5,7 +5,6 @@ import { z } from "zod/v4";
 import type { ShieldCaptchaPort } from "./shield-captcha.port";
 
 export const HCaptchaSecretKey = z.string().trim().length(42).brand("HCaptchaSecretKey");
-
 export type HCaptchaSecretKeyType = z.infer<typeof HCaptchaSecretKey>;
 
 export const HCaptchaSiteKey = z.string().trim().length(36);

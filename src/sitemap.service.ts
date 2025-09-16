@@ -2,7 +2,6 @@ import { z } from "zod/v4";
 import type { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
 
 export const SitemapLoc = z.string().min(1);
-
 export type SitemapLocType = z.infer<typeof SitemapLoc>;
 
 export const SitemapLastmod = z
@@ -18,7 +17,6 @@ export const SitemapLastmod = z
     { message: "sitemap.lastmod.invalid" },
   )
   .optional();
-
 export type SitemapLastmodType = z.infer<typeof SitemapLastmod>;
 
 export const SitemapChangefreq = z
@@ -32,11 +30,9 @@ export const SitemapChangefreq = z
     z.literal("never"),
   ])
   .optional();
-
 export type SitemapChangefreqType = z.infer<typeof SitemapChangefreq>;
 
 export const SitemapPriority = z.number().min(0).max(1).default(0.5);
-
 export type SitemapPriorityType = z.infer<typeof SitemapPriority>;
 
 export const SitemapEntry = z.object({
@@ -45,7 +41,6 @@ export const SitemapEntry = z.object({
   changefreq: SitemapChangefreq,
   priority: SitemapPriority,
 });
-
 export type SitemapEntryType = z.infer<typeof SitemapEntry>;
 
 export type SitemapConfigType = {

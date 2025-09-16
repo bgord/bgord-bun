@@ -5,13 +5,11 @@ type ImageFormatterOutputPathStrategy = {
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
 };
-
 type ImageFormatterInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   to: tools.ExtensionType;
 };
-
 export type ImageFormatterStrategy = ImageFormatterInPlaceStrategy | ImageFormatterOutputPathStrategy;
 
 export interface ImageFormatterPort {

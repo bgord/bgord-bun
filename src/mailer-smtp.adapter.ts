@@ -4,19 +4,15 @@ import type { MailerPort } from "./mailer.port";
 import { Port } from "./port.vo";
 
 export const SmtpHost = z.string().trim().min(1);
-
 export type SmtpHostType = z.infer<typeof SmtpHost>;
 
 export const SmtpPort = Port;
-
 export type SmtpPortType = z.infer<typeof SmtpPort>;
 
 export const SmtpUser = z.string().trim().min(1);
-
 export type SmtpUserType = z.infer<typeof SmtpUser>;
 
 export const SmtpPass = z.string().trim().min(1);
-
 export type SmtpPassType = z.infer<typeof SmtpPass>;
 
 type MailerConfigType = {
@@ -29,19 +25,15 @@ type MailerConfigType = {
 type MailerSendOptionsType = SendMailOptions;
 
 export const EmailSubject = z.string().min(1).max(128);
-
 export type EmailSubjectType = z.infer<typeof EmailSubject>;
 
 export const EmailContentHtml = z.string().min(1).max(10_000);
-
 export type EmailContentHtmlType = z.infer<typeof EmailContentHtml>;
 
 export const EmailFrom = z.email();
-
 export type EmailFromType = z.infer<typeof EmailFrom>;
 
 export const EmailTo = z.email();
-
 export type EmailToType = z.infer<typeof EmailTo>;
 
 export type EmailAttachmentType = { filename: string; path: string };

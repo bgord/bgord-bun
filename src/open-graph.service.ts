@@ -3,27 +3,21 @@ import { z } from "zod/v4";
 // import type { UrlWithoutTrailingSlashType } from "./url-wo-trailing-slash.vo";
 
 export const OpenGraphTitleValue = z.string().min(1);
-
 export type OpenGraphTitleValueType = z.infer<typeof OpenGraphTitleValue>;
 
 export const OpenGraphDescriptionValue = z.string().min(1);
-
 export type OpenGraphDescriptionValueType = z.infer<typeof OpenGraphDescriptionValue>;
 
 export const OpenGraphUrlValue = z.string().min(1);
-
 export type OpenGraphUrlValueType = z.infer<typeof OpenGraphUrlValue>;
 
 export const OpenGraphTypeValue = z.union([z.literal("website"), z.literal("article")]);
-
 export type OpenGraphTypeValueType = z.infer<typeof OpenGraphTypeValue>;
 
 export const OpenGraphImageUrlValue = z.url();
-
 export type OpenGraphImageUrlValueType = z.infer<typeof OpenGraphImageUrlValue>;
 
 export const OpenGraphImageTypeValue = z.string().min(1);
-
 export type OpenGraphImageTypeValueType = z.infer<typeof OpenGraphImageTypeValue>;
 
 export const OpenGraphImageWidthValue = z
@@ -31,7 +25,6 @@ export const OpenGraphImageWidthValue = z
   .int()
   .positive()
   .refine((value) => value === 1200, { message: "open.graph.image.width.invalid" });
-
 export type OpenGraphImageWidthValueType = z.infer<typeof OpenGraphImageWidthValue>;
 
 export const OpenGraphImageHeightValue = z
@@ -39,7 +32,6 @@ export const OpenGraphImageHeightValue = z
   .int()
   .positive()
   .refine((value) => value === 630, { message: "open.graph.image.height.invalid" });
-
 export type OpenGraphImageHeightValueType = z.infer<typeof OpenGraphImageHeightValue>;
 
 class OpenGraphTitle {

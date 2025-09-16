@@ -2,9 +2,7 @@ import type { z } from "zod/v4";
 import { NodeEnvironment } from "../src/node-env.vo";
 
 type NodeEnvironmentEnumType = z.infer<typeof NodeEnvironment>;
-
 type AnyZodSchema = z.ZodSchema<any, any>;
-
 type EnvironmentValidatorConfig = { type: unknown; schema: AnyZodSchema };
 
 export class EnvironmentValidator<SchemaType> {

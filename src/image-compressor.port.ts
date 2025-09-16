@@ -6,13 +6,11 @@ export type ImageCompressorOutputPathStrategy = {
   output: tools.FilePathRelative | tools.FilePathAbsolute;
   quality?: number;
 };
-
 export type ImageCompressorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   quality?: number;
 };
-
 export type ImageCompressorStrategy = ImageCompressorInPlaceStrategy | ImageCompressorOutputPathStrategy;
 
 export interface ImageCompressorPort {

@@ -5,10 +5,7 @@ import type { LogAppType, LoggerPort, LogLevelEnum } from "./logger.port";
 import { LoggerWinstonAdapter } from "./logger-winston.adapter";
 import { NodeEnvironmentEnum } from "./node-env.vo";
 
-type LoggerWinstonProductionAdapterConfigType = {
-  app: LogAppType;
-  AXIOM_API_TOKEN: string;
-};
+type LoggerWinstonProductionAdapterConfigType = { app: LogAppType; AXIOM_API_TOKEN: string };
 
 export class LoggerWinstonProductionAdapter {
   readonly prodLogFile: string;

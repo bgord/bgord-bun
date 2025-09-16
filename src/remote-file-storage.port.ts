@@ -5,9 +5,7 @@ export type RemotePutFromPathInput = {
   key: tools.ObjectKeyType;
   path: tools.FilePathRelative | tools.FilePathAbsolute;
 };
-
 export type RemotePutFromPathResult = FileHashResult;
-
 export type RemoteHeadResult = { exists: false } | ({ exists: true } & FileHashResult);
 
 export interface RemoteFileStoragePort {

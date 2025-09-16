@@ -2,6 +2,16 @@ import type { Context } from "hono";
 import type NodeCache from "node-cache";
 import type { Key } from "node-cache";
 
+type Resolver<T> = () => Promise<T>;
+type BaseOptions<T> = { key: Key; resolver: Resolver<T> };
+type CacheResolverSimpleResult<T> = { data: T };
+type CacheResolverWithMetadataResult<T> = { data: T; meta: { hit: CacheHitEnum } };
+type CacheResolverRequestHeadersResult<T> = {
+  data: T;
+  header: { name: "cache-hit"; value: CacheHitEnum };
+  respond: (c: Context) => Promise<void>;
+};
+
 export enum CacheHitEnum {
   hit = "hit",
   miss = "miss",
@@ -12,23 +22,6 @@ export enum CacheResolverStrategy {
   with_metadata = "with_metadata",
   request_headers = "request_headers",
 }
-
-type Resolver<T> = () => Promise<T>;
-
-type BaseOptions<T> = { key: Key; resolver: Resolver<T> };
-
-type CacheResolverSimpleResult<T> = { data: T };
-
-type CacheResolverWithMetadataResult<T> = {
-  data: T;
-  meta: { hit: CacheHitEnum };
-};
-
-type CacheResolverRequestHeadersResult<T> = {
-  data: T;
-  header: { name: "cache-hit"; value: CacheHitEnum };
-  respond: (c: Context) => Promise<void>;
-};
 
 export class CacheResolver {
   static async resolve<T>(
@@ -43,9 +36,7 @@ export class CacheResolver {
 
   static async resolve<T>(
     cache: NodeCache,
-    options: BaseOptions<T> & {
-      strategy: CacheResolverStrategy.request_headers;
-    },
+    options: BaseOptions<T> & { strategy: CacheResolverStrategy.request_headers },
   ): Promise<CacheResolverRequestHeadersResult<T>>;
 
   static async resolve<T>(

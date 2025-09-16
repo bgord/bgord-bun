@@ -3,9 +3,7 @@ import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type HttpClientInfo = { ip?: string; userAgent?: string };
-
 export type LogAppType = string;
-
 export type ErrorInfo = {
   name?: string;
   message?: string;
@@ -23,7 +21,6 @@ export enum LogLevelEnum {
   debug = "debug",
   silly = "silly",
 }
-
 export const LogLevel = z.enum(LogLevelEnum);
 
 export type LogCoreType = {
@@ -41,7 +38,6 @@ export type LogCoreType = {
   correlationId?: CorrelationIdType;
   metadata?: Record<string, any>;
 };
-
 export type LogHttpType = LogCoreType & {
   level: LogLevelEnum.http;
   component: "http";
@@ -52,11 +48,8 @@ export type LogHttpType = LogCoreType & {
   client: HttpClientInfo;
   cacheHit?: boolean;
 };
-
 export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo };
-
 export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: ErrorInfo };
-
 export type AdapterInjectedFields = "timestamp" | "level" | "app" | "environment";
 
 export interface LoggerPort {

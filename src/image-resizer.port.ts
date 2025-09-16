@@ -6,13 +6,11 @@ export type ImageResizerOutputPathStrategy = {
   output: tools.FilePathRelative | tools.FilePathAbsolute;
   maxSide: number;
 };
-
 export type ImageResizerInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   maxSide: number;
 };
-
 export type ImageResizerStrategy = ImageResizerOutputPathStrategy | ImageResizerInPlaceStrategy;
 
 export interface ImageResizerPort {

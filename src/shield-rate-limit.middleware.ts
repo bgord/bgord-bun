@@ -6,14 +6,11 @@ import type { ClockPort } from "./clock.port";
 import type { RateLimitStore } from "./rate-limit-store.port";
 
 type SubjectResolver = (c: Context) => string;
+type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStore; subject: SubjectResolver };
+type Dependencies = { Clock: ClockPort };
 
 export const AnonSubjectResolver: SubjectResolver = () => "anon";
-
 export const UserSubjectResolver: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
-
-type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStore; subject: SubjectResolver };
-
-type Dependencies = { Clock: ClockPort };
 
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 

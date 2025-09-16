@@ -1,6 +1,5 @@
 export type ClientIpType = string;
 export type ClientUaType = string;
-
 export type ClientType = { ip: ClientIpType; ua: ClientUaType };
 
 export class Client {

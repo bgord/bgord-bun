@@ -1,7 +1,6 @@
 import type * as tools from "@bgord/tools";
 
 type ImageBackground = string | { r: number; g: number; b: number; alpha?: number };
-
 type ImageProcessorOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
@@ -11,7 +10,6 @@ type ImageProcessorOutputPathStrategy = {
   quality?: number;
   background?: ImageBackground;
 };
-
 type ImageProcessorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
@@ -20,7 +18,6 @@ type ImageProcessorInPlaceStrategy = {
   quality?: number;
   background?: ImageBackground;
 };
-
 export type ImageProcessorStrategy = ImageProcessorInPlaceStrategy | ImageProcessorOutputPathStrategy;
 
 export interface ImageProcessorPort {

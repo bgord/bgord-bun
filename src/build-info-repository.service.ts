@@ -11,9 +11,8 @@ export class BuildInfoRepository {
 
     try {
       const packageJson = await BuildInfoRepository.getPackageJson();
-      const BUILD_VERSION = tools.PackageVersion.fromString(packageJson.version).toString();
 
-      return { BUILD_DATE, BUILD_VERSION };
+      return { BUILD_DATE, BUILD_VERSION: tools.PackageVersion.fromString(packageJson.version).toString() };
     } catch (_error) {
       return { BUILD_DATE };
     }

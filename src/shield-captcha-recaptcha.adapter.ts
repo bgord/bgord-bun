@@ -4,15 +4,12 @@ import { z } from "zod/v4";
 import type { ShieldCaptchaPort } from "./shield-captcha.port";
 
 export const RecaptchaSiteKey = z.string().trim().length(40);
-
 export type RecaptchaSiteKeyType = z.infer<typeof RecaptchaSiteKey>;
 
 export const RecaptchaSecretKey = z.string().trim().length(40).brand("RecaptchaSecretKey");
-
 export type RecaptchaSecretKeyType = z.infer<typeof RecaptchaSecretKey>;
 
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
-
 export type RecaptchaResultType = { success: boolean; score: number };
 
 export const AccessDeniedRecaptchaError = new HTTPException(403, { message: "access_denied_recaptcha" });

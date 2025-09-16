@@ -5,12 +5,10 @@ export type ImageExifClearOutputPathStrategy = {
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
 };
-
 export type ImageExifClearInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
 };
-
 export type ImageExifClearStrategy = ImageExifClearInPlaceStrategy | ImageExifClearOutputPathStrategy;
 
 export interface ImageExifClearPort {

@@ -5,11 +5,7 @@ import type { MailerPort } from "./mailer.port";
 import type { MailerSmtpAdapter } from "./mailer-smtp.adapter";
 
 type MailerSendOptionsType = SendMailOptions;
-
-type SmtpMailerWithLoggerConfigType = {
-  smtpMailer: MailerSmtpAdapter;
-  logger: LoggerPort;
-};
+type SmtpMailerWithLoggerConfigType = { smtpMailer: MailerSmtpAdapter; logger: LoggerPort };
 
 export class MailerSmtpWithLoggerAdapter implements MailerPort {
   constructor(private readonly config: SmtpMailerWithLoggerConfigType) {}

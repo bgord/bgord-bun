@@ -1,10 +1,8 @@
 import type { Invariant } from "./invariant.service";
 
 type BaseInvariantType = Invariant<any>;
-
 type InvariantMessageType = BaseInvariantType["message"];
 type InvariantCodeType = BaseInvariantType["code"];
-
 type ErrorResponseTupleType = [{ message: InvariantMessageType; _known: true }, InvariantCodeType];
 
 export class InvariantErrorHandler {

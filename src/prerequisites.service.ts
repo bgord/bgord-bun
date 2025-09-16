@@ -11,11 +11,8 @@ export enum PrerequisiteStatusEnum {
 }
 
 export type VerifySuccess = Readonly<{ status: PrerequisiteStatusEnum.success }>;
-
 export type VerifyFailure = Readonly<{ status: PrerequisiteStatusEnum.failure; error?: ErrorInfo }>;
-
 export type VerifyUndetermined = Readonly<{ status: PrerequisiteStatusEnum.undetermined }>;
-
 export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
 
 export interface Prerequisite {
