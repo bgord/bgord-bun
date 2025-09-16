@@ -10,7 +10,7 @@ const handler = createFactory();
 
 type HealthcheckResultType = {
   ok: prereqs.PrerequisiteStatusEnum;
-  version: tools.BuildVersionType;
+  version: string;
   details: { label: prereqs.PrerequisiteLabelType; outcome: prereqs.VerifyOutcome }[];
   uptime: UptimeResultType;
   memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
@@ -40,7 +40,7 @@ export class Healthcheck {
       const result: HealthcheckResultType = {
         ok,
         details,
-        version: build.BUILD_VERSION ?? tools.BuildVersion.parse("unknown"),
+        version: build.BUILD_VERSION ?? "unknown",
         uptime: Uptime.get(deps.Clock),
         memory: {
           bytes: MemoryConsumption.get().toBytes(),

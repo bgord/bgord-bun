@@ -29,7 +29,10 @@ class Fail implements prereqs.Prerequisite {
   }
 }
 
-const buildInfo = { BUILD_DATE: Clock.nowMs(), BUILD_VERSION: tools.BuildVersion.parse("1.0.0") };
+const buildInfo = {
+  BUILD_DATE: Clock.nowMs(),
+  BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
+};
 const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { seconds: tools.Timestamp.parse(5), formatted: "5 seconds ago" };
 

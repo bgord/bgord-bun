@@ -1,10 +1,7 @@
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 
-export type BuildInfoType = {
-  BUILD_DATE: tools.TimestampType;
-  BUILD_VERSION?: tools.BuildVersionType;
-};
+export type BuildInfoType = { BUILD_DATE: tools.TimestampType; BUILD_VERSION?: string };
 
 type Dependencies = { Clock: ClockPort };
 
@@ -14,7 +11,7 @@ export class BuildInfoRepository {
 
     try {
       const packageJson = await BuildInfoRepository.getPackageJson();
-      const BUILD_VERSION = tools.BuildVersion.parse(packageJson.version);
+      const BUILD_VERSION = tools.PackageVersion.fromString(packageJson.version).toString();
 
       return { BUILD_DATE, BUILD_VERSION };
     } catch (_error) {

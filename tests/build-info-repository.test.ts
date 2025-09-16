@@ -8,15 +8,15 @@ const deps = { Clock };
 
 describe("BuildInfoRepository", () => {
   test("extract returns BUILD_DATE and BUILD_VERSION if package.json has version", async () => {
-    const fakeVersion = "1.2.3";
+    const version = "1.2.3";
 
-    spyOn(BuildInfoRepository, "getPackageJson").mockImplementation(async () => ({ version: fakeVersion }));
+    spyOn(BuildInfoRepository, "getPackageJson").mockImplementation(async () => ({ version }));
 
     const result = await BuildInfoRepository.extract(deps);
 
     expect(typeof result.BUILD_DATE).toBe("number");
     expect(result.BUILD_VERSION).toBeDefined();
-    expect(result.BUILD_VERSION).toBe(tools.BuildVersion.parse(fakeVersion));
+    expect(result.BUILD_VERSION).toBe(tools.PackageVersion.fromString(version).toString());
   });
 
   test("extract returns only BUILD_DATE if package.json loading fails", async () => {
