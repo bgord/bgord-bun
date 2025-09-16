@@ -1,10 +1,12 @@
 # Changelog
+- 2025-09-16 12:10 7e39fca **feature: add sqlite prereq**
 ## 2025-09-16 11:48 v0.26.3
 - 2025-09-16 11:48 c2f3183 **0.26.3**
 - 2025-09-16 11:47 e2be2d9 **refactor: reformat files**
 - 2025-09-16 11:41 88c6e94 **refactor: improve prereq tests**
 - 2025-09-16 11:12 1e1342d **step: update packages**
 - 2025-09-16 11:03 7569403 **refactor: reformat files**
+- 2025-09-16 09:49 78f27b1 **docs: generate CHANGELOG**
 - 2025-09-16 09:47 8b41840 **docs: generate CHANGELOG**
 - 2025-09-16 09:47 16e8dab **docs: generate readme**
 - 2025-09-16 09:41 a68759c **step: update packages**
