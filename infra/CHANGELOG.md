@@ -1,6 +1,8 @@
 # Changelog
+- 2025-09-17 12:29 979d104 **refactor: simplify logs**
 - 2025-09-17 12:22 2b46307 **refactor: reformat files**
 - 2025-09-17 12:05 dff924a **step: update packages**
+- 2025-09-17 10:22 521e6f8 **docs: generate CHANGELOG**
 ## 2025-09-16 20:44 v0.28.0
 - 2025-09-16 20:44 e578f44 **0.28.0**
 - 2025-09-16 20:42 aae6aaa **refactor: tidy up types**
