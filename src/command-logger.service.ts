@@ -1,6 +1,8 @@
 import type { LoggerPort } from "./logger.port";
 
 export class CommandLogger {
+  private readonly base = { component: "infra", operation: "command_emitted" };
+
   constructor(private readonly logger: LoggerPort) {}
 
   private _handle(
@@ -13,12 +15,7 @@ export class CommandLogger {
 
     if (typeof commandName === "symbol") return;
 
-    this.logger.info({
-      message: `${commandName} emitted`,
-      component: "infra",
-      operation: "command_emitted",
-      metadata: commandData,
-    });
+    this.logger.info({ message: `${commandName} emitted`, metadata: commandData, ...this.base });
   }
 
   handle = this._handle.bind(this);

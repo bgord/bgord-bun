@@ -15,6 +15,8 @@ export type I18nConfigType = {
 };
 
 export class I18n {
+  private readonly base = { component: "infra", operation: "translations" };
+
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
   constructor(private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
@@ -30,16 +32,13 @@ export class I18n {
   }
 
   useTranslations(logger: LoggerPort, translations: TranslationsType) {
+    const that = this;
+
     return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
       const translation = translations[key];
 
       if (!translation) {
-        logger.warn({
-          message: `Missing translation for key ${key}`,
-          component: "infra",
-          operation: "translations",
-        });
-
+        logger.warn({ message: `Missing translation for key ${key}`, ...that.base });
         return key;
       }
 

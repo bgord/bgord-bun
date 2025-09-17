@@ -38,6 +38,8 @@ export class Jobs {
 }
 
 export class JobHandler {
+  private readonly base = { component: "infra", operation: "job_handler" };
+
   constructor(private readonly deps: Dependencies) {}
 
   handle(jobProcessor: JobProcessorType) {
@@ -50,30 +52,23 @@ export class JobHandler {
       const stopwatch = new tools.Stopwatch(this.deps.Clock.nowMs());
 
       try {
-        that.deps.Logger.info({
-          message: `${jobProcessor.label} start`,
-          component: "infra",
-          operation: "job_start",
-          correlationId,
-        });
+        that.deps.Logger.info({ message: `${jobProcessor.label} start`, correlationId, ...this.base });
 
         await CorrelationStorage.run(correlationId, jobProcessor.process);
 
         that.deps.Logger.info({
           message: `${jobProcessor.label} success`,
-          component: "infra",
-          operation: "job_success",
           correlationId,
           metadata: stopwatch.stop(),
+          ...this.base,
         });
       } catch (error) {
         that.deps.Logger.error({
           message: `${jobProcessor.label} error`,
-          component: "infra",
-          operation: "job_error",
           correlationId,
           error: formatError(error),
           metadata: { ...stopwatch.stop() },
+          ...this.base,
         });
       }
     };
@@ -83,11 +78,6 @@ export class JobHandler {
     // biome-ignore lint: lint/complexity/noUselessThisAlias
     const that = this;
 
-    return async () =>
-      that.deps.Logger.info({
-        message: `${cron.name} overrun`,
-        component: "infra",
-        operation: "job_overrun",
-      });
+    return async () => that.deps.Logger.info({ message: `${cron.name} overrun`, ...this.base });
   }
 }

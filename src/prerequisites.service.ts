@@ -50,6 +50,8 @@ export type PrerequisiteConfigType = { label: string; enabled?: boolean };
 
 /** @public */
 export class Prerequisites {
+  private readonly base = { component: "infra", operation: "startup" };
+
   constructor(private readonly logger: LoggerPort) {}
 
   async check(prerequisites: Prerequisite[]) {
@@ -60,17 +62,16 @@ export class Prerequisites {
     const failed = results.filter((result) => result.outcome.status === PrerequisiteStatusEnum.failure);
 
     if (failed.length === 0) {
-      return this.logger.info({ message: "Prerequisites ok", component: "infra", operation: "startup" });
+      return this.logger.info({ message: "Prerequisites ok", ...this.base });
     }
 
     for (const failure of failed) {
       this.logger.error({
-        component: "infra",
-        operation: "startup",
         message: "Prerequisite failed",
         metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
         // @ts-expect-error
         error: failure.outcome.error ?? { message: "unknown error" },
+        ...this.base,
       });
     }
 
