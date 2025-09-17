@@ -13,8 +13,7 @@ export class BasicAuth {
     username: BasicAuthUsernameType,
     password: BasicAuthPasswordType,
   ): BasicAuthHeaderValueType {
-    const credentials = btoa(`${username}:${password}`);
-    return { authorization: `Basic ${credentials}` };
+    return { authorization: `Basic ${btoa(`${username}:${password}`)}` };
   }
 
   static toHeader(username: BasicAuthUsernameType, password: BasicAuthPasswordType): Headers {

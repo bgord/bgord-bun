@@ -14,10 +14,7 @@ export class ShieldCaptchaHcaptchaLocal implements ShieldCaptchaPort {
   verify = createMiddleware(async (_c, next) => {
     try {
       const result = await hcaptcha.verify(this.secretKey, "10000000-aaaa-bbbb-cccc-000000000001");
-
-      if (!result?.success) {
-        throw AccessDeniedHcaptchaLocalError;
-      }
+      if (!result?.success) throw AccessDeniedHcaptchaLocalError;
       return next();
     } catch (_error) {
       throw AccessDeniedHcaptchaLocalError;

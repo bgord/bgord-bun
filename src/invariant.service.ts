@@ -17,9 +17,7 @@ export abstract class Invariant<T extends BaseInvariantConfig> {
   }
 
   perform(config: T) {
-    if (this.fails(config)) {
-      this.throw();
-    }
+    if (this.fails(config)) this.throw();
   }
 
   passes(config: T) {

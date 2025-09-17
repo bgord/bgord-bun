@@ -23,9 +23,7 @@ export class FileUploader {
 
         const file = body.get("file");
 
-        if (!(file instanceof File)) {
-          throw InvalidFileMimeTypeError;
-        }
+        if (!(file instanceof File)) throw InvalidFileMimeTypeError;
 
         const contentType = new tools.Mime(file.type);
         const accepted = config.mimeTypes.some((acceptedMimeType) =>

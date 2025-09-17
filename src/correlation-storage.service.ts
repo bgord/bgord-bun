@@ -2,9 +2,7 @@ import { AsyncLocalStorage } from "node:async_hooks";
 import { createMiddleware } from "hono/factory";
 import type { CorrelationIdType } from "./correlation-id.vo";
 
-interface CorrelationContext {
-  correlationId: CorrelationIdType;
-}
+type CorrelationContext = { correlationId: CorrelationIdType };
 
 export class CorrelationStorage {
   private static readonly GLOBAL_KEY = Symbol.for("bgord.CorrelationStorage");

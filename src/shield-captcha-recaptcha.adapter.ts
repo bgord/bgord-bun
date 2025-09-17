@@ -34,10 +34,7 @@ export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
       const remoteip = xForwardedForHeader ?? "";
 
       const token = recaptchaTokenHeader ?? recaptchaTokenQuery ?? recaptchaTokenFormData;
-
-      if (!token) {
-        throw AccessDeniedRecaptchaError;
-      }
+      if (!token) throw AccessDeniedRecaptchaError;
 
       const params = new URLSearchParams({ secret: this.secretKey, response: token, remoteip });
 
@@ -48,11 +45,7 @@ export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
       });
 
       const result = (await response.json()) as RecaptchaResultType;
-
-      if (!result.success || result.score < 0.5) {
-        throw AccessDeniedRecaptchaError;
-      }
-
+      if (!result.success || result.score < 0.5) throw AccessDeniedRecaptchaError;
       await next();
     } catch (_error) {
       throw AccessDeniedRecaptchaError;

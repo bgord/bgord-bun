@@ -11,6 +11,8 @@ import type {
 type RemoteFileStorageNoopConfig = { Logger: LoggerPort; Clock: ClockPort; publicBaseUrl?: string };
 
 export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
+  private readonly base = { component: "infra", operation: "RemoteFileStorageNoopAdapter" };
+
   constructor(private readonly config: RemoteFileStorageNoopConfig) {}
 
   publicUrl(key: tools.ObjectKeyType): string {
@@ -21,9 +23,8 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   async putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult> {
     this.config.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter putFromPath",
-      component: "infra",
-      operation: "RemoteFileStorageNoopAdapter.putFromPath",
       metadata: { input },
+      ...this.base,
     });
 
     return {
@@ -37,9 +38,8 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   async head(key: tools.ObjectKeyType): Promise<RemoteHeadResult> {
     this.config.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter head",
-      component: "infra",
-      operation: "RemoteFileStorageNoopAdapter.head",
       metadata: { key },
+      ...this.base,
     });
 
     return { exists: false };
@@ -48,9 +48,8 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   async getStream(key: tools.ObjectKeyType): Promise<ReadableStream | null> {
     this.config.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter getStream",
-      component: "infra",
-      operation: "RemoteFileStorageNoopAdapter.getStream",
       metadata: { key },
+      ...this.base,
     });
 
     return null;
@@ -59,9 +58,8 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   async delete(key: tools.ObjectKeyType): Promise<void> {
     this.config.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter delete",
-      component: "infra",
-      operation: "RemoteFileStorageNoopAdapter.delete",
       metadata: { key },
+      ...this.base,
     });
   }
 }

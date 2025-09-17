@@ -35,21 +35,13 @@ export class ShieldAuth {
 
   verify = createMiddleware(async (c: hono.Context, next: hono.Next) => {
     const user = c.get("user");
-
-    if (!user) {
-      throw AccessDeniedAuthShieldError;
-    }
-
+    if (!user) throw AccessDeniedAuthShieldError;
     return next();
   });
 
   reverse = createMiddleware(async (c: hono.Context, next: hono.Next) => {
     const user = c.get("user");
-
-    if (user) {
-      throw AccessDeniedAuthShieldError;
-    }
-
+    if (user) throw AccessDeniedAuthShieldError;
     return next();
   });
 }

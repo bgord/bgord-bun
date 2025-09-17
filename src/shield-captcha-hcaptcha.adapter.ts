@@ -21,14 +21,9 @@ export class ShieldCaptchaHcaptcha implements ShieldCaptchaPort {
   verify = createMiddleware(async (c, next) => {
     try {
       const form = await c.req.formData();
-
       const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as HCaptchaResponseTokenType;
-
       const result = await hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
-
-      if (!result?.success) {
-        throw AccessDeniedHcaptchaError;
-      }
+      if (!result?.success) throw AccessDeniedHcaptchaError;
       return next();
     } catch (_error) {
       throw AccessDeniedHcaptchaError;
