@@ -1,11 +1,13 @@
 import * as winston from "winston";
 import { type LogAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
+import type { RedactorPort } from "./redactor.port";
 
 type WinstonLoggerOptions = {
   app: LogAppType;
   environment: NodeEnvironmentEnum;
   level: LogLevelEnum;
+  redactor: RedactorPort;
   formats?: winston.Logform.Format[];
   transports?: winston.transport[];
 };
@@ -15,10 +17,10 @@ export class LoggerWinstonAdapter implements LoggerPort {
 
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
+      ...(options.formats ?? []),
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
-      ...(options.formats ?? []),
     );
 
     this.logger = winston.createLogger({

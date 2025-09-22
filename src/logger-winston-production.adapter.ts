@@ -4,8 +4,13 @@ import * as winston from "winston";
 import type { LogAppType, LoggerPort, LogLevelEnum } from "./logger.port";
 import { LoggerWinstonAdapter } from "./logger-winston.adapter";
 import { NodeEnvironmentEnum } from "./node-env.vo";
+import type { RedactorPort } from "./redactor.port";
 
-type LoggerWinstonProductionAdapterConfigType = { app: LogAppType; AXIOM_API_TOKEN: string };
+type LoggerWinstonProductionAdapterConfigType = {
+  app: LogAppType;
+  AXIOM_API_TOKEN: string;
+  redactor: RedactorPort;
+};
 
 export class LoggerWinstonProductionAdapter {
   readonly prodLogFile: string;
@@ -29,6 +34,7 @@ export class LoggerWinstonProductionAdapter {
       environment: NodeEnvironmentEnum.production,
       level,
       transports: [file, axiom],
+      redactor: this.config.redactor,
     });
   }
 
