@@ -177,6 +177,11 @@ src/
 ├── prerequisites.service.ts
 ├── rate-limit-store-node-cache.adapter.ts
 ├── rate-limit-store.port.ts
+├── redactor-composite.adapter.ts
+├── redactor-encrypt.adapter.ts
+├── redactor-mask.adapter.ts
+├── redactor-noop.adapter.ts
+├── redactor.port.ts
 ├── remote-file-storage-disk.adapter.ts
 ├── remote-file-storage-noop.adapter.ts
 ├── remote-file-storage.port.ts
