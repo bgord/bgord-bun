@@ -17,7 +17,7 @@ export class LoggerWinstonProductionAdapter {
   create(level: LogLevelEnum): LoggerPort {
     const file = new winston.transports.File({
       filename: this.prodLogFile,
-      maxsize: tools.Size.toBytes({ unit: tools.SizeUnit.MB, value: 100 }),
+      maxsize: tools.Size.fromMB(100).toBytes(),
       maxFiles: 3,
       tailable: true,
     });
