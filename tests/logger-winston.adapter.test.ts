@@ -4,6 +4,8 @@ import * as winston from "winston";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerWinstonAdapter } from "../src/logger-winston.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { RedactorMaskAdapter } from "../src/redactor-mask.adapter";
+import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 
 export function makeCaptureTransport() {
   const lines: string[] = [];
@@ -19,6 +21,8 @@ export function makeCaptureTransport() {
   return { transport, lines };
 }
 
+const redactor = new RedactorNoopAdapter();
+
 describe("LoggerWinstonAdapter", () => {
   test("emits JSON with default meta", () => {
     const { transport, lines } = makeCaptureTransport();
@@ -27,18 +31,20 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
+      redactor,
     });
 
     logger.info({ component: "emotions", operation: "entry_create", message: "Created entry" });
 
     expect(lines.length).toBeGreaterThan(0);
-    const obj = JSON.parse(lines[0] as string);
-    expect(obj.app).toBe("test-app");
-    expect(obj.environment).toBe("local");
-    expect(obj.component).toBe("emotions");
-    expect(obj.operation).toBe("entry_create");
-    expect(typeof obj.timestamp).toBe("string");
-    expect(obj.level).toBe("info");
+
+    const log = JSON.parse(lines[0] as string);
+    expect(log.app).toBe("test-app");
+    expect(log.environment).toBe("local");
+    expect(log.component).toBe("emotions");
+    expect(log.operation).toBe("entry_create");
+    expect(typeof log.timestamp).toBe("string");
+    expect(log.level).toBe("info");
   });
 
   test("respects level threshold", () => {
@@ -48,6 +54,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
+      redactor,
     });
 
     logger.http({
@@ -75,6 +82,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
+      redactor,
     });
 
     logger.error({
@@ -96,6 +104,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
+      redactor,
     });
 
     logger.http({
@@ -109,10 +118,33 @@ describe("LoggerWinstonAdapter", () => {
       client: { ip: "1.2.3.4", userAgent: "UA" },
     });
 
-    const obj = JSON.parse(lines[0] as string);
-    expect(obj.method).toBe("GET");
-    expect(obj.status).toBe(200);
-    expect(obj.durationMs).toBe(42);
-    expect(obj.client.ip).toBe("1.2.3.4");
+    const log = JSON.parse(lines[0] as string);
+    expect(log.method).toBe("GET");
+    expect(log.status).toBe(200);
+    expect(log.durationMs).toBe(42);
+    expect(log.client.ip).toBe("1.2.3.4");
+  });
+
+  test("redactor", () => {
+    const redactor = new RedactorMaskAdapter(["secret"]);
+    const { transport, lines } = makeCaptureTransport();
+
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.http,
+      transports: [transport],
+      redactor,
+    });
+
+    logger.info({
+      component: "infra",
+      operation: "read",
+      message: "Env variables",
+      metadata: { env: { secret: "abc" } },
+    });
+
+    const log = JSON.parse(lines[0] as string);
+    expect(log.metadata).toEqual({ env: { secret: "***" } });
   });
 });
