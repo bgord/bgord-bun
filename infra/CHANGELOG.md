@@ -1,9 +1,21 @@
 # Changelog
+- 2025-09-22 22:30 0d89011 **step: update packages**
+- 2025-09-22 22:28 094435b **step: export redactors**
+- 2025-09-22 22:27 645b4b2 **step: adjust tests**
+- 2025-09-22 22:19 929527f **step: transform redactor to winston format**
+- 2025-09-22 22:16 5c01e89 **step: pass redactor to logger adapters**
+- 2025-09-22 17:40 3fbb94e **step: add composite redactor**
+- 2025-09-22 17:34 a84f6f5 **step: add noop redactor adapter**
+- 2025-09-22 17:31 0b6168b **step: add redactor encrypt adapter**
+- 2025-09-22 16:48 8d3c428 **step: add redactor mask adapter**
+- 2025-09-22 16:47 e635e3f **step: add redactor port**
+- 2025-09-22 15:31 7876278 **refactor: adjust size in logger winston prod adapter**
 ## 2025-09-22 14:09 v0.28.2
 - 2025-09-22 14:09 10b4106 **0.28.2**
 - 2025-09-22 14:08 a25e33b **refactor: remove unused ts expect error directive**
 - 2025-09-22 14:07 d492690 **step: update packages**
 - 2025-09-22 14:06 ded679a **fix: prereq node error message**
+- 2025-09-22 12:09 5ef3685 **docs: generate CHANGELOG**
 - 2025-09-22 12:08 8765358 **docs: generate CHANGELOG**
 ## 2025-09-17 12:31 v0.28.1
 - 2025-09-17 12:31 2d2cb9f **0.28.1**
