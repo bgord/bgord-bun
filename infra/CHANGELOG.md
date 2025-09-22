@@ -1,4 +1,5 @@
 # Changelog
+- 2025-09-22 22:41 3323dd2 **step: define redactor mask default keys**
 ## 2025-09-22 22:32 v0.29.0
 - 2025-09-22 22:32 40b5114 **0.29.0**
 - 2025-09-22 22:30 0d89011 **step: update packages**
@@ -6,6 +7,7 @@
 - 2025-09-22 22:27 645b4b2 **step: adjust tests**
 - 2025-09-22 22:19 929527f **step: transform redactor to winston format**
 - 2025-09-22 22:16 5c01e89 **step: pass redactor to logger adapters**
+- 2025-09-22 20:32 82e626b **docs: generate CHANGELOG**
 - 2025-09-22 20:31 8357e9e **docs: generate readme**
 - 2025-09-22 20:31 6206160 **docs: generate CHANGELOG**
 - 2025-09-22 17:40 3fbb94e **step: add composite redactor**
