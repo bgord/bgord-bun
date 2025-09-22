@@ -16,7 +16,7 @@ describe("prerequisites - node", () => {
     const prerequisite = new PrerequisiteNode({ label: "node", version: base, current: "v18.10.0" });
 
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toEqual("Version: 20.0.0");
+    expect((await prerequisite.verify()).error.message).toEqual("Version: v18.10.0");
   });
 
   test("fails if invalid Node.js version is passed", async () => {
