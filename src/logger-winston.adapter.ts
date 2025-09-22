@@ -17,10 +17,11 @@ export class LoggerWinstonAdapter implements LoggerPort {
 
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
-      ...(options.formats ?? []),
+      winston.format((info) => options.redactor.redact(info))(),
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
+      ...(options.formats ?? []),
     );
 
     this.logger = winston.createLogger({
