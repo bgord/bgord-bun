@@ -1,7 +1,10 @@
 # Changelog
+## 2025-09-22 14:09 v0.28.2
+- 2025-09-22 14:09 10b4106 **0.28.2**
 - 2025-09-22 14:08 a25e33b **refactor: remove unused ts expect error directive**
 - 2025-09-22 14:07 d492690 **step: update packages**
 - 2025-09-22 14:06 ded679a **fix: prereq node error message**
+- 2025-09-22 12:08 8765358 **docs: generate CHANGELOG**
 ## 2025-09-17 12:31 v0.28.1
 - 2025-09-17 12:31 2d2cb9f **0.28.1**
 - 2025-09-17 12:29 979d104 **refactor: simplify logs**
