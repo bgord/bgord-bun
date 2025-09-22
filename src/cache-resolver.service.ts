@@ -62,7 +62,6 @@ export class CacheResolver {
           data,
           respond: (c: Context) => {
             c.header("cache-hit", hit ? CacheHitEnum.hit : CacheHitEnum.miss);
-            // @ts-expect-error
             return c.json(data);
           },
           header: { name: "cache-hit", value: hit ? CacheHitEnum.hit : CacheHitEnum.miss },
