@@ -16,7 +16,7 @@
     "src"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc --build",
+    "build": "bash scripts/package-build.sh",
     "preinstall": "bunx only-allow bun"
   },
   "devDependencies": {
