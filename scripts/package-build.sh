@@ -11,5 +11,5 @@ rm -rf $OUTPUT_DIRECTORY
 step_end "Directory clear"
 
 step_start "Package build"
-tsc --build
+bunx tsc --build
 step_end "Package build"
