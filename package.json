@@ -30,7 +30,7 @@
     "@types/yazl": "3.3.0",
     "cspell": "9.2.1",
     "knip": "5.64.0",
-    "lefthook": "1.13.2",
+    "lefthook": "1.13.3",
     "only-allow": "1.2.1",
     "shellcheck": "4.1.0",
     "typescript": "5.9.2",
