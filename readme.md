@@ -105,7 +105,6 @@ src/
 ├── jobs.service.ts
 ├── logger-format-error.service.ts
 ├── logger-noop.adapter.ts
-├── logger-simplify.service.ts
 ├── logger-winston-local.adapter.ts
 ├── logger-winston-production.adapter.ts
 ├── logger-winston.adapter.ts
@@ -177,6 +176,7 @@ src/
 ├── prerequisites.service.ts
 ├── rate-limit-store-node-cache.adapter.ts
 ├── rate-limit-store.port.ts
+├── redactor-compact.adapter.ts
 ├── redactor-composite.adapter.ts
 ├── redactor-encrypt.adapter.ts
 ├── redactor-mask.adapter.ts
