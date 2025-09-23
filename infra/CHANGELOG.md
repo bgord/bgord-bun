@@ -1,6 +1,10 @@
 # Changelog
+- 2025-09-23 10:53 68f7df6 **step: bump bgord/scripts**
+- 2025-09-23 10:53 4f50238 **refactor: unify package-build script**
 - 2025-09-23 10:50 48571b7 **step: update packages**
 - 2025-09-23 10:49 dd830da **refactor: make logger simplify a redactor**
+- 2025-09-23 08:51 a2a3aff **docs: generate readme**
+- 2025-09-23 08:51 95ad63f **docs: generate CHANGELOG**
 ## 2025-09-22 22:43 v0.29.1
 - 2025-09-22 22:43 536a99e **0.29.1**
 - 2025-09-22 22:41 3323dd2 **step: define redactor mask default keys**
