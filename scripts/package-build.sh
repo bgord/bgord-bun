@@ -6,10 +6,10 @@ setup_base_config
 
 OUTPUT_DIRECTORY="dist"
 
-info "Clearing output directory..."
+step_start "Directory clear"
 rm -rf $OUTPUT_DIRECTORY
-success "Output directory cleared"
+step_end "Directory clear"
 
-info "Building package..."
+step_start "Package build"
 tsc --build
-success "Package built correctly!"
+step_end "Package build"
