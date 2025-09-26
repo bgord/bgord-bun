@@ -1,4 +1,6 @@
 # Changelog
+- 2025-09-26 11:31 1b0645b **step: update packages**
+- 2025-09-23 12:20 2607d8d **step: bump bgord/scripts**
 - 2025-09-23 12:13 d0053c5 **step: bump bgord/scripts**
 - 2025-09-23 11:51 cf708a6 **step: bump bgord/scripts**
 - 2025-09-23 11:48 88fe23c **fix: package-build**
@@ -12,6 +14,7 @@
 - 2025-09-23 10:53 4f50238 **refactor: unify package-build script**
 - 2025-09-23 10:50 48571b7 **step: update packages**
 - 2025-09-23 10:49 dd830da **refactor: make logger simplify a redactor**
+- 2025-09-23 10:13 c7fb2ec **docs: generate CHANGELOG**
 - 2025-09-23 09:52 19a8eca **docs: generate CHANGELOG**
 - 2025-09-23 09:48 189f6dd **docs: generate CHANGELOG**
 - 2025-09-23 09:03 fae3b59 **docs: generate CHANGELOG**
