@@ -1,8 +1,10 @@
 # Changelog
+- 2025-09-27 09:28 a0259ed **fix: graceful shutdown bun crash**
 ## 2025-09-27 09:09 v0.29.4
 - 2025-09-27 09:09 8b88b02 **0.29.4**
 - 2025-09-27 09:08 e351ee8 **step: update packages**
 - 2025-09-27 09:08 ca9ca45 **fix: graceful shutdown**
+- 2025-09-27 07:09 b16398b **docs: generate CHANGELOG**
 - 2025-09-27 07:08 81d9a6d **docs: generate CHANGELOG**
 ## 2025-09-26 11:38 v0.29.3
 - 2025-09-26 11:38 30962a5 **0.29.3**
