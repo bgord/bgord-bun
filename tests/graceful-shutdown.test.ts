@@ -19,7 +19,7 @@ function setup() {
 
   const exitFn = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
 
-  return { server, gs: new GracefulShutdown(logger, { exitFn }), exitCalls };
+  return { server, gs: new GracefulShutdown(logger, exitFn), exitCalls };
 }
 
 describe("GracefulShutdown", () => {
