@@ -1,4 +1,6 @@
 # Changelog
+- 2025-09-30 12:06 ff97eaf **refactor: update image dimensions**
+- 2025-09-30 12:05 da0a6a0 **step: update packages**
 ## 2025-09-27 09:31 v0.29.5
 - 2025-09-27 09:31 87dd50d **0.29.5**
 - 2025-09-27 09:28 a0259ed **fix: graceful shutdown bun crash**
@@ -6,6 +8,7 @@
 - 2025-09-27 09:09 8b88b02 **0.29.4**
 - 2025-09-27 09:08 e351ee8 **step: update packages**
 - 2025-09-27 09:08 ca9ca45 **fix: graceful shutdown**
+- 2025-09-27 07:31 59d6937 **docs: generate CHANGELOG**
 - 2025-09-27 07:29 81ec8fc **docs: generate CHANGELOG**
 - 2025-09-27 07:09 b16398b **docs: generate CHANGELOG**
 - 2025-09-27 07:08 81d9a6d **docs: generate CHANGELOG**
