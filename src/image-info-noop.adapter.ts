@@ -6,8 +6,8 @@ export class ImageInfoNoopAdapter implements ImageInfoPort {
 
   async inspect(_filePath: tools.FilePathRelative | tools.FilePathAbsolute) {
     return {
-      width: tools.Width.parse(400),
-      height: tools.Height.parse(400),
+      width: tools.ImageWidth.parse(400),
+      height: tools.ImageHeight.parse(400),
       mime: this.mime,
       size: tools.Size.fromBytes(0),
     };

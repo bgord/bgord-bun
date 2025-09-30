@@ -18,8 +18,8 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
     const sizeBytes = Bun.file(path).size;
 
     return {
-      width: tools.Width.parse(metadata.width),
-      height: tools.Height.parse(metadata.height),
+      width: tools.ImageWidth.parse(metadata.width),
+      height: tools.ImageHeight.parse(metadata.height),
       mime: tools.Mime.fromExtension(extension),
       size: tools.Size.fromBytes(sizeBytes),
     };
