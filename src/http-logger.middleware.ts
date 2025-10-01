@@ -38,9 +38,6 @@ export class HttpLogger {
       const request = c.req.raw.clone();
 
       const correlationId = c.get("requestId") as CorrelationIdType;
-      const url = c.req.url;
-      const method = c.req.method;
-
       const client = ClientFromHono.extract(c).toJSON();
 
       const httpRequestBeforeMetadata = {
@@ -56,8 +53,8 @@ export class HttpLogger {
         operation: "http_request_before",
         correlationId,
         message: "request",
-        method,
-        url,
+        method: request.method,
+        url: request.url,
         client,
         metadata: _.pickBy(httpRequestBeforeMetadata, (value) => !_.isEmpty(value)),
       });
@@ -73,9 +70,9 @@ export class HttpLogger {
         operation: "http_request_after",
         correlationId,
         message: "response",
-        method,
-        url,
-        status: c.res.status,
+        method: request.method,
+        url: request.url,
+        status: response.status,
         durationMs,
         client,
         cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
