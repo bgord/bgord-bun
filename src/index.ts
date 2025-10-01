@@ -104,6 +104,7 @@ export * from "./redactor-composite.adapter";
 export * from "./redactor-encrypt.adapter";
 export * from "./redactor-mask.adapter";
 export * from "./redactor-noop.adapter";
+export * from "./redactor-object.adapter";
 export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
