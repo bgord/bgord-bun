@@ -1,7 +1,15 @@
 # Changelog
+- 2025-10-01 21:49 295fb6b **refactor: rename compact object redactor**
+- 2025-10-01 21:47 63ef574 **refactor: rename compact array redactor**
+- 2025-10-01 21:41 2be7ea2 **step: allow http logger overrides in setup**
+- 2025-10-01 21:39 88abb18 **feature: add http-logger skip**
+- 2025-10-01 21:23 c55fd54 **refactor: unify http logger fields**
+- 2025-10-01 21:15 87ca63e **step: extract default max keys in redactor object adapter**
+- 2025-10-01 17:20 d7eb9b5 **feature: add redactor object**
 ## 2025-10-01 11:11 v0.29.7
 - 2025-10-01 11:11 3ee655f **0.29.7**
 - 2025-10-01 11:10 e6f7556 **step: update packages**
+- 2025-10-01 09:11 f7a68ff **docs: generate CHANGELOG**
 - 2025-10-01 09:11 6ea33a3 **docs: generate CHANGELOG**
 ## 2025-09-30 12:12 v0.29.6
 - 2025-09-30 12:12 ddfb42f **0.29.6**
