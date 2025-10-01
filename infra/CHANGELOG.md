@@ -1,8 +1,10 @@
 # Changelog
+- 2025-10-01 11:10 e6f7556 **step: update packages**
 ## 2025-09-30 12:12 v0.29.6
 - 2025-09-30 12:12 ddfb42f **0.29.6**
 - 2025-09-30 12:06 ff97eaf **refactor: update image dimensions**
 - 2025-09-30 12:05 da0a6a0 **step: update packages**
+- 2025-09-30 10:12 5266af2 **docs: generate CHANGELOG**
 - 2025-09-30 10:11 f9d7ec6 **docs: generate CHANGELOG**
 ## 2025-09-27 09:31 v0.29.5
 - 2025-09-27 09:31 87dd50d **0.29.5**
