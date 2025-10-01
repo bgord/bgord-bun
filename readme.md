@@ -176,7 +176,8 @@ src/
 ├── prerequisites.service.ts
 ├── rate-limit-store-node-cache.adapter.ts
 ├── rate-limit-store.port.ts
-├── redactor-compact.adapter.ts
+├── redactor-compact-array.adapter.ts
+├── redactor-compact-object.adapter.ts
 ├── redactor-composite.adapter.ts
 ├── redactor-encrypt.adapter.ts
 ├── redactor-mask.adapter.ts
