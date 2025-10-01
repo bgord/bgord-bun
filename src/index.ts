@@ -99,7 +99,7 @@ export * from "./prerequisites.service";
 export * from "./rate-limit-store.port";
 export * from "./rate-limit-store-node-cache.adapter";
 export * from "./redactor.port";
-export * from "./redactor-compact.adapter";
+export * from "./redactor-compact-array.adapter";
 export * from "./redactor-composite.adapter";
 export * from "./redactor-encrypt.adapter";
 export * from "./redactor-mask.adapter";

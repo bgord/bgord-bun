@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorCompactAdapter } from "../src/redactor-compact.adapter";
+import { RedactorCompactArrayAdapter } from "../src/redactor-compact-array.adapter";
 
-const redactor = new RedactorCompactAdapter();
+const redactor = new RedactorCompactArrayAdapter();
 
 describe("RedactorCompactAdapter", () => {
   test("keeps primitives unchanged", () => {

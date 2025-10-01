@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import type { RedactorPort } from "../src/redactor.port";
-import { RedactorCompactAdapter } from "../src/redactor-compact.adapter";
+import { RedactorCompactArrayAdapter } from "../src/redactor-compact-array.adapter";
 import { RedactorCompositeAdapter } from "../src/redactor-composite.adapter";
 import { RedactorObjectAdapter } from "../src/redactor-object.adapter";
 
@@ -33,7 +33,7 @@ describe("RedactorCompositeAdapter", () => {
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: [1, 2, 3] } };
 
     const redactor = new RedactorCompositeAdapter([
-      new RedactorCompactAdapter(),
+      new RedactorCompactArrayAdapter(),
       new RedactorObjectAdapter({ maxKeys: 2 }),
     ]);
 
