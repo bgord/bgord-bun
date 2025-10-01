@@ -32,10 +32,19 @@ const UNINFORMATIVE_HEADERS = [
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
+export type HttpLoggerOptions = { skip?: readonly string[] };
+
 export class HttpLogger {
-  static build = (deps: Dependencies) =>
+  static build = (deps: Dependencies, options?: HttpLoggerOptions) =>
     createMiddleware(async (c, next) => {
       const request = c.req.raw.clone();
+
+      const pathname = new URL(request.url).pathname;
+
+      if (options?.skip?.some((prefix) => pathname.startsWith(prefix))) {
+        await next();
+        return;
+      }
 
       const correlationId = c.get("requestId") as CorrelationIdType;
       const client = ClientFromHono.extract(c).toJSON();

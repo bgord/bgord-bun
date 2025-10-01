@@ -121,4 +121,20 @@ describe("HttpLogger middleware", () => {
       }),
     );
   });
+
+  test("skips logging for configured path prefix", async () => {
+    const Logger = new LoggerNoopAdapter();
+    const Clock = new ClockSystemAdapter();
+    const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
+
+    const deps = { Logger, Clock };
+
+    const app = new Hono().use(HttpLogger.build(deps, { skip: ["/i18n/"] }));
+
+    app.get("/i18n/en.json", (c) => c.json({ hello: "world" }));
+
+    const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
+    expect(result.status).toBe(200);
+    expect(loggerHttpSpy).not.toHaveBeenCalled();
+  });
 });
