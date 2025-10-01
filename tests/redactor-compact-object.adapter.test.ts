@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorObjectAdapter } from "../src/redactor-object.adapter";
+import { RedactorCompactObjectAdapter } from "../src/redactor-compact-object.adapter";
 
-const redactor = new RedactorObjectAdapter();
+const redactor = new RedactorCompactObjectAdapter();
 
 describe("RedactorObjectAdapter", () => {
   test("keeps primitives unchanged", () => {
@@ -19,13 +19,13 @@ describe("RedactorObjectAdapter", () => {
 
   test("does not summarize when keys == maxKeys", () => {
     const maxKeys = 5;
-    const redactor = new RedactorObjectAdapter({ maxKeys });
+    const redactor = new RedactorCompactObjectAdapter({ maxKeys });
     const boundary = Object.fromEntries(Array.from({ length: maxKeys }, (_, i) => [`k${i}`, i]));
     expect(redactor.redact(boundary)).toEqual(boundary);
   });
 
   test("summarizes wide plain objects (keys > maxKeys)", () => {
-    const redactor = new RedactorObjectAdapter({ maxKeys: 5 });
+    const redactor = new RedactorCompactObjectAdapter({ maxKeys: 5 });
     const wide = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [`k${i}`, i]));
 
     // @ts-expect-error
@@ -33,7 +33,7 @@ describe("RedactorObjectAdapter", () => {
   });
 
   test("summarizes nested wide objects recursively (without summarizing root)", () => {
-    const redactor = new RedactorObjectAdapter({ maxKeys: 2 });
+    const redactor = new RedactorCompactObjectAdapter({ maxKeys: 2 });
     const input = {
       narrow: { a: 1, b: 2 },
       branch: {
@@ -56,7 +56,7 @@ describe("RedactorObjectAdapter", () => {
       constructor(public value: number) {}
     }
 
-    const redactor = new RedactorObjectAdapter({ maxKeys: 10 });
+    const redactor = new RedactorCompactObjectAdapter({ maxKeys: 10 });
     const input = {
       bag: {
         arr: [1, 2, 3],
@@ -85,7 +85,7 @@ describe("RedactorObjectAdapter", () => {
   });
 
   test("works with mixed structures (wide object containing arrays etc.)", () => {
-    const redactor = new RedactorObjectAdapter({ maxKeys: 2 });
+    const redactor = new RedactorCompactObjectAdapter({ maxKeys: 2 });
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: 2, c: [1, 2, 3] } };
 
     const result = redactor.redact(input);

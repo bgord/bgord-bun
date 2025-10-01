@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import type { RedactorPort } from "../src/redactor.port";
 import { RedactorCompactArrayAdapter } from "../src/redactor-compact-array.adapter";
+import { RedactorCompactObjectAdapter } from "../src/redactor-compact-object.adapter";
 import { RedactorCompositeAdapter } from "../src/redactor-composite.adapter";
-import { RedactorObjectAdapter } from "../src/redactor-object.adapter";
 
 class UppercaseRedactor implements RedactorPort {
   redact<T>(input: T): T {
@@ -34,7 +34,7 @@ describe("RedactorCompositeAdapter", () => {
 
     const redactor = new RedactorCompositeAdapter([
       new RedactorCompactArrayAdapter(),
-      new RedactorObjectAdapter({ maxKeys: 2 }),
+      new RedactorCompactObjectAdapter({ maxKeys: 2 }),
     ]);
 
     const result = redactor.redact(input);
