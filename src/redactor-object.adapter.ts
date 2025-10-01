@@ -4,10 +4,12 @@ import type { RedactorPort } from "./redactor.port";
 type RedactorWideObjectOptions = { maxKeys?: number };
 
 export class RedactorObjectAdapter implements RedactorPort {
+  private static readonly DEFAULT_MAX_KEYS = 20;
+
   private readonly maxKeys: number;
 
   constructor(options: RedactorWideObjectOptions = {}) {
-    this.maxKeys = options.maxKeys ?? 10;
+    this.maxKeys = options.maxKeys ?? RedactorObjectAdapter.DEFAULT_MAX_KEYS;
   }
 
   redact<T>(input: T): T {
