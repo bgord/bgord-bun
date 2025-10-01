@@ -12,7 +12,7 @@ import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
-import { HttpLogger } from "./http-logger.middleware";
+import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
@@ -24,6 +24,7 @@ export const BODY_LIMIT_MAX_SIZE = tools.Size.fromKb(128).toBytes();
 type SetupOverridesType = {
   cors?: Parameters<typeof cors>[0];
   secureHeaders?: Parameters<typeof secureHeaders>[0];
+  httpLogger?: HttpLoggerOptions;
 };
 
 type Dependencies = {
@@ -58,7 +59,7 @@ export class Setup {
       Context.attach,
       WeakETagExtractor.attach,
       ETagExtractor.attach,
-      HttpLogger.build(deps),
+      HttpLogger.build(deps, overrides?.httpLogger),
       timing(),
       CorrelationStorage.handle(),
     ];
