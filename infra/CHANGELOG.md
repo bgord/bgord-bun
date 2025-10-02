@@ -1,4 +1,6 @@
 # Changelog
+- 2025-10-02 10:41 b7d8058 **step: bump bgord/scripts**
+- 2025-10-02 10:41 389317b **step: update packages**
 ## 2025-10-01 21:51 v0.29.8
 - 2025-10-01 21:51 b269227 **0.29.8**
 - 2025-10-01 21:49 295fb6b **refactor: rename compact object redactor**
@@ -7,6 +9,7 @@
 - 2025-10-01 21:39 88abb18 **feature: add http-logger skip**
 - 2025-10-01 21:23 c55fd54 **refactor: unify http logger fields**
 - 2025-10-01 21:15 87ca63e **step: extract default max keys in redactor object adapter**
+- 2025-10-01 19:51 ba583e3 **docs: generate CHANGELOG**
 - 2025-10-01 19:50 bffd253 **docs: generate CHANGELOG**
 - 2025-10-01 19:50 6c016fa **docs: generate readme**
 - 2025-10-01 17:20 d7eb9b5 **feature: add redactor object**
