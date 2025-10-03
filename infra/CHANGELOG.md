@@ -1,9 +1,14 @@
 # Changelog
+- 2025-10-03 11:44 e973539 **fix: jobs service**
+- 2025-10-03 11:44 b6704f4 **step: update packages**
+- 2025-10-03 11:43 b974ae4 **fix: image-info port types**
+- 2025-10-03 11:40 e2472db **step: update packages**
 ## 2025-10-02 10:42 v0.29.9
 - 2025-10-02 10:42 1929ed0 **0.29.9**
 - 2025-10-02 10:41 b7d8058 **step: bump bgord/scripts**
 - 2025-10-02 10:41 389317b **step: update packages**
 - 2025-10-02 08:42 a0ca8f2 **docs: generate CHANGELOG**
+- 2025-10-02 08:42 981537d **docs: generate CHANGELOG**
 ## 2025-10-01 21:51 v0.29.8
 - 2025-10-01 21:51 b269227 **0.29.8**
 - 2025-10-01 21:49 295fb6b **refactor: rename compact object redactor**
