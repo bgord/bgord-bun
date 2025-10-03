@@ -25,7 +25,7 @@ export class Jobs {
   static SCHEDULES = {
     EVERY_MINUTE: "* * * * *",
     EVERY_HOUR: "0 * * * *",
-    DAY_TIME: (day: UTC_DAY_OF_THE_WEEK, UTCHour: tools.Hour) => `0 ${UTCHour.get().raw} * * ${day}`,
+    DAY_TIME: (day: UTC_DAY_OF_THE_WEEK, UTCHour: tools.Hour) => `0 ${UTCHour.get()} * * ${day}`,
   };
 
   static stopAll(jobs: MultipleJobsType) {
