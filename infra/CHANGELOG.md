@@ -1,8 +1,11 @@
 # Changelog
+## 2025-10-03 11:46 v0.29.10
+- 2025-10-03 11:46 7208cdb **0.29.10**
 - 2025-10-03 11:44 e973539 **fix: jobs service**
 - 2025-10-03 11:44 b6704f4 **step: update packages**
 - 2025-10-03 11:43 b974ae4 **fix: image-info port types**
 - 2025-10-03 11:40 e2472db **step: update packages**
+- 2025-10-03 09:44 3a6b9e3 **docs: generate CHANGELOG**
 ## 2025-10-02 10:42 v0.29.9
 - 2025-10-02 10:42 1929ed0 **0.29.9**
 - 2025-10-02 10:41 b7d8058 **step: bump bgord/scripts**
