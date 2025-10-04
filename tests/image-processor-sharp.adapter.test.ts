@@ -33,7 +33,7 @@ describe("ImageProcessorSharpAdapter.process", () => {
       strategy: "in_place",
       input,
       maxSide: 256,
-      to: tools.ExtensionSchema.parse("webp"),
+      to: tools.Extension.parse("webp"),
       quality: 72,
       background: "#FFFFFF",
     };
@@ -95,7 +95,7 @@ describe("ImageProcessorSharpAdapter.process", () => {
       input,
       output,
       maxSide: 512,
-      to: tools.ExtensionSchema.parse("jpg"),
+      to: tools.Extension.parse("jpg"),
     };
 
     const finalVo = await adapter.process(recipe);

@@ -24,7 +24,7 @@ describe("ImageFormatterSharpAdapter.format", () => {
     const adapter = new ImageFormatterSharpAdapter();
 
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
-    const to = tools.ExtensionSchema.parse("webp");
+    const to = tools.Extension.parse("webp");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
     const finalVo = await adapter.format(recipe);
@@ -56,7 +56,7 @@ describe("ImageFormatterSharpAdapter.format", () => {
     const adapter = new ImageFormatterSharpAdapter();
 
     const input = tools.FilePathAbsolute.fromString("/var/in/picture.png");
-    const to = tools.ExtensionSchema.parse("png"); // same as input
+    const to = tools.Extension.parse("png"); // same as input
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
     const finalVo = await adapter.format(recipe);
@@ -136,7 +136,7 @@ describe("ImageFormatterSharpAdapter.format", () => {
     const adapter = new ImageFormatterSharpAdapter();
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
-    const to = tools.ExtensionSchema.parse("jpeg");
+    const to = tools.Extension.parse("jpeg");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
     await adapter.format(recipe);

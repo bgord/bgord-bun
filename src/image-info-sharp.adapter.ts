@@ -13,7 +13,7 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
     };
 
     const metadata = await image.metadata();
-    const extension = tools.ExtensionSchema.parse(metadata.format);
+    const extension = tools.Extension.parse(metadata.format);
 
     const sizeBytes = Bun.file(path).size;
 
