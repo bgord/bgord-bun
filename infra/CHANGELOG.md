@@ -1,4 +1,6 @@
 # Changelog
+## 2025-10-04 19:39 v0.29.13
+- 2025-10-04 19:39 aae5224 **0.29.13**
 - 2025-10-04 19:39 7382057 **refactor: remove codeql workflow**
 - 2025-10-04 19:39 2884eb7 **step: update packages**
 ## 2025-10-04 19:21 v0.29.12
@@ -10,6 +12,7 @@
 - 2025-10-04 18:54 55a5ff6 **0.29.11**
 - 2025-10-04 18:53 462cb0a **fix: extension schema**
 - 2025-10-04 18:52 492da09 **step: update packages**
+- 2025-10-04 17:39 91103fd **docs: generate CHANGELOG**
 - 2025-10-04 17:22 b915d67 **docs: generate CHANGELOG**
 - 2025-10-04 17:21 58ab877 **docs: generate CHANGELOG**
 - 2025-10-04 16:54 9963475 **docs: generate CHANGELOG**
