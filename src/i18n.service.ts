@@ -23,9 +23,7 @@ export class I18n {
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
-      const path = this.getTranslationPathForLanguage(language).get();
-
-      return Bun.file(path).json();
+      return Bun.file(this.getTranslationPathForLanguage(language).get()).json();
     } catch (_error) {
       return {};
     }

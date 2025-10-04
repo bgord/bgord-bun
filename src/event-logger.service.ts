@@ -12,7 +12,6 @@ export class EventLogger {
     eventData: Record<string, any> | undefined,
   ) {
     if (type === "subscribe") return;
-
     if (typeof eventName === "symbol") return;
 
     this.logger.info({ message: `${eventName} emitted`, metadata: eventData, ...this.base });

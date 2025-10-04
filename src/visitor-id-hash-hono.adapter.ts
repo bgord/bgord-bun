@@ -7,9 +7,7 @@ export class VisitorIdHashHono implements VisitorIdPort {
   private readonly delegate: VisitorIdHash;
 
   constructor(context: Context) {
-    const client = ClientFromHono.extract(context);
-
-    this.delegate = new VisitorIdHash(client);
+    this.delegate = new VisitorIdHash(ClientFromHono.extract(context));
   }
 
   async get() {
