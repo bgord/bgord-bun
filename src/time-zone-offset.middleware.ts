@@ -3,9 +3,9 @@ import { createMiddleware } from "hono/factory";
 
 export type TimeZoneOffsetVariables = {
   timeZoneOffset: {
-    minutes: tools.TimeResult["minutes"];
-    seconds: tools.TimeResult["seconds"];
-    miliseconds: tools.TimeResult["ms"];
+    minutes: tools.TimeResultInterface["minutes"];
+    seconds: tools.TimeResultInterface["seconds"];
+    miliseconds: tools.TimeResultInterface["ms"];
   };
 };
 
@@ -30,12 +30,12 @@ export class TimeZoneOffset {
 
   static adjustTimestamp(
     timestamp: tools.TimestampType,
-    timeZoneOffsetMs: tools.TimeResult["ms"],
+    timeZoneOffsetMs: tools.TimeResultInterface["ms"],
   ): tools.TimestampType {
     return tools.Timestamp.parse(timestamp - timeZoneOffsetMs);
   }
 
-  static adjustDate(timestamp: tools.TimestampType, timeZoneOffsetMs: tools.TimeResult["ms"]): Date {
+  static adjustDate(timestamp: tools.TimestampType, timeZoneOffsetMs: tools.TimeResultInterface["ms"]): Date {
     return new Date(timestamp - timeZoneOffsetMs);
   }
 }
