@@ -2,9 +2,9 @@ import type * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 
 export class Slower {
-  static handle = (time: tools.TimeResultInterface) =>
+  static handle = (offset: tools.Duration) =>
     createMiddleware(async (_c, next) => {
-      await Bun.sleep(time.ms);
+      await Bun.sleep(offset.ms);
       return next();
     });
 }

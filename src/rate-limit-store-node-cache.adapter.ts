@@ -5,10 +5,10 @@ import type { RateLimitStore, RateLimitStoreSubjectType } from "./rate-limit-sto
 export class RateLimitStoreNodeCache implements RateLimitStore {
   private readonly store: NodeCache;
 
-  constructor(readonly time: tools.TimeResultInterface) {
+  constructor(readonly ttl: tools.Duration) {
     this.store = new NodeCache({
-      stdTTL: this.time.seconds,
-      checkperiod: this.time.seconds,
+      stdTTL: this.ttl.seconds,
+      checkperiod: this.ttl.seconds,
       deleteOnExpire: true,
       maxKeys: 100_000,
     });

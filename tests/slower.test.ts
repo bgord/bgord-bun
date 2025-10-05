@@ -5,7 +5,7 @@ import { Slower } from "../src/slower.middleware";
 
 describe("Slower", () => {
   test("responds with Cache-Hit: miss on first uncached request", async () => {
-    const time = tools.Time.Seconds(3);
+    const time = tools.Duration.Seconds(3);
     const bunSleep = spyOn(Bun, "sleep").mockResolvedValue();
 
     const app = new Hono();

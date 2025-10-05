@@ -14,7 +14,8 @@ type HealthcheckResultType = {
   details: { label: prereqs.PrerequisiteLabelType; outcome: prereqs.VerifyOutcome }[];
   uptime: UptimeResultType;
   memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
-} & tools.StopwatchResultType;
+  durationMs: tools.Duration["ms"];
+};
 
 type Dependencies = { Clock: ClockPort };
 
@@ -46,7 +47,7 @@ export class Healthcheck {
           bytes: MemoryConsumption.get().toBytes(),
           formatted: MemoryConsumption.get().format(tools.SizeUnit.MB),
         },
-        ...stopwatch.stop(),
+        durationMs: stopwatch.stop().ms,
       };
 
       return c.json(result, code);

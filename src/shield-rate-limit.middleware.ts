@@ -23,7 +23,7 @@ export const ShieldRateLimit = (options: RateLimitShieldOptionsType, deps: Depen
     let limiter = await options.store.get(subject);
 
     if (!limiter) {
-      limiter = new tools.RateLimiter(options.store.time);
+      limiter = new tools.RateLimiter(options.store.ttl);
       options.store.set(subject, limiter);
     }
 

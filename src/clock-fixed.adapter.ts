@@ -16,7 +16,7 @@ export class ClockFixedAdapter implements ClockPort {
     return tools.Time.Now(this.value);
   }
 
-  advanceBy(time: tools.TimeResultInterface): void {
-    this.value = tools.Timestamp.parse(this.value + time.ms);
+  advanceBy(duration: tools.Duration): void {
+    this.value = tools.Timestamp.parse(this.value + duration.ms);
   }
 }

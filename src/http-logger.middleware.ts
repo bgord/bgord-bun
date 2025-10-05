@@ -70,7 +70,7 @@ export class HttpLogger {
 
       const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
       await next();
-      const { durationMs } = stopwatch.stop();
+      const duration = stopwatch.stop();
 
       const response = c.res.clone();
 
@@ -82,7 +82,7 @@ export class HttpLogger {
         method: request.method,
         url: request.url,
         status: response.status,
-        durationMs,
+        durationMs: duration.ms,
         client,
         cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
         metadata: { response: await HttpLogger.parseJSON(response) },

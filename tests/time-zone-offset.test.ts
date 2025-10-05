@@ -16,9 +16,9 @@ describe("TimeZoneOffset middleware", () => {
 
     expect(result.status).toEqual(200);
     expect(await result.json()).toEqual({
-      minutes: tools.Time.Minutes(120).minutes,
-      seconds: tools.Time.Minutes(120).seconds,
-      miliseconds: tools.Time.Minutes(120).ms,
+      minutes: tools.Duration.Minutes(120).minutes,
+      seconds: tools.Duration.Minutes(120).seconds,
+      miliseconds: tools.Duration.Minutes(120).ms,
     });
   });
 
@@ -41,7 +41,7 @@ describe("TimeZoneOffset middleware", () => {
 
   test("adjustTimestamp", async () => {
     expect(
-      TimeZoneOffset.adjustTimestamp(tools.Timestamp.parse(1_000_000), tools.Timestamp.parse(100_000)),
+      TimeZoneOffset.adjustTimestamp(tools.Timestamp.parse(1_000_000), tools.Duration.Ms(100_000).ms),
     ).toEqual(tools.Timestamp.parse(900_000));
   });
 });

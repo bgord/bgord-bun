@@ -12,7 +12,7 @@ import {
 const Clock = new ClockFixedAdapter(1000);
 const deps = { Clock };
 
-const store = new RateLimitStoreNodeCache(tools.Time.Seconds(1));
+const store = new RateLimitStoreNodeCache(tools.Duration.Seconds(1));
 
 describe("rateLimitShield middleware", () => {
   test("respects the enabled flag", async () => {
@@ -71,7 +71,7 @@ describe("rateLimitShield middleware", () => {
     const first = await app.request("/ping", { method: "GET" });
     expect(first.status).toEqual(200);
 
-    Clock.advanceBy(tools.Time.Seconds(5));
+    Clock.advanceBy(tools.Duration.Seconds(5));
 
     const second = await app.request("/ping", { method: "GET" });
     expect(second.status).toEqual(200);
@@ -134,7 +134,7 @@ describe("rateLimitShield middleware", () => {
     const first = await app.request("/ping", { method: "GET" });
     expect(first.status).toEqual(200);
 
-    Clock.advanceBy(tools.Time.Seconds(5));
+    Clock.advanceBy(tools.Duration.Seconds(5));
 
     const second = await app.request("/ping", { method: "GET" });
     expect(second.status).toEqual(200);
@@ -167,7 +167,7 @@ describe("rateLimitShield middleware", () => {
     const secondUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
     expect(secondUserSecondRequest.status).toEqual(429);
 
-    Clock.advanceBy(tools.Time.Seconds(5));
+    Clock.advanceBy(tools.Duration.Seconds(5));
 
     const firstUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
     expect(firstUserSecondRequest.status).toEqual(200);

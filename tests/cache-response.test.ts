@@ -13,7 +13,7 @@ const app = new Hono();
 app.get("/ping-cached", cacheResponse.handle, (c) => {
   const response = { message: "ping" };
 
-  ResponseCache.set(c.req.url, response, tools.Time.Seconds(10).seconds);
+  ResponseCache.set(c.req.url, response, tools.Duration.Seconds(10).seconds);
 
   return c.json(response);
 });
@@ -64,7 +64,7 @@ describe("CacheResponse", () => {
     expect(secondRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.hit);
     expect(secondJson.message).toBe("ping");
 
-    setSystemTime(tools.Time.Seconds(15).ms);
+    setSystemTime(tools.Duration.Seconds(15).ms);
 
     const thirdRes = await app.request("/ping-cached");
     const thirdJson = await thirdRes.json();
