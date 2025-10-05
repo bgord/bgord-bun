@@ -1,13 +1,7 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 
-export type TimeZoneOffsetVariables = {
-  timeZoneOffset: {
-    minutes: tools.Duration["minutes"];
-    seconds: tools.Duration["seconds"];
-    miliseconds: tools.Duration["ms"];
-  };
-};
+export type TimeZoneOffsetVariables = { timeZoneOffset: tools.Duration };
 
 export class TimeZoneOffset {
   static TIME_ZONE_OFFSET_HEADER_NAME = "time-zone-offset";
@@ -17,25 +11,16 @@ export class TimeZoneOffset {
       c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME),
     );
 
-    const timeZoneOffset = {
-      minutes: timeZoneOffsetMinutes,
-      seconds: tools.Duration.Minutes(timeZoneOffsetMinutes).seconds,
-      miliseconds: tools.Duration.Minutes(timeZoneOffsetMinutes).ms,
-    };
-
-    c.set("timeZoneOffset", timeZoneOffset);
+    c.set("timeZoneOffset", tools.Duration.Minutes(timeZoneOffsetMinutes));
 
     await next();
   });
 
-  static adjustTimestamp(
-    timestamp: tools.TimestampType,
-    timeZoneOffsetMs: tools.Duration["ms"],
-  ): tools.TimestampType {
-    return tools.Timestamp.parse(timestamp - timeZoneOffsetMs);
+  static adjustTimestamp(timestamp: tools.TimestampType, offset: tools.Duration): tools.TimestampType {
+    return tools.Timestamp.parse(timestamp - offset.ms);
   }
 
-  static adjustDate(timestamp: tools.TimestampType, timeZoneOffsetMs: tools.Duration["ms"]): Date {
-    return new Date(timestamp - timeZoneOffsetMs);
+  static adjustDate(timestamp: tools.TimestampType, offset: tools.Duration): Date {
+    return new Date(timestamp - offset.ms);
   }
 }

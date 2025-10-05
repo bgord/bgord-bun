@@ -15,18 +15,14 @@ describe("TimeZoneOffset middleware", () => {
     });
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual({
-      minutes: tools.Duration.Minutes(120).minutes,
-      seconds: tools.Duration.Minutes(120).seconds,
-      miliseconds: tools.Duration.Minutes(120).ms,
-    });
+    expect(await result.json()).toEqual({ valueMs: tools.Duration.Minutes(120).ms });
   });
 
   test("handles missing time-zone-offset header gracefully", async () => {
     const result = await app.request("/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual({ minutes: 0, seconds: 0, miliseconds: 0 });
+    expect(await result.json()).toEqual({ valueMs: 0 });
   });
 
   test("handles invalid time-zone-offset header gracefully", async () => {
@@ -36,12 +32,12 @@ describe("TimeZoneOffset middleware", () => {
     });
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual({ minutes: 0, seconds: 0, miliseconds: 0 });
+    expect(await result.json()).toEqual({ valueMs: 0 });
   });
 
   test("adjustTimestamp", async () => {
     expect(
-      TimeZoneOffset.adjustTimestamp(tools.Timestamp.parse(1_000_000), tools.Duration.Ms(100_000).ms),
+      TimeZoneOffset.adjustTimestamp(tools.Timestamp.parse(1_000_000), tools.Duration.Ms(100_000)),
     ).toEqual(tools.Timestamp.parse(900_000));
   });
 });
