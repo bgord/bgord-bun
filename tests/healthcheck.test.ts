@@ -34,7 +34,7 @@ const buildInfo = {
   BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
 };
 const memoryConsumption = tools.Size.fromBytes(12345678);
-const uptime = { seconds: tools.Timestamp.parse(5), formatted: "5 seconds ago" };
+const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
 describe("Healthcheck", () => {
   test("healthcheck returns 200 if all prerequisites pass", async () => {
