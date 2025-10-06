@@ -1,31 +1,33 @@
 import { describe, expect, test } from "bun:test";
-import { BasicAuth, BasicAuthPassword, BasicAuthUsername } from "../src/basic-auth.service";
+import {
+  BasicAuth,
+  BasicAuthPassword,
+  BasicAuthPasswordLengthError,
+  BasicAuthPasswordTypeError,
+  BasicAuthUsername,
+  BasicAuthUsernameLengthError,
+  BasicAuthUsernameTypeError,
+} from "../src/basic-auth.service";
 
 describe("Basic auth validators", () => {
   test("BasicAuthUsername - valid", () => {
     expect(() => BasicAuthUsername.parse("admin")).not.toThrow();
   });
 
-  test("BasicAuthUsername - empty", () => {
-    expect(() => BasicAuthUsername.parse("")).toThrow();
-  });
-
-  test("BasicAuthUsername - too long", () => {
-    const longUsername = "u".repeat(129);
-    expect(() => BasicAuthUsername.parse(longUsername)).toThrow();
+  test("BasicAuthUsername - invalid", () => {
+    expect(() => BasicAuthUsername.parse(123)).toThrow(BasicAuthUsernameTypeError.error);
+    expect(() => BasicAuthUsername.parse("")).toThrow(BasicAuthUsernameLengthError.error);
+    expect(() => BasicAuthUsername.parse("u".repeat(129))).toThrow(BasicAuthUsernameLengthError.error);
   });
 
   test("BasicAuthPassword - valid", () => {
     expect(() => BasicAuthPassword.parse("secure-password123")).not.toThrow();
   });
 
-  test("BasicAuthPassword - empty", () => {
-    expect(() => BasicAuthPassword.parse("")).toThrow();
-  });
-
-  test("BasicAuthPassword - too long", () => {
-    const longPassword = "p".repeat(129);
-    expect(() => BasicAuthPassword.parse(longPassword)).toThrow();
+  test("BasicAuthPassword - invalid", () => {
+    expect(() => BasicAuthPassword.parse(123)).toThrow(BasicAuthPasswordTypeError.error);
+    expect(() => BasicAuthPassword.parse("")).toThrow(BasicAuthPasswordLengthError.error);
+    expect(() => BasicAuthPassword.parse("p".repeat(129))).toThrow(BasicAuthPasswordLengthError.error);
   });
 });
 
