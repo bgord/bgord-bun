@@ -1,4 +1,8 @@
 # Changelog
+- 2025-10-06 00:14 ac05be8 **refactor: use time zone offset**
+- 2025-10-06 00:09 0273fc4 **refactor: use duration in uptime**
+- 2025-10-05 23:57 744a8fd **fix: duration usage**
+- 2025-10-05 23:34 6a75121 **step: update packages**
 ## 2025-10-04 19:39 v0.29.13
 - 2025-10-04 19:39 aae5224 **0.29.13**
 - 2025-10-04 19:39 7382057 **refactor: remove codeql workflow**
@@ -12,6 +16,7 @@
 - 2025-10-04 18:54 55a5ff6 **0.29.11**
 - 2025-10-04 18:53 462cb0a **fix: extension schema**
 - 2025-10-04 18:52 492da09 **step: update packages**
+- 2025-10-04 17:40 9c81c37 **docs: generate CHANGELOG**
 - 2025-10-04 17:39 91103fd **docs: generate CHANGELOG**
 - 2025-10-04 17:22 b915d67 **docs: generate CHANGELOG**
 - 2025-10-04 17:21 58ab877 **docs: generate CHANGELOG**
