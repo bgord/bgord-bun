@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { EventStream } from "../src/event-stream.vo";
+import { EventStream, EventStreamInvalidError } from "../src/event-stream.vo";
 
 describe("EventStream", () => {
   test("valid EventStreams", () => {
@@ -8,7 +8,7 @@ describe("EventStream", () => {
   });
 
   test("throws on invalid values", () => {
-    expect(() => EventStream.parse("")).toThrow();
-    expect(() => EventStream.parse(1)).toThrow();
+    expect(() => EventStream.parse("")).toThrow(EventStreamInvalidError.error);
+    expect(() => EventStream.parse(1)).toThrow(EventStreamInvalidError.error);
   });
 });
