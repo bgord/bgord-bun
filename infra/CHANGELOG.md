@@ -1,9 +1,11 @@
 # Changelog
+- 2025-10-06 09:19 0f4c67e **refactor: unify assertions**
 - 2025-10-06 09:14 419a5fd **refactor: improve event stream vo**
 - 2025-10-06 09:11 6b6f8b4 **refactor: improve env validator**
 - 2025-10-06 09:08 9760955 **refactor: improve clock fixed adapter**
 - 2025-10-06 09:05 17dc1a8 **refactor: improve better auth**
 - 2025-10-06 09:04 7d5dea9 **refactor: improve basic auth**
+- 2025-10-06 07:17 435b97a **docs: generate CHANGELOG**
 - 2025-10-06 06:58 9afc5b5 **docs: generate CHANGELOG**
 - 2025-10-06 00:14 ac05be8 **refactor: use time zone offset**
 - 2025-10-06 00:09 0273fc4 **refactor: use duration in uptime**
