@@ -37,12 +37,12 @@ describe("ImageBlurSharpAdapter.blur", () => {
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg");
+    expect(format).toEqual("jpeg");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/img/photo-blurred.jpg");
+    expect(tempWritten).toEqual("/var/img/photo-blurred.jpg");
     expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-blurred.jpg", "/var/img/photo.jpg");
-    expect(finalVo).toBe(input);
+    expect(finalVo).toEqual(input);
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpg");
     expect(destroySpy).toHaveBeenCalledTimes(1);
   });
@@ -67,11 +67,11 @@ describe("ImageBlurSharpAdapter.blur", () => {
 
     expect(blurSpy).toHaveBeenCalledWith(2.5);
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("webp");
+    expect(format).toEqual("webp");
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/out/dest-blurred.webp");
+    expect(tempWritten).toEqual("/out/dest-blurred.webp");
     expect(renameSpy).toHaveBeenCalledWith("/out/dest-blurred.webp", "/out/dest.webp");
-    expect(finalVo).toBe(output);
+    expect(finalVo).toEqual(output);
     expect(sharpSpy).toHaveBeenCalledWith("/in/source.png");
   });
 
@@ -93,10 +93,10 @@ describe("ImageBlurSharpAdapter.blur", () => {
     await adapter.blur(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("png");
+    expect(format).toEqual("png");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("images/pic-blurred.png");
+    expect(tempWritten).toEqual("images/pic-blurred.png");
     expect(renameSpy).toHaveBeenCalledWith("images/pic-blurred.png", "images/pic.png");
   });
 
@@ -118,7 +118,7 @@ describe("ImageBlurSharpAdapter.blur", () => {
     await adapter.blur(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg");
+    expect(format).toEqual("jpeg");
 
     const expectedTemp = "/x/out/photo-blurred.jpg";
     expect(renameSpy).toHaveBeenCalledWith(expectedTemp, "/x/out/photo.jpg");

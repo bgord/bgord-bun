@@ -14,9 +14,9 @@ describe("BuildInfoRepository", () => {
 
     const result = await BuildInfoRepository.extract(deps);
 
-    expect(typeof result.BUILD_DATE).toBe("number");
+    expect(typeof result.BUILD_DATE).toEqual("number");
     expect(result.BUILD_VERSION).toBeDefined();
-    expect(result.BUILD_VERSION).toBe(tools.PackageVersion.fromString(version).toString());
+    expect(result.BUILD_VERSION).toEqual(tools.PackageVersion.fromString(version).toString());
   });
 
   test("extract returns only BUILD_DATE if package.json loading fails", async () => {
@@ -24,7 +24,7 @@ describe("BuildInfoRepository", () => {
 
     const result = await BuildInfoRepository.extract(deps);
 
-    expect(typeof result.BUILD_DATE).toBe("number");
-    expect(result.BUILD_VERSION).toBeUndefined();
+    expect(typeof result.BUILD_DATE).toEqual("number");
+    expect(result.BUILD_VERSION).toEqual(undefined);
   });
 });

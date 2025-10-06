@@ -38,6 +38,6 @@ describe("ApiVersion middleware", () => {
     const result = await app.request("/ping", { method: "GET" });
     expect(result.status).toEqual(200);
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
-    expect(result.headers.get(ApiVersion.HEADER_NAME)).toBe(ApiVersion.DEFAULT_API_VERSION);
+    expect(result.headers.get(ApiVersion.HEADER_NAME)).toEqual(ApiVersion.DEFAULT_API_VERSION);
   });
 });

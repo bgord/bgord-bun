@@ -18,13 +18,13 @@ describe("Encryption", () => {
 
     await encryption.encrypt({ input: ORIGINAL_FILE, output: ENCRYPTED_FILE });
 
-    expect(await Bun.file(ENCRYPTED_FILE).exists()).toBe(true);
-    expect(await Bun.file(ENCRYPTED_FILE).text()).not.toBe(TEST_CONTENT);
+    expect(await Bun.file(ENCRYPTED_FILE).exists()).toEqual(true);
+    expect(await Bun.file(ENCRYPTED_FILE).text()).not.toEqual(TEST_CONTENT);
 
     await encryption.decrypt({ input: ENCRYPTED_FILE, output: DECRYPTED_FILE });
 
     const decrypted = await Bun.file(DECRYPTED_FILE).text();
-    expect(decrypted).toBe(TEST_CONTENT);
+    expect(decrypted).toEqual(TEST_CONTENT);
 
     await Bun.file(ORIGINAL_FILE).unlink();
     await Bun.file(ENCRYPTED_FILE).unlink();

@@ -16,19 +16,19 @@ const lastModified = new Date(meta.lastModified).toUTCString();
 describe("CacheFileMustRevalidate", () => {
   test("notModified: 304 with empty body and correct validators", async () => {
     const res = CacheFileMustRevalidate.notModified(meta);
-    expect(res.status).toBe(304);
+    expect(res.status).toEqual(304);
 
-    expect(res.headers.get("ETag")).toBe(meta.etag);
-    expect(res.headers.get("Cache-Control")).toBe("private, max-age=0, must-revalidate");
-    expect(res.headers.get("Vary")).toBe("Authorization, Cookie");
-    expect(res.headers.get("Last-Modified")).toBe(lastModified);
+    expect(res.headers.get("ETag")).toEqual(meta.etag);
+    expect(res.headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
+    expect(res.headers.get("Vary")).toEqual("Authorization, Cookie");
+    expect(res.headers.get("Last-Modified")).toEqual(lastModified);
 
-    expect(res.headers.get("Content-Type")).toBeNull();
-    expect(res.headers.get("Content-Length")).toBeNull();
-    expect(res.headers.get("Accept-Ranges")).toBeNull();
+    expect(res.headers.get("Content-Type")).toEqual(null);
+    expect(res.headers.get("Content-Length")).toEqual(null);
+    expect(res.headers.get("Accept-Ranges")).toEqual(null);
 
     const body = await res.arrayBuffer();
-    expect(new Uint8Array(body).length).toBe(0);
+    expect(new Uint8Array(body).length).toEqual(0);
   });
 
   test("notModified: supports overrides", async () => {
@@ -37,23 +37,23 @@ describe("CacheFileMustRevalidate", () => {
       "X-Debug": "1",
     });
 
-    expect(response.headers.get("Cache-Control")).toBe("no-store");
-    expect(response.headers.get("X-Debug")).toBe("1");
+    expect(response.headers.get("Cache-Control")).toEqual("no-store");
+    expect(response.headers.get("X-Debug")).toEqual("1");
 
     const body = await response.arrayBuffer();
-    expect(new Uint8Array(body).length).toBe(0);
+    expect(new Uint8Array(body).length).toEqual(0);
   });
 
   test("fresh: header set for 200 with correct metadata", () => {
     const headers = CacheFileMustRevalidate.fresh(meta);
 
-    expect(headers.get("Content-Type")).toBe(meta.mime.raw);
-    expect(headers.get("Cache-Control")).toBe("private, max-age=0, must-revalidate");
-    expect(headers.get("ETag")).toBe(meta.etag);
-    expect(headers.get("Content-Length")).toBe(meta.size.toBytes().toString());
-    expect(headers.get("Last-Modified")).toBe(lastModified);
-    expect(headers.get("Accept-Ranges")).toBe("bytes");
-    expect(headers.get("Vary")).toBe("Authorization, Cookie");
+    expect(headers.get("Content-Type")).toEqual(meta.mime.raw);
+    expect(headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
+    expect(headers.get("ETag")).toEqual(meta.etag);
+    expect(headers.get("Content-Length")).toEqual(meta.size.toBytes().toString());
+    expect(headers.get("Last-Modified")).toEqual(lastModified);
+    expect(headers.get("Accept-Ranges")).toEqual("bytes");
+    expect(headers.get("Vary")).toEqual("Authorization, Cookie");
   });
 
   test("fresh: supports overrides", () => {
@@ -62,8 +62,8 @@ describe("CacheFileMustRevalidate", () => {
       Vary: "Authorization, Cookie, Accept-Language",
     });
 
-    expect(header.get("Content-Disposition")).toBe('inline; filename="avatar.webp"');
-    expect(header.get("Vary")).toBe("Authorization, Cookie, Accept-Language");
-    expect(header.get("Last-Modified")).toBe(lastModified);
+    expect(header.get("Content-Disposition")).toEqual('inline; filename="avatar.webp"');
+    expect(header.get("Vary")).toEqual("Authorization, Cookie, Accept-Language");
+    expect(header.get("Last-Modified")).toEqual(lastModified);
   });
 });

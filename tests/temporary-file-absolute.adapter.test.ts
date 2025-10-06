@@ -25,7 +25,7 @@ describe("TemporaryFileAbsolute", () => {
     expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
     expect(renameSpy).toHaveBeenCalledTimes(1);
     expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
-    expect(path.get()).toBe(finalPath);
+    expect(path.get()).toEqual(finalPath);
   });
 
   test("cleanup removes the final file", async () => {

@@ -31,9 +31,9 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
     const result = await adapter.clear(recipe);
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/img/photo-exif-cleared.jpeg");
+    expect(tempWritten).toEqual("/var/img/photo-exif-cleared.jpeg");
     expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-exif-cleared.jpeg", "/var/img/photo.jpeg");
-    expect(result).toBe(input);
+    expect(result).toEqual(input);
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpeg");
     expect(rotateSpy).toHaveBeenCalledTimes(1);
     expect(destroySpy).toHaveBeenCalledTimes(1);
@@ -56,9 +56,9 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
     const result = await adapter.clear(recipe);
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/out/dest-exif-cleared.jpeg");
+    expect(tempWritten).toEqual("/var/out/dest-exif-cleared.jpeg");
     expect(renameSpy).toHaveBeenCalledWith("/var/out/dest-exif-cleared.jpeg", "/var/out/dest.jpeg");
-    expect(result).toBe(output);
+    expect(result).toEqual(output);
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/source.jpeg");
     expect(destroySpy).toHaveBeenCalledTimes(1);
   });
@@ -79,7 +79,7 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
     await adapter.clear(recipe);
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("images/pic-exif-cleared.png");
+    expect(tempWritten).toEqual("images/pic-exif-cleared.png");
     expect(renameSpy).toHaveBeenCalledWith("images/pic-exif-cleared.png", "images/pic.png");
   });
 
@@ -100,7 +100,7 @@ describe("ImageExifClearSharpAdapter.clear (standalone, strategy-based)", () => 
     await adapter.clear(recipe);
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("out/dest-exif-cleared.jpeg");
+    expect(tempWritten).toEqual("out/dest-exif-cleared.jpeg");
     expect(renameSpy).toHaveBeenCalledWith("out/dest-exif-cleared.jpeg", "out/dest.jpeg");
   });
 });

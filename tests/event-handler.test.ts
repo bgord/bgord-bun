@@ -38,8 +38,8 @@ describe("Event handler", () => {
       metadata: { name: "user.created" },
     });
     expect(arg.error).toBeDefined();
-    expect(arg.error.name).toBe("Error");
-    expect(arg.error.message).toBe("Something failed");
-    expect(typeof arg.error.stack).toBe("string");
+    expect(arg.error.name).toEqual("Error");
+    expect(arg.error.message).toEqual("Something failed");
+    expect(typeof arg.error.stack).toEqual("string");
   });
 });

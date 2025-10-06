@@ -47,16 +47,16 @@ describe("ImageProcessorSharpAdapter.process", () => {
     expect(resizeOpts).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("webp");
+    expect(fmt).toEqual("webp");
     expect(opts).toMatchObject({ quality: 72 });
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/in/photo-processed.webp");
+    expect(tempWritten).toEqual("/var/in/photo-processed.webp");
     expect(renameSpy).toHaveBeenCalledWith("/var/in/photo-processed.webp", "/var/in/photo.webp");
 
     expect(unlinkSpy).toHaveBeenCalledWith("/var/in/photo.png");
 
-    expect(finalVo.get()).toBe("/var/in/photo.webp");
+    expect(finalVo.get()).toEqual("/var/in/photo.webp");
 
     expect(sharpSpy).toHaveBeenCalledWith("/var/in/photo.png");
     expect(destroySpy).toHaveBeenCalledTimes(1);
@@ -107,16 +107,16 @@ describe("ImageProcessorSharpAdapter.process", () => {
     expect(resizeOpts).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
     const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toBe("jpeg");
+    expect(fmt).toEqual("jpeg");
     expect(opts).toMatchObject({ quality: 85 });
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/out/dest-processed.jpg");
+    expect(tempWritten).toEqual("/out/dest-processed.jpg");
     expect(renameSpy).toHaveBeenCalledWith("/out/dest-processed.jpg", "/out/dest.jpg");
 
     expect(unlinkSpy).not.toHaveBeenCalled();
 
-    expect(finalVo).toBe(output);
+    expect(finalVo).toEqual(output);
 
     expect(sharpSpy).toHaveBeenCalledWith("/in/source.png");
     expect(destroySpy).toHaveBeenCalledTimes(1);

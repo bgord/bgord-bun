@@ -23,7 +23,7 @@ describe("ZipDraft", () => {
     const buf = await zip.create();
 
     // 0x50 0x4b 0x03 0x04 = "PK\003\004"
-    expect(buf.subarray(0, 4).toString("hex")).toBe("504b0304");
+    expect(buf.subarray(0, 4).toString("hex")).toEqual("504b0304");
     expect(buf.length).toBeGreaterThan(22); // > local-file header size
   });
 

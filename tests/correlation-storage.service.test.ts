@@ -7,7 +7,7 @@ describe("CorrelationStorage.run / get", () => {
   test("makes the correlationId available inside the callback", () => {
     const id = "cid-1";
 
-    CorrelationStorage.run(id, () => expect(CorrelationStorage.get()).toBe(id));
+    CorrelationStorage.run(id, () => expect(CorrelationStorage.get()).toEqual(id));
   });
 
   test("propagates across awaits/promises", async () => {
@@ -15,7 +15,7 @@ describe("CorrelationStorage.run / get", () => {
 
     await CorrelationStorage.run(id, async () => {
       await delay(); // hop to a different async resource
-      expect(CorrelationStorage.get()).toBe(id);
+      expect(CorrelationStorage.get()).toEqual(id);
     });
   });
 
@@ -27,9 +27,9 @@ describe("CorrelationStorage.run / get", () => {
 describe("Nested run() calls", () => {
   test("restores the outer id after the inner context finishes", () => {
     CorrelationStorage.run("outer", () => {
-      expect(CorrelationStorage.get()).toBe("outer");
-      CorrelationStorage.run("inner", () => expect(CorrelationStorage.get()).toBe("inner"));
-      expect(CorrelationStorage.get()).toBe("outer");
+      expect(CorrelationStorage.get()).toEqual("outer");
+      CorrelationStorage.run("inner", () => expect(CorrelationStorage.get()).toEqual("inner"));
+      expect(CorrelationStorage.get()).toEqual("outer");
     });
   });
 });
@@ -50,7 +50,7 @@ describe("CorrelationStorage.handle() middleware", () => {
 
     await middleware(ctx, next as any);
 
-    expect(seen).toBe(id);
+    expect(seen).toEqual(id);
   });
 
   test("cleans up after the request completes", async () => {

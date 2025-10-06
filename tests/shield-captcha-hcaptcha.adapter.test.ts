@@ -19,8 +19,8 @@ describe("ShieldCaptchaHcaptcha", () => {
     form.set("h-captcha-response", "valid-token");
     const response = await app.request("/secure", { method: "POST", body: form });
 
-    expect(response.status).toBe(200);
-    expect(await response.text()).toBe("OK");
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("OK");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "valid-token");
   });
 
@@ -31,8 +31,8 @@ describe("ShieldCaptchaHcaptcha", () => {
     form.set("h-captcha-response", "invalid-token");
     const response = await app.request("/secure", { method: "POST", body: form });
 
-    expect(response.status).toBe(403);
-    expect(await response.text()).toBe("access_denied_hcaptcha");
+    expect(response.status).toEqual(403);
+    expect(await response.text()).toEqual("access_denied_hcaptcha");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "invalid-token");
   });
 
@@ -41,8 +41,8 @@ describe("ShieldCaptchaHcaptcha", () => {
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
-    expect(response.status).toBe(403);
-    expect(await response.text()).toBe("access_denied_hcaptcha");
+    expect(response.status).toEqual(403);
+    expect(await response.text()).toEqual("access_denied_hcaptcha");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, undefined);
   });
 
@@ -54,8 +54,8 @@ describe("ShieldCaptchaHcaptcha", () => {
 
     const response = await app.request("/secure", { method: "POST", body: form });
 
-    expect(response.status).toBe(403);
-    expect(await response.text()).toBe("access_denied_hcaptcha");
+    expect(response.status).toEqual(403);
+    expect(await response.text()).toEqual("access_denied_hcaptcha");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "any-token");
   });
 });

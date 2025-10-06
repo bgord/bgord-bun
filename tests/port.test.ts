@@ -3,10 +3,10 @@ import { Port } from "../src/port.vo";
 
 describe("Port", () => {
   test("valid ports: 0, 80, 443, 99999", () => {
-    expect(Port.safeParse(0).success).toBeTruthy();
-    expect(Port.safeParse("80").success).toBeTruthy();
-    expect(Port.safeParse(443).success).toBeTruthy();
-    expect(Port.safeParse("99999").success).toBeTruthy();
+    expect(() => Port.parse(0)).not.toThrow();
+    expect(() => Port.parse("80")).not.toThrow();
+    expect(() => Port.parse(443)).not.toThrow();
+    expect(() => Port.parse("99999")).not.toThrow();
   });
 
   test("throws on negative numbers", () => {
@@ -23,9 +23,5 @@ describe("Port", () => {
     expect(() => Port.parse("not-a-number")).toThrow();
     expect(() => Port.parse({})).toThrow();
     expect(() => Port.parse(undefined)).toThrow();
-  });
-
-  test("coerces numeric strings", () => {
-    expect(Port.safeParse("8080").success).toBeTruthy();
   });
 });

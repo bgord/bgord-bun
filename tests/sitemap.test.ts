@@ -11,33 +11,33 @@ import { UrlWithoutTrailingSlash } from "../src/url-wo-trailing-slash.vo";
 
 describe("SitemapLoc", () => {
   test("passes with non-empty string", () => {
-    expect(SitemapLoc.safeParse("https://example.com").success).toBe(true);
+    expect(SitemapLoc.safeParse("https://example.com").success).toEqual(true);
   });
 
   test("fails with empty string", () => {
-    expect(SitemapLoc.safeParse("").success).toBe(false);
+    expect(SitemapLoc.safeParse("").success).toEqual(false);
   });
 });
 
 describe("SitemapLastmod", () => {
   test("passes with valid YYYY-MM-DD date string", () => {
-    expect(SitemapLastmod.safeParse("2023-01-05").success).toBe(true);
+    expect(SitemapLastmod.safeParse("2023-01-05").success).toEqual(true);
   });
 
   test("fails with invalid format", () => {
     const result = SitemapLastmod.safeParse("10/05/2023");
-    expect(result.success).toBe(false);
+    expect(result.success).toEqual(false);
     if (!result.success) {
-      expect(result.error.issues[0]?.message).toBe("sitemap.lastmod.invalid");
+      expect(result.error.issues[0]?.message).toEqual("sitemap.lastmod.invalid");
     }
   });
 
   test("passes when omitted (optional)", () => {
-    expect(SitemapLastmod.safeParse(undefined).success).toBe(true);
+    expect(SitemapLastmod.safeParse(undefined).success).toEqual(true);
   });
 
   test("fails with invalid parts", () => {
-    expect(SitemapLastmod.safeParse("2023-AB-12").success).toBe(false);
+    expect(SitemapLastmod.safeParse("2023-AB-12").success).toEqual(false);
   });
 });
 
@@ -46,34 +46,34 @@ describe("SitemapChangefreq", () => {
 
   for (const value of validValues) {
     test(`passes with value: ${value}`, () => {
-      expect(SitemapChangefreq.safeParse(value).success).toBe(true);
+      expect(SitemapChangefreq.safeParse(value).success).toEqual(true);
     });
   }
 
   test("fails with invalid string", () => {
-    expect(SitemapChangefreq.safeParse("sometimes").success).toBe(false);
+    expect(SitemapChangefreq.safeParse("sometimes").success).toEqual(false);
   });
 
   test("passes when omitted (optional)", () => {
-    expect(SitemapChangefreq.safeParse(undefined).success).toBe(true);
+    expect(SitemapChangefreq.safeParse(undefined).success).toEqual(true);
   });
 });
 
 describe("SitemapPriority", () => {
   test("passes with a number between 0 and 1", () => {
-    expect(SitemapPriority.safeParse(0.8).success).toBe(true);
+    expect(SitemapPriority.safeParse(0.8).success).toEqual(true);
   });
 
   test("fails with number less than 0", () => {
-    expect(SitemapPriority.safeParse(-0.1).success).toBe(false);
+    expect(SitemapPriority.safeParse(-0.1).success).toEqual(false);
   });
 
   test("fails with number greater than 1", () => {
-    expect(SitemapPriority.safeParse(1.1).success).toBe(false);
+    expect(SitemapPriority.safeParse(1.1).success).toEqual(false);
   });
 
   test("applies default value when undefined", () => {
-    expect(SitemapPriority.parse(undefined)).toBe(0.5);
+    expect(SitemapPriority.parse(undefined)).toEqual(0.5);
   });
 });
 

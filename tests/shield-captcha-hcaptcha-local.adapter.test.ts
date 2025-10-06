@@ -20,8 +20,8 @@ describe("ShieldCaptchaHcaptchaLocal", () => {
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
-    expect(response.status).toBe(200);
-    expect(await response.text()).toBe("OK");
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("OK");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
   });
 
@@ -30,8 +30,8 @@ describe("ShieldCaptchaHcaptchaLocal", () => {
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
-    expect(response.status).toBe(403);
-    expect(await response.text()).toBe("access_denied_hcaptcha_local");
+    expect(response.status).toEqual(403);
+    expect(await response.text()).toEqual("access_denied_hcaptcha_local");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
   });
 
@@ -40,8 +40,8 @@ describe("ShieldCaptchaHcaptchaLocal", () => {
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
-    expect(response.status).toBe(403);
-    expect(await response.text()).toBe("access_denied_hcaptcha_local");
+    expect(response.status).toEqual(403);
+    expect(await response.text()).toEqual("access_denied_hcaptcha_local");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
   });
 });

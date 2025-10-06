@@ -24,7 +24,7 @@ describe("GET /translations", () => {
     const response = await app.request("/get-translations", { method: "GET" });
     const json = await response.json();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toEqual(200);
     expect(json).toEqual({ translations: { hello: "Hello" }, language: "en" });
   });
 
@@ -37,7 +37,7 @@ describe("GET /translations", () => {
     });
     const json = await response.json();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toEqual(200);
     expect(json).toEqual({ translations: { hello: "Hello" }, language: "en" });
   });
 
@@ -50,7 +50,7 @@ describe("GET /translations", () => {
     });
     const json = await response.json();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toEqual(200);
     expect(json).toEqual({ translations: { hello: "Hello" }, language: "pl" });
   });
 
@@ -63,7 +63,7 @@ describe("GET /translations", () => {
     });
     const json = await response.json();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toEqual(200);
     expect(json).toEqual({ translations: { hello: "Hello" }, language: "en" });
   });
 });

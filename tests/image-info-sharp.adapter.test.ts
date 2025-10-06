@@ -19,8 +19,8 @@ describe("ImageInfoSharpAdapter", () => {
 
     const info = await adapter.inspect(tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg"));
 
-    expect(info.width).toBe(120 as tools.WidthType);
-    expect(info.height).toBe(80 as tools.HeightType);
+    expect(info.width).toEqual(120 as tools.ImageWidthType);
+    expect(info.height).toEqual(80 as tools.ImageHeightType);
     expect(info.mime).toBeInstanceOf(tools.Mime);
     expect(info.size).toBeInstanceOf(tools.Size);
 
@@ -42,8 +42,8 @@ describe("ImageInfoSharpAdapter", () => {
 
     const info = await adapter.inspect(tools.FilePathRelative.fromString("tmp/icon.png"));
 
-    expect(info.width).toBe(64 as tools.WidthType);
-    expect(info.height).toBe(64 as tools.HeightType);
+    expect(info.width).toEqual(64 as tools.ImageWidthType);
+    expect(info.height).toEqual(64 as tools.ImageHeightType);
     expect(bunFileSpy).toHaveBeenCalledWith("tmp/icon.png");
     expect(metadataSpy).toHaveBeenCalledTimes(1);
     expect(destroySpy).toHaveBeenCalledTimes(1);

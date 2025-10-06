@@ -16,7 +16,7 @@ describe("gzip", () => {
     });
 
     const compressedContent = await Bun.file(compressedFilePath).text();
-    expect(compressedContent).not.toBe(content);
+    expect(compressedContent).not.toEqual(content);
 
     await Bun.file(inputFilePath).unlink();
     await Bun.file(compressedFilePath).unlink();
@@ -67,5 +67,5 @@ describe("gzip", () => {
 
 async function checkFileContent(filePath: string, expectedContent: string) {
   const content = await Bun.file(filePath).text();
-  expect(content).toBe(expectedContent);
+  expect(content).toEqual(expectedContent);
 }

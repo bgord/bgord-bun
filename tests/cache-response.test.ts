@@ -27,25 +27,25 @@ describe("CacheResponse", () => {
     const res = await app.request("/ping-cached");
     const json = await res.json();
 
-    expect(res.status).toBe(200);
-    expect(res.headers.get("Cache-Hit")).toBe(CacheHitEnum.miss);
-    expect(json.message).toBe("ping");
+    expect(res.status).toEqual(200);
+    expect(res.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
+    expect(json.message).toEqual("ping");
   });
 
   test("responds with Cache-Hit: hit if request is cached", async () => {
     const firstRes = await app.request("/ping-cached");
     const firstJson = await firstRes.json();
 
-    expect(firstRes.status).toBe(200);
-    expect(firstRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.miss);
-    expect(firstJson.message).toBe("ping");
+    expect(firstRes.status).toEqual(200);
+    expect(firstRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
+    expect(firstJson.message).toEqual("ping");
 
     const secondRes = await app.request("/ping-cached");
     const secondJson = await secondRes.json();
 
-    expect(secondRes.status).toBe(200);
-    expect(secondRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.hit);
-    expect(secondJson.message).toBe("ping");
+    expect(secondRes.status).toEqual(200);
+    expect(secondRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.hit);
+    expect(secondJson.message).toEqual("ping");
   });
 
   test("responds with Cache-Hit: miss after cache has expired", async () => {
@@ -53,25 +53,25 @@ describe("CacheResponse", () => {
     const firstRes = await app.request("/ping-cached");
     const firstJson = await firstRes.json();
 
-    expect(firstRes.status).toBe(200);
-    expect(firstRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.miss);
-    expect(firstJson.message).toBe("ping");
+    expect(firstRes.status).toEqual(200);
+    expect(firstRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
+    expect(firstJson.message).toEqual("ping");
 
     const secondRes = await app.request("/ping-cached");
     const secondJson = await secondRes.json();
 
-    expect(secondRes.status).toBe(200);
-    expect(secondRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.hit);
-    expect(secondJson.message).toBe("ping");
+    expect(secondRes.status).toEqual(200);
+    expect(secondRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.hit);
+    expect(secondJson.message).toEqual("ping");
 
     setSystemTime(tools.Duration.Seconds(15).ms);
 
     const thirdRes = await app.request("/ping-cached");
     const thirdJson = await thirdRes.json();
 
-    expect(thirdRes.status).toBe(200);
-    expect(thirdRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.miss);
-    expect(thirdJson.message).toBe("ping");
+    expect(thirdRes.status).toEqual(200);
+    expect(thirdRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
+    expect(thirdJson.message).toEqual("ping");
 
     setSystemTime();
   });
@@ -80,25 +80,25 @@ describe("CacheResponse", () => {
     const firstRes = await app.request("/ping-cached");
     const firstJson = await firstRes.json();
 
-    expect(firstRes.status).toBe(200);
-    expect(firstRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.miss);
-    expect(firstJson.message).toBe("ping");
+    expect(firstRes.status).toEqual(200);
+    expect(firstRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
+    expect(firstJson.message).toEqual("ping");
 
     const secondRes = await app.request("/ping-cached");
     const secondJson = await secondRes.json();
 
-    expect(secondRes.status).toBe(200);
-    expect(secondRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.hit);
-    expect(secondJson.message).toBe("ping");
+    expect(secondRes.status).toEqual(200);
+    expect(secondRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.hit);
+    expect(secondJson.message).toEqual("ping");
 
     const thirdRes = await app.request("/ping-clear", { method: "POST" });
-    expect(thirdRes.status).toBe(200);
+    expect(thirdRes.status).toEqual(200);
 
     const fourthRes = await app.request("/ping-cached");
     const fourthJson = await fourthRes.json();
 
-    expect(fourthRes.status).toBe(200);
-    expect(fourthRes.headers.get("Cache-Hit")).toBe(CacheHitEnum.miss);
-    expect(fourthJson.message).toBe("ping");
+    expect(fourthRes.status).toEqual(200);
+    expect(fourthRes.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
+    expect(fourthJson.message).toEqual("ping");
   });
 });

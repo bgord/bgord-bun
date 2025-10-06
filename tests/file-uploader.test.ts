@@ -32,8 +32,8 @@ describe("File uploader", () => {
     });
     const text = await response.text();
 
-    expect(response.status).toBe(200);
-    expect(text).toBe("uploaded");
+    expect(response.status).toEqual(200);
+    expect(text).toEqual("uploaded");
   });
 
   test("rejects invalid MIME type", async () => {
@@ -58,8 +58,8 @@ describe("File uploader", () => {
     });
     const result = await response.text();
 
-    expect(response.status).toBe(400);
-    expect(result).toBe(InvalidFileMimeTypeError.message);
+    expect(response.status).toEqual(400);
+    expect(result).toEqual(InvalidFileMimeTypeError.message);
   });
 
   test("rejects file too big", async () => {
@@ -84,7 +84,7 @@ describe("File uploader", () => {
     });
     const result = await response.text();
 
-    expect(response.status).toBe(400);
-    expect(result).toBe(FileTooBigError.message);
+    expect(response.status).toEqual(400);
+    expect(result).toEqual(FileTooBigError.message);
   });
 });

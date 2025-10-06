@@ -11,6 +11,6 @@ describe("Uptime", () => {
     const result = Uptime.get(clock);
 
     expect(result.duration.hours).toEqual(3.33);
-    expect(result.formatted).toBe("about 3 hours ago");
+    expect(result.formatted).toEqual("about 3 hours ago");
   });
 });

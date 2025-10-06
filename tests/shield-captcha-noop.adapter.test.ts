@@ -12,7 +12,7 @@ describe("ShieldCaptchaNoop", () => {
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
-    expect(response.status).toBe(200);
-    expect(await response.text()).toBe("OK");
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("OK");
   });
 });

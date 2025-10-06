@@ -6,7 +6,7 @@ describe("CorrelationId", () => {
     const uuid = crypto.randomUUID() as CorrelationIdType;
     const result = CorrelationId.parse(uuid);
 
-    expect(result).toBe(uuid);
+    expect(result).toEqual(uuid);
   });
 
   test("CorrelationId rejects an invalid UUID", () => {

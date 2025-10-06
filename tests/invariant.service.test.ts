@@ -21,10 +21,10 @@ describe("Invariant class", () => {
     const invariant = new SampleInvariant();
 
     const result1 = invariant.fails({ threshold: 15 });
-    expect(result1).toBe(true);
+    expect(result1).toEqual(true);
 
     const result2 = invariant.fails({ threshold: 10 });
-    expect(result2).toBe(false);
+    expect(result2).toEqual(false);
   });
 
   test("throw method throws the expected error", () => {
@@ -52,10 +52,10 @@ describe("Invariant class", () => {
 
     // Invariant should pass when threshold is less than or equal to 10
     const result1 = invariant.passes({ threshold: 10 });
-    expect(result1).toBe(true);
+    expect(result1).toEqual(true);
 
     // Invariant should fail when threshold is greater than 10
     const result2 = invariant.passes({ threshold: 15 });
-    expect(result2).toBe(false);
+    expect(result2).toEqual(false);
   });
 });

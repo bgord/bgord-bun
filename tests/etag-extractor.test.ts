@@ -31,7 +31,7 @@ describe("ETagExtractor middleware", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(json).toBeNull();
+    expect(json).toEqual(null);
   });
 
   test("handles invalid ETag header gracefully", async () => {
@@ -47,6 +47,6 @@ describe("ETagExtractor middleware", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(json).toBeNull();
+    expect(json).toEqual(null);
   });
 });

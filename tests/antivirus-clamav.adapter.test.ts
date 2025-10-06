@@ -29,7 +29,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
     // @ts-expect-error
     expect(call.cmd).toEqual(["clamscan", "--infected", "--no-summary", "--stdout", "-"]);
     // @ts-expect-error
-    expect(call.stdin).toBe("pipe");
+    expect(call.stdin).toEqual("pipe");
   });
 
   test("parses signature from stdout when exitCode = 1", async () => {

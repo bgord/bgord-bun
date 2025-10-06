@@ -10,7 +10,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath: writes -part, renames atomically, returns hasher result", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockImplementation((p: string) => {
-      expect(p).toBe("/tmp/upload/avatar.webp");
+      expect(p).toEqual("/tmp/upload/avatar.webp");
       return {};
     });
     const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(undefined as any);
@@ -42,9 +42,9 @@ describe("RemoteFileStorageDiskAdapter", () => {
       "/var/storage/users/u-1/avatar.webp",
     );
     expect(hashSpy).toHaveBeenCalledTimes(1);
-    expect(out.etag).toBe("etag-123");
+    expect(out.etag).toEqual("etag-123");
     // @ts-expect-error
-    expect(out.size.toBytes()).toBe(42);
+    expect(out.size.toBytes()).toEqual(42);
   });
 
   test("head: exists=true uses hasher; exists=false on hash error", async () => {
@@ -65,12 +65,12 @@ describe("RemoteFileStorageDiskAdapter", () => {
     });
 
     const ok = await adapter.head(tools.ObjectKey.parse("users/a/avatar.webp"));
-    expect(ok.exists).toBe(true);
+    expect(ok.exists).toEqual(true);
     // @ts-expect-error
-    expect(ok.etag).toBe("abc");
+    expect(ok.etag).toEqual("abc");
 
     const miss = await adapter.head(tools.ObjectKey.parse("users/b/avatar.webp"));
-    expect(miss.exists).toBe(false);
+    expect(miss.exists).toEqual(false);
 
     expect(hashSpy).toHaveBeenCalledTimes(2);
   });
@@ -79,7 +79,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
     const stream = new ReadableStream();
     // @ts-expect-error
     spyOn(Bun, "file").mockImplementation((path: string) => {
-      expect(path).toBe("/srv/store/users/u/avatar.webp");
+      expect(path).toEqual("/srv/store/users/u/avatar.webp");
       return { stream: () => stream };
     });
 
@@ -88,7 +88,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
       hasher,
     });
 
-    expect(await adapter.getStream(tools.ObjectKey.parse("users/u/avatar.webp"))).toBe(stream);
+    expect(await adapter.getStream(tools.ObjectKey.parse("users/u/avatar.webp"))).toEqual(stream);
   });
 
   test("delete: best-effort unlink", async () => {
@@ -112,12 +112,12 @@ describe("RemoteFileStorageDiskAdapter", () => {
       publicBaseUrl: "https://cdn.example.com/static",
     });
 
-    expect(cdn.publicUrl(key)).toBe("https://cdn.example.com/static/users/u/avatar.webp");
+    expect(cdn.publicUrl(key)).toEqual("https://cdn.example.com/static/users/u/avatar.webp");
 
     const normal = new RemoteFileStorageDiskAdapter({
       root: tools.DirectoryPathAbsoluteSchema.parse("/any"),
       hasher,
     });
-    expect(normal.publicUrl(key)).toBe("/users/u/avatar.webp");
+    expect(normal.publicUrl(key)).toEqual("/users/u/avatar.webp");
   });
 });

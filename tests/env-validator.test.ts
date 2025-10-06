@@ -15,8 +15,8 @@ describe("Env validator", () => {
     });
     const result = validator.load();
 
-    expect(result.APP_NAME).toBe("MyApp");
-    expect(result.type).toBe(NodeEnvironmentEnum.local);
+    expect(result.APP_NAME).toEqual("MyApp");
+    expect(result.type).toEqual(NodeEnvironmentEnum.local);
   });
 
   test("exits if NodeEnvironment is invalid", () => {

@@ -5,7 +5,7 @@ describe("Client VO", () => {
   test("works", () => {
     const client = Client.from("1.1.1.1", "UA").toJSON();
 
-    expect(client.ip).toBe("1.1.1.1");
-    expect(client.ua).toBe("UA");
+    expect(client.ip).toEqual("1.1.1.1");
+    expect(client.ua).toEqual("UA");
   });
 });

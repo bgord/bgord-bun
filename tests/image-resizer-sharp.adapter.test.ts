@@ -42,14 +42,14 @@ describe("ImageResizerSharpAdapter.resize", () => {
 
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg");
+    expect(format).toEqual("jpeg");
 
     expect(toFileSpy).toHaveBeenCalledTimes(1);
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/img/photo-resized.jpg");
+    expect(tempWritten).toEqual("/var/img/photo-resized.jpg");
     expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-resized.jpg", "/var/img/photo.jpg");
 
-    expect(result).toBe(input);
+    expect(result).toEqual(input);
 
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpg");
     expect(rotateSpy).toHaveBeenCalledTimes(1);
@@ -88,13 +88,13 @@ describe("ImageResizerSharpAdapter.resize", () => {
     });
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("webp");
+    expect(format).toEqual("webp");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/out/dest-resized.webp");
+    expect(tempWritten).toEqual("/out/dest-resized.webp");
     expect(renameSpy).toHaveBeenCalledWith("/out/dest-resized.webp", "/out/dest.webp");
 
-    expect(result).toBe(output);
+    expect(result).toEqual(output);
   });
 
   test("relative in_place: writes temp beside relative final and renames", async () => {
@@ -115,10 +115,10 @@ describe("ImageResizerSharpAdapter.resize", () => {
     await adapter.resize(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("png");
+    expect(format).toEqual("png");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("images/pic-resized.png");
+    expect(tempWritten).toEqual("images/pic-resized.png");
     expect(renameSpy).toHaveBeenCalledWith("images/pic-resized.png", "images/pic.png");
   });
 
@@ -146,7 +146,7 @@ describe("ImageResizerSharpAdapter.resize", () => {
     await adapter.resize(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg");
+    expect(format).toEqual("jpeg");
 
     expect(renameSpy).toHaveBeenCalledWith("/b/out/photo-resized.jpg", "/b/out/photo.jpg");
   });

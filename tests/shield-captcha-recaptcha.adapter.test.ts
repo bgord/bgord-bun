@@ -27,8 +27,8 @@ describe("ShieldCaptchaRecaptcha", () => {
     });
     const body = await response.text();
 
-    expect(response.status).toBe(200);
-    expect(body).toBe("ok");
+    expect(response.status).toEqual(200);
+    expect(body).toEqual("ok");
     expect(fetchSpy).toHaveBeenCalled();
   });
 
@@ -46,8 +46,8 @@ describe("ShieldCaptchaRecaptcha", () => {
     });
     const body = await response.text();
 
-    expect(response.status).toBe(200);
-    expect(body).toBe("ok");
+    expect(response.status).toEqual(200);
+    expect(body).toEqual("ok");
     expect(fetchSpy).toHaveBeenCalled();
   });
 
@@ -62,8 +62,8 @@ describe("ShieldCaptchaRecaptcha", () => {
     });
     const body = await response.text();
 
-    expect(response.status).toBe(200);
-    expect(body).toBe("ok");
+    expect(response.status).toEqual(200);
+    expect(body).toEqual("ok");
     expect(fetchSpy).toHaveBeenCalled();
   });
 
@@ -78,7 +78,7 @@ describe("ShieldCaptchaRecaptcha", () => {
       body: new URLSearchParams({ "g-recaptcha-response": INVALID_TOKEN }).toString(),
     });
 
-    expect(response.status).toBe(403);
+    expect(response.status).toEqual(403);
     expect(fetchSpy).toHaveBeenCalled();
   });
 });

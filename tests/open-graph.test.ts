@@ -103,58 +103,58 @@ describe("OpenGraphImageHeightValue", () => {
 describe("OpenGraphTitle", () => {
   test("toMetatag and toMeta output correct markup", () => {
     const title = new OpenGraph.title("Test Title");
-    expect(title.toMetatag()).toBe('<meta property="og:title" content="Test Title" />');
-    expect(title.toMeta()).toBe('<meta property="og:title" content="Test Title" />\n\t');
+    expect(title.toMetatag()).toEqual('<meta property="og:title" content="Test Title" />');
+    expect(title.toMeta()).toEqual('<meta property="og:title" content="Test Title" />\n\t');
   });
 });
 
 describe("OpenGraphDescription", () => {
   test("toMetatag and toMeta output correct markup", () => {
     const desc = new OpenGraph.description("Test Description");
-    expect(desc.toMetatag()).toBe('<meta property="og:description" content="Test Description" />');
-    expect(desc.toMeta()).toBe('<meta property="og:description" content="Test Description" />\n\t');
+    expect(desc.toMetatag()).toEqual('<meta property="og:description" content="Test Description" />');
+    expect(desc.toMeta()).toEqual('<meta property="og:description" content="Test Description" />\n\t');
   });
 });
 
 describe("OpenGraphUrl", () => {
   test("toMetatag and toMeta output correct markup", () => {
     const url = new OpenGraph.url("https://example.com");
-    expect(url.toMetatag()).toBe('<meta property="og:url" content="https://example.com" />');
-    expect(url.toMeta()).toBe('<meta property="og:url" content="https://example.com" />\n\t');
+    expect(url.toMetatag()).toEqual('<meta property="og:url" content="https://example.com" />');
+    expect(url.toMeta()).toEqual('<meta property="og:url" content="https://example.com" />\n\t');
   });
 });
 
 describe("OpenGraphType", () => {
   test("toMetatag and toMeta output correct markup", () => {
     const type = new OpenGraph.type("website");
-    expect(type.toMetatag()).toBe('<meta property="og:type" content="website" />');
-    expect(type.toMeta()).toBe('<meta property="og:type" content="website" />\n\t');
+    expect(type.toMetatag()).toEqual('<meta property="og:type" content="website" />');
+    expect(type.toMeta()).toEqual('<meta property="og:type" content="website" />\n\t');
   });
 });
 
 describe("OpenGraphImage components", () => {
   test("toMetatag and toMeta for image.url", () => {
     const url = new OpenGraph.image.url("https://example.com/image.jpg");
-    expect(url.toMetatag()).toBe('<meta property="og:image" content="https://example.com/image.jpg" />');
-    expect(url.toMeta()).toBe('<meta property="og:image" content="https://example.com/image.jpg" />\n\t');
+    expect(url.toMetatag()).toEqual('<meta property="og:image" content="https://example.com/image.jpg" />');
+    expect(url.toMeta()).toEqual('<meta property="og:image" content="https://example.com/image.jpg" />\n\t');
   });
 
   test("toMetatag and toMeta for image.type", () => {
     const type = new OpenGraph.image.type("image/jpeg");
-    expect(type.toMetatag()).toBe('<meta property="og:image:type" content="image/jpeg" />');
-    expect(type.toMeta()).toBe('<meta property="og:image:type" content="image/jpeg" />\n\t');
+    expect(type.toMetatag()).toEqual('<meta property="og:image:type" content="image/jpeg" />');
+    expect(type.toMeta()).toEqual('<meta property="og:image:type" content="image/jpeg" />\n\t');
   });
 
   test("toMetatag and toMeta for image.width", () => {
     const width = new OpenGraph.image.width(1200);
-    expect(width.toMetatag()).toBe('<meta property="og:image:width" content="1200" />');
-    expect(width.toMeta()).toBe('<meta property="og:image:width" content="1200" />\n\t');
+    expect(width.toMetatag()).toEqual('<meta property="og:image:width" content="1200" />');
+    expect(width.toMeta()).toEqual('<meta property="og:image:width" content="1200" />\n\t');
   });
 
   test("toMetatag and toMeta for image.height", () => {
     const height = new OpenGraph.image.height(630);
-    expect(height.toMetatag()).toBe('<meta property="og:image:height" content="630" />');
-    expect(height.toMeta()).toBe('<meta property="og:image:height" content="630" />\n\t');
+    expect(height.toMetatag()).toEqual('<meta property="og:image:height" content="630" />');
+    expect(height.toMeta()).toEqual('<meta property="og:image:height" content="630" />\n\t');
   });
 });
 
@@ -174,7 +174,7 @@ describe("OpenGraphGenerator.toString", () => {
       '<meta property="og:url" content="https://example.com" />\n\t' +
       '<meta property="og:type" content="website" />\n\t';
 
-    expect(result).toBe(expected);
+    expect(result).toEqual(expected);
   });
 
   test("returns full metatag string with image", () => {
@@ -208,6 +208,6 @@ describe("OpenGraphGenerator.toString", () => {
       '<meta property="og:image:height" content="630" />\n\t' +
       '<meta property="og:image:type" content="image/jpeg" />\n\t';
 
-    expect(result).toBe(expected);
+    expect(result).toEqual(expected);
   });
 });

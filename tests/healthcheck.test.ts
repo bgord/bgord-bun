@@ -49,7 +49,7 @@ describe("Healthcheck", () => {
     const response = await app.request("/health");
     const data = await response.json();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: prereqs.PrerequisiteStatusEnum.success,
       version: buildInfo.BUILD_VERSION,
@@ -72,7 +72,7 @@ describe("Healthcheck", () => {
     const response = await app.request("/health");
     const data = await response.json();
 
-    expect(response.status).toBe(424);
+    expect(response.status).toEqual(424);
     expect(data).toEqual({
       ok: prereqs.PrerequisiteStatusEnum.failure,
       version: buildInfo.BUILD_VERSION,

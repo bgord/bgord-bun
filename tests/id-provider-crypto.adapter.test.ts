@@ -5,6 +5,6 @@ const provider = new IdProviderCryptoAdapter();
 
 describe("IdProviderCryptoAdapter", () => {
   test("works", () => {
-    expect(provider.generate()).toBeString();
+    expect(typeof provider.generate()).toEqual("string");
   });
 });

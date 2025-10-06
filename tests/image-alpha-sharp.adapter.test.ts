@@ -36,13 +36,13 @@ describe("ImageAlphaSharpAdapter.flatten", () => {
     expect(rotateSpy).toHaveBeenCalledTimes(1);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg");
+    expect(format).toEqual("jpeg");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/img/photo-flattened.jpg");
+    expect(tempWritten).toEqual("/var/img/photo-flattened.jpg");
     expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-flattened.jpg", "/var/img/photo.jpg");
 
-    expect(finalVo).toBe(input);
+    expect(finalVo).toEqual(input);
 
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpg");
     expect(destroySpy).toHaveBeenCalledTimes(1);
@@ -70,13 +70,13 @@ describe("ImageAlphaSharpAdapter.flatten", () => {
     expect(flattenSpy).toHaveBeenCalledWith({ background: bg });
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("webp");
+    expect(format).toEqual("webp");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/out/dest-flattened.webp");
+    expect(tempWritten).toEqual("/out/dest-flattened.webp");
     expect(renameSpy).toHaveBeenCalledWith("/out/dest-flattened.webp", "/out/dest.webp");
 
-    expect(finalVo).toBe(output);
+    expect(finalVo).toEqual(output);
 
     expect(sharpSpy).toHaveBeenCalledWith("/in/source.png");
   });
@@ -99,10 +99,10 @@ describe("ImageAlphaSharpAdapter.flatten", () => {
     await adapter.flatten(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("png");
+    expect(format).toEqual("png");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("images/pic-flattened.png");
+    expect(tempWritten).toEqual("images/pic-flattened.png");
     expect(renameSpy).toHaveBeenCalledWith("images/pic-flattened.png", "images/pic.png");
   });
 
@@ -124,7 +124,7 @@ describe("ImageAlphaSharpAdapter.flatten", () => {
     await adapter.flatten(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg"); // mapped
+    expect(format).toEqual("jpeg"); // mapped
 
     const expectedTemp = "/x/out/photo-flattened.jpg";
     expect(renameSpy).toHaveBeenCalledWith(expectedTemp, "/x/out/photo.jpg");

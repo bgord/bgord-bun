@@ -30,13 +30,13 @@ describe("Decorators", () => {
     const instance = new TestClass();
     const result = instance.compute();
 
-    expect(result).toBe(42);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(42);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.compute duration");
-    expect(log.operation).toBe("decorators_duration_ms");
-    expect(typeof log.metadata.durationMs).toBe("number");
+    expect(log.message).toEqual("TestClass.compute duration");
+    expect(log.operation).toEqual("decorators_duration_ms");
+    expect(typeof log.metadata.durationMs).toEqual("number");
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
@@ -51,13 +51,13 @@ describe("Decorators", () => {
 
     const result = TestClass.compute();
 
-    expect(result).toBe(42);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(42);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.compute duration");
-    expect(log.operation).toBe("decorators_duration_ms");
-    expect(typeof log.metadata.durationMs).toBe("number");
+    expect(log.message).toEqual("TestClass.compute duration");
+    expect(log.operation).toEqual("decorators_duration_ms");
+    expect(typeof log.metadata.durationMs).toEqual("number");
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
@@ -73,13 +73,13 @@ describe("Decorators", () => {
     const instance = new TestClass();
     const result = await instance.compute();
 
-    expect(result).toBe(42);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(42);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.compute duration");
-    expect(log.operation).toBe("decorators_duration_ms");
-    expect(typeof log.metadata.durationMs).toBe("number");
+    expect(log.message).toEqual("TestClass.compute duration");
+    expect(log.operation).toEqual("decorators_duration_ms");
+    expect(typeof log.metadata.durationMs).toEqual("number");
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
@@ -94,13 +94,13 @@ describe("Decorators", () => {
 
     const result = await TestClass.compute();
 
-    expect(result).toBe(42);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(42);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.compute duration");
-    expect(log.operation).toBe("decorators_duration_ms");
-    expect(typeof log.metadata.durationMs).toBe("number");
+    expect(log.message).toEqual("TestClass.compute duration");
+    expect(log.operation).toEqual("decorators_duration_ms");
+    expect(typeof log.metadata.durationMs).toEqual("number");
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
@@ -115,14 +115,14 @@ describe("Decorators", () => {
     const instance = new TestClass();
     const result = await instance.fetchData(2, 3);
 
-    expect(result).toBe(5);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(5);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.fetchData inspector");
-    expect(log.operation).toBe("decorators_inspector");
+    expect(log.message).toEqual("TestClass.fetchData inspector");
+    expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
-    expect(log.metadata.output).toBe(5);
+    expect(log.metadata.output).toEqual(5);
   });
 
   test("should log arguments and output of an async non-static method with inspector", async () => {
@@ -136,14 +136,14 @@ describe("Decorators", () => {
     const instance = new TestClass();
     const result = await instance.fetchData(2, 3);
 
-    expect(result).toBe(5);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(5);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.fetchData inspector");
-    expect(log.operation).toBe("decorators_inspector");
+    expect(log.message).toEqual("TestClass.fetchData inspector");
+    expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
-    expect(log.metadata.output).toBe(5);
+    expect(log.metadata.output).toEqual(5);
   });
 
   test("should log arguments and output of a sync static method with inspector", async () => {
@@ -156,14 +156,14 @@ describe("Decorators", () => {
 
     const result = await TestClass.fetchData(2, 3);
 
-    expect(result).toBe(5);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(5);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.fetchData inspector");
-    expect(log.operation).toBe("decorators_inspector");
+    expect(log.message).toEqual("TestClass.fetchData inspector");
+    expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
-    expect(log.metadata.output).toBe(5);
+    expect(log.metadata.output).toEqual(5);
   });
 
   test("should log arguments and output of an async static method with inspector", async () => {
@@ -176,14 +176,14 @@ describe("Decorators", () => {
 
     const result = await TestClass.fetchData(2, 3);
 
-    expect(result).toBe(5);
-    expect(logger.logs.length).toBe(1);
+    expect(result).toEqual(5);
+    expect(logger.logs.length).toEqual(1);
     const log = logger.logs[0];
 
-    expect(log.message).toBe("TestClass.fetchData inspector");
-    expect(log.operation).toBe("decorators_inspector");
+    expect(log.message).toEqual("TestClass.fetchData inspector");
+    expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
-    expect(log.metadata.output).toBe(5);
+    expect(log.metadata.output).toEqual(5);
   });
 
   test("should allow methods that finish before timeout for async methods", async () => {
@@ -199,8 +199,8 @@ describe("Decorators", () => {
 
     const instance = new TestClass();
     const result = await instance.fastMethod();
-    expect(result).toBe("done");
-    expect(instance.wasCalled).toBe(true);
+    expect(result).toEqual("done");
+    expect(instance.wasCalled).toEqual(true);
   });
 
   test("should throw if the method exceeds the timeout for async methods", async () => {
@@ -218,7 +218,7 @@ describe("Decorators", () => {
     const instance = new TestClass();
 
     expect(instance.slowMethod()).rejects.toThrow(DecoratorTimeoutError);
-    expect(instance.wasCalled).toBe(true); // still started
+    expect(instance.wasCalled).toEqual(true); // still started
   });
 
   test("should preserve method context (`this`)", async () => {
@@ -234,6 +234,6 @@ describe("Decorators", () => {
 
     const instance = new TestClass();
     await instance.fastMethod();
-    expect(instance.wasCalled).toBe(true);
+    expect(instance.wasCalled).toEqual(true);
   });
 });

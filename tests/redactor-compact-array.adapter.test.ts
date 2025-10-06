@@ -5,11 +5,11 @@ const redactor = new RedactorCompactArrayAdapter();
 
 describe("RedactorCompactAdapter", () => {
   test("keeps primitives unchanged", () => {
-    expect(redactor.redact(42)).toBe(42);
-    expect(redactor.redact("x")).toBe("x");
-    expect(redactor.redact(false)).toBe(false);
-    expect(redactor.redact(null)).toBe(null);
-    expect(redactor.redact(undefined)).toBeUndefined();
+    expect(redactor.redact(42)).toEqual(42);
+    expect(redactor.redact("x")).toEqual("x");
+    expect(redactor.redact(false)).toEqual(false);
+    expect(redactor.redact(null)).toEqual(null);
+    expect(redactor.redact(undefined)).toEqual(undefined);
   });
 
   test("summarizes arrays", () => {

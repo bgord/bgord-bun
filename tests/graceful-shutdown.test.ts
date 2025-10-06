@@ -34,10 +34,10 @@ describe("GracefulShutdown", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toBe(0);
+    expect(exitCalls[0]).toEqual(0);
 
-    expect(infoSpy.mock.calls[0][0].message).toBe("SIGTERM received");
-    expect(infoSpy.mock.calls[1][0].message).toBe("HTTP server closed");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("SIGTERM received");
+    expect(infoSpy.mock.calls[1][0].message).toEqual("HTTP server closed");
   });
 
   test("SIGINT", async () => {
@@ -51,10 +51,10 @@ describe("GracefulShutdown", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toBe(0);
+    expect(exitCalls[0]).toEqual(0);
 
-    expect(infoSpy.mock.calls[0][0].message).toBe("SIGINT received");
-    expect(infoSpy.mock.calls[1][0].message).toBe("HTTP server closed");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("SIGINT received");
+    expect(infoSpy.mock.calls[1][0].message).toEqual("HTTP server closed");
   });
 
   test("unhandledRejection", async () => {
@@ -69,10 +69,10 @@ describe("GracefulShutdown", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toBe(1);
+    expect(exitCalls[0]).toEqual(1);
 
-    expect(errorSpy.mock.calls[0][0].message).toBe("UnhandledRejection received");
-    expect(infoSpy.mock.calls[0][0].message).toBe("HTTP server closed");
+    expect(errorSpy.mock.calls[0][0].message).toEqual("UnhandledRejection received");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("HTTP server closed");
   });
 
   test("uncaughtException", async () => {
@@ -87,10 +87,10 @@ describe("GracefulShutdown", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toBe(1);
+    expect(exitCalls[0]).toEqual(1);
 
-    expect(errorSpy.mock.calls[0][0].message).toBe("UncaughtException received");
-    expect(infoSpy.mock.calls[0][0].message).toBe("HTTP server closed");
+    expect(errorSpy.mock.calls[0][0].message).toEqual("UncaughtException received");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("HTTP server closed");
   });
 
   test("cleanup failure still exits and logs error", async () => {
@@ -108,10 +108,10 @@ describe("GracefulShutdown", () => {
 
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(cleanup).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toBe(0);
+    expect(exitCalls[0]).toEqual(0);
 
-    expect(infoSpy.mock.calls[0][0].message).toBe("SIGTERM received");
-    expect(errorSpy.mock.calls[0][0].message).toBe("Cleanup hook failed");
+    expect(infoSpy.mock.calls[0][0].message).toEqual("SIGTERM received");
+    expect(errorSpy.mock.calls[0][0].message).toEqual("Cleanup hook failed");
   });
 
   test("handlers run only once per shutdown", async () => {
@@ -131,6 +131,6 @@ describe("GracefulShutdown", () => {
 
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(cleanup).toHaveBeenCalledTimes(1);
-    expect(exitCalls.length).toBe(1);
+    expect(exitCalls.length).toEqual(1);
   });
 });

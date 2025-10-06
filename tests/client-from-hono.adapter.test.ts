@@ -23,7 +23,7 @@ describe("ClientFromHono", () => {
 
     const contextSecond = makeContext({});
     const constextSecond = ClientFromHono.extract(contextSecond).toJSON();
-    expect(constextSecond.ua).toBe("anon");
-    expect(typeof constextSecond.ip).toBe("string");
+    expect(constextSecond.ua).toEqual("anon");
+    expect(typeof constextSecond.ip).toEqual("string");
   });
 });

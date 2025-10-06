@@ -3,8 +3,8 @@ import { EventStream, EventStreamInvalidError } from "../src/event-stream.vo";
 
 describe("EventStream", () => {
   test("valid EventStreams", () => {
-    expect(EventStream.safeParse("journals").success).toBeTruthy();
-    expect(EventStream.safeParse("journals_valid").success).toBeTruthy();
+    expect(() => EventStream.parse("journals")).not.toThrow();
+    expect(() => EventStream.parse("journals_valid")).not.toThrow();
   });
 
   test("throws on invalid values", () => {

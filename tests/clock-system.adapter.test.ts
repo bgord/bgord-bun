@@ -5,7 +5,7 @@ const provider = new ClockSystemAdapter();
 
 describe("ClockSystemAdapter", () => {
   test("nowMs", () => {
-    expect(provider.nowMs()).toBeNumber();
+    expect(typeof provider.nowMs()).toEqual("number");
   });
 
   test("now", () => {

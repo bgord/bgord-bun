@@ -134,7 +134,7 @@ describe("HttpLogger middleware", () => {
     app.get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
     const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
-    expect(result.status).toBe(200);
+    expect(result.status).toEqual(200);
     expect(loggerHttpSpy).not.toHaveBeenCalled();
   });
 });

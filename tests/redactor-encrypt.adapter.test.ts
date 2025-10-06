@@ -27,9 +27,9 @@ describe("RedactorEncryptionAdapter", () => {
 
     const result = adapter.redact(input);
 
-    expect(typeof result.metadata).toBe("string");
-    expect(result.keep).toBe(123);
-    expect(input.metadata.client.ip).toBe("1.2.3.4");
+    expect(typeof result.metadata).toEqual("string");
+    expect(result.keep).toEqual(123);
+    expect(input.metadata.client.ip).toEqual("1.2.3.4");
 
     expect(decrypt(result.metadata as unknown as string, secret)).toEqual(input.metadata);
   });
@@ -37,7 +37,7 @@ describe("RedactorEncryptionAdapter", () => {
   test("only top-level target is encrypted; nested same-name keys stay plain", () => {
     const result = adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
 
-    expect(typeof result.metadata).toBe("string");
+    expect(typeof result.metadata).toEqual("string");
     expect(result.nested.metadata).toEqual({ a: 1 });
   });
 
@@ -47,7 +47,7 @@ describe("RedactorEncryptionAdapter", () => {
     const a = adapter.redact(input);
     const b = adapter.redact(input);
 
-    expect(a.metadata).not.toBe(b.metadata);
+    expect(a.metadata).not.toEqual(b.metadata);
     expect(decrypt(a.metadata as unknown as string, secret)).toEqual(input.metadata);
     expect(decrypt(b.metadata as unknown as string, secret)).toEqual(input.metadata);
   });

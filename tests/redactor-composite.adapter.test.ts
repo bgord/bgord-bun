@@ -20,7 +20,7 @@ class SuffixRedactor implements RedactorPort {
 describe("RedactorCompositeAdapter", () => {
   test("applies redactors in order", () => {
     const composite = new RedactorCompositeAdapter([new UppercaseRedactor(), new SuffixRedactor("!")]);
-    expect(composite.redact("hello")).toBe("HELLO!");
+    expect(composite.redact("hello")).toEqual("HELLO!");
   });
 
   test("handles empty pipeline (no-op)", () => {

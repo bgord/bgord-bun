@@ -30,15 +30,15 @@ describe("ImageFormatterSharpAdapter.format", () => {
     const finalVo = await adapter.format(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("webp");
+    expect(format).toEqual("webp");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/in/img-formatted.webp");
+    expect(tempWritten).toEqual("/var/in/img-formatted.webp");
     expect(renameSpy).toHaveBeenCalledWith("/var/in/img-formatted.webp", "/var/in/img.webp");
 
     expect(unlinkSpy).toHaveBeenCalledWith("/var/in/img.png");
 
-    expect(finalVo.get()).toBe("/var/in/img.webp");
+    expect(finalVo.get()).toEqual("/var/in/img.webp");
 
     expect(sharpSpy).toHaveBeenCalledWith("/var/in/img.png");
     expect(destroySpy).toHaveBeenCalledTimes(1);
@@ -62,14 +62,14 @@ describe("ImageFormatterSharpAdapter.format", () => {
     const finalVo = await adapter.format(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("png");
+    expect(format).toEqual("png");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/in/picture-formatted.png");
+    expect(tempWritten).toEqual("/var/in/picture-formatted.png");
     expect(renameSpy).toHaveBeenCalledWith("/var/in/picture-formatted.png", "/var/in/picture.png");
 
     expect(unlinkSpy).not.toHaveBeenCalled();
-    expect(finalVo.get()).toBe("/var/in/picture.png");
+    expect(finalVo.get()).toEqual("/var/in/picture.png");
   });
 
   test("output_path: uses encoder from output extension, writes temp next to output, no unlink of input", async () => {
@@ -90,15 +90,15 @@ describe("ImageFormatterSharpAdapter.format", () => {
     const finalVo = await adapter.format(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("webp");
+    expect(format).toEqual("webp");
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("/var/out/dest-formatted.webp");
+    expect(tempWritten).toEqual("/var/out/dest-formatted.webp");
     expect(renameSpy).toHaveBeenCalledWith("/var/out/dest-formatted.webp", "/var/out/dest.webp");
 
     expect(unlinkSpy).not.toHaveBeenCalled();
 
-    expect(finalVo.get()).toBe("/var/out/dest.webp");
+    expect(finalVo.get()).toEqual("/var/out/dest.webp");
   });
 
   test("jpg extension on output maps to 'jpeg' encoder", async () => {
@@ -118,7 +118,7 @@ describe("ImageFormatterSharpAdapter.format", () => {
     await adapter.format(recipe);
 
     const [format] = toFormatSpy.mock.calls[0] as any[];
-    expect(format).toBe("jpeg"); // mapped
+    expect(format).toEqual("jpeg"); // mapped
 
     const expectedTemp = "/img/out/photo-formatted.jpg";
     expect(renameSpy).toHaveBeenCalledWith(expectedTemp, "/img/out/photo.jpg");
@@ -142,7 +142,7 @@ describe("ImageFormatterSharpAdapter.format", () => {
     await adapter.format(recipe);
 
     const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toBe("images/pic-formatted.jpeg");
+    expect(tempWritten).toEqual("images/pic-formatted.jpeg");
     expect(renameSpy).toHaveBeenCalledWith("images/pic-formatted.jpeg", "images/pic.jpeg");
     expect(unlinkSpy).toHaveBeenCalledWith("images/pic.png");
   });

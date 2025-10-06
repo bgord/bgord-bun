@@ -5,11 +5,11 @@ const redactor = new RedactorCompactObjectAdapter();
 
 describe("RedactorObjectAdapter", () => {
   test("keeps primitives unchanged", () => {
-    expect(redactor.redact(42)).toBe(42);
-    expect(redactor.redact("x")).toBe("x");
-    expect(redactor.redact(false)).toBe(false);
-    expect(redactor.redact(null)).toBeNull();
-    expect(redactor.redact(undefined)).toBeUndefined();
+    expect(redactor.redact(42)).toEqual(42);
+    expect(redactor.redact("x")).toEqual("x");
+    expect(redactor.redact(false)).toEqual(false);
+    expect(redactor.redact(null)).toEqual(null);
+    expect(redactor.redact(undefined)).toEqual(undefined);
   });
 
   test("keeps small plain objects unchanged (default maxKeys=10)", () => {
@@ -69,19 +69,19 @@ describe("RedactorObjectAdapter", () => {
 
     const result = redactor.redact(input) as typeof input;
 
-    expect(Array.isArray(result.bag.arr)).toBe(true);
+    expect(Array.isArray(result.bag.arr)).toEqual(true);
     expect(result.bag.arr).toEqual([1, 2, 3]);
 
-    expect(result.bag.when instanceof Date).toBe(true);
+    expect(result.bag.when instanceof Date).toEqual(true);
 
-    expect(result.bag.map instanceof Map).toBe(true);
-    expect(result.bag.map.get("a")).toBe(1);
+    expect(result.bag.map instanceof Map).toEqual(true);
+    expect(result.bag.map.get("a")).toEqual(1);
 
-    expect(result.bag.set instanceof Set).toBe(true);
-    expect(result.bag.set.has(2)).toBe(true);
+    expect(result.bag.set instanceof Set).toEqual(true);
+    expect(result.bag.set.has(2)).toEqual(true);
 
-    expect(result.bag.inst instanceof Custom).toBe(true);
-    expect(result.bag.inst.value).toBe(7);
+    expect(result.bag.inst instanceof Custom).toEqual(true);
+    expect(result.bag.inst.value).toEqual(7);
   });
 
   test("works with mixed structures (wide object containing arrays etc.)", () => {
