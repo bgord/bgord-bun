@@ -15,10 +15,9 @@ export class BetterAuthLogger {
 
         switch (level) {
           case LogLevelEnum.error: {
-            this.logger.error({
-              ...base,
-              error: formatError(args.find((a) => a instanceof Error) ?? new Error(message)),
-            });
+            const error = formatError(args.find((a) => a instanceof Error) ?? new Error(message));
+
+            this.logger.error({ ...base, error });
             break;
           }
           case LogLevelEnum.warn: {
