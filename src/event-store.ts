@@ -56,7 +56,6 @@ export class EventStore<AllEvents extends GenericEventSchema> {
 
   async saveAfter(events: z.infer<AllEvents>[], offset: tools.Duration): Promise<z.infer<AllEvents>[]> {
     await Bun.sleep(offset.ms);
-
     return this.save(events);
   }
 }

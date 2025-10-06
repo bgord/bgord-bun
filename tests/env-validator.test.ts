@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod/v4";
-import { EnvironmentValidator } from "../src/env-validator.service";
+import { EnvironmentValidator, InvalidNodeEnvironmentError } from "../src/env-validator.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const DummySchema = z.object({ APP_NAME: z.string() });
@@ -21,7 +21,7 @@ describe("Env validator", () => {
 
   test("exits if NodeEnvironment is invalid", () => {
     expect(() => new EnvironmentValidator({ type: "invalid-env", schema: DummySchema })).toThrow(
-      /Invalid node environment/,
+      InvalidNodeEnvironmentError,
     );
   });
 });
