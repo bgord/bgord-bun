@@ -9,7 +9,7 @@ export class ClockFixedAdapter implements ClockPort {
   }
 
   nowMs() {
-    return tools.Timestamp.parse(this.value);
+    return this.value;
   }
 
   now(): ReturnType<typeof tools.Time.Now> {
@@ -17,6 +17,6 @@ export class ClockFixedAdapter implements ClockPort {
   }
 
   advanceBy(duration: tools.Duration): void {
-    this.value = tools.Timestamp.parse(this.value + duration.ms);
+    this.value = tools.Time.Now(this.value).Add(duration);
   }
 }

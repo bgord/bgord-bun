@@ -12,7 +12,6 @@ export class CommandLogger {
     commandData: Record<string, any> | undefined,
   ) {
     if (type === "subscribe") return;
-
     if (typeof commandName === "symbol") return;
 
     this.logger.info({ message: `${commandName} emitted`, metadata: commandData, ...this.base });
