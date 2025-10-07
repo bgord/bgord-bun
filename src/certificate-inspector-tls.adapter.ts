@@ -6,6 +6,8 @@ import type { ClockPort } from "./clock.port";
 type Dependencies = { Clock: ClockPort };
 
 export class CertificateInspectorTLSAdapter implements CertificateInspectorPort {
+  private static readonly ROUNDING = new tools.RoundToNearest();
+
   constructor(private readonly deps: Dependencies) {}
 
   async inspect(hostname: string): Promise<CertificateInspection> {
@@ -28,7 +30,10 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
           const validToMs = new Date(certificate.valid_to).getTime();
           const daysRemaining = tools.Duration.Ms(validToMs - this.deps.Clock.nowMs()).days;
 
-          settle({ success: true, daysRemaining });
+          settle({
+            success: true,
+            daysRemaining: CertificateInspectorTLSAdapter.ROUNDING.round(daysRemaining),
+          });
         },
       );
 
