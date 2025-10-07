@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import * as croner from "croner";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { JobHandler, Jobs, UTC_DAY_OF_THE_WEEK } from "../src/jobs.service";
+import { JobHandler, Jobs } from "../src/jobs.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 const Logger = new LoggerNoopAdapter();
@@ -70,11 +70,5 @@ describe("JobHandler", () => {
 
     // Verify that the overrun log was triggered
     expect(loggerInfoSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "undefined overrun" }));
-  });
-
-  test("DAY_TIME schedule", () => {
-    expect(Jobs.SCHEDULES.DAY_TIME(UTC_DAY_OF_THE_WEEK.Monday, new tools.Hour(18))).toEqual(
-      `0 18 * * ${UTC_DAY_OF_THE_WEEK.Monday}`,
-    );
   });
 });
