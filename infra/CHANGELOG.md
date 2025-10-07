@@ -1,6 +1,9 @@
 # Changelog
+## 2025-10-07 20:30 v0.29.15
+- 2025-10-07 20:30 9487541 **0.29.15**
 - 2025-10-07 20:25 4a35f15 **step: update packages**
 - 2025-10-07 20:16 e53e808 **refactor: simplify jobs**
+- 2025-10-07 18:28 b8d35bf **docs: generate CHANGELOG**
 ## 2025-10-06 09:30 v0.29.14
 - 2025-10-06 09:30 315cab5 **0.29.14**
 - 2025-10-06 09:19 0f4c67e **refactor: unify assertions**
