@@ -1,4 +1,6 @@
 # Changelog
+- 2025-10-07 20:25 4a35f15 **step: update packages**
+- 2025-10-07 20:16 e53e808 **refactor: simplify jobs**
 ## 2025-10-06 09:30 v0.29.14
 - 2025-10-06 09:30 315cab5 **0.29.14**
 - 2025-10-06 09:19 0f4c67e **refactor: unify assertions**
@@ -7,6 +9,7 @@
 - 2025-10-06 09:08 9760955 **refactor: improve clock fixed adapter**
 - 2025-10-06 09:05 17dc1a8 **refactor: improve better auth**
 - 2025-10-06 09:04 7d5dea9 **refactor: improve basic auth**
+- 2025-10-06 07:30 ca3099b **docs: generate CHANGELOG**
 - 2025-10-06 07:29 43abcd5 **docs: generate CHANGELOG**
 - 2025-10-06 07:17 435b97a **docs: generate CHANGELOG**
 - 2025-10-06 06:58 9afc5b5 **docs: generate CHANGELOG**
