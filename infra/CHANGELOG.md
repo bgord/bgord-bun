@@ -1,10 +1,12 @@
 # Changelog
+- 2025-10-07 23:19 25c81ce **step: round days remaining**
 ## 2025-10-07 22:48 v0.30.0
 - 2025-10-07 22:48 adfddd4 **0.30.0**
 - 2025-10-07 22:47 e5992e9 **refactor: adjust ssl prereq tests**
 - 2025-10-07 22:39 1b3a01e **refactor: make noop inspector dynamic**
 - 2025-10-07 22:37 013f274 **refactor: use certificate inspector in ssl prereq**
 - 2025-10-07 22:05 02f4d4b **feature: add certificate inspector**
+- 2025-10-07 20:48 2ddf57f **docs: generate CHANGELOG**
 - 2025-10-07 20:47 3bf4706 **docs: generate CHANGELOG**
 - 2025-10-07 20:47 134ca65 **docs: generate readme**
 ## 2025-10-07 20:30 v0.29.15
