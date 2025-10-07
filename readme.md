@@ -35,6 +35,9 @@ src/
 ├── cache-file.service.ts
 ├── cache-resolver.service.ts
 ├── cache-response.middleware.ts
+├── certificate-inspector-noop.adapter.ts
+├── certificate-inspector-tls.adapter.ts
+├── certificate-inspector.port.ts
 ├── client-from-hono.adapter.ts
 ├── client.vo.ts
 ├── clock-fixed.adapter.ts
