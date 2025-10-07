@@ -8,13 +8,13 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
   private readonly host: string;
   private readonly validDaysMinimum: number;
-  private readonly certificateInspector: CertificateInspectorPort;
+  private readonly inspector: CertificateInspectorPort;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       host: string;
       validDaysMinimum: number;
-      certificateInspector: CertificateInspectorPort;
+      inspector: CertificateInspectorPort;
     },
   ) {
     this.label = config.label;
@@ -22,17 +22,17 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
     this.host = config.host;
     this.validDaysMinimum = config.validDaysMinimum;
-    this.certificateInspector = config.certificateInspector;
+    this.inspector = config.inspector;
   }
 
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
-    const result = await this.certificateInspector.inspect(this.host);
+    const result = await this.inspector.inspect(this.host);
 
     if (!result.success) return prereqs.Verification.failure({ message: "Unavailable" });
     if (result.daysRemaining <= this.validDaysMinimum) {
-      return prereqs.Verification.failure({ message: `${result.daysRemaining} certificate days remaining` });
+      return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
     }
     return prereqs.Verification.success();
   }

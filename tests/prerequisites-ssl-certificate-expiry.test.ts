@@ -1,68 +1,57 @@
-import { describe, expect, spyOn, test } from "bun:test";
-import * as sslChecker from "ssl-checker";
+import { describe, expect, test } from "bun:test";
+import { CertificateInspectorNoopAdapter } from "../src/certificate-inspector-noop.adapter";
 import { PrerequisiteSSLCertificateExpiry } from "../src/prerequisites/ssl-certificate-expiry";
 import * as prereqs from "../src/prerequisites.service";
 
-describe("prerequisites - ssl certificate expiry", () => {
-  test("passes when certificate is valid and has enough days remaining", async () => {
-    // @ts-expect-error
-    spyOn(sslChecker, "default").mockImplementation(async () => ({ valid: true, daysRemaining: 100 }));
+class CertificateInspectorUnavailableAdapter {
+  async inspect() {
+    return { success: false } as const;
+  }
+}
 
+describe("prerequisites - ssl certificate expiry (port-based)", () => {
+  test("passes when certificate has enough days remaining", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
       validDaysMinimum: 30,
       label: "ssl",
+      inspector: new CertificateInspectorNoopAdapter(100),
     });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
-  test("fails when certificate is valid but expires too soon", async () => {
-    // @ts-expect-error
-    spyOn(sslChecker, "default").mockImplementation(async () => ({ valid: true, daysRemaining: 10 }));
-
+  test("fails when certificate expires too soon", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
       validDaysMinimum: 30,
-      label: "ssl-certificate",
+      label: "ssl",
+      inspector: new CertificateInspectorNoopAdapter(10),
     });
 
     expect(await prerequisite.verify()).toEqual(
-      prereqs.Verification.failure({ message: "Days remaining: 10" }),
+      prereqs.Verification.failure({ message: "10 days remaining" }),
     );
   });
 
-  test("fails when certificate is invalid", async () => {
-    // @ts-expect-error
-    spyOn(sslChecker, "default").mockImplementation(async () => ({ valid: false, daysRemaining: 0 }));
-
+  test("fails when certificate inspection is unavailable", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
       validDaysMinimum: 30,
-      label: "ssl-certificate",
+      label: "ssl",
+      inspector: new CertificateInspectorUnavailableAdapter(),
     });
 
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "Invalid" }));
-  });
-
-  test("fails when sslChecker throws", async () => {
-    spyOn(sslChecker, "default").mockRejectedValue(new Error("SSL check failed"));
-
-    const prerequisite = new PrerequisiteSSLCertificateExpiry({
-      host: "example.com",
-      validDaysMinimum: 30,
-      label: "ssl-certificate",
-    });
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(/SSL check failed/);
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "Unavailable" }));
   });
 
   test("returns undetermined if disabled", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
       validDaysMinimum: 30,
-      label: "ssl-certificate",
+      label: "ssl",
       enabled: false,
+      inspector: new CertificateInspectorNoopAdapter(100),
     });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

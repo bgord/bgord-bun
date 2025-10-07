@@ -14,18 +14,18 @@ describe("prerequisites - space", () => {
       free: tools.Size.fromMB(100).toBytes(),
     });
 
-    const space = new PrerequisiteSpace({ label: "Disk", minimum });
+    const prerequisite = new PrerequisiteSpace({ label: "Disk", minimum });
 
-    expect(await space.verify()).toEqual(prereqs.Verification.success());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
   test("fails when not enough space is available", async () => {
     const free = tools.Size.fromMB(10);
     spyOn(checkDiskSpace, "default").mockResolvedValue({ diskPath: "", size: 0, free: free.toBytes() });
 
-    const space = new PrerequisiteSpace({ label: "Disk", minimum });
+    const prerequisite = new PrerequisiteSpace({ label: "Disk", minimum });
     // @ts-expect-error
-    expect((await space.verify()).error.message).toMatch(
+    expect((await prerequisite.verify()).error.message).toMatch(
       `Free disk space: ${free.format(tools.SizeUnit.MB)}`,
     );
   });
@@ -33,14 +33,14 @@ describe("prerequisites - space", () => {
   test("fails on error", async () => {
     spyOn(checkDiskSpace, "default").mockRejectedValue(new Error("Check disk error"));
 
-    const space = new PrerequisiteSpace({ label: "Disk", minimum });
+    const prerequisite = new PrerequisiteSpace({ label: "Disk", minimum });
     // @ts-expect-error
-    expect((await space.verify()).error.message).toMatch(/Check disk error/);
+    expect((await prerequisite.verify()).error.message).toMatch(/Check disk error/);
   });
 
   test("returns undetermined if disabled", async () => {
-    const space = new PrerequisiteSpace({ label: "Disk", minimum, enabled: false });
+    const prerequisite = new PrerequisiteSpace({ label: "Disk", minimum, enabled: false });
 
-    expect(await space.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
   });
 });
