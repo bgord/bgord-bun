@@ -13,7 +13,7 @@ describe("prerequisites - ssl certificate expiry (port-based)", () => {
   test("passes when certificate has enough days remaining", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
-      validDaysMinimum: 30,
+      days: 30,
       label: "ssl",
       inspector: new CertificateInspectorNoopAdapter(100),
     });
@@ -24,7 +24,7 @@ describe("prerequisites - ssl certificate expiry (port-based)", () => {
   test("fails when certificate expires too soon", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
-      validDaysMinimum: 30,
+      days: 30,
       label: "ssl",
       inspector: new CertificateInspectorNoopAdapter(10),
     });
@@ -37,7 +37,7 @@ describe("prerequisites - ssl certificate expiry (port-based)", () => {
   test("fails when certificate inspection is unavailable", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
-      validDaysMinimum: 30,
+      days: 30,
       label: "ssl",
       inspector: new CertificateInspectorUnavailableAdapter(),
     });
@@ -48,7 +48,7 @@ describe("prerequisites - ssl certificate expiry (port-based)", () => {
   test("returns undetermined if disabled", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
-      validDaysMinimum: 30,
+      days: 30,
       label: "ssl",
       enabled: false,
       inspector: new CertificateInspectorNoopAdapter(100),

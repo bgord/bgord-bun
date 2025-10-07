@@ -7,13 +7,13 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
   readonly enabled?: boolean = true;
 
   private readonly host: string;
-  private readonly validDaysMinimum: number;
+  private readonly days: number;
   private readonly inspector: CertificateInspectorPort;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       host: string;
-      validDaysMinimum: number;
+      days: number;
       inspector: CertificateInspectorPort;
     },
   ) {
@@ -21,7 +21,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.host = config.host;
-    this.validDaysMinimum = config.validDaysMinimum;
+    this.days = config.days;
     this.inspector = config.inspector;
   }
 
@@ -31,7 +31,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     const result = await this.inspector.inspect(this.host);
 
     if (!result.success) return prereqs.Verification.failure({ message: "Unavailable" });
-    if (result.daysRemaining <= this.validDaysMinimum) {
+    if (result.daysRemaining <= this.days) {
       return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
     }
     return prereqs.Verification.success();
