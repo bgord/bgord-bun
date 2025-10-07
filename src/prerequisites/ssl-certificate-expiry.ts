@@ -1,4 +1,4 @@
-import sslChecker from "ssl-checker";
+import type { CertificateInspectorPort } from "../certificate-inspector.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
@@ -8,28 +8,32 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
   private readonly host: string;
   private readonly validDaysMinimum: number;
+  private readonly certificateInspector: CertificateInspectorPort;
 
-  constructor(config: prereqs.PrerequisiteConfigType & { host: string; validDaysMinimum: number }) {
+  constructor(
+    config: prereqs.PrerequisiteConfigType & {
+      host: string;
+      validDaysMinimum: number;
+      certificateInspector: CertificateInspectorPort;
+    },
+  ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.host = config.host;
     this.validDaysMinimum = config.validDaysMinimum;
+    this.certificateInspector = config.certificateInspector;
   }
 
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
-    try {
-      const result = await sslChecker(this.host);
+    const result = await this.certificateInspector.inspect(this.host);
 
-      if (!result.valid) return prereqs.Verification.failure({ message: "Invalid" });
-      if (result.daysRemaining <= this.validDaysMinimum) {
-        return prereqs.Verification.failure({ message: `Days remaining: ${result.daysRemaining}` });
-      }
-      return prereqs.Verification.success();
-    } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+    if (!result.success) return prereqs.Verification.failure({ message: "Unavailable" });
+    if (result.daysRemaining <= this.validDaysMinimum) {
+      return prereqs.Verification.failure({ message: `${result.daysRemaining} certificate days remaining` });
     }
+    return prereqs.Verification.success();
   }
 }
