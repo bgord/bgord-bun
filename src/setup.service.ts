@@ -37,7 +37,7 @@ type Dependencies = {
 export class Setup {
   static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
     const corsOptions = overrides?.cors ?? { origin: "*" };
-    const secureHeadersOptions = overrides?.secureHeaders ?? undefined;
+    const secureHeadersOptions = { crossOriginResourcePolicy: "cross-origin", ...overrides?.secureHeaders };
 
     return [
       secureHeaders(secureHeadersOptions),

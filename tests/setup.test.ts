@@ -44,7 +44,7 @@ describe("Setup", () => {
       "api-version": expect.any(String),
       "content-type": "application/json",
       "cross-origin-opener-policy": "same-origin",
-      "cross-origin-resource-policy": "same-origin",
+      "cross-origin-resource-policy": "cross-origin",
       "origin-agent-cluster": "?1",
       "referrer-policy": "no-referrer",
       "server-timing": expect.any(String),
