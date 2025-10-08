@@ -1,4 +1,5 @@
 # Changelog
+- 2025-10-08 11:12 287fe9c **step: setup cors policy to cross-origin by default**
 - 2025-10-07 23:22 9a1e32c **refactor: simplify ssl naming**
 - 2025-10-07 23:19 25c81ce **step: round days remaining**
 ## 2025-10-07 22:48 v0.30.0
@@ -7,6 +8,7 @@
 - 2025-10-07 22:39 1b3a01e **refactor: make noop inspector dynamic**
 - 2025-10-07 22:37 013f274 **refactor: use certificate inspector in ssl prereq**
 - 2025-10-07 22:05 02f4d4b **feature: add certificate inspector**
+- 2025-10-07 21:23 14ee82f **docs: generate CHANGELOG**
 - 2025-10-07 21:20 209e70d **docs: generate CHANGELOG**
 - 2025-10-07 20:48 2ddf57f **docs: generate CHANGELOG**
 - 2025-10-07 20:47 3bf4706 **docs: generate CHANGELOG**
