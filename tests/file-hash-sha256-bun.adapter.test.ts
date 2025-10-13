@@ -9,16 +9,16 @@ describe("FileHashBunWebCryptoAdapter.hash", () => {
     const bunFileSpy = spyOn(Bun, "file").mockImplementation((_p: string) => fakeFile);
 
     const adapter = new FileHashSha256BunAdapter();
-    const input = tools.FilePathAbsolute.fromString("/var/data/hello.txt");
+    const input = tools.FilePathAbsolute.fromString("/var/data/hello.pdf");
 
     const result = await adapter.hash(input);
 
-    expect(bunFileSpy).toHaveBeenCalledWith("/var/data/hello.txt");
+    expect(bunFileSpy).toHaveBeenCalledWith("/var/data/hello.pdf");
     expect(result.etag).toEqual("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824");
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(5);
     expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
-    expect(result.mime.toString()).toEqual("text/plain; charset=utf-8");
+    expect(result.mime.toString()).toEqual("application/pdf");
   });
 
   test("hashes relative path (sha256 of 'abc') and returns bytes", async () => {
