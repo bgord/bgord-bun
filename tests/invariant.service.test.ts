@@ -38,7 +38,7 @@ describe("Invariant class", () => {
       const invariant = new SampleInvariant();
       invariant.perform({ threshold: 15 });
       expect.unreachable();
-    } catch (_error) {}
+    } catch {}
   });
 
   test("perform method does not throw error when invariant passes", async () => {

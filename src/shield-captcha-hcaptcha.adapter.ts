@@ -25,7 +25,7 @@ export class ShieldCaptchaHcaptcha implements ShieldCaptchaPort {
       const result = await hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
       if (!result?.success) throw AccessDeniedHcaptchaError;
       return next();
-    } catch (_error) {
+    } catch {
       throw AccessDeniedHcaptchaError;
     }
   });

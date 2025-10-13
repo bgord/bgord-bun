@@ -16,7 +16,7 @@ export class ShieldCaptchaHcaptchaLocal implements ShieldCaptchaPort {
       const result = await hcaptcha.verify(this.secretKey, "10000000-aaaa-bbbb-cccc-000000000001");
       if (!result?.success) throw AccessDeniedHcaptchaLocalError;
       return next();
-    } catch (_error) {
+    } catch {
       throw AccessDeniedHcaptchaLocalError;
     }
   });

@@ -24,7 +24,7 @@ export class I18n {
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
       return Bun.file(this.getTranslationPathForLanguage(language).get()).json();
-    } catch (_error) {
+    } catch {
       return {};
     }
   }

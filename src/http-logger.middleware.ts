@@ -93,7 +93,7 @@ export class HttpLogger {
     let result: any;
     try {
       result = await resource.json();
-    } catch (_error) {}
+    } catch {}
 
     return result;
   }
