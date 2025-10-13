@@ -29,6 +29,6 @@ export class AntivirusClamavAdapter implements AntivirusPort {
       return { clean: false, signature: match?.groups?.signature?.trim() ?? "Unknown" };
     }
 
-    throw new Error(AntivirusPortError.VirusDetected);
+    throw new Error(AntivirusPortError.ScanFailed);
   }
 }
