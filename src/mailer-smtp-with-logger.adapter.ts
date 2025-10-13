@@ -17,9 +17,11 @@ export class MailerSmtpWithLoggerAdapter implements MailerPort {
       this.config.logger.info({ message: "Mailer attempt", metadata: message, ...this.base });
       const result = await this.config.smtpMailer.send(message);
       this.config.logger.info({ message: "Mailer success", metadata: { message, result }, ...this.base });
+
       return result;
     } catch (error) {
       this.config.logger.error({ message: "Mailer error", error: formatError(error), ...this.base });
+
       throw error;
     }
   }

@@ -7,8 +7,8 @@ export class VisitorIdHash implements VisitorIdPort {
   async get() {
     const { ip, ua } = this.client.toJSON();
 
-    const prepared = `${ip}|${ua}`;
-    const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(prepared));
+    const value = `${ip}|${ua}`;
+    const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
 
     return Array.from(new Uint8Array(buffer))
       .slice(0, 8)

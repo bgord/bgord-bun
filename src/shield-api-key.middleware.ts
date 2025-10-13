@@ -12,9 +12,7 @@ export class ShieldApiKey {
   constructor(private readonly config: ApiKeyShieldConfigType) {}
 
   verify = createMiddleware(async (c, next) => {
-    if (c.req.header(ShieldApiKey.HEADER_NAME) === this.config.API_KEY) {
-      return next();
-    }
+    if (c.req.header(ShieldApiKey.HEADER_NAME) === this.config.API_KEY) return next();
 
     throw AccessDeniedApiKeyError;
   });

@@ -13,7 +13,6 @@ export class RedactorMaskAdapter implements RedactorPort {
     "accessToken",
     "refreshToken",
 
-    // passwords & secrets
     "password",
     "currentPassword",
     "newPassword",
@@ -21,7 +20,6 @@ export class RedactorMaskAdapter implements RedactorPort {
     "clientSecret",
     "secret",
 
-    // one-time codes
     "otp",
     "code",
   ];

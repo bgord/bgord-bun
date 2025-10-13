@@ -23,6 +23,7 @@ export class ShieldCaptchaHcaptcha implements ShieldCaptchaPort {
       const form = await c.req.formData();
       const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as HCaptchaResponseTokenType;
       const result = await hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
+
       if (!result?.success) throw AccessDeniedHcaptchaError;
       return next();
     } catch {

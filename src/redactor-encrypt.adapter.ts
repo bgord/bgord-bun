@@ -15,8 +15,8 @@ export class RedactorEncryptionAdapter implements RedactorPort {
   redact<T>(input: T): T {
     const rootObject = Object(input);
 
-    return cloneDeepWith(input, (value, key, parentObj) => {
-      if (parentObj === rootObject && typeof key === "string" && key.toLowerCase() === this.key) {
+    return cloneDeepWith(input, (value, key, parent) => {
+      if (parent === rootObject && typeof key === "string" && key.toLowerCase() === this.key) {
         const iv = randomBytes(12);
         const cipher = createCipheriv("aes-256-gcm", this.secret, iv);
         const plaintext = Buffer.from(JSON.stringify(value), "utf8");

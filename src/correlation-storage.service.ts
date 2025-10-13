@@ -19,6 +19,7 @@ export class CorrelationStorage {
 
   static get(): CorrelationIdType {
     const store = CorrelationStorage.als.getStore();
+
     if (!store) throw new Error("CorrelationId missing from context");
     return store.correlationId;
   }

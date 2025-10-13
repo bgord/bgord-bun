@@ -45,6 +45,7 @@ export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
       });
 
       const result = (await response.json()) as RecaptchaResultType;
+
       if (!result.success || result.score < 0.5) throw AccessDeniedRecaptchaError;
       await next();
     } catch {

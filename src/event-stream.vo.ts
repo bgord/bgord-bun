@@ -6,4 +6,5 @@ export const EventStream = z
   .string(EventStreamInvalidError)
   .min(1, EventStreamInvalidError)
   .max(256, EventStreamInvalidError);
+
 export type EventStreamType = z.infer<typeof EventStream>;

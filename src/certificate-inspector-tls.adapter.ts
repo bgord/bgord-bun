@@ -25,6 +25,7 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
         { host: hostname, port: 443, servername: hostname, rejectUnauthorized: false },
         () => {
           const certificate = socket.getPeerCertificate();
+
           if (!certificate?.valid_to) return settle({ success: false });
 
           const validToMs = new Date(certificate.valid_to).getTime();

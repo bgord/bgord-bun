@@ -13,15 +13,18 @@ export class CacheResponse {
 
     if (this.cache.has(url)) {
       c.res.headers.set(CacheResponse.CACHE_HIT_HEADER, CacheHitEnum.hit);
+
       return c.json(this.cache.get(url));
     }
 
     c.res.headers.set(CacheResponse.CACHE_HIT_HEADER, CacheHitEnum.miss);
+
     return next();
   });
 
   clear = createMiddleware(async (_c, next) => {
     this.cache.flushAll();
+
     return next();
   });
 }
