@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { AntivirusScanFailedError, VirusDetectedError } from "../src/antivirus.port";
+import { AntivirusPortError } from "../src/antivirus.port";
 import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 
 function streamFromString(s: string): ReadableStream<Uint8Array> {
@@ -60,7 +60,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
     expect(result).toEqual({ clean: false, signature: "Bad-Sig-123" });
   });
 
-  test("throws AntivirusScanFailedError when stdin is unavailable", async () => {
+  test("ScanFailed", async () => {
     spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: null,
       stdout: streamFromString(""),
@@ -69,11 +69,12 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
       exited: Promise.resolve(2),
     }));
 
-    const adapter = new AntivirusClamavAdapter();
-    expect(adapter.scanBytes(new Uint8Array([1]))).rejects.toBeInstanceOf(AntivirusScanFailedError);
+    expect(() => new AntivirusClamavAdapter().scanBytes(new Uint8Array([1]))).toThrow(
+      AntivirusPortError.ScanFailed,
+    );
   });
 
-  test("throws VirusDetectedError on exitCode != 0/1 (e.g., 2)", async () => {
+  test("VirusDetected", async () => {
     spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async () => {}, end: async () => {} },
       stdout: streamFromString(""),
@@ -82,7 +83,8 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
       exited: Promise.resolve(2),
     }));
 
-    const adapter = new AntivirusClamavAdapter();
-    expect(adapter.scanBytes(new Uint8Array([1, 2, 3]))).rejects.toBeInstanceOf(VirusDetectedError);
+    expect(() => new AntivirusClamavAdapter().scanBytes(new Uint8Array([1, 2, 3]))).toThrow(
+      AntivirusPortError.VirusDetected,
+    );
   });
 });

@@ -1,9 +1,4 @@
-import {
-  type AntivirusPort,
-  AntivirusScanFailedError,
-  type AntivirusScanResult,
-  VirusDetectedError,
-} from "./antivirus.port";
+import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from "./antivirus.port";
 
 export class AntivirusClamavAdapter implements AntivirusPort {
   async scanBytes(bytes: Uint8Array): Promise<AntivirusScanResult> {
@@ -14,7 +9,7 @@ export class AntivirusClamavAdapter implements AntivirusPort {
       stderr: "pipe",
     });
 
-    if (!antivirus.stdin) throw new AntivirusScanFailedError();
+    if (!antivirus.stdin) throw new Error(AntivirusPortError.ScanFailed);
 
     antivirus.stdin.write(bytes);
     await antivirus.stdin.end();
@@ -34,6 +29,6 @@ export class AntivirusClamavAdapter implements AntivirusPort {
       return { clean: false, signature: match?.groups?.signature?.trim() ?? "Unknown" };
     }
 
-    throw new VirusDetectedError();
+    throw new Error(AntivirusPortError.VirusDetected);
   }
 }
