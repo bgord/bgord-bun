@@ -18,7 +18,7 @@ describe("FileHashBunWebCryptoAdapter.hash", () => {
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(5);
     expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
-    expect(result.mime.raw).toEqual("text/plain; charset=utf-8");
+    expect(result.mime.toString()).toEqual("text/plain; charset=utf-8");
   });
 
   test("hashes relative path (sha256 of 'abc') and returns bytes", async () => {
@@ -36,6 +36,6 @@ describe("FileHashBunWebCryptoAdapter.hash", () => {
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(3);
     expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
-    expect(result.mime.raw).toEqual("application/octet-stream");
+    expect(result.mime.toString()).toEqual("application/octet-stream");
   });
 });

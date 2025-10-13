@@ -26,7 +26,7 @@ describe("prerequisites - space", () => {
     const prerequisite = new PrerequisiteSpace({ label: "Disk", minimum });
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(
-      `Free disk space: ${free.format(tools.SizeUnit.MB)}`,
+      `Free disk space: ${free.format(tools.Size.unit.MB)}`,
     );
   });
 

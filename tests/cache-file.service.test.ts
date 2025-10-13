@@ -47,7 +47,7 @@ describe("CacheFileMustRevalidate", () => {
   test("fresh: header set for 200 with correct metadata", () => {
     const headers = CacheFileMustRevalidate.fresh(meta);
 
-    expect(headers.get("Content-Type")).toEqual(meta.mime.raw);
+    expect(headers.get("Content-Type")).toEqual(meta.mime.toString());
     expect(headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(headers.get("ETag")).toEqual(meta.etag);
     expect(headers.get("Content-Length")).toEqual(meta.size.toBytes().toString());

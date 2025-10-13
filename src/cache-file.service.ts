@@ -23,7 +23,7 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
 
   fresh(options: FileHashResult, overrides: CacheFileOverridesType = {}) {
     return new Headers({
-      "Content-Type": options.mime.raw,
+      "Content-Type": options.mime.toString(),
       "Cache-Control": "private, max-age=0, must-revalidate",
       ETag: options.etag,
       "Content-Length": options.size.toBytes().toString(),

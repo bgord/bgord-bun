@@ -61,7 +61,7 @@ describe("Setup", () => {
     const json = await response.json();
     expect(json).toEqual({
       requestId: predefinedRequestId,
-      timeZoneOffset: { valueMs: 0 },
+      timeZoneOffset: { internal: 0 },
       language: "en",
       etag: null,
       weakEtag: null,

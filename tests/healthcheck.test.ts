@@ -54,7 +54,7 @@ describe("Healthcheck", () => {
       ok: prereqs.PrerequisiteStatusEnum.success,
       version: buildInfo.BUILD_VERSION,
       uptime,
-      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.SizeUnit.MB) },
+      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [{ label: "ok", outcome: { status: prereqs.PrerequisiteStatusEnum.success } }],
       durationMs: expect.any(Number),
     });
@@ -77,7 +77,7 @@ describe("Healthcheck", () => {
       ok: prereqs.PrerequisiteStatusEnum.failure,
       version: buildInfo.BUILD_VERSION,
       uptime,
-      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.SizeUnit.MB) },
+      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
         { label: "ok", outcome: { status: prereqs.PrerequisiteStatusEnum.success } },
         {

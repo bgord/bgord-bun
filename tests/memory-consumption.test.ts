@@ -13,6 +13,6 @@ describe("Memory consumption", () => {
     expect(result).toBeInstanceOf(tools.Size);
     // @ts-expect-error
     expect(result.toBytes()).toEqual(fakeRss);
-    expect(result.format(tools.SizeUnit.MB)).toEqual("117.74 MB");
+    expect(result.format(tools.Size.unit.MB)).toEqual("117.74 MB");
   });
 });

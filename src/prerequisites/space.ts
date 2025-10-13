@@ -25,7 +25,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
 
       if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success();
       return prereqs.Verification.failure({
-        message: `Free disk space: ${freeDiskSpace.format(tools.SizeUnit.MB)}`,
+        message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });
     } catch (error) {
       return prereqs.Verification.failure(error as Error);

@@ -24,7 +24,7 @@ describe("prerequisites - memory", () => {
 
     expect(await prerequisite.verify()).toEqual(
       prereqs.Verification.failure({
-        message: `Memory consumption: ${memoryConsumption.format(tools.SizeUnit.MB)}`,
+        message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       }),
     );
   });

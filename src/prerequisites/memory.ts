@@ -23,7 +23,7 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
 
     if (memoryConsumption.isGreaterThan(this.maximum)) {
       return prereqs.Verification.failure({
-        message: `Memory consumption: ${memoryConsumption.format(tools.SizeUnit.MB)}`,
+        message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });
     }
     return prereqs.Verification.success();

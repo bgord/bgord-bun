@@ -8,7 +8,7 @@ export abstract class FileDraft {
 
   getHeaders(): Headers {
     return new Headers({
-      "Content-Type": this.config.mime.raw,
+      "Content-Type": this.config.mime.toString(),
       "Content-Disposition": `attachment; filename="${this.config.filename}"`,
     });
   }
@@ -24,6 +24,6 @@ export abstract class FileDraft {
   async toAttachment() {
     const body = await this.create();
 
-    return { filename: this.config.filename, content: body, contentType: this.config.mime.raw };
+    return { filename: this.config.filename, content: body, contentType: this.config.mime.toString() };
   }
 }

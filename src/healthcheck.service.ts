@@ -45,7 +45,7 @@ export class Healthcheck {
         uptime: Uptime.get(deps.Clock),
         memory: {
           bytes: MemoryConsumption.get().toBytes(),
-          formatted: MemoryConsumption.get().format(tools.SizeUnit.MB),
+          formatted: MemoryConsumption.get().format(tools.Size.unit.MB),
         },
         durationMs: stopwatch.stop().ms,
       };

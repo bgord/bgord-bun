@@ -17,7 +17,7 @@ describe("FileDraft", () => {
   test("getters", () => {
     const file = new AlphabetFile();
     expect(file.config.filename).toEqual("alphabet.txt");
-    expect(file.config.mime.raw).toEqual("text/plain");
+    expect(file.config.mime.toString()).toEqual("text/plain");
     expect(file.getHeaders().get("content-type")).toEqual("text/plain");
     expect(file.getHeaders().get("content-disposition")).toEqual(`attachment; filename="alphabet.txt"`);
   });

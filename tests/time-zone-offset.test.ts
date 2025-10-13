@@ -15,14 +15,14 @@ describe("TimeZoneOffset middleware", () => {
     });
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual({ valueMs: tools.Duration.Minutes(120).ms });
+    expect(await result.json()).toEqual({ internal: tools.Duration.Minutes(120).ms });
   });
 
   test("handles missing time-zone-offset header gracefully", async () => {
     const result = await app.request("/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual({ valueMs: 0 });
+    expect(await result.json()).toEqual({ internal: 0 });
   });
 
   test("handles invalid time-zone-offset header gracefully", async () => {
@@ -32,7 +32,7 @@ describe("TimeZoneOffset middleware", () => {
     });
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual({ valueMs: 0 });
+    expect(await result.json()).toEqual({ internal: 0 });
   });
 
   test("adjustTimestamp", async () => {
