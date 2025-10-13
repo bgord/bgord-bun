@@ -1,7 +1,12 @@
 # Changelog
+- 2025-10-13 15:04 ee4ff33 **step: update packages**
+- 2025-10-13 15:01 d6dd71b **step: update packages**
+- 2025-10-13 14:52 c3f6138 **refactor: adjust to bgord/tools**
+- 2025-10-13 14:49 9ddb7af **step: update tools to 1.0.0**
 ## 2025-10-08 11:14 v0.30.1
 - 2025-10-08 11:14 c45d32a **0.30.1**
 - 2025-10-08 11:12 287fe9c **step: setup cors policy to cross-origin by default**
+- 2025-10-08 09:14 e6ff658 **docs: generate CHANGELOG**
 - 2025-10-08 09:13 122e7e7 **docs: generate CHANGELOG**
 - 2025-10-07 23:22 9a1e32c **refactor: simplify ssl naming**
 - 2025-10-07 23:19 25c81ce **step: round days remaining**
