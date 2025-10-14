@@ -4,6 +4,8 @@ export * from "./antivirus-clamav.adapter";
 export * from "./antivirus-noop.adapter";
 export * from "./api-version.middleware";
 export * from "./basic-auth.service";
+export * from "./basic-auth-password.vo";
+export * from "./basic-auth-username.vo";
 export * from "./better-auth-logger.service";
 export * from "./build-info-repository.service";
 export * from "./cache-file.service";
