@@ -5,9 +5,9 @@ import type { ClockPort } from "./clock.port";
 type Dependencies = { Clock: ClockPort };
 
 export class ApiVersion {
-  static HEADER_NAME = "api-version";
+  private static readonly HEADER_NAME = "api-version";
 
-  static DEFAULT_API_VERSION = "unknown";
+  private static readonly DEFAULT_API_VERSION = "unknown";
 
   static build = (deps: Dependencies) =>
     createMiddleware(async (c, next) => {
