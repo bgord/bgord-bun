@@ -17,7 +17,7 @@ const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
 });
 
 describe("TemporaryFileAbsolute adapter", () => {
-  test("write - create a partial, rename, return final path", async () => {
+  test("write", async () => {
     const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
     const fsRenameSpy = spyOn(fs, "rename").mockResolvedValue();
 

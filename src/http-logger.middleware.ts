@@ -5,7 +5,6 @@ import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import { ClientFromHono } from "./client-from-hono.adapter";
 import type { ClockPort } from "./clock.port";
-import type { CorrelationIdType } from "./correlation-id.vo";
 import type { LoggerPort } from "./logger.port";
 
 const UNINFORMATIVE_HEADERS = [
