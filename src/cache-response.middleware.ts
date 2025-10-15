@@ -4,7 +4,7 @@ import type NodeCache from "node-cache";
 import { CacheHitEnum } from "./cache-resolver.service";
 
 export class CacheResponse {
-  private static readonly CACHE_HIT_HEADER = "Cache-Hit";
+  static readonly CACHE_HIT_HEADER = "Cache-Hit";
 
   constructor(private readonly cache: NodeCache) {}
 

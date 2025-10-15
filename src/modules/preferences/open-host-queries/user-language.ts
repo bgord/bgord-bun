@@ -17,6 +17,7 @@ export class UserLanguageAdapter<L extends readonly tools.LanguageType[]> implem
   async get(userId: UUIDType): Promise<L[number]> {
     const stored = await this.query.get(userId);
     const candidate = await this.resolver.resolve(stored);
+
     return this.validator.ensure(candidate);
   }
 }

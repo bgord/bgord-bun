@@ -4,16 +4,11 @@ export interface UserLanguageResolverPort {
   resolve(input: tools.LanguageType | null): tools.LanguageType | Promise<tools.LanguageType>;
 }
 
-export class UserLanguagePreferenceMissingError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, UserLanguagePreferenceMissingError.prototype);
-  }
-}
+export const UserLanguagePreferenceError = { Missing: "user.language.preference.missing" } as const;
 
 export class UserLanguageResolverThrowIfMissing implements UserLanguageResolverPort {
   resolve(stored: tools.LanguageType | null) {
-    if (stored == null) throw new UserLanguagePreferenceMissingError();
+    if (stored == null) throw new Error(UserLanguagePreferenceError.Missing);
     return stored;
   }
 }
