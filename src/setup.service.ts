@@ -12,6 +12,7 @@ import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
+import type { JsonFileReaderPort } from "./file-reader-json.port";
 import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
@@ -32,6 +33,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
   I18n: I18nConfigType;
   Clock: ClockPort;
+  JsonFileReader: JsonFileReaderPort;
 };
 
 export class Setup {
@@ -43,7 +45,7 @@ export class Setup {
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
       uaBlocker({ blocklist: BOTS_REGEX }),
-      ApiVersion.build({ Clock: deps.Clock }),
+      ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
       cors(corsOptions),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),

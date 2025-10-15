@@ -2,16 +2,17 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { JsonFileReaderNoopAdapter } from "../src/file-reader-json-noop.adpater";
+import * as mocks from "./mocks";
+
+const version = "1.2.3";
 
 const Clock = new ClockSystemAdapter();
-const deps = { Clock };
+const JsonFileReader = new JsonFileReaderNoopAdapter({ version });
+const deps = { Clock, JsonFileReader };
 
 describe("BuildInfoRepository", () => {
-  test("extract returns BUILD_DATE and BUILD_VERSION if package.json has version", async () => {
-    const version = "1.2.3";
-
-    spyOn(BuildInfoRepository, "getPackageJson").mockImplementation(async () => ({ version }));
-
+  test("happy path", async () => {
     const result = await BuildInfoRepository.extract(deps);
 
     expect(typeof result.BUILD_DATE).toEqual("number");
@@ -19,8 +20,8 @@ describe("BuildInfoRepository", () => {
     expect(result.BUILD_VERSION).toEqual(tools.PackageVersion.fromString(version).toString());
   });
 
-  test("extract returns only BUILD_DATE if package.json loading fails", async () => {
-    spyOn(BuildInfoRepository, "getPackageJson").mockRejectedValue(new Error("File not found"));
+  test("failure - package.json read", async () => {
+    spyOn(JsonFileReader, "read").mockRejectedValue(new Error(mocks.IntentialError));
 
     const result = await BuildInfoRepository.extract(deps);
 

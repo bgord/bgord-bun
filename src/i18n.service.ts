@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import type { JsonFileReaderPort } from "../src/file-reader-json.port";
 import type { LoggerPort } from "../src/logger.port";
 
 export type TranslationsKeyType = string;
@@ -14,29 +15,34 @@ export type I18nConfigType = {
   defaultLanguage?: string;
 };
 
+type Dependencies = { JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
+
 export class I18n {
   private readonly base = { component: "infra", operation: "translations" };
 
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
-  constructor(private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH) {}
+  constructor(
+    private readonly deps: Dependencies,
+    private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH,
+  ) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
     try {
-      return Bun.file(this.getTranslationPathForLanguage(language).get()).json();
+      return this.deps.JsonFileReader.read(this.getTranslationPathForLanguage(language));
     } catch {
       return {};
     }
   }
 
-  useTranslations(logger: LoggerPort, translations: TranslationsType) {
+  useTranslations(translations: TranslationsType) {
     const that = this;
 
     return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
       const translation = translations[key];
 
       if (!translation) {
-        logger.warn({ message: `Missing translation for key ${key}`, ...that.base });
+        that.deps.Logger.warn({ message: `Missing translation for key ${key}`, ...that.base });
         return key;
       }
 
