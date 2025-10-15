@@ -7,28 +7,26 @@ import * as prereqs from "../src/prerequisites.service";
 const minimum = tools.Size.fromMB(512);
 
 describe("prerequisites - ram", () => {
-  test("verify method returns success for valid RAM", async () => {
-    spyOn(os, "freemem").mockReturnValue(new tools.Size({ unit: tools.Size.unit.GB, value: 1 }).toBytes());
+  test("success", async () => {
+    spyOn(os, "freemem").mockReturnValue(tools.Size.fromMB(513).toBytes());
 
-    const prerequisite = new PrerequisiteRAM({ label: "ram", minimum });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(await new PrerequisiteRAM({ label: "ram", minimum }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("verify method returns failure for insufficient RAM", async () => {
+  test("failure", async () => {
     const freeRAM = tools.Size.fromMB(256);
     spyOn(os, "freemem").mockReturnValue(freeRAM.toBytes());
 
-    const prerequisite = new PrerequisiteRAM({ label: "ram", minimum });
-
-    expect(await prerequisite.verify()).toEqual(
+    expect(await new PrerequisiteRAM({ label: "ram", minimum }).verify()).toEqual(
       prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
     );
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteRAM({ label: "ram", enabled: false, minimum });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(await new PrerequisiteRAM({ label: "ram", enabled: false, minimum }).verify()).toEqual(
+      prereqs.Verification.undetermined(),
+    );
   });
 });
