@@ -3,15 +3,13 @@ import { PrerequisiteSelf } from "../src/prerequisites/self";
 import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - self", () => {
-  test("verify method returns success for self strategy", async () => {
-    const prerequisite = new PrerequisiteSelf({ label: "self" });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+  test("success", async () => {
+    expect(await new PrerequisiteSelf({ label: "self" }).verify()).toEqual(prereqs.Verification.success());
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteSelf({ label: "prerequisite", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(await new PrerequisiteSelf({ label: "self", enabled: false }).verify()).toEqual(
+      prereqs.Verification.undetermined(),
+    );
   });
 });
