@@ -31,7 +31,7 @@ describe("TemporaryFileAbsolute adapter", () => {
 
     expect(bunWriteSpy).toHaveBeenCalledWith(partial.get(), content);
     expect(renameSpy).toHaveBeenCalledWith(partial, final);
-    expect(path.get()).toEqual(final.get());
+    expect(path).toEqual(final);
   });
 
   test("write - Bun.write error", async () => {
@@ -57,6 +57,6 @@ describe("TemporaryFileAbsolute adapter", () => {
 
     await adapter.cleanup(filename);
 
-    expect(fileCleanerSpy.mock.calls[0][0]).toEqual(final);
+    expect(fileCleanerSpy).toHaveBeenCalledWith(final);
   });
 });

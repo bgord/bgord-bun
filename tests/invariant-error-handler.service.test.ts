@@ -35,7 +35,7 @@ export class ErrorHandler {
 }
 
 describe("InvariantErrorHandler service", () => {
-  test("throws formatted error", async () => {
+  test("happy path", async () => {
     const app = new Hono()
       .post("/ping", async (c) => {
         SampleInvariant.perform({ threshold: 15 });

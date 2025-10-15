@@ -12,10 +12,12 @@ const deps = { Clock, JsonFileReader };
 
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 
+const BUILD_DATE = tools.Timestamp.parse(123);
+
 describe("ApiVersion middleware", () => {
-  test("sets API version in header with known build version", async () => {
+  test("happy path", async () => {
     const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
-      BUILD_DATE: tools.Timestamp.parse(123),
+      BUILD_DATE,
       BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
     });
 
@@ -26,9 +28,9 @@ describe("ApiVersion middleware", () => {
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
   });
 
-  test("sets default API version in header with unknown build version", async () => {
+  test("unknown version", async () => {
     const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
-      BUILD_DATE: tools.Timestamp.parse(123),
+      BUILD_DATE,
       BUILD_VERSION: "unknown",
     });
 

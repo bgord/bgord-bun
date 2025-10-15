@@ -4,6 +4,7 @@ import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
 import type { I18nConfigType } from "../src/i18n.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Setup } from "../src/setup.service";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
@@ -11,6 +12,8 @@ import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware
 const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };
 
 const predefinedRequestId = "123";
+
+const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
 const Clock = new ClockSystemAdapter();
@@ -18,7 +21,7 @@ const Clock = new ClockSystemAdapter();
 const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
 
 const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
-  .use(...Setup.essentials({ Logger, I18n, IdProvider, Clock }))
+  .use(...Setup.essentials({ Logger, I18n, IdProvider, Clock, JsonFileReader }))
   .get("/ping", (c) =>
     c.json({
       requestId: c.get("requestId"),

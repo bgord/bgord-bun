@@ -3,13 +3,12 @@ import { EventLogger } from "../src/event-logger.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 const logger = new LoggerNoopAdapter();
-const commandLogger = new EventLogger(logger);
+const eventLogger = new EventLogger(logger);
 const eventName = "user.created";
 
 describe("EventLogger service", () => {
   test("happy path", () => {
     const loggerInfoSpy = spyOn(logger, "info");
-    const eventLogger = new EventLogger(logger);
 
     eventLogger.handle("emit", "debug:name", eventName, { userId: 123 });
 
@@ -26,7 +25,7 @@ describe("EventLogger service", () => {
   test("does not log subscribe commands", () => {
     const loggerInfo = spyOn(logger, "info");
 
-    commandLogger.handle("subscribe", "debug:name", eventName, { userId: 123 });
+    eventLogger.handle("subscribe", "debug:name", eventName, { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();
   });
@@ -34,7 +33,7 @@ describe("EventLogger service", () => {
   test("does not log commands with symbol names", () => {
     const loggerInfo = spyOn(logger, "info");
 
-    commandLogger.handle("emit", "debug:name", Symbol(eventName), { userId: 123 });
+    eventLogger.handle("emit", "debug:name", Symbol(eventName), { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();
   });

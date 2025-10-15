@@ -1,8 +1,14 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
 import { I18n } from "../src/i18n.service";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 import * as prereqs from "../src/prerequisites.service";
+
+const Logger = new LoggerNoopAdapter();
+const JsonFileReader = new JsonFileReaderNoopAdapter({});
+const deps = { Logger, JsonFileReader };
 
 const supportedLanguages = { en: "en", es: "es" };
 
@@ -11,7 +17,11 @@ describe("prerequisites - translations", () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
 
     expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } }).verify(),
+      await new PrerequisiteTranslations({
+        label: "i18n",
+        supportedLanguages: { en: "en" },
+        ...deps,
+      }).verify(),
     ).toEqual(prereqs.Verification.success());
   });
 
@@ -37,14 +47,19 @@ describe("prerequisites - translations", () => {
       }
     });
 
-    expect(await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }).verify()).toEqual(
-      prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }),
-    );
+    expect(
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, ...deps }).verify(),
+    ).toEqual(prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }));
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false }).verify(),
+      await new PrerequisiteTranslations({
+        label: "i18n",
+        supportedLanguages,
+        enabled: false,
+        ...deps,
+      }).verify(),
     ).toEqual(prereqs.Verification.undetermined());
   });
 });

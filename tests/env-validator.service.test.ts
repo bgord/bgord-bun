@@ -6,7 +6,7 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 const Schema = z.object({ APP_NAME: z.string() });
 
 describe("EnvValidator service", () => {
-  test("success", () => {
+  test("happy path", () => {
     process.env.APP_NAME = "MyApp";
 
     const result = new EnvironmentValidator<z.infer<typeof Schema>>({ type: "local", schema: Schema }).load();

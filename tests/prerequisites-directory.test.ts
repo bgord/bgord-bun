@@ -3,6 +3,7 @@ import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { PrerequisiteDirectory } from "../src/prerequisites/directory";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
@@ -16,11 +17,11 @@ describe("prerequisites - directory", () => {
   });
 
   test("failure - access throws an error", async () => {
-    spyOn(fsp, "access").mockRejectedValue(new Error("No access"));
+    spyOn(fsp, "access").mockRejectedValue(new Error(mocks.IntentialError));
 
     // @ts-expect-error
     expect((await new PrerequisiteDirectory({ label: "dir", directory }).verify()).error.message).toMatch(
-      /No access/,
+      mocks.IntentialError,
     );
   });
 

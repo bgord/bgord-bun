@@ -20,11 +20,11 @@ describe("ZipDraft service", () => {
   test("returns a buffer with ZIP signature", async () => {
     const zip = new FileDraftZip({ filename: "bundle.zip", parts: [new MockDraft("a.txt", "alpha")] });
 
-    const buf = await zip.create();
+    const buffer = await zip.create();
 
     // 0x50 0x4b 0x03 0x04 = "PK\003\004"
-    expect(buf.subarray(0, 4).toString("hex")).toEqual("504b0304");
-    expect(buf.length).toBeGreaterThan(22); // > local-file header size
+    expect(buffer.subarray(0, 4).toString("hex")).toEqual("504b0304");
+    expect(buffer.length).toBeGreaterThan(22); // > local-file header size
   });
 
   test("embeds all parts", async () => {
@@ -33,10 +33,9 @@ describe("ZipDraft service", () => {
 
     const zip = new FileDraftZip({ filename: "two.csv.zip", parts: [draftA, draftB] });
 
-    const buf = await zip.create();
-    const txt = buf.toString("utf8");
+    const text = (await zip.create()).toString("utf8");
 
-    expect(txt).toContain("first.csv");
-    expect(txt).toContain("second.csv");
+    expect(text).toContain("first.csv");
+    expect(text).toContain("second.csv");
   });
 });

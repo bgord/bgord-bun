@@ -46,7 +46,7 @@ describe("ShieldCaptchaRecaptcha", () => {
     expect(fetchSpy).toHaveBeenCalled();
   });
 
-  test("happy path - qury", async () => {
+  test("happy path - query", async () => {
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
     );

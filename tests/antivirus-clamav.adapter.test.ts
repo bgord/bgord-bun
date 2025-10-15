@@ -7,10 +7,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
   test("clean - exit code 0", async () => {
     const spawnSpy = spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async (_: Uint8Array) => {}, end: async () => {} },
-      stdout: mocks.stringToStream(""),
-      stderr: mocks.stringToStream(""),
       exitCode: 0,
-      exited: Promise.resolve(0),
     }));
 
     expect(await new AntivirusClamavAdapter().scanBytes(new Uint8Array([1, 2, 3]))).toEqual({ clean: true });
@@ -29,9 +26,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
     spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async () => {}, end: async () => {} },
       stdout: mocks.stringToStream("stream: Eicar-Test-Signature FOUND\n"),
-      stderr: mocks.stringToStream(""),
       exitCode: 1,
-      exited: Promise.resolve(1),
     }));
 
     expect(await new AntivirusClamavAdapter().scanBytes(new Uint8Array([0x45]))).toEqual({
@@ -41,13 +36,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
   });
 
   test("ScanFailed", async () => {
-    spyOn(Bun, "spawn").mockImplementation((): any => ({
-      stdin: null,
-      stdout: mocks.stringToStream(""),
-      stderr: mocks.stringToStream(""),
-      exitCode: 2,
-      exited: Promise.resolve(2),
-    }));
+    spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }) as any);
 
     expect(() => new AntivirusClamavAdapter().scanBytes(new Uint8Array([1]))).toThrow(
       AntivirusPortError.ScanFailed,

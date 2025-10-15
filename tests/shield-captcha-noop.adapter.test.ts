@@ -3,12 +3,10 @@ import { Hono } from "hono";
 import { ShieldCaptchaNoop } from "../src/shield-captcha-noop.adapter";
 
 describe("ShieldCaptchaNoop", () => {
-  test("allows requests through to downstream handler", async () => {
+  test("happy path", async () => {
     const shield = new ShieldCaptchaNoop();
 
-    const app = new Hono();
-    app.use("/secure", shield.verify);
-    app.post("/secure", (c) => c.text("OK"));
+    const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 

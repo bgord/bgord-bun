@@ -2,11 +2,13 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { CommandLogger } from "../src/command-logger.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
+const logger = new LoggerNoopAdapter();
+
+const commandLogger = new CommandLogger(logger);
+
 describe("Command logger", () => {
   test("logs emitted command with metadata", () => {
-    const logger = new LoggerNoopAdapter();
     const loggerInfo = spyOn(logger, "info");
-    const commandLogger = new CommandLogger(logger as any);
 
     commandLogger.handle("emit", "debug:name", "user.created", { userId: 123 });
 
@@ -19,9 +21,7 @@ describe("Command logger", () => {
   });
 
   test("does not log subscribe commands", () => {
-    const logger = new LoggerNoopAdapter();
     const loggerInfo = spyOn(logger, "info");
-    const commandLogger = new CommandLogger(logger as any);
 
     commandLogger.handle("subscribe", "debug:name", "user.created", { userId: 123 });
 
@@ -29,9 +29,7 @@ describe("Command logger", () => {
   });
 
   test("does not log commands with symbol names", () => {
-    const logger = new LoggerNoopAdapter();
     const loggerInfo = spyOn(logger, "info");
-    const commandLogger = new CommandLogger(logger as any);
 
     commandLogger.handle("emit", "debug:name", Symbol("user.created") as any, { userId: 123 });
 

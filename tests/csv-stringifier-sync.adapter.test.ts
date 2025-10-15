@@ -3,7 +3,7 @@ import { text } from "node:stream/consumers";
 import { CsvStringifierAdapter } from "../src/csv-stringifier.adapter";
 
 describe("CsvStringifierAdapter", async () => {
-  test("works", async () => {
+  test("happy path", async () => {
     const columns = ["id", "name"];
     const data = [
       { id: 1, name: "Anne" },

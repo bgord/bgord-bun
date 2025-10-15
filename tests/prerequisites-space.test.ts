@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import * as checkDiskSpace from "check-disk-space";
 import { PrerequisiteSpace } from "../src/prerequisites/space";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
 
 const minimum = tools.Size.fromMB(50);
 
@@ -28,11 +29,11 @@ describe("prerequisites - space", () => {
   });
 
   test("failure - error", async () => {
-    spyOn(checkDiskSpace, "default").mockRejectedValue(new Error("Access error"));
+    spyOn(checkDiskSpace, "default").mockRejectedValue(new Error(mocks.IntentialError));
 
     // @ts-expect-error
     expect((await new PrerequisiteSpace({ label: "space", minimum }).verify()).error.message).toMatch(
-      /Access error/,
+      mocks.IntentialError,
     );
   });
 

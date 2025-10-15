@@ -7,8 +7,10 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 const NOW = tools.Timestamp.parse(Date.UTC(2025, 0, 1, 12, 0, 0));
 const Clock = new ClockFixedAdapter(NOW);
 
-describe("CertificateInspectorTLSAdapter (mocked tls, simplest)", () => {
-  test("successful true and remaining 30 days", async () => {
+const adapter = new CertificateInspectorTLSAdapter({ Clock });
+
+describe("CertificateInspectorTLSAdapter", () => {
+  test("success - remaining 30 days", async () => {
     const valid_to = new Date(tools.Time.Now(Clock.nowMs()).Add(tools.Duration.Days(30))).toUTCString();
 
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
@@ -26,12 +28,10 @@ describe("CertificateInspectorTLSAdapter (mocked tls, simplest)", () => {
       return socket;
     });
 
-    const adapter = new CertificateInspectorTLSAdapter({ Clock });
-
     expect(await adapter.inspect("example.com")).toEqual({ success: true, daysRemaining: 30 });
   });
 
-  test("successful true and expired 2 days ago", async () => {
+  test("success - expired 2 days ago", async () => {
     const valid_to = new Date(tools.Time.Now(Clock.nowMs()).Add(tools.Duration.Days(-2))).toUTCString();
 
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
@@ -49,12 +49,10 @@ describe("CertificateInspectorTLSAdapter (mocked tls, simplest)", () => {
       return socket;
     });
 
-    const adapter = new CertificateInspectorTLSAdapter({ Clock });
-
     expect(await adapter.inspect("expired.example")).toEqual({ success: true, daysRemaining: -2 });
   });
 
-  test("connection error", async () => {
+  test("failre - connection error", async () => {
     spyOn(tls, "connect").mockImplementation((_opts: any, _onSecure: any) => {
       let onError: any;
       const socket: any = {
@@ -72,12 +70,10 @@ describe("CertificateInspectorTLSAdapter (mocked tls, simplest)", () => {
       return socket;
     });
 
-    const adapter = new CertificateInspectorTLSAdapter({ Clock });
-
     expect(await adapter.inspect("nope.invalid")).toEqual({ success: false });
   });
 
-  test("connect succeeds but certificate is missing", async () => {
+  test("failure - missing certificate", async () => {
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
@@ -92,8 +88,6 @@ describe("CertificateInspectorTLSAdapter (mocked tls, simplest)", () => {
       queueMicrotask(onSecure);
       return socket;
     });
-
-    const adapter = new CertificateInspectorTLSAdapter({ Clock });
 
     expect(await adapter.inspect("nocert.example")).toEqual({ success: false });
   });

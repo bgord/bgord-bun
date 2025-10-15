@@ -1,4 +1,5 @@
 import { Writable } from "node:stream";
+import type { Context } from "hono";
 import * as winston from "winston";
 
 export function stringToStream(string: string): ReadableStream<Uint8Array> {
@@ -24,4 +25,11 @@ export function makeCaptureTransport() {
   const transport = new winston.transports.Stream({ stream });
 
   return { transport, lines };
+}
+
+export function createContext(headers: Record<string, string | undefined>): Context {
+  return {
+    req: { header: (name: string) => headers[name.toLowerCase()] ?? undefined },
+    env: { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } },
+  } as unknown as Context;
 }

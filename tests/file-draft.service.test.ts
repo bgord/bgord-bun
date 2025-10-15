@@ -16,6 +16,7 @@ class AlphabetFile extends FileDraft {
 describe("FileDraft", () => {
   test("getters", () => {
     const file = new AlphabetFile();
+
     expect(file.config.filename).toEqual("alphabet.txt");
     expect(file.config.mime.toString()).toEqual("text/plain");
     expect(file.getHeaders().get("content-type")).toEqual("text/plain");
@@ -23,8 +24,7 @@ describe("FileDraft", () => {
   });
 
   test("toResponse", async () => {
-    const app = new Hono();
-    app.get("/file", async () => new AlphabetFile().toResponse());
+    const app = new Hono().get("/file", async () => new AlphabetFile().toResponse());
 
     const result = await app.request("/file");
     const text = await result.text();
@@ -36,8 +36,10 @@ describe("FileDraft", () => {
   });
 
   test("toAttachment", async () => {
-    const attachment = await new AlphabetFile().toAttachment();
-
-    expect(attachment).toEqual({ filename: "alphabet.txt", contentType: "text/plain", content: "abc" });
+    expect(await new AlphabetFile().toAttachment()).toEqual({
+      filename: "alphabet.txt",
+      contentType: "text/plain",
+      content: "abc",
+    });
   });
 });
