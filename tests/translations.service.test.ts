@@ -8,16 +8,16 @@ enum SupportedLanguages {
   pl = "pl",
 }
 
-const app = new Hono();
-app.use(
-  languageDetector({
-    supportedLanguages: Object.keys(SupportedLanguages),
-    fallbackLanguage: SupportedLanguages.en,
-  }),
-);
-app.get("/get-translations", ...Translations.build());
+const app = new Hono()
+  .use(
+    languageDetector({
+      supportedLanguages: Object.keys(SupportedLanguages),
+      fallbackLanguage: SupportedLanguages.en,
+    }),
+  )
+  .get("/get-translations", ...Translations.build());
 
-describe("GET /translations", () => {
+describe("Translations service", () => {
   test("happy path - no language specified", async () => {
     spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
 

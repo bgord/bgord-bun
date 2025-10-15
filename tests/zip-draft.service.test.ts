@@ -16,8 +16,8 @@ class MockDraft extends FileDraft {
   }
 }
 
-describe("ZipDraft", () => {
-  test("ZipDraft returns a buffer with ZIP signature", async () => {
+describe("ZipDraft service", () => {
+  test("returns a buffer with ZIP signature", async () => {
     const zip = new FileDraftZip({ filename: "bundle.zip", parts: [new MockDraft("a.txt", "alpha")] });
 
     const buf = await zip.create();
@@ -27,7 +27,7 @@ describe("ZipDraft", () => {
     expect(buf.length).toBeGreaterThan(22); // > local-file header size
   });
 
-  test("ZipDraft embeds all parts", async () => {
+  test("embeds all parts", async () => {
     const draftA = new MockDraft("first.csv", "id\n1");
     const draftB = new MockDraft("second.csv", "id\n2");
 

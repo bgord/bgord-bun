@@ -21,7 +21,7 @@ describe("WeakETagExtractor middleware", () => {
     expect(json.value).toEqual("W/12345");
   });
 
-  test("handles missing WeakETag header", async () => {
+  test("missing WeakETag header", async () => {
     const app = new Hono<{ Variables: EtagVariables }>()
       .use(WeakETagExtractor.attach)
       .get("/ping", (c) => c.json(c.get("WeakETag")));
@@ -33,7 +33,7 @@ describe("WeakETagExtractor middleware", () => {
     expect(json).toEqual(null);
   });
 
-  test("handles invalid WeakETag header", async () => {
+  test("invalid WeakETag header", async () => {
     const app = new Hono<{ Variables: EtagVariables }>()
       .use(WeakETagExtractor.attach)
       .get("/ping", (c) => c.json(c.get("WeakETag")));
