@@ -20,13 +20,12 @@ const adapter = new ImageResizerSharpAdapter(deps);
 
 describe("ImageResizerSharpAdapter", () => {
   test("in_place", async () => {
-    const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const resizeSpy = spyOn(pipeline, "resize").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotateSpy = spyOn(pipeline, "rotate");
+    const resizeSpy = spyOn(pipeline, "resize");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
@@ -60,7 +59,7 @@ describe("ImageResizerSharpAdapter", () => {
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
@@ -91,7 +90,7 @@ describe("ImageResizerSharpAdapter", () => {
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
@@ -108,12 +107,8 @@ describe("ImageResizerSharpAdapter", () => {
   });
 
   test("output_path - jpg to jpeg", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    spyOn(pipeline, "resize").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFormatSpy = spyOn(pipeline, "toFormat");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/a/in.jpeg");

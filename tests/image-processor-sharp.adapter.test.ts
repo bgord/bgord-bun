@@ -23,14 +23,13 @@ const pipeline = {
 
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
-    const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const flattenSpy = spyOn(pipeline, "flatten").mockReturnValue(pipeline);
-    const resizeSpy = spyOn(pipeline, "resize").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotateSpy = spyOn(pipeline, "rotate");
+    const flattenSpy = spyOn(pipeline, "flatten");
+    const resizeSpy = spyOn(pipeline, "resize");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
     const fileCleanerSpy = spyOn(FileCleaner, "delete");
 
@@ -72,14 +71,13 @@ describe("ImageProcessorSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const flattenSpy = spyOn(pipeline, "flatten").mockReturnValue(pipeline);
-    const resizeSpy = spyOn(pipeline, "resize").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotateSpy = spyOn(pipeline, "rotate");
+    const flattenSpy = spyOn(pipeline, "flatten");
+    const resizeSpy = spyOn(pipeline, "resize");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
     const fileCleanerSpy = spyOn(FileCleaner, "delete");
 

@@ -2,13 +2,14 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileHashSha256BunAdapter } from "../src/file-hash-sha256-bun.adapter";
 
+const adapter = new FileHashSha256BunAdapter();
+
 describe("FileHashBunWebCryptoAdapter.hash", () => {
-  test("hashes absolute path (sha256 of 'hello') and returns bytes", async () => {
+  test("absolute path", async () => {
     const fakeFile = { arrayBuffer: async () => new TextEncoder().encode("hello").buffer, lastModified: 0 };
     // @ts-expect-error
-    const bunFileSpy = spyOn(Bun, "file").mockImplementation((_p: string) => fakeFile);
+    const bunFileSpy = spyOn(Bun, "file").mockImplementation(() => fakeFile);
 
-    const adapter = new FileHashSha256BunAdapter();
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.pdf");
 
     const result = await adapter.hash(input);
@@ -21,12 +22,11 @@ describe("FileHashBunWebCryptoAdapter.hash", () => {
     expect(result.mime.toString()).toEqual("application/pdf");
   });
 
-  test("hashes relative path (sha256 of 'abc') and returns bytes", async () => {
+  test("relative path", async () => {
     const fakeFile = { arrayBuffer: async () => new TextEncoder().encode("abc").buffer, lastModified: 0 };
     // @ts-expect-error
-    const bunFileSpy = spyOn(Bun, "file").mockImplementation((_p: string) => fakeFile);
+    const bunFileSpy = spyOn(Bun, "file").mockImplementation(() => fakeFile);
 
-    const adapter = new FileHashSha256BunAdapter();
     const input = tools.FilePathRelative.fromString("images/payload.bin");
 
     const result = await adapter.hash(input);

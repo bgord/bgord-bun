@@ -4,12 +4,17 @@ import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import * as prereqs from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
 
+const Logger = new LoggerNoopAdapter();
+const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const Clock = new ClockFixedAdapter(1234);
-const deps = { Clock };
+
+const deps = { Clock, JsonFileReader, Logger };
 
 class Ok implements prereqs.Prerequisite {
   readonly label = "ok";

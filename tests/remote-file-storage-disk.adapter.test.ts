@@ -3,8 +3,8 @@ import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileHashNoopAdapter } from "../src/file-hash-noop.adapter";
-import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
+import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 
 const FileHash = new FileHashNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();

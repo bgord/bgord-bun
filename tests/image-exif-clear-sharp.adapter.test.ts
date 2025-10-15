@@ -21,11 +21,10 @@ const adapter = new ImageExifClearSharpAdapter(deps);
 
 describe("ImageExifClearSharpAdapter", () => {
   test("in_place", async () => {
-    const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotateSpy = spyOn(pipeline, "rotate");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpeg");
@@ -45,11 +44,9 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/source.jpeg");
@@ -69,10 +66,8 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFileSpy = spyOn(pipeline, "toFile");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
@@ -86,10 +81,8 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFileSpy = spyOn(pipeline, "toFile");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("in/source.jpeg");

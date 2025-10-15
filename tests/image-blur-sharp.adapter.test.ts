@@ -20,13 +20,12 @@ const adapter = new ImageBlurSharpAdapter(deps);
 
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
-    const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const blurSpy = spyOn(pipeline, "blur").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotateSpy = spyOn(pipeline, "rotate");
+    const blurSpy = spyOn(pipeline, "blur");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
@@ -52,13 +51,11 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const blurSpy = spyOn(pipeline, "blur").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const blurSpy = spyOn(pipeline, "blur");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
@@ -82,13 +79,10 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("in_place - relateive", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    spyOn(pipeline, "blur").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
@@ -106,11 +100,8 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFormatSpy = spyOn(pipeline, "toFormat");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
@@ -119,9 +110,9 @@ describe("ImageBlurSharpAdapter", () => {
 
     await adapter.blur(recipe);
 
-    const blurred = tools.FilePathAbsolute.fromString("/x/out/photo-blurred.jpg");
-
     expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
-    expect(renameSpy).toHaveBeenCalledWith(blurred, output);
+
+    const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-blurred.jpg");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
 });

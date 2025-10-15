@@ -20,13 +20,12 @@ const adapter = new ImageAlphaSharpAdapter(deps);
 
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
-    const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const flattenSpy = spyOn(pipeline, "flatten").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
-
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotateSpy = spyOn(pipeline, "rotate");
+    const flattenSpy = spyOn(pipeline, "flatten");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
+    const destroySpy = spyOn(pipeline, "destroy");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
@@ -50,12 +49,9 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const flattenSpy = spyOn(pipeline, "flatten").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
-
+    const flattenSpy = spyOn(pipeline, "flatten");
+    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFileSpy = spyOn(pipeline, "toFile");
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(FileRenamer, "rename");
 
@@ -80,13 +76,9 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    spyOn(pipeline, "flatten").mockReturnValue(pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
-
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
@@ -103,12 +95,8 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    spyOn(pipeline, "destroy").mockReturnValue();
-
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFormatSpy = spyOn(pipeline, "toFormat");
     const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");

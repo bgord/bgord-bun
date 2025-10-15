@@ -11,13 +11,13 @@ const instance = { metadata: async () => ({}) as any, destroy: () => {} };
 
 describe("ImageInfoSharpAdapter", () => {
   test("absolute path", async () => {
+    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
     const metadataSpy = spyOn(instance, "metadata").mockResolvedValue({
       width: 120,
       height: 80,
       format: "jpeg",
     });
-    const destroySpy = spyOn(instance, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
+    const destroySpy = spyOn(instance, "destroy");
     const bunFileSpy = spyOn(Bun, "file").mockReturnValue(size);
 
     const info = await adapter.inspect(input);
@@ -33,13 +33,13 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("relative path", async () => {
+    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
     const metadataSpy = spyOn(instance, "metadata").mockResolvedValue({
       width: 64,
       height: 64,
       format: "png",
     });
-    const destroySpy = spyOn(instance, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
+    const destroySpy = spyOn(instance, "destroy");
     const bunFileSpy = spyOn(Bun, "file").mockReturnValue(size);
 
     const info = await adapter.inspect(input);
@@ -53,7 +53,7 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("error - extension empty", async () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
-    const destroySpy = spyOn(instance, "destroy").mockReturnValue();
+    const destroySpy = spyOn(instance, "destroy");
 
     spyOn(sharpModule as any, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);
@@ -64,7 +64,7 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("error - width", async () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" });
-    const destroySpy = spyOn(instance, "destroy").mockReturnValue();
+    const destroySpy = spyOn(instance, "destroy");
 
     spyOn(sharpModule as any, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);

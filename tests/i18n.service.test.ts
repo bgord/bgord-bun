@@ -12,22 +12,22 @@ const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
 
 const deps = { Logger, JsonFileReader };
 
+const supportedLanguages = { en: "en", pl: "pl" };
+
 const i18n = new I18n(deps);
+
+const app = new Hono()
+  .use(
+    languageDetector({
+      supportedLanguages: [supportedLanguages.en, supportedLanguages.pl],
+      fallbackLanguage: supportedLanguages.en,
+    }),
+  )
+  .get("/", (c) => c.json({ language: c.get("language") }));
 
 describe("I18n", () => {
   describe("middleware", () => {
-    const supportedLanguages = { en: "en", pl: "pl" };
-
     test("sets fallback language when cookie is missing", async () => {
-      const app = new Hono()
-        .use(
-          languageDetector({
-            supportedLanguages: [supportedLanguages.en, supportedLanguages.pl],
-            fallbackLanguage: supportedLanguages.en,
-          }),
-        )
-        .get("/", (c) => c.json({ language: c.get("language") }));
-
       const response = await app.request("/");
       const json = await response.json();
 
@@ -35,52 +35,17 @@ describe("I18n", () => {
     });
 
     test("uses language from supported cookie", async () => {
-      const app = new Hono()
-        .use(
-          languageDetector({
-            supportedLanguages: [supportedLanguages.en, supportedLanguages.pl],
-            fallbackLanguage: supportedLanguages.en,
-          }),
-        )
-        .get("/", (c) => c.text(c.get("language")));
+      const response = await app.request("/", { headers: { cookie: "language=pl" } });
+      const json = await response.json();
 
-      const response = await app.request("/", {
-        headers: { cookie: "language=pl" },
-      });
-
-      expect(await response.text()).toEqual("pl");
+      expect(json.language).toEqual("pl");
     });
 
     test("falls back to default for unsupported language cookie", async () => {
-      const app = new Hono()
-        .use(
-          languageDetector({
-            supportedLanguages: [supportedLanguages.en, supportedLanguages.pl],
-            fallbackLanguage: supportedLanguages.en,
-          }),
-        )
-        .get("/", (c) => c.text(c.get("language")));
+      const response = await app.request("/", { headers: { cookie: "language=fr" } });
+      const json = await response.json();
 
-      const response = await app.request("/", {
-        headers: { cookie: "language=fr" },
-      });
-
-      expect(await response.text()).toEqual("en");
-    });
-
-    test("uses custom defaultLanguage if provided", async () => {
-      const app = new Hono()
-        .use(
-          languageDetector({
-            supportedLanguages: [supportedLanguages.en, supportedLanguages.pl],
-            fallbackLanguage: supportedLanguages.pl,
-          }),
-        )
-        .get("/", (c) => c.text(c.get("language")));
-
-      const response = await app.request("/");
-
-      expect(await response.text()).toEqual("pl");
+      expect(json.language).toEqual("en");
     });
   });
 

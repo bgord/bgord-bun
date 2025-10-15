@@ -1,9 +1,9 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
+import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { TemporaryFileAbsolute } from "../src/temporary-file-absolute.adapter";
 import * as mocks from "./mocks";
-import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
 

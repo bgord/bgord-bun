@@ -5,16 +5,14 @@ import { FileTooBigError, FileUploader, InvalidFileMimeTypeError } from "../src/
 
 const boundary = "----bun-test-boundary";
 
-const headers = {
-  "Content-Type": `multipart/form-data; boundary=${boundary}`,
-};
+const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
+
+const app = new Hono()
+  .use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }))
+  .post("/uploader", (c) => c.text("uploaded"));
 
 describe("File uploader", () => {
   test("accepts valid file upload", async () => {
-    const app = new Hono();
-    app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }));
-    app.post("/uploader", (c) => c.text("uploaded"));
-
     const content = [
       `--${boundary}`,
       'Content-Disposition: form-data; name="file"; filename="image.png"',
@@ -37,10 +35,6 @@ describe("File uploader", () => {
   });
 
   test("rejects invalid MIME type", async () => {
-    const app = new Hono();
-    app.use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }));
-    app.post("/uploader", (c) => c.text("uploaded"));
-
     const content = [
       `--${boundary}`,
       'Content-Disposition: form-data; name="file"; filename="document.pdf"',
@@ -63,9 +57,9 @@ describe("File uploader", () => {
   });
 
   test("rejects file too big", async () => {
-    const app = new Hono();
-    app.use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize: tools.Size.fromBytes(1) }));
-    app.post("/uploader", (c) => c.text("uploaded"));
+    const app = new Hono()
+      .use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize: tools.Size.fromBytes(1) }))
+      .post("/uploader", (c) => c.text("uploaded"));
 
     const content = [
       `--${boundary}`,

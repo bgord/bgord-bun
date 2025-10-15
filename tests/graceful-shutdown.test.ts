@@ -125,7 +125,6 @@ describe("GracefulShutdown", () => {
     process.emit("SIGINT");
     await tick();
 
-    // second emit should be ignored (once + isShuttingDown)
     process.emit("SIGINT");
     await tick();
 
