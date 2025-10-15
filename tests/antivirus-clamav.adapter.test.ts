@@ -4,7 +4,7 @@ import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 import * as mocks from "./mocks";
 
 describe("AntivirusClamavAdapter.scanBytes", () => {
-  test("clean for exit code 0", async () => {
+  test("clean - exit code 0", async () => {
     const spawnSpy = spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async (_: Uint8Array) => {}, end: async () => {} },
       stdout: mocks.stringToStream(""),
@@ -25,7 +25,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
     ]);
   });
 
-  test("not clean when signature found", async () => {
+  test("not clean - signature found", async () => {
     spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async () => {}, end: async () => {} },
       stdout: mocks.stringToStream("stream: Eicar-Test-Signature FOUND\n"),
@@ -40,7 +40,7 @@ describe("AntivirusClamavAdapter.scanBytes", () => {
     });
   });
 
-  test("throws for ScanFailed", async () => {
+  test("ScanFailed", async () => {
     spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: null,
       stdout: mocks.stringToStream(""),

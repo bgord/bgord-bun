@@ -7,26 +7,24 @@ import * as prereqs from "../src/prerequisites.service";
 const supportedLanguages = { en: "en", es: "es" };
 
 describe("prerequisites - translations", () => {
-  test("verify method returns success for translations that exists", async () => {
+  test("success", async () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
 
-    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } }).verify(),
+    ).toEqual(prereqs.Verification.success());
   });
 
-  test("verify method returns failure for translations that not exist", async () => {
+  test("failure - missing file", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
 
-    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages });
-
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(/Does not exist/);
+    expect(
+      // @ts-expect-error
+      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }).verify()).error.message,
+    ).toMatch(/Does not exist/);
   });
 
-  test("verify method returns failure for inconsistent translations", async () => {
-    // @ts-expect-error
-    spyOn(process, "exit").mockImplementation(() => {});
+  test("failure - inconsistent translations", async () => {
     spyOn(fsp, "access").mockImplementation(jest.fn());
     spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
       switch (language) {
@@ -39,16 +37,14 @@ describe("prerequisites - translations", () => {
       }
     });
 
-    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages });
-
-    expect(await prerequisite.verify()).toEqual(
+    expect(await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }).verify()).toEqual(
       prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }),
     );
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });
