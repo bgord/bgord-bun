@@ -3,27 +3,26 @@ import * as tools from "@bgord/tools";
 import { PrerequisiteTimezoneUTC } from "../src/prerequisites/timezone-utc";
 import * as prereqs from "../src/prerequisites.service";
 
-describe("prerequisites - timezone utc", () => {
-  test("returns success if timezone is valid UTC", async () => {
-    const timezone = tools.Timezone.parse("UTC");
-    const prerequisite = new PrerequisiteTimezoneUTC({ label: "tz", timezone });
+const utc = tools.Timezone.parse("UTC");
 
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+describe("prerequisites - timezone utc", () => {
+  test("success", async () => {
+    expect(await new PrerequisiteTimezoneUTC({ label: "utc", timezone: utc }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("returns failure if timezone is invalid", async () => {
+  test("failure", async () => {
     const timezone = tools.Timezone.parse("Europe/Warsaw");
-    const prerequisite = new PrerequisiteTimezoneUTC({ label: "tz", timezone });
 
-    expect(await prerequisite.verify()).toEqual(
+    expect(await new PrerequisiteTimezoneUTC({ label: "utc", timezone }).verify()).toEqual(
       prereqs.Verification.failure({ message: `Timezone: ${timezone}` }),
     );
   });
 
   test("undetermined", async () => {
-    const timezone = tools.Timezone.parse("UTC");
-    const prerequisite = new PrerequisiteTimezoneUTC({ label: "tz", timezone, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteTimezoneUTC({ label: "utc", timezone: utc, enabled: false }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });
