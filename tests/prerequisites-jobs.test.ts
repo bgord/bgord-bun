@@ -3,31 +3,27 @@ import { PrerequisiteJobs } from "../src/prerequisites/jobs";
 import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - jobs", () => {
-  test("verify method returns success for all jobs running", async () => {
-    const prerequisite = new PrerequisiteJobs({
-      label: "jobs",
-      jobs: { a: { isRunning: () => true } as any },
-    });
+  test("success - all jobs running", async () => {
+    const jobs = { a: { isRunning: () => true } as any };
 
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("verify method returns failure for at least one job not running", async () => {
-    const prerequisite = new PrerequisiteJobs({
-      label: "jobs",
-      jobs: { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any },
-    });
+  test("failure - one job not running", async () => {
+    const jobs = { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any };
 
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure());
+    expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify()).toEqual(
+      prereqs.Verification.failure(),
+    );
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteJobs({
-      label: "jobs",
-      enabled: false,
-      jobs: { a: { isRunning: () => true } as any },
-    });
+    const jobs = { a: { isRunning: () => true } as any };
 
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(await new PrerequisiteJobs({ label: "jobs", enabled: false, jobs }).verify()).toEqual(
+      prereqs.Verification.undetermined(),
+    );
   });
 });

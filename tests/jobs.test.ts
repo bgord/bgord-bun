@@ -1,9 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import * as croner from "croner";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { JobHandler, Jobs } from "../src/jobs.service";
+import { JobHandler } from "../src/jobs.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 const Logger = new LoggerNoopAdapter();

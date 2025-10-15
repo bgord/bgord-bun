@@ -16,10 +16,7 @@ export class PrerequisiteJobs implements prereqs.Prerequisite {
 
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
-
-    const areAllJobsRunning = Jobs.areAllRunning(this.jobs);
-
-    if (areAllJobsRunning) return prereqs.Verification.success();
+    if (Jobs.areAllRunning(this.jobs)) return prereqs.Verification.success();
     return prereqs.Verification.failure();
   }
 }
