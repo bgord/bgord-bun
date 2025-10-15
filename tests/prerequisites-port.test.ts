@@ -21,7 +21,7 @@ describe("prerequisites - port", () => {
     occupied.stop();
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisitePort({ port: PORT, label: "port", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

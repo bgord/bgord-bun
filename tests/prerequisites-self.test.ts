@@ -9,7 +9,7 @@ describe("prerequisites - self", () => {
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
   });
 
-  test("returns undetermined when disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteSelf({ label: "prerequisite", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

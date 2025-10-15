@@ -45,7 +45,7 @@ describe("prerequisites - ssl certificate expiry (port-based)", () => {
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "Unavailable" }));
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({
       host: "example.com",
       days: 30,

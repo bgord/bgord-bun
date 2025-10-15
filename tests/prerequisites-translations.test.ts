@@ -46,7 +46,7 @@ describe("prerequisites - translations", () => {
     );
   });
 
-  test("returns undetermined when disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

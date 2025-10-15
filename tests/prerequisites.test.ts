@@ -57,7 +57,7 @@ describe("Prerequisites", () => {
     );
   });
 
-  test("treats undetermined as ok (no exit)", async () => {
+  test("undetermined", async () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
     await runner.check([new Ok(), new Undetermined()]);
     expect(loggerInfoSpy).toHaveBeenCalledWith(

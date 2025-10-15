@@ -24,7 +24,7 @@ describe("prerequisites - running user", () => {
     userInfoSpy.mockRestore();
   });
 
-  test("returns undetermined when disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteRunningUser({ label: "user", username: "appuser", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

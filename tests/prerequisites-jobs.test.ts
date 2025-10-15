@@ -21,7 +21,7 @@ describe("prerequisites - jobs", () => {
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure());
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteJobs({
       label: "jobs",
       enabled: false,

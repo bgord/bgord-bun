@@ -20,7 +20,7 @@ describe("prerequisites - timezone utc", () => {
     );
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const timezone = tools.Timezone.parse("UTC");
     const prerequisite = new PrerequisiteTimezoneUTC({ label: "tz", timezone, enabled: false });
 

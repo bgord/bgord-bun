@@ -19,7 +19,7 @@ describe("prerequisites - external api", () => {
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteExternalApi({
       label: "api",
       request: () => fetch("http://api"),

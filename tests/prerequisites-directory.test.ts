@@ -24,7 +24,7 @@ describe("prerequisites - directory", () => {
     expect((await prerequisite.verify()).error.message).toMatch(/No access/);
   });
 
-  test("returns undetermined if prerequisite is disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory: directory, enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

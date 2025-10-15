@@ -29,7 +29,7 @@ describe("prerequisites - memory", () => {
     );
   });
 
-  test("returns undetermined when the check is disabled", async () => {
+  test("undetermined", async () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: maximum }));
 

@@ -27,7 +27,7 @@ describe("prerequisites - node", () => {
     );
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteNode({
       label: "node",
       version: base,

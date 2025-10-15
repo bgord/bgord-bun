@@ -33,7 +33,7 @@ describe("prerequisites - bun", () => {
     );
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteBun({
       label: "bun",
       enabled: false,

@@ -26,7 +26,7 @@ describe("prerequisites - ram", () => {
     );
   });
 
-  test("returns undetermined when disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteRAM({ label: "ram", enabled: false, minimum });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

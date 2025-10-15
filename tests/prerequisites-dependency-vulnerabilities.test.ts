@@ -116,7 +116,7 @@ describe("prerequisites - dependency vulnerabilities", () => {
     expect((await prerequisite.verify()).error.message).toMatch(/Unexpected identifier "abc"/);
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

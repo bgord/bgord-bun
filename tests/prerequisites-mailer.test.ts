@@ -21,7 +21,7 @@ describe("prerequisites - mailer", () => {
     expect((await prerequisite.verify()).error.message).toMatch(/SMTP error/);
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteMailer({ label: "mailer", enabled: false, mailer: mockMailer });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

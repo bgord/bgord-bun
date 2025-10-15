@@ -38,7 +38,7 @@ describe("prerequisites - space", () => {
     expect((await prerequisite.verify()).error.message).toMatch(/Check disk error/);
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteSpace({ label: "Disk", minimum, enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

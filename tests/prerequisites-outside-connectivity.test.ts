@@ -27,7 +27,7 @@ describe("prerequisites - outside connectivity", () => {
     expect((await prerequisite.verify()).error.message).toMatch(/Network error/);
   });
 
-  test("returns undetermined when disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteOutsideConnectivity({ label: "prerequisite", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

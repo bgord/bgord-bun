@@ -36,7 +36,7 @@ describe("prerequisites - log file", () => {
     expect((await prerequisite.verify()).error.message).toMatch(/FS error/);
   });
 
-  test("returns undetermined when disabled", async () => {
+  test("undetermined", async () => {
     const prerequisite = new PrerequisiteLogFile({ logger, label: "log-file", enabled: false });
 
     expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());

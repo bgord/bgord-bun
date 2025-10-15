@@ -7,7 +7,7 @@ import * as prereqs from "../src/prerequisites.service";
 const binary = Binary.parse("node");
 
 describe("prerequisites - binary", () => {
-  test("returns success if binary is found", async () => {
+  test("success - binary is found", async () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 0 }) }));
 
@@ -16,7 +16,7 @@ describe("prerequisites - binary", () => {
     );
   });
 
-  test("returns failure if binary is not found", async () => {
+  test("failure - binary is not found", async () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
 
@@ -25,7 +25,7 @@ describe("prerequisites - binary", () => {
     );
   });
 
-  test("returns undetermined if disabled", async () => {
+  test("undetermined", async () => {
     expect(await new PrerequisiteBinary({ label: "binary", binary, enabled: false }).verify()).toEqual(
       prereqs.Verification.undetermined(),
     );
