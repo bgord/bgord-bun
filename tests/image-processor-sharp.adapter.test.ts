@@ -1,13 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import * as sharpModule from "sharp";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
+import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
 import { ImageProcessorSharpAdapter } from "../src/image-processor-sharp.adapter";
 
 const FileCleaner = new FileCleanerNoopAdapter();
-const deps = { FileCleaner };
+const FileRenamer = new FileRenamerNoopAdapter();
+const deps = { FileCleaner, FileRenamer };
 
 const adapter = new ImageProcessorSharpAdapter(deps);
 
@@ -30,7 +31,7 @@ describe("ImageProcessorSharpAdapter", () => {
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
+    const renameSpy = spyOn(FileRenamer, "rename");
     const fileCleanerSpy = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/var/in/photo.png");
@@ -56,13 +57,15 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(format).toEqual("webp");
     expect(opts).toMatchObject({ quality: 72 });
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("/var/in/photo-processed.webp");
-    expect(renameSpy).toHaveBeenCalledWith(temporary, "/var/in/photo.webp");
+    const temporary = tools.FilePathAbsolute.fromString("/var/in/photo-processed.webp");
+    const formatted = tools.FilePathAbsolute.fromString("/var/in/photo.webp");
+
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(renameSpy).toHaveBeenCalledWith(temporary, formatted);
 
     expect(fileCleanerSpy).toHaveBeenCalledWith(input.get());
 
-    expect(result.get()).toEqual("/var/in/photo.webp");
+    expect(result.get()).toEqual(formatted.get());
 
     expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(destroySpy).toHaveBeenCalledTimes(1);
@@ -77,7 +80,7 @@ describe("ImageProcessorSharpAdapter", () => {
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
+    const renameSpy = spyOn(FileRenamer, "rename");
     const fileCleanerSpy = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
@@ -102,9 +105,9 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(format).toEqual("jpeg");
     expect(opts).toMatchObject({ quality: 85 });
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("/out/dest-processed.jpg");
-    expect(renameSpy).toHaveBeenCalledWith(temporary, output.get());
+    const temporary = tools.FilePathAbsolute.fromString("/out/dest-processed.jpg");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
 
     expect(fileCleanerSpy).not.toHaveBeenCalled();
 

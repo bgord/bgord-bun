@@ -4,11 +4,13 @@ import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileHashNoopAdapter } from "../src/file-hash-noop.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
+import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 
 const FileHash = new FileHashNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
+const FileRenamer = new FileRenamerNoopAdapter();
 
-const deps = { FileHash, FileCleaner };
+const deps = { FileHash, FileCleaner, FileRenamer };
 
 const hash = {
   etag: "etag-123",
@@ -29,15 +31,19 @@ describe("RemoteFileStorageDiskAdapter", () => {
     const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
     const hashSpy = spyOn(FileHash, "hash").mockResolvedValue(hash);
     const mkdirSpy = spyOn(fs, "mkdir").mockResolvedValue(undefined);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
 
     const output = await adapter.putFromPath({ key, path: input });
+    const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
 
     expect(mkdirSpy).toHaveBeenCalledWith("/root/users/1", { recursive: true });
-    expect(bunWriteSpy).toHaveBeenCalledWith("/root/users/1/avatar-part.webp", expect.anything());
-    expect(renameSpy).toHaveBeenCalledWith("/root/users/1/avatar-part.webp", "/root/users/1/avatar.webp");
+    expect(bunWriteSpy).toHaveBeenCalledWith(temporary.get(), expect.anything());
+    expect(renameSpy).toHaveBeenCalledWith(
+      temporary,
+      tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
+    );
     expect(hashSpy).toHaveBeenCalledTimes(1);
 
     expect(output.etag).toEqual(hash.etag);

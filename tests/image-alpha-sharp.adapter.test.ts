@@ -1,9 +1,12 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import * as sharpModule from "sharp";
+import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageAlphaStrategy } from "../src/image-alpha.port";
 import { ImageAlphaSharpAdapter } from "../src/image-alpha-sharp.adapter";
+
+const FileRenamer = new FileRenamerNoopAdapter();
+const deps = { FileRenamer };
 
 const pipeline = {
   rotate: () => pipeline,
@@ -12,6 +15,8 @@ const pipeline = {
   toFile: async (_: string) => {},
   destroy: () => {},
 };
+
+const adapter = new ImageAlphaSharpAdapter(deps);
 
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
@@ -22,27 +27,23 @@ describe("ImageAlphaSharpAdapter", () => {
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined as any);
-
-    const adapter = new ImageAlphaSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageAlphaStrategy = { strategy: "in_place", input, background: "#F8FAFC" };
 
     const output = await adapter.flatten(recipe);
+    expect(output).toEqual(input);
 
     expect(flattenSpy).toHaveBeenCalledTimes(1);
     expect(flattenSpy).toHaveBeenCalledWith({ background: "#F8FAFC" });
     expect(rotateSpy).toHaveBeenCalledTimes(1);
 
-    const [format] = toFormatSpy.mock.calls[0];
-    expect(format).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("/var/img/photo-flattened.jpg");
-    expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-flattened.jpg", "/var/img/photo.jpg");
-
-    expect(output).toEqual(input);
+    const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-flattened.jpg");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input);
 
     expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(destroySpy).toHaveBeenCalledTimes(1);
@@ -56,9 +57,7 @@ describe("ImageAlphaSharpAdapter", () => {
     spyOn(pipeline, "destroy").mockReturnValue();
 
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageAlphaSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
@@ -69,12 +68,11 @@ describe("ImageAlphaSharpAdapter", () => {
 
     expect(flattenSpy).toHaveBeenCalledWith({ background: background });
 
-    const [format] = toFormatSpy.mock.calls[0];
-    expect(format).toEqual("webp");
+    expect(toFormatSpy.mock.calls[0][0]).toEqual("webp");
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("/out/dest-flattened.webp");
-    expect(renameSpy).toHaveBeenCalledWith("/out/dest-flattened.webp", "/out/dest.webp");
+    const temporary = tools.FilePathAbsolute.fromString("/out/dest-flattened.webp");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
 
     expect(result).toEqual(output);
 
@@ -89,22 +87,19 @@ describe("ImageAlphaSharpAdapter", () => {
     spyOn(pipeline, "destroy").mockReturnValue();
 
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageAlphaSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageAlphaStrategy = { strategy: "in_place", input, background: "#000" };
 
     await adapter.flatten(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0];
-    expect(format).toEqual("png");
+    expect(toFormatSpy.mock.calls[0][0]).toEqual("png");
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("images/pic-flattened.png");
+    const temporary = tools.FilePathRelative.fromString("images/pic-flattened.png");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
 
-    expect(renameSpy).toHaveBeenCalledWith("images/pic-flattened.png", "images/pic.png");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input);
   });
 
   test("output_path - jpeg to jpg", async () => {
@@ -114,9 +109,7 @@ describe("ImageAlphaSharpAdapter", () => {
     spyOn(pipeline, "destroy").mockReturnValue();
 
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageAlphaSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
@@ -124,9 +117,9 @@ describe("ImageAlphaSharpAdapter", () => {
 
     await adapter.flatten(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0];
-    expect(format).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
 
-    expect(renameSpy).toHaveBeenCalledWith("/x/out/photo-flattened.jpg", "/x/out/photo.jpg");
+    const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-flattened.jpg");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
 });

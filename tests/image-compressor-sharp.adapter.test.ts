@@ -1,12 +1,15 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import * as sharpModule from "sharp";
+import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type {
   ImageCompressorInPlaceStrategy,
   ImageCompressorOutputPathStrategy,
 } from "../src/image-compressor.port";
 import { ImageCompressorSharpAdapter } from "../src/image-compressor-sharp.adapter";
+
+const FileRenamer = new FileRenamerNoopAdapter();
+const deps = { FileRenamer };
 
 const pipeline = {
   rotate: () => pipeline,
@@ -14,6 +17,8 @@ const pipeline = {
   toFile: async (_: string) => {},
   destroy: () => {},
 };
+
+const adapter = new ImageCompressorSharpAdapter(deps);
 
 describe("ImageCompressorSharpAdapter", () => {
   test("in_place", async () => {
@@ -23,14 +28,14 @@ describe("ImageCompressorSharpAdapter", () => {
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
     const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageCompressorSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
 
     const result = await adapter.compress(recipe);
+
+    expect(result).toEqual(input);
 
     const [format, options] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
@@ -39,12 +44,10 @@ describe("ImageCompressorSharpAdapter", () => {
 
     expect(toFileSpy).toHaveBeenCalledTimes(1);
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("/var/img/photo-compressed.jpg");
+    const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-compressed.jpg");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
 
-    expect(renameSpy).toHaveBeenCalledWith(temporary, input.get());
-
-    expect(result).toEqual(input);
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input);
 
     expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(rotateSpy).toHaveBeenCalledTimes(1);
@@ -57,9 +60,7 @@ describe("ImageCompressorSharpAdapter", () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageCompressorSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.webp");
@@ -67,17 +68,17 @@ describe("ImageCompressorSharpAdapter", () => {
 
     const result = await adapter.compress(recipe);
 
+    expect(result).toEqual(output);
+
     const [format, options] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     expect(format).toEqual("webp");
     expect(options).toMatchObject({ quality: 73 });
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("/var/out/dest-compressed.webp");
+    const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-compressed.webp");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
 
-    expect(renameSpy).toHaveBeenCalledWith(temporary, output.get());
-
-    expect(result).toEqual(output);
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
 
   test("in_place - relative", async () => {
@@ -86,9 +87,7 @@ describe("ImageCompressorSharpAdapter", () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageCompressorSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
@@ -99,10 +98,10 @@ describe("ImageCompressorSharpAdapter", () => {
     expect(format).toEqual("png");
     expect(options).toMatchObject({ quality: 85 });
 
-    const temporary = toFileSpy.mock.calls[0][0];
-    expect(temporary).toEqual("images/pic-compressed.png");
+    const temporary = tools.FilePathRelative.fromString("images/pic-compressed.png");
+    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
 
-    expect(renameSpy).toHaveBeenCalledWith(temporary, input.get());
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input);
   });
 
   test("output_path - jpeg to jpg", async () => {
@@ -111,9 +110,7 @@ describe("ImageCompressorSharpAdapter", () => {
     spyOn(pipeline, "destroy").mockReturnValue();
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
-
-    const adapter = new ImageCompressorSharpAdapter();
+    const renameSpy = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/x/in.jpeg");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
@@ -121,9 +118,10 @@ describe("ImageCompressorSharpAdapter", () => {
 
     await adapter.compress(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0];
-    expect(format).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
 
-    expect(renameSpy).toHaveBeenCalledWith("/x/out/photo-compressed.jpg", output.get());
+    const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-compressed.jpg");
+
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
 });
