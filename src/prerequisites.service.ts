@@ -48,6 +48,8 @@ export class Verification {
 
 export type PrerequisiteConfigType = { label: string; enabled?: boolean };
 
+export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
+
 /** @public */
 export class Prerequisites {
   private readonly base = { component: "infra", operation: "startup" };
@@ -61,9 +63,7 @@ export class Prerequisites {
 
     const failed = results.filter((result) => result.outcome.status === PrerequisiteStatusEnum.failure);
 
-    if (failed.length === 0) {
-      return this.logger.info({ message: "Prerequisites ok", ...this.base });
-    }
+    if (failed.length === 0) return this.logger.info({ message: "Prerequisites ok", ...this.base });
 
     for (const failure of failed) {
       this.logger.error({
@@ -75,6 +75,6 @@ export class Prerequisites {
       });
     }
 
-    throw new Error("Prerequisites failed");
+    throw new Error(PrerequisitesError.Failure);
   }
 }

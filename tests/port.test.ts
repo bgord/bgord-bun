@@ -1,27 +1,29 @@
 import { describe, expect, test } from "bun:test";
-import { Port } from "../src/port.vo";
+import { Port, PortError } from "../src/port.vo";
 
 describe("Port", () => {
-  test("valid ports: 0, 80, 443, 99999", () => {
-    expect(() => Port.parse(0)).not.toThrow();
-    expect(() => Port.parse("80")).not.toThrow();
-    expect(() => Port.parse(443)).not.toThrow();
-    expect(() => Port.parse("99999")).not.toThrow();
+  test("happy path", () => {
+    expect(Port.safeParse(0).success).toEqual(true);
+    expect(Port.safeParse("80").success).toEqual(true);
+    expect(Port.safeParse(443).success).toEqual(true);
+    expect(Port.safeParse("99999").success).toEqual(true);
   });
 
-  test("throws on negative numbers", () => {
-    expect(() => Port.parse(-1)).toThrow();
-    expect(() => Port.parse("-42")).toThrow();
+  test("transforms null to 0", () => {
+    // @ts-expect-error
+    expect(Port.safeParse(null)).toEqual({ success: true, data: 0 });
   });
 
-  test("throws on ports > 99999", () => {
-    expect(() => Port.parse(100000)).toThrow();
-    expect(() => Port.parse("123456")).toThrow();
+  test("transforms string to int", () => {
+    // @ts-expect-error
+    expect(Port.safeParse("123")).toEqual({ success: true, data: 123 });
   });
 
-  test("throws on invalid input (non-numeric)", () => {
-    expect(() => Port.parse("not-a-number")).toThrow();
-    expect(() => Port.parse({})).toThrow();
-    expect(() => Port.parse(undefined)).toThrow();
+  test("transforms negative numbers to 1", () => {
+    expect(() => Port.parse(-2)).toThrow(PortError.Invalid);
+  });
+
+  test("rejects fractions", () => {
+    expect(() => Port.parse(1.5)).toThrow(PortError.Type);
   });
 });

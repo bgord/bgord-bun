@@ -33,10 +33,20 @@ const logger = new LoggerNoopAdapter();
 const runner = new prereqs.Prerequisites(logger);
 
 describe("Prerequisites", () => {
-  test("exits and logs error when any prerequisite fails", async () => {
+  test("happy path", async () => {
+    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+
+    await runner.check([new Ok(), new Ok()]);
+
+    expect(loggerInfoSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
+    );
+  });
+
+  test("failure", async () => {
     const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
 
-    expect(async () => runner.check([new Ok(), new Fail()])).toThrow(/Prerequisites failed/);
+    expect(async () => runner.check([new Ok(), new Fail()])).toThrow(prereqs.PrerequisitesError.Failure);
 
     expect(loggerErrorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -49,17 +59,11 @@ describe("Prerequisites", () => {
     );
   });
 
-  test("logs Prerequisites ok and does not exit when all succeed", async () => {
-    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
-    await runner.check([new Ok(), new Ok()]);
-    expect(loggerInfoSpy).toHaveBeenCalledWith(
-      expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
-    );
-  });
-
   test("undetermined", async () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+
     await runner.check([new Ok(), new Undetermined()]);
+
     expect(loggerInfoSpy).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
     );

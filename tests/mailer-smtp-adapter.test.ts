@@ -9,25 +9,9 @@ import {
   SmtpPort,
 } from "../src/mailer-smtp.adapter";
 
-describe("Mailer class", () => {
-  test("Mailer can be instantiated with valid configuration", () => {
-    spyOn(nodemailer, "createTransport");
-
-    const validConfig = {
-      SMTP_HOST: "smtp.example.com",
-      SMTP_PORT: SmtpPort.parse(587),
-      SMTP_USER: "user@example.com",
-      SMTP_PASS: "password",
-    };
-
-    const mailer = new MailerSmtpAdapter(validConfig);
-
-    expect(mailer).toBeInstanceOf(MailerSmtpAdapter);
-  });
-
-  test("Mailer sends email using send method", async () => {
+describe("MailerSmtpAdapter", () => {
+  test("send - success", async () => {
     const sendMail = jest.fn();
-
     spyOn(nodemailer, "createTransport").mockReturnValue({ sendMail } as any);
 
     const mailer = new MailerSmtpAdapter({
@@ -49,9 +33,8 @@ describe("Mailer class", () => {
     expect(sendMail).toHaveBeenCalledWith(sendOptions);
   });
 
-  test("Mailer verifies the configuration using verify method", async () => {
+  test("verify - success", async () => {
     const verify = jest.fn();
-
     spyOn(nodemailer, "createTransport").mockImplementation(() => ({ verify }) as any);
 
     const mailer = new MailerSmtpAdapter({

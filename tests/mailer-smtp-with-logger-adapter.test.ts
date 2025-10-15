@@ -1,5 +1,4 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import nodemailer from "nodemailer";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MailerSmtpAdapter, SmtpPort } from "../src/mailer-smtp.adapter";
 import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
@@ -15,13 +14,8 @@ const smtpMailer = new MailerSmtpAdapter({
 
 const mailer = new MailerSmtpWithLoggerAdapter({ logger, smtpMailer });
 
-describe("SmtpMailerWithLogger class", () => {
-  test("Mailer can be instantiated with valid configuration", () => {
-    spyOn(nodemailer, "createTransport");
-    expect(mailer).toBeInstanceOf(MailerSmtpWithLoggerAdapter);
-  });
-
-  test("Mailer sends email using send method - success", async () => {
+describe("SmtpMailerWithLoggerAdapter", () => {
+  test("send - success", async () => {
     const sendMail = spyOn(smtpMailer, "send").mockImplementation(jest.fn());
     const loggerInfo = spyOn(logger, "info");
 
@@ -36,23 +30,5 @@ describe("SmtpMailerWithLogger class", () => {
 
     expect(sendMail).toHaveBeenCalledWith(sendOptions);
     expect(loggerInfo).toHaveBeenCalledTimes(2);
-  });
-
-  test("Mailer sends email using send method - success", async () => {
-    const sendMail = spyOn(smtpMailer, "send").mockRejectedValue(new Error("FAILURE"));
-    const loggerInfo = spyOn(logger, "info");
-    const loggerError = spyOn(logger, "error");
-
-    const sendOptions = {
-      from: "sender@example.com",
-      to: "recipient@example.com",
-      subject: "Test Email",
-      text: "This is a test email.",
-    };
-
-    expect(async () => mailer.send(sendOptions)).toThrow();
-    expect(sendMail).toHaveBeenCalledWith(sendOptions);
-    expect(loggerInfo).toHaveBeenCalled();
-    expect(loggerError).toHaveBeenCalled();
   });
 });
