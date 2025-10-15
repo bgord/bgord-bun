@@ -44,7 +44,7 @@ describe("UserLanguageOHQ", () => {
     );
 
     expect(async () => UserLanguageOHQ.get(userId)).toThrow(
-      Preferences.Ports.UserLanguagePreferenceMissingError,
+      Preferences.Ports.UserLanguagePreferenceError.Missing,
     );
   });
 

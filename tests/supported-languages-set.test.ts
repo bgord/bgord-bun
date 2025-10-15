@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { SupportedLanguagesSet, UnsupportedLanguageError } from "../src/modules/preferences/value-objects";
+import { SupportedLanguagesSet, SupportedLanguagesSetError } from "../src/modules/preferences/value-objects";
 
 export enum SupportedLanguages {
   en = "en",
@@ -16,6 +16,6 @@ describe("SupportedLanguagesSet", () => {
   });
 
   test("throws on incorrect language", () => {
-    expect(() => supportedLanguagesSet.ensure("de")).toThrow(UnsupportedLanguageError);
+    expect(() => supportedLanguagesSet.ensure("de")).toThrow(SupportedLanguagesSetError.Missing);
   });
 });
