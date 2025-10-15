@@ -1,10 +1,14 @@
 import { z } from "zod/v4";
 
-export const EventStreamInvalidError = { error: "event.stream.invalid.error" } as const;
+export const EventStreamError = {
+  Type: "event.store.type",
+  Empty: "event.stream.empty",
+  TooLong: "event.stream.too.long",
+} as const;
 
 export const EventStream = z
-  .string(EventStreamInvalidError)
-  .min(1, EventStreamInvalidError)
-  .max(256, EventStreamInvalidError);
+  .string(EventStreamError.Type)
+  .min(1, EventStreamError.Empty)
+  .max(256, EventStreamError.TooLong);
 
 export type EventStreamType = z.infer<typeof EventStream>;

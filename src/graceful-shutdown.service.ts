@@ -29,9 +29,7 @@ export class GracefulShutdown {
       .catch((error) =>
         this.logger.error({ message: "Cleanup hook failed", error: formatError(error), ...this.base }),
       )
-      .finally(() => {
-        this.exitFn(exitCode);
-      });
+      .finally(() => this.exitFn(exitCode));
   }
 
   applyTo(server: ServerType, cleanup: () => any = tools.noop) {
