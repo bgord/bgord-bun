@@ -28,8 +28,11 @@ src/
 ├── antivirus-noop.adapter.ts
 ├── antivirus.port.ts
 ├── api-version.middleware.ts
+├── basic-auth-password.vo.ts
+├── basic-auth-username.vo.ts
 ├── basic-auth.service.ts
 ├── better-auth-logger.service.ts
+├── binary.vo.ts
 ├── bots.vo.ts
 ├── build-info-repository.service.ts
 ├── cache-file.service.ts
@@ -151,7 +154,6 @@ src/
 │       └── value-objects
 │           └── supported-languages-set.ts
 ├── node-env.vo.ts
-├── open-graph.service.ts
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator.port.ts
 ├── port.vo.ts
@@ -200,7 +202,6 @@ src/
 ├── shield-captcha.port.ts
 ├── shield-rate-limit.middleware.ts
 ├── simulated-error.middleware.ts
-├── sitemap.service.ts
 ├── slower.middleware.ts
 ├── temporary-file-absolute.adapter.ts
 ├── temporary-file-noop.adapter.ts
@@ -209,7 +210,6 @@ src/
 ├── to-event-map.types.ts
 ├── translations.service.ts
 ├── uptime.service.ts
-├── url-wo-trailing-slash.vo.ts
 ├── uuid.vo.ts
 ├── visitor-id-hash-hono.adapter.ts
 ├── visitor-id-hash.adapter.ts
