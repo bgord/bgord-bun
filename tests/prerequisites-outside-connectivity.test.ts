@@ -3,33 +3,34 @@ import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-co
 import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - outside connectivity", () => {
-  test("verify method returns success for successful outside connectivity", async () => {
+  test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
-    const prerequisite = new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("verify method returns failure for unsuccessful outside connectivity", async () => {
+  test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
-    const prerequisite = new PrerequisiteOutsideConnectivity({ label: "outside-Connectivity" });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
+    expect(await new PrerequisiteOutsideConnectivity({ label: "outside-Connectivity" }).verify()).toEqual(
+      prereqs.Verification.failure({ message: "HTTP 400" }),
+    );
   });
 
-  test("verify method returns failure on error during outside connectivity check", async () => {
+  test("failure - error", async () => {
     spyOn(global, "fetch").mockRejectedValue(new Error("Network error"));
 
-    const prerequisite = new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" });
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(/Network error/);
+    expect(
+      // @ts-expect-error
+      (await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify()).error.message,
+    ).toMatch(/Network error/);
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteOutsideConnectivity({ label: "prerequisite", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteOutsideConnectivity({ label: "prerequisite", enabled: false }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });
