@@ -5,8 +5,8 @@ import * as sharpModule from "sharp";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
 import { ImageProcessorSharpAdapter } from "../src/image-processor-sharp.adapter";
 
-describe("ImageProcessorSharpAdapter.process", () => {
-  test("in_place: rotate → flatten → resize → encode", async () => {
+describe("ImageProcessorSharpAdapter", () => {
+  test("in_place", async () => {
     const pipeline = {
       rotate: () => pipeline,
       flatten: (_: any) => pipeline,
@@ -22,7 +22,7 @@ describe("ImageProcessorSharpAdapter.process", () => {
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
     const unlinkSpy = spyOn(fs, "unlink").mockResolvedValue(undefined);
 
@@ -38,35 +38,32 @@ describe("ImageProcessorSharpAdapter.process", () => {
       background: "#FFFFFF",
     };
 
-    const finalVo = await adapter.process(recipe);
+    const result = await adapter.process(recipe);
 
     expect(rotateSpy).toHaveBeenCalledTimes(1);
     expect(flattenSpy).toHaveBeenCalledWith({ background: "#FFFFFF" });
-    expect(resizeSpy).toHaveBeenCalledTimes(1);
-    const [resizeOpts] = resizeSpy.mock.calls[0] as any[];
-    expect(resizeOpts).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
-    const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toEqual("webp");
+    const [options] = resizeSpy.mock.calls[0];
+    expect(resizeSpy).toHaveBeenCalledTimes(1);
+    expect(options).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
+
+    const [format, opts] = toFormatSpy.mock.calls[0];
+    expect(format).toEqual("webp");
     expect(opts).toMatchObject({ quality: 72 });
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/var/in/photo-processed.webp");
-    expect(renameSpy).toHaveBeenCalledWith("/var/in/photo-processed.webp", "/var/in/photo.webp");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/var/in/photo-processed.webp");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, "/var/in/photo.webp");
 
-    expect(unlinkSpy).toHaveBeenCalledWith("/var/in/photo.png");
+    expect(unlinkSpy).toHaveBeenCalledWith(input.get());
 
-    expect(finalVo.get()).toEqual("/var/in/photo.webp");
+    expect(result.get()).toEqual("/var/in/photo.webp");
 
-    expect(sharpSpy).toHaveBeenCalledWith("/var/in/photo.png");
+    expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(destroySpy).toHaveBeenCalledTimes(1);
-
-    sharpSpy.mockRestore();
-    renameSpy.mockRestore();
-    unlinkSpy.mockRestore();
   });
 
-  test("output_path: rotate (no flatten), resize, encoder from output", async () => {
+  test("output_path", async () => {
     const pipeline = {
       rotate: () => pipeline,
       flatten: (_: any) => pipeline,
@@ -82,7 +79,7 @@ describe("ImageProcessorSharpAdapter.process", () => {
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
     const unlinkSpy = spyOn(fs, "unlink").mockResolvedValue(undefined);
 
@@ -98,27 +95,27 @@ describe("ImageProcessorSharpAdapter.process", () => {
       to: tools.Extension.parse("jpg"),
     };
 
-    const finalVo = await adapter.process(recipe);
+    const result = await adapter.process(recipe);
 
     expect(rotateSpy).toHaveBeenCalledTimes(1);
     expect(flattenSpy).not.toHaveBeenCalled();
 
-    const [resizeOpts] = resizeSpy.mock.calls[0] as any[];
-    expect(resizeOpts).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
+    const [options] = resizeSpy.mock.calls[0];
+    expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
-    const [fmt, opts] = toFormatSpy.mock.calls[0] as any[];
-    expect(fmt).toEqual("jpeg");
+    const [format, opts] = toFormatSpy.mock.calls[0];
+    expect(format).toEqual("jpeg");
     expect(opts).toMatchObject({ quality: 85 });
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/out/dest-processed.jpg");
-    expect(renameSpy).toHaveBeenCalledWith("/out/dest-processed.jpg", "/out/dest.jpg");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/out/dest-processed.jpg");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output.get());
 
     expect(unlinkSpy).not.toHaveBeenCalled();
 
-    expect(finalVo).toEqual(output);
+    expect(result).toEqual(output);
 
-    expect(sharpSpy).toHaveBeenCalledWith("/in/source.png");
+    expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(destroySpy).toHaveBeenCalledTimes(1);
 
     sharpSpy.mockRestore();

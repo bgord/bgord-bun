@@ -13,48 +13,51 @@ const pipeline = {
   destroy: () => {},
 };
 
-describe("ImageBlurSharpAdapter.blur", () => {
-  test("in_place: default sigma (undefined), maps jpg→jpeg, writes temp next to final, atomic rename", async () => {
+describe("ImageBlurSharpAdapter", () => {
+  test("in_place", async () => {
     const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const blurSpy = spyOn(pipeline, "blur").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageBlurSharpAdapter();
 
-    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg"); // jpg → jpeg encoder
+    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageBlurStrategy = { strategy: "in_place", input };
 
-    const finalVo = await adapter.blur(recipe);
+    const output = await adapter.blur(recipe);
 
     expect(blurSpy).toHaveBeenCalledTimes(1);
     expect(blurSpy).toHaveBeenCalledWith(undefined);
     expect(rotateSpy).toHaveBeenCalledTimes(1);
 
-    expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("jpeg");
+    expect(toFormatSpy).toHaveBeenCalledTimes(1);
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/var/img/photo-blurred.jpg");
-    expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-blurred.jpg", "/var/img/photo.jpg");
-    expect(finalVo).toEqual(input);
-    expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpg");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/var/img/photo-blurred.jpg");
+
+    expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-blurred.jpg", input.get());
+
+    expect(output).toEqual(input);
+
+    expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(destroySpy).toHaveBeenCalledTimes(1);
   });
 
-  test("output_path: applies provided sigma, picks encoder from output extension, temp next to output, atomic rename", async () => {
+  test("output_path", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const blurSpy = spyOn(pipeline, "blur").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageBlurSharpAdapter();
@@ -63,26 +66,31 @@ describe("ImageBlurSharpAdapter.blur", () => {
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 2.5 };
 
-    const finalVo = await adapter.blur(recipe);
+    const result = await adapter.blur(recipe);
 
     expect(blurSpy).toHaveBeenCalledWith(2.5);
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("webp");
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/out/dest-blurred.webp");
-    expect(renameSpy).toHaveBeenCalledWith("/out/dest-blurred.webp", "/out/dest.webp");
-    expect(finalVo).toEqual(output);
-    expect(sharpSpy).toHaveBeenCalledWith("/in/source.png");
+
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/out/dest-blurred.webp");
+
+    expect(renameSpy).toHaveBeenCalledWith("/out/dest-blurred.webp", output.get());
+
+    expect(result).toEqual(output);
+
+    expect(sharpSpy).toHaveBeenCalledWith(input.get());
   });
 
-  test("relative in_place: builds temp beside relative final and uses encoder from final extension", async () => {
+  test("in_place - relateive", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     spyOn(pipeline, "blur").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
 
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageBlurSharpAdapter();
@@ -95,18 +103,19 @@ describe("ImageBlurSharpAdapter.blur", () => {
     const [format] = toFormatSpy.mock.calls[0] as any[];
     expect(format).toEqual("png");
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("images/pic-blurred.png");
-    expect(renameSpy).toHaveBeenCalledWith("images/pic-blurred.png", "images/pic.png");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("images/pic-blurred.png");
+
+    expect(renameSpy).toHaveBeenCalledWith("images/pic-blurred.png", input.get());
   });
 
-  test("jpg output mapping in output_path: '.jpg' → encoder 'jpeg'", async () => {
+  test("output_path - jpeg to jpg", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
 
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageBlurSharpAdapter();
@@ -117,10 +126,9 @@ describe("ImageBlurSharpAdapter.blur", () => {
 
     await adapter.blur(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("jpeg");
 
-    const expectedTemp = "/x/out/photo-blurred.jpg";
-    expect(renameSpy).toHaveBeenCalledWith(expectedTemp, "/x/out/photo.jpg");
+    expect(renameSpy).toHaveBeenCalledWith("/x/out/photo-blurred.jpg", output.get());
   });
 });

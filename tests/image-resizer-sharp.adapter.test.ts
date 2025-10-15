@@ -13,8 +13,8 @@ const pipeline = {
   destroy: () => {},
 };
 
-describe("ImageResizerSharpAdapter.resize", () => {
-  test("in_place: resizes to maxSide with fit=inside, maps jpg→jpeg, temp next to final, atomic rename", async () => {
+describe("ImageResizerSharpAdapter", () => {
+  test("in_place", async () => {
     const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const resizeSpy = spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -26,28 +26,23 @@ describe("ImageResizerSharpAdapter.resize", () => {
 
     const adapter = new ImageResizerSharpAdapter();
 
-    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg"); // jpg should map to jpeg encoder
+    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageResizerInPlaceStrategy = { strategy: "in_place", input, maxSide: 512 };
 
     const result = await adapter.resize(recipe);
 
+    const [options] = resizeSpy.mock.calls[0];
     expect(resizeSpy).toHaveBeenCalledTimes(1);
-    const [resizeOpts] = resizeSpy.mock.calls[0] as any[];
-    expect(resizeOpts).toMatchObject({
-      width: 512,
-      height: 512,
-      fit: "inside",
-      withoutEnlargement: true,
-    });
+    expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
+    const [format] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [format] = toFormatSpy.mock.calls[0] as any[];
     expect(format).toEqual("jpeg");
 
+    const temporary = toFileSpy.mock.calls[0][0];
     expect(toFileSpy).toHaveBeenCalledTimes(1);
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/var/img/photo-resized.jpg");
-    expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-resized.jpg", "/var/img/photo.jpg");
+    expect(temporary).toEqual("/var/img/photo-resized.jpg");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input.get());
 
     expect(result).toEqual(input);
 
@@ -56,7 +51,7 @@ describe("ImageResizerSharpAdapter.resize", () => {
     expect(destroySpy).toHaveBeenCalledTimes(1);
   });
 
-  test("output_path: uses final extension for encoder, resizes to maxSide, temp beside output, atomic rename", async () => {
+  test("output_path", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const resizeSpy = spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -70,34 +65,24 @@ describe("ImageResizerSharpAdapter.resize", () => {
 
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
-    const recipe: ImageResizerOutputPathStrategy = {
-      strategy: "output_path",
-      input,
-      output,
-      maxSide: 256,
-    };
+    const recipe: ImageResizerOutputPathStrategy = { strategy: "output_path", input, output, maxSide: 256 };
 
     const result = await adapter.resize(recipe);
 
-    const [resizeOpts] = resizeSpy.mock.calls[0] as any[];
-    expect(resizeOpts).toMatchObject({
-      width: 256,
-      height: 256,
-      fit: "inside",
-      withoutEnlargement: true,
-    });
+    const [options] = resizeSpy.mock.calls[0];
+    expect(options).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("webp");
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/out/dest-resized.webp");
-    expect(renameSpy).toHaveBeenCalledWith("/out/dest-resized.webp", "/out/dest.webp");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/out/dest-resized.webp");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output.get());
 
     expect(result).toEqual(output);
   });
 
-  test("relative in_place: writes temp beside relative final and renames", async () => {
+  test("in_place - relative", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -114,15 +99,15 @@ describe("ImageResizerSharpAdapter.resize", () => {
 
     await adapter.resize(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("png");
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("images/pic-resized.png");
-    expect(renameSpy).toHaveBeenCalledWith("images/pic-resized.png", "images/pic.png");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("images/pic-resized.png");
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input.get());
   });
 
-  test("jpg→jpeg encoder mapping also applies in output_path", async () => {
+  test("output_path - jpg to jpeg", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -135,19 +120,14 @@ describe("ImageResizerSharpAdapter.resize", () => {
     const adapter = new ImageResizerSharpAdapter();
 
     const input = tools.FilePathAbsolute.fromString("/a/in.jpeg");
-    const output = tools.FilePathAbsolute.fromString("/b/out/photo.jpg"); // jpg → jpeg
-    const recipe: ImageResizerOutputPathStrategy = {
-      strategy: "output_path",
-      input,
-      output,
-      maxSide: 300,
-    };
+    const output = tools.FilePathAbsolute.fromString("/b/out/photo.jpg");
+    const recipe: ImageResizerOutputPathStrategy = { strategy: "output_path", input, output, maxSide: 300 };
 
     await adapter.resize(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("jpeg");
 
-    expect(renameSpy).toHaveBeenCalledWith("/b/out/photo-resized.jpg", "/b/out/photo.jpg");
+    expect(renameSpy).toHaveBeenCalledWith("/b/out/photo-resized.jpg", output.get());
   });
 });

@@ -13,15 +13,12 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
     };
 
     const metadata = await image.metadata();
-    const extension = tools.Extension.parse(metadata.format);
-
-    const sizeBytes = Bun.file(path).size;
 
     return {
       width: tools.ImageWidth.parse(metadata.width),
       height: tools.ImageHeight.parse(metadata.height),
-      mime: tools.Mime.fromExtension(extension),
-      size: tools.Size.fromBytes(sizeBytes),
+      mime: tools.Mime.fromExtension(tools.Extension.parse(metadata.format)),
+      size: tools.Size.fromBytes(Bun.file(path).size),
     };
   }
 }

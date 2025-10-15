@@ -15,44 +15,46 @@ const pipeline = {
   destroy: () => {},
 };
 
-describe("ImageCompressorSharpAdapter.compress", () => {
-  test("in_place: uses default quality (85), maps jpg→jpeg, writes temp next to final, atomic rename", async () => {
+describe("ImageCompressorSharpAdapter", () => {
+  test("in_place", async () => {
     const rotateSpy = spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const destroySpy = spyOn(pipeline, "destroy").mockReturnValue();
 
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageCompressorSharpAdapter();
 
-    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg"); // jpg extension should map to jpeg
+    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
 
     const result = await adapter.compress(recipe);
 
+    const [format, options] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [format, opts] = toFormatSpy.mock.calls[0] as any[];
     expect(format).toEqual("jpeg");
-    expect(opts).toMatchObject({ quality: 85 });
+    expect(options).toMatchObject({ quality: 85 });
 
     expect(toFileSpy).toHaveBeenCalledTimes(1);
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/var/img/photo-compressed.jpg");
-    expect(renameSpy).toHaveBeenCalledWith("/var/img/photo-compressed.jpg", "/var/img/photo.jpg");
+
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/var/img/photo-compressed.jpg");
+
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input.get());
 
     expect(result).toEqual(input);
 
-    expect(sharpSpy).toHaveBeenCalledWith("/var/img/photo.jpg");
+    expect(sharpSpy).toHaveBeenCalledWith(input.get());
     expect(rotateSpy).toHaveBeenCalledTimes(1);
     expect(destroySpy).toHaveBeenCalledTimes(1);
   });
 
-  test("output_path: uses provided quality, encoder from final extension, temp next to output, atomic rename", async () => {
+  test("output_path", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     spyOn(pipeline, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
@@ -65,22 +67,23 @@ describe("ImageCompressorSharpAdapter.compress", () => {
 
     const result = await adapter.compress(recipe);
 
+    const [format, options] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    const [format, opts] = toFormatSpy.mock.calls[0] as any[];
     expect(format).toEqual("webp");
-    expect(opts).toMatchObject({ quality: 73 });
+    expect(options).toMatchObject({ quality: 73 });
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("/var/out/dest-compressed.webp");
-    expect(renameSpy).toHaveBeenCalledWith("/var/out/dest-compressed.webp", "/var/out/dest.webp");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("/var/out/dest-compressed.webp");
+
+    expect(renameSpy).toHaveBeenCalledWith(temporary, output.get());
 
     expect(result).toEqual(output);
   });
 
-  test("in_place works with relative paths and passes default quality", async () => {
+  test("in_place - relative", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     spyOn(pipeline, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFileSpy = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
@@ -92,34 +95,35 @@ describe("ImageCompressorSharpAdapter.compress", () => {
 
     await adapter.compress(recipe);
 
-    const [format, opts] = toFormatSpy.mock.calls[0] as any[];
+    const [format, options] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("png");
-    expect(opts).toMatchObject({ quality: 85 });
+    expect(options).toMatchObject({ quality: 85 });
 
-    const tempWritten = (toFileSpy.mock.calls[0] as any[])[0] as string;
-    expect(tempWritten).toEqual("images/pic-compressed.png");
-    expect(renameSpy).toHaveBeenCalledWith("images/pic-compressed.png", "images/pic.png");
+    const temporary = toFileSpy.mock.calls[0][0];
+    expect(temporary).toEqual("images/pic-compressed.png");
+
+    expect(renameSpy).toHaveBeenCalledWith(temporary, input.get());
   });
 
-  test("jpg extension maps to jpeg encoder in output_path", async () => {
+  test("output_path - jpeg to jpg", async () => {
     spyOn(pipeline, "rotate").mockReturnValue(pipeline);
     spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     spyOn(pipeline, "destroy").mockReturnValue();
-    spyOn(sharpModule as any, "default").mockImplementation((_p: string) => pipeline);
+    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
     const toFormatSpy = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const renameSpy = spyOn(fs, "rename").mockResolvedValue(undefined);
 
     const adapter = new ImageCompressorSharpAdapter();
 
     const input = tools.FilePathAbsolute.fromString("/x/in.jpeg");
-    const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg"); // .jpg should → "jpeg"
+    const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
     const recipe: ImageCompressorOutputPathStrategy = { strategy: "output_path", input, output };
 
     await adapter.compress(recipe);
 
-    const [format] = toFormatSpy.mock.calls[0] as any[];
+    const [format] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("jpeg");
 
-    expect(renameSpy).toHaveBeenCalledWith("/x/out/photo-compressed.jpg", "/x/out/photo.jpg");
+    expect(renameSpy).toHaveBeenCalledWith("/x/out/photo-compressed.jpg", output.get());
   });
 });
