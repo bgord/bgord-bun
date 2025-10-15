@@ -9,7 +9,7 @@ export class ImageBlurSharpAdapter implements ImageBlurPort {
     const filename = final.getFilename();
     const temporary = final.withFilename(filename.withSuffix("-blurred"));
 
-    const extension = String(final.getFilename().getExtension());
+    const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
 
     const pipeline = sharp(recipe.input.get());

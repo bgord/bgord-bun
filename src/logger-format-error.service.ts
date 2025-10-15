@@ -1,14 +1,15 @@
 import type { ErrorInfo } from "./logger.port";
 
-export function formatError(err: unknown): ErrorInfo {
-  if (err instanceof Error) {
-    const code = (err as any)?.code;
-    const cause = (err as any)?.cause;
+export function formatError(error: unknown): ErrorInfo {
+  if (error instanceof Error) {
+    const code = (error as any)?.code;
+    const cause = error?.cause;
+
     return {
-      name: err.name ?? "Error",
-      message: err.message ?? "Unknown error",
-      stack: err.stack, // always include if present
-      code: code != null ? String(code) : undefined,
+      name: error.name ?? "Error",
+      message: error.message ?? "Unknown error",
+      stack: error.stack,
+      code: code ?? undefined,
       cause:
         cause instanceof Error
           ? { name: cause.name, message: cause.message }
@@ -19,6 +20,6 @@ export function formatError(err: unknown): ErrorInfo {
   }
   return {
     name: "NonErrorThrown",
-    message: typeof err === "string" ? err : String(err),
+    message: typeof error === "string" ? error : String(error),
   };
 }

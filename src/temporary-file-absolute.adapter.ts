@@ -12,11 +12,11 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
   ) {}
 
   async write(filename: tools.Filename, content: File) {
-    const partial = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
+    const temporary = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
-    await Bun.write(partial.get(), content);
-    await fs.rename(partial.get(), final.get());
+    await Bun.write(temporary.get(), content);
+    await fs.rename(temporary.get(), final.get());
 
     return { path: final };
   }
