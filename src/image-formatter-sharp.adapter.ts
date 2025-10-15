@@ -1,8 +1,13 @@
 import fs from "node:fs/promises";
 import sharp from "sharp";
+import type { FileCleanerPort } from "./file-cleaner.port";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
 
+type Dependencies = { FileCleaner: FileCleanerPort };
+
 export class ImageFormatterSharpAdapter implements ImageFormatterPort {
+  constructor(private readonly deps: Dependencies) {}
+
   async format(recipe: ImageFormatterStrategy) {
     const final =
       recipe.strategy === "output_path"
@@ -21,7 +26,7 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     await fs.rename(temporary.get(), final.get());
 
     if (recipe.strategy === "in_place" && final.get() !== recipe.input.get()) {
-      await fs.unlink(recipe.input.get());
+      await this.deps.FileCleaner.delete(recipe.input.get());
     }
 
     return final;

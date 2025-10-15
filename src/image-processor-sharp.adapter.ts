@@ -1,10 +1,15 @@
 import fs from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import sharp from "sharp";
+import type { FileCleanerPort } from "./file-cleaner.port";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
+
+type Dependencies = { FileCleaner: FileCleanerPort };
 
 export class ImageProcessorSharpAdapter implements ImageProcessorPort {
   private static readonly DEFAULT_QUALITY = 85;
+
+  constructor(private readonly deps: Dependencies) {}
 
   async process(recipe: ImageProcessorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final =
@@ -41,7 +46,7 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
     await fs.rename(temporary.get(), final.get());
 
     if (recipe.strategy === "in_place" && final.get() !== recipe.input.get()) {
-      await fs.unlink(recipe.input.get());
+      await this.deps.FileCleaner.delete(recipe.input.get());
     }
 
     return final;
