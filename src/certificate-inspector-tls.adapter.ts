@@ -6,7 +6,7 @@ import type { ClockPort } from "./clock.port";
 type Dependencies = { Clock: ClockPort };
 
 export class CertificateInspectorTLSAdapter implements CertificateInspectorPort {
-  private static readonly ROUNDING = new tools.RoundToNearest();
+  private static readonly rounding = new tools.RoundToNearest();
 
   constructor(private readonly deps: Dependencies) {}
 
@@ -33,7 +33,7 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
 
           settle({
             success: true,
-            daysRemaining: CertificateInspectorTLSAdapter.ROUNDING.round(daysRemaining),
+            daysRemaining: CertificateInspectorTLSAdapter.rounding.round(daysRemaining),
           });
         },
       );

@@ -5,7 +5,7 @@ type NodeEnvironmentEnumType = z.infer<typeof NodeEnvironment>;
 type AnyZodSchema = z.ZodSchema<any, any>;
 type EnvironmentValidatorConfig = { type: unknown; schema: AnyZodSchema };
 
-export const InvalidNodeEnvironmentError = "invalid.node.environment" as const;
+export const EnvironmentValidatorError = { Invalid: "environment.validator.invalid" } as const;
 
 export class EnvironmentValidator<SchemaType> {
   type: NodeEnvironmentEnumType;
@@ -21,7 +21,7 @@ export class EnvironmentValidator<SchemaType> {
       return;
     }
 
-    throw new Error(InvalidNodeEnvironmentError);
+    throw new Error(EnvironmentValidatorError.Invalid);
   }
 
   load(): SchemaType & { type: NodeEnvironmentEnumType } {

@@ -4,6 +4,7 @@ type CacheFileOverridesType = Record<string, string>;
 
 interface CacheFileHandler {
   notModified(options: FileHashResult, overrides?: CacheFileOverridesType): Response;
+
   fresh(options: FileHashResult, overrides?: CacheFileOverridesType): Headers;
 }
 

@@ -12,8 +12,8 @@ const IV: EncryptionIVType = Buffer.alloc(16, 0);
 
 const encryption = new Encryption({ secret: SECRET, iv: IV });
 
-describe("Encryption", () => {
-  test("encrypts and decrypts a file correctly", async () => {
+describe("Encryption service", () => {
+  test("happy path", async () => {
     await Bun.file(ORIGINAL_FILE).write(TEST_CONTENT);
 
     await encryption.encrypt({ input: ORIGINAL_FILE, output: ENCRYPTED_FILE });
