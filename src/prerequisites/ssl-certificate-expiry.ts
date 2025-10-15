@@ -30,7 +30,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
     const result = await this.inspector.inspect(this.host);
 
-    if (!result.success) return prereqs.Verification.failure({ message: "Unavailable" });
+    if (!result.success) return prereqs.Verification.failure({ message: "Certificate unavailable" });
     if (result.daysRemaining <= this.days) {
       return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
     }

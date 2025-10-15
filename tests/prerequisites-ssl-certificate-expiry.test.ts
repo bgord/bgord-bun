@@ -9,51 +9,43 @@ class CertificateInspectorUnavailableAdapter {
   }
 }
 
-describe("prerequisites - ssl certificate expiry (port-based)", () => {
-  test("passes when certificate has enough days remaining", async () => {
-    const prerequisite = new PrerequisiteSSLCertificateExpiry({
-      host: "example.com",
-      days: 30,
-      label: "ssl",
-      inspector: new CertificateInspectorNoopAdapter(100),
-    });
+const config = { host: "example.com", days: 30, label: "ssl" };
 
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+describe("prerequisites - ssl certificate expiry", () => {
+  test("success", async () => {
+    expect(
+      await new PrerequisiteSSLCertificateExpiry({
+        ...config,
+        inspector: new CertificateInspectorNoopAdapter(100),
+      }).verify(),
+    ).toEqual(prereqs.Verification.success());
   });
 
-  test("fails when certificate expires too soon", async () => {
-    const prerequisite = new PrerequisiteSSLCertificateExpiry({
-      host: "example.com",
-      days: 30,
-      label: "ssl",
-      inspector: new CertificateInspectorNoopAdapter(10),
-    });
-
-    expect(await prerequisite.verify()).toEqual(
-      prereqs.Verification.failure({ message: "10 days remaining" }),
-    );
+  test("failure - certificate expires too soon", async () => {
+    expect(
+      await new PrerequisiteSSLCertificateExpiry({
+        ...config,
+        inspector: new CertificateInspectorNoopAdapter(10),
+      }).verify(),
+    ).toEqual(prereqs.Verification.failure({ message: "10 days remaining" }));
   });
 
-  test("fails when certificate inspection is unavailable", async () => {
-    const prerequisite = new PrerequisiteSSLCertificateExpiry({
-      host: "example.com",
-      days: 30,
-      label: "ssl",
-      inspector: new CertificateInspectorUnavailableAdapter(),
-    });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "Unavailable" }));
+  test("failure - certificate unavailable", async () => {
+    expect(
+      await new PrerequisiteSSLCertificateExpiry({
+        ...config,
+        inspector: new CertificateInspectorUnavailableAdapter(),
+      }).verify(),
+    ).toEqual(prereqs.Verification.failure({ message: "Certificate unavailable" }));
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteSSLCertificateExpiry({
-      host: "example.com",
-      days: 30,
-      label: "ssl",
-      enabled: false,
-      inspector: new CertificateInspectorNoopAdapter(100),
-    });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteSSLCertificateExpiry({
+        ...config,
+        enabled: false,
+        inspector: new CertificateInspectorNoopAdapter(100),
+      }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });
