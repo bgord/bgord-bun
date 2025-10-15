@@ -3,29 +3,29 @@ import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
 import * as prereqs from "../src/prerequisites.service";
 
 describe("prerequisites - external api", () => {
-  test("passes when ok = true is returned", async () => {
+  test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
-    const prerequisite = new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(
+      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(),
+    ).toEqual(prereqs.Verification.success());
   });
 
-  test("rejects when ok = false is returned", async () => {
+  test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
-    const prerequisite = new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
+    expect(
+      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(),
+    ).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteExternalApi({
-      label: "api",
-      request: () => fetch("http://api"),
-      enabled: false,
-    });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteExternalApi({
+        label: "api",
+        request: () => fetch("http://api"),
+        enabled: false,
+      }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });
