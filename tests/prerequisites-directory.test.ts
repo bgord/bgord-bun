@@ -7,26 +7,26 @@ import * as prereqs from "../src/prerequisites.service";
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
 describe("prerequisites - directory", () => {
-  test("returns success if directory is accessible with required flags", async () => {
+  test("success - directory is accessible with required flags", async () => {
     spyOn(fsp, "access").mockResolvedValue();
 
-    const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(await new PrerequisiteDirectory({ label: "dir", directory }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("returns failure if access throws error", async () => {
+  test("failure - access throws an error", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("No access"));
 
-    const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
-
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(/No access/);
+    expect((await new PrerequisiteDirectory({ label: "dir", directory }).verify()).error.message).toMatch(
+      /No access/,
+    );
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteDirectory({ label: "dir", directory: directory, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteDirectory({ label: "dir", directory: directory, enabled: false }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });

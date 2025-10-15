@@ -34,6 +34,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
 
     try {
       await fsp.access(this.directory, flags);
+
       return prereqs.Verification.success();
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
