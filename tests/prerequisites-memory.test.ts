@@ -6,23 +6,21 @@ import * as prereqs from "../src/prerequisites.service";
 const maximum = tools.Size.fromMB(2);
 
 describe("prerequisites - memory", () => {
-  test("returns success when memory usage is below the maximum", async () => {
+  test("success - memory usage is below the maximum", async () => {
     // @ts-expect-error
-    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }) as any);
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));
 
-    const prerequisite = new PrerequisiteMemory({ maximum, label: "pass-case" });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+    expect(await new PrerequisiteMemory({ maximum, label: "memory" }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("returns failure when memory usage exceeds the maximum", async () => {
+  test("failure - memory usage exceeds the maximum", async () => {
     const memoryConsumption = tools.Size.fromMB(3);
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
 
-    const prerequisite = new PrerequisiteMemory({ maximum, label: "fail-case" });
-
-    expect(await prerequisite.verify()).toEqual(
+    expect(await new PrerequisiteMemory({ maximum, label: "memory" }).verify()).toEqual(
       prereqs.Verification.failure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       }),
@@ -33,8 +31,8 @@ describe("prerequisites - memory", () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: maximum }));
 
-    const prerequisite = new PrerequisiteMemory({ maximum, label: "disabled-case", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(await new PrerequisiteMemory({ maximum, label: "memory", enabled: false }).verify()).toEqual(
+      prereqs.Verification.undetermined(),
+    );
   });
 });
