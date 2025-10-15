@@ -3,44 +3,37 @@ import * as tools from "@bgord/tools";
 import { PrerequisiteBun } from "../src/prerequisites/bun";
 import * as prereqs from "../src/prerequisites.service";
 
-const base = tools.PackageVersion.fromString("1.0.0");
+const version = tools.PackageVersion.fromString("1.0.0");
 
 describe("prerequisites - bun", () => {
-  test("returns success if current Bun version is equal to required version", async () => {
-    const prerequisite = new PrerequisiteBun({ label: "bun", version: base, current: "1.0.0" });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+  test("success - Bun version is equal", async () => {
+    expect(await new PrerequisiteBun({ label: "bun", version, current: "1.0.0" }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("returns success if current Bun version is greater than required version", async () => {
-    const prerequisite = new PrerequisiteBun({ label: "bun", version: base, current: "1.1.0" });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.success());
+  test("success - Bun version is greater", async () => {
+    expect(await new PrerequisiteBun({ label: "bun", version, current: "1.1.0" }).verify()).toEqual(
+      prereqs.Verification.success(),
+    );
   });
 
-  test("returns failure if current Bun version is less than required version", async () => {
-    const prerequisite = new PrerequisiteBun({ label: "bun", version: base, current: "0.1.0" });
-
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toEqual("Version: 1.0.0");
+  test("failure - Bun version is less", async () => {
+    expect(
+      // @ts-expect-error
+      (await new PrerequisiteBun({ label: "bun", version, current: "0.1.0" }).verify()).error.message,
+    ).toEqual("Version: 1.0.0");
   });
 
-  test("fails if invalid bun version gets passed", async () => {
-    const prerequisite = new PrerequisiteBun({ label: "bun", version: base, current: "abc" });
-
-    expect(await prerequisite.verify()).toEqual(
+  test("failure - invalid Bun version", async () => {
+    expect(await new PrerequisiteBun({ label: "bun", version, current: "abc" }).verify()).toEqual(
       prereqs.Verification.failure({ message: "Invalid version passed: abc" }),
     );
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteBun({
-      label: "bun",
-      enabled: false,
-      version: base,
-      current: "1.1.0",
-    });
-
-    expect(await prerequisite.verify()).toEqual(prereqs.Verification.undetermined());
+    expect(
+      await new PrerequisiteBun({ label: "bun", enabled: false, version, current: "1.1.0" }).verify(),
+    ).toEqual(prereqs.Verification.undetermined());
   });
 });
