@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileHashPort } from "./file-hash.port";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type {
   RemoteFileStoragePort,
   RemoteHeadResult,
@@ -11,7 +12,7 @@ import type {
 
 type RemoteFileStorageDiskConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
 
-type Dependencies = { FileHash: FileHashPort; FileCleaner: FileCleanerPort };
+type Dependencies = { FileHash: FileHashPort; FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 
 export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
   constructor(
@@ -41,7 +42,7 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
 
     const source = Bun.file(input.path.get());
     await Bun.write(temporary.get(), source);
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return this.deps.FileHash.hash(final);
   }

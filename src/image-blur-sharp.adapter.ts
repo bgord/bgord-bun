@@ -1,8 +1,12 @@
-import fs from "node:fs/promises";
 import sharp from "sharp";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
 
+type Dependencies = { FileRenamer: FileRenamerPort };
+
 export class ImageBlurSharpAdapter implements ImageBlurPort {
+  constructor(private readonly deps: Dependencies) {}
+
   async blur(recipe: ImageBlurStrategy) {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
@@ -16,8 +20,7 @@ export class ImageBlurSharpAdapter implements ImageBlurPort {
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.rotate().blur(recipe.sigma).toFormat(format).toFile(temporary.get());
-
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return final;
   }

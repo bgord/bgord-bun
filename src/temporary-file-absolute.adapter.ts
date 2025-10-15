@@ -1,9 +1,9 @@
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import type { FileCleanerPort } from "./file-cleaner.port";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { TemporaryFilePort } from "./temporary-file.port";
 
-type Dependencies = { FileCleaner: FileCleanerPort };
+type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 
 export class TemporaryFileAbsolute implements TemporaryFilePort {
   constructor(
@@ -16,7 +16,7 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
     await Bun.write(temporary.get(), content);
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return { path: final };
   }

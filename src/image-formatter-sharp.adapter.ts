@@ -1,9 +1,9 @@
-import fs from "node:fs/promises";
 import sharp from "sharp";
 import type { FileCleanerPort } from "./file-cleaner.port";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
 
-type Dependencies = { FileCleaner: FileCleanerPort };
+type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 
 export class ImageFormatterSharpAdapter implements ImageFormatterPort {
   constructor(private readonly deps: Dependencies) {}
@@ -16,14 +16,14 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
 
     const temporary = final.withFilename(final.getFilename().withSuffix("-formatted"));
 
-    const eExtension = final.getFilename().getExtension();
-    const encoder = (eExtension === "jpg" ? "jpeg" : eExtension) as keyof sharp.FormatEnum;
+    const extension = final.getFilename().getExtension();
+    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
 
     const pipeline = sharp((recipe.strategy === "output_path" ? recipe.input : recipe.input).get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.toFormat(encoder).toFile(temporary.get());
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     if (recipe.strategy === "in_place" && final.get() !== recipe.input.get()) {
       await this.deps.FileCleaner.delete(recipe.input.get());

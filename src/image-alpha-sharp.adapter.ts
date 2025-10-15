@@ -1,8 +1,12 @@
-import fs from "node:fs/promises";
 import sharp from "sharp";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 
+type Dependencies = { FileRenamer: FileRenamerPort };
+
 export class ImageAlphaSharpAdapter implements ImageAlphaPort {
+  constructor(private readonly deps: Dependencies) {}
+
   async flatten(recipe: ImageAlphaStrategy) {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
@@ -20,8 +24,7 @@ export class ImageAlphaSharpAdapter implements ImageAlphaPort {
       .flatten({ background: recipe.background })
       .toFormat(format)
       .toFile(temporary.get());
-
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return final;
   }

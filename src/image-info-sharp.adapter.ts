@@ -6,13 +6,10 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
   async inspect(filePath: tools.FilePathRelative | tools.FilePathAbsolute) {
     const path = filePath.get();
 
-    const image = sharp(path);
+    const pipeline = sharp(path);
+    using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
-    using _sharp_ = {
-      [Symbol.dispose]: () => image.destroy(),
-    };
-
-    const metadata = await image.metadata();
+    const metadata = await pipeline.metadata();
 
     return {
       width: tools.ImageWidth.parse(metadata.width),
