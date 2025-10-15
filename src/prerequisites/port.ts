@@ -12,6 +12,7 @@ export class PrerequisitePort implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { port: PortType }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.port = config.port;
   }
 

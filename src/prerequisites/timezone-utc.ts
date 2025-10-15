@@ -14,6 +14,7 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { timezone: tools.TimezoneType }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.timezone = config.timezone;
   }
 

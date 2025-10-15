@@ -26,7 +26,6 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
       if (!integrity || (integrity.integrity_check ?? "").toLowerCase() !== "ok") {
         return prereqs.Verification.failure({ message: "Integrity check failed" });
       }
-
       return prereqs.Verification.success();
     } catch (error) {
       return prereqs.Verification.failure(error as Error);

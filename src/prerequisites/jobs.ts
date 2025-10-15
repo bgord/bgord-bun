@@ -11,6 +11,7 @@ export class PrerequisiteJobs implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { jobs: MultipleJobsType }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.jobs = config.jobs;
   }
 

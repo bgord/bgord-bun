@@ -17,11 +17,11 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
-      const result = await bun.$`bun audit --json`.quiet();
+      const command = await bun.$`bun audit --json`.quiet();
 
-      if (result.exitCode !== 0) return prereqs.Verification.failure({ message: "Audit failure" });
+      if (command.exitCode !== 0) return prereqs.Verification.failure({ message: "Audit failure" });
 
-      const audit = JSON.parse(result.stdout.toString()) as BunAuditOutput;
+      const audit = JSON.parse(command.stdout.toString()) as BunAuditOutput;
 
       const criticalVulnerabilitiesCount = Object.values(audit).filter((name) =>
         name.some((vulnerability) => vulnerability.severity === "critical"),

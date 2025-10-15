@@ -11,6 +11,7 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { logger: LoggerWinstonProductionAdapter }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.logger = config.logger;
   }
 

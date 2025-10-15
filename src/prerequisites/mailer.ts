@@ -11,6 +11,7 @@ export class PrerequisiteMailer implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { mailer: MailerPort }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.mailer = config.mailer;
   }
 

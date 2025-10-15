@@ -12,6 +12,7 @@ export class PrerequisiteNode implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { version: tools.PackageVersion; current: string }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.version = config.version;
     this.current = config.current;
   }

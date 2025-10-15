@@ -12,6 +12,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { minimum: tools.Size }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.minimum = config.minimum;
   }
 

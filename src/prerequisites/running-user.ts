@@ -11,6 +11,7 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { username: string }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
+
     this.username = config.username;
   }
 
