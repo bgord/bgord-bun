@@ -1,63 +1,59 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { TemporaryFileAbsolute } from "../src/temporary-file-absolute.adapter";
+import * as mocks from "./mocks";
 
-const base = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
-const adapter = new TemporaryFileAbsolute(base);
+const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
+const adapter = new TemporaryFileAbsolute(directory);
+
 const filename = tools.Filename.fromString("avatar.webp");
 
-const partPath = tools.FilePathAbsolute.fromPartsSafe(base, filename.withSuffix("-part")).get();
-const finalPath = tools.FilePathAbsolute.fromPartsSafe(base, filename).get();
+const partial = tools.FilePathAbsolute.fromPartsSafe(directory, filename.withSuffix("-part")).get();
+const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename).get();
 
-describe("TemporaryFileAbsolute", () => {
-  test("write performs atomic .part write then rename and returns final AbsoluteFilePath", async () => {
-    const fileData = new File([new TextEncoder().encode("hello")], "ignored.bin", {
-      type: "application/octet-stream",
-    });
+const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
+  type: "application/octet-stream",
+});
 
-    const writeSpy = spyOn(Bun, "write").mockResolvedValue(5 as any);
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue();
+describe("TemporaryFileAbsolute adapter", () => {
+  test("write - create a partial, rename, return final path", async () => {
+    const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fsRenameSpy = spyOn(fs, "rename").mockResolvedValue();
 
-    const { path } = await adapter.write(filename, fileData);
+    const { path } = await adapter.write(filename, content);
 
-    expect(writeSpy).toHaveBeenCalledTimes(1);
-    expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
-    expect(renameSpy).toHaveBeenCalledTimes(1);
-    expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
-    expect(path.get()).toEqual(finalPath);
+    expect(bunWriteSpy).toHaveBeenCalledTimes(1);
+    expect(bunWriteSpy).toHaveBeenCalledWith(partial, content);
+    expect(fsRenameSpy).toHaveBeenCalledTimes(1);
+    expect(fsRenameSpy).toHaveBeenCalledWith(partial, final);
+    expect(path.get()).toEqual(final);
   });
 
-  test("cleanup removes the final file", async () => {
-    const unlinkSpy = spyOn(fs, "unlink").mockResolvedValue();
+  test("write - Bun.write error", async () => {
+    const bunWriteSpy = spyOn(Bun, "write").mockRejectedValue(new Error(mocks.IntentialError));
+    const fsRenameSpy = spyOn(fs, "rename").mockResolvedValue();
+
+    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentialError);
+    expect(bunWriteSpy).toHaveBeenCalledWith(partial, content);
+    expect(fsRenameSpy).not.toHaveBeenCalled();
+  });
+
+  test("write - fs.rename error", async () => {
+    const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fsRenameSpy = spyOn(fs, "rename").mockRejectedValue(new Error(mocks.IntentialError));
+
+    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentialError);
+    expect(bunWriteSpy).toHaveBeenCalledWith(partial, content);
+    expect(fsRenameSpy).toHaveBeenCalledWith(partial, final);
+  });
+
+  test("cleanup", async () => {
+    const fsUnlinkSpy = spyOn(fs, "unlink").mockImplementation(jest.fn());
 
     await adapter.cleanup(filename);
 
-    expect(unlinkSpy).toHaveBeenCalledTimes(1);
-    expect(unlinkSpy).toHaveBeenCalledWith(finalPath);
-  });
-
-  test("write propagates errors from Bun.write and does not call rename", async () => {
-    const fileData = new File([new Uint8Array([1, 2, 3])], "ignored.bin");
-
-    const partPath = tools.FilePathAbsolute.fromPartsSafe(base, filename.withSuffix("-part")).get();
-
-    const writeSpy = spyOn(Bun, "write").mockRejectedValue(new Error("disk full"));
-    const renameSpy = spyOn(fs, "rename").mockResolvedValue();
-
-    expect(adapter.write(filename, fileData)).rejects.toThrow("disk full");
-    expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
-    expect(renameSpy).not.toHaveBeenCalled();
-  });
-
-  test("write propagates errors from fs.rename", async () => {
-    const fileData = new File([new Uint8Array([1, 2, 3])], "ignored.bin");
-
-    const writeSpy = spyOn(Bun, "write").mockResolvedValue(3 as any);
-    const renameSpy = spyOn(fs, "rename").mockRejectedValue(new Error("permission denied"));
-
-    expect(adapter.write(filename, fileData)).rejects.toThrow("permission denied");
-    expect(writeSpy).toHaveBeenCalledWith(partPath, fileData);
-    expect(renameSpy).toHaveBeenCalledWith(partPath, finalPath);
+    expect(fsUnlinkSpy).toHaveBeenCalledTimes(1);
+    expect(fsUnlinkSpy).toHaveBeenCalledWith(final);
   });
 });

@@ -5,14 +5,14 @@ import type { TemporaryFilePort } from "./temporary-file.port";
 export class TemporaryFileAbsolute implements TemporaryFilePort {
   constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
 
-  async write(filename: tools.Filename, data: File) {
-    const partPath = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
-    const finalPath = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
+  async write(filename: tools.Filename, content: File) {
+    const partial = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
+    const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
-    await Bun.write(partPath.get(), data);
-    await fs.rename(partPath.get(), finalPath.get());
+    await Bun.write(partial.get(), content);
+    await fs.rename(partial.get(), final.get());
 
-    return { path: finalPath };
+    return { path: final };
   }
 
   async cleanup(filename: tools.Filename) {
@@ -20,6 +20,6 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
 
     try {
       await fs.unlink(path.get());
-    } catch (error) {}
+    } catch {}
   }
 }
