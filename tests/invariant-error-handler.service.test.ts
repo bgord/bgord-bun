@@ -15,11 +15,8 @@ class SampleInvariantFactory extends Invariant<{ threshold: number }> {
   fails(config: { threshold: number }) {
     return config.threshold > 10;
   }
-
   error = SampleInvariantError;
-
   message = "sample.invariant.failed";
-
   code = 400 as ContentfulStatusCode;
 }
 
@@ -37,14 +34,14 @@ export class ErrorHandler {
   };
 }
 
-describe("InvariantErrorHandler", () => {
+describe("InvariantErrorHandler service", () => {
   test("throws formatted error", async () => {
-    const app = new Hono();
-    app.post("/ping", async (c) => {
-      SampleInvariant.perform({ threshold: 15 });
-      return c.text("OK");
-    });
-    app.onError(ErrorHandler.handle);
+    const app = new Hono()
+      .post("/ping", async (c) => {
+        SampleInvariant.perform({ threshold: 15 });
+        return c.text("OK");
+      })
+      .onError(ErrorHandler.handle);
 
     const result = await app.request("/ping", { method: "post" });
     const json = await result.json();
