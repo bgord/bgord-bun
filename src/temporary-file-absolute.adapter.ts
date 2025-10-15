@@ -1,9 +1,15 @@
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import type { FileCleanerPort } from "./file-cleaner.port";
 import type { TemporaryFilePort } from "./temporary-file.port";
 
+type Dependencies = { FileCleaner: FileCleanerPort };
+
 export class TemporaryFileAbsolute implements TemporaryFilePort {
-  constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
+  constructor(
+    private readonly directory: tools.DirectoryPathAbsoluteType,
+    private readonly deps: Dependencies,
+  ) {}
 
   async write(filename: tools.Filename, content: File) {
     const partial = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
@@ -16,10 +22,6 @@ export class TemporaryFileAbsolute implements TemporaryFilePort {
   }
 
   async cleanup(filename: tools.Filename) {
-    const path = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
-
-    try {
-      await fs.unlink(path.get());
-    } catch {}
+    await this.deps.FileCleaner.delete(tools.FilePathAbsolute.fromPartsSafe(this.directory, filename));
   }
 }

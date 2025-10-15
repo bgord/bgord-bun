@@ -1,11 +1,16 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { TemporaryFileAbsolute } from "../src/temporary-file-absolute.adapter";
 import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
-const adapter = new TemporaryFileAbsolute(directory);
+
+const FileCleaner = new FileCleanerNoopAdapter();
+const deps = { FileCleaner };
+
+const adapter = new TemporaryFileAbsolute(directory, deps);
 
 const filename = tools.Filename.fromString("avatar.webp");
 
@@ -49,11 +54,11 @@ describe("TemporaryFileAbsolute adapter", () => {
   });
 
   test("cleanup", async () => {
-    const fsUnlinkSpy = spyOn(fs, "unlink").mockImplementation(jest.fn());
+    const fileCleanerSpy = spyOn(FileCleaner, "delete");
 
     await adapter.cleanup(filename);
 
-    expect(fsUnlinkSpy).toHaveBeenCalledTimes(1);
-    expect(fsUnlinkSpy).toHaveBeenCalledWith(final);
+    // @ts-expect-error
+    expect(fileCleanerSpy.mock.calls[0][0].get()).toEqual(final);
   });
 });
