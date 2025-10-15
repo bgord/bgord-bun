@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileHashPort } from "./file-hash.port";
 import type {
   RemoteFileStoragePort,
@@ -8,14 +9,15 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-type RemoteFileStorageDiskConfig = {
-  root: tools.DirectoryPathAbsoluteType;
-  hasher: FileHashPort;
-  publicBaseUrl?: string;
-};
+type RemoteFileStorageDiskConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
+
+type Dependencies = { FileHash: FileHashPort; FileCleaner: FileCleanerPort };
 
 export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
-  constructor(private readonly config: RemoteFileStorageDiskConfig) {}
+  constructor(
+    private readonly config: RemoteFileStorageDiskConfig,
+    private readonly deps: Dependencies,
+  ) {}
 
   private resolveKeyToAbsoluteFilePath(key: tools.ObjectKeyType): tools.FilePathAbsolute {
     const parts = key.split("/");
@@ -41,14 +43,14 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     await Bun.write(temporary.get(), source);
     await fs.rename(temporary.get(), final.get());
 
-    return this.config.hasher.hash(final);
+    return this.deps.FileHash.hash(final);
   }
 
   async head(key: tools.ObjectKeyType): Promise<RemoteHeadResult> {
     const path = this.resolveKeyToAbsoluteFilePath(key);
 
     try {
-      return { exists: true, ...(await this.config.hasher.hash(path)) };
+      return { exists: true, ...(await this.deps.FileHash.hash(path)) };
     } catch {
       return { exists: false };
     }
@@ -65,10 +67,6 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
   }
 
   async delete(key: tools.ObjectKeyType): Promise<void> {
-    const path = this.resolveKeyToAbsoluteFilePath(key);
-
-    try {
-      await fs.unlink(path.get());
-    } catch (error) {}
+    await this.deps.FileCleaner.delete(this.resolveKeyToAbsoluteFilePath(key));
   }
 }
