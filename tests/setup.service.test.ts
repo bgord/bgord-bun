@@ -15,29 +15,31 @@ const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
 const Clock = new ClockSystemAdapter();
 
-describe("Setup", () => {
-  test("sets the essentials", async () => {
+const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
+
+const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
+  .use(...Setup.essentials({ Logger, I18n, IdProvider, Clock }))
+  .get("/ping", (c) =>
+    c.json({
+      requestId: c.get("requestId"),
+      timeZoneOffset: c.get("timeZoneOffset"),
+      language: c.get("language"),
+      etag: c.get("ETag"),
+      weakEtag: c.get("WeakETag"),
+    }),
+  );
+
+describe("Setup service", () => {
+  test("happy path", async () => {
     spyOn(Logger, "http").mockImplementation(jest.fn());
-
-    const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
-
-    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>();
-    app.use(...Setup.essentials({ Logger, I18n, IdProvider, Clock }));
-    app.get("/ping", (c) =>
-      c.json({
-        requestId: c.get("requestId"),
-        timeZoneOffset: c.get("timeZoneOffset"),
-        language: c.get("language"),
-        etag: c.get("ETag"),
-        weakEtag: c.get("WeakETag"),
-      }),
-    );
 
     const response = await app.request(
       "/ping",
       { method: "GET", headers: new Headers({ "x-correlation-id": predefinedRequestId }) },
       ip,
     );
+
+    const json = await response.json();
 
     expect(response.headers.toJSON()).toMatchObject({
       "access-control-allow-origin": "*",
@@ -58,7 +60,6 @@ describe("Setup", () => {
       "x-xss-protection": "0",
     });
 
-    const json = await response.json();
     expect(json).toEqual({
       requestId: predefinedRequestId,
       timeZoneOffset: { internal: 0 },
