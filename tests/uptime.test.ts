@@ -1,16 +1,15 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { Uptime } from "../src/uptime.service";
 
 const clock = new ClockSystemAdapter();
+const duration = tools.Duration.Minutes(10);
 
-describe("Uptime", () => {
-  test("Uptime.get returns seconds and formatted uptime", () => {
-    spyOn(process, "uptime").mockImplementation(() => 12_000);
+describe("Uptime service", () => {
+  test("happy path", () => {
+    spyOn(process, "uptime").mockImplementation(() => duration.seconds);
 
-    const result = Uptime.get(clock);
-
-    expect(result.duration.hours).toEqual(3.33);
-    expect(result.formatted).toEqual("about 3 hours ago");
+    expect(Uptime.get(clock)).toEqual({ duration, formatted: "10 minutes ago" });
   });
 });
