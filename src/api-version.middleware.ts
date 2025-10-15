@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { BuildInfoRepository } from "./build-info-repository.service";
 import type { ClockPort } from "./clock.port";
-import type { JsonFileReaderPort } from "./file-reader-json.port";
+import type { JsonFileReaderPort } from "./json-file-reader.port";
 
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort };
 

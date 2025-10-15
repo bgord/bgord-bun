@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { JsonFileReaderNoopAdapter } from "../src/file-reader-json-noop.adpater";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import * as mocks from "./mocks";
 
 const version = "1.2.3";

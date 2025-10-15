@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import { ApiVersion } from "../src/api-version.middleware";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { JsonFileReaderNoopAdapter } from "../src/file-reader-json-noop.adpater";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 
 const Clock = new ClockSystemAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});

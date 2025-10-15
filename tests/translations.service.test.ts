@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
-import { JsonFileReaderNoopAdapter } from "../src/file-reader-json-noop.adpater";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Translations } from "../src/translations.service";
 

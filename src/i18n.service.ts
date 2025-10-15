@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import type { JsonFileReaderPort } from "../src/file-reader-json.port";
+import type { JsonFileReaderPort } from "../src/json-file-reader.port";
 import type { LoggerPort } from "../src/logger.port";
 
 export type TranslationsKeyType = string;

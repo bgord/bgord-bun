@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 import { BuildInfoRepository } from "./build-info-repository.service";
 import type { ClockPort } from "./clock.port";
-import type { JsonFileReaderPort } from "./file-reader-json.port";
+import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import * as prereqs from "./prerequisites.service";

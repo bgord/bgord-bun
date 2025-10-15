@@ -2,8 +2,8 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
-import { JsonFileReaderNoopAdapter } from "../src/file-reader-json-noop.adpater";
 import { I18n } from "../src/i18n.service";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 

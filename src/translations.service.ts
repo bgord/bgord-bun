@@ -1,6 +1,6 @@
 import { createFactory } from "hono/factory";
-import type { JsonFileReaderPort } from "./file-reader-json.port";
 import { I18n } from "./i18n.service";
+import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 
 const handler = createFactory();

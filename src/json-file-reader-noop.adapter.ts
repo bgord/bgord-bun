@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { JsonFileReaderPort } from "./file-reader-json.port";
+import type { JsonFileReaderPort } from "./json-file-reader.port";
 
 export class JsonFileReaderNoopAdapter implements JsonFileReaderPort {
   constructor(private readonly json: Record<string, any>) {}
