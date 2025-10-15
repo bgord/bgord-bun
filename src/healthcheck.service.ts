@@ -24,7 +24,7 @@ export class Healthcheck {
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
 
-      const build = await BuildInfoRepository.extract(deps);
+      const buildInfo = await BuildInfoRepository.extract(deps);
 
       const details: HealthcheckResultType["details"][number][] = [];
 
@@ -41,7 +41,7 @@ export class Healthcheck {
       const result: HealthcheckResultType = {
         ok,
         details,
-        version: build.BUILD_VERSION ?? "unknown",
+        version: buildInfo.BUILD_VERSION ?? "unknown",
         uptime: Uptime.get(deps.Clock),
         memory: {
           bytes: MemoryConsumption.get().toBytes(),

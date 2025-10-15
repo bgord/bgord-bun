@@ -36,15 +36,13 @@ const buildInfo = {
 const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
-describe("Healthcheck", () => {
-  test("healthcheck returns 200 if all prerequisites pass", async () => {
+describe("Healthcheck service", () => {
+  test("200", async () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
-    const app = new Hono();
-    const handler = Healthcheck.build([new Ok()], deps);
-    app.get("/health", ...handler);
+    const app = new Hono().get("/health", ...Healthcheck.build([new Ok()], deps));
 
     const response = await app.request("/health");
     const data = await response.json();
@@ -60,14 +58,12 @@ describe("Healthcheck", () => {
     });
   });
 
-  test("healthcheck returns 424 if any prerequisite fails", async () => {
+  test("424", async () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
-    const app = new Hono();
-    const handler = Healthcheck.build([new Ok(), new Fail()], deps);
-    app.get("/health", ...handler);
+    const app = new Hono().get("/health", ...Healthcheck.build([new Ok(), new Fail()], deps));
 
     const response = await app.request("/health");
     const data = await response.json();
