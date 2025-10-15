@@ -7,15 +7,12 @@ const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
 const INVALID_TOKEN = "invalid_token";
 
-const shield = new ShieldCaptchaRecaptcha({
-  secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY),
-});
+const shield = new ShieldCaptchaRecaptcha({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
 
-const app = new Hono();
-app.post("/", shield.verify, (c) => c.text("ok"));
+const app = new Hono().post("/", shield.verify, (c) => c.text("ok"));
 
 describe("ShieldCaptchaRecaptcha", () => {
-  test("body - passes when recaptcha verification is successful", async () => {
+  test("happy path", async () => {
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
     );
@@ -25,14 +22,13 @@ describe("ShieldCaptchaRecaptcha", () => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString(),
     });
-    const body = await response.text();
 
     expect(response.status).toEqual(200);
-    expect(body).toEqual("ok");
+    expect(await response.text()).toEqual("ok");
     expect(fetchSpy).toHaveBeenCalled();
   });
 
-  test("headers - passes when recaptcha verification is successful", async () => {
+  test("happy path - header", async () => {
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
     );
@@ -44,14 +40,13 @@ describe("ShieldCaptchaRecaptcha", () => {
         "x-recaptcha-token": VALID_TOKEN,
       }),
     });
-    const body = await response.text();
 
     expect(response.status).toEqual(200);
-    expect(body).toEqual("ok");
+    expect(await response.text()).toEqual("ok");
     expect(fetchSpy).toHaveBeenCalled();
   });
 
-  test("query - passes when recaptcha verification is successful", async () => {
+  test("happy path - qury", async () => {
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
     );
@@ -60,14 +55,13 @@ describe("ShieldCaptchaRecaptcha", () => {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
-    const body = await response.text();
 
     expect(response.status).toEqual(200);
-    expect(body).toEqual("ok");
+    expect(await response.text()).toEqual("ok");
     expect(fetchSpy).toHaveBeenCalled();
   });
 
-  test("throws AccessDeniedError when recaptcha fails", async () => {
+  test("failure", async () => {
     const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
       new Response(JSON.stringify({ success: false }), { status: 200 }),
     );

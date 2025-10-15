@@ -9,10 +9,8 @@ const INVALID_API_KEY = "invalid-api-key";
 const apiKeyShield = new ShieldApiKey({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
 
 describe("ApiKeyShield middleware", () => {
-  test("allows access with valid API key", async () => {
-    const app = new Hono();
-    app.use(apiKeyShield.verify);
-    app.get("/ping", (c) => c.text("OK"));
+  test("happy path", async () => {
+    const app = new Hono().use(apiKeyShield.verify).get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", {
       method: "GET",
@@ -22,10 +20,8 @@ describe("ApiKeyShield middleware", () => {
     expect(result.status).toEqual(200);
   });
 
-  test("denies access with missing API key", async () => {
-    const app = new Hono();
-    app.use(apiKeyShield.verify);
-    app.get("/ping", () => expect.unreachable());
+  test("denied - no api key", async () => {
+    const app = new Hono().use(apiKeyShield.verify).get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",
@@ -35,10 +31,8 @@ describe("ApiKeyShield middleware", () => {
     expect(result.status).toEqual(403);
   });
 
-  test("denies access with invalid API key", async () => {
-    const app = new Hono();
-    app.use(apiKeyShield.verify);
-    app.get("/ping", () => expect.unreachable());
+  test("denied - invalid api key", async () => {
+    const app = new Hono().use(apiKeyShield.verify).get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",
