@@ -36,8 +36,8 @@ export type HttpLoggerOptions = { skip?: readonly string[] };
 
 export class HttpLogger {
   static build = (deps: Dependencies, options?: HttpLoggerOptions) =>
-    createMiddleware(async (c, next) => {
-      const request = c.req.raw.clone();
+    createMiddleware(async (context, next) => {
+      const request = context.req.raw.clone();
 
       const pathname = new URL(request.url).pathname;
 
@@ -46,15 +46,15 @@ export class HttpLogger {
         return;
       }
 
-      const correlationId = c.get("requestId") as CorrelationIdType;
-      const client = ClientFromHono.extract(c).toJSON();
+      const correlationId = context.get("requestId");
+      const client = ClientFromHono.extract(context).toJSON();
 
       const httpRequestBeforeMetadata = {
-        params: c.req.param(),
+        params: context.req.param(),
         // @ts-expect-error
         headers: _.omit(Object.fromEntries(request.headers), UNINFORMATIVE_HEADERS),
         body: await HttpLogger.parseJSON(request),
-        query: c.req.queries(),
+        query: context.req.queries(),
       };
 
       deps.Logger.http({
@@ -72,7 +72,7 @@ export class HttpLogger {
       await next();
       const duration = stopwatch.stop();
 
-      const response = c.res.clone();
+      const response = context.res.clone();
 
       deps.Logger.http({
         component: "http",

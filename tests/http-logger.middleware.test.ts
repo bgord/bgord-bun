@@ -12,20 +12,20 @@ const ip = {
   },
 };
 
-describe("HttpLogger middleware", () => {
-  test("logs correct 200 HTTP log", async () => {
-    const Logger = new LoggerNoopAdapter();
-    const Clock = new ClockSystemAdapter();
+const Logger = new LoggerNoopAdapter();
+const Clock = new ClockSystemAdapter();
 
+const deps = { Logger, Clock };
+
+describe("HttpLogger middleware", () => {
+  test("200", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const deps = { Logger, Clock };
-
-    const app = new Hono();
-    app.use(requestId());
-    app.use(HttpLogger.build(deps));
-    app.use(timing());
-    app.get("/ping", (c) => c.json({ message: "OK" }));
+    const app = new Hono()
+      .use(requestId())
+      .use(HttpLogger.build(deps))
+      .use(timing())
+      .get("/ping", (c) => c.json({ message: "OK" }));
 
     const result = await app.request("/ping", { method: "GET" }, ip);
 
@@ -68,20 +68,16 @@ describe("HttpLogger middleware", () => {
     );
   });
 
-  test("logs correct 400 HTTP log", async () => {
-    const Logger = new LoggerNoopAdapter();
-    const Clock = new ClockSystemAdapter();
+  test("400", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const deps = { Logger, Clock };
-
-    const app = new Hono();
-    app.use(requestId());
-    app.use(HttpLogger.build(deps));
-    app.use(timing());
-    app.get("/ping", (c) => {
-      return c.json({ message: "general.unknown" }, 500);
-    });
+    const app = new Hono()
+      .use(requestId())
+      .use(HttpLogger.build(deps))
+      .use(timing())
+      .get("/ping", (c) => {
+        return c.json({ message: "general.unknown" }, 500);
+      });
 
     const result = await app.request("/ping", { method: "GET" }, ip);
 
@@ -122,16 +118,12 @@ describe("HttpLogger middleware", () => {
     );
   });
 
-  test("skips logging for configured path prefix", async () => {
-    const Logger = new LoggerNoopAdapter();
-    const Clock = new ClockSystemAdapter();
+  test("skip", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const deps = { Logger, Clock };
-
-    const app = new Hono().use(HttpLogger.build(deps, { skip: ["/i18n/"] }));
-
-    app.get("/i18n/en.json", (c) => c.json({ hello: "world" }));
+    const app = new Hono()
+      .use(HttpLogger.build(deps, { skip: ["/i18n/"] }))
+      .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
     const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
     expect(result.status).toEqual(200);
