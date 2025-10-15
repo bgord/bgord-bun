@@ -6,9 +6,9 @@ import { WeakETagExtractor } from "../src/weak-etag-extractor.middleware";
 
 describe("WeakETagExtractor middleware", () => {
   test("extracts WeakETag from valid header", async () => {
-    const app = new Hono<{ Variables: EtagVariables }>();
-    app.use(WeakETagExtractor.attach);
-    app.get("/ping", (c) => c.json(c.get("WeakETag")));
+    const app = new Hono<{ Variables: EtagVariables }>()
+      .use(WeakETagExtractor.attach)
+      .get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", {
       method: "GET",
@@ -21,10 +21,10 @@ describe("WeakETagExtractor middleware", () => {
     expect(json.value).toEqual("W/12345");
   });
 
-  test("handles missing WeakETag header gracefully", async () => {
-    const app = new Hono<{ Variables: EtagVariables }>();
-    app.use(WeakETagExtractor.attach);
-    app.get("/ping", (c) => c.json(c.get("WeakETag")));
+  test("handles missing WeakETag header", async () => {
+    const app = new Hono<{ Variables: EtagVariables }>()
+      .use(WeakETagExtractor.attach)
+      .get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", { method: "GET" });
     const json = await result.json();
@@ -33,10 +33,10 @@ describe("WeakETagExtractor middleware", () => {
     expect(json).toEqual(null);
   });
 
-  test("handles invalid WeakETag header gracefully", async () => {
-    const app = new Hono<{ Variables: EtagVariables }>();
-    app.use(WeakETagExtractor.attach);
-    app.get("/ping", (c) => c.json(c.get("WeakETag")));
+  test("handles invalid WeakETag header", async () => {
+    const app = new Hono<{ Variables: EtagVariables }>()
+      .use(WeakETagExtractor.attach)
+      .get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const result = await app.request("/ping", {
       method: "GET",
