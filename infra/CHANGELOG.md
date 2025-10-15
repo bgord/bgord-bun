@@ -1,8 +1,69 @@
 # Changelog
+- 2025-10-15 14:36 07f835d **refactor: simplify shield rate limit**
+- 2025-10-15 14:26 d7dc277 **refactor: simplify api key middleware**
+- 2025-10-15 14:24 28d0112 **refactor: simplify setup**
+- 2025-10-15 14:17 be651dd **refactor: simplify remote file storage disk**
+- 2025-10-15 14:08 dbe24d8 **refactor: simplify redactors**
+- 2025-10-15 13:52 a491f6b **refactor: simplify logger**
+- 2025-10-15 13:48 73f6593 **refactor: simplify jobs**
+- 2025-10-15 13:44 d3ab49b **refactor: simplify invariants**
+- 2025-10-15 13:10 a747cb1 **refactor: simplify image alpha sharp**
+- 2025-10-15 13:02 b32d6c4 **refactor: improve id provider crypto**
+- 2025-10-15 13:00 b915323 **refactor: improve i18n**
+- 2025-10-15 12:56 6463619 **refactor: improve http logger**
+- 2025-10-15 12:52 b2cd487 **refactor: improve healthcheck**
+- 2025-10-15 12:49 5d1a383 **refactor: improve event stream**
+- 2025-10-15 12:46 7c7e92e **refactor: improve event logger**
+- 2025-10-15 12:44 fd9cf97 **refactor: improve event handler**
+- 2025-10-15 12:41 b7e57ee **refactor: improve etag extractor**
+- 2025-10-15 12:33 262545b **refactor: extract signature regex**
+- 2025-10-15 12:25 a7fac90 **refactor: improve formatting**
+- 2025-10-15 12:01 746ef60 **refactor: improve simulated error**
+- 2025-10-15 12:00 2220494 **refactor: improve slower**
+- 2025-10-15 11:58 fd5d3d5 **refactor: improve temporary file absolute adapter**
+- 2025-10-15 11:41 35a2014 **refactor: unify tests**
+- 2025-10-15 11:38 e1d72f4 **refactor: adjust uptime service**
+- 2025-10-15 11:32 4e37283 **refactor: rename open graph and sitemap**
+- 2025-10-15 11:31 95124e8 **refactor: adjust uuid**
+- 2025-10-15 11:29 5cc9ad6 **refactor: visitor id**
+- 2025-10-15 11:27 e4671e4 **refactor: week etag extractor middleware**
+- 2025-10-15 11:24 d957384 **refactor: unify translations tests**
+- 2025-10-15 11:22 4dd7fcb **refactor: unify utc tests**
+- 2025-10-15 11:20 06a0c9f **refactor: unify ssl tests**
+- 2025-10-15 11:17 d079aee **refactor: unify sqlite tests**
+- 2025-10-15 11:14 6522d4e **refactor: unify space tests**
+- 2025-10-15 11:11 8cacb61 **refactor: unify self tests**
+- 2025-10-15 11:10 27d10fb **refactor: unify runnign user tests**
+- 2025-10-15 11:08 4ddd7ea **refactor: unify ram tests**
+- 2025-10-15 11:06 6503b63 **refactor: unify port tests**
+- 2025-10-15 11:05 92495ee **refactor: unify outside connectivity tests**
+- 2025-10-15 11:04 221c341 **refactor: unify node tests**
+- 2025-10-15 11:02 3692f34 **refactor: unify memory tests**
+- 2025-10-15 11:00 9b03f8b **refactor: unify mailer tests**
+- 2025-10-15 10:59 967a293 **refactor: unify log file tests**
+- 2025-10-15 10:57 df49488 **refactor: unify jobs tests**
+- 2025-10-15 10:54 f02753a **refactor: unify external api tests**
+- 2025-10-15 10:54 5dd0608 **refactor: unify dir tests**
+- 2025-10-15 10:52 3a59733 **refactor: unify dep tests**
+- 2025-10-15 10:50 b31ef3c **refactor: unify bun tests**
+- 2025-10-15 10:46 422cd6e **refactor: unify undetermined tests**
+- 2025-10-15 10:43 eb30471 **refactor: adjust binary prereq**
+- 2025-10-15 10:40 81580db **refactor: adjust tests**
+- 2025-10-15 10:39 5e46373 **refactor: extract binary vo**
+- 2025-10-15 10:30 2da0723 **refactor: simplify user language resolver**
+- 2025-10-15 10:27 4ce1e81 **refactor: simplify history events**
+- 2025-10-14 15:04 0465e18 **refactor: improve api version**
+- 2025-10-14 15:01 e5b36d5 **refactor: improve basic auth**
+- 2025-10-14 01:13 7111235 **refactor: improve antivirus port and adapters**
+- 2025-10-14 01:08 6d77bc0 **refactor: simplify translations prereq**
+- 2025-10-14 01:04 2fc92b3 **refactor: improve formatting**
+- 2025-10-13 22:15 1b77d8e **refactor: improve antivirus**
+- 2025-10-13 15:06 3b8a94f **refactor: remove not handled _error**
 - 2025-10-13 15:04 ee4ff33 **step: update packages**
 - 2025-10-13 15:01 d6dd71b **step: update packages**
 - 2025-10-13 14:52 c3f6138 **refactor: adjust to bgord/tools**
 - 2025-10-13 14:49 9ddb7af **step: update tools to 1.0.0**
+- 2025-10-13 13:05 11400f6 **docs: generate CHANGELOG**
 ## 2025-10-08 11:14 v0.30.1
 - 2025-10-08 11:14 c45d32a **0.30.1**
 - 2025-10-08 11:12 287fe9c **step: setup cors policy to cross-origin by default**
