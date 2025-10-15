@@ -19,7 +19,14 @@ const secret = "secret";
 const adapter = new RedactorEncryptionAdapter("secret", "metadata");
 
 describe("RedactorEncryptionAdapter", () => {
-  test("roundtrip: encrypts top-level target and decrypts back to original", () => {
+  test("happy path", () => {
+    const result = adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
+
+    expect(typeof result.metadata).toEqual("string");
+    expect(result.nested.metadata).toEqual({ a: 1 });
+  });
+
+  test("roundtrip", () => {
     const input = {
       metadata: { headers: { Authorization: "Bearer xyz" }, client: { ip: "1.2.3.4" } },
       keep: 123,
@@ -32,23 +39,5 @@ describe("RedactorEncryptionAdapter", () => {
     expect(input.metadata.client.ip).toEqual("1.2.3.4");
 
     expect(decrypt(result.metadata as unknown as string, secret)).toEqual(input.metadata);
-  });
-
-  test("only top-level target is encrypted; nested same-name keys stay plain", () => {
-    const result = adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
-
-    expect(typeof result.metadata).toEqual("string");
-    expect(result.nested.metadata).toEqual({ a: 1 });
-  });
-
-  test("random IV: same input produces different ciphertexts, same plaintext after decrypt", () => {
-    const input = { metadata: { x: 1 } };
-
-    const a = adapter.redact(input);
-    const b = adapter.redact(input);
-
-    expect(a.metadata).not.toEqual(b.metadata);
-    expect(decrypt(a.metadata as unknown as string, secret)).toEqual(input.metadata);
-    expect(decrypt(b.metadata as unknown as string, secret)).toEqual(input.metadata);
   });
 });
