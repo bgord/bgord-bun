@@ -4,6 +4,7 @@ import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import { JobHandler } from "../src/jobs.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
@@ -11,8 +12,10 @@ const IdProvider = new IdProviderCryptoAdapter();
 
 const deps = { Logger, Clock, IdProvider };
 
-describe("JobHandler", () => {
-  test("should log job start and success when job is processed successfully", async () => {
+const handler = new JobHandler(deps);
+
+describe("JobHandler service", () => {
+  test("happy path", async () => {
     // @ts-expect-error
     spyOn(croner, "Cron").mockImplementation(() => ({
       isRunning: jest.fn().mockReturnValue(false),
@@ -20,14 +23,7 @@ describe("JobHandler", () => {
     }));
     const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(deps);
-
-    const job = jobHandler.handle({
-      cron: "* * * * *",
-      label: "Test Job",
-      process: jest.fn().mockResolvedValue(undefined),
-    });
-    await job();
+    await handler.handle({ cron: "* * * * *", label: "Test Job", process: jest.fn() })();
 
     expect(loggerInfoSpy).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: "Test Job start" }));
     expect(loggerInfoSpy).toHaveBeenNthCalledWith(
@@ -36,7 +32,7 @@ describe("JobHandler", () => {
     );
   });
 
-  test("should log job error when job fails", async () => {
+  test("failure", async () => {
     // @ts-expect-error
     spyOn(croner, "Cron").mockImplementation(() => ({
       isRunning: jest.fn().mockReturnValue(false),
@@ -45,29 +41,21 @@ describe("JobHandler", () => {
     const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
     const loggerErrorSpy = spyOn(Logger, "error").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(deps);
-
-    const job = jobHandler.handle({
+    await handler.handle({
       cron: "* * * * *",
       label: "Test Job",
-      process: jest.fn().mockRejectedValue(new Error("Job failed")),
-    });
-    await job();
+      process: jest.fn().mockRejectedValue(new Error(mocks.IntentialError)),
+    })();
 
     expect(loggerInfoSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job start" }));
     expect(loggerErrorSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job error" }));
   });
 
-  test("should handle job overrun", async () => {
+  test("overrun", async () => {
     const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
 
-    const jobHandler = new JobHandler(deps);
-    const protectJob = jobHandler.protect({} as croner.Cron);
+    await handler.protect({} as croner.Cron)();
 
-    // Run the protect function
-    await protectJob();
-
-    // Verify that the overrun log was triggered
     expect(loggerInfoSpy).toHaveBeenCalledWith(expect.objectContaining({ message: "undefined overrun" }));
   });
 });
