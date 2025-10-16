@@ -1,5 +1,8 @@
 # Changelog
+## 2025-10-16 15:06 v1.0.1
+- 2025-10-16 15:06 0051923 **1.0.1**
 - 2025-10-16 15:05 7151a88 **fix: translations prereq**
+- 2025-10-16 13:05 a702d65 **docs: generate CHANGELOG**
 ## 2025-10-16 11:55 v1.0.0
 - 2025-10-16 11:55 fa9b80c **1.0.0**
 - 2025-10-16 11:53 07f44fc **Merge pull request #140 from bgord/file-ports**
