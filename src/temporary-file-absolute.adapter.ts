@@ -5,7 +5,7 @@ import type { TemporaryFilePort } from "./temporary-file.port";
 
 type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 
-export class TemporaryFileAbsolute implements TemporaryFilePort {
+export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
   constructor(
     private readonly directory: tools.DirectoryPathAbsoluteType,
     private readonly deps: Dependencies,

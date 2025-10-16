@@ -8,7 +8,7 @@ export const AccessDeniedHcaptchaLocalError = new HTTPException(403, {
   message: "access_denied_hcaptcha_local",
 });
 
-export class ShieldCaptchaHcaptchaLocal implements ShieldCaptchaPort {
+export class ShieldCaptchaHcaptchaLocalAdapter implements ShieldCaptchaPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   verify = createMiddleware(async (_c, next) => {

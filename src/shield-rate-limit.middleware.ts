@@ -3,10 +3,10 @@ import type { Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { ClockPort } from "./clock.port";
-import type { RateLimitStore } from "./rate-limit-store.port";
+import type { RateLimitStorePort } from "./rate-limit-store.port";
 
 type SubjectResolver = (c: Context) => string;
-type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStore; subject: SubjectResolver };
+type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStorePort; subject: SubjectResolver };
 type Dependencies = { Clock: ClockPort };
 
 export const AnonSubjectResolver: SubjectResolver = () => "anon";

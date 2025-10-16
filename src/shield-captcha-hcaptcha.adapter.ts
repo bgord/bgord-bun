@@ -15,7 +15,7 @@ export type HCaptchaResponseTokenType = z.infer<typeof HCaptchaResponseToken>;
 
 export const AccessDeniedHcaptchaError = new HTTPException(403, { message: "access_denied_hcaptcha" });
 
-export class ShieldCaptchaHcaptcha implements ShieldCaptchaPort {
+export class ShieldCaptchaHcaptchaAdapter implements ShieldCaptchaPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   verify = createMiddleware(async (c, next) => {

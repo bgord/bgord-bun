@@ -1,20 +1,20 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import { RecaptchaSecretKey, ShieldCaptchaRecaptcha } from "../src/shield-captcha-recaptcha.adapter";
+import { RecaptchaSecretKey, ShieldCaptchaRecaptchaAdapter } from "../src/shield-captcha-recaptcha.adapter";
 
 const VALID_SECRET_KEY = "x".repeat(40);
 
 const VALID_TOKEN = "valid_token";
 const INVALID_TOKEN = "invalid_token";
 
-const shield = new ShieldCaptchaRecaptcha({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
+const shield = new ShieldCaptchaRecaptchaAdapter({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
 
 const app = new Hono().post("/", shield.verify, (c) => c.text("ok"));
 
 const success = () => new Response(JSON.stringify({ success: true }), { status: 200 });
 const failure = () => new Response(JSON.stringify({ success: false }), { status: 200 });
 
-describe("ShieldCaptchaRecaptcha", () => {
+describe("ShieldCaptchaRecaptchaAdapter", () => {
   test("happy path", async () => {
     spyOn(global, "fetch").mockResolvedValueOnce(success());
 

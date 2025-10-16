@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
-import { TemporaryFileAbsolute } from "../src/temporary-file-absolute.adapter";
+import { TemporaryFileAbsoluteAdapter } from "../src/temporary-file-absolute.adapter";
 import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
@@ -11,7 +11,7 @@ const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileCleaner, FileRenamer };
 
-const adapter = new TemporaryFileAbsolute(directory, deps);
+const adapter = new TemporaryFileAbsoluteAdapter(directory, deps);
 
 const filename = tools.Filename.fromString("avatar.webp");
 

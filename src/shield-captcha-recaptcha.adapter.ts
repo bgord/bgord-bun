@@ -14,7 +14,7 @@ export type RecaptchaResultType = { success: boolean; score: number };
 
 export const AccessDeniedRecaptchaError = new HTTPException(403, { message: "access_denied_recaptcha" });
 
-export class ShieldCaptchaRecaptcha implements ShieldCaptchaPort {
+export class ShieldCaptchaRecaptchaAdapter implements ShieldCaptchaPort {
   constructor(private readonly config: RecaptchaVerifierConfigType) {}
 
   verify = createMiddleware(async (c, next) => {

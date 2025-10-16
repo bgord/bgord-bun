@@ -1,7 +1,7 @@
 import type { Client } from "./client.vo";
 import type { VisitorIdPort } from "./visitor-id.port";
 
-export class VisitorIdHash implements VisitorIdPort {
+export class VisitorIdHashAdapter implements VisitorIdPort {
   constructor(private readonly client: Client) {}
 
   async get() {

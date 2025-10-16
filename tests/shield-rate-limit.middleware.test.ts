@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { RateLimitStoreNodeCache } from "../src/rate-limit-store-node-cache.adapter";
+import { RateLimitStoreNodeCacheAdapter } from "../src/rate-limit-store-node-cache.adapter";
 import {
   AnonSubjectResolver,
   ShieldRateLimit,
@@ -12,7 +12,7 @@ import {
 const Clock = new ClockFixedAdapter(1000);
 const deps = { Clock };
 
-const store = new RateLimitStoreNodeCache(tools.Duration.Seconds(1));
+const store = new RateLimitStoreNodeCacheAdapter(tools.Duration.Seconds(1));
 
 const app = new Hono().get(
   "/ping",
