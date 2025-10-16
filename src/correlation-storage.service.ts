@@ -4,6 +4,8 @@ import type { CorrelationIdType } from "./correlation-id.vo";
 
 type CorrelationContext = { correlationId: CorrelationIdType };
 
+export const CorrelationStorageError = { Missing: "correlation.storage.missing" } as const;
+
 export class CorrelationStorage {
   private static readonly GLOBAL_KEY = Symbol.for("bgord.CorrelationStorage");
 
@@ -20,7 +22,7 @@ export class CorrelationStorage {
   static get(): CorrelationIdType {
     const store = CorrelationStorage.als.getStore();
 
-    if (!store) throw new Error("CorrelationId missing from context");
+    if (!store) throw new Error(CorrelationStorageError.Missing);
     return store.correlationId;
   }
 

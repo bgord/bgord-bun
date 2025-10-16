@@ -3,16 +3,16 @@ import { z } from "zod/v4";
 import type { MailerPort } from "./mailer.port";
 import { Port } from "./port.vo";
 
-export const SmtpHost = z.string().trim().min(1);
+export const SmtpHost = z.string().min(1);
 export type SmtpHostType = z.infer<typeof SmtpHost>;
 
 export const SmtpPort = Port;
 export type SmtpPortType = z.infer<typeof SmtpPort>;
 
-export const SmtpUser = z.string().trim().min(1);
+export const SmtpUser = z.string().min(1);
 export type SmtpUserType = z.infer<typeof SmtpUser>;
 
-export const SmtpPass = z.string().trim().min(1);
+export const SmtpPass = z.string().min(1);
 export type SmtpPassType = z.infer<typeof SmtpPass>;
 
 type MailerConfigType = {
@@ -21,8 +21,6 @@ type MailerConfigType = {
   SMTP_USER: SmtpUserType;
   SMTP_PASS: SmtpPassType;
 };
-
-type MailerSendOptionsType = SendMailOptions;
 
 export const EmailSubject = z.string().min(1).max(128);
 export type EmailSubjectType = z.infer<typeof EmailSubject>;
@@ -49,7 +47,7 @@ export class MailerSmtpAdapter implements MailerPort {
     });
   }
 
-  async send(message: MailerSendOptionsType): Promise<unknown> {
+  async send(message: SendMailOptions): Promise<unknown> {
     return this.transport.sendMail(message);
   }
 
