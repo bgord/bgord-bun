@@ -3,7 +3,7 @@ import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-co
 import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
-describe("prerequisites - outside connectivity", () => {
+describe("PrerequisiteOutsideConnectivity", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 

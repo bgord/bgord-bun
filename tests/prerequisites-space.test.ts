@@ -6,10 +6,9 @@ import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const minimum = tools.Size.fromMB(50);
-
 const config = { diskPath: "", size: 0 };
 
-describe("prerequisites - space", () => {
+describe("PrerequisiteSpace", () => {
   test("success", async () => {
     spyOn(checkDiskSpace, "default").mockResolvedValue({ ...config, free: tools.Size.fromMB(100).toBytes() });
 

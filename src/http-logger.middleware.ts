@@ -3,7 +3,7 @@ import { createMiddleware } from "hono/factory";
 import _ from "lodash";
 import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
-import { ClientFromHono } from "./client-from-hono.adapter";
+import { ClientFromHonoAdapter } from "./client-from-hono.adapter";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
 
@@ -46,7 +46,7 @@ export class HttpLogger {
       }
 
       const correlationId = context.get("requestId");
-      const client = ClientFromHono.extract(context).toJSON();
+      const client = ClientFromHonoAdapter.extract(context).toJSON();
 
       const httpRequestBeforeMetadata = {
         params: context.req.param(),

@@ -12,7 +12,7 @@ const JsonFileReader = new JsonFileReaderNoopAdapter({ version });
 
 const deps = { Clock, JsonFileReader };
 
-describe("BuildInfoRepository", () => {
+describe("BuildInfoRepository service", () => {
   test("happy path", async () => {
     const result = await BuildInfoRepository.extract(deps);
 

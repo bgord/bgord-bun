@@ -2,7 +2,7 @@ import type { Context } from "hono";
 import { getConnInfo } from "hono/bun";
 import { Client } from "./client.vo";
 
-export class ClientFromHono {
+export class ClientFromHonoAdapter {
   static extract(context: Context): Client {
     const info = getConnInfo(context);
 

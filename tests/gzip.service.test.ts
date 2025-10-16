@@ -5,7 +5,7 @@ const inputFilePath = "tests/tmp/test-input.txt";
 const compressedFilePath = "tests/tmp/test-compressed.gz";
 const decompressedFilePath = "tests/tmp/test-decompressed.txt";
 
-describe.skip("gzip", () => {
+describe.skip("Gzip service", () => {
   test("compress", async () => {
     const content = "This is a test file content for compression!";
     await Bun.file(inputFilePath).write(content);

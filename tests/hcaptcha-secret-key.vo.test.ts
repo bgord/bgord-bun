@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { HCaptchaSecretKey, HCaptchaSecretKeyError } from "../src/hcaptcha-secret-key.vo";
 
-describe("HCaptchaSecretKey", () => {
+describe("HCaptchaSecretKey VO", () => {
   test("happy path", () => {
     expect(HCaptchaSecretKey.safeParse("a".repeat(42)).success).toEqual(true);
     expect(HCaptchaSecretKey.safeParse("A".repeat(42)).success).toEqual(true);

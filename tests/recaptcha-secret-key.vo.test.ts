@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { RecaptchaSecretKey, RecaptchaSecretKeyError } from "../src/recaptcha-secret-key.vo";
 
-describe("RecaptchaSiteKey", () => {
+describe("RecaptchaSiteKey VO", () => {
   test("happy path", () => {
     expect(RecaptchaSecretKey.safeParse("a".repeat(40)).success).toEqual(true);
     expect(RecaptchaSecretKey.safeParse("A".repeat(40)).success).toEqual(true);

@@ -12,7 +12,7 @@ const deps = { Logger, JsonFileReader };
 
 const supportedLanguages = { en: "en", es: "es" };
 
-describe("prerequisites - translations", () => {
+describe("PrerequisiteTranslations", () => {
   test("success", async () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
 

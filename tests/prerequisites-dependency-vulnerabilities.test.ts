@@ -65,7 +65,7 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
   ],
 };
 
-describe("prerequisites - dependency vulnerabilities", () => {
+describe("PrerequisiteDependencyVulnerabilities", () => {
   test("success - Bun audit returns no high and critical vulnerabilities", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error

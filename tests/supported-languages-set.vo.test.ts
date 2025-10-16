@@ -10,7 +10,7 @@ export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl
 
 const supportedLanguagesSet = new SupportedLanguagesSet(SUPPORTED_LANGUAGES);
 
-describe("SupportedLanguagesSet", () => {
+describe("SupportedLanguagesSet VO", () => {
   test("ensures the correct language type", () => {
     expect(supportedLanguagesSet.ensure(SupportedLanguages.en)).toEqual(SupportedLanguages.en);
   });

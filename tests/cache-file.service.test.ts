@@ -13,7 +13,7 @@ const meta = {
 
 const lastModified = new Date(meta.lastModified).toUTCString();
 
-describe("CacheFileMustRevalidate", () => {
+describe("CacheFileMustRevalidate service", () => {
   test("notModified", async () => {
     const response = CacheFileMustRevalidate.notModified(meta);
     expect(response.status).toEqual(304);

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { CorrelationStorage, CorrelationStorageError } from "../src/correlation-storage.service";
 
-describe("CorrelationStorage", () => {
+describe("CorrelationStorage service", () => {
   test("run - makes the correlationId available inside the callback", () => {
     const id = "cid-1";
     CorrelationStorage.run(id, () => expect(CorrelationStorage.get()).toEqual(id));

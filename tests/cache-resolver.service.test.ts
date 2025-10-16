@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import NodeCache from "node-cache";
 import { CacheHitEnum, CacheResolver, CacheResolverStrategy } from "../src/cache-resolver.service";
 
-describe("cache-resolver", () => {
+describe("CacheResolver service", () => {
   test("simple - miss", async () => {
     const cache = new NodeCache();
     const resolver = async () => Promise.resolve(123);

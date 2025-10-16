@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
 import * as prereqs from "../src/prerequisites.service";
 
-describe("prerequisites - external api", () => {
+describe("PrerequisiteExternalApi", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 

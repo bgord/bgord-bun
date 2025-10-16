@@ -5,7 +5,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const maximum = tools.Size.fromMB(2);
 
-describe("prerequisites - memory", () => {
+describe("PrerequisiteMemory", () => {
   test("success - memory usage is below the maximum", async () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));

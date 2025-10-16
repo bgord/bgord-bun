@@ -4,7 +4,7 @@ import { requestId } from "hono/request-id";
 import { Context, type ContextVariables } from "../src/context.middleware";
 import { TimeZoneOffset } from "../src/time-zone-offset.middleware";
 
-describe("Context", () => {
+describe("Context middleware", () => {
   test("applyTo", async () => {
     const app = new Hono<{ Variables: ContextVariables }>()
       .use(requestId())

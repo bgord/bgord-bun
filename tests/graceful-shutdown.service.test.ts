@@ -22,7 +22,7 @@ function setup() {
   return { server, gs: new GracefulShutdown(logger, exitFn), exitCalls };
 }
 
-describe("GracefulShutdown", () => {
+describe("GracefulShutdown service", () => {
   test("SIGTERM", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("SIGTERM");

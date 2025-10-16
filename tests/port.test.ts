@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Port, PortError } from "../src/port.vo";
 
-describe("Port", () => {
+describe("Port VO", () => {
   test("happy path", () => {
     expect(Port.safeParse(0).success).toEqual(true);
     expect(Port.safeParse("80").success).toEqual(true);

@@ -11,7 +11,7 @@ const app = new Hono()
   .use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }))
   .post("/uploader", (c) => c.text("uploaded"));
 
-describe("File uploader", () => {
+describe("FileUploader middleware", () => {
   test("accepts valid file upload", async () => {
     const content = [
       `--${boundary}`,

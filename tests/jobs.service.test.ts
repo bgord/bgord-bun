@@ -14,7 +14,7 @@ const deps = { Logger, Clock, IdProvider };
 
 const handler = new JobHandler(deps);
 
-describe("JobHandler service", () => {
+describe("Jobs service", () => {
   test("happy path", async () => {
     // @ts-expect-error
     spyOn(croner, "Cron").mockImplementation(() => ({

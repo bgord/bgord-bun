@@ -7,7 +7,7 @@ import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 const redactor = new RedactorNoopAdapter();
 const logger = new LoggerWinstonProductionAdapter({ app: "test-app", AXIOM_API_TOKEN: "ok", redactor });
 
-describe("prerequisites - log file", () => {
+describe("PrerequisiteLogFile", () => {
   test("success - log file exists", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
 

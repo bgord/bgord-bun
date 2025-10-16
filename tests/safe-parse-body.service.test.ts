@@ -5,7 +5,7 @@ function createMockContext(body: string) {
   return { req: { text: async () => body } } as any;
 }
 
-describe("safeParseBody", () => {
+describe("safeParseBody service", () => {
   test("happy path", async () => {
     expect(await safeParseBody(createMockContext(JSON.stringify({ hello: "world" })))).toEqual({
       hello: "world",

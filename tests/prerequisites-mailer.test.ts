@@ -5,7 +5,7 @@ import * as mocks from "./mocks";
 
 const mailer = { verify: jest.fn(), send: jest.fn() } as any;
 
-describe("prerequisites - mailer", () => {
+describe("PrerequisiteMailer", () => {
   test("success", async () => {
     spyOn(mailer, "verify").mockResolvedValue(() => Promise.resolve());
 

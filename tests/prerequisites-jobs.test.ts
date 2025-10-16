@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { PrerequisiteJobs } from "../src/prerequisites/jobs";
 import * as prereqs from "../src/prerequisites.service";
 
-describe("prerequisites - jobs", () => {
+describe("PrerequisiteJobs", () => {
   test("success - all jobs running", async () => {
     const jobs = { a: { isRunning: () => true } as any };
 

@@ -9,7 +9,7 @@ const password = BasicAuthPassword.parse("password");
 // cSpell:ignore YWRtaW46cGFzc3dvcmQ
 const result = { authorization: "Basic YWRtaW46cGFzc3dvcmQ=" };
 
-describe("BasicAuth", () => {
+describe("BasicAuth service", () => {
   test("toHeaderValue", () => {
     expect(BasicAuth.toHeaderValue(username, password)).toEqual(result);
   });

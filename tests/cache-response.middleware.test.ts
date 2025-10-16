@@ -16,7 +16,7 @@ const app = new Hono()
   })
   .post("/ping-clear", cacheResponse.clear, (c) => c.json({}));
 
-describe("CacheResponse", () => {
+describe("CacheResponse middleware", () => {
   afterEach(() => ResponseCache.flushAll());
 
   test("miss - uncached request", async () => {

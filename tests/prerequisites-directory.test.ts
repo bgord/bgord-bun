@@ -7,7 +7,7 @@ import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
 
-describe("prerequisites - directory", () => {
+describe("PrerequisiteDirectory", () => {
   test("success - directory is accessible with required flags", async () => {
     spyOn(fsp, "access").mockResolvedValue();
 

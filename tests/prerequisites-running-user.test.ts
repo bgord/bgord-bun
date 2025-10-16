@@ -5,7 +5,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const username = "appuser";
 
-describe("prerequisites - running user", () => {
+describe("PrerequisiteRunningUser", () => {
   test("success", async () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
 

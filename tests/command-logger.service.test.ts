@@ -3,10 +3,9 @@ import { CommandLogger } from "../src/command-logger.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 const logger = new LoggerNoopAdapter();
-
 const commandLogger = new CommandLogger(logger);
 
-describe("Command logger", () => {
+describe("CommandLogger service", () => {
   test("logs emitted command with metadata", () => {
     const loggerInfo = spyOn(logger, "info");
 

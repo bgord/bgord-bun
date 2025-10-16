@@ -5,7 +5,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const version = tools.PackageVersion.fromString("20.0.0");
 
-describe("prerequisites - node", () => {
+describe("PrerequisiteNode", () => {
   test("success - Node.js version is equal", async () => {
     expect(await new PrerequisiteNode({ label: "node", version, current: "v20.0.0" }).verify()).toEqual(
       prereqs.Verification.success(),

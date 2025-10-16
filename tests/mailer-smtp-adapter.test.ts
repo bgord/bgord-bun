@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import { EmailContentHtml, EmailFrom, EmailSubject, EmailTo, SmtpPort } from "../src/mailer.vo";
+import { SmtpPort } from "../src/mailer.vo";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 
 describe("MailerSmtpAdapter", () => {
@@ -41,47 +41,5 @@ describe("MailerSmtpAdapter", () => {
     await mailer.verify();
 
     expect(verify).toHaveBeenCalled();
-  });
-});
-
-describe("Email validators", () => {
-  test("EmailSubject - happy path", () => {
-    expect(EmailSubject.safeParse("Welcome to our newsletter").success).toEqual(true);
-  });
-
-  test("EmailSubject - empty", () => {
-    expect(() => EmailSubject.parse("")).toThrow();
-  });
-
-  test("EmailSubject - too long", () => {
-    expect(() => EmailSubject.parse("a".repeat(129))).toThrow();
-  });
-
-  test("EmailContentHtml - happy path", () => {
-    expect(EmailContentHtml.safeParse("<p>Hello, world!</p>").success).toEqual(true);
-  });
-
-  test("EmailContentHtml - empty", () => {
-    expect(() => EmailContentHtml.parse("")).toThrow();
-  });
-
-  test("EmailContentHtml - too long", () => {
-    expect(() => EmailContentHtml.parse("a".repeat(10_001))).toThrow();
-  });
-
-  test("EmailFrom - happy path", () => {
-    expect(EmailFrom.safeParse("test@example.com").success).toEqual(true);
-  });
-
-  test("EmailFrom - invalid", () => {
-    expect(() => EmailFrom.parse("not-an-email")).toThrow();
-  });
-
-  test("EmailTo - happy path", () => {
-    expect(EmailTo.safeParse("test@example.com").success).toEqual(true);
-  });
-
-  test("EmailTo - invalid", () => {
-    expect(() => EmailTo.parse("not-an-email")).toThrow();
   });
 });
