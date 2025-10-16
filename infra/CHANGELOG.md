@@ -1,4 +1,5 @@
 # Changelog
+- 2025-10-16 15:05 7151a88 **fix: translations prereq**
 ## 2025-10-16 11:55 v1.0.0
 - 2025-10-16 11:55 fa9b80c **1.0.0**
 - 2025-10-16 11:53 07f44fc **Merge pull request #140 from bgord/file-ports**
@@ -15,6 +16,7 @@
 - 2025-10-16 10:38 31b3b28 **refactor: remove unnecessary vos**
 - 2025-10-16 10:34 fcfa8b3 **refactor: unify adapter naming**
 - 2025-10-16 10:12 e26ce33 **feature: add json file reader bun forgiving adapter**
+- 2025-10-16 09:55 e2089c3 **docs: generate CHANGELOG**
 - 2025-10-16 09:54 945d913 **docs: generate readme**
 - 2025-10-16 09:54 05a9cce **docs: generate CHANGELOG**
 - 2025-10-16 09:51 b0a95d0 **refactor: improve shield captcha recaptcha**
