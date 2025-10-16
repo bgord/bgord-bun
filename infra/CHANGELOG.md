@@ -1,4 +1,34 @@
 # Changelog
+- 2025-10-16 11:53 07f44fc **Merge pull request #140 from bgord/file-ports**
+- 2025-10-16 11:50 b5cad0a **refactor: unify test names**
+- 2025-10-16 11:30 962c75b **refactor: test mailer vo**
+- 2025-10-16 11:14 d6a07d1 **refactor: improve correlation storage tests**
+- 2025-10-16 11:06 d320b07 **step: bump bgord/scripts**
+- 2025-10-16 11:03 ebbc17c **refactor: move gzip and encryption to rc**
+- 2025-10-16 11:01 b222b9e **refactor: simplify i18n**
+- 2025-10-16 10:56 8adbda5 **step: update packages**
+- 2025-10-16 10:55 a625369 **refactor: extract reaptcha secret key**
+- 2025-10-16 10:49 479e8c7 **refactor: extract hcaptcha secret key**
+- 2025-10-16 10:45 5c3740e **refactor: extract hcaptcha site key**
+- 2025-10-16 10:38 31b3b28 **refactor: remove unnecessary vos**
+- 2025-10-16 10:34 fcfa8b3 **refactor: unify adapter naming**
+- 2025-10-16 10:12 e26ce33 **feature: add json file reader bun forgiving adapter**
+- 2025-10-16 09:51 b0a95d0 **refactor: improve shield captcha recaptcha**
+- 2025-10-16 00:03 cd46bce **refactor: improve testS**
+- 2025-10-15 23:08 1d76ae4 **refactor: simplify image tests**
+- 2025-10-15 22:55 4d046f4 **refactor: adjust tests**
+- 2025-10-15 22:21 18d437a **refactor: use renamer**
+- 2025-10-15 22:03 d396414 **feature: add file-renamer port and adapters**
+- 2025-10-15 17:42 3d279b8 **refactor: simplify type casting**
+- 2025-10-15 17:01 6eca05a **step: add tests**
+- 2025-10-15 16:52 1903375 **refactor: use file cleaner in image processors**
+- 2025-10-15 16:45 762e284 **refactor: use file cleaner in temporary file absolute**
+- 2025-10-15 16:41 7df5d4f **refactor: use file cleaner in remote file storage disk adapter**
+- 2025-10-15 16:33 0f51018 **feature: add file-cleaner port and adapters**
+- 2025-10-15 16:17 142e444 **step: add tests**
+- 2025-10-15 16:08 d8f9f91 **refactor: rename files**
+- 2025-10-15 15:56 86e0940 **refactor: use json file reader**
+- 2025-10-15 14:56 fff5dd3 **feature: add file reader json port and adapter**
 - 2025-10-15 14:36 07f835d **refactor: simplify shield rate limit**
 - 2025-10-15 14:26 d7dc277 **refactor: simplify api key middleware**
 - 2025-10-15 14:24 28d0112 **refactor: simplify setup**
@@ -16,6 +46,8 @@
 - 2025-10-15 12:46 7c7e92e **refactor: improve event logger**
 - 2025-10-15 12:44 fd9cf97 **refactor: improve event handler**
 - 2025-10-15 12:41 b7e57ee **refactor: improve etag extractor**
+- 2025-10-15 12:40 e12978b **docs: generate readme**
+- 2025-10-15 12:40 7eb38ef **docs: generate CHANGELOG**
 - 2025-10-15 12:33 262545b **refactor: extract signature regex**
 - 2025-10-15 12:25 a7fac90 **refactor: improve formatting**
 - 2025-10-15 12:01 746ef60 **refactor: improve simulated error**
