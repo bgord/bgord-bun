@@ -6,7 +6,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const binary = Binary.parse("node");
 
-describe("prerequisites - binary", () => {
+describe("PrerequisiteBinary", () => {
   test("success - binary is found", async () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 0 }) }));

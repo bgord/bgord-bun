@@ -5,7 +5,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const utc = tools.Timezone.parse("UTC");
 
-describe("prerequisites - timezone utc", () => {
+describe("PrerequisiteTimezoneUTC", () => {
   test("success", async () => {
     expect(await new PrerequisiteTimezoneUTC({ label: "utc", timezone: utc }).verify()).toEqual(
       prereqs.Verification.success(),

@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import type { TemporaryFilePort } from "./temporary-file.port";
 
-export class TemporaryFileNoop implements TemporaryFilePort {
+export class TemporaryFileNoopAdapter implements TemporaryFilePort {
   constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
 
   async write(filename: tools.Filename) {

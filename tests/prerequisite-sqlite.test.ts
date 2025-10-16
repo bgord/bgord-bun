@@ -1,6 +1,7 @@
 import { describe, expect, jest, test } from "bun:test";
 import { PrerequisiteSQLite } from "../src/prerequisites/sqlite";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
 
 describe("PrerequisiteSQLite", () => {
   test("success - integrity_check is ok", async () => {
@@ -35,14 +36,14 @@ describe("PrerequisiteSQLite", () => {
     const sqlite = {
       query: jest.fn().mockReturnValue({
         get: jest.fn().mockImplementation(() => {
-          throw new Error("Integrity error");
+          throw new Error(mocks.IntentialError);
         }),
       }),
     } as any;
 
     // @ts-expect-error
     expect((await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify()).error.message).toMatch(
-      /Integrity error/,
+      mocks.IntentialError,
     );
   });
 

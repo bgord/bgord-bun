@@ -1,8 +1,12 @@
-import fs from "node:fs/promises";
 import sharp from "sharp";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageExifClearPort, ImageExifClearStrategy } from "./image-exif-clear.port";
 
+type Dependencies = { FileRenamer: FileRenamerPort };
+
 export class ImageExifClearSharpAdapter implements ImageExifClearPort {
+  constructor(private readonly deps: Dependencies) {}
+
   async clear(recipe: ImageExifClearStrategy) {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
@@ -13,7 +17,7 @@ export class ImageExifClearSharpAdapter implements ImageExifClearPort {
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.rotate().toFile(temporary.get());
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return final;
   }

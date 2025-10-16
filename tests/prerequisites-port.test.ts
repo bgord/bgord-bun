@@ -5,7 +5,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const port = Port.parse(43210);
 
-describe("prerequisites - port", () => {
+describe("PrerequisitePort", () => {
   test("success", async () => {
     expect(await new PrerequisitePort({ port, label: "port" }).verify()).toEqual(
       prereqs.Verification.success(),

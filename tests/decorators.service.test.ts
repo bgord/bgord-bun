@@ -9,7 +9,7 @@ class FakeLogger {
   }
 }
 
-describe("Decorators", () => {
+describe("Decorators service", () => {
   let logger: FakeLogger;
   let decorators: Decorators;
 

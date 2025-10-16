@@ -3,7 +3,6 @@ import type { RedactorPort } from "./redactor.port";
 
 export class RedactorMaskAdapter implements RedactorPort {
   static readonly DEFAULT_KEYS: readonly string[] = [
-    // auth & cookies
     "authorization",
     "cookie",
     "set-cookie",

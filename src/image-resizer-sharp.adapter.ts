@@ -1,8 +1,12 @@
-import fs from "node:fs/promises";
 import sharp from "sharp";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
+type Dependencies = { FileRenamer: FileRenamerPort };
+
 export class ImageResizerSharpAdapter implements ImageResizerPort {
+  constructor(private readonly deps: Dependencies) {}
+
   async resize(recipe: ImageResizerStrategy) {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
     const filename = final.getFilename();
@@ -24,8 +28,7 @@ export class ImageResizerSharpAdapter implements ImageResizerPort {
       })
       .toFormat(format)
       .toFile(temporary.get());
-
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return final;
   }

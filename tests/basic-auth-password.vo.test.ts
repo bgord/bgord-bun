@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { BasicAuthPassword, BasicAuthPasswordError } from "../src/basic-auth-password.vo";
 
-describe("BasicAuthPassword", () => {
+describe("BasicAuthPassword VO", () => {
   test("happy path", () => {
     expect(BasicAuthPassword.safeParse("a".repeat(128)).success).toEqual(true);
     expect(BasicAuthPassword.safeParse("A".repeat(128)).success).toEqual(true);

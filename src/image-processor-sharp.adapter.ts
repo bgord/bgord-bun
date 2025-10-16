@@ -1,10 +1,15 @@
-import fs from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import sharp from "sharp";
+import type { FileCleanerPort } from "./file-cleaner.port";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
+
+type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 
 export class ImageProcessorSharpAdapter implements ImageProcessorPort {
   private static readonly DEFAULT_QUALITY = 85;
+
+  constructor(private readonly deps: Dependencies) {}
 
   async process(recipe: ImageProcessorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final =
@@ -14,8 +19,8 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
 
     const temporary = final.withFilename(final.getFilename().withSuffix("-processed"));
 
-    const finalExtension = final.getFilename().getExtension();
-    const encoder = (finalExtension === "jpg" ? "jpeg" : finalExtension) as keyof sharp.FormatEnum;
+    const extension = final.getFilename().getExtension();
+    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
 
     const quality = recipe.quality ?? ImageProcessorSharpAdapter.DEFAULT_QUALITY;
 
@@ -38,10 +43,10 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
     processor = processor.toFormat(encoder, { quality });
 
     await processor.toFile(temporary.get());
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     if (recipe.strategy === "in_place" && final.get() !== recipe.input.get()) {
-      await fs.unlink(recipe.input.get());
+      await this.deps.FileCleaner.delete(recipe.input.get());
     }
 
     return final;

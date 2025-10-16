@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 
-describe("Memory consumption", () => {
+describe("MemoryConsumption service", () => {
   test("get", () => {
     const fakeRss = 123456789;
     // @ts-expect-error

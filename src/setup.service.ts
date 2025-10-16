@@ -15,6 +15,7 @@ import { ETagExtractor } from "./etag-extractor.middleware";
 import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
+import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
@@ -32,6 +33,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
   I18n: I18nConfigType;
   Clock: ClockPort;
+  JsonFileReader: JsonFileReaderPort;
 };
 
 export class Setup {
@@ -43,7 +45,7 @@ export class Setup {
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
       uaBlocker({ blocklist: BOTS_REGEX }),
-      ApiVersion.build({ Clock: deps.Clock }),
+      ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
       cors(corsOptions),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),

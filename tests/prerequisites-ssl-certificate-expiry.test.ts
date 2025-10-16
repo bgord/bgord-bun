@@ -11,7 +11,7 @@ class CertificateInspectorUnavailableAdapter {
 
 const config = { host: "example.com", days: 30, label: "ssl" };
 
-describe("prerequisites - ssl certificate expiry", () => {
+describe("PrerequisiteSSLCertificateExpiry", () => {
   test("success", async () => {
     expect(
       await new PrerequisiteSSLCertificateExpiry({

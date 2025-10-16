@@ -1,25 +1,27 @@
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import type { FileCleanerPort } from "./file-cleaner.port";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { TemporaryFilePort } from "./temporary-file.port";
 
-export class TemporaryFileAbsolute implements TemporaryFilePort {
-  constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
+type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
+
+export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
+  constructor(
+    private readonly directory: tools.DirectoryPathAbsoluteType,
+    private readonly deps: Dependencies,
+  ) {}
 
   async write(filename: tools.Filename, content: File) {
-    const partial = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
+    const temporary = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
-    await Bun.write(partial.get(), content);
-    await fs.rename(partial.get(), final.get());
+    await Bun.write(temporary.get(), content);
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return { path: final };
   }
 
   async cleanup(filename: tools.Filename) {
-    const path = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
-
-    try {
-      await fs.unlink(path.get());
-    } catch {}
+    await this.deps.FileCleaner.delete(tools.FilePathAbsolute.fromPartsSafe(this.directory, filename));
   }
 }

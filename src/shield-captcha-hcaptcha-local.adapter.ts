@@ -1,14 +1,14 @@
 import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 import type { ShieldCaptchaPort } from "./shield-captcha.port";
-import type { HCaptchaSecretKeyType } from "./shield-captcha-hcaptcha.adapter";
 
 export const AccessDeniedHcaptchaLocalError = new HTTPException(403, {
   message: "access_denied_hcaptcha_local",
 });
 
-export class ShieldCaptchaHcaptchaLocal implements ShieldCaptchaPort {
+export class ShieldCaptchaHcaptchaLocalAdapter implements ShieldCaptchaPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   verify = createMiddleware(async (_c, next) => {

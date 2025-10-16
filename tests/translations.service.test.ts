@@ -1,12 +1,19 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
+import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Translations } from "../src/translations.service";
 
 enum SupportedLanguages {
   en = "en",
   pl = "pl",
 }
+
+const Logger = new LoggerNoopAdapter();
+const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
+
+const deps = { JsonFileReader, Logger };
 
 const app = new Hono()
   .use(
@@ -15,12 +22,10 @@ const app = new Hono()
       fallbackLanguage: SupportedLanguages.en,
     }),
   )
-  .get("/get-translations", ...Translations.build());
+  .get("/get-translations", ...Translations.build(deps));
 
 describe("Translations service", () => {
   test("happy path - no language specified", async () => {
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
-
     const response = await app.request("/get-translations", { method: "GET" });
     const json = await response.json();
 
@@ -29,8 +34,6 @@ describe("Translations service", () => {
   });
 
   test("happy path - en", async () => {
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
-
     const response = await app.request("/get-translations", {
       method: "GET",
       headers: { cookie: `language=${SupportedLanguages.en}` },
@@ -42,8 +45,6 @@ describe("Translations service", () => {
   });
 
   test("happy path - pl", async () => {
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
-
     const response = await app.request("/get-translations", {
       method: "GET",
       headers: { cookie: `language=${SupportedLanguages.pl}` },
@@ -55,8 +56,6 @@ describe("Translations service", () => {
   });
 
   test("happy path - other", async () => {
-    spyOn(Bun, "file").mockReturnValue({ json: async () => ({ hello: "Hello" }) } as any);
-
     const response = await app.request("/get-translations", {
       method: "GET",
       headers: { cookie: "language=fr" },

@@ -1,8 +1,12 @@
-import fs from "node:fs/promises";
 import sharp from "sharp";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
+type Dependencies = { FileRenamer: FileRenamerPort };
+
 export class ImageCompressorSharpAdapter implements ImageCompressorPort {
+  constructor(private readonly deps: Dependencies) {}
+
   private static readonly DEFAULT_QUALITY = 85;
 
   async compress(recipe: ImageCompressorStrategy) {
@@ -19,7 +23,7 @@ export class ImageCompressorSharpAdapter implements ImageCompressorPort {
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.rotate().toFormat(format, { quality }).toFile(temporary.get());
-    await fs.rename(temporary.get(), final.get());
+    await this.deps.FileRenamer.rename(temporary, final);
 
     return final;
   }

@@ -1,29 +1,25 @@
 import { describe, expect, test } from "bun:test";
-import type { Context } from "hono";
-import { ClientFromHono } from "../src/client-from-hono.adapter";
+import { ClientFromHonoAdapter } from "../src/client-from-hono.adapter";
+import * as mocks from "./mocks";
 
-function makeContext(headers: Record<string, string | undefined>): Context {
-  return {
-    req: { header: (name: string) => headers[name.toLowerCase()] ?? undefined },
-    env: { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } },
-  } as unknown as Context;
-}
-
-describe("ClientFromHono", () => {
+describe("ClientFromHonoAdaapter", () => {
   test("prefers x-real-ip", () => {
-    const context = makeContext({ "x-real-ip": "9.9.9.9", "user-agent": "UA" });
-    const out = ClientFromHono.extract(context).toJSON();
-    expect(out).toEqual({ ip: "9.9.9.9", ua: "UA" });
+    const context = mocks.createContext({ "x-real-ip": "9.9.9.9", "user-agent": "UA" });
+
+    expect(ClientFromHonoAdapter.extract(context).toJSON()).toEqual({ ip: "9.9.9.9", ua: "UA" });
   });
 
-  test("falls back to x-forwarded-for then remote.address", () => {
-    const contextFirst = makeContext({ "x-forwarded-for": "8.8.8.8", "user-agent": "UA" });
-    const resultFirst = ClientFromHono.extract(contextFirst).toJSON();
-    expect(resultFirst).toEqual({ ip: "8.8.8.8", ua: "UA" });
+  test("fallback - x-forwarded-for", () => {
+    const context = mocks.createContext({ "x-forwarded-for": "8.8.8.8", "user-agent": "UA" });
 
-    const contextSecond = makeContext({});
-    const constextSecond = ClientFromHono.extract(contextSecond).toJSON();
-    expect(constextSecond.ua).toEqual("anon");
-    expect(typeof constextSecond.ip).toEqual("string");
+    expect(ClientFromHonoAdapter.extract(context).toJSON()).toEqual({ ip: "8.8.8.8", ua: "UA" });
+  });
+
+  test("fallback - remote.address", () => {
+    const context = mocks.createContext({});
+    const result = ClientFromHonoAdapter.extract(context).toJSON();
+
+    expect(result.ua).toEqual("anon");
+    expect(result.ip).toEqual("127.0.0.1");
   });
 });

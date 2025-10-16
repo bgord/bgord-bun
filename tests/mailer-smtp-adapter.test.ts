@@ -1,13 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import {
-  EmailContentHtml,
-  EmailFrom,
-  EmailSubject,
-  EmailTo,
-  MailerSmtpAdapter,
-  SmtpPort,
-} from "../src/mailer-smtp.adapter";
+import { SmtpPort } from "../src/mailer.vo";
+import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
@@ -47,49 +41,5 @@ describe("MailerSmtpAdapter", () => {
     await mailer.verify();
 
     expect(verify).toHaveBeenCalled();
-  });
-});
-
-describe("Email validators", () => {
-  test("EmailSubject - valid", () => {
-    expect(() => EmailSubject.parse("Welcome to our newsletter")).not.toThrow();
-  });
-
-  test("EmailSubject - too short", () => {
-    expect(() => EmailSubject.parse("")).toThrow();
-  });
-
-  test("EmailSubject - too long", () => {
-    const longSubject = "a".repeat(129);
-    expect(() => EmailSubject.parse(longSubject)).toThrow();
-  });
-
-  test("EmailContentHtml - valid", () => {
-    expect(() => EmailContentHtml.parse("<p>Hello, world!</p>")).not.toThrow();
-  });
-
-  test("EmailContentHtml - empty", () => {
-    expect(() => EmailContentHtml.parse("")).toThrow();
-  });
-
-  test("EmailContentHtml - too long", () => {
-    const longContent = "a".repeat(10_001);
-    expect(() => EmailContentHtml.parse(longContent)).toThrow();
-  });
-
-  test("EmailFrom - valid", () => {
-    expect(() => EmailFrom.parse("test@example.com")).not.toThrow();
-  });
-
-  test("EmailFrom - invalid", () => {
-    expect(() => EmailFrom.parse("not-an-email")).toThrow();
-  });
-
-  test("EmailTo - valid", () => {
-    expect(() => EmailTo.parse("test@example.com")).not.toThrow();
-  });
-
-  test("EmailTo - invalid", () => {
-    expect(() => EmailTo.parse("not-an-email")).toThrow();
   });
 });

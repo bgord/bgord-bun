@@ -6,7 +6,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const minimum = tools.Size.fromMB(512);
 
-describe("prerequisites - ram", () => {
+describe("PrerequisiteRAM", () => {
   test("success", async () => {
     spyOn(os, "freemem").mockReturnValue(tools.Size.fromMB(513).toBytes());
 

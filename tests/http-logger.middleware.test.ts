@@ -17,15 +17,17 @@ const Clock = new ClockSystemAdapter();
 
 const deps = { Logger, Clock };
 
+const app = new Hono()
+  .use(requestId())
+  .use(HttpLogger.build(deps, { skip: ["/i18n/"] }))
+  .use(timing())
+  .get("/ping", (c) => c.json({ message: "OK" }))
+  .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
+  .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
+
 describe("HttpLogger middleware", () => {
   test("200", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
-
-    const app = new Hono()
-      .use(requestId())
-      .use(HttpLogger.build(deps))
-      .use(timing())
-      .get("/ping", (c) => c.json({ message: "OK" }));
 
     const result = await app.request("/ping", { method: "GET" }, ip);
 
@@ -68,18 +70,10 @@ describe("HttpLogger middleware", () => {
     );
   });
 
-  test("400", async () => {
+  test("500", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const app = new Hono()
-      .use(requestId())
-      .use(HttpLogger.build(deps))
-      .use(timing())
-      .get("/ping", (c) => {
-        return c.json({ message: "general.unknown" }, 500);
-      });
-
-    const result = await app.request("/ping", { method: "GET" }, ip);
+    const result = await app.request("/pong", { method: "GET" }, ip);
 
     expect(result.status).toEqual(500);
     expect(loggerHttpSpy).toHaveBeenCalledTimes(2);
@@ -93,7 +87,7 @@ describe("HttpLogger middleware", () => {
         ),
         message: "request",
         method: "GET",
-        url: "http://localhost/ping",
+        url: "http://localhost/pong",
         client: { ip: "127.0.0.1", ua: "anon" },
         metadata: {},
       }),
@@ -108,7 +102,7 @@ describe("HttpLogger middleware", () => {
         ),
         message: "response",
         method: "GET",
-        url: "http://localhost/ping",
+        url: "http://localhost/pong",
         status: 500,
         durationMs: expect.any(Number),
         client: { ip: "127.0.0.1", ua: "anon" },
@@ -121,11 +115,8 @@ describe("HttpLogger middleware", () => {
   test("skip", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const app = new Hono()
-      .use(HttpLogger.build(deps, { skip: ["/i18n/"] }))
-      .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
-
     const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
+
     expect(result.status).toEqual(200);
     expect(loggerHttpSpy).not.toHaveBeenCalled();
   });

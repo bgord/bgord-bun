@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { RateLimitStoreNodeCache } from "../src/rate-limit-store-node-cache.adapter";
+import { RateLimitStoreNodeCacheAdapter } from "../src/rate-limit-store-node-cache.adapter";
 import {
   AnonSubjectResolver,
   ShieldRateLimit,
@@ -12,16 +12,16 @@ import {
 const Clock = new ClockFixedAdapter(1000);
 const deps = { Clock };
 
-const store = new RateLimitStoreNodeCache(tools.Duration.Seconds(1));
+const store = new RateLimitStoreNodeCacheAdapter(tools.Duration.Seconds(1));
+
+const app = new Hono().get(
+  "/ping",
+  ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps),
+  (c) => c.text("pong"),
+);
 
 describe("ShieldRateLimit middleware", () => {
   test("happy path - anon - within rate limit", async () => {
-    const app = new Hono().get(
-      "/ping",
-      ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps),
-      (c) => c.text("pong"),
-    );
-
     const result = await app.request("/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);
@@ -31,12 +31,6 @@ describe("ShieldRateLimit middleware", () => {
   });
 
   test("failure - anon - TooManyRequestsError", async () => {
-    const app = new Hono().get(
-      "/ping",
-      ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps),
-      (c) => c.text("pong"),
-    );
-
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
 
@@ -44,12 +38,6 @@ describe("ShieldRateLimit middleware", () => {
   });
 
   test("happy path - anon - after rate limit", async () => {
-    const app = new Hono().get(
-      "/ping",
-      ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps),
-      (c) => c.text("pong"),
-    );
-
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
@@ -60,12 +48,6 @@ describe("ShieldRateLimit middleware", () => {
   });
 
   test("happy path - user - within rate limit", async () => {
-    const app = new Hono().get(
-      "/ping",
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
-      (c) => c.text("pong"),
-    );
-
     const result = await app.request("/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);

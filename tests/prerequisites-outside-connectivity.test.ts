@@ -1,8 +1,9 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-connectivity";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
 
-describe("prerequisites - outside connectivity", () => {
+describe("PrerequisiteOutsideConnectivity", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
@@ -20,12 +21,12 @@ describe("prerequisites - outside connectivity", () => {
   });
 
   test("failure - error", async () => {
-    spyOn(global, "fetch").mockRejectedValue(new Error("Network error"));
+    spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentialError));
 
     expect(
       // @ts-expect-error
       (await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify()).error.message,
-    ).toMatch(/Network error/);
+    ).toMatch(mocks.IntentialError);
   });
 
   test("undetermined", async () => {

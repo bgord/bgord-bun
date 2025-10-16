@@ -5,7 +5,7 @@ import * as prereqs from "../src/prerequisites.service";
 
 const version = tools.PackageVersion.fromString("1.0.0");
 
-describe("prerequisites - bun", () => {
+describe("PrerequisiteBun", () => {
   test("success - Bun version is equal", async () => {
     expect(await new PrerequisiteBun({ label: "bun", version, current: "1.0.0" }).verify()).toEqual(
       prereqs.Verification.success(),

@@ -32,7 +32,7 @@ class Undetermined implements prereqs.Prerequisite {
 const logger = new LoggerNoopAdapter();
 const runner = new prereqs.Prerequisites(logger);
 
-describe("Prerequisites", () => {
+describe("Prerequisites service", () => {
   test("happy path", async () => {
     const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
 
