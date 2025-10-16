@@ -53,7 +53,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     try {
       await fsp.access(translationsPath, constants.R_OK);
 
-      for (const language in supportedLanguages) {
+      for (const language of supportedLanguages) {
         await fsp.access(i18n.getTranslationPathForLanguage(language).get(), constants.R_OK);
       }
     } catch (error) {
