@@ -1,7 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import { HCaptchaSecretKey, ShieldCaptchaHcaptchaAdapter } from "../src/shield-captcha-hcaptcha.adapter";
+import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
+import { ShieldCaptchaHcaptchaAdapter } from "../src/shield-captcha-hcaptcha.adapter";
 import * as mocks from "./mocks";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";

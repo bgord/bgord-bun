@@ -5,6 +5,9 @@ export const HCaptchaSiteKeyError = {
   Length: "hcaptcha.site.key.length",
 } as const;
 
-export const HCaptchaSiteKey = z.string(HCaptchaSiteKeyError.Type).length(36, HCaptchaSiteKeyError.Length);
+export const HCaptchaSiteKey = z
+  .string(HCaptchaSiteKeyError.Type)
+  .length(36, HCaptchaSiteKeyError.Length)
+  .brand("HCaptchaSiteKey");
 
 export type HCaptchaSiteKeyType = z.infer<typeof HCaptchaSiteKey>;

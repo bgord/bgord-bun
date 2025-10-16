@@ -1,8 +1,8 @@
 import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 import type { ShieldCaptchaPort } from "./shield-captcha.port";
-import type { HCaptchaSecretKeyType } from "./shield-captcha-hcaptcha.adapter";
 
 export const AccessDeniedHcaptchaLocalError = new HTTPException(403, {
   message: "access_denied_hcaptcha_local",

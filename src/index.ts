@@ -61,6 +61,7 @@ export * from "./file-renamer-noop.adapter";
 export * from "./file-uploader.middleware";
 export * from "./graceful-shutdown.service";
 export * from "./gzip.service";
+export * from "./hcaptcha-secret-key.vo";
 export * from "./hcaptcha-site-key.vo";
 export * from "./healthcheck.service";
 export * from "./http-logger.middleware";
