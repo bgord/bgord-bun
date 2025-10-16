@@ -7,9 +7,6 @@ import type { ShieldCaptchaPort } from "./shield-captcha.port";
 export const HCaptchaSecretKey = z.string().length(42).brand("HCaptchaSecretKey");
 export type HCaptchaSecretKeyType = z.infer<typeof HCaptchaSecretKey>;
 
-export const HCaptchaSiteKey = z.string().length(36);
-export type HCaptchaSiteKeyType = z.infer<typeof HCaptchaSiteKey>;
-
 export const AccessDeniedHcaptchaError = new HTTPException(403, { message: "access_denied_hcaptcha" });
 
 export class ShieldCaptchaHcaptchaAdapter implements ShieldCaptchaPort {
