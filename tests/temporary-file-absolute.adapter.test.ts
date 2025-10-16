@@ -22,7 +22,7 @@ const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
   type: "application/octet-stream",
 });
 
-describe("TemporaryFileAbsolute adapter", () => {
+describe("TemporaryFileAbsoluteAdapter", () => {
   test("write", async () => {
     const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
     const renameSpy = spyOn(FileRenamer, "rename");

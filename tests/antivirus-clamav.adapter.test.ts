@@ -3,7 +3,7 @@ import { AntivirusPortError } from "../src/antivirus.port";
 import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 import * as mocks from "./mocks";
 
-describe("AntivirusClamavAdapter.scanBytes", () => {
+describe("AntivirusClamavAdapter", () => {
   test("clean - exit code 0", async () => {
     const spawnSpy = spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async (_: Uint8Array) => {}, end: async () => {} },

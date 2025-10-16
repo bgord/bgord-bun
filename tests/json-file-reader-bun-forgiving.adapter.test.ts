@@ -1,14 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { JsonFileReaderBunAdapter } from "../src/json-file-reader-bun.adapter";
+import { JsonFileReaderBunForgivingAdapter } from "../src/json-file-reader-bun-forgiving.adapter";
 import * as mocks from "./mocks";
 
-const JsonFileReader = new JsonFileReaderBunAdapter();
+const JsonFileReader = new JsonFileReaderBunForgivingAdapter();
 
 const json = { json: async () => ({}) } as any;
 const content = {};
 
-describe("JsonFileReaderBunAdapter", () => {
+describe("JsonFileReaderBunForgivingAdapter", () => {
   test("happy path - string", async () => {
     const bunFileSpy = spyOn(Bun, "file").mockReturnValue(json);
 
@@ -43,7 +43,7 @@ describe("JsonFileReaderBunAdapter", () => {
 
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(async () => JsonFileReader.read(path)).toThrow(mocks.IntentialError);
+    expect(await JsonFileReader.read(path)).toEqual(content);
     expect(bunFileSpy).toHaveBeenCalledWith(path.get());
   });
 });

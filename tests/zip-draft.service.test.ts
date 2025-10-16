@@ -4,7 +4,7 @@ import * as tools from "@bgord/tools";
 import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
 
-class MockDraft extends FileDraft {
+class Draft extends FileDraft {
   constructor(
     filename: string,
     private readonly content: string,
@@ -12,26 +12,25 @@ class MockDraft extends FileDraft {
     super({ filename, mime: new tools.Mime("text/plain") });
   }
   create() {
-    return Readable.from([this.content]); // Node Readable ⚑
+    return Readable.from([this.content]);
   }
 }
 
 describe("ZipDraft service", () => {
   test("returns a buffer with ZIP signature", async () => {
-    const zip = new FileDraftZip({ filename: "bundle.zip", parts: [new MockDraft("a.txt", "alpha")] });
+    const zip = new FileDraftZip({ filename: "bundle.zip", parts: [new Draft("a.txt", "alpha")] });
 
     const buffer = await zip.create();
 
-    // 0x50 0x4b 0x03 0x04 = "PK\003\004"
     expect(buffer.subarray(0, 4).toString("hex")).toEqual("504b0304");
-    expect(buffer.length).toBeGreaterThan(22); // > local-file header size
+    expect(buffer.length).toBeGreaterThan(22);
   });
 
   test("embeds all parts", async () => {
-    const draftA = new MockDraft("first.csv", "id\n1");
-    const draftB = new MockDraft("second.csv", "id\n2");
+    const first = new Draft("first.csv", "id\n1");
+    const second = new Draft("second.csv", "id\n2");
 
-    const zip = new FileDraftZip({ filename: "two.csv.zip", parts: [draftA, draftB] });
+    const zip = new FileDraftZip({ filename: "two.csv.zip", parts: [first, second] });
 
     const text = (await zip.create()).toString("utf8");
 

@@ -96,6 +96,7 @@ export * from "./invariant-error-handler.service";
 export * from "./jobs.service";
 export * from "./json-file-reader.port";
 export * from "./json-file-reader-bun.adapter";
+export * from "./json-file-reader-bun-forgiving.adapter";
 export * from "./json-file-reader-noop.adapter";
 export * from "./logger.port";
 export * from "./logger-format-error.service";

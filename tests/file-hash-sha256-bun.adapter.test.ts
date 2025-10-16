@@ -4,7 +4,7 @@ import { FileHashSha256BunAdapter } from "../src/file-hash-sha256-bun.adapter";
 
 const adapter = new FileHashSha256BunAdapter();
 
-describe("FileHashBunWebCryptoAdapter.hash", () => {
+describe("FileHashBunWebCryptoAdapter", () => {
   test("absolute path", async () => {
     const fakeFile = { arrayBuffer: async () => new TextEncoder().encode("hello").buffer, lastModified: 0 };
     // @ts-expect-error

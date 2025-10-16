@@ -20,7 +20,6 @@ export class PrerequisiteMailer implements prereqs.Prerequisite {
 
     try {
       await this.mailer.verify();
-
       return prereqs.Verification.success();
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
