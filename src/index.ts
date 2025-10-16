@@ -105,6 +105,8 @@ export * from "./logger-winston.adapter";
 export * from "./logger-winston-local.adapter";
 export * from "./logger-winston-production.adapter";
 export * from "./mailer.port";
+export * from "./mailer.vo";
+export * from "./mailer.vo";
 export * from "./mailer-noop.adapter";
 export * from "./mailer-smtp.adapter";
 export * from "./mailer-smtp-with-logger.adapter";

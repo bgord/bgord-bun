@@ -1,13 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import {
-  EmailContentHtml,
-  EmailFrom,
-  EmailSubject,
-  EmailTo,
-  MailerSmtpAdapter,
-  SmtpPort,
-} from "../src/mailer-smtp.adapter";
+import { EmailContentHtml, EmailFrom, EmailSubject, EmailTo, SmtpPort } from "../src/mailer.vo";
+import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
@@ -51,21 +45,20 @@ describe("MailerSmtpAdapter", () => {
 });
 
 describe("Email validators", () => {
-  test("EmailSubject - valid", () => {
-    expect(() => EmailSubject.parse("Welcome to our newsletter")).not.toThrow();
+  test("EmailSubject - happy path", () => {
+    expect(EmailSubject.safeParse("Welcome to our newsletter").success).toEqual(true);
   });
 
-  test("EmailSubject - too short", () => {
+  test("EmailSubject - empty", () => {
     expect(() => EmailSubject.parse("")).toThrow();
   });
 
   test("EmailSubject - too long", () => {
-    const longSubject = "a".repeat(129);
-    expect(() => EmailSubject.parse(longSubject)).toThrow();
+    expect(() => EmailSubject.parse("a".repeat(129))).toThrow();
   });
 
-  test("EmailContentHtml - valid", () => {
-    expect(() => EmailContentHtml.parse("<p>Hello, world!</p>")).not.toThrow();
+  test("EmailContentHtml - happy path", () => {
+    expect(EmailContentHtml.safeParse("<p>Hello, world!</p>").success).toEqual(true);
   });
 
   test("EmailContentHtml - empty", () => {
@@ -73,20 +66,19 @@ describe("Email validators", () => {
   });
 
   test("EmailContentHtml - too long", () => {
-    const longContent = "a".repeat(10_001);
-    expect(() => EmailContentHtml.parse(longContent)).toThrow();
+    expect(() => EmailContentHtml.parse("a".repeat(10_001))).toThrow();
   });
 
-  test("EmailFrom - valid", () => {
-    expect(() => EmailFrom.parse("test@example.com")).not.toThrow();
+  test("EmailFrom - happy path", () => {
+    expect(EmailFrom.safeParse("test@example.com").success).toEqual(true);
   });
 
   test("EmailFrom - invalid", () => {
     expect(() => EmailFrom.parse("not-an-email")).toThrow();
   });
 
-  test("EmailTo - valid", () => {
-    expect(() => EmailTo.parse("test@example.com")).not.toThrow();
+  test("EmailTo - happy path", () => {
+    expect(EmailTo.safeParse("test@example.com").success).toEqual(true);
   });
 
   test("EmailTo - invalid", () => {
