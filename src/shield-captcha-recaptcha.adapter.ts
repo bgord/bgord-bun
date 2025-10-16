@@ -1,13 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { z } from "zod/v4";
+import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
 import type { ShieldCaptchaPort } from "./shield-captcha.port";
-
-export const RecaptchaSiteKey = z.string().length(40);
-export type RecaptchaSiteKeyType = z.infer<typeof RecaptchaSiteKey>;
-
-export const RecaptchaSecretKey = z.string().length(40).brand("RecaptchaSecretKey");
-export type RecaptchaSecretKeyType = z.infer<typeof RecaptchaSecretKey>;
 
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
 export type RecaptchaResultType = { success: boolean; score: number };

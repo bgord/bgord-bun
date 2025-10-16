@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import { RecaptchaSecretKey, ShieldCaptchaRecaptchaAdapter } from "../src/shield-captcha-recaptcha.adapter";
+import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
+import { ShieldCaptchaRecaptchaAdapter } from "../src/shield-captcha-recaptcha.adapter";
 
 const VALID_SECRET_KEY = "x".repeat(40);
 

@@ -121,6 +121,8 @@ export * from "./prerequisites/index";
 export * from "./prerequisites.service";
 export * from "./rate-limit-store.port";
 export * from "./rate-limit-store-node-cache.adapter";
+export * from "./recaptcha-secret-key.vo";
+export * from "./recaptcha-site-key.vo";
 export * from "./redactor.port";
 export * from "./redactor-compact-array.adapter";
 export * from "./redactor-compact-object.adapter";
