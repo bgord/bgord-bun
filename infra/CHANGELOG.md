@@ -1,4 +1,6 @@
 # Changelog
+## 2025-10-16 11:55 v1.0.0
+- 2025-10-16 11:55 fa9b80c **1.0.0**
 - 2025-10-16 11:53 07f44fc **Merge pull request #140 from bgord/file-ports**
 - 2025-10-16 11:50 b5cad0a **refactor: unify test names**
 - 2025-10-16 11:30 962c75b **refactor: test mailer vo**
@@ -13,6 +15,8 @@
 - 2025-10-16 10:38 31b3b28 **refactor: remove unnecessary vos**
 - 2025-10-16 10:34 fcfa8b3 **refactor: unify adapter naming**
 - 2025-10-16 10:12 e26ce33 **feature: add json file reader bun forgiving adapter**
+- 2025-10-16 09:54 945d913 **docs: generate readme**
+- 2025-10-16 09:54 05a9cce **docs: generate CHANGELOG**
 - 2025-10-16 09:51 b0a95d0 **refactor: improve shield captcha recaptcha**
 - 2025-10-16 00:03 cd46bce **refactor: improve testS**
 - 2025-10-15 23:08 1d76ae4 **refactor: simplify image tests**
