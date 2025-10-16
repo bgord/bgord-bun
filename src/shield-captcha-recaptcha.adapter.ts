@@ -3,10 +3,10 @@ import { HTTPException } from "hono/http-exception";
 import { z } from "zod/v4";
 import type { ShieldCaptchaPort } from "./shield-captcha.port";
 
-export const RecaptchaSiteKey = z.string().trim().length(40);
+export const RecaptchaSiteKey = z.string().length(40);
 export type RecaptchaSiteKeyType = z.infer<typeof RecaptchaSiteKey>;
 
-export const RecaptchaSecretKey = z.string().trim().length(40).brand("RecaptchaSecretKey");
+export const RecaptchaSecretKey = z.string().length(40).brand("RecaptchaSecretKey");
 export type RecaptchaSecretKeyType = z.infer<typeof RecaptchaSecretKey>;
 
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
@@ -19,16 +19,16 @@ export class ShieldCaptchaRecaptchaAdapter implements ShieldCaptchaPort {
 
   verify = createMiddleware(async (c, next) => {
     try {
-      const recaptchaTokenHeader = c.req.header("x-recaptcha-token");
-      const recaptchaTokenQuery = c.req.query("recaptchaToken");
-      const recaptchaTokenFormData = (await c.req.formData()).get("g-recaptcha-response")?.toString();
+      const header = c.req.header("x-recaptcha-token");
+      const query = c.req.query("recaptchaToken");
+      const form = (await c.req.formData()).get("g-recaptcha-response")?.toString();
+
+      const token = header ?? query ?? form;
+
+      if (!token) throw AccessDeniedRecaptchaError;
 
       // cSpell:ignore remoteip
       const remoteip = c.req.header("x-forwarded-for") ?? "";
-
-      const token = recaptchaTokenHeader ?? recaptchaTokenQuery ?? recaptchaTokenFormData;
-
-      if (!token) throw AccessDeniedRecaptchaError;
 
       const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
 
