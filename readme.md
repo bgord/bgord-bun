@@ -56,7 +56,6 @@ src/
 ├── csv-stringifier.port.ts
 ├── decorators.service.ts
 ├── dispatching-event-store.ts
-├── encryption.service.ts
 ├── env-validator.service.ts
 ├── etag-extractor.middleware.ts
 ├── event-bus-like.types.ts
@@ -68,14 +67,23 @@ src/
 ├── event-store.ts
 ├── event-stream.vo.ts
 ├── event.types.ts
+├── file-cleaner-bun-forgiving.adapter.ts
+├── file-cleaner-bun.adapter.ts
+├── file-cleaner-noop.adapter.ts
+├── file-cleaner.port.ts
 ├── file-draft-zip.service.ts
 ├── file-draft.service.ts
 ├── file-hash-noop.adapter.ts
 ├── file-hash-sha256-bun.adapter.ts
 ├── file-hash.port.ts
+├── file-renamer-fs-forgiving.adapter.ts
+├── file-renamer-fs.adapter.ts
+├── file-renamer-noop.adapter.ts
+├── file-renamer.port.ts
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
-├── gzip.service.ts
+├── hcaptcha-secret-key.vo.ts
+├── hcaptcha-site-key.vo.ts
 ├── healthcheck.service.ts
 ├── http-logger.middleware.ts
 ├── i18n.service.ts
@@ -109,6 +117,10 @@ src/
 ├── invariant-error-handler.service.ts
 ├── invariant.service.ts
 ├── jobs.service.ts
+├── json-file-reader-bun-forgiving.adapter.ts
+├── json-file-reader-bun.adapter.ts
+├── json-file-reader-noop.adapter.ts
+├── json-file-reader.port.ts
 ├── logger-format-error.service.ts
 ├── logger-noop.adapter.ts
 ├── logger-winston-local.adapter.ts
@@ -119,6 +131,7 @@ src/
 ├── mailer-smtp-with-logger.adapter.ts
 ├── mailer-smtp.adapter.ts
 ├── mailer.port.ts
+├── mailer.vo.ts
 ├── memory-consumption.service.ts
 ├── modules
 │   ├── history
@@ -181,6 +194,8 @@ src/
 ├── prerequisites.service.ts
 ├── rate-limit-store-node-cache.adapter.ts
 ├── rate-limit-store.port.ts
+├── recaptcha-secret-key.vo.ts
+├── recaptcha-site-key.vo.ts
 ├── redactor-compact-array.adapter.ts
 ├── redactor-compact-object.adapter.ts
 ├── redactor-composite.adapter.ts
