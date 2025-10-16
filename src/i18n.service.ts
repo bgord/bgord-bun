@@ -56,8 +56,9 @@ export class I18n {
   }
 
   getTranslationPathForLanguage(language: tools.LanguageType): tools.FilePathRelative {
-    const filename = tools.Filename.fromParts(language, "json");
-
-    return tools.FilePathRelative.fromParts(this.translationsPath, filename);
+    return tools.FilePathRelative.fromParts(
+      this.translationsPath,
+      tools.Filename.fromParts(language, "json"),
+    );
   }
 }

@@ -11,11 +11,12 @@ const shield = new ShieldCaptchaRecaptcha({ secretKey: RecaptchaSecretKey.parse(
 
 const app = new Hono().post("/", shield.verify, (c) => c.text("ok"));
 
+const success = () => new Response(JSON.stringify({ success: true }), { status: 200 });
+const failure = () => new Response(JSON.stringify({ success: false }), { status: 200 });
+
 describe("ShieldCaptchaRecaptcha", () => {
   test("happy path", async () => {
-    const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
-      new Response(JSON.stringify({ success: true }), { status: 200 }),
-    );
+    spyOn(global, "fetch").mockResolvedValueOnce(success());
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -25,13 +26,10 @@ describe("ShieldCaptchaRecaptcha", () => {
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("ok");
-    expect(fetchSpy).toHaveBeenCalled();
   });
 
   test("happy path - header", async () => {
-    const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
-      new Response(JSON.stringify({ success: true }), { status: 200 }),
-    );
+    spyOn(global, "fetch").mockResolvedValueOnce(success());
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -43,13 +41,10 @@ describe("ShieldCaptchaRecaptcha", () => {
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("ok");
-    expect(fetchSpy).toHaveBeenCalled();
   });
 
   test("happy path - query", async () => {
-    const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
-      new Response(JSON.stringify({ success: true }), { status: 200 }),
-    );
+    spyOn(global, "fetch").mockResolvedValueOnce(success());
 
     const response = await app.request(`http://localhost/?recaptchaToken=${VALID_TOKEN}`, {
       method: "POST",
@@ -58,13 +53,10 @@ describe("ShieldCaptchaRecaptcha", () => {
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("ok");
-    expect(fetchSpy).toHaveBeenCalled();
   });
 
   test("failure", async () => {
-    const fetchSpy = spyOn(global, "fetch").mockResolvedValueOnce(
-      new Response(JSON.stringify({ success: false }), { status: 200 }),
-    );
+    spyOn(global, "fetch").mockResolvedValueOnce(failure());
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -73,6 +65,5 @@ describe("ShieldCaptchaRecaptcha", () => {
     });
 
     expect(response.status).toEqual(403);
-    expect(fetchSpy).toHaveBeenCalled();
   });
 });

@@ -19,8 +19,8 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
 
     const temporary = final.withFilename(final.getFilename().withSuffix("-processed"));
 
-    const finalExtension = final.getFilename().getExtension();
-    const encoder = (finalExtension === "jpg" ? "jpeg" : finalExtension) as keyof sharp.FormatEnum;
+    const extension = final.getFilename().getExtension();
+    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
 
     const quality = recipe.quality ?? ImageProcessorSharpAdapter.DEFAULT_QUALITY;
 
