@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 import { I18n } from "../src/i18n.service";
+import { JsonFileReaderBunForgivingAdapter } from "../src/json-file-reader-bun-forgiving.adapter";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
@@ -89,9 +90,11 @@ describe("I18n", () => {
     });
 
     test("returns empty object on error", async () => {
-      spyOn(JsonFileReader, "read").mockImplementation(() => {
+      spyOn(Bun, "file").mockImplementation(() => {
         throw new Error(mocks.IntentialError);
       });
+
+      const i18n = new I18n({ JsonFileReader: new JsonFileReaderBunForgivingAdapter(), Logger });
 
       expect(await i18n.getTranslations("en")).toEqual({});
     });

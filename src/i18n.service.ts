@@ -28,11 +28,7 @@ export class I18n {
   ) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
-    try {
-      return this.deps.JsonFileReader.read(this.getTranslationPathForLanguage(language));
-    } catch {
-      return {};
-    }
+    return this.deps.JsonFileReader.read(this.getTranslationPathForLanguage(language));
   }
 
   useTranslations(translations: TranslationsType) {
