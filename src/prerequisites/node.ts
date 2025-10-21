@@ -25,7 +25,7 @@ export class PrerequisiteNode implements prereqs.Prerequisite {
 
       if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success();
       return prereqs.Verification.failure({ message: `Version: ${this.current}` });
-    } catch (error) {
+    } catch {
       return prereqs.Verification.failure({ message: `Invalid version passed: ${this.current}` });
     }
   }

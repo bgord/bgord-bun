@@ -22,7 +22,7 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
 
   private resolveKeyToAbsoluteFilePath(key: tools.ObjectKeyType): tools.FilePathAbsolute {
     const parts = key.split("/");
-    const filename = tools.Filename.fromString(parts.pop()!);
+    const filename = tools.Filename.fromString(parts.pop() as string);
 
     const directory = tools.DirectoryPathAbsoluteSchema.parse(`${this.config.root}/${parts.join("/")}`);
 
