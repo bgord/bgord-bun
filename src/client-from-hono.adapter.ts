@@ -7,7 +7,7 @@ export class ClientFromHonoAdapter {
     const info = getConnInfo(context);
 
     const ip =
-      context.req.header("x-real-ip") || context.req.header("x-forwarded-for") || info.remote.address;
+      context.req.header("x-real-ip") || context.req.header("x-forwarded-for") || info?.remote?.address;
 
     const ua = context.req.header("user-agent");
 
