@@ -1,6 +1,7 @@
-import type { LogLevel } from "better-auth";
 import { type LoggerPort, LogLevelEnum } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
+
+type LogLevel = "info" | "success" | "warn" | "error" | "debug";
 
 export class BetterAuthLogger {
   constructor(private readonly logger: LoggerPort) {}
