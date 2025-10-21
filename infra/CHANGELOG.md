@@ -1,7 +1,13 @@
 # Changelog
+- 2025-10-21 09:45 dc49527 **step: bump bgord/scripts**
+- 2025-10-21 09:45 78fba62 **fix: loglevel in better-auth logger service**
+- 2025-10-21 09:37 4ee1f16 **refactor: clean up biome check**
+- 2025-10-21 09:35 a7b3b5f **step: update packages**
+- 2025-10-21 09:33 2ca0ea5 **fix: client-from-hono**
 ## 2025-10-16 15:06 v1.0.1
 - 2025-10-16 15:06 0051923 **1.0.1**
 - 2025-10-16 15:05 7151a88 **fix: translations prereq**
+- 2025-10-16 13:06 8acddc4 **docs: generate CHANGELOG**
 - 2025-10-16 13:05 a702d65 **docs: generate CHANGELOG**
 ## 2025-10-16 11:55 v1.0.0
 - 2025-10-16 11:55 fa9b80c **1.0.0**
