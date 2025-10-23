@@ -1,5 +1,9 @@
 # Changelog
+- 2025-10-23 16:06 0755477 **step: bump bgord/scripts**
+- 2025-10-23 16:05 548ac65 **refactor: expose supported languages in translations**
+- 2025-10-23 16:04 e2d2e34 **refactor: expose supported languages in translations**
 - 2025-10-23 15:57 52e3db8 **step: update packages**
+- 2025-10-23 13:57 d4e6d6f **docs: generate CHANGELOG**
 - 2025-10-21 09:45 dc49527 **step: bump bgord/scripts**
 - 2025-10-21 09:45 78fba62 **fix: loglevel in better-auth logger service**
 - 2025-10-21 09:37 4ee1f16 **refactor: clean up biome check**
