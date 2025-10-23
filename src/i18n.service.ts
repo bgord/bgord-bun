@@ -9,8 +9,10 @@ export type TranslationPlaceholderType = string;
 export type TranslationPlaceholderValueType = string | number;
 export type TranslationVariableType = Record<TranslationPlaceholderType, TranslationPlaceholderValueType>;
 
+export type TranslationsSupportedLanguagesType = Record<string, string>;
+
 export type I18nConfigType = {
-  supportedLanguages: Record<string, string>;
+  supportedLanguages: TranslationsSupportedLanguagesType;
   translationsPath?: tools.DirectoryPathRelativeType;
   defaultLanguage?: string;
 };
@@ -23,6 +25,7 @@ export class I18n {
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
   constructor(
+    readonly supportedLanguages: TranslationsSupportedLanguagesType,
     private readonly deps: Dependencies,
     private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH,
   ) {}

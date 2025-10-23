@@ -22,7 +22,7 @@ const app = new Hono()
       fallbackLanguage: SupportedLanguages.en,
     }),
   )
-  .get("/get-translations", ...Translations.build(deps));
+  .get("/get-translations", ...Translations.build(SupportedLanguages, deps));
 
 describe("Translations service", () => {
   test("happy path - no language specified", async () => {
@@ -30,7 +30,11 @@ describe("Translations service", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(200);
-    expect(json).toEqual({ translations: { hello: "Hello" }, language: "en" });
+    expect(json).toEqual({
+      translations: { hello: "Hello" },
+      language: "en",
+      supportedLanguages: SupportedLanguages,
+    });
   });
 
   test("happy path - en", async () => {
@@ -41,7 +45,11 @@ describe("Translations service", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(200);
-    expect(json).toEqual({ translations: { hello: "Hello" }, language: "en" });
+    expect(json).toEqual({
+      translations: { hello: "Hello" },
+      language: "en",
+      supportedLanguages: SupportedLanguages,
+    });
   });
 
   test("happy path - pl", async () => {
@@ -52,7 +60,11 @@ describe("Translations service", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(200);
-    expect(json).toEqual({ translations: { hello: "Hello" }, language: "pl" });
+    expect(json).toEqual({
+      translations: { hello: "Hello" },
+      language: "pl",
+      supportedLanguages: SupportedLanguages,
+    });
   });
 
   test("happy path - other", async () => {
@@ -63,6 +75,10 @@ describe("Translations service", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(200);
-    expect(json).toEqual({ translations: { hello: "Hello" }, language: "en" });
+    expect(json).toEqual({
+      translations: { hello: "Hello" },
+      language: "en",
+      supportedLanguages: SupportedLanguages,
+    });
   });
 });
