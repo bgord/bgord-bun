@@ -48,10 +48,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
     const supportedLanguages = Object.keys(this.supportedLanguages);
-    const i18n = new I18n(this.supportedLanguages, {
-      Logger: this.Logger,
-      JsonFileReader: this.JsonFileReader,
-    });
+    const i18n = new I18n({ Logger: this.Logger, JsonFileReader: this.JsonFileReader });
 
     try {
       await fsp.access(translationsPath, constants.R_OK);

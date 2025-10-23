@@ -18,7 +18,7 @@ enum SupportedLanguages {
   pl = "pl",
 }
 
-const i18n = new I18n(SupportedLanguages, deps);
+const i18n = new I18n(deps);
 
 const app = new Hono()
   .use(
@@ -60,7 +60,7 @@ describe("I18n", () => {
 
     test("uses custom translation path if provided", () => {
       expect(
-        new I18n(SupportedLanguages, deps, tools.DirectoryPathRelativeSchema.parse("custom/path"))
+        new I18n(deps, tools.DirectoryPathRelativeSchema.parse("custom/path"))
           .getTranslationPathForLanguage("pl")
           .get(),
       ).toEqual("custom/path/pl.json");
@@ -97,10 +97,7 @@ describe("I18n", () => {
         throw new Error(mocks.IntentialError);
       });
 
-      const i18n = new I18n(SupportedLanguages, {
-        JsonFileReader: new JsonFileReaderBunForgivingAdapter(),
-        Logger,
-      });
+      const i18n = new I18n({ JsonFileReader: new JsonFileReaderBunForgivingAdapter(), Logger });
 
       expect(await i18n.getTranslations("en")).toEqual({});
     });

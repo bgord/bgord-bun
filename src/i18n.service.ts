@@ -25,7 +25,6 @@ export class I18n {
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
   constructor(
-    readonly supportedLanguages: TranslationsSupportedLanguagesType,
     private readonly deps: Dependencies,
     private translationsPath: tools.DirectoryPathRelativeType = I18n.DEFAULT_TRANSLATIONS_PATH,
   ) {}
