@@ -1,6 +1,9 @@
 # Changelog
+## 2025-10-25 16:10 v1.0.3
+- 2025-10-25 16:10 c1688c5 **1.0.3**
 - 2025-10-25 16:09 ca8464a **step: update packages**
 - 2025-10-25 16:09 6da791a **step: update packages**
+- 2025-10-25 14:10 9e2a65e **docs: generate CHANGELOG**
 ## 2025-10-23 16:07 v1.0.2
 - 2025-10-23 16:07 0cec644 **1.0.2**
 - 2025-10-23 16:06 0755477 **step: bump bgord/scripts**
