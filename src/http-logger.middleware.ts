@@ -1,6 +1,5 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
-import _ from "lodash";
 import { CacheHitEnum } from "./cache-resolver.service";
 import { CacheResponse } from "./cache-response.middleware";
 import { ClientFromHonoAdapter } from "./client-from-hono.adapter";
@@ -67,7 +66,15 @@ export class HttpLogger {
         method: request.method,
         url: request.url,
         client,
-        metadata: _.pickBy(httpRequestBeforeMetadata, (value) => !_.isEmpty(value)),
+        metadata: Object.fromEntries(
+          Object.entries(httpRequestBeforeMetadata).filter(
+            ([, value]) =>
+              value !== undefined &&
+              value !== null &&
+              typeof value === "object" &&
+              Object.keys(value).length > 0,
+          ),
+        ),
       });
 
       const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
