@@ -8,16 +8,15 @@ const root = "/";
 
 const size = tools.Size.fromMB(100);
 
+const response = [
+  "Filesystem 1024-blocks Used Available Capacity Mounted on",
+  `/dev/disk1s5s1 999999 0 ${size.tokB()} 50% ${root}`,
+].join("\n");
+
 describe("DiskSpaceCheckerBunAdapter", () => {
   test("happy path", async () => {
     // @ts-expect-error
-    spyOn(bun, "$").mockImplementation((_strings: TemplateStringsArray, _path: string) => ({
-      text: async () =>
-        [
-          "Filesystem 1024-blocks Used Available Capacity Mounted on",
-          `/dev/disk1s5s1 999999 0 ${size.toBytes() / 1024} 50% ${root}`,
-        ].join("\n"),
-    }));
+    spyOn(bun, "$").mockImplementation(() => ({ text: () => response }));
 
     expect((await DiskSpaceChecker.get(root)).toBytes()).toEqual(size.toBytes());
   });
