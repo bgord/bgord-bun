@@ -50,8 +50,11 @@ export class HttpLogger {
 
       const httpRequestBeforeMetadata = {
         params: context.req.param(),
-        // @ts-expect-error
-        headers: _.omit(Object.fromEntries(request.headers), UNINFORMATIVE_HEADERS),
+        headers: Object.fromEntries(
+          Object.entries(request.headers.toJSON()).filter(
+            ([header]) => !UNINFORMATIVE_HEADERS.includes(header),
+          ),
+        ),
         body: await HttpLogger.parseJSON(request),
         query: context.req.queries(),
       };

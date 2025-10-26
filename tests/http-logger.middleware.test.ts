@@ -29,7 +29,7 @@ describe("HttpLogger middleware", () => {
   test("200", async () => {
     const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
 
-    const result = await app.request("/ping", { method: "GET" }, ip);
+    const result = await app.request("/ping", { method: "GET", headers: { keep: "abc", origin: "def" } }, ip);
 
     expect(result.status).toEqual(200);
     expect(loggerHttpSpy).toHaveBeenCalledTimes(2);
@@ -46,7 +46,7 @@ describe("HttpLogger middleware", () => {
         method: "GET",
         url: "http://localhost/ping",
         client: { ip: "127.0.0.1", ua: "anon" },
-        metadata: {},
+        metadata: { headers: { keep: "abc" } },
       }),
     );
 
