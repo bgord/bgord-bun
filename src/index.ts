@@ -30,6 +30,7 @@ export * from "./csv-stringifier.adapter";
 export * from "./csv-stringifier.port";
 export * from "./decorators.service";
 export * from "./disk-space-checker.port";
+export * from "./disk-space-checker-bun.adapter";
 export * from "./disk-space-checker-noop.adapter";
 export * from "./disk-space-checker-package.adapter";
 export * from "./dispatching-event-store";
