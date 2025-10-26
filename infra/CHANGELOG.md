@@ -1,6 +1,15 @@
 # Changelog
+- 2025-10-26 13:03 ce02c62 **step: add tests**
+- 2025-10-26 12:56 5ad6c3d **feature: add disk space checker bun adapter**
+- 2025-10-26 12:41 97a669b **refactor: use disk space checker in space prereq**
+- 2025-10-26 12:36 94903d4 **feature: add disk space checker package adapter**
+- 2025-10-26 12:32 6113af4 **feature: define disk space checker**
+- 2025-10-26 12:24 866d976 **refactor: remove lodash from http logger**
+- 2025-10-26 12:24 29d657b **refactor: remove lodash from cache response**
+- 2025-10-26 12:13 1638294 **refactor: remove _.omit**
 - 2025-10-26 11:30 c92e884 **step: update packages**
 - 2025-10-26 11:30 868117b **refactor: root**
+- 2025-10-26 10:30 95460b1 **docs: generate CHANGELOG**
 ## 2025-10-25 16:10 v1.0.3
 - 2025-10-25 16:10 c1688c5 **1.0.3**
 - 2025-10-25 16:09 ca8464a **step: update packages**
