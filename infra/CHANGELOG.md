@@ -1,4 +1,5 @@
 # Changelog
+- 2025-10-26 13:13 a6fabbd **step: remove disk space checker package adapter**
 ## 2025-10-26 13:05 v1.0.4
 - 2025-10-26 13:05 9263eff **1.0.4**
 - 2025-10-26 13:03 ce02c62 **step: add tests**
@@ -11,6 +12,7 @@
 - 2025-10-26 12:13 1638294 **refactor: remove _.omit**
 - 2025-10-26 12:05 2b4985c **docs: generate readme**
 - 2025-10-26 12:05 0f265b4 **docs: generate CHANGELOG**
+- 2025-10-26 12:05 0c97f5c **docs: generate CHANGELOG**
 - 2025-10-26 11:30 c92e884 **step: update packages**
 - 2025-10-26 11:30 868117b **refactor: root**
 - 2025-10-26 10:30 95460b1 **docs: generate CHANGELOG**
