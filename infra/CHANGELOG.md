@@ -1,4 +1,5 @@
 # Changelog
+- 2025-10-26 15:31 f59afa9 **step: update packages**
 ## 2025-10-26 13:14 v1.0.5
 - 2025-10-26 13:14 dda8e92 **1.0.5**
 - 2025-10-26 13:13 a6fabbd **step: remove disk space checker package adapter**
@@ -12,6 +13,7 @@
 - 2025-10-26 12:24 866d976 **refactor: remove lodash from http logger**
 - 2025-10-26 12:24 29d657b **refactor: remove lodash from cache response**
 - 2025-10-26 12:14 d8cfc47 **docs: generate readme**
+- 2025-10-26 12:14 88f3f82 **docs: generate CHANGELOG**
 - 2025-10-26 12:14 338441c **docs: generate CHANGELOG**
 - 2025-10-26 12:13 1638294 **refactor: remove _.omit**
 - 2025-10-26 12:05 2b4985c **docs: generate readme**
