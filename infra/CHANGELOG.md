@@ -1,8 +1,10 @@
 # Changelog
+- 2025-10-26 15:34 31f8d59 **refactor: use size toKb**
 ## 2025-10-26 15:31 v1.0.6
 - 2025-10-26 15:31 f59afa9 **step: update packages**
 - 2025-10-26 15:31 add3e4a **1.0.6**
 - 2025-10-26 14:31 5c2e879 **docs: generate CHANGELOG**
+- 2025-10-26 14:31 1b5c68c **docs: generate CHANGELOG**
 ## 2025-10-26 13:14 v1.0.5
 - 2025-10-26 13:14 dda8e92 **1.0.5**
 - 2025-10-26 13:13 a6fabbd **step: remove disk space checker package adapter**
