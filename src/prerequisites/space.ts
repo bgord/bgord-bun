@@ -20,8 +20,8 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
-      const fsRoot = path.sep;
-      const bytes = await checkDiskSpace(fsRoot);
+      const root = path.sep;
+      const bytes = await checkDiskSpace(root);
       const freeDiskSpace = tools.Size.fromBytes(bytes.free);
 
       if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success();
