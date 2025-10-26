@@ -57,7 +57,6 @@ src/
 ├── decorators.service.ts
 ├── disk-space-checker-bun.adapter.ts
 ├── disk-space-checker-noop.adapter.ts
-├── disk-space-checker-package.adapter.ts
 ├── disk-space-checker.port.ts
 ├── dispatching-event-store.ts
 ├── env-validator.service.ts
