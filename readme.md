@@ -146,8 +146,10 @@ src/
 │   │   │   ├── HISTORY_POPULATED_EVENT.ts
 │   │   ├── ports
 │   │   │   ├── history-projection.ts
+│   │   │   ├── history-reader.ts
 │   │   │   ├── history-writer.ts
 │   │   └── value-objects
+│   │       ├── history-created-at.ts
 │   │       ├── history-id.ts
 │   │       ├── history-operation.ts
 │   │       ├── history-payload.ts
