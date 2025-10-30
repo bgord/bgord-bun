@@ -1,7 +1,10 @@
 # Changelog
+- 2025-10-30 13:11 b3ee8f9 **step: define history reader port**
+- 2025-10-30 13:10 969d08b **step: add history created at**
 ## 2025-10-30 09:02 v1.0.8
 - 2025-10-30 09:02 b53458e **1.0.8**
 - 2025-10-30 09:02 afdaa95 **step: update packages**
+- 2025-10-30 08:03 fec860e **docs: generate CHANGELOG**
 - 2025-10-30 08:02 5897f61 **docs: generate CHANGELOG**
 ## 2025-10-27 11:32 v1.0.7
 - 2025-10-27 11:32 85cbd06 **1.0.7**
