@@ -1,8 +1,10 @@
 # Changelog
+- 2025-10-30 13:17 7e16826 **fix: history reader port read return type**
 ## 2025-10-30 13:11 v1.0.9
 - 2025-10-30 13:11 b3ee8f9 **step: define history reader port**
 - 2025-10-30 13:11 5a5bca2 **1.0.9**
 - 2025-10-30 13:10 969d08b **step: add history created at**
+- 2025-10-30 12:12 d0a89e5 **docs: generate CHANGELOG**
 - 2025-10-30 12:11 ed18391 **docs: generate readme**
 - 2025-10-30 12:11 e695e07 **docs: generate CHANGELOG**
 ## 2025-10-30 09:02 v1.0.8
