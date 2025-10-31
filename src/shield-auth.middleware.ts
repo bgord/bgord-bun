@@ -8,13 +8,6 @@ import { HTTPException } from "hono/http-exception";
 export const AccessDeniedAuthShieldError = new HTTPException(403, { message: "access_denied_auth_shield" });
 
 export class ShieldAuth {
-  cors = {
-    origin: ["http://localhost:5173", "http://localhost:3000"],
-    credentials: true,
-    allowHeaders: ["Content-Type"],
-    exposeHeaders: ["Set-Cookie"],
-  };
-
   constructor(private readonly Auth: ReturnType<typeof betterAuth>) {}
 
   attach = createMiddleware(async (c: hono.Context, next: hono.Next) => {
