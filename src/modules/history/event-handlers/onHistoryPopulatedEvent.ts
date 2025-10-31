@@ -4,7 +4,7 @@ import * as VO from "../value-objects";
 
 export const onHistoryPopulatedEvent =
   (projection: Ports.HistoryProjectionPort) => async (event: Events.HistoryPopulatedEventType) => {
-    const data = VO.HistoryParsed.parse(event.payload);
+    const data = VO.HistoryParsed.parse({ ...event.payload, createdAt: event.createdAt });
 
-    await projection.append(data, event.createdAt);
+    await projection.append(data);
   };
