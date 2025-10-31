@@ -1,4 +1,6 @@
 # Changelog
+- 2025-10-31 23:40 a0ef445 **step: remove shield auth cors**
+- 2025-10-31 23:40 204edb1 **refactor: simplify history projection port**
 ## 2025-10-30 13:17 v1.0.10
 - 2025-10-30 13:17 7e16826 **fix: history reader port read return type**
 - 2025-10-30 13:17 69877fd **1.0.10**
@@ -6,6 +8,7 @@
 - 2025-10-30 13:11 b3ee8f9 **step: define history reader port**
 - 2025-10-30 13:11 5a5bca2 **1.0.9**
 - 2025-10-30 13:10 969d08b **step: add history created at**
+- 2025-10-30 12:18 57a91a9 **docs: generate CHANGELOG**
 - 2025-10-30 12:17 f22d68d **docs: generate CHANGELOG**
 - 2025-10-30 12:12 d0a89e5 **docs: generate CHANGELOG**
 - 2025-10-30 12:11 ed18391 **docs: generate readme**
