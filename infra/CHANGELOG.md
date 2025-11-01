@@ -1,9 +1,11 @@
 # Changelog
+- 2025-11-01 19:30 db56bf2 **step: add static files**
 - 2025-10-31 23:51 712b605 **refactor: remove default sharp export**
 ## 2025-10-31 23:41 v1.0.11
 - 2025-10-31 23:41 8df2863 **1.0.11**
 - 2025-10-31 23:40 a0ef445 **step: remove shield auth cors**
 - 2025-10-31 23:40 204edb1 **refactor: simplify history projection port**
+- 2025-10-31 22:52 72c81a8 **docs: generate CHANGELOG**
 - 2025-10-31 22:41 d65c2ba **docs: generate CHANGELOG**
 - 2025-10-31 22:41 bbada96 **docs: generate CHANGELOG**
 ## 2025-10-30 13:17 v1.0.10
