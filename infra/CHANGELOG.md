@@ -1,5 +1,9 @@
 # Changelog
+## 2025-11-01 19:31 v1.0.12
+- 2025-11-01 19:31 b43fb7a **1.0.12**
 - 2025-11-01 19:30 db56bf2 **step: add static files**
+- 2025-11-01 18:31 1af9e13 **docs: generate CHANGELOG**
+- 2025-11-01 18:31 0194f9d **docs: generate readme**
 - 2025-10-31 23:51 712b605 **refactor: remove default sharp export**
 ## 2025-10-31 23:41 v1.0.11
 - 2025-10-31 23:41 8df2863 **1.0.11**
