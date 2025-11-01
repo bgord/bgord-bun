@@ -223,6 +223,7 @@ src/
 ├── shield-rate-limit.middleware.ts
 ├── simulated-error.middleware.ts
 ├── slower.middleware.ts
+├── static-files.service.ts
 ├── temporary-file-absolute.adapter.ts
 ├── temporary-file-noop.adapter.ts
 ├── temporary-file.port.ts
