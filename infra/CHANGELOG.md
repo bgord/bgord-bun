@@ -1,10 +1,12 @@
 # Changelog
+- 2025-11-02 22:11 3ac3112 **step: update packages**
 ## 2025-11-02 18:57 v1.1.1
 - 2025-11-02 18:57 525ce0c **1.1.1**
 - 2025-11-02 18:44 f97cca9 **refactor: remove vite from tsconfig exclude**
 - 2025-11-02 18:44 cd3d103 **step: adjust tests**
 - 2025-11-02 18:38 c80576a **refactor: adjust timestamp vo**
 - 2025-11-02 18:36 cdf4d99 **step: update packages**
+- 2025-11-02 17:57 e821bdf **docs: generate CHANGELOG**
 - 2025-11-02 17:57 64ec5c4 **docs: generate CHANGELOG**
 - 2025-11-02 16:32 56115ea **refactor: simplify clock fixed adapter**
 ## 2025-11-02 16:03 v1.1.0
