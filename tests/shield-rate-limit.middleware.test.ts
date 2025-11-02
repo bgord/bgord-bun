@@ -9,7 +9,7 @@ import {
   UserSubjectResolver,
 } from "../src/shield-rate-limit.middleware";
 
-const Clock = new ClockFixedAdapter(tools.TimestampVO.fromNumber(1000));
+const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const deps = { Clock };
 
 const store = new RateLimitStoreNodeCacheAdapter(tools.Duration.Seconds(1));

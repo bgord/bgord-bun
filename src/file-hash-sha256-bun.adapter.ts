@@ -13,7 +13,7 @@ export class FileHashSha256BunAdapter implements FileHashPort {
     return {
       etag,
       size: tools.Size.fromBytes(arrayBuffer.byteLength),
-      lastModified: tools.TimestampVO.fromNumber(file.lastModified),
+      lastModified: tools.Timestamp.fromNumber(file.lastModified),
       mime: tools.Mime.fromExtension(extension),
     };
   }

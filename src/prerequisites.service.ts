@@ -25,7 +25,7 @@ export interface Prerequisite {
 export type PrerequisiteResult = Readonly<{
   label: PrerequisiteLabelType;
   status: PrerequisiteStatusEnum;
-  checkedAt: tools.TimestampVO;
+  checkedAt: tools.Timestamp;
   durationMs: tools.DurationMsType;
   kind: string;
   error?: ErrorInfo;

@@ -7,6 +7,6 @@ export class ClockSystemAdapter implements ClockPort {
   }
 
   now() {
-    return tools.TimestampVO.fromNumber(Date.now());
+    return tools.Timestamp.fromNumber(Date.now());
   }
 }

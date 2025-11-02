@@ -3,7 +3,7 @@ import type * as tools from "@bgord/tools";
 export type FileHashResult = {
   etag: string;
   size: tools.Size;
-  lastModified: tools.TimestampVO;
+  lastModified: tools.Timestamp;
   mime: tools.Mime;
 };
 
