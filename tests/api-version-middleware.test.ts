@@ -12,7 +12,7 @@ const deps = { Clock, JsonFileReader };
 
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 
-const BUILD_DATE = tools.Timestamp.parse(123);
+const BUILD_DATE = tools.Timestamp.fromNumber(123).get();
 
 describe("ApiVersion middleware", () => {
   test("happy path", async () => {

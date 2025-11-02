@@ -37,7 +37,7 @@ describe("TimeZoneOffset middleware", () => {
 
   test("adjustTimestamp", async () => {
     expect(
-      TimeZoneOffset.adjustTimestamp(tools.Timestamp.parse(1_000_000), tools.Duration.Ms(100_000)),
-    ).toEqual(tools.Timestamp.parse(900_000));
+      TimeZoneOffset.adjustTimestamp(tools.Timestamp.fromNumber(1_000_000), tools.Duration.Ms(100_000)),
+    ).toEqual(tools.Timestamp.fromNumber(900_000));
   });
 });

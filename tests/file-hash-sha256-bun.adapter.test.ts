@@ -18,7 +18,7 @@ describe("FileHashSha256BunAdapter", () => {
     expect(result.etag).toEqual("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824");
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(5);
-    expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
+    expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(0));
     expect(result.mime.toString()).toEqual("application/pdf");
   });
 
@@ -35,7 +35,7 @@ describe("FileHashSha256BunAdapter", () => {
     expect(result.etag).toEqual("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(3);
-    expect(result.lastModified).toEqual(tools.Timestamp.parse(0));
+    expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(0));
     expect(result.mime.toString()).toEqual("application/octet-stream");
   });
 });

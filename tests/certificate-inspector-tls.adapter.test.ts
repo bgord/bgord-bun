@@ -4,14 +4,14 @@ import * as tools from "@bgord/tools";
 import { CertificateInspectorTLSAdapter } from "../src/certificate-inspector-tls.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 
-const NOW = tools.Timestamp.parse(Date.UTC(2025, 0, 1, 12, 0, 0));
+const NOW = tools.Timestamp.fromNumber(Date.UTC(2025, 0, 1, 12, 0, 0)).get();
 const Clock = new ClockFixedAdapter(NOW);
 
 const adapter = new CertificateInspectorTLSAdapter({ Clock });
 
 describe("CertificateInspectorTLSAdapter", () => {
   test("success - remaining 30 days", async () => {
-    const valid_to = new Date(tools.Time.Now(Clock.nowMs()).Add(tools.Duration.Days(30))).toUTCString();
+    const valid_to = new Date(Clock.now().add(tools.Duration.Days(30)).get()).toUTCString();
 
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
@@ -32,7 +32,7 @@ describe("CertificateInspectorTLSAdapter", () => {
   });
 
   test("success - expired 2 days ago", async () => {
-    const valid_to = new Date(tools.Time.Now(Clock.nowMs()).Add(tools.Duration.Days(-2))).toUTCString();
+    const valid_to = new Date(Clock.now().add(tools.Duration.Days(-2)).get()).toUTCString();
 
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
