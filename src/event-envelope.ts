@@ -11,7 +11,7 @@ type Dependencies = { IdProvider: IdProviderPort; Clock: ClockPort };
 export const EventEnvelopeSchema = {
   id: UUID,
   correlationId: UUID,
-  createdAt: tools.Timestamp,
+  createdAt: tools.TimestampValue,
   stream: z.string().min(1),
   version: z.literal(1),
   revision: tools.RevisionValue.optional(),
