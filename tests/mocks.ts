@@ -1,4 +1,5 @@
 import { Writable } from "node:stream";
+import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import * as winston from "winston";
 
@@ -33,3 +34,10 @@ export function createContext(headers: Record<string, string | undefined>): Cont
     env: { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } },
   } as unknown as Context;
 }
+
+// Tue Nov 14 2023 22:13:20 GMT+0000
+export const TIME_ZERO = tools.TimestampVO.fromNumber(1700000000000);
+
+export const TIME_ZERO_DATE = "2023-11-14";
+
+export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();

@@ -1,17 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheFileMustRevalidate } from "../src/cache-file.service";
-
-const now = tools.Timestamp.fromNumber(1000);
+import * as mocks from "./mocks";
 
 const meta = {
   etag: "abc123etag",
-  lastModified: now,
+  lastModified: mocks.TIME_ZERO,
   mime: new tools.Mime("image/webp"),
   size: tools.Size.fromBytes(12345),
 };
-
-const lastModified = new Date(meta.lastModified.get()).toUTCString();
 
 describe("CacheFileMustRevalidate service", () => {
   test("notModified", async () => {
@@ -21,7 +18,7 @@ describe("CacheFileMustRevalidate service", () => {
     expect(response.headers.get("ETag")).toEqual(meta.etag);
     expect(response.headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(response.headers.get("Vary")).toEqual("Authorization, Cookie");
-    expect(response.headers.get("Last-Modified")).toEqual(lastModified);
+    expect(response.headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
 
     expect(response.headers.get("Content-Type")).toEqual(null);
     expect(response.headers.get("Content-Length")).toEqual(null);
@@ -51,7 +48,7 @@ describe("CacheFileMustRevalidate service", () => {
     expect(headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(headers.get("ETag")).toEqual(meta.etag);
     expect(headers.get("Content-Length")).toEqual(meta.size.toBytes().toString());
-    expect(headers.get("Last-Modified")).toEqual(lastModified);
+    expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
     expect(headers.get("Accept-Ranges")).toEqual("bytes");
     expect(headers.get("Vary")).toEqual("Authorization, Cookie");
   });
@@ -64,6 +61,6 @@ describe("CacheFileMustRevalidate service", () => {
 
     expect(headers.get("Content-Disposition")).toEqual('inline; filename="avatar.webp"');
     expect(headers.get("Vary")).toEqual("Authorization, Cookie, Accept-Language");
-    expect(headers.get("Last-Modified")).toEqual(lastModified);
+    expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
   });
 });
