@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 
 export interface ClockPort {
-  nowMs(): tools.TimestampType;
+  nowMs(): tools.TimestampValueType;
 
-  now(): ReturnType<typeof tools.Time.Now>;
+  now(): tools.Timestamp;
 }

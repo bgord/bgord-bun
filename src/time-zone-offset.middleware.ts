@@ -13,11 +13,11 @@ export class TimeZoneOffset {
     await next();
   });
 
-  static adjustTimestamp(timestamp: tools.TimestampType, offset: tools.Duration): tools.TimestampType {
-    return tools.Timestamp.parse(timestamp - offset.ms);
+  static adjustTimestamp(timestamp: tools.Timestamp, offset: tools.Duration): tools.Timestamp {
+    return timestamp.subtract(offset);
   }
 
-  static adjustDate(timestamp: tools.TimestampType, offset: tools.Duration): Date {
-    return new Date(timestamp - offset.ms);
+  static adjustDate(timestamp: tools.Timestamp, offset: tools.Duration): Date {
+    return new Date(timestamp.subtract(offset).get());
   }
 }

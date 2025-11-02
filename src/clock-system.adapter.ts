@@ -3,10 +3,10 @@ import type { ClockPort } from "./clock.port";
 
 export class ClockSystemAdapter implements ClockPort {
   nowMs() {
-    return tools.Timestamp.parse(Date.now());
+    return tools.Timestamp.fromNumber(Date.now()).get();
   }
 
-  now(): ReturnType<typeof tools.Time.Now> {
-    return tools.Time.Now(tools.Timestamp.parse(Date.now()));
+  now() {
+    return tools.Timestamp.fromNumber(Date.now());
   }
 }

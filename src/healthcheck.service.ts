@@ -24,7 +24,7 @@ type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logg
 export class Healthcheck {
   static build = (prerequisites: prereqs.Prerequisite[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
-      const stopwatch = new tools.Stopwatch(deps.Clock.nowMs());
+      const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
       const buildInfo = await BuildInfoRepository.extract(deps);
 

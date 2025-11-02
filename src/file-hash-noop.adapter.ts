@@ -6,7 +6,7 @@ export class FileHashNoopAdapter implements FileHashPort {
     return {
       etag: "noop",
       size: tools.Size.fromBytes(10),
-      lastModified: tools.Timestamp.parse(1000),
+      lastModified: tools.Timestamp.fromNumber(1000),
       mime: new tools.Mime("text/plain"),
     };
   }

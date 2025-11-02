@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 
-export type BuildInfoType = { BUILD_DATE: tools.TimestampType; BUILD_VERSION?: string };
+export type BuildInfoType = { BUILD_DATE: tools.TimestampValueType; BUILD_VERSION?: string };
 
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort };
 

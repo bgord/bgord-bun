@@ -11,7 +11,7 @@ export class Uptime {
 
   static get(clock: ClockPort): UptimeResultType {
     const duration = tools.Duration.Seconds(Uptime.rounding.round(process.uptime()));
-    const formatted = tools.DateFormatters.relative(clock.now().Minus(duration));
+    const formatted = tools.DateFormatters.relative(clock.now().subtract(duration).get());
 
     return { duration, formatted };
   }

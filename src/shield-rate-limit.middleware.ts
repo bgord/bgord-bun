@@ -27,7 +27,7 @@ export const ShieldRateLimit = (options: RateLimitShieldOptionsType, deps: Depen
       options.store.set(subject, limiter);
     }
 
-    const check = limiter.verify(deps.Clock.nowMs());
+    const check = limiter.verify(deps.Clock.now());
 
     if (!check.allowed) throw TooManyRequestsError;
 

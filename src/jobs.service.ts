@@ -35,7 +35,7 @@ export class JobHandler {
     const that = this;
 
     return async () => {
-      const stopwatch = new tools.Stopwatch(this.deps.Clock.nowMs());
+      const stopwatch = new tools.Stopwatch(this.deps.Clock.now());
 
       try {
         that.deps.Logger.info({ message: `${jobProcessor.label} start`, correlationId, ...this.base });
