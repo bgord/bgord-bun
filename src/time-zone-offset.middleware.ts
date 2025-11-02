@@ -13,10 +13,6 @@ export class TimeZoneOffset {
     await next();
   });
 
-  static adjustTimestamp(timestamp: tools.Timestamp, offset: tools.Duration): tools.Timestamp {
-    return timestamp.subtract(offset);
-  }
-
   static adjustDate(timestamp: tools.Timestamp, offset: tools.Duration): Date {
     return new Date(timestamp.subtract(offset).get());
   }

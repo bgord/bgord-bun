@@ -35,9 +35,9 @@ describe("TimeZoneOffset middleware", () => {
     expect(await result.json()).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("adjustTimestamp", async () => {
+  test("adjustDate", async () => {
     expect(
-      TimeZoneOffset.adjustTimestamp(tools.Timestamp.fromNumber(1_000_000), tools.Duration.Ms(100_000)),
-    ).toEqual(tools.Timestamp.fromNumber(900_000));
+      TimeZoneOffset.adjustDate(tools.Timestamp.fromNumber(1_000_000), tools.Duration.Ms(100_000)),
+    ).toEqual(new Date(tools.Timestamp.fromNumber(900_000).get()));
   });
 });
