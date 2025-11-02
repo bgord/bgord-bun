@@ -1,4 +1,3 @@
-import type * as tools from "@bgord/tools";
 import type { ErrorInfo, LoggerPort } from "../src/logger.port";
 import { formatError } from "../src/logger-format-error.service";
 
@@ -25,8 +24,6 @@ export interface Prerequisite {
 export type PrerequisiteResult = Readonly<{
   label: PrerequisiteLabelType;
   status: PrerequisiteStatusEnum;
-  checkedAt: tools.Timestamp;
-  durationMs: tools.DurationMsType;
   kind: string;
   error?: ErrorInfo;
 }>;
