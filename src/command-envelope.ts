@@ -6,7 +6,7 @@ import { UUID } from "./uuid.vo";
 
 type Dependencies = { IdProvider: IdProviderPort; Clock: ClockPort };
 
-export const CommandEnvelopeSchema = { id: UUID, correlationId: UUID, createdAt: tools.Timestamp };
+export const CommandEnvelopeSchema = { id: UUID, correlationId: UUID, createdAt: tools.TimestampValue };
 
 export const createCommandEnvelope = (deps: Dependencies) =>
   ({
