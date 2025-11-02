@@ -1,7 +1,16 @@
 # Changelog
+- 2025-11-02 16:01 e4e94af **refactor: remove adjust timestamp from tzo middleware**
+- 2025-11-02 15:59 bc36102 **step: adjust command envelope**
+- 2025-11-02 15:58 6788c5a **step: adjust prereq service**
+- 2025-11-02 15:57 f9e1ad2 **refactor: adjust event envelope schema**
+- 2025-11-02 15:57 bf93fce **step: adjust history created atl**
+- 2025-11-02 15:56 ca8648a **fix: tests**
+- 2025-11-02 15:52 b09520b **refactor: adjust timestamp useges**
+- 2025-11-02 15:46 2c415ff **step: update packages**
 ## 2025-11-01 19:31 v1.0.12
 - 2025-11-01 19:31 b43fb7a **1.0.12**
 - 2025-11-01 19:30 db56bf2 **step: add static files**
+- 2025-11-01 18:31 9d92556 **docs: generate CHANGELOG**
 - 2025-11-01 18:31 1af9e13 **docs: generate CHANGELOG**
 - 2025-11-01 18:31 0194f9d **docs: generate readme**
 - 2025-10-31 23:51 712b605 **refactor: remove default sharp export**
