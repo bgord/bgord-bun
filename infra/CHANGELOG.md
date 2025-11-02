@@ -1,4 +1,6 @@
 # Changelog
+## 2025-11-02 16:03 v1.1.0
+- 2025-11-02 16:03 f4f1ce6 **1.1.0**
 - 2025-11-02 16:01 e4e94af **refactor: remove adjust timestamp from tzo middleware**
 - 2025-11-02 15:59 bc36102 **step: adjust command envelope**
 - 2025-11-02 15:58 6788c5a **step: adjust prereq service**
@@ -7,6 +9,7 @@
 - 2025-11-02 15:56 ca8648a **fix: tests**
 - 2025-11-02 15:52 b09520b **refactor: adjust timestamp useges**
 - 2025-11-02 15:46 2c415ff **step: update packages**
+- 2025-11-02 15:02 936a5b5 **docs: generate CHANGELOG**
 ## 2025-11-01 19:31 v1.0.12
 - 2025-11-01 19:31 b43fb7a **1.0.12**
 - 2025-11-01 19:30 db56bf2 **step: add static files**
