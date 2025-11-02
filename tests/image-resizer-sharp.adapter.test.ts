@@ -33,17 +33,19 @@ describe("ImageResizerSharpAdapter", () => {
 
     const result = await adapter.resize(recipe);
 
+    // @ts-expect-error
     const [options] = resizeSpy.mock.calls[0];
     expect(resizeSpy).toHaveBeenCalledTimes(1);
     expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
+    // @ts-expect-error
     const [format] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     expect(format).toEqual("jpeg");
 
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-resized.jpg");
     expect(toFileSpy).toHaveBeenCalledTimes(1);
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
 
     expect(result).toEqual(input);
@@ -70,17 +72,17 @@ describe("ImageResizerSharpAdapter", () => {
 
     expect(result).toEqual(output);
 
-    expect(resizeSpy.mock.calls[0][0]).toMatchObject({
+    expect(resizeSpy.mock.calls?.[0]?.[0]).toMatchObject({
       width: 256,
       height: 256,
       fit: "inside",
       withoutEnlargement: true,
     });
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("webp");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("webp");
 
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-resized.webp");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
 
@@ -102,7 +104,7 @@ describe("ImageResizerSharpAdapter", () => {
     expect(format).toEqual("png");
 
     const temporary = tools.FilePathRelative.fromString("images/pic-resized.png");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
   });
 
@@ -117,7 +119,7 @@ describe("ImageResizerSharpAdapter", () => {
 
     await adapter.resize(recipe);
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
 
     const temporary = tools.FilePathAbsolute.fromString("/b/out/photo-resized.jpg");
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);

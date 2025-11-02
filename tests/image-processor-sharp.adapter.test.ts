@@ -48,10 +48,12 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(rotateSpy).toHaveBeenCalledTimes(1);
     expect(flattenSpy).toHaveBeenCalledWith({ background: "#FFFFFF" });
 
+    // @ts-expect-error
     const [options] = resizeSpy.mock.calls[0];
     expect(resizeSpy).toHaveBeenCalledTimes(1);
     expect(options).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
+    // @ts-expect-error
     const [format, opts] = toFormatSpy.mock.calls[0];
     expect(format).toEqual("webp");
     expect(opts).toMatchObject({ quality: 72 });
@@ -59,7 +61,7 @@ describe("ImageProcessorSharpAdapter", () => {
     const temporary = tools.FilePathAbsolute.fromString("/var/in/photo-processed.webp");
     const formatted = tools.FilePathAbsolute.fromString("/var/in/photo.webp");
 
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, formatted);
 
     expect(fileCleanerSpy).toHaveBeenCalledWith(input.get());
@@ -104,7 +106,7 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(opts).toMatchObject({ quality: 85 });
 
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-processed.jpg");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
 
     expect(fileCleanerSpy).not.toHaveBeenCalled();

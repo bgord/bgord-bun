@@ -36,6 +36,7 @@ describe("ImageCompressorSharpAdapter", () => {
 
     expect(result).toEqual(input);
 
+    // @ts-expect-errorg
     const [format, options] = toFormatSpy.mock.calls[0];
     expect(toFormatSpy).toHaveBeenCalledTimes(1);
     expect(format).toEqual("jpeg");
@@ -44,7 +45,7 @@ describe("ImageCompressorSharpAdapter", () => {
     expect(toFileSpy).toHaveBeenCalledTimes(1);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-compressed.jpg");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
 
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
 
@@ -73,7 +74,7 @@ describe("ImageCompressorSharpAdapter", () => {
     expect(options).toMatchObject({ quality: 73 });
 
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-compressed.webp");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
 
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
@@ -94,7 +95,7 @@ describe("ImageCompressorSharpAdapter", () => {
     expect(options).toMatchObject({ quality: 85 });
 
     const temporary = tools.FilePathRelative.fromString("images/pic-compressed.png");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
 
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
   });
@@ -113,6 +114,6 @@ describe("ImageCompressorSharpAdapter", () => {
     const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-compressed.jpg");
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
   });
 });

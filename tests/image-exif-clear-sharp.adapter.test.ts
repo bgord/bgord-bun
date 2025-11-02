@@ -35,7 +35,7 @@ describe("ImageExifClearSharpAdapter", () => {
     expect(result).toEqual(input);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-exif-cleared.jpeg");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
 
     expect(sharpSpy).toHaveBeenCalledWith(input.get());
@@ -58,7 +58,7 @@ describe("ImageExifClearSharpAdapter", () => {
     expect(result).toEqual(output);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-exif-cleared.jpeg");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
 
     expect(sharpSpy).toHaveBeenCalledWith("/var/img/source.jpeg");
@@ -76,7 +76,7 @@ describe("ImageExifClearSharpAdapter", () => {
     await adapter.clear(recipe);
 
     const temporary = tools.FilePathRelative.fromString("images/pic-exif-cleared.png");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
   });
 
@@ -92,7 +92,7 @@ describe("ImageExifClearSharpAdapter", () => {
     await adapter.clear(recipe);
 
     const temporary = tools.FilePathRelative.fromString("out/dest-exif-cleared.jpeg");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
   });
 });

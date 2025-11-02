@@ -38,10 +38,10 @@ describe("ImageAlphaSharpAdapter", () => {
     expect(flattenSpy).toHaveBeenCalledWith({ background: "#F8FAFC" });
     expect(rotateSpy).toHaveBeenCalledTimes(1);
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
 
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-flattened.jpg");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
 
     expect(sharpSpy).toHaveBeenCalledWith(input.get());
@@ -64,10 +64,10 @@ describe("ImageAlphaSharpAdapter", () => {
 
     expect(flattenSpy).toHaveBeenCalledWith({ background: background });
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("webp");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("webp");
 
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-flattened.webp");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
 
     expect(result).toEqual(output);
@@ -86,10 +86,10 @@ describe("ImageAlphaSharpAdapter", () => {
 
     await adapter.flatten(recipe);
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("png");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("png");
 
     const temporary = tools.FilePathRelative.fromString("images/pic-flattened.png");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
 
     expect(renameSpy).toHaveBeenCalledWith(temporary, input);
   });
@@ -105,7 +105,7 @@ describe("ImageAlphaSharpAdapter", () => {
 
     await adapter.flatten(recipe);
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
 
     const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-flattened.jpg");
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);

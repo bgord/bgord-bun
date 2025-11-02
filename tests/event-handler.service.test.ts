@@ -28,6 +28,7 @@ describe("EventHandler service", () => {
 
     expect(loggerErrorSpy).toHaveBeenCalledTimes(1);
 
+    // @ts-expect-error
     const [call] = loggerErrorSpy.mock.calls[0];
 
     expect(call).toMatchObject({

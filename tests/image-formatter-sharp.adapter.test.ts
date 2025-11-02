@@ -37,8 +37,8 @@ describe("ImageFormatterSharpAdapter", () => {
     expect(result.get()).toEqual(formatted.get());
 
     const temporary = tools.FilePathAbsolute.fromString("/var/in/img-formatted.webp");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("webp");
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("webp");
 
     expect(renameSpy).toHaveBeenCalledWith(temporary, formatted);
 
@@ -62,8 +62,8 @@ describe("ImageFormatterSharpAdapter", () => {
     const result = await adapter.format(recipe);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-formatted.webp");
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("webp");
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("webp");
 
     expect(renameSpy).toHaveBeenCalledWith(temporary, output);
     expect(fileCleanerSpy).not.toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe("ImageFormatterSharpAdapter", () => {
 
     await adapter.format(recipe);
 
-    expect(toFormatSpy.mock.calls[0][0]).toEqual("jpeg");
+    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
 
     expect(renameSpy).toHaveBeenCalledWith(
       tools.FilePathAbsolute.fromString("/img/out/photo-formatted.jpg"),
@@ -105,7 +105,7 @@ describe("ImageFormatterSharpAdapter", () => {
     const temporary = tools.FilePathRelative.fromString("images/pic-formatted.jpeg");
     const formatted = tools.FilePathRelative.fromString("images/pic.jpeg");
 
-    expect(toFileSpy.mock.calls[0][0]).toEqual(temporary.get());
+    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(renameSpy).toHaveBeenCalledWith(temporary, formatted);
 
     expect(fileCleanerSpy).toHaveBeenCalledWith(input.get());

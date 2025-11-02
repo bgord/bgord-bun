@@ -9,10 +9,11 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import * as prereqs from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
+import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
-const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1234));
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 const deps = { Clock, JsonFileReader, Logger };
 
