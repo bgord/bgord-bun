@@ -4,7 +4,7 @@ import * as tools from "@bgord/tools";
 import { CertificateInspectorTLSAdapter } from "../src/certificate-inspector-tls.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 
-const NOW = tools.Timestamp.fromNumber(Date.UTC(2025, 0, 1, 12, 0, 0)).get();
+const NOW = tools.Timestamp.fromNumber(Date.UTC(2025, 0, 1, 12, 0, 0));
 const Clock = new ClockFixedAdapter(NOW);
 
 const adapter = new CertificateInspectorTLSAdapter({ Clock });

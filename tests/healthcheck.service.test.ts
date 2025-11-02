@@ -12,7 +12,7 @@ import { Uptime } from "../src/uptime.service";
 
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
-const Clock = new ClockFixedAdapter(1234);
+const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1234));
 
 const deps = { Clock, JsonFileReader, Logger };
 
