@@ -2,10 +2,10 @@ import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 
 export class ClockFixedAdapter implements ClockPort {
-  constructor(private value: tools.Timestamp) {}
+  constructor(private value: tools.TimestampVO) {}
 
   nowMs() {
-    return this.value.get();
+    return this.value.ms;
   }
 
   now() {
