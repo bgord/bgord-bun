@@ -1,6 +1,9 @@
 # Changelog
+## 2025-11-02 22:14 v1.1.2
 - 2025-11-02 22:14 508217a **step: simplify clock**
+- 2025-11-02 22:14 4988a28 **1.1.2**
 - 2025-11-02 22:11 3ac3112 **step: update packages**
+- 2025-11-02 21:14 e12c2ce **docs: generate CHANGELOG**
 - 2025-11-02 21:12 ad32a18 **docs: generate CHANGELOG**
 ## 2025-11-02 18:57 v1.1.1
 - 2025-11-02 18:57 525ce0c **1.1.1**
