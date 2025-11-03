@@ -8,7 +8,7 @@ import type { RedactorPort } from "./redactor.port";
 
 type LoggerWinstonProductionAdapterConfigType = {
   app: LogAppType;
-  AXIOM_API_TOKEN: string;
+  AXIOM_API_TOKEN?: string;
   redactor: RedactorPort;
 };
 
@@ -27,13 +27,16 @@ export class LoggerWinstonProductionAdapter {
       tailable: true,
     });
 
-    const axiom = new AxiomTransport({ token: this.config.AXIOM_API_TOKEN, dataset: this.config.app });
-
     return new LoggerWinstonAdapter({
       app: this.config.app,
       environment: NodeEnvironmentEnum.production,
       level,
-      transports: [file, axiom],
+      transports: [
+        file,
+        this.config.AXIOM_API_TOKEN
+          ? new AxiomTransport({ token: this.config.AXIOM_API_TOKEN, dataset: this.config.app })
+          : undefined,
+      ].filter((adapter) => adapter !== undefined),
       redactor: this.config.redactor,
     });
   }
