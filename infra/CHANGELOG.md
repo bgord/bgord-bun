@@ -1,10 +1,13 @@
 # Changelog
+- 2025-11-03 19:54 e95b6a7 **step: update packages**
+- 2025-11-03 19:54 e32c4b7 **step: make axiom transport optional**
 - 2025-11-02 23:20 aee1bbf **step: bump bgord/scripts**
 - 2025-11-02 23:07 57e8f02 **refactor: remove unused prereq service fields**
 ## 2025-11-02 23:01 v1.1.3
 - 2025-11-02 23:01 7227f13 **1.1.3**
 - 2025-11-02 23:00 c9a6e4e **refactor: rename timestamp vo**
 - 2025-11-02 22:59 fb0f242 **step: update packages**
+- 2025-11-02 22:20 8e59d3e **docs: generate CHANGELOG**
 ## 2025-11-02 22:14 v1.1.2
 - 2025-11-02 22:14 508217a **step: simplify clock**
 - 2025-11-02 22:14 4988a28 **1.1.2**
