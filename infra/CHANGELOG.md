@@ -1,6 +1,9 @@
 # Changelog
+## 2025-11-03 19:55 v1.1.4
+- 2025-11-03 19:55 abd3d02 **1.1.4**
 - 2025-11-03 19:54 e95b6a7 **step: update packages**
 - 2025-11-03 19:54 e32c4b7 **step: make axiom transport optional**
+- 2025-11-03 18:54 07d862c **docs: generate CHANGELOG**
 - 2025-11-02 23:20 aee1bbf **step: bump bgord/scripts**
 - 2025-11-02 23:07 57e8f02 **refactor: remove unused prereq service fields**
 ## 2025-11-02 23:01 v1.1.3
