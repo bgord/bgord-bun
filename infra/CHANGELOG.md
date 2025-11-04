@@ -1,4 +1,6 @@
 # Changelog
+- 2025-11-04 21:25 7fb8631 **fix: uptime in healthcheck**
+- 2025-11-04 21:21 00a598c **refactor: rename durationMs**
 ## 2025-11-04 21:16 v1.1.6
 - 2025-11-04 21:16 a9a01d0 **1.1.6**
 - 2025-11-04 21:14 12cc165 **step: adjust tests**
@@ -7,6 +9,7 @@
 - 2025-11-04 20:56 2ae7d02 **step: adjust healthcheck tests**
 - 2025-11-04 20:55 965f9ae **step: switch to duration ms**
 - 2025-11-04 20:41 1b71ba0 **step: adjust tests**
+- 2025-11-04 20:17 bf72034 **docs: generate CHANGELOG**
 - 2025-11-04 20:15 72e06d2 **step: implement the new interface**
 - 2025-11-04 20:15 7140656 **docs: generate CHANGELOG**
 - 2025-11-04 20:08 e1af78b **step: adjust prereqs to pass duration**
