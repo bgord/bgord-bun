@@ -41,6 +41,7 @@ src/
 ├── certificate-inspector-noop.adapter.ts
 ├── certificate-inspector-tls.adapter.ts
 ├── certificate-inspector.port.ts
+├── checksum.service.ts
 ├── client-from-hono.adapter.ts
 ├── client.vo.ts
 ├── clock-fixed.adapter.ts
