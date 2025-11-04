@@ -1,4 +1,15 @@
 # Changelog
+- 2025-11-04 21:14 12cc165 **step: adjust tests**
+- 2025-11-04 21:06 ce9de4d **step: add duration to failure**
+- 2025-11-04 20:58 60e6f2b **step: add duration to undetermined**
+- 2025-11-04 20:56 2ae7d02 **step: adjust healthcheck tests**
+- 2025-11-04 20:55 965f9ae **step: switch to duration ms**
+- 2025-11-04 20:41 1b71ba0 **step: adjust tests**
+- 2025-11-04 20:15 72e06d2 **step: implement the new interface**
+- 2025-11-04 20:08 e1af78b **step: adjust prereqs to pass duration**
+- 2025-11-04 20:04 08f2774 **step: add successful prereq result duration**
+- 2025-11-04 20:00 655fdc4 **refactor: remove redundant Readonly**
+- 2025-11-04 19:59 3d5e744 **step: update packages**
 ## 2025-11-04 15:44 v1.1.5
 - 2025-11-04 15:44 c3f81cf **1.1.5**
 - 2025-11-04 15:42 f6e8459 **step: test prereq clock drift**
@@ -8,6 +19,7 @@
 - 2025-11-04 15:17 caa8e21 **step: implement timekeeper google adapter**
 - 2025-11-04 15:15 df9e97b **step: make timekeeper port accept null response**
 - 2025-11-04 15:07 c8c4f2d **step: define timekeeper noop adapter**
+- 2025-11-04 14:44 7f6cc5d **docs: generate CHANGELOG**
 - 2025-11-04 14:43 b6d8258 **docs: generate CHANGELOG**
 - 2025-11-04 14:43 79cc575 **docs: generate readme**
 - 2025-11-04 14:36 b6319d5 **feature: implement clock drift prereq**
