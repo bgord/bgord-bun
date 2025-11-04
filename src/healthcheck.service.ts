@@ -14,7 +14,7 @@ type HealthcheckResultType = {
   ok: prereqs.PrerequisiteStatusEnum;
   version: string;
   details: { label: prereqs.PrerequisiteLabelType; outcome: prereqs.VerifyOutcome }[];
-  uptime: UptimeResultType;
+  uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
   memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   durationMs: tools.Duration["ms"];
 };
@@ -40,11 +40,13 @@ export class Healthcheck {
 
       const code = ok === prereqs.PrerequisiteStatusEnum.success ? 200 : 424;
 
+      const uptime = Uptime.get(deps.Clock);
+
       const result: HealthcheckResultType = {
         ok,
         details,
         version: buildInfo.BUILD_VERSION ?? "unknown",
-        uptime: Uptime.get(deps.Clock),
+        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: MemoryConsumption.get().toBytes(),
           formatted: MemoryConsumption.get().format(tools.Size.unit.MB),

@@ -39,7 +39,7 @@ describe("Healthcheck service", () => {
     expect(data).toEqual({
       ok: prereqs.PrerequisiteStatusEnum.success,
       version: buildInfo.BUILD_VERSION,
-      uptime,
+      uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [{ label: "ok", outcome: mocks.VerificationSuccess }],
       durationMs: expect.any(Number),
@@ -63,7 +63,7 @@ describe("Healthcheck service", () => {
     expect(data).toEqual({
       ok: prereqs.PrerequisiteStatusEnum.failure,
       version: buildInfo.BUILD_VERSION,
-      uptime,
+      uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
         { label: "ok", outcome: mocks.VerificationSuccess },
