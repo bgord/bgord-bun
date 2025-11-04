@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
+import type { TimekeeperPort } from "../timekeeper.port";
 
 export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   readonly kind = "clock-drift";
@@ -7,12 +8,14 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   readonly enabled?: boolean = true;
 
   readonly skew: tools.Duration;
+  readonly timekeeper: TimekeeperPort;
 
-  constructor(config: prereqs.PrerequisiteConfigType & { skew: tools.Duration }) {
+  constructor(config: prereqs.PrerequisiteConfigType & { skew: tools.Duration; timekeeper: TimekeeperPort }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.skew = config.skew;
+    this.timekeeper = config.timekeeper;
   }
 
   async verify(): Promise<prereqs.VerifyOutcome> {
