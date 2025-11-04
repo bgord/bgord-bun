@@ -1,4 +1,6 @@
 # Changelog
+## 2025-11-04 15:44 v1.1.5
+- 2025-11-04 15:44 c3f81cf **1.1.5**
 - 2025-11-04 15:42 f6e8459 **step: test prereq clock drift**
 - 2025-11-04 15:32 3c96a32 **refactor: rename sqlite prereq test**
 - 2025-11-04 15:31 cb2eedc **step: handle missing timestamp in clock drift**
@@ -6,6 +8,8 @@
 - 2025-11-04 15:17 caa8e21 **step: implement timekeeper google adapter**
 - 2025-11-04 15:15 df9e97b **step: make timekeeper port accept null response**
 - 2025-11-04 15:07 c8c4f2d **step: define timekeeper noop adapter**
+- 2025-11-04 14:43 b6d8258 **docs: generate CHANGELOG**
+- 2025-11-04 14:43 79cc575 **docs: generate readme**
 - 2025-11-04 14:36 b6319d5 **feature: implement clock drift prereq**
 - 2025-11-04 14:31 50f76e3 **step: update packages**
 - 2025-11-04 14:27 6e6628d **step: accept clock port in clock drift**
