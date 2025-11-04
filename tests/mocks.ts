@@ -46,16 +46,16 @@ export const TIME_ZERO_DATE = "2023-11-14";
 
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
-export const VerificationSuccess = { status: PrerequisiteStatusEnum.success, duration: expect.any(Number) };
+export const VerificationSuccess = { status: PrerequisiteStatusEnum.success, durationMs: expect.any(Number) };
 
 export const VerificationUndetermined = {
   status: PrerequisiteStatusEnum.undetermined,
-  duration: expect.any(Number),
+  durationMs: expect.any(Number),
 };
 
 export const VerificationFailure = (error?: any) => ({
   status: PrerequisiteStatusEnum.failure,
-  duration: expect.any(Number),
+  durationMs: expect.any(Number),
   error,
 });
 
