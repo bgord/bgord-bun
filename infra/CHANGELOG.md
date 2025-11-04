@@ -1,8 +1,23 @@
 # Changelog
+- 2025-11-04 15:42 f6e8459 **step: test prereq clock drift**
+- 2025-11-04 15:32 3c96a32 **refactor: rename sqlite prereq test**
+- 2025-11-04 15:31 cb2eedc **step: handle missing timestamp in clock drift**
+- 2025-11-04 15:30 61dc64e **step: add timekeeper google adapter**
+- 2025-11-04 15:17 caa8e21 **step: implement timekeeper google adapter**
+- 2025-11-04 15:15 df9e97b **step: make timekeeper port accept null response**
+- 2025-11-04 15:07 c8c4f2d **step: define timekeeper noop adapter**
+- 2025-11-04 14:36 b6319d5 **feature: implement clock drift prereq**
+- 2025-11-04 14:31 50f76e3 **step: update packages**
+- 2025-11-04 14:27 6e6628d **step: accept clock port in clock drift**
+- 2025-11-04 14:25 95ada52 **step: accept timekeeper port in clock drift**
+- 2025-11-04 14:24 cd6c521 **step: define timekeeper port**
+- 2025-11-04 14:19 b9df8a5 **step: define skew**
+- 2025-11-04 14:18 69aa13b **step: setup clock drift prereq**
 ## 2025-11-03 19:55 v1.1.4
 - 2025-11-03 19:55 abd3d02 **1.1.4**
 - 2025-11-03 19:54 e95b6a7 **step: update packages**
 - 2025-11-03 19:54 e32c4b7 **step: make axiom transport optional**
+- 2025-11-03 18:55 d9c683d **docs: generate CHANGELOG**
 - 2025-11-03 18:54 07d862c **docs: generate CHANGELOG**
 - 2025-11-02 23:20 aee1bbf **step: bump bgord/scripts**
 - 2025-11-02 23:07 57e8f02 **refactor: remove unused prereq service fields**
