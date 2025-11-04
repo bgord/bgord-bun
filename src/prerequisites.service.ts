@@ -9,9 +9,9 @@ export enum PrerequisiteStatusEnum {
   undetermined = "undetermined",
 }
 
-export type VerifySuccess = Readonly<{ status: PrerequisiteStatusEnum.success }>;
-export type VerifyFailure = Readonly<{ status: PrerequisiteStatusEnum.failure; error?: ErrorInfo }>;
-export type VerifyUndetermined = Readonly<{ status: PrerequisiteStatusEnum.undetermined }>;
+export type VerifySuccess = { status: PrerequisiteStatusEnum.success };
+export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
+export type VerifyUndetermined = { status: PrerequisiteStatusEnum.undetermined };
 export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
 
 export interface Prerequisite {
@@ -21,12 +21,12 @@ export interface Prerequisite {
   verify(): Promise<VerifyOutcome>;
 }
 
-export type PrerequisiteResult = Readonly<{
+export type PrerequisiteResult = {
   label: PrerequisiteLabelType;
   status: PrerequisiteStatusEnum;
   kind: string;
   error?: ErrorInfo;
-}>;
+};
 
 export class Verification {
   static success(): VerifySuccess {
