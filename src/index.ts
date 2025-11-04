@@ -14,6 +14,7 @@ export * from "./cache-response.middleware";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
 export * from "./certificate-inspector-tls.adapter";
+export * from "./checksum.service";
 export * from "./client.vo";
 export * from "./client-from-hono.adapter";
 export * from "./clock.port";
