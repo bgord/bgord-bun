@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import { CertificateInspectorNoopAdapter } from "../src/certificate-inspector-noop.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteSSLCertificateExpiry } from "../src/prerequisites/ssl-certificate-expiry";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 class CertificateInspectorUnavailableAdapter {
@@ -30,7 +29,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
         ...config,
         inspector: new CertificateInspectorNoopAdapter(10),
       }).verify(clock),
-    ).toEqual(prereqs.Verification.failure({ message: "10 days remaining" }));
+    ).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
   });
 
   test("failure - certificate unavailable", async () => {
@@ -39,7 +38,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
         ...config,
         inspector: new CertificateInspectorUnavailableAdapter(),
       }).verify(clock),
-    ).toEqual(prereqs.Verification.failure({ message: "Certificate unavailable" }));
+    ).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
   });
 
   test("undetermined", async () => {

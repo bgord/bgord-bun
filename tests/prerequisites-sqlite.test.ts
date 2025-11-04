@@ -1,7 +1,6 @@
 import { describe, expect, jest, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteSQLite } from "../src/prerequisites/sqlite";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -23,7 +22,7 @@ describe("PrerequisiteSQLite", () => {
     } as any;
 
     expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: "Integrity check failed" }),
+      mocks.VerificationFailure({ message: "Integrity check failed" }),
     );
   });
 
@@ -31,7 +30,7 @@ describe("PrerequisiteSQLite", () => {
     const sqlite = { query: jest.fn().mockReturnValue({ get: jest.fn().mockReturnValue(undefined) }) } as any;
 
     expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: "Integrity check failed" }),
+      mocks.VerificationFailure({ message: "Integrity check failed" }),
     );
   });
 

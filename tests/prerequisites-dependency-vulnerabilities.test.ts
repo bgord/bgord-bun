@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteDependencyVulnerabilities } from "../src/prerequisites/dependency-vulnerabilities";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -94,7 +93,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     }));
 
     expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: "Critical: 1 and high: 1" }),
+      mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }),
     );
   });
 
@@ -103,7 +102,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
 
     expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: "Audit failure" }),
+      mocks.VerificationFailure({ message: "Audit failure" }),
     );
   });
 

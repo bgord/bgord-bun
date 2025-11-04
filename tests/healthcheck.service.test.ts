@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
-import type { ClockPort } from "../src/clock.port";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
@@ -18,25 +17,6 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 const deps = { Clock, JsonFileReader, Logger };
 
-class Ok implements prereqs.Prerequisite {
-  readonly label = "ok";
-  readonly kind = "test";
-  readonly enabled = true;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.success(stopwatch.stop());
-  }
-}
-
-class Fail implements prereqs.Prerequisite {
-  readonly label = "fail";
-  readonly kind = "test";
-  readonly enabled = true;
-  async verify(): Promise<prereqs.VerifyOutcome> {
-    return prereqs.Verification.failure({ message: "boom" });
-  }
-}
-
 const buildInfo = {
   BUILD_DATE: Clock.nowMs(),
   BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
@@ -50,7 +30,7 @@ describe("Healthcheck service", () => {
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
-    const app = new Hono().get("/health", ...Healthcheck.build([new Ok()], deps));
+    const app = new Hono().get("/health", ...Healthcheck.build([new mocks.PrerequisiteOk()], deps));
 
     const response = await app.request("/health");
     const data = await response.json();
@@ -71,7 +51,10 @@ describe("Healthcheck service", () => {
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
 
-    const app = new Hono().get("/health", ...Healthcheck.build([new Ok(), new Fail()], deps));
+    const app = new Hono().get(
+      "/health",
+      ...Healthcheck.build([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()], deps),
+    );
 
     const response = await app.request("/health");
     const data = await response.json();
@@ -84,10 +67,7 @@ describe("Healthcheck service", () => {
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
         { label: "ok", outcome: mocks.VerificationSuccess },
-        {
-          label: "fail",
-          outcome: { status: prereqs.PrerequisiteStatusEnum.failure, error: { message: "boom" } },
-        },
+        { label: "fail", outcome: mocks.VerificationFailure({ message: "boom" }) },
       ],
       durationMs: expect.any(Number),
     });

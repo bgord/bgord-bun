@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteMemory } from "../src/prerequisites/memory";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const maximum = tools.Size.fromMB(2);
@@ -24,7 +23,7 @@ describe("PrerequisiteMemory", () => {
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
 
     expect(await new PrerequisiteMemory({ maximum, label: "memory" }).verify(clock)).toEqual(
-      prereqs.Verification.failure({
+      mocks.VerificationFailure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       }),
     );

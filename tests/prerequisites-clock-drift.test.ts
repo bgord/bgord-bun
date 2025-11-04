@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteClockDrift } from "../src/prerequisites/clock-drift";
-import * as prereqs from "../src/prerequisites.service";
 import { TimekeeperNoopAdapter } from "../src/timekeeper-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -30,7 +29,7 @@ describe("PrerequisiteClockDrift", () => {
     spyOn(timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
     expect(
       await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
-    ).toEqual(prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` }));
+    ).toEqual(mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }));
   });
 
   test("undetermined", async () => {

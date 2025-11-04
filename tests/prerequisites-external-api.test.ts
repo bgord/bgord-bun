@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -20,7 +19,7 @@ describe("PrerequisiteExternalApi", () => {
 
     expect(
       await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(clock),
-    ).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
+    ).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
   test("undetermined", async () => {

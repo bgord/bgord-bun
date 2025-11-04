@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteRunningUser } from "../src/prerequisites/running-user";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const username = "appuser";
@@ -21,7 +20,7 @@ describe("PrerequisiteRunningUser", () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
 
     expect(await new PrerequisiteRunningUser({ label: "user", username: "root" }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: `Current user: ${username}` }),
+      mocks.VerificationFailure({ message: `Current user: ${username}` }),
     );
   });
 

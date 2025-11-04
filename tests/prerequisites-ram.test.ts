@@ -3,7 +3,6 @@ import os from "node:os";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteRAM } from "../src/prerequisites/ram";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const minimum = tools.Size.fromMB(512);
@@ -23,7 +22,7 @@ describe("PrerequisiteRAM", () => {
     spyOn(os, "freemem").mockReturnValue(freeRAM.toBytes());
 
     expect(await new PrerequisiteRAM({ label: "ram", minimum }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
+      mocks.VerificationFailure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
     );
   });
 

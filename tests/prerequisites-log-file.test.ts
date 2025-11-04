@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
-import * as prereqs from "../src/prerequisites.service";
 import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -23,7 +22,7 @@ describe("PrerequisiteLogFile", () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
 
     expect(await new PrerequisiteLogFile({ logger, label: "log-file" }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: `Missing file: ${logger.prodLogFile}` }),
+      mocks.VerificationFailure({ message: `Missing file: ${logger.prodLogFile}` }),
     );
   });
 

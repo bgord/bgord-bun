@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Port } from "../src/port.vo";
 import { PrerequisitePort } from "../src/prerequisites/port";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const port = Port.parse(43210);
@@ -19,7 +18,7 @@ describe("PrerequisitePort", () => {
     const occupied = Bun.listen({ hostname: "::", port, socket: { data() {} } });
 
     expect(await new PrerequisitePort({ port, label: "port" }).verify(clock)).toEqual(
-      prereqs.Verification.failure(),
+      mocks.VerificationFailure(),
     );
 
     occupied.stop();

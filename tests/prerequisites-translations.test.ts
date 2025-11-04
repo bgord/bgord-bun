@@ -5,7 +5,6 @@ import { I18n } from "../src/i18n.service";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
@@ -53,7 +52,7 @@ describe("PrerequisiteTranslations", () => {
 
     expect(
       await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, ...deps }).verify(clock),
-    ).toEqual(prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }));
+    ).toEqual(mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }));
   });
 
   test("undetermined", async () => {

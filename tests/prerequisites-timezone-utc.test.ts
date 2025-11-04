@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteTimezoneUTC } from "../src/prerequisites/timezone-utc";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const utc = tools.Timezone.parse("UTC");
@@ -19,7 +18,7 @@ describe("PrerequisiteTimezoneUTC", () => {
     const timezone = tools.Timezone.parse("Europe/Warsaw");
 
     expect(await new PrerequisiteTimezoneUTC({ label: "utc", timezone }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: `Timezone: ${timezone}` }),
+      mocks.VerificationFailure({ message: `Timezone: ${timezone}` }),
     );
   });
 

@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteJobs } from "../src/prerequisites/jobs";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -19,7 +18,7 @@ describe("PrerequisiteJobs", () => {
     const jobs = { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any };
 
     expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify(clock)).toEqual(
-      prereqs.Verification.failure(),
+      mocks.VerificationFailure(),
     );
   });
 

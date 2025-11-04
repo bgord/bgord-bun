@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteNode } from "../src/prerequisites/node";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const version = tools.PackageVersion.fromString("20.0.0");
@@ -31,7 +30,7 @@ describe("PrerequisiteNode", () => {
 
   test("failure - invalid Node.js version is passed", async () => {
     expect(await new PrerequisiteNode({ label: "node", version, current: "abc" }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: "Invalid version passed: abc" }),
+      mocks.VerificationFailure({ message: "Invalid version passed: abc" }),
     );
   });
 

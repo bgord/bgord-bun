@@ -3,7 +3,6 @@ import bun from "bun";
 import { Binary } from "../src/binary.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteBinary } from "../src/prerequisites/binary";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const binary = Binary.parse("node");
@@ -24,7 +23,7 @@ describe("PrerequisiteBinary", () => {
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
 
     expect(await new PrerequisiteBinary({ label: "binary", binary }).verify(clock)).toEqual(
-      prereqs.Verification.failure({ message: `Exit code ${1}` }),
+      mocks.VerificationFailure({ message: `Exit code ${1}` }),
     );
   });
 

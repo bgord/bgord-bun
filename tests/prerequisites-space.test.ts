@@ -3,7 +3,6 @@ import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { DiskSpaceCheckerNoopAdapter } from "../src/disk-space-checker-noop.adapter";
 import { PrerequisiteSpace } from "../src/prerequisites/space";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const minimum = tools.Size.fromMB(50);
