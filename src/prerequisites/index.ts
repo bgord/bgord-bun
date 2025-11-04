@@ -1,5 +1,6 @@
 export * from "./binary";
 export * from "./bun";
+export * from "./clock-drift";
 export * from "./dependency-vulnerabilities";
 export * from "./directory";
 export * from "./external-api";
