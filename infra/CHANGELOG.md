@@ -1,4 +1,6 @@
 # Changelog
+## 2025-11-04 21:16 v1.1.6
+- 2025-11-04 21:16 a9a01d0 **1.1.6**
 - 2025-11-04 21:14 12cc165 **step: adjust tests**
 - 2025-11-04 21:06 ce9de4d **step: add duration to failure**
 - 2025-11-04 20:58 60e6f2b **step: add duration to undetermined**
@@ -6,6 +8,7 @@
 - 2025-11-04 20:55 965f9ae **step: switch to duration ms**
 - 2025-11-04 20:41 1b71ba0 **step: adjust tests**
 - 2025-11-04 20:15 72e06d2 **step: implement the new interface**
+- 2025-11-04 20:15 7140656 **docs: generate CHANGELOG**
 - 2025-11-04 20:08 e1af78b **step: adjust prereqs to pass duration**
 - 2025-11-04 20:04 08f2774 **step: add successful prereq result duration**
 - 2025-11-04 20:00 655fdc4 **refactor: remove redundant Readonly**
