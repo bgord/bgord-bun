@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
+import type { ClockPort } from "../src/clock.port";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
@@ -21,8 +22,9 @@ class Ok implements prereqs.Prerequisite {
   readonly label = "ok";
   readonly kind = "test";
   readonly enabled = true;
-  async verify(): Promise<prereqs.VerifyOutcome> {
-    return prereqs.Verification.success();
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+    return prereqs.Verification.success(stopwatch.stop());
   }
 }
 
@@ -59,7 +61,7 @@ describe("Healthcheck service", () => {
       version: buildInfo.BUILD_VERSION,
       uptime,
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
-      details: [{ label: "ok", outcome: { status: prereqs.PrerequisiteStatusEnum.success } }],
+      details: [{ label: "ok", outcome: mocks.VerificationSuccess }],
       durationMs: expect.any(Number),
     });
   });
@@ -81,7 +83,7 @@ describe("Healthcheck service", () => {
       uptime,
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "ok", outcome: { status: prereqs.PrerequisiteStatusEnum.success } },
+        { label: "ok", outcome: mocks.VerificationSuccess },
         {
           label: "fail",
           outcome: { status: prereqs.PrerequisiteStatusEnum.failure, error: { message: "boom" } },
