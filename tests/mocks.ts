@@ -1,7 +1,9 @@
+import { expect } from "bun:test";
 import { Writable } from "node:stream";
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import * as winston from "winston";
+import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
 export function stringToStream(string: string): ReadableStream<Uint8Array> {
   return new ReadableStream<Uint8Array>({
@@ -41,3 +43,9 @@ export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
 export const TIME_ZERO_DATE = "2023-11-14";
 
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
+
+export const VerificationSuccess = {
+  status: PrerequisiteStatusEnum.success,
+  // @ts-expect-error
+  duration: expect.any(tools.Duration),
+};

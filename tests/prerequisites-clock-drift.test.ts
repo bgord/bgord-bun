@@ -13,15 +13,15 @@ const timekeeper = new TimekeeperNoopAdapter(clock);
 describe("PrerequisiteClockDrift", () => {
   test("success", async () => {
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(),
-    ).toEqual(prereqs.Verification.success());
+      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
+    ).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - missing timestamp", async () => {
     // @ts-expect-error
     spyOn(timekeeper, "get").mockResolvedValue(null);
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(),
+      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
     ).toEqual(prereqs.Verification.undetermined());
   });
 
@@ -29,7 +29,7 @@ describe("PrerequisiteClockDrift", () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(),
+      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
     ).toEqual(prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` }));
   });
 
@@ -41,7 +41,7 @@ describe("PrerequisiteClockDrift", () => {
         skew,
         clock,
         timekeeper,
-      }).verify(),
+      }).verify(clock),
     ).toEqual(prereqs.Verification.undetermined());
   });
 });

@@ -1,21 +1,25 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
+
+const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteExternalApi", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
     expect(
-      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(),
-    ).toEqual(prereqs.Verification.success());
+      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(clock),
+    ).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
     expect(
-      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(),
+      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(clock),
     ).toEqual(prereqs.Verification.failure({ message: "HTTP 400" }));
   });
 
@@ -25,7 +29,7 @@ describe("PrerequisiteExternalApi", () => {
         label: "api",
         request: () => fetch("http://api"),
         enabled: false,
-      }).verify(),
+      }).verify(clock),
     ).toEqual(prereqs.Verification.undetermined());
   });
 });

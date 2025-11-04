@@ -1,20 +1,24 @@
 import { describe, expect, test } from "bun:test";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteJobs } from "../src/prerequisites/jobs";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
+
+const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteJobs", () => {
   test("success - all jobs running", async () => {
     const jobs = { a: { isRunning: () => true } as any };
 
-    expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify()).toEqual(
-      prereqs.Verification.success(),
+    expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify(clock)).toEqual(
+      mocks.VerificationSuccess,
     );
   });
 
   test("failure - one job not running", async () => {
     const jobs = { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any };
 
-    expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify()).toEqual(
+    expect(await new PrerequisiteJobs({ label: "jobs", jobs }).verify(clock)).toEqual(
       prereqs.Verification.failure(),
     );
   });
@@ -22,7 +26,7 @@ describe("PrerequisiteJobs", () => {
   test("undetermined", async () => {
     const jobs = { a: { isRunning: () => true } as any };
 
-    expect(await new PrerequisiteJobs({ label: "jobs", enabled: false, jobs }).verify()).toEqual(
+    expect(await new PrerequisiteJobs({ label: "jobs", enabled: false, jobs }).verify(clock)).toEqual(
       prereqs.Verification.undetermined(),
     );
   });

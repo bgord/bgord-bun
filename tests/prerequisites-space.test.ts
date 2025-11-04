@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { DiskSpaceCheckerNoopAdapter } from "../src/disk-space-checker-noop.adapter";
 import { PrerequisiteSpace } from "../src/prerequisites/space";
 import * as prereqs from "../src/prerequisites.service";
@@ -12,11 +13,15 @@ const DiskSpaceCheckerSuccess = new DiskSpaceCheckerNoopAdapter(tools.Size.fromM
 const failure = tools.Size.fromMB(10);
 const DiskSpaceCheckerFailure = new DiskSpaceCheckerNoopAdapter(failure);
 
+const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
 describe("PrerequisiteSpace", () => {
   test("success", async () => {
     expect(
-      await new PrerequisiteSpace({ label: "space", minimum, checker: DiskSpaceCheckerSuccess }).verify(),
-    ).toEqual(prereqs.Verification.success());
+      await new PrerequisiteSpace({ label: "space", minimum, checker: DiskSpaceCheckerSuccess }).verify(
+        clock,
+      ),
+    ).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - not enough space", async () => {
@@ -24,7 +29,7 @@ describe("PrerequisiteSpace", () => {
       label: "space",
       minimum,
       checker: DiskSpaceCheckerFailure,
-    }).verify();
+    }).verify(clock);
 
     // @ts-expect-error
     expect(result.error.message).toMatch(`Free disk space: ${failure.format(tools.Size.unit.MB)}`);
@@ -37,7 +42,7 @@ describe("PrerequisiteSpace", () => {
       label: "space",
       minimum,
       checker: DiskSpaceCheckerFailure,
-    }).verify();
+    }).verify(clock);
 
     // @ts-expect-error
     expect(result.error.message).toMatch(mocks.IntentialError);
@@ -50,7 +55,7 @@ describe("PrerequisiteSpace", () => {
         minimum,
         enabled: false,
         checker: DiskSpaceCheckerSuccess,
-      }).verify(),
+      }).verify(clock),
     ).toEqual(prereqs.Verification.undetermined());
   });
 });

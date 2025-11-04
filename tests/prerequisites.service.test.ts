@@ -1,13 +1,18 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import type { ClockPort } from "../src/clock.port";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
 
 class Ok implements prereqs.Prerequisite {
   readonly label = "ok";
   readonly kind = "test";
   readonly enabled = true;
-  async verify(): Promise<prereqs.VerifyOutcome> {
-    return prereqs.Verification.success();
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+    return prereqs.Verification.success(stopwatch.stop());
   }
 }
 
@@ -30,7 +35,8 @@ class Undetermined implements prereqs.Prerequisite {
 }
 
 const logger = new LoggerNoopAdapter();
-const runner = new prereqs.Prerequisites(logger);
+const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const runner = new prereqs.Prerequisites({ logger, clock });
 
 describe("Prerequisites service", () => {
   test("happy path", async () => {

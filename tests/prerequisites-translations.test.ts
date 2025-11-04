@@ -1,16 +1,20 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { I18n } from "../src/i18n.service";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 import * as prereqs from "../src/prerequisites.service";
+import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const deps = { Logger, JsonFileReader };
 
 const supportedLanguages = { en: "en", es: "es" };
+
+const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteTranslations", () => {
   test("success", async () => {
@@ -21,8 +25,8 @@ describe("PrerequisiteTranslations", () => {
         label: "i18n",
         supportedLanguages: { en: "en" },
         ...deps,
-      }).verify(),
-    ).toEqual(prereqs.Verification.success());
+      }).verify(clock),
+    ).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - missing file", async () => {
@@ -30,7 +34,7 @@ describe("PrerequisiteTranslations", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }).verify()).error.message,
+      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }).verify(clock)).error.message,
     ).toMatch(/Does not exist/);
   });
 
@@ -48,7 +52,7 @@ describe("PrerequisiteTranslations", () => {
     });
 
     expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, ...deps }).verify(),
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, ...deps }).verify(clock),
     ).toEqual(prereqs.Verification.failure({ message: "Key: key2, exists in en, missing in es" }));
   });
 
@@ -59,7 +63,7 @@ describe("PrerequisiteTranslations", () => {
         supportedLanguages,
         enabled: false,
         ...deps,
-      }).verify(),
+      }).verify(clock),
     ).toEqual(prereqs.Verification.undetermined());
   });
 });
