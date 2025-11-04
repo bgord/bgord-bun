@@ -11,7 +11,7 @@ export enum PrerequisiteStatusEnum {
   undetermined = "undetermined",
 }
 
-export type VerifySuccess = { status: PrerequisiteStatusEnum.success; duration: tools.Duration };
+export type VerifySuccess = { status: PrerequisiteStatusEnum.success; duration: tools.DurationMsType };
 export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
 export type VerifyUndetermined = { status: PrerequisiteStatusEnum.undetermined };
 export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
@@ -32,7 +32,7 @@ export type PrerequisiteResult = {
 
 export class Verification {
   static success(duration: tools.Duration): VerifySuccess {
-    return { status: PrerequisiteStatusEnum.success, duration };
+    return { status: PrerequisiteStatusEnum.success, duration: duration.ms };
   }
   static failure(meta?: Error | ErrorInfo): VerifyFailure {
     return {

@@ -46,6 +46,5 @@ export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
 export const VerificationSuccess = {
   status: PrerequisiteStatusEnum.success,
-  // @ts-expect-error
-  duration: expect.any(tools.Duration),
+  duration: expect.any(Number),
 };
