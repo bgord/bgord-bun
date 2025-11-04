@@ -31,12 +31,13 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const now = this.clock.now();
+
     const timestamp = await this.timekeeper.get();
+    if (!timestamp) return prereqs.Verification.undetermined();
 
     const duration = now.difference(timestamp).toAbolute();
 
     if (duration.isShorterThan(this.skew)) return prereqs.Verification.success();
-
     return prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` });
   }
 }
