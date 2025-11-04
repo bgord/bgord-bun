@@ -1,3 +1,4 @@
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteExternalApi implements prereqs.Prerequisite {
@@ -14,7 +15,7 @@ export class PrerequisiteExternalApi implements prereqs.Prerequisite {
     this.request = config.request;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

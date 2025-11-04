@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteBun implements prereqs.Prerequisite {
@@ -16,7 +17,7 @@ export class PrerequisiteBun implements prereqs.Prerequisite {
     this.current = config.current;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

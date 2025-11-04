@@ -1,3 +1,4 @@
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteSelf implements prereqs.Prerequisite {
@@ -10,7 +11,7 @@ export class PrerequisiteSelf implements prereqs.Prerequisite {
     this.enabled = config.enabled === undefined ? true : config.enabled;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
     return prereqs.Verification.success();
   }

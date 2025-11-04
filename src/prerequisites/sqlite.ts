@@ -1,4 +1,5 @@
 import type { Database } from "bun:sqlite";
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteSQLite implements prereqs.Prerequisite {
@@ -15,7 +16,7 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
     this.sqlite = config.sqlite;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

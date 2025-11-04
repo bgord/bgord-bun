@@ -1,3 +1,4 @@
+import type { ClockPort } from "../clock.port";
 import type { LoggerWinstonProductionAdapter } from "../logger-winston-production.adapter";
 import * as prereqs from "../prerequisites.service";
 
@@ -15,7 +16,7 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
     this.logger = config.logger;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

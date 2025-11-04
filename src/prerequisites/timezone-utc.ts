@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import { z } from "zod/v4";
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export const TimezoneUtc = z.literal("UTC");
@@ -18,7 +19,7 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
     this.timezone = config.timezone;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const result = TimezoneUtc.safeParse(this.timezone);

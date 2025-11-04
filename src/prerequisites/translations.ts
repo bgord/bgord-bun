@@ -1,6 +1,7 @@
 import { constants } from "node:fs";
 import fsp from "node:fs/promises";
 import type * as tools from "@bgord/tools";
+import type { ClockPort } from "../clock.port";
 import type * as types from "../i18n.service";
 import { I18n } from "../i18n.service";
 import type { JsonFileReaderPort } from "../json-file-reader.port";
@@ -42,7 +43,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     this.JsonFileReader = config.JsonFileReader;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;

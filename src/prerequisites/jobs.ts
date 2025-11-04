@@ -1,3 +1,4 @@
+import type { ClockPort } from "../clock.port";
 import { Jobs, type MultipleJobsType } from "../jobs.service";
 import * as prereqs from "../prerequisites.service";
 
@@ -15,7 +16,7 @@ export class PrerequisiteJobs implements prereqs.Prerequisite {
     this.jobs = config.jobs;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
     if (Jobs.areAllRunning(this.jobs)) return prereqs.Verification.success();
     return prereqs.Verification.failure();

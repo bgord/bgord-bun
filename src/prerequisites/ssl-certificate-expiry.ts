@@ -1,4 +1,5 @@
 import type { CertificateInspectorPort } from "../certificate-inspector.port";
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
@@ -25,7 +26,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     this.inspector = config.inspector;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const result = await this.inspector.inspect(this.host);

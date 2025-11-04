@@ -1,4 +1,5 @@
 import net from "node:net";
+import type { ClockPort } from "../clock.port";
 import type { PortType } from "../port.vo";
 import * as prereqs from "../prerequisites.service";
 
@@ -16,7 +17,7 @@ export class PrerequisitePort implements prereqs.Prerequisite {
     this.port = config.port;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     return new Promise((resolve) => {

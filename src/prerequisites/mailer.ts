@@ -1,3 +1,4 @@
+import type { ClockPort } from "../clock.port";
 import type { MailerPort } from "../mailer.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -15,7 +16,7 @@ export class PrerequisiteMailer implements prereqs.Prerequisite {
     this.mailer = config.mailer;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

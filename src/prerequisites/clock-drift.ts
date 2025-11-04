@@ -27,7 +27,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     this.clock = config.clock;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const now = this.clock.now();

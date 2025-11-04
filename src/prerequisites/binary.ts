@@ -1,5 +1,6 @@
 import bun from "bun";
 import type { BinaryType } from "../binary.vo";
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteBinary implements prereqs.Prerequisite {
@@ -15,7 +16,7 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
     this.binary = config.binary;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     try {
       if (!this.enabled) return prereqs.Verification.undetermined();
 

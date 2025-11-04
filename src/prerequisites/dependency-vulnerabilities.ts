@@ -1,4 +1,5 @@
 import bun from "bun";
+import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
@@ -13,7 +14,7 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
     this.enabled = config.enabled === undefined ? true : config.enabled;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

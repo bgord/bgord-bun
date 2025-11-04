@@ -1,5 +1,6 @@
 import path from "node:path";
 import * as tools from "@bgord/tools";
+import type { ClockPort } from "../clock.port";
 import type { DiskSpaceCheckerPort } from "../disk-space-checker.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -21,7 +22,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
     this.checker = config.checker;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
