@@ -30,12 +30,12 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     const stopwatch = new tools.Stopwatch(clock.now());
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     const now = this.clock.now();
 
     const timestamp = await this.timekeeper.get();
-    if (!timestamp) return prereqs.Verification.undetermined();
+    if (!timestamp) return prereqs.Verification.undetermined(stopwatch.stop());
 
     const duration = now.difference(timestamp).toAbolute();
 

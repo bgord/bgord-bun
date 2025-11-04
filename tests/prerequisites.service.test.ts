@@ -29,8 +29,9 @@ class Undetermined implements prereqs.Prerequisite {
   readonly label = "undetermined";
   readonly kind = "test";
   readonly enabled = false;
-  async verify(): Promise<prereqs.VerifyOutcome> {
-    return prereqs.Verification.undetermined();
+  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+    return prereqs.Verification.undetermined(stopwatch.stop());
   }
 }
 

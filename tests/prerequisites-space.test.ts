@@ -56,6 +56,6 @@ describe("PrerequisiteSpace", () => {
         enabled: false,
         checker: DiskSpaceCheckerSuccess,
       }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

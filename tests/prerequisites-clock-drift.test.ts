@@ -22,7 +22,7 @@ describe("PrerequisiteClockDrift", () => {
     spyOn(timekeeper, "get").mockResolvedValue(null);
     expect(
       await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 
   test("failure - skew", async () => {
@@ -42,6 +42,6 @@ describe("PrerequisiteClockDrift", () => {
         clock,
         timekeeper,
       }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

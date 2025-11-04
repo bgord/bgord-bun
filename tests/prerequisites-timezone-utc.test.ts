@@ -26,6 +26,6 @@ describe("PrerequisiteTimezoneUTC", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteTimezoneUTC({ label: "utc", timezone: utc, enabled: false }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

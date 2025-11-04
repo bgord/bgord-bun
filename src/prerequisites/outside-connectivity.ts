@@ -18,7 +18,7 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
     const stopwatch = new tools.Stopwatch(clock.now());
 
     try {
-      if (!this.enabled) return prereqs.Verification.undetermined();
+      if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
       const response = await fetch(this.url, { method: "HEAD" });
 

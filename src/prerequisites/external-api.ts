@@ -19,7 +19,7 @@ export class PrerequisiteExternalApi implements prereqs.Prerequisite {
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     const stopwatch = new tools.Stopwatch(clock.now());
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     try {
       const response = await this.request();

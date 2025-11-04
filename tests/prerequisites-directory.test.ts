@@ -3,7 +3,6 @@ import fsp from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteDirectory } from "../src/prerequisites/directory";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
@@ -21,8 +20,8 @@ describe("PrerequisiteDirectory", () => {
   test("failure - access throws an error", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error(mocks.IntentialError));
 
-    // @ts-expect-error
     expect(
+      // @ts-expect-error
       (await new PrerequisiteDirectory({ label: "dir", directory }).verify(clock)).error.message,
     ).toMatch(mocks.IntentialError);
   });
@@ -30,6 +29,6 @@ describe("PrerequisiteDirectory", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteDirectory({ label: "dir", directory: directory, enabled: false }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

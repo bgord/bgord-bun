@@ -21,7 +21,7 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
     const stopwatch = new tools.Stopwatch(clock.now());
 
     try {
-      if (!this.enabled) return prereqs.Verification.undetermined();
+      if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
       const result = await bun.$`which ${this.binary}`.quiet();
 

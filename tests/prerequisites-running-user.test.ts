@@ -28,6 +28,6 @@ describe("PrerequisiteRunningUser", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteRunningUser({ label: "user", username: "appuser", enabled: false }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

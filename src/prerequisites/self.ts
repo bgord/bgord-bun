@@ -15,7 +15,7 @@ export class PrerequisiteSelf implements prereqs.Prerequisite {
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     const stopwatch = new tools.Stopwatch(clock.now());
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
     return prereqs.Verification.success(stopwatch.stop());
   }
 }

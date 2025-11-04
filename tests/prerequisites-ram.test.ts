@@ -29,7 +29,7 @@ describe("PrerequisiteRAM", () => {
 
   test("undetermined", async () => {
     expect(await new PrerequisiteRAM({ label: "ram", enabled: false, minimum }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });

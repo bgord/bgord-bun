@@ -36,6 +36,6 @@ describe("PrerequisiteOutsideConnectivity", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteOutsideConnectivity({ label: "prerequisite", enabled: false }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

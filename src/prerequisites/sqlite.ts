@@ -20,7 +20,7 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     const stopwatch = new tools.Stopwatch(clock.now());
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     try {
       const integrity = this.sqlite.query("PRAGMA integrity_check;").get() as

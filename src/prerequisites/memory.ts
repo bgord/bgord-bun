@@ -20,7 +20,7 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     const stopwatch = new tools.Stopwatch(clock.now());
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     const memoryConsumption = MemoryConsumption.get();
 

@@ -37,6 +37,6 @@ describe("PrerequisiteBun", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteBun({ label: "bun", enabled: false, version, current: "1.1.0" }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

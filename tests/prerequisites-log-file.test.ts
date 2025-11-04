@@ -43,6 +43,6 @@ describe("PrerequisiteLogFile", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteLogFile({ logger, label: "log-file", enabled: false }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

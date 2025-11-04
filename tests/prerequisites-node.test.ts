@@ -43,6 +43,6 @@ describe("PrerequisiteNode", () => {
         current: "v20.0.0",
         enabled: false,
       }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

@@ -49,6 +49,6 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
         enabled: false,
         inspector: new CertificateInspectorNoopAdapter(100),
       }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

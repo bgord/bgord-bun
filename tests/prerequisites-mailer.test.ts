@@ -1,7 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteMailer } from "../src/prerequisites/mailer";
-import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const mailer = { verify: jest.fn(), send: jest.fn() } as any;
@@ -27,7 +26,7 @@ describe("PrerequisiteMailer", () => {
 
   test("undetermined", async () => {
     expect(await new PrerequisiteMailer({ label: "mailer", enabled: false, mailer }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });

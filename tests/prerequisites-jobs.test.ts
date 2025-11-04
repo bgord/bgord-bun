@@ -27,7 +27,7 @@ describe("PrerequisiteJobs", () => {
     const jobs = { a: { isRunning: () => true } as any };
 
     expect(await new PrerequisiteJobs({ label: "jobs", enabled: false, jobs }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });

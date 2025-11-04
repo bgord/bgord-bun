@@ -27,7 +27,7 @@ describe("PrerequisitePort", () => {
 
   test("undetermined", async () => {
     expect(await new PrerequisitePort({ port, label: "port", enabled: false }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });

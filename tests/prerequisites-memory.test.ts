@@ -35,7 +35,7 @@ describe("PrerequisiteMemory", () => {
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: maximum }));
 
     expect(await new PrerequisiteMemory({ maximum, label: "memory", enabled: false }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });

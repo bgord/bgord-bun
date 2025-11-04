@@ -13,7 +13,10 @@ export enum PrerequisiteStatusEnum {
 
 export type VerifySuccess = { status: PrerequisiteStatusEnum.success; duration: tools.DurationMsType };
 export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
-export type VerifyUndetermined = { status: PrerequisiteStatusEnum.undetermined };
+export type VerifyUndetermined = {
+  status: PrerequisiteStatusEnum.undetermined;
+  duration: tools.DurationMsType;
+};
 export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
 
 export interface Prerequisite {
@@ -40,8 +43,8 @@ export class Verification {
       error: meta instanceof Error ? formatError(meta) : meta,
     };
   }
-  static undetermined(): VerifyUndetermined {
-    return { status: PrerequisiteStatusEnum.undetermined };
+  static undetermined(duration: tools.Duration): VerifyUndetermined {
+    return { status: PrerequisiteStatusEnum.undetermined, duration: duration.ms };
   }
 }
 

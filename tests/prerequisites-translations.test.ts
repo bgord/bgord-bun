@@ -64,6 +64,6 @@ describe("PrerequisiteTranslations", () => {
         enabled: false,
         ...deps,
       }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

@@ -30,7 +30,7 @@ describe("PrerequisiteBinary", () => {
 
   test("undetermined", async () => {
     expect(await new PrerequisiteBinary({ label: "binary", binary, enabled: false }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });

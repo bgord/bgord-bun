@@ -122,6 +122,6 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

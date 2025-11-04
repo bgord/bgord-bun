@@ -30,6 +30,6 @@ describe("PrerequisiteExternalApi", () => {
         request: () => fetch("http://api"),
         enabled: false,
       }).verify(clock),
-    ).toEqual(prereqs.Verification.undetermined());
+    ).toEqual(mocks.VerificationUndetermined);
   });
 });

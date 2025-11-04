@@ -54,7 +54,7 @@ describe("PrerequisiteSQLite", () => {
     const sqlite = {} as any;
 
     expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite, enabled: false }).verify(clock)).toEqual(
-      prereqs.Verification.undetermined(),
+      mocks.VerificationUndetermined,
     );
   });
 });
