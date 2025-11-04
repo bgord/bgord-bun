@@ -152,6 +152,7 @@ export * from "./temporary-file.port";
 export * from "./temporary-file-absolute.adapter";
 export * from "./temporary-file-noop.adapter";
 export * from "./time-zone-offset.middleware";
+export * from "./timekeeper.port";
 export * from "./to-event-map.types";
 export * from "./translations.service";
 export * from "./uptime.service";
