@@ -178,6 +178,7 @@ src/
 ├── prerequisites
 │   ├── binary.ts
 │   ├── bun.ts
+│   ├── clock-drift.ts
 │   ├── dependency-vulnerabilities.ts
 │   ├── directory.ts
 │   ├── external-api.ts
@@ -228,6 +229,9 @@ src/
 ├── temporary-file-noop.adapter.ts
 ├── temporary-file.port.ts
 ├── time-zone-offset.middleware.ts
+├── timekeeper-google.adapter.ts
+├── timekeeper-noop.adapter.ts
+├── timekeeper.port.ts
 ├── to-event-map.types.ts
 ├── translations.service.ts
 ├── uptime.service.ts
