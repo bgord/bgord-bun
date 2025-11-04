@@ -1,6 +1,6 @@
 import { constants } from "node:fs";
 import fsp from "node:fs/promises";
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -26,6 +26,8 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const write = this.access?.write ?? false;
@@ -36,7 +38,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
     try {
       await fsp.access(this.directory, flags);
 
-      return prereqs.Verification.success();
+      return prereqs.Verification.success(stopwatch.stop());
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }

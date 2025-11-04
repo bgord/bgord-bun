@@ -18,6 +18,8 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const memoryConsumption = MemoryConsumption.get();
@@ -27,6 +29,6 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });
     }
-    return prereqs.Verification.success();
+    return prereqs.Verification.success(stopwatch.stop());
   }
 }

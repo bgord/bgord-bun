@@ -18,11 +18,13 @@ export class PrerequisiteRAM implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const freeRAM = tools.Size.fromBytes(os.freemem());
 
-    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success();
+    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
     return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` });
   }
 }

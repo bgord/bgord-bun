@@ -1,4 +1,5 @@
 import net from "node:net";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import type { PortType } from "../port.vo";
 import * as prereqs from "../prerequisites.service";
@@ -18,11 +19,15 @@ export class PrerequisitePort implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     return new Promise((resolve) => {
       const server = net.createServer();
-      server.listen(this.port, () => server.close(() => resolve(prereqs.Verification.success())));
+      server.listen(this.port, () =>
+        server.close(() => resolve(prereqs.Verification.success(stopwatch.stop()))),
+      );
       server.on("error", () => resolve(prereqs.Verification.failure()));
     });
   }

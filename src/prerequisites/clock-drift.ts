@@ -1,4 +1,4 @@
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 import type { TimekeeperPort } from "../timekeeper.port";
@@ -28,6 +28,8 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const now = this.clock.now();
@@ -37,7 +39,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
 
     const duration = now.difference(timestamp).toAbolute();
 
-    if (duration.isShorterThan(this.skew)) return prereqs.Verification.success();
+    if (duration.isShorterThan(this.skew)) return prereqs.Verification.success(stopwatch.stop());
     return prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` });
   }
 }

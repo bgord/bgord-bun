@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import type { LoggerWinstonProductionAdapter } from "../logger-winston-production.adapter";
 import * as prereqs from "../prerequisites.service";
@@ -17,13 +18,15 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const path = this.logger.prodLogFile;
       const result = await Bun.file(path).exists();
 
-      if (result) return prereqs.Verification.success();
+      if (result) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure({ message: `Missing file: ${path}` });
     } catch (error) {
       return prereqs.Verification.failure(error as Error);

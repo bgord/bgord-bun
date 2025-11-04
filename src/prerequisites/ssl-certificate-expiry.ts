@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type { CertificateInspectorPort } from "../certificate-inspector.port";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
@@ -27,6 +28,8 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const result = await this.inspector.inspect(this.host);
@@ -35,6 +38,6 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     if (result.daysRemaining <= this.days) {
       return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
     }
-    return prereqs.Verification.success();
+    return prereqs.Verification.success(stopwatch.stop());
   }
 }

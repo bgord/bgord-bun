@@ -19,12 +19,14 @@ export class PrerequisiteNode implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const current = tools.PackageVersion.fromStringWithV(this.current);
 
-      if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success();
+      if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure({ message: `Version: ${this.current}` });
     } catch {
       return prereqs.Verification.failure({ message: `Invalid version passed: ${this.current}` });

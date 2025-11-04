@@ -1,4 +1,5 @@
 import bun from "bun";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -15,6 +16,8 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
@@ -37,7 +40,7 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
           message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
         });
 
-      return prereqs.Verification.success();
+      return prereqs.Verification.success(stopwatch.stop());
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }

@@ -1,4 +1,5 @@
 import os from "node:os";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -17,11 +18,13 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const current = os.userInfo().username;
 
-    if (current === this.username) return prereqs.Verification.success();
+    if (current === this.username) return prereqs.Verification.success(stopwatch.stop());
     return prereqs.Verification.failure({ message: `Current user: ${current}` });
   }
 }

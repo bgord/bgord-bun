@@ -23,13 +23,15 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const root = path.sep;
       const freeDiskSpace = await this.checker.get(root);
 
-      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success();
+      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure({
         message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });

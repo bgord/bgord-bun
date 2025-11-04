@@ -1,4 +1,5 @@
 import type { Database } from "bun:sqlite";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -17,6 +18,8 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
@@ -27,7 +30,7 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
       if (!integrity || (integrity.integrity_check ?? "").toLowerCase() !== "ok") {
         return prereqs.Verification.failure({ message: "Integrity check failed" });
       }
-      return prereqs.Verification.success();
+      return prereqs.Verification.success(stopwatch.stop());
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }

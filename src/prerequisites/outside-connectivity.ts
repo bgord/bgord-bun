@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -14,12 +15,14 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const stopwatch = new tools.Stopwatch(clock.now());
+
     try {
       if (!this.enabled) return prereqs.Verification.undetermined();
 
       const response = await fetch(this.url, { method: "HEAD" });
 
-      if (response.ok) return prereqs.Verification.success();
+      if (response.ok) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure({ message: `HTTP ${response.status}` });
     } catch (error) {
       return prereqs.Verification.failure(error as Error);

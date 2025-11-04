@@ -31,7 +31,7 @@ export class Healthcheck {
       const details: HealthcheckResultType["details"][number][] = [];
 
       for (const prerequisite of prerequisites) {
-        details.push({ label: prerequisite.label, outcome: await prerequisite.verify() });
+        details.push({ label: prerequisite.label, outcome: await prerequisite.verify(deps.Clock) });
       }
 
       const ok = details.every((result) => result.outcome.status !== prereqs.PrerequisiteStatusEnum.failure)
