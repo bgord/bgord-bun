@@ -30,6 +30,13 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
-    return prereqs.Verification.success();
+    const now = this.clock.now();
+    const timestamp = await this.timekeeper.get();
+
+    const duration = now.difference(timestamp).toAbolute();
+
+    if (duration.isShorterThan(this.skew)) return prereqs.Verification.success();
+
+    return prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` });
   }
 }
