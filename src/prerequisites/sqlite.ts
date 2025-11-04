@@ -28,11 +28,11 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
         | undefined;
 
       if (!integrity || (integrity.integrity_check ?? "").toLowerCase() !== "ok") {
-        return prereqs.Verification.failure({ message: "Integrity check failed" });
+        return prereqs.Verification.failure(stopwatch.stop(), { message: "Integrity check failed" });
       }
       return prereqs.Verification.success(stopwatch.stop());
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
   }
 }

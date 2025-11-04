@@ -25,6 +25,8 @@ export class PrerequisiteRAM implements prereqs.Prerequisite {
     const freeRAM = tools.Size.fromBytes(os.freemem());
 
     if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
-    return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` });
+    return prereqs.Verification.failure(stopwatch.stop(), {
+      message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}`,
+    });
   }
 }

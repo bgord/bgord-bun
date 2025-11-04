@@ -28,7 +28,7 @@ export class PrerequisitePort implements prereqs.Prerequisite {
       server.listen(this.port, () =>
         server.close(() => resolve(prereqs.Verification.success(stopwatch.stop()))),
       );
-      server.on("error", () => resolve(prereqs.Verification.failure()));
+      server.on("error", () => resolve(prereqs.Verification.failure(stopwatch.stop())));
     });
   }
 }

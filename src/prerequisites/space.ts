@@ -32,11 +32,11 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
       const freeDiskSpace = await this.checker.get(root);
 
       if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure({
+      return prereqs.Verification.failure(stopwatch.stop(), {
         message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
   }
 }

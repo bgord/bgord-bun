@@ -12,7 +12,11 @@ export enum PrerequisiteStatusEnum {
 }
 
 export type VerifySuccess = { status: PrerequisiteStatusEnum.success; duration: tools.DurationMsType };
-export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
+export type VerifyFailure = {
+  status: PrerequisiteStatusEnum.failure;
+  duration: tools.DurationMsType;
+  error?: ErrorInfo;
+};
 export type VerifyUndetermined = {
   status: PrerequisiteStatusEnum.undetermined;
   duration: tools.DurationMsType;
@@ -37,9 +41,10 @@ export class Verification {
   static success(duration: tools.Duration): VerifySuccess {
     return { status: PrerequisiteStatusEnum.success, duration: duration.ms };
   }
-  static failure(meta?: Error | ErrorInfo): VerifyFailure {
+  static failure(duration: tools.Duration, meta?: Error | ErrorInfo): VerifyFailure {
     return {
       status: PrerequisiteStatusEnum.failure,
+      duration: duration.ms,
       error: meta instanceof Error ? formatError(meta) : meta,
     };
   }

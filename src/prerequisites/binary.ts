@@ -26,9 +26,9 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
       const result = await bun.$`which ${this.binary}`.quiet();
 
       if (result.exitCode === 0) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure({ message: `Exit code ${result.exitCode}` });
+      return prereqs.Verification.failure(stopwatch.stop(), { message: `Exit code ${result.exitCode}` });
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
   }
 }

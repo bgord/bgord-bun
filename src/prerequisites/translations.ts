@@ -60,7 +60,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
         await fsp.access(i18n.getTranslationPathForLanguage(language).get(), constants.R_OK);
       }
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
 
     if (supportedLanguages.length === 1) return prereqs.Verification.success(stopwatch.stop());
@@ -100,6 +100,6 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       .map((problem) => `Key: ${problem.key}, exists in ${problem.existsIn}, missing in ${problem.missingIn}`)
       .join("\n");
 
-    return prereqs.Verification.failure({ message: summary });
+    return prereqs.Verification.failure(stopwatch.stop(), { message: summary });
   }
 }

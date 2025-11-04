@@ -27,9 +27,9 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
       const result = await Bun.file(path).exists();
 
       if (result) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure({ message: `Missing file: ${path}` });
+      return prereqs.Verification.failure(stopwatch.stop(), { message: `Missing file: ${path}` });
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
   }
 }

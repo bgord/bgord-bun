@@ -23,7 +23,8 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
     try {
       const command = await bun.$`bun audit --json`.quiet();
 
-      if (command.exitCode !== 0) return prereqs.Verification.failure({ message: "Audit failure" });
+      if (command.exitCode !== 0)
+        return prereqs.Verification.failure(stopwatch.stop(), { message: "Audit failure" });
 
       const audit = JSON.parse(command.stdout.toString()) as BunAuditOutput;
 
@@ -36,13 +37,13 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
       ).length;
 
       if (criticalVulnerabilitiesCount > 0 || highVulnerabilitiesCount > 0)
-        return prereqs.Verification.failure({
+        return prereqs.Verification.failure(stopwatch.stop(), {
           message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
         });
 
       return prereqs.Verification.success(stopwatch.stop());
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
   }
 }

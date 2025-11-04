@@ -22,6 +22,6 @@ export class PrerequisiteJobs implements prereqs.Prerequisite {
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
     if (Jobs.areAllRunning(this.jobs)) return prereqs.Verification.success(stopwatch.stop());
-    return prereqs.Verification.failure();
+    return prereqs.Verification.failure(stopwatch.stop());
   }
 }

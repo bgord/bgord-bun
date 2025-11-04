@@ -27,6 +27,6 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
     const result = TimezoneUtc.safeParse(this.timezone);
 
     if (result.success) return prereqs.Verification.success(stopwatch.stop());
-    return prereqs.Verification.failure({ message: `Timezone: ${this.timezone}` });
+    return prereqs.Verification.failure(stopwatch.stop(), { message: `Timezone: ${this.timezone}` });
   }
 }
