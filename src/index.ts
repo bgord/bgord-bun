@@ -156,6 +156,7 @@ export * from "./time-zone-offset.middleware";
 export * from "./timekeeper.port";
 export * from "./timekeeper-google.adapter";
 export * from "./timekeeper-noop.adapter";
+export * from "./timeout.service";
 export * from "./to-event-map.types";
 export * from "./translations.service";
 export * from "./uptime.service";
