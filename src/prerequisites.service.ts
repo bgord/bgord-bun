@@ -1,3 +1,5 @@
+import type * as tools from "@bgord/tools";
+import type { ClockPort } from "../src/clock.port";
 import type { ErrorInfo, LoggerPort } from "../src/logger.port";
 import { formatError } from "../src/logger-format-error.service";
 
@@ -9,7 +11,7 @@ export enum PrerequisiteStatusEnum {
   undetermined = "undetermined",
 }
 
-export type VerifySuccess = { status: PrerequisiteStatusEnum.success };
+export type VerifySuccess = { status: PrerequisiteStatusEnum.success; duration: tools.Duration };
 export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
 export type VerifyUndetermined = { status: PrerequisiteStatusEnum.undetermined };
 export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
@@ -18,7 +20,7 @@ export interface Prerequisite {
   readonly label: PrerequisiteLabelType;
   readonly kind: string;
   readonly enabled?: boolean;
-  verify(): Promise<VerifyOutcome>;
+  verify(clock: ClockPort): Promise<VerifyOutcome>;
 }
 
 export type PrerequisiteResult = {
@@ -29,8 +31,8 @@ export type PrerequisiteResult = {
 };
 
 export class Verification {
-  static success(): VerifySuccess {
-    return { status: PrerequisiteStatusEnum.success };
+  static success(duration: tools.Duration): VerifySuccess {
+    return { status: PrerequisiteStatusEnum.success, duration };
   }
   static failure(meta?: Error | ErrorInfo): VerifyFailure {
     return {
@@ -47,23 +49,28 @@ export type PrerequisiteConfigType = { label: string; enabled?: boolean };
 
 export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
 
+type Dependencies = { logger: LoggerPort; clock: ClockPort };
+
 /** @public */
 export class Prerequisites {
   private readonly base = { component: "infra", operation: "startup" };
 
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(private readonly deps: Dependencies) {}
 
   async check(prerequisites: Prerequisite[]) {
     const results = await Promise.all(
-      prerequisites.map(async (prerequisite) => ({ prerequisite, outcome: await prerequisite.verify() })),
+      prerequisites.map(async (prerequisite) => ({
+        prerequisite,
+        outcome: await prerequisite.verify(this.deps.clock),
+      })),
     );
 
     const failed = results.filter((result) => result.outcome.status === PrerequisiteStatusEnum.failure);
 
-    if (failed.length === 0) return this.logger.info({ message: "Prerequisites ok", ...this.base });
+    if (failed.length === 0) return this.deps.logger.info({ message: "Prerequisites ok", ...this.base });
 
     for (const failure of failed) {
-      this.logger.error({
+      this.deps.logger.error({
         message: "Prerequisite failed",
         metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
         // @ts-expect-error
