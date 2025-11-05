@@ -40,7 +40,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
       );
       if (!timestamp) return prereqs.Verification.undetermined(stopwatch.stop());
 
-      const duration = clock.now().difference(timestamp).toAbolute();
+      const duration = clock.now().difference(timestamp).toAbsolute();
 
       if (duration.isShorterThan(this.skew)) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure(stopwatch.stop(), { message: `Difference: ${duration.seconds}s` });
