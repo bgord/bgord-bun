@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 import type { TimekeeperPort } from "../timekeeper.port";
+import { TimekeeperGoogleAdapter } from "../timekeeper-google.adapter";
 import { Timeout } from "../timeout.service";
 
 export class PrerequisiteClockDrift implements prereqs.Prerequisite {
@@ -16,7 +17,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       skew: tools.Duration;
-      timekeeper: TimekeeperPort;
+      timekeeper?: TimekeeperPort;
       timeout?: tools.Duration;
     },
   ) {
@@ -24,7 +25,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.skew = config.skew;
-    this.timekeeper = config.timekeeper;
+    this.timekeeper = config.timekeeper ?? new TimekeeperGoogleAdapter();
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
