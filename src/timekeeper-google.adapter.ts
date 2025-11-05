@@ -4,9 +4,9 @@ import type { TimekeeperPort } from "./timekeeper.port";
 export class TimekeeperGoogleAdapter implements TimekeeperPort {
   static URL = "https://www.google.com/generate_204";
 
-  async get() {
+  async get(signal?: AbortSignal) {
     try {
-      const response = await fetch(TimekeeperGoogleAdapter.URL);
+      const response = await fetch(TimekeeperGoogleAdapter.URL, { signal });
       if (!response.ok) return null;
 
       const date = response.headers.get("Date");
