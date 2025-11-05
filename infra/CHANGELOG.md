@@ -1,4 +1,20 @@
 # Changelog
+- 2025-11-05 13:09 e82b01f **step: add mailer prereq timeout**
+- 2025-11-05 13:09 35598d2 **refactor: adjust timeout across prereqs**
+- 2025-11-05 13:06 89da8c4 **fix: toAbsolute**
+- 2025-11-05 13:05 cdaf9c5 **step: update packages**
+- 2025-11-05 13:02 740d9ff **step: make prereq outside connectivity cancellable**
+- 2025-11-05 12:46 404f30c **step: use timeout cancellable in clock drift prereq**
+- 2025-11-05 12:42 fb3524a **step: make timekeeper port accept a signal**
+- 2025-11-05 12:23 2e31b2b **refactor: simplify clock drift prereq config**
+- 2025-11-05 12:19 839204a **step: extract timekeeper google adapter url**
+- 2025-11-05 12:14 73a2eb6 **step: test monitor**
+- 2025-11-05 11:19 1e62ad6 **step: docs**
+- 2025-11-05 11:07 547b3b7 **step: test timeout cancellable**
+- 2025-11-05 10:20 18d09b6 **refactor: rename correlation storage action**
+- 2025-11-05 10:19 a13266f **step: add timeout cancellable**
+- 2025-11-04 23:04 94fc35e **step: test timeout service**
+- 2025-11-04 22:53 56c6561 **feature: define basic timeout service**
 - 2025-11-04 21:43 9c46a59 **feature: add checksum service**
 ## 2025-11-04 21:25 v1.1.7
 - 2025-11-04 21:25 d7e3e4d **1.1.7**
@@ -11,6 +27,8 @@
 - 2025-11-04 20:58 60e6f2b **step: add duration to undetermined**
 - 2025-11-04 20:56 2ae7d02 **step: adjust healthcheck tests**
 - 2025-11-04 20:55 965f9ae **step: switch to duration ms**
+- 2025-11-04 20:48 dd803c4 **docs: generate CHANGELOG**
+- 2025-11-04 20:48 3b2788a **docs: generate readme**
 - 2025-11-04 20:41 1b71ba0 **step: adjust tests**
 - 2025-11-04 20:25 dbdb754 **docs: generate CHANGELOG**
 - 2025-11-04 20:25 60f2094 **docs: generate CHANGELOG**
