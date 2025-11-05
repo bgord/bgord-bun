@@ -1,4 +1,6 @@
 # Changelog
+## 2025-11-05 13:14 v1.2.0
+- 2025-11-05 13:14 9f183a2 **1.2.0**
 - 2025-11-05 13:09 e82b01f **step: add mailer prereq timeout**
 - 2025-11-05 13:09 35598d2 **refactor: adjust timeout across prereqs**
 - 2025-11-05 13:06 89da8c4 **fix: toAbsolute**
@@ -8,6 +10,8 @@
 - 2025-11-05 12:42 fb3524a **step: make timekeeper port accept a signal**
 - 2025-11-05 12:23 2e31b2b **refactor: simplify clock drift prereq config**
 - 2025-11-05 12:19 839204a **step: extract timekeeper google adapter url**
+- 2025-11-05 12:14 c021ef1 **docs: generate readme**
+- 2025-11-05 12:14 af0f287 **docs: generate CHANGELOG**
 - 2025-11-05 12:14 73a2eb6 **step: test monitor**
 - 2025-11-05 11:19 1e62ad6 **step: docs**
 - 2025-11-05 11:07 547b3b7 **step: test timeout cancellable**
