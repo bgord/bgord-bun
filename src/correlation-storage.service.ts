@@ -15,8 +15,8 @@ export class CorrelationStorage {
   ] ??=
     new AsyncLocalStorage<CorrelationContext>());
 
-  static run<T>(correlationId: CorrelationIdType, fn: () => T | Promise<T>): T | Promise<T> {
-    return CorrelationStorage.als.run({ correlationId }, fn);
+  static run<T>(correlationId: CorrelationIdType, action: () => T | Promise<T>): T | Promise<T> {
+    return CorrelationStorage.als.run({ correlationId }, action);
   }
 
   static get(): CorrelationIdType {
