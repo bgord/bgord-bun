@@ -2,6 +2,7 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import type { DiskSpaceCheckerPort } from "../disk-space-checker.port";
+import { DiskSpaceCheckerBunAdapter } from "../disk-space-checker-bun.adapter";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteSpace implements prereqs.Prerequisite {
@@ -13,13 +14,13 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
   private readonly checker: DiskSpaceCheckerPort;
 
   constructor(
-    config: prereqs.PrerequisiteConfigType & { minimum: tools.Size; checker: DiskSpaceCheckerPort },
+    config: prereqs.PrerequisiteConfigType & { minimum: tools.Size; checker?: DiskSpaceCheckerPort },
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.minimum = config.minimum;
-    this.checker = config.checker;
+    this.checker = config.checker ?? new DiskSpaceCheckerBunAdapter();
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
