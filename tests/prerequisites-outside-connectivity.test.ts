@@ -42,7 +42,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
     ).toEqual(mocks.VerificationUndetermined);
   });
 
-  test("undetermined - timeout", async () => {
+  test("timeout", async () => {
     // @ts-expect-error
     spyOn(global, "fetch").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
 
