@@ -19,4 +19,26 @@ export class Timeout {
       );
     });
   }
+
+  static cancellable<T>(action: (signal: AbortSignal) => Promise<T>, duration: tools.Duration): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const controller = new AbortController();
+
+      const timer = setTimeout(() => {
+        controller.abort(new Error(TimeoutError.Exceeded));
+        reject(new Error(TimeoutError.Exceeded));
+      }, duration.ms);
+
+      action(controller.signal).then(
+        (value) => {
+          clearTimeout(timer);
+          resolve(value);
+        },
+        (error) => {
+          clearTimeout(timer);
+          reject(error);
+        },
+      );
+    });
+  }
 }
