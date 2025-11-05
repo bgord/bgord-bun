@@ -10,13 +10,11 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
 
   readonly skew: tools.Duration;
   readonly timekeeper: TimekeeperPort;
-  readonly clock: ClockPort;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       skew: tools.Duration;
       timekeeper: TimekeeperPort;
-      clock: ClockPort;
     },
   ) {
     this.label = config.label;
@@ -24,15 +22,13 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
 
     this.skew = config.skew;
     this.timekeeper = config.timekeeper;
-    this.clock = config.clock;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
+    const now = clock.now();
+    const stopwatch = new tools.Stopwatch(now);
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
-
-    const now = this.clock.now();
 
     const timestamp = await this.timekeeper.get();
     if (!timestamp) return prereqs.Verification.undetermined(stopwatch.stop());

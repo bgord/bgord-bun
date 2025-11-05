@@ -12,7 +12,7 @@ const timekeeper = new TimekeeperNoopAdapter(clock);
 describe("PrerequisiteClockDrift", () => {
   test("success", async () => {
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
+      await new PrerequisiteClockDrift({ label: "clock-drift", skew, timekeeper }).verify(clock),
     ).toEqual(mocks.VerificationSuccess);
   });
 
@@ -20,7 +20,7 @@ describe("PrerequisiteClockDrift", () => {
     // @ts-expect-error
     spyOn(timekeeper, "get").mockResolvedValue(null);
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
+      await new PrerequisiteClockDrift({ label: "clock-drift", skew, timekeeper }).verify(clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 
@@ -28,19 +28,15 @@ describe("PrerequisiteClockDrift", () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, clock, timekeeper }).verify(clock),
+      await new PrerequisiteClockDrift({ label: "clock-drift", skew, timekeeper }).verify(clock),
     ).toEqual(mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }));
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteClockDrift({
-        label: "clock-drift",
-        enabled: false,
-        skew,
+      await new PrerequisiteClockDrift({ label: "clock-drift", enabled: false, skew, timekeeper }).verify(
         clock,
-        timekeeper,
-      }).verify(clock),
+      ),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });
