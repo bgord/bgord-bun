@@ -5,6 +5,7 @@ import type { ClockPort } from "../clock.port";
 import type * as types from "../i18n.service";
 import { I18n } from "../i18n.service";
 import type { JsonFileReaderPort } from "../json-file-reader.port";
+import { JsonFileReaderBunForgivingAdapter } from "../json-file-reader-bun-forgiving.adapter";
 import type { LoggerPort } from "../logger.port";
 import * as prereqs from "../prerequisites.service";
 
@@ -30,7 +31,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
       supportedLanguages: types.I18nConfigType["supportedLanguages"];
       logger: LoggerPort;
-      jsonFileReader: JsonFileReaderPort;
+      jsonFileReader?: JsonFileReaderPort;
     },
   ) {
     this.label = config.label;
@@ -40,7 +41,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     this.supportedLanguages = config.supportedLanguages;
 
     this.logger = config.logger;
-    this.jsonFileReader = config.jsonFileReader;
+    this.jsonFileReader = config.jsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
