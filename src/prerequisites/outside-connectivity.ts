@@ -15,7 +15,7 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
-    this.timeout = config.timeout ?? tools.Duration.Seconds(3);
+    this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {

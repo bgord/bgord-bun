@@ -25,7 +25,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
 
     this.skew = config.skew;
     this.timekeeper = config.timekeeper;
-    this.timeout = config.timeout ?? tools.Duration.Seconds(3);
+    this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
