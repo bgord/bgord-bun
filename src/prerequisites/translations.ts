@@ -22,15 +22,15 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
   private readonly translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
   private readonly supportedLanguages: types.I18nConfigType["supportedLanguages"];
 
-  private readonly Logger: LoggerPort;
-  private readonly JsonFileReader: JsonFileReaderPort;
+  private readonly logger: LoggerPort;
+  private readonly jsonFileReader: JsonFileReaderPort;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
       supportedLanguages: types.I18nConfigType["supportedLanguages"];
-      Logger: LoggerPort;
-      JsonFileReader: JsonFileReaderPort;
+      logger: LoggerPort;
+      jsonFileReader: JsonFileReaderPort;
     },
   ) {
     this.label = config.label;
@@ -39,8 +39,8 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     this.translationsPath = config.translationsPath;
     this.supportedLanguages = config.supportedLanguages;
 
-    this.Logger = config.Logger;
-    this.JsonFileReader = config.JsonFileReader;
+    this.logger = config.logger;
+    this.jsonFileReader = config.jsonFileReader;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -51,7 +51,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
     const supportedLanguages = Object.keys(this.supportedLanguages);
-    const i18n = new I18n({ Logger: this.Logger, JsonFileReader: this.JsonFileReader });
+    const i18n = new I18n({ Logger: this.logger, JsonFileReader: this.jsonFileReader });
 
     try {
       await fsp.access(translationsPath, constants.R_OK);
