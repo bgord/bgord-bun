@@ -1,4 +1,6 @@
 # Changelog
+## 2025-11-05 13:33 v1.2.1
+- 2025-11-05 13:33 3aa3d93 **1.2.1**
 - 2025-11-05 13:32 b3805c4 **step: provide default json file reader adapter for prereq translations**
 - 2025-11-05 13:31 6fc921d **step: provide default checker adapter for prereq disk space**
 - 2025-11-05 13:29 2fd1a98 **step: provide default timekeeper adapter for prereq clock drift**
@@ -12,6 +14,7 @@
 - 2025-11-05 13:02 740d9ff **step: make prereq outside connectivity cancellable**
 - 2025-11-05 12:46 404f30c **step: use timeout cancellable in clock drift prereq**
 - 2025-11-05 12:42 fb3524a **step: make timekeeper port accept a signal**
+- 2025-11-05 12:32 8f41148 **docs: generate CHANGELOG**
 - 2025-11-05 12:23 2e31b2b **refactor: simplify clock drift prereq config**
 - 2025-11-05 12:19 839204a **step: extract timekeeper google adapter url**
 - 2025-11-05 12:15 eaaafe6 **docs: generate CHANGELOG**
