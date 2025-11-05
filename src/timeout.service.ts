@@ -5,15 +5,17 @@ export const TimeoutError = { Exceeded: "timeout.exceeded" };
 export class Timeout {
   static run<T>(action: Promise<T>, duration: tools.Duration): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error(TimeoutError.Exceeded)), duration.ms);
+      const reason = new Error(TimeoutError.Exceeded);
+
+      const canceller = setTimeout(() => reject(reason), duration.ms);
 
       action.then(
         (value) => {
-          clearTimeout(timer);
+          clearTimeout(canceller);
           resolve(value);
         },
         (error) => {
-          clearTimeout(timer);
+          clearTimeout(canceller);
           reject(error);
         },
       );
@@ -24,18 +26,24 @@ export class Timeout {
     return new Promise<T>((resolve, reject) => {
       const controller = new AbortController();
 
-      const timer = setTimeout(() => {
-        controller.abort(new Error(TimeoutError.Exceeded));
-        reject(new Error(TimeoutError.Exceeded));
+      const reason = new Error(TimeoutError.Exceeded);
+
+      const canceller = setTimeout(() => {
+        controller.abort(reason);
+        reject(reason);
       }, duration.ms);
 
-      action(controller.signal).then(
+      // Promise.resolve.then used to prevent the initial action(controller.signal) call
+      // from throwing before the resulting work-promise is run by promise.then.
+      const promise: Promise<T> = Promise.resolve().then(() => action(controller.signal));
+
+      promise.then(
         (value) => {
-          clearTimeout(timer);
+          clearTimeout(canceller);
           resolve(value);
         },
         (error) => {
-          clearTimeout(timer);
+          clearTimeout(canceller);
           reject(error);
         },
       );
