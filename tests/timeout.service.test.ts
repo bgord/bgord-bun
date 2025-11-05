@@ -1,7 +1,10 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Timeout, TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
+
+const logger = new LoggerNoopAdapter();
 
 function delay<T>(value: T, duration: tools.Duration): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), duration.ms));
@@ -76,5 +79,28 @@ describe("Timeout", () => {
       expect(captured!.aborted).toEqual(true);
       expect(captured!.reason.message).toEqual(TimeoutError.Exceeded);
     }
+  });
+
+  test("monitor - under timeout", async () => {
+    const loggerWarnSpy = spyOn(logger, "warn");
+    const action = delay("OK", tools.Duration.Ms(1));
+    const result = await Timeout.monitor(action, timeout, logger);
+
+    expect(result).toEqual("OK");
+    expect(loggerWarnSpy).not.toHaveBeenCalled();
+  });
+
+  test("monitor - over timeout", async () => {
+    const loggerWarnSpy = spyOn(logger, "warn");
+    const action = delay("OK", tools.Duration.Ms(6));
+    const result = await Timeout.monitor(action, timeout, logger);
+
+    expect(result).toEqual("OK");
+    expect(loggerWarnSpy).toHaveBeenCalledWith({
+      message: "Timeout",
+      component: "infra",
+      operation: "timeout_monitor",
+      metadata: { timeoutMs: timeout.ms },
+    });
   });
 });
