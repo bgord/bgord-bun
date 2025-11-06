@@ -1,4 +1,7 @@
 # Changelog
+- 2025-11-06 10:03 a823cfa **step: update packages**
+- 2025-11-06 10:02 48c54f9 **step: test prereq os**
+- 2025-11-06 09:55 91c7a2a **feature: define prereq os**
 - 2025-11-05 13:40 b4dd769 **step: add external api prereq timeout**
 ## 2025-11-05 13:33 v1.2.1
 - 2025-11-05 13:33 3aa3d93 **1.2.1**
@@ -14,6 +17,7 @@
 - 2025-11-05 13:05 cdaf9c5 **step: update packages**
 - 2025-11-05 13:02 740d9ff **step: make prereq outside connectivity cancellable**
 - 2025-11-05 12:46 404f30c **step: use timeout cancellable in clock drift prereq**
+- 2025-11-05 12:45 2a8267a **docs: generate CHANGELOG**
 - 2025-11-05 12:42 fb3524a **step: make timekeeper port accept a signal**
 - 2025-11-05 12:33 c7adc23 **docs: generate CHANGELOG**
 - 2025-11-05 12:32 8f41148 **docs: generate CHANGELOG**
