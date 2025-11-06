@@ -1,10 +1,18 @@
 # Changelog
+- 2025-11-06 11:22 86b5225 **step: remove old encryption rc**
+- 2025-11-06 11:21 477b6ba **step: test gzip stream adapter**
+- 2025-11-06 11:14 e69d219 **step: test gzip bun adapter**
+- 2025-11-06 11:03 b05fdb7 **step: add gzip bun adapter**
+- 2025-11-06 11:03 08f9f25 **step: add gzip stream adapter**
+- 2025-11-06 10:54 946dbc6 **refactor: remove previous gzip service**
+- 2025-11-06 10:53 21b73d9 **feature: add gzip port**
 - 2025-11-06 10:40 fab9153 **refactor: use bun.which in binary prereq**
 ## 2025-11-06 10:21 v1.2.2
 - 2025-11-06 10:21 6aa9a4f **1.2.2**
 - 2025-11-06 10:03 a823cfa **step: update packages**
 - 2025-11-06 10:02 48c54f9 **step: test prereq os**
 - 2025-11-06 09:55 91c7a2a **feature: define prereq os**
+- 2025-11-06 09:40 1a8ed78 **docs: generate CHANGELOG**
 - 2025-11-06 09:21 1ce9982 **docs: generate CHANGELOG**
 - 2025-11-06 09:03 cdff549 **docs: generate CHANGELOG**
 - 2025-11-06 09:03 324a4eb **docs: generate readme**
