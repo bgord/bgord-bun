@@ -1,8 +1,9 @@
 export class EncryptionIV {
-  static generate(): Uint8Array {
-    const iv = new Uint8Array(12);
-    crypto.getRandomValues(iv);
+  static LENGTH = 12;
 
+  static generate(): Uint8Array {
+    const iv = new Uint8Array(EncryptionIV.LENGTH);
+    crypto.getRandomValues(iv);
     return iv;
   }
 }
