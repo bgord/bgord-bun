@@ -86,6 +86,10 @@ src/
 ├── file-renamer.port.ts
 ├── file-uploader.middleware.ts
 ├── graceful-shutdown.service.ts
+├── gzip-bun.adapter.ts
+├── gzip-noop.adapter.ts
+├── gzip-stream.adapter.ts
+├── gzip.port.ts
 ├── hcaptcha-secret-key.vo.ts
 ├── hcaptcha-site-key.vo.ts
 ├── healthcheck.service.ts
