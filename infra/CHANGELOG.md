@@ -1,7 +1,11 @@
 # Changelog
+## 2025-11-06 10:21 v1.2.2
+- 2025-11-06 10:21 6aa9a4f **1.2.2**
 - 2025-11-06 10:03 a823cfa **step: update packages**
 - 2025-11-06 10:02 48c54f9 **step: test prereq os**
 - 2025-11-06 09:55 91c7a2a **feature: define prereq os**
+- 2025-11-06 09:03 cdff549 **docs: generate CHANGELOG**
+- 2025-11-06 09:03 324a4eb **docs: generate readme**
 - 2025-11-05 13:40 b4dd769 **step: add external api prereq timeout**
 ## 2025-11-05 13:33 v1.2.1
 - 2025-11-05 13:33 3aa3d93 **1.2.1**
