@@ -2,50 +2,56 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { EncryptionBunAdapter, EncryptionBunAdapterError } from "../src/encryption-bun.adapter";
+import { EncryptionIV } from "../src/encryption-iv.vo";
 
-const provider = new CryptoKeyProviderNoopAdapter();
-const adapter = new EncryptionBunAdapter(provider);
+const iv = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+const plaintext = new Uint8Array([10, 20, 30, 40, 50]);
+const ciphertext = new Uint8Array([201, 202, 203, 204, 205, 206]);
 
-const INPUT = tools.FilePathAbsolute.fromString("/tmp/plain.txt");
-const ENC = tools.FilePathAbsolute.fromString("/tmp/plain.enc");
-const DEC = tools.FilePathAbsolute.fromString("/tmp/plain.dec");
+const encrypted = new Uint8Array(iv.length + ciphertext.length);
+encrypted.set(iv, 0);
+encrypted.set(ciphertext, iv.length);
 
-const TEXT = "hello world";
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
+const recipe = {
+  input: tools.FilePathAbsolute.fromString("/tmp/in.bin"),
+  output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),
+};
+
+const adapter = new EncryptionBunAdapter(new CryptoKeyProviderNoopAdapter());
 
 describe("EncryptionBunAdapter", () => {
-  test("encrypt → decrypt", async () => {
-    let enc: Uint8Array | null = null;
-    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => encoder.encode(TEXT).buffer } as any);
-    spyOn(Bun, "write").mockImplementation(async (_p: string, d: any) => {
-      enc = d instanceof Uint8Array ? d : new Uint8Array(d);
-      return 0;
-    });
+  test("encrypt", async () => {
+    spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => plaintext.buffer } as any);
+    spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
+    const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(0);
 
-    const encOut = await adapter.encrypt({ input: INPUT, output: ENC });
-    expect(encOut).toEqual(ENC);
-    expect(enc && enc.length > 12).toBe(true);
+    const result = await adapter.encrypt(recipe);
 
-    let dec: Uint8Array | null = null;
-    spyOn(Bun, "file").mockReturnValue({
-      arrayBuffer: async () => enc!.buffer.slice(enc!.byteOffset, enc!.byteOffset + enc!.byteLength),
-    } as any);
-    spyOn(Bun, "write").mockImplementation(async (_p: string, d: any) => {
-      dec = d instanceof Uint8Array ? d : new Uint8Array(d);
-      return 0;
-    });
+    expect(result).toEqual(recipe.output);
 
-    const decOut = await adapter.decrypt({ input: ENC, output: DEC });
-    expect(decOut).toEqual(DEC);
-    expect(decoder.decode(dec!)).toEqual(TEXT);
+    const expected = new Uint8Array(iv.length + ciphertext.length);
+    expected.set(iv, 0);
+    expected.set(ciphertext, iv.length);
+
+    expect(new Uint8Array(bunWriteSpy.mock.calls[0][1] as any)).toEqual(expected);
+  });
+
+  test("decrypt", async () => {
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => encrypted.buffer } as any);
+    spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
+    const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(0);
+
+    const result = await adapter.decrypt(recipe);
+
+    expect(result).toEqual(recipe.output);
+    expect(new Uint8Array(bunWriteSpy.mock.calls[0][1] as any)).toEqual(plaintext);
   });
 
   test("invalid payload", async () => {
-    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => new Uint8Array(5).buffer } as any);
+    const tooShortBytes = new Uint8Array(EncryptionIV.LENGTH);
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => tooShortBytes.buffer } as any);
 
-    expect(adapter.decrypt({ input: ENC, output: DEC })).rejects.toThrow(
-      EncryptionBunAdapterError.InvalidPayload,
-    );
+    expect(adapter.decrypt(recipe)).rejects.toThrow(EncryptionBunAdapterError.InvalidPayload);
   });
 });
