@@ -9,6 +9,7 @@ export * from "./log-file";
 export * from "./mailer";
 export * from "./memory";
 export * from "./node";
+export * from "./os";
 export * from "./outside-connectivity";
 export * from "./port";
 export * from "./ram";
