@@ -53,6 +53,9 @@ src/
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
+├── crypto-key-provider-env.adapter.ts
+├── crypto-key-provider-noop.adapter.ts
+├── crypto-key-provider.port.ts
 ├── csv-stringifier.adapter.ts
 ├── csv-stringifier.port.ts
 ├── decorators.service.ts
@@ -60,6 +63,11 @@ src/
 ├── disk-space-checker-noop.adapter.ts
 ├── disk-space-checker.port.ts
 ├── dispatching-event-store.ts
+├── encryption-bun.adapter.ts
+├── encryption-iv.vo.ts
+├── encryption-key.vo.ts
+├── encryption-noop.adapter.ts
+├── encryption.port.ts
 ├── env-validator.service.ts
 ├── etag-extractor.middleware.ts
 ├── event-bus-like.types.ts
