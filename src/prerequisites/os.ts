@@ -13,7 +13,7 @@ export class PrerequisiteOs implements prereqs.Prerequisite {
   constructor(config: prereqs.PrerequisiteConfigType & { accepted: string[] }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
-    this.accepted = config.accepted.map((type) => type.toLowerCase());
+    this.accepted = config.accepted;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -23,7 +23,11 @@ export class PrerequisiteOs implements prereqs.Prerequisite {
 
     const type = os.type();
 
-    if (this.accepted.includes(type.toLowerCase())) return prereqs.Verification.success(stopwatch.stop());
-    return prereqs.Verification.failure(stopwatch.stop(), { message: `Unacceptable os: ${type}` });
+    if (this.accepted.map((type) => type.toLowerCase()).includes(type.toLowerCase())) {
+      return prereqs.Verification.success(stopwatch.stop());
+    }
+    return prereqs.Verification.failure(stopwatch.stop(), {
+      message: `Unacceptable os: ${this.accepted.join(", ")}`,
+    });
   }
 }
