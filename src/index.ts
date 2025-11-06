@@ -36,6 +36,7 @@ export * from "./dispatching-event-store";
 export * from "./encryption.port";
 export * from "./encryption-iv.vo";
 export * from "./encryption-noop.adapter";
+export * from "./encryption-salt.vo";
 export * from "./env-validator.service";
 export * from "./etag-extractor.middleware";
 export * from "./event.types";
