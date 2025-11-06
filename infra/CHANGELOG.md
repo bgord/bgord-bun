@@ -1,8 +1,12 @@
 # Changelog
+## 2025-11-06 23:41 v1.2.3
+- 2025-11-06 23:41 af688ca **1.2.3**
 - 2025-11-06 15:57 a8b9cbb **step: update packages**
 - 2025-11-06 15:49 574a82b **step: test encryption bun adapter**
 - 2025-11-06 15:25 49165b0 **step: add encryption bun adapter tests**
 - 2025-11-06 15:16 cefa28f **feature: add encryption bun adapter**
+- 2025-11-06 14:57 e721dda **docs: generate readme**
+- 2025-11-06 14:57 85b8e39 **docs: generate CHANGELOG**
 - 2025-11-06 14:35 1ff92ec **refactor: rewrite encryption iv**
 - 2025-11-06 14:34 c7a031e **refactor: remove unused encryption iv value**
 - 2025-11-06 14:22 729727b **step: add encryption iv vo**
