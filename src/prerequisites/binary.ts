@@ -1,4 +1,3 @@
-import bun from "bun";
 import * as tools from "@bgord/tools";
 import type { BinaryType } from "../binary.vo";
 import type { ClockPort } from "../clock.port";
@@ -23,10 +22,10 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
     try {
       if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
-      const result = await bun.$`which ${this.binary}`.quiet();
+      const result = Bun.which(this.binary);
 
-      if (result.exitCode === 0) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure(stopwatch.stop(), { message: `Exit code ${result.exitCode}` });
+      if (result) return prereqs.Verification.success(stopwatch.stop());
+      return prereqs.Verification.failure(stopwatch.stop());
     } catch (error) {
       return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
