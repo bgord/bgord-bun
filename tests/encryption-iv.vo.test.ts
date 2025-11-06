@@ -3,7 +3,7 @@ import { EncryptionIv, EncryptionIvError } from "../src/encryption-iv.vo";
 
 describe("EncryptionIv", () => {
   test("happy path", () => {
-    expect(EncryptionIv.safeParse("ffffffffffffffffffffffff").success).toEqual(true);
+    expect(EncryptionIv.safeParse("f".repeat(24)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
@@ -19,6 +19,6 @@ describe("EncryptionIv", () => {
   });
 
   test("rejects invalid hex", () => {
-    expect(() => EncryptionIv.parse("fffffffffffffffffffffffx")).toThrow(EncryptionIvError.InvalidHex);
+    expect(() => EncryptionIv.parse(`${"f".repeat(23)}x`)).toThrow(EncryptionIvError.InvalidHex);
   });
 });
