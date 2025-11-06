@@ -49,7 +49,7 @@
     "mime-types": "3.0.1",
     "node-cache": "5.1.2",
     "nodemailer": "7.0.10",
-    "sharp": "0.34.4",
+    "sharp": "0.34.5",
     "winston": "3.18.3",
     "yazl": "3.3.1"
   },
