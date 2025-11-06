@@ -1,4 +1,22 @@
 # Changelog
+- 2025-11-06 15:57 a8b9cbb **step: update packages**
+- 2025-11-06 15:49 574a82b **step: test encryption bun adapter**
+- 2025-11-06 15:25 49165b0 **step: add encryption bun adapter tests**
+- 2025-11-06 15:16 cefa28f **feature: add encryption bun adapter**
+- 2025-11-06 14:35 1ff92ec **refactor: rewrite encryption iv**
+- 2025-11-06 14:34 c7a031e **refactor: remove unused encryption iv value**
+- 2025-11-06 14:22 729727b **step: add encryption iv vo**
+- 2025-11-06 14:11 87c585b **refactor: rename encryption iv value**
+- 2025-11-06 14:05 3f74856 **step: add crypto key provider noop adapter**
+- 2025-11-06 14:04 f196366 **step: test crypto key provider env adapter**
+- 2025-11-06 13:58 da23978 **step: add crypto key provider env adapter**
+- 2025-11-06 13:47 a7e1afc **step: define encryption key provider port**
+- 2025-11-06 13:46 dc432a6 **step: define encryption key**
+- 2025-11-06 13:26 7f62bf6 **step: add encryption salt tests**
+- 2025-11-06 13:24 9b369dc **feature: add encryption salt vo**
+- 2025-11-06 13:22 9525270 **step: add encryption iv tests**
+- 2025-11-06 13:20 46bff15 **feature: add encryption iv vo**
+- 2025-11-06 13:05 fe38c08 **step: define encryption port**
 - 2025-11-06 11:22 86b5225 **step: remove old encryption rc**
 - 2025-11-06 11:21 477b6ba **step: test gzip stream adapter**
 - 2025-11-06 11:14 e69d219 **step: test gzip bun adapter**
@@ -7,6 +25,8 @@
 - 2025-11-06 10:54 946dbc6 **refactor: remove previous gzip service**
 - 2025-11-06 10:53 21b73d9 **feature: add gzip port**
 - 2025-11-06 10:40 fab9153 **refactor: use bun.which in binary prereq**
+- 2025-11-06 10:22 f4c4781 **docs: generate readme**
+- 2025-11-06 10:22 ab13f4e **docs: generate CHANGELOG**
 ## 2025-11-06 10:21 v1.2.2
 - 2025-11-06 10:21 6aa9a4f **1.2.2**
 - 2025-11-06 10:03 a823cfa **step: update packages**
