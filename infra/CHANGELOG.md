@@ -1,6 +1,10 @@
 # Changelog
+- 2025-11-08 19:29 8ca7a0b **step: update packages**
+- 2025-11-08 19:29 83c0ccd **step: bump bgord/scripts**
+- 2025-11-08 19:25 4066b35 **step: update bun**
 ## 2025-11-06 23:41 v1.2.3
 - 2025-11-06 23:41 af688ca **1.2.3**
+- 2025-11-06 22:41 30afd69 **docs: generate CHANGELOG**
 - 2025-11-06 15:57 a8b9cbb **step: update packages**
 - 2025-11-06 15:49 574a82b **step: test encryption bun adapter**
 - 2025-11-06 15:25 49165b0 **step: add encryption bun adapter tests**
