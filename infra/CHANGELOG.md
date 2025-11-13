@@ -1,7 +1,10 @@
 # Changelog
+- 2025-11-13 09:53 024311b **step: update packages**
+- 2025-11-11 09:36 c3d31be **step: update packages**
 - 2025-11-08 19:29 8ca7a0b **step: update packages**
 - 2025-11-08 19:29 83c0ccd **step: bump bgord/scripts**
 - 2025-11-08 19:25 4066b35 **step: update bun**
+- 2025-11-08 18:29 411130f **docs: generate CHANGELOG**
 ## 2025-11-06 23:41 v1.2.3
 - 2025-11-06 23:41 af688ca **1.2.3**
 - 2025-11-06 22:41 30afd69 **docs: generate CHANGELOG**
