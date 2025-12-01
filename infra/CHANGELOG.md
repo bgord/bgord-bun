@@ -1,7 +1,10 @@
 # Changelog
+## 2025-12-01 11:46 v1.2.5
+- 2025-12-01 11:46 165dbdb **1.2.5**
 - 2025-12-01 11:46 0761d91 **step: remove mime-types type declarations**
 - 2025-12-01 11:45 e9e20d4 **step: update packages**
 - 2025-12-01 11:45 78ded34 **step: remove mime-types**
+- 2025-12-01 10:46 8e407a5 **docs: generate CHANGELOG**
 - 2025-12-01 10:45 e98cb86 **docs: generate CHANGELOG**
 - 2025-12-01 10:45 a666c83 **docs: generate CHANGELOG**
 ## 2025-11-14 16:59 v1.2.4
