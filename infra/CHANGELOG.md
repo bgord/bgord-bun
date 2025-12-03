@@ -1,5 +1,12 @@
 # Changelog
+- 2025-12-03 18:08 a23bca6 **step: update packages**
+- 2025-12-03 18:08 738ce0c **step: pinpoint version**
+- 2025-12-03 18:00 a5ba0f6 **feature: add markdown generator**
+- 2025-12-03 17:08 c22eae1 **feature: add content hash**
+- 2025-12-03 12:53 16eb098 **step: test prereq dns**
+- 2025-12-03 12:44 c2a1085 **step: add dns prereq**
 - 2025-12-03 11:42 9f7ea76 **step: bump bgord/scripts**
+- 2025-12-03 10:43 f96742c **docs: generate CHANGELOG**
 ## 2025-12-03 10:24 v1.2.6
 - 2025-12-03 10:24 8a3c160 **1.2.6**
 - 2025-12-03 10:23 09ae460 **step: update packages**
