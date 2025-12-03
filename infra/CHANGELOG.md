@@ -1,7 +1,11 @@
 # Changelog
+## 2025-12-03 18:09 v1.2.7
+- 2025-12-03 18:09 dae8e79 **1.2.7**
 - 2025-12-03 18:08 a23bca6 **step: update packages**
 - 2025-12-03 18:08 738ce0c **step: pinpoint version**
 - 2025-12-03 18:00 a5ba0f6 **feature: add markdown generator**
+- 2025-12-03 17:09 0606131 **docs: generate readme**
+- 2025-12-03 17:09 02dfc23 **docs: generate CHANGELOG**
 - 2025-12-03 17:08 c22eae1 **feature: add content hash**
 - 2025-12-03 12:53 16eb098 **step: test prereq dns**
 - 2025-12-03 12:44 c2a1085 **step: add dns prereq**
