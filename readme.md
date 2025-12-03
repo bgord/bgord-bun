@@ -50,6 +50,9 @@ src/
 ├── command-envelope.ts
 ├── command-logger.service.ts
 ├── command.types.ts
+├── content-hash-noop.adapter.ts
+├── content-hash-sha256-bun.adapter.ts
+├── content-hash.port.ts
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
@@ -148,6 +151,9 @@ src/
 ├── mailer-smtp.adapter.ts
 ├── mailer.port.ts
 ├── mailer.vo.ts
+├── markdown-generator-marked.adapter.ts
+├── markdown-generator-noop.adapter.ts
+├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
 ├── modules
 │   ├── history
@@ -194,6 +200,7 @@ src/
 │   ├── clock-drift.ts
 │   ├── dependency-vulnerabilities.ts
 │   ├── directory.ts
+│   ├── dns.ts
 │   ├── external-api.ts
 │   ├── jobs.ts
 │   ├── log-file.ts
