@@ -20,12 +20,12 @@ const adapter = new ImageFormatterSharpAdapter(deps);
 
 describe("ImageFormatterSharpAdapter", () => {
   test("in_place", async () => {
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat");
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const destroySpy = spyOn(pipeline, "destroy");
-    const renameSpy = spyOn(FileRenamer, "rename");
-    const fileCleanerSpy = spyOn(FileCleaner, "delete");
+    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFormat = spyOn(pipeline, "toFormat");
+    const toFile = spyOn(pipeline, "toFile");
+    const destroy = spyOn(pipeline, "destroy");
+    const rename = spyOn(FileRenamer, "rename");
+    const fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
     const to = tools.Extension.parse("webp");
@@ -37,23 +37,23 @@ describe("ImageFormatterSharpAdapter", () => {
     expect(result.get()).toEqual(formatted.get());
 
     const temporary = tools.FilePathAbsolute.fromString("/var/in/img-formatted.webp");
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("webp");
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
 
-    expect(renameSpy).toHaveBeenCalledWith(temporary, formatted);
+    expect(rename).toHaveBeenCalledWith(temporary, formatted);
 
-    expect(fileCleanerSpy).toHaveBeenCalledWith(input.get());
+    expect(fileCleaner).toHaveBeenCalledWith(input.get());
 
-    expect(sharpSpy).toHaveBeenCalledWith(input.get());
-    expect(destroySpy).toHaveBeenCalledTimes(1);
+    expect(sharp).toHaveBeenCalledWith(input.get());
+    expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("output_path", async () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat");
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const renameSpy = spyOn(FileRenamer, "rename");
-    const fileCleanerSpy = spyOn(FileCleaner, "delete");
+    const toFormat = spyOn(pipeline, "toFormat");
+    const toFile = spyOn(pipeline, "toFile");
+    const rename = spyOn(FileRenamer, "rename");
+    const fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/var/in/source.jpeg");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.webp");
@@ -62,19 +62,19 @@ describe("ImageFormatterSharpAdapter", () => {
     const result = await adapter.format(recipe);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-formatted.webp");
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("webp");
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
 
-    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
-    expect(fileCleanerSpy).not.toHaveBeenCalled();
+    expect(rename).toHaveBeenCalledWith(temporary, output);
+    expect(fileCleaner).not.toHaveBeenCalled();
 
     expect(result.get()).toEqual(output.get());
   });
 
   test("output_path - jpeg to jpg", async () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat");
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const toFormat = spyOn(pipeline, "toFormat");
+    const rename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/img/in.webp");
     const output = tools.FilePathAbsolute.fromString("/img/out/photo.jpg");
@@ -82,9 +82,9 @@ describe("ImageFormatterSharpAdapter", () => {
 
     await adapter.format(recipe);
 
-    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
+    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
 
-    expect(renameSpy).toHaveBeenCalledWith(
+    expect(rename).toHaveBeenCalledWith(
       tools.FilePathAbsolute.fromString("/img/out/photo-formatted.jpg"),
       output,
     );
@@ -92,9 +92,9 @@ describe("ImageFormatterSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const renameSpy = spyOn(FileRenamer, "rename");
-    const fileCleanerSpy = spyOn(FileCleaner, "delete");
+    const toFile = spyOn(pipeline, "toFile");
+    const rename = spyOn(FileRenamer, "rename");
+    const fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const to = tools.Extension.parse("jpeg");
@@ -105,9 +105,9 @@ describe("ImageFormatterSharpAdapter", () => {
     const temporary = tools.FilePathRelative.fromString("images/pic-formatted.jpeg");
     const formatted = tools.FilePathRelative.fromString("images/pic.jpeg");
 
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(renameSpy).toHaveBeenCalledWith(temporary, formatted);
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(rename).toHaveBeenCalledWith(temporary, formatted);
 
-    expect(fileCleanerSpy).toHaveBeenCalledWith(input.get());
+    expect(fileCleaner).toHaveBeenCalledWith(input.get());
   });
 });

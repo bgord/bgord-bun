@@ -28,7 +28,7 @@ describe("GracefulShutdown service", () => {
   test("SIGTERM", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("SIGTERM");
-    const infoSpy = spyOn(Logger, "info");
+    const loggerInfo = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -38,14 +38,14 @@ describe("GracefulShutdown service", () => {
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls[0]).toEqual(0);
 
-    expect(infoSpy.mock.calls?.[0]?.[0].message).toEqual("SIGTERM received");
-    expect(infoSpy.mock.calls?.[1]?.[0].message).toEqual("HTTP server closed");
+    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("SIGTERM received");
+    expect(loggerInfo.mock.calls?.[1]?.[0].message).toEqual("HTTP server closed");
   });
 
   test("SIGINT", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("SIGINT");
-    const infoSpy = spyOn(Logger, "info");
+    const loggerInfo = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -55,15 +55,15 @@ describe("GracefulShutdown service", () => {
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls[0]).toEqual(0);
 
-    expect(infoSpy.mock.calls?.[0]?.[0].message).toEqual("SIGINT received");
-    expect(infoSpy.mock.calls?.[1]?.[0].message).toEqual("HTTP server closed");
+    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("SIGINT received");
+    expect(loggerInfo.mock.calls?.[1]?.[0].message).toEqual("HTTP server closed");
   });
 
   test("unhandledRejection", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("unhandledRejection");
-    const errorSpy = spyOn(Logger, "error");
-    const infoSpy = spyOn(Logger, "info");
+    const loggerError = spyOn(Logger, "error");
+    const loggerInfo = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -73,15 +73,15 @@ describe("GracefulShutdown service", () => {
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls[0]).toEqual(1);
 
-    expect(errorSpy.mock.calls?.[0]?.[0].message).toEqual("UnhandledRejection received");
-    expect(infoSpy.mock.calls?.[0]?.[0].message).toEqual("HTTP server closed");
+    expect(loggerError.mock.calls?.[0]?.[0].message).toEqual("UnhandledRejection received");
+    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("HTTP server closed");
   });
 
   test("uncaughtException", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("uncaughtException");
-    const errorSpy = spyOn(Logger, "error");
-    const infoSpy = spyOn(Logger, "info");
+    const loggerError = spyOn(Logger, "error");
+    const loggerInfo = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -91,8 +91,8 @@ describe("GracefulShutdown service", () => {
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls[0]).toEqual(1);
 
-    expect(errorSpy.mock.calls?.[0]?.[0].message).toEqual("UncaughtException received");
-    expect(infoSpy.mock.calls?.[0]?.[0].message).toEqual("HTTP server closed");
+    expect(loggerError.mock.calls?.[0]?.[0].message).toEqual("UncaughtException received");
+    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("HTTP server closed");
   });
 
   test("cleanup failure still exits and logs error", async () => {
@@ -100,8 +100,8 @@ describe("GracefulShutdown service", () => {
     process.removeAllListeners("SIGTERM");
 
     const cleanup = jest.fn().mockRejectedValue(new Error("Panic"));
-    const infoSpy = spyOn(Logger, "info");
-    const errorSpy = spyOn(Logger, "error");
+    const loggerInfo = spyOn(Logger, "info");
+    const loggerError = spyOn(Logger, "error");
 
     gs.applyTo(server, cleanup);
 
@@ -112,8 +112,8 @@ describe("GracefulShutdown service", () => {
     expect(cleanup).toHaveBeenCalledTimes(1);
     expect(exitCalls[0]).toEqual(0);
 
-    expect(infoSpy.mock.calls?.[0]?.[0].message).toEqual("SIGTERM received");
-    expect(errorSpy.mock.calls?.[0]?.[0].message).toEqual("Cleanup hook failed");
+    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("SIGTERM received");
+    expect(loggerError.mock.calls?.[0]?.[0].message).toEqual("Cleanup hook failed");
   });
 
   test("handlers run only once per shutdown", async () => {

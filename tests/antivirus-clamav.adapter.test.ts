@@ -5,7 +5,7 @@ import * as mocks from "./mocks";
 
 describe("AntivirusClamavAdapter", () => {
   test("clean - exit code 0", async () => {
-    const spawnSpy = spyOn(Bun, "spawn").mockImplementation((): any => ({
+    const bunSpawn = spyOn(Bun, "spawn").mockImplementation((): any => ({
       stdin: { write: async (_: Uint8Array) => {}, end: async () => {} },
       exitCode: 0,
     }));
@@ -13,7 +13,7 @@ describe("AntivirusClamavAdapter", () => {
     expect(await new AntivirusClamavAdapter().scanBytes(new Uint8Array([1, 2, 3]))).toEqual({ clean: true });
 
     // @ts-expect-error
-    expect(spawnSpy.mock.calls[0]?.[0].cmd).toEqual([
+    expect(bunSpawn.mock.calls[0]?.[0].cmd).toEqual([
       "clamscan",
       "--infected",
       "--no-summary",

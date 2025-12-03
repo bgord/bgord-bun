@@ -27,7 +27,7 @@ describe("EncryptionBunAdapter", () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => plaintext.buffer } as any);
     spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
-    const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(0);
+    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
     const result = await adapter.encrypt(recipe);
 
@@ -37,18 +37,18 @@ describe("EncryptionBunAdapter", () => {
     expected.set(iv, 0);
     expected.set(ciphertext, iv.length);
 
-    expect(new Uint8Array(bunWriteSpy.mock.calls[0]?.[1] as any)).toEqual(expected);
+    expect(new Uint8Array(bunWrite.mock.calls[0]?.[1] as any)).toEqual(expected);
   });
 
   test("decrypt", async () => {
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => encrypted.buffer } as any);
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
-    const bunWriteSpy = spyOn(Bun, "write").mockResolvedValue(0);
+    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
     const result = await adapter.decrypt(recipe);
 
     expect(result).toEqual(recipe.output);
-    expect(new Uint8Array(bunWriteSpy.mock.calls[0]?.[1] as any)).toEqual(plaintext);
+    expect(new Uint8Array(bunWrite.mock.calls[0]?.[1] as any)).toEqual(plaintext);
   });
 
   test("invalid payload", async () => {

@@ -6,8 +6,9 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const deps = { Clock };
 
-const adapter = new CertificateInspectorTLSAdapter({ Clock });
+const adapter = new CertificateInspectorTLSAdapter(deps);
 
 describe("CertificateInspectorTLSAdapter", () => {
   test("success - remaining 30 days", async () => {

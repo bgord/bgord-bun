@@ -10,23 +10,23 @@ const runner = new prereqs.Prerequisites({ Logger, Clock });
 
 describe("Prerequisites service", () => {
   test("happy path", async () => {
-    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
 
     await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteOk()]);
 
-    expect(loggerInfoSpy).toHaveBeenCalledWith(
+    expect(loggerInfo).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
     );
   });
 
   test("failure", async () => {
-    const loggerErrorSpy = spyOn(Logger, "error").mockImplementation(jest.fn());
+    const loggerError = spyOn(Logger, "error").mockImplementation(jest.fn());
 
     expect(async () => runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()])).toThrow(
       prereqs.PrerequisitesError.Failure,
     );
 
-    expect(loggerErrorSpy).toHaveBeenCalledWith(
+    expect(loggerError).toHaveBeenCalledWith(
       expect.objectContaining({
         component: "infra",
         operation: "startup",
@@ -38,11 +38,11 @@ describe("Prerequisites service", () => {
   });
 
   test("undetermined", async () => {
-    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
 
     await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteUndetermined()]);
 
-    expect(loggerInfoSpy).toHaveBeenCalledWith(
+    expect(loggerInfo).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
     );
   });

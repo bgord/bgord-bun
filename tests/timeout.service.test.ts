@@ -82,21 +82,23 @@ describe("Timeout", () => {
   });
 
   test("monitor - under timeout", async () => {
-    const loggerWarnSpy = spyOn(logger, "warn");
+    const loggerWarn = spyOn(logger, "warn");
+
     const action = delay("OK", tools.Duration.Ms(1));
     const result = await Timeout.monitor(action, timeout, logger);
 
     expect(result).toEqual("OK");
-    expect(loggerWarnSpy).not.toHaveBeenCalled();
+    expect(loggerWarn).not.toHaveBeenCalled();
   });
 
   test("monitor - over timeout", async () => {
-    const loggerWarnSpy = spyOn(logger, "warn");
+    const loggerWarn = spyOn(logger, "warn");
+
     const action = delay("OK", tools.Duration.Ms(6));
     const result = await Timeout.monitor(action, timeout, logger);
 
     expect(result).toEqual("OK");
-    expect(loggerWarnSpy).toHaveBeenCalledWith({
+    expect(loggerWarn).toHaveBeenCalledWith({
       message: "Timeout",
       component: "infra",
       operation: "timeout_monitor",

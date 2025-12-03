@@ -3,10 +3,11 @@ import { EventHandler } from "../src/event-handler.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
+const event = { name: "user.created" };
+
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
-const event = { name: "user.created" };
 const handler = new EventHandler(deps);
 
 describe("EventHandler service", () => {
@@ -20,17 +21,17 @@ describe("EventHandler service", () => {
   });
 
   test("error path", async () => {
-    const loggerErrorSpy = spyOn(Logger, "error");
+    const loggerError = spyOn(Logger, "error");
 
     const fn = async (_event: typeof event) => {
       throw new Error(mocks.IntentialError);
     };
     await handler.handle(fn)(event);
 
-    expect(loggerErrorSpy).toHaveBeenCalledTimes(1);
+    expect(loggerError).toHaveBeenCalledTimes(1);
 
     // @ts-expect-error
-    const [call] = loggerErrorSpy.mock.calls[0];
+    const [call] = loggerError.mock.calls[0];
 
     expect(call).toMatchObject({
       message: "Unknown user.created event handler error",

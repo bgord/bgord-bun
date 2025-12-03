@@ -9,30 +9,30 @@ const deleter = { delete: async () => ({}) } as any;
 
 describe("FileCleanerBunAdapter", () => {
   test("happy path - string", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue(deleter);
+    const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
 
     const path = "package.json";
 
     expect(async () => FileCleaner.delete(path)).not.toThrow();
-    expect(bunFileSpy).toHaveBeenCalledWith(path);
+    expect(bunFile).toHaveBeenCalledWith(path);
   });
 
   test("happy path - relative", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue(deleter);
+    const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
 
     const path = tools.FilePathRelative.fromString("users/package.json");
 
     expect(async () => FileCleaner.delete(path)).not.toThrow();
-    expect(bunFileSpy).toHaveBeenCalledWith(path.get());
+    expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
   test("happy path - absolute", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue(deleter);
+    const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
 
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
     expect(async () => FileCleaner.delete(path)).not.toThrow();
-    expect(bunFileSpy).toHaveBeenCalledWith(path.get());
+    expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
   test("throw an error", () => {

@@ -21,11 +21,11 @@ const adapter = new ImageExifClearSharpAdapter(deps);
 
 describe("ImageExifClearSharpAdapter", () => {
   test("in_place", async () => {
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const rotateSpy = spyOn(pipeline, "rotate");
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const destroySpy = spyOn(pipeline, "destroy");
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const rotate = spyOn(pipeline, "rotate");
+    const toFile = spyOn(pipeline, "toFile");
+    const destroy = spyOn(pipeline, "destroy");
+    const rename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpeg");
     const recipe: ImageExifClearInPlaceStrategy = { strategy: "in_place", input };
@@ -35,19 +35,19 @@ describe("ImageExifClearSharpAdapter", () => {
     expect(result).toEqual(input);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-exif-cleared.jpeg");
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(renameSpy).toHaveBeenCalledWith(temporary, input);
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(rename).toHaveBeenCalledWith(temporary, input);
 
-    expect(sharpSpy).toHaveBeenCalledWith(input.get());
-    expect(rotateSpy).toHaveBeenCalledTimes(1);
-    expect(destroySpy).toHaveBeenCalledTimes(1);
+    expect(sharp).toHaveBeenCalledWith(input.get());
+    expect(rotate).toHaveBeenCalledTimes(1);
+    expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("output_path", async () => {
-    const sharpSpy = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const destroySpy = spyOn(pipeline, "destroy");
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const toFile = spyOn(pipeline, "toFile");
+    const destroy = spyOn(pipeline, "destroy");
+    const rename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/source.jpeg");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.jpeg");
@@ -58,17 +58,17 @@ describe("ImageExifClearSharpAdapter", () => {
     expect(result).toEqual(output);
 
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-exif-cleared.jpeg");
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(rename).toHaveBeenCalledWith(temporary, output);
 
-    expect(sharpSpy).toHaveBeenCalledWith("/var/img/source.jpeg");
-    expect(destroySpy).toHaveBeenCalledTimes(1);
+    expect(sharp).toHaveBeenCalledWith("/var/img/source.jpeg");
+    expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("in_place - relative", async () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const toFile = spyOn(pipeline, "toFile");
+    const rename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageExifClearInPlaceStrategy = { strategy: "in_place", input };
@@ -76,14 +76,14 @@ describe("ImageExifClearSharpAdapter", () => {
     await adapter.clear(recipe);
 
     const temporary = tools.FilePathRelative.fromString("images/pic-exif-cleared.png");
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(renameSpy).toHaveBeenCalledWith(temporary, input);
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(rename).toHaveBeenCalledWith(temporary, input);
   });
 
   test("output_path - relative", async () => {
     spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
-    const toFileSpy = spyOn(pipeline, "toFile");
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const toFile = spyOn(pipeline, "toFile");
+    const rename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathRelative.fromString("in/source.jpeg");
     const output = tools.FilePathRelative.fromString("out/dest.jpeg");
@@ -92,7 +92,7 @@ describe("ImageExifClearSharpAdapter", () => {
     await adapter.clear(recipe);
 
     const temporary = tools.FilePathRelative.fromString("out/dest-exif-cleared.jpeg");
-    expect(toFileSpy.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(renameSpy).toHaveBeenCalledWith(temporary, output);
+    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 });

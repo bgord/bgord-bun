@@ -10,40 +10,40 @@ const content = {};
 
 describe("JsonFileReaderBunAdapter", () => {
   test("happy path - string", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue(json);
+    const bunFile = spyOn(Bun, "file").mockReturnValue(json);
 
     const path = "package.json";
 
     expect(await JsonFileReader.read(path)).toEqual(content);
-    expect(bunFileSpy).toHaveBeenCalledWith(path);
+    expect(bunFile).toHaveBeenCalledWith(path);
   });
 
   test("happy path - relative", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue(json);
+    const bunFile = spyOn(Bun, "file").mockReturnValue(json);
 
     const path = tools.FilePathRelative.fromString("users/package.json");
 
     expect(await JsonFileReader.read(path)).toEqual(content);
-    expect(bunFileSpy).toHaveBeenCalledWith(path.get());
+    expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
   test("happy path - absolute", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue(json);
+    const bunFile = spyOn(Bun, "file").mockReturnValue(json);
 
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
     expect(await JsonFileReader.read(path)).toEqual(content);
-    expect(bunFileSpy).toHaveBeenCalledWith(path.get());
+    expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
   test("happy path - error", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockImplementation(() => {
+    const bunFile = spyOn(Bun, "file").mockImplementation(() => {
       throw new Error(mocks.IntentialError);
     });
 
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
     expect(async () => JsonFileReader.read(path)).toThrow(mocks.IntentialError);
-    expect(bunFileSpy).toHaveBeenCalledWith(path.get());
+    expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 });

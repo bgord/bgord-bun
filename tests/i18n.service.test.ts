@@ -80,10 +80,10 @@ describe("I18n", () => {
     });
 
     test("returns key if translation is missing", () => {
-      const loggerWarnSpy = spyOn(Logger, "warn").mockImplementation(jest.fn());
+      const loggerWarn = spyOn(Logger, "warn").mockImplementation(jest.fn());
 
       expect(t("nonexistent")).toEqual("nonexistent");
-      expect(loggerWarnSpy).toHaveBeenCalled();
+      expect(loggerWarn).toHaveBeenCalled();
     });
   });
 

@@ -27,14 +27,14 @@ const app = new Hono()
 
 describe("HttpLogger middleware", () => {
   test("200", async () => {
-    const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(Logger, "http").mockImplementation(jest.fn());
 
     const result = await app.request("/ping", { method: "GET", headers: { keep: "abc", origin: "def" } }, ip);
 
     expect(result.status).toEqual(200);
-    expect(loggerHttpSpy).toHaveBeenCalledTimes(2);
+    expect(loggerHttp).toHaveBeenCalledTimes(2);
 
-    expect(loggerHttpSpy).toHaveBeenNthCalledWith(
+    expect(loggerHttp).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
         component: "http",
@@ -50,7 +50,7 @@ describe("HttpLogger middleware", () => {
       }),
     );
 
-    expect(loggerHttpSpy).toHaveBeenNthCalledWith(
+    expect(loggerHttp).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
         component: "http",
@@ -71,14 +71,14 @@ describe("HttpLogger middleware", () => {
   });
 
   test("500", async () => {
-    const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(Logger, "http").mockImplementation(jest.fn());
 
     const result = await app.request("/pong", { method: "GET" }, ip);
 
     expect(result.status).toEqual(500);
-    expect(loggerHttpSpy).toHaveBeenCalledTimes(2);
+    expect(loggerHttp).toHaveBeenCalledTimes(2);
 
-    expect(loggerHttpSpy).toHaveBeenNthCalledWith(
+    expect(loggerHttp).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
         operation: "http_request_before",
@@ -93,7 +93,7 @@ describe("HttpLogger middleware", () => {
       }),
     );
 
-    expect(loggerHttpSpy).toHaveBeenNthCalledWith(
+    expect(loggerHttp).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
         operation: "http_request_after",
@@ -113,11 +113,11 @@ describe("HttpLogger middleware", () => {
   });
 
   test("skip", async () => {
-    const loggerHttpSpy = spyOn(Logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(Logger, "http").mockImplementation(jest.fn());
 
     const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
 
     expect(result.status).toEqual(200);
-    expect(loggerHttpSpy).not.toHaveBeenCalled();
+    expect(loggerHttp).not.toHaveBeenCalled();
   });
 });

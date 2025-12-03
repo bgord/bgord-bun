@@ -8,12 +8,12 @@ const adapter = new CryptoKeyProviderEnvAdapter(HEX);
 
 describe("CryptoKeyProviderEnvAdapter", () => {
   test("get", async () => {
-    const importSpy = spyOn(crypto.subtle, "importKey").mockResolvedValue({} as any);
+    const importKey = spyOn(crypto.subtle, "importKey").mockResolvedValue({} as any);
 
     const result = await adapter.get();
 
     expect(result).toEqual({} as any);
-    expect(importSpy).toHaveBeenCalledWith("raw", expect.any(Uint8Array), { name: "AES-GCM" }, false, [
+    expect(importKey).toHaveBeenCalledWith("raw", expect.any(Uint8Array), { name: "AES-GCM" }, false, [
       "encrypt",
       "decrypt",
     ]);

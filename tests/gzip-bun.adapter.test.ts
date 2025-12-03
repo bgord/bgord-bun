@@ -13,16 +13,16 @@ const gzipped = new Uint8Array([31, 139, 8, 0, 0, 0]);
 
 describe("GzipBunAdapter", () => {
   test("absolute to absolute", async () => {
-    const bunFileSpy = spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file } as any);
-    const gzipSpy = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
-    const writeSpy = spyOn(Bun, "write").mockResolvedValue(0);
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file } as any);
+    const bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
+    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
     const result = await adapter.pack({ input, output });
 
     expect(result).toEqual(output);
-    expect(bunFileSpy).toHaveBeenCalledWith(input.get());
-    expect(gzipSpy).toHaveBeenCalledWith(file);
-    expect(writeSpy).toHaveBeenCalledWith(output.get(), gzipped);
+    expect(bunFile).toHaveBeenCalledWith(input.get());
+    expect(bunGzipSync).toHaveBeenCalledWith(file);
+    expect(bunWrite).toHaveBeenCalledWith(output.get(), gzipped);
   });
 
   test("relative to relative", async () => {
@@ -31,12 +31,12 @@ describe("GzipBunAdapter", () => {
 
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file } as any);
     spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
-    const writeSpy = spyOn(Bun, "write").mockResolvedValue(0);
+    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
     const result = await adapter.pack({ input, output });
 
     expect(result).toEqual(output);
-    expect(writeSpy).toHaveBeenCalledWith(output.get(), gzipped);
+    expect(bunWrite).toHaveBeenCalledWith(output.get(), gzipped);
   });
 
   test("read error propagation", async () => {
@@ -45,12 +45,12 @@ describe("GzipBunAdapter", () => {
         throw mocks.IntentialError;
       },
     } as any);
-    const bunGzipSyncSpy = spyOn(Bun, "gzipSync");
-    const bunWriteSpy = spyOn(Bun, "write");
+    const bunGzipSync = spyOn(Bun, "gzipSync");
+    const bunWrite = spyOn(Bun, "write");
 
     expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentialError);
-    expect(bunGzipSyncSpy).not.toHaveBeenCalled();
-    expect(bunWriteSpy).not.toHaveBeenCalled();
+    expect(bunGzipSync).not.toHaveBeenCalled();
+    expect(bunWrite).not.toHaveBeenCalled();
   });
 
   test("write error propagation", async () => {

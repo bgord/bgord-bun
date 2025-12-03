@@ -28,6 +28,7 @@ describe("TimekeeperGoogleAdapter", () => {
 
   test("error", async () => {
     spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentialError));
+
     expect(await new TimekeeperGoogleAdapter().get()).toEqual(null);
   });
 });

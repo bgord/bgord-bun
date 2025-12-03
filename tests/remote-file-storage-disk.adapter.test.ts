@@ -28,30 +28,30 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath", async () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockImplementation(() => ({}));
-    const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
-    const hashSpy = spyOn(FileHash, "hash").mockResolvedValue(hash);
-    const mkdirSpy = spyOn(fs, "mkdir").mockResolvedValue(undefined);
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fileHashHash = spyOn(FileHash, "hash").mockResolvedValue(hash);
+    const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
+    const fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
 
     const output = await adapter.putFromPath({ key, path: input });
     const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
 
-    expect(mkdirSpy).toHaveBeenCalledWith("/root/users/1", { recursive: true });
-    expect(bunWriteSpy).toHaveBeenCalledWith(temporary.get(), expect.anything());
-    expect(renameSpy).toHaveBeenCalledWith(
+    expect(fsMkdir).toHaveBeenCalledWith("/root/users/1", { recursive: true });
+    expect(bunWrite).toHaveBeenCalledWith(temporary.get(), expect.anything());
+    expect(fileRenamerRename).toHaveBeenCalledWith(
       temporary,
       tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
     );
-    expect(hashSpy).toHaveBeenCalledTimes(1);
+    expect(fileHashHash).toHaveBeenCalledTimes(1);
 
     expect(output.etag).toEqual(hash.etag);
     expect(output.size.toBytes()).toEqual(tools.SizeBytes.parse(42));
   });
 
   test("head", async () => {
-    const hashSpy = spyOn(FileHash, "hash")
+    const fileHashHash = spyOn(FileHash, "hash")
       .mockResolvedValueOnce(hash)
       .mockRejectedValueOnce(new Error("missing"));
 
@@ -63,7 +63,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
     const error = await adapter.head(key);
     expect(error.exists).toEqual(false);
 
-    expect(hashSpy).toHaveBeenCalledTimes(2);
+    expect(fileHashHash).toHaveBeenCalledTimes(2);
   });
 
   test("getStream", async () => {
@@ -76,12 +76,12 @@ describe("RemoteFileStorageDiskAdapter", () => {
   });
 
   test("delete", async () => {
-    const fileCleanerSpy = spyOn(FileCleaner, "delete");
+    const fileCleanerDelete = spyOn(FileCleaner, "delete");
 
     await adapter.delete(key);
 
     // @ts-expect-error
-    expect(fileCleanerSpy.mock.calls[0][0].get()).toEqual("/root/users/1/avatar.webp");
+    expect(fileCleanerDelete.mock.calls[0][0].get()).toEqual("/root/users/1/avatar.webp");
   });
 
   test("publicUrl", () => {

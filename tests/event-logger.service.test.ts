@@ -9,11 +9,11 @@ const eventName = "user.created";
 
 describe("EventLogger service", () => {
   test("happy path", () => {
-    const loggerInfoSpy = spyOn(Logger, "info");
+    const loggerInfo = spyOn(Logger, "info");
 
     eventLogger.handle("emit", "debug:name", eventName, { userId: 123 });
 
-    expect(loggerInfoSpy).toHaveBeenCalledWith(
+    expect(loggerInfo).toHaveBeenCalledWith(
       expect.objectContaining({
         message: `${eventName} emitted`,
         component: "infra",

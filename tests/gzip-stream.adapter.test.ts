@@ -22,18 +22,18 @@ describe("GzipStreamAdapter", () => {
     const chunks: Uint8Array[] = [];
     sink.on("data", (c) => chunks.push(c));
 
-    const readSpy = spyOn(fs, "createReadStream").mockReturnValue(source as any);
-    const gzipSpy = spyOn(zlib, "createGzip").mockReturnValue(gzip as any);
-    const writeSpy = spyOn(fs, "createWriteStream").mockReturnValue(sink as any);
+    const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source as any);
+    const zlibCreateGzip = spyOn(zlib, "createGzip").mockReturnValue(gzip as any);
+    const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink as any);
 
     source.end(payload);
 
     const result = await adapter.pack({ input, output });
 
     expect(result).toEqual(output);
-    expect(readSpy).toHaveBeenCalledWith(input.get());
-    expect(gzipSpy).toHaveBeenCalledTimes(1);
-    expect(writeSpy).toHaveBeenCalledWith(output.get());
+    expect(fsCreateReadStream).toHaveBeenCalledWith(input.get());
+    expect(zlibCreateGzip).toHaveBeenCalledTimes(1);
+    expect(fsCreateWriteStream).toHaveBeenCalledWith(output.get());
   });
 
   test("relative to relative", async () => {
@@ -44,8 +44,8 @@ describe("GzipStreamAdapter", () => {
     const gzip = new PassThrough();
     const sink = new PassThrough();
 
-    const readSpy = spyOn(fs, "createReadStream").mockReturnValue(source as any);
-    const writeSpy = spyOn(fs, "createWriteStream").mockReturnValue(sink as any);
+    const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source as any);
+    const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink as any);
     spyOn(zlib, "createGzip").mockReturnValue(gzip as any);
 
     source.end(payload);
@@ -53,19 +53,19 @@ describe("GzipStreamAdapter", () => {
     const result = await adapter.pack({ input: input, output: output });
 
     expect(result).toEqual(output);
-    expect(readSpy).toHaveBeenCalledWith(input.get());
-    expect(writeSpy).toHaveBeenCalledWith(output.get());
+    expect(fsCreateReadStream).toHaveBeenCalledWith(input.get());
+    expect(fsCreateWriteStream).toHaveBeenCalledWith(output.get());
   });
 
   test("error propagation", async () => {
     spyOn(fs, "createReadStream").mockImplementation(() => {
       throw mocks.IntentialError;
     });
-    const gzipSpy = spyOn(zlib, "createGzip");
-    const writeSpy = spyOn(fs, "createWriteStream");
+    const zlibCreateGzip = spyOn(zlib, "createGzip");
+    const fsCreateWriteStream = spyOn(fs, "createWriteStream");
 
     expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentialError);
-    expect(gzipSpy).not.toHaveBeenCalled();
-    expect(writeSpy).not.toHaveBeenCalled();
+    expect(zlibCreateGzip).not.toHaveBeenCalled();
+    expect(fsCreateWriteStream).not.toHaveBeenCalled();
   });
 });

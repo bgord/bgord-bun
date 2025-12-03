@@ -24,39 +24,39 @@ const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
 
 describe("TemporaryFileAbsoluteAdapter", () => {
   test("write", async () => {
-    const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const { path } = await adapter.write(filename, content);
 
-    expect(bunWriteSpy).toHaveBeenCalledWith(partial.get(), content);
-    expect(renameSpy).toHaveBeenCalledWith(partial, final);
+    expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
+    expect(fileRenamerRename).toHaveBeenCalledWith(partial, final);
     expect(path).toEqual(final);
   });
 
   test("write - Bun.write error", async () => {
-    const bunWriteSpy = spyOn(Bun, "write").mockRejectedValue(new Error(mocks.IntentialError));
-    const renameSpy = spyOn(FileRenamer, "rename");
+    const bunWrite = spyOn(Bun, "write").mockRejectedValue(new Error(mocks.IntentialError));
+    const fileRenamerRename = spyOn(FileRenamer, "rename");
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentialError);
-    expect(bunWriteSpy).toHaveBeenCalledWith(partial.get(), content);
-    expect(renameSpy).not.toHaveBeenCalled();
+    expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
+    expect(fileRenamerRename).not.toHaveBeenCalled();
   });
 
   test("write - FileRenamer error", async () => {
-    const bunWriteSpy = spyOn(Bun, "write").mockImplementation(jest.fn());
-    const renameSpy = spyOn(FileRenamer, "rename").mockRejectedValue(new Error(mocks.IntentialError));
+    const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fileRenamerRename = spyOn(FileRenamer, "rename").mockRejectedValue(new Error(mocks.IntentialError));
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentialError);
-    expect(bunWriteSpy).toHaveBeenCalledWith(partial.get(), content);
-    expect(renameSpy).toHaveBeenCalledWith(partial, final);
+    expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
+    expect(fileRenamerRename).toHaveBeenCalledWith(partial, final);
   });
 
   test("cleanup", async () => {
-    const fileCleanerSpy = spyOn(FileCleaner, "delete");
+    const fileCleanerDelete = spyOn(FileCleaner, "delete");
 
     await adapter.cleanup(filename);
 
-    expect(fileCleanerSpy).toHaveBeenCalledWith(final);
+    expect(fileCleanerDelete).toHaveBeenCalledWith(final);
   });
 });
