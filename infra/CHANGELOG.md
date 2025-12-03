@@ -1,10 +1,15 @@
 # Changelog
+- 2025-12-03 10:20 fd4e7a6 **step: update packages**
+- 2025-12-03 10:19 12ecc7c **refactor: unify spy naming**
+- 2025-12-03 09:58 d5644b1 **refactor: unify deps**
+- 2025-12-03 09:33 5084606 **step: make graceful shutdown accept deps**
 - 2025-12-01 11:50 ea25ebd **step: bump bgord/scripts**
 ## 2025-12-01 11:46 v1.2.5
 - 2025-12-01 11:46 165dbdb **1.2.5**
 - 2025-12-01 11:46 0761d91 **step: remove mime-types type declarations**
 - 2025-12-01 11:45 e9e20d4 **step: update packages**
 - 2025-12-01 11:45 78ded34 **step: remove mime-types**
+- 2025-12-01 10:51 60207f8 **docs: generate CHANGELOG**
 - 2025-12-01 10:46 f51f7f8 **docs: generate CHANGELOG**
 - 2025-12-01 10:46 8e407a5 **docs: generate CHANGELOG**
 - 2025-12-01 10:45 e98cb86 **docs: generate CHANGELOG**
