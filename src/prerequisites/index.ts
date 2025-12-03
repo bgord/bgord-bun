@@ -3,6 +3,7 @@ export * from "./bun";
 export * from "./clock-drift";
 export * from "./dependency-vulnerabilities";
 export * from "./directory";
+export * from "./dns";
 export * from "./external-api";
 export * from "./jobs";
 export * from "./log-file";

@@ -41,7 +41,7 @@ describe("PrerequisiteExternalApi", () => {
     expect(
       (
         await new PrerequisiteExternalApi({
-          label: "external-api",
+          label: "api",
           timeout: tools.Duration.Ms(5),
           request: (signal: AbortSignal) => fetch("http://api", { signal }),
         }).verify(clock)
