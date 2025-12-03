@@ -1,4 +1,4 @@
-import { lookup } from "dns/promises";
+import dns from "dns/promises";
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
@@ -26,7 +26,7 @@ export class PrerequisiteDNS implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     try {
-      await Timeout.run(lookup(this.hostname), this.timeout);
+      await Timeout.run(dns.lookup(this.hostname), this.timeout);
 
       return prereqs.Verification.success(stopwatch.stop());
     } catch (error) {
