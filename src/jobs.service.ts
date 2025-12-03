@@ -9,6 +9,7 @@ import { formatError } from "./logger-format-error.service";
 export type JobNameType = string;
 export type MultipleJobsType = Record<JobNameType, Cron>;
 export type JobProcessorType = { cron: string; label: JobNameType; process: () => Promise<void> };
+
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
 export class Jobs {

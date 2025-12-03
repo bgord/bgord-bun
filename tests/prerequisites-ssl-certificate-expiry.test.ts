@@ -18,7 +18,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
     expect(
       await new PrerequisiteSSLCertificateExpiry({
         ...config,
-        inspector: new CertificateInspectorNoopAdapter(100),
+        CertificateInspector: new CertificateInspectorNoopAdapter(100),
       }).verify(clock),
     ).toEqual(mocks.VerificationSuccess);
   });
@@ -27,7 +27,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
     expect(
       await new PrerequisiteSSLCertificateExpiry({
         ...config,
-        inspector: new CertificateInspectorNoopAdapter(10),
+        CertificateInspector: new CertificateInspectorNoopAdapter(10),
       }).verify(clock),
     ).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
   });
@@ -36,7 +36,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
     expect(
       await new PrerequisiteSSLCertificateExpiry({
         ...config,
-        inspector: new CertificateInspectorUnavailableAdapter(),
+        CertificateInspector: new CertificateInspectorUnavailableAdapter(),
       }).verify(clock),
     ).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
   });
@@ -46,7 +46,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
       await new PrerequisiteSSLCertificateExpiry({
         ...config,
         enabled: false,
-        inspector: new CertificateInspectorNoopAdapter(100),
+        CertificateInspector: new CertificateInspectorNoopAdapter(100),
       }).verify(clock),
     ).toEqual(mocks.VerificationUndetermined);
   });

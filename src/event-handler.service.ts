@@ -3,15 +3,17 @@ import type { GenericEventSchema } from "./event.types";
 import type { LoggerPort } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
 
+type Dependencies = { Logger: LoggerPort };
+
 export class EventHandler {
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(private readonly deps: Dependencies) {}
 
   handle<T extends { name: z.infer<GenericEventSchema["shape"]["name"]> }>(fn: (event: T) => Promise<void>) {
     return async (event: T) => {
       try {
         await fn(event);
       } catch (error) {
-        this.logger.error({
+        this.deps.Logger.error({
           message: `Unknown ${event.name} event handler error`,
           component: "infra",
           operation: "unknown_event_handler_error",

@@ -27,7 +27,7 @@ describe("Timeout", () => {
       await Timeout.run(action, timeout);
       expect.unreachable();
     } catch (error) {
-      expect(error.message).toEqual("boom");
+      expect((error as Error).message).toEqual("boom");
     }
   });
 
@@ -38,7 +38,7 @@ describe("Timeout", () => {
       await Timeout.run(action, timeout);
       expect.unreachable();
     } catch (error) {
-      expect(error.message).toEqual(TimeoutError.Exceeded);
+      expect((error as Error).message).toEqual(TimeoutError.Exceeded);
     }
   });
 
@@ -58,7 +58,7 @@ describe("Timeout", () => {
       await Timeout.cancellable(action, timeout);
       expect.unreachable();
     } catch (error) {
-      expect(error.message).toEqual(mocks.IntentialError);
+      expect((error as Error).message).toEqual(mocks.IntentialError);
     }
   });
 
@@ -74,7 +74,7 @@ describe("Timeout", () => {
       await Timeout.cancellable(action, timeout);
       expect.unreachable();
     } catch (error) {
-      expect(error.message).toEqual(TimeoutError.Exceeded);
+      expect((error as Error).message).toEqual(TimeoutError.Exceeded);
       expect(captured).not.toBeNull();
       expect(captured!.aborted).toEqual(true);
       expect(captured!.reason.message).toEqual(TimeoutError.Exceeded);

@@ -5,38 +5,38 @@ import { PrerequisiteMailer } from "../src/prerequisites/mailer";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
-const mailer = { verify: jest.fn(), send: jest.fn() } as any;
+const Mailer = { verify: jest.fn(), send: jest.fn() } as any;
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteMailer", () => {
   test("success", async () => {
-    spyOn(mailer, "verify").mockResolvedValue(() => Promise.resolve());
+    spyOn(Mailer, "verify").mockResolvedValue(() => Promise.resolve());
 
-    expect(await new PrerequisiteMailer({ label: "mailer", mailer }).verify(clock)).toEqual(
+    expect(await new PrerequisiteMailer({ label: "mailer", Mailer }).verify(clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
 
   test("failure", async () => {
-    spyOn(mailer, "verify").mockRejectedValue(new Error(mocks.IntentialError));
+    spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentialError));
 
     // @ts-expect-error
-    expect((await new PrerequisiteMailer({ label: "mailer", mailer }).verify(clock)).error.message).toMatch(
+    expect((await new PrerequisiteMailer({ label: "mailer", Mailer }).verify(clock)).error.message).toMatch(
       mocks.IntentialError,
     );
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteMailer({ label: "mailer", enabled: false, mailer }).verify(clock)).toEqual(
+    expect(await new PrerequisiteMailer({ label: "mailer", enabled: false, Mailer }).verify(clock)).toEqual(
       mocks.VerificationUndetermined,
     );
   });
 
   test("undetermined - timeout", async () => {
-    spyOn(mailer, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    spyOn(Mailer, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
 
     expect(
-      (await new PrerequisiteMailer({ label: "mailer", mailer, timeout: tools.Duration.Ms(5) }).verify(clock))
+      (await new PrerequisiteMailer({ label: "mailer", Mailer, timeout: tools.Duration.Ms(5) }).verify(clock))
         .status,
     ).toEqual(PrerequisiteStatusEnum.failure);
   });

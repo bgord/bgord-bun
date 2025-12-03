@@ -7,9 +7,9 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 import * as mocks from "./mocks";
 
-const logger = new LoggerNoopAdapter();
-const jsonFileReader = new JsonFileReaderNoopAdapter({});
-const deps = { logger, jsonFileReader };
+const Logger = new LoggerNoopAdapter();
+const JsonFileReader = new JsonFileReaderNoopAdapter({});
+const deps = { Logger, JsonFileReader };
 
 const supportedLanguages = { en: "en", es: "es" };
 

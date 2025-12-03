@@ -4,7 +4,7 @@ import { formatError } from "./logger-format-error.service";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
-type Dependencies = { logger: LoggerPort };
+type Dependencies = { Logger: LoggerPort };
 
 export class GracefulShutdown {
   private readonly base = { operation: "shutdown", component: "infra" } as const;
@@ -22,31 +22,31 @@ export class GracefulShutdown {
     try {
       server.stop();
     } catch (error) {
-      this.deps.logger.error({ message: "Server stop failed", error: formatError(error), ...this.base });
+      this.deps.Logger.error({ message: "Server stop failed", error: formatError(error), ...this.base });
     }
 
     Promise.resolve()
       .then(() => cleanup())
-      .then(() => this.deps.logger.info({ message: "HTTP server closed", ...this.base }))
+      .then(() => this.deps.Logger.info({ message: "HTTP server closed", ...this.base }))
       .catch((error) =>
-        this.deps.logger.error({ message: "Cleanup hook failed", error: formatError(error), ...this.base }),
+        this.deps.Logger.error({ message: "Cleanup hook failed", error: formatError(error), ...this.base }),
       )
       .finally(() => this.exitFn(exitCode));
   }
 
   applyTo(server: ServerType, cleanup: () => any = tools.noop) {
     process.once("SIGTERM", () => {
-      this.deps.logger.info({ message: "SIGTERM received", ...this.base });
+      this.deps.Logger.info({ message: "SIGTERM received", ...this.base });
       this.shutdown(server, cleanup, 0);
     });
 
     process.once("SIGINT", () => {
-      this.deps.logger.info({ message: "SIGINT received", ...this.base });
+      this.deps.Logger.info({ message: "SIGINT received", ...this.base });
       this.shutdown(server, cleanup, 0);
     });
 
     process.once("unhandledRejection", (reason) => {
-      this.deps.logger.error({
+      this.deps.Logger.error({
         message: "UnhandledRejection received",
         error: formatError(reason),
         ...this.base,
@@ -55,7 +55,7 @@ export class GracefulShutdown {
     });
 
     process.once("uncaughtException", (error) => {
-      this.deps.logger.error({
+      this.deps.Logger.error({
         message: "UncaughtException received",
         error: formatError(error),
         ...this.base,

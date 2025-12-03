@@ -4,13 +4,13 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as prereqs from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
-const logger = new LoggerNoopAdapter();
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const runner = new prereqs.Prerequisites({ logger, clock });
+const Logger = new LoggerNoopAdapter();
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const runner = new prereqs.Prerequisites({ Logger, Clock });
 
 describe("Prerequisites service", () => {
   test("happy path", async () => {
-    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
 
     await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteOk()]);
 
@@ -20,7 +20,7 @@ describe("Prerequisites service", () => {
   });
 
   test("failure", async () => {
-    const loggerErrorSpy = spyOn(logger, "error").mockImplementation(jest.fn());
+    const loggerErrorSpy = spyOn(Logger, "error").mockImplementation(jest.fn());
 
     expect(async () => runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()])).toThrow(
       prereqs.PrerequisitesError.Failure,
@@ -38,7 +38,7 @@ describe("Prerequisites service", () => {
   });
 
   test("undetermined", async () => {
-    const loggerInfoSpy = spyOn(logger, "info").mockImplementation(jest.fn());
+    const loggerInfoSpy = spyOn(Logger, "info").mockImplementation(jest.fn());
 
     await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteUndetermined()]);
 

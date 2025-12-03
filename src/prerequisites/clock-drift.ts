@@ -11,13 +11,13 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   readonly enabled?: boolean = true;
 
   readonly skew: tools.Duration;
-  readonly timekeeper: TimekeeperPort;
+  readonly Timekeeper: TimekeeperPort;
   readonly timeout: tools.Duration;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       skew: tools.Duration;
-      timekeeper?: TimekeeperPort;
+      Timekeeper?: TimekeeperPort;
       timeout?: tools.Duration;
     },
   ) {
@@ -25,7 +25,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.skew = config.skew;
-    this.timekeeper = config.timekeeper ?? new TimekeeperGoogleAdapter();
+    this.Timekeeper = config.Timekeeper ?? new TimekeeperGoogleAdapter();
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
@@ -36,7 +36,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
 
     try {
       const timestamp = await Timeout.cancellable(
-        (signal: AbortSignal) => this.timekeeper.get(signal),
+        (signal: AbortSignal) => this.Timekeeper.get(signal),
         this.timeout,
       );
       if (!timestamp) return prereqs.Verification.undetermined(stopwatch.stop());

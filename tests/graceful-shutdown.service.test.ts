@@ -4,7 +4,7 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
-const logger = new LoggerNoopAdapter();
+const Logger = new LoggerNoopAdapter();
 
 const tick = async (times = 2) => {
   for (let i = 0; i < times; i++) {
@@ -12,7 +12,7 @@ const tick = async (times = 2) => {
   }
 };
 
-const deps = { logger };
+const deps = { Logger };
 
 function setup() {
   const server = { stop: jest.fn() } as unknown as ServerType;
@@ -28,7 +28,7 @@ describe("GracefulShutdown service", () => {
   test("SIGTERM", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("SIGTERM");
-    const infoSpy = spyOn(logger, "info");
+    const infoSpy = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -45,7 +45,7 @@ describe("GracefulShutdown service", () => {
   test("SIGINT", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("SIGINT");
-    const infoSpy = spyOn(logger, "info");
+    const infoSpy = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -62,8 +62,8 @@ describe("GracefulShutdown service", () => {
   test("unhandledRejection", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("unhandledRejection");
-    const errorSpy = spyOn(logger, "error");
-    const infoSpy = spyOn(logger, "info");
+    const errorSpy = spyOn(Logger, "error");
+    const infoSpy = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -80,8 +80,8 @@ describe("GracefulShutdown service", () => {
   test("uncaughtException", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("uncaughtException");
-    const errorSpy = spyOn(logger, "error");
-    const infoSpy = spyOn(logger, "info");
+    const errorSpy = spyOn(Logger, "error");
+    const infoSpy = spyOn(Logger, "info");
 
     gs.applyTo(server);
 
@@ -100,8 +100,8 @@ describe("GracefulShutdown service", () => {
     process.removeAllListeners("SIGTERM");
 
     const cleanup = jest.fn().mockRejectedValue(new Error("Panic"));
-    const infoSpy = spyOn(logger, "info");
-    const errorSpy = spyOn(logger, "error");
+    const infoSpy = spyOn(Logger, "info");
+    const errorSpy = spyOn(Logger, "error");
 
     gs.applyTo(server, cleanup);
 

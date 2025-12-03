@@ -11,16 +11,16 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
   readonly enabled?: boolean = true;
 
   private readonly minimum: tools.Size;
-  private readonly checker: DiskSpaceCheckerPort;
+  private readonly DiskSpaceChecker: DiskSpaceCheckerPort;
 
   constructor(
-    config: prereqs.PrerequisiteConfigType & { minimum: tools.Size; checker?: DiskSpaceCheckerPort },
+    config: prereqs.PrerequisiteConfigType & { minimum: tools.Size; DiskSpaceChecker?: DiskSpaceCheckerPort },
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.minimum = config.minimum;
-    this.checker = config.checker ?? new DiskSpaceCheckerBunAdapter();
+    this.DiskSpaceChecker = config.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -30,7 +30,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
 
     try {
       const root = path.sep;
-      const freeDiskSpace = await this.checker.get(root);
+      const freeDiskSpace = await this.DiskSpaceChecker.get(root);
 
       if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure(stopwatch.stop(), {

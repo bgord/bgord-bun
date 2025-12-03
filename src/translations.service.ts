@@ -6,6 +6,7 @@ import type { LoggerPort } from "./logger.port";
 const handler = createFactory();
 
 type Config = TranslationsSupportedLanguagesType;
+
 type Dependencies = { JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
 
 export class Translations {

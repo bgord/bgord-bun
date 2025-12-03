@@ -4,11 +4,13 @@ import { EncryptionIV } from "./encryption-iv.vo";
 
 export const EncryptionBunAdapterError = { InvalidPayload: "encryption.bun.adapter.invalid.payload" };
 
+type Dependencies = { CryptoKeyProvider: CryptoKeyProviderPort };
+
 export class EncryptionBunAdapter implements EncryptionPort {
-  constructor(private readonly cryptoKeyProvider: CryptoKeyProviderPort) {}
+  constructor(private readonly deps: Dependencies) {}
 
   async encrypt(recipe: EncryptionRecipe) {
-    const key = await this.cryptoKeyProvider.get();
+    const key = await this.deps.CryptoKeyProvider.get();
     const iv = EncryptionIV.generate();
 
     const plaintext = await Bun.file(recipe.input.get()).arrayBuffer();
@@ -30,7 +32,7 @@ export class EncryptionBunAdapter implements EncryptionPort {
   }
 
   async decrypt(recipe: EncryptionRecipe) {
-    const key = await this.cryptoKeyProvider.get();
+    const key = await this.deps.CryptoKeyProvider.get();
 
     const bytes = new Uint8Array(await Bun.file(recipe.input.get()).arrayBuffer());
     if (bytes.length < EncryptionIV.LENGTH + 1) throw new Error(EncryptionBunAdapterError.InvalidPayload);

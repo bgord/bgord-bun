@@ -7,6 +7,7 @@ import type { RateLimitStorePort } from "./rate-limit-store.port";
 
 type SubjectResolver = (c: Context) => string;
 type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStorePort; subject: SubjectResolver };
+
 type Dependencies = { Clock: ClockPort };
 
 export const AnonSubjectResolver: SubjectResolver = () => "anon";

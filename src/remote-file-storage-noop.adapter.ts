@@ -8,20 +8,24 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-type RemoteFileStorageNoopConfig = { Logger: LoggerPort; Clock: ClockPort; publicBaseUrl?: string };
+type RemoteFileStorageNoopConfig = { publicBaseUrl?: string };
+type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   private readonly base = { component: "infra", operation: "RemoteFileStorageNoopAdapter" };
 
-  constructor(private readonly config: RemoteFileStorageNoopConfig) {}
+  constructor(
+    private readonly deps: Dependencies,
+    private readonly config?: RemoteFileStorageNoopConfig,
+  ) {}
 
   publicUrl(key: tools.ObjectKeyType): string {
-    if (!this.config.publicBaseUrl) return `/${key}`;
-    return `${this.config.publicBaseUrl}/${key}`;
+    if (!this.config?.publicBaseUrl) return `/${key}`;
+    return `${this.config?.publicBaseUrl}/${key}`;
   }
 
   async putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult> {
-    this.config.Logger.info({
+    this.deps.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter putFromPath",
       metadata: { input },
       ...this.base,
@@ -30,13 +34,13 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
     return {
       etag: "noop",
       size: tools.Size.fromBytes(10),
-      lastModified: this.config.Clock.now(),
+      lastModified: this.deps.Clock.now(),
       mime: new tools.Mime("text/plain"),
     };
   }
 
   async head(key: tools.ObjectKeyType): Promise<RemoteHeadResult> {
-    this.config.Logger.info({
+    this.deps.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter head",
       metadata: { key },
       ...this.base,
@@ -46,7 +50,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   }
 
   async getStream(key: tools.ObjectKeyType): Promise<ReadableStream | null> {
-    this.config.Logger.info({
+    this.deps.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter getStream",
       metadata: { key },
       ...this.base,
@@ -56,7 +60,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   }
 
   async delete(key: tools.ObjectKeyType): Promise<void> {
-    this.config.Logger.info({
+    this.deps.Logger.info({
       message: "[NOOP] RemoteFileStorageNoopAdapter delete",
       metadata: { key },
       ...this.base,

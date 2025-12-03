@@ -6,14 +6,14 @@ import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 import * as mocks from "./mocks";
 
 const redactor = new RedactorNoopAdapter();
-const logger = new LoggerWinstonProductionAdapter({ app: "test-app", AXIOM_API_TOKEN: "ok", redactor });
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const Logger = new LoggerWinstonProductionAdapter({ app: "test-app", AXIOM_API_TOKEN: "ok", redactor });
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteLogFile", () => {
   test("success - log file exists", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
 
-    expect(await new PrerequisiteLogFile({ logger, label: "log-file" }).verify(clock)).toEqual(
+    expect(await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -21,8 +21,8 @@ describe("PrerequisiteLogFile", () => {
   test("failure - log file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
 
-    expect(await new PrerequisiteLogFile({ logger, label: "log-file" }).verify(clock)).toEqual(
-      mocks.VerificationFailure({ message: `Missing file: ${logger.prodLogFile}` }),
+    expect(await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).toEqual(
+      mocks.VerificationFailure({ message: `Missing file: ${Logger.prodLogFile}` }),
     );
   });
 
@@ -35,13 +35,13 @@ describe("PrerequisiteLogFile", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteLogFile({ logger, label: "log-file" }).verify(clock)).error.message,
+      (await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).error.message,
     ).toMatch(/FS error/);
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteLogFile({ logger, label: "log-file", enabled: false }).verify(clock),
+      await new PrerequisiteLogFile({ Logger, label: "log-file", enabled: false }).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

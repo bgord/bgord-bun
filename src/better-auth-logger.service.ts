@@ -3,8 +3,10 @@ import { formatError } from "./logger-format-error.service";
 
 type LogLevel = "info" | "success" | "warn" | "error" | "debug";
 
+type Dependencies = { Logger: LoggerPort };
+
 export class BetterAuthLogger {
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(private readonly deps: Dependencies) {}
 
   attach() {
     return {
@@ -16,18 +18,18 @@ export class BetterAuthLogger {
 
         switch (level) {
           case LogLevelEnum.error: {
-            this.logger.error({
+            this.deps.Logger.error({
               ...base,
               error: formatError(args.find((a) => a instanceof Error) ?? new Error(message)),
             });
             break;
           }
           case LogLevelEnum.warn: {
-            this.logger.warn(base);
+            this.deps.Logger.warn(base);
             break;
           }
           default: {
-            this.logger.info(base);
+            this.deps.Logger.info(base);
             break;
           }
         }

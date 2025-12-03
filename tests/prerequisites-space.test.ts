@@ -17,9 +17,11 @@ const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 describe("PrerequisiteSpace", () => {
   test("success", async () => {
     expect(
-      await new PrerequisiteSpace({ label: "space", minimum, checker: DiskSpaceCheckerSuccess }).verify(
-        clock,
-      ),
+      await new PrerequisiteSpace({
+        label: "space",
+        minimum,
+        DiskSpaceChecker: DiskSpaceCheckerSuccess,
+      }).verify(clock),
     ).toEqual(mocks.VerificationSuccess);
   });
 
@@ -27,7 +29,7 @@ describe("PrerequisiteSpace", () => {
     const result = await new PrerequisiteSpace({
       label: "space",
       minimum,
-      checker: DiskSpaceCheckerFailure,
+      DiskSpaceChecker: DiskSpaceCheckerFailure,
     }).verify(clock);
 
     // @ts-expect-error
@@ -40,7 +42,7 @@ describe("PrerequisiteSpace", () => {
     const result = await new PrerequisiteSpace({
       label: "space",
       minimum,
-      checker: DiskSpaceCheckerFailure,
+      DiskSpaceChecker: DiskSpaceCheckerFailure,
     }).verify(clock);
 
     // @ts-expect-error
@@ -53,7 +55,7 @@ describe("PrerequisiteSpace", () => {
         label: "space",
         minimum,
         enabled: false,
-        checker: DiskSpaceCheckerSuccess,
+        DiskSpaceChecker: DiskSpaceCheckerSuccess,
       }).verify(clock),
     ).toEqual(mocks.VerificationUndetermined);
   });

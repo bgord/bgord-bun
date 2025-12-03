@@ -1,9 +1,11 @@
 import type { LoggerPort } from "./logger.port";
 
+type Dependencies = { Logger: LoggerPort };
+
 export class EventLogger {
   private readonly base = { component: "infra", operation: "event_emitted" };
 
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(private readonly deps: Dependencies) {}
 
   private _handle(
     type: string,
@@ -14,7 +16,7 @@ export class EventLogger {
     if (type === "subscribe") return;
     if (typeof eventName === "symbol") return;
 
-    this.logger.info({ message: `${eventName} emitted`, metadata: eventData, ...this.base });
+    this.deps.Logger.info({ message: `${eventName} emitted`, metadata: eventData, ...this.base });
   }
 
   handle = this._handle.bind(this);

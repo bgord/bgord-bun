@@ -17,7 +17,10 @@ const recipe = {
   output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),
 };
 
-const adapter = new EncryptionBunAdapter(new CryptoKeyProviderNoopAdapter());
+const CryptoKeyProvider = new CryptoKeyProviderNoopAdapter();
+const deps = { CryptoKeyProvider };
+
+const adapter = new EncryptionBunAdapter(deps);
 
 describe("EncryptionBunAdapter", () => {
   test("encrypt", async () => {
@@ -34,7 +37,7 @@ describe("EncryptionBunAdapter", () => {
     expected.set(iv, 0);
     expected.set(ciphertext, iv.length);
 
-    expect(new Uint8Array(bunWriteSpy.mock.calls[0][1] as any)).toEqual(expected);
+    expect(new Uint8Array(bunWriteSpy.mock.calls[0]?.[1] as any)).toEqual(expected);
   });
 
   test("decrypt", async () => {
@@ -45,7 +48,7 @@ describe("EncryptionBunAdapter", () => {
     const result = await adapter.decrypt(recipe);
 
     expect(result).toEqual(recipe.output);
-    expect(new Uint8Array(bunWriteSpy.mock.calls[0][1] as any)).toEqual(plaintext);
+    expect(new Uint8Array(bunWriteSpy.mock.calls[0]?.[1] as any)).toEqual(plaintext);
   });
 
   test("invalid payload", async () => {

@@ -57,7 +57,7 @@ export type PrerequisiteConfigType = { label: string; enabled?: boolean };
 
 export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
 
-type Dependencies = { logger: LoggerPort; clock: ClockPort };
+type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 /** @public */
 export class Prerequisites {
@@ -69,16 +69,16 @@ export class Prerequisites {
     const results = await Promise.all(
       prerequisites.map(async (prerequisite) => ({
         prerequisite,
-        outcome: await prerequisite.verify(this.deps.clock),
+        outcome: await prerequisite.verify(this.deps.Clock),
       })),
     );
 
     const failed = results.filter((result) => result.outcome.status === PrerequisiteStatusEnum.failure);
 
-    if (failed.length === 0) return this.deps.logger.info({ message: "Prerequisites ok", ...this.base });
+    if (failed.length === 0) return this.deps.Logger.info({ message: "Prerequisites ok", ...this.base });
 
     for (const failure of failed) {
-      this.deps.logger.error({
+      this.deps.Logger.error({
         message: "Prerequisite failed",
         metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
         // @ts-expect-error

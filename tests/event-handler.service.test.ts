@@ -3,14 +3,15 @@ import { EventHandler } from "../src/event-handler.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
-const logger = new LoggerNoopAdapter();
+const Logger = new LoggerNoopAdapter();
+const deps = { Logger };
 
 const event = { name: "user.created" };
-const handler = new EventHandler(logger);
+const handler = new EventHandler(deps);
 
 describe("EventHandler service", () => {
   test("happy path", async () => {
-    const loggerErrorSpy = spyOn(logger, "error");
+    const loggerErrorSpy = spyOn(Logger, "error");
 
     const fn = async (_event: typeof event) => {};
     await handler.handle(fn)(event);
@@ -19,7 +20,7 @@ describe("EventHandler service", () => {
   });
 
   test("error path", async () => {
-    const loggerErrorSpy = spyOn(logger, "error");
+    const loggerErrorSpy = spyOn(Logger, "error");
 
     const fn = async (_event: typeof event) => {
       throw new Error(mocks.IntentialError);

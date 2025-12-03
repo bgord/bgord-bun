@@ -8,13 +8,13 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
-  private readonly logger: LoggerWinstonProductionAdapter;
+  private readonly Logger: LoggerWinstonProductionAdapter;
 
-  constructor(config: prereqs.PrerequisiteConfigType & { logger: LoggerWinstonProductionAdapter }) {
+  constructor(config: prereqs.PrerequisiteConfigType & { Logger: LoggerWinstonProductionAdapter }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
-    this.logger = config.logger;
+    this.Logger = config.Logger;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -23,7 +23,7 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     try {
-      const path = this.logger.prodLogFile;
+      const path = this.Logger.prodLogFile;
       const result = await Bun.file(path).exists();
 
       if (result) return prereqs.Verification.success(stopwatch.stop());
