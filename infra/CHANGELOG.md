@@ -1,9 +1,12 @@
 # Changelog
+## 2025-12-03 10:24 v1.2.6
+- 2025-12-03 10:24 8a3c160 **1.2.6**
 - 2025-12-03 10:23 09ae460 **step: update packages**
 - 2025-12-03 10:20 fd4e7a6 **step: update packages**
 - 2025-12-03 10:19 12ecc7c **refactor: unify spy naming**
 - 2025-12-03 09:58 d5644b1 **refactor: unify deps**
 - 2025-12-03 09:33 5084606 **step: make graceful shutdown accept deps**
+- 2025-12-03 09:23 28d32ad **docs: generate CHANGELOG**
 - 2025-12-03 09:20 11ae420 **docs: generate CHANGELOG**
 - 2025-12-01 11:50 ea25ebd **step: bump bgord/scripts**
 ## 2025-12-01 11:46 v1.2.5
