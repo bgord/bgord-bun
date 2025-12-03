@@ -1,6 +1,6 @@
 {
   "name": "@bgord/bun",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "license": "MIT",
   "type": "module",
   "author": "Bartosz Gordon",
