@@ -12,6 +12,8 @@ const tick = async (times = 2) => {
   }
 };
 
+const deps = { logger };
+
 function setup() {
   const server = { stop: jest.fn() } as unknown as ServerType;
 
@@ -19,7 +21,7 @@ function setup() {
 
   const exitFn = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
 
-  return { server, gs: new GracefulShutdown(logger, exitFn), exitCalls };
+  return { server, gs: new GracefulShutdown(deps, exitFn), exitCalls };
 }
 
 describe("GracefulShutdown service", () => {
