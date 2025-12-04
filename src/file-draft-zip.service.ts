@@ -4,11 +4,12 @@ import { ZipFile } from "yazl";
 import { FileDraft } from "./file-draft.service";
 
 export class FileDraftZip extends FileDraft {
-  private readonly parts: FileDraft[];
-
-  constructor(config: { basename: tools.BasenameType; parts: FileDraft[] }) {
-    super(config.basename, tools.MIMES.zip);
-    this.parts = config.parts;
+  constructor(
+    basename: tools.BasenameType,
+    private readonly parts: FileDraft[],
+  ) {
+    super(basename, tools.MIMES.zip);
+    this.parts = parts;
   }
 
   // @ts-expect-error
