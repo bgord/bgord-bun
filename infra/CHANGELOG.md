@@ -1,4 +1,7 @@
 # Changelog
+- 2025-12-04 14:01 43b04bd **step: add secret manager noop adapter**
+- 2025-12-04 13:57 2d4bc4a **feature: add secret manager port**
+- 2025-12-04 13:56 c1aade3 **step: define secret vo**
 ## 2025-12-04 12:19 v1.2.10
 - 2025-12-04 12:19 a35051e **1.2.10**
 - 2025-12-04 12:17 456d0c6 **refactor: mark markdown generator marked adapter as rc**
@@ -9,6 +12,7 @@
 - 2025-12-04 11:49 aad5004 **step: adjust tests**
 - 2025-12-04 11:47 0c80150 **step: update packages**
 - 2025-12-04 11:19 f3709d0 **refactor: unify file drafts**
+- 2025-12-04 11:19 3a92c52 **docs: generate CHANGELOG**
 - 2025-12-04 11:18 bf71900 **docs: generate readme**
 - 2025-12-04 11:18 05f4659 **docs: generate CHANGELOG**
 - 2025-12-04 11:11 a08cf94 **step: update packages**
