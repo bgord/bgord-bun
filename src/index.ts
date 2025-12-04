@@ -154,6 +154,7 @@ export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
 export * from "./safe-parse-body.service";
+export * from "./secret.vo";
 export * from "./setup.service";
 export * from "./shield-api-key.middleware";
 export * from "./shield-auth.middleware";
