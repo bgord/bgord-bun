@@ -1,15 +1,19 @@
 import type { ReadableStream } from "node:stream/web";
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 
 export type DraftBody = BodyInit | NodeJS.ReadableStream | ReadableStream;
 
 export abstract class FileDraft {
-  constructor(readonly config: { filename: tools.Filename; mime: tools.Mime }) {}
+  readonly filename: tools.Filename;
+
+  constructor(basename: tools.BasenameType, mime: tools.Mime) {
+    this.filename = tools.Filename.fromPartsSafe(basename, mime.toExtension());
+  }
 
   getHeaders(): Headers {
     return new Headers({
-      "Content-Type": this.config.mime.toString(),
-      "Content-Disposition": `attachment; filename="${this.config.filename.get()}"`,
+      "Content-Type": this.filename.getMime().toString(),
+      "Content-Disposition": `attachment; filename="${this.filename.get()}"`,
     });
   }
 
@@ -24,6 +28,6 @@ export abstract class FileDraft {
   async toAttachment() {
     const body = await this.create();
 
-    return { filename: this.config.filename, content: body, contentType: this.config.mime.toString() };
+    return { filename: this.filename, content: body, contentType: this.filename.getMime().toString() };
   }
 }

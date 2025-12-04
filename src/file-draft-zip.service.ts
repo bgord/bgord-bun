@@ -6,8 +6,8 @@ import { FileDraft } from "./file-draft.service";
 export class FileDraftZip extends FileDraft {
   private readonly parts: FileDraft[];
 
-  constructor(config: { filename: tools.Filename; parts: FileDraft[] }) {
-    super({ filename: config.filename, mime: tools.MIMES.zip });
+  constructor(config: { basename: tools.BasenameType; parts: FileDraft[] }) {
+    super(config.basename, tools.MIMES.zip);
     this.parts = config.parts;
   }
 
@@ -17,7 +17,7 @@ export class FileDraftZip extends FileDraft {
     const chunks: Buffer[] = [];
 
     for (const part of this.parts) {
-      zip.addReadStream((await part.create()) as Readable, part.config.filename.get());
+      zip.addReadStream((await part.create()) as Readable, part.filename.get());
     }
     zip.end();
 
