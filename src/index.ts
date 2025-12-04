@@ -156,6 +156,7 @@ export * from "./remote-file-storage-noop.adapter";
 export * from "./safe-parse-body.service";
 export * from "./secret.vo";
 export * from "./secret-manager.port";
+export * from "./secret-manager-noop.adapter";
 export * from "./setup.service";
 export * from "./shield-api-key.middleware";
 export * from "./shield-auth.middleware";
