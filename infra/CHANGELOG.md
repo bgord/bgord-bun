@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-04 12:17 456d0c6 **refactor: mark markdown generator marked adapter as rc**
 ## 2025-12-04 12:02 v1.2.9
 - 2025-12-04 12:02 263e16f **1.2.9**
 - 2025-12-04 11:58 a0415ab **step: comment encryption key whitelist**
@@ -9,6 +10,7 @@
 - 2025-12-04 11:11 a08cf94 **step: update packages**
 - 2025-12-04 11:03 74c0d50 **step: update packages**
 - 2025-12-04 11:03 0047831 **fix: file draft zip mime**
+- 2025-12-04 11:02 3a70ce1 **docs: generate CHANGELOG**
 - 2025-12-04 11:01 3096eca **docs: generate CHANGELOG**
 ## 2025-12-04 10:50 v1.2.8
 - 2025-12-04 10:50 c02b25d **1.2.8**
