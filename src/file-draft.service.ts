@@ -4,12 +4,12 @@ import type * as tools from "@bgord/tools";
 export type DraftBody = BodyInit | NodeJS.ReadableStream | ReadableStream;
 
 export abstract class FileDraft {
-  constructor(readonly config: { filename: string; mime: tools.Mime }) {}
+  constructor(readonly config: { filename: tools.Filename; mime: tools.Mime }) {}
 
   getHeaders(): Headers {
     return new Headers({
       "Content-Type": this.config.mime.toString(),
-      "Content-Disposition": `attachment; filename="${this.config.filename}"`,
+      "Content-Disposition": `attachment; filename="${this.config.filename.get()}"`,
     });
   }
 
