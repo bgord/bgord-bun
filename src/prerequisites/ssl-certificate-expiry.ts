@@ -8,13 +8,13 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
-  private readonly host: string;
+  private readonly hostname: string;
   private readonly days: number;
   private readonly CertificateInspector: CertificateInspectorPort;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
-      host: string;
+      hostname: string;
       days: number;
       CertificateInspector: CertificateInspectorPort;
     },
@@ -22,7 +22,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
-    this.host = config.host;
+    this.hostname = config.hostname;
     this.days = config.days;
     this.CertificateInspector = config.CertificateInspector;
   }
@@ -32,7 +32,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
-    const result = await this.CertificateInspector.inspect(this.host);
+    const result = await this.CertificateInspector.inspect(this.hostname);
 
     if (!result.success)
       return prereqs.Verification.failure(stopwatch.stop(), { message: "Certificate unavailable" });

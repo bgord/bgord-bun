@@ -10,7 +10,7 @@ class CertificateInspectorUnavailableAdapter {
   }
 }
 
-const config = { host: "example.com", days: 30, label: "ssl" };
+const config = { hostname: "example.com", days: 30, label: "ssl" };
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteSSLCertificateExpiry", () => {
