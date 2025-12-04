@@ -1,9 +1,16 @@
 # Changelog
+- 2025-12-04 10:48 9be2de7 **refactor: remove timeout decorator**
+- 2025-12-04 10:41 7984a4f **refactor: unify filename handling file drafts**
+- 2025-12-04 10:31 09c32cf **refactor: unify hostname**
+- 2025-12-04 10:27 9a9149c **refactor: improve mime usage**
+- 2025-12-04 10:24 3d83c3b **step: update packages**
+- 2025-12-04 10:16 4317039 **step: update packages**
 ## 2025-12-03 18:09 v1.2.7
 - 2025-12-03 18:09 dae8e79 **1.2.7**
 - 2025-12-03 18:08 a23bca6 **step: update packages**
 - 2025-12-03 18:08 738ce0c **step: pinpoint version**
 - 2025-12-03 18:00 a5ba0f6 **feature: add markdown generator**
+- 2025-12-03 17:09 65c4045 **docs: generate CHANGELOG**
 - 2025-12-03 17:09 0606131 **docs: generate readme**
 - 2025-12-03 17:09 02dfc23 **docs: generate CHANGELOG**
 - 2025-12-03 17:08 c22eae1 **feature: add content hash**
