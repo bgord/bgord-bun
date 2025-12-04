@@ -6,7 +6,7 @@ import * as mocks from "./mocks";
 const meta = {
   etag: "abc123etag",
   lastModified: mocks.TIME_ZERO,
-  mime: new tools.Mime("image/webp"),
+  mime: tools.MIMES.text,
   size: tools.Size.fromBytes(12345),
 };
 

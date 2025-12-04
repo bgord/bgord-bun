@@ -7,7 +7,7 @@ export class FileDraftZip extends FileDraft {
   private readonly parts: FileDraft[];
 
   constructor(config: { filename: string; parts: FileDraft[] }) {
-    super({ filename: config.filename, mime: new tools.Mime("application/zip") });
+    super({ filename: config.filename, mime: tools.MIMES.text });
     this.parts = config.parts;
   }
 

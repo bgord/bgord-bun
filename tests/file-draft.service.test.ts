@@ -5,7 +5,7 @@ import { FileDraft } from "../src/file-draft.service";
 
 class AlphabetFile extends FileDraft {
   constructor() {
-    super({ filename: "alphabet.txt", mime: new tools.Mime("text/plain") });
+    super({ filename: "alphabet.txt", mime: tools.MIMES.text });
   }
 
   create() {

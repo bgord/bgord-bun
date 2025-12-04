@@ -16,7 +16,7 @@ const hash = {
   etag: "etag-123",
   size: tools.Size.fromBytes(42),
   lastModified: tools.Timestamp.fromNumber(1000),
-  mime: new tools.Mime("text/plain"),
+  mime: tools.MIMES.text,
 };
 
 const root = tools.DirectoryPathAbsoluteSchema.parse("/root");

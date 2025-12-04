@@ -8,7 +8,7 @@ const boundary = "----bun-test-boundary";
 const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
 
 const app = new Hono()
-  .use(...FileUploader.validate({ mimeTypes: ["image/png"], maxFilesSize: tools.Size.fromKb(10) }))
+  .use(...FileUploader.validate({ mimeTypes: [tools.MIMES.png], maxFilesSize: tools.Size.fromKb(10) }))
   .post("/uploader", (c) => c.text("uploaded"));
 
 describe("FileUploader middleware", () => {
@@ -58,7 +58,7 @@ describe("FileUploader middleware", () => {
 
   test("rejects file too big", async () => {
     const app = new Hono()
-      .use(...FileUploader.validate({ mimeTypes: ["text/plain"], maxFilesSize: tools.Size.fromBytes(1) }))
+      .use(...FileUploader.validate({ mimeTypes: [tools.MIMES.text], maxFilesSize: tools.Size.fromBytes(1) }))
       .post("/uploader", (c) => c.text("uploaded"));
 
     const content = [

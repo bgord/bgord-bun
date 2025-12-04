@@ -35,7 +35,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
       etag: "noop",
       size: tools.Size.fromBytes(10),
       lastModified: this.deps.Clock.now(),
-      mime: new tools.Mime("text/plain"),
+      mime: tools.MIMES.text,
     };
   }
 

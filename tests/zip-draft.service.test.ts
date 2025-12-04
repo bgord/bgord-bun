@@ -9,7 +9,7 @@ class Draft extends FileDraft {
     filename: string,
     private readonly content: string,
   ) {
-    super({ filename, mime: new tools.Mime("text/plain") });
+    super({ filename, mime: tools.MIMES.text });
   }
   create() {
     return Readable.from([this.content]);
