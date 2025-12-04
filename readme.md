@@ -151,7 +151,6 @@ src/
 ├── mailer-smtp.adapter.ts
 ├── mailer.port.ts
 ├── mailer.vo.ts
-├── markdown-generator-marked.adapter.ts
 ├── markdown-generator-noop.adapter.ts
 ├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
