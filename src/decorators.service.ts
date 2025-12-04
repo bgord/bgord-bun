@@ -1,8 +1,6 @@
 import * as tools from "@bgord/tools";
 import type { LoggerPort } from "./logger.port";
 
-export class DecoratorTimeoutError extends Error {}
-
 export class Decorators {
   private readonly rounding = new tools.RoundToDecimal(2);
 
@@ -60,19 +58,6 @@ export class Decorators {
         });
 
         return value;
-      };
-    };
-  }
-
-  timeout(ms: number) {
-    return (_target: any, _key: string, descriptor: PropertyDescriptor) => {
-      const original: (...args: unknown[]) => unknown = descriptor.value;
-
-      descriptor.value = async function (...args: any[]) {
-        return await Promise.race([
-          original.apply(this, args),
-          new Promise((_, reject) => setTimeout(() => reject(new DecoratorTimeoutError()), ms)),
-        ]);
       };
     };
   }

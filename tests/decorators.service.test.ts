@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "bun:test";
-import { Decorators, DecoratorTimeoutError } from "../src/decorators.service";
+import { Decorators } from "../src/decorators.service";
 
 class FakeLogger {
   public logs: any[] = [];
@@ -18,7 +18,7 @@ describe("Decorators service", () => {
     decorators = new Decorators(logger as any);
   });
 
-  test("should log duration of a sync non-static method", () => {
+  test("logs duration of a sync non-static method", () => {
     class TestClass {
       @decorators.duration()
       compute() {
@@ -40,7 +40,7 @@ describe("Decorators service", () => {
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
-  test("should log duration of a sync static method", () => {
+  test("logs duration of a sync static method", () => {
     class TestClass {
       @decorators.duration()
       static compute() {
@@ -61,7 +61,7 @@ describe("Decorators service", () => {
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
-  test("should log duration of an async non-static method", async () => {
+  test("logs duration of an async non-static method", async () => {
     class TestClass {
       @decorators.duration()
       async compute() {
@@ -83,7 +83,7 @@ describe("Decorators service", () => {
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
-  test("should log duration of an async static method", async () => {
+  test("logs duration of an async static method", async () => {
     class TestClass {
       @decorators.duration()
       static async compute() {
@@ -104,7 +104,7 @@ describe("Decorators service", () => {
     expect(log.metadata.durationMs).toBeGreaterThan(0);
   });
 
-  test("should log arguments and output of a sync non-static method with inspector", async () => {
+  test("logs arguments and output of a sync non-static method with inspector", async () => {
     class TestClass {
       @decorators.inspector()
       fetchData(x: number, y: number) {
@@ -125,7 +125,7 @@ describe("Decorators service", () => {
     expect(log.metadata.output).toEqual(5);
   });
 
-  test("should log arguments and output of an async non-static method with inspector", async () => {
+  test("logs arguments and output of an async non-static method", async () => {
     class TestClass {
       @decorators.inspector()
       async fetchData(x: number, y: number) {
@@ -146,7 +146,7 @@ describe("Decorators service", () => {
     expect(log.metadata.output).toEqual(5);
   });
 
-  test("should log arguments and output of a sync static method with inspector", async () => {
+  test("logs arguments and output of a sync static method", async () => {
     class TestClass {
       @decorators.inspector()
       static fetchData(x: number, y: number) {
@@ -166,7 +166,7 @@ describe("Decorators service", () => {
     expect(log.metadata.output).toEqual(5);
   });
 
-  test("should log arguments and output of an async static method with inspector", async () => {
+  test("logs arguments and output of an async static method", async () => {
     class TestClass {
       @decorators.inspector()
       static async fetchData(x: number, y: number) {
@@ -184,56 +184,5 @@ describe("Decorators service", () => {
     expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
     expect(log.metadata.output).toEqual(5);
-  });
-
-  test("should allow methods that finish before timeout for async methods", async () => {
-    class TestClass {
-      wasCalled = false;
-
-      @decorators.timeout(100)
-      async fastMethod() {
-        this.wasCalled = true;
-        return "done";
-      }
-    }
-
-    const instance = new TestClass();
-    const result = await instance.fastMethod();
-    expect(result).toEqual("done");
-    expect(instance.wasCalled).toEqual(true);
-  });
-
-  test("should throw if the method exceeds the timeout for async methods", async () => {
-    class TestClass {
-      wasCalled = false;
-
-      @decorators.timeout(50)
-      async slowMethod() {
-        this.wasCalled = true;
-        await new Promise((res) => setTimeout(res, 100));
-        return "slow";
-      }
-    }
-
-    const instance = new TestClass();
-
-    expect(instance.slowMethod()).rejects.toThrow(DecoratorTimeoutError);
-    expect(instance.wasCalled).toEqual(true); // still started
-  });
-
-  test("should preserve method context (`this`)", async () => {
-    class TestClass {
-      wasCalled = false;
-
-      @decorators.timeout(100)
-      async fastMethod() {
-        this.wasCalled = true;
-        return "done";
-      }
-    }
-
-    const instance = new TestClass();
-    await instance.fastMethod();
-    expect(instance.wasCalled).toEqual(true);
   });
 });
