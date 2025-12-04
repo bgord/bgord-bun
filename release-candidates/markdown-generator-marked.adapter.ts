@@ -2,6 +2,7 @@ import DOMPurify from "isomorphic-dompurify";
 import { Marked } from "marked";
 import type { MarkdownGeneratorPort } from "./markdown-generator.port";
 
+/** @public */
 export class MarkdownGeneratorMarkedAdapter implements MarkdownGeneratorPort {
   private readonly instance: Marked;
 

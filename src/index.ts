@@ -128,7 +128,7 @@ export * from "./mailer-noop.adapter";
 export * from "./mailer-smtp.adapter";
 export * from "./mailer-smtp-with-logger.adapter";
 export * from "./markdown-generator.port";
-export * from "./markdown-generator-marked.adapter";
+// export * from "./markdown-generator-marked.adapter"; # release candidate
 export * from "./markdown-generator-noop.adapter";
 export * from "./memory-consumption.service";
 export * as History from "./modules/history";
