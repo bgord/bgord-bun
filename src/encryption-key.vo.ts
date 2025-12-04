@@ -5,7 +5,8 @@ export const EncryptionKeyError = {
   InvalidHex: "encryption.key.invalid.hex",
 } as const;
 
-const CHARS_WHITELIST = /^[0-9a-fA-F]{64}$/;
+// 64 hex chars allowed
+const CHARS_WHITELIST = /^[a-fA-F0-9]{64}$/;
 
 export const EncryptionKey = z
   .string(EncryptionKeyError.Type)
