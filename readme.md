@@ -233,6 +233,9 @@ src/
 ├── remote-file-storage-noop.adapter.ts
 ├── remote-file-storage.port.ts
 ├── safe-parse-body.service.ts
+├── secret-manager-noop.adapter.ts
+├── secret-manager.port.ts
+├── secret.vo.ts
 ├── setup.service.ts
 ├── shield-api-key.middleware.ts
 ├── shield-auth.middleware.ts
