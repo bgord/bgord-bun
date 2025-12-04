@@ -1,4 +1,12 @@
 # Changelog
+- 2025-12-04 11:58 a0415ab **step: comment encryption key whitelist**
+- 2025-12-04 11:58 70d11a6 **refactor: unify event store like offset type**
+- 2025-12-04 11:49 aad5004 **step: adjust tests**
+- 2025-12-04 11:47 0c80150 **step: update packages**
+- 2025-12-04 11:19 f3709d0 **refactor: unify file drafts**
+- 2025-12-04 11:11 a08cf94 **step: update packages**
+- 2025-12-04 11:03 74c0d50 **step: update packages**
+- 2025-12-04 11:03 0047831 **fix: file draft zip mime**
 ## 2025-12-04 10:50 v1.2.8
 - 2025-12-04 10:50 c02b25d **1.2.8**
 - 2025-12-04 10:48 9be2de7 **refactor: remove timeout decorator**
@@ -7,6 +15,7 @@
 - 2025-12-04 10:27 9a9149c **refactor: improve mime usage**
 - 2025-12-04 10:24 3d83c3b **step: update packages**
 - 2025-12-04 10:16 4317039 **step: update packages**
+- 2025-12-04 09:50 fa64b81 **docs: generate CHANGELOG**
 - 2025-12-04 09:48 74ba7bf **docs: generate CHANGELOG**
 ## 2025-12-03 18:09 v1.2.7
 - 2025-12-03 18:09 dae8e79 **1.2.7**
