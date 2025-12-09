@@ -31,6 +31,7 @@
     "knip": "5.73.0",
     "lefthook": "2.0.9",
     "only-allow": "1.2.2",
+    "sharp": "0.34.5",
     "shellcheck": "4.1.0",
     "typescript": "5.9.3",
     "zod": "4.1.13"
@@ -49,11 +50,16 @@
     "marked": "17.0.1",
     "node-cache": "5.1.2",
     "nodemailer": "7.0.11",
-    "sharp": "0.34.5",
     "winston": "3.19.0",
     "yazl": "3.3.1"
   },
   "peerDependencies": {
-    "zod": "4.1.13"
+    "zod": "4.1.13",
+    "sharp": "0.34.5"
+  },
+  "peerDependenciesMeta": {
+    "sharp": {
+      "optional": true
+    }
   }
 }
