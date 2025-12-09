@@ -1,6 +1,8 @@
 # Changelog
+- 2025-12-09 22:34 5349050 **step: improve tsconfig**
 - 2025-12-09 22:16 1633ec8 **refactor: adjust sharp adapters**
 - 2025-12-09 21:56 edaad8e **feature: remove sharp from deps**
+- 2025-12-09 21:25 c46a267 **docs: generate CHANGELOG**
 ## 2025-12-09 20:54 v1.3.2
 - 2025-12-09 20:54 d515c2b **1.3.2**
 - 2025-12-09 20:53 c3adfd3 **step: update packages**
