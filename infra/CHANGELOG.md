@@ -1,4 +1,6 @@
 # Changelog
+- 2025-12-09 20:53 c3adfd3 **step: update packages**
+- 2025-12-09 20:52 0c6cb39 **step: bump bgord/scripts**
 ## 2025-12-04 14:24 v1.3.1
 - 2025-12-04 14:24 b604dd0 **1.3.1**
 ## 2025-12-04 14:11 v1.3.0
@@ -6,6 +8,7 @@
 - 2025-12-04 14:01 43b04bd **step: add secret manager noop adapter**
 - 2025-12-04 13:57 2d4bc4a **feature: add secret manager port**
 - 2025-12-04 13:56 c1aade3 **step: define secret vo**
+- 2025-12-04 13:24 de21e7a **docs: generate CHANGELOG**
 - 2025-12-04 13:12 eaae60c **docs: generate CHANGELOG**
 - 2025-12-04 13:02 4cfc23e **docs: generate readme**
 - 2025-12-04 13:02 31af221 **docs: generate CHANGELOG**
