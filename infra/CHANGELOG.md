@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-09 22:56 3eb9a0e **step: avoid aggresive dynamic imports**
 ## 2025-12-09 22:49 v1.4.1
 - 2025-12-09 22:49 cbf6d16 **fix: make bun not resolve the dynamic imports immediately**
 - 2025-12-09 22:49 c80af33 **1.4.1**
@@ -8,6 +9,7 @@
 - 2025-12-09 22:34 5349050 **step: improve tsconfig**
 - 2025-12-09 22:16 1633ec8 **refactor: adjust sharp adapters**
 - 2025-12-09 21:56 edaad8e **feature: remove sharp from deps**
+- 2025-12-09 21:50 654bbd7 **docs: generate CHANGELOG**
 - 2025-12-09 21:49 c8ed341 **docs: generate CHANGELOG**
 - 2025-12-09 21:42 9d001df **docs: generate CHANGELOG**
 - 2025-12-09 21:40 7db739e **docs: generate CHANGELOG**
