@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as sharpModule from "sharp";
+import * as _sharp from "sharp";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type {
   ImageExifClearInPlaceStrategy,
@@ -21,7 +21,7 @@ const adapter = new ImageExifClearSharpAdapter(deps);
 
 describe("ImageExifClearSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
@@ -44,7 +44,7 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
@@ -66,7 +66,7 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
 
@@ -81,7 +81,7 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
 

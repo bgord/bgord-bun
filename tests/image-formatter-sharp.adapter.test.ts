@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as sharpModule from "sharp";
+import * as _sharp from "sharp";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageFormatterStrategy } from "../src/image-formatter.port";
@@ -20,7 +20,7 @@ const adapter = new ImageFormatterSharpAdapter(deps);
 
 describe("ImageFormatterSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
@@ -49,7 +49,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
@@ -72,7 +72,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
 
@@ -91,7 +91,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");

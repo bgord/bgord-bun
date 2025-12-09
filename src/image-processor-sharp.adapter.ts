@@ -1,5 +1,4 @@
 import type * as tools from "@bgord/tools";
-import sharp from "sharp";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
@@ -11,7 +10,13 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
 
   constructor(private readonly deps: Dependencies) {}
 
+  private async load() {
+    return (await import("sharp")).default;
+  }
+
   async process(recipe: ImageProcessorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
+    const sharp = await this.load();
+
     const final =
       recipe.strategy === "output_path"
         ? recipe.output
@@ -20,7 +25,7 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
     const temporary = final.withFilename(final.getFilename().withSuffix("-processed"));
 
     const extension = final.getFilename().getExtension();
-    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
+    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
     const quality = recipe.quality ?? ImageProcessorSharpAdapter.DEFAULT_QUALITY;
 

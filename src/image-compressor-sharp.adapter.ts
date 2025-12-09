@@ -1,4 +1,3 @@
-import sharp from "sharp";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
@@ -7,9 +6,15 @@ type Dependencies = { FileRenamer: FileRenamerPort };
 export class ImageCompressorSharpAdapter implements ImageCompressorPort {
   constructor(private readonly deps: Dependencies) {}
 
+  private async load() {
+    return (await import("sharp")).default;
+  }
+
   private static readonly DEFAULT_QUALITY = 85;
 
   async compress(recipe: ImageCompressorStrategy) {
+    const sharp = await this.load();
+
     const quality = recipe.quality ?? ImageCompressorSharpAdapter.DEFAULT_QUALITY;
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
@@ -17,7 +22,7 @@ export class ImageCompressorSharpAdapter implements ImageCompressorPort {
     const temporary = final.withFilename(filename.withSuffix("-compressed"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
+    const format = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
     const pipeline = sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };

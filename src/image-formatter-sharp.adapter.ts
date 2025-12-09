@@ -1,4 +1,3 @@
-import sharp from "sharp";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
@@ -8,7 +7,13 @@ type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort
 export class ImageFormatterSharpAdapter implements ImageFormatterPort {
   constructor(private readonly deps: Dependencies) {}
 
+  private async load() {
+    return (await import("sharp")).default;
+  }
+
   async format(recipe: ImageFormatterStrategy) {
+    const sharp = await this.load();
+
     const final =
       recipe.strategy === "output_path"
         ? recipe.output
@@ -17,7 +22,7 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     const temporary = final.withFilename(final.getFilename().withSuffix("-formatted"));
 
     const extension = final.getFilename().getExtension();
-    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
+    const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
     const pipeline = sharp((recipe.strategy === "output_path" ? recipe.input : recipe.input).get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };

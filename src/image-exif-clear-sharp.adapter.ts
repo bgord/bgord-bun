@@ -1,4 +1,3 @@
-import sharp from "sharp";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageExifClearPort, ImageExifClearStrategy } from "./image-exif-clear.port";
 
@@ -7,7 +6,13 @@ type Dependencies = { FileRenamer: FileRenamerPort };
 export class ImageExifClearSharpAdapter implements ImageExifClearPort {
   constructor(private readonly deps: Dependencies) {}
 
+  private async load() {
+    return (await import("sharp")).default;
+  }
+
   async clear(recipe: ImageExifClearStrategy) {
+    const sharp = await this.load();
+
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
     const filename = final.getFilename();

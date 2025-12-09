@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as sharpModule from "sharp";
+import * as _sharp from "sharp";
 import { ImageInfoSharpAdapter } from "../src/image-info-sharp.adapter";
 
 const adapter = new ImageInfoSharpAdapter();
@@ -11,7 +11,7 @@ const instance = { metadata: async () => ({}) as any, destroy: () => {} };
 
 describe("ImageInfoSharpAdapter", () => {
   test("absolute path", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp as any, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 120,
       height: 80,
@@ -33,7 +33,7 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("relative path", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp as any, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 64,
       height: 64,
@@ -55,7 +55,7 @@ describe("ImageInfoSharpAdapter", () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
     const destroy = spyOn(instance, "destroy");
 
-    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp as any, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);
 
     expect(async () => adapter.inspect(input)).toThrow(tools.ExtensionError.Empty);
@@ -66,7 +66,7 @@ describe("ImageInfoSharpAdapter", () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" });
     const destroy = spyOn(instance, "destroy");
 
-    spyOn(sharpModule as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp as any, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);
 
     expect(async () => adapter.inspect(input)).toThrow(tools.ImageWidthError.Type);

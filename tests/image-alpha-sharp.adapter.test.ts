@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as sharpModule from "sharp";
+import * as _sharp from "sharp";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageAlphaStrategy } from "../src/image-alpha.port";
 import { ImageAlphaSharpAdapter } from "../src/image-alpha-sharp.adapter";
@@ -20,7 +20,7 @@ const adapter = new ImageAlphaSharpAdapter(deps);
 
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -52,7 +52,7 @@ describe("ImageAlphaSharpAdapter", () => {
     const flatten = spyOn(pipeline, "flatten");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
@@ -76,7 +76,7 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const rename = spyOn(FileRenamer, "rename");
@@ -95,7 +95,7 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
 

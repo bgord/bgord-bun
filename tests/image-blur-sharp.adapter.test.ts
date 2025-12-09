@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as sharpModule from "sharp";
+import * as _sharp from "sharp";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageBlurStrategy } from "../src/image-blur.port";
 import { ImageBlurSharpAdapter } from "../src/image-blur-sharp.adapter";
@@ -20,7 +20,7 @@ const adapter = new ImageBlurSharpAdapter(deps);
 
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -51,7 +51,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -79,7 +79,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("in_place - relateive", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
@@ -100,7 +100,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
 

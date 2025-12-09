@@ -1,9 +1,14 @@
 import * as tools from "@bgord/tools";
-import sharp from "sharp";
 import type { ImageInfoPort } from "./image-info.port";
 
 export class ImageInfoSharpAdapter implements ImageInfoPort {
+  private async load() {
+    return (await import("sharp")).default;
+  }
+
   async inspect(filePath: tools.FilePathRelative | tools.FilePathAbsolute) {
+    const sharp = await this.load();
+
     const path = filePath.get();
 
     const pipeline = sharp(path);

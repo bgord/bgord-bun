@@ -1,4 +1,3 @@
-import sharp from "sharp";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
@@ -7,13 +6,19 @@ type Dependencies = { FileRenamer: FileRenamerPort };
 export class ImageResizerSharpAdapter implements ImageResizerPort {
   constructor(private readonly deps: Dependencies) {}
 
+  private async load() {
+    return (await import("sharp")).default;
+  }
+
   async resize(recipe: ImageResizerStrategy) {
+    const sharp = await this.load();
+
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
     const filename = final.getFilename();
     const temporary = final.withFilename(filename.withSuffix("-resized"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as keyof sharp.FormatEnum;
+    const format = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
     const pipeline = sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };

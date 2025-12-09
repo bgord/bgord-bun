@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as sharpModule from "sharp";
+import * as _sharp from "sharp";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
@@ -23,7 +23,7 @@ const pipeline = {
 
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const resize = spyOn(pipeline, "resize");
@@ -73,7 +73,7 @@ describe("ImageProcessorSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    const sharp = spyOn(sharpModule as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const resize = spyOn(pipeline, "resize");
