@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import type { EncryptionPort, EncryptionRecipe } from "./encryption.port";
 import { EncryptionIV } from "./encryption-iv.vo";
@@ -52,5 +53,24 @@ export class EncryptionBunAdapter implements EncryptionPort {
     await Bun.write(recipe.output.get(), new Uint8Array(decrypted));
 
     return recipe.output;
+  }
+
+  async view(input: tools.FilePathRelative | tools.FilePathAbsolute) {
+    const key = await this.deps.CryptoKeyProvider.get();
+
+    const bytes = new Uint8Array(await Bun.file(input.get()).arrayBuffer());
+    if (bytes.length < EncryptionIV.LENGTH + 1) throw new Error(EncryptionBunAdapterError.InvalidPayload);
+
+    const iv = bytes.subarray(0, EncryptionIV.LENGTH);
+    const ivBuffer = iv.buffer.slice(iv.byteOffset, iv.byteOffset + iv.byteLength);
+
+    const ciphertext = bytes.subarray(EncryptionIV.LENGTH);
+
+    const ciphertextBuffer = ciphertext.buffer.slice(
+      ciphertext.byteOffset,
+      ciphertext.byteOffset + ciphertext.byteLength,
+    );
+
+    return crypto.subtle.decrypt({ name: "AES-GCM", iv: ivBuffer }, key, ciphertextBuffer);
   }
 }

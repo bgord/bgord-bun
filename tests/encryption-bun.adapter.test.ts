@@ -51,6 +51,15 @@ describe("EncryptionBunAdapter", () => {
     expect(new Uint8Array(bunWrite.mock.calls[0]?.[1] as any)).toEqual(plaintext);
   });
 
+  test("view", async () => {
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => encrypted.buffer } as any);
+    spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
+
+    const result = await adapter.decrypt(recipe);
+
+    expect(result).toEqual(recipe.output);
+  });
+
   test("invalid payload", async () => {
     const tooShortBytes = new Uint8Array(EncryptionIV.LENGTH);
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => tooShortBytes.buffer } as any);

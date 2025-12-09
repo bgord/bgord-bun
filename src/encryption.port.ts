@@ -8,4 +8,5 @@ export type EncryptionRecipe = {
 export interface EncryptionPort {
   encrypt(recipe: EncryptionRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute>;
   decrypt(recipe: EncryptionRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute>;
+  view(input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ArrayBuffer>;
 }
