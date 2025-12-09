@@ -7,7 +7,8 @@ export class ImageResizerSharpAdapter implements ImageResizerPort {
   constructor(private readonly deps: Dependencies) {}
 
   private async load() {
-    return (await import("sharp")).default;
+    const name = "sharp"; // Bun does not resolve dynamic imports with a dynamic name
+    return (await import(name)).default;
   }
 
   async resize(recipe: ImageResizerStrategy) {
