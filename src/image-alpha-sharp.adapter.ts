@@ -7,7 +7,7 @@ export class ImageAlphaSharpAdapter implements ImageAlphaPort {
   constructor(private readonly deps: Dependencies) {}
 
   private async load() {
-    const name = "sharp"; // Bun does not resolve dynamic imports with a dynamic name
+    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
     return (await import(name)).default;
   }
 

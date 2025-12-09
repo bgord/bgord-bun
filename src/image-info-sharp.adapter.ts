@@ -3,7 +3,7 @@ import type { ImageInfoPort } from "./image-info.port";
 
 export class ImageInfoSharpAdapter implements ImageInfoPort {
   private async load() {
-    const name = "sharp"; // Bun does not resolve dynamic imports with a dynamic name
+    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
     return (await import(name)).default;
   }
 
