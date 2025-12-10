@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-10 15:03 a8b65e8 **refactor: create one shield noop adapter**
 ## 2025-12-10 13:22 v1.4.6
 - 2025-12-10 13:22 caae5ed **1.4.6**
 ## 2025-12-10 13:21 v1.4.5
@@ -9,6 +10,7 @@
 ## 2025-12-10 12:59 v1.4.4
 - 2025-12-10 12:59 55e5100 **1.4.4**
 - 2025-12-10 12:58 af72435 **refactor: unify mailer noop deps**
+- 2025-12-10 12:22 a35dfaf **docs: generate CHANGELOG**
 - 2025-12-10 12:22 4a87e15 **docs: generate CHANGELOG**
 - 2025-12-10 12:20 f73ebb3 **docs: generate CHANGELOG**
 - 2025-12-10 12:20 cf7895d **docs: generate readme**
