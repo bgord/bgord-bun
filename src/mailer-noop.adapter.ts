@@ -4,13 +4,15 @@ import type { MailerPort } from "./mailer.port";
 
 type MailerSendOptionsType = SendMailOptions;
 
+type Dependencies = { Logger: LoggerPort };
+
 export class MailerNoopAdapter implements MailerPort {
   private readonly base = { component: "infra", operation: "mailer" };
 
-  constructor(private readonly logger: LoggerPort) {}
+  constructor(private readonly deps: Dependencies) {}
 
   async send(message: MailerSendOptionsType): Promise<unknown> {
-    return this.logger.info({ message: "[NOOP] Mailer adapter", metadata: message, ...this.base });
+    return this.deps.Logger.info({ message: "[NOOP] Mailer adapter", metadata: message, ...this.base });
   }
 
   async verify() {
