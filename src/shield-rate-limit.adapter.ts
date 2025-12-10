@@ -7,7 +7,7 @@ import type { RateLimitStorePort } from "./rate-limit-store.port";
 import type { ShieldPort } from "./shield.port";
 
 type SubjectResolver = (c: Context) => string;
-type RateLimitShieldOptionsType = { enabled: boolean; store: RateLimitStorePort; subject: SubjectResolver };
+type ShieldRateLimitOptionsType = { enabled: boolean; store: RateLimitStorePort; subject: SubjectResolver };
 
 type Dependencies = { Clock: ClockPort };
 
@@ -18,7 +18,7 @@ export const TooManyRequestsError = new HTTPException(429, { message: "app.too_m
 
 export class ShieldRateLimitAdapter implements ShieldPort {
   constructor(
-    private readonly options: RateLimitShieldOptionsType,
+    private readonly options: ShieldRateLimitOptionsType,
     private readonly deps: Dependencies,
   ) {}
 
