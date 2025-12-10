@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, jest, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import NodeCache from "node-cache";
@@ -17,7 +17,11 @@ const app = new Hono()
   .post("/ping-clear", cacheResponse.clear, (c) => c.json({}));
 
 describe("CacheResponse middleware", () => {
-  afterEach(() => ResponseCache.flushAll());
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => {
+    jest.useRealTimers();
+    ResponseCache.flushAll();
+  });
 
   test("miss - uncached request", async () => {
     const response = await app.request("/ping-cached");
@@ -45,7 +49,6 @@ describe("CacheResponse middleware", () => {
   });
 
   test("miss - cache has expired", async () => {
-    jest.setSystemTime(0);
     const firstResponse = await app.request("/ping-cached");
     const firstJson = await firstResponse.json();
 
@@ -60,7 +63,7 @@ describe("CacheResponse middleware", () => {
     expect(secondResponse.headers.get("Cache-Hit")).toEqual(CacheHitEnum.hit);
     expect(secondJson.message).toEqual("ping");
 
-    jest.setSystemTime(tools.Duration.Seconds(15).ms);
+    jest.advanceTimersByTime(tools.Duration.Seconds(15).ms);
 
     const thirdResponse = await app.request("/ping-cached");
     const thirdJson = await thirdResponse.json();
@@ -68,8 +71,6 @@ describe("CacheResponse middleware", () => {
     expect(thirdResponse.status).toEqual(200);
     expect(thirdResponse.headers.get("Cache-Hit")).toEqual(CacheHitEnum.miss);
     expect(thirdJson.message).toEqual("ping");
-
-    jest.setSystemTime();
   });
 
   test("miss - clearing the cache", async () => {
