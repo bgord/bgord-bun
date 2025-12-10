@@ -24,7 +24,7 @@ export class PrerequisiteNode implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     try {
-      const current = tools.PackageVersion.fromStringWithV(this.current);
+      const current = tools.PackageVersion.fromVersionString(this.current);
 
       if (current.isGreaterThanOrEqual(this.version)) return prereqs.Verification.success(stopwatch.stop());
       return prereqs.Verification.failure(stopwatch.stop(), { message: `Version: ${this.current}` });
