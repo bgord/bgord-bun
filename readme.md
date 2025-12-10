@@ -237,14 +237,15 @@ src/
 ├── secret-manager.port.ts
 ├── secret.vo.ts
 ├── setup.service.ts
-├── shield-api-key.middleware.ts
+├── shield-api-key-noop.adapter.ts
+├── shield-api-key.adapter.ts
 ├── shield-auth.middleware.ts
 ├── shield-captcha-hcaptcha-local.adapter.ts
 ├── shield-captcha-hcaptcha.adapter.ts
 ├── shield-captcha-noop.adapter.ts
 ├── shield-captcha-recaptcha.adapter.ts
-├── shield-captcha.port.ts
 ├── shield-rate-limit.middleware.ts
+├── shield.port.ts
 ├── simulated-error.middleware.ts
 ├── slower.middleware.ts
 ├── static-files.service.ts
