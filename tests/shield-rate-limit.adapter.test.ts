@@ -5,22 +5,23 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { RateLimitStoreNodeCacheAdapter } from "../src/rate-limit-store-node-cache.adapter";
 import {
   AnonSubjectResolver,
-  ShieldRateLimit,
+  ShieldRateLimitAdapter,
   UserSubjectResolver,
-} from "../src/shield-rate-limit.middleware";
+} from "../src/shield-rate-limit.adapter";
 
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const deps = { Clock };
 
 const store = new RateLimitStoreNodeCacheAdapter(tools.Duration.Seconds(1));
 
-const app = new Hono().get(
-  "/ping",
-  ShieldRateLimit({ enabled: true, store, subject: AnonSubjectResolver }, deps),
-  (c) => c.text("pong"),
+const shieldRateLimit = new ShieldRateLimitAdapter(
+  { enabled: true, store, subject: AnonSubjectResolver },
+  deps,
 );
 
-describe("ShieldRateLimit middleware", () => {
+const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));
+
+describe("ShieldRateLimitAdapter", () => {
   test("happy path - anon - within rate limit", async () => {
     const result = await app.request("/ping", { method: "GET" });
 
@@ -60,11 +61,10 @@ describe("ShieldRateLimit middleware", () => {
     const app = new Hono().get(
       "/ping",
       (c, next) => {
-        // @ts-expect-error
         c.set("user", { id: "abc" });
         return next();
       },
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
+      new ShieldRateLimitAdapter({ enabled: true, store, subject: UserSubjectResolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -78,11 +78,10 @@ describe("ShieldRateLimit middleware", () => {
     const app = new Hono().get(
       "/ping",
       (c, next) => {
-        // @ts-expect-error
         c.set("user", { id: "abc" });
         return next();
       },
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
+      new ShieldRateLimitAdapter({ enabled: true, store, subject: UserSubjectResolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -99,11 +98,10 @@ describe("ShieldRateLimit middleware", () => {
     const app = new Hono().get(
       "/ping",
       (c, next) => {
-        // @ts-expect-error
         c.set("user", { id: c.req.header("id") });
         return next();
       },
-      ShieldRateLimit({ enabled: true, store, subject: UserSubjectResolver }, deps),
+      new ShieldRateLimitAdapter({ enabled: true, store, subject: UserSubjectResolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -127,7 +125,7 @@ describe("ShieldRateLimit middleware", () => {
   test("disabled", async () => {
     const app = new Hono().get(
       "/ping",
-      ShieldRateLimit({ enabled: false, store, subject: AnonSubjectResolver }, deps),
+      new ShieldRateLimitAdapter({ enabled: false, store, subject: AnonSubjectResolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
