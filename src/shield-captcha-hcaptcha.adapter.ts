@@ -2,11 +2,11 @@ import hcaptcha from "hcaptcha";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
-import type { ShieldCaptchaPort } from "./shield-captcha.port";
+import type { ShieldPort } from "./shield.port";
 
 export const AccessDeniedHcaptchaError = new HTTPException(403, { message: "access_denied_hcaptcha" });
 
-export class ShieldCaptchaHcaptchaAdapter implements ShieldCaptchaPort {
+export class ShieldCaptchaHcaptchaAdapter implements ShieldPort {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
   verify = createMiddleware(async (c, next) => {

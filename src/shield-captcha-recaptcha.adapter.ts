@@ -1,14 +1,14 @@
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import type { ShieldCaptchaPort } from "./shield-captcha.port";
+import type { ShieldPort } from "./shield.port";
 
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
 export type RecaptchaResultType = { success: boolean; score: number };
 
 export const AccessDeniedRecaptchaError = new HTTPException(403, { message: "access_denied_recaptcha" });
 
-export class ShieldCaptchaRecaptchaAdapter implements ShieldCaptchaPort {
+export class ShieldCaptchaRecaptchaAdapter implements ShieldPort {
   constructor(private readonly config: RecaptchaVerifierConfigType) {}
 
   verify = createMiddleware(async (c, next) => {
