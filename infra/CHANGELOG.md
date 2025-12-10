@@ -1,4 +1,7 @@
 # Changelog
+## 2025-12-10 13:22 v1.4.6
+- 2025-12-10 13:22 caae5ed **1.4.6**
+## 2025-12-10 13:21 v1.4.5
 - 2025-12-10 13:21 8bc1b87 **1.4.5**
 - 2025-12-10 13:13 deb45c1 **step: add shield rate limit noop adapter**
 - 2025-12-10 13:06 140fde4 **refactor: shield api key noop adapter**
@@ -6,6 +9,7 @@
 ## 2025-12-10 12:59 v1.4.4
 - 2025-12-10 12:59 55e5100 **1.4.4**
 - 2025-12-10 12:58 af72435 **refactor: unify mailer noop deps**
+- 2025-12-10 12:22 4a87e15 **docs: generate CHANGELOG**
 - 2025-12-10 12:20 f73ebb3 **docs: generate CHANGELOG**
 - 2025-12-10 12:20 cf7895d **docs: generate readme**
 - 2025-12-10 12:07 91b64d0 **docs: generate CHANGELOG**
