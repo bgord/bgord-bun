@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { ShieldApiKey } from "../src/shield-api-key.middleware";
+import { ShieldApiKeyAdapter } from "../src/shield-api-key.adapter";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const apiKeyShield = new ShieldApiKey({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
+const apiKeyShield = new ShieldApiKeyAdapter({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
 
 describe("ShieldApiKey middleware", () => {
   test("happy path", async () => {
@@ -14,7 +14,7 @@ describe("ShieldApiKey middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [ShieldApiKey.HEADER_NAME]: VALID_API_KEY }),
+      headers: new Headers({ [ShieldApiKeyAdapter.HEADER_NAME]: VALID_API_KEY }),
     });
 
     expect(result.status).toEqual(200);
@@ -25,7 +25,7 @@ describe("ShieldApiKey middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [ShieldApiKey.HEADER_NAME]: "" }),
+      headers: new Headers({ [ShieldApiKeyAdapter.HEADER_NAME]: "" }),
     });
 
     expect(result.status).toEqual(403);
@@ -36,7 +36,7 @@ describe("ShieldApiKey middleware", () => {
 
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [ShieldApiKey.HEADER_NAME]: INVALID_API_KEY }),
+      headers: new Headers({ [ShieldApiKeyAdapter.HEADER_NAME]: INVALID_API_KEY }),
     });
 
     expect(result.status).toEqual(403);
