@@ -1,5 +1,8 @@
 # Changelog
+## 2025-12-10 12:59 v1.4.4
+- 2025-12-10 12:59 55e5100 **1.4.4**
 - 2025-12-10 12:58 af72435 **refactor: unify mailer noop deps**
+- 2025-12-10 11:58 6067e3f **docs: generate CHANGELOG**
 ## 2025-12-10 11:57 v1.4.3
 - 2025-12-10 11:57 a17f1c7 **1.4.3**
 - 2025-12-10 11:54 f1e9dcf **refactor: do not use set system time**
