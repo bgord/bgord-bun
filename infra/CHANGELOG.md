@@ -1,6 +1,11 @@
 # Changelog
+## 2025-12-10 11:57 v1.4.3
+- 2025-12-10 11:57 a17f1c7 **1.4.3**
+- 2025-12-10 11:54 f1e9dcf **refactor: do not use set system time**
+- 2025-12-10 11:52 0515935 **refactor: adjust setSystemTime**
 - 2025-12-10 11:51 9f80e57 **refactor: adjust tools changes**
 - 2025-12-10 11:50 c25b079 **step: update packages**
+- 2025-12-10 10:54 2bf05ba **docs: generate CHANGELOG**
 - 2025-12-09 23:22 a4b9962 **step: add encryption.view method**
 ## 2025-12-09 22:59 v1.4.2
 - 2025-12-09 22:59 1f2ce90 **1.4.2**
