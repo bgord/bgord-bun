@@ -1,9 +1,12 @@
 # Changelog
+## 2025-12-11 22:32 v1.4.8
+- 2025-12-11 22:32 fece218 **1.4.8**
 - 2025-12-11 22:31 2f6522d **refactor: simplify healthcheck prerequisites**
 ## 2025-12-11 22:08 v1.4.7
 - 2025-12-11 22:08 e6a6f47 **1.4.7**
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
+- 2025-12-11 21:32 309cdf7 **docs: generate CHANGELOG**
 - 2025-12-11 21:08 9e8e02a **docs: generate CHANGELOG**
 - 2025-12-11 21:05 df8ab2b **docs: generate CHANGELOG**
 - 2025-12-10 15:03 a8b65e8 **refactor: create one shield noop adapter**
