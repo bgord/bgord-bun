@@ -35,7 +35,7 @@ export class LoggerWinstonAdapter implements LoggerPort {
       handleExceptions: true,
       handleRejections: true,
       format,
-      transports: [new winston.transports.Console(), ...(options.transports ?? [])],
+      transports: options.transports ?? [],
     });
 
     this.filePath = options.filePath;
