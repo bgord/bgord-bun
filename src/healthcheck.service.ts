@@ -5,6 +5,7 @@ import type { ClockPort } from "./clock.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
+import { PrerequisiteSelf } from "./prerequisites/self";
 import * as prereqs from "./prerequisites.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
@@ -30,7 +31,9 @@ export class Healthcheck {
 
       const details: HealthcheckResultType["details"][number][] = [];
 
-      for (const prerequisite of prerequisites) {
+      for (const prerequisite of [new PrerequisiteSelf({ label: "self" }), ...prerequisites].filter(
+        (prerequisite) => prerequisite.kind !== "port",
+      )) {
         details.push({ label: prerequisite.label, outcome: await prerequisite.verify(deps.Clock) });
       }
 
