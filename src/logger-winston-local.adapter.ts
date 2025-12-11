@@ -15,7 +15,7 @@ export class LoggerWinstonLocalAdapter {
       environment: NodeEnvironmentEnum.local,
       level,
       redactor: this.config.redactor,
-      formats: [winston.format.prettyPrint()],
+      formats: [winston.format.colorize({ all: true }), winston.format.prettyPrint()],
       filePath: null,
     });
   }
