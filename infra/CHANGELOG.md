@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-11 22:42 v1.4.9
+- 2025-12-11 22:42 26b25ad **1.4.9**
 - 2025-12-11 22:41 484e445 **step: add colorize to logger inston local adapter**
 ## 2025-12-11 22:32 v1.4.8
 - 2025-12-11 22:32 fece218 **1.4.8**
@@ -7,6 +9,7 @@
 - 2025-12-11 22:08 e6a6f47 **1.4.7**
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
+- 2025-12-11 21:41 03af923 **docs: generate CHANGELOG**
 - 2025-12-11 21:32 309cdf7 **docs: generate CHANGELOG**
 - 2025-12-11 21:32 230c344 **docs: generate CHANGELOG**
 - 2025-12-11 21:08 9e8e02a **docs: generate CHANGELOG**
