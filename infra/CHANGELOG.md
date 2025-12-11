@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-11 22:59 v1.4.11
+- 2025-12-11 22:59 e38017a **1.4.11**
 - 2025-12-11 22:58 1a009d6 **fix: use printf instead of pretty print**
 ## 2025-12-11 22:53 v1.4.10
 - 2025-12-11 22:53 fddfd68 **1.4.10**
@@ -13,6 +15,7 @@
 - 2025-12-11 22:08 e6a6f47 **1.4.7**
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
+- 2025-12-11 21:58 1fb67dc **docs: generate CHANGELOG**
 - 2025-12-11 21:53 f56fcaf **docs: generate CHANGELOG**
 - 2025-12-11 21:52 226daa2 **docs: generate CHANGELOG**
 - 2025-12-11 21:42 4840f80 **docs: generate CHANGELOG**
