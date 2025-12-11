@@ -21,7 +21,7 @@ export class LoggerWinstonAdapter implements LoggerPort {
 
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
-      winston.format((log) => options.redactor.redact(log))(),
+      winston.format((info) => options.redactor.redact(info))(),
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),
@@ -35,7 +35,7 @@ export class LoggerWinstonAdapter implements LoggerPort {
       handleExceptions: true,
       handleRejections: true,
       format,
-      transports: options.transports ?? [],
+      transports: [new winston.transports.Console(), ...(options.transports ?? [])],
     });
 
     this.filePath = options.filePath;

@@ -10,31 +10,12 @@ export class LoggerWinstonLocalAdapter {
   constructor(private readonly config: LoggerWinstonLocalAdapterConfigType) {}
 
   create(level: LogLevelEnum): LoggerPort {
-    const coloredConsoleTransport = new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize({ all: true }),
-        winston.format.printf((info) => {
-          const {
-            level,
-            message,
-            timestamp,
-            [Symbol.for("level")]: _level,
-            [Symbol.for("message")]: _message,
-            ...rest
-          } = info;
-
-          return JSON.stringify({ level, message, ...rest, timestamp }, null, 2);
-        }),
-      ),
-    });
-
     return new LoggerWinstonAdapter({
       app: this.config.app,
       environment: NodeEnvironmentEnum.local,
       level,
       redactor: this.config.redactor,
-      transports: [coloredConsoleTransport],
-      formats: [],
+      formats: [winston.format.prettyPrint()],
       filePath: null,
     });
   }
