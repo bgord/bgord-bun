@@ -10,19 +10,19 @@ export class LoggerWinstonLocalAdapter {
   constructor(private readonly config: LoggerWinstonLocalAdapterConfigType) {}
 
   create(level: LogLevelEnum): LoggerPort {
+    const coloredConsoleTransport = new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.printf((info) => JSON.stringify(info, null, 2)),
+      ),
+    });
+
     return new LoggerWinstonAdapter({
       app: this.config.app,
       environment: NodeEnvironmentEnum.local,
       level,
       redactor: this.config.redactor,
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.colorize({ all: true }),
-            winston.format.prettyPrint(),
-          ),
-        }),
-      ],
+      transports: [coloredConsoleTransport],
       formats: [],
       filePath: null,
     });
