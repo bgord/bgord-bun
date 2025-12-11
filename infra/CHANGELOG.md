@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-11 23:07 0d433dd **refactor: restore colors**
 ## 2025-12-11 23:01 v1.4.12
 - 2025-12-11 23:01 fb25af3 **1.4.12**
 - 2025-12-11 23:01 7693bf2 **fix: try another approach for colored json**
@@ -19,6 +20,7 @@
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
 - 2025-12-11 22:01 9f04709 **docs: generate CHANGELOG**
+- 2025-12-11 22:01 3eb4944 **docs: generate CHANGELOG**
 - 2025-12-11 21:59 62ef495 **docs: generate CHANGELOG**
 - 2025-12-11 21:58 1fb67dc **docs: generate CHANGELOG**
 - 2025-12-11 21:53 f56fcaf **docs: generate CHANGELOG**
