@@ -13,7 +13,18 @@ export class LoggerWinstonLocalAdapter {
     const coloredConsoleTransport = new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize({ all: true }),
-        winston.format.printf((info) => JSON.stringify(info, null, 2)),
+        winston.format.printf((info) => {
+          const {
+            level,
+            message,
+            timestamp,
+            [Symbol.for("level")]: _level,
+            [Symbol.for("message")]: _message,
+            ...rest
+          } = info;
+
+          return JSON.stringify({ level, message, ...rest, timestamp }, null, 2);
+        }),
       ),
     });
 
