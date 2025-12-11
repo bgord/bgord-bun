@@ -13,15 +13,15 @@ type LoggerWinstonProductionAdapterConfigType = {
 };
 
 export class LoggerWinstonProductionAdapter {
-  readonly prodLogFile: string;
-
-  constructor(private readonly config: LoggerWinstonProductionAdapterConfigType) {
-    this.prodLogFile = this.createProdLogFile();
-  }
+  constructor(private readonly config: LoggerWinstonProductionAdapterConfigType) {}
 
   create(level: LogLevelEnum): LoggerPort {
+    const filePath = tools.FilePathAbsolute.fromString(
+      `/var/log/${this.config.app}-${NodeEnvironmentEnum.production}.log`,
+    );
+
     const file = new winston.transports.File({
-      filename: this.prodLogFile,
+      filename: filePath.get(),
       maxsize: tools.Size.fromMB(100).toBytes(),
       maxFiles: 3,
       tailable: true,
@@ -38,10 +38,7 @@ export class LoggerWinstonProductionAdapter {
           : undefined,
       ].filter((adapter) => adapter !== undefined),
       redactor: this.config.redactor,
+      filePath,
     });
-  }
-
-  private createProdLogFile() {
-    return `/var/log/${this.config.app}-${NodeEnvironmentEnum.production}.log`;
   }
 }

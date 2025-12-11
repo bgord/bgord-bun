@@ -16,6 +16,7 @@ export class LoggerWinstonLocalAdapter {
       level,
       redactor: this.config.redactor,
       formats: [winston.format.prettyPrint()],
+      filePath: null,
     });
   }
 }

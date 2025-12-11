@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -58,4 +59,6 @@ export interface LoggerPort {
   silly(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
 
   setSilent(silent: boolean): void;
+
+  getFilePath(): tools.FilePathAbsolute | null;
 }

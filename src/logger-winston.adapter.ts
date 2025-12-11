@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import * as winston from "winston";
 import { type LogAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -10,10 +11,13 @@ type WinstonLoggerOptions = {
   redactor: RedactorPort;
   formats?: winston.Logform.Format[];
   transports?: winston.transport[];
+  filePath: tools.FilePathAbsolute | null;
 };
 
 export class LoggerWinstonAdapter implements LoggerPort {
   private readonly logger: winston.Logger;
+
+  private readonly filePath: tools.FilePathAbsolute | null;
 
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
@@ -33,6 +37,8 @@ export class LoggerWinstonAdapter implements LoggerPort {
       format,
       transports: [new winston.transports.Console(), ...(options.transports ?? [])],
     });
+
+    this.filePath = options.filePath;
   }
 
   warn: LoggerPort["warn"] = (log) => this.logger.log({ level: LogLevelEnum.warn, ...log });
@@ -46,4 +52,8 @@ export class LoggerWinstonAdapter implements LoggerPort {
   setSilent: LoggerPort["setSilent"] = (silent) => {
     this.logger.silent = silent;
   };
+
+  getFilePath() {
+    return this.filePath;
+  }
 }

@@ -1,12 +1,18 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { LogLevelEnum } from "../src/logger.port";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
 import { PrerequisiteLogFile } from "../src/prerequisites/log-file";
 import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 import * as mocks from "./mocks";
 
 const redactor = new RedactorNoopAdapter();
-const Logger = new LoggerWinstonProductionAdapter({ app: "test-app", AXIOM_API_TOKEN: "ok", redactor });
+const Logger = new LoggerWinstonProductionAdapter({
+  app: "test-app",
+  AXIOM_API_TOKEN: "ok",
+  redactor,
+}).create(LogLevelEnum.http);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteLogFile", () => {
@@ -22,7 +28,7 @@ describe("PrerequisiteLogFile", () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
 
     expect(await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).toEqual(
-      mocks.VerificationFailure({ message: `Missing file: ${Logger.prodLogFile}` }),
+      mocks.VerificationFailure({ message: `Missing file: ${Logger.getFilePath()?.get()}` }),
     );
   });
 
@@ -37,6 +43,16 @@ describe("PrerequisiteLogFile", () => {
       // @ts-expect-error
       (await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).error.message,
     ).toMatch(/FS error/);
+  });
+
+  test("undetermined - no path", async () => {
+    expect(
+      await new PrerequisiteLogFile({
+        Logger: new LoggerNoopAdapter(),
+        label: "log-file",
+        enabled: false,
+      }).verify(Clock),
+    ).toEqual(mocks.VerificationUndetermined);
   });
 
   test("undetermined", async () => {

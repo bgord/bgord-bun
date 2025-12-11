@@ -10,4 +10,8 @@ export class LoggerNoopAdapter implements LoggerPort {
   silly: LoggerPort["silly"] = (_log) => {};
 
   setSilent: LoggerPort["setSilent"] = (_silent) => {};
+
+  getFilePath() {
+    return null;
+  }
 }
