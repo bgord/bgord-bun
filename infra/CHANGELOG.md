@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-11 23:09 v1.4.13
+- 2025-12-11 23:09 1368cb3 **1.4.13**
 - 2025-12-11 23:07 0d433dd **refactor: restore colors**
 ## 2025-12-11 23:01 v1.4.12
 - 2025-12-11 23:01 fb25af3 **1.4.12**
@@ -17,6 +19,7 @@
 - 2025-12-11 22:31 2f6522d **refactor: simplify healthcheck prerequisites**
 ## 2025-12-11 22:08 v1.4.7
 - 2025-12-11 22:08 e6a6f47 **1.4.7**
+- 2025-12-11 22:07 73d3e91 **docs: generate CHANGELOG**
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
 - 2025-12-11 22:01 9f04709 **docs: generate CHANGELOG**
