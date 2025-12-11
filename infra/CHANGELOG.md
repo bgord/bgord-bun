@@ -1,6 +1,9 @@
 # Changelog
+## 2025-12-11 22:08 v1.4.7
+- 2025-12-11 22:08 e6a6f47 **1.4.7**
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
+- 2025-12-11 21:05 df8ab2b **docs: generate CHANGELOG**
 - 2025-12-10 15:03 a8b65e8 **refactor: create one shield noop adapter**
 - 2025-12-10 14:10 b53f4f9 **docs: generate CHANGELOG**
 - 2025-12-10 14:10 7cbfee4 **docs: generate readme**
