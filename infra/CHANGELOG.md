@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-11 22:53 v1.4.10
+- 2025-12-11 22:53 fddfd68 **1.4.10**
 - 2025-12-11 22:51 8771758 **fix: colored logs for local**
 ## 2025-12-11 22:42 v1.4.9
 - 2025-12-11 22:42 26b25ad **1.4.9**
@@ -10,6 +12,7 @@
 - 2025-12-11 22:08 e6a6f47 **1.4.7**
 - 2025-12-11 22:05 0228668 **step: update packages**
 - 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
+- 2025-12-11 21:52 226daa2 **docs: generate CHANGELOG**
 - 2025-12-11 21:42 4840f80 **docs: generate CHANGELOG**
 - 2025-12-11 21:41 03af923 **docs: generate CHANGELOG**
 - 2025-12-11 21:32 309cdf7 **docs: generate CHANGELOG**
