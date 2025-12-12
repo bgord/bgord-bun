@@ -7,4 +7,6 @@ export enum NodeEnvironmentEnum {
   production = "production",
 }
 
-export const NodeEnvironment = z.enum(NodeEnvironmentEnum);
+export const NodeEnvironmentError = { Invalid: "node.environment.invalid" } as const;
+
+export const NodeEnvironment = z.enum(NodeEnvironmentEnum, { error: NodeEnvironmentError.Invalid });
