@@ -1,4 +1,6 @@
 # Changelog
+- 2025-12-12 13:12 15130d7 **step: update packages**
+- 2025-12-12 13:05 8870430 **step: define shield timeout adapter**
 ## 2025-12-11 23:09 v1.4.13
 - 2025-12-11 23:09 1368cb3 **1.4.13**
 - 2025-12-11 23:07 0d433dd **refactor: restore colors**
@@ -17,6 +19,7 @@
 ## 2025-12-11 22:32 v1.4.8
 - 2025-12-11 22:32 fece218 **1.4.8**
 - 2025-12-11 22:31 2f6522d **refactor: simplify healthcheck prerequisites**
+- 2025-12-11 22:09 a637d51 **docs: generate CHANGELOG**
 ## 2025-12-11 22:08 v1.4.7
 - 2025-12-11 22:08 e6a6f47 **1.4.7**
 - 2025-12-11 22:07 73d3e91 **docs: generate CHANGELOG**
