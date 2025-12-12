@@ -1,16 +1,15 @@
 import type { z } from "zod/v4";
-import { NodeEnvironment } from "../src/node-env.vo";
+import { NodeEnvironment, type NodeEnvironmentEnum } from "../src/node-env.vo";
 
-type NodeEnvironmentEnumType = z.infer<typeof NodeEnvironment>;
 type AnyZodSchema = z.ZodSchema<any, any>;
 type EnvironmentValidatorConfig = { type: unknown; schema: AnyZodSchema };
 
-export type EnvironmentResultType<SchemaType> = SchemaType & { type: NodeEnvironmentEnumType };
+export type EnvironmentResultType<SchemaType> = SchemaType & { type: NodeEnvironmentEnum };
 
 export const EnvironmentValidatorError = { Invalid: "environment.validator.invalid" } as const;
 
 export class EnvironmentValidator<SchemaType> {
-  type: NodeEnvironmentEnumType;
+  type: NodeEnvironmentEnum;
   schema: z.Schema<SchemaType>;
 
   constructor(config: EnvironmentValidatorConfig) {
