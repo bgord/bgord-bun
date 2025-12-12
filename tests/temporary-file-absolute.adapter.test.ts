@@ -59,4 +59,8 @@ describe("TemporaryFileAbsoluteAdapter", () => {
 
     expect(fileCleanerDelete).toHaveBeenCalledWith(final);
   });
+
+  test("get root", () => {
+    expect(adapter.root).toEqual(directory);
+  });
 });

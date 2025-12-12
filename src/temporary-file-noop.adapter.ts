@@ -9,4 +9,8 @@ export class TemporaryFileNoopAdapter implements TemporaryFilePort {
   }
 
   async cleanup() {}
+
+  get root() {
+    return this.directory;
+  }
 }

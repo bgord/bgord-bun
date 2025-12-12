@@ -24,4 +24,8 @@ export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
   async cleanup(filename: tools.Filename) {
     await this.deps.FileCleaner.delete(tools.FilePathAbsolute.fromPartsSafe(this.directory, filename));
   }
+
+  get root() {
+    return this.directory;
+  }
 }

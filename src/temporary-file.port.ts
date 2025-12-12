@@ -4,4 +4,6 @@ export interface TemporaryFilePort {
   write(filename: tools.Filename, content: File): Promise<{ path: tools.FilePathAbsolute }>;
 
   cleanup(filename: tools.Filename): Promise<void>;
+
+  get root(): tools.DirectoryPathAbsoluteType;
 }
