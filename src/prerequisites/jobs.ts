@@ -8,20 +8,20 @@ export class PrerequisiteJobs implements prereqs.Prerequisite {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
-  private readonly jobs: MultipleJobsType;
+  private readonly Jobs: MultipleJobsType;
 
-  constructor(config: prereqs.PrerequisiteConfigType & { jobs: MultipleJobsType }) {
+  constructor(config: prereqs.PrerequisiteConfigType & { Jobs: MultipleJobsType }) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
-    this.jobs = config.jobs;
+    this.Jobs = config.Jobs;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
     const stopwatch = new tools.Stopwatch(clock.now());
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
-    if (Jobs.areAllRunning(this.jobs)) return prereqs.Verification.success(stopwatch.stop());
+    if (Jobs.areAllRunning(this.Jobs)) return prereqs.Verification.success(stopwatch.stop());
     return prereqs.Verification.failure(stopwatch.stop());
   }
 }
