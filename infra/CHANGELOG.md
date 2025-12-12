@@ -1,5 +1,10 @@
 # Changelog
+- 2025-12-13 00:00 b1370f1 **refactor: refine job handler unit of work structure**
+- 2025-12-12 23:44 413085e **refactor: remove unused this alias**
+- 2025-12-12 23:41 bc7272c **step: test jobs service separately**
+- 2025-12-12 23:33 e1ab64c **refactor: extract job-handler service**
 - 2025-12-12 21:17 322eee0 **refactor: uppercase prereq jobs deps**
+- 2025-12-12 20:17 931b913 **docs: generate CHANGELOG**
 ## 2025-12-12 18:42 v1.4.16
 - 2025-12-12 18:42 53fbe3c **1.4.16**
 - 2025-12-12 18:41 7bd2bff **fix: restore EnvironmentResultType**
