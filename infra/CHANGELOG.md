@@ -1,7 +1,11 @@
 # Changelog
+- 2025-12-12 13:37 893cc95 **step: define environment result type**
+- 2025-12-12 13:35 a033cc8 **refactor: rename environment validator service**
 - 2025-12-12 13:31 c6cc3e1 **refactor: extract shield basic auth**
 - 2025-12-12 13:12 15130d7 **step: update packages**
 - 2025-12-12 13:05 8870430 **step: define shield timeout adapter**
+- 2025-12-12 12:34 8560954 **docs: generate readme**
+- 2025-12-12 12:34 5129527 **docs: generate CHANGELOG**
 - 2025-12-12 12:13 d7c5850 **docs: generate readme**
 - 2025-12-12 12:13 53e6c56 **docs: generate CHANGELOG**
 ## 2025-12-11 23:09 v1.4.13
