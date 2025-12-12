@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-12 21:17 322eee0 **refactor: uppercase prereq jobs deps**
 ## 2025-12-12 18:42 v1.4.16
 - 2025-12-12 18:42 53fbe3c **1.4.16**
 - 2025-12-12 18:41 7bd2bff **fix: restore EnvironmentResultType**
@@ -15,6 +16,7 @@
 ## 2025-12-12 17:54 v1.4.14
 - 2025-12-12 17:54 fdc0261 **1.4.14**
 - 2025-12-12 17:53 6deb38d **step: update packages**
+- 2025-12-12 17:42 3b9780e **docs: generate CHANGELOG**
 - 2025-12-12 17:41 dceedd1 **docs: generate CHANGELOG**
 - 2025-12-12 17:38 acad603 **docs: generate CHANGELOG**
 - 2025-12-12 17:36 bb189f1 **docs: generate CHANGELOG**
