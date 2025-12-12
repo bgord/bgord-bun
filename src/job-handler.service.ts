@@ -9,33 +9,36 @@ import { formatError } from "./logger-format-error.service";
 
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
-export type JobProcessorType = { cron: string; label: JobNameType; process: () => Promise<void> };
+export interface UnitOfWork {
+  label: JobNameType;
+  process: () => Promise<void>;
+}
 
 export class JobHandler {
   private readonly base = { component: "infra", operation: "job_handler" };
 
   constructor(private readonly deps: Dependencies) {}
 
-  handle(jobProcessor: JobProcessorType) {
+  handle(uow: UnitOfWork) {
     const correlationId = this.deps.IdProvider.generate();
 
     return async () => {
       const stopwatch = new tools.Stopwatch(this.deps.Clock.now());
 
       try {
-        this.deps.Logger.info({ message: `${jobProcessor.label} start`, correlationId, ...this.base });
+        this.deps.Logger.info({ message: `${uow.label} start`, correlationId, ...this.base });
 
-        await CorrelationStorage.run(correlationId, jobProcessor.process);
+        await CorrelationStorage.run(correlationId, uow.process);
 
         this.deps.Logger.info({
-          message: `${jobProcessor.label} success`,
+          message: `${uow.label} success`,
           correlationId,
           metadata: stopwatch.stop(),
           ...this.base,
         });
       } catch (error) {
         this.deps.Logger.error({
-          message: `${jobProcessor.label} error`,
+          message: `${uow.label} error`,
           correlationId,
           error: formatError(error),
           metadata: { ...stopwatch.stop() },

@@ -23,7 +23,7 @@ describe("JobHandler service", () => {
     }));
     const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
 
-    await handler.handle({ cron: "* * * * *", label: "Test Job", process: jest.fn() })();
+    await handler.handle({ label: "Test Job", process: jest.fn() })();
 
     expect(loggerInfo).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: "Test Job start" }));
     expect(loggerInfo).toHaveBeenNthCalledWith(2, expect.objectContaining({ message: "Test Job success" }));
@@ -39,7 +39,6 @@ describe("JobHandler service", () => {
     const loggerError = spyOn(Logger, "error").mockImplementation(jest.fn());
 
     await handler.handle({
-      cron: "* * * * *",
       label: "Test Job",
       process: jest.fn().mockRejectedValue(new Error(mocks.IntentialError)),
     })();
