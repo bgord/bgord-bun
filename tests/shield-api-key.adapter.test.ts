@@ -8,7 +8,7 @@ const INVALID_API_KEY = "invalid-api-key";
 
 const apiKeyShield = new ShieldApiKeyAdapter({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
 
-describe("ShieldApiKey middleware", () => {
+describe("ShieldApiKeyAdapter", () => {
   test("happy path", async () => {
     const app = new Hono().use(apiKeyShield.verify).get("/ping", (c) => c.text("OK"));
 

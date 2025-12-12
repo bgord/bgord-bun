@@ -17,7 +17,7 @@ const b: FileHashResult = {
   mime: tools.MIMES.text,
 };
 
-describe("Checksum", () => {
+describe("Checksum service", () => {
   test("etag", async () => {
     expect(Checksum.compare(a, a, ChecksumStrategy.etag)).toEqual(true);
     expect(Checksum.compare(a, b, ChecksumStrategy.etag)).toEqual(false);

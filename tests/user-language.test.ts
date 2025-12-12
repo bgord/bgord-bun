@@ -20,7 +20,7 @@ class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQuer
 
 const UserLanguageQueryAdapter = new UserLanguageQueryAdapterNoop();
 
-describe("UserLanguageOHQ", () => {
+describe("preferences - ohq - UserLanguageOHQ", () => {
   test("happy path", async () => {
     spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(SupportedLanguages.pl);
 

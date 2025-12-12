@@ -29,7 +29,7 @@ const app = new Hono()
   )
   .get("/", (c) => c.json({ language: c.get("language") }));
 
-describe("I18n", () => {
+describe("I18n service", () => {
   describe("middleware", () => {
     test("sets fallback language when cookie is missing", async () => {
       const response = await app.request("/");

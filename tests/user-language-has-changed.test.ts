@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { UserLanguageHasChanged } from "../src/modules/preferences/invariants";
 
-describe("UserLanguageHasChanged", () => {
+describe("preferences - invariants - UserLanguageHasChanged", () => {
   test("passes - no language", () => {
     expect(UserLanguageHasChanged.passes({ current: null, candidate: "en" })).toEqual(true);
     expect(UserLanguageHasChanged.passes({ current: undefined, candidate: "en" })).toEqual(true);
