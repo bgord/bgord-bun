@@ -29,7 +29,7 @@
     "@types/yazl": "3.3.0",
     "cspell": "9.4.0",
     "knip": "5.73.3",
-    "lefthook": "2.0.9",
+    "lefthook": "2.0.10",
     "only-allow": "1.2.2",
     "sharp": "0.34.5",
     "shellcheck": "4.1.0",
