@@ -1,7 +1,15 @@
 # Changelog
+- 2025-12-12 18:28 c6513a5 **refactor: require process.env to be passed to load method in environment validator**
+- 2025-12-12 18:27 5f34c57 **refactor: simplify environment validator node env parsing**
+- 2025-12-12 18:26 cd090f4 **step: test node env vo**
+- 2025-12-12 18:24 b0f85cd **refactor: rename port vo test file**
+- 2025-12-12 18:22 34ccfd1 **refactor: restrict environment validator node env type**
+- 2025-12-12 18:22 30493af **refactor: remove generic type from environment validator**
+- 2025-12-12 18:16 67d0da5 **refactor: simplify env validator**
 ## 2025-12-12 17:54 v1.4.14
 - 2025-12-12 17:54 fdc0261 **1.4.14**
 - 2025-12-12 17:53 6deb38d **step: update packages**
+- 2025-12-12 16:54 5e5d6d3 **docs: generate CHANGELOG**
 - 2025-12-12 16:53 2b3575a **docs: generate CHANGELOG**
 - 2025-12-12 13:42 52e2f13 **refactor: unify test names**
 - 2025-12-12 13:37 893cc95 **step: define environment result type**
