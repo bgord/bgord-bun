@@ -239,6 +239,7 @@ src/
 ├── setup.service.ts
 ├── shield-api-key.adapter.ts
 ├── shield-auth.middleware.ts
+├── shield-basic-auth.adapter.ts
 ├── shield-captcha-hcaptcha-local.adapter.ts
 ├── shield-captcha-hcaptcha.adapter.ts
 ├── shield-captcha-recaptcha.adapter.ts
