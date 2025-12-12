@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-12 18:38 v1.4.15
+- 2025-12-12 18:38 cf18094 **1.4.15**
 - 2025-12-12 18:34 8ba4a11 **step: bump bgord/scripts**
 - 2025-12-12 18:28 c6513a5 **refactor: require process.env to be passed to load method in environment validator**
 - 2025-12-12 18:27 5f34c57 **refactor: simplify environment validator node env parsing**
@@ -10,6 +12,7 @@
 ## 2025-12-12 17:54 v1.4.14
 - 2025-12-12 17:54 fdc0261 **1.4.14**
 - 2025-12-12 17:53 6deb38d **step: update packages**
+- 2025-12-12 17:36 bb189f1 **docs: generate CHANGELOG**
 - 2025-12-12 17:29 a5fcfaa **docs: generate CHANGELOG**
 - 2025-12-12 16:54 5e5d6d3 **docs: generate CHANGELOG**
 - 2025-12-12 16:53 2b3575a **docs: generate CHANGELOG**
