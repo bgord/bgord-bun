@@ -93,4 +93,8 @@ describe("RemoteFileStorageDiskAdapter", () => {
     expect(cdn.publicUrl(key)).toEqual("https://cdn.example.com/static/users/1/avatar.webp");
     expect(adapter.publicUrl(key)).toEqual("/users/1/avatar.webp");
   });
+
+  test("get root", () => {
+    expect(adapter.root).toEqual(root);
+  });
 });

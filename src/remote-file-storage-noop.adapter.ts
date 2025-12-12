@@ -8,7 +8,7 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-type RemoteFileStorageNoopConfig = { publicBaseUrl?: string };
+type RemoteFileStorageNoopConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
@@ -16,7 +16,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
 
   constructor(
     private readonly deps: Dependencies,
-    private readonly config?: RemoteFileStorageNoopConfig,
+    private readonly config: RemoteFileStorageNoopConfig,
   ) {}
 
   publicUrl(key: tools.ObjectKeyType): string {
@@ -65,5 +65,9 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
       metadata: { key },
       ...this.base,
     });
+  }
+
+  get root() {
+    return this.config.root;
   }
 }
