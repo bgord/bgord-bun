@@ -1,6 +1,8 @@
 import type { z } from "zod/v4";
 import { NodeEnvironment, type NodeEnvironmentEnum } from "../src/node-env.vo";
 
+export type EnvironmentResultType<Schema> = z.infer<Schema> & { type: NodeEnvironmentEnum };
+
 export class EnvironmentValidator<Schema extends z.ZodObject<any>> {
   private readonly type: NodeEnvironmentEnum;
   private readonly schema: Schema;
@@ -10,7 +12,7 @@ export class EnvironmentValidator<Schema extends z.ZodObject<any>> {
     this.type = NodeEnvironment.parse(config.type);
   }
 
-  load(env: NodeJS.ProcessEnv): z.infer<Schema> & { type: NodeEnvironmentEnum } {
+  load(env: NodeJS.ProcessEnv): EnvironmentResultType<Schema> {
     return { ...this.schema.parse(env), type: this.type };
   }
 }
