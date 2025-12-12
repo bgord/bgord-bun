@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-13 00:42 b7a074c **refactor: unify remote file storage constract**
 ## 2025-12-13 00:36 v1.4.18
 - 2025-12-13 00:36 2c78621 **1.4.18**
 - 2025-12-13 00:35 7fcb700 **step: add root getter to remote file storage port**
@@ -8,6 +9,7 @@
 - 2025-12-13 00:00 72f2d30 **1.4.17**
 - 2025-12-12 23:44 413085e **refactor: remove unused this alias**
 - 2025-12-12 23:41 bc7272c **step: test jobs service separately**
+- 2025-12-12 23:36 da26f69 **docs: generate CHANGELOG**
 - 2025-12-12 23:36 295900e **docs: generate CHANGELOG**
 - 2025-12-12 23:33 e1ab64c **refactor: extract job-handler service**
 - 2025-12-12 23:00 c702ca7 **docs: generate readme**
