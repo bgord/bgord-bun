@@ -7,7 +7,7 @@ export class EnvironmentValidator<Schema extends z.ZodObject<any>> {
   private readonly type: NodeEnvironmentEnum;
   private readonly schema: Schema;
 
-  constructor(config: { type: unknown; schema: Schema }) {
+  constructor(config: { type: string | undefined; schema: Schema }) {
     this.schema = config.schema;
 
     const result = NodeEnvironment.safeParse(config.type);
