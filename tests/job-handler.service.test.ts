@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as croner from "croner";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { JobHandler } from "../src/jobs.service";
+import { JobHandler } from "../src/job-handler.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -14,7 +14,7 @@ const deps = { Logger, Clock, IdProvider };
 
 const handler = new JobHandler(deps);
 
-describe("Jobs service", () => {
+describe("JobHandler service", () => {
   test("happy path", async () => {
     // @ts-expect-error
     spyOn(croner, "Cron").mockImplementation(() => ({

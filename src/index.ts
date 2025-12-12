@@ -110,6 +110,7 @@ export * from "./image-resizer-noop.adapter";
 export * from "./image-resizer-sharp.adapter";
 export * from "./invariant.service";
 export * from "./invariant-error-handler.service";
+export * from "./job-handler.service";
 export * from "./jobs.service";
 export * from "./json-file-reader.port";
 export * from "./json-file-reader-bun.adapter";
