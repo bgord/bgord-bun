@@ -161,6 +161,7 @@ export * from "./setup.service";
 export * from "./shield.port";
 export * from "./shield-api-key.adapter";
 export * from "./shield-auth.middleware";
+export * from "./shield-basic-auth.adapter";
 export * from "./shield-captcha-hcaptcha.adapter";
 export * from "./shield-captcha-hcaptcha-local.adapter";
 export * from "./shield-captcha-recaptcha.adapter";
