@@ -1,6 +1,9 @@
 # Changelog
+- 2025-12-12 13:31 c6cc3e1 **refactor: extract shield basic auth**
 - 2025-12-12 13:12 15130d7 **step: update packages**
 - 2025-12-12 13:05 8870430 **step: define shield timeout adapter**
+- 2025-12-12 12:13 d7c5850 **docs: generate readme**
+- 2025-12-12 12:13 53e6c56 **docs: generate CHANGELOG**
 ## 2025-12-11 23:09 v1.4.13
 - 2025-12-11 23:09 1368cb3 **1.4.13**
 - 2025-12-11 23:07 0d433dd **refactor: restore colors**
