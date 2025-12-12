@@ -9,7 +9,7 @@ describe("EnvironmentValidator service", () => {
   test("happy path", () => {
     process.env.APP_NAME = "MyApp";
 
-    const result = new EnvironmentValidator<z.infer<typeof Schema>>({ type: "local", schema: Schema }).load();
+    const result = new EnvironmentValidator({ type: "local", schema: Schema }).load();
 
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
