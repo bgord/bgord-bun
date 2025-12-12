@@ -1,5 +1,8 @@
 # Changelog
+## 2025-12-12 17:54 v1.4.14
+- 2025-12-12 17:54 fdc0261 **1.4.14**
 - 2025-12-12 17:53 6deb38d **step: update packages**
+- 2025-12-12 16:53 2b3575a **docs: generate CHANGELOG**
 - 2025-12-12 13:42 52e2f13 **refactor: unify test names**
 - 2025-12-12 13:37 893cc95 **step: define environment result type**
 - 2025-12-12 13:35 a033cc8 **refactor: rename environment validator service**
