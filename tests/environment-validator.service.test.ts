@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod/v4";
-import { EnvironmentValidator, EnvironmentValidatorError } from "../src/env-validator.service";
+import { EnvironmentValidator, EnvironmentValidatorError } from "../src/environment-validator.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const Schema = z.object({ APP_NAME: z.string() });
 
-describe("EnvValidator service", () => {
+describe("EnvironmentValidator service", () => {
   test("happy path", () => {
     process.env.APP_NAME = "MyApp";
 

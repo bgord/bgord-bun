@@ -43,7 +43,7 @@ export * from "./encryption.port";
 export * from "./encryption-bun.adapter";
 export * from "./encryption-key.vo";
 export * from "./encryption-noop.adapter";
-export * from "./env-validator.service";
+export * from "./environment-validator.service";
 export * from "./etag-extractor.middleware";
 export * from "./event.types";
 export * from "./event-bus-like.types";
