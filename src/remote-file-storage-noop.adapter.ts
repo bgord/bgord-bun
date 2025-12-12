@@ -15,8 +15,8 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   private readonly base = { component: "infra", operation: "RemoteFileStorageNoopAdapter" };
 
   constructor(
-    private readonly deps: Dependencies,
     private readonly config: RemoteFileStorageNoopConfig,
+    private readonly deps: Dependencies,
   ) {}
 
   publicUrl(key: tools.ObjectKeyType): string {
