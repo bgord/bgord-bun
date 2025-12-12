@@ -10,7 +10,7 @@ export class EnvironmentValidator<Schema extends z.ZodObject<any>> {
     this.type = NodeEnvironment.parse(config.type);
   }
 
-  load(): z.infer<Schema> & { type: NodeEnvironmentEnum } {
-    return { ...this.schema.parse(process.env), type: this.type };
+  load(env: NodeJS.ProcessEnv): z.infer<Schema> & { type: NodeEnvironmentEnum } {
+    return { ...this.schema.parse(env), type: this.type };
   }
 }

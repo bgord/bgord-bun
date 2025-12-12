@@ -7,9 +7,10 @@ const Schema = z.object({ APP_NAME: z.string() });
 
 describe("EnvironmentValidator service", () => {
   test("happy path", () => {
-    process.env.APP_NAME = "MyApp";
-
-    const result = new EnvironmentValidator({ type: "local", schema: Schema }).load();
+    const result = new EnvironmentValidator({ type: "local", schema: Schema }).load({
+      ...process.env,
+      APP_NAME: "MyApp",
+    });
 
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
