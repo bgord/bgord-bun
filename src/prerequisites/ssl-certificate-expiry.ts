@@ -3,6 +3,8 @@ import type { CertificateInspectorPort } from "../certificate-inspector.port";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
+type Dependencies = { CertificateInspector: CertificateInspectorPort };
+
 export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
   readonly kind = "ssl-certificate-expiry";
   readonly label: prereqs.PrerequisiteLabelType;
@@ -10,21 +12,16 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
   private readonly hostname: string;
   private readonly days: number;
-  private readonly CertificateInspector: CertificateInspectorPort;
 
   constructor(
-    config: prereqs.PrerequisiteConfigType & {
-      hostname: string;
-      days: number;
-      CertificateInspector: CertificateInspectorPort;
-    },
+    config: prereqs.PrerequisiteConfigType & { hostname: string; days: number },
+    private readonly deps: Dependencies,
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.hostname = config.hostname;
     this.days = config.days;
-    this.CertificateInspector = config.CertificateInspector;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -32,7 +29,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
-    const result = await this.CertificateInspector.inspect(this.hostname);
+    const result = await this.deps.CertificateInspector.inspect(this.hostname);
 
     if (!result.success)
       return prereqs.Verification.failure(stopwatch.stop(), { message: "Certificate unavailable" });

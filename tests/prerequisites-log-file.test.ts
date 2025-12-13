@@ -15,11 +15,13 @@ const Logger = new LoggerWinstonProductionAdapter({
 }).create(LogLevelEnum.http);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
+const deps = { Logger };
+
 describe("PrerequisiteLogFile", () => {
   test("success - log file exists", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
 
-    expect(await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).toEqual(
+    expect(await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -27,7 +29,7 @@ describe("PrerequisiteLogFile", () => {
   test("failure - log file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
 
-    expect(await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).toEqual(
+    expect(await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: `Missing file: ${Logger.getFilePath()?.get()}` }),
     );
   });
@@ -41,23 +43,22 @@ describe("PrerequisiteLogFile", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteLogFile({ Logger, label: "log-file" }).verify(Clock)).error.message,
+      (await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).error.message,
     ).toMatch(/FS error/);
   });
 
   test("undetermined - no path", async () => {
     expect(
-      await new PrerequisiteLogFile({
-        Logger: new LoggerNoopAdapter(),
-        label: "log-file",
-        enabled: false,
-      }).verify(Clock),
+      await new PrerequisiteLogFile(
+        { label: "log-file", enabled: false },
+        { Logger: new LoggerNoopAdapter() },
+      ).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 
   test("undetermined", async () => {
-    expect(
-      await new PrerequisiteLogFile({ Logger, label: "log-file", enabled: false }).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    expect(await new PrerequisiteLogFile({ label: "log-file", enabled: false }, deps).verify(Clock)).toEqual(
+      mocks.VerificationUndetermined,
+    );
   });
 });

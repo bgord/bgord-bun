@@ -8,11 +8,13 @@ import * as mocks from "./mocks";
 const Mailer = { verify: jest.fn(), send: jest.fn() } as any;
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
+const deps = { Mailer };
+
 describe("PrerequisiteMailer", () => {
   test("success", async () => {
     spyOn(Mailer, "verify").mockResolvedValue(() => Promise.resolve());
 
-    expect(await new PrerequisiteMailer({ label: "mailer", Mailer }).verify(clock)).toEqual(
+    expect(await new PrerequisiteMailer({ label: "mailer" }, deps).verify(clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -21,13 +23,13 @@ describe("PrerequisiteMailer", () => {
     spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentialError));
 
     // @ts-expect-error
-    expect((await new PrerequisiteMailer({ label: "mailer", Mailer }).verify(clock)).error.message).toMatch(
+    expect((await new PrerequisiteMailer({ label: "mailer" }, deps).verify(clock)).error.message).toMatch(
       mocks.IntentialError,
     );
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteMailer({ label: "mailer", enabled: false, Mailer }).verify(clock)).toEqual(
+    expect(await new PrerequisiteMailer({ label: "mailer", enabled: false }, deps).verify(clock)).toEqual(
       mocks.VerificationUndetermined,
     );
   });
@@ -36,7 +38,7 @@ describe("PrerequisiteMailer", () => {
     spyOn(Mailer, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
 
     expect(
-      (await new PrerequisiteMailer({ label: "mailer", Mailer, timeout: tools.Duration.Ms(5) }).verify(clock))
+      (await new PrerequisiteMailer({ label: "mailer", timeout: tools.Duration.Ms(5) }, deps).verify(clock))
         .status,
     ).toEqual(PrerequisiteStatusEnum.failure);
   });

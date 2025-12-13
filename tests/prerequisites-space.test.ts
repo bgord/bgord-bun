@@ -14,23 +14,18 @@ const DiskSpaceCheckerFailure = new DiskSpaceCheckerNoopAdapter(failure);
 
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
+const deps = { DiskSpaceChecker: DiskSpaceCheckerSuccess };
+const depsFailure = { DiskSpaceChecker: DiskSpaceCheckerFailure };
+
 describe("PrerequisiteSpace", () => {
   test("success", async () => {
-    expect(
-      await new PrerequisiteSpace({
-        label: "space",
-        minimum,
-        DiskSpaceChecker: DiskSpaceCheckerSuccess,
-      }).verify(clock),
-    ).toEqual(mocks.VerificationSuccess);
+    expect(await new PrerequisiteSpace({ label: "space", minimum }, deps).verify(clock)).toEqual(
+      mocks.VerificationSuccess,
+    );
   });
 
   test("failure - not enough space", async () => {
-    const result = await new PrerequisiteSpace({
-      label: "space",
-      minimum,
-      DiskSpaceChecker: DiskSpaceCheckerFailure,
-    }).verify(clock);
+    const result = await new PrerequisiteSpace({ label: "space", minimum }, depsFailure).verify(clock);
 
     // @ts-expect-error
     expect(result.error.message).toMatch(`Free disk space: ${failure.format(tools.Size.unit.MB)}`);
@@ -39,11 +34,7 @@ describe("PrerequisiteSpace", () => {
   test("failure - error", async () => {
     spyOn(DiskSpaceCheckerFailure, "get").mockRejectedValue(new Error(mocks.IntentialError));
 
-    const result = await new PrerequisiteSpace({
-      label: "space",
-      minimum,
-      DiskSpaceChecker: DiskSpaceCheckerFailure,
-    }).verify(clock);
+    const result = await new PrerequisiteSpace({ label: "space", minimum }, depsFailure).verify(clock);
 
     // @ts-expect-error
     expect(result.error.message).toMatch(mocks.IntentialError);
@@ -51,12 +42,7 @@ describe("PrerequisiteSpace", () => {
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteSpace({
-        label: "space",
-        minimum,
-        enabled: false,
-        DiskSpaceChecker: DiskSpaceCheckerSuccess,
-      }).verify(clock),
+      await new PrerequisiteSpace({ label: "space", minimum, enabled: false }, deps).verify(clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

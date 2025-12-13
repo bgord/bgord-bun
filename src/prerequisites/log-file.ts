@@ -3,18 +3,19 @@ import type { ClockPort } from "../clock.port";
 import type { LoggerPort } from "../logger.port";
 import * as prereqs from "../prerequisites.service";
 
+type Dependencies = { Logger: LoggerPort };
+
 export class PrerequisiteLogFile implements prereqs.Prerequisite {
   readonly kind = "log-file";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
-  private readonly Logger: LoggerPort;
-
-  constructor(config: prereqs.PrerequisiteConfigType & { Logger: LoggerPort }) {
+  constructor(
+    config: prereqs.PrerequisiteConfigType,
+    private readonly deps: Dependencies,
+  ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
-
-    this.Logger = config.Logger;
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -23,7 +24,7 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
     try {
-      const path = this.Logger.getFilePath();
+      const path = this.deps.Logger.getFilePath();
       if (!path) return prereqs.Verification.undetermined(stopwatch.stop());
 
       const result = await Bun.file(path.get()).exists();

@@ -13,20 +13,18 @@ class CertificateInspectorUnavailableAdapter {
 const config = { hostname: "example.com", days: 30, label: "ssl" };
 const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
+const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(100) };
+
 describe("PrerequisiteSSLCertificateExpiry", () => {
   test("success", async () => {
-    expect(
-      await new PrerequisiteSSLCertificateExpiry({
-        ...config,
-        CertificateInspector: new CertificateInspectorNoopAdapter(100),
-      }).verify(clock),
-    ).toEqual(mocks.VerificationSuccess);
+    expect(await new PrerequisiteSSLCertificateExpiry(config, deps).verify(clock)).toEqual(
+      mocks.VerificationSuccess,
+    );
   });
 
   test("failure - certificate expires too soon", async () => {
     expect(
-      await new PrerequisiteSSLCertificateExpiry({
-        ...config,
+      await new PrerequisiteSSLCertificateExpiry(config, {
         CertificateInspector: new CertificateInspectorNoopAdapter(10),
       }).verify(clock),
     ).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
@@ -34,8 +32,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
 
   test("failure - certificate unavailable", async () => {
     expect(
-      await new PrerequisiteSSLCertificateExpiry({
-        ...config,
+      await new PrerequisiteSSLCertificateExpiry(config, {
         CertificateInspector: new CertificateInspectorUnavailableAdapter(),
       }).verify(clock),
     ).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
@@ -43,11 +40,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteSSLCertificateExpiry({
-        ...config,
-        enabled: false,
-        CertificateInspector: new CertificateInspectorNoopAdapter(100),
-      }).verify(clock),
+      await new PrerequisiteSSLCertificateExpiry({ ...config, enabled: false }, deps).verify(clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

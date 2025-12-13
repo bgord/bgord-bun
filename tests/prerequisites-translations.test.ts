@@ -20,11 +20,9 @@ describe("PrerequisiteTranslations", () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
 
     expect(
-      await new PrerequisiteTranslations({
-        label: "i18n",
-        supportedLanguages: { en: "en" },
-        ...deps,
-      }).verify(clock),
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } }, deps).verify(
+        clock,
+      ),
     ).toEqual(mocks.VerificationSuccess);
   });
 
@@ -33,7 +31,8 @@ describe("PrerequisiteTranslations", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }).verify(clock)).error.message,
+      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(clock)).error
+        .message,
     ).toMatch(/Does not exist/);
   });
 
@@ -51,18 +50,15 @@ describe("PrerequisiteTranslations", () => {
     });
 
     expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, ...deps }).verify(clock),
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(clock),
     ).toEqual(mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }));
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteTranslations({
-        label: "i18n",
-        supportedLanguages,
-        enabled: false,
-        ...deps,
-      }).verify(clock),
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false }, deps).verify(
+        clock,
+      ),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

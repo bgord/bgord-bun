@@ -17,45 +17,43 @@ export class TimekeeperDelayedAdapter implements TimekeeperPort {
   }
 }
 
+const deps = { Timekeeper };
+
 describe("PrerequisiteClockDrift", () => {
   test("success", async () => {
-    expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, Timekeeper }).verify(Clock),
-    ).toEqual(mocks.VerificationSuccess);
+    expect(await new PrerequisiteClockDrift({ label: "clock-drift", skew }, deps).verify(Clock)).toEqual(
+      mocks.VerificationSuccess,
+    );
   });
 
   test("failure - missing timestamp", async () => {
     // @ts-expect-error
     spyOn(Timekeeper, "get").mockResolvedValue(null);
-    expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, Timekeeper }).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    expect(await new PrerequisiteClockDrift({ label: "clock-drift", skew }, deps).verify(Clock)).toEqual(
+      mocks.VerificationUndetermined,
+    );
   });
 
   test("failure - skew", async () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
-    expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", skew, Timekeeper }).verify(Clock),
-    ).toEqual(mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }));
+    expect(await new PrerequisiteClockDrift({ label: "clock-drift", skew }, deps).verify(Clock)).toEqual(
+      mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }),
+    );
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteClockDrift({ label: "clock-drift", enabled: false, skew, Timekeeper }).verify(
-        Clock,
-      ),
+      await new PrerequisiteClockDrift({ label: "clock-drift", enabled: false, skew }, deps).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 
   test("undetermined - timeout", async () => {
     expect(
-      await new PrerequisiteClockDrift({
-        label: "clock-drift",
-        skew,
-        Timekeeper: new TimekeeperDelayedAdapter(),
-        timeout: tools.Duration.Ms(5),
-      }).verify(Clock),
+      await new PrerequisiteClockDrift(
+        { label: "clock-drift", skew, timeout: tools.Duration.Ms(5) },
+        { Timekeeper: new TimekeeperDelayedAdapter() },
+      ).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

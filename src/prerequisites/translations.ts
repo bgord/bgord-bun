@@ -15,6 +15,8 @@ type PrerequisiteTranslationsProblemType = {
   missingIn: tools.LanguageType;
 };
 
+type Dependencies = { Logger: LoggerPort; JsonFileReader?: JsonFileReaderPort };
+
 export class PrerequisiteTranslations implements prereqs.Prerequisite {
   readonly kind = "translations";
   readonly label: prereqs.PrerequisiteLabelType;
@@ -23,28 +25,23 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
   private readonly translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
   private readonly supportedLanguages: types.I18nConfigType["supportedLanguages"];
 
-  private readonly Logger: LoggerPort;
-  private readonly JsonFileReader: JsonFileReaderPort;
-
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
       supportedLanguages: types.I18nConfigType["supportedLanguages"];
-      Logger: LoggerPort;
-      JsonFileReader?: JsonFileReaderPort;
     },
+    private readonly deps: Dependencies,
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.translationsPath = config.translationsPath;
     this.supportedLanguages = config.supportedLanguages;
-
-    this.Logger = config.Logger;
-    this.JsonFileReader = config.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+    const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
+
     const stopwatch = new tools.Stopwatch(clock.now());
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
@@ -52,7 +49,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
     const supportedLanguages = Object.keys(this.supportedLanguages);
-    const i18n = new I18n({ Logger: this.Logger, JsonFileReader: this.JsonFileReader });
+    const i18n = new I18n({ Logger: this.deps.Logger, JsonFileReader: JsonFileReader });
 
     try {
       await fsp.access(translationsPath, constants.R_OK);
