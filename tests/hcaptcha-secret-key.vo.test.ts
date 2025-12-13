@@ -3,8 +3,8 @@ import { HCaptchaSecretKey, HCaptchaSecretKeyError } from "../src/hcaptcha-secre
 
 describe("HCaptchaSecretKey VO", () => {
   test("happy path", () => {
-    expect(HCaptchaSecretKey.safeParse("a".repeat(42)).success).toEqual(true);
-    expect(HCaptchaSecretKey.safeParse("A".repeat(42)).success).toEqual(true);
+    expect(HCaptchaSecretKey.safeParse("a".repeat(35)).success).toEqual(true);
+    expect(HCaptchaSecretKey.safeParse("A".repeat(35)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
@@ -20,6 +20,6 @@ describe("HCaptchaSecretKey VO", () => {
   });
 
   test("rejects too long", () => {
-    expect(() => HCaptchaSecretKey.parse(`${"a".repeat(42)}a`)).toThrow(HCaptchaSecretKeyError.Length);
+    expect(() => HCaptchaSecretKey.parse(`${"a".repeat(35)}a`)).toThrow(HCaptchaSecretKeyError.Length);
   });
 });

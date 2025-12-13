@@ -7,7 +7,7 @@ export const HCaptchaSecretKeyError = {
 
 export const HCaptchaSecretKey = z
   .string(HCaptchaSecretKeyError.Type)
-  .length(42, HCaptchaSecretKeyError.Length)
+  .length(35, HCaptchaSecretKeyError.Length)
   .brand("HCaptchaSecretKey");
 
 export type HCaptchaSecretKeyType = z.infer<typeof HCaptchaSecretKey>;
