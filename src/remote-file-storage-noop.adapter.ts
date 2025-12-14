@@ -11,7 +11,7 @@ import type {
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
-type RemoteFileStorageNoopConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
+type RemoteFileStorageNoopConfig = { root: tools.DirectoryPathAbsoluteType };
 
 export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   private readonly base = { component: "infra", operation: "RemoteFileStorageNoopAdapter" };
@@ -20,11 +20,6 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
     private readonly config: RemoteFileStorageNoopConfig,
     private readonly deps: Dependencies,
   ) {}
-
-  publicUrl(key: tools.ObjectKeyType): string {
-    if (!this.config?.publicBaseUrl) return `/${key}`;
-    return `${this.config?.publicBaseUrl}/${key}`;
-  }
 
   async putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult> {
     this.deps.Logger.info({

@@ -10,7 +10,7 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-type RemoteFileStorageDiskConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
+type RemoteFileStorageDiskConfig = { root: tools.DirectoryPathAbsoluteType };
 
 type Dependencies = { FileHash: FileHashPort; FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 
@@ -27,11 +27,6 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     const directory = tools.DirectoryPathAbsoluteSchema.parse(`${this.config.root}/${parts.join("/")}`);
 
     return tools.FilePathAbsolute.fromPartsSafe(directory, filename);
-  }
-
-  publicUrl(key: tools.ObjectKeyType): string {
-    if (!this.config.publicBaseUrl) return `/${key}`;
-    return `${this.config.publicBaseUrl}/${key}`;
   }
 
   async putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult> {

@@ -13,6 +13,5 @@ export interface RemoteFileStoragePort {
   head(key: tools.ObjectKeyType): Promise<RemoteHeadResult>;
   getStream(key: tools.ObjectKeyType): Promise<ReadableStream | null>;
   delete(key: tools.ObjectKeyType): Promise<void>;
-  publicUrl(key: tools.ObjectKeyType): string;
   get root(): tools.DirectoryPathAbsoluteType;
 }

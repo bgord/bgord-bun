@@ -84,16 +84,6 @@ describe("RemoteFileStorageDiskAdapter", () => {
     expect(fileCleanerDelete.mock.calls[0][0].get()).toEqual("/root/users/1/avatar.webp");
   });
 
-  test("publicUrl", () => {
-    const cdn = new RemoteFileStorageDiskAdapter(
-      { root, publicBaseUrl: "https://cdn.example.com/static" },
-      deps,
-    );
-
-    expect(cdn.publicUrl(key)).toEqual("https://cdn.example.com/static/users/1/avatar.webp");
-    expect(adapter.publicUrl(key)).toEqual("/users/1/avatar.webp");
-  });
-
   test("get root", () => {
     expect(adapter.root).toEqual(root);
   });
