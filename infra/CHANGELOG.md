@@ -1,5 +1,8 @@
 # Changelog
+## 2025-12-14 18:56 v1.4.21
+- 2025-12-14 18:56 81cf35f **1.4.21**
 - 2025-12-14 18:53 efb3c81 **step: change handle set user language command parameters**
+- 2025-12-14 17:56 b203675 **docs: generate CHANGELOG**
 ## 2025-12-14 13:01 v1.4.20
 - 2025-12-14 13:01 d76c023 **1.4.20**
 - 2025-12-14 13:00 dcdd628 **fix: tests**
