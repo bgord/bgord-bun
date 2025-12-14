@@ -88,6 +88,7 @@ src/
 ├── file-cleaner.port.ts
 ├── file-draft-zip.service.ts
 ├── file-draft.service.ts
+├── file-etag.vo.ts
 ├── file-hash-noop.adapter.ts
 ├── file-hash-sha256-bun.adapter.ts
 ├── file-hash.port.ts
