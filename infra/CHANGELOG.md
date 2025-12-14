@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-14 23:15 b61ad29 **refactor: remove public url from remote file storage**
 ## 2025-12-14 23:13 v1.4.24
 - 2025-12-14 23:13 d597a5e **1.4.24**
 - 2025-12-14 23:13 7a99a21 **refactor: use url vo**
@@ -6,6 +7,7 @@
 - 2025-12-14 22:58 31c342c **step: update packages**
 - 2025-12-14 22:13 e16752b **docs: generate readme**
 - 2025-12-14 22:13 a22ee68 **docs: generate CHANGELOG**
+- 2025-12-14 22:13 0145477 **docs: generate CHANGELOG**
 - 2025-12-14 19:43 63788ca **feature: file etag**
 ## 2025-12-14 19:17 v1.4.23
 - 2025-12-14 19:17 2a7f0b5 **1.4.23**
