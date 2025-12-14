@@ -1,6 +1,9 @@
 # Changelog
+## 2025-12-14 13:01 v1.4.20
+- 2025-12-14 13:01 d76c023 **1.4.20**
 - 2025-12-14 13:00 dcdd628 **fix: tests**
 - 2025-12-14 12:55 bdd90c9 **step: update packages**
+- 2025-12-14 12:00 2de0b72 **docs: generate CHANGELOG**
 - 2025-12-13 21:48 4e5354f **fix: hcaptcha secret key length**
 - 2025-12-13 21:14 cdcfde5 **refactor: unify deps in prereqs**
 ## 2025-12-13 00:42 v1.4.19
