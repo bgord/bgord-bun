@@ -1,10 +1,14 @@
 # Changelog
+## 2025-12-14 19:17 v1.4.23
+- 2025-12-14 19:17 2a7f0b5 **1.4.23**
+## 2025-12-14 19:15 v1.4.22
 - 2025-12-14 19:15 59315ff **1.4.22**
 - 2025-12-14 19:10 d94fa09 **refactor: use visitor id vo**
 - 2025-12-14 19:05 60bf3bd **step: add visitor id vo**
 ## 2025-12-14 18:56 v1.4.21
 - 2025-12-14 18:56 81cf35f **1.4.21**
 - 2025-12-14 18:53 efb3c81 **step: change handle set user language command parameters**
+- 2025-12-14 18:17 786c063 **docs: generate CHANGELOG**
 - 2025-12-14 18:10 defe996 **docs: generate CHANGELOG**
 - 2025-12-14 18:10 6f6924b **docs: generate readme**
 - 2025-12-14 17:56 b203675 **docs: generate CHANGELOG**
