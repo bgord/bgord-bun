@@ -266,6 +266,7 @@ src/
 ├── visitor-id-hash-hono.adapter.ts
 ├── visitor-id-hash.adapter.ts
 ├── visitor-id.port.ts
+├── visitor-id.vo.ts
 └── weak-etag-extractor.middleware.ts
 ```
 
