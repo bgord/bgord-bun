@@ -9,8 +9,9 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-type RemoteFileStorageNoopConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
+
+type RemoteFileStorageNoopConfig = { root: tools.DirectoryPathAbsoluteType; publicBaseUrl?: string };
 
 export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
   private readonly base = { component: "infra", operation: "RemoteFileStorageNoopAdapter" };

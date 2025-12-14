@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import type { TimekeeperPort } from "./timekeeper.port";
 
 export class TimekeeperGoogleAdapter implements TimekeeperPort {
-  static URL = "https://www.google.com/generate_204";
+  static URL = tools.UrlWithoutSlash.parse("https://www.google.com/generate_204");
 
   async get(signal?: AbortSignal) {
     try {

@@ -8,7 +8,7 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
-  private readonly url = "https://google.com";
+  private static readonly URL = tools.UrlWithoutSlash.parse("https://google.com");
   readonly timeout: tools.Duration;
 
   constructor(config: prereqs.PrerequisiteConfigType & { timeout?: tools.Duration }) {
@@ -25,7 +25,7 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
       if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
       const response = await Timeout.cancellable(
-        (signal: AbortSignal) => fetch(this.url, { method: "HEAD", signal }),
+        (signal: AbortSignal) => fetch(PrerequisiteOutsideConnectivity.URL, { method: "HEAD", signal }),
         this.timeout,
       );
 
