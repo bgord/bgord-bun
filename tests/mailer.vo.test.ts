@@ -1,14 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  EmailContentHtml,
-  EmailContentHtmlError,
-  EmailFrom,
-  EmailFromError,
-  EmailSubject,
-  EmailSubjectError,
-  EmailTo,
-  EmailToError,
-} from "../src/mailer.vo";
+import { EmailContentHtml, EmailContentHtmlError, EmailSubject, EmailSubjectError } from "../src/mailer.vo";
 
 describe("Mailer VOs", () => {
   test("EmailSubject - happy path", () => {
@@ -33,21 +24,5 @@ describe("Mailer VOs", () => {
 
   test("EmailContentHtml - too long", () => {
     expect(() => EmailContentHtml.parse("a".repeat(10_001))).toThrow(EmailContentHtmlError.Invalid);
-  });
-
-  test("EmailFrom - happy path", () => {
-    expect(EmailFrom.safeParse("test@example.com").success).toEqual(true);
-  });
-
-  test("EmailFrom - invalid", () => {
-    expect(() => EmailFrom.parse("not-an-email")).toThrow(EmailFromError.Invalid);
-  });
-
-  test("EmailTo - happy path", () => {
-    expect(EmailTo.safeParse("test@example.com").success).toEqual(true);
-  });
-
-  test("EmailTo - invalid", () => {
-    expect(() => EmailTo.parse("not-an-email")).toThrow(EmailToError.Invalid);
   });
 });

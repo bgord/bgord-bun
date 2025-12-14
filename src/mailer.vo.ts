@@ -27,12 +27,4 @@ export const EmailContentHtml = z
   .max(10_000, EmailContentHtmlError.Invalid);
 export type EmailContentHtmlType = z.infer<typeof EmailContentHtml>;
 
-export const EmailFromError = { Invalid: "email.from.invalid" } as const;
-export const EmailFrom = z.email(EmailFromError.Invalid);
-export type EmailFromType = z.infer<typeof EmailFrom>;
-
-export const EmailToError = { Invalid: "email.to.invalid" } as const;
-export const EmailTo = z.email(EmailToError.Invalid);
-export type EmailToType = z.infer<typeof EmailTo>;
-
 export type EmailAttachmentType = { filename: string; path: string };
