@@ -1,4 +1,8 @@
 # Changelog
+- 2025-12-14 13:00 dcdd628 **fix: tests**
+- 2025-12-14 12:55 bdd90c9 **step: update packages**
+- 2025-12-13 21:48 4e5354f **fix: hcaptcha secret key length**
+- 2025-12-13 21:14 cdcfde5 **refactor: unify deps in prereqs**
 ## 2025-12-13 00:42 v1.4.19
 - 2025-12-13 00:42 b7a074c **refactor: unify remote file storage constract**
 - 2025-12-13 00:42 80c0c7d **1.4.19**
@@ -10,6 +14,7 @@
 - 2025-12-13 00:00 b1370f1 **refactor: refine job handler unit of work structure**
 - 2025-12-13 00:00 72f2d30 **1.4.17**
 - 2025-12-12 23:44 413085e **refactor: remove unused this alias**
+- 2025-12-12 23:43 da5685b **docs: generate CHANGELOG**
 - 2025-12-12 23:42 102a334 **docs: generate CHANGELOG**
 - 2025-12-12 23:41 bc7272c **step: test jobs service separately**
 - 2025-12-12 23:36 da26f69 **docs: generate CHANGELOG**
