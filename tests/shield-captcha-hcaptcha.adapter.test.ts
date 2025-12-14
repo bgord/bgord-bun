@@ -5,7 +5,7 @@ import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldCaptchaHcaptchaAdapter } from "../src/shield-captcha-hcaptcha.adapter";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = "0x1111111111111111111111111111111111111111";
+const SECRET_KEY = "11111111111111111111111111111111111";
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
