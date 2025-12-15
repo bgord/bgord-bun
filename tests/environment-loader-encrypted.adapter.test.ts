@@ -8,7 +8,11 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 const path = tools.FilePathRelative.fromString("config/secrets.txt");
 const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
 
-const config = { type: NodeEnvironmentEnum.local, Schema: z.object({ APP_NAME: z.string() }) };
+const SchemaError = { InvalidAppName: "schema.app.name.invalid" };
+const config = {
+  type: NodeEnvironmentEnum.local,
+  Schema: z.object({ APP_NAME: z.string({ error: SchemaError.InvalidAppName }) }),
+};
 
 describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
@@ -26,6 +30,6 @@ describe("EnvironmentLoaderProcess", () => {
         await new EnvironmentLoaderEncryptedAdapter(config, path, {
           Encryption: new EncryptionNoopAdapter(),
         }).load(),
-    ).toThrow();
+    ).toThrow(SchemaError.InvalidAppName);
   });
 });
