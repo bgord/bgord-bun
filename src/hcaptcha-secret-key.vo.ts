@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 export const HCaptchaSecretKeyError = {
   Type: "hcaptcha.secret.key.type",
   Length: "hcaptcha.secret.key.length",
-} as const;
+};
 
 export const HCaptchaSecretKey = z
   .string(HCaptchaSecretKeyError.Type)

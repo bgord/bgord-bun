@@ -1,9 +1,6 @@
 import { z } from "zod/v4";
 
-export const RecaptchaSiteKeyError = {
-  Type: "recaptcha.site.key.type",
-  Length: "recaptcha.site.key.length",
-} as const;
+export const RecaptchaSiteKeyError = { Type: "recaptcha.site.key.type", Length: "recaptcha.site.key.length" };
 
 export const RecaptchaSiteKey = z
   .string(RecaptchaSiteKeyError.Type)

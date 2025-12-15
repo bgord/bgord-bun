@@ -4,7 +4,7 @@ export const EventStreamError = {
   Type: "event.store.type",
   Empty: "event.stream.empty",
   TooLong: "event.stream.too.long",
-} as const;
+};
 
 export const EventStream = z
   .string(EventStreamError.Type)

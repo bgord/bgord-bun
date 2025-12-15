@@ -1,9 +1,6 @@
 import { z } from "zod/v4";
 
-export const HCaptchaSiteKeyError = {
-  Type: "hcaptcha.site.key.type",
-  Length: "hcaptcha.site.key.length",
-} as const;
+export const HCaptchaSiteKeyError = { Type: "hcaptcha.site.key.type", Length: "hcaptcha.site.key.length" };
 
 export const HCaptchaSiteKey = z
   .string(HCaptchaSiteKeyError.Type)

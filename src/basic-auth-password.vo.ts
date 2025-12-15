@@ -4,7 +4,7 @@ export const BasicAuthPasswordError = {
   Type: "basic.auth.password.type",
   Empty: "basic.auth.password.empty",
   TooLong: "basic.auth.password.too.long",
-} as const;
+};
 
 export const BasicAuthPassword = z
   .string(BasicAuthPasswordError.Type)

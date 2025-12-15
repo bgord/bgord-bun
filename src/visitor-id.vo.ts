@@ -4,7 +4,7 @@ export const VisitorIdError = {
   Type: "visitor.id.type",
   Empty: "visitor.id.empty",
   TooLong: "visitor.id.too.long",
-} as const;
+};
 
 export const VisitorId = z
   .string(VisitorIdError.Type)

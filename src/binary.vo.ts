@@ -5,7 +5,7 @@ export const BinaryError = {
   Empty: "binary.empty",
   TooLong: "binary.too.long",
   BadChars: "binary.bad.chars",
-} as const;
+};
 
 // One to sixty four letters, digits, hyphens, or underscores
 const BINARY_WHITELIST = /^[a-zA-Z0-9-_]{1,64}$/;
