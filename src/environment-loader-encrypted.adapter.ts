@@ -11,7 +11,7 @@ export class EnvironmentLoaderEncryptedAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>
 {
   constructor(
-    private readonly config: { type: NodeEnvironmentEnum; schema: Schema },
+    private readonly config: { type: NodeEnvironmentEnum; Schema: Schema },
     private path: tools.FilePathRelative,
     private readonly deps: Dependencies,
   ) {}
@@ -20,6 +20,6 @@ export class EnvironmentLoaderEncryptedAdapter<Schema extends z.ZodObject<any>>
     const file = await this.deps.Encryption.view(this.path);
     const content = new TextDecoder().decode(file);
 
-    return Object.freeze({ ...this.config.schema.parse(parse(content)), type: this.config.type });
+    return Object.freeze({ ...this.config.Schema.parse(parse(content)), type: this.config.type });
   }
 }

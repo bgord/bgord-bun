@@ -8,7 +8,7 @@ const Schema = z.object({ APP_NAME: z.string() });
 describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
     const result = await new EnvironmentLoaderProcessAdapter(
-      { type: NodeEnvironmentEnum.local, schema: Schema },
+      { type: NodeEnvironmentEnum.local, Schema },
       { ...process.env, APP_NAME: "MyApp" },
     ).load();
 
@@ -21,7 +21,7 @@ describe("EnvironmentLoaderProcess", () => {
       async () =>
         await new EnvironmentLoaderProcessAdapter(
           // @ts-expect-error
-          { type: "invalid", schema: Schema },
+          { type: "invalid", Schema },
           { ...process.env, APP_NAME: 123 },
         ).load(),
     ).toThrow();
