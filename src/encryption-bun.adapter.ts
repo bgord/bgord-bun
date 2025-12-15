@@ -3,7 +3,10 @@ import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import type { EncryptionPort, EncryptionRecipe } from "./encryption.port";
 import { EncryptionIV } from "./encryption-iv.vo";
 
-export const EncryptionBunAdapterError = { InvalidPayload: "encryption.bun.adapter.invalid.payload" };
+export const EncryptionBunAdapterError = {
+  InvalidPayload: "encryption.bun.adapter.invalid.payload",
+  MissingFile: "encryption.bun.adapter.missing.file",
+};
 
 type Dependencies = { CryptoKeyProvider: CryptoKeyProviderPort };
 
@@ -16,7 +19,10 @@ export class EncryptionBunAdapter implements EncryptionPort {
     const key = await this.deps.CryptoKeyProvider.get();
     const iv = EncryptionIV.generate();
 
-    const plaintext = await Bun.file(recipe.input.get()).arrayBuffer();
+    const file = Bun.file(recipe.input.get());
+    if (!(await file.exists())) throw new Error(EncryptionBunAdapterError.MissingFile);
+
+    const plaintext = await file.arrayBuffer();
 
     const encrypted = await crypto.subtle.encrypt(
       { name: EncryptionBunAdapter.ALGORITHM, iv: iv.buffer as ArrayBuffer },
@@ -47,7 +53,11 @@ export class EncryptionBunAdapter implements EncryptionPort {
 
   private async decryptFile(input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ArrayBuffer> {
     const key = await this.deps.CryptoKeyProvider.get();
-    const bytes = new Uint8Array(await Bun.file(input.get()).arrayBuffer());
+
+    const file = Bun.file(input.get());
+    if (!(await file.exists())) throw new Error(EncryptionBunAdapterError.MissingFile);
+
+    const bytes = new Uint8Array(await file.arrayBuffer());
 
     // Payload must be at least IV length + 1 byte of content/tag
     if (bytes.length < EncryptionIV.LENGTH + 1) throw new Error(EncryptionBunAdapterError.InvalidPayload);

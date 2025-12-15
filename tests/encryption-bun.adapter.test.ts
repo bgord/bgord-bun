@@ -22,7 +22,7 @@ describe("EncryptionBunAdapter", () => {
 
   test("encrypt", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
-    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => plaintext.buffer } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: () => true, arrayBuffer: () => plaintext.buffer } as any);
     spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
@@ -30,8 +30,18 @@ describe("EncryptionBunAdapter", () => {
     expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(encryptedFileContent);
   });
 
+  test("encrypt", async () => {
+    spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer } as any);
+
+    expect(async () => adapter.encrypt(recipe)).toThrow(EncryptionBunAdapterError.MissingFile);
+  });
+
   test("decrypt", async () => {
-    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => encryptedFileContent.buffer } as any);
+    spyOn(Bun, "file").mockReturnValue({
+      exists: () => true,
+      arrayBuffer: () => encryptedFileContent.buffer,
+    } as any);
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
@@ -39,18 +49,43 @@ describe("EncryptionBunAdapter", () => {
     expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(plaintext);
   });
 
+  test("decrypt - failure - invalid payload", async () => {
+    spyOn(Bun, "file").mockReturnValue({
+      exists: () => true,
+      arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
+    } as any);
+
+    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionBunAdapterError.InvalidPayload);
+  });
+
+  test("decrypt - failure - missing file", async () => {
+    spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
+
+    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionBunAdapterError.MissingFile);
+  });
+
   test("view", async () => {
-    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => encryptedFileContent.buffer } as any);
+    spyOn(Bun, "file").mockReturnValue({
+      exists: () => true,
+      arrayBuffer: () => encryptedFileContent.buffer,
+    } as any);
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
 
     expect(await adapter.view(recipe.input)).toEqual(plaintext.buffer);
   });
 
-  test("failure - invalid payload", async () => {
+  test("view - failure - invalid payload", async () => {
     spyOn(Bun, "file").mockReturnValue({
-      arrayBuffer: async () => new Uint8Array(EncryptionIV.LENGTH).buffer,
+      exists: () => true,
+      arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
     } as any);
 
-    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionBunAdapterError.InvalidPayload);
+    expect(async () => adapter.view(recipe.input)).toThrow(EncryptionBunAdapterError.InvalidPayload);
+  });
+
+  test("view - failure - missing file", async () => {
+    spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
+
+    expect(async () => adapter.view(recipe.input)).toThrow(EncryptionBunAdapterError.MissingFile);
   });
 });
