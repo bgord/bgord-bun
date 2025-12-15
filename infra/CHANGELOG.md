@@ -1,5 +1,8 @@
 # Changelog
+## 2025-12-15 10:03 v1.4.26
+- 2025-12-15 10:03 ba0f7b5 **1.4.26**
 - 2025-12-15 10:02 586274e **step: update packages**
+- 2025-12-15 09:02 a5a6807 **docs: generate CHANGELOG**
 ## 2025-12-14 23:15 v1.4.25
 - 2025-12-14 23:15 b61ad29 **refactor: remove public url from remote file storage**
 - 2025-12-14 23:15 033169c **1.4.25**
