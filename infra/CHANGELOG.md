@@ -1,7 +1,12 @@
 # Changelog
+- 2025-12-15 11:49 e3bb7ef **refactor: cleanup previous service**
+- 2025-12-15 11:47 269f0b4 **step: freeze returned env object**
+- 2025-12-15 11:43 f0e3475 **step: add environment process env adapter**
+- 2025-12-15 11:36 e5a98d7 **step: add environment loader port**
 ## 2025-12-15 10:03 v1.4.26
 - 2025-12-15 10:03 ba0f7b5 **1.4.26**
 - 2025-12-15 10:02 586274e **step: update packages**
+- 2025-12-15 09:03 3889a3a **docs: generate CHANGELOG**
 - 2025-12-15 09:02 a5a6807 **docs: generate CHANGELOG**
 ## 2025-12-14 23:15 v1.4.25
 - 2025-12-14 23:15 b61ad29 **refactor: remove public url from remote file storage**
