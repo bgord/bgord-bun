@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-15 19:50 6cf294d **step: bump bgord/scripts**
 - 2025-12-15 18:40 fda515d **step: bump bgord/scripts**
 - 2025-12-15 18:40 f7eea8e **step: install lockfile lint**
 - 2025-12-15 18:37 de8003d **step: bump bgord/scripts**
@@ -9,6 +10,7 @@
 - 2025-12-15 18:00 dce1830 **step: make env loader encrypted failure more descriptive**
 - 2025-12-15 17:56 ae28399 **refactor: use EncryptionKey vo**
 - 2025-12-15 17:42 b9898cd **feature: encryption key vo**
+- 2025-12-15 17:41 9b3af6b **docs: generate CHANGELOG**
 - 2025-12-15 17:40 16158a6 **docs: generate CHANGELOG**
 - 2025-12-15 17:37 f5ab6c2 **docs: generate CHANGELOG**
 - 2025-12-15 17:34 2802b21 **docs: generate CHANGELOG**
