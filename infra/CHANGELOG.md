@@ -1,4 +1,14 @@
 # Changelog
+- 2025-12-15 14:13 879a774 **refactor: rename crypto key provider**
+- 2025-12-15 13:12 5a09f4e **step: add environment loader encrypted adapter tests**
+- 2025-12-15 13:08 20f2b4a **refactor: rename Schema paramter**
+- 2025-12-15 13:05 e650b93 **step: make encryption noop adapter flexible**
+- 2025-12-15 13:02 b0412b1 **feature: environment loader encrypted adapter**
+- 2025-12-15 13:00 16e1833 **refactor: rename process adapter**
+- 2025-12-15 12:57 9776159 **refactor: simplify process env loader**
+- 2025-12-15 12:48 5f5ffb2 **step: install dotenv**
+- 2025-12-15 12:39 21cb93d **fix: encryption port**
+- 2025-12-15 12:19 53f8833 **step: scrub process env in environment loader process env adapter**
 ## 2025-12-15 11:51 v1.5.1
 - 2025-12-15 11:51 a42f901 **1.5.1**
 ## 2025-12-15 11:50 v1.5.0
@@ -8,6 +18,7 @@
 - 2025-12-15 11:43 f0e3475 **step: add environment process env adapter**
 - 2025-12-15 11:36 e5a98d7 **step: add environment loader port**
 - 2025-12-15 10:51 7ee6f80 **docs: generate CHANGELOG**
+- 2025-12-15 10:51 591ec3f **docs: generate CHANGELOG**
 - 2025-12-15 10:50 d75f65b **docs: generate readme**
 - 2025-12-15 10:50 4561b17 **docs: generate CHANGELOG**
 ## 2025-12-15 10:03 v1.4.26
