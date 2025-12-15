@@ -6,3 +6,4 @@ dist
 tsconfig.tsbuildinfo
 tests/tmp/*
 !tests/tmp/.gitkeep
+tmp/
