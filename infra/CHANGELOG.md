@@ -1,5 +1,16 @@
 # Changelog
+- 2025-12-15 18:09 90ae2d4 **step: update packages**
+- 2025-12-15 18:06 bfbf197 **refactor: improve file checks in encryption adapter**
+- 2025-12-15 18:00 dce1830 **step: make env loader encrypted failure more descriptive**
+- 2025-12-15 17:56 ae28399 **refactor: use EncryptionKey vo**
+- 2025-12-15 17:42 b9898cd **feature: encryption key vo**
+- 2025-12-15 17:19 fedf4a1 **refactor: rename encryption key to value**
+- 2025-12-15 17:11 a0da027 **step: test crypto key provider file adapter**
+- 2025-12-15 16:56 deaa8e8 **feature: crypto key provider file adapter**
+- 2025-12-15 14:57 b8f8654 **step: ignore tmp**
 - 2025-12-15 14:13 879a774 **refactor: rename crypto key provider**
+- 2025-12-15 13:13 bf1284b **docs: generate CHANGELOG**
+- 2025-12-15 13:13 8de9aad **docs: generate readme**
 - 2025-12-15 13:12 5a09f4e **step: add environment loader encrypted adapter tests**
 - 2025-12-15 13:08 20f2b4a **refactor: rename Schema paramter**
 - 2025-12-15 13:05 e650b93 **step: make encryption noop adapter flexible**
