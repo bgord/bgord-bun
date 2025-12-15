@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-15 10:02 586274e **step: update packages**
 ## 2025-12-14 23:15 v1.4.25
 - 2025-12-14 23:15 b61ad29 **refactor: remove public url from remote file storage**
 - 2025-12-14 23:15 033169c **1.4.25**
@@ -8,6 +9,7 @@
 - 2025-12-14 23:12 e20054a **refactor: remove unused email vos**
 - 2025-12-14 22:58 31c342c **step: update packages**
 - 2025-12-14 22:15 ed8e43b **docs: generate CHANGELOG**
+- 2025-12-14 22:15 c5402c7 **docs: generate CHANGELOG**
 - 2025-12-14 22:13 e16752b **docs: generate readme**
 - 2025-12-14 22:13 a22ee68 **docs: generate CHANGELOG**
 - 2025-12-14 22:13 0145477 **docs: generate CHANGELOG**
