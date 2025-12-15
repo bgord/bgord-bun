@@ -9,7 +9,7 @@ export class EnvironmentLoaderProcessEnvAdapter<Schema extends z.ZodObject<any>>
   private readonly schema: Schema;
 
   constructor(
-    config: { type: string | undefined; schema: Schema },
+    config: { type: typeof process.env.NODE_ENV; schema: Schema },
     private env: NodeJS.ProcessEnv,
   ) {
     this.schema = config.schema;
@@ -17,6 +17,6 @@ export class EnvironmentLoaderProcessEnvAdapter<Schema extends z.ZodObject<any>>
   }
 
   async load() {
-    return { ...this.schema.parse(this.env), type: this.type };
+    return Object.freeze({ ...this.schema.parse(this.env), type: this.type });
   }
 }

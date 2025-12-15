@@ -4,5 +4,5 @@ import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 export type EnvironmentResultType<Schema> = z.infer<Schema> & { type: NodeEnvironmentEnum };
 
 export interface EnvironmentLoaderPort<Schema extends z.ZodObject<any>> {
-  load(): Promise<EnvironmentResultType<Schema>>;
+  load(): Promise<Readonly<EnvironmentResultType<Schema>>>;
 }
