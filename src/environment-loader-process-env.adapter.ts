@@ -17,6 +17,12 @@ export class EnvironmentLoaderProcessEnvAdapter<Schema extends z.ZodObject<any>>
   }
 
   async load() {
-    return Object.freeze({ ...this.schema.parse(this.env), type: this.type });
+    const result = this.schema.parse(this.env);
+
+    for (const key of Object.keys(result)) {
+      delete process.env[key];
+    }
+
+    return Object.freeze({ ...result, type: this.type });
   }
 }
