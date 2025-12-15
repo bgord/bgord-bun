@@ -71,7 +71,8 @@ src/
 ├── encryption-key.vo.ts
 ├── encryption-noop.adapter.ts
 ├── encryption.port.ts
-├── environment-validator.service.ts
+├── environment-loader-process-env.adapter.ts
+├── environment-loader.port.ts
 ├── etag-extractor.middleware.ts
 ├── event-bus-like.types.ts
 ├── event-envelope.ts
