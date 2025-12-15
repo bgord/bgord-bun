@@ -1,8 +1,11 @@
 # Changelog
+- 2025-12-15 11:50 84b6693 **1.5.0**
 - 2025-12-15 11:49 e3bb7ef **refactor: cleanup previous service**
 - 2025-12-15 11:47 269f0b4 **step: freeze returned env object**
 - 2025-12-15 11:43 f0e3475 **step: add environment process env adapter**
 - 2025-12-15 11:36 e5a98d7 **step: add environment loader port**
+- 2025-12-15 10:50 d75f65b **docs: generate readme**
+- 2025-12-15 10:50 4561b17 **docs: generate CHANGELOG**
 ## 2025-12-15 10:03 v1.4.26
 - 2025-12-15 10:03 ba0f7b5 **1.4.26**
 - 2025-12-15 10:02 586274e **step: update packages**
