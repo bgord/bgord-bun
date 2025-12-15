@@ -49,10 +49,8 @@ export class EncryptionBunAdapter implements EncryptionPort {
     const key = await this.deps.CryptoKeyProvider.get();
     const bytes = new Uint8Array(await Bun.file(input.get()).arrayBuffer());
 
-    // Validation: Payload must be at least IV length + 1 byte of content/tag
-    if (bytes.length < EncryptionIV.LENGTH + 1) {
-      throw new Error(EncryptionBunAdapterError.InvalidPayload);
-    }
+    // Payload must be at least IV length + 1 byte of content/tag
+    if (bytes.length < EncryptionIV.LENGTH + 1) throw new Error(EncryptionBunAdapterError.InvalidPayload);
 
     const iv = bytes.subarray(0, EncryptionIV.LENGTH);
     const ivBuffer = iv.buffer.slice(iv.byteOffset, iv.byteOffset + iv.byteLength);

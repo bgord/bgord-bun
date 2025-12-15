@@ -1,7 +1,7 @@
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import type { EncryptionKeyType } from "./encryption-key.vo";
 
-export class CryptoKeyProviderEnvAdapter implements CryptoKeyProviderPort {
+export class CryptoKeyProviderMemoryAdapter implements CryptoKeyProviderPort {
   constructor(private readonly ENCRYPTION_KEY: EncryptionKeyType) {}
 
   async get(): Promise<CryptoKey> {
