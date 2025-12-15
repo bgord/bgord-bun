@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
-import { EncryptionKey } from "./encryption-key.vo";
+import { EncryptionKeyValue } from "./encryption-key-value.vo";
 
 export const CryptoKeyProviderFileAdapterError = {
   MissingFile: "crypto.key.provider.file.adapter.missing.file",
@@ -17,7 +17,7 @@ export class CryptoKeyProviderFileAdapter implements CryptoKeyProviderPort {
 
     const content = await file.text();
 
-    const encryptionKey = EncryptionKey.parse(content);
+    const encryptionKey = EncryptionKeyValue.parse(content);
 
     const bytes = new Uint8Array(32);
 

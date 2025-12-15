@@ -4,12 +4,14 @@ import {
   CryptoKeyProviderFileAdapter,
   CryptoKeyProviderFileAdapterError,
 } from "../src/crypto-key-provider-file.adapter";
-import { EncryptionKey, EncryptionKeyError } from "../src/encryption-key.vo";
+import { EncryptionKeyValue, EncryptionKeyValueError } from "../src/encryption-key-value.vo";
 
 const path = tools.FilePathAbsolute.fromString("/run/secret.key");
 const adapter = new CryptoKeyProviderFileAdapter(path);
 
-const VALID_KEY = EncryptionKey.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
+const VALID_KEY = EncryptionKeyValue.parse(
+  "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+);
 
 describe("CryptoKeyProviderFileAdapter", () => {
   test("happy path", async () => {
@@ -34,6 +36,6 @@ describe("CryptoKeyProviderFileAdapter", () => {
       () => ({ exists: () => true, text: () => "invalid-hex-string" }) as any,
     );
 
-    expect(async () => adapter.get()).toThrow(EncryptionKeyError.InvalidHex);
+    expect(async () => adapter.get()).toThrow(EncryptionKeyValueError.InvalidHex);
   });
 });

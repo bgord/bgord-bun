@@ -1,0 +1,16 @@
+import { z } from "zod/v4";
+
+export const EncryptionKeyValueError = {
+  Type: "encryption.key.value.type",
+  InvalidHex: "encryption.key.value.invalid.hex",
+} as const;
+
+// 64 hex chars allowed
+const CHARS_WHITELIST = /^[a-fA-F0-9]{64}$/;
+
+export const EncryptionKeyValue = z
+  .string(EncryptionKeyValueError.Type)
+  .regex(CHARS_WHITELIST, EncryptionKeyValueError.InvalidHex)
+  .brand("EncryptionKeyValue");
+
+export type EncryptionKeyValueType = z.infer<typeof EncryptionKeyValue>;

@@ -42,7 +42,7 @@ export * from "./disk-space-checker-noop.adapter";
 export * from "./dispatching-event-store";
 export * from "./encryption.port";
 export * from "./encryption-bun.adapter";
-export * from "./encryption-key.vo";
+export * from "./encryption-key-value.vo";
 export * from "./encryption-noop.adapter";
 export * from "./environment-loader.port";
 export * from "./environment-loader-encrypted.adapter";

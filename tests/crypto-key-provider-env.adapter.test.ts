@@ -1,8 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { CryptoKeyProviderMemoryAdapter } from "../src/crypto-key-provider-memory.adapter";
-import { EncryptionKey } from "../src/encryption-key.vo";
+import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 
-const HEX = EncryptionKey.parse("000102030405060708090a0b0c0d0e0f" + "000102030405060708090a0b0c0d0e0f");
+const HEX = EncryptionKeyValue.parse("000102030405060708090a0b0c0d0e0f" + "000102030405060708090a0b0c0d0e0f");
 
 const adapter = new CryptoKeyProviderMemoryAdapter(HEX);
 

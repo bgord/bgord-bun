@@ -1,8 +1,8 @@
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
-import type { EncryptionKeyType } from "./encryption-key.vo";
+import type { EncryptionKeyValueType } from "./encryption-key-value.vo";
 
 export class CryptoKeyProviderMemoryAdapter implements CryptoKeyProviderPort {
-  constructor(private readonly ENCRYPTION_KEY: EncryptionKeyType) {}
+  constructor(private readonly ENCRYPTION_KEY: EncryptionKeyValueType) {}
 
   async get(): Promise<CryptoKey> {
     const bytes = new Uint8Array(32);
