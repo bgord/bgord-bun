@@ -30,6 +30,7 @@ export * from "./context.middleware";
 export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
 export * from "./crypto-key-provider.port";
+export * from "./crypto-key-provider-file.adapter";
 export * from "./crypto-key-provider-memory.adapter";
 export * from "./crypto-key-provider-noop.adapter";
 export * from "./csv-stringifier.adapter";
