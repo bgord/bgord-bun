@@ -44,7 +44,7 @@ export * from "./encryption-bun.adapter";
 export * from "./encryption-key.vo";
 export * from "./encryption-noop.adapter";
 export * from "./environment-loader.port";
-export * from "./environment-loader-process-env.adapter";
+export * from "./environment-loader-process.adapter";
 export * from "./etag-extractor.middleware";
 export * from "./event.types";
 export * from "./event-bus-like.types";

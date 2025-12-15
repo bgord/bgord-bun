@@ -2,7 +2,7 @@ import type { z } from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 import type { EnvironmentLoaderPort } from "./environment-loader.port";
 
-export class EnvironmentLoaderProcessEnvAdapter<Schema extends z.ZodObject<any>>
+export class EnvironmentLoaderProcessAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>
 {
   constructor(

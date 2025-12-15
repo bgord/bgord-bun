@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod/v4";
-import { EnvironmentLoaderProcessEnvAdapter } from "../src/environment-loader-process-env.adapter";
+import { EnvironmentLoaderProcessAdapter } from "../src/environment-loader-process.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const Schema = z.object({ APP_NAME: z.string() });
 
-describe("EnvironmentLoaderProcessEnv", () => {
+describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
-    const result = await new EnvironmentLoaderProcessEnvAdapter(
+    const result = await new EnvironmentLoaderProcessAdapter(
       { type: NodeEnvironmentEnum.local, schema: Schema },
       { ...process.env, APP_NAME: "MyApp" },
     ).load();
@@ -19,7 +19,7 @@ describe("EnvironmentLoaderProcessEnv", () => {
   test("failure", () => {
     expect(
       async () =>
-        await new EnvironmentLoaderProcessEnvAdapter(
+        await new EnvironmentLoaderProcessAdapter(
           // @ts-expect-error
           { type: "invalid", schema: Schema },
           { ...process.env, APP_NAME: 123 },
