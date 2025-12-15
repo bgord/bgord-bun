@@ -56,6 +56,7 @@ src/
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
+├── crypto-key-provider-file.adapter.ts
 ├── crypto-key-provider-memory.adapter.ts
 ├── crypto-key-provider-noop.adapter.ts
 ├── crypto-key-provider.port.ts
@@ -68,6 +69,7 @@ src/
 ├── dispatching-event-store.ts
 ├── encryption-bun.adapter.ts
 ├── encryption-iv.vo.ts
+├── encryption-key-value.vo.ts
 ├── encryption-key.vo.ts
 ├── encryption-noop.adapter.ts
 ├── encryption.port.ts
