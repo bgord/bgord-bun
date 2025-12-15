@@ -9,13 +9,11 @@ import { EncryptionKeyValue, EncryptionKeyValueError } from "../src/encryption-k
 const path = tools.FilePathAbsolute.fromString("/run/secret.key");
 const adapter = new CryptoKeyProviderFileAdapter(path);
 
-const VALID_KEY = EncryptionKeyValue.parse(
-  "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
-);
+const HEX = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
 
 describe("CryptoKeyProviderFileAdapter", () => {
   test("happy path", async () => {
-    spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => VALID_KEY }) as any);
+    spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => HEX }) as any);
 
     const result = await adapter.get();
 
