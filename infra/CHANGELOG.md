@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-15 18:11 96b7327 **refactor: simplify type casting**
 - 2025-12-15 18:09 90ae2d4 **step: update packages**
 - 2025-12-15 18:06 bfbf197 **refactor: improve file checks in encryption adapter**
 - 2025-12-15 18:00 dce1830 **step: make env loader encrypted failure more descriptive**
@@ -6,6 +7,8 @@
 - 2025-12-15 17:42 b9898cd **feature: encryption key vo**
 - 2025-12-15 17:19 fedf4a1 **refactor: rename encryption key to value**
 - 2025-12-15 17:11 a0da027 **step: test crypto key provider file adapter**
+- 2025-12-15 17:09 97733a5 **docs: generate CHANGELOG**
+- 2025-12-15 17:09 4547158 **docs: generate readme**
 - 2025-12-15 16:56 deaa8e8 **feature: crypto key provider file adapter**
 - 2025-12-15 14:57 b8f8654 **step: ignore tmp**
 - 2025-12-15 14:13 879a774 **refactor: rename crypto key provider**
