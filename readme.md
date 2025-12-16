@@ -74,6 +74,7 @@ src/
 ├── encryption-noop.adapter.ts
 ├── encryption.port.ts
 ├── environment-loader-encrypted.adapter.ts
+├── environment-loader-process-safe.adapter.ts
 ├── environment-loader-process.adapter.ts
 ├── environment-loader.port.ts
 ├── etag-extractor.middleware.ts
