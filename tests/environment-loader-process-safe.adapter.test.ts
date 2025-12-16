@@ -7,6 +7,7 @@ const Schema = z.object({ APP_NAME: z.string() });
 
 describe("EnvironmentLoaderProcessSafe", () => {
   test("happy path", async () => {
+    process.env.APP_NAME = "MyApp";
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
       { type: NodeEnvironmentEnum.local, Schema },
       { ...process.env, APP_NAME: "MyApp" },
@@ -16,6 +17,8 @@ describe("EnvironmentLoaderProcessSafe", () => {
 
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    // @ts-expect-error
+    expect(process.env.APP_NAME).toEqual(undefined);
 
     const second = await adapter.load();
 
