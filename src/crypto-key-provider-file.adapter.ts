@@ -15,7 +15,8 @@ export class CryptoKeyProviderFileAdapter implements CryptoKeyProviderPort {
 
     if (!exists) throw new Error(CryptoKeyProviderFileAdapterError.MissingFile);
 
-    const encryptionKey = EncryptionKey.fromString(await file.text());
+    const content = await file.text();
+    const encryptionKey = EncryptionKey.fromString(content.trim());
 
     return crypto.subtle.importKey(
       "raw",

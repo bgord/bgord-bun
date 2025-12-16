@@ -23,10 +23,29 @@ describe("CryptoKeyProviderFileAdapter", () => {
     expect(result.extractable).toBe(false);
   });
 
+  test("happy path - trimmed EOL", async () => {
+    spyOn(Bun, "file").mockImplementation(
+      () => ({ exists: () => true, text: () => `${"0".repeat(64)}\n` }) as any,
+    );
+
+    const result = await adapter.get();
+
+    expect(result).toBeInstanceOf(CryptoKey);
+    expect(result.algorithm.name).toBe("AES-GCM");
+    expect(result.usages).toEqual(["decrypt", "encrypt"]);
+    expect(result.extractable).toBe(false);
+  });
+
   test("missing file", async () => {
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => false }) as any);
 
     expect(async () => adapter.get()).toThrow(CryptoKeyProviderFileAdapterError.MissingFile);
+  });
+
+  test("empty file", async () => {
+    spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => "" }) as any);
+
+    expect(async () => adapter.get()).toThrow(EncryptionKeyValueError.InvalidHex);
   });
 
   test("invalid content", async () => {

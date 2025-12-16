@@ -20,7 +20,9 @@ export class EncryptionBunAdapter implements EncryptionPort {
     const iv = EncryptionIV.generate();
 
     const file = Bun.file(recipe.input.get());
-    if (!(await file.exists())) throw new Error(EncryptionBunAdapterError.MissingFile);
+    const exists = await file.exists();
+
+    if (!exists) throw new Error(EncryptionBunAdapterError.MissingFile);
 
     const plaintext = await file.arrayBuffer();
 
@@ -55,7 +57,9 @@ export class EncryptionBunAdapter implements EncryptionPort {
     const key = await this.deps.CryptoKeyProvider.get();
 
     const file = Bun.file(input.get());
-    if (!(await file.exists())) throw new Error(EncryptionBunAdapterError.MissingFile);
+    const exists = await file.exists();
+
+    if (!exists) throw new Error(EncryptionBunAdapterError.MissingFile);
 
     const bytes = new Uint8Array(await file.arrayBuffer());
 
