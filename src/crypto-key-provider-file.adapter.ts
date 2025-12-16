@@ -7,7 +7,7 @@ export const CryptoKeyProviderFileAdapterError = {
 };
 
 export class CryptoKeyProviderFileAdapter implements CryptoKeyProviderPort {
-  constructor(private readonly path: tools.FilePathAbsolute) {}
+  constructor(private readonly path: tools.FilePathAbsolute | tools.FilePathRelative) {}
 
   async get() {
     const file = Bun.file(this.path.get());

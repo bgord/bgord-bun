@@ -11,13 +11,16 @@ export class EnvironmentLoaderEncryptedAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>
 {
   constructor(
-    private readonly config: { type: NodeEnvironmentEnum; Schema: Schema },
-    private path: tools.FilePathRelative,
+    private readonly config: {
+      type: NodeEnvironmentEnum;
+      Schema: Schema;
+      path: tools.FilePathAbsolute | tools.FilePathRelative;
+    },
     private readonly deps: Dependencies,
   ) {}
 
   async load() {
-    const file = await this.deps.Encryption.view(this.path);
+    const file = await this.deps.Encryption.view(this.config.path);
     const content = new TextDecoder().decode(file);
 
     return Object.freeze({ ...this.config.Schema.parse(parse(content)), type: this.config.type });
