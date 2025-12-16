@@ -1,8 +1,10 @@
 # Changelog
+- 2025-12-16 13:41 2a1c227 **feature: environment loader process safe**
 ## 2025-12-16 13:00 v1.5.4
 - 2025-12-16 13:00 9cb5cfe **1.5.4**
 - 2025-12-16 12:59 d0dd356 **refactor: allow both file paths in crypto key provider and environment loader**
 - 2025-12-16 12:45 814045d **fix: trim file in crypto key provider file**
+- 2025-12-16 12:40 8635625 **docs: generate CHANGELOG**
 - 2025-12-16 12:00 ae97252 **docs: generate CHANGELOG**
 - 2025-12-16 12:00 1bead93 **docs: generate CHANGELOG**
 - 2025-12-16 10:24 43104c4 **refactor: arrange act assert**
