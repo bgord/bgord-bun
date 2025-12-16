@@ -1,5 +1,8 @@
 # Changelog
+- 2025-12-16 12:59 d0dd356 **refactor: allow both file paths in crypto key provider and environment loader**
+- 2025-12-16 12:45 814045d **fix: trim file in crypto key provider file**
 - 2025-12-16 10:24 43104c4 **refactor: arrange act assert**
+- 2025-12-16 10:09 00b3ccd **docs: generate CHANGELOG**
 ## 2025-12-16 10:00 v1.5.3
 - 2025-12-16 10:00 b32d40e **1.5.3**
 - 2025-12-16 09:59 dfae432 **step: update packages**
