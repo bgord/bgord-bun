@@ -26,14 +26,14 @@ describe("Decorators service", () => {
         return 42;
       }
     }
-
     const instance = new TestClass();
+
     const result = instance.compute();
 
     expect(result).toEqual(42);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.compute duration");
     expect(log.operation).toEqual("decorators_duration_ms");
     expect(typeof log.metadata.durationMs).toEqual("number");
@@ -53,8 +53,8 @@ describe("Decorators service", () => {
 
     expect(result).toEqual(42);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.compute duration");
     expect(log.operation).toEqual("decorators_duration_ms");
     expect(typeof log.metadata.durationMs).toEqual("number");
@@ -69,14 +69,14 @@ describe("Decorators service", () => {
         return 42;
       }
     }
-
     const instance = new TestClass();
+
     const result = await instance.compute();
 
     expect(result).toEqual(42);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.compute duration");
     expect(log.operation).toEqual("decorators_duration_ms");
     expect(typeof log.metadata.durationMs).toEqual("number");
@@ -91,13 +91,12 @@ describe("Decorators service", () => {
         return 42;
       }
     }
-
     const result = await TestClass.compute();
 
     expect(result).toEqual(42);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.compute duration");
     expect(log.operation).toEqual("decorators_duration_ms");
     expect(typeof log.metadata.durationMs).toEqual("number");
@@ -111,14 +110,14 @@ describe("Decorators service", () => {
         return x + y;
       }
     }
-
     const instance = new TestClass();
+
     const result = await instance.fetchData(2, 3);
 
     expect(result).toEqual(5);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.fetchData inspector");
     expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
@@ -132,12 +131,13 @@ describe("Decorators service", () => {
         return x + y;
       }
     }
-
     const instance = new TestClass();
+
     const result = await instance.fetchData(2, 3);
 
     expect(result).toEqual(5);
     expect(logger.logs.length).toEqual(1);
+
     const log = logger.logs[0];
 
     expect(log.message).toEqual("TestClass.fetchData inspector");
@@ -158,8 +158,8 @@ describe("Decorators service", () => {
 
     expect(result).toEqual(5);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.fetchData inspector");
     expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);
@@ -178,8 +178,8 @@ describe("Decorators service", () => {
 
     expect(result).toEqual(5);
     expect(logger.logs.length).toEqual(1);
-    const log = logger.logs[0];
 
+    const log = logger.logs[0];
     expect(log.message).toEqual("TestClass.fetchData inspector");
     expect(log.operation).toEqual("decorators_inspector");
     expect(log.metadata.arguments).toEqual([2, 3]);

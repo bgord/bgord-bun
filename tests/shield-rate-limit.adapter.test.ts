@@ -11,9 +11,7 @@ import {
 
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const deps = { Clock };
-
 const store = new RateLimitStoreNodeCacheAdapter(tools.Duration.Seconds(1));
-
 const shieldRateLimit = new ShieldRateLimitAdapter(
   { enabled: true, store, subject: AnonSubjectResolver },
   deps,
@@ -106,17 +104,20 @@ describe("ShieldRateLimitAdapter", () => {
     );
 
     const firstUserFirstRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
+
     expect(firstUserFirstRequest.status).toEqual(200);
 
     const secondUserFirstRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
+
     expect(secondUserFirstRequest.status).toEqual(200);
 
     const secondUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
+
     expect(secondUserSecondRequest.status).toEqual(429);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
-
     const firstUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
+
     expect(firstUserSecondRequest.status).toEqual(200);
 
     store.flushAll();

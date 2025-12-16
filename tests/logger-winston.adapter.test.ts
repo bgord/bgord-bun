@@ -1,10 +1,13 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerWinstonAdapter } from "../src/logger-winston.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorMaskAdapter } from "../src/redactor-mask.adapter";
 import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 import * as mocks from "./mocks";
+
+const filePath = tools.FilePathAbsolute.fromString("/var/www/logger.txt");
 
 const redactor = new RedactorNoopAdapter();
 
@@ -17,6 +20,7 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
+      filePath,
     });
 
     logger.info({ component: "emotions", operation: "entry_create", message: "Created entry" });
@@ -35,13 +39,13 @@ describe("LoggerWinstonAdapter", () => {
 
   test("respects level threshold", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
-
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
+      filePath,
     });
 
     logger.http({
@@ -69,6 +73,7 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
+      filePath,
     });
 
     logger.error({
@@ -91,6 +96,7 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
+      filePath,
     });
 
     logger.http({
@@ -103,8 +109,8 @@ describe("LoggerWinstonAdapter", () => {
       durationMs: 42,
       client: { ip: "1.2.3.4", userAgent: "UA" },
     });
-
     const log = JSON.parse(lines[0] as string);
+
     expect(log.method).toEqual("GET");
     expect(log.status).toEqual(200);
     expect(log.durationMs).toEqual(42);
@@ -114,13 +120,13 @@ describe("LoggerWinstonAdapter", () => {
   test("redactor", () => {
     const redactor = new RedactorMaskAdapter(["secret"]);
     const { transport, lines } = mocks.makeCaptureTransport();
-
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
+      filePath,
     });
 
     logger.info({

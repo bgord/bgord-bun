@@ -33,7 +33,6 @@ describe("ZipDraft service", () => {
   test("embeds all parts", async () => {
     const first = new Draft(firstBasename, "id\n1");
     const second = new Draft(secondBasename, "id\n2");
-
     const zip = new FileDraftZip(bundle, [first, second]);
 
     const text = (await zip.create()).toString("utf8");

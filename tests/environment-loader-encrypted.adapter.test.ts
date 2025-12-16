@@ -7,7 +7,6 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const path = tools.FilePathRelative.fromString("config/secrets.txt");
 const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
-
 const SchemaError = { InvalidAppName: "schema.app.name.invalid" };
 const config = {
   type: NodeEnvironmentEnum.local,

@@ -7,13 +7,11 @@ import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock };
-
 const adapter = new CertificateInspectorTLSAdapter(deps);
 
 describe("CertificateInspectorTLSAdapter", () => {
   test("success - remaining 30 days", async () => {
     const valid_to = new Date(Clock.now().add(tools.Duration.Days(30)).ms).toUTCString();
-
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
@@ -34,7 +32,6 @@ describe("CertificateInspectorTLSAdapter", () => {
 
   test("success - expired 2 days ago", async () => {
     const valid_to = new Date(Clock.now().add(tools.Duration.Days(-2)).ms).toUTCString();
-
     spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {

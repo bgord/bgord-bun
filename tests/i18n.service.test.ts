@@ -8,16 +8,14 @@ import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter"
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
-const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
-
-const deps = { Logger, JsonFileReader };
-
 enum SupportedLanguages {
   en = "en",
   pl = "pl",
 }
 
+const Logger = new LoggerNoopAdapter();
+const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
+const deps = { Logger, JsonFileReader };
 const i18n = new I18n(deps);
 
 const app = new Hono()
@@ -69,6 +67,7 @@ describe("I18n service", () => {
 
   describe("useTranslations", () => {
     const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
+
     const t = i18n.useTranslations(translations);
 
     test("returns the correct translation", () => {

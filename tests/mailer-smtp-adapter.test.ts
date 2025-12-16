@@ -7,14 +7,12 @@ describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
     const sendMail = jest.fn();
     spyOn(nodemailer, "createTransport").mockReturnValue({ sendMail } as any);
-
     const mailer = new MailerSmtpAdapter({
       SMTP_HOST: "smtp.example.com",
       SMTP_PORT: SmtpPort.parse(587),
       SMTP_USER: "user@example.com",
       SMTP_PASS: "password",
     });
-
     const sendOptions = {
       from: "sender@example.com",
       to: "recipient@example.com",
@@ -30,7 +28,6 @@ describe("MailerSmtpAdapter", () => {
   test("verify - success", async () => {
     const verify = jest.fn();
     spyOn(nodemailer, "createTransport").mockImplementation(() => ({ verify }) as any);
-
     const mailer = new MailerSmtpAdapter({
       SMTP_HOST: "smtp.example.com",
       SMTP_PORT: SmtpPort.parse(587),

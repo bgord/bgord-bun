@@ -4,12 +4,10 @@ import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import * as Preferences from "../src/modules/preferences";
 
 const userId = new IdProviderCryptoAdapter().generate();
-
 export enum SupportedLanguages {
   en = "en",
   pl = "pl",
 }
-
 export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl] as const;
 
 class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQueryPort {
@@ -23,7 +21,6 @@ const UserLanguageQueryAdapter = new UserLanguageQueryAdapterNoop();
 describe("preferences - ohq - UserLanguageOHQ", () => {
   test("happy path", async () => {
     spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(SupportedLanguages.pl);
-
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
@@ -35,7 +32,6 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
 
   test("UserLanguageResolverThrowIfMissing", async () => {
     spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null as any);
-
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
@@ -49,7 +45,6 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
 
   test("UserLanguageResolverSystemDefaultFallback", async () => {
     spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null as any);
-
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),

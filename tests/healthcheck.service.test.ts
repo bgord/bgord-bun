@@ -13,25 +13,24 @@ import * as prereqs from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
+const memoryConsumption = tools.Size.fromBytes(12345678);
+const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
+
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-
 const deps = { Clock, JsonFileReader, Logger };
 
 const buildInfo = {
   BUILD_DATE: Clock.nowMs(),
   BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
 };
-const memoryConsumption = tools.Size.fromBytes(12345678);
-const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
 describe("Healthcheck service", () => {
   test("200", async () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
-
     const app = new Hono().get("/health", ...Healthcheck.build([new mocks.PrerequisiteOk()], deps));
 
     const response = await app.request("/health");
@@ -55,7 +54,6 @@ describe("Healthcheck service", () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
-
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
@@ -85,7 +83,6 @@ describe("Healthcheck service", () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
-
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()], deps),

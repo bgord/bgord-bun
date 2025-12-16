@@ -6,7 +6,6 @@ const HEX = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5
 const ANOTHER_HEX = EncryptionKeyValue.parse(
   "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f91",
 );
-
 const BUFFER = new Uint8Array([
   161, 178, 195, 212, 229, 246, 7, 24, 41, 58, 75, 92, 109, 126, 143, 144, 161, 178, 195, 212, 229, 246, 7,
   24, 41, 58, 75, 92, 109, 126, 143, 144,

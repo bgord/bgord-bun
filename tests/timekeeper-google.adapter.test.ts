@@ -3,7 +3,7 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { TimekeeperGoogleAdapter } from "../src/timekeeper-google.adapter";
 import * as mocks from "./mocks";
 
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("TimekeeperGoogleAdapter", () => {
   test("happy path", async () => {
@@ -11,7 +11,7 @@ describe("TimekeeperGoogleAdapter", () => {
       new Response(null, { headers: { date: mocks.TIME_ZERO_DATE_UTC } }),
     );
 
-    expect(await new TimekeeperGoogleAdapter().get()).toEqual(clock.now());
+    expect(await new TimekeeperGoogleAdapter().get()).toEqual(Clock.now());
   });
 
   test("missing date header", async () => {

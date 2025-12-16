@@ -38,8 +38,8 @@ describe("RedactorObjectAdapter", () => {
 
   test("keeps small objects unchanged", () => {
     const maxKeys = 5;
-    const redactor = new RedactorCompactObjectAdapter({ maxKeys });
     const boundary = Object.fromEntries(Array.from({ length: maxKeys }, (_, i) => [`k${i}`, i]));
+    const redactor = new RedactorCompactObjectAdapter({ maxKeys });
 
     expect(redactor.redact(boundary)).toEqual(boundary);
   });
@@ -48,7 +48,6 @@ describe("RedactorObjectAdapter", () => {
     class Custom {
       constructor(public value: number) {}
     }
-
     const redactor = new RedactorCompactObjectAdapter({ maxKeys: 10 });
     const input = {
       bag: {
@@ -64,15 +63,11 @@ describe("RedactorObjectAdapter", () => {
 
     expect(Array.isArray(result.bag.arr)).toEqual(true);
     expect(result.bag.arr).toEqual([1, 2, 3]);
-
     expect(result.bag.when instanceof Date).toEqual(true);
-
     expect(result.bag.map instanceof Map).toEqual(true);
     expect(result.bag.map.get("a")).toEqual(1);
-
     expect(result.bag.set instanceof Set).toEqual(true);
     expect(result.bag.set.has(2)).toEqual(true);
-
     expect(result.bag.inst instanceof Custom).toEqual(true);
     expect(result.bag.inst.value).toEqual(7);
   });

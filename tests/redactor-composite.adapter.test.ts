@@ -9,7 +9,6 @@ class UppercaseRedactor implements RedactorPort {
     return (typeof input === "string" ? (input.toUpperCase() as any) : input) as T;
   }
 }
-
 class SuffixRedactor implements RedactorPort {
   constructor(private readonly suffix: string) {}
   redact<T>(input: T): T {
@@ -32,7 +31,6 @@ describe("RedactorCompositeAdapter", () => {
 
   test("compact array and object pipeline", () => {
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: [1, 2, 3] } };
-
     const redactor = new RedactorCompositeAdapter([
       new RedactorCompactArrayAdapter(),
       new RedactorCompactObjectAdapter({ maxKeys: 2 }),

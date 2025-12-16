@@ -11,7 +11,6 @@ describe("AntivirusClamavAdapter", () => {
     }));
 
     expect(await new AntivirusClamavAdapter().scanBytes(new Uint8Array([1, 2, 3]))).toEqual({ clean: true });
-
     // @ts-expect-error
     expect(bunSpawn.mock.calls[0]?.[0].cmd).toEqual([
       "clamscan",

@@ -4,11 +4,13 @@ import { CorrelationStorage, CorrelationStorageError } from "../src/correlation-
 describe("CorrelationStorage service", () => {
   test("run - makes the correlationId available inside the callback", () => {
     const id = "cid-1";
+
     CorrelationStorage.run(id, () => expect(CorrelationStorage.get()).toEqual(id));
   });
 
   test("run - propagates across awaits/promises", async () => {
     const id = "cid-async";
+
     await CorrelationStorage.run(id, async () => expect(CorrelationStorage.get()).toEqual(id));
   });
 
@@ -36,6 +38,7 @@ describe("CorrelationStorage service", () => {
 
   test("handle - cleans up after the request completes", async () => {
     const context = { get: () => "cid-cleanup" } as any;
+
     await CorrelationStorage.handle()(context, () => Promise.resolve());
 
     expect(() => CorrelationStorage.get()).toThrow(CorrelationStorageError.Missing);

@@ -16,9 +16,9 @@ const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.te
 describe("ShieldCaptchaHcaptchaAdapter", () => {
   test("happy path", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: true });
-
     const form = new FormData();
     form.set("h-captcha-response", VALID_TOKEN);
+
     const response = await app.request("/secure", { method: "POST", body: form });
 
     expect(response.status).toEqual(200);
@@ -28,9 +28,9 @@ describe("ShieldCaptchaHcaptchaAdapter", () => {
 
   test("failure - known error", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: false });
-
     const form = new FormData();
     form.set("h-captcha-response", INVALID_TOKEN);
+
     const response = await app.request("/secure", { method: "POST", body: form });
 
     expect(response.status).toEqual(403);
@@ -50,7 +50,6 @@ describe("ShieldCaptchaHcaptchaAdapter", () => {
 
   test("failure - unknown error", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentialError));
-
     const form = new FormData();
     form.set("h-captcha-response", "any-token");
 

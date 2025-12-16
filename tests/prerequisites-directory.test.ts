@@ -6,13 +6,14 @@ import { PrerequisiteDirectory } from "../src/prerequisites/directory";
 import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/mocked/path");
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteDirectory", () => {
   test("success - directory is accessible with required flags", async () => {
     spyOn(fsp, "access").mockResolvedValue();
 
-    expect(await new PrerequisiteDirectory({ label: "dir", directory }).verify(clock)).toEqual(
+    expect(await new PrerequisiteDirectory({ label: "dir", directory }).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -22,13 +23,13 @@ describe("PrerequisiteDirectory", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteDirectory({ label: "dir", directory }).verify(clock)).error.message,
+      (await new PrerequisiteDirectory({ label: "dir", directory }).verify(Clock)).error.message,
     ).toMatch(mocks.IntentialError);
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteDirectory({ label: "dir", directory: directory, enabled: false }).verify(clock),
+      await new PrerequisiteDirectory({ label: "dir", directory: directory, enabled: false }).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

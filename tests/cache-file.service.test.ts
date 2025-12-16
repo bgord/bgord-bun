@@ -1,10 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheFileMustRevalidate } from "../src/cache-file.service";
+import { FileEtag } from "../src/file-etag.vo";
 import * as mocks from "./mocks";
 
 const meta = {
-  etag: "abc123etag",
+  etag: FileEtag.parse("0000000000000000000000000000000000000000000000000000000000000000"),
   lastModified: mocks.TIME_ZERO,
   mime: tools.MIMES.text,
   size: tools.Size.fromBytes(12345),
@@ -13,18 +14,18 @@ const meta = {
 describe("CacheFileMustRevalidate service", () => {
   test("notModified", async () => {
     const response = CacheFileMustRevalidate.notModified(meta);
-    expect(response.status).toEqual(304);
 
+    expect(response.status).toEqual(304);
     expect(response.headers.get("ETag")).toEqual(meta.etag);
     expect(response.headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(response.headers.get("Vary")).toEqual("Authorization, Cookie");
     expect(response.headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
-
     expect(response.headers.get("Content-Type")).toEqual(null);
     expect(response.headers.get("Content-Length")).toEqual(null);
     expect(response.headers.get("Accept-Ranges")).toEqual(null);
 
     const body = await response.arrayBuffer();
+
     expect(new Uint8Array(body).length).toEqual(0);
   });
 
@@ -38,6 +39,7 @@ describe("CacheFileMustRevalidate service", () => {
     expect(response.headers.get("X-Debug")).toEqual("1");
 
     const body = await response.arrayBuffer();
+
     expect(new Uint8Array(body).length).toEqual(0);
   });
 

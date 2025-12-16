@@ -33,6 +33,7 @@ describe("Invariant service", () => {
     try {
       const invariant = new SampleInvariant();
       invariant.perform({ threshold: 15 });
+
       expect.unreachable();
     } catch {}
   });

@@ -14,7 +14,6 @@ const Logger = new LoggerWinstonProductionAdapter({
   redactor,
 }).create(LogLevelEnum.http);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-
 const deps = { Logger };
 
 describe("PrerequisiteLogFile", () => {

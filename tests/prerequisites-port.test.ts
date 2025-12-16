@@ -5,11 +5,12 @@ import { PrerequisitePort } from "../src/prerequisites/port";
 import * as mocks from "./mocks";
 
 const port = Port.parse(43210);
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisitePort", () => {
   test("success", async () => {
-    expect(await new PrerequisitePort({ port, label: "port" }).verify(clock)).toEqual(
+    expect(await new PrerequisitePort({ port, label: "port" }).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -17,7 +18,7 @@ describe("PrerequisitePort", () => {
   test("failure", async () => {
     const occupied = Bun.listen({ hostname: "::", port, socket: { data() {} } });
 
-    expect(await new PrerequisitePort({ port, label: "port" }).verify(clock)).toEqual(
+    expect(await new PrerequisitePort({ port, label: "port" }).verify(Clock)).toEqual(
       mocks.VerificationFailure(),
     );
 
@@ -25,7 +26,7 @@ describe("PrerequisitePort", () => {
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisitePort({ port, label: "port", enabled: false }).verify(clock)).toEqual(
+    expect(await new PrerequisitePort({ port, label: "port", enabled: false }).verify(Clock)).toEqual(
       mocks.VerificationUndetermined,
     );
   });

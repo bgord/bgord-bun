@@ -5,14 +5,14 @@ import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-co
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteOutsideConnectivity", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
     expect(
-      await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify(clock),
+      await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify(Clock),
     ).toEqual(mocks.VerificationSuccess);
   });
 
@@ -20,7 +20,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
     expect(
-      await new PrerequisiteOutsideConnectivity({ label: "outside-Connectivity" }).verify(clock),
+      await new PrerequisiteOutsideConnectivity({ label: "outside-Connectivity" }).verify(Clock),
     ).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
@@ -29,7 +29,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify(clock)).error
+      (await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" }).verify(Clock)).error
         .message,
     ).toMatch(mocks.IntentialError);
   });
@@ -37,7 +37,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
   test("undetermined", async () => {
     expect(
       await new PrerequisiteOutsideConnectivity({ label: "outside-connectivity", enabled: false }).verify(
-        clock,
+        Clock,
       ),
     ).toEqual(mocks.VerificationUndetermined);
   });
@@ -51,7 +51,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
         await new PrerequisiteOutsideConnectivity({
           label: "outside-connectivity",
           timeout: tools.Duration.Ms(5),
-        }).verify(clock)
+        }).verify(Clock)
       ).status,
     ).toEqual(PrerequisiteStatusEnum.failure);
   });

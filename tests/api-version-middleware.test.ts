@@ -6,13 +6,13 @@ import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 
+const BUILD_DATE = tools.Timestamp.fromNumber(123).ms;
+
 const Clock = new ClockSystemAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const deps = { Clock, JsonFileReader };
 
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
-
-const BUILD_DATE = tools.Timestamp.fromNumber(123).ms;
 
 describe("ApiVersion middleware", () => {
   test("happy path", async () => {

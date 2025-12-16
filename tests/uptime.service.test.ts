@@ -3,8 +3,9 @@ import * as tools from "@bgord/tools";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { Uptime } from "../src/uptime.service";
 
-const clock = new ClockSystemAdapter();
 const duration = tools.Duration.Minutes(10);
+
+const clock = new ClockSystemAdapter();
 
 describe("Uptime service", () => {
   test("happy path", () => {

@@ -7,7 +7,6 @@ describe("Slower middleware", () => {
   test("happy path", async () => {
     const duration = tools.Duration.Seconds(3);
     const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
-
     const app = new Hono().get("/slower", Slower.handle(duration), (c) => c.text("OK"));
 
     const response = await app.request("/slower");

@@ -64,7 +64,6 @@ describe("CacheResponse middleware", () => {
     expect(secondJson.message).toEqual("ping");
 
     jest.advanceTimersByTime(tools.Duration.Seconds(15).ms);
-
     const thirdResponse = await app.request("/ping-cached");
     const thirdJson = await thirdResponse.json();
 
@@ -89,6 +88,7 @@ describe("CacheResponse middleware", () => {
     expect(secondJson.message).toEqual("ping");
 
     const thirdResponse = await app.request("/ping-clear", { method: "POST" });
+
     expect(thirdResponse.status).toEqual(200);
 
     const fourthResponse = await app.request("/ping-cached");

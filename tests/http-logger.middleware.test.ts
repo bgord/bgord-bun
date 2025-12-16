@@ -14,7 +14,6 @@ const ip = {
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-
 const deps = { Logger, Clock };
 
 const app = new Hono()
@@ -33,7 +32,6 @@ describe("HttpLogger middleware", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
-
     expect(loggerHttp).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -49,7 +47,6 @@ describe("HttpLogger middleware", () => {
         metadata: { headers: { keep: "abc" } },
       }),
     );
-
     expect(loggerHttp).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
@@ -77,7 +74,6 @@ describe("HttpLogger middleware", () => {
 
     expect(result.status).toEqual(500);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
-
     expect(loggerHttp).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -92,7 +88,6 @@ describe("HttpLogger middleware", () => {
         metadata: {},
       }),
     );
-
     expect(loggerHttp).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({

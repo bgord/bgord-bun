@@ -10,15 +10,13 @@ import { Setup } from "../src/setup.service";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
 
 const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };
-
 const predefinedRequestId = "123";
+const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
 
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
 const Clock = new ClockSystemAdapter();
-
-const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
 
 const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
   .use(...Setup.essentials({ Logger, I18n, IdProvider, Clock, JsonFileReader }))
@@ -41,7 +39,6 @@ describe("Setup service", () => {
       { method: "GET", headers: new Headers({ "x-correlation-id": predefinedRequestId }) },
       ip,
     );
-
     const json = await response.json();
 
     expect(response.headers.toJSON()).toMatchObject({
@@ -62,7 +59,6 @@ describe("Setup service", () => {
       "x-correlation-id": predefinedRequestId,
       "x-xss-protection": "0",
     });
-
     expect(json).toEqual({
       requestId: predefinedRequestId,
       timeZoneOffset: { internal: 0 },

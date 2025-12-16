@@ -4,8 +4,6 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteDependencyVulnerabilities } from "../src/prerequisites/dependency-vulnerabilities";
 import * as mocks from "./mocks";
 
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-
 const BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE = {
   "@mozilla/readability": [
     {
@@ -68,6 +66,8 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
   ],
 };
 
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
 describe("PrerequisiteDependencyVulnerabilities", () => {
   test("success - Bun audit returns no high and critical vulnerabilities", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
@@ -78,7 +78,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
       }),
     }));
 
-    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(clock)).toEqual(
+    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -92,7 +92,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
       }),
     }));
 
-    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(clock)).toEqual(
+    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }),
     );
   });
@@ -101,7 +101,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
 
-    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(clock)).toEqual(
+    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "Audit failure" }),
     );
   });
@@ -114,13 +114,13 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(clock)).error.message,
+      (await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).error.message,
     ).toMatch(/Unexpected identifier "abc"/);
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false }).verify(clock),
+      await new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false }).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

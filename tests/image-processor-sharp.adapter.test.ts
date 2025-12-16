@@ -6,12 +6,6 @@ import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
 import { ImageProcessorSharpAdapter } from "../src/image-processor-sharp.adapter";
 
-const FileCleaner = new FileCleanerNoopAdapter();
-const FileRenamer = new FileRenamerNoopAdapter();
-const deps = { FileCleaner, FileRenamer };
-
-const adapter = new ImageProcessorSharpAdapter(deps);
-
 const pipeline = {
   rotate: () => pipeline,
   flatten: (_: any) => pipeline,
@@ -20,6 +14,11 @@ const pipeline = {
   toFile: async (_: string) => {},
   destroy: () => {},
 };
+
+const FileCleaner = new FileCleanerNoopAdapter();
+const FileRenamer = new FileRenamerNoopAdapter();
+const deps = { FileCleaner, FileRenamer };
+const adapter = new ImageProcessorSharpAdapter(deps);
 
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
@@ -32,7 +31,6 @@ describe("ImageProcessorSharpAdapter", () => {
     const destroy = spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
-
     const input = tools.FilePathAbsolute.fromString("/var/in/photo.png");
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
@@ -48,13 +46,13 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(rotate).toHaveBeenCalledTimes(1);
     expect(flatten).toHaveBeenCalledWith({ background: "#FFFFFF" });
 
-    // @ts-expect-error
     const [options] = resize.mock.calls[0];
+
     expect(resize).toHaveBeenCalledTimes(1);
     expect(options).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
-    // @ts-expect-error
     const [format, opts] = toFormat.mock.calls[0];
+
     expect(format).toEqual("webp");
     expect(opts).toMatchObject({ quality: 72 });
 
@@ -63,11 +61,8 @@ describe("ImageProcessorSharpAdapter", () => {
 
     expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, formatted);
-
     expect(fileCleaner).toHaveBeenCalledWith(input.get());
-
     expect(result.get()).toEqual(formatted.get());
-
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
   });
@@ -82,7 +77,6 @@ describe("ImageProcessorSharpAdapter", () => {
     const destroy = spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
-
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.jpg");
     const recipe: ImageProcessorStrategy = {
@@ -99,20 +93,20 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(flatten).not.toHaveBeenCalled();
 
     const [options] = resize.mock.calls[0];
+
     expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
     const [format, opts] = toFormat.mock.calls[0];
+
     expect(format).toEqual("jpeg");
     expect(opts).toMatchObject({ quality: 85 });
 
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-processed.jpg");
+
     expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
-
     expect(fileCleaner).not.toHaveBeenCalled();
-
     expect(result).toEqual(output);
-
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
   });

@@ -5,13 +5,14 @@ import { PrerequisiteRunningUser } from "../src/prerequisites/running-user";
 import * as mocks from "./mocks";
 
 const username = "appuser";
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteRunningUser", () => {
   test("success", async () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
 
-    expect(await new PrerequisiteRunningUser({ label: "user", username }).verify(clock)).toEqual(
+    expect(await new PrerequisiteRunningUser({ label: "user", username }).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -19,14 +20,14 @@ describe("PrerequisiteRunningUser", () => {
   test("failure", async () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
 
-    expect(await new PrerequisiteRunningUser({ label: "user", username: "root" }).verify(clock)).toEqual(
+    expect(await new PrerequisiteRunningUser({ label: "user", username: "root" }).verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: `Current user: ${username}` }),
     );
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteRunningUser({ label: "user", username: "appuser", enabled: false }).verify(clock),
+      await new PrerequisiteRunningUser({ label: "user", username: "appuser", enabled: false }).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

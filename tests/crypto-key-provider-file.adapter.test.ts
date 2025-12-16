@@ -6,10 +6,10 @@ import {
 } from "../src/crypto-key-provider-file.adapter";
 import { EncryptionKeyValue, EncryptionKeyValueError } from "../src/encryption-key-value.vo";
 
-const path = tools.FilePathAbsolute.fromString("/run/secret.key");
-const adapter = new CryptoKeyProviderFileAdapter(path);
-
 const HEX = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
+const path = tools.FilePathAbsolute.fromString("/run/secret.key");
+
+const adapter = new CryptoKeyProviderFileAdapter(path);
 
 describe("CryptoKeyProviderFileAdapter", () => {
   test("happy path", async () => {

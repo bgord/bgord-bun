@@ -9,9 +9,7 @@ import * as mocks from "./mocks";
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const IdProvider = new IdProviderCryptoAdapter();
-
 const deps = { Logger, Clock, IdProvider };
-
 const handler = new JobHandler(deps);
 
 describe("JobHandler service", () => {

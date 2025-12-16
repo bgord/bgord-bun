@@ -9,10 +9,11 @@ describe("CsvStringifierAdapter", async () => {
       { id: 1, name: "Anne" },
       { id: 2, name: "Bart" },
     ];
-
     const strigifier = new CsvStringifierAdapter();
 
-    expect(await text(strigifier.process(columns, data))).toEqualIgnoringWhitespace(`
+    const result = await text(strigifier.process(columns, data));
+
+    expect(result).toEqualIgnoringWhitespace(`
       id, name
       1,Anne
       2, Bart`);

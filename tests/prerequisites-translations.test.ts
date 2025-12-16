@@ -7,13 +7,12 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteTranslations } from "../src/prerequisites/translations";
 import * as mocks from "./mocks";
 
+const supportedLanguages = { en: "en", es: "es" };
+
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const deps = { Logger, JsonFileReader };
-
-const supportedLanguages = { en: "en", es: "es" };
-
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteTranslations", () => {
   test("success", async () => {
@@ -21,7 +20,7 @@ describe("PrerequisiteTranslations", () => {
 
     expect(
       await new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } }, deps).verify(
-        clock,
+        Clock,
       ),
     ).toEqual(mocks.VerificationSuccess);
   });
@@ -31,7 +30,7 @@ describe("PrerequisiteTranslations", () => {
 
     expect(
       // @ts-expect-error
-      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(clock)).error
+      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(Clock)).error
         .message,
     ).toMatch(/Does not exist/);
   });
@@ -50,14 +49,14 @@ describe("PrerequisiteTranslations", () => {
     });
 
     expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(clock),
+      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(Clock),
     ).toEqual(mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }));
   });
 
   test("undetermined", async () => {
     expect(
       await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false }, deps).verify(
-        clock,
+        Clock,
       ),
     ).toEqual(mocks.VerificationUndetermined);
   });

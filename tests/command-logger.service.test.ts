@@ -4,7 +4,6 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
-
 const commandLogger = new CommandLogger(deps);
 
 describe("CommandLogger service", () => {

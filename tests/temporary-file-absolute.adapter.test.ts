@@ -5,22 +5,18 @@ import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { TemporaryFileAbsoluteAdapter } from "../src/temporary-file-absolute.adapter";
 import * as mocks from "./mocks";
 
+const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
+  type: "application/octet-stream",
+});
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
+const filename = tools.Filename.fromString("avatar.webp");
+const partial = tools.FilePathAbsolute.fromPartsSafe(directory, filename.withSuffix("-part"));
+const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
 
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileCleaner, FileRenamer };
-
 const adapter = new TemporaryFileAbsoluteAdapter(directory, deps);
-
-const filename = tools.Filename.fromString("avatar.webp");
-
-const partial = tools.FilePathAbsolute.fromPartsSafe(directory, filename.withSuffix("-part"));
-const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
-
-const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
-  type: "application/octet-stream",
-});
 
 describe("TemporaryFileAbsoluteAdapter", () => {
   test("write", async () => {

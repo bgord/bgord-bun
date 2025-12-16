@@ -3,10 +3,9 @@ import { BasicAuth } from "../src/basic-auth.service";
 import { BasicAuthPassword } from "../src/basic-auth-password.vo";
 import { BasicAuthUsername } from "../src/basic-auth-username.vo";
 
-const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
-
 // cSpell:ignore YWRtaW46cGFzc3dvcmQ
 const result = { authorization: "Basic YWRtaW46cGFzc3dvcmQ=" };
+const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
 
 describe("BasicAuth service", () => {
   test("toHeaderValue", () => {

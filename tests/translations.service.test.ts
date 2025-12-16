@@ -12,7 +12,6 @@ enum SupportedLanguages {
 
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
-
 const deps = { JsonFileReader, Logger };
 
 const app = new Hono()

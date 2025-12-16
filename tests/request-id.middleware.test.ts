@@ -17,7 +17,6 @@ const app = (IdProvider: IdProviderDeterministicAdapter) =>
 describe("RequestId middleware", () => {
   test("x-correlation-id header missing", async () => {
     const fresh = "fresh";
-
     const IdProvider = new IdProviderDeterministicAdapter([fresh]);
 
     const result = await app(IdProvider).request("/ping");

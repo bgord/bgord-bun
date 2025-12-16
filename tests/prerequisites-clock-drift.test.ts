@@ -7,8 +7,10 @@ import { TimekeeperNoopAdapter } from "../src/timekeeper-noop.adapter";
 import * as mocks from "./mocks";
 
 const skew = tools.Duration.Minutes(1);
+
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Timekeeper = new TimekeeperNoopAdapter({ Clock });
+const deps = { Timekeeper };
 
 export class TimekeeperDelayedAdapter implements TimekeeperPort {
   async get() {
@@ -16,8 +18,6 @@ export class TimekeeperDelayedAdapter implements TimekeeperPort {
     return null;
   }
 }
-
-const deps = { Timekeeper };
 
 describe("PrerequisiteClockDrift", () => {
   test("success", async () => {
@@ -37,6 +37,7 @@ describe("PrerequisiteClockDrift", () => {
   test("failure - skew", async () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
+
     expect(await new PrerequisiteClockDrift({ label: "clock-drift", skew }, deps).verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }),
     );

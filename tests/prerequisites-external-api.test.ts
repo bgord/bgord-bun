@@ -5,14 +5,14 @@ import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteExternalApi", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
     expect(
-      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(clock),
+      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(Clock),
     ).toEqual(mocks.VerificationSuccess);
   });
 
@@ -20,7 +20,7 @@ describe("PrerequisiteExternalApi", () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
 
     expect(
-      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(clock),
+      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(Clock),
     ).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
@@ -30,7 +30,7 @@ describe("PrerequisiteExternalApi", () => {
         label: "api",
         request: () => fetch("http://api"),
         enabled: false,
-      }).verify(clock),
+      }).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 
@@ -44,7 +44,7 @@ describe("PrerequisiteExternalApi", () => {
           label: "api",
           timeout: tools.Duration.Ms(5),
           request: (signal: AbortSignal) => fetch("http://api", { signal }),
-        }).verify(clock)
+        }).verify(Clock)
       ).status,
     ).toEqual(PrerequisiteStatusEnum.failure);
   });

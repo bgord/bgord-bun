@@ -16,6 +16,7 @@ function decrypt(enc: string, secret: string) {
 }
 
 const secret = "secret";
+
 const adapter = new RedactorEncryptionAdapter("secret", "metadata");
 
 describe("RedactorEncryptionAdapter", () => {
@@ -37,7 +38,6 @@ describe("RedactorEncryptionAdapter", () => {
     expect(typeof result.metadata).toEqual("string");
     expect(result.keep).toEqual(123);
     expect(input.metadata.client.ip).toEqual("1.2.3.4");
-
     expect(decrypt(result.metadata as unknown as string, secret)).toEqual(input.metadata);
   });
 });

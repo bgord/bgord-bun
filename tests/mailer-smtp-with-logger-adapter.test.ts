@@ -5,21 +5,18 @@ import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
 
 const Logger = new LoggerNoopAdapter();
-
 const MailerSmtp = new MailerSmtpAdapter({
   SMTP_HOST: "smtp.example.com",
   SMTP_PORT: SmtpPort.parse(587),
   SMTP_USER: "user@example.com",
   SMTP_PASS: "password",
 });
-
 const mailer = new MailerSmtpWithLoggerAdapter({ Logger, MailerSmtp });
 
 describe("SmtpMailerWithLoggerAdapter", () => {
   test("send - success", async () => {
     const sendMail = spyOn(MailerSmtp, "send").mockImplementation(jest.fn());
     const loggerInfo = spyOn(Logger, "info");
-
     const sendOptions = {
       from: "sender@example.com",
       to: "recipient@example.com",

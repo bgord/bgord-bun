@@ -2,10 +2,11 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { EventLogger } from "../src/event-logger.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 
+const eventName = "user.created";
+
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 const eventLogger = new EventLogger(deps);
-const eventName = "user.created";
 
 describe("EventLogger service", () => {
   test("happy path", () => {
@@ -34,7 +35,6 @@ describe("EventLogger service", () => {
   test("does not log commands with symbol names", () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    // @ts-expect-error
     eventLogger.handle("emit", "debug:name", Symbol(eventName), { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();

@@ -2,26 +2,24 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
+import { FileEtag } from "../src/file-etag.vo";
 import { FileHashNoopAdapter } from "../src/file-hash-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 
-const FileHash = new FileHashNoopAdapter();
-const FileCleaner = new FileCleanerNoopAdapter();
-const FileRenamer = new FileRenamerNoopAdapter();
-
-const deps = { FileHash, FileCleaner, FileRenamer };
-
 const hash = {
-  etag: "etag-123",
+  etag: FileEtag.parse("0000000000000000000000000000000000000000000000000000000000000000"),
   size: tools.Size.fromBytes(42),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,
 };
-
 const root = tools.DirectoryPathAbsoluteSchema.parse("/root");
 const key = tools.ObjectKey.parse("users/1/avatar.webp");
 
+const FileHash = new FileHashNoopAdapter();
+const FileCleaner = new FileCleanerNoopAdapter();
+const FileRenamer = new FileRenamerNoopAdapter();
+const deps = { FileHash, FileCleaner, FileRenamer };
 const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
@@ -32,11 +30,10 @@ describe("RemoteFileStorageDiskAdapter", () => {
     const fileHashHash = spyOn(FileHash, "hash").mockResolvedValue(hash);
     const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const fileRenamerRename = spyOn(FileRenamer, "rename");
-
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
+    const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
 
     const output = await adapter.putFromPath({ key, path: input });
-    const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
 
     expect(fsMkdir).toHaveBeenCalledWith("/root/users/1", { recursive: true });
     expect(bunWrite).toHaveBeenCalledWith(temporary.get(), expect.anything());
@@ -45,7 +42,6 @@ describe("RemoteFileStorageDiskAdapter", () => {
       tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
     );
     expect(fileHashHash).toHaveBeenCalledTimes(1);
-
     expect(output.etag).toEqual(hash.etag);
     expect(output.size.toBytes()).toEqual(tools.SizeBytes.parse(42));
   });
@@ -56,19 +52,19 @@ describe("RemoteFileStorageDiskAdapter", () => {
       .mockRejectedValueOnce(new Error("missing"));
 
     const success = await adapter.head(key);
-    expect(success.exists).toEqual(true);
+
     // @ts-expect-error
     expect(success.etag).toEqual(hash.etag);
+    expect(success.exists).toEqual(true);
 
     const error = await adapter.head(key);
-    expect(error.exists).toEqual(false);
 
+    expect(error.exists).toEqual(false);
     expect(fileHashHash).toHaveBeenCalledTimes(2);
   });
 
   test("getStream", async () => {
     const stream = new ReadableStream();
-
     // @ts-expect-error
     spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
 

@@ -4,13 +4,15 @@ import { Hono } from "hono";
 import NodeCache from "node-cache";
 import { CacheHitEnum, CacheResolver, CacheResolverStrategy } from "../src/cache-resolver.service";
 
+const resolver = async () => 123;
+
 describe("CacheResolver service", () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(() => jest.useRealTimers());
 
   test("simple - miss", async () => {
     const cache = new NodeCache();
-    const resolver = async () => Promise.resolve(123);
+
     const result = await CacheResolver.resolve<number>(cache, { key: "ID_1", resolver });
 
     expect(result).toEqual({ data: 123 });
@@ -18,32 +20,35 @@ describe("CacheResolver service", () => {
 
   test("simple - hit", async () => {
     const cache = new NodeCache();
-    const resolver = () => Promise.resolve(123);
+
     const first = await CacheResolver.resolve<number>(cache, { key: "ID_1", resolver });
+
     expect(first).toEqual({ data: 123 });
 
     const second = await CacheResolver.resolve<number>(cache, { key: "ID_1", resolver });
+
     expect(second).toEqual({ data: 123 });
   });
 
   test("simple - miss hit miss", async () => {
     const cache = new NodeCache({ stdTTL: tools.Duration.Minutes(1).seconds });
-    const resolver = () => Promise.resolve(123);
+
     const first = await CacheResolver.resolve<number>(cache, { key: "ID_1", resolver });
+
     expect(first).toEqual({ data: 123 });
 
     const second = await CacheResolver.resolve<number>(cache, { key: "ID_1", resolver });
+
     expect(second).toEqual({ data: 123 });
 
     jest.advanceTimersByTime(tools.Duration.Minutes(11).ms);
-
     const third = await CacheResolver.resolve<number>(cache, { key: "ID_1", resolver });
+
     expect(third).toEqual({ data: 123 });
   });
 
   test("with_metadata - miss", async () => {
     const cache = new NodeCache();
-    const resolver = async () => Promise.resolve(123);
 
     const result = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
@@ -56,7 +61,7 @@ describe("CacheResolver service", () => {
 
   test("with_metadata - hit", async () => {
     const cache = new NodeCache();
-    const resolver = () => Promise.resolve(123);
+
     const first = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
@@ -76,7 +81,7 @@ describe("CacheResolver service", () => {
 
   test("with_metadata - miss hit miss", async () => {
     const cache = new NodeCache({ stdTTL: tools.Duration.Minutes(1).seconds });
-    const resolver = () => Promise.resolve(123);
+
     const first = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
@@ -94,7 +99,6 @@ describe("CacheResolver service", () => {
     expect(second).toEqual({ data: 123, meta: { hit: CacheHitEnum.hit } });
 
     jest.advanceTimersByTime(tools.Duration.Minutes(11).ms);
-
     const third = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
@@ -106,7 +110,7 @@ describe("CacheResolver service", () => {
 
   test("request_headers - miss", async () => {
     const cache = new NodeCache();
-    const resolver = async () => Promise.resolve(123);
+
     const result = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
@@ -122,12 +126,13 @@ describe("CacheResolver service", () => {
 
   test("request_headers - hit", async () => {
     const cache = new NodeCache();
-    const resolver = () => Promise.resolve(123);
+
     const first = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
       strategy: CacheResolverStrategy.request_headers,
     });
+
     expect(first.data).toEqual(123);
     expect(first.header).toEqual({
       name: "cache-hit",
@@ -139,6 +144,7 @@ describe("CacheResolver service", () => {
       resolver,
       strategy: CacheResolverStrategy.request_headers,
     });
+
     expect(second.data).toEqual(123);
     expect(second.header).toEqual({
       name: "cache-hit",
@@ -148,31 +154,26 @@ describe("CacheResolver service", () => {
 
   test("request_headers - miss hit miss", async () => {
     const cache = new NodeCache({ stdTTL: tools.Duration.Minutes(1).seconds });
-    const resolver = () => Promise.resolve(123);
+
     const first = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
       strategy: CacheResolverStrategy.request_headers,
     });
+
     expect(first.data).toEqual(123);
-    expect(first.header).toEqual({
-      name: "cache-hit",
-      value: CacheHitEnum.miss,
-    });
+    expect(first.header).toEqual({ name: "cache-hit", value: CacheHitEnum.miss });
 
     const second = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
       strategy: CacheResolverStrategy.request_headers,
     });
+
     expect(second.data).toEqual(123);
-    expect(second.header).toEqual({
-      name: "cache-hit",
-      value: CacheHitEnum.hit,
-    });
+    expect(second.header).toEqual({ name: "cache-hit", value: CacheHitEnum.hit });
 
     jest.advanceTimersByTime(tools.Duration.Minutes(11).ms);
-
     const third = await CacheResolver.resolve<number>(cache, {
       key: "ID_1",
       resolver,
@@ -188,20 +189,16 @@ describe("CacheResolver service", () => {
 
   test("request_headers - miss - controller", async () => {
     const cache = new NodeCache();
-
-    const resolver = async () => Promise.resolve(123);
-
     const app = new Hono();
-
-    app.get("/data", async (c) => {
-      const result = await CacheResolver.resolve<number>(cache, {
-        key: "ID_1",
-        resolver,
-        strategy: CacheResolverStrategy.request_headers,
-      });
-
-      return result.respond(c);
-    });
+    app.get("/data", async (c) =>
+      (
+        await CacheResolver.resolve<number>(cache, {
+          key: "ID_1",
+          resolver,
+          strategy: CacheResolverStrategy.request_headers,
+        })
+      ).respond(c),
+    );
 
     const result = await app.request("/data", { method: "GET" });
 
@@ -212,11 +209,7 @@ describe("CacheResolver service", () => {
 
   test("request_headers - hit", async () => {
     const cache = new NodeCache();
-
-    const resolver = () => Promise.resolve(123);
-
     const app = new Hono();
-
     app.get("/data", async (c) => {
       const result = await CacheResolver.resolve<number>(cache, {
         key: "ID_1",
@@ -242,20 +235,16 @@ describe("CacheResolver service", () => {
 
   test("request_headers - miss hit miss", async () => {
     const cache = new NodeCache({ stdTTL: tools.Duration.Minutes(1).seconds });
-
-    const resolver = () => Promise.resolve(123);
-
     const app = new Hono();
-
-    app.get("/data", async (c) => {
-      const result = await CacheResolver.resolve<number>(cache, {
-        key: "ID_1",
-        resolver,
-        strategy: CacheResolverStrategy.request_headers,
-      });
-
-      return result.respond(c);
-    });
+    app.get("/data", async (c) =>
+      (
+        await CacheResolver.resolve<number>(cache, {
+          key: "ID_1",
+          resolver,
+          strategy: CacheResolverStrategy.request_headers,
+        })
+      ).respond(c),
+    );
 
     const first = await app.request("/data", { method: "GET" });
 
@@ -270,7 +259,6 @@ describe("CacheResolver service", () => {
     expect(await second.json()).toEqual(123);
 
     jest.advanceTimersByTime(tools.Duration.Minutes(11).ms);
-
     const third = await app.request("/data", { method: "GET" });
 
     expect(third.status).toEqual(200);

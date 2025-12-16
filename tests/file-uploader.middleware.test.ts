@@ -4,7 +4,6 @@ import { Hono } from "hono";
 import { FileTooBigError, FileUploader, InvalidFileMimeTypeError } from "../src/file-uploader.middleware";
 
 const boundary = "----bun-test-boundary";
-
 const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
 
 const app = new Hono()
@@ -57,10 +56,6 @@ describe("FileUploader middleware", () => {
   });
 
   test("rejects file too big", async () => {
-    const app = new Hono()
-      .use(...FileUploader.validate({ mimeTypes: [tools.MIMES.text], maxFilesSize: tools.Size.fromBytes(1) }))
-      .post("/uploader", (c) => c.text("uploaded"));
-
     const content = [
       `--${boundary}`,
       'Content-Disposition: form-data; name="file"; filename="too-big.txt"',
@@ -70,6 +65,9 @@ describe("FileUploader middleware", () => {
       `--${boundary}--`,
       "",
     ].join("\r\n");
+    const app = new Hono()
+      .use(...FileUploader.validate({ mimeTypes: [tools.MIMES.text], maxFilesSize: tools.Size.fromBytes(1) }))
+      .post("/uploader", (c) => c.text("uploaded"));
 
     const response = await app.request("/uploader", {
       method: "POST",

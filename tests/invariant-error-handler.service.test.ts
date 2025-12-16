@@ -20,8 +20,6 @@ class SampleInvariantFactory extends Invariant<{ threshold: number }> {
   code = 400 as ContentfulStatusCode;
 }
 
-const SampleInvariant = new SampleInvariantFactory();
-
 export class ErrorHandler {
   static handle: ErrorHandlerType = async (error, c) => {
     const invariantErrorHandler = new InvariantErrorHandler([SampleInvariant]).detect(error);
@@ -33,6 +31,8 @@ export class ErrorHandler {
     return c.json({ message: "general.unknown" }, 400);
   };
 }
+
+const SampleInvariant = new SampleInvariantFactory();
 
 describe("InvariantErrorHandler service", () => {
   test("happy path", async () => {

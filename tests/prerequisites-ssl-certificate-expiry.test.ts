@@ -11,13 +11,13 @@ class CertificateInspectorUnavailableAdapter {
 }
 
 const config = { hostname: "example.com", days: 30, label: "ssl" };
-const clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(100) };
 
 describe("PrerequisiteSSLCertificateExpiry", () => {
   test("success", async () => {
-    expect(await new PrerequisiteSSLCertificateExpiry(config, deps).verify(clock)).toEqual(
+    expect(await new PrerequisiteSSLCertificateExpiry(config, deps).verify(Clock)).toEqual(
       mocks.VerificationSuccess,
     );
   });
@@ -26,7 +26,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
     expect(
       await new PrerequisiteSSLCertificateExpiry(config, {
         CertificateInspector: new CertificateInspectorNoopAdapter(10),
-      }).verify(clock),
+      }).verify(Clock),
     ).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
   });
 
@@ -34,13 +34,13 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
     expect(
       await new PrerequisiteSSLCertificateExpiry(config, {
         CertificateInspector: new CertificateInspectorUnavailableAdapter(),
-      }).verify(clock),
+      }).verify(Clock),
     ).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
   });
 
   test("undetermined", async () => {
     expect(
-      await new PrerequisiteSSLCertificateExpiry({ ...config, enabled: false }, deps).verify(clock),
+      await new PrerequisiteSSLCertificateExpiry({ ...config, enabled: false }, deps).verify(Clock),
     ).toEqual(mocks.VerificationUndetermined);
   });
 });

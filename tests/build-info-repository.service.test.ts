@@ -9,7 +9,6 @@ const version = "1.2.3";
 
 const Clock = new ClockSystemAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({ version });
-
 const deps = { Clock, JsonFileReader };
 
 describe("BuildInfoRepository service", () => {
