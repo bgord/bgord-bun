@@ -1,7 +1,10 @@
 # Changelog
+- 2025-12-16 09:59 dfae432 **step: update packages**
+- 2025-12-16 09:57 b213bc2 **step: cache internal environment loader process result**
 ## 2025-12-16 09:11 v1.5.2
 - 2025-12-16 09:11 0f1218a **1.5.2**
 - 2025-12-16 09:10 d6998bb **step: update packages**
+- 2025-12-16 08:11 90b474c **docs: generate CHANGELOG**
 - 2025-12-16 08:11 3c65971 **docs: generate CHANGELOG**
 - 2025-12-15 19:50 6cf294d **step: bump bgord/scripts**
 - 2025-12-15 18:50 140a74a **docs: generate CHANGELOG**
