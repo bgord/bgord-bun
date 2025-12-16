@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-16 10:24 43104c4 **refactor: arrange act assert**
 ## 2025-12-16 10:00 v1.5.3
 - 2025-12-16 10:00 b32d40e **1.5.3**
 - 2025-12-16 09:59 dfae432 **step: update packages**
@@ -6,6 +7,7 @@
 ## 2025-12-16 09:11 v1.5.2
 - 2025-12-16 09:11 0f1218a **1.5.2**
 - 2025-12-16 09:10 d6998bb **step: update packages**
+- 2025-12-16 09:00 45198f9 **docs: generate CHANGELOG**
 - 2025-12-16 08:59 e3b5cf7 **docs: generate CHANGELOG**
 - 2025-12-16 08:11 90b474c **docs: generate CHANGELOG**
 - 2025-12-16 08:11 3c65971 **docs: generate CHANGELOG**
