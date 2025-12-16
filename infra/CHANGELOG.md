@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-16 15:47 744dd4b **step: test process safe adapter**
 ## 2025-12-16 13:43 v1.5.6
 - 2025-12-16 13:43 6c90f8b **1.5.6**
 ## 2025-12-16 13:42 v1.5.5
@@ -8,6 +9,7 @@
 - 2025-12-16 13:00 9cb5cfe **1.5.4**
 - 2025-12-16 12:59 d0dd356 **refactor: allow both file paths in crypto key provider and environment loader**
 - 2025-12-16 12:45 814045d **fix: trim file in crypto key provider file**
+- 2025-12-16 12:43 c07d825 **docs: generate CHANGELOG**
 - 2025-12-16 12:42 738678d **docs: generate CHANGELOG**
 - 2025-12-16 12:42 49fab49 **docs: generate CHANGELOG**
 - 2025-12-16 12:42 0e1e96c **docs: generate readme**
