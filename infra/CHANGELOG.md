@@ -1,6 +1,9 @@
 # Changelog
+## 2025-12-17 15:06 v1.5.9
+- 2025-12-17 15:06 7ff89e7 **1.5.9**
 - 2025-12-17 15:05 0e24536 **fix: this binding guardrails**
 - 2025-12-17 14:50 2da52ac **step: this alias testcase for job handler service**
+- 2025-12-17 14:06 c222755 **docs: generate CHANGELOG**
 ## 2025-12-17 12:28 v1.5.8
 - 2025-12-17 12:28 2b939f9 **1.5.8**
 ## 2025-12-17 12:27 v1.5.7
