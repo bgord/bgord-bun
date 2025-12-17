@@ -35,7 +35,6 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
       const path = this.file.get();
 
       const exists = await Bun.file(path).exists();
-
       if (!exists) return prereqs.Verification.failure(stopwatch.stop(), { message: "File does not exist" });
 
       if (this.permissions.read) {
