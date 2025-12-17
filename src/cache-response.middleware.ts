@@ -1,29 +1,55 @@
-// import { createMiddleware } from "hono/factory";
-// import type NodeCache from "node-cache";
-// import { CacheHitEnum } from "./cache-resolver.service";
+import type { Context } from "hono";
+import { createMiddleware } from "hono/factory";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+import type { CacheResolverPort } from "./cache-resolver.port";
+
+type SubjectResolver = (c: Context) => string;
+
+type Dependencies = { CacheResolver: CacheResolverPort };
+
+type CacheResponseOptions = { enabled: boolean; subject: SubjectResolver };
+
+export const CacheResponseSubjectUrl: SubjectResolver = (c: Context) => c.req.url;
+
+type CachedResponse = {
+  body: string;
+  headers: Record<string, string>;
+  status: ContentfulStatusCode;
+};
 
 export class CacheResponse {
   static readonly CACHE_HIT_HEADER = "Cache-Hit";
 
-  // constructor(private readonly cache: NodeCache) {}
+  constructor(
+    private readonly config: CacheResponseOptions,
+    private readonly deps: Dependencies,
+  ) {}
 
-  // handle = createMiddleware(async (c, next) => {
-  //   const url = c.req.url;
+  handle = createMiddleware(async (c, next) => {
+    if (!this.config.enabled) return next();
 
-  //   if (this.cache.has(url)) {
-  //     c.res.headers.set(CacheResponse.CACHE_HIT_HEADER, CacheHitEnum.hit);
+    const subject = this.config.subject(c);
 
-  //     return c.json(this.cache.get(url));
-  //   }
+    const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject, async () => {
+      await next();
 
-  //   c.res.headers.set(CacheResponse.CACHE_HIT_HEADER, CacheHitEnum.miss);
+      const response = c.res.clone();
 
-  //   return next();
-  // });
+      return {
+        body: await response.text(),
+        headers: response.headers.toJSON(),
+        status: response.status as ContentfulStatusCode,
+      };
+    });
 
-  // clear = createMiddleware(async (_c, next) => {
-  //   this.cache.flushAll();
+    c.header(CacheResponse.CACHE_HIT_HEADER, result.source);
 
-  //   return next();
-  // });
+    return c.newResponse(result.value.body, result.value.status, result.value.headers);
+  });
+
+  clear = createMiddleware(async (_c, next) => {
+    await this.deps.CacheResolver.flush();
+
+    return next();
+  });
 }
