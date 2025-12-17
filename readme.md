@@ -36,7 +36,11 @@ src/
 ├── bots.vo.ts
 ├── build-info-repository.service.ts
 ├── cache-file.service.ts
-├── cache-resolver.service.ts
+├── cache-repository-node-cache.adapter.ts
+├── cache-repository-noop.adapter.ts
+├── cache-repository.port.ts
+├── cache-resolver-simple.adapter.ts
+├── cache-resolver.port.ts
 ├── cache-response.middleware.ts
 ├── certificate-inspector-noop.adapter.ts
 ├── certificate-inspector-tls.adapter.ts
@@ -226,8 +230,6 @@ src/
 │   ├── timezone-utc.ts
 │   └── translations.ts
 ├── prerequisites.service.ts
-├── rate-limit-store-node-cache.adapter.ts
-├── rate-limit-store.port.ts
 ├── recaptcha-secret-key.vo.ts
 ├── recaptcha-site-key.vo.ts
 ├── redactor-compact-array.adapter.ts
