@@ -1,4 +1,6 @@
 # Changelog
+- 2025-12-17 23:31 1d05710 **step: prefix shield rate limit subjects**
+- 2025-12-17 23:29 a45fb8f **step: prefix cache response subjects**
 ## 2025-12-17 23:06 v1.5.10
 - 2025-12-17 23:06 1f9b1df **1.5.10**
 - 2025-12-17 23:04 512a65d **fix: intentional error typo**
@@ -6,6 +8,7 @@
 - 2025-12-17 22:47 30a0db9 **feature: cache response middleware**
 - 2025-12-17 22:29 d32c2c7 **refactor: rename shield rate limit adapter subject resolvers**
 - 2025-12-17 22:17 b1f74bc **step: define flush method on cache resolver**
+- 2025-12-17 22:06 f04476c **docs: generate CHANGELOG**
 - 2025-12-17 22:05 c61b3c6 **docs: generate readme**
 - 2025-12-17 22:05 6d42154 **docs: generate CHANGELOG**
 - 2025-12-17 21:54 6769084 **refactor: use cache resolver in environment loader process safe adapter**
