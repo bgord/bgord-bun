@@ -16,30 +16,31 @@ const depsFailure = { DiskSpaceChecker: DiskSpaceCheckerFailure };
 
 describe("PrerequisiteSpace", () => {
   test("success", async () => {
-    expect(await new PrerequisiteSpace({ label: "space", minimum }, deps).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, deps);
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - not enough space", async () => {
-    const result = await new PrerequisiteSpace({ label: "space", minimum }, depsFailure).verify(Clock);
+    const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, depsFailure);
 
     // @ts-expect-error
-    expect(result.error.message).toMatch(`Free disk space: ${failure.format(tools.Size.unit.MB)}`);
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(
+      `Free disk space: ${failure.format(tools.Size.unit.MB)}`,
+    );
   });
 
   test("failure - error", async () => {
     spyOn(DiskSpaceCheckerFailure, "get").mockRejectedValue(new Error(mocks.IntentialError));
-
-    const result = await new PrerequisiteSpace({ label: "space", minimum }, depsFailure).verify(Clock);
+    const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, depsFailure);
 
     // @ts-expect-error
-    expect(result.error.message).toMatch(mocks.IntentialError);
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
   });
 
   test("undetermined", async () => {
-    expect(
-      await new PrerequisiteSpace({ label: "space", minimum, enabled: false }, deps).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    const prerequisite = new PrerequisiteSpace({ label: "space", minimum, enabled: false }, deps);
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

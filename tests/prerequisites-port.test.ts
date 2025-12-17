@@ -10,24 +10,23 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisitePort", () => {
   test("success", async () => {
-    expect(await new PrerequisitePort({ port, label: "port" }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    const prerequisite = new PrerequisitePort({ port, label: "port" });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     const occupied = Bun.listen({ hostname: "::", port, socket: { data() {} } });
+    const prerequisite = new PrerequisitePort({ port, label: "port" });
 
-    expect(await new PrerequisitePort({ port, label: "port" }).verify(Clock)).toEqual(
-      mocks.VerificationFailure(),
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure());
 
     occupied.stop();
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisitePort({ port, label: "port", enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisitePort({ port, label: "port", enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

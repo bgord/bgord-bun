@@ -11,23 +11,23 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 describe("PrerequisiteRunningUser", () => {
   test("success", async () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
+    const prerequisite = new PrerequisiteRunningUser({ label: "user", username });
 
-    expect(await new PrerequisiteRunningUser({ label: "user", username }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
+    const prerequisite = new PrerequisiteRunningUser({ label: "user", username: "root" });
 
-    expect(await new PrerequisiteRunningUser({ label: "user", username: "root" }).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: `Current user: ${username}` }),
     );
   });
 
   test("undetermined", async () => {
-    expect(
-      await new PrerequisiteRunningUser({ label: "user", username: "appuser", enabled: false }).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    const prerequisite = new PrerequisiteRunningUser({ label: "user", username, enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

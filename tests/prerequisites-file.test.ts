@@ -13,9 +13,8 @@ describe("PrerequisiteFile", () => {
   test("success", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
-
     const prerequisite = new PrerequisiteFile({
-      label: "file-check",
+      label: "file",
       file: path,
       permissions: { read: true, write: true, execute: true },
     });
@@ -25,8 +24,7 @@ describe("PrerequisiteFile", () => {
 
   test("failure - file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
-
-    const prerequisite = new PrerequisiteFile({ label: "file-check", file: path });
+    const prerequisite = new PrerequisiteFile({ label: "file", file: path });
 
     expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "File does not exist" }),
@@ -39,12 +37,7 @@ describe("PrerequisiteFile", () => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
-
-    const prerequisite = new PrerequisiteFile({
-      label: "file-check",
-      file: path,
-      permissions: { read: true },
-    });
+    const prerequisite = new PrerequisiteFile({ label: "file", file: path, permissions: { read: true } });
 
     expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "File is not readable" }),
@@ -57,9 +50,8 @@ describe("PrerequisiteFile", () => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
-
     const prerequisite = new PrerequisiteFile({
-      label: "file-check",
+      label: "file",
       file: path,
       permissions: { read: true, write: true },
     });
@@ -75,9 +67,8 @@ describe("PrerequisiteFile", () => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
-
     const prerequisite = new PrerequisiteFile({
-      label: "file-check",
+      label: "file",
       file: path,
       permissions: { read: true, write: true, execute: true },
     });
@@ -88,7 +79,7 @@ describe("PrerequisiteFile", () => {
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteFile({ label: "file-check", file: path, enabled: false });
+    const prerequisite = new PrerequisiteFile({ label: "file", file: path, enabled: false });
 
     expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });

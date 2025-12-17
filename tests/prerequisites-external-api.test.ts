@@ -10,42 +10,37 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 describe("PrerequisiteExternalApi", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
+    const prerequisite = new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") });
 
-    expect(
-      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(Clock),
-    ).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
+    const prerequisite = new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") });
 
-    expect(
-      await new PrerequisiteExternalApi({ label: "api", request: () => fetch("http://api") }).verify(Clock),
-    ).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
   test("undetermined", async () => {
-    expect(
-      await new PrerequisiteExternalApi({
-        label: "api",
-        request: () => fetch("http://api"),
-        enabled: false,
-      }).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    const prerequisite = new PrerequisiteExternalApi({
+      label: "api",
+      request: () => fetch("http://api"),
+      enabled: false,
+    });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 
   test("timeout", async () => {
     // @ts-expect-error
     spyOn(global, "fetch").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const prerequisite = new PrerequisiteExternalApi({
+      label: "api",
+      timeout: tools.Duration.Ms(5),
+      request: (signal: AbortSignal) => fetch("http://api", { signal }),
+    });
 
-    expect(
-      (
-        await new PrerequisiteExternalApi({
-          label: "api",
-          timeout: tools.Duration.Ms(5),
-          request: (signal: AbortSignal) => fetch("http://api", { signal }),
-        }).verify(Clock)
-      ).status,
-    ).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify(Clock)).status).toEqual(PrerequisiteStatusEnum.failure);
   });
 });

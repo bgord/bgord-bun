@@ -22,16 +22,16 @@ describe("PrerequisiteLogFile", () => {
   test("success", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "File does not exist" }),
     );
   });
@@ -42,11 +42,10 @@ describe("PrerequisiteLogFile", () => {
         throw new Error(mocks.IntentialError);
       },
     } as any);
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(
-      // @ts-expect-error
-      (await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).error.message,
-    ).toMatch(mocks.IntentialError);
+    // @ts-expect-error
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
   });
 
   test("failure - file not readable", async () => {
@@ -55,8 +54,9 @@ describe("PrerequisiteLogFile", () => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "File is not readable" }),
     );
   });
@@ -67,24 +67,25 @@ describe("PrerequisiteLogFile", () => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await new PrerequisiteLogFile({ label: "log-file" }, deps).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "File is not writable" }),
     );
   });
 
   test("undetermined - no path", async () => {
-    expect(
-      await new PrerequisiteLogFile(
-        { label: "log-file", enabled: true },
-        { Logger: new LoggerNoopAdapter() },
-      ).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    const prerequisite = new PrerequisiteLogFile(
+      { label: "log-file", enabled: true },
+      { Logger: new LoggerNoopAdapter() },
+    );
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteLogFile({ label: "log-file", enabled: false }, deps).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file", enabled: false }, deps);
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

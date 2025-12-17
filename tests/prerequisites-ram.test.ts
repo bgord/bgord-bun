@@ -12,24 +12,24 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 describe("PrerequisiteRAM", () => {
   test("success", async () => {
     spyOn(os, "freemem").mockReturnValue(tools.Size.fromMB(513).toBytes());
+    const prerequisite = new PrerequisiteRAM({ label: "ram", minimum });
 
-    expect(await new PrerequisiteRAM({ label: "ram", minimum }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     const freeRAM = tools.Size.fromMB(256);
     spyOn(os, "freemem").mockReturnValue(freeRAM.toBytes());
+    const prerequisite = new PrerequisiteRAM({ label: "ram", minimum });
 
-    expect(await new PrerequisiteRAM({ label: "ram", minimum }).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
     );
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteRAM({ label: "ram", enabled: false, minimum }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteRAM({ label: "ram", enabled: false, minimum });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

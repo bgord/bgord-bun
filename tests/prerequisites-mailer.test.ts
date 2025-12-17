@@ -12,33 +12,29 @@ const deps = { Mailer };
 describe("PrerequisiteMailer", () => {
   test("success", async () => {
     spyOn(Mailer, "verify").mockResolvedValue(() => Promise.resolve());
+    const prerequisite = new PrerequisiteMailer({ label: "mailer" }, deps);
 
-    expect(await new PrerequisiteMailer({ label: "mailer" }, deps).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentialError));
+    const prerequisite = new PrerequisiteMailer({ label: "mailer" }, deps);
 
     // @ts-expect-error
-    expect((await new PrerequisiteMailer({ label: "mailer" }, deps).verify(Clock)).error.message).toMatch(
-      mocks.IntentialError,
-    );
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteMailer({ label: "mailer", enabled: false }, deps).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteMailer({ label: "mailer", enabled: false }, deps);
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 
   test("undetermined - timeout", async () => {
     spyOn(Mailer, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const prerequisite = new PrerequisiteMailer({ label: "mailer", timeout: tools.Duration.Ms(5) }, deps);
 
-    expect(
-      (await new PrerequisiteMailer({ label: "mailer", timeout: tools.Duration.Ms(5) }, deps).verify(Clock))
-        .status,
-    ).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify(Clock)).status).toEqual(PrerequisiteStatusEnum.failure);
   });
 });

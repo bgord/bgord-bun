@@ -17,22 +17,20 @@ const deps = { Logger, JsonFileReader };
 describe("PrerequisiteTranslations", () => {
   test("success", async () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteTranslations(
+      { label: "i18n", supportedLanguages: { en: "en" } },
+      deps,
+    );
 
-    expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages: { en: "en" } }, deps).verify(
-        Clock,
-      ),
-    ).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - missing file", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
+    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps);
 
-    expect(
-      // @ts-expect-error
-      (await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(Clock)).error
-        .message,
-    ).toMatch(/Does not exist/);
+    // @ts-expect-error
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(/Does not exist/);
   });
 
   test("failure - inconsistent translations", async () => {
@@ -47,17 +45,19 @@ describe("PrerequisiteTranslations", () => {
           return {} as any;
       }
     });
+    const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps);
 
-    expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps).verify(Clock),
-    ).toEqual(mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }));
+    expect(await prerequisite.verify(Clock)).toEqual(
+      mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }),
+    );
   });
 
   test("undetermined", async () => {
-    expect(
-      await new PrerequisiteTranslations({ label: "i18n", supportedLanguages, enabled: false }, deps).verify(
-        Clock,
-      ),
-    ).toEqual(mocks.VerificationUndetermined);
+    const prerequisite = new PrerequisiteTranslations(
+      { label: "i18n", supportedLanguages, enabled: false },
+      deps,
+    );
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

@@ -69,7 +69,7 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteDependencyVulnerabilities", () => {
-  test("success - Bun audit returns no high and critical vulnerabilities", async () => {
+  test("success", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
@@ -77,13 +77,12 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
         stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE)),
       }),
     }));
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
-  test("failure - Bun audit returns high and critical vulnerabilities", async () => {
+  test("failure - high and critical vulnerabilities", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
@@ -91,36 +90,35 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
         stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES)),
       }),
     }));
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }),
     );
   });
 
-  test("failure - Bun audit exits with 1", async () => {
+  test("failure - exit code", async () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).toEqual(
-      mocks.VerificationFailure({ message: "Audit failure" }),
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure({ message: "Audit failure" }));
   });
 
-  test("failure - Bun audit parsing fails", async () => {
+  test("failure - audit parsing", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({ exitCode: 0, stdout: Buffer.from("abc") }),
     }));
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(
-      // @ts-expect-error
-      (await new PrerequisiteDependencyVulnerabilities({ label: "deps" }).verify(Clock)).error.message,
-    ).toMatch(/Unexpected identifier "abc"/);
+    // @ts-expect-error
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(/Unexpected identifier "abc"/);
   });
 
   test("undetermined", async () => {
-    expect(
-      await new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false }).verify(Clock),
-    ).toEqual(mocks.VerificationUndetermined);
+    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

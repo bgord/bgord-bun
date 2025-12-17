@@ -6,27 +6,24 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteJobs", () => {
-  test("success - all jobs running", async () => {
+  test("success", async () => {
     const Jobs = { a: { isRunning: () => true } as any };
+    const prerequisite = new PrerequisiteJobs({ label: "jobs", Jobs });
 
-    expect(await new PrerequisiteJobs({ label: "jobs", Jobs }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - one job not running", async () => {
     const Jobs = { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any };
+    const prerequisite = new PrerequisiteJobs({ label: "jobs", Jobs });
 
-    expect(await new PrerequisiteJobs({ label: "jobs", Jobs }).verify(Clock)).toEqual(
-      mocks.VerificationFailure(),
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure());
   });
 
   test("undetermined", async () => {
     const Jobs = { a: { isRunning: () => true } as any };
+    const prerequisite = new PrerequisiteJobs({ label: "jobs", enabled: false, Jobs });
 
-    expect(await new PrerequisiteJobs({ label: "jobs", enabled: false, Jobs }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

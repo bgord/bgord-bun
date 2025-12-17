@@ -9,25 +9,23 @@ const binary = Binary.parse("node");
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteBinary", () => {
-  test("success - binary is found", async () => {
+  test("success", async () => {
     spyOn(Bun, "which").mockReturnValue(binary);
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary });
 
-    expect(await new PrerequisiteBinary({ label: "binary", binary }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
-  test("failure - binary is not found", async () => {
+  test("failure - binary not found", async () => {
     spyOn(Bun, "which").mockReturnValue(null);
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary });
 
-    expect(await new PrerequisiteBinary({ label: "binary", binary }).verify(Clock)).toEqual(
-      mocks.VerificationFailure(),
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure());
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteBinary({ label: "binary", binary, enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteBinary({ label: "binary", binary, enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

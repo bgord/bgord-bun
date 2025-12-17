@@ -9,21 +9,21 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteOs", () => {
   test("success", async () => {
-    expect(await new PrerequisiteOs({ label: "os", accepted }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    const prerequisite = new PrerequisiteOs({ label: "os", accepted });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
-    expect(
-      // @ts-expect-error
-      (await new PrerequisiteOs({ label: "os", accepted: ["Nokia"] }).verify(Clock)).error.message,
-    ).toEqual("Unacceptable os: Nokia");
+    const prerequisite = new PrerequisiteOs({ label: "os", accepted: ["Nokia"] });
+
+    // @ts-expect-error
+    expect((await prerequisite.verify(Clock)).error.message).toEqual("Unacceptable os: Nokia");
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteOs({ label: "os", accepted, enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteOs({ label: "os", accepted, enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

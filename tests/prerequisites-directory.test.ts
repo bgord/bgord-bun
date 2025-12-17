@@ -13,7 +13,6 @@ describe("PrerequisiteDirectory", () => {
   test("success", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
-
     const prerequisite = new PrerequisiteDirectory({
       label: "dir",
       directory,
@@ -25,7 +24,6 @@ describe("PrerequisiteDirectory", () => {
 
   test("failure - does not exist", async () => {
     spyOn(fs, "stat").mockRejectedValue(new Error("ENOENT"));
-
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
 
     expect(await prerequisite.verify(Clock)).toEqual(
@@ -35,7 +33,6 @@ describe("PrerequisiteDirectory", () => {
 
   test("failure - not a directory", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => false } as any);
-
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
 
     expect(await prerequisite.verify(Clock)).toEqual(
@@ -49,7 +46,6 @@ describe("PrerequisiteDirectory", () => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
-
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, permissions: { read: true } });
 
     expect(await prerequisite.verify(Clock)).toEqual(
@@ -63,7 +59,6 @@ describe("PrerequisiteDirectory", () => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
-
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, permissions: { write: true } });
 
     expect(await prerequisite.verify(Clock)).toEqual(
@@ -77,7 +72,6 @@ describe("PrerequisiteDirectory", () => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentialError);
       return undefined;
     });
-
     const prerequisite = new PrerequisiteDirectory({
       label: "dir",
       directory,

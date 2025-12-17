@@ -9,21 +9,21 @@ const maximum = tools.Size.fromMB(2);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteMemory", () => {
-  test("success - memory usage is below the maximum", async () => {
+  test("success", async () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));
+    const prerequisite = new PrerequisiteMemory({ maximum, label: "memory" });
 
-    expect(await new PrerequisiteMemory({ maximum, label: "memory" }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - memory usage exceeds the maximum", async () => {
     const memoryConsumption = tools.Size.fromMB(3);
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
+    const prerequisite = new PrerequisiteMemory({ maximum, label: "memory" });
 
-    expect(await new PrerequisiteMemory({ maximum, label: "memory" }).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       }),
@@ -33,9 +33,8 @@ describe("PrerequisiteMemory", () => {
   test("undetermined", async () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: maximum }));
+    const prerequisite = new PrerequisiteMemory({ maximum, label: "memory", enabled: false });
 
-    expect(await new PrerequisiteMemory({ maximum, label: "memory", enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

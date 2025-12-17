@@ -14,33 +14,29 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 describe("PrerequisiteExternalApi", () => {
   test("success", async () => {
     spyOn(dns, "lookup").mockResolvedValue(result);
+    const prerequisite = new PrerequisiteDNS({ label: "dns", hostname });
 
-    expect(await new PrerequisiteDNS({ label: "dns", hostname }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(dns, "lookup").mockRejectedValue(mocks.IntentialError);
+    const prerequisite = new PrerequisiteDNS({ label: "dns", hostname });
 
-    expect(await new PrerequisiteDNS({ label: "dns", hostname }).verify(Clock)).toEqual(
-      mocks.VerificationFailure(mocks.IntentialError),
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure(mocks.IntentialError));
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteDNS({ label: "dns", hostname, enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteDNS({ label: "dns", hostname, enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 
   test("timeout", async () => {
     // @ts-expect-error
     spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const prerequisite = new PrerequisiteDNS({ label: "dns", hostname, timeout: tools.Duration.Ms(5) });
 
-    expect(
-      (await new PrerequisiteDNS({ label: "dns", hostname, timeout: tools.Duration.Ms(5) }).verify(Clock))
-        .status,
-    ).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify(Clock)).status).toEqual(PrerequisiteStatusEnum.failure);
   });
 });

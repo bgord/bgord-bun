@@ -7,12 +7,14 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteSelf", () => {
   test("success", async () => {
-    expect(await new PrerequisiteSelf({ label: "self" }).verify(Clock)).toEqual(mocks.VerificationSuccess);
+    const prerequisite = new PrerequisiteSelf({ label: "self" });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("undetermined", async () => {
-    expect(await new PrerequisiteSelf({ label: "self", enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    const prerequisite = new PrerequisiteSelf({ label: "self", enabled: false });
+
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });

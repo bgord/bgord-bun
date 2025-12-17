@@ -6,30 +6,31 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteSQLite", () => {
-  test("success - integrity_check is ok", async () => {
+  test("success", async () => {
     const sqlite = {
       query: jest.fn().mockReturnValue({ get: jest.fn().mockReturnValue({ integrity_check: "ok" }) }),
     } as any;
+    const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite });
 
-    expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify(Clock)).toEqual(
-      mocks.VerificationSuccess,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - integrity_check is not ok", async () => {
     const sqlite = {
       query: jest.fn().mockReturnValue({ get: jest.fn().mockReturnValue({ integrity_check: "not ok" }) }),
     } as any;
+    const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite });
 
-    expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "Integrity check failed" }),
     );
   });
 
   test("failure - integrity_check is missing", async () => {
     const sqlite = { query: jest.fn().mockReturnValue({ get: jest.fn().mockReturnValue(undefined) }) } as any;
+    const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite });
 
-    expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify(Clock)).toEqual(
+    expect(await prerequisite.verify(Clock)).toEqual(
       mocks.VerificationFailure({ message: "Integrity check failed" }),
     );
   });
@@ -42,18 +43,16 @@ describe("PrerequisiteSQLite", () => {
         }),
       }),
     } as any;
+    const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite });
 
     // @ts-expect-error
-    expect((await new PrerequisiteSQLite({ label: "sqlite", sqlite }).verify(Clock)).error.message).toMatch(
-      mocks.IntentialError,
-    );
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
   });
 
   test("undetermined", async () => {
     const sqlite = {} as any;
+    const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite, enabled: false });
 
-    expect(await new PrerequisiteSQLite({ label: "sqlite", sqlite, enabled: false }).verify(Clock)).toEqual(
-      mocks.VerificationUndetermined,
-    );
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
   });
 });
