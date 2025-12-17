@@ -5,9 +5,9 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import {
-  AnonSubjectResolver,
+  RateLimitSubjectAnon,
+  RateLimitSubjectUser,
   ShieldRateLimitAdapter,
-  UserSubjectResolver,
 } from "../src/shield-rate-limit.adapter";
 
 const config = { ttl: tools.Duration.Seconds(1) };
@@ -15,7 +15,7 @@ const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const deps = { Clock, CacheResolver };
-const shieldRateLimit = new ShieldRateLimitAdapter({ enabled: true, subject: AnonSubjectResolver }, deps);
+const shieldRateLimit = new ShieldRateLimitAdapter({ enabled: true, subject: RateLimitSubjectAnon }, deps);
 
 const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));
 
@@ -62,7 +62,7 @@ describe("ShieldRateLimitAdapter", () => {
         c.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitAdapter({ enabled: true, subject: UserSubjectResolver }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: true, subject: RateLimitSubjectUser }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -79,7 +79,7 @@ describe("ShieldRateLimitAdapter", () => {
         c.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitAdapter({ enabled: true, subject: UserSubjectResolver }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: true, subject: RateLimitSubjectUser }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -99,7 +99,7 @@ describe("ShieldRateLimitAdapter", () => {
         c.set("user", { id: c.req.header("id") });
         return next();
       },
-      new ShieldRateLimitAdapter({ enabled: true, subject: UserSubjectResolver }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: true, subject: RateLimitSubjectUser }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -126,7 +126,7 @@ describe("ShieldRateLimitAdapter", () => {
   test("disabled", async () => {
     const app = new Hono().get(
       "/ping",
-      new ShieldRateLimitAdapter({ enabled: false, subject: AnonSubjectResolver }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: false, subject: RateLimitSubjectAnon }, deps).verify,
       (c) => c.text("pong"),
     );
 

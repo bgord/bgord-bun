@@ -11,8 +11,8 @@ type ShieldRateLimitOptionsType = { enabled: boolean; subject: SubjectResolver }
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverPort };
 
-export const AnonSubjectResolver: SubjectResolver = () => "anon";
-export const UserSubjectResolver: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
+export const RateLimitSubjectAnon: SubjectResolver = () => "anon";
+export const RateLimitSubjectUser: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
 
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 
