@@ -18,11 +18,11 @@ describe("PrerequisiteMailer", () => {
   });
 
   test("failure", async () => {
-    spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentialError));
+    spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
     const prerequisite = new PrerequisiteMailer({ label: "mailer" }, deps);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentionalError);
   });
 
   test("undetermined", async () => {

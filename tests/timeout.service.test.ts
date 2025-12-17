@@ -55,7 +55,7 @@ describe("Timeout", () => {
 
   test("cancellable - error propagation", async () => {
     const action = async (_signal: AbortSignal) => {
-      throw new Error(mocks.IntentialError);
+      throw new Error(mocks.IntentionalError);
     };
 
     try {
@@ -63,7 +63,7 @@ describe("Timeout", () => {
 
       expect.unreachable();
     } catch (error) {
-      expect((error as Error).message).toEqual(mocks.IntentialError);
+      expect((error as Error).message).toEqual(mocks.IntentionalError);
     }
   });
 

@@ -23,13 +23,13 @@ describe("PrerequisiteOutsideConnectivity", () => {
   });
 
   test("failure - error", async () => {
-    spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentialError));
+    spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
     const prerequisite = new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" });
 
     expect(
       // @ts-expect-error
       (await prerequisite.verify(Clock)).error.message,
-    ).toMatch(mocks.IntentialError);
+    ).toMatch(mocks.IntentionalError);
   });
 
   test("undetermined", async () => {

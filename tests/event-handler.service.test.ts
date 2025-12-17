@@ -22,7 +22,7 @@ describe("EventHandler service", () => {
   test("error path", async () => {
     const loggerError = spyOn(Logger, "error");
     const fn = async (_event: typeof event) => {
-      throw new Error(mocks.IntentialError);
+      throw new Error(mocks.IntentionalError);
     };
 
     await handler.handle(fn)(event);
@@ -38,7 +38,7 @@ describe("EventHandler service", () => {
     });
     expect(call.error).toBeDefined();
     expect(call.error.name).toEqual("Error");
-    expect(call.error.message).toEqual(mocks.IntentialError);
+    expect(call.error.message).toEqual(mocks.IntentionalError);
     expect(typeof call.error.stack).toEqual("string");
   });
 });

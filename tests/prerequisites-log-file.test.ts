@@ -39,19 +39,19 @@ describe("PrerequisiteLogFile", () => {
   test("failure - existence check error", async () => {
     spyOn(Bun, "file").mockReturnValue({
       exists: async () => {
-        throw new Error(mocks.IntentialError);
+        throw new Error(mocks.IntentionalError);
       },
     } as any);
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentionalError);
   });
 
   test("failure - file not readable", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
-      if (mode === fs.constants.R_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
@@ -64,7 +64,7 @@ describe("PrerequisiteLogFile", () => {
   test("failure - file not writeable", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
-      if (mode === fs.constants.W_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);

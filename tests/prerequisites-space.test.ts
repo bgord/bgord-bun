@@ -31,11 +31,11 @@ describe("PrerequisiteSpace", () => {
   });
 
   test("failure - error", async () => {
-    spyOn(DiskSpaceCheckerFailure, "get").mockRejectedValue(new Error(mocks.IntentialError));
+    spyOn(DiskSpaceCheckerFailure, "get").mockRejectedValue(new Error(mocks.IntentionalError));
     const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, depsFailure);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentionalError);
   });
 
   test("undetermined", async () => {

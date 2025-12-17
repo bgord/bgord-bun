@@ -39,14 +39,14 @@ describe("PrerequisiteSQLite", () => {
     const sqlite = {
       query: jest.fn().mockReturnValue({
         get: jest.fn().mockImplementation(() => {
-          throw new Error(mocks.IntentialError);
+          throw new Error(mocks.IntentionalError);
         }),
       }),
     } as any;
     const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite });
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentialError);
+    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentionalError);
   });
 
   test("undetermined", async () => {

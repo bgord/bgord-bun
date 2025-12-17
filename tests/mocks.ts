@@ -16,7 +16,7 @@ export function stringToStream(string: string): ReadableStream<Uint8Array> {
   });
 }
 
-export const IntentialError = "intentional.error" as const;
+export const IntentionalError = "intentional.error" as const;
 
 export function makeCaptureTransport() {
   const lines: string[] = [];
