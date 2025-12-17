@@ -26,14 +26,14 @@ describe("ShieldRateLimitAdapter", () => {
     expect(result.status).toEqual(200);
     expect(await result.text()).toEqual("pong");
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("anon - failure - TooManyRequestsError", async () => {
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("anon - happy path - after rate limit", async () => {
@@ -43,7 +43,7 @@ describe("ShieldRateLimitAdapter", () => {
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("user - happy path - within rate limit", async () => {
@@ -52,7 +52,7 @@ describe("ShieldRateLimitAdapter", () => {
     expect(result.status).toEqual(200);
     expect(await result.text()).toEqual("pong");
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("user - failure - TooManyRequestsError", async () => {
@@ -69,7 +69,7 @@ describe("ShieldRateLimitAdapter", () => {
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("user - happy path - after rate limit", async () => {
@@ -89,7 +89,7 @@ describe("ShieldRateLimitAdapter", () => {
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("user - does not impact other users", async () => {
@@ -120,7 +120,7 @@ describe("ShieldRateLimitAdapter", () => {
 
     expect(firstUserSecondRequest.status).toEqual(200);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("disabled", async () => {
@@ -133,6 +133,6 @@ describe("ShieldRateLimitAdapter", () => {
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 });

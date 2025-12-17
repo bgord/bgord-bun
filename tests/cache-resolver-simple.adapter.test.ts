@@ -67,6 +67,22 @@ describe("CacheResolverSimpleAdapter", () => {
     expect(setSpy).toHaveBeenCalledWith("key", fresh);
   });
 
+  test("flush", async () => {
+    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const setSpy = spyOn(CacheRepository, "set");
+    const flushSpy = spyOn(CacheRepository, "flush");
+
+    const first = await CacheResolver.resolveWithContext("key", async () => fresh);
+
+    expect(first).toEqual({ value: fresh, source: CacheSourceEnum.miss });
+    expect(setSpy).toHaveBeenCalled();
+
+    await CacheResolver.flush();
+
+    expect(flushSpy).toHaveBeenCalled();
+  });
+
   test("get ttl", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
     const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });

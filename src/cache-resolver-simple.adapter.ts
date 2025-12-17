@@ -26,6 +26,10 @@ export class CacheResolverSimpleAdapter implements CacheResolverPort {
     return { value, source: CacheSourceEnum.miss };
   }
 
+  async flush() {
+    await this.deps.CacheRepository.flush();
+  }
+
   get ttl() {
     return this.deps.CacheRepository.ttl;
   }

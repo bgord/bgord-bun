@@ -34,7 +34,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
     expect(second.APP_NAME).toEqual("MyApp");
     expect(second.type).toEqual(NodeEnvironmentEnum.local);
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 
   test("failure", async () => {
@@ -47,6 +47,6 @@ describe("EnvironmentLoaderProcessSafe", () => {
 
     expect(async () => adapter.load()).toThrow();
 
-    await CacheRepository.flush();
+    await CacheResolver.flush();
   });
 });
