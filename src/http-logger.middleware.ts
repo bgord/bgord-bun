@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
-import { CacheHitEnum } from "./cache-resolver.service";
+import { CacheSourceEnum } from "./cache-resolver.port";
 import { CacheResponse } from "./cache-response.middleware";
 import { ClientFromHonoAdapter } from "./client-from-hono.adapter";
 import type { ClockPort } from "./clock.port";
@@ -93,7 +93,7 @@ export class HttpLogger {
         status: response.status,
         durationMs: duration.ms,
         client,
-        cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheHitEnum.hit,
+        cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheSourceEnum.hit,
         metadata: { response: await HttpLogger.parseJSON(response) },
       });
     });
