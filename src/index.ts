@@ -9,6 +9,7 @@ export * from "./better-auth-logger.service";
 export * from "./binary.vo";
 export * from "./build-info-repository.service";
 export * from "./cache-file.service";
+export * from "./cache-repository.port";
 export * from "./cache-resolver.service";
 export * from "./cache-response.middleware";
 export * from "./certificate-inspector.port";
