@@ -29,7 +29,7 @@ export class ShieldRateLimitAdapter implements ShieldPort {
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject,
-      async () => new tools.RateLimiter(this.deps.CacheResolver.getTTL()),
+      async () => new tools.RateLimiter(this.deps.CacheResolver.ttl),
     );
 
     const result = limiter.verify(this.deps.Clock.now());

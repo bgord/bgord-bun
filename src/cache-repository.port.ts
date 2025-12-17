@@ -7,5 +7,5 @@ export interface CacheRepositoryPort {
   set<T>(key: CacheRepositoryKeyType, value: T): Promise<void>;
   delete(key: CacheRepositoryKeyType): Promise<void>;
   flush(): Promise<void>;
-  getTTL(): tools.Duration;
+  get ttl(): tools.Duration;
 }

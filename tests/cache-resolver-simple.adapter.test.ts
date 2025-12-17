@@ -67,12 +67,10 @@ describe("CacheResolverSimpleAdapter", () => {
     expect(setSpy).toHaveBeenCalledWith("key", fresh);
   });
 
-  test("getTTL", async () => {
+  test("get ttl", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
     const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 
-    const result = CacheResolver.getTTL();
-
-    expect(result).toEqual(config.ttl);
+    expect(CacheResolver.ttl).toEqual(config.ttl);
   });
 });

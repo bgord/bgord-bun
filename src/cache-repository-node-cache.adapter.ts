@@ -31,7 +31,7 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
     this.store.flushAll();
   }
 
-  getTTL() {
+  get ttl() {
     return this.config.ttl;
   }
 }

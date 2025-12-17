@@ -26,7 +26,7 @@ export class CacheResolverSimpleAdapter implements CacheResolverPort {
     return { value, source: CacheSourceEnum.miss };
   }
 
-  getTTL() {
-    return this.deps.CacheRepository.getTTL();
+  get ttl() {
+    return this.deps.CacheRepository.ttl;
   }
 }

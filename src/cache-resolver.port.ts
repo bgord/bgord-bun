@@ -14,5 +14,5 @@ export interface CacheResolverPort {
     producer: () => Promise<T>,
   ): Promise<{ value: T; source: CacheSourceEnum }>;
 
-  getTTL(): tools.Duration;
+  get ttl(): tools.Duration;
 }

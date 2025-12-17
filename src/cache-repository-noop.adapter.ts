@@ -14,7 +14,7 @@ export class CacheRepositoryNoopAdapter implements CacheRepositoryPort {
 
   async flush() {}
 
-  getTTL() {
+  get ttl() {
     return this.config.ttl;
   }
 }
