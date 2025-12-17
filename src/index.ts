@@ -14,6 +14,7 @@ export * from "./cache-repository-node-cache.adapter";
 export * from "./cache-repository-noop.adapter";
 export * from "./cache-resolver.port";
 export * from "./cache-resolver.service";
+export * from "./cache-resolver-simple.adapter";
 export * from "./cache-response.middleware";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
