@@ -98,7 +98,7 @@ describe("Timeout", () => {
 
   test("monitor - over timeout", async () => {
     const loggerWarn = spyOn(logger, "warn");
-    const action = delay("OK", tools.Duration.Ms(6));
+    const action = delay("OK", tools.Duration.Ms(7));
 
     const result = await Timeout.monitor(action, timeout, logger);
 
