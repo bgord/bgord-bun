@@ -1,10 +1,13 @@
 # Changelog
+- 2025-12-17 12:27 e607840 **1.5.7**
 - 2025-12-17 12:27 5af68d2 **step: update packages**
 - 2025-12-17 12:24 e128b03 **step: update packages**
 - 2025-12-17 12:23 18c6acd **refactor: cleanup tests**
 - 2025-12-17 11:59 8f95037 **step: adjust directory tests**
 - 2025-12-17 11:41 cadc35e **step: update log file tests**
 - 2025-12-17 11:32 f07f941 **step: reuse prereq file in log-file**
+- 2025-12-17 11:27 ca82e7d **docs: generate readme**
+- 2025-12-17 11:27 3b70537 **docs: generate CHANGELOG**
 - 2025-12-17 11:24 48279dc **step: test prerequisites file**
 - 2025-12-17 11:17 34a9890 **feature: file prereq**
 - 2025-12-16 15:47 744dd4b **step: test process safe adapter**
