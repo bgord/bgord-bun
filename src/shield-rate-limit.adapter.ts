@@ -2,14 +2,14 @@ import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import type { CacheResolverPort } from "./cache-resolver.port";
 import type { ClockPort } from "./clock.port";
-import type { RateLimitStorePort } from "./rate-limit-store.port";
 import type { ShieldPort } from "./shield.port";
 
 type SubjectResolver = (c: Context) => string;
-type ShieldRateLimitOptionsType = { enabled: boolean; store: RateLimitStorePort; subject: SubjectResolver };
+type ShieldRateLimitOptionsType = { enabled: boolean; subject: SubjectResolver };
 
-type Dependencies = { Clock: ClockPort };
+type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverPort };
 
 export const AnonSubjectResolver: SubjectResolver = () => "anon";
 export const UserSubjectResolver: SubjectResolver = (c) => c.get("user")?.id ?? "anon";
@@ -27,18 +27,14 @@ export class ShieldRateLimitAdapter implements ShieldPort {
 
     const subject = this.options.subject(c);
 
-    let limiter = await this.options.store.get(subject);
+    const limiter = await this.deps.CacheResolver.resolve(
+      subject,
+      async () => new tools.RateLimiter(this.deps.CacheResolver.getTTL()),
+    );
 
-    if (!limiter) {
-      limiter = new tools.RateLimiter(this.options.store.ttl);
-      this.options.store.set(subject, limiter);
-    }
+    const result = limiter.verify(this.deps.Clock.now());
 
-    const check = limiter.verify(this.deps.Clock.now());
-
-    if (!check.allowed) throw TooManyRequestsError;
-
-    this.options.store.set(subject, limiter);
+    if (!result.allowed) throw TooManyRequestsError;
 
     return next();
   });
