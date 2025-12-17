@@ -28,7 +28,7 @@ export class JobHandler {
       try {
         this.deps.Logger.info({ message: `${uow.label} start`, correlationId, ...this.base });
 
-        await CorrelationStorage.run(correlationId, uow.process);
+        await CorrelationStorage.run(correlationId, async () => uow.process());
 
         this.deps.Logger.info({
           message: `${uow.label} success`,

@@ -41,7 +41,7 @@ describe("JobHandler service", () => {
     expect(loggerInfo).toHaveBeenNthCalledWith(2, expect.objectContaining({ message: "Test Job success" }));
   });
 
-  test("this alias", async () => {
+  test("this binding guardrails", async () => {
     const loggerError = spyOn(Logger, "error");
     const uow = new ClockWork(deps);
 
