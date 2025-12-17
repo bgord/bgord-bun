@@ -1,8 +1,9 @@
-import { constants } from "node:fs";
-import fsp from "node:fs/promises";
+import { access, constants, stat } from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
+
+export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
 export class PrerequisiteDirectory implements prereqs.Prerequisite {
   readonly kind = "directory";
@@ -10,19 +11,19 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
   readonly enabled?: boolean = true;
 
   private readonly directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
-  private readonly access?: { write?: boolean; execute?: boolean };
+  private readonly permissions: PrerequisiteDirectoryPermissionsType;
 
   constructor(
     config: prereqs.PrerequisiteConfigType & {
       directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
-      access?: { write?: boolean; execute?: boolean };
+      permissions?: PrerequisiteDirectoryPermissionsType;
     },
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.directory = config.directory;
-    this.access = config.access;
+    this.permissions = config.permissions ?? {};
   }
 
   async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
@@ -30,17 +31,40 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
 
     if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
 
-    const write = this.access?.write ?? false;
-    const execute = this.access?.execute ?? false;
-
-    const flags = constants.R_OK | (write ? constants.W_OK : 0) | (execute ? constants.X_OK : 0);
-
     try {
-      await fsp.access(this.directory, flags);
+      const stats = await stat(this.directory);
 
-      return prereqs.Verification.success(stopwatch.stop());
-    } catch (error) {
-      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
+      if (!stats.isDirectory()) {
+        return prereqs.Verification.failure(stopwatch.stop(), { message: "Not a directory" });
+      }
+    } catch {
+      return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory does not exist" });
     }
+
+    if (this.permissions.read) {
+      try {
+        await access(this.directory, constants.R_OK);
+      } catch {
+        return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory is not readable" });
+      }
+    }
+
+    if (this.permissions.write) {
+      try {
+        await access(this.directory, constants.W_OK);
+      } catch {
+        return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory is not writable" });
+      }
+    }
+
+    if (this.permissions.execute) {
+      try {
+        await access(this.directory, constants.X_OK);
+      } catch {
+        return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory is not executable" });
+      }
+    }
+
+    return prereqs.Verification.success(stopwatch.stop());
   }
 }
