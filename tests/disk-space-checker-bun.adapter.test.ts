@@ -17,6 +17,8 @@ describe("DiskSpaceCheckerBunAdapter", () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ text: () => response }));
 
-    expect((await DiskSpaceChecker.get(root)).toBytes()).toEqual(size.toBytes());
+    const result = await DiskSpaceChecker.get(root);
+
+    expect(result.toBytes()).toEqual(size.toBytes());
   });
 });

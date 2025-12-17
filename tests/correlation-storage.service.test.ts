@@ -21,7 +21,9 @@ describe("CorrelationStorage service", () => {
   test("run - inner and outer", () => {
     CorrelationStorage.run("outer", () => {
       expect(CorrelationStorage.get()).toEqual("outer");
+
       CorrelationStorage.run("inner", () => expect(CorrelationStorage.get()).toEqual("inner"));
+
       expect(CorrelationStorage.get()).toEqual("outer");
     });
   });

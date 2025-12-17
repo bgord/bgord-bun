@@ -3,6 +3,8 @@ import { AntivirusPortError } from "../src/antivirus.port";
 import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 import * as mocks from "./mocks";
 
+const adapter = new AntivirusClamavAdapter();
+
 describe("AntivirusClamavAdapter", () => {
   test("clean - exit code 0", async () => {
     const bunSpawn = spyOn(Bun, "spawn").mockImplementation((): any => ({
@@ -10,7 +12,7 @@ describe("AntivirusClamavAdapter", () => {
       exitCode: 0,
     }));
 
-    expect(await new AntivirusClamavAdapter().scanBytes(new Uint8Array([1, 2, 3]))).toEqual({ clean: true });
+    expect(await adapter.scanBytes(new Uint8Array([1, 2, 3]))).toEqual({ clean: true });
     // @ts-expect-error
     expect(bunSpawn.mock.calls[0]?.[0].cmd).toEqual([
       "clamscan",
@@ -28,7 +30,7 @@ describe("AntivirusClamavAdapter", () => {
       exitCode: 1,
     }));
 
-    expect(await new AntivirusClamavAdapter().scanBytes(new Uint8Array([0x45]))).toEqual({
+    expect(await adapter.scanBytes(new Uint8Array([0x45]))).toEqual({
       clean: false,
       signature: "Eicar-Test-Signature",
     });
@@ -37,8 +39,6 @@ describe("AntivirusClamavAdapter", () => {
   test("ScanFailed", async () => {
     spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }) as any);
 
-    expect(() => new AntivirusClamavAdapter().scanBytes(new Uint8Array([1]))).toThrow(
-      AntivirusPortError.ScanFailed,
-    );
+    expect(async () => adapter.scanBytes(new Uint8Array([1]))).toThrow(AntivirusPortError.ScanFailed);
   });
 });
