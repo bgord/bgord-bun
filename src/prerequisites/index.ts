@@ -5,6 +5,7 @@ export * from "./dependency-vulnerabilities";
 export * from "./directory";
 export * from "./dns";
 export * from "./external-api";
+export * from "./file";
 export * from "./jobs";
 export * from "./log-file";
 export * from "./mailer";
