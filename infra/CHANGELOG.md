@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-18 00:03 v1.5.11
+- 2025-12-18 00:03 5606713 **1.5.11**
 - 2025-12-17 23:31 1d05710 **step: prefix shield rate limit subjects**
 - 2025-12-17 23:29 a45fb8f **step: prefix cache response subjects**
 ## 2025-12-17 23:06 v1.5.10
@@ -6,6 +8,7 @@
 - 2025-12-17 23:04 512a65d **fix: intentional error typo**
 - 2025-12-17 23:02 ea0bf0c **fix: flaky timeout test**
 - 2025-12-17 22:47 30a0db9 **feature: cache response middleware**
+- 2025-12-17 22:46 f3c70ce **docs: generate CHANGELOG**
 - 2025-12-17 22:29 d32c2c7 **refactor: rename shield rate limit adapter subject resolvers**
 - 2025-12-17 22:17 b1f74bc **step: define flush method on cache resolver**
 - 2025-12-17 22:06 f04476c **docs: generate CHANGELOG**
