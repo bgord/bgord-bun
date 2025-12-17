@@ -1,8 +1,9 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as croner from "croner";
+import type { ClockPort } from "../src/clock.port";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { JobHandler } from "../src/job-handler.service";
+import { JobHandler, type UnitOfWork } from "../src/job-handler.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -11,6 +12,19 @@ const Clock = new ClockSystemAdapter();
 const IdProvider = new IdProviderCryptoAdapter();
 const deps = { Logger, Clock, IdProvider };
 const handler = new JobHandler(deps);
+
+type Dependencies = { Clock: ClockPort };
+class ClockWork implements UnitOfWork {
+  constructor(private readonly deps: Dependencies) {}
+
+  static cron = "";
+
+  label = "PassageOfTime";
+
+  async process() {
+    this.deps.Clock.nowMs();
+  }
+}
 
 describe("JobHandler service", () => {
   test("happy path", async () => {
@@ -25,6 +39,15 @@ describe("JobHandler service", () => {
 
     expect(loggerInfo).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: "Test Job start" }));
     expect(loggerInfo).toHaveBeenNthCalledWith(2, expect.objectContaining({ message: "Test Job success" }));
+  });
+
+  test("this alias", async () => {
+    const loggerError = spyOn(Logger, "error");
+    const uow = new ClockWork(deps);
+
+    await handler.handle(uow)();
+
+    expect(loggerError).not.toHaveBeenCalled();
   });
 
   test("failure", async () => {
