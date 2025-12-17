@@ -11,6 +11,7 @@ export class RateLimitStoreNodeCacheAdapter implements RateLimitStorePort {
       checkperiod: this.ttl.seconds,
       deleteOnExpire: true,
       maxKeys: 100_000,
+      useClones: false,
     });
   }
 
