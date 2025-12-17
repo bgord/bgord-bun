@@ -1,5 +1,6 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { CacheRepositoryNoopAdapter } from "../src/cache-repository-noop.adapter";
+import { CacheSourceEnum } from "../src/cache-resolver.port";
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
 import * as mocks from "./mocks";
 
@@ -40,5 +41,27 @@ describe("CacheResolverSimpleAdapter", () => {
       }),
     ).toThrow(mocks.IntentialError);
     expect(setSpy).not.toHaveBeenCalled();
+  });
+
+  test("resolveWithContext - hit", async () => {
+    const CacheRepository = new CacheRepositoryNoopAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
+
+    const result = await CacheResolver.resolveWithContext("key", async () => fresh);
+
+    expect(result).toEqual({ value: cached, source: CacheSourceEnum.hit });
+    expect(getSpy).toHaveBeenCalledWith("key");
+  });
+
+  test("resolveWithContext - miss", async () => {
+    const CacheRepository = new CacheRepositoryNoopAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const setSpy = spyOn(CacheRepository, "set");
+
+    const result = await CacheResolver.resolveWithContext("key", async () => fresh);
+
+    expect(result).toEqual({ value: fresh, source: CacheSourceEnum.miss });
+    expect(setSpy).toHaveBeenCalledWith("key", fresh);
   });
 });
