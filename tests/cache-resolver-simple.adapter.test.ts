@@ -66,4 +66,13 @@ describe("CacheResolverSimpleAdapter", () => {
     expect(result).toEqual({ value: fresh, source: CacheSourceEnum.miss });
     expect(setSpy).toHaveBeenCalledWith("key", fresh);
   });
+
+  test("getTTL", async () => {
+    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+
+    const result = CacheResolver.getTTL();
+
+    expect(result).toEqual(config.ttl);
+  });
 });

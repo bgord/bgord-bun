@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import type { CacheRepositoryKeyType } from "./cache-repository.port";
 
 export enum CacheSourceEnum {
@@ -12,4 +13,6 @@ export interface CacheResolverPort {
     key: CacheRepositoryKeyType,
     producer: () => Promise<T>,
   ): Promise<{ value: T; source: CacheSourceEnum }>;
+
+  getTTL(): tools.Duration;
 }
