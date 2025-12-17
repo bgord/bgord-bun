@@ -9,7 +9,7 @@ type Dependencies = { CacheResolver: CacheResolverPort };
 
 type CacheResponseOptions = { enabled: boolean; subject: SubjectResolver };
 
-export const CacheResponseSubjectUrl: SubjectResolver = (c: Context) => c.req.url;
+export const CacheResponseSubjectUrl: SubjectResolver = (c: Context) => `cache_response_${c.req.url}`;
 
 type CachedResponse = {
   body: string;
