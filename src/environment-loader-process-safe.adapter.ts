@@ -1,26 +1,26 @@
 import type { z } from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
-import type { EnvironmentLoaderPort, EnvironmentResultType } from "./environment-loader.port";
+import type { CacheResolverPort } from "./cache-resolver.port";
+import type { EnvironmentLoaderPort } from "./environment-loader.port";
+
+type Dependencies = { CacheResolver: CacheResolverPort };
 
 export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>
 {
-  private cached: Readonly<EnvironmentResultType<Schema>> | null = null;
-
   constructor(
-    private readonly config: { type: NodeEnvironmentEnum; Schema: Schema },
     private env: NodeJS.ProcessEnv,
+    private readonly config: { type: NodeEnvironmentEnum; Schema: Schema },
+    private readonly deps: Dependencies,
   ) {}
 
   async load() {
-    if (this.cached) return this.cached;
-
-    const result = this.config.Schema.parse(this.env);
+    const result = await this.deps.CacheResolver.resolve("env", async () =>
+      this.config.Schema.parse(this.env),
+    );
 
     for (const key of Object.keys(result)) delete process.env[key];
 
-    this.cached = Object.freeze({ ...result, type: this.config.type });
-
-    return this.cached;
+    return Object.freeze({ ...result, type: this.config.type });
   }
 }
