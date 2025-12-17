@@ -5,7 +5,7 @@ import type { CacheRepositoryKeyType, CacheRepositoryPort } from "./cache-reposi
 export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
   private readonly store: NodeCache;
 
-  constructor(config: { ttl: tools.Duration }) {
+  constructor(private readonly config: { ttl: tools.Duration }) {
     this.store = new NodeCache({
       stdTTL: config.ttl.seconds,
       checkperiod: config.ttl.seconds,
@@ -29,5 +29,9 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
 
   async flush() {
     this.store.flushAll();
+  }
+
+  getTTL() {
+    return this.config.ttl;
   }
 }
