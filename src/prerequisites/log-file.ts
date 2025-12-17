@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
 import type { LoggerPort } from "../logger.port";
 import * as prereqs from "../prerequisites.service";
+import { PrerequisiteFile } from "./file";
 
 type Dependencies = { Logger: LoggerPort };
 
@@ -27,10 +28,13 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
       const path = this.deps.Logger.getFilePath();
       if (!path) return prereqs.Verification.undetermined(stopwatch.stop());
 
-      const result = await Bun.file(path.get()).exists();
+      const file = new PrerequisiteFile({
+        label: this.label,
+        file: path,
+        permissions: { read: true, write: true },
+      });
 
-      if (result) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure(stopwatch.stop(), { message: `Missing file: ${path.get()}` });
+      return file.verify(clock);
     } catch (error) {
       return prereqs.Verification.failure(stopwatch.stop(), error as Error);
     }
