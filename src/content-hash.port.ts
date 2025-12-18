@@ -1,5 +1,5 @@
-export type ContentHashResult = { etag: string };
+import type { Hash } from "./hash.vo";
 
 export interface ContentHashPort {
-  hash(content: string): Promise<ContentHashResult>;
+  hash(content: string): Promise<Hash>;
 }
