@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubject } from "../src/cache-subject.vo";
 import { CacheSubjectResolver, CacheSubjectResolverError } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentCookie } from "../src/cache-subject-segment-cookie";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
@@ -7,6 +6,7 @@ import { CacheSubjectSegmentHeader } from "../src/cache-subject-segment-header";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentQuery } from "../src/cache-subject-segment-query";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
+import { Hash } from "../src/hash.vo";
 
 const fixed = new CacheSubjectSegmentFixed("response");
 const path = new CacheSubjectSegmentPath();
@@ -23,7 +23,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["response"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("a9f4b3d22a523fdada41c85c175425bcd15b32b4cd0f54d9433accd52d7195a1"),
+      Hash.fromString("a9f4b3d22a523fdada41c85c175425bcd15b32b4cd0f54d9433accd52d7195a1"),
     );
   });
 
@@ -34,7 +34,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["response", "/about"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("f762d6b7acf6b55b4a918eb367c488c1ae06104717b26b2ab7f2253b08240a25"),
+      Hash.fromString("f762d6b7acf6b55b4a918eb367c488c1ae06104717b26b2ab7f2253b08240a25"),
     );
   });
 
@@ -45,7 +45,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["response", "/about", "en"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("700ea2f37779cf5274fd0439ba7d0726572da1084d84c44fe42a9664c9bd0d79"),
+      Hash.fromString("700ea2f37779cf5274fd0439ba7d0726572da1084d84c44fe42a9664c9bd0d79"),
     );
   });
 
@@ -64,7 +64,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("0cbd18c1c26a8fce0f083ad89d00d39bdb764f15611fbf0a9d644ac4c70cc2ec"),
+      Hash.fromString("0cbd18c1c26a8fce0f083ad89d00d39bdb764f15611fbf0a9d644ac4c70cc2ec"),
     );
   });
 
@@ -84,7 +84,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json", "aaa=123&bbb=234"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("52085fa9b342b7c6442fdfc8f8513aa0e2916807ba60ae45f5fffd987e33593d"),
+      Hash.fromString("52085fa9b342b7c6442fdfc8f8513aa0e2916807ba60ae45f5fffd987e33593d"),
     );
   });
 
@@ -112,7 +112,7 @@ describe("CacheSubject", () => {
       "123456789",
     ]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("0a444aa132ac3d1f3e28ec59b0cd7ecdf89b432529698b4c0ba31c2ece9537e5"),
+      Hash.fromString("0a444aa132ac3d1f3e28ec59b0cd7ecdf89b432529698b4c0ba31c2ece9537e5"),
     );
   });
 
@@ -136,7 +136,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["response", "", "", "", "", "anon"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("4a4fe1f33f2c51df0f9166c1bb8412c31bb50f6ae7300b68950ea34ccce2392e"),
+      Hash.fromString("4a4fe1f33f2c51df0f9166c1bb8412c31bb50f6ae7300b68950ea34ccce2392e"),
     );
   });
 
@@ -148,7 +148,7 @@ describe("CacheSubject", () => {
 
     expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
     expect(result.hex).toEqual(
-      CacheSubject.parse("8525434b92846688a55d7bd14ae4fb3d2bb7650b77c3d69f87eb8f4fb5683068"),
+      Hash.fromString("8525434b92846688a55d7bd14ae4fb3d2bb7650b77c3d69f87eb8f4fb5683068"),
     );
   });
 });

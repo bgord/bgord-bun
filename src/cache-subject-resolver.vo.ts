@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import type { Context } from "hono";
-import { CacheSubject, type CacheSubjectType } from "./cache-subject.vo";
 import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
+import { Hash } from "./hash.vo";
 
 export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
 
@@ -12,7 +12,7 @@ export class CacheSubjectResolver {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
   }
 
-  resolve(context?: Context): { hex: CacheSubjectType; raw: CacheSubjectSegmentType[] } {
+  resolve(context?: Context): { hex: Hash; raw: CacheSubjectSegmentType[] } {
     const segments = this.segments.map((segment) =>
       segment.create(context).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
     );
@@ -20,6 +20,6 @@ export class CacheSubjectResolver {
 
     const hex = createHash("sha256").update(subject).digest("hex");
 
-    return { hex: CacheSubject.parse(hex), raw: segments };
+    return { hex: Hash.fromString(hex), raw: segments };
   }
 }

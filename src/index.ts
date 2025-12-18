@@ -15,7 +15,6 @@ export * from "./cache-repository-noop.adapter";
 export * from "./cache-resolver.port";
 export * from "./cache-resolver-simple.adapter";
 export * from "./cache-response.middleware";
-export * from "./cache-subject.vo";
 export * from "./cache-subject-resolver.vo";
 export * from "./cache-subject-segment.port";
 export * from "./cache-subject-segment-cookie";

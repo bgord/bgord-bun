@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { CacheSubjectType } from "./cache-subject.vo";
+import type { Hash } from "./hash.vo";
 
 export enum CacheSourceEnum {
   hit = "hit",
@@ -7,10 +7,10 @@ export enum CacheSourceEnum {
 }
 
 export interface CacheResolverPort {
-  resolve<T>(subject: CacheSubjectType, producer: () => Promise<T>): Promise<T>;
+  resolve<T>(subject: Hash, producer: () => Promise<T>): Promise<T>;
 
   resolveWithContext<T>(
-    subject: CacheSubjectType,
+    subject: Hash,
     producer: () => Promise<T>,
   ): Promise<{ value: T; source: CacheSourceEnum }>;
 
