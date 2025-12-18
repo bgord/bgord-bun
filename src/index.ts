@@ -16,6 +16,7 @@ export * from "./cache-resolver.port";
 export * from "./cache-resolver-simple.adapter";
 export * from "./cache-response.middleware";
 export * from "./cache-subject-segment.port";
+export * from "./cache-subject-segment-fixed";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
 export * from "./certificate-inspector-tls.adapter";
