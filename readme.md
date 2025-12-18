@@ -42,6 +42,14 @@ src/
 ├── cache-resolver-simple.adapter.ts
 ├── cache-resolver.port.ts
 ├── cache-response.middleware.ts
+├── cache-subject-resolver.vo.ts
+├── cache-subject-segment-cookie.ts
+├── cache-subject-segment-fixed.ts
+├── cache-subject-segment-header.ts
+├── cache-subject-segment-path.ts
+├── cache-subject-segment-query.ts
+├── cache-subject-segment-user.ts
+├── cache-subject-segment.port.ts
 ├── certificate-inspector-noop.adapter.ts
 ├── certificate-inspector-tls.adapter.ts
 ├── certificate-inspector.port.ts
@@ -54,9 +62,6 @@ src/
 ├── command-envelope.ts
 ├── command-logger.service.ts
 ├── command.types.ts
-├── content-hash-noop.adapter.ts
-├── content-hash-sha256-bun.adapter.ts
-├── content-hash.port.ts
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
@@ -97,10 +102,6 @@ src/
 ├── file-cleaner.port.ts
 ├── file-draft-zip.service.ts
 ├── file-draft.service.ts
-├── file-etag.vo.ts
-├── file-hash-noop.adapter.ts
-├── file-hash-sha256-bun.adapter.ts
-├── file-hash.port.ts
 ├── file-renamer-fs-forgiving.adapter.ts
 ├── file-renamer-fs.adapter.ts
 ├── file-renamer-noop.adapter.ts
@@ -111,6 +112,14 @@ src/
 ├── gzip-noop.adapter.ts
 ├── gzip-stream.adapter.ts
 ├── gzip.port.ts
+├── hash-content-noop.adapter.ts
+├── hash-content-sha256-bun.adapter.ts
+├── hash-content.port.ts
+├── hash-file-noop.adapter.ts
+├── hash-file-sha256-bun.adapter.ts
+├── hash-file.port.ts
+├── hash-value.vo.ts
+├── hash.vo.ts
 ├── hcaptcha-secret-key.vo.ts
 ├── hcaptcha-site-key.vo.ts
 ├── healthcheck.service.ts
@@ -162,8 +171,6 @@ src/
 ├── mailer-smtp.adapter.ts
 ├── mailer.port.ts
 ├── mailer.vo.ts
-├── markdown-generator-noop.adapter.ts
-├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
 ├── modules
 │   ├── history
@@ -243,8 +250,6 @@ src/
 ├── remote-file-storage-noop.adapter.ts
 ├── remote-file-storage.port.ts
 ├── safe-parse-body.service.ts
-├── secret-manager-noop.adapter.ts
-├── secret-manager.port.ts
 ├── secret.vo.ts
 ├── setup.service.ts
 ├── shield-api-key.adapter.ts
@@ -275,7 +280,6 @@ src/
 ├── visitor-id-hash-hono.adapter.ts
 ├── visitor-id-hash.adapter.ts
 ├── visitor-id.port.ts
-├── visitor-id.vo.ts
 └── weak-etag-extractor.middleware.ts
 ```
 
