@@ -54,7 +54,6 @@ src/
 ├── certificate-inspector-tls.adapter.ts
 ├── certificate-inspector.port.ts
 ├── checksum.service.ts
-├── client-from-hono.adapter.ts
 ├── client.vo.ts
 ├── clock-fixed.adapter.ts
 ├── clock-system.adapter.ts
@@ -277,8 +276,7 @@ src/
 ├── translations.service.ts
 ├── uptime.service.ts
 ├── uuid.vo.ts
-├── visitor-id-hash-hono.adapter.ts
-├── visitor-id-hash.adapter.ts
+├── visitor-id-client.adapter.ts
 ├── visitor-id.port.ts
 └── weak-etag-extractor.middleware.ts
 ```
