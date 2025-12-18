@@ -1,13 +1,21 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import { FileHashSha256BunAdapter } from "../src/file-hash-sha256-bun.adapter";
 import { Hash } from "../src/hash.vo";
 
-const adapter = new FileHashSha256BunAdapter();
+const ContentHash = new ContentHashSha256BunAdapter();
+const deps = { ContentHash };
+const adapter = new FileHashSha256BunAdapter(deps);
 
 describe("FileHashSha256BunAdapter", () => {
   test("absolute path", async () => {
-    const fakeFile = { arrayBuffer: async () => new TextEncoder().encode("hello").buffer, lastModified: 0 };
+    const text = "hello";
+    const fakeFile = {
+      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
+      text: async () => text,
+      lastModified: 0,
+    };
     // @ts-expect-error
     const bunFile = spyOn(Bun, "file").mockImplementation(() => fakeFile);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.pdf");
@@ -25,7 +33,12 @@ describe("FileHashSha256BunAdapter", () => {
   });
 
   test("relative path", async () => {
-    const fakeFile = { arrayBuffer: async () => new TextEncoder().encode("abc").buffer, lastModified: 0 };
+    const text = "abc";
+    const fakeFile = {
+      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
+      text: async () => text,
+      lastModified: 0,
+    };
     // @ts-expect-error
     const bunFile = spyOn(Bun, "file").mockImplementation(() => fakeFile);
     const input = tools.FilePathRelative.fromString("images/payload.bin");
