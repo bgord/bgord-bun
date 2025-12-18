@@ -1,11 +1,11 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { CacheResolverPort } from "./cache-resolver.port";
-import type { CacheSubject } from "./cache-subject.vo";
+import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 
 type Dependencies = { CacheResolver: CacheResolverPort };
 
-type CacheResponseOptions = { enabled: boolean; subject: CacheSubject };
+type CacheResponseOptions = { enabled: boolean; resolver: CacheSubjectResolver };
 
 type CachedResponse = {
   body: string;
@@ -24,7 +24,7 @@ export class CacheResponse {
   handle = createMiddleware(async (c, next) => {
     if (!this.config.enabled) return next();
 
-    const subject = this.config.subject.resolve(c);
+    const subject = this.config.resolver.resolve(c);
 
     const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject.hex, async () => {
       await next();

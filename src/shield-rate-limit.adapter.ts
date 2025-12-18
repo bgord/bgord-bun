@@ -2,11 +2,11 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { CacheResolverPort } from "./cache-resolver.port";
-import type { CacheSubject } from "./cache-subject.vo";
+import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import type { ClockPort } from "./clock.port";
 import type { ShieldPort } from "./shield.port";
 
-type ShieldRateLimitOptionsType = { enabled: boolean; subject: CacheSubject };
+type ShieldRateLimitOptionsType = { enabled: boolean; resolver: CacheSubjectResolver };
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverPort };
 
@@ -21,10 +21,10 @@ export class ShieldRateLimitAdapter implements ShieldPort {
   verify = createMiddleware(async (c, next) => {
     if (!this.options.enabled) return next();
 
-    const subject = this.options.subject.resolve(c).hex;
+    const subject = this.options.resolver.resolve(c);
 
     const limiter = await this.deps.CacheResolver.resolve(
-      subject,
+      subject.hex,
       async () => new tools.RateLimiter(this.deps.CacheResolver.ttl),
     );
 

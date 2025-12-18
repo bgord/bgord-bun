@@ -3,13 +3,13 @@ import type { Context } from "hono";
 import { CacheSubjectHex, type CacheSubjectHexType } from "./cache-subject-hex.vo";
 import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
 
-export const CacheSubjectError = { NoSegments: "cache.subject.no.segments" };
+export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
 
-export class CacheSubject {
+export class CacheSubjectResolver {
   private readonly SEPARATOR = "|";
 
   constructor(private readonly segments: CacheSubjectSegmentPort[]) {
-    if (this.segments.length === 0) throw new Error(CacheSubjectError.NoSegments);
+    if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
   }
 
   resolve(c: Context): { hex: CacheSubjectHexType; raw: CacheSubjectSegmentType[] } {
