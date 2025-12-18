@@ -170,8 +170,6 @@ export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
 export * from "./safe-parse-body.service";
 export * from "./secret.vo";
-export * from "./secret-manager.port";
-export * from "./secret-manager-noop.adapter";
 export * from "./setup.service";
 export * from "./shield.port";
 export * from "./shield-api-key.adapter";
