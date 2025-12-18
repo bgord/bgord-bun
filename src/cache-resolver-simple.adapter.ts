@@ -1,27 +1,28 @@
-import type { CacheRepositoryKeyType, CacheRepositoryPort } from "./cache-repository.port";
+import type { CacheRepositoryPort } from "./cache-repository.port";
 import { type CacheResolverPort, CacheSourceEnum } from "./cache-resolver.port";
+import type { CacheSubjectHexType } from "./cache-subject-hex.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort };
 
 export class CacheResolverSimpleAdapter implements CacheResolverPort {
   constructor(private readonly deps: Dependencies) {}
 
-  async resolve<T>(key: CacheRepositoryKeyType, producer: () => Promise<T>): Promise<T> {
-    const result = await this.resolveWithContext(key, producer);
+  async resolve<T>(subject: CacheSubjectHexType, producer: () => Promise<T>): Promise<T> {
+    const result = await this.resolveWithContext(subject, producer);
 
     return result.value;
   }
 
   async resolveWithContext<T>(
-    key: CacheRepositoryKeyType,
+    subject: CacheSubjectHexType,
     producer: () => Promise<T>,
   ): Promise<{ value: T; source: CacheSourceEnum }> {
-    const cached = await this.deps.CacheRepository.get<T>(key);
+    const cached = await this.deps.CacheRepository.get<T>(subject);
 
     if (cached !== null) return { value: cached, source: CacheSourceEnum.hit };
 
     const value = await producer();
-    await this.deps.CacheRepository.set(key, value);
+    await this.deps.CacheRepository.set(subject, value);
 
     return { value, source: CacheSourceEnum.miss };
   }

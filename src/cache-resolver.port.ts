@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { CacheRepositoryKeyType } from "./cache-repository.port";
+import type { CacheSubjectHexType } from "./cache-subject-hex.vo";
 
 export enum CacheSourceEnum {
   hit = "hit",
@@ -7,10 +7,10 @@ export enum CacheSourceEnum {
 }
 
 export interface CacheResolverPort {
-  resolve<T>(key: CacheRepositoryKeyType, producer: () => Promise<T>): Promise<T>;
+  resolve<T>(subject: CacheSubjectHexType, producer: () => Promise<T>): Promise<T>;
 
   resolveWithContext<T>(
-    key: CacheRepositoryKeyType,
+    subject: CacheSubjectHexType,
     producer: () => Promise<T>,
   ): Promise<{ value: T; source: CacheSourceEnum }>;
 

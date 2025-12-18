@@ -1,11 +1,10 @@
 import type * as tools from "@bgord/tools";
-
-export type CacheRepositoryKeyType = string;
+import type { CacheSubjectHexType } from "./cache-subject-hex.vo";
 
 export interface CacheRepositoryPort {
-  get<T>(key: CacheRepositoryKeyType): Promise<T | null>;
-  set<T>(key: CacheRepositoryKeyType, value: T): Promise<void>;
-  delete(key: CacheRepositoryKeyType): Promise<void>;
+  get<T>(subject: CacheSubjectHexType): Promise<T | null>;
+  set<T>(subject: CacheSubjectHexType, value: T): Promise<void>;
+  delete(subject: CacheSubjectHexType): Promise<void>;
   flush(): Promise<void>;
   get ttl(): tools.Duration;
 }

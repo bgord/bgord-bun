@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import NodeCache from "node-cache";
-import type { CacheRepositoryKeyType, CacheRepositoryPort } from "./cache-repository.port";
+import type { CacheRepositoryPort } from "./cache-repository.port";
+import type { CacheSubjectHexType } from "./cache-subject-hex.vo";
 
 export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
   private readonly store: NodeCache;
@@ -15,16 +16,16 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
     });
   }
 
-  async get<T>(key: CacheRepositoryKeyType): Promise<T | null> {
-    return this.store.get(key) ?? null;
+  async get<T>(subject: CacheSubjectHexType): Promise<T | null> {
+    return this.store.get(subject) ?? null;
   }
 
-  async set<T>(key: CacheRepositoryKeyType, value: T) {
-    this.store.set(key, value);
+  async set<T>(subject: CacheSubjectHexType, value: T) {
+    this.store.set(subject, value);
   }
 
-  async delete(key: CacheRepositoryKeyType) {
-    this.store.del(key);
+  async delete(subject: CacheSubjectHexType) {
+    this.store.del(subject);
   }
 
   async flush() {
