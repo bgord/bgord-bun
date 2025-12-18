@@ -15,4 +15,8 @@ describe("CacheSubjectSegmentHeader", () => {
 
     expect(segment.create(context as any)).toEqual("");
   });
+
+  test("no context", () => {
+    expect(segment.create()).toEqual("");
+  });
 });

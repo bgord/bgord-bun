@@ -124,6 +124,22 @@ describe("CacheSubject", () => {
     );
   });
 
+  test("no context", () => {
+    const result = new CacheSubjectResolver([
+      fixed,
+      path,
+      cookieLanguage,
+      headerAccept,
+      query,
+      user,
+    ]).resolve();
+
+    expect(result.raw).toEqual(["response", "", "", "", "", "anon"]);
+    expect(result.hex).toEqual(
+      CacheSubject.parse("4a4fe1f33f2c51df0f9166c1bb8412c31bb50f6ae7300b68950ea34ccce2392e"),
+    );
+  });
+
   test("sanitization", () => {
     const context = {};
     const fixed = new CacheSubjectSegmentFixed("a|b|c|");

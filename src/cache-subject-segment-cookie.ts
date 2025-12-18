@@ -5,7 +5,8 @@ import type { CacheSubjectSegmentPort } from "./cache-subject-segment.port";
 export class CacheSubjectSegmentCookie implements CacheSubjectSegmentPort {
   constructor(private readonly name: string) {}
 
-  create(c: Context) {
-    return getCookie(c, this.name) ?? "";
+  create(context?: Context) {
+    if (!context) return "";
+    return getCookie(context, this.name) ?? "";
   }
 }

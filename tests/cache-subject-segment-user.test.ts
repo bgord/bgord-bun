@@ -15,4 +15,8 @@ describe("CacheSubjectSegmentUser", () => {
 
     expect(segment.create(context as any)).toEqual("anon");
   });
+
+  test("no context", () => {
+    expect(segment.create()).toEqual("anon");
+  });
 });

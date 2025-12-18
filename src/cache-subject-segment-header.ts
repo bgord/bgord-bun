@@ -4,7 +4,7 @@ import type { CacheSubjectSegmentPort } from "./cache-subject-segment.port";
 export class CacheSubjectSegmentHeader implements CacheSubjectSegmentPort {
   constructor(private readonly name: string) {}
 
-  create(c: Context) {
-    return c.req.header(this.name) ?? "";
+  create(context?: Context) {
+    return context?.req.header(this.name) ?? "";
   }
 }

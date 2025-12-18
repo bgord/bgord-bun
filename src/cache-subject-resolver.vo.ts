@@ -12,9 +12,9 @@ export class CacheSubjectResolver {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
   }
 
-  resolve(c: Context): { hex: CacheSubjectType; raw: CacheSubjectSegmentType[] } {
+  resolve(context?: Context): { hex: CacheSubjectType; raw: CacheSubjectSegmentType[] } {
     const segments = this.segments.map((segment) =>
-      segment.create(c).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
+      segment.create(context).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
     );
     const subject = segments.join(this.SEPARATOR);
 

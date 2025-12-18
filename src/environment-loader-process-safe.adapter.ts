@@ -18,7 +18,7 @@ export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>
 
   async load() {
     const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("env")]);
-    const subject = resolver.resolve({} as any).hex;
+    const subject = resolver.resolve().hex;
 
     const result = await this.deps.CacheResolver.resolve(subject, async () =>
       this.config.Schema.parse(this.env),
