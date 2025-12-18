@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheFileMustRevalidate } from "../src/cache-file.service";
-import { FileEtag } from "../src/file-etag.vo";
+import { Hash } from "../src/hash.vo";
 import * as mocks from "./mocks";
 
 const meta = {
-  etag: FileEtag.parse("0000000000000000000000000000000000000000000000000000000000000000"),
+  etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
   lastModified: mocks.TIME_ZERO,
   mime: tools.MIMES.text,
   size: tools.Size.fromBytes(12345),
@@ -16,7 +16,7 @@ describe("CacheFileMustRevalidate service", () => {
     const response = CacheFileMustRevalidate.notModified(meta);
 
     expect(response.status).toEqual(304);
-    expect(response.headers.get("ETag")).toEqual(meta.etag);
+    expect(response.headers.get("ETag")).toEqual(meta.etag.get());
     expect(response.headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(response.headers.get("Vary")).toEqual("Authorization, Cookie");
     expect(response.headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
@@ -48,7 +48,7 @@ describe("CacheFileMustRevalidate service", () => {
 
     expect(headers.get("Content-Type")).toEqual(meta.mime.toString());
     expect(headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
-    expect(headers.get("ETag")).toEqual(meta.etag);
+    expect(headers.get("ETag")).toEqual(meta.etag.get());
     expect(headers.get("Content-Length")).toEqual(meta.size.toBytes().toString());
     expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
     expect(headers.get("Accept-Ranges")).toEqual("bytes");

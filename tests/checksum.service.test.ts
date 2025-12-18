@@ -1,17 +1,17 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Checksum, ChecksumStrategy } from "../src/checksum.service";
-import { FileEtag } from "../src/file-etag.vo";
 import type { FileHashResult } from "../src/file-hash.port";
+import { Hash } from "../src/hash.vo";
 
 const a: FileHashResult = {
-  etag: FileEtag.parse("0000000000000000000000000000000000000000000000000000000000000000"),
+  etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
   size: tools.Size.fromBytes(10),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,
 };
 const b: FileHashResult = {
-  etag: FileEtag.parse("1111111111111111111111111111111111111111111111111111111111111111"),
+  etag: Hash.fromString("1111111111111111111111111111111111111111111111111111111111111111"),
   size: tools.Size.fromBytes(10),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,

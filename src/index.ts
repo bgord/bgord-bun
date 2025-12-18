@@ -77,7 +77,6 @@ export * from "./file-cleaner-bun-forgiving.adapter";
 export * from "./file-cleaner-noop.adapter";
 export * from "./file-draft.service";
 export * from "./file-draft-zip.service";
-export * from "./file-etag.vo";
 export * from "./file-hash.port";
 export * from "./file-hash-noop.adapter";
 export * from "./file-hash-sha256-bun.adapter";

@@ -13,7 +13,7 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
     return new Response(null, {
       status: 304,
       headers: new Headers({
-        ETag: options.etag,
+        ETag: options.etag.get(),
         "Cache-Control": "private, max-age=0, must-revalidate",
         "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
         Vary: "Authorization, Cookie",
@@ -26,7 +26,7 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
     return new Headers({
       "Content-Type": options.mime.toString(),
       "Cache-Control": "private, max-age=0, must-revalidate",
-      ETag: options.etag,
+      ETag: options.etag.get(),
       "Content-Length": options.size.toBytes().toString(),
       "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
       "Accept-Ranges": "bytes",

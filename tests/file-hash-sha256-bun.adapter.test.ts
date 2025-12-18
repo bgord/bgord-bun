@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { FileEtag } from "../src/file-etag.vo";
 import { FileHashSha256BunAdapter } from "../src/file-hash-sha256-bun.adapter";
+import { Hash } from "../src/hash.vo";
 
 const adapter = new FileHashSha256BunAdapter();
 
@@ -16,7 +16,7 @@ describe("FileHashSha256BunAdapter", () => {
 
     expect(bunFile).toHaveBeenCalledWith("/var/data/hello.pdf");
     expect(result.etag).toEqual(
-      FileEtag.parse("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"),
+      Hash.fromString("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"),
     );
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(5);
@@ -34,7 +34,7 @@ describe("FileHashSha256BunAdapter", () => {
 
     expect(bunFile).toHaveBeenCalledWith("images/payload.bin");
     expect(result.etag).toEqual(
-      FileEtag.parse("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"),
+      Hash.fromString("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"),
     );
     // @ts-expect-error
     expect(result.size.toBytes()).toEqual(3);

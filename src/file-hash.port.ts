@@ -1,8 +1,8 @@
 import type * as tools from "@bgord/tools";
-import type { FileEtagType } from "./file-etag.vo";
+import type { Hash } from "./hash.vo";
 
 export type FileHashResult = {
-  etag: FileEtagType;
+  etag: Hash;
   size: tools.Size;
   lastModified: tools.Timestamp;
   mime: tools.Mime;

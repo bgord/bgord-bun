@@ -2,13 +2,13 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
-import { FileEtag } from "../src/file-etag.vo";
 import { FileHashNoopAdapter } from "../src/file-hash-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
+import { Hash } from "../src/hash.vo";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 
 const hash = {
-  etag: FileEtag.parse("0000000000000000000000000000000000000000000000000000000000000000"),
+  etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
   size: tools.Size.fromBytes(42),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,

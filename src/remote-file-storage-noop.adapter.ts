@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
-import { FileEtag } from "./file-etag.vo";
+import { Hash } from "./hash.vo";
 import type { LoggerPort } from "./logger.port";
 import type {
   RemoteFileStoragePort,
@@ -29,7 +29,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
     });
 
     return {
-      etag: FileEtag.parse("0000000000000000000000000000000000000000000000000000000000000000"),
+      etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
       size: tools.Size.fromBytes(10),
       lastModified: this.deps.Clock.now(),
       mime: tools.MIMES.text,
