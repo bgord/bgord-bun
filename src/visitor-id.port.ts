@@ -1,5 +1,5 @@
-import type { VisitorIdType } from "./visitor-id.vo";
+import type { Hash } from "./hash.vo";
 
 export interface VisitorIdPort {
-  get(): Promise<VisitorIdType>;
+  get(): Promise<Hash>;
 }
