@@ -3,9 +3,10 @@ import * as tools from "@bgord/tools";
 import { Checksum, ChecksumStrategy } from "../src/checksum.service";
 import type { FileHashResult } from "../src/file-hash.port";
 import { Hash } from "../src/hash.vo";
+import * as mocks from "./mocks";
 
 const a: FileHashResult = {
-  etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
+  etag: mocks.hash,
   size: tools.Size.fromBytes(10),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,

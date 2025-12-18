@@ -4,11 +4,11 @@ import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileHashNoopAdapter } from "../src/file-hash-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
-import { Hash } from "../src/hash.vo";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
+import * as mocks from "./mocks";
 
 const hash = {
-  etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
+  etag: mocks.hash,
   size: tools.Size.fromBytes(42),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,

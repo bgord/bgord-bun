@@ -1,19 +1,16 @@
 import { describe, expect, test } from "bun:test";
 import { Hash } from "../src/hash.vo";
-import { HashValue, HashValueError } from "../src/hash-value.vo";
-
-const value = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
+import { HashValueError } from "../src/hash-value.vo";
+import * as mocks from "./mocks";
 
 describe("Hash VO", () => {
   test("fromValue", () => {
-    expect(Hash.fromValue(value).get()).toEqual(value);
-    expect(Hash.fromValue(value).get()).toEqual(value);
+    expect(Hash.fromValue(mocks.hashValue).get()).toEqual(mocks.hashValue);
+    expect(Hash.fromValue(mocks.hashValue).get()).toEqual(mocks.hashValue);
   });
 
   test("fromString", () => {
-    expect(Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000").get()).toEqual(
-      value,
-    );
+    expect(Hash.fromString(mocks.hashValue).get()).toEqual(mocks.hashValue);
   });
 
   test("fromString - invalid", () => {
@@ -21,28 +18,28 @@ describe("Hash VO", () => {
   });
 
   test("get", () => {
-    expect(Hash.fromValue(value).get()).toEqual(value);
+    expect(Hash.fromValue(mocks.hashValue).get()).toEqual(mocks.hashValue);
   });
 
   test("matches - true", () => {
-    const first = Hash.fromValue(value);
-    const second = Hash.fromValue(value);
+    const first = Hash.fromValue(mocks.hashValue);
+    const second = Hash.fromValue(mocks.hashValue);
 
     expect(first.matches(second)).toEqual(true);
   });
 
   test("matches - false", () => {
-    const first = Hash.fromValue(value);
+    const first = Hash.fromValue(mocks.hashValue);
     const second = Hash.fromString("1111111111111111111111111111111111111111111111111111111111111111");
 
     expect(first.matches(second)).toEqual(false);
   });
 
   test("toString", () => {
-    expect(Hash.fromValue(value).toString()).toEqual(value);
+    expect(Hash.fromValue(mocks.hashValue).toString()).toEqual(mocks.hashValue);
   });
 
   test("toJSON", () => {
-    expect(Hash.fromValue(value).toJSON()).toEqual(value);
+    expect(Hash.fromValue(mocks.hashValue).toJSON()).toEqual(mocks.hashValue);
   });
 });

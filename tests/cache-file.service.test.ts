@@ -1,11 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheFileMustRevalidate } from "../src/cache-file.service";
-import { Hash } from "../src/hash.vo";
 import * as mocks from "./mocks";
 
 const meta = {
-  etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
+  etag: mocks.hash,
   lastModified: mocks.TIME_ZERO,
   mime: tools.MIMES.text,
   size: tools.Size.fromBytes(12345),

@@ -4,6 +4,8 @@ import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import * as winston from "winston";
 import type { ClockPort } from "../src/clock.port";
+import { Hash } from "../src/hash.vo";
+import { HashValue } from "../src/hash-value.vo";
 import * as prereqs from "../src/prerequisites.service";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
@@ -90,3 +92,6 @@ export class PrerequisiteUndetermined implements prereqs.Prerequisite {
     return prereqs.Verification.undetermined(stopwatch.stop());
   }
 }
+
+export const hashValue = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
+export const hash = Hash.fromValue(hashValue);
