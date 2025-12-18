@@ -1,10 +1,13 @@
 # Changelog
+- 2025-12-18 23:49 b9d3d85 **refactor: simplify client vo**
+- 2025-12-18 23:44 c2646a4 **refactor: cleanup visitor id**
 ## 2025-12-18 20:27 v1.6.0
 - 2025-12-18 20:27 0a768aa **1.6.0**
 - 2025-12-18 20:25 841b8d0 **step: update packages**
 - 2025-12-18 20:22 712a8b6 **refactor: remove secret manager**
 - 2025-12-18 20:13 c02c6cd **refactor: unify hash related files**
 - 2025-12-18 19:48 ff51c2b **step: adjust tests**
+- 2025-12-18 19:27 6ce4987 **docs: generate CHANGELOG**
 - 2025-12-18 19:25 f4810d7 **docs: generate CHANGELOG**
 - 2025-12-18 19:25 268fb87 **docs: generate readme**
 - 2025-12-18 16:04 a86ce70 **refactor: use content hash in file hash**
