@@ -31,11 +31,13 @@ describe("ImageResizerSharpAdapter", () => {
 
     const result = await adapter.resize(recipe);
 
+    // @ts-expect-error
     const [options] = resize.mock.calls[0];
 
     expect(resize).toHaveBeenCalledTimes(1);
     expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
+    // @ts-expect-error
     const [format] = toFormat.mock.calls[0];
 
     expect(toFormat).toHaveBeenCalledTimes(1);

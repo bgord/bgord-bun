@@ -29,6 +29,7 @@ describe("EventHandler service", () => {
 
     expect(loggerError).toHaveBeenCalledTimes(1);
 
+    // @ts-expect-error
     const [call] = loggerError.mock.calls[0];
     expect(call).toMatchObject({
       message: "Unknown user.created event handler error",

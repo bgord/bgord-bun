@@ -25,6 +25,7 @@ describe("EncryptionBunAdapter", () => {
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
     expect(await adapter.encrypt(recipe)).toEqual(recipe.output);
+    // @ts-expect-error
     expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(encryptedFileContent);
   });
 
@@ -44,6 +45,7 @@ describe("EncryptionBunAdapter", () => {
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
     expect(await adapter.decrypt(recipe)).toEqual(recipe.output);
+    // @ts-expect-error
     expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(plaintext);
   });
 

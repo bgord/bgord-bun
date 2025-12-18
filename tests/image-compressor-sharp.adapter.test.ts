@@ -34,6 +34,7 @@ describe("ImageCompressorSharpAdapter", () => {
 
     expect(result).toEqual(input);
 
+    // @ts-expect-error
     const [format, options] = toFormat.mock.calls[0];
 
     expect(toFormat).toHaveBeenCalledTimes(1);
