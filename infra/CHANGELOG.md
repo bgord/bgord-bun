@@ -1,10 +1,48 @@
 # Changelog
+- 2025-12-18 20:25 841b8d0 **step: update packages**
+- 2025-12-18 20:22 712a8b6 **refactor: remove secret manager**
+- 2025-12-18 20:13 c02c6cd **refactor: unify hash related files**
+- 2025-12-18 19:48 ff51c2b **step: adjust tests**
+- 2025-12-18 16:04 a86ce70 **refactor: use content hash in file hash**
+- 2025-12-18 16:00 e2def42 **refactor: use content hash in visitor id**
+- 2025-12-18 15:50 6b84d9a **step: add mocks.hash**
+- 2025-12-18 15:46 2d48836 **refactor: use hash in content hash port**
+- 2025-12-18 15:43 da03ef3 **refactor: use hash in cache subject resolver**
+- 2025-12-18 15:39 7293446 **refactor: use hash in file hash port**
+- 2025-12-18 15:34 558580d **feature: add hash vo**
+- 2025-12-18 15:27 5b654e6 **step: define hash value vo**
+- 2025-12-18 14:29 e19dd72 **step: make context optional**
+- 2025-12-18 14:20 06ce50c **step: rename cache subject vo**
+- 2025-12-18 14:17 cad52c6 **refactor: remove rc**
+- 2025-12-18 14:17 381e54e **fix: failing tests**
+- 2025-12-18 14:14 8e3ac8a **step: cleanup rcs**
+- 2025-12-18 14:09 5f65fd4 **step: adjust tests**
+- 2025-12-18 14:07 24ea811 **fix: type errors in tests**
+- 2025-12-18 14:07 17be5bf **step: adjust cache subject resolver naming**
+- 2025-12-18 14:06 7093563 **fix: hono config error supressions**
+- 2025-12-18 14:02 d648e56 **fix: intentional error typo**
+- 2025-12-18 13:55 ae9de67 **step: use cache subject in shield rate limit adapter**
+- 2025-12-18 13:55 17b814d **step: use cache subject in env loader process safe adapter**
+- 2025-12-18 13:54 2b22c6d **step: use cache subject across the stack**
+- 2025-12-18 13:44 1c7c2f0 **step: use cache subject hex in cache subject**
+- 2025-12-18 13:43 9659a1e **feature: cache subject hex vo**
+- 2025-12-18 13:36 24fddac **refactor: use cache subject in cache response**
+- 2025-12-18 13:12 ac9b569 **feature: cache subject vo**
+- 2025-12-18 12:43 3afaf30 **feature: cache subject segment user**
+- 2025-12-18 12:40 48c84f9 **step: improve tests**
+- 2025-12-18 12:39 c91182b **feature: cache subject segment cookie**
+- 2025-12-18 12:22 c482a15 **feature: cache subject segment header**
+- 2025-12-18 12:15 beec492 **feature: cache subject segment query**
+- 2025-12-18 12:06 d57d407 **feature: cache subject segment path**
+- 2025-12-18 12:02 09434d5 **feature: cache subject segment fixed**
+- 2025-12-18 11:57 9468533 **feature: cache subject segment port**
 ## 2025-12-18 00:03 v1.5.11
 - 2025-12-18 00:03 5606713 **1.5.11**
 - 2025-12-17 23:31 1d05710 **step: prefix shield rate limit subjects**
 - 2025-12-17 23:29 a45fb8f **step: prefix cache response subjects**
 ## 2025-12-17 23:06 v1.5.10
 - 2025-12-17 23:06 1f9b1df **1.5.10**
+- 2025-12-17 23:04 c2df131 **docs: generate CHANGELOG**
 - 2025-12-17 23:04 512a65d **fix: intentional error typo**
 - 2025-12-17 23:02 ea0bf0c **fix: flaky timeout test**
 - 2025-12-17 22:47 30a0db9 **feature: cache response middleware**
