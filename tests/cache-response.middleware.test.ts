@@ -9,20 +9,22 @@ import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
+import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import type * as mocks from "./mocks";
 
 const config = { ttl: tools.Duration.Hours(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+const ContentHash = new ContentHashSha256BunAdapter();
+const deps = { ContentHash };
 
 const cacheResponse = new CacheResponse(
   {
     enabled: true,
-    resolver: new CacheSubjectResolver([
-      new CacheSubjectSegmentFixed("ping"),
-      new CacheSubjectSegmentPath(),
-      new CacheSubjectSegmentUser(),
-    ]),
+    resolver: new CacheSubjectResolver(
+      [new CacheSubjectSegmentFixed("ping"), new CacheSubjectSegmentPath(), new CacheSubjectSegmentUser()],
+      deps,
+    ),
   },
   { CacheResolver },
 );

@@ -21,7 +21,7 @@ export class ShieldRateLimitAdapter implements ShieldPort {
   verify = createMiddleware(async (c, next) => {
     if (!this.options.enabled) return next();
 
-    const subject = this.options.resolver.resolve(c);
+    const subject = await this.options.resolver.resolve(c);
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject.hex,

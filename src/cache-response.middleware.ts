@@ -24,7 +24,7 @@ export class CacheResponse {
   handle = createMiddleware(async (c, next) => {
     if (!this.config.enabled) return next();
 
-    const subject = this.config.resolver.resolve(c);
+    const subject = await this.config.resolver.resolve(c);
 
     const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject.hex, async () => {
       await next();

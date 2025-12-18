@@ -8,6 +8,7 @@ import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import { ShieldRateLimitAdapter } from "../src/shield-rate-limit.adapter";
 import type * as mocks from "./mocks";
 
@@ -15,12 +16,12 @@ const config = { ttl: tools.Duration.Seconds(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
-const deps = { Clock, CacheResolver };
-const resolver = new CacheSubjectResolver([
-  new CacheSubjectSegmentFixed("ping"),
-  new CacheSubjectSegmentPath(),
-  new CacheSubjectSegmentUser(),
-]);
+const ContentHash = new ContentHashSha256BunAdapter();
+const deps = { Clock, CacheResolver, ContentHash };
+const resolver = new CacheSubjectResolver(
+  [new CacheSubjectSegmentFixed("ping"), new CacheSubjectSegmentPath(), new CacheSubjectSegmentUser()],
+  deps,
+);
 const shieldRateLimit = new ShieldRateLimitAdapter({ enabled: true, resolver }, deps);
 
 const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));

@@ -1,25 +1,30 @@
-import { createHash } from "node:crypto";
 import type { Context } from "hono";
 import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
-import { Hash } from "./hash.vo";
+import type { ContentHashPort } from "./content-hash.port";
+import type { Hash } from "./hash.vo";
+
+type Dependencies = { ContentHash: ContentHashPort };
 
 export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
 
 export class CacheSubjectResolver {
   private readonly SEPARATOR = "|";
 
-  constructor(private readonly segments: CacheSubjectSegmentPort[]) {
+  constructor(
+    private readonly segments: CacheSubjectSegmentPort[],
+    private readonly deps: Dependencies,
+  ) {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
   }
 
-  resolve(context?: Context): { hex: Hash; raw: CacheSubjectSegmentType[] } {
+  async resolve(context?: Context): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
     const segments = this.segments.map((segment) =>
       segment.create(context).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
     );
     const subject = segments.join(this.SEPARATOR);
 
-    const hex = createHash("sha256").update(subject).digest("hex");
+    const hex = await this.deps.ContentHash.hash(subject);
 
-    return { hex: Hash.fromString(hex), raw: segments };
+    return { hex, raw: segments };
   }
 }

@@ -5,15 +5,19 @@ import { CacheSourceEnum } from "../src/cache-resolver.port";
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
+import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import * as mocks from "./mocks";
 
 const cached = "cached-value";
 const fresh = "fresh-value";
 const config = { ttl: tools.Duration.Hours(1) };
-const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")]);
-const subject = resolver.resolve({} as any);
+const ContentHash = new ContentHashSha256BunAdapter();
+const deps = { ContentHash };
+const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], deps);
 
-describe("CacheResolverSimpleAdapter", () => {
+describe("CacheResolverSimpleAdapter", async () => {
+  const subject = await resolver.resolve();
+
   test("success - hit", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
     const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
