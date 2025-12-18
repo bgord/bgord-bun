@@ -4,18 +4,35 @@ import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.port";
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
-import { CacheResponse, CacheResponseSubjectUrl } from "../src/cache-response.middleware";
+import { CacheResponse } from "../src/cache-response.middleware";
+import { CacheSubject } from "../src/cache-subject.vo";
+import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
+import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
+import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
 
 const config = { ttl: tools.Duration.Hours(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 
 const cacheResponse = new CacheResponse(
-  { enabled: true, subject: CacheResponseSubjectUrl },
+  {
+    enabled: true,
+    subject: new CacheSubject([
+      new CacheSubjectSegmentFixed("ping"),
+      new CacheSubjectSegmentPath(),
+      new CacheSubjectSegmentUser(),
+    ]),
+  },
   { CacheResolver },
 );
 
-const app = new Hono().get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }));
+const app = new Hono()
+  .use((c, next) => {
+    // @ts-expect-error
+    c.set("user", { id: c.req.header("id") });
+    return next();
+  })
+  .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }));
 
 describe("CacheResponse middleware", () => {
   beforeEach(() => jest.useFakeTimers());
@@ -95,5 +112,28 @@ describe("CacheResponse middleware", () => {
     expect(fourthResponse.status).toEqual(200);
     expect(fourthResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
     expect(fourthJson.message).toEqual("ping");
+  });
+
+  test("hit for one user, miss for another", async () => {
+    const firstResponseAdam = await app.request("/ping-cached", { headers: { id: "Adam" } });
+    const firstJsonAdam = await firstResponseAdam.json();
+
+    expect(firstResponseAdam.status).toEqual(200);
+    expect(firstResponseAdam.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
+    expect(firstJsonAdam.message).toEqual("ping");
+
+    const secondResponseAdam = await app.request("/ping-cached", { headers: { id: "Adam" } });
+    const secondJsonAdam = await secondResponseAdam.json();
+
+    expect(secondResponseAdam.status).toEqual(200);
+    expect(secondResponseAdam.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.hit);
+    expect(secondJsonAdam.message).toEqual("ping");
+
+    const responseEve = await app.request("/ping-cached", { headers: { id: "Eve" } });
+    const jsonEve = await responseEve.json();
+
+    expect(responseEve.status).toEqual(200);
+    expect(responseEve.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
+    expect(jsonEve.message).toEqual("ping");
   });
 });
