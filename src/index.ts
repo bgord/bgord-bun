@@ -21,6 +21,7 @@ export * from "./cache-subject-segment-fixed";
 export * from "./cache-subject-segment-header";
 export * from "./cache-subject-segment-path";
 export * from "./cache-subject-segment-query";
+export * from "./cache-subject-segment-user";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
 export * from "./certificate-inspector-tls.adapter";
