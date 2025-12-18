@@ -35,11 +35,11 @@ describe("JsonFileReaderBunAdapter", () => {
 
   test("happy path - error", async () => {
     const bunFile = spyOn(Bun, "file").mockImplementation(() => {
-      throw new Error(mocks.IntentialError);
+      throw new Error(mocks.IntentionalError);
     });
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(async () => JsonFileReader.read(path)).toThrow(mocks.IntentialError);
+    expect(async () => JsonFileReader.read(path)).toThrow(mocks.IntentionalError);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 });

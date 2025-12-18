@@ -52,12 +52,12 @@ describe("GzipStreamAdapter", () => {
 
   test("error propagation", async () => {
     spyOn(fs, "createReadStream").mockImplementation(() => {
-      throw mocks.IntentialError;
+      throw mocks.IntentionalError;
     });
     const zlibCreateGzip = spyOn(zlib, "createGzip");
     const fsCreateWriteStream = spyOn(fs, "createWriteStream");
 
-    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentialError);
+    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
     expect(zlibCreateGzip).not.toHaveBeenCalled();
     expect(fsCreateWriteStream).not.toHaveBeenCalled();
   });

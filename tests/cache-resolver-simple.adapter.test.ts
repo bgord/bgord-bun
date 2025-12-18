@@ -39,9 +39,9 @@ describe("CacheResolverSimpleAdapter", () => {
 
     expect(async () =>
       CacheResolver.resolve("key", async () => {
-        throw new Error(mocks.IntentialError);
+        throw new Error(mocks.IntentionalError);
       }),
-    ).toThrow(mocks.IntentialError);
+    ).toThrow(mocks.IntentionalError);
     expect(setSpy).not.toHaveBeenCalled();
   });
 

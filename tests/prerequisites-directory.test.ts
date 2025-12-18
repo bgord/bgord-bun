@@ -43,7 +43,7 @@ describe("PrerequisiteDirectory", () => {
   test("failure - read permission", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
-      if (mode === fs.constants.R_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, permissions: { read: true } });
@@ -56,7 +56,7 @@ describe("PrerequisiteDirectory", () => {
   test("failure - write permission", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
-      if (mode === fs.constants.W_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, permissions: { write: true } });
@@ -69,7 +69,7 @@ describe("PrerequisiteDirectory", () => {
   test("failure - execute permission", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
-      if (mode === fs.constants.X_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteDirectory({

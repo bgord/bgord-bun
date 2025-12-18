@@ -34,7 +34,7 @@ describe("PrerequisiteFile", () => {
   test("failure - read permission", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
-      if (mode === fs.constants.R_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteFile({ label: "file", file: path, permissions: { read: true } });
@@ -47,7 +47,7 @@ describe("PrerequisiteFile", () => {
   test("failure - write permission", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
-      if (mode === fs.constants.W_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteFile({
@@ -64,7 +64,7 @@ describe("PrerequisiteFile", () => {
   test("failure - execute permission", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
-      if (mode === fs.constants.X_OK) throw new Error(mocks.IntentialError);
+      if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
     const prerequisite = new PrerequisiteFile({

@@ -40,13 +40,13 @@ describe("GzipBunAdapter", () => {
   test("read error propagation", async () => {
     spyOn(Bun, "file").mockReturnValue({
       arrayBuffer: async () => {
-        throw mocks.IntentialError;
+        throw mocks.IntentionalError;
       },
     } as any);
     const bunGzipSync = spyOn(Bun, "gzipSync");
     const bunWrite = spyOn(Bun, "write");
 
-    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentialError);
+    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
     expect(bunGzipSync).not.toHaveBeenCalled();
     expect(bunWrite).not.toHaveBeenCalled();
   });
@@ -54,8 +54,8 @@ describe("GzipBunAdapter", () => {
   test("write error propagation", async () => {
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file } as any);
     spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
-    spyOn(Bun, "write").mockRejectedValue(mocks.IntentialError);
+    spyOn(Bun, "write").mockRejectedValue(mocks.IntentionalError);
 
-    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentialError);
+    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
   });
 });

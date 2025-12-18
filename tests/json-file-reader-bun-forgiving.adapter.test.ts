@@ -35,7 +35,7 @@ describe("JsonFileReaderBunForgivingAdapter", () => {
 
   test("happy path - error", async () => {
     const bunFile = spyOn(Bun, "file").mockImplementation(() => {
-      throw new Error(mocks.IntentialError);
+      throw new Error(mocks.IntentionalError);
     });
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 

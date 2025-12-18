@@ -20,10 +20,10 @@ describe("PrerequisiteExternalApi", () => {
   });
 
   test("failure", async () => {
-    spyOn(dns, "lookup").mockRejectedValue(mocks.IntentialError);
+    spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
     const prerequisite = new PrerequisiteDNS({ label: "dns", hostname });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure(mocks.IntentialError));
+    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
   });
 
   test("undetermined", async () => {

@@ -31,19 +31,21 @@ describe("TemporaryFileAbsoluteAdapter", () => {
   });
 
   test("write - Bun.write error", async () => {
-    const bunWrite = spyOn(Bun, "write").mockRejectedValue(new Error(mocks.IntentialError));
+    const bunWrite = spyOn(Bun, "write").mockRejectedValue(new Error(mocks.IntentionalError));
     const fileRenamerRename = spyOn(FileRenamer, "rename");
 
-    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentialError);
+    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
     expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
     expect(fileRenamerRename).not.toHaveBeenCalled();
   });
 
   test("write - FileRenamer error", async () => {
     const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
-    const fileRenamerRename = spyOn(FileRenamer, "rename").mockRejectedValue(new Error(mocks.IntentialError));
+    const fileRenamerRename = spyOn(FileRenamer, "rename").mockRejectedValue(
+      new Error(mocks.IntentionalError),
+    );
 
-    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentialError);
+    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
     expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
     expect(fileRenamerRename).toHaveBeenCalledWith(partial, final);
   });

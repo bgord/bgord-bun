@@ -93,7 +93,7 @@ describe("I18n service", () => {
 
     test("returns empty object on error", async () => {
       spyOn(Bun, "file").mockImplementation(() => {
-        throw new Error(mocks.IntentialError);
+        throw new Error(mocks.IntentionalError);
       });
 
       const i18n = new I18n({ JsonFileReader: new JsonFileReaderBunForgivingAdapter(), Logger });

@@ -21,7 +21,7 @@ describe("BuildInfoRepository service", () => {
   });
 
   test("failure - package.json read", async () => {
-    spyOn(JsonFileReader, "read").mockRejectedValue(new Error(mocks.IntentialError));
+    spyOn(JsonFileReader, "read").mockRejectedValue(new Error(mocks.IntentionalError));
 
     const result = await BuildInfoRepository.extract(deps);
 

@@ -33,7 +33,7 @@ describe("ShieldCaptchaHcaptchaLocalAdapter", () => {
   });
 
   test("failure - uknown error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentialError));
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentionalError));
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 

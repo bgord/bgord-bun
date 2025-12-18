@@ -49,7 +49,7 @@ describe("ShieldCaptchaHcaptchaAdapter", () => {
   });
 
   test("failure - unknown error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentialError));
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentionalError));
     const form = new FormData();
     form.set("h-captcha-response", "any-token");
 

@@ -61,7 +61,7 @@ describe("JobHandler service", () => {
 
     await handler.handle({
       label: "Test Job",
-      process: jest.fn().mockRejectedValue(new Error(mocks.IntentialError)),
+      process: jest.fn().mockRejectedValue(new Error(mocks.IntentionalError)),
     })();
 
     expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job start" }));
