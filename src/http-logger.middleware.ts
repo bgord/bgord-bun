@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { CacheSourceEnum } from "./cache-resolver.port";
 import { CacheResponse } from "./cache-response.middleware";
-import { ClientFromHonoAdapter } from "./client-from-hono.adapter";
+import { Client } from "./client.vo";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
 
@@ -45,7 +45,7 @@ export class HttpLogger {
       }
 
       const correlationId = context.get("requestId");
-      const client = ClientFromHonoAdapter.extract(context).toJSON();
+      const client = Client.fromHonoContext(context).toJSON();
 
       const httpRequestBeforeMetadata = {
         params: context.req.param(),

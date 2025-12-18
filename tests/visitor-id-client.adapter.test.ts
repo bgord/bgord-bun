@@ -9,7 +9,7 @@ const deps = { HashContent };
 
 describe("VisitorIdClientAdapter", () => {
   test("happy path", async () => {
-    const adapter = new VisitorIdClientAdapter(Client.from("127.0.0.1", "sth"), deps);
+    const adapter = new VisitorIdClientAdapter(Client.fromParts("127.0.0.1", "sth"), deps);
 
     const result = await adapter.get();
 
