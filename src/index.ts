@@ -16,6 +16,7 @@ export * from "./cache-resolver.port";
 export * from "./cache-resolver-simple.adapter";
 export * from "./cache-response.middleware";
 export * from "./cache-subject-segment.port";
+export * from "./cache-subject-segment-cookie";
 export * from "./cache-subject-segment-fixed";
 export * from "./cache-subject-segment-header";
 export * from "./cache-subject-segment-path";
