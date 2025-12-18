@@ -95,6 +95,7 @@ export * from "./gzip.port";
 export * from "./gzip-bun.adapter";
 export * from "./gzip-noop.adapter";
 export * from "./gzip-stream.adapter";
+export * from "./hash-value.vo";
 export * from "./hcaptcha-secret-key.vo";
 export * from "./hcaptcha-site-key.vo";
 export * from "./healthcheck.service";
