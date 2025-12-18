@@ -5,10 +5,11 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheSourceEnum } from "../src/cache-resolver.port";
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
 import { CacheResponse } from "../src/cache-response.middleware";
-import { CacheSubject } from "../src/cache-subject.vo";
+import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
+import type * as mocks from "./mocks";
 
 const config = { ttl: tools.Duration.Hours(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
@@ -17,7 +18,7 @@ const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const cacheResponse = new CacheResponse(
   {
     enabled: true,
-    subject: new CacheSubject([
+    resolver: new CacheSubjectResolver([
       new CacheSubjectSegmentFixed("ping"),
       new CacheSubjectSegmentPath(),
       new CacheSubjectSegmentUser(),
@@ -26,9 +27,8 @@ const cacheResponse = new CacheResponse(
   { CacheResolver },
 );
 
-const app = new Hono()
+const app = new Hono<mocks.Config>()
   .use((c, next) => {
-    // @ts-expect-error
     c.set("user", { id: c.req.header("id") });
     return next();
   })

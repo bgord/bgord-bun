@@ -7,6 +7,8 @@ import type { ClockPort } from "../src/clock.port";
 import * as prereqs from "../src/prerequisites.service";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 
+export type Config = { Variables: { user: { id: string | undefined } } };
+
 export function stringToStream(string: string): ReadableStream<Uint8Array> {
   return new ReadableStream<Uint8Array>({
     start(controller) {

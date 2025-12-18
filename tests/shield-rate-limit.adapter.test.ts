@@ -9,6 +9,7 @@ import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { ShieldRateLimitAdapter } from "../src/shield-rate-limit.adapter";
+import type * as mocks from "./mocks";
 
 const config = { ttl: tools.Duration.Seconds(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
@@ -61,13 +62,13 @@ describe("ShieldRateLimitAdapter", () => {
   });
 
   test("user - failure - TooManyRequestsError", async () => {
-    const app = new Hono().get(
+    const app = new Hono<mocks.Config>().get(
       "/ping",
       (c, next) => {
         c.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitAdapter({ enabled: true, subject }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: true, resolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -78,13 +79,13 @@ describe("ShieldRateLimitAdapter", () => {
   });
 
   test("user - happy path - after rate limit", async () => {
-    const app = new Hono().get(
+    const app = new Hono<mocks.Config>().get(
       "/ping",
       (c, next) => {
         c.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitAdapter({ enabled: true, subject }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: true, resolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -98,13 +99,13 @@ describe("ShieldRateLimitAdapter", () => {
   });
 
   test("user - does not impact other users", async () => {
-    const app = new Hono().get(
+    const app = new Hono<mocks.Config>().get(
       "/ping",
       (c, next) => {
         c.set("user", { id: c.req.header("id") });
         return next();
       },
-      new ShieldRateLimitAdapter({ enabled: true, subject }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: true, resolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -131,7 +132,7 @@ describe("ShieldRateLimitAdapter", () => {
   test("disabled", async () => {
     const app = new Hono().get(
       "/ping",
-      new ShieldRateLimitAdapter({ enabled: false, subject }, deps).verify,
+      new ShieldRateLimitAdapter({ enabled: false, resolver }, deps).verify,
       (c) => c.text("pong"),
     );
 
