@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
-import { CacheSubject } from "../src/cache-subject.vo";
+import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
@@ -16,12 +16,12 @@ const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const deps = { Clock, CacheResolver };
-const subject = new CacheSubject([
+const resolver = new CacheSubjectResolver([
   new CacheSubjectSegmentFixed("ping"),
   new CacheSubjectSegmentPath(),
   new CacheSubjectSegmentUser(),
 ]);
-const shieldRateLimit = new ShieldRateLimitAdapter({ enabled: true, subject }, deps);
+const shieldRateLimit = new ShieldRateLimitAdapter({ enabled: true, resolver }, deps);
 
 const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));
 
