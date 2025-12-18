@@ -1,6 +1,10 @@
 # Changelog
+## 2025-12-19 00:02 v1.6.1
+- 2025-12-19 00:02 2a81eb4 **1.6.1**
 - 2025-12-18 23:49 b9d3d85 **refactor: simplify client vo**
 - 2025-12-18 23:44 c2646a4 **refactor: cleanup visitor id**
+- 2025-12-18 22:49 256990c **docs: generate readme**
+- 2025-12-18 22:49 17b8c2e **docs: generate CHANGELOG**
 ## 2025-12-18 20:27 v1.6.0
 - 2025-12-18 20:27 0a768aa **1.6.0**
 - 2025-12-18 20:25 841b8d0 **step: update packages**
