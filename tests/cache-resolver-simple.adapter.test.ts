@@ -22,7 +22,7 @@ describe("CacheResolverSimpleAdapter", () => {
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
 
     expect(result).toEqual(cached);
-    expect(getSpy).toHaveBeenCalledWith("key");
+    expect(getSpy).toHaveBeenCalledWith(subject.hex);
   });
 
   test("success - miss", async () => {
@@ -33,7 +33,7 @@ describe("CacheResolverSimpleAdapter", () => {
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
 
     expect(result).toEqual(fresh);
-    expect(setSpy).toHaveBeenCalledWith("key", fresh);
+    expect(setSpy).toHaveBeenCalledWith(subject.hex, fresh);
   });
 
   test("failure - error propagation", async () => {
@@ -57,7 +57,7 @@ describe("CacheResolverSimpleAdapter", () => {
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
     expect(result).toEqual({ value: cached, source: CacheSourceEnum.hit });
-    expect(getSpy).toHaveBeenCalledWith("key");
+    expect(getSpy).toHaveBeenCalledWith(subject.hex);
   });
 
   test("resolveWithContext - miss", async () => {
@@ -68,7 +68,7 @@ describe("CacheResolverSimpleAdapter", () => {
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
     expect(result).toEqual({ value: fresh, source: CacheSourceEnum.miss });
-    expect(setSpy).toHaveBeenCalledWith("key", fresh);
+    expect(setSpy).toHaveBeenCalledWith(subject.hex, fresh);
   });
 
   test("flush", async () => {
