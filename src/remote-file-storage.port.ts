@@ -1,12 +1,12 @@
 import type * as tools from "@bgord/tools";
-import type { FileHashResult } from "./file-hash.port";
+import type { HashFileResult } from "./hash-file.port";
 
 export type RemotePutFromPathInput = {
   key: tools.ObjectKeyType;
   path: tools.FilePathRelative | tools.FilePathAbsolute;
 };
-export type RemotePutFromPathResult = FileHashResult;
-export type RemoteHeadResult = { exists: false } | ({ exists: true } & FileHashResult);
+export type RemotePutFromPathResult = HashFileResult;
+export type RemoteHeadResult = { exists: false } | ({ exists: true } & HashFileResult);
 
 export interface RemoteFileStoragePort {
   putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult>;

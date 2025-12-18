@@ -6,8 +6,8 @@ import { CacheSubjectSegmentHeader } from "../src/cache-subject-segment-header";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentQuery } from "../src/cache-subject-segment-query";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
-import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import { Hash } from "../src/hash.vo";
+import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 
 const fixed = new CacheSubjectSegmentFixed("response");
 const path = new CacheSubjectSegmentPath();
@@ -15,8 +15,8 @@ const cookieLanguage = new CacheSubjectSegmentCookie("language");
 const headerAccept = new CacheSubjectSegmentHeader("accept");
 const query = new CacheSubjectSegmentQuery();
 const user = new CacheSubjectSegmentUser();
-const ContentHash = new ContentHashSha256BunAdapter();
-const deps = { ContentHash };
+const HashContent = new HashContentSha256BunAdapter();
+const deps = { HashContent };
 
 describe("CacheSubject", () => {
   test("fixed", async () => {

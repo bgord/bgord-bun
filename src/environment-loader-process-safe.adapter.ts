@@ -3,10 +3,10 @@ import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 import type { CacheResolverPort } from "./cache-resolver.port";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
-import type { ContentHashPort } from "./content-hash.port";
 import type { EnvironmentLoaderPort } from "./environment-loader.port";
+import type { HashContentPort } from "./hash-content.port";
 
-type Dependencies = { CacheResolver: CacheResolverPort; ContentHash: ContentHashPort };
+type Dependencies = { CacheResolver: CacheResolverPort; HashContent: HashContentPort };
 
 export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>

@@ -3,12 +3,12 @@ import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
-import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
+import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 
 const value = "value";
 const config = { ttl: tools.Duration.Hours(1) };
-const ContentHash = new ContentHashSha256BunAdapter();
-const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], { ContentHash });
+const HashContent = new HashContentSha256BunAdapter();
+const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], { HashContent });
 
 describe("CacheRepositoryNodeCacheAdapter", async () => {
   const subject = await resolver.resolve();

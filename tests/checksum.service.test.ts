@@ -1,17 +1,17 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Checksum, ChecksumStrategy } from "../src/checksum.service";
-import type { FileHashResult } from "../src/file-hash.port";
 import { Hash } from "../src/hash.vo";
+import type { HashFileResult } from "../src/hash-file.port";
 import * as mocks from "./mocks";
 
-const a: FileHashResult = {
+const a: HashFileResult = {
   etag: mocks.hash,
   size: tools.Size.fromBytes(10),
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.MIMES.text,
 };
-const b: FileHashResult = {
+const b: HashFileResult = {
   etag: Hash.fromString("1111111111111111111111111111111111111111111111111111111111111111"),
   size: tools.Size.fromBytes(10),
   lastModified: tools.Timestamp.fromNumber(1000),

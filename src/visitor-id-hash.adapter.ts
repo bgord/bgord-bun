@@ -1,8 +1,8 @@
 import type { Client } from "./client.vo";
-import type { ContentHashPort } from "./content-hash.port";
+import type { HashContentPort } from "./hash-content.port";
 import type { VisitorIdPort } from "./visitor-id.port";
 
-type Dependencies = { ContentHash: ContentHashPort };
+type Dependencies = { HashContent: HashContentPort };
 
 export class VisitorIdHashAdapter implements VisitorIdPort {
   constructor(
@@ -15,6 +15,6 @@ export class VisitorIdHashAdapter implements VisitorIdPort {
 
     const value = `${ip}|${ua}`;
 
-    return this.deps.ContentHash.hash(value);
+    return this.deps.HashContent.hash(value);
   }
 }

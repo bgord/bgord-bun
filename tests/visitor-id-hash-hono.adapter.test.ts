@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import { Hash } from "../src/hash.vo";
+import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 import { VisitorIdHashHonoAdapter } from "../src/visitor-id-hash-hono.adapter";
 
 const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };
-const ContentHash = new ContentHashSha256BunAdapter();
-const deps = { ContentHash };
+const HashContent = new HashContentSha256BunAdapter();
+const deps = { HashContent };
 
 describe("VisitorIdHashHonoAdapter", () => {
   test("works", async () => {

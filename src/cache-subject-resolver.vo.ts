@@ -1,9 +1,9 @@
 import type { Context } from "hono";
 import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
-import type { ContentHashPort } from "./content-hash.port";
 import type { Hash } from "./hash.vo";
+import type { HashContentPort } from "./hash-content.port";
 
-type Dependencies = { ContentHash: ContentHashPort };
+type Dependencies = { HashContent: HashContentPort };
 
 export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
 
@@ -23,7 +23,7 @@ export class CacheSubjectResolver {
     );
     const subject = segments.join(this.SEPARATOR);
 
-    const hex = await this.deps.ContentHash.hash(subject);
+    const hex = await this.deps.HashContent.hash(subject);
 
     return { hex, raw: segments };
   }

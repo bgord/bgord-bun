@@ -1,10 +1,10 @@
 import * as tools from "@bgord/tools";
-import type { ContentHashPort } from "./content-hash.port";
-import type { FileHashPort } from "./file-hash.port";
+import type { HashContentPort } from "./hash-content.port";
+import type { HashFilePort } from "./hash-file.port";
 
-type Dependencies = { ContentHash: ContentHashPort };
+type Dependencies = { HashContent: HashContentPort };
 
-export class FileHashSha256BunAdapter implements FileHashPort {
+export class HashFileSha256BunAdapter implements HashFilePort {
   constructor(private readonly deps: Dependencies) {}
 
   async hash(path: tools.FilePathAbsolute | tools.FilePathRelative) {
@@ -14,7 +14,7 @@ export class FileHashSha256BunAdapter implements FileHashPort {
     const arrayBuffer = await file.arrayBuffer();
 
     return {
-      etag: await this.deps.ContentHash.hash(await file.text()),
+      etag: await this.deps.HashContent.hash(await file.text()),
       size: tools.Size.fromBytes(arrayBuffer.byteLength),
       lastModified: tools.Timestamp.fromNumber(file.lastModified),
       mime: tools.Mime.fromExtension(extension),

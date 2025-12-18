@@ -1,7 +1,7 @@
-import type { ContentHashPort } from "./content-hash.port";
 import { Hash } from "./hash.vo";
+import type { HashContentPort } from "./hash-content.port";
 
-export class ContentHashSha256BunAdapter implements ContentHashPort {
+export class HashContentSha256BunAdapter implements HashContentPort {
   async hash(content: string) {
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(content));
     const etag = Buffer.from(digest).toString("hex");

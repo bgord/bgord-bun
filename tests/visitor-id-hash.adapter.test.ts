@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { Client } from "../src/client.vo";
-import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
 import { Hash } from "../src/hash.vo";
+import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 import { VisitorIdHashAdapter } from "../src/visitor-id-hash.adapter";
 
-const ContentHash = new ContentHashSha256BunAdapter();
-const deps = { ContentHash };
+const HashContent = new HashContentSha256BunAdapter();
+const deps = { HashContent };
 
 describe("VisitorIdHashAdapter", () => {
   test("happy path", async () => {

@@ -1,14 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { ContentHashSha256BunAdapter } from "../src/content-hash-sha256-bun.adapter";
-import { FileHashSha256BunAdapter } from "../src/file-hash-sha256-bun.adapter";
 import { Hash } from "../src/hash.vo";
+import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashFileSha256BunAdapter } from "../src/hash-file-sha256-bun.adapter";
 
-const ContentHash = new ContentHashSha256BunAdapter();
-const deps = { ContentHash };
-const adapter = new FileHashSha256BunAdapter(deps);
+const HashContent = new HashContentSha256BunAdapter();
+const deps = { HashContent };
+const adapter = new HashFileSha256BunAdapter(deps);
 
-describe("FileHashSha256BunAdapter", () => {
+describe("HashFileSha256BunAdapter", () => {
   test("absolute path", async () => {
     const text = "hello";
     const fakeFile = {

@@ -1,10 +1,10 @@
 import type { Context } from "hono";
 import { ClientFromHonoAdapter } from "./client-from-hono.adapter";
-import type { ContentHashPort } from "./content-hash.port";
+import type { HashContentPort } from "./hash-content.port";
 import type { VisitorIdPort } from "./visitor-id.port";
 import { VisitorIdHashAdapter } from "./visitor-id-hash.adapter";
 
-type Dependencies = { ContentHash: ContentHashPort };
+type Dependencies = { HashContent: HashContentPort };
 
 export class VisitorIdHashHonoAdapter implements VisitorIdPort {
   private readonly delegate: VisitorIdHashAdapter;

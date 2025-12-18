@@ -1,15 +1,15 @@
-import type { FileHashResult } from "./file-hash.port";
+import type { HashFileResult } from "./hash-file.port";
 
 type CacheFileOverridesType = Record<string, string>;
 
 interface CacheFileHandler {
-  notModified(options: FileHashResult, overrides?: CacheFileOverridesType): Response;
+  notModified(options: HashFileResult, overrides?: CacheFileOverridesType): Response;
 
-  fresh(options: FileHashResult, overrides?: CacheFileOverridesType): Headers;
+  fresh(options: HashFileResult, overrides?: CacheFileOverridesType): Headers;
 }
 
 export const CacheFileMustRevalidate: CacheFileHandler = {
-  notModified(options: FileHashResult, overrides: CacheFileOverridesType = {}) {
+  notModified(options: HashFileResult, overrides: CacheFileOverridesType = {}) {
     return new Response(null, {
       status: 304,
       headers: new Headers({
@@ -22,7 +22,7 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
     });
   },
 
-  fresh(options: FileHashResult, overrides: CacheFileOverridesType = {}) {
+  fresh(options: HashFileResult, overrides: CacheFileOverridesType = {}) {
     return new Headers({
       "Content-Type": options.mime.toString(),
       "Cache-Control": "private, max-age=0, must-revalidate",

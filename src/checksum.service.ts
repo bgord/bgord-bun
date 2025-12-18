@@ -1,4 +1,4 @@
-import type { FileHashResult } from "./file-hash.port";
+import type { HashFileResult } from "./hash-file.port";
 
 export enum ChecksumStrategy {
   etag = "etag",
@@ -6,7 +6,7 @@ export enum ChecksumStrategy {
 }
 
 export class Checksum {
-  static compare(first: FileHashResult, second: FileHashResult, strategy: ChecksumStrategy): boolean {
+  static compare(first: HashFileResult, second: HashFileResult, strategy: ChecksumStrategy): boolean {
     switch (strategy) {
       case ChecksumStrategy.etag:
         return first.etag.matches(second.etag);

@@ -2,8 +2,8 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
-import { FileHashNoopAdapter } from "../src/file-hash-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
+import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 import * as mocks from "./mocks";
 
@@ -16,10 +16,10 @@ const hash = {
 const root = tools.DirectoryPathAbsoluteSchema.parse("/root");
 const key = tools.ObjectKey.parse("users/1/avatar.webp");
 
-const FileHash = new FileHashNoopAdapter();
+const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
-const deps = { FileHash, FileCleaner, FileRenamer };
+const deps = { HashFile, FileCleaner, FileRenamer };
 const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
@@ -27,7 +27,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
     // @ts-expect-error
     spyOn(Bun, "file").mockImplementation(() => ({}));
     const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
-    const fileHashHash = spyOn(FileHash, "hash").mockResolvedValue(hash);
+    const fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
     const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const fileRenamerRename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
@@ -47,7 +47,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   });
 
   test("head", async () => {
-    const fileHashHash = spyOn(FileHash, "hash")
+    const fileHashHash = spyOn(HashFile, "hash")
       .mockResolvedValueOnce(hash)
       .mockRejectedValueOnce(new Error("missing"));
 
