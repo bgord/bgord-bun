@@ -4,7 +4,7 @@ import type { VisitorIdPort } from "./visitor-id.port";
 
 type Dependencies = { HashContent: HashContentPort };
 
-export class VisitorIdHashAdapter implements VisitorIdPort {
+export class VisitorIdClientAdapter implements VisitorIdPort {
   constructor(
     private readonly client: Client,
     private readonly deps: Dependencies,

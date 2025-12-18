@@ -2,14 +2,14 @@ import { describe, expect, test } from "bun:test";
 import { Client } from "../src/client.vo";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
-import { VisitorIdHashAdapter } from "../src/visitor-id-hash.adapter";
+import { VisitorIdClientAdapter } from "../src/visitor-id-client.adapter";
 
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { HashContent };
 
-describe("VisitorIdHashAdapter", () => {
+describe("VisitorIdClientAdapter", () => {
   test("happy path", async () => {
-    const adapter = new VisitorIdHashAdapter(Client.from("127.0.0.1", "sth"), deps);
+    const adapter = new VisitorIdClientAdapter(Client.from("127.0.0.1", "sth"), deps);
 
     const result = await adapter.get();
 

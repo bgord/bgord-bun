@@ -197,6 +197,5 @@ export * from "./translations.service";
 export * from "./uptime.service";
 export * from "./uuid.vo";
 export * from "./visitor-id.port";
-export * from "./visitor-id-hash.adapter";
-export * from "./visitor-id-hash-hono.adapter";
+export * from "./visitor-id-client.adapter";
 export * from "./weak-etag-extractor.middleware";
