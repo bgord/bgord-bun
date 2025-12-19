@@ -3,7 +3,8 @@ import * as croner from "croner";
 import type { ClockPort } from "../src/clock.port";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { JobHandler, type UnitOfWork } from "../src/job-handler.service";
+import type { UnitOfWork } from "../src/job-handler.port";
+import { JobHandlerWithLogger } from "../src/job-handler-with-logger.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -11,9 +12,11 @@ const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const IdProvider = new IdProviderCryptoAdapter();
 const deps = { Logger, Clock, IdProvider };
-const handler = new JobHandler(deps);
+
+const handler = new JobHandlerWithLogger(deps);
 
 type Dependencies = { Clock: ClockPort };
+
 class ClockWork implements UnitOfWork {
   constructor(private readonly deps: Dependencies) {}
 
@@ -66,13 +69,5 @@ describe("JobHandler service", () => {
 
     expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job start" }));
     expect(loggerError).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job error" }));
-  });
-
-  test("overrun", async () => {
-    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
-
-    await handler.protect({} as croner.Cron)();
-
-    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "undefined overrun" }));
   });
 });

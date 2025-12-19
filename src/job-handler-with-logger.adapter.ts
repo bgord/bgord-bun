@@ -1,20 +1,14 @@
 import * as tools from "@bgord/tools";
-import type { Cron } from "croner";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
-import type { JobNameType } from "./jobs.service";
+import type { JobHandlerPort, UnitOfWork } from "./job-handler.port";
 import type { LoggerPort } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
 
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
-export interface UnitOfWork {
-  label: JobNameType;
-  process: () => Promise<void>;
-}
-
-export class JobHandler {
+export class JobHandlerWithLogger implements JobHandlerPort {
   private readonly base = { component: "infra", operation: "job_handler" };
 
   constructor(private readonly deps: Dependencies) {}
@@ -46,9 +40,5 @@ export class JobHandler {
         });
       }
     };
-  }
-
-  protect(cron: Cron) {
-    return async () => this.deps.Logger.info({ message: `${cron.name} overrun`, ...this.base });
   }
 }
