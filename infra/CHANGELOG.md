@@ -1,6 +1,18 @@
 # Changelog
+- 2025-12-19 21:42 3bc0617 **step: use shield user agent blocker in setup service**
+- 2025-12-19 21:41 ee54552 **feature: shield user agent blocker**
+- 2025-12-19 21:39 5553162 **step: lowercase compared ua and ip**
+- 2025-12-19 21:36 baec49f **step: setup new bots vo**
+- 2025-12-19 21:36 93cfb34 **step: add mocks.ip**
+- 2025-12-19 21:27 9783db8 **refactor: add client getters**
+- 2025-12-19 21:15 9cfe355 **refactor: remove ua blocker**
+- 2025-12-19 21:15 8398ed8 **step: remove ua blocker**
+- 2025-12-19 21:05 c48ca25 **step: add comparison methods to client vo**
+- 2025-12-19 20:36 7692b0d **refactor: remove axiom transport due to violated OCP**
+- 2025-12-19 20:28 6ae8af3 **step: remove unused dompurify dependency**
 - 2025-12-19 20:27 1d3f150 **step: remove unused marked dependency**
 - 2025-12-19 20:27 002a56d **step: remove unused marked dependency**
+- 2025-12-19 19:28 4674a35 **docs: generate CHANGELOG**
 - 2025-12-19 19:27 0bee107 **docs: generate CHANGELOG**
 ## 2025-12-19 17:23 v1.6.6
 - 2025-12-19 17:23 fe939ae **1.6.6**
