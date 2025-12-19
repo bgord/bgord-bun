@@ -153,7 +153,8 @@ src/
 ├── image-resizer.port.ts
 ├── invariant-error-handler.service.ts
 ├── invariant.service.ts
-├── job-handler.service.ts
+├── job-handler-with-logger.adapter.ts
+├── job-handler.port.ts
 ├── jobs.service.ts
 ├── json-file-reader-bun-forgiving.adapter.ts
 ├── json-file-reader-bun.adapter.ts
