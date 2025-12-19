@@ -1,9 +1,11 @@
 # Changelog
+- 2025-12-19 20:27 1d3f150 **step: remove unused marked dependency**
 ## 2025-12-19 17:23 v1.6.6
 - 2025-12-19 17:23 fe939ae **1.6.6**
 - 2025-12-19 17:17 0c31e7f **step: test job handler testcases**
 - 2025-12-19 17:09 711a2b4 **feature: migrate passage of time minute service**
 - 2025-12-19 16:52 39e8209 **feature: migrate passage of time hourly service**
+- 2025-12-19 16:24 e56eff1 **docs: generate CHANGELOG**
 - 2025-12-19 16:18 bcc0e13 **docs: generate CHANGELOG**
 - 2025-12-19 16:18 72aaca2 **docs: generate readme**
 ## 2025-12-19 15:25 v1.6.5
