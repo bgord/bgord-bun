@@ -1,9 +1,11 @@
 # Changelog
+- 2025-12-19 15:24 6386689 **feature: setup system module**
 ## 2025-12-19 12:46 v1.6.4
 - 2025-12-19 12:46 654a2bf **step: add noop event handler**
 - 2025-12-19 12:46 5b4416a **1.6.4**
 - 2025-12-19 12:42 7fab88f **step: add bare event handler**
 - 2025-12-19 12:38 338d5ab **refactor: introduce event handler port**
+- 2025-12-19 11:46 eca7ee0 **docs: generate CHANGELOG**
 - 2025-12-19 11:46 dbfdb0b **docs: generate CHANGELOG**
 - 2025-12-19 11:46 aca38cb **docs: generate readme**
 ## 2025-12-19 11:13 v1.6.3
