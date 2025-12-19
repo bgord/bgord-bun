@@ -273,6 +273,7 @@ src/
 ├── shield-noop.adapter.ts
 ├── shield-rate-limit.adapter.ts
 ├── shield-timeout.adapter.ts
+├── shield-user-agent-blocker.adapter.ts
 ├── shield.port.ts
 ├── simulated-error.middleware.ts
 ├── slower.middleware.ts
