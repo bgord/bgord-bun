@@ -1,5 +1,9 @@
 # Changelog
+## 2025-12-19 11:13 v1.6.3
+- 2025-12-19 11:13 2feb636 **1.6.3**
 - 2025-12-19 11:12 1dc11ca **step: update packages**
+- 2025-12-19 10:12 9c4d882 **docs: generate CHANGELOG**
+- 2025-12-19 10:12 60828b7 **docs: generate readme**
 - 2025-12-19 10:00 700d64f **step: test noop adapters**
 - 2025-12-19 09:59 348f444 **refactor: remove unused mock implementations**
 - 2025-12-19 09:51 5da98c2 **step: improve intentional error handling**
