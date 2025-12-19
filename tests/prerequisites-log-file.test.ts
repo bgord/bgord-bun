@@ -9,11 +9,7 @@ import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
 import * as mocks from "./mocks";
 
 const redactor = new RedactorNoopAdapter();
-const Logger = new LoggerWinstonProductionAdapter({
-  app: "test-app",
-  AXIOM_API_TOKEN: "ok",
-  redactor,
-}).create(LogLevelEnum.http);
+const Logger = new LoggerWinstonProductionAdapter({ app: "test-app", redactor }).create(LogLevelEnum.http);
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Logger };

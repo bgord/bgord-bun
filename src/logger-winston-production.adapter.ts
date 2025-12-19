@@ -1,4 +1,3 @@
-import { WinstonTransport as AxiomTransport } from "@axiomhq/winston";
 import * as tools from "@bgord/tools";
 import * as winston from "winston";
 import type { LogAppType, LoggerPort, LogLevelEnum } from "./logger.port";
@@ -8,7 +7,6 @@ import type { RedactorPort } from "./redactor.port";
 
 type LoggerWinstonProductionAdapterConfigType = {
   app: LogAppType;
-  AXIOM_API_TOKEN?: string;
   redactor: RedactorPort;
 };
 
@@ -31,12 +29,7 @@ export class LoggerWinstonProductionAdapter {
       app: this.config.app,
       environment: NodeEnvironmentEnum.production,
       level,
-      transports: [
-        file,
-        this.config.AXIOM_API_TOKEN
-          ? new AxiomTransport({ token: this.config.AXIOM_API_TOKEN, dataset: this.config.app })
-          : undefined,
-      ].filter((adapter) => adapter !== undefined),
+      transports: [file],
       redactor: this.config.redactor,
       filePath,
     });
