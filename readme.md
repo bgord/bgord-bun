@@ -196,22 +196,25 @@ src/
 │   │       ├── history-payload.ts
 │   │       ├── history-subject.ts
 │   │       ├── history.ts
-│   └── preferences
-│       ├── command-handlers
-│       │   ├── handleSetUserLanguageCommand.ts
-│       ├── commands
-│       │   ├── SET_USER_LANGUAGE_COMMAND.ts
+│   ├── preferences
+│   │   ├── command-handlers
+│   │   │   ├── handleSetUserLanguageCommand.ts
+│   │   ├── commands
+│   │   │   ├── SET_USER_LANGUAGE_COMMAND.ts
+│   │   ├── events
+│   │   │   ├── USER_LANGUAGE_SET_EVENT.ts
+│   │   ├── invariants
+│   │   │   └── user-language-has-changed.ts
+│   │   ├── open-host-queries
+│   │   │   └── user-language.ts
+│   │   ├── ports
+│   │   │   ├── user-language-query.ts
+│   │   │   └── user-language-resolver.ts
+│   │   └── value-objects
+│   │       └── supported-languages-set.ts
+│   └── system
 │       ├── events
-│       │   ├── USER_LANGUAGE_SET_EVENT.ts
-│       ├── invariants
-│       │   └── user-language-has-changed.ts
-│       ├── open-host-queries
-│       │   └── user-language.ts
-│       ├── ports
-│       │   ├── user-language-query.ts
-│       │   └── user-language-resolver.ts
-│       └── value-objects
-│           └── supported-languages-set.ts
+│       │   ├── HOUR_HAS_PASSED_EVENT.ts
 ├── node-env.vo.ts
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator.port.ts
