@@ -1,5 +1,7 @@
 # Changelog
 - 2025-12-19 20:27 1d3f150 **step: remove unused marked dependency**
+- 2025-12-19 20:27 002a56d **step: remove unused marked dependency**
+- 2025-12-19 19:27 0bee107 **docs: generate CHANGELOG**
 ## 2025-12-19 17:23 v1.6.6
 - 2025-12-19 17:23 fe939ae **1.6.6**
 - 2025-12-19 17:17 0c31e7f **step: test job handler testcases**
