@@ -9,7 +9,7 @@ export class Client {
   private constructor(private readonly value: ClientType) {}
 
   static fromParts(ip: ClientIpType | null | undefined, ua: ClientUaType | null | undefined): Client {
-    return new Client({ ip: ip ?? "anon", ua: ua ?? "anon" });
+    return new Client({ ip: ip ?? "anon", ua: (ua ?? "anon").toLowerCase() });
   }
 
   static fromHonoContext(context: Context): Client {
@@ -23,16 +23,24 @@ export class Client {
     return Client.fromParts(ip, ua);
   }
 
-  matches(another: Client): boolean {
+  equals(another: Client): boolean {
     return this.value.ip === another.value.ip && this.value.ua === another.value.ua;
   }
 
-  matchesUa(another: Client): boolean {
-    return this.value.ua === another.value.ua;
+  matchesUa(ua: ClientUaType): boolean {
+    return this.value.ua.includes(ua);
   }
 
-  matchesIp(another: Client): boolean {
-    return this.value.ip === another.value.ip;
+  matchesIp(ip: ClientIpType): boolean {
+    return this.value.ip.includes(ip);
+  }
+
+  get ip(): ClientIpType {
+    return this.value.ip;
+  }
+
+  get ua(): ClientUaType {
+    return this.value.ua;
   }
 
   toJSON(): ClientType {
