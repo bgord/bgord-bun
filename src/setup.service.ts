@@ -15,7 +15,10 @@ import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
-import { ShieldUserAgentBlockerAdapter } from "./shield-user-agent-blocker.adapter";
+import {
+  ShieldUserAgentBlockerAdapter,
+  type ShieldUserAgentBlockerOptionsType,
+} from "./shield-user-agent-blocker.adapter";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
@@ -25,6 +28,7 @@ type SetupOverridesType = {
   cors?: Parameters<typeof cors>[0];
   secureHeaders?: Parameters<typeof secureHeaders>[0];
   httpLogger?: HttpLoggerOptions;
+  shieldUserAgentBlocker?: ShieldUserAgentBlockerOptionsType;
 };
 
 type Dependencies = {
@@ -43,7 +47,7 @@ export class Setup {
     return [
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
-      new ShieldUserAgentBlockerAdapter().verify,
+      new ShieldUserAgentBlockerAdapter(overrides?.shieldUserAgentBlocker).verify,
       ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
       cors(corsOptions),
       languageDetector({

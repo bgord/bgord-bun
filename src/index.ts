@@ -7,6 +7,7 @@ export * from "./basic-auth-password.vo";
 export * from "./basic-auth-username.vo";
 export * from "./better-auth-logger.service";
 export * from "./binary.vo";
+export * from "./bots.vo";
 export * from "./build-info-repository.service";
 export * from "./cache-file.service";
 export * from "./cache-repository.port";
