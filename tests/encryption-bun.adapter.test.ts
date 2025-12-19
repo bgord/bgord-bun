@@ -29,7 +29,7 @@ describe("EncryptionBunAdapter", () => {
     expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(encryptedFileContent);
   });
 
-  test("encrypt", async () => {
+  test("encrypt - missing file", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer } as any);
 

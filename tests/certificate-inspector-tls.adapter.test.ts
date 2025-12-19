@@ -64,7 +64,7 @@ describe("CertificateInspectorTLSAdapter", () => {
         end() {},
         destroy() {},
       };
-      queueMicrotask(() => onError?.(new Error("Boom")));
+      queueMicrotask(() => onError?.(new Error(mocks.IntentionalError)));
       return socket;
     });
 
