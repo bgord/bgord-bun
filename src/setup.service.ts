@@ -15,6 +15,7 @@ import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
+import { ShieldUserAgentBlockerAdapter } from "./shield-user-agent-blocker.adapter";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
@@ -42,7 +43,7 @@ export class Setup {
     return [
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
-      // uaBlocker(),
+      new ShieldUserAgentBlockerAdapter().verify,
       ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
       cors(corsOptions),
       languageDetector({
