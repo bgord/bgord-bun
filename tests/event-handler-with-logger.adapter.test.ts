@@ -1,15 +1,17 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { EventHandler } from "../src/event-handler.service";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { EventHandlerWithLoggerAdapter } from "../src/event-handler-with-logger.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
 const event = { name: "user.created" };
 
 const Logger = new LoggerNoopAdapter();
-const deps = { Logger };
-const handler = new EventHandler(deps);
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const deps = { Logger, Clock };
+const handler = new EventHandlerWithLoggerAdapter(deps);
 
-describe("EventHandler service", () => {
+describe("EventHandlerWithLogger", () => {
   test("happy path", async () => {
     const loggerErrorSpy = spyOn(Logger, "error");
     const fn = async (_event: typeof event) => {};
@@ -30,7 +32,7 @@ describe("EventHandler service", () => {
     expect(call).toMatchObject({
       message: "Unknown user.created event handler error",
       component: "infra",
-      operation: "unknown_event_handler_error",
+      operation: "event_handler",
       metadata: event,
     });
     expect(call.error).toBeDefined();
