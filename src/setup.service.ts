@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import { uaBlocker } from "@hono/ua-blocker";
 import { bodyLimit } from "hono/body-limit";
 import { cors } from "hono/cors";
 import { languageDetector } from "hono/language";
@@ -7,7 +6,6 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { ApiVersion } from "./api-version.middleware";
-import { BOTS_REGEX } from "./bots.vo";
 import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
@@ -44,7 +42,7 @@ export class Setup {
     return [
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
-      uaBlocker({ blocklist: BOTS_REGEX }),
+      // uaBlocker(),
       ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
       cors(corsOptions),
       languageDetector({
