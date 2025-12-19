@@ -129,6 +129,7 @@ export * from "./image-resizer-sharp.adapter";
 export * from "./invariant.service";
 export * from "./invariant-error-handler.service";
 export * from "./job-handler.port";
+export * from "./job-handler-bare.adapter";
 export * from "./job-handler-with-logger.adapter";
 export * from "./jobs.service";
 export * from "./json-file-reader.port";
