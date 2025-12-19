@@ -1,7 +1,15 @@
 # Changelog
+- 2025-12-19 11:12 1dc11ca **step: update packages**
+- 2025-12-19 10:00 700d64f **step: test noop adapters**
+- 2025-12-19 09:59 348f444 **refactor: remove unused mock implementations**
+- 2025-12-19 09:51 5da98c2 **step: improve intentional error handling**
+- 2025-12-19 09:41 6a4975e **feature: job handler noop**
+- 2025-12-19 09:31 b2e1a50 **step: simplify job handler tests**
+- 2025-12-19 09:31 727b715 **feature: job handler bare**
 ## 2025-12-19 01:04 v1.6.2
 - 2025-12-19 01:04 f899eae **1.6.2**
 - 2025-12-19 01:02 35a003d **refactor: create job handler port**
+- 2025-12-19 00:04 bd3aa95 **docs: generate CHANGELOG**
 - 2025-12-19 00:03 67bd596 **docs: generate readme**
 ## 2025-12-19 00:02 v1.6.1
 - 2025-12-19 00:02 8b8eaed **docs: generate CHANGELOG**
