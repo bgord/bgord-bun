@@ -23,6 +23,18 @@ export class Client {
     return Client.fromParts(ip, ua);
   }
 
+  matches(another: Client): boolean {
+    return this.value.ip === another.value.ip && this.value.ua === another.value.ua;
+  }
+
+  matchesUa(another: Client): boolean {
+    return this.value.ua === another.value.ua;
+  }
+
+  matchesIp(another: Client): boolean {
+    return this.value.ip === another.value.ip;
+  }
+
   toJSON(): ClientType {
     return this.value;
   }
