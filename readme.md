@@ -215,6 +215,10 @@ src/
 │   └── system
 │       ├── events
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
+│       │   ├── MINUTE_HAS_PASSED_EVENT.ts
+│       └── services
+│           ├── passage-of-time-hourly.service.ts
+│           └── passage-of-time-minute.service.ts
 ├── node-env.vo.ts
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator.port.ts
