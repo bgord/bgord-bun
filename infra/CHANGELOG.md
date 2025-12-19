@@ -1,5 +1,9 @@
 # Changelog
+## 2025-12-19 15:25 v1.6.5
+- 2025-12-19 15:25 803c6e6 **1.6.5**
 - 2025-12-19 15:24 6386689 **feature: setup system module**
+- 2025-12-19 14:24 e95b284 **docs: generate CHANGELOG**
+- 2025-12-19 14:24 c8176fc **docs: generate readme**
 ## 2025-12-19 12:46 v1.6.4
 - 2025-12-19 12:46 654a2bf **step: add noop event handler**
 - 2025-12-19 12:46 5b4416a **1.6.4**
