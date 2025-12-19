@@ -13,7 +13,7 @@ const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.te
 
 describe("ShieldCaptchaHcaptchaLocalAdapter", () => {
   test("happy path", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: true });
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -23,7 +23,7 @@ describe("ShieldCaptchaHcaptchaLocalAdapter", () => {
   });
 
   test("failure - known error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: false });
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: false });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -33,7 +33,7 @@ describe("ShieldCaptchaHcaptchaLocalAdapter", () => {
   });
 
   test("failure - uknown error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentionalError));
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 

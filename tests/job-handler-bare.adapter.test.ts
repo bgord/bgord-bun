@@ -18,12 +18,7 @@ describe("JobHandlerBare", () => {
   });
 
   test("failure", async () => {
-    const uow = {
-      label: "Test Job",
-      process: () => {
-        throw new Error(mocks.IntentionalError);
-      },
-    };
+    const uow = { label: "Test Job", process: mocks.throwIntentionalErrorAsync };
 
     expect(async () => handler.handle(uow)()).toThrow(mocks.IntentionalError);
   });

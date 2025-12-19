@@ -54,12 +54,8 @@ describe("Timeout", () => {
   });
 
   test("cancellable - error propagation", async () => {
-    const action = async (_signal: AbortSignal) => {
-      throw new Error(mocks.IntentionalError);
-    };
-
     try {
-      await Timeout.cancellable(action, timeout);
+      await Timeout.cancellable(mocks.throwIntentionalErrorAsync, timeout);
 
       expect.unreachable();
     } catch (error) {

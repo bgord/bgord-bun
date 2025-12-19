@@ -58,12 +58,7 @@ describe("JobHandlerWithLogger", () => {
   test("failure", async () => {
     const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
     const loggerError = spyOn(Logger, "error").mockImplementation(jest.fn());
-    const uow = {
-      label: "Test Job",
-      process: async () => {
-        throw new Error(mocks.IntentionalError);
-      },
-    };
+    const uow = { label: "Test Job", process: mocks.throwIntentionalErrorAsync };
 
     await handler.handle(uow)();
 

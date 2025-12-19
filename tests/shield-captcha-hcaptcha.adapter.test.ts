@@ -15,7 +15,7 @@ const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.te
 
 describe("ShieldCaptchaHcaptchaAdapter", () => {
   test("happy path", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: true });
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
     const form = new FormData();
     form.set("h-captcha-response", VALID_TOKEN);
 
@@ -27,7 +27,7 @@ describe("ShieldCaptchaHcaptchaAdapter", () => {
   });
 
   test("failure - known error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: false });
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: false });
     const form = new FormData();
     form.set("h-captcha-response", INVALID_TOKEN);
 
@@ -39,7 +39,7 @@ describe("ShieldCaptchaHcaptchaAdapter", () => {
   });
 
   test("failure - missing token", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValueOnce({ success: false });
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: false });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -49,7 +49,7 @@ describe("ShieldCaptchaHcaptchaAdapter", () => {
   });
 
   test("failure - unknown error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValueOnce(new Error(mocks.IntentionalError));
+    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
     const form = new FormData();
     form.set("h-captcha-response", "any-token");
 

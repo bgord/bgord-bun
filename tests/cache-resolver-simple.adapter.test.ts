@@ -45,11 +45,9 @@ describe("CacheResolverSimpleAdapter", async () => {
     const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
-    expect(async () =>
-      CacheResolver.resolve(subject.hex, async () => {
-        throw new Error(mocks.IntentionalError);
-      }),
-    ).toThrow(mocks.IntentionalError);
+    expect(async () => CacheResolver.resolve(subject.hex, mocks.throwIntentionalErrorAsync)).toThrow(
+      mocks.IntentionalError,
+    );
     expect(setSpy).not.toHaveBeenCalled();
   });
 

@@ -21,15 +21,11 @@ describe("EventHandler service", () => {
 
   test("error path", async () => {
     const loggerError = spyOn(Logger, "error");
-    const fn = async (_event: typeof event) => {
-      throw new Error(mocks.IntentionalError);
-    };
 
-    await handler.handle(fn)(event);
+    await handler.handle(mocks.throwIntentionalErrorAsync)(event);
 
     expect(loggerError).toHaveBeenCalledTimes(1);
 
-    // @ts-expect-error
     const [call] = loggerError.mock.calls[0];
     expect(call).toMatchObject({
       message: "Unknown user.created event handler error",

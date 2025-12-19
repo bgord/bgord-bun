@@ -1,6 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { GracefulShutdown } from "../src/graceful-shutdown.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import * as mocks from "./mocks";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
@@ -59,7 +60,7 @@ describe("GracefulShutdown service", () => {
     const loggerInfo = spyOn(Logger, "info");
     gs.applyTo(server);
 
-    process.emit("unhandledRejection", new Error("Panic"), {} as any);
+    process.emit("unhandledRejection", new Error(mocks.IntentionalError), {} as any);
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
@@ -75,7 +76,7 @@ describe("GracefulShutdown service", () => {
     const loggerInfo = spyOn(Logger, "info");
     gs.applyTo(server);
 
-    process.emit("uncaughtException", new Error("Panic"));
+    process.emit("uncaughtException", new Error(mocks.IntentionalError));
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
@@ -87,7 +88,7 @@ describe("GracefulShutdown service", () => {
   test("cleanup failure still exits and logs error", async () => {
     const { server, gs, exitCalls } = setup();
     process.removeAllListeners("SIGTERM");
-    const cleanup = jest.fn().mockRejectedValue(new Error("Panic"));
+    const cleanup = jest.fn().mockImplementation(mocks.throwIntentionalError);
     const loggerInfo = spyOn(Logger, "info");
     const loggerError = spyOn(Logger, "error");
     gs.applyTo(server, cleanup);

@@ -37,11 +37,7 @@ describe("PrerequisiteLogFile", () => {
   });
 
   test("failure - existence check error", async () => {
-    spyOn(Bun, "file").mockReturnValue({
-      exists: async () => {
-        throw new Error(mocks.IntentionalError);
-      },
-    } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync } as any);
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
     // @ts-expect-error
