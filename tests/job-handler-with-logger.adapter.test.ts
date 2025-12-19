@@ -1,5 +1,4 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import * as croner from "croner";
 import type { ClockPort } from "../src/clock.port";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
@@ -29,43 +28,44 @@ class ClockWork implements UnitOfWork {
   }
 }
 
-describe("JobHandler service", () => {
+describe("JobHandlerWithLogger", () => {
   test("happy path", async () => {
-    // @ts-expect-error
-    spyOn(croner, "Cron").mockImplementation(() => ({
-      isRunning: jest.fn().mockReturnValue(false),
-      stop: jest.fn(),
-    }));
+    const uow = new ClockWork(deps);
     const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const uowProcess = spyOn(uow, "process");
 
-    await handler.handle({ label: "Test Job", process: jest.fn() })();
+    await handler.handle(uow)();
 
-    expect(loggerInfo).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: "Test Job start" }));
-    expect(loggerInfo).toHaveBeenNthCalledWith(2, expect.objectContaining({ message: "Test Job success" }));
+    expect(loggerInfo).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: `${uow.label} start` }));
+    expect(loggerInfo).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ message: `${uow.label} success` }),
+    );
+    expect(uowProcess).toHaveBeenCalled();
   });
 
   test("this binding guardrails", async () => {
-    const loggerError = spyOn(Logger, "error");
     const uow = new ClockWork(deps);
+    const loggerError = spyOn(Logger, "error");
+    const uowProcess = spyOn(uow, "process");
 
     await handler.handle(uow)();
 
     expect(loggerError).not.toHaveBeenCalled();
+    expect(uowProcess).toHaveBeenCalled();
   });
 
   test("failure", async () => {
-    // @ts-expect-error
-    spyOn(croner, "Cron").mockImplementation(() => ({
-      isRunning: jest.fn().mockReturnValue(false),
-      stop: jest.fn(),
-    }));
     const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
     const loggerError = spyOn(Logger, "error").mockImplementation(jest.fn());
-
-    await handler.handle({
+    const uow = {
       label: "Test Job",
-      process: jest.fn().mockRejectedValue(new Error(mocks.IntentionalError)),
-    })();
+      process: async () => {
+        throw new Error(mocks.IntentionalError);
+      },
+    };
+
+    await handler.handle(uow)();
 
     expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job start" }));
     expect(loggerError).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job error" }));

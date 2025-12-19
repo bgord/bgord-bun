@@ -10,8 +10,6 @@ export class JobHandlerBare implements JobHandlerPort {
   handle(uow: UnitOfWork) {
     const correlationId = this.deps.IdProvider.generate();
 
-    return async () => {
-      await CorrelationStorage.run(correlationId, async () => uow.process());
-    };
+    return async () => CorrelationStorage.run(correlationId, async () => uow.process());
   }
 }
