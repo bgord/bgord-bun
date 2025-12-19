@@ -155,6 +155,7 @@ export * from "./mailer-smtp-with-logger.adapter";
 export * from "./memory-consumption.service";
 export * as History from "./modules/history";
 export * as Preferences from "./modules/preferences";
+export * as System from "./modules/system";
 export * from "./node-env.vo";
 export * from "./pdf-generator.port";
 export * from "./pdf-generator-noop.adapter";
