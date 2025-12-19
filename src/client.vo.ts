@@ -28,11 +28,11 @@ export class Client {
   }
 
   matchesUa(ua: ClientUaType): boolean {
-    return this.value.ua.includes(ua);
+    return this.value.ua.includes(ua.toLowerCase());
   }
 
   matchesIp(ip: ClientIpType): boolean {
-    return this.value.ip.includes(ip);
+    return this.value.ip.includes(ip.toLowerCase());
   }
 
   get ip(): ClientIpType {
