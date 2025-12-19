@@ -88,7 +88,10 @@ src/
 ├── etag-extractor.middleware.ts
 ├── event-bus-like.types.ts
 ├── event-envelope.ts
-├── event-handler.service.ts
+├── event-handler-bare.adapter.ts
+├── event-handler-noop.adapter.ts
+├── event-handler-with-logger.adapter.ts
+├── event-handler.port.ts
 ├── event-logger.service.ts
 ├── event-publisher.types.ts
 ├── event-store-like.types.ts
