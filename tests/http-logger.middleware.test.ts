@@ -1,4 +1,4 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
@@ -26,7 +26,7 @@ const app = new Hono()
 
 describe("HttpLogger middleware", () => {
   test("200", async () => {
-    const loggerHttp = spyOn(Logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request("/ping", { method: "GET", headers: { keep: "abc", origin: "def" } }, ip);
 
@@ -68,7 +68,7 @@ describe("HttpLogger middleware", () => {
   });
 
   test("500", async () => {
-    const loggerHttp = spyOn(Logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request("/pong", { method: "GET" }, ip);
 
@@ -108,7 +108,7 @@ describe("HttpLogger middleware", () => {
   });
 
   test("skip", async () => {
-    const loggerHttp = spyOn(Logger, "http").mockImplementation(jest.fn());
+    const loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
 

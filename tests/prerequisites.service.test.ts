@@ -1,4 +1,4 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as prereqs from "../src/prerequisites.service";
@@ -10,7 +10,7 @@ const runner = new prereqs.Prerequisites({ Logger, Clock });
 
 describe("Prerequisites service", () => {
   test("happy path", async () => {
-    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const loggerInfo = spyOn(Logger, "info");
 
     await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteOk()]);
 
@@ -20,7 +20,7 @@ describe("Prerequisites service", () => {
   });
 
   test("failure", async () => {
-    const loggerError = spyOn(Logger, "error").mockImplementation(jest.fn());
+    const loggerError = spyOn(Logger, "error");
 
     expect(async () => runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()])).toThrow(
       prereqs.PrerequisitesError.Failure,
@@ -38,7 +38,7 @@ describe("Prerequisites service", () => {
   });
 
   test("undetermined", async () => {
-    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const loggerInfo = spyOn(Logger, "info");
 
     await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteUndetermined()]);
 

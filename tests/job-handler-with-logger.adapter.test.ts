@@ -31,7 +31,7 @@ class ClockWork implements UnitOfWork {
 describe("JobHandlerWithLogger", () => {
   test("happy path", async () => {
     const uow = new ClockWork(deps);
-    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
+    const loggerInfo = spyOn(Logger, "info");
     const uowProcess = spyOn(uow, "process");
 
     await handler.handle(uow)();
@@ -56,8 +56,8 @@ describe("JobHandlerWithLogger", () => {
   });
 
   test("failure", async () => {
-    const loggerInfo = spyOn(Logger, "info").mockImplementation(jest.fn());
-    const loggerError = spyOn(Logger, "error").mockImplementation(jest.fn());
+    const loggerInfo = spyOn(Logger, "info");
+    const loggerError = spyOn(Logger, "error");
     const uow = { label: "Test Job", process: mocks.throwIntentionalErrorAsync };
 
     await handler.handle(uow)();

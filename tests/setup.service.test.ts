@@ -32,8 +32,6 @@ const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
 
 describe("Setup service", () => {
   test("happy path", async () => {
-    spyOn(Logger, "http").mockImplementation(jest.fn());
-
     const response = await app.request(
       "/ping",
       { method: "GET", headers: new Headers({ "x-correlation-id": predefinedRequestId }) },

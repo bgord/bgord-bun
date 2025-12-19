@@ -79,7 +79,7 @@ describe("I18n service", () => {
     });
 
     test("returns key if translation is missing", () => {
-      const loggerWarn = spyOn(Logger, "warn").mockImplementation(jest.fn());
+      const loggerWarn = spyOn(Logger, "warn");
 
       expect(t("nonexistent")).toEqual("nonexistent");
       expect(loggerWarn).toHaveBeenCalled();
