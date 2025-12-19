@@ -1,4 +1,5 @@
 # Changelog
+- 2025-12-19 22:00 7533e62 **refactor: make shield user agent blocker configurable**
 ## 2025-12-19 21:43 v1.6.7
 - 2025-12-19 21:43 2fd417c **1.6.7**
 - 2025-12-19 21:42 3bc0617 **step: use shield user agent blocker in setup service**
@@ -11,6 +12,7 @@
 - 2025-12-19 21:15 8398ed8 **step: remove ua blocker**
 - 2025-12-19 21:05 c48ca25 **step: add comparison methods to client vo**
 - 2025-12-19 20:43 859df26 **docs: generate CHANGELOG**
+- 2025-12-19 20:43 6cf26af **docs: generate CHANGELOG**
 - 2025-12-19 20:43 3576f68 **docs: generate readme**
 - 2025-12-19 20:36 7692b0d **refactor: remove axiom transport due to violated OCP**
 - 2025-12-19 20:28 6ae8af3 **step: remove unused dompurify dependency**
