@@ -62,6 +62,7 @@ export * from "./event.types";
 export * from "./event-bus-like.types";
 export * from "./event-envelope";
 export * from "./event-handler.port";
+export * from "./event-handler-bare.adapter";
 export * from "./event-handler-with-logger.adapter";
 export * from "./event-logger.service";
 export * from "./event-store";
