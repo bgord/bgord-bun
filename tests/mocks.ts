@@ -6,8 +6,11 @@ import * as winston from "winston";
 import type { ClockPort } from "../src/clock.port";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
+import type * as System from "../src/modules/system";
 import * as prereqs from "../src/prerequisites.service";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+
+export const correlationId = "00000000-0000-0000-0000-000000000000";
 
 export type Config = { Variables: { user: { id: string | undefined } } };
 
@@ -101,3 +104,17 @@ export class PrerequisiteUndetermined implements prereqs.Prerequisite {
 
 export const hashValue = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
 export const hash = Hash.fromValue(hashValue);
+
+export const expectAnyId = expect.stringMatching(
+  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+);
+
+export const GenericHourHasPassedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: "passage_of_time",
+  version: 1,
+  name: "HOUR_HAS_PASSED_EVENT",
+  payload: { timestamp: TIME_ZERO.ms },
+} satisfies System.Events.HourHasPassedEventType;
