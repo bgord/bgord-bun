@@ -118,3 +118,13 @@ export const GenericHourHasPassedEvent = {
   name: "HOUR_HAS_PASSED_EVENT",
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.HourHasPassedEventType;
+
+export const GenericMinuteHasPassedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: "passage_of_time",
+  version: 1,
+  name: "MINUTE_HAS_PASSED_EVENT",
+  payload: { timestamp: TIME_ZERO.ms },
+} satisfies System.Events.MinuteHasPassedEventType;

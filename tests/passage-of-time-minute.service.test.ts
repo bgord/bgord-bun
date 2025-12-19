@@ -2,20 +2,20 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
-import { PassageOfTimeHourly } from "../src/modules/system/services/passage-of-time-hourly.service";
+import { PassageOfTimeMinute } from "../src/modules/system/services/passage-of-time-minute.service";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
 const deps = { Clock, IdProvider, EventStore: { save: async () => {}, saveAfter: async () => {} } };
-const service = new PassageOfTimeHourly(deps);
+const service = new PassageOfTimeMinute(deps);
 
-describe("PassageOfTimeHourly", async () => {
+describe("PassageOfTimeMinute", async () => {
   test("correct path", async () => {
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => service.process());
 
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericHourHasPassedEvent]);
+    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericMinuteHasPassedEvent]);
   });
 });
