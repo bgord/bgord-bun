@@ -153,6 +153,8 @@ src/
 ├── image-resizer.port.ts
 ├── invariant-error-handler.service.ts
 ├── invariant.service.ts
+├── job-handler-bare.adapter.ts
+├── job-handler-noop.adapter.ts
 ├── job-handler-with-logger.adapter.ts
 ├── job-handler.port.ts
 ├── jobs.service.ts
