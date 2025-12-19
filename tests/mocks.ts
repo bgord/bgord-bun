@@ -48,9 +48,11 @@ export function makeCaptureTransport() {
 export function createContext(headers: Record<string, string | undefined>): Context {
   return {
     req: { header: (name: string) => headers[name.toLowerCase()] ?? undefined },
-    env: { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } },
+    env: { server: { requestIP: () => ({ address: "127.0.0.1" }) } },
   } as unknown as Context;
 }
+
+export const ip = { server: { requestIP: () => ({ address: "127.0.0.1" }) } };
 
 // Tue Nov 14 2023 22:13:20 GMT+0000
 export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
