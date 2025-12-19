@@ -1,6 +1,10 @@
 # Changelog
+## 2025-12-19 01:04 v1.6.2
+- 2025-12-19 01:04 f899eae **1.6.2**
 - 2025-12-19 01:02 35a003d **refactor: create job handler port**
+- 2025-12-19 00:03 67bd596 **docs: generate readme**
 ## 2025-12-19 00:02 v1.6.1
+- 2025-12-19 00:02 8b8eaed **docs: generate CHANGELOG**
 - 2025-12-19 00:02 2a81eb4 **1.6.1**
 - 2025-12-18 23:49 b9d3d85 **refactor: simplify client vo**
 - 2025-12-18 23:44 c2646a4 **refactor: cleanup visitor id**
