@@ -12,7 +12,7 @@ export class ShieldSecurityAdapter implements ShieldPort {
   verify = createMiddleware(async (c, next) => {
     const violation = await this.rule.check(c);
 
-    if (!violation) await this.countermeasure.execute();
+    if (violation) await this.countermeasure.execute();
 
     return next();
   });
