@@ -195,6 +195,7 @@ export * from "./shield-captcha-hcaptcha-local.adapter";
 export * from "./shield-captcha-recaptcha.adapter";
 export * from "./shield-noop.adapter";
 export * from "./shield-rate-limit.adapter";
+export * from "./shield-security.adapter";
 export * from "./shield-timeout.adapter";
 export * from "./shield-user-agent-blocker.adapter";
 export * from "./simulated-error.middleware";
