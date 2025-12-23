@@ -4,7 +4,7 @@ import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 const rule = new SecurityRuleNoopAdapter();
 
 describe("SecurityRuleNoopAdapter", () => {
-  test("check - false", async () => {
-    expect(await rule.check()).toEqual(false);
+  test("isViolated - false", async () => {
+    expect(await rule.isViolated()).toEqual(false);
   });
 });

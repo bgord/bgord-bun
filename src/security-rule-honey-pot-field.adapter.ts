@@ -4,7 +4,7 @@ import type { SecurityRulePort } from "./security-rule.port";
 export class SecurityRuleHoneyPotFieldAdapter implements SecurityRulePort {
   constructor(private readonly field: string) {}
 
-  async check(c: Context) {
+  async isViolated(c: Context) {
     const request = c.req.raw.clone();
 
     const body = await request.json().catch(() => ({}));

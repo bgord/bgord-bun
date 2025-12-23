@@ -8,39 +8,39 @@ const rule = new SecurityRuleHoneyPotFieldAdapter(field);
 const createContext = (value: Function) => ({ req: { raw: { clone: () => ({ json: value }) } } }) as any;
 
 describe("SecurityRuleHoneyPotFieldAdapter", () => {
-  test("check - true", async () => {
+  test("isViolated - true", async () => {
     const context = createContext(async () => ({ [field]: "abc" }));
 
-    expect(await rule.check(context)).toEqual(true);
+    expect(await rule.isViolated(context)).toEqual(true);
   });
 
-  test("check - false - missing field", async () => {
+  test("isViolated - false - missing field", async () => {
     const context = createContext(async () => ({}));
 
-    expect(await rule.check(context)).toEqual(false);
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 
-  test("check - false - missing string", async () => {
+  test("isViolated - false - missing string", async () => {
     const context = createContext(async () => ({ [field]: "" }));
 
-    expect(await rule.check(context)).toEqual(false);
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 
-  test("check - false - null", async () => {
+  test("isViolated - false - null", async () => {
     const context = createContext(async () => ({ [field]: null }));
 
-    expect(await rule.check(context)).toEqual(false);
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 
-  test("check - false - undefined", async () => {
+  test("isViolated - false - undefined", async () => {
     const context = createContext(async () => ({ [field]: undefined }));
 
-    expect(await rule.check(context)).toEqual(false);
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 
-  test("check - false - throw error", async () => {
+  test("isViolated - false - throw error", async () => {
     const context = createContext(mocks.throwIntentionalErrorAsync);
 
-    expect(await rule.check(context)).toEqual(false);
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 });

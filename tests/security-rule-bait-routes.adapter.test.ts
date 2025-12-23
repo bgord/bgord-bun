@@ -6,15 +6,15 @@ const allowed = "/about";
 const rule = new SecurityRuleBaitRoutesAdapter([forbidden]);
 
 describe("SecurityRuleBaitRoutesAdapter", () => {
-  test("check - true", async () => {
+  test("isViolated - true", async () => {
     const context = { req: { path: forbidden } } as any;
 
-    expect(await rule.check(context)).toEqual(true);
+    expect(await rule.isViolated(context)).toEqual(true);
   });
 
-  test("check - false", async () => {
+  test("isViolated - false", async () => {
     const context = { req: { path: allowed } } as any;
 
-    expect(await rule.check(context)).toEqual(false);
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 });

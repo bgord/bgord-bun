@@ -18,7 +18,7 @@ export class ShieldSecurityAdapter implements ShieldPort {
       userId: c.get("user")?.id,
     };
 
-    const violation = await this.rule.check(c);
+    const violation = await this.rule.isViolated(c);
 
     if (violation) await this.countermeasure.execute(context);
     return next();
