@@ -1,3 +1,3 @@
 import type { Client } from "./client.vo";
 
-export type SecurityContext = { client: ReturnType<Client["toJSON"]> };
+export type SecurityContext = { client: ReturnType<Client["toJSON"]>; userId: string | undefined };
