@@ -28,7 +28,7 @@
     "@types/nodemailer": "7.0.4",
     "@types/yazl": "3.3.0",
     "cspell": "9.4.0",
-    "knip": "5.75.2",
+    "knip": "5.77.0",
     "lefthook": "2.0.12",
     "lockfile-lint": "4.14.1",
     "only-allow": "1.2.2",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@bgord/tools": "1.2.3",
-    "better-auth": "1.4.7",
+    "better-auth": "1.4.9",
     "croner": "9.1.0",
     "csv": "6.4.1",
     "dotenv": "17.2.3",
@@ -47,7 +47,7 @@
     "hono": "4.11.1",
     "lodash": "4.17.21",
     "node-cache": "5.1.2",
-    "nodemailer": "7.0.11",
+    "nodemailer": "7.0.12",
     "winston": "3.19.0",
     "yazl": "3.3.1"
   },
