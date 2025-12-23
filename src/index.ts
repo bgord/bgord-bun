@@ -180,6 +180,7 @@ export * from "./secret.vo";
 export * from "./security-countermeasure.port";
 export * from "./security-countermeasure-ban.adapter";
 export * from "./security-countermeasure-mirage.adapter";
+export * from "./security-countermeasure-noop.adapter";
 export * from "./security-countermeasure-report.adapter";
 export * from "./security-countermeasure-tarpit.adapter";
 export * from "./security-rule.port";
