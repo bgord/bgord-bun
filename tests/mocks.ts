@@ -130,3 +130,13 @@ export const GenericMinuteHasPassedEvent = {
   name: "MINUTE_HAS_PASSED_EVENT",
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.MinuteHasPassedEventType;
+
+export const GenericSecurityViolationDetectedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: "security",
+  version: 1,
+  name: "SECURITY_VIOLATION_DETECTED_EVENT",
+  payload: {},
+} satisfies System.Events.SecurityViolationDetectedEventType;
