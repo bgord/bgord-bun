@@ -1,7 +1,9 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { Client } from "../src/client.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { SecurityContext } from "../src/security-context.vo";
 import {
   SecurityCountermeasureTarpitAdapter,
   SecurityCountermeasureTarpitAdapterError,
@@ -10,7 +12,7 @@ import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
 const rule = new SecurityRuleNoopAdapter();
-const context = { rule: rule.name, client: { ip: "anon", ua: "anon" }, userId: undefined };
+const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
 
 const config = { delay: tools.Duration.Seconds(5) };
 const Logger = new LoggerNoopAdapter();

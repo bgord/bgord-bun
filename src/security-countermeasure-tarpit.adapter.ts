@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
-import type { SecurityContext } from "./security-context.types";
+import type { SecurityContext } from "./security-context.vo";
 import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
 
 type Dependencies = { Logger: LoggerPort };

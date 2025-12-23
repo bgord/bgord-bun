@@ -177,7 +177,7 @@ export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
 export * from "./safe-parse-body.service";
 export * from "./secret.vo";
-export * from "./security-context.types";
+export * from "./security-context.vo";
 export * from "./security-countermeasure.port";
 export * from "./security-countermeasure-ban.adapter";
 export * from "./security-countermeasure-mirage.adapter";

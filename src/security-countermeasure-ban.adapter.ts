@@ -9,7 +9,7 @@ import {
   SecurityViolationDetectedEvent,
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
-import type { SecurityContext } from "./security-context.types";
+import type { SecurityContext } from "./security-context.vo";
 import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
 
 type Dependencies = {
