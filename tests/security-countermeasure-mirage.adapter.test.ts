@@ -5,9 +5,11 @@ import {
   SecurityCountermeasureMirageAdapter,
   SecurityCountermeasureMirageAdapterError,
 } from "../src/security-countermeasure-mirage.adapter";
+import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
-const context = { client: { ip: "anon", ua: "anon" } };
+const rule = new SecurityRuleNoopAdapter();
+const context = { rule: rule.name, client: { ip: "anon", ua: "anon" }, userId: undefined };
 
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };

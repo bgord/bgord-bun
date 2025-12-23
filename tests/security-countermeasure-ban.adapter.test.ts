@@ -7,9 +7,11 @@ import {
   SecurityCountermeasureBanAdapter,
   SecurityCountermeasureBanAdapterError,
 } from "../src/security-countermeasure-ban.adapter";
+import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
-const context = { client: { ip: "anon", ua: "anon" } };
+const rule = new SecurityRuleNoopAdapter();
+const context = { rule: rule.name, client: { ip: "anon", ua: "anon" }, userId: undefined };
 
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);

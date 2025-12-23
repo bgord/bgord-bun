@@ -7,4 +7,8 @@ export class SecurityRuleBaitRoutesAdapter implements SecurityRulePort {
   async check(c: Context) {
     return this.routes.includes(c.req.path);
   }
+
+  get name() {
+    return "bait_routes";
+  }
 }

@@ -7,7 +7,11 @@ export const SECURITY_VIOLATION_DETECTED_EVENT = "SECURITY_VIOLATION_DETECTED_EV
 export const SecurityViolationDetectedEvent = z.object({
   ...EventEnvelopeSchema,
   name: z.literal(SECURITY_VIOLATION_DETECTED_EVENT),
-  payload: z.object({ client: z.object({ ip: z.string(), ua: z.string() }), userId: UUID.or(z.undefined()) }),
+  payload: z.object({
+    rule: z.string(),
+    client: z.object({ ip: z.string(), ua: z.string() }),
+    userId: UUID.or(z.undefined()),
+  }),
 });
 
 export type SecurityViolationDetectedEventType = z.infer<typeof SecurityViolationDetectedEvent>;

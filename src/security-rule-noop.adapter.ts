@@ -4,4 +4,8 @@ export class SecurityRuleNoopAdapter implements SecurityRulePort {
   async check() {
     return true;
   }
+
+  get name() {
+    return "noop";
+  }
 }

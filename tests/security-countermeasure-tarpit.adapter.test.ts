@@ -6,9 +6,11 @@ import {
   SecurityCountermeasureTarpitAdapter,
   SecurityCountermeasureTarpitAdapterError,
 } from "../src/security-countermeasure-tarpit.adapter";
+import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
-const context = { client: { ip: "anon", ua: "anon" } };
+const rule = new SecurityRuleNoopAdapter();
+const context = { rule: rule.name, client: { ip: "anon", ua: "anon" }, userId: undefined };
 
 const config = { delay: tools.Duration.Seconds(5) };
 const Logger = new LoggerNoopAdapter();

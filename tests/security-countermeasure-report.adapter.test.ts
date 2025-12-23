@@ -5,9 +5,11 @@ import {
   SecurityCountermeasureReportAdapter,
   SecurityCountermeasureReportAdapterError,
 } from "../src/security-countermeasure-report.adapter";
+import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
-const context = { client: { ip: "anon", ua: "anon" } };
+const rule = new SecurityRuleNoopAdapter();
+const context = { rule: rule.name, client: { ip: "anon", ua: "anon" }, userId: undefined };
 
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };

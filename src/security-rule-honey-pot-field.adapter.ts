@@ -12,4 +12,8 @@ export class SecurityRuleHoneyPotFieldAdapter implements SecurityRulePort {
 
     return value !== undefined && value !== null && value !== "";
   }
+
+  get name() {
+    return "honey_pot_field";
+  }
 }

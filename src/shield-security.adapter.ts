@@ -12,7 +12,11 @@ export class ShieldSecurityAdapter implements ShieldPort {
   ) {}
 
   verify = createMiddleware(async (c, next) => {
-    const context: SecurityContext = { client: Client.fromHonoContext(c), userId: c.get("user")?.id };
+    const context: SecurityContext = {
+      rule: this.rule.name,
+      client: Client.fromHonoContext(c),
+      userId: c.get("user")?.id,
+    };
 
     const violation = await this.rule.check(c);
 
