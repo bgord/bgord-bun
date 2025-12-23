@@ -138,5 +138,5 @@ export const GenericSecurityViolationDetectedEvent = {
   stream: "security",
   version: 1,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
-  payload: {},
+  payload: { client: { ip: "anon", ua: "anon" } },
 } satisfies System.Events.SecurityViolationDetectedEventType;
