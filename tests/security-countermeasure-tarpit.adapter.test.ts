@@ -8,9 +8,12 @@ import {
 } from "../src/security-countermeasure-tarpit.adapter";
 import * as mocks from "./mocks";
 
-const Logger = new LoggerNoopAdapter();
+const context = { client: { ip: "anon", ua: "anon" } };
+
 const config = { delay: tools.Duration.Seconds(5) };
+const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
+
 const countermeasure = new SecurityCountermeasureTarpitAdapter(config, deps);
 
 describe("SecurityCountermeasureTarpitAdapter", () => {
@@ -19,7 +22,9 @@ describe("SecurityCountermeasureTarpitAdapter", () => {
     const loggerInfo = spyOn(Logger, "info");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(async () => countermeasure.execute()).toThrow(SecurityCountermeasureTarpitAdapterError.Executed);
+      expect(async () => countermeasure.execute(context)).toThrow(
+        SecurityCountermeasureTarpitAdapterError.Executed,
+      );
     });
 
     expect(bunSleep).toHaveBeenCalledWith(config.delay.ms);
@@ -28,6 +33,7 @@ describe("SecurityCountermeasureTarpitAdapter", () => {
       component: "security",
       operation: "security_countermeasure_tarpit",
       correlationId: mocks.correlationId,
+      metadata: context,
     });
   });
 });

@@ -9,11 +9,15 @@ import {
 } from "../src/security-countermeasure-ban.adapter";
 import * as mocks from "./mocks";
 
+const context = { client: { ip: "anon", ua: "anon" } };
+
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
+
 const deps = { Logger, IdProvider, Clock, EventStore };
+
 const countermeasure = new SecurityCountermeasureBanAdapter(deps);
 
 describe("SecurityCountermeasureBanAdapter", () => {
@@ -22,7 +26,9 @@ describe("SecurityCountermeasureBanAdapter", () => {
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(async () => countermeasure.execute()).toThrow(SecurityCountermeasureBanAdapterError.Executed);
+      expect(async () => countermeasure.execute(context)).toThrow(
+        SecurityCountermeasureBanAdapterError.Executed,
+      );
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({
@@ -30,6 +36,7 @@ describe("SecurityCountermeasureBanAdapter", () => {
       component: "security",
       operation: "security_countermeasure_ban",
       correlationId: mocks.correlationId,
+      metadata: context,
     });
     expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedEvent]);
   });

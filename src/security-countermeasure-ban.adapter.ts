@@ -9,6 +9,7 @@ import {
   SecurityViolationDetectedEvent,
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
+import type { SecurityContext } from "./security-context.types";
 import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
 
 type Dependencies = {
@@ -25,12 +26,13 @@ export const SecurityCountermeasureBanAdapterError = {
 export class SecurityCountermeasureBanAdapter implements SecurityCountermeasurePort {
   constructor(private readonly deps: Dependencies) {}
 
-  async execute() {
+  async execute(context: SecurityContext) {
     this.deps.Logger.info({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
       correlationId: CorrelationStorage.get(),
+      metadata: context,
     });
 
     const event = SecurityViolationDetectedEvent.parse({

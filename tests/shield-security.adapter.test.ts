@@ -9,6 +9,7 @@ import {
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
 import { ShieldSecurityAdapter } from "../src/shield-security.adapter";
+import * as mocks from "./mocks";
 
 const baitRoutes = new SecurityRuleBaitRoutesAdapter(["/.env"]);
 
@@ -32,7 +33,7 @@ const app = new Hono()
 describe("ShieldSecurityAdapter", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const result = await app.request("/ping", { method: "POST" });
+    const result = await app.request("/ping", { method: "POST" }, mocks.ip);
 
     expect(result.status).toEqual(200);
     expect(loggerInfo).not.toHaveBeenCalled();
@@ -41,7 +42,7 @@ describe("ShieldSecurityAdapter", () => {
   test("denied - BaitRoutes", async () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    const result = await app.request("/.env", { method: "POST" });
+    const result = await app.request("/.env", { method: "POST" }, mocks.ip);
     const text = await result.text();
 
     expect(result.status).toEqual(500);
@@ -52,7 +53,11 @@ describe("ShieldSecurityAdapter", () => {
   test("denied - HoneyPotField", async () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    const result = await app.request("/ping", { method: "POST", body: JSON.stringify({ [field]: "here" }) });
+    const result = await app.request(
+      "/ping",
+      { method: "POST", body: JSON.stringify({ [field]: "here" }) },
+      mocks.ip,
+    );
     const text = await result.text();
 
     expect(result.status).toEqual(500);

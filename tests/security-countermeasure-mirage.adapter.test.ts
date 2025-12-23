@@ -7,8 +7,11 @@ import {
 } from "../src/security-countermeasure-mirage.adapter";
 import * as mocks from "./mocks";
 
+const context = { client: { ip: "anon", ua: "anon" } };
+
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
+
 const countermeasure = new SecurityCountermeasureMirageAdapter(deps);
 
 describe("SecurityCountermeasureMirageAdapter", () => {
@@ -16,7 +19,9 @@ describe("SecurityCountermeasureMirageAdapter", () => {
     const loggerInfo = spyOn(Logger, "info");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(async () => countermeasure.execute()).toThrow(SecurityCountermeasureMirageAdapterError.Executed);
+      expect(async () => countermeasure.execute(context)).toThrow(
+        SecurityCountermeasureMirageAdapterError.Executed,
+      );
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({
@@ -24,6 +29,7 @@ describe("SecurityCountermeasureMirageAdapter", () => {
       component: "security",
       operation: "security_countermeasure_mirage",
       correlationId: mocks.correlationId,
+      metadata: context,
     });
   });
 });
