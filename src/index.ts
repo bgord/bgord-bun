@@ -179,6 +179,7 @@ export * from "./safe-parse-body.service";
 export * from "./secret.vo";
 export * from "./security-countermeasure.port";
 export * from "./security-countermeasure-mirage.adapter";
+export * from "./security-countermeasure-report.adapter";
 export * from "./security-countermeasure-tarpit.adapter";
 export * from "./setup.service";
 export * from "./shield.port";
