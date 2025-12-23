@@ -183,6 +183,7 @@ export * from "./security-countermeasure-mirage.adapter";
 export * from "./security-countermeasure-report.adapter";
 export * from "./security-countermeasure-tarpit.adapter";
 export * from "./security-rule.port";
+export * from "./security-rule-bait-routes.adapter";
 export * from "./setup.service";
 export * from "./shield.port";
 export * from "./shield-api-key.adapter";
