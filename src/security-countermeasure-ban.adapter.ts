@@ -30,6 +30,12 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {
+    const action = {
+      kind: "deny",
+      reason: SecurityCountermeasureBanAdapterError.Executed,
+      ...this.config,
+    } as const;
+
     this.deps.Logger.info({
       message: "Security countermeasure ban",
       component: "security",
@@ -46,10 +52,6 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
 
     await this.deps.EventStore.save([event]);
 
-    return {
-      kind: "deny",
-      reason: SecurityCountermeasureBanAdapterError.Executed,
-      ...this.config,
-    };
+    return action;
   }
 }
