@@ -18,10 +18,12 @@ const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { Clock, CacheResolver, HashContent };
+
 const resolver = new CacheSubjectResolver(
   [new CacheSubjectSegmentFixed("ping"), new CacheSubjectSegmentPath(), new CacheSubjectSegmentUser()],
   deps,
 );
+
 const shieldRateLimit = new ShieldRateLimitAdapter({ enabled: true, resolver }, deps);
 
 const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));

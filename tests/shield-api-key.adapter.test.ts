@@ -6,11 +6,11 @@ import { ShieldApiKeyAdapter } from "../src/shield-api-key.adapter";
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const apiKeyShield = new ShieldApiKeyAdapter({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
+const shield = new ShieldApiKeyAdapter({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
 
 describe("ShieldApiKeyAdapter", () => {
   test("happy path", async () => {
-    const app = new Hono().use(apiKeyShield.verify).get("/ping", (c) => c.text("OK"));
+    const app = new Hono().use(shield.verify).get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", {
       method: "GET",
@@ -21,7 +21,7 @@ describe("ShieldApiKeyAdapter", () => {
   });
 
   test("denied - no api key", async () => {
-    const app = new Hono().use(apiKeyShield.verify).get("/ping", () => expect.unreachable());
+    const app = new Hono().use(shield.verify).get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",
@@ -32,7 +32,7 @@ describe("ShieldApiKeyAdapter", () => {
   });
 
   test("denied - invalid api key", async () => {
-    const app = new Hono().use(apiKeyShield.verify).get("/ping", () => expect.unreachable());
+    const app = new Hono().use(shield.verify).get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",

@@ -18,6 +18,7 @@ const pipeline = {
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileCleaner, FileRenamer };
+
 const adapter = new ImageProcessorSharpAdapter(deps);
 
 describe("ImageProcessorSharpAdapter", () => {

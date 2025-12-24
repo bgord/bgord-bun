@@ -6,7 +6,9 @@ import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const runner = new prereqs.Prerequisites({ Logger, Clock });
+const deps = { Logger, Clock };
+
+const runner = new prereqs.Prerequisites(deps);
 
 describe("Prerequisites service", () => {
   test("happy path", async () => {

@@ -16,6 +16,7 @@ const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileCleaner, FileRenamer };
+
 const adapter = new TemporaryFileAbsoluteAdapter(directory, deps);
 
 describe("TemporaryFileAbsoluteAdapter", () => {

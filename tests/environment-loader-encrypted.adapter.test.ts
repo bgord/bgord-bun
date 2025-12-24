@@ -8,6 +8,7 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 const path = tools.FilePathAbsolute.fromString("/config/secrets.txt");
 const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
 const SchemaError = { InvalidAppName: "schema.app.name.invalid" };
+
 const config = {
   type: NodeEnvironmentEnum.local,
   Schema: z.object({ APP_NAME: z.string({ error: SchemaError.InvalidAppName }) }),

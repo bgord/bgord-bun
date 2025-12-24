@@ -10,6 +10,7 @@ const ciphertext = new Uint8Array([201, 202, 203, 204, 205, 206]);
 const encryptedFileContent = new Uint8Array(iv.length + ciphertext.length);
 encryptedFileContent.set(iv, 0);
 encryptedFileContent.set(ciphertext, iv.length);
+
 const recipe = {
   input: tools.FilePathAbsolute.fromString("/tmp/in.bin"),
   output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),

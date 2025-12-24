@@ -6,6 +6,7 @@ import { HashFileSha256BunAdapter } from "../src/hash-file-sha256-bun.adapter";
 
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { HashContent };
+
 const adapter = new HashFileSha256BunAdapter(deps);
 
 describe("HashFileSha256BunAdapter", () => {

@@ -11,6 +11,7 @@ const Schema = z.object({ APP_NAME: z.string() });
 
 const config = { ttl: tools.Duration.Hours(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { CacheResolver, HashContent };

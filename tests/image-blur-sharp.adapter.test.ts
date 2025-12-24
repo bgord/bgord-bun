@@ -15,6 +15,7 @@ const pipeline = {
 
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileRenamer };
+
 const adapter = new ImageBlurSharpAdapter(deps);
 
 describe("ImageBlurSharpAdapter", () => {

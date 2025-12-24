@@ -5,12 +5,12 @@ import { Uptime } from "../src/uptime.service";
 
 const duration = tools.Duration.Minutes(10);
 
-const clock = new ClockSystemAdapter();
+const Clock = new ClockSystemAdapter();
 
 describe("Uptime service", () => {
   test("happy path", () => {
     spyOn(process, "uptime").mockImplementation(() => duration.seconds);
 
-    expect(Uptime.get(clock)).toEqual({ duration, formatted: "10 minutes ago" });
+    expect(Uptime.get(Clock)).toEqual({ duration, formatted: "10 minutes ago" });
   });
 });

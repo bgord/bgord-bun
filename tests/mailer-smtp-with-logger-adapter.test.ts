@@ -11,7 +11,9 @@ const MailerSmtp = new MailerSmtpAdapter({
   SMTP_USER: "user@example.com",
   SMTP_PASS: "password",
 });
-const mailer = new MailerSmtpWithLoggerAdapter({ Logger, MailerSmtp });
+const deps = { Logger, MailerSmtp };
+
+const mailer = new MailerSmtpWithLoggerAdapter(deps);
 
 describe("SmtpMailerWithLoggerAdapter", () => {
   test("send - success", async () => {
