@@ -7,4 +7,8 @@ describe("SecurityRulePassAdapter", () => {
   test("isViolated - false", async () => {
     expect(await rule.isViolated()).toEqual(false);
   });
+
+  test("name", () => {
+    expect(rule.name).toEqual("pass");
+  });
 });

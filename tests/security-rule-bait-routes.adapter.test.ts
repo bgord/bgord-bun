@@ -17,4 +17,8 @@ describe("SecurityRuleBaitRoutesAdapter", () => {
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
+
+  test("name", () => {
+    expect(rule.name).toEqual("bait_routes");
+  });
 });

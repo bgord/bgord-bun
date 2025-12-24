@@ -43,4 +43,8 @@ describe("SecurityRuleHoneyPotFieldAdapter", () => {
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
+
+  test("name", () => {
+    expect(rule.name).toEqual("honey_pot_field");
+  });
 });

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { SecurityRuleAndAdapter } from "../src/security-rule-and.adapter";
+import { SecurityRuleAndAdapter, SecurityRuleAndAdapterError } from "../src/security-rule-and.adapter";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleFailAdapter } from "../src/security-rule-fail.adapter";
 
@@ -22,5 +22,13 @@ describe("SecurityRuleAndAdapter", () => {
     const context = { req: { path: allowed } } as any;
 
     expect(await rule.isViolated(context)).toEqual(true);
+  });
+
+  test("missing rules", () => {
+    expect(() => new SecurityRuleAndAdapter([])).toThrow(SecurityRuleAndAdapterError.MissingRules);
+  });
+
+  test("name", () => {
+    expect(rule.name).toEqual("and_bait_routes_fail");
   });
 });

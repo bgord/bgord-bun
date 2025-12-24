@@ -18,4 +18,8 @@ describe("SecurityRuleUserAgentAdapter", () => {
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
+
+  test("name", () => {
+    expect(rule.name).toEqual("user_agent");
+  });
 });
