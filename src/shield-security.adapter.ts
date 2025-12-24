@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { Client } from "./client.vo";
+import { ClientFromHono } from "./client-from-hono.adapter";
 import { SecurityContext } from "./security-context.vo";
 import type { SecurityPolicy } from "./security-policy.vo";
 import type { ShieldPort } from "./shield.port";
@@ -16,7 +16,7 @@ export class ShieldSecurityAdapter implements ShieldPort {
 
       if (!violation) continue;
 
-      const context = new SecurityContext(policy.rule.name, Client.fromHonoContext(c), c.get("user")?.id);
+      const context = new SecurityContext(policy.rule.name, ClientFromHono.translate(c), c.get("user")?.id);
 
       const action = await policy.countermeasure.execute(context);
 

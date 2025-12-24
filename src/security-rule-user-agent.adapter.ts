@@ -1,13 +1,13 @@
 import type { Context } from "hono";
 import { ALL_BOTS } from "./bots.vo";
-import { Client } from "./client.vo";
+import { ClientFromHono } from "./client-from-hono.adapter";
 import type { SecurityRulePort } from "./security-rule.port";
 
 export class SecurityRuleUserAgentAdapter implements SecurityRulePort {
   constructor(private readonly blacklist: string[] = ALL_BOTS) {}
 
   async isViolated(c: Context) {
-    const client = Client.fromHonoContext(c);
+    const client = ClientFromHono.translate(c);
 
     return this.blacklist.some((bot) => client.matchesUa(bot));
   }
