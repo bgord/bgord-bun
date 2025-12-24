@@ -9,13 +9,9 @@ export const SecurityCountermeasureReportAdapterError = {
 
 type Dependencies = { Logger: LoggerPort };
 
-export const SecurityCountermeasureTarpitAdapterError = {
-  Executed: "security.countermeasure.tarpit.adapter.executed",
-};
-
 export class SecurityCountermeasureTarpitAdapter implements SecurityCountermeasurePort {
   constructor(
-    private readonly config: { duration: tools.Duration; then: SecurityAction },
+    private readonly config: { duration: tools.Duration; after: SecurityAction },
     private readonly deps: Dependencies,
   ) {}
 

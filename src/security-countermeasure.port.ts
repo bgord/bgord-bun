@@ -11,7 +11,7 @@ export type SecurityAction =
   | {
       kind: "delay";
       duration: tools.Duration;
-      then: SecurityAction;
+      after: SecurityAction;
     }
   | {
       kind: "mirage";

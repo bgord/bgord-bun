@@ -5,6 +5,8 @@ const countermeasure = new SecurityCountermeasureNoopAdapter();
 
 describe("SecurityCountermeasureNoopAdapter", () => {
   test("happy path", async () => {
-    expect(async () => countermeasure.execute()).not.toThrow();
+    const result = await countermeasure.execute();
+
+    expect(result).toEqual({ kind: "allow" });
   });
 });

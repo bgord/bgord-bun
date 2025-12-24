@@ -3,10 +3,7 @@ import { Client } from "../src/client.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
-import {
-  SecurityCountermeasureReportAdapter,
-  SecurityCountermeasureReportAdapterError,
-} from "../src/security-countermeasure-report.adapter";
+import { SecurityCountermeasureReportAdapter } from "../src/security-countermeasure-report.adapter";
 import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -23,9 +20,7 @@ describe("SecurityCountermeasureReportAdapter", () => {
     const loggerInfo = spyOn(Logger, "info");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(async () => countermeasure.execute(context)).toThrow(
-        SecurityCountermeasureReportAdapterError.Executed,
-      );
+      expect(await countermeasure.execute(context)).toEqual({ kind: "allow" });
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({

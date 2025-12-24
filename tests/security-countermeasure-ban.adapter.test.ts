@@ -30,9 +30,10 @@ describe("SecurityCountermeasureBanAdapter", () => {
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(async () => countermeasure.execute(context)).toThrow(
-        SecurityCountermeasureBanAdapterError.Executed,
-      );
+      expect(await countermeasure.execute(context)).toEqual({
+        kind: "deny",
+        reason: SecurityCountermeasureBanAdapterError.Executed,
+      });
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({
