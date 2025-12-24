@@ -2,8 +2,10 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
+import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure-ban.adapter";
@@ -14,8 +16,11 @@ import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.
 import { SecurityRuleFailAdapter } from "../src/security-rule-fail.adapter";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
 import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.adapter";
+import { SecurityRuleViolationThresholdAdapter } from "../src/security-rule-violation-threshold.adapter";
 import { ShieldSecurityAdapter, ShieldSecurityAdapterError } from "../src/shield-security.adapter";
 import * as mocks from "./mocks";
+
+const duration = tools.Duration.Seconds(5);
 
 // Dependencies ================================
 const Logger = new LoggerNoopAdapter();
@@ -27,14 +32,15 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
 ]);
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
-const deps = { Logger, Clock, IdProvider, EventStore };
+const HashContent = new HashContentSha256BunAdapter();
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl: duration });
+const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository };
 // =============================================
 
 // Countermeasures =============================
 const mirage = new SecurityCountermeasureMirageAdapter(deps);
 const ban = new SecurityCountermeasureBanAdapter(deps);
-const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
-const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config);
+const tarpit = new SecurityCountermeasureTarpitAdapter(deps, { duration, after: { kind: "allow" } as const });
 // =============================================
 
 // Rules =======================================
@@ -54,7 +60,6 @@ const mirageFail = new SecurityPolicy(fail, mirage);
 
 // Shields =====================================
 const compositeShield = new ShieldSecurityAdapter([banBaitRoutes, tarpitHoneyPotField, mirageUserAgent]);
-const failShield = new ShieldSecurityAdapter([mirageFail]);
 // =============================================
 
 const app = new Hono()
@@ -105,7 +110,7 @@ describe("ShieldSecurityAdapter", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
-    expect(bunSleep).toHaveBeenCalledWith(config.duration.ms);
+    expect(bunSleep).toHaveBeenCalledWith(duration.ms);
   });
 
   test("denied - UserAgent - mirage", async () => {
@@ -123,9 +128,10 @@ describe("ShieldSecurityAdapter", () => {
 
   test("denied - Fail - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
+    const shield = new ShieldSecurityAdapter([mirageFail]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
-      .use(failShield.verify)
+      .use(shield.verify)
       .post("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.ip);
@@ -134,17 +140,43 @@ describe("ShieldSecurityAdapter", () => {
     expect(loggerInfo).toHaveBeenCalled();
   });
 
+  test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
+    const loggerInfo = spyOn(Logger, "info");
+    const rule = new SecurityRuleViolationThresholdAdapter(baitRoutes, { threshold: 3 }, deps);
+    const shield = new ShieldSecurityAdapter([new SecurityPolicy(rule, mirage)]);
+    const app = new Hono()
+      .use(CorrelationStorage.handle())
+      .use(shield.verify)
+      .post("/ping", (c) => c.text("OK"))
+      .onError((error, c) => c.text(error.message, 500));
+
+    const first = await app.request("/.env", { method: "POST" }, mocks.ip);
+
+    expect(first.status).toEqual(404);
+    expect(loggerInfo).not.toHaveBeenCalled();
+
+    const second = await app.request("/.env", { method: "POST" }, mocks.ip);
+
+    expect(second.status).toEqual(404);
+    expect(loggerInfo).not.toHaveBeenCalled();
+
+    const third = await app.request("/.env", { method: "POST" }, mocks.ip);
+
+    expect(third.status).toEqual(200);
+    expect(loggerInfo).toHaveBeenCalled();
+  });
+
   test("unhandled security error", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
-    const fail = new SecurityRuleFailAdapter();
-    const duration = tools.Duration.Seconds(5);
-    const config = { duration, after: { kind: "delay", duration } };
-    const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config as any);
-    const failShield = new ShieldSecurityAdapter([new SecurityPolicy(fail, tarpit)]);
+    const tarpit = new SecurityCountermeasureTarpitAdapter(deps, {
+      duration,
+      after: { kind: "delay", duration },
+    } as any);
+    const shield = new ShieldSecurityAdapter([new SecurityPolicy(new SecurityRuleFailAdapter(), tarpit)]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
-      .use(failShield.verify)
+      .use(shield.verify)
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));
 
