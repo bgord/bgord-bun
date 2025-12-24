@@ -4,10 +4,10 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
 import { SecurityCountermeasureReportAdapter } from "../src/security-countermeasure-report.adapter";
-import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
+import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
 import * as mocks from "./mocks";
 
-const rule = new SecurityRuleNoopAdapter();
+const rule = new SecurityRulePassAdapter();
 const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
 
 const Logger = new LoggerNoopAdapter();

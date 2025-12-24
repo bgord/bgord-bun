@@ -9,10 +9,10 @@ import {
   SecurityCountermeasureBanAdapter,
   SecurityCountermeasureBanAdapterError,
 } from "../src/security-countermeasure-ban.adapter";
-import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
+import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
 import * as mocks from "./mocks";
 
-const rule = new SecurityRuleNoopAdapter();
+const rule = new SecurityRulePassAdapter();
 const context = new SecurityContext(rule.name, Client.fromParts("127.0.0.1", "anon"), undefined);
 
 const Logger = new LoggerNoopAdapter();
