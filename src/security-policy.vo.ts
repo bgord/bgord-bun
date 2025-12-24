@@ -6,8 +6,4 @@ export class SecurityPolicy {
     readonly rule: SecurityRulePort,
     readonly countermeasure: SecurityCountermeasurePort,
   ) {}
-
-  get name() {
-    return `${this.rule.name}_triggers_${this.countermeasure.name}`;
-  }
 }

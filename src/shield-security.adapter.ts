@@ -2,54 +2,53 @@ import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Client } from "./client.vo";
 import { SecurityContext } from "./security-context.vo";
-import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
-import type { SecurityRulePort } from "./security-rule.port";
+import type { SecurityPolicy } from "./security-policy.vo";
 import type { ShieldPort } from "./shield.port";
 
 export const ShieldSecurityAdapterError = { Unhandled: "shield.security.adapter.error.unhandled" };
 
 export class ShieldSecurityAdapter implements ShieldPort {
-  constructor(
-    private readonly rule: SecurityRulePort,
-    private readonly countermeasure: SecurityCountermeasurePort,
-  ) {}
+  constructor(private readonly policies: SecurityPolicy[]) {}
 
   verify = createMiddleware(async (c, next) => {
-    const violation = await this.rule.isViolated(c);
+    for (const policy of this.policies) {
+      const violation = await policy.rule.isViolated(c);
 
-    if (!violation) return next();
+      if (!violation) return next();
 
-    const context = new SecurityContext(this.rule.name, Client.fromHonoContext(c), c.get("user")?.id);
-    const action = await this.countermeasure.execute(context);
+      const context = new SecurityContext(policy.rule.name, Client.fromHonoContext(c), c.get("user")?.id);
 
-    switch (action.kind) {
-      case "allow":
-        return next();
+      const action = await policy.countermeasure.execute(context);
 
-      case "deny":
-        return c.text(action.reason, action.response.status as ContentfulStatusCode);
+      switch (action.kind) {
+        case "allow":
+          return next();
 
-      case "mirage":
-        return c.json({}, action.response.status as ContentfulStatusCode);
+        case "deny":
+          return c.text(action.reason, action.response.status as ContentfulStatusCode);
 
-      case "delay": {
-        await Bun.sleep(action.duration.ms);
+        case "mirage":
+          return c.json({}, action.response.status as ContentfulStatusCode);
 
-        switch (action.after.kind) {
-          case "allow":
-            return next();
+        case "delay": {
+          await Bun.sleep(action.duration.ms);
 
-          case "deny":
-            return c.text(action.after.reason, action.after.response.status as ContentfulStatusCode);
+          switch (action.after.kind) {
+            case "allow":
+              return next();
 
-          case "mirage":
-            return c.json({}, action.after.response.status as ContentfulStatusCode);
+            case "deny":
+              return c.text(action.after.reason, action.after.response.status as ContentfulStatusCode);
 
-          case "delay":
-            throw new Error(ShieldSecurityAdapterError.Unhandled);
+            case "mirage":
+              return c.json({}, action.after.response.status as ContentfulStatusCode);
 
-          default:
-            throw new Error(ShieldSecurityAdapterError.Unhandled);
+            case "delay":
+              throw new Error(ShieldSecurityAdapterError.Unhandled);
+
+            default:
+              throw new Error(ShieldSecurityAdapterError.Unhandled);
+          }
         }
       }
     }

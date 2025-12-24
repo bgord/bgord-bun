@@ -9,6 +9,7 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure-ban.adapter";
 import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
 import { SecurityCountermeasureTarpitAdapter } from "../src/security-countermeasure-tarpit.adapter";
+import { SecurityPolicy } from "../src/security-policy.vo";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleFailAdapter } from "../src/security-rule-fail.adapter";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
@@ -16,6 +17,7 @@ import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.ad
 import { ShieldSecurityAdapter, ShieldSecurityAdapterError } from "../src/shield-security.adapter";
 import * as mocks from "./mocks";
 
+// Dependencies ================================
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const IdProvider = new IdProviderDeterministicAdapter([
@@ -26,21 +28,36 @@ const IdProvider = new IdProviderDeterministicAdapter([
 ]);
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
 const deps = { Logger, Clock, IdProvider, EventStore };
+// =============================================
 
+// Countermeasures =============================
 const mirage = new SecurityCountermeasureMirageAdapter(deps);
 const ban = new SecurityCountermeasureBanAdapter(deps);
 const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
 const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config);
+// =============================================
 
+// Rules =======================================
 const baitRoutes = new SecurityRuleBaitRoutesAdapter(["/.env"]);
-const baitRoutesShield = new ShieldSecurityAdapter(baitRoutes, ban);
-
 const field = "reference";
 const honeyPotField = new SecurityRuleHoneyPotFieldAdapter(field);
-const honeyPotFieldShield = new ShieldSecurityAdapter(honeyPotField, tarpit);
-
 const userAgent = new SecurityRuleUserAgentAdapter();
-const userAgentShield = new ShieldSecurityAdapter(userAgent, mirage);
+const fail = new SecurityRuleFailAdapter();
+// =============================================
+
+// Policies ====================================
+const banBaitRoutes = new SecurityPolicy(baitRoutes, ban);
+const tarpitHoneyPotField = new SecurityPolicy(honeyPotField, tarpit);
+const mirageUserAgent = new SecurityPolicy(userAgent, mirage);
+const mirageFail = new SecurityPolicy(fail, mirage);
+// =============================================
+
+// Shields =====================================
+const baitRoutesShield = new ShieldSecurityAdapter([banBaitRoutes]);
+const honeyPotFieldShield = new ShieldSecurityAdapter([tarpitHoneyPotField]);
+const userAgentShield = new ShieldSecurityAdapter([mirageUserAgent]);
+const failShield = new ShieldSecurityAdapter([mirageFail]);
+// =============================================
 
 const app = new Hono()
   .use(
@@ -110,8 +127,6 @@ describe("ShieldSecurityAdapter", () => {
 
   test("denied - Fail - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const fail = new SecurityRuleFailAdapter();
-    const failShield = new ShieldSecurityAdapter(fail, mirage);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(failShield.verify)
@@ -130,7 +145,7 @@ describe("ShieldSecurityAdapter", () => {
     const duration = tools.Duration.Seconds(5);
     const config = { duration, after: { kind: "delay", duration } };
     const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config as any);
-    const failShield = new ShieldSecurityAdapter(fail, tarpit);
+    const failShield = new ShieldSecurityAdapter([new SecurityPolicy(fail, tarpit)]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(failShield.verify)
