@@ -10,9 +10,10 @@ import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure
 import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
 import { SecurityCountermeasureTarpitAdapter } from "../src/security-countermeasure-tarpit.adapter";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
+import { SecurityRuleFailAdapter } from "../src/security-rule-fail.adapter";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
 import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.adapter";
-import { ShieldSecurityAdapter } from "../src/shield-security.adapter";
+import { ShieldSecurityAdapter, ShieldSecurityAdapterError } from "../src/shield-security.adapter";
 import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
@@ -105,5 +106,43 @@ describe("ShieldSecurityAdapter", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
+  });
+
+  test("denied - Fail - mirage", async () => {
+    const loggerInfo = spyOn(Logger, "info");
+    const fail = new SecurityRuleFailAdapter();
+    const failShield = new ShieldSecurityAdapter(fail, mirage);
+    const app = new Hono()
+      .use(CorrelationStorage.handle())
+      .use(failShield.verify)
+      .post("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.ip);
+
+    expect(result.status).toEqual(200);
+    expect(loggerInfo).toHaveBeenCalled();
+  });
+
+  test("unhandled security error", async () => {
+    const loggerInfo = spyOn(Logger, "info");
+    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
+    const fail = new SecurityRuleFailAdapter();
+    const duration = tools.Duration.Seconds(5);
+    const config = { duration, after: { kind: "delay", duration } };
+    const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config as any);
+    const failShield = new ShieldSecurityAdapter(fail, tarpit);
+    const app = new Hono()
+      .use(CorrelationStorage.handle())
+      .use(failShield.verify)
+      .post("/ping", (c) => c.text("OK"))
+      .onError((error, c) => c.text(error.message, 500));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.ip);
+    const text = await result.text();
+
+    expect(result.status).toEqual(500);
+    expect(text).toEqual(ShieldSecurityAdapterError.Unhandled);
+    expect(loggerInfo).toHaveBeenCalled();
+    expect(bunSleep).toHaveBeenCalled();
   });
 });
