@@ -183,6 +183,7 @@ export * from "./security-countermeasure-mirage.adapter";
 export * from "./security-countermeasure-noop.adapter";
 export * from "./security-countermeasure-report.adapter";
 export * from "./security-countermeasure-tarpit.adapter";
+export * from "./security-policy.vo";
 export * from "./security-rule.port";
 export * from "./security-rule-and.adapter";
 export * from "./security-rule-bait-routes.adapter";
