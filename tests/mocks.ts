@@ -3,6 +3,7 @@ import { Writable } from "node:stream";
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import * as winston from "winston";
+import { ClientUserAgent } from "../src/client-user-agent.vo";
 import type { ClockPort } from "../src/clock.port";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
@@ -140,7 +141,7 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
   payload: {
     rule: expect.any(String),
-    client: { ip: "127.0.0.1", ua: "anon" },
+    client: { ip: "127.0.0.1", ua: ClientUserAgent.parse("anon") },
     userId: undefined,
     countermeasure: "ban",
     action: "deny",

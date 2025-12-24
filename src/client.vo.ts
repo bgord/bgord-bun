@@ -6,7 +6,14 @@ export type ClientType = { ip: ClientIpType; ua: ClientUserAgentType };
 export class Client {
   private constructor(private readonly value: ClientType) {}
 
-  static fromParts(ip: ClientIpType | null | undefined, ua: ClientUserAgentType | null | undefined): Client {
+  static fromPartsSafe(
+    ip: ClientIpType | null | undefined,
+    ua: ClientUserAgentType | null | undefined,
+  ): Client {
+    return new Client({ ip: ip ?? "anon", ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()) });
+  }
+
+  static fromParts(ip: string | null | undefined, ua: string | null | undefined): Client {
     return new Client({ ip: ip ?? "anon", ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()) });
   }
 
