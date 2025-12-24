@@ -31,6 +31,7 @@ export * from "./certificate-inspector-tls.adapter";
 export * from "./checksum.service";
 export * from "./client.vo";
 export * from "./client-from-hono.adapter";
+export * from "./client-user-agent.vo";
 export * from "./clock.port";
 export * from "./clock-fixed.adapter";
 export * from "./clock-system.adapter";
