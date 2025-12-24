@@ -7,9 +7,11 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure-ban.adapter";
+import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
 import { SecurityCountermeasureTarpitAdapter } from "../src/security-countermeasure-tarpit.adapter";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
+import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.adapter";
 import { ShieldSecurityAdapter } from "../src/shield-security.adapter";
 import * as mocks from "./mocks";
 
@@ -19,10 +21,12 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
+  mocks.correlationId,
 ]);
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
 const deps = { Logger, Clock, IdProvider, EventStore };
 
+const mirage = new SecurityCountermeasureMirageAdapter(deps);
 const ban = new SecurityCountermeasureBanAdapter(deps);
 const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
 const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config);
@@ -33,6 +37,9 @@ const baitRoutesShield = new ShieldSecurityAdapter(baitRoutes, ban);
 const field = "reference";
 const honeyPotField = new SecurityRuleHoneyPotFieldAdapter(field);
 const honeyPotFieldShield = new ShieldSecurityAdapter(honeyPotField, tarpit);
+
+const userAgent = new SecurityRuleUserAgentAdapter();
+const userAgentShield = new ShieldSecurityAdapter(userAgent, mirage);
 
 const app = new Hono()
   .use(
@@ -45,6 +52,7 @@ const app = new Hono()
   .use(CorrelationStorage.handle())
   .use(baitRoutesShield.verify)
   .use(honeyPotFieldShield.verify)
+  .use(userAgentShield.verify)
   .post("/ping", (c) => c.text("OK"));
 
 describe("ShieldSecurityAdapter", () => {
@@ -84,5 +92,18 @@ describe("ShieldSecurityAdapter", () => {
     expect(result.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
     expect(bunSleep).toHaveBeenCalledWith(config.duration.ms);
+  });
+
+  test("denied - UserAgent - mirage", async () => {
+    const loggerInfo = spyOn(Logger, "info");
+
+    const result = await app.request(
+      "/ping",
+      { method: "POST", headers: { "user-agent": "AI2Bot-DeepResearchEval" } },
+      mocks.ip,
+    );
+
+    expect(result.status).toEqual(200);
+    expect(loggerInfo).toHaveBeenCalled();
   });
 });
