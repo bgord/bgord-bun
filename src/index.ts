@@ -192,6 +192,7 @@ export * from "./security-rule-honey-pot-field.adapter";
 export * from "./security-rule-or.adapter";
 export * from "./security-rule-pass.adapter";
 export * from "./security-rule-user-agent.adapter";
+export * from "./security-rule-violation-threshold.adapter";
 export * from "./setup.service";
 export * from "./shield.port";
 export * from "./shield-api-key.adapter";
