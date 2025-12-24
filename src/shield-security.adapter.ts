@@ -14,7 +14,7 @@ export class ShieldSecurityAdapter implements ShieldPort {
     for (const policy of this.policies) {
       const violation = await policy.rule.isViolated(c);
 
-      if (!violation) return next();
+      if (!violation) continue;
 
       const context = new SecurityContext(policy.rule.name, Client.fromHonoContext(c), c.get("user")?.id);
 
@@ -52,5 +52,7 @@ export class ShieldSecurityAdapter implements ShieldPort {
         }
       }
     }
+
+    return next();
   });
 }

@@ -53,9 +53,7 @@ const mirageFail = new SecurityPolicy(fail, mirage);
 // =============================================
 
 // Shields =====================================
-const baitRoutesShield = new ShieldSecurityAdapter([banBaitRoutes]);
-const honeyPotFieldShield = new ShieldSecurityAdapter([tarpitHoneyPotField]);
-const userAgentShield = new ShieldSecurityAdapter([mirageUserAgent]);
+const compositeShield = new ShieldSecurityAdapter([banBaitRoutes, tarpitHoneyPotField, mirageUserAgent]);
 const failShield = new ShieldSecurityAdapter([mirageFail]);
 // =============================================
 
@@ -68,9 +66,7 @@ const app = new Hono()
     }),
   )
   .use(CorrelationStorage.handle())
-  .use(baitRoutesShield.verify)
-  .use(honeyPotFieldShield.verify)
-  .use(userAgentShield.verify)
+  .use(compositeShield.verify)
   .post("/ping", (c) => c.text("OK"));
 
 describe("ShieldSecurityAdapter", () => {
