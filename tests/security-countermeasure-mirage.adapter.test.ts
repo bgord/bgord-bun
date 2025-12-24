@@ -52,4 +52,10 @@ describe("SecurityCountermeasureMirageAdapter", () => {
       metadata: context,
     });
   });
+
+  test("name", () => {
+    const countermeasure = new SecurityCountermeasureMirageAdapter(deps);
+
+    expect(countermeasure.name).toEqual("mirage");
+  });
 });

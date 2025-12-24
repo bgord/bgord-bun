@@ -72,4 +72,10 @@ describe("SecurityCountermeasureBanAdapter", () => {
     });
     expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedEvent]);
   });
+
+  test("name", () => {
+    const countermeasure = new SecurityCountermeasureBanAdapter(deps);
+
+    expect(countermeasure.name).toEqual("ban");
+  });
 });

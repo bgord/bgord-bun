@@ -23,4 +23,8 @@ export class SecurityCountermeasureTarpitAdapter implements SecurityCountermeasu
 
     return { kind: "delay", ...this.config };
   }
+
+  get name() {
+    return "tarpit";
+  }
 }

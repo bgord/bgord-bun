@@ -19,4 +19,8 @@ export class SecurityCountermeasureReportAdapter implements SecurityCountermeasu
 
     return { kind: "allow" };
   }
+
+  get name() {
+    return "report";
+  }
 }

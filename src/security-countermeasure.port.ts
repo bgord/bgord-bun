@@ -20,4 +20,6 @@ export type SecurityAction =
 
 export interface SecurityCountermeasurePort {
   execute(context: SecurityContext): Promise<SecurityAction>;
+
+  get name(): string;
 }

@@ -22,4 +22,8 @@ export class SecurityCountermeasureMirageAdapter implements SecurityCountermeasu
 
     return { kind: "mirage", ...this.config };
   }
+
+  get name() {
+    return "mirage";
+  }
 }

@@ -13,10 +13,11 @@ const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"),
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
+const countermeasure = new SecurityCountermeasureReportAdapter(deps);
+
 describe("SecurityCountermeasureReportAdapter", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const countermeasure = new SecurityCountermeasureReportAdapter(deps);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
@@ -31,5 +32,9 @@ describe("SecurityCountermeasureReportAdapter", () => {
       correlationId: mocks.correlationId,
       metadata: context,
     });
+  });
+
+  test("name", () => {
+    expect(countermeasure.name).toEqual("report");
   });
 });

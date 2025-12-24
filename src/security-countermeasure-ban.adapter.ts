@@ -54,4 +54,8 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
 
     return action;
   }
+
+  get name() {
+    return "ban";
+  }
 }

@@ -4,4 +4,8 @@ export class SecurityCountermeasureNoopAdapter implements SecurityCountermeasure
   async execute(): Promise<SecurityAction> {
     return { kind: "allow" };
   }
+
+  get name() {
+    return "noop";
+  }
 }

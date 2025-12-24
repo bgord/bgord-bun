@@ -14,11 +14,12 @@ const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"),
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
+const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
+const countermeasure = new SecurityCountermeasureTarpitAdapter(deps, config);
+
 describe("SecurityCountermeasureTarpitAdapter", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
-    const countermeasure = new SecurityCountermeasureTarpitAdapter(deps, config);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
@@ -33,5 +34,9 @@ describe("SecurityCountermeasureTarpitAdapter", () => {
       correlationId: mocks.correlationId,
       metadata: context,
     });
+  });
+
+  test("name", () => {
+    expect(countermeasure.name).toEqual("tarpit");
   });
 });
