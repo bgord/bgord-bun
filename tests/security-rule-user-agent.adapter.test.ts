@@ -2,24 +2,27 @@ import { describe, expect, test } from "bun:test";
 import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.adapter";
 import * as mocks from "./mocks";
 
-const allowed = "known";
-const forbidden = "anon";
-const rule = new SecurityRuleUserAgentAdapter([forbidden]);
+const valid = "anon";
+const invalid = "unknown";
 
 describe("SecurityRuleUserAgentAdapter", () => {
   test("isViolated - true", async () => {
-    const context = { env: mocks.ip, req: { raw: {}, header: () => forbidden } } as any;
+    const rule = new SecurityRuleUserAgentAdapter([valid]);
+    const context = { env: mocks.ip, req: { raw: {}, header: () => valid } } as any;
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - false", async () => {
-    const context = { env: mocks.ip, req: { raw: {}, header: () => allowed } } as any;
+    const rule = new SecurityRuleUserAgentAdapter([invalid]);
+    const context = { env: mocks.ip, req: { raw: {}, header: () => valid } } as any;
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
   test("name", () => {
+    const rule = new SecurityRuleUserAgentAdapter(["other"]);
+
     expect(rule.name).toEqual("user_agent");
   });
 });

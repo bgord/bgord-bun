@@ -1,20 +1,28 @@
+import { ClientIp, type ClientIpType } from "./client-ip.vo";
 import { ClientUserAgent, type ClientUserAgentType } from "./client-user-agent.vo";
 
-type ClientIpType = string;
 export type ClientType = { ip: ClientIpType; ua: ClientUserAgentType };
 
 export class Client {
+  private static DEFAULT_IP = ClientIp.parse("anon");
+
   private constructor(private readonly value: ClientType) {}
 
   static fromPartsSafe(
     ip: ClientIpType | null | undefined,
     ua: ClientUserAgentType | null | undefined,
   ): Client {
-    return new Client({ ip: ip ?? "anon", ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()) });
+    return new Client({
+      ip: ip ?? Client.DEFAULT_IP,
+      ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
+    });
   }
 
   static fromParts(ip: string | null | undefined, ua: string | null | undefined): Client {
-    return new Client({ ip: ip ?? "anon", ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()) });
+    return new Client({
+      ip: ClientIp.parse(ip ?? "anon"),
+      ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
+    });
   }
 
   equals(another: Client): boolean {

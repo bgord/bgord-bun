@@ -1,23 +1,22 @@
 import { describe, expect, test } from "bun:test";
 import { Client } from "../src/client.vo";
+import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 
 const localFirefox = Client.fromParts("127.0.0.1", ClientUserAgent.parse("firefox"));
 const localChrome = Client.fromParts("127.0.0.1", ClientUserAgent.parse("Chrome"));
 const remoteFirefox = Client.fromParts("0.0.0.0", ClientUserAgent.parse("Firefox"));
 
+const ip = ClientIp.parse("1.1.1.1");
 const ua = ClientUserAgent.parse("ua");
 
 describe("Client VO", () => {
   test("fromPartsSafe", () => {
-    expect(Client.fromPartsSafe("1.1.1.1", ClientUserAgent.parse("UA")).toJSON()).toEqual({
-      ip: "1.1.1.1",
-      ua,
-    });
+    expect(Client.fromPartsSafe(ip, ClientUserAgent.parse("UA")).toJSON()).toEqual({ ip, ua });
   });
 
   test("fromParts", () => {
-    expect(Client.fromParts("1.1.1.1", "UA").toJSON()).toEqual({ ip: "1.1.1.1", ua });
+    expect(Client.fromParts("1.1.1.1", "UA").toJSON()).toEqual({ ip, ua });
   });
 
   test("equals - true", () => {
