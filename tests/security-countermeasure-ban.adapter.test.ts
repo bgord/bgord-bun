@@ -13,7 +13,7 @@ import { SecurityRuleNoopAdapter } from "../src/security-rule-noop.adapter";
 import * as mocks from "./mocks";
 
 const rule = new SecurityRuleNoopAdapter();
-const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
+const context = new SecurityContext(rule.name, Client.fromParts("127.0.0.1", "anon"), undefined);
 
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);

@@ -138,5 +138,5 @@ export const GenericSecurityViolationDetectedEvent = {
   stream: "security",
   version: 1,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
-  payload: { rule: expect.any(String), client: { ip: "anon", ua: "anon" }, userId: undefined },
+  payload: { rule: expect.any(String), client: { ip: "127.0.0.1", ua: "anon" }, userId: undefined },
 } satisfies System.Events.SecurityViolationDetectedEventType;

@@ -1,34 +1,51 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { requestId } from "hono/request-id";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import {
-  SecurityCountermeasureReportAdapter,
-  SecurityCountermeasureReportAdapterError,
-} from "../src/security-countermeasure-report.adapter";
+import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure-ban.adapter";
+import { SecurityCountermeasureTarpitAdapter } from "../src/security-countermeasure-tarpit.adapter";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
 import { ShieldSecurityAdapter } from "../src/shield-security.adapter";
 import * as mocks from "./mocks";
 
+const Logger = new LoggerNoopAdapter();
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const IdProvider = new IdProviderDeterministicAdapter([
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+]);
+const EventStore = { save: async () => {}, saveAfter: async () => {} };
+const deps = { Logger, Clock, IdProvider, EventStore };
+
+const ban = new SecurityCountermeasureBanAdapter(deps);
+const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
+const tarpit = new SecurityCountermeasureTarpitAdapter(deps, config);
+
 const baitRoutes = new SecurityRuleBaitRoutesAdapter(["/.env"]);
+const baitRoutesShield = new ShieldSecurityAdapter(baitRoutes, ban);
 
 const field = "reference";
 const honeyPotField = new SecurityRuleHoneyPotFieldAdapter(field);
-
-const Logger = new LoggerNoopAdapter();
-const deps = { Logger };
-const countermeasure = new SecurityCountermeasureReportAdapter(deps);
-
-const baitRoutesShield = new ShieldSecurityAdapter(baitRoutes, countermeasure);
-const honeyPotFieldShield = new ShieldSecurityAdapter(honeyPotField, countermeasure);
+const honeyPotFieldShield = new ShieldSecurityAdapter(honeyPotField, tarpit);
 
 const app = new Hono()
+  .use(
+    requestId({
+      limitLength: 36,
+      headerName: "x-correlation-id",
+      generator: () => deps.IdProvider.generate(),
+    }),
+  )
   .use(CorrelationStorage.handle())
   .use(baitRoutesShield.verify)
   .use(honeyPotFieldShield.verify)
-  .post("/ping", (c) => c.text("OK"))
-  .onError((error, c) => c.text(error.message, 500));
+  .post("/ping", (c) => c.text("OK"));
 
 describe("ShieldSecurityAdapter", () => {
   test("happy path", async () => {
@@ -39,18 +56,23 @@ describe("ShieldSecurityAdapter", () => {
     expect(loggerInfo).not.toHaveBeenCalled();
   });
 
-  test("denied - BaitRoutes", async () => {
+  test("denied - BaitRoutes - ban", async () => {
     const loggerInfo = spyOn(Logger, "info");
+    const eventStoreSave = spyOn(EventStore, "save");
 
-    const result = await app.request("/.env", { method: "POST" }, mocks.ip);
-    const text = await result.text();
+    const result = await app.request(
+      "/.env",
+      { method: "POST", headers: { "x-correlation-id": mocks.correlationId } },
+      mocks.ip,
+    );
 
-    expect(result.status).toEqual(500);
-    expect(text).toEqual(SecurityCountermeasureReportAdapterError.Executed);
+    expect(result.status).toEqual(403);
     expect(loggerInfo).toHaveBeenCalled();
+    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedEvent]);
   });
 
-  test("denied - HoneyPotField", async () => {
+  test("denied - HoneyPotField - tarpit - allow", async () => {
+    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
     const loggerInfo = spyOn(Logger, "info");
 
     const result = await app.request(
@@ -58,10 +80,9 @@ describe("ShieldSecurityAdapter", () => {
       { method: "POST", body: JSON.stringify({ [field]: "here" }) },
       mocks.ip,
     );
-    const text = await result.text();
 
-    expect(result.status).toEqual(500);
-    expect(text).toEqual(SecurityCountermeasureReportAdapterError.Executed);
+    expect(result.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
+    expect(bunSleep).toHaveBeenCalledWith(config.duration.ms);
   });
 });
