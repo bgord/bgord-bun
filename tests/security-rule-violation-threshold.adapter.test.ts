@@ -21,7 +21,7 @@ const rule = new SecurityRuleViolationThresholdAdapter(baitRoutes, config, deps)
 describe("SecurityRuleViolationThresholdAdapter", () => {
   test("isViolated - true", async () => {
     jest.useFakeTimers();
-    const context = { req: { path: forbidden } } as any;
+    const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
@@ -36,7 +36,7 @@ describe("SecurityRuleViolationThresholdAdapter", () => {
   });
 
   test("isViolated - false", async () => {
-    const context = { req: { path: allowed } } as any;
+    const context = { env: mocks.ip, req: { path: allowed, raw: {}, header: () => "anon" } } as any;
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
@@ -46,11 +46,13 @@ describe("SecurityRuleViolationThresholdAdapter", () => {
   });
 
   test("isViolated - non-violations do not reset the counter", async () => {
-    const context = { req: { path: forbidden } } as any;
+    const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
-    expect(await rule.isViolated({ req: { path: allowed } } as any)).toEqual(false);
+    expect(
+      await rule.isViolated({ env: mocks.ip, req: { path: allowed, raw: {}, header: () => "anon" } } as any),
+    ).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(true);
 
     await CacheRepository.flush();
@@ -58,7 +60,7 @@ describe("SecurityRuleViolationThresholdAdapter", () => {
 
   test("isViolated - cache failure", async () => {
     spyOn(CacheRepository, "get").mockImplementation(mocks.throwIntentionalError);
-    const context = { req: { path: forbidden } } as any;
+    const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
