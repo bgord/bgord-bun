@@ -10,7 +10,7 @@ import {
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
 import type { SecurityContext } from "./security-context.vo";
-import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
+import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
 
 type Dependencies = {
   IdProvider: IdProviderPort;
@@ -26,7 +26,7 @@ export const SecurityCountermeasureBanAdapterError = {
 export class SecurityCountermeasureBanAdapter implements SecurityCountermeasurePort {
   constructor(private readonly deps: Dependencies) {}
 
-  async execute(context: SecurityContext) {
+  async execute(context: SecurityContext): Promise<SecurityAction> {
     this.deps.Logger.info({
       message: "Security countermeasure ban",
       component: "security",
@@ -43,6 +43,6 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
 
     await this.deps.EventStore.save([event]);
 
-    throw new Error(SecurityCountermeasureBanAdapterError.Executed);
+    return { kind: "deny", reason: SecurityCountermeasureBanAdapterError.Executed };
   }
 }

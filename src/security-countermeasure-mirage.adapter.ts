@@ -1,18 +1,17 @@
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
-import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
+import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
 
 type Dependencies = { Logger: LoggerPort };
 
-export const SecurityCountermeasureMirageAdapterError = {
-  Executed: "security.countermeasure.mirage.adapter.executed",
-};
-
 export class SecurityCountermeasureMirageAdapter implements SecurityCountermeasurePort {
-  constructor(private readonly deps: Dependencies) {}
+  constructor(
+    private readonly deps: Dependencies,
+    private readonly response: { status: number } = { status: 200 },
+  ) {}
 
-  async execute(context: SecurityContext) {
+  async execute(context: SecurityContext): Promise<SecurityAction> {
     this.deps.Logger.info({
       message: "Security countermeasure mirage",
       component: "security",
@@ -21,6 +20,6 @@ export class SecurityCountermeasureMirageAdapter implements SecurityCountermeasu
       metadata: context,
     });
 
-    throw new Error(SecurityCountermeasureMirageAdapterError.Executed);
+    return { kind: "mirage", response: this.response };
   }
 }

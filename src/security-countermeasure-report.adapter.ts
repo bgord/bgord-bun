@@ -1,18 +1,14 @@
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
-import type { SecurityCountermeasurePort } from "./security-countermeasure.port";
+import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
 
 type Dependencies = { Logger: LoggerPort };
-
-export const SecurityCountermeasureReportAdapterError = {
-  Executed: "security.countermeasure.report.adapter.executed",
-};
 
 export class SecurityCountermeasureReportAdapter implements SecurityCountermeasurePort {
   constructor(private readonly deps: Dependencies) {}
 
-  async execute(context: SecurityContext) {
+  async execute(context: SecurityContext): Promise<SecurityAction> {
     this.deps.Logger.info({
       message: "Security countermeasure report",
       component: "security",
@@ -21,6 +17,6 @@ export class SecurityCountermeasureReportAdapter implements SecurityCountermeasu
       metadata: context,
     });
 
-    throw new Error(SecurityCountermeasureReportAdapterError.Executed);
+    return { kind: "allow" };
   }
 }
