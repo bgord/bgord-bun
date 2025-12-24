@@ -11,6 +11,8 @@ export const SecurityViolationDetectedEvent = z.object({
     rule: z.string(),
     client: z.object({ ip: z.string(), ua: z.string() }),
     userId: UUID.or(z.undefined()),
+    countermeasure: z.string(),
+    action: z.string(),
   }),
 });
 

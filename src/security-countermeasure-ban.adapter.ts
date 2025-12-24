@@ -47,7 +47,7 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
     const event = SecurityViolationDetectedEvent.parse({
       ...createEventEnvelope("security", this.deps),
       name: SECURITY_VIOLATION_DETECTED_EVENT,
-      payload: context,
+      payload: { ...context, countermeasure: this.name, action: action.kind },
     } satisfies SecurityViolationDetectedEventType);
 
     await this.deps.EventStore.save([event]);

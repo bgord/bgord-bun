@@ -44,7 +44,7 @@ describe("SecurityCountermeasureBanAdapter", () => {
       correlationId: mocks.correlationId,
       metadata: context,
     });
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedEvent]);
+    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
   });
 
   test("happy path - custom config", async () => {
@@ -70,7 +70,7 @@ describe("SecurityCountermeasureBanAdapter", () => {
       correlationId: mocks.correlationId,
       metadata: context,
     });
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedEvent]);
+    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
   });
 
   test("name", () => {

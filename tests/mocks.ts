@@ -131,12 +131,18 @@ export const GenericMinuteHasPassedEvent = {
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.MinuteHasPassedEventType;
 
-export const GenericSecurityViolationDetectedEvent = {
+export const GenericSecurityViolationDetectedBanDenyEvent = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
   stream: "security",
   version: 1,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
-  payload: { rule: expect.any(String), client: { ip: "127.0.0.1", ua: "anon" }, userId: undefined },
+  payload: {
+    rule: expect.any(String),
+    client: { ip: "127.0.0.1", ua: "anon" },
+    userId: undefined,
+    countermeasure: "ban",
+    action: "deny",
+  },
 } satisfies System.Events.SecurityViolationDetectedEventType;

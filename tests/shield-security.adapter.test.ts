@@ -77,7 +77,7 @@ describe("ShieldSecurityAdapter", () => {
 
     expect(result.status).toEqual(403);
     expect(loggerInfo).toHaveBeenCalled();
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedEvent]);
+    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
   });
 
   test("denied - HoneyPotField - tarpit - allow", async () => {
