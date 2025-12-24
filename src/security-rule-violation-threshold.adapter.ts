@@ -1,20 +1,23 @@
 import type { Context } from "hono";
 import type { CacheRepositoryPort } from "./cache-repository.port";
-import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
+import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
+import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
+import type { HashContentPort } from "./hash-content.port";
 import type { SecurityRulePort } from "./security-rule.port";
 
-type Dependencies = { CacheRepository: CacheRepositoryPort };
+type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentPort };
 
 export class SecurityRuleViolationThresholdAdapter implements SecurityRulePort {
   constructor(
     private readonly rule: SecurityRulePort,
-    private readonly config: { threshold: number; subject: CacheSubjectResolver },
+    private readonly config: { threshold: number },
     private readonly deps: Dependencies,
   ) {}
 
   // Best-effort increment, occasional lost increments are acceptable for concurrent requests.
   async isViolated(c: Context) {
-    const subject = await this.config.subject.resolve(c);
+    const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed(this.name)], this.deps);
+    const subject = await resolver.resolve(c);
 
     const violated = await this.rule.isViolated(c);
 

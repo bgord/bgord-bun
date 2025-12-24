@@ -1,8 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
-import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleViolationThresholdAdapter } from "../src/security-rule-violation-threshold.adapter";
@@ -12,16 +10,11 @@ const allowed = "/about";
 const forbidden = "/.env";
 const baitRoutes = new SecurityRuleBaitRoutesAdapter([forbidden]);
 
-const HashContent = new HashContentSha256BunAdapter();
-const subject = new CacheSubjectResolver(
-  [new CacheSubjectSegmentFixed("security_rule_violation_threshold")],
-  { HashContent },
-);
-const config = { threshold: 3, subject };
-
 const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-const deps = { CacheRepository };
+const HashContent = new HashContentSha256BunAdapter();
+const deps = { CacheRepository, HashContent };
+const config = { threshold: 3 };
 
 const rule = new SecurityRuleViolationThresholdAdapter(baitRoutes, config, deps);
 
