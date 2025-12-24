@@ -186,6 +186,7 @@ export * from "./security-countermeasure-report.adapter";
 export * from "./security-countermeasure-tarpit.adapter";
 export * from "./security-rule.port";
 export * from "./security-rule-bait-routes.adapter";
+export * from "./security-rule-fail.adapter";
 export * from "./security-rule-honey-pot-field.adapter";
 export * from "./security-rule-pass.adapter";
 export * from "./security-rule-user-agent.adapter";
