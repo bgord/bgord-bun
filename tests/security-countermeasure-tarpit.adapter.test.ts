@@ -11,22 +11,19 @@ import * as mocks from "./mocks";
 const rule = new SecurityRuleNoopAdapter();
 const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
 
-const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
-
-const countermeasure = new SecurityCountermeasureTarpitAdapter(config, deps);
 
 describe("SecurityCountermeasureTarpitAdapter", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
+    const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
+    const countermeasure = new SecurityCountermeasureTarpitAdapter(deps, config);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await countermeasure.execute(context)).toEqual({
-        kind: "delay",
-        duration: config.duration,
-        after: config.after,
-      });
+      const action = await countermeasure.execute(context);
+
+      expect(action).toEqual({ kind: "delay", ...config });
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({

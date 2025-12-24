@@ -24,7 +24,10 @@ export const SecurityCountermeasureBanAdapterError = {
 };
 
 export class SecurityCountermeasureBanAdapter implements SecurityCountermeasurePort {
-  constructor(private readonly deps: Dependencies) {}
+  constructor(
+    private readonly deps: Dependencies,
+    private readonly config: { response: { status: number } } = { response: { status: 403 } },
+  ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {
     this.deps.Logger.info({
@@ -43,6 +46,10 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
 
     await this.deps.EventStore.save([event]);
 
-    return { kind: "deny", reason: SecurityCountermeasureBanAdapterError.Executed };
+    return {
+      kind: "deny",
+      reason: SecurityCountermeasureBanAdapterError.Executed,
+      ...this.config,
+    };
   }
 }

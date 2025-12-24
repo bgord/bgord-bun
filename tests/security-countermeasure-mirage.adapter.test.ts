@@ -13,17 +13,15 @@ const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"),
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
-const countermeasure = new SecurityCountermeasureMirageAdapter(deps);
-
 describe("SecurityCountermeasureMirageAdapter", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
+    const countermeasure = new SecurityCountermeasureMirageAdapter(deps);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await new SecurityCountermeasureMirageAdapter(deps).execute(context)).toEqual({
-        kind: "mirage",
-        response: { status: 200 },
-      });
+      const action = await countermeasure.execute(context);
+
+      expect(action).toEqual({ kind: "mirage", response: { status: 200 } });
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({
@@ -37,12 +35,13 @@ describe("SecurityCountermeasureMirageAdapter", () => {
 
   test("happy path - custom status", async () => {
     const loggerInfo = spyOn(Logger, "info");
+    const config = { response: { status: 201 } };
+    const countermeasure = new SecurityCountermeasureMirageAdapter(deps, config);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await new SecurityCountermeasureMirageAdapter(deps, { status: 201 }).execute(context)).toEqual({
-        kind: "mirage",
-        response: { status: 201 },
-      });
+      const action = await countermeasure.execute(context);
+
+      expect(action).toEqual({ kind: "mirage", ...config });
     });
 
     expect(loggerInfo).toHaveBeenCalledWith({

@@ -3,16 +3,13 @@ import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
-export const SecurityCountermeasureReportAdapterError = {
-  Executed: "security.countermeasure.report.adapter.executed",
-};
 
 type Dependencies = { Logger: LoggerPort };
 
 export class SecurityCountermeasureTarpitAdapter implements SecurityCountermeasurePort {
   constructor(
-    private readonly config: { duration: tools.Duration; after: SecurityAction },
     private readonly deps: Dependencies,
+    private readonly config: { duration: tools.Duration; after: SecurityAction },
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {

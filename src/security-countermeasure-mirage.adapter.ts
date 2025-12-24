@@ -8,7 +8,7 @@ type Dependencies = { Logger: LoggerPort };
 export class SecurityCountermeasureMirageAdapter implements SecurityCountermeasurePort {
   constructor(
     private readonly deps: Dependencies,
-    private readonly response: { status: number } = { status: 200 },
+    private readonly config: { response: { status: number } } = { response: { status: 200 } },
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {
@@ -20,6 +20,6 @@ export class SecurityCountermeasureMirageAdapter implements SecurityCountermeasu
       metadata: context,
     });
 
-    return { kind: "mirage", response: this.response };
+    return { kind: "mirage", ...this.config };
   }
 }

@@ -6,7 +6,7 @@ export type SecurityAction =
   | {
       kind: "deny";
       reason: string;
-      response?: { status: number };
+      response: { status: number };
     }
   | {
       kind: "delay";
