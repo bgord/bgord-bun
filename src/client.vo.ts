@@ -1,6 +1,6 @@
 import { ClientUserAgent, type ClientUserAgentType } from "./client-user-agent.vo";
 
-export type ClientIpType = string;
+type ClientIpType = string;
 export type ClientType = { ip: ClientIpType; ua: ClientUserAgentType };
 
 export class Client {
