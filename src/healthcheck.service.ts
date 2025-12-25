@@ -5,7 +5,7 @@ import type { ClockPort } from "./clock.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
 import { PrerequisiteVerifierSelfAdapter } from "./prerequisite-verifier-self.adapter";
 import * as prereqs from "./prerequisites.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
@@ -16,7 +16,7 @@ type HealthcheckResultType = {
   ok: prereqs.PrerequisiteVerificationOutcome;
   version: string;
   details: {
-    label: prereqs.PrerequisiteLabelType;
+    label: PrerequisiteLabelType;
     outcome: prereqs.PrerequisiteVerificationResult;
     durationMs: tools.DurationMsType;
   }[];
@@ -28,7 +28,7 @@ type HealthcheckResultType = {
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
 
 export class Healthcheck {
-  static build = (prerequisites: PrerequisiteVerifierPort[], deps: Dependencies) =>
+  static build = (prerequisites: Prerequisite[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
@@ -36,17 +36,17 @@ export class Healthcheck {
 
       const details: HealthcheckResultType["details"][number][] = [];
 
-      for (const prerequisite of [new PrerequisiteVerifierSelfAdapter(), ...prerequisites].filter(
-        (prerequisite) => prerequisite.kind !== "port",
-      )) {
+      for (const prerequisite of [
+        new Prerequisite("self", new PrerequisiteVerifierSelfAdapter()),
+        ...prerequisites,
+      ].filter((prerequisite) => prerequisite.verifier.kind !== "port")) {
         const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
-        const outcome = await prerequisite.verify();
+        const outcome = await prerequisite.verifier.verify();
 
         const durationMs = stopwatch.stop().ms;
 
-        // TODO
-        details.push({ label: "prerequisite.label", outcome, durationMs });
+        details.push({ label: prerequisite.label, outcome, durationMs });
       }
 
       const ok = details.every(

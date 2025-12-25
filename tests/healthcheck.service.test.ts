@@ -8,6 +8,7 @@ import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter"
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { Port } from "../src/port.vo";
+import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import * as prereqs from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
@@ -31,7 +32,7 @@ describe("Healthcheck service", () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
-    const app = new Hono().get("/health", ...Healthcheck.build([new mocks.PrerequisiteOk()], deps));
+    const app = new Hono().get("/health", ...Healthcheck.build([mocks.PrerequisiteOk], deps));
 
     const response = await app.request("/health");
     const data = await response.json();
@@ -43,8 +44,8 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
     });
@@ -57,7 +58,10 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        [new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) }), new mocks.PrerequisiteOk()],
+        [
+          new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
+          mocks.PrerequisiteOk,
+        ],
         deps,
       ),
     );
@@ -72,8 +76,8 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
     });
@@ -85,7 +89,7 @@ describe("Healthcheck service", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
       "/health",
-      ...Healthcheck.build([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()], deps),
+      ...Healthcheck.build([mocks.PrerequisiteOk, mocks.PrerequisiteFail], deps),
     );
 
     const response = await app.request("/health");
@@ -98,10 +102,10 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
         {
-          label: "prerequisite.label",
+          label: "fail",
           outcome: mocks.VerificationFailure({ message: "boom" }),
           durationMs: expect.any(Number),
         },

@@ -8,6 +8,8 @@ import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
+import { Prerequisite } from "../src/prerequisite.vo";
+import type { PrerequisiteVerifierPort } from "../src/prerequisite-verifier.port";
 import * as prereqs from "../src/prerequisites.service";
 import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
@@ -70,32 +72,41 @@ export const VerificationFailure = (error?: any) => ({
   error,
 });
 
-export class PrerequisiteOk implements prereqs.Prerequisite {
-  readonly label = "ok";
-  readonly kind = "test";
-  readonly enabled = true;
+export class PrerequisiteVerifierOk implements PrerequisiteVerifierPort {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     return prereqs.PrerequisiteVerification.success;
   }
-}
 
-export class PrerequisiteFail implements prereqs.Prerequisite {
-  readonly label = "fail";
-  readonly kind = "test";
-  readonly enabled = true;
+  get kind() {
+    return "test";
+  }
+}
+export const PrerequisiteOk = new Prerequisite("ok", new PrerequisiteVerifierOk());
+
+export class PrerequisiteVerifierFail implements PrerequisiteVerifierPort {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     return prereqs.PrerequisiteVerification.failure({ message: "boom" });
   }
-}
 
-export class PrerequisiteUndetermined implements prereqs.Prerequisite {
-  readonly label = "undetermined";
-  readonly kind = "test";
-  readonly enabled = false;
+  get kind() {
+    return "test";
+  }
+}
+export const PrerequisiteFail = new Prerequisite("fail", new PrerequisiteVerifierFail());
+
+export class PrerequisiteVerifierUndetermined implements PrerequisiteVerifierPort {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     return prereqs.PrerequisiteVerification.undetermined;
   }
+
+  get kind() {
+    return "test";
+  }
 }
+export const PrerequisiteUndetermined = new Prerequisite(
+  "undetermined",
+  new PrerequisiteVerifierUndetermined(),
+);
 
 export const hashValue = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
 export const hash = Hash.fromValue(hashValue);

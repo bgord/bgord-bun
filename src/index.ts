@@ -166,6 +166,7 @@ export * from "./node-env.vo";
 export * from "./pdf-generator.port";
 export * from "./pdf-generator-noop.adapter";
 export * from "./port.vo";
+export * from "./prerequisite.vo";
 export * from "./prerequisite-verifier.port";
 export * from "./prerequisite-verifier-binary.adapter";
 export * from "./prerequisite-verifier-bun.adapter";

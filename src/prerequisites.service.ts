@@ -1,6 +1,7 @@
 import type { ClockPort } from "../src/clock.port";
 import type { ErrorInfo, LoggerPort } from "../src/logger.port";
 import { formatError } from "../src/logger-format-error.service";
+import type { Prerequisite } from "./prerequisite.vo";
 
 export enum PrerequisiteVerificationOutcome {
   success = "success",
@@ -19,16 +20,6 @@ export type PrerequisiteVerificationResult =
   | PrerequisiteVerificationFailure
   | PrerequisiteVerificationUndetermined;
 
-export type PrerequisiteLabelType = string;
-
-export interface Prerequisite {
-  readonly label: PrerequisiteLabelType;
-  readonly enabled?: boolean;
-  verify(): Promise<PrerequisiteVerificationResult>;
-
-  get kind(): string;
-}
-
 export class PrerequisiteVerification {
   static success = { outcome: PrerequisiteVerificationOutcome.success };
 
@@ -42,8 +33,6 @@ export class PrerequisiteVerification {
   static undetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 }
 
-export type PrerequisiteConfigType = { label: string };
-
 export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
@@ -56,7 +45,10 @@ export class Prerequisites {
 
   async check(prerequisites: Prerequisite[]) {
     const results = await Promise.all(
-      prerequisites.map(async (prerequisite) => ({ prerequisite, outcome: await prerequisite.verify() })),
+      prerequisites.map(async (prerequisite) => ({
+        prerequisite,
+        outcome: await prerequisite.verifier.verify(),
+      })),
     );
 
     const failed = results.filter(
@@ -68,7 +60,7 @@ export class Prerequisites {
     for (const failure of failed) {
       this.deps.Logger.error({
         message: "Prerequisite failed",
-        metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
+        metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.verifier.kind },
         // @ts-expect-error
         error: failure.outcome.error ?? { message: "unknown error" },
         ...this.base,

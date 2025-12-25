@@ -14,7 +14,7 @@ describe("Prerequisites service", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteOk()]);
+    await runner.check([mocks.PrerequisiteOk, mocks.PrerequisiteOk]);
 
     expect(loggerInfo).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
@@ -24,7 +24,7 @@ describe("Prerequisites service", () => {
   test("failure", async () => {
     const loggerError = spyOn(Logger, "error");
 
-    expect(async () => runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteFail()])).toThrow(
+    expect(async () => runner.check([mocks.PrerequisiteOk, mocks.PrerequisiteFail])).toThrow(
       prereqs.PrerequisitesError.Failure,
     );
 
@@ -42,7 +42,7 @@ describe("Prerequisites service", () => {
   test("undetermined", async () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    await runner.check([new mocks.PrerequisiteOk(), new mocks.PrerequisiteUndetermined()]);
+    await runner.check([mocks.PrerequisiteOk, mocks.PrerequisiteUndetermined]);
 
     expect(loggerInfo).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", operation: "startup", message: "Prerequisites ok" }),
