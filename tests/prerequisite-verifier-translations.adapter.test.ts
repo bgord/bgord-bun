@@ -16,7 +16,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success", async () => {
     spyOn(fsp, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
-      { label: "i18n", supportedLanguages: { en: "en" } },
+      { supportedLanguages: { en: "en" } },
       deps,
     );
 
@@ -25,10 +25,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
 
   test("failure - missing file", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
-      { label: "i18n", supportedLanguages },
-      deps,
-    );
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(/Does not exist/);
@@ -46,10 +43,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
           return {} as any;
       }
     });
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
-      { label: "i18n", supportedLanguages },
-      deps,
-    );
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }),

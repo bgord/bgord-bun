@@ -8,18 +8,10 @@ import * as prereqs from "./prerequisites.service";
 type Dependencies = { DiskSpaceChecker?: DiskSpaceCheckerPort };
 
 export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly minimum: tools.Size;
-
   constructor(
-    config: prereqs.PrerequisiteConfigType & { minimum: tools.Size },
+    private readonly config: { minimum: tools.Size },
     private readonly deps?: Dependencies,
-  ) {
-    this.label = config.label;
-
-    this.minimum = config.minimum;
-  }
+  ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const DiskSpaceChecker = this.deps?.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
@@ -28,7 +20,7 @@ export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPor
       const root = path.sep;
       const freeDiskSpace = await DiskSpaceChecker.get(root);
 
-      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.PrerequisiteVerification.success;
+      if (freeDiskSpace.isGreaterThan(this.config.minimum)) return prereqs.PrerequisiteVerification.success;
       return prereqs.PrerequisiteVerification.failure({
         message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });

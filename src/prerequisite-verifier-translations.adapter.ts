@@ -18,30 +18,20 @@ type PrerequisiteTranslationsProblemType = {
 type Dependencies = { Logger: LoggerPort; JsonFileReader?: JsonFileReaderPort };
 
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
-  private readonly supportedLanguages: types.I18nConfigType["supportedLanguages"];
-
   constructor(
-    config: prereqs.PrerequisiteConfigType & {
+    private readonly config: {
       translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
       supportedLanguages: types.I18nConfigType["supportedLanguages"];
     },
     private readonly deps: Dependencies,
-  ) {
-    this.label = config.label;
-
-    this.translationsPath = config.translationsPath;
-    this.supportedLanguages = config.supportedLanguages;
-  }
+  ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
 
-    const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
+    const translationsPath = this.config.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
-    const supportedLanguages = Object.keys(this.supportedLanguages);
+    const supportedLanguages = Object.keys(this.config.supportedLanguages);
     const i18n = new I18n({ Logger: this.deps.Logger, JsonFileReader: JsonFileReader });
 
     try {

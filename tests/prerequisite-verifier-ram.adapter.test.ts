@@ -9,7 +9,7 @@ const minimum = tools.Size.fromMB(512);
 describe("PrerequisiteVerifierRamAdapter", () => {
   test("success", async () => {
     spyOn(os, "freemem").mockReturnValue(tools.Size.fromMB(513).toBytes());
-    const prerequisite = new PrerequisiteVerifierRamAdapter({ label: "ram", minimum });
+    const prerequisite = new PrerequisiteVerifierRamAdapter({ minimum });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
@@ -17,7 +17,7 @@ describe("PrerequisiteVerifierRamAdapter", () => {
   test("failure", async () => {
     const freeRAM = tools.Size.fromMB(256);
     spyOn(os, "freemem").mockReturnValue(freeRAM.toBytes());
-    const prerequisite = new PrerequisiteVerifierRamAdapter({ label: "ram", minimum });
+    const prerequisite = new PrerequisiteVerifierRamAdapter({ minimum });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),

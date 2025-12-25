@@ -7,22 +7,16 @@ import { Timeout } from "./timeout.service";
 type Dependencies = { Mailer: MailerPort };
 
 export class PrerequisiteVerifierMailerAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  readonly timeout: tools.Duration;
-
   constructor(
-    config: prereqs.PrerequisiteConfigType & { timeout?: tools.Duration },
+    private readonly config: { timeout?: tools.Duration },
     private readonly deps: Dependencies,
-  ) {
-    this.label = config.label;
-
-    this.timeout = config.timeout ?? tools.Duration.Seconds(2);
-  }
+  ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+    const timeout = this.config.timeout ?? tools.Duration.Seconds(2);
+
     try {
-      await Timeout.run(this.deps.Mailer.verify(), this.timeout);
+      await Timeout.run(this.deps.Mailer.verify(), timeout);
       return prereqs.PrerequisiteVerification.success;
     } catch (error) {
       return prereqs.PrerequisiteVerification.failure(error as Error);

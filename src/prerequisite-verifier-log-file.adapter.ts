@@ -6,14 +6,7 @@ import * as prereqs from "./prerequisites.service";
 type Dependencies = { Logger: LoggerPort };
 
 export class PrerequisiteVerifierLogFileAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  constructor(
-    config: prereqs.PrerequisiteConfigType,
-    private readonly deps: Dependencies,
-  ) {
-    this.label = config.label;
-  }
+  constructor(private readonly deps: Dependencies) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
@@ -21,7 +14,6 @@ export class PrerequisiteVerifierLogFileAdapter implements PrerequisiteVerifierP
       if (!path) return prereqs.PrerequisiteVerification.undetermined;
 
       const file = new PrerequisiteVerifierFileAdapter({
-        label: this.label,
         file: path,
         permissions: { read: true, write: true },
       });

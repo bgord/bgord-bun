@@ -7,27 +7,21 @@ import * as mocks from "./mocks";
 describe("PrerequisiteVerifierOutsideConnectivityAdapter", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
-    const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({
-      label: "outside-connectivity",
-    });
+    const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({});
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
-    const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({
-      label: "outside-Connectivity",
-    });
+    const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({});
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
   test("failure - error", async () => {
     spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
-    const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({
-      label: "outside-connectivity",
-    });
+    const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({});
 
     expect(
       // @ts-expect-error
@@ -39,7 +33,6 @@ describe("PrerequisiteVerifierOutsideConnectivityAdapter", () => {
     // @ts-expect-error
     spyOn(global, "fetch").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
     const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter({
-      label: "outside-connectivity",
       timeout: tools.Duration.Ms(5),
     });
 

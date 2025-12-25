@@ -6,13 +6,13 @@ const accepted = ["Darwin", "Linux"];
 
 describe("PrerequisiteVerifierOsAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierOsAdapter({ label: "os", accepted });
+    const prerequisite = new PrerequisiteVerifierOsAdapter({ accepted });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
-    const prerequisite = new PrerequisiteVerifierOsAdapter({ label: "os", accepted: ["Nokia"] });
+    const prerequisite = new PrerequisiteVerifierOsAdapter({ accepted: ["Nokia"] });
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toEqual("Unacceptable os: Nokia");

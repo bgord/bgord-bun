@@ -3,18 +3,11 @@ import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import * as prereqs from "./prerequisites.service";
 
 export class PrerequisiteVerifierBinaryAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly binary: BinaryType;
-
-  constructor(config: prereqs.PrerequisiteConfigType & { binary: BinaryType }) {
-    this.label = config.label;
-    this.binary = config.binary;
-  }
+  constructor(private readonly config: { binary: BinaryType }) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
-      const result = Bun.which(this.binary);
+      const result = Bun.which(this.config.binary);
 
       if (result) return prereqs.PrerequisiteVerification.success;
       return prereqs.PrerequisiteVerification.failure();

@@ -9,7 +9,7 @@ describe("PrerequisiteVerifierMemoryAdapter", () => {
   test("success", async () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));
-    const prerequisite = new PrerequisiteVerifierMemoryAdapter({ maximum, label: "memory" });
+    const prerequisite = new PrerequisiteVerifierMemoryAdapter({ maximum });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
@@ -18,7 +18,7 @@ describe("PrerequisiteVerifierMemoryAdapter", () => {
     const memoryConsumption = tools.Size.fromMB(3);
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
-    const prerequisite = new PrerequisiteVerifierMemoryAdapter({ maximum, label: "memory" });
+    const prerequisite = new PrerequisiteVerifierMemoryAdapter({ maximum });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({

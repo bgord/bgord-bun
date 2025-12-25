@@ -43,8 +43,8 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
     });
@@ -57,10 +57,7 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        [
-          new PrerequisiteVerifierPortAdapter({ label: "port", port: Port.parse(8000) }),
-          new mocks.PrerequisiteOk(),
-        ],
+        [new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) }), new mocks.PrerequisiteOk()],
         deps,
       ),
     );
@@ -75,8 +72,8 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
     });
@@ -101,10 +98,10 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "prerequisite.label", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
         {
-          label: "fail",
+          label: "prerequisite.label",
           outcome: mocks.VerificationFailure({ message: "boom" }),
           durationMs: expect.any(Number),
         },

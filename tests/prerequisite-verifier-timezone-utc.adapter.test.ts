@@ -7,14 +7,14 @@ const utc = tools.Timezone.parse("UTC");
 
 describe("PrerequisiteVerifierTimezoneUtcVerifier", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierTimezoneUtcVerifier({ label: "utc", timezone: utc });
+    const prerequisite = new PrerequisiteVerifierTimezoneUtcVerifier({ timezone: utc });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     const timezone = tools.Timezone.parse("Europe/Warsaw");
-    const prerequisite = new PrerequisiteVerifierTimezoneUtcVerifier({ label: "utc", timezone });
+    const prerequisite = new PrerequisiteVerifierTimezoneUtcVerifier({ timezone });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: `Timezone: ${timezone}` }),

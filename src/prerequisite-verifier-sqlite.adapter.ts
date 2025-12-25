@@ -3,19 +3,11 @@ import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import * as prereqs from "./prerequisites.service";
 
 export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly sqlite: Database;
-
-  constructor(config: prereqs.PrerequisiteConfigType & { sqlite: Database }) {
-    this.label = config.label;
-
-    this.sqlite = config.sqlite;
-  }
+  constructor(private readonly config: { sqlite: Database }) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
-      const integrity = this.sqlite.query("PRAGMA integrity_check;").get() as
+      const integrity = this.config.sqlite.query("PRAGMA integrity_check;").get() as
         | { integrity_check?: string }
         | undefined;
 

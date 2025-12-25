@@ -11,7 +11,6 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
-      label: "dir",
       directory,
       permissions: { read: true, write: true, execute: true },
     });
@@ -21,7 +20,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
 
   test("failure - does not exist", async () => {
     spyOn(fs, "stat").mockRejectedValue(new Error("ENOENT"));
-    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ label: "dir", directory });
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Directory does not exist" }),
@@ -30,7 +29,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
 
   test("failure - not a directory", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => false } as any);
-    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ label: "dir", directory });
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "Not a directory" }));
   });
@@ -41,11 +40,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
-    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
-      label: "dir",
-      directory,
-      permissions: { read: true },
-    });
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory, permissions: { read: true } });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Directory is not readable" }),
@@ -59,7 +54,6 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
       return undefined;
     });
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
-      label: "dir",
       directory,
       permissions: { write: true },
     });
@@ -76,7 +70,6 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
       return undefined;
     });
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
-      label: "dir",
       directory,
       permissions: { execute: true },
     });

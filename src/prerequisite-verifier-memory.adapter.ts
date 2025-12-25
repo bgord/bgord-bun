@@ -4,20 +4,12 @@ import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import * as prereqs from "./prerequisites.service";
 
 export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly maximum: tools.Size;
-
-  constructor(config: prereqs.PrerequisiteConfigType & { maximum: tools.Size }) {
-    this.label = config.label;
-
-    this.maximum = config.maximum;
-  }
+  constructor(private readonly config: { maximum: tools.Size }) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const memoryConsumption = MemoryConsumption.get();
 
-    if (memoryConsumption.isGreaterThan(this.maximum)) {
+    if (memoryConsumption.isGreaterThan(this.config.maximum)) {
       return prereqs.PrerequisiteVerification.failure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });

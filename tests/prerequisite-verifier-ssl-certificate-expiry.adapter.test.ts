@@ -9,7 +9,7 @@ class CertificateInspectorUnavailableAdapter {
   }
 }
 
-const config = { hostname: "example.com", days: 30, label: "ssl" };
+const config = { hostname: "example.com", days: 30 };
 
 const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(100) };
 

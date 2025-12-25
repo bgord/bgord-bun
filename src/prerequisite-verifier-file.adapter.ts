@@ -6,31 +6,23 @@ import * as prereqs from "./prerequisites.service";
 export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
 export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly file: tools.FilePathAbsolute | tools.FilePathRelative;
-  private readonly permissions: PrerequisiteFilePermissionsType;
-
   constructor(
-    config: prereqs.PrerequisiteConfigType & {
+    private readonly config: {
       file: tools.FilePathAbsolute | tools.FilePathRelative;
       permissions?: PrerequisiteFilePermissionsType;
     },
-  ) {
-    this.label = config.label;
-
-    this.file = config.file;
-    this.permissions = config.permissions ?? {};
-  }
+  ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
-      const path = this.file.get();
+      const path = this.config.file.get();
 
       const exists = await Bun.file(path).exists();
       if (!exists) return prereqs.PrerequisiteVerification.failure({ message: "File does not exist" });
 
-      if (this.permissions.read) {
+      const permissions = this.config.permissions ?? {};
+
+      if (permissions.read) {
         try {
           await access(path, constants.R_OK);
         } catch {
@@ -38,7 +30,7 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
         }
       }
 
-      if (this.permissions.write) {
+      if (permissions.write) {
         try {
           await access(path, constants.W_OK);
         } catch {
@@ -46,7 +38,7 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
         }
       }
 
-      if (this.permissions.execute) {
+      if (permissions.execute) {
         try {
           await access(path, constants.X_OK);
         } catch {

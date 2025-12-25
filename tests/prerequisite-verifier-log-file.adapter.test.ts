@@ -15,14 +15,14 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
   test("success", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
-    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ label: "log-file" }, deps);
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter(deps);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
-    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ label: "log-file" }, deps);
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter(deps);
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File does not exist" }),
@@ -31,7 +31,7 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
 
   test("failure - existence check error", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync } as any);
-    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ label: "log-file" }, deps);
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter(deps);
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
@@ -43,7 +43,7 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
-    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ label: "log-file" }, deps);
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter(deps);
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not readable" }),
@@ -56,7 +56,7 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
-    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ label: "log-file" }, deps);
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter(deps);
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not writable" }),
@@ -64,10 +64,7 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
   });
 
   test("undetermined - no path", async () => {
-    const prerequisite = new PrerequisiteVerifierLogFileAdapter(
-      { label: "log-file" },
-      { Logger: new LoggerNoopAdapter() },
-    );
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ Logger: new LoggerNoopAdapter() });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });

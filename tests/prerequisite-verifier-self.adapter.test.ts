@@ -4,7 +4,7 @@ import * as mocks from "./mocks";
 
 describe("PrerequisiteVerifierSelfAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierSelfAdapter({ label: "self" });
+    const prerequisite = new PrerequisiteVerifierSelfAdapter();
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });

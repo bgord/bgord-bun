@@ -6,21 +6,13 @@ import * as prereqs from "./prerequisites.service";
 export const TimezoneUtc = z.literal("UTC");
 
 export class PrerequisiteVerifierTimezoneUtcVerifier implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly timezone: tools.TimezoneType;
-
-  constructor(config: prereqs.PrerequisiteConfigType & { timezone: tools.TimezoneType }) {
-    this.label = config.label;
-
-    this.timezone = config.timezone;
-  }
+  constructor(private readonly config: { timezone: tools.TimezoneType }) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    const result = TimezoneUtc.safeParse(this.timezone);
+    const result = TimezoneUtc.safeParse(this.config.timezone);
 
     if (result.success) return prereqs.PrerequisiteVerification.success;
-    return prereqs.PrerequisiteVerification.failure({ message: `Timezone: ${this.timezone}` });
+    return prereqs.PrerequisiteVerification.failure({ message: `Timezone: ${this.config.timezone}` });
   }
 
   get kind() {

@@ -5,21 +5,13 @@ import * as prereqs from "./prerequisites.service";
 import { Timeout } from "./timeout.service";
 
 export class PrerequisiteVerifierDnsAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly hostname: string;
-  readonly timeout: tools.Duration;
-
-  constructor(config: prereqs.PrerequisiteConfigType & { hostname: string; timeout?: tools.Duration }) {
-    this.label = config.label;
-
-    this.hostname = config.hostname;
-    this.timeout = config.timeout ?? tools.Duration.Seconds(1);
-  }
+  constructor(private readonly config: { hostname: string; timeout?: tools.Duration }) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+    const timeout = this.config.timeout ?? tools.Duration.Seconds(1);
+
     try {
-      await Timeout.run(dns.lookup(this.hostname), this.timeout);
+      await Timeout.run(dns.lookup(this.config.hostname), timeout);
 
       return prereqs.PrerequisiteVerification.success;
     } catch (error) {

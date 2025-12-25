@@ -8,14 +8,14 @@ const binary = Binary.parse("node");
 describe("PrerequisiteVerifierBinaryAdapter", () => {
   test("success", async () => {
     spyOn(Bun, "which").mockReturnValue(binary);
-    const prerequisite = new PrerequisiteVerifierBinaryAdapter({ label: "binary", binary });
+    const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - binary not found", async () => {
     spyOn(Bun, "which").mockReturnValue(null);
-    const prerequisite = new PrerequisiteVerifierBinaryAdapter({ label: "binary", binary });
+    const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
   });

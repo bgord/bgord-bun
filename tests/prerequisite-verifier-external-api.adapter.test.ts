@@ -7,20 +7,14 @@ import * as mocks from "./mocks";
 describe("PrerequisiteVerifierExternalApiAdapter", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
-    const prerequisite = new PrerequisiteVerifierExternalApiAdapter({
-      label: "api",
-      request: () => fetch("http://api"),
-    });
+    const prerequisite = new PrerequisiteVerifierExternalApiAdapter({ request: () => fetch("http://api") });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
-    const prerequisite = new PrerequisiteVerifierExternalApiAdapter({
-      label: "api",
-      request: () => fetch("http://api"),
-    });
+    const prerequisite = new PrerequisiteVerifierExternalApiAdapter({ request: () => fetch("http://api") });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
@@ -29,7 +23,6 @@ describe("PrerequisiteVerifierExternalApiAdapter", () => {
     // @ts-expect-error
     spyOn(global, "fetch").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
     const prerequisite = new PrerequisiteVerifierExternalApiAdapter({
-      label: "api",
       timeout: tools.Duration.Ms(5),
       request: (signal: AbortSignal) => fetch("http://api", { signal }),
     });

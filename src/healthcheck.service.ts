@@ -5,6 +5,7 @@ import type { ClockPort } from "./clock.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
+import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierSelfAdapter } from "./prerequisite-verifier-self.adapter";
 import * as prereqs from "./prerequisites.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
@@ -27,7 +28,7 @@ type HealthcheckResultType = {
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
 
 export class Healthcheck {
-  static build = (prerequisites: prereqs.Prerequisite[], deps: Dependencies) =>
+  static build = (prerequisites: PrerequisiteVerifierPort[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
@@ -35,17 +36,17 @@ export class Healthcheck {
 
       const details: HealthcheckResultType["details"][number][] = [];
 
-      for (const prerequisite of [
-        new PrerequisiteVerifierSelfAdapter({ label: "self" }),
-        ...prerequisites,
-      ].filter((prerequisite) => prerequisite.kind !== "port")) {
+      for (const prerequisite of [new PrerequisiteVerifierSelfAdapter(), ...prerequisites].filter(
+        (prerequisite) => prerequisite.kind !== "port",
+      )) {
         const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
         const outcome = await prerequisite.verify();
 
         const durationMs = stopwatch.stop().ms;
 
-        details.push({ label: prerequisite.label, outcome, durationMs });
+        // TODO
+        details.push({ label: "prerequisite.label", outcome, durationMs });
       }
 
       const ok = details.every(

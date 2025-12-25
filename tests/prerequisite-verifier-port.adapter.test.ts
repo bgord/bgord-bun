@@ -7,14 +7,14 @@ const port = Port.parse(43210);
 
 describe("PrerequisiteVerifierPortAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierPortAdapter({ port, label: "port" });
+    const prerequisite = new PrerequisiteVerifierPortAdapter({ port });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     const occupied = Bun.listen({ hostname: "::", port, socket: { data() {} } });
-    const prerequisite = new PrerequisiteVerifierPortAdapter({ port, label: "port" });
+    const prerequisite = new PrerequisiteVerifierPortAdapter({ port });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
 

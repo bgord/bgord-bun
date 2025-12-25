@@ -6,26 +6,16 @@ import * as prereqs from "./prerequisites.service";
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
 export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  private readonly directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
-  private readonly permissions: PrerequisiteDirectoryPermissionsType;
-
   constructor(
-    config: prereqs.PrerequisiteConfigType & {
+    private readonly config: {
       directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
       permissions?: PrerequisiteDirectoryPermissionsType;
     },
-  ) {
-    this.label = config.label;
-
-    this.directory = config.directory;
-    this.permissions = config.permissions ?? {};
-  }
+  ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
-      const stats = await stat(this.directory);
+      const stats = await stat(this.config.directory);
 
       if (!stats.isDirectory()) {
         return prereqs.PrerequisiteVerification.failure({ message: "Not a directory" });
@@ -34,25 +24,27 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
       return prereqs.PrerequisiteVerification.failure({ message: "Directory does not exist" });
     }
 
-    if (this.permissions.read) {
+    const permissions = this.config.permissions ?? {};
+
+    if (permissions.read) {
       try {
-        await access(this.directory, constants.R_OK);
+        await access(this.config.directory, constants.R_OK);
       } catch {
         return prereqs.PrerequisiteVerification.failure({ message: "Directory is not readable" });
       }
     }
 
-    if (this.permissions.write) {
+    if (permissions.write) {
       try {
-        await access(this.directory, constants.W_OK);
+        await access(this.config.directory, constants.W_OK);
       } catch {
         return prereqs.PrerequisiteVerification.failure({ message: "Directory is not writable" });
       }
     }
 
-    if (this.permissions.execute) {
+    if (permissions.execute) {
       try {
-        await access(this.directory, constants.X_OK);
+        await access(this.config.directory, constants.X_OK);
       } catch {
         return prereqs.PrerequisiteVerification.failure({ message: "Directory is not executable" });
       }

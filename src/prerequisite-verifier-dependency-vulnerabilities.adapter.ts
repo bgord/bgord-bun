@@ -5,12 +5,6 @@ import * as prereqs from "./prerequisites.service";
 type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
 
 export class PrerequisiteVerifierDependencyVulnerabilitiesAdapter implements PrerequisiteVerifierPort {
-  readonly label: prereqs.PrerequisiteLabelType;
-
-  constructor(config: prereqs.PrerequisiteConfigType) {
-    this.label = config.label;
-  }
-
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
       const command = await bun.$`bun audit --json`.quiet();

@@ -11,7 +11,6 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({
-      label: "file",
       file: path,
       permissions: { read: true, write: true, execute: true },
     });
@@ -21,7 +20,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
 
   test("failure - file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
-    const prerequisite = new PrerequisiteVerifierFileAdapter({ label: "file", file: path });
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File does not exist" }),
@@ -34,11 +33,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
     });
-    const prerequisite = new PrerequisiteVerifierFileAdapter({
-      label: "file",
-      file: path,
-      permissions: { read: true },
-    });
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not readable" }),
@@ -52,7 +47,6 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       return undefined;
     });
     const prerequisite = new PrerequisiteVerifierFileAdapter({
-      label: "file",
       file: path,
       permissions: { read: true, write: true },
     });
@@ -69,7 +63,6 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       return undefined;
     });
     const prerequisite = new PrerequisiteVerifierFileAdapter({
-      label: "file",
       file: path,
       permissions: { read: true, write: true, execute: true },
     });

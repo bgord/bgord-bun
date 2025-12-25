@@ -14,13 +14,13 @@ const depsFailure = { DiskSpaceChecker: DiskSpaceCheckerFailure };
 
 describe("PrerequisiteVerifierSpaceAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ label: "space", minimum }, deps);
+    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, deps);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - not enough space", async () => {
-    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ label: "space", minimum }, depsFailure);
+    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(
@@ -30,7 +30,7 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
 
   test("failure - error", async () => {
     spyOn(DiskSpaceCheckerFailure, "get").mockRejectedValue(new Error(mocks.IntentionalError));
-    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ label: "space", minimum }, depsFailure);
+    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
