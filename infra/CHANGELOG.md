@@ -1,4 +1,66 @@
 # Changelog
+- 2025-12-25 12:34 ba2d32c **Merge pull request #141 from bgord/security**
+- 2025-12-25 12:30 37d6cb4 **step: define custom type for user id in security context**
+- 2025-12-25 12:23 d89462c **step: update packages**
+- 2025-12-25 12:22 add7b67 **step: update packages**
+- 2025-12-25 11:33 aa1274a **feature: security rule name vo**
+- 2025-12-25 11:25 c26c74c **step: test missing shield security policies**
+- 2025-12-25 11:13 e01efb3 **refactor: max rules**
+- 2025-12-25 09:50 74ba3db **feature: security countermeasure name vo**
+- 2025-12-24 22:56 6133a8c **refactor: use client vos**
+- 2025-12-24 22:48 9c4c9c3 **feature: client ip vo**
+- 2025-12-24 22:41 dd6f44e **refactor: apply client user agent across the stack**
+- 2025-12-24 22:35 0cd9213 **refactor: tighten client vo to use client user agent vo**
+- 2025-12-24 22:30 8da4f60 **feature: client user agent vo**
+- 2025-12-24 21:47 b9cd610 **refactor: extract client from hono**
+- 2025-12-24 21:13 cb80036 **step: test violation threshold in the shield**
+- 2025-12-24 20:45 191bcf1 **step: use ip segment in security rule violation**
+- 2025-12-24 20:39 c3d2c7a **feature: cache subject segment ip**
+- 2025-12-24 20:33 4ba2e95 **refactor: move subject into the adapter**
+- 2025-12-24 20:25 4678b2b **feature: security rule violation threshold**
+- 2025-12-24 15:37 82a46fd **refactor: unify test setup**
+- 2025-12-24 15:29 1502a2f **refactor: remove tests tmp**
+- 2025-12-24 14:02 8d1129e **fix: looping over policies**
+- 2025-12-24 13:46 4156ec2 **refactor: introduce security policy usage**
+- 2025-12-24 13:39 617875b **feature: security policy vo**
+- 2025-12-24 13:09 b21f160 **refactor: remove secret vo**
+- 2025-12-24 12:57 2b38059 **step: add countermeasure and action to security violation detected event**
+- 2025-12-24 12:51 34f5b79 **step: add security countermeasure name**
+- 2025-12-24 12:47 1193f0b **refactor: reorganize ban**
+- 2025-12-24 12:40 76fe97f **step: update packages**
+- 2025-12-24 12:38 fac09d3 **step: test fail and unhandled security error**
+- 2025-12-24 12:20 db858d4 **feature: security rule or**
+- 2025-12-24 12:17 3a64b9d **step: test rule names**
+- 2025-12-24 12:14 bf02d63 **feature: security rule and**
+- 2025-12-24 12:12 4574385 **feature: security rule fail adapter**
+- 2025-12-24 12:10 4fd9893 **refactor: rename security rule noop to pass**
+- 2025-12-24 11:30 24b45cc **feature: security rule user agent**
+- 2025-12-24 11:24 593f897 **refactor: remove shield user agent blocker adapter**
+- 2025-12-24 10:09 805008c **step: handle actions in shield security adapter**
+- 2025-12-24 10:05 3566b17 **refactor: unify countermeasures**
+- 2025-12-24 09:09 22b786c **step: adjust tests**
+- 2025-12-24 09:04 5f02bf5 **refactor: adjust countermeasures**
+- 2025-12-24 08:51 a397e11 **step: define security action types**
+- 2025-12-24 00:16 ed7cf49 **refactor: turn security context into vo**
+- 2025-12-24 00:05 42bb7f8 **refactor: rename is violated**
+- 2025-12-23 23:42 7706e49 **step: test security noop adapters**
+- 2025-12-23 23:29 b202474 **step: add rule name getter**
+- 2025-12-23 23:06 54ccd64 **step: update packages**
+- 2025-12-23 23:03 ffcb7aa **step: add user id to security context**
+- 2025-12-23 22:31 9c96698 **step: add context to security violation detected event**
+- 2025-12-23 22:14 ef354ba **step: add security context**
+- 2025-12-23 22:04 4f3609d **feature: define security context type**
+- 2025-12-23 21:36 a702737 **step: add SecurityRuleNoopAdapter**
+- 2025-12-23 21:35 a3bd2cd **step: implement SecurityCountermeasureNoopAdapter**
+- 2025-12-23 21:34 45930fa **feature: shield security adapter**
+- 2025-12-23 21:16 2b4cafa **feature: security rule honey pot field**
+- 2025-12-23 21:12 bbff6a7 **feature: security rule bait routes**
+- 2025-12-23 20:47 1cf6f82 **feature: security rule port**
+- 2025-12-23 19:01 f9f8ba1 **feature: implement SecurityCountermeasureBanAdapter**
+- 2025-12-23 18:30 58640e0 **feature: implement SecurityCountermeasureReportAdapter**
+- 2025-12-23 18:24 1a73d8e **feature: implement SecurityCountermeasureMirageAdapter**
+- 2025-12-23 18:14 1c2e954 **feature: implement SecurityCountermeasureTarpitAdapter**
+- 2025-12-23 18:02 0f90364 **feature: security countermeasure port**
 - 2025-12-19 22:00 7533e62 **refactor: make shield user agent blocker configurable**
 ## 2025-12-19 21:43 v1.6.7
 - 2025-12-19 21:43 2fd417c **1.6.7**
@@ -11,6 +73,7 @@
 - 2025-12-19 21:15 9cfe355 **refactor: remove ua blocker**
 - 2025-12-19 21:15 8398ed8 **step: remove ua blocker**
 - 2025-12-19 21:05 c48ca25 **step: add comparison methods to client vo**
+- 2025-12-19 21:00 6d5ed13 **docs: generate CHANGELOG**
 - 2025-12-19 20:43 859df26 **docs: generate CHANGELOG**
 - 2025-12-19 20:43 6cf26af **docs: generate CHANGELOG**
 - 2025-12-19 20:43 3576f68 **docs: generate readme**
