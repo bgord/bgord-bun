@@ -7,7 +7,6 @@ import * as prereqs from "../prerequisites.service";
 type Dependencies = { DiskSpaceChecker?: DiskSpaceCheckerPort };
 
 export class PrerequisiteSpace implements prereqs.Prerequisite {
-  readonly kind = "space";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -39,5 +38,9 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "space";
   }
 }

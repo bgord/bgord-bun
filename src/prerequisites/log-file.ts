@@ -5,7 +5,6 @@ import { PrerequisiteFile } from "./file";
 type Dependencies = { Logger: LoggerPort };
 
 export class PrerequisiteLogFile implements prereqs.Prerequisite {
-  readonly kind = "log-file";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -34,5 +33,9 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "log-file";
   }
 }

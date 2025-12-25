@@ -17,7 +17,6 @@ type PrerequisiteTranslationsProblemType = {
 type Dependencies = { Logger: LoggerPort; JsonFileReader?: JsonFileReaderPort };
 
 export class PrerequisiteTranslations implements prereqs.Prerequisite {
-  readonly kind = "translations";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -96,5 +95,9 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       .join("\n");
 
     return prereqs.Verification.failure({ message: summary });
+  }
+
+  get kind() {
+    return "translations";
   }
 }

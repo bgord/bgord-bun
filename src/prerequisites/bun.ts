@@ -2,7 +2,6 @@ import * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteBun implements prereqs.Prerequisite {
-  readonly kind = "bun";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -27,5 +26,9 @@ export class PrerequisiteBun implements prereqs.Prerequisite {
     } catch {
       return prereqs.Verification.failure({ message: `Invalid version passed: ${this.current}` });
     }
+  }
+
+  get kind() {
+    return "bun";
   }
 }

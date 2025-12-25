@@ -5,7 +5,6 @@ import * as prereqs from "../prerequisites.service";
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
 export class PrerequisiteDirectory implements prereqs.Prerequisite {
-  readonly kind = "directory";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -63,5 +62,9 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
     }
 
     return prereqs.Verification.success();
+  }
+
+  get kind() {
+    return "directory";
   }
 }

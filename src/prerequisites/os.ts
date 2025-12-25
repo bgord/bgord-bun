@@ -2,7 +2,6 @@ import os from "node:os";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteOs implements prereqs.Prerequisite {
-  readonly kind = "os";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -23,5 +22,9 @@ export class PrerequisiteOs implements prereqs.Prerequisite {
       return prereqs.Verification.success();
     }
     return prereqs.Verification.failure({ message: `Unacceptable os: ${this.accepted.join(", ")}` });
+  }
+
+  get kind() {
+    return "os";
   }
 }

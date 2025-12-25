@@ -17,9 +17,10 @@ export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
 
 export interface Prerequisite {
   readonly label: PrerequisiteLabelType;
-  readonly kind: string;
   readonly enabled?: boolean;
   verify(clock: ClockPort): Promise<VerifyOutcome>;
+
+  get kind(): string;
 }
 
 export type PrerequisiteResult = {

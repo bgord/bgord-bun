@@ -8,7 +8,6 @@ import { Timeout } from "../timeout.service";
 type Dependencies = { Clock: ClockPort; Timekeeper?: TimekeeperPort };
 
 export class PrerequisiteClockDrift implements prereqs.Prerequisite {
-  readonly kind = "clock-drift";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -45,5 +44,9 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.undetermined();
     }
+  }
+
+  get kind() {
+    return "clock-drift";
   }
 }

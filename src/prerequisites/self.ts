@@ -1,7 +1,6 @@
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteSelf implements prereqs.Prerequisite {
-  readonly kind = "self";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -13,5 +12,9 @@ export class PrerequisiteSelf implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.VerifyOutcome> {
     if (!this.enabled) return prereqs.Verification.undetermined();
     return prereqs.Verification.success();
+  }
+
+  get kind() {
+    return "self";
   }
 }

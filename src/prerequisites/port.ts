@@ -3,7 +3,6 @@ import type { PortType } from "../port.vo";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisitePort implements prereqs.Prerequisite {
-  readonly kind = "port";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -24,5 +23,9 @@ export class PrerequisitePort implements prereqs.Prerequisite {
       server.listen(this.port, () => server.close(() => resolve(prereqs.Verification.success())));
       server.on("error", () => resolve(prereqs.Verification.failure()));
     });
+  }
+
+  get kind() {
+    return "port";
   }
 }

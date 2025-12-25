@@ -3,7 +3,6 @@ import * as prereqs from "../prerequisites.service";
 import { Timeout } from "../timeout.service";
 
 export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
-  readonly kind = "outside-connectivity";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -31,5 +30,9 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "outside-connectivity";
   }
 }

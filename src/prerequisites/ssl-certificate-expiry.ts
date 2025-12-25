@@ -4,7 +4,6 @@ import * as prereqs from "../prerequisites.service";
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
 export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
-  readonly kind = "ssl-certificate-expiry";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -32,5 +31,9 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
       return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
     }
     return prereqs.Verification.success();
+  }
+
+  get kind() {
+    return "ssl-certificate-expiry";
   }
 }

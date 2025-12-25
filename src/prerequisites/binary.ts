@@ -2,7 +2,6 @@ import type { BinaryType } from "../binary.vo";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteBinary implements prereqs.Prerequisite {
-  readonly kind = "binary";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -25,5 +24,9 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "binary";
   }
 }

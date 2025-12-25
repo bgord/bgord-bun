@@ -6,7 +6,6 @@ import { Timeout } from "../timeout.service";
 type Dependencies = { Mailer: MailerPort };
 
 export class PrerequisiteMailer implements prereqs.Prerequisite {
-  readonly kind = "mailer";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -31,5 +30,9 @@ export class PrerequisiteMailer implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "mailer";
   }
 }

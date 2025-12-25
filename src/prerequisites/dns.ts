@@ -4,7 +4,6 @@ import * as prereqs from "../prerequisites.service";
 import { Timeout } from "../timeout.service";
 
 export class PrerequisiteDNS implements prereqs.Prerequisite {
-  readonly kind = "dns";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -29,5 +28,9 @@ export class PrerequisiteDNS implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "dns";
   }
 }

@@ -2,7 +2,6 @@ import { Jobs, type MultipleJobsType } from "../jobs.service";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteJobs implements prereqs.Prerequisite {
-  readonly kind = "jobs";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -19,5 +18,9 @@ export class PrerequisiteJobs implements prereqs.Prerequisite {
     if (!this.enabled) return prereqs.Verification.undetermined();
     if (Jobs.areAllRunning(this.Jobs)) return prereqs.Verification.success();
     return prereqs.Verification.failure();
+  }
+
+  get kind() {
+    return "jobs";
   }
 }

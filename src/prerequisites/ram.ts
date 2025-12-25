@@ -3,7 +3,6 @@ import * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteRAM implements prereqs.Prerequisite {
-  readonly kind = "ram";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -23,5 +22,9 @@ export class PrerequisiteRAM implements prereqs.Prerequisite {
 
     if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success();
     return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` });
+  }
+
+  get kind() {
+    return "ram";
   }
 }

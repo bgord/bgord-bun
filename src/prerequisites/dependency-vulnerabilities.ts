@@ -4,7 +4,6 @@ import * as prereqs from "../prerequisites.service";
 type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
 
 export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisite {
-  readonly kind = "dependency-vulnerabilities";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -40,5 +39,9 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "dependency-vulnerabilities";
   }
 }

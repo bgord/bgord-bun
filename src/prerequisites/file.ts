@@ -5,7 +5,6 @@ import * as prereqs from "../prerequisites.service";
 export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
 export class PrerequisiteFile implements prereqs.Prerequisite {
-  readonly kind = "file";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -62,5 +61,9 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
     } catch (error) {
       return prereqs.Verification.failure(error as Error);
     }
+  }
+
+  get kind() {
+    return "file";
   }
 }

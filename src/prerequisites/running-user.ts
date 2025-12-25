@@ -2,7 +2,6 @@ import os from "node:os";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteRunningUser implements prereqs.Prerequisite {
-  readonly kind = "running-user";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -22,5 +21,9 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
 
     if (current === this.username) return prereqs.Verification.success();
     return prereqs.Verification.failure({ message: `Current user: ${current}` });
+  }
+
+  get kind() {
+    return "running-user";
   }
 }

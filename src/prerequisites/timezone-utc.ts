@@ -5,7 +5,6 @@ import * as prereqs from "../prerequisites.service";
 export const TimezoneUtc = z.literal("UTC");
 
 export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
-  readonly kind = "timezone-utc";
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 
@@ -25,5 +24,9 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
 
     if (result.success) return prereqs.Verification.success();
     return prereqs.Verification.failure({ message: `Timezone: ${this.timezone}` });
+  }
+
+  get kind() {
+    return "timezone-utc";
   }
 }
