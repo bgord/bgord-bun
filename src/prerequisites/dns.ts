@@ -19,7 +19,7 @@ export class PrerequisiteDNS implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       await Timeout.run(dns.lookup(this.hostname), this.timeout);

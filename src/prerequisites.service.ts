@@ -38,9 +38,8 @@ export class PrerequisiteVerification {
       error: meta instanceof Error ? formatError(meta) : meta,
     };
   }
-  static undetermined(): PrerequisiteVerificationUndetermined {
-    return { outcome: PrerequisiteVerificationOutcome.undetermined };
-  }
+
+  static undetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 }
 
 export type PrerequisiteConfigType = { label: string; enabled?: boolean };

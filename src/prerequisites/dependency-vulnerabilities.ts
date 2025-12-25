@@ -13,7 +13,7 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const command = await bun.$`bun audit --json`.quiet();

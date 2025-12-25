@@ -15,7 +15,7 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const integrity = this.sqlite.query("PRAGMA integrity_check;").get() as

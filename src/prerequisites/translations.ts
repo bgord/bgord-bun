@@ -40,7 +40,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
 
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 

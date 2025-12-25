@@ -23,7 +23,7 @@ export class PrerequisiteExternalApi implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const response = await Timeout.cancellable((signal: AbortSignal) => this.request(signal), this.timeout);

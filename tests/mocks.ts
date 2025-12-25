@@ -93,7 +93,7 @@ export class PrerequisiteUndetermined implements prereqs.Prerequisite {
   readonly kind = "test";
   readonly enabled = false;
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.PrerequisiteVerification.undetermined();
+    return prereqs.PrerequisiteVerification.undetermined;
   }
 }
 

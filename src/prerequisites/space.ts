@@ -25,7 +25,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const DiskSpaceChecker = this.deps?.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
 
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const root = path.sep;

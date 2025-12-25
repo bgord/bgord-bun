@@ -18,7 +18,7 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
-      if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+      if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
       const response = await Timeout.cancellable(
         (signal: AbortSignal) => fetch(PrerequisiteOutsideConnectivity.URL, { method: "HEAD", signal }),

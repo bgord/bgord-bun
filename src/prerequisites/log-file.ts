@@ -17,11 +17,11 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const path = this.deps.Logger.getFilePath();
-      if (!path) return prereqs.PrerequisiteVerification.undetermined();
+      if (!path) return prereqs.PrerequisiteVerification.undetermined;
 
       const file = new PrerequisiteFile({
         label: this.label,
