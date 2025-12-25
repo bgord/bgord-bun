@@ -42,7 +42,9 @@ export class Healthcheck {
       for (const prerequisite of [
         new Prerequisite("self", new PrerequisiteVerifierSelfAdapter()),
         ...prerequisites,
-      ].filter((prerequisite) => prerequisite.verifier.kind !== "port")) {
+      ]
+        .filter((prerequisite) => prerequisite.enabled)
+        .filter((prerequisite) => prerequisite.verifier.kind !== "port")) {
         const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
         const outcome = await prerequisite.verifier.verify();

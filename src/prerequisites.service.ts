@@ -15,10 +15,12 @@ export class Prerequisites {
 
   async check(prerequisites: Prerequisite[]) {
     const results = await Promise.all(
-      prerequisites.map(async (prerequisite) => ({
-        prerequisite,
-        outcome: await prerequisite.verifier.verify(),
-      })),
+      prerequisites
+        .filter((prerequisite) => prerequisite.enabled)
+        .map(async (prerequisite) => ({
+          prerequisite,
+          outcome: await prerequisite.verifier.verify(),
+        })),
     );
 
     const failed = results.filter(
