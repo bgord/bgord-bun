@@ -4,6 +4,7 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
 import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
+import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
 import * as mocks from "./mocks";
 
@@ -56,6 +57,6 @@ describe("SecurityCountermeasureMirageAdapter", () => {
   test("name", () => {
     const countermeasure = new SecurityCountermeasureMirageAdapter(deps);
 
-    expect(countermeasure.name).toEqual("mirage");
+    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("mirage"));
   });
 });

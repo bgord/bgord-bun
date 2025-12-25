@@ -11,6 +11,7 @@ import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
 import * as prereqs from "../src/prerequisites.service";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
 
@@ -144,7 +145,7 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
     rule: expect.any(String),
     client: { ip: ClientIp.parse("127.0.0.1"), ua: ClientUserAgent.parse("anon") },
     userId: undefined,
-    countermeasure: "ban",
+    countermeasure: SecurityCountermeasureName.parse("ban"),
     action: "deny",
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;

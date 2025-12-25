@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { SecurityContext } from "./security-context.vo";
+import type { SecurityCountermeasureNameType } from "./security-countermeasure-name.vo";
 
 export type SecurityAction =
   | { kind: "allow" }
@@ -21,5 +22,5 @@ export type SecurityAction =
 export interface SecurityCountermeasurePort {
   execute(context: SecurityContext): Promise<SecurityAction>;
 
-  get name(): string;
+  get name(): SecurityCountermeasureNameType;
 }

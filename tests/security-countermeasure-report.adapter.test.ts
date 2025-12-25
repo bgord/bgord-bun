@@ -3,6 +3,7 @@ import { Client } from "../src/client.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
+import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityCountermeasureReportAdapter } from "../src/security-countermeasure-report.adapter";
 import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
 import * as mocks from "./mocks";
@@ -35,6 +36,6 @@ describe("SecurityCountermeasureReportAdapter", () => {
   });
 
   test("name", () => {
-    expect(countermeasure.name).toEqual("report");
+    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("report"));
   });
 });

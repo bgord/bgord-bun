@@ -184,6 +184,7 @@ export * from "./security-context.vo";
 export * from "./security-countermeasure.port";
 export * from "./security-countermeasure-ban.adapter";
 export * from "./security-countermeasure-mirage.adapter";
+export * from "./security-countermeasure-name.vo";
 export * from "./security-countermeasure-noop.adapter";
 export * from "./security-countermeasure-report.adapter";
 export * from "./security-countermeasure-tarpit.adapter";

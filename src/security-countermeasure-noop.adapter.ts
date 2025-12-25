@@ -1,4 +1,5 @@
 import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
+import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
 
 export class SecurityCountermeasureNoopAdapter implements SecurityCountermeasurePort {
   async execute(): Promise<SecurityAction> {
@@ -6,6 +7,6 @@ export class SecurityCountermeasureNoopAdapter implements SecurityCountermeasure
   }
 
   get name() {
-    return "noop";
+    return SecurityCountermeasureName.parse("noop");
   }
 }

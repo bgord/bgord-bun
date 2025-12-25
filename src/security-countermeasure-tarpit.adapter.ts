@@ -3,6 +3,7 @@ import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
+import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
 
 type Dependencies = { Logger: LoggerPort };
 
@@ -25,6 +26,6 @@ export class SecurityCountermeasureTarpitAdapter implements SecurityCountermeasu
   }
 
   get name() {
-    return "tarpit";
+    return SecurityCountermeasureName.parse("tarpit");
   }
 }

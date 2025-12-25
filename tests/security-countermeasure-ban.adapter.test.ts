@@ -9,6 +9,7 @@ import {
   SecurityCountermeasureBanAdapter,
   SecurityCountermeasureBanAdapterError,
 } from "../src/security-countermeasure-ban.adapter";
+import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
 import * as mocks from "./mocks";
 
@@ -76,6 +77,6 @@ describe("SecurityCountermeasureBanAdapter", () => {
   test("name", () => {
     const countermeasure = new SecurityCountermeasureBanAdapter(deps);
 
-    expect(countermeasure.name).toEqual("ban");
+    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("ban"));
   });
 });
