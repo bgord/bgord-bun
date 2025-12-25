@@ -14,7 +14,11 @@ const handler = createFactory();
 type HealthcheckResultType = {
   ok: prereqs.PrerequisiteStatusEnum;
   version: string;
-  details: { label: prereqs.PrerequisiteLabelType; outcome: prereqs.VerifyOutcome }[];
+  details: {
+    label: prereqs.PrerequisiteLabelType;
+    outcome: prereqs.VerifyOutcome;
+    durationMs: tools.DurationMsType;
+  }[];
   uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
   memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   durationMs: tools.Duration["ms"];
@@ -34,7 +38,13 @@ export class Healthcheck {
       for (const prerequisite of [new PrerequisiteSelf({ label: "self" }), ...prerequisites].filter(
         (prerequisite) => prerequisite.kind !== "port",
       )) {
-        details.push({ label: prerequisite.label, outcome: await prerequisite.verify(deps.Clock) });
+        const stopwatch = new tools.Stopwatch(deps.Clock.now());
+
+        const outcome = await prerequisite.verify(deps.Clock);
+
+        const durationMs = stopwatch.stop().ms;
+
+        details.push({ label: prerequisite.label, outcome, durationMs });
       }
 
       const ok = details.every((result) => result.outcome.status !== prereqs.PrerequisiteStatusEnum.failure)

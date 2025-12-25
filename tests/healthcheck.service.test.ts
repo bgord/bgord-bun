@@ -43,8 +43,8 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess },
-        { label: "ok", outcome: mocks.VerificationSuccess },
+        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
     });
@@ -72,8 +72,8 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess },
-        { label: "ok", outcome: mocks.VerificationSuccess },
+        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
     });
@@ -98,9 +98,13 @@ describe("Healthcheck service", () => {
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess },
-        { label: "ok", outcome: mocks.VerificationSuccess },
-        { label: "fail", outcome: mocks.VerificationFailure({ message: "boom" }) },
+        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        {
+          label: "fail",
+          outcome: mocks.VerificationFailure({ message: "boom" }),
+          durationMs: expect.any(Number),
+        },
       ],
       durationMs: expect.any(Number),
     });
