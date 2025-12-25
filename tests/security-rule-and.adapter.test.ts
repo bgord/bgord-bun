@@ -28,6 +28,12 @@ describe("SecurityRuleAndAdapter", () => {
     expect(() => new SecurityRuleAndAdapter([])).toThrow(SecurityRuleAndAdapterError.MissingRules);
   });
 
+  test("max rules", () => {
+    expect(() => new SecurityRuleAndAdapter([fail, fail, fail, fail, fail, fail])).toThrow(
+      SecurityRuleAndAdapterError.MaxRules,
+    );
+  });
+
   test("name", () => {
     expect(rule.name).toEqual("and_bait_routes_fail");
   });

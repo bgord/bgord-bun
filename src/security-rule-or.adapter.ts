@@ -3,11 +3,13 @@ import type { SecurityRulePort } from "./security-rule.port";
 
 export const SecurityRuleOrAdapterError = {
   MissingRules: "security.rule.or.adapter.error.missing.rules",
+  MaxRules: "security.rule.or.adapter.error.max.rules",
 };
 
 export class SecurityRuleOrAdapter implements SecurityRulePort {
   constructor(private readonly rules: SecurityRulePort[]) {
     if (rules.length === 0) throw new Error(SecurityRuleOrAdapterError.MissingRules);
+    if (rules.length > 5) throw new Error(SecurityRuleOrAdapterError.MaxRules);
   }
 
   async isViolated(c: Context) {
