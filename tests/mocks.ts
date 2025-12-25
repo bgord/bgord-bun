@@ -9,7 +9,7 @@ import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
 import * as prereqs from "../src/prerequisites.service";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
@@ -63,15 +63,18 @@ export const TIME_ZERO_DATE = "2023-11-14";
 
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
-export const VerificationSuccess = { status: PrerequisiteStatusEnum.success };
-export const VerificationUndetermined = { status: PrerequisiteStatusEnum.undetermined };
-export const VerificationFailure = (error?: any) => ({ status: PrerequisiteStatusEnum.failure, error });
+export const VerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
+export const VerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
+export const VerificationFailure = (error?: any) => ({
+  outcome: PrerequisiteVerificationOutcome.failure,
+  error,
+});
 
 export class PrerequisiteOk implements prereqs.Prerequisite {
   readonly label = "ok";
   readonly kind = "test";
   readonly enabled = true;
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     return prereqs.Verification.success();
   }
 }
@@ -80,7 +83,7 @@ export class PrerequisiteFail implements prereqs.Prerequisite {
   readonly label = "fail";
   readonly kind = "test";
   readonly enabled = true;
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     return prereqs.Verification.failure({ message: "boom" });
   }
 }
@@ -89,7 +92,7 @@ export class PrerequisiteUndetermined implements prereqs.Prerequisite {
   readonly label = "undetermined";
   readonly kind = "test";
   readonly enabled = false;
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     return prereqs.Verification.undetermined();
   }
 }

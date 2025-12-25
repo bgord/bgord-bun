@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-connectivity";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 describe("PrerequisiteOutsideConnectivity", () => {
@@ -46,6 +46,6 @@ describe("PrerequisiteOutsideConnectivity", () => {
       timeout: tools.Duration.Ms(5),
     });
 
-    expect((await prerequisite.verify()).status).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify()).outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 });

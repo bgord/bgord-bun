@@ -16,7 +16,7 @@ export class PrerequisiteNode implements prereqs.Prerequisite {
     this.current = config.current;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

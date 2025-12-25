@@ -18,7 +18,7 @@ export class PrerequisiteDNS implements prereqs.Prerequisite {
     this.timeout = config.timeout ?? tools.Duration.Seconds(1);
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

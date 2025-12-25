@@ -14,7 +14,7 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
     this.sqlite = config.sqlite;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

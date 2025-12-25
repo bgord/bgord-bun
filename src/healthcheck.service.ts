@@ -12,11 +12,11 @@ import { Uptime, type UptimeResultType } from "./uptime.service";
 const handler = createFactory();
 
 type HealthcheckResultType = {
-  ok: prereqs.PrerequisiteStatusEnum;
+  ok: prereqs.PrerequisiteVerificationOutcome;
   version: string;
   details: {
     label: prereqs.PrerequisiteLabelType;
-    outcome: prereqs.VerifyOutcome;
+    outcome: prereqs.PrerequisiteVerificationResult;
     durationMs: tools.DurationMsType;
   }[];
   uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
@@ -47,11 +47,13 @@ export class Healthcheck {
         details.push({ label: prerequisite.label, outcome, durationMs });
       }
 
-      const ok = details.every((result) => result.outcome.status !== prereqs.PrerequisiteStatusEnum.failure)
-        ? prereqs.PrerequisiteStatusEnum.success
-        : prereqs.PrerequisiteStatusEnum.failure;
+      const ok = details.every(
+        (result) => result.outcome.outcome !== prereqs.PrerequisiteVerificationOutcome.failure,
+      )
+        ? prereqs.PrerequisiteVerificationOutcome.success
+        : prereqs.PrerequisiteVerificationOutcome.failure;
 
-      const code = ok === prereqs.PrerequisiteStatusEnum.success ? 200 : 424;
+      const code = ok === prereqs.PrerequisiteVerificationOutcome.success ? 200 : 424;
 
       const uptime = Uptime.get(deps.Clock);
 

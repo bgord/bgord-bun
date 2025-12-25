@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { PrerequisiteExternalApi } from "../src/prerequisites/external-api";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 describe("PrerequisiteExternalApi", () => {
@@ -38,6 +38,6 @@ describe("PrerequisiteExternalApi", () => {
       request: (signal: AbortSignal) => fetch("http://api", { signal }),
     });
 
-    expect((await prerequisite.verify()).status).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify()).outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 });

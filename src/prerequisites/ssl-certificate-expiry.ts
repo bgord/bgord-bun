@@ -21,7 +21,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     this.days = config.days;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const result = await this.deps.CertificateInspector.inspect(this.hostname);

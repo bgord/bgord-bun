@@ -4,44 +4,50 @@ import { formatError } from "../src/logger-format-error.service";
 
 export type PrerequisiteLabelType = string;
 
-export enum PrerequisiteStatusEnum {
+export enum PrerequisiteVerificationOutcome {
   success = "success",
   failure = "failure",
   undetermined = "undetermined",
 }
 
-export type VerifySuccess = { status: PrerequisiteStatusEnum.success };
-export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
-export type VerifyUndetermined = { status: PrerequisiteStatusEnum.undetermined };
-export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
+export type PrerequisiteVerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
+export type PrerequisiteVerificationFailure = {
+  outcome: PrerequisiteVerificationOutcome.failure;
+  error?: ErrorInfo;
+};
+export type PrerequisiteVerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
+export type PrerequisiteVerificationResult =
+  | PrerequisiteVerificationSuccess
+  | PrerequisiteVerificationFailure
+  | PrerequisiteVerificationUndetermined;
 
 export interface Prerequisite {
   readonly label: PrerequisiteLabelType;
   readonly enabled?: boolean;
-  verify(clock: ClockPort): Promise<VerifyOutcome>;
+  verify(clock: ClockPort): Promise<PrerequisiteVerificationResult>;
 
   get kind(): string;
 }
 
 export type PrerequisiteResult = {
   label: PrerequisiteLabelType;
-  status: PrerequisiteStatusEnum;
+  outcome: PrerequisiteVerificationOutcome;
   kind: string;
   error?: ErrorInfo;
 };
 
 export class Verification {
-  static success(): VerifySuccess {
-    return { status: PrerequisiteStatusEnum.success };
+  static success(): PrerequisiteVerificationSuccess {
+    return { outcome: PrerequisiteVerificationOutcome.success };
   }
-  static failure(meta?: Error | ErrorInfo): VerifyFailure {
+  static failure(meta?: Error | ErrorInfo): PrerequisiteVerificationFailure {
     return {
-      status: PrerequisiteStatusEnum.failure,
+      outcome: PrerequisiteVerificationOutcome.failure,
       error: meta instanceof Error ? formatError(meta) : meta,
     };
   }
-  static undetermined(): VerifyUndetermined {
-    return { status: PrerequisiteStatusEnum.undetermined };
+  static undetermined(): PrerequisiteVerificationUndetermined {
+    return { outcome: PrerequisiteVerificationOutcome.undetermined };
   }
 }
 
@@ -65,7 +71,9 @@ export class Prerequisites {
       })),
     );
 
-    const failed = results.filter((result) => result.outcome.status === PrerequisiteStatusEnum.failure);
+    const failed = results.filter(
+      (result) => result.outcome.outcome === PrerequisiteVerificationOutcome.failure,
+    );
 
     if (failed.length === 0) return this.deps.Logger.info({ message: "Prerequisites ok", ...this.base });
 

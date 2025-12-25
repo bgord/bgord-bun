@@ -17,7 +17,7 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
     this.timezone = config.timezone;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const result = TimezoneUtc.safeParse(this.timezone);

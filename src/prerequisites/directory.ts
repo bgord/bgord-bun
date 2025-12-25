@@ -24,7 +24,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
     this.permissions = config.permissions ?? {};
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

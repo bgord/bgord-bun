@@ -15,7 +15,7 @@ export class PrerequisitePort implements prereqs.Prerequisite {
     this.port = config.port;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     return new Promise((resolve) => {

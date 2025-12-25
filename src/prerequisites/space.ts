@@ -22,7 +22,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
     this.minimum = config.minimum;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const DiskSpaceChecker = this.deps?.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
 
     if (!this.enabled) return prereqs.Verification.undetermined();

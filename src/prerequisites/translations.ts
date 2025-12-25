@@ -37,7 +37,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     this.supportedLanguages = config.supportedLanguages;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
 
     if (!this.enabled) return prereqs.Verification.undetermined();

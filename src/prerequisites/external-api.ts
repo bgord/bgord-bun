@@ -22,7 +22,7 @@ export class PrerequisiteExternalApi implements prereqs.Prerequisite {
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {

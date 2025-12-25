@@ -38,7 +38,7 @@ describe("Healthcheck service", () => {
 
     expect(response.status).toEqual(200);
     expect(data).toEqual({
-      ok: prereqs.PrerequisiteStatusEnum.success,
+      ok: prereqs.PrerequisiteVerificationOutcome.success,
       version: buildInfo.BUILD_VERSION,
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
@@ -67,7 +67,7 @@ describe("Healthcheck service", () => {
 
     expect(response.status).toEqual(200);
     expect(data).toEqual({
-      ok: prereqs.PrerequisiteStatusEnum.success,
+      ok: prereqs.PrerequisiteVerificationOutcome.success,
       version: buildInfo.BUILD_VERSION,
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
@@ -93,7 +93,7 @@ describe("Healthcheck service", () => {
 
     expect(response.status).toEqual(424);
     expect(data).toEqual({
-      ok: prereqs.PrerequisiteStatusEnum.failure,
+      ok: prereqs.PrerequisiteVerificationOutcome.failure,
       version: buildInfo.BUILD_VERSION,
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },

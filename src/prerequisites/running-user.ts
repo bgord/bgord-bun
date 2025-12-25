@@ -14,7 +14,7 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
     this.username = config.username;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const current = os.userInfo().username;

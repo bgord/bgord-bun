@@ -13,7 +13,7 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
     this.binary = config.binary;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
       if (!this.enabled) return prereqs.Verification.undetermined();
 

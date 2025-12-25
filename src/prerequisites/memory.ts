@@ -15,7 +15,7 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
     this.maximum = config.maximum;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     const memoryConsumption = MemoryConsumption.get();

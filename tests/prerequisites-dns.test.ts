@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import dns from "dns/promises";
 import * as tools from "@bgord/tools";
 import { PrerequisiteDNS } from "../src/prerequisites/dns";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const hostname = "api.example.com";
@@ -34,6 +34,6 @@ describe("PrerequisiteExternalApi", () => {
     spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
     const prerequisite = new PrerequisiteDNS({ label: "dns", hostname, timeout: tools.Duration.Ms(5) });
 
-    expect((await prerequisite.verify()).status).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify()).outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 });

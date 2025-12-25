@@ -25,7 +25,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const Timekeeper = this.deps?.Timekeeper ?? new TimekeeperGoogleAdapter();
 
     if (!this.enabled) return prereqs.Verification.undetermined();

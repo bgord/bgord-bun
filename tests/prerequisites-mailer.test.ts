@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { PrerequisiteMailer } from "../src/prerequisites/mailer";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
 
 const Mailer = { verify: jest.fn(), send: jest.fn() } as any;
@@ -33,6 +33,6 @@ describe("PrerequisiteMailer", () => {
     spyOn(Mailer, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
     const prerequisite = new PrerequisiteMailer({ label: "mailer", timeout: tools.Duration.Ms(5) }, deps);
 
-    expect((await prerequisite.verify()).status).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify()).outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 });

@@ -16,7 +16,7 @@ export class PrerequisiteLogFile implements prereqs.Prerequisite {
     this.enabled = config.enabled === undefined ? true : config.enabled;
   }
 
-  async verify(): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
