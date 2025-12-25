@@ -8,13 +8,13 @@ export const BinaryError = {
 };
 
 // One to sixty four letters, digits, hyphens, or underscores
-const BINARY_WHITELIST = /^[a-zA-Z0-9-_]{1,64}$/;
+const CHARS_WHITELIST = /^[a-zA-Z0-9-_]{1,64}$/;
 
 export const Binary = z
   .string(BinaryError.Type)
   .min(1, BinaryError.Empty)
   .max(64, BinaryError.TooLong)
-  .regex(BINARY_WHITELIST, BinaryError.BadChars)
+  .regex(CHARS_WHITELIST, BinaryError.BadChars)
   .brand("Binary");
 
 export type BinaryType = z.infer<typeof Binary>;

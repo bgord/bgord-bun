@@ -4,6 +4,7 @@ import { PdfGeneratorNoopAdapter, PLACEHOLDER_PDF_BASE64 } from "../src/pdf-gene
 
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
+
 const adapter = new PdfGeneratorNoopAdapter(deps);
 
 describe("CertificateInspectorNoopAdapter", () => {

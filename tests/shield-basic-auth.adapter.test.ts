@@ -7,11 +7,11 @@ import { ShieldBasicAuthAdapter } from "../src/shield-basic-auth.adapter";
 
 const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
 
-const basicAuthShield = new ShieldBasicAuthAdapter(config);
+const shield = new ShieldBasicAuthAdapter(config);
 
 describe("ShieldBasicAuthAdapter", () => {
   test("happy path", async () => {
-    const app = new Hono().use(basicAuthShield.verify).get("/ping", (c) => c.text("OK"));
+    const app = new Hono().use(shield.verify).get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET", headers: BasicAuth.toHeader(config) });
 
@@ -19,7 +19,7 @@ describe("ShieldBasicAuthAdapter", () => {
   });
 
   test("denied - no authorization", async () => {
-    const app = new Hono().use(basicAuthShield.verify).get("/ping", () => expect.unreachable());
+    const app = new Hono().use(shield.verify).get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", { method: "GET" });
 
@@ -27,7 +27,7 @@ describe("ShieldBasicAuthAdapter", () => {
   });
 
   test("denied - invalid authorization", async () => {
-    const app = new Hono().use(basicAuthShield.verify).get("/ping", () => expect.unreachable());
+    const app = new Hono().use(shield.verify).get("/ping", () => expect.unreachable());
 
     const result = await app.request("/ping", {
       method: "GET",

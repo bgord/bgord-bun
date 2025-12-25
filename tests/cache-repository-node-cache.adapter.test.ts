@@ -7,7 +7,9 @@ import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adap
 
 const value = "value";
 const config = { ttl: tools.Duration.Hours(1) };
+
 const HashContent = new HashContentSha256BunAdapter();
+
 const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], { HashContent });
 
 describe("CacheRepositoryNodeCacheAdapter", async () => {

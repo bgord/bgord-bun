@@ -1,33 +1,35 @@
-import type { Context } from "hono";
-import { getConnInfo } from "hono/bun";
+import { ClientIp, type ClientIpType } from "./client-ip.vo";
+import { ClientUserAgent, type ClientUserAgentType } from "./client-user-agent.vo";
 
-export type ClientIpType = string;
-export type ClientUaType = string;
-export type ClientType = { ip: ClientIpType; ua: ClientUaType };
+export type ClientType = { ip: ClientIpType; ua: ClientUserAgentType };
 
 export class Client {
+  private static DEFAULT_IP = ClientIp.parse("anon");
+
   private constructor(private readonly value: ClientType) {}
 
-  static fromParts(ip: ClientIpType | null | undefined, ua: ClientUaType | null | undefined): Client {
-    return new Client({ ip: ip ?? "anon", ua: (ua ?? "anon").toLowerCase() });
+  static fromPartsSafe(
+    ip: ClientIpType | null | undefined,
+    ua: ClientUserAgentType | null | undefined,
+  ): Client {
+    return new Client({
+      ip: ip ?? Client.DEFAULT_IP,
+      ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
+    });
   }
 
-  static fromHonoContext(context: Context): Client {
-    const info = getConnInfo(context);
-
-    const ip =
-      context.req.header("x-real-ip") || context.req.header("x-forwarded-for") || info?.remote?.address;
-
-    const ua = context.req.header("user-agent");
-
-    return Client.fromParts(ip, ua);
+  static fromParts(ip: string | null | undefined, ua: string | null | undefined): Client {
+    return new Client({
+      ip: ClientIp.parse(ip ?? "anon"),
+      ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
+    });
   }
 
   equals(another: Client): boolean {
     return this.value.ip === another.value.ip && this.value.ua === another.value.ua;
   }
 
-  matchesUa(ua: ClientUaType): boolean {
+  matchesUa(ua: ClientUserAgentType): boolean {
     return this.value.ua.includes(ua.toLowerCase());
   }
 
@@ -39,7 +41,7 @@ export class Client {
     return this.value.ip;
   }
 
-  get ua(): ClientUaType {
+  get ua(): ClientUserAgentType {
     return this.value.ua;
   }
 

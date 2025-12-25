@@ -11,6 +11,7 @@ const key = tools.ObjectKey.parse("users/1/avatar.webp");
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock, Logger };
+
 const adapter = new RemoteFileStorageNoopAdapter({ root }, deps);
 
 describe("RemoteFileStorageNoopAdapter", () => {

@@ -4,10 +4,12 @@ import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 
 const text = "noop";
 const decrypted = new TextEncoder().encode(text).buffer;
+
 const recipe = {
   input: tools.FilePathAbsolute.fromString("/tmp/in.bin"),
   output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),
 };
+
 const adapter = new EncryptionNoopAdapter();
 
 describe("EncryptionBunAdapter", () => {

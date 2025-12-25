@@ -6,6 +6,7 @@ const eventName = "user.created";
 
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
+
 const eventLogger = new EventLogger(deps);
 
 describe("EventLogger service", () => {

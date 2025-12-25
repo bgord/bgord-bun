@@ -9,6 +9,7 @@ const event = { name: "user.created" };
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Logger, Clock };
+
 const handler = new EventHandlerWithLoggerAdapter(deps);
 
 describe("EventHandlerWithLogger", () => {

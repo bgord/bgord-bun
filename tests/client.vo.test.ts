@@ -1,32 +1,22 @@
 import { describe, expect, test } from "bun:test";
 import { Client } from "../src/client.vo";
-import * as mocks from "./mocks";
+import { ClientIp } from "../src/client-ip.vo";
+import { ClientUserAgent } from "../src/client-user-agent.vo";
 
-const localFirefox = Client.fromParts("127.0.0.1", "firefox");
-const localChrome = Client.fromParts("127.0.0.1", "Chrome");
-const remoteFirefox = Client.fromParts("0.0.0.0", "Firefox");
+const localFirefox = Client.fromParts("127.0.0.1", ClientUserAgent.parse("firefox"));
+const localChrome = Client.fromParts("127.0.0.1", ClientUserAgent.parse("Chrome"));
+const remoteFirefox = Client.fromParts("0.0.0.0", ClientUserAgent.parse("Firefox"));
+
+const ip = ClientIp.parse("1.1.1.1");
+const ua = ClientUserAgent.parse("ua");
 
 describe("Client VO", () => {
+  test("fromPartsSafe", () => {
+    expect(Client.fromPartsSafe(ip, ClientUserAgent.parse("UA")).toJSON()).toEqual({ ip, ua });
+  });
+
   test("fromParts", () => {
-    expect(Client.fromParts("1.1.1.1", "UA").toJSON()).toEqual({ ip: "1.1.1.1", ua: "ua" });
-  });
-
-  test("prefers x-real-ip", () => {
-    const context = mocks.createContext({ "x-real-ip": "9.9.9.9", "user-agent": "UA" });
-
-    expect(Client.fromHonoContext(context).toJSON()).toEqual({ ip: "9.9.9.9", ua: "ua" });
-  });
-
-  test("fallback - x-forwarded-for", () => {
-    const context = mocks.createContext({ "x-forwarded-for": "8.8.8.8", "user-agent": "UA" });
-
-    expect(Client.fromHonoContext(context).toJSON()).toEqual({ ip: "8.8.8.8", ua: "ua" });
-  });
-
-  test("fallback - remote.address", () => {
-    const context = mocks.createContext({});
-
-    expect(Client.fromHonoContext(context).toJSON()).toEqual({ ua: "anon", ip: "127.0.0.1" });
+    expect(Client.fromParts("1.1.1.1", "UA").toJSON()).toEqual({ ip, ua });
   });
 
   test("equals - true", () => {
@@ -42,7 +32,7 @@ describe("Client VO", () => {
   });
 
   test("matchesUa - false", () => {
-    expect(localFirefox.matchesUa(localChrome.ip)).toEqual(false);
+    expect(localFirefox.matchesUa(ClientUserAgent.parse(localChrome.ip))).toEqual(false);
   });
 
   test("matchesIp - true", () => {

@@ -5,6 +5,7 @@ import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock };
+
 const adapter = new TimekeeperNoopAdapter(deps);
 
 describe("TimekeeperNoopAdapter", () => {

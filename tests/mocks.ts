@@ -3,12 +3,15 @@ import { Writable } from "node:stream";
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import * as winston from "winston";
+import { ClientIp } from "../src/client-ip.vo";
+import { ClientUserAgent } from "../src/client-user-agent.vo";
 import type { ClockPort } from "../src/clock.port";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
 import * as prereqs from "../src/prerequisites.service";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
 
@@ -130,3 +133,19 @@ export const GenericMinuteHasPassedEvent = {
   name: "MINUTE_HAS_PASSED_EVENT",
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.MinuteHasPassedEventType;
+
+export const GenericSecurityViolationDetectedBanDenyEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: "security",
+  version: 1,
+  name: "SECURITY_VIOLATION_DETECTED_EVENT",
+  payload: {
+    rule: expect.any(String),
+    client: { ip: ClientIp.parse("127.0.0.1"), ua: ClientUserAgent.parse("anon") },
+    userId: undefined,
+    countermeasure: SecurityCountermeasureName.parse("ban"),
+    action: "deny",
+  },
+} satisfies System.Events.SecurityViolationDetectedEventType;

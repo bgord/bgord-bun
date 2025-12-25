@@ -4,6 +4,7 @@ import { TimekeeperGoogleAdapter } from "../src/timekeeper-google.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
 const adapter = new TimekeeperGoogleAdapter();
 
 describe("TimekeeperGoogleAdapter", () => {

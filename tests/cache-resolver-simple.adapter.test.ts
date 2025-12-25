@@ -11,8 +11,10 @@ import * as mocks from "./mocks";
 const cached = "cached-value";
 const fresh = "fresh-value";
 const config = { ttl: tools.Duration.Hours(1) };
+
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { HashContent };
+
 const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], deps);
 
 describe("CacheResolverSimpleAdapter", async () => {

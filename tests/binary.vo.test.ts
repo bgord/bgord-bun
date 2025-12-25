@@ -5,6 +5,9 @@ describe("Binary VO", () => {
   test("happy path", () => {
     expect(Binary.safeParse("a".repeat(64)).success).toEqual(true);
     expect(Binary.safeParse("A".repeat(64)).success).toEqual(true);
+    expect(Binary.safeParse("a_beta").success).toEqual(true);
+    expect(Binary.safeParse("a-beta").success).toEqual(true);
+    expect(Binary.safeParse("a2").success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
