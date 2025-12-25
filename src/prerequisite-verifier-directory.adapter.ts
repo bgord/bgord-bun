@@ -1,10 +1,6 @@
 import { access, constants, stat } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -16,7 +12,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
     },
   ) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     try {
       const stats = await stat(this.config.directory);
 

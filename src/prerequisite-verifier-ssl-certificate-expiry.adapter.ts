@@ -1,9 +1,5 @@
 import type { CertificateInspectorPort } from "./certificate-inspector.port";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
@@ -13,7 +9,7 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
     private readonly deps: Dependencies,
   ) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     const result = await this.deps.CertificateInspector.inspect(this.config.hostname);
 
     if (!result.success) return PrerequisiteVerification.failure({ message: "Certificate unavailable" });

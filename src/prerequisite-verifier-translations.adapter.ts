@@ -5,11 +5,7 @@ import type * as types from "./i18n.service";
 import { I18n } from "./i18n.service";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 type PrerequisiteTranslationsProblemType = {
   key: types.TranslationsKeyType;
@@ -28,7 +24,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
     private readonly deps: Dependencies,
   ) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     const translationsPath = this.config.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
     const supportedLanguages = Object.keys(this.config.supportedLanguages);

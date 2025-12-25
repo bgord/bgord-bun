@@ -1,17 +1,13 @@
 import type * as tools from "@bgord/tools";
 import { z } from "zod/v4";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export const TimezoneUtc = z.literal("UTC");
 
 export class PrerequisiteVerifierTimezoneUtcVerifier implements PrerequisiteVerifierPort {
   constructor(private readonly config: { timezone: tools.TimezoneType }) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     const result = TimezoneUtc.safeParse(this.config.timezone);
 
     if (result.success) return PrerequisiteVerification.success;

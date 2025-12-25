@@ -1,15 +1,11 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierRamAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { minimum: tools.Size }) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     const freeRAM = tools.Size.fromBytes(os.freemem());
 
     if (freeRAM.isGreaterThan(this.config.minimum)) return PrerequisiteVerification.success;

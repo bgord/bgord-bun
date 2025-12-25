@@ -1,11 +1,7 @@
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierSelfAdapter implements PrerequisiteVerifierPort {
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     return PrerequisiteVerification.success;
   }
 

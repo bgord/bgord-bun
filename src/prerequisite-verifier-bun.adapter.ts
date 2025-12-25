@@ -1,14 +1,10 @@
 import * as tools from "@bgord/tools";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierBunAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { version: tools.PackageVersion; current: string }) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     try {
       const current = tools.PackageVersion.fromString(this.config.current);
 

@@ -1,14 +1,10 @@
 import type { BinaryType } from "./binary.vo";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierBinaryAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { binary: BinaryType }) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     try {
       const result = Bun.which(this.config.binary);
 

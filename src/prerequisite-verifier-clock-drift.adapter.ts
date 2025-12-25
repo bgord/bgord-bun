@@ -1,10 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import type { TimekeeperPort } from "./timekeeper.port";
 
 type Dependencies = { Clock: ClockPort; Timekeeper: TimekeeperPort };
@@ -15,7 +11,7 @@ export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifi
     private readonly deps: Dependencies,
   ) {}
 
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     try {
       const timestamp = await this.deps.Timekeeper.get();
 

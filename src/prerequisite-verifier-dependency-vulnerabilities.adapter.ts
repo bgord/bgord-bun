@@ -1,14 +1,10 @@
 import bun from "bun";
-import {
-  PrerequisiteVerification,
-  type PrerequisiteVerificationResult,
-  type PrerequisiteVerifierPort,
-} from "./prerequisite-verifier.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
 
 export class PrerequisiteVerifierDependencyVulnerabilitiesAdapter implements PrerequisiteVerifierPort {
-  async verify(): Promise<PrerequisiteVerificationResult> {
+  async verify() {
     try {
       const command = await bun.$`bun audit --json`.quiet();
 
