@@ -1,4 +1,5 @@
 import type { SecurityRulePort } from "./security-rule.port";
+import { SecurityRuleName } from "./security-rule-name.vo";
 
 export class SecurityRuleFailAdapter implements SecurityRulePort {
   async isViolated() {
@@ -6,6 +7,6 @@ export class SecurityRuleFailAdapter implements SecurityRulePort {
   }
 
   get name() {
-    return "fail";
+    return SecurityRuleName.parse("fail");
   }
 }

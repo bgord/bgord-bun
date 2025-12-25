@@ -194,6 +194,7 @@ export * from "./security-rule-and.adapter";
 export * from "./security-rule-bait-routes.adapter";
 export * from "./security-rule-fail.adapter";
 export * from "./security-rule-honey-pot-field.adapter";
+export * from "./security-rule-name.vo";
 export * from "./security-rule-or.adapter";
 export * from "./security-rule-pass.adapter";
 export * from "./security-rule-user-agent.adapter";

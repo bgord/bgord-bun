@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import type { SecurityRulePort } from "./security-rule.port";
+import { SecurityRuleName } from "./security-rule-name.vo";
 
 export const SecurityRuleOrAdapterError = {
   MissingRules: "security.rule.or.adapter.error.missing.rules",
@@ -17,6 +18,6 @@ export class SecurityRuleOrAdapter implements SecurityRulePort {
   }
 
   get name() {
-    return `or_${this.rules.map((rule) => rule.name).join("_")}`;
+    return SecurityRuleName.parse(`or_${this.rules.map((rule) => rule.name).join("_")}`);
   }
 }

@@ -5,6 +5,7 @@ import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
 import { CacheSubjectSegmentIp } from "./cache-subject-segment-ip";
 import type { HashContentPort } from "./hash-content.port";
 import type { SecurityRulePort } from "./security-rule.port";
+import { SecurityRuleName } from "./security-rule-name.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentPort };
 
@@ -40,6 +41,6 @@ export class SecurityRuleViolationThresholdAdapter implements SecurityRulePort {
   }
 
   get name() {
-    return `violation_threshold_${this.config.threshold}_${this.rule.name}`;
+    return SecurityRuleName.parse(`violation_threshold_${this.config.threshold}_${this.rule.name}`);
   }
 }

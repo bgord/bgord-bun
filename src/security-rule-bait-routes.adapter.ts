@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import type { SecurityRulePort } from "./security-rule.port";
+import { SecurityRuleName } from "./security-rule-name.vo";
 
 export class SecurityRuleBaitRoutesAdapter implements SecurityRulePort {
   constructor(private readonly routes: string[]) {}
@@ -9,6 +10,6 @@ export class SecurityRuleBaitRoutesAdapter implements SecurityRulePort {
   }
 
   get name() {
-    return "bait_routes";
+    return SecurityRuleName.parse("bait_routes");
   }
 }

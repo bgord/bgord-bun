@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
+import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleViolationThresholdAdapter } from "../src/security-rule-violation-threshold.adapter";
 import * as mocks from "./mocks";
 
@@ -70,6 +71,6 @@ describe("SecurityRuleViolationThresholdAdapter", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual("violation_threshold_3_bait_routes");
+    expect(rule.name).toEqual(SecurityRuleName.parse("violation_threshold_3_bait_routes"));
   });
 });

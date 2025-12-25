@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.adapter";
 import * as mocks from "./mocks";
 
@@ -23,6 +24,6 @@ describe("SecurityRuleUserAgentAdapter", () => {
   test("name", () => {
     const rule = new SecurityRuleUserAgentAdapter(["other"]);
 
-    expect(rule.name).toEqual("user_agent");
+    expect(rule.name).toEqual(SecurityRuleName.parse("user_agent"));
   });
 });

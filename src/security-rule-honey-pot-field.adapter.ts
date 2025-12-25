@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import type { SecurityRulePort } from "./security-rule.port";
+import { SecurityRuleName } from "./security-rule-name.vo";
 
 export class SecurityRuleHoneyPotFieldAdapter implements SecurityRulePort {
   constructor(private readonly field: string) {}
@@ -14,6 +15,6 @@ export class SecurityRuleHoneyPotFieldAdapter implements SecurityRulePort {
   }
 
   get name() {
-    return "honey_pot_field";
+    return SecurityRuleName.parse("honey_pot_field");
   }
 }

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
+import { SecurityRuleName } from "../src/security-rule-name.vo";
 import * as mocks from "./mocks";
 
 const field = "reference";
@@ -45,6 +46,6 @@ describe("SecurityRuleHoneyPotFieldAdapter", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual("honey_pot_field");
+    expect(rule.name).toEqual(SecurityRuleName.parse("honey_pot_field"));
   });
 });

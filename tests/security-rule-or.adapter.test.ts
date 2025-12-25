@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
+import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleOrAdapter, SecurityRuleOrAdapterError } from "../src/security-rule-or.adapter";
 import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
 
@@ -35,6 +36,6 @@ describe("SecurityRuleAndAdapter", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual("or_bait_routes_pass");
+    expect(rule.name).toEqual(SecurityRuleName.parse("or_bait_routes_pass"));
   });
 });

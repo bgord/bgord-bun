@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
+import { SecurityRuleName } from "../src/security-rule-name.vo";
 
 const forbidden = "/.env";
 const allowed = "/about";
@@ -19,6 +20,6 @@ describe("SecurityRuleBaitRoutesAdapter", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual("bait_routes");
+    expect(rule.name).toEqual(SecurityRuleName.parse("bait_routes"));
   });
 });
