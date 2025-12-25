@@ -2,8 +2,6 @@ import type { ClockPort } from "../src/clock.port";
 import type { ErrorInfo, LoggerPort } from "../src/logger.port";
 import { formatError } from "../src/logger-format-error.service";
 
-export type PrerequisiteLabelType = string;
-
 export enum PrerequisiteVerificationOutcome {
   success = "success",
   failure = "failure",
@@ -21,6 +19,8 @@ export type PrerequisiteVerificationResult =
   | PrerequisiteVerificationFailure
   | PrerequisiteVerificationUndetermined;
 
+export type PrerequisiteLabelType = string;
+
 export interface Prerequisite {
   readonly label: PrerequisiteLabelType;
   readonly enabled?: boolean;
@@ -28,13 +28,6 @@ export interface Prerequisite {
 
   get kind(): string;
 }
-
-export type PrerequisiteResult = {
-  label: PrerequisiteLabelType;
-  outcome: PrerequisiteVerificationOutcome;
-  kind: string;
-  error?: ErrorInfo;
-};
 
 export class Verification {
   static success(): PrerequisiteVerificationSuccess {
