@@ -167,7 +167,7 @@ export * from "./pdf-generator.port";
 export * from "./pdf-generator-noop.adapter";
 export * from "./port.vo";
 export * from "./prerequisite.vo";
-export * as PrerequisiteVerifierDecorator from "./prerequisite-verifier.decorator";
+export * as PrerequisiteDecorator from "./prerequisite-verifier.decorator";
 export * from "./prerequisite-verifier.port";
 export * from "./prerequisite-verifier-binary.adapter";
 export * from "./prerequisite-verifier-bun.adapter";

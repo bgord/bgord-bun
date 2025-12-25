@@ -6,8 +6,16 @@ export type PrerequisiteLabelType = string;
 export class Prerequisite {
   constructor(
     readonly label: PrerequisiteLabelType,
-    readonly verifier: PrerequisiteVerifierPort,
-    readonly decorators: PrerequisiteVerifierDecorator[] = [],
+    private readonly verifier: PrerequisiteVerifierPort,
+    private readonly decorators: PrerequisiteVerifierDecorator[] = [],
     readonly enabled: boolean = true,
   ) {}
+
+  build(): PrerequisiteVerifierPort {
+    return this.decorators.reduce((verifier, decorator) => decorator(verifier), this.verifier);
+  }
+
+  get kind() {
+    return this.verifier.kind;
+  }
 }

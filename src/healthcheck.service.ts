@@ -44,10 +44,10 @@ export class Healthcheck {
         ...prerequisites,
       ]
         .filter((prerequisite) => prerequisite.enabled)
-        .filter((prerequisite) => prerequisite.verifier.kind !== "port")) {
+        .filter((prerequisite) => prerequisite.kind !== "port")) {
         const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
-        const outcome = await prerequisite.verifier.verify();
+        const outcome = await prerequisite.build().verify();
 
         const durationMs = stopwatch.stop().ms;
 

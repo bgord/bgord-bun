@@ -19,7 +19,7 @@ export class Prerequisites {
         .filter((prerequisite) => prerequisite.enabled)
         .map(async (prerequisite) => ({
           prerequisite,
-          outcome: await prerequisite.verifier.verify(),
+          outcome: await prerequisite.build().verify(),
         })),
     );
 
@@ -32,7 +32,7 @@ export class Prerequisites {
     for (const failure of failed) {
       this.deps.Logger.error({
         message: "Prerequisite failed",
-        metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.verifier.kind },
+        metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
         // @ts-expect-error
         error: failure.outcome.error ?? { message: "unknown error" },
         ...this.base,
