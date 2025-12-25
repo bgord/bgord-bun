@@ -24,7 +24,7 @@ export type PrerequisiteLabelType = string;
 export interface Prerequisite {
   readonly label: PrerequisiteLabelType;
   readonly enabled?: boolean;
-  verify(clock: ClockPort): Promise<PrerequisiteVerificationResult>;
+  verify(): Promise<PrerequisiteVerificationResult>;
 
   get kind(): string;
 }
@@ -56,10 +56,7 @@ export class Prerequisites {
 
   async check(prerequisites: Prerequisite[]) {
     const results = await Promise.all(
-      prerequisites.map(async (prerequisite) => ({
-        prerequisite,
-        outcome: await prerequisite.verify(this.deps.Clock),
-      })),
+      prerequisites.map(async (prerequisite) => ({ prerequisite, outcome: await prerequisite.verify() })),
     );
 
     const failed = results.filter(

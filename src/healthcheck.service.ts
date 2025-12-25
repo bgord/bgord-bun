@@ -40,7 +40,7 @@ export class Healthcheck {
       )) {
         const stopwatch = new tools.Stopwatch(deps.Clock.now());
 
-        const outcome = await prerequisite.verify(deps.Clock);
+        const outcome = await prerequisite.verify();
 
         const durationMs = stopwatch.stop().ms;
 
