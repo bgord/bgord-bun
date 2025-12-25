@@ -26,12 +26,4 @@ describe("PrerequisiteMemory", () => {
       }),
     );
   });
-
-  test("undetermined", async () => {
-    // @ts-expect-error
-    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: maximum }));
-    const prerequisite = new PrerequisiteMemory({ maximum, label: "memory", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

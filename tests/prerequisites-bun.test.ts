@@ -32,10 +32,4 @@ describe("PrerequisiteBun", () => {
       mocks.VerificationFailure({ message: "Invalid version passed: abc" }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteBun({ label: "bun", enabled: false, version, current: "1.1.0" });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

@@ -23,10 +23,4 @@ describe("PrerequisiteRAM", () => {
       mocks.VerificationFailure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteRAM({ label: "ram", enabled: false, minimum });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

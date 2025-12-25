@@ -9,7 +9,6 @@ type Dependencies = { DiskSpaceChecker?: DiskSpaceCheckerPort };
 
 export class PrerequisiteSpace implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   private readonly minimum: tools.Size;
 
@@ -18,15 +17,12 @@ export class PrerequisiteSpace implements PrerequisiteVerifierPort {
     private readonly deps?: Dependencies,
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.minimum = config.minimum;
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const DiskSpaceChecker = this.deps?.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
-
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const root = path.sep;

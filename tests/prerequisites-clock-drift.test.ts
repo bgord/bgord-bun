@@ -44,12 +44,6 @@ describe("PrerequisiteClockDrift", () => {
     );
   });
 
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteClockDrift({ label: "clock-drift", enabled: false, skew }, deps);
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
-
   test("undetermined - timeout", async () => {
     const prerequisite = new PrerequisiteClockDrift(
       { label: "clock-drift", skew, timeout: tools.Duration.Ms(5) },

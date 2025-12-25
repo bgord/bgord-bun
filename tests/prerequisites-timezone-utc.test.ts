@@ -20,10 +20,4 @@ describe("PrerequisiteTimezoneUTC", () => {
       mocks.VerificationFailure({ message: `Timezone: ${timezone}` }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteTimezoneUTC({ label: "utc", timezone: utc, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

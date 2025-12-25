@@ -19,10 +19,4 @@ describe("PrerequisiteBinary", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteBinary({ label: "binary", binary, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

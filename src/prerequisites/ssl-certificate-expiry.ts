@@ -6,7 +6,6 @@ type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
 export class PrerequisiteSSLCertificateExpiry implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   private readonly hostname: string;
   private readonly days: number;
@@ -16,15 +15,12 @@ export class PrerequisiteSSLCertificateExpiry implements PrerequisiteVerifierPor
     private readonly deps: Dependencies,
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.hostname = config.hostname;
     this.days = config.days;
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     const result = await this.deps.CertificateInspector.inspect(this.hostname);
 
     if (!result.success)

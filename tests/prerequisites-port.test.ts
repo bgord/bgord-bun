@@ -20,10 +20,4 @@ describe("PrerequisitePort", () => {
 
     occupied.stop();
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisitePort({ port, label: "port", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

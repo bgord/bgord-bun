@@ -35,11 +35,4 @@ describe("PrerequisiteSQLite", () => {
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
   });
-
-  test("undetermined", async () => {
-    const sqlite = {} as any;
-    const prerequisite = new PrerequisiteSQLite({ label: "sqlite", sqlite, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

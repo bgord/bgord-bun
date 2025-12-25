@@ -10,7 +10,6 @@ type Dependencies = { Clock: ClockPort; Timekeeper?: TimekeeperPort };
 
 export class PrerequisiteClockDrift implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   readonly skew: tools.Duration;
   readonly timeout: tools.Duration;
@@ -20,7 +19,6 @@ export class PrerequisiteClockDrift implements PrerequisiteVerifierPort {
     private readonly deps: Dependencies,
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.skew = config.skew;
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
@@ -28,8 +26,6 @@ export class PrerequisiteClockDrift implements PrerequisiteVerifierPort {
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const Timekeeper = this.deps?.Timekeeper ?? new TimekeeperGoogleAdapter();
-
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
 
     try {
       const timestamp = await Timeout.cancellable(

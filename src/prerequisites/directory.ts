@@ -7,7 +7,6 @@ export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boo
 
 export class PrerequisiteDirectory implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   private readonly directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
   private readonly permissions: PrerequisiteDirectoryPermissionsType;
@@ -19,15 +18,12 @@ export class PrerequisiteDirectory implements PrerequisiteVerifierPort {
     },
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.directory = config.directory;
     this.permissions = config.permissions ?? {};
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     try {
       const stats = await stat(this.directory);
 

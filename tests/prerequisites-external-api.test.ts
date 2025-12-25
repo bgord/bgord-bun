@@ -19,16 +19,6 @@ describe("PrerequisiteExternalApi", () => {
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteExternalApi({
-      label: "api",
-      request: () => fetch("http://api"),
-      enabled: false,
-    });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
-
   test("timeout", async () => {
     // @ts-expect-error
     spyOn(global, "fetch").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));

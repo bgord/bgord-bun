@@ -29,15 +29,6 @@ describe("PrerequisiteOutsideConnectivity", () => {
     ).toMatch(mocks.IntentionalError);
   });
 
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteOutsideConnectivity({
-      label: "outside-connectivity",
-      enabled: false,
-    });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
-
   test("timeout", async () => {
     // @ts-expect-error
     spyOn(global, "fetch").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));

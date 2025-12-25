@@ -77,10 +77,4 @@ describe("PrerequisiteDirectory", () => {
       mocks.VerificationFailure({ message: "Directory is not executable" }),
     );
   });
-
-  test("undetermined - prerequisite disabled", async () => {
-    const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

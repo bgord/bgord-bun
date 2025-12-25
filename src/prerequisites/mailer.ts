@@ -8,7 +8,6 @@ type Dependencies = { Mailer: MailerPort };
 
 export class PrerequisiteMailer implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   readonly timeout: tools.Duration;
 
@@ -17,14 +16,11 @@ export class PrerequisiteMailer implements PrerequisiteVerifierPort {
     private readonly deps: Dependencies,
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     try {
       await Timeout.run(this.deps.Mailer.verify(), this.timeout);
       return prereqs.PrerequisiteVerification.success;

@@ -8,10 +8,4 @@ describe("PrerequisiteSelf", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteSelf({ label: "self", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

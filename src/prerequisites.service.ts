@@ -42,7 +42,7 @@ export class PrerequisiteVerification {
   static undetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 }
 
-export type PrerequisiteConfigType = { label: string; enabled?: boolean };
+export type PrerequisiteConfigType = { label: string };
 
 export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
 

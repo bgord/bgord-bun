@@ -6,16 +6,12 @@ type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | 
 
 export class PrerequisiteDependencyVulnerabilities implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   constructor(config: prereqs.PrerequisiteConfigType) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     try {
       const command = await bun.$`bun audit --json`.quiet();
 

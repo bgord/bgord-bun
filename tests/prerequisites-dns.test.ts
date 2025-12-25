@@ -23,12 +23,6 @@ describe("PrerequisiteExternalApi", () => {
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
   });
 
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteDNS({ label: "dns", hostname, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
-
   test("timeout", async () => {
     // @ts-expect-error
     spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));

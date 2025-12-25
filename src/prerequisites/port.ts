@@ -5,20 +5,16 @@ import * as prereqs from "../prerequisites.service";
 
 export class PrerequisitePort implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   private readonly port: PortType;
 
   constructor(config: prereqs.PrerequisiteConfigType & { port: PortType }) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.port = config.port;
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     return new Promise((resolve) => {
       const server = net.createServer();
       server.listen(this.port, () => server.close(() => resolve(prereqs.PrerequisiteVerification.success)));

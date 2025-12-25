@@ -5,7 +5,6 @@ import { Timeout } from "../timeout.service";
 
 export class PrerequisiteExternalApi implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   private readonly request: (signal: AbortSignal) => Promise<Response>;
   readonly timeout: tools.Duration;
@@ -17,15 +16,12 @@ export class PrerequisiteExternalApi implements PrerequisiteVerifierPort {
     },
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.request = config.request;
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     try {
       const response = await Timeout.cancellable((signal: AbortSignal) => this.request(signal), this.timeout);
 

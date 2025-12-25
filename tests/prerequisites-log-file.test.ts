@@ -64,16 +64,7 @@ describe("PrerequisiteLogFile", () => {
   });
 
   test("undetermined - no path", async () => {
-    const prerequisite = new PrerequisiteLogFile(
-      { label: "log-file", enabled: true },
-      { Logger: new LoggerNoopAdapter() },
-    );
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteLogFile({ label: "log-file", enabled: false }, deps);
+    const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, { Logger: new LoggerNoopAdapter() });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });

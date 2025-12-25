@@ -16,11 +16,4 @@ describe("PrerequisiteJobs", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
   });
-
-  test("undetermined", async () => {
-    const Jobs = { a: { isRunning: () => true } as any };
-    const prerequisite = new PrerequisiteJobs({ label: "jobs", enabled: false, Jobs });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

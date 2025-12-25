@@ -37,10 +37,4 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
       mocks.VerificationFailure({ message: "Certificate unavailable" }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteSSLCertificateExpiry({ ...config, enabled: false }, deps);
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

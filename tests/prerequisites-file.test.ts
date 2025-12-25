@@ -74,10 +74,4 @@ describe("PrerequisiteFile", () => {
       mocks.VerificationFailure({ message: "File is not executable" }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteFile({ label: "file", file: path, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

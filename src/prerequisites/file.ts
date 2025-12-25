@@ -7,7 +7,6 @@ export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean;
 
 export class PrerequisiteFile implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
-  readonly enabled?: boolean = true;
 
   private readonly file: tools.FilePathAbsolute | tools.FilePathRelative;
   private readonly permissions: PrerequisiteFilePermissionsType;
@@ -19,15 +18,12 @@ export class PrerequisiteFile implements PrerequisiteVerifierPort {
     },
   ) {
     this.label = config.label;
-    this.enabled = config.enabled === undefined ? true : config.enabled;
 
     this.file = config.file;
     this.permissions = config.permissions ?? {};
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined;
-
     try {
       const path = this.file.get();
 

@@ -32,15 +32,4 @@ describe("PrerequisiteNode", () => {
       mocks.VerificationFailure({ message: "Invalid version passed: abc" }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteNode({
-      label: "node",
-      version,
-      current: "v20.0.0",
-      enabled: false,
-    });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

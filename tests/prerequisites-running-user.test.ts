@@ -21,10 +21,4 @@ describe("PrerequisiteRunningUser", () => {
       mocks.VerificationFailure({ message: `Current user: ${username}` }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteRunningUser({ label: "user", username, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

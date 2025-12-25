@@ -112,10 +112,4 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(/Unexpected identifier "abc"/);
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

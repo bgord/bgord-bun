@@ -35,10 +35,4 @@ describe("PrerequisiteSpace", () => {
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteSpace({ label: "space", minimum, enabled: false }, deps);
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

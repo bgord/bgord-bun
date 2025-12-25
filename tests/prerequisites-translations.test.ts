@@ -49,13 +49,4 @@ describe("PrerequisiteTranslations", () => {
       mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }),
     );
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteTranslations(
-      { label: "i18n", supportedLanguages, enabled: false },
-      deps,
-    );
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });

@@ -23,12 +23,6 @@ describe("PrerequisiteMailer", () => {
     expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
   });
 
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteMailer({ label: "mailer", enabled: false }, deps);
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
-
   test("undetermined - timeout", async () => {
     spyOn(Mailer, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
     const prerequisite = new PrerequisiteMailer({ label: "mailer", timeout: tools.Duration.Ms(5) }, deps);

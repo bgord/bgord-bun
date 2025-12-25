@@ -17,10 +17,4 @@ describe("PrerequisiteOs", () => {
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toEqual("Unacceptable os: Nokia");
   });
-
-  test("undetermined", async () => {
-    const prerequisite = new PrerequisiteOs({ label: "os", accepted, enabled: false });
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });
