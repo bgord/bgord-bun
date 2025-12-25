@@ -1,8 +1,12 @@
 # Changelog
+- 2025-12-25 13:19 97e945c **step: use maintenance mode in setup service**
+- 2025-12-25 13:13 9eebca3 **feature: maintenance mode middleware**
 - 2025-12-25 12:34 ba2d32c **Merge pull request #141 from bgord/security**
 - 2025-12-25 12:30 37d6cb4 **step: define custom type for user id in security context**
 - 2025-12-25 12:23 d89462c **step: update packages**
 - 2025-12-25 12:22 add7b67 **step: update packages**
+- 2025-12-25 11:35 8a7a441 **docs: generate readme**
+- 2025-12-25 11:35 60802c5 **docs: generate CHANGELOG**
 - 2025-12-25 11:33 aa1274a **feature: security rule name vo**
 - 2025-12-25 11:25 c26c74c **step: test missing shield security policies**
 - 2025-12-25 11:13 e01efb3 **refactor: max rules**
