@@ -1,7 +1,7 @@
 import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierExternalApiAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { request: (signal?: AbortSignal) => Promise<Response> }) {}
+  constructor(private readonly config: { request: () => Promise<Response> }) {}
 
   async verify() {
     try {
