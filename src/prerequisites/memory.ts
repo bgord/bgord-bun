@@ -25,7 +25,7 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });
     }
-    return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.success;
   }
 
   get kind() {

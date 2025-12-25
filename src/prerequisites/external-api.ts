@@ -28,7 +28,7 @@ export class PrerequisiteExternalApi implements prereqs.Prerequisite {
     try {
       const response = await Timeout.cancellable((signal: AbortSignal) => this.request(signal), this.timeout);
 
-      if (response.ok) return prereqs.PrerequisiteVerification.success();
+      if (response.ok) return prereqs.PrerequisiteVerification.success;
       return prereqs.PrerequisiteVerification.failure({ message: `HTTP ${response.status}` });
     } catch (error) {
       return prereqs.PrerequisiteVerification.failure(error as Error);

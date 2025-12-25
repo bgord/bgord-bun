@@ -31,7 +31,7 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     if (result.daysRemaining <= this.days) {
       return prereqs.PrerequisiteVerification.failure({ message: `${result.daysRemaining} days remaining` });
     }
-    return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.success;
   }
 
   get kind() {

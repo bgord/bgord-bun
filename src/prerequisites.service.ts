@@ -30,9 +30,8 @@ export interface Prerequisite {
 }
 
 export class PrerequisiteVerification {
-  static success(): PrerequisiteVerificationSuccess {
-    return { outcome: PrerequisiteVerificationOutcome.success };
-  }
+  static success = { outcome: PrerequisiteVerificationOutcome.success };
+
   static failure(meta?: Error | ErrorInfo): PrerequisiteVerificationFailure {
     return {
       outcome: PrerequisiteVerificationOutcome.failure,

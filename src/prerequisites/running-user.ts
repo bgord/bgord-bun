@@ -19,7 +19,7 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
 
     const current = os.userInfo().username;
 
-    if (current === this.username) return prereqs.PrerequisiteVerification.success();
+    if (current === this.username) return prereqs.PrerequisiteVerification.success;
     return prereqs.PrerequisiteVerification.failure({ message: `Current user: ${current}` });
   }
 

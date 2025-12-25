@@ -75,7 +75,7 @@ export class PrerequisiteOk implements prereqs.Prerequisite {
   readonly kind = "test";
   readonly enabled = true;
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.Verification.success();
+    return prereqs.PrerequisiteVerification.success;
   }
 }
 
@@ -84,7 +84,7 @@ export class PrerequisiteFail implements prereqs.Prerequisite {
   readonly kind = "test";
   readonly enabled = true;
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.Verification.failure({ message: "boom" });
+    return prereqs.PrerequisiteVerification.failure({ message: "boom" });
   }
 }
 
@@ -93,7 +93,7 @@ export class PrerequisiteUndetermined implements prereqs.Prerequisite {
   readonly kind = "test";
   readonly enabled = false;
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.Verification.undetermined();
+    return prereqs.PrerequisiteVerification.undetermined();
   }
 }
 

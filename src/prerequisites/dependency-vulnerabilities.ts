@@ -36,7 +36,7 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
           message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
         });
 
-      return prereqs.PrerequisiteVerification.success();
+      return prereqs.PrerequisiteVerification.success;
     } catch (error) {
       return prereqs.PrerequisiteVerification.failure(error as Error);
     }

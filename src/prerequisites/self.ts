@@ -11,7 +11,7 @@ export class PrerequisiteSelf implements prereqs.Prerequisite {
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
-    return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.success;
   }
 
   get kind() {

@@ -25,7 +25,7 @@ export class PrerequisiteOutsideConnectivity implements prereqs.Prerequisite {
         this.timeout,
       );
 
-      if (response.ok) return prereqs.PrerequisiteVerification.success();
+      if (response.ok) return prereqs.PrerequisiteVerification.success;
       return prereqs.PrerequisiteVerification.failure({ message: `HTTP ${response.status}` });
     } catch (error) {
       return prereqs.PrerequisiteVerification.failure(error as Error);

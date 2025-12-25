@@ -24,7 +24,7 @@ export class PrerequisiteDNS implements prereqs.Prerequisite {
     try {
       await Timeout.run(dns.lookup(this.hostname), this.timeout);
 
-      return prereqs.PrerequisiteVerification.success();
+      return prereqs.PrerequisiteVerification.success;
     } catch (error) {
       return prereqs.PrerequisiteVerification.failure(error as Error);
     }

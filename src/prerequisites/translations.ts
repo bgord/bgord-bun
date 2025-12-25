@@ -57,7 +57,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       return prereqs.PrerequisiteVerification.failure(error as Error);
     }
 
-    if (supportedLanguages.length === 1) return prereqs.PrerequisiteVerification.success();
+    if (supportedLanguages.length === 1) return prereqs.PrerequisiteVerification.success;
 
     const languageToTranslationKeys: Record<tools.LanguageType, types.TranslationsKeyType[]> = {};
 
@@ -88,7 +88,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       }
     }
 
-    if (problems.length === 0) return prereqs.PrerequisiteVerification.success();
+    if (problems.length === 0) return prereqs.PrerequisiteVerification.success;
 
     const summary = problems
       .map((problem) => `Key: ${problem.key}, exists in ${problem.existsIn}, missing in ${problem.missingIn}`)

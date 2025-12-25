@@ -20,7 +20,7 @@ export class PrerequisitePort implements prereqs.Prerequisite {
 
     return new Promise((resolve) => {
       const server = net.createServer();
-      server.listen(this.port, () => server.close(() => resolve(prereqs.PrerequisiteVerification.success())));
+      server.listen(this.port, () => server.close(() => resolve(prereqs.PrerequisiteVerification.success)));
       server.on("error", () => resolve(prereqs.PrerequisiteVerification.failure()));
     });
   }

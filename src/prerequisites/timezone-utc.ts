@@ -22,7 +22,7 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
 
     const result = TimezoneUtc.safeParse(this.timezone);
 
-    if (result.success) return prereqs.PrerequisiteVerification.success();
+    if (result.success) return prereqs.PrerequisiteVerification.success;
     return prereqs.PrerequisiteVerification.failure({ message: `Timezone: ${this.timezone}` });
   }
 

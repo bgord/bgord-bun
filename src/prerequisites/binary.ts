@@ -19,7 +19,7 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
 
       const result = Bun.which(this.binary);
 
-      if (result) return prereqs.PrerequisiteVerification.success();
+      if (result) return prereqs.PrerequisiteVerification.success;
       return prereqs.PrerequisiteVerification.failure();
     } catch (error) {
       return prereqs.PrerequisiteVerification.failure(error as Error);

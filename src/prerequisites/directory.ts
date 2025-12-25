@@ -61,7 +61,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
       }
     }
 
-    return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.success;
   }
 
   get kind() {

@@ -19,7 +19,7 @@ export class PrerequisiteOs implements prereqs.Prerequisite {
     const type = os.type();
 
     if (this.accepted.map((type) => type.toLowerCase()).includes(type.toLowerCase())) {
-      return prereqs.PrerequisiteVerification.success();
+      return prereqs.PrerequisiteVerification.success;
     }
     return prereqs.PrerequisiteVerification.failure({
       message: `Unacceptable os: ${this.accepted.join(", ")}`,

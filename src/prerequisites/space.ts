@@ -31,7 +31,7 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
       const root = path.sep;
       const freeDiskSpace = await DiskSpaceChecker.get(root);
 
-      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.PrerequisiteVerification.success();
+      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.PrerequisiteVerification.success;
       return prereqs.PrerequisiteVerification.failure({
         message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });
