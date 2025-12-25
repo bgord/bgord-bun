@@ -4,7 +4,6 @@ import type * as tools from "@bgord/tools";
 import type * as types from "./i18n.service";
 import { I18n } from "./i18n.service";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
-import { JsonFileReaderBunForgivingAdapter } from "./json-file-reader-bun-forgiving.adapter";
 import type { LoggerPort } from "./logger.port";
 import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import * as prereqs from "./prerequisites.service";
@@ -15,7 +14,7 @@ type PrerequisiteTranslationsProblemType = {
   missingIn: tools.LanguageType;
 };
 
-type Dependencies = { Logger: LoggerPort; JsonFileReader?: JsonFileReaderPort };
+type Dependencies = { Logger: LoggerPort; JsonFileReader: JsonFileReaderPort };
 
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
   constructor(
@@ -27,12 +26,10 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
   ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
-
     const translationsPath = this.config.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
     const supportedLanguages = Object.keys(this.config.supportedLanguages);
-    const i18n = new I18n({ Logger: this.deps.Logger, JsonFileReader: JsonFileReader });
+    const i18n = new I18n(this.deps);
 
     try {
       await fsp.access(translationsPath, constants.R_OK);

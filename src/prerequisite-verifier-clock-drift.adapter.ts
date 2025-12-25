@@ -3,9 +3,8 @@ import type { ClockPort } from "./clock.port";
 import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import * as prereqs from "./prerequisites.service";
 import type { TimekeeperPort } from "./timekeeper.port";
-import { TimekeeperGoogleAdapter } from "./timekeeper-google.adapter";
 
-type Dependencies = { Clock: ClockPort; Timekeeper?: TimekeeperPort };
+type Dependencies = { Clock: ClockPort; Timekeeper: TimekeeperPort };
 
 export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifierPort {
   constructor(
@@ -14,10 +13,8 @@ export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifi
   ) {}
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    const Timekeeper = this.deps?.Timekeeper ?? new TimekeeperGoogleAdapter();
-
     try {
-      const timestamp = await Timekeeper.get();
+      const timestamp = await this.deps.Timekeeper.get();
 
       if (!timestamp) return prereqs.PrerequisiteVerification.undetermined;
 
