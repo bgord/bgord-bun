@@ -5,17 +5,17 @@ import * as mocks from "./mocks";
 
 const binary = Binary.parse("node");
 
+const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
+
 describe("PrerequisiteVerifierBinaryAdapter", () => {
   test("success", async () => {
     spyOn(Bun, "which").mockReturnValue(binary);
-    const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - binary not found", async () => {
     spyOn(Bun, "which").mockReturnValue(null);
-    const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
   });

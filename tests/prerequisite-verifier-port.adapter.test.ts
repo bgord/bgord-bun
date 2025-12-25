@@ -5,16 +5,15 @@ import * as mocks from "./mocks";
 
 const port = Port.parse(43210);
 
+const prerequisite = new PrerequisiteVerifierPortAdapter({ port });
+
 describe("PrerequisiteVerifierPortAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierPortAdapter({ port });
-
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     const occupied = Bun.listen({ hostname: "::", port, socket: { data() {} } });
-    const prerequisite = new PrerequisiteVerifierPortAdapter({ port });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
 

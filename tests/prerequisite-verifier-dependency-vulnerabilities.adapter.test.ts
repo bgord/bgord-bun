@@ -65,6 +65,8 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
   ],
 };
 
+const prerequisite = new PrerequisiteVerifierDependencyVulnerabilitiesAdapter();
+
 describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
   test("success", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
@@ -74,7 +76,6 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
         stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_LOW_AND_MODERATE)),
       }),
     }));
-    const prerequisite = new PrerequisiteVerifierDependencyVulnerabilitiesAdapter();
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
@@ -87,7 +88,6 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
         stdout: Buffer.from(JSON.stringify(BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES)),
       }),
     }));
-    const prerequisite = new PrerequisiteVerifierDependencyVulnerabilitiesAdapter();
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }),
@@ -97,7 +97,6 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
   test("failure - exit code", async () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
-    const prerequisite = new PrerequisiteVerifierDependencyVulnerabilitiesAdapter();
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "Audit failure" }));
   });
@@ -107,7 +106,6 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
       // @ts-expect-error
       quiet: () => ({ exitCode: 0, stdout: Buffer.from("abc") }),
     }));
-    const prerequisite = new PrerequisiteVerifierDependencyVulnerabilitiesAdapter();
 
     // @ts-expect-error
     expect((await prerequisite.verify()).error.message).toMatch(/Unexpected identifier "abc"/);

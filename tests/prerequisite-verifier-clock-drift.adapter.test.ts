@@ -19,17 +19,16 @@ export class TimekeeperDelayedAdapter implements TimekeeperPort {
   }
 }
 
+const prerequisite = new PrerequisiteVerifierClockDriftAdapter({ skew }, deps);
+
 describe("PrerequisiteVerifierClockDriftAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierClockDriftAdapter({ skew }, deps);
-
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - missing timestamp", async () => {
     // @ts-expect-error
     spyOn(Timekeeper, "get").mockResolvedValue(null);
-    const prerequisite = new PrerequisiteVerifierClockDriftAdapter({ skew }, deps);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
@@ -37,7 +36,6 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
   test("failure - skew", async () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
-    const prerequisite = new PrerequisiteVerifierClockDriftAdapter({ skew }, deps);
 
     expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }),
