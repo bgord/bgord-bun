@@ -13,12 +13,13 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       const command = await bun.$`bun audit --json`.quiet();
 
-      if (command.exitCode !== 0) return prereqs.Verification.failure({ message: "Audit failure" });
+      if (command.exitCode !== 0)
+        return prereqs.PrerequisiteVerification.failure({ message: "Audit failure" });
 
       const audit = JSON.parse(command.stdout.toString()) as BunAuditOutput;
 
@@ -31,13 +32,13 @@ export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisi
       ).length;
 
       if (criticalVulnerabilitiesCount > 0 || highVulnerabilitiesCount > 0)
-        return prereqs.Verification.failure({
+        return prereqs.PrerequisiteVerification.failure({
           message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
         });
 
-      return prereqs.Verification.success();
+      return prereqs.PrerequisiteVerification.success();
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
   }
 

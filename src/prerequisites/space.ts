@@ -25,18 +25,18 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const DiskSpaceChecker = this.deps?.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       const root = path.sep;
       const freeDiskSpace = await DiskSpaceChecker.get(root);
 
-      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success();
-      return prereqs.Verification.failure({
+      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.PrerequisiteVerification.success();
+      return prereqs.PrerequisiteVerification.failure({
         message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
   }
 

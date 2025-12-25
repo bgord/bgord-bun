@@ -15,7 +15,7 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       const integrity = this.sqlite.query("PRAGMA integrity_check;").get() as
@@ -23,11 +23,11 @@ export class PrerequisiteSQLite implements prereqs.Prerequisite {
         | undefined;
 
       if (!integrity || (integrity.integrity_check ?? "").toLowerCase() !== "ok") {
-        return prereqs.Verification.failure({ message: "Integrity check failed" });
+        return prereqs.PrerequisiteVerification.failure({ message: "Integrity check failed" });
       }
-      return prereqs.Verification.success();
+      return prereqs.PrerequisiteVerification.success();
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
   }
 

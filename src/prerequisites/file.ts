@@ -25,19 +25,19 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       const path = this.file.get();
 
       const exists = await Bun.file(path).exists();
-      if (!exists) return prereqs.Verification.failure({ message: "File does not exist" });
+      if (!exists) return prereqs.PrerequisiteVerification.failure({ message: "File does not exist" });
 
       if (this.permissions.read) {
         try {
           await access(path, constants.R_OK);
         } catch {
-          return prereqs.Verification.failure({ message: "File is not readable" });
+          return prereqs.PrerequisiteVerification.failure({ message: "File is not readable" });
         }
       }
 
@@ -45,7 +45,7 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
         try {
           await access(path, constants.W_OK);
         } catch {
-          return prereqs.Verification.failure({ message: "File is not writable" });
+          return prereqs.PrerequisiteVerification.failure({ message: "File is not writable" });
         }
       }
 
@@ -53,13 +53,13 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
         try {
           await access(path, constants.X_OK);
         } catch {
-          return prereqs.Verification.failure({ message: "File is not executable" });
+          return prereqs.PrerequisiteVerification.failure({ message: "File is not executable" });
         }
       }
 
-      return prereqs.Verification.success();
+      return prereqs.PrerequisiteVerification.success();
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
   }
 

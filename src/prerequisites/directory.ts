@@ -25,23 +25,23 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       const stats = await stat(this.directory);
 
       if (!stats.isDirectory()) {
-        return prereqs.Verification.failure({ message: "Not a directory" });
+        return prereqs.PrerequisiteVerification.failure({ message: "Not a directory" });
       }
     } catch {
-      return prereqs.Verification.failure({ message: "Directory does not exist" });
+      return prereqs.PrerequisiteVerification.failure({ message: "Directory does not exist" });
     }
 
     if (this.permissions.read) {
       try {
         await access(this.directory, constants.R_OK);
       } catch {
-        return prereqs.Verification.failure({ message: "Directory is not readable" });
+        return prereqs.PrerequisiteVerification.failure({ message: "Directory is not readable" });
       }
     }
 
@@ -49,7 +49,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
       try {
         await access(this.directory, constants.W_OK);
       } catch {
-        return prereqs.Verification.failure({ message: "Directory is not writable" });
+        return prereqs.PrerequisiteVerification.failure({ message: "Directory is not writable" });
       }
     }
 
@@ -57,11 +57,11 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
       try {
         await access(this.directory, constants.X_OK);
       } catch {
-        return prereqs.Verification.failure({ message: "Directory is not executable" });
+        return prereqs.PrerequisiteVerification.failure({ message: "Directory is not executable" });
       }
     }
 
-    return prereqs.Verification.success();
+    return prereqs.PrerequisiteVerification.success();
   }
 
   get kind() {

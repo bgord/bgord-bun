@@ -14,14 +14,16 @@ export class PrerequisiteOs implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const type = os.type();
 
     if (this.accepted.map((type) => type.toLowerCase()).includes(type.toLowerCase())) {
-      return prereqs.Verification.success();
+      return prereqs.PrerequisiteVerification.success();
     }
-    return prereqs.Verification.failure({ message: `Unacceptable os: ${this.accepted.join(", ")}` });
+    return prereqs.PrerequisiteVerification.failure({
+      message: `Unacceptable os: ${this.accepted.join(", ")}`,
+    });
   }
 
   get kind() {

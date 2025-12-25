@@ -28,21 +28,21 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const Timekeeper = this.deps?.Timekeeper ?? new TimekeeperGoogleAdapter();
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       const timestamp = await Timeout.cancellable(
         (signal: AbortSignal) => Timekeeper.get(signal),
         this.timeout,
       );
-      if (!timestamp) return prereqs.Verification.undetermined();
+      if (!timestamp) return prereqs.PrerequisiteVerification.undetermined();
 
       const duration = this.deps.Clock.now().difference(timestamp).toAbsolute();
 
-      if (duration.isShorterThan(this.skew)) return prereqs.Verification.success();
-      return prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` });
+      if (duration.isShorterThan(this.skew)) return prereqs.PrerequisiteVerification.success();
+      return prereqs.PrerequisiteVerification.failure({ message: `Difference: ${duration.seconds}s` });
     } catch (error) {
-      return prereqs.Verification.undetermined();
+      return prereqs.PrerequisiteVerification.undetermined();
     }
   }
 

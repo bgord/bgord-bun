@@ -16,12 +16,14 @@ export class PrerequisiteRAM implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const freeRAM = tools.Size.fromBytes(os.freemem());
 
-    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success();
-    return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` });
+    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.failure({
+      message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}`,
+    });
   }
 
   get kind() {

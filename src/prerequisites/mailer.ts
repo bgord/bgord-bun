@@ -22,13 +22,13 @@ export class PrerequisiteMailer implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     try {
       await Timeout.run(this.deps.Mailer.verify(), this.timeout);
-      return prereqs.Verification.success();
+      return prereqs.PrerequisiteVerification.success();
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
   }
 

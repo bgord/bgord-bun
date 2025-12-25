@@ -40,7 +40,7 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
 
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
@@ -54,10 +54,10 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
         await fsp.access(i18n.getTranslationPathForLanguage(language).get(), constants.R_OK);
       }
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
 
-    if (supportedLanguages.length === 1) return prereqs.Verification.success();
+    if (supportedLanguages.length === 1) return prereqs.PrerequisiteVerification.success();
 
     const languageToTranslationKeys: Record<tools.LanguageType, types.TranslationsKeyType[]> = {};
 
@@ -88,13 +88,13 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       }
     }
 
-    if (problems.length === 0) return prereqs.Verification.success();
+    if (problems.length === 0) return prereqs.PrerequisiteVerification.success();
 
     const summary = problems
       .map((problem) => `Key: ${problem.key}, exists in ${problem.existsIn}, missing in ${problem.missingIn}`)
       .join("\n");
 
-    return prereqs.Verification.failure({ message: summary });
+    return prereqs.PrerequisiteVerification.failure({ message: summary });
   }
 
   get kind() {

@@ -18,12 +18,12 @@ export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const result = TimezoneUtc.safeParse(this.timezone);
 
-    if (result.success) return prereqs.Verification.success();
-    return prereqs.Verification.failure({ message: `Timezone: ${this.timezone}` });
+    if (result.success) return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.failure({ message: `Timezone: ${this.timezone}` });
   }
 
   get kind() {

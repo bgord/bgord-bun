@@ -15,12 +15,12 @@ export class PrerequisiteRunningUser implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const current = os.userInfo().username;
 
-    if (current === this.username) return prereqs.Verification.success();
-    return prereqs.Verification.failure({ message: `Current user: ${current}` });
+    if (current === this.username) return prereqs.PrerequisiteVerification.success();
+    return prereqs.PrerequisiteVerification.failure({ message: `Current user: ${current}` });
   }
 
   get kind() {

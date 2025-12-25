@@ -22,15 +22,16 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const result = await this.deps.CertificateInspector.inspect(this.hostname);
 
-    if (!result.success) return prereqs.Verification.failure({ message: "Certificate unavailable" });
+    if (!result.success)
+      return prereqs.PrerequisiteVerification.failure({ message: "Certificate unavailable" });
     if (result.daysRemaining <= this.days) {
-      return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
+      return prereqs.PrerequisiteVerification.failure({ message: `${result.daysRemaining} days remaining` });
     }
-    return prereqs.Verification.success();
+    return prereqs.PrerequisiteVerification.success();
   }
 
   get kind() {

@@ -15,14 +15,14 @@ export class PrerequisiteBinary implements prereqs.Prerequisite {
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
     try {
-      if (!this.enabled) return prereqs.Verification.undetermined();
+      if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
       const result = Bun.which(this.binary);
 
-      if (result) return prereqs.Verification.success();
-      return prereqs.Verification.failure();
+      if (result) return prereqs.PrerequisiteVerification.success();
+      return prereqs.PrerequisiteVerification.failure();
     } catch (error) {
-      return prereqs.Verification.failure(error as Error);
+      return prereqs.PrerequisiteVerification.failure(error as Error);
     }
   }
 

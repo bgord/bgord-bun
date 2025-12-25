@@ -29,7 +29,7 @@ export interface Prerequisite {
   get kind(): string;
 }
 
-export class Verification {
+export class PrerequisiteVerification {
   static success(): PrerequisiteVerificationSuccess {
     return { outcome: PrerequisiteVerificationOutcome.success };
   }

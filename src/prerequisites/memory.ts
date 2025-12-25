@@ -16,16 +16,16 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
   }
 
   async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    if (!this.enabled) return prereqs.Verification.undetermined();
+    if (!this.enabled) return prereqs.PrerequisiteVerification.undetermined();
 
     const memoryConsumption = MemoryConsumption.get();
 
     if (memoryConsumption.isGreaterThan(this.maximum)) {
-      return prereqs.Verification.failure({
+      return prereqs.PrerequisiteVerification.failure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });
     }
-    return prereqs.Verification.success();
+    return prereqs.PrerequisiteVerification.success();
   }
 
   get kind() {
