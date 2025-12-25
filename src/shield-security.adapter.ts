@@ -5,10 +5,17 @@ import { SecurityContext } from "./security-context.vo";
 import type { SecurityPolicy } from "./security-policy.vo";
 import type { ShieldPort } from "./shield.port";
 
-export const ShieldSecurityAdapterError = { Unhandled: "shield.security.adapter.error.unhandled" };
+export const ShieldSecurityAdapterError = {
+  Unhandled: "shield.security.adapter.error.unhandled",
+  MissingPolicies: "shield.security.adapter.error.missing.policies",
+  MaxPolicies: "shield.security.adapter.error.max.policies",
+};
 
 export class ShieldSecurityAdapter implements ShieldPort {
-  constructor(private readonly policies: SecurityPolicy[]) {}
+  constructor(private readonly policies: SecurityPolicy[]) {
+    if (policies.length === 0) throw new Error(ShieldSecurityAdapterError.MissingPolicies);
+    if (policies.length > 5) throw new Error(ShieldSecurityAdapterError.MaxPolicies);
+  }
 
   verify = createMiddleware(async (c, next) => {
     for (const policy of this.policies) {

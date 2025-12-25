@@ -188,4 +188,15 @@ describe("ShieldSecurityAdapter", () => {
     expect(loggerInfo).toHaveBeenCalled();
     expect(bunSleep).toHaveBeenCalled();
   });
+
+  test("missing policies", () => {
+    expect(() => new ShieldSecurityAdapter([])).toThrow(ShieldSecurityAdapterError.MissingPolicies);
+  });
+
+  test("max policies", () => {
+    expect(
+      () =>
+        new ShieldSecurityAdapter([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail]),
+    ).toThrow(ShieldSecurityAdapterError.MaxPolicies);
+  });
 });
