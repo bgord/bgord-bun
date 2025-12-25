@@ -9,9 +9,12 @@ import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
 import { Prerequisite } from "../src/prerequisite.vo";
-import type { PrerequisiteVerifierPort } from "../src/prerequisite-verifier.port";
-import * as prereqs from "../src/prerequisites.service";
-import { PrerequisiteVerificationOutcome } from "../src/prerequisites.service";
+import {
+  PrerequisiteVerification,
+  PrerequisiteVerificationOutcome,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
@@ -73,8 +76,8 @@ export const VerificationFailure = (error?: any) => ({
 });
 
 export class PrerequisiteVerifierOk implements PrerequisiteVerifierPort {
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.PrerequisiteVerification.success;
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.success;
   }
 
   get kind() {
@@ -84,8 +87,8 @@ export class PrerequisiteVerifierOk implements PrerequisiteVerifierPort {
 export const PrerequisiteOk = new Prerequisite("ok", new PrerequisiteVerifierOk());
 
 export class PrerequisiteVerifierFail implements PrerequisiteVerifierPort {
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.PrerequisiteVerification.failure({ message: "boom" });
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.failure({ message: "boom" });
   }
 
   get kind() {
@@ -95,8 +98,8 @@ export class PrerequisiteVerifierFail implements PrerequisiteVerifierPort {
 export const PrerequisiteFail = new Prerequisite("fail", new PrerequisiteVerifierFail());
 
 export class PrerequisiteVerifierUndetermined implements PrerequisiteVerifierPort {
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
-    return prereqs.PrerequisiteVerification.undetermined;
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.undetermined;
   }
 
   get kind() {

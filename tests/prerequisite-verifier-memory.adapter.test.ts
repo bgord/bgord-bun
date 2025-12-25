@@ -20,7 +20,9 @@ describe("PrerequisiteVerifierMemoryAdapter", () => {
     // @ts-expect-error
     spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
 
-    expect(await prerequisite.verify()).toEqual(
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(
       mocks.VerificationFailure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       }),

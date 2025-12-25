@@ -14,7 +14,8 @@ describe("PrerequisiteVerifierOsAdapter", () => {
   test("failure", async () => {
     const prerequisite = new PrerequisiteVerifierOsAdapter({ accepted: ["Nokia"] });
 
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toEqual("Unacceptable os: Nokia");
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Unacceptable os: Nokia" }));
   });
 });

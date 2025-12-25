@@ -18,6 +18,8 @@ describe("PrerequisiteVerifierMailerAdapter", () => {
     spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
 
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
+    const result = (await prerequisite.verify()).error.message;
+
+    expect(result).toMatch(mocks.IntentionalError);
   });
 });

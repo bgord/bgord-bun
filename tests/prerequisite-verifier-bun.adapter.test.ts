@@ -21,15 +21,16 @@ describe("PrerequisiteVerifierBunAdapter", () => {
   test("failure - lower version", async () => {
     const prerequisite = new PrerequisiteVerifierBunAdapter({ version, current: "0.1.0" });
 
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toEqual("Version: 1.0.0");
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Version: 1.0.0" }));
   });
 
   test("failure - invalid version", async () => {
     const prerequisite = new PrerequisiteVerifierBunAdapter({ version, current: "abc" });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Invalid version passed: abc" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Invalid version passed: abc" }));
   });
 });

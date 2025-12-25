@@ -37,8 +37,8 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }));
   });
 });

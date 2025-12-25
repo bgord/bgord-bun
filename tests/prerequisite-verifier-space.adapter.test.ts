@@ -22,9 +22,10 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
   test("failure - not enough space", async () => {
     const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(
-      `Free disk space: ${failure.format(tools.Size.unit.MB)}`,
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(
+      mocks.VerificationFailure({ message: `Free disk space: ${failure.format(tools.Size.unit.MB)}` }),
     );
   });
 
@@ -33,6 +34,8 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
     const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
+    const result = (await prerequisite.verify()).error.message;
+
+    expect(result).toMatch(mocks.IntentionalError);
   });
 });

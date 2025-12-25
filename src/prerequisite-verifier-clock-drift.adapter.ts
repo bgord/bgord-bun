@@ -1,7 +1,10 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 import type { TimekeeperPort } from "./timekeeper.port";
 
 type Dependencies = { Clock: ClockPort; Timekeeper: TimekeeperPort };
@@ -12,18 +15,18 @@ export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifi
     private readonly deps: Dependencies,
   ) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const timestamp = await this.deps.Timekeeper.get();
 
-      if (!timestamp) return prereqs.PrerequisiteVerification.undetermined;
+      if (!timestamp) return PrerequisiteVerification.undetermined;
 
       const duration = this.deps.Clock.now().difference(timestamp).toAbsolute();
 
-      if (duration.isShorterThan(this.config.skew)) return prereqs.PrerequisiteVerification.success;
-      return prereqs.PrerequisiteVerification.failure({ message: `Difference: ${duration.seconds}s` });
+      if (duration.isShorterThan(this.config.skew)) return PrerequisiteVerification.success;
+      return PrerequisiteVerification.failure({ message: `Difference: ${duration.seconds}s` });
     } catch (error) {
-      return prereqs.PrerequisiteVerification.undetermined;
+      return PrerequisiteVerification.undetermined;
     }
   }
 

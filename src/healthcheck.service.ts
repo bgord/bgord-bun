@@ -6,18 +6,21 @@ import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
+import {
+  PrerequisiteVerificationOutcome,
+  type PrerequisiteVerificationResult,
+} from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierSelfAdapter } from "./prerequisite-verifier-self.adapter";
-import * as prereqs from "./prerequisites.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
 const handler = createFactory();
 
 type HealthcheckResultType = {
-  ok: prereqs.PrerequisiteVerificationOutcome;
+  ok: PrerequisiteVerificationOutcome;
   version: string;
   details: {
     label: PrerequisiteLabelType;
-    outcome: prereqs.PrerequisiteVerificationResult;
+    outcome: PrerequisiteVerificationResult;
     durationMs: tools.DurationMsType;
   }[];
   uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
@@ -49,13 +52,11 @@ export class Healthcheck {
         details.push({ label: prerequisite.label, outcome, durationMs });
       }
 
-      const ok = details.every(
-        (result) => result.outcome.outcome !== prereqs.PrerequisiteVerificationOutcome.failure,
-      )
-        ? prereqs.PrerequisiteVerificationOutcome.success
-        : prereqs.PrerequisiteVerificationOutcome.failure;
+      const ok = details.every((result) => result.outcome.outcome !== PrerequisiteVerificationOutcome.failure)
+        ? PrerequisiteVerificationOutcome.success
+        : PrerequisiteVerificationOutcome.failure;
 
-      const code = ok === prereqs.PrerequisiteVerificationOutcome.success ? 200 : 424;
+      const code = ok === PrerequisiteVerificationOutcome.success ? 200 : 424;
 
       const uptime = Uptime.get(deps.Clock);
 

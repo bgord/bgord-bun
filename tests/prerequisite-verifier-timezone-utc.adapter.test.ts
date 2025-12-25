@@ -16,8 +16,8 @@ describe("PrerequisiteVerifierTimezoneUtcVerifier", () => {
     const timezone = tools.Timezone.parse("Europe/Warsaw");
     const prerequisite = new PrerequisiteVerifierTimezoneUtcVerifier({ timezone });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: `Timezone: ${timezone}` }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: `Timezone: ${timezone}` }));
   });
 });

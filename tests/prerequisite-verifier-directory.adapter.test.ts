@@ -31,7 +31,9 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => false } as any);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "Not a directory" }));
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Not a directory" }));
   });
 
   test("failure - read permission", async () => {
@@ -42,9 +44,9 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     });
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory, permissions: { read: true } });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Directory is not readable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Directory is not readable" }));
   });
 
   test("failure - write permission", async () => {
@@ -58,9 +60,9 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
       permissions: { write: true },
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Directory is not writable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Directory is not writable" }));
   });
 
   test("failure - execute permission", async () => {
@@ -74,8 +76,8 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
       permissions: { execute: true },
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Directory is not executable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Directory is not executable" }));
   });
 });

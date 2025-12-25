@@ -1,7 +1,10 @@
 import { access, constants, stat } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -13,15 +16,13 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
     },
   ) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const stats = await stat(this.config.directory);
 
-      if (!stats.isDirectory()) {
-        return prereqs.PrerequisiteVerification.failure({ message: "Not a directory" });
-      }
+      if (!stats.isDirectory()) return PrerequisiteVerification.failure({ message: "Not a directory" });
     } catch {
-      return prereqs.PrerequisiteVerification.failure({ message: "Directory does not exist" });
+      return PrerequisiteVerification.failure({ message: "Directory does not exist" });
     }
 
     const permissions = this.config.permissions ?? {};
@@ -30,7 +31,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
       try {
         await access(this.config.directory, constants.R_OK);
       } catch {
-        return prereqs.PrerequisiteVerification.failure({ message: "Directory is not readable" });
+        return PrerequisiteVerification.failure({ message: "Directory is not readable" });
       }
     }
 
@@ -38,7 +39,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
       try {
         await access(this.config.directory, constants.W_OK);
       } catch {
-        return prereqs.PrerequisiteVerification.failure({ message: "Directory is not writable" });
+        return PrerequisiteVerification.failure({ message: "Directory is not writable" });
       }
     }
 
@@ -46,11 +47,11 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
       try {
         await access(this.config.directory, constants.X_OK);
       } catch {
-        return prereqs.PrerequisiteVerification.failure({ message: "Directory is not executable" });
+        return PrerequisiteVerification.failure({ message: "Directory is not executable" });
       }
     }
 
-    return prereqs.PrerequisiteVerification.success;
+    return PrerequisiteVerification.success;
   }
 
   get kind() {

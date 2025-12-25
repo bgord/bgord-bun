@@ -1,7 +1,10 @@
 import { access, constants } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -13,12 +16,12 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
     },
   ) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const path = this.config.file.get();
 
       const exists = await Bun.file(path).exists();
-      if (!exists) return prereqs.PrerequisiteVerification.failure({ message: "File does not exist" });
+      if (!exists) return PrerequisiteVerification.failure({ message: "File does not exist" });
 
       const permissions = this.config.permissions ?? {};
 
@@ -26,7 +29,7 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
         try {
           await access(path, constants.R_OK);
         } catch {
-          return prereqs.PrerequisiteVerification.failure({ message: "File is not readable" });
+          return PrerequisiteVerification.failure({ message: "File is not readable" });
         }
       }
 
@@ -34,7 +37,7 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
         try {
           await access(path, constants.W_OK);
         } catch {
-          return prereqs.PrerequisiteVerification.failure({ message: "File is not writable" });
+          return PrerequisiteVerification.failure({ message: "File is not writable" });
         }
       }
 
@@ -42,13 +45,13 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
         try {
           await access(path, constants.X_OK);
         } catch {
-          return prereqs.PrerequisiteVerification.failure({ message: "File is not executable" });
+          return PrerequisiteVerification.failure({ message: "File is not executable" });
         }
       }
 
-      return prereqs.PrerequisiteVerification.success;
+      return PrerequisiteVerification.success;
     } catch (error) {
-      return prereqs.PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error as Error);
     }
   }
 

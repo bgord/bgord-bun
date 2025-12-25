@@ -20,9 +20,9 @@ describe("PrerequisiteVerifierOutsideConnectivityAdapter", () => {
   test("failure - error", async () => {
     spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
 
-    expect(
-      // @ts-expect-error
-      (await prerequisite.verify()).error.message,
-    ).toMatch(mocks.IntentionalError);
+    // @ts-expect-error
+    const result = (await prerequisite.verify()).error.message;
+
+    expect(result).toMatch(mocks.IntentionalError);
   });
 });

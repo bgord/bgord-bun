@@ -21,15 +21,16 @@ describe("PrerequisiteVerifierNodeAdapter", () => {
   test("failure - lower version", async () => {
     const prerequisite = new PrerequisiteVerifierNodeAdapter({ version, current: "v18.10.0" });
 
-    // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toEqual("Version: v18.10.0");
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Version: v18.10.0" }));
   });
 
   test("failure - invalid version", async () => {
     const prerequisite = new PrerequisiteVerifierNodeAdapter({ version, current: "abc" });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Invalid version passed: abc" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Invalid version passed: abc" }));
   });
 });

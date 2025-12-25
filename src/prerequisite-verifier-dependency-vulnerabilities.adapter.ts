@@ -1,16 +1,18 @@
 import bun from "bun";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
 
 export class PrerequisiteVerifierDependencyVulnerabilitiesAdapter implements PrerequisiteVerifierPort {
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const command = await bun.$`bun audit --json`.quiet();
 
-      if (command.exitCode !== 0)
-        return prereqs.PrerequisiteVerification.failure({ message: "Audit failure" });
+      if (command.exitCode !== 0) return PrerequisiteVerification.failure({ message: "Audit failure" });
 
       const audit = JSON.parse(command.stdout.toString()) as BunAuditOutput;
 
@@ -23,13 +25,13 @@ export class PrerequisiteVerifierDependencyVulnerabilitiesAdapter implements Pre
       ).length;
 
       if (criticalVulnerabilitiesCount > 0 || highVulnerabilitiesCount > 0)
-        return prereqs.PrerequisiteVerification.failure({
+        return PrerequisiteVerification.failure({
           message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
         });
 
-      return prereqs.PrerequisiteVerification.success;
+      return PrerequisiteVerification.success;
     } catch (error) {
-      return prereqs.PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error as Error);
     }
   }
 

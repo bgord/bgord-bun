@@ -25,7 +25,9 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
       CertificateInspector: new CertificateInspectorNoopAdapter(10),
     });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
   });
 
   test("failure - certificate unavailable", async () => {
@@ -33,8 +35,8 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
       CertificateInspector: new CertificateInspectorUnavailableAdapter(),
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Certificate unavailable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
   });
 });

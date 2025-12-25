@@ -1,37 +1,7 @@
 import type { ClockPort } from "../src/clock.port";
-import type { ErrorInfo, LoggerPort } from "../src/logger.port";
-import { formatError } from "../src/logger-format-error.service";
+import type { LoggerPort } from "../src/logger.port";
 import type { Prerequisite } from "./prerequisite.vo";
-
-export enum PrerequisiteVerificationOutcome {
-  success = "success",
-  failure = "failure",
-  undetermined = "undetermined",
-}
-
-export type PrerequisiteVerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
-export type PrerequisiteVerificationFailure = {
-  outcome: PrerequisiteVerificationOutcome.failure;
-  error?: ErrorInfo;
-};
-export type PrerequisiteVerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
-export type PrerequisiteVerificationResult =
-  | PrerequisiteVerificationSuccess
-  | PrerequisiteVerificationFailure
-  | PrerequisiteVerificationUndetermined;
-
-export class PrerequisiteVerification {
-  static success = { outcome: PrerequisiteVerificationOutcome.success };
-
-  static failure(meta?: Error | ErrorInfo): PrerequisiteVerificationFailure {
-    return {
-      outcome: PrerequisiteVerificationOutcome.failure,
-      error: meta instanceof Error ? formatError(meta) : meta,
-    };
-  }
-
-  static undetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
-}
+import { PrerequisiteVerificationOutcome } from "./prerequisite-verifier.port";
 
 export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
 

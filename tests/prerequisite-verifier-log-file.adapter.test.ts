@@ -33,7 +33,9 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync } as any);
 
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
+    const result = (await prerequisite.verify()).error.message;
+
+    expect(result).toMatch(mocks.IntentionalError);
   });
 
   test("failure - file not readable", async () => {
@@ -43,9 +45,9 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
       return undefined;
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "File is not readable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not readable" }));
   });
 
   test("failure - file not writeable", async () => {
@@ -55,9 +57,9 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
       return undefined;
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "File is not writable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not writable" }));
   });
 
   test("undetermined - no path", async () => {

@@ -28,7 +28,9 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
 
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(/Does not exist/);
+    const result = (await prerequisite.verify()).error.message;
+
+    expect(result).toMatch(/Does not exist/);
   });
 
   test("failure - inconsistent translations", async () => {

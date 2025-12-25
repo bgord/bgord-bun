@@ -1,20 +1,23 @@
 import * as tools from "@bgord/tools";
 import { MemoryConsumption } from "./memory-consumption.service";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { maximum: tools.Size }) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const memoryConsumption = MemoryConsumption.get();
 
     if (memoryConsumption.isGreaterThan(this.config.maximum)) {
-      return prereqs.PrerequisiteVerification.failure({
+      return PrerequisiteVerification.failure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });
     }
-    return prereqs.PrerequisiteVerification.success;
+    return PrerequisiteVerification.success;
   }
 
   get kind() {

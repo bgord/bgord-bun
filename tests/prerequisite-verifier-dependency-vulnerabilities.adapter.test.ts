@@ -89,16 +89,18 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
       }),
     }));
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }));
   });
 
   test("failure - exit code", async () => {
     // @ts-expect-error
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "Audit failure" }));
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Audit failure" }));
   });
 
   test("failure - audit parsing", async () => {
@@ -108,6 +110,8 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
     }));
 
     // @ts-expect-error
-    expect((await prerequisite.verify()).error.message).toMatch(/Unexpected identifier "abc"/);
+    const result = (await prerequisite.verify()).error.message;
+
+    expect(result).toMatch(/Unexpected identifier "abc"/);
   });
 });

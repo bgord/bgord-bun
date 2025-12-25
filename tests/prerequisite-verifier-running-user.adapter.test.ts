@@ -17,8 +17,8 @@ describe("PrerequisiteVerifierRunningUserAdapter", () => {
     spyOn(os, "userInfo").mockReturnValue({ username } as any);
     const prerequisite = new PrerequisiteVerifierRunningUserAdapter({ username: "root" });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: `Current user: ${username}` }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: `Current user: ${username}` }));
   });
 });

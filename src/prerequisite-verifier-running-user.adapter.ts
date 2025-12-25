@@ -1,15 +1,18 @@
 import os from "node:os";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierRunningUserAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { username: string }) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const current = os.userInfo().username;
 
-    if (current === this.config.username) return prereqs.PrerequisiteVerification.success;
-    return prereqs.PrerequisiteVerification.failure({ message: `Current user: ${current}` });
+    if (current === this.config.username) return PrerequisiteVerification.success;
+    return PrerequisiteVerification.failure({ message: `Current user: ${current}` });
   }
 
   get kind() {

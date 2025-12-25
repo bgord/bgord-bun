@@ -1,17 +1,20 @@
 import type { LoggerPort } from "./logger.port";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierFileAdapter } from "./prerequisite-verifier-file.adapter";
-import * as prereqs from "./prerequisites.service";
 
 type Dependencies = { Logger: LoggerPort };
 
 export class PrerequisiteVerifierLogFileAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly deps: Dependencies) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const path = this.deps.Logger.getFilePath();
-      if (!path) return prereqs.PrerequisiteVerification.undetermined;
+      if (!path) return PrerequisiteVerification.undetermined;
 
       const file = new PrerequisiteVerifierFileAdapter({
         file: path,
@@ -20,7 +23,7 @@ export class PrerequisiteVerifierLogFileAdapter implements PrerequisiteVerifierP
 
       return file.verify();
     } catch (error) {
-      return prereqs.PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error as Error);
     }
   }
 

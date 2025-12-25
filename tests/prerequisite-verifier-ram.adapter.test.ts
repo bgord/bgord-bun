@@ -19,7 +19,9 @@ describe("PrerequisiteVerifierRamAdapter", () => {
     const freeRAM = tools.Size.fromMB(256);
     spyOn(os, "freemem").mockReturnValue(freeRAM.toBytes());
 
-    expect(await prerequisite.verify()).toEqual(
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(
       mocks.VerificationFailure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
     );
   });

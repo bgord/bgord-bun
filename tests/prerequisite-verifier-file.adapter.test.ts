@@ -22,9 +22,9 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "File does not exist" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "File does not exist" }));
   });
 
   test("failure - read permission", async () => {
@@ -35,9 +35,9 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "File is not readable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not readable" }));
   });
 
   test("failure - write permission", async () => {
@@ -51,9 +51,9 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       permissions: { read: true, write: true },
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "File is not writable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not writable" }));
   });
 
   test("failure - execute permission", async () => {
@@ -67,8 +67,8 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       permissions: { read: true, write: true, execute: true },
     });
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "File is not executable" }),
-    );
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not executable" }));
   });
 });

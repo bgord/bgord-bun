@@ -1,6 +1,9 @@
 import type { CertificateInspectorPort } from "./certificate-inspector.port";
-import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import * as prereqs from "./prerequisites.service";
+import {
+  PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
@@ -10,18 +13,16 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
     private readonly deps: Dependencies,
   ) {}
 
-  async verify(): Promise<prereqs.PrerequisiteVerificationResult> {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const result = await this.deps.CertificateInspector.inspect(this.config.hostname);
 
-    if (!result.success) {
-      return prereqs.PrerequisiteVerification.failure({ message: "Certificate unavailable" });
-    }
+    if (!result.success) return PrerequisiteVerification.failure({ message: "Certificate unavailable" });
 
     if (result.daysRemaining <= this.config.days) {
-      return prereqs.PrerequisiteVerification.failure({ message: `${result.daysRemaining} days remaining` });
+      return PrerequisiteVerification.failure({ message: `${result.daysRemaining} days remaining` });
     }
 
-    return prereqs.PrerequisiteVerification.success;
+    return PrerequisiteVerification.success;
   }
 
   get kind() {
