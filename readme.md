@@ -46,6 +46,7 @@ src/
 ├── cache-subject-segment-cookie.ts
 ├── cache-subject-segment-fixed.ts
 ├── cache-subject-segment-header.ts
+├── cache-subject-segment-ip.ts
 ├── cache-subject-segment-path.ts
 ├── cache-subject-segment-query.ts
 ├── cache-subject-segment-user.ts
@@ -54,6 +55,9 @@ src/
 ├── certificate-inspector-tls.adapter.ts
 ├── certificate-inspector.port.ts
 ├── checksum.service.ts
+├── client-from-hono.adapter.ts
+├── client-ip.vo.ts
+├── client-user-agent.vo.ts
 ├── client.vo.ts
 ├── clock-fixed.adapter.ts
 ├── clock-system.adapter.ts
@@ -216,6 +220,7 @@ src/
 │       ├── events
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
 │       │   ├── MINUTE_HAS_PASSED_EVENT.ts
+│       │   ├── SECURITY_VIOLATION_DETECTED_EVENT.ts
 │       └── services
 │           ├── passage-of-time-hourly.service.ts
 │           └── passage-of-time-minute.service.ts
@@ -262,7 +267,25 @@ src/
 ├── remote-file-storage-noop.adapter.ts
 ├── remote-file-storage.port.ts
 ├── safe-parse-body.service.ts
-├── secret.vo.ts
+├── security-context.vo.ts
+├── security-countermeasure-ban.adapter.ts
+├── security-countermeasure-mirage.adapter.ts
+├── security-countermeasure-name.vo.ts
+├── security-countermeasure-noop.adapter.ts
+├── security-countermeasure-report.adapter.ts
+├── security-countermeasure-tarpit.adapter.ts
+├── security-countermeasure.port.ts
+├── security-policy.vo.ts
+├── security-rule-and.adapter.ts
+├── security-rule-bait-routes.adapter.ts
+├── security-rule-fail.adapter.ts
+├── security-rule-honey-pot-field.adapter.ts
+├── security-rule-name.vo.ts
+├── security-rule-or.adapter.ts
+├── security-rule-pass.adapter.ts
+├── security-rule-user-agent.adapter.ts
+├── security-rule-violation-threshold.adapter.ts
+├── security-rule.port.ts
 ├── setup.service.ts
 ├── shield-api-key.adapter.ts
 ├── shield-auth.middleware.ts
@@ -272,8 +295,8 @@ src/
 ├── shield-captcha-recaptcha.adapter.ts
 ├── shield-noop.adapter.ts
 ├── shield-rate-limit.adapter.ts
+├── shield-security.adapter.ts
 ├── shield-timeout.adapter.ts
-├── shield-user-agent-blocker.adapter.ts
 ├── shield.port.ts
 ├── simulated-error.middleware.ts
 ├── slower.middleware.ts
