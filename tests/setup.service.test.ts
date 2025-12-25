@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
@@ -13,25 +14,27 @@ const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", 
 const predefinedRequestId = "123";
 const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
 
-const JsonFileReader = new JsonFileReaderNoopAdapter({});
+const version = "1.2.3";
+const JsonFileReader = new JsonFileReaderNoopAdapter({ version });
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
 const Clock = new ClockSystemAdapter();
-
-const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
-  .use(...Setup.essentials({ Logger, I18n, IdProvider, Clock, JsonFileReader }))
-  .get("/ping", (c) =>
-    c.json({
-      requestId: c.get("requestId"),
-      timeZoneOffset: c.get("timeZoneOffset"),
-      language: c.get("language"),
-      etag: c.get("ETag"),
-      weakEtag: c.get("WeakETag"),
-    }),
-  );
+const deps = { Logger, I18n, IdProvider, Clock, JsonFileReader };
 
 describe("Setup service", () => {
   test("happy path", async () => {
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
+      .use(...Setup.essentials(deps))
+      .get("/ping", (c) =>
+        c.json({
+          requestId: c.get("requestId"),
+          timeZoneOffset: c.get("timeZoneOffset"),
+          language: c.get("language"),
+          etag: c.get("ETag"),
+          weakEtag: c.get("WeakETag"),
+        }),
+      );
+
     const response = await app.request(
       "/ping",
       { method: "GET", headers: new Headers({ "x-correlation-id": predefinedRequestId }) },
@@ -41,7 +44,7 @@ describe("Setup service", () => {
 
     expect(response.headers.toJSON()).toMatchObject({
       "access-control-allow-origin": "*",
-      "api-version": expect.any(String),
+      "api-version": version,
       "content-type": "application/json",
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "cross-origin",
@@ -64,5 +67,24 @@ describe("Setup service", () => {
       etag: null,
       weakEtag: null,
     });
+  });
+
+  test("maintenance mode", async () => {
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
+      .use(...Setup.essentials(deps, { maintenanceMode: { enabled: true } }))
+      .get("/ping", (c) => c.text("OK"));
+
+    const response = await app.request(
+      "/ping",
+      { method: "GET", headers: new Headers({ "x-correlation-id": predefinedRequestId }) },
+      ip,
+    );
+    const json = await response.json();
+
+    expect(response.headers.toJSON()).toEqual({
+      "content-type": "application/json",
+      "retry-after": tools.Duration.Hours(1).seconds.toString(),
+    });
+    expect(json).toEqual({ reason: "maintenance" });
   });
 });

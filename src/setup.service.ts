@@ -15,6 +15,7 @@ import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
+import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
@@ -24,6 +25,7 @@ type SetupOverridesType = {
   cors?: Parameters<typeof cors>[0];
   secureHeaders?: Parameters<typeof secureHeaders>[0];
   httpLogger?: HttpLoggerOptions;
+  maintenanceMode?: MaintenanceModeConfigType;
 };
 
 type Dependencies = {
@@ -40,6 +42,7 @@ export class Setup {
     const secureHeadersOptions = { crossOriginResourcePolicy: "cross-origin", ...overrides?.secureHeaders };
 
     return [
+      MaintenanceMode.build(overrides?.maintenanceMode),
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
       ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
