@@ -180,6 +180,7 @@ src/
 ├── mailer-smtp.adapter.ts
 ├── mailer.port.ts
 ├── mailer.vo.ts
+├── maintenance-mode.middleware.ts
 ├── memory-consumption.service.ts
 ├── modules
 │   ├── history
