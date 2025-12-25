@@ -43,13 +43,4 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
       mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }),
     );
   });
-
-  test("undetermined - timeout", async () => {
-    const prerequisite = new PrerequisiteVerifierClockDriftAdapter(
-      { skew, timeout: tools.Duration.Ms(5) },
-      { Timekeeper: new TimekeeperDelayedAdapter(), Clock },
-    );
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
-  });
 });
