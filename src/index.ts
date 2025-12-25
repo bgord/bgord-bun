@@ -157,6 +157,7 @@ export * from "./mailer.vo";
 export * from "./mailer-noop.adapter";
 export * from "./mailer-smtp.adapter";
 export * from "./mailer-smtp-with-logger.adapter";
+export * from "./maintenance-mode.middleware";
 export * from "./memory-consumption.service";
 export * as History from "./modules/history";
 export * as Preferences from "./modules/preferences";
