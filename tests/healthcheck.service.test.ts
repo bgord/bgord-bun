@@ -8,7 +8,7 @@ import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter"
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { Port } from "../src/port.vo";
-import { PrerequisitePort } from "../src/prerequisites/port";
+import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import * as prereqs from "../src/prerequisites.service";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
@@ -57,7 +57,10 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        [new PrerequisitePort({ label: "port", port: Port.parse(8000) }), new mocks.PrerequisiteOk()],
+        [
+          new PrerequisiteVerifierPortAdapter({ label: "port", port: Port.parse(8000) }),
+          new mocks.PrerequisiteOk(),
+        ],
         deps,
       ),
     );
