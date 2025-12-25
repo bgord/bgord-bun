@@ -1,9 +1,10 @@
 import bun from "bun";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
 type BunAuditOutput = { [packageName: string]: { severity: "low" | "moderate" | "high" | "critical" }[] };
 
-export class PrerequisiteDependencyVulnerabilities implements prereqs.Prerequisite {
+export class PrerequisiteDependencyVulnerabilities implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

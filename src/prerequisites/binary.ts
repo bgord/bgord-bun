@@ -1,7 +1,8 @@
 import type { BinaryType } from "../binary.vo";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisiteBinary implements prereqs.Prerequisite {
+export class PrerequisiteBinary implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "../clock.port";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 import type { TimekeeperPort } from "../timekeeper.port";
 import { TimekeeperGoogleAdapter } from "../timekeeper-google.adapter";
@@ -7,7 +8,7 @@ import { Timeout } from "../timeout.service";
 
 type Dependencies = { Clock: ClockPort; Timekeeper?: TimekeeperPort };
 
-export class PrerequisiteClockDrift implements prereqs.Prerequisite {
+export class PrerequisiteClockDrift implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

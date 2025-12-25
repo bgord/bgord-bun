@@ -1,11 +1,12 @@
 import * as tools from "@bgord/tools";
 import type { MailerPort } from "../mailer.port";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 import { Timeout } from "../timeout.service";
 
 type Dependencies = { Mailer: MailerPort };
 
-export class PrerequisiteMailer implements prereqs.Prerequisite {
+export class PrerequisiteMailer implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

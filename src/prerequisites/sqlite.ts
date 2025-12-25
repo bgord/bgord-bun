@@ -1,7 +1,8 @@
 import type { Database } from "bun:sqlite";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisiteSQLite implements prereqs.Prerequisite {
+export class PrerequisiteSQLite implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

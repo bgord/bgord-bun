@@ -1,9 +1,10 @@
 import dns from "dns/promises";
 import * as tools from "@bgord/tools";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 import { Timeout } from "../timeout.service";
 
-export class PrerequisiteDNS implements prereqs.Prerequisite {
+export class PrerequisiteDNS implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

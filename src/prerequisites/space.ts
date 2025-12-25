@@ -2,11 +2,12 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import type { DiskSpaceCheckerPort } from "../disk-space-checker.port";
 import { DiskSpaceCheckerBunAdapter } from "../disk-space-checker-bun.adapter";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
 type Dependencies = { DiskSpaceChecker?: DiskSpaceCheckerPort };
 
-export class PrerequisiteSpace implements prereqs.Prerequisite {
+export class PrerequisiteSpace implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

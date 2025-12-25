@@ -1,10 +1,11 @@
 import { access, constants, stat } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
-export class PrerequisiteDirectory implements prereqs.Prerequisite {
+export class PrerequisiteDirectory implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

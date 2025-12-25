@@ -1,10 +1,11 @@
 import type * as tools from "@bgord/tools";
 import { z } from "zod/v4";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
 export const TimezoneUtc = z.literal("UTC");
 
-export class PrerequisiteTimezoneUTC implements prereqs.Prerequisite {
+export class PrerequisiteTimezoneUTC implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

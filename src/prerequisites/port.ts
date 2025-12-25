@@ -1,8 +1,9 @@
 import net from "node:net";
 import type { PortType } from "../port.vo";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisitePort implements prereqs.Prerequisite {
+export class PrerequisitePort implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

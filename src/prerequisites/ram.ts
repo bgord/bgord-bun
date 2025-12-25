@@ -1,8 +1,9 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisiteRAM implements prereqs.Prerequisite {
+export class PrerequisiteRAM implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

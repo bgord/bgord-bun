@@ -1,10 +1,11 @@
 import type { LoggerPort } from "../logger.port";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 import { PrerequisiteFile } from "./file";
 
 type Dependencies = { Logger: LoggerPort };
 
-export class PrerequisiteLogFile implements prereqs.Prerequisite {
+export class PrerequisiteLogFile implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

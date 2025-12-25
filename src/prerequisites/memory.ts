@@ -1,8 +1,9 @@
 import * as tools from "@bgord/tools";
 import { MemoryConsumption } from "../memory-consumption.service";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisiteMemory implements prereqs.Prerequisite {
+export class PrerequisiteMemory implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

@@ -1,7 +1,8 @@
 import * as tools from "@bgord/tools";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisiteBun implements prereqs.Prerequisite {
+export class PrerequisiteBun implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

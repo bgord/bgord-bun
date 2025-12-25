@@ -1,9 +1,10 @@
 import type { CertificateInspectorPort } from "../certificate-inspector.port";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
-export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
+export class PrerequisiteSSLCertificateExpiry implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

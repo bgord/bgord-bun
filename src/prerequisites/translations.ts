@@ -6,6 +6,7 @@ import { I18n } from "../i18n.service";
 import type { JsonFileReaderPort } from "../json-file-reader.port";
 import { JsonFileReaderBunForgivingAdapter } from "../json-file-reader-bun-forgiving.adapter";
 import type { LoggerPort } from "../logger.port";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
 type PrerequisiteTranslationsProblemType = {
@@ -16,7 +17,7 @@ type PrerequisiteTranslationsProblemType = {
 
 type Dependencies = { Logger: LoggerPort; JsonFileReader?: JsonFileReaderPort };
 
-export class PrerequisiteTranslations implements prereqs.Prerequisite {
+export class PrerequisiteTranslations implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

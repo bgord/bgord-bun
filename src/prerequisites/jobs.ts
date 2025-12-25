@@ -1,7 +1,8 @@
 import { Jobs, type MultipleJobsType } from "../jobs.service";
+import type { PrerequisiteVerifierPort } from "../prerequisite-verifier.port";
 import * as prereqs from "../prerequisites.service";
 
-export class PrerequisiteJobs implements prereqs.Prerequisite {
+export class PrerequisiteJobs implements PrerequisiteVerifierPort {
   readonly label: prereqs.PrerequisiteLabelType;
   readonly enabled?: boolean = true;
 

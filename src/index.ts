@@ -166,6 +166,7 @@ export * from "./node-env.vo";
 export * from "./pdf-generator.port";
 export * from "./pdf-generator-noop.adapter";
 export * from "./port.vo";
+export * from "./prerequisite-verifier.port";
 export * from "./prerequisites/index";
 export * from "./prerequisites.service";
 export * from "./recaptcha-secret-key.vo";
