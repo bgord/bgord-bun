@@ -4,7 +4,7 @@ import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prere
 
 export const TimezoneUtc = z.literal("UTC");
 
-export class PrerequisiteVerifierTimezoneUtcVerifier implements PrerequisiteVerifierPort {
+export class PrerequisiteVerifierTimezoneUtcAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { timezone: tools.TimezoneType }) {}
 
   async verify() {
