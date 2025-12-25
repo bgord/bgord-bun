@@ -1,13 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteFile } from "../src/prerequisites/file";
 import * as mocks from "./mocks";
 
 const path = tools.FilePathAbsolute.fromString("/tmp/test-file.txt");
-
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteFile", () => {
   test("success", async () => {
@@ -19,14 +16,14 @@ describe("PrerequisiteFile", () => {
       permissions: { read: true, write: true, execute: true },
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
     const prerequisite = new PrerequisiteFile({ label: "file", file: path });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File does not exist" }),
     );
   });
@@ -39,7 +36,7 @@ describe("PrerequisiteFile", () => {
     });
     const prerequisite = new PrerequisiteFile({ label: "file", file: path, permissions: { read: true } });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not readable" }),
     );
   });
@@ -56,7 +53,7 @@ describe("PrerequisiteFile", () => {
       permissions: { read: true, write: true },
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not writable" }),
     );
   });
@@ -73,7 +70,7 @@ describe("PrerequisiteFile", () => {
       permissions: { read: true, write: true, execute: true },
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not executable" }),
     );
   });
@@ -81,6 +78,6 @@ describe("PrerequisiteFile", () => {
   test("undetermined", async () => {
     const prerequisite = new PrerequisiteFile({ label: "file", file: path, enabled: false });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });

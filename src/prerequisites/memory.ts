@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
 import { MemoryConsumption } from "../memory-consumption.service";
 import * as prereqs from "../prerequisites.service";
 
@@ -17,18 +16,16 @@ export class PrerequisiteMemory implements prereqs.Prerequisite {
     this.maximum = config.maximum;
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const memoryConsumption = MemoryConsumption.get();
 
     if (memoryConsumption.isGreaterThan(this.maximum)) {
-      return prereqs.Verification.failure(stopwatch.stop(), {
+      return prereqs.Verification.failure({
         message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
       });
     }
-    return prereqs.Verification.success(stopwatch.stop());
+    return prereqs.Verification.success();
   }
 }

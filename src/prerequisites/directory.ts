@@ -1,6 +1,5 @@
 import { access, constants, stat } from "node:fs/promises";
-import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
+import type * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
@@ -26,26 +25,24 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
     this.permissions = config.permissions ?? {};
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const stats = await stat(this.directory);
 
       if (!stats.isDirectory()) {
-        return prereqs.Verification.failure(stopwatch.stop(), { message: "Not a directory" });
+        return prereqs.Verification.failure({ message: "Not a directory" });
       }
     } catch {
-      return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory does not exist" });
+      return prereqs.Verification.failure({ message: "Directory does not exist" });
     }
 
     if (this.permissions.read) {
       try {
         await access(this.directory, constants.R_OK);
       } catch {
-        return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory is not readable" });
+        return prereqs.Verification.failure({ message: "Directory is not readable" });
       }
     }
 
@@ -53,7 +50,7 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
       try {
         await access(this.directory, constants.W_OK);
       } catch {
-        return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory is not writable" });
+        return prereqs.Verification.failure({ message: "Directory is not writable" });
       }
     }
 
@@ -61,10 +58,10 @@ export class PrerequisiteDirectory implements prereqs.Prerequisite {
       try {
         await access(this.directory, constants.X_OK);
       } catch {
-        return prereqs.Verification.failure(stopwatch.stop(), { message: "Directory is not executable" });
+        return prereqs.Verification.failure({ message: "Directory is not executable" });
       }
     }
 
-    return prereqs.Verification.success(stopwatch.stop());
+    return prereqs.Verification.success();
   }
 }

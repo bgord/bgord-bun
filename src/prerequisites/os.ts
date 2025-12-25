@@ -1,6 +1,4 @@
 import os from "node:os";
-import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteOs implements prereqs.Prerequisite {
@@ -16,18 +14,14 @@ export class PrerequisiteOs implements prereqs.Prerequisite {
     this.accepted = config.accepted;
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const type = os.type();
 
     if (this.accepted.map((type) => type.toLowerCase()).includes(type.toLowerCase())) {
-      return prereqs.Verification.success(stopwatch.stop());
+      return prereqs.Verification.success();
     }
-    return prereqs.Verification.failure(stopwatch.stop(), {
-      message: `Unacceptable os: ${this.accepted.join(", ")}`,
-    });
+    return prereqs.Verification.failure({ message: `Unacceptable os: ${this.accepted.join(", ")}` });
   }
 }

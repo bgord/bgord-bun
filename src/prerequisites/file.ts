@@ -1,6 +1,5 @@
 import { access, constants } from "node:fs/promises";
-import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
+import type * as tools from "@bgord/tools";
 import * as prereqs from "../prerequisites.service";
 
 export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
@@ -26,22 +25,20 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
     this.permissions = config.permissions ?? {};
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const path = this.file.get();
 
       const exists = await Bun.file(path).exists();
-      if (!exists) return prereqs.Verification.failure(stopwatch.stop(), { message: "File does not exist" });
+      if (!exists) return prereqs.Verification.failure({ message: "File does not exist" });
 
       if (this.permissions.read) {
         try {
           await access(path, constants.R_OK);
         } catch {
-          return prereqs.Verification.failure(stopwatch.stop(), { message: "File is not readable" });
+          return prereqs.Verification.failure({ message: "File is not readable" });
         }
       }
 
@@ -49,7 +46,7 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
         try {
           await access(path, constants.W_OK);
         } catch {
-          return prereqs.Verification.failure(stopwatch.stop(), { message: "File is not writable" });
+          return prereqs.Verification.failure({ message: "File is not writable" });
         }
       }
 
@@ -57,13 +54,13 @@ export class PrerequisiteFile implements prereqs.Prerequisite {
         try {
           await access(path, constants.X_OK);
         } catch {
-          return prereqs.Verification.failure(stopwatch.stop(), { message: "File is not executable" });
+          return prereqs.Verification.failure({ message: "File is not executable" });
         }
       }
 
-      return prereqs.Verification.success(stopwatch.stop());
+      return prereqs.Verification.success();
     } catch (error) {
-      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }

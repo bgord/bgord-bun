@@ -1,7 +1,6 @@
 import { constants } from "node:fs";
 import fsp from "node:fs/promises";
-import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
+import type * as tools from "@bgord/tools";
 import type * as types from "../i18n.service";
 import { I18n } from "../i18n.service";
 import type { JsonFileReaderPort } from "../json-file-reader.port";
@@ -39,12 +38,10 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
     this.supportedLanguages = config.supportedLanguages;
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.VerifyOutcome> {
     const JsonFileReader = this.deps.JsonFileReader ?? new JsonFileReaderBunForgivingAdapter();
 
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const translationsPath = this.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
 
@@ -58,10 +55,10 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
         await fsp.access(i18n.getTranslationPathForLanguage(language).get(), constants.R_OK);
       }
     } catch (error) {
-      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
+      return prereqs.Verification.failure(error as Error);
     }
 
-    if (supportedLanguages.length === 1) return prereqs.Verification.success(stopwatch.stop());
+    if (supportedLanguages.length === 1) return prereqs.Verification.success();
 
     const languageToTranslationKeys: Record<tools.LanguageType, types.TranslationsKeyType[]> = {};
 
@@ -92,12 +89,12 @@ export class PrerequisiteTranslations implements prereqs.Prerequisite {
       }
     }
 
-    if (problems.length === 0) return prereqs.Verification.success(stopwatch.stop());
+    if (problems.length === 0) return prereqs.Verification.success();
 
     const summary = problems
       .map((problem) => `Key: ${problem.key}, exists in ${problem.existsIn}, missing in ${problem.missingIn}`)
       .join("\n");
 
-    return prereqs.Verification.failure(stopwatch.stop(), { message: summary });
+    return prereqs.Verification.failure({ message: summary });
   }
 }

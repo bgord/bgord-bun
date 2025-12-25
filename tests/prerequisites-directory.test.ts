@@ -1,13 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteDirectory } from "../src/prerequisites/directory";
 import * as mocks from "./mocks";
 
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/var/app/uploads");
-
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteDirectory", () => {
   test("success", async () => {
@@ -19,14 +16,14 @@ describe("PrerequisiteDirectory", () => {
       permissions: { read: true, write: true, execute: true },
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - does not exist", async () => {
     spyOn(fs, "stat").mockRejectedValue(new Error("ENOENT"));
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Directory does not exist" }),
     );
   });
@@ -35,9 +32,7 @@ describe("PrerequisiteDirectory", () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => false } as any);
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
-      mocks.VerificationFailure({ message: "Not a directory" }),
-    );
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "Not a directory" }));
   });
 
   test("failure - read permission", async () => {
@@ -48,7 +43,7 @@ describe("PrerequisiteDirectory", () => {
     });
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, permissions: { read: true } });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Directory is not readable" }),
     );
   });
@@ -61,7 +56,7 @@ describe("PrerequisiteDirectory", () => {
     });
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, permissions: { write: true } });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Directory is not writable" }),
     );
   });
@@ -78,7 +73,7 @@ describe("PrerequisiteDirectory", () => {
       permissions: { execute: true },
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Directory is not executable" }),
     );
   });
@@ -86,6 +81,6 @@ describe("PrerequisiteDirectory", () => {
   test("undetermined - prerequisite disabled", async () => {
     const prerequisite = new PrerequisiteDirectory({ label: "dir", directory, enabled: false });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });

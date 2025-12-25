@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteDependencyVulnerabilities } from "../src/prerequisites/dependency-vulnerabilities";
 import * as mocks from "./mocks";
 
@@ -66,8 +65,6 @@ const BUN_AUDIT_OUTPUT_WITH_VULNERABILITIES = {
   ],
 };
 
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-
 describe("PrerequisiteDependencyVulnerabilities", () => {
   test("success", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
@@ -79,7 +76,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     }));
     const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - high and critical vulnerabilities", async () => {
@@ -92,7 +89,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     }));
     const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Critical: 1 and high: 1" }),
     );
   });
@@ -102,7 +99,7 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     spyOn(bun, "$").mockImplementation(() => ({ quiet: () => ({ exitCode: 1 }) }));
     const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure({ message: "Audit failure" }));
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "Audit failure" }));
   });
 
   test("failure - audit parsing", async () => {
@@ -113,12 +110,12 @@ describe("PrerequisiteDependencyVulnerabilities", () => {
     const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps" });
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(/Unexpected identifier "abc"/);
+    expect((await prerequisite.verify()).error.message).toMatch(/Unexpected identifier "abc"/);
   });
 
   test("undetermined", async () => {
     const prerequisite = new PrerequisiteDependencyVulnerabilities({ label: "deps", enabled: false });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });

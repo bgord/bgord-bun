@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { DiskSpaceCheckerNoopAdapter } from "../src/disk-space-checker-noop.adapter";
 import { PrerequisiteSpace } from "../src/prerequisites/space";
 import * as mocks from "./mocks";
@@ -10,7 +9,6 @@ const failure = tools.Size.fromMB(10);
 
 const DiskSpaceCheckerSuccess = new DiskSpaceCheckerNoopAdapter(tools.Size.fromMB(100));
 const DiskSpaceCheckerFailure = new DiskSpaceCheckerNoopAdapter(failure);
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { DiskSpaceChecker: DiskSpaceCheckerSuccess };
 const depsFailure = { DiskSpaceChecker: DiskSpaceCheckerFailure };
 
@@ -18,14 +16,14 @@ describe("PrerequisiteSpace", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - not enough space", async () => {
     const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, depsFailure);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(
+    expect((await prerequisite.verify()).error.message).toMatch(
       `Free disk space: ${failure.format(tools.Size.unit.MB)}`,
     );
   });
@@ -35,12 +33,12 @@ describe("PrerequisiteSpace", () => {
     const prerequisite = new PrerequisiteSpace({ label: "space", minimum }, depsFailure);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentionalError);
+    expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
   });
 
   test("undetermined", async () => {
     const prerequisite = new PrerequisiteSpace({ label: "space", minimum, enabled: false }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });

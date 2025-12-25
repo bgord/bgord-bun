@@ -1,4 +1,3 @@
-import type * as tools from "@bgord/tools";
 import type { ClockPort } from "../src/clock.port";
 import type { ErrorInfo, LoggerPort } from "../src/logger.port";
 import { formatError } from "../src/logger-format-error.service";
@@ -11,16 +10,9 @@ export enum PrerequisiteStatusEnum {
   undetermined = "undetermined",
 }
 
-export type VerifySuccess = { status: PrerequisiteStatusEnum.success; durationMs: tools.DurationMsType };
-export type VerifyFailure = {
-  status: PrerequisiteStatusEnum.failure;
-  durationMs: tools.DurationMsType;
-  error?: ErrorInfo;
-};
-export type VerifyUndetermined = {
-  status: PrerequisiteStatusEnum.undetermined;
-  durationMs: tools.DurationMsType;
-};
+export type VerifySuccess = { status: PrerequisiteStatusEnum.success };
+export type VerifyFailure = { status: PrerequisiteStatusEnum.failure; error?: ErrorInfo };
+export type VerifyUndetermined = { status: PrerequisiteStatusEnum.undetermined };
 export type VerifyOutcome = VerifySuccess | VerifyFailure | VerifyUndetermined;
 
 export interface Prerequisite {
@@ -38,18 +30,17 @@ export type PrerequisiteResult = {
 };
 
 export class Verification {
-  static success(duration: tools.Duration): VerifySuccess {
-    return { status: PrerequisiteStatusEnum.success, durationMs: duration.ms };
+  static success(): VerifySuccess {
+    return { status: PrerequisiteStatusEnum.success };
   }
-  static failure(duration: tools.Duration, meta?: Error | ErrorInfo): VerifyFailure {
+  static failure(meta?: Error | ErrorInfo): VerifyFailure {
     return {
       status: PrerequisiteStatusEnum.failure,
-      durationMs: duration.ms,
       error: meta instanceof Error ? formatError(meta) : meta,
     };
   }
-  static undetermined(duration: tools.Duration): VerifyUndetermined {
-    return { status: PrerequisiteStatusEnum.undetermined, durationMs: duration.ms };
+  static undetermined(): VerifyUndetermined {
+    return { status: PrerequisiteStatusEnum.undetermined };
   }
 }
 

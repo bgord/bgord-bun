@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { CertificateInspectorNoopAdapter } from "../src/certificate-inspector-noop.adapter";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteSSLCertificateExpiry } from "../src/prerequisites/ssl-certificate-expiry";
 import * as mocks from "./mocks";
 
@@ -12,14 +11,13 @@ class CertificateInspectorUnavailableAdapter {
 
 const config = { hostname: "example.com", days: 30, label: "ssl" };
 
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(100) };
 
 describe("PrerequisiteSSLCertificateExpiry", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry(config, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - certificate expires too soon", async () => {
@@ -27,9 +25,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
       CertificateInspector: new CertificateInspectorNoopAdapter(10),
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
-      mocks.VerificationFailure({ message: "10 days remaining" }),
-    );
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
   });
 
   test("failure - certificate unavailable", async () => {
@@ -37,7 +33,7 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
       CertificateInspector: new CertificateInspectorUnavailableAdapter(),
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Certificate unavailable" }),
     );
   });
@@ -45,6 +41,6 @@ describe("PrerequisiteSSLCertificateExpiry", () => {
   test("undetermined", async () => {
     const prerequisite = new PrerequisiteSSLCertificateExpiry({ ...config, enabled: false }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });

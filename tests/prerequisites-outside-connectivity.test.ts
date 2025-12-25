@@ -1,25 +1,22 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteOutsideConnectivity } from "../src/prerequisites/outside-connectivity";
 import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
 import * as mocks from "./mocks";
-
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PrerequisiteOutsideConnectivity", () => {
   test("success", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
     const prerequisite = new PrerequisiteOutsideConnectivity({ label: "outside-connectivity" });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
     spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
     const prerequisite = new PrerequisiteOutsideConnectivity({ label: "outside-Connectivity" });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
 
   test("failure - error", async () => {
@@ -28,7 +25,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
 
     expect(
       // @ts-expect-error
-      (await prerequisite.verify(Clock)).error.message,
+      (await prerequisite.verify()).error.message,
     ).toMatch(mocks.IntentionalError);
   });
 
@@ -38,7 +35,7 @@ describe("PrerequisiteOutsideConnectivity", () => {
       enabled: false,
     });
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 
   test("timeout", async () => {
@@ -49,6 +46,6 @@ describe("PrerequisiteOutsideConnectivity", () => {
       timeout: tools.Duration.Ms(5),
     });
 
-    expect((await prerequisite.verify(Clock)).status).toEqual(PrerequisiteStatusEnum.failure);
+    expect((await prerequisite.verify()).status).toEqual(PrerequisiteStatusEnum.failure);
   });
 });

@@ -5,7 +5,7 @@ import type { TimekeeperPort } from "../timekeeper.port";
 import { TimekeeperGoogleAdapter } from "../timekeeper-google.adapter";
 import { Timeout } from "../timeout.service";
 
-type Dependencies = { Timekeeper?: TimekeeperPort };
+type Dependencies = { Clock: ClockPort; Timekeeper?: TimekeeperPort };
 
 export class PrerequisiteClockDrift implements prereqs.Prerequisite {
   readonly kind = "clock-drift";
@@ -17,7 +17,7 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
 
   constructor(
     config: prereqs.PrerequisiteConfigType & { skew: tools.Duration; timeout?: tools.Duration },
-    private readonly deps?: Dependencies,
+    private readonly deps: Dependencies,
   ) {
     this.label = config.label;
     this.enabled = config.enabled === undefined ? true : config.enabled;
@@ -26,26 +26,24 @@ export class PrerequisiteClockDrift implements prereqs.Prerequisite {
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.VerifyOutcome> {
     const Timekeeper = this.deps?.Timekeeper ?? new TimekeeperGoogleAdapter();
 
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const timestamp = await Timeout.cancellable(
         (signal: AbortSignal) => Timekeeper.get(signal),
         this.timeout,
       );
-      if (!timestamp) return prereqs.Verification.undetermined(stopwatch.stop());
+      if (!timestamp) return prereqs.Verification.undetermined();
 
-      const duration = clock.now().difference(timestamp).toAbsolute();
+      const duration = this.deps.Clock.now().difference(timestamp).toAbsolute();
 
-      if (duration.isShorterThan(this.skew)) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure(stopwatch.stop(), { message: `Difference: ${duration.seconds}s` });
+      if (duration.isShorterThan(this.skew)) return prereqs.Verification.success();
+      return prereqs.Verification.failure({ message: `Difference: ${duration.seconds}s` });
     } catch (error) {
-      return prereqs.Verification.undetermined(stopwatch.stop());
+      return prereqs.Verification.undetermined();
     }
   }
 }

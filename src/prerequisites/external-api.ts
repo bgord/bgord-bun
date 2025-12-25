@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 import { Timeout } from "../timeout.service";
 
@@ -24,18 +23,16 @@ export class PrerequisiteExternalApi implements prereqs.Prerequisite {
     this.timeout = config.timeout ?? tools.Duration.Seconds(2);
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const response = await Timeout.cancellable((signal: AbortSignal) => this.request(signal), this.timeout);
 
-      if (response.ok) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure(stopwatch.stop(), { message: `HTTP ${response.status}` });
+      if (response.ok) return prereqs.Verification.success();
+      return prereqs.Verification.failure({ message: `HTTP ${response.status}` });
     } catch (error) {
-      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }

@@ -1,6 +1,5 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { I18n } from "../src/i18n.service";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -9,7 +8,6 @@ import * as mocks from "./mocks";
 
 const supportedLanguages = { en: "en", es: "es" };
 
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Logger = new LoggerNoopAdapter();
 const JsonFileReader = new JsonFileReaderNoopAdapter({});
 const deps = { Logger, JsonFileReader };
@@ -22,7 +20,7 @@ describe("PrerequisiteTranslations", () => {
       deps,
     );
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - missing file", async () => {
@@ -30,7 +28,7 @@ describe("PrerequisiteTranslations", () => {
     const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(/Does not exist/);
+    expect((await prerequisite.verify()).error.message).toMatch(/Does not exist/);
   });
 
   test("failure - inconsistent translations", async () => {
@@ -47,7 +45,7 @@ describe("PrerequisiteTranslations", () => {
     });
     const prerequisite = new PrerequisiteTranslations({ label: "i18n", supportedLanguages }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }),
     );
   });
@@ -58,6 +56,6 @@ describe("PrerequisiteTranslations", () => {
       deps,
     );
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });

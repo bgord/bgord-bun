@@ -1,6 +1,5 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 export class PrerequisiteRAM implements prereqs.Prerequisite {
@@ -17,16 +16,12 @@ export class PrerequisiteRAM implements prereqs.Prerequisite {
     this.minimum = config.minimum;
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const freeRAM = tools.Size.fromBytes(os.freemem());
 
-    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
-    return prereqs.Verification.failure(stopwatch.stop(), {
-      message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}`,
-    });
+    if (freeRAM.isGreaterThan(this.minimum)) return prereqs.Verification.success();
+    return prereqs.Verification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` });
   }
 }

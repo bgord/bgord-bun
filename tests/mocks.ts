@@ -5,7 +5,6 @@ import type { Context } from "hono";
 import * as winston from "winston";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
-import type { ClockPort } from "../src/clock.port";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
@@ -64,26 +63,16 @@ export const TIME_ZERO_DATE = "2023-11-14";
 
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
-export const VerificationSuccess = { status: PrerequisiteStatusEnum.success, durationMs: expect.any(Number) };
-
-export const VerificationUndetermined = {
-  status: PrerequisiteStatusEnum.undetermined,
-  durationMs: expect.any(Number),
-};
-
-export const VerificationFailure = (error?: any) => ({
-  status: PrerequisiteStatusEnum.failure,
-  durationMs: expect.any(Number),
-  error,
-});
+export const VerificationSuccess = { status: PrerequisiteStatusEnum.success };
+export const VerificationUndetermined = { status: PrerequisiteStatusEnum.undetermined };
+export const VerificationFailure = (error?: any) => ({ status: PrerequisiteStatusEnum.failure, error });
 
 export class PrerequisiteOk implements prereqs.Prerequisite {
   readonly label = "ok";
   readonly kind = "test";
   readonly enabled = true;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.success(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.success();
   }
 }
 
@@ -91,9 +80,8 @@ export class PrerequisiteFail implements prereqs.Prerequisite {
   readonly label = "fail";
   readonly kind = "test";
   readonly enabled = true;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.failure(stopwatch.stop(), { message: "boom" });
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.failure({ message: "boom" });
   }
 }
 
@@ -101,9 +89,8 @@ export class PrerequisiteUndetermined implements prereqs.Prerequisite {
   readonly label = "undetermined";
   readonly kind = "test";
   readonly enabled = false;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    return prereqs.Verification.undetermined();
   }
 }
 

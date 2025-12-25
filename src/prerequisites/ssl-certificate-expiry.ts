@@ -1,6 +1,4 @@
-import * as tools from "@bgord/tools";
 import type { CertificateInspectorPort } from "../certificate-inspector.port";
-import type { ClockPort } from "../clock.port";
 import * as prereqs from "../prerequisites.service";
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
@@ -24,20 +22,15 @@ export class PrerequisiteSSLCertificateExpiry implements prereqs.Prerequisite {
     this.days = config.days;
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+  async verify(): Promise<prereqs.VerifyOutcome> {
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     const result = await this.deps.CertificateInspector.inspect(this.hostname);
 
-    if (!result.success)
-      return prereqs.Verification.failure(stopwatch.stop(), { message: "Certificate unavailable" });
+    if (!result.success) return prereqs.Verification.failure({ message: "Certificate unavailable" });
     if (result.daysRemaining <= this.days) {
-      return prereqs.Verification.failure(stopwatch.stop(), {
-        message: `${result.daysRemaining} days remaining`,
-      });
+      return prereqs.Verification.failure({ message: `${result.daysRemaining} days remaining` });
     }
-    return prereqs.Verification.success(stopwatch.stop());
+    return prereqs.Verification.success();
   }
 }

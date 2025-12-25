@@ -1,6 +1,5 @@
 import path from "node:path";
 import * as tools from "@bgord/tools";
-import type { ClockPort } from "../clock.port";
 import type { DiskSpaceCheckerPort } from "../disk-space-checker.port";
 import { DiskSpaceCheckerBunAdapter } from "../disk-space-checker-bun.adapter";
 import * as prereqs from "../prerequisites.service";
@@ -24,22 +23,21 @@ export class PrerequisiteSpace implements prereqs.Prerequisite {
     this.minimum = config.minimum;
   }
 
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
+  async verify(): Promise<prereqs.VerifyOutcome> {
     const DiskSpaceChecker = this.deps?.DiskSpaceChecker ?? new DiskSpaceCheckerBunAdapter();
-    const stopwatch = new tools.Stopwatch(clock.now());
 
-    if (!this.enabled) return prereqs.Verification.undetermined(stopwatch.stop());
+    if (!this.enabled) return prereqs.Verification.undetermined();
 
     try {
       const root = path.sep;
       const freeDiskSpace = await DiskSpaceChecker.get(root);
 
-      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success(stopwatch.stop());
-      return prereqs.Verification.failure(stopwatch.stop(), {
+      if (freeDiskSpace.isGreaterThan(this.minimum)) return prereqs.Verification.success();
+      return prereqs.Verification.failure({
         message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
       });
     } catch (error) {
-      return prereqs.Verification.failure(stopwatch.stop(), error as Error);
+      return prereqs.Verification.failure(error as Error);
     }
   }
 }

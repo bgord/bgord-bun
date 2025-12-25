@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as fs from "node:fs/promises";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
@@ -10,8 +9,6 @@ import * as mocks from "./mocks";
 
 const redactor = new RedactorNoopAdapter();
 const Logger = new LoggerWinstonProductionAdapter({ app: "test-app", redactor }).create(LogLevelEnum.http);
-
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Logger };
 
 describe("PrerequisiteLogFile", () => {
@@ -20,14 +17,14 @@ describe("PrerequisiteLogFile", () => {
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - file does not exist", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File does not exist" }),
     );
   });
@@ -37,7 +34,7 @@ describe("PrerequisiteLogFile", () => {
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
     // @ts-expect-error
-    expect((await prerequisite.verify(Clock)).error.message).toMatch(mocks.IntentionalError);
+    expect((await prerequisite.verify()).error.message).toMatch(mocks.IntentionalError);
   });
 
   test("failure - file not readable", async () => {
@@ -48,7 +45,7 @@ describe("PrerequisiteLogFile", () => {
     });
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not readable" }),
     );
   });
@@ -61,7 +58,7 @@ describe("PrerequisiteLogFile", () => {
     });
     const prerequisite = new PrerequisiteLogFile({ label: "log-file" }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(
+    expect(await prerequisite.verify()).toEqual(
       mocks.VerificationFailure({ message: "File is not writable" }),
     );
   });
@@ -72,12 +69,12 @@ describe("PrerequisiteLogFile", () => {
       { Logger: new LoggerNoopAdapter() },
     );
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 
   test("undetermined", async () => {
     const prerequisite = new PrerequisiteLogFile({ label: "log-file", enabled: false }, deps);
 
-    expect(await prerequisite.verify(Clock)).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });
