@@ -1,33 +1,38 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import dns from "dns/promises";
 import * as tools from "@bgord/tools";
-import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
 import { PrerequisiteVerifierWithTimeoutAdapter } from "../src/prerequisite-verifier-with-timeout.adapter";
 import { TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
 
-const hostname = "api.example.com";
-const result = { address: hostname, family: 4 };
-
-const inner = new PrerequisiteVerifierDnsAdapter({ hostname });
-const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner, timeout: tools.Duration.Ms(5) });
+const pass = new mocks.PrerequisiteVerifierPass();
+const fail = new mocks.PrerequisiteVerifierFail();
 
 describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
   test("success", async () => {
-    spyOn(dns, "lookup").mockResolvedValue(result);
+    const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({
+      inner: pass,
+      timeout: tools.Duration.Ms(5),
+    });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
-    spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
+    const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({
+      inner: fail,
+      timeout: tools.Duration.Ms(5),
+    });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
   });
 
   test("timeout", async () => {
     // @ts-expect-error
-    spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+    const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({
+      inner: pass,
+      timeout: tools.Duration.Ms(5),
+    });
 
     // @ts-expect-error
     const result = (await prerequisite.verify()).error.message;
@@ -36,6 +41,11 @@ describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
   });
 
   test("preserves kind", () => {
-    expect(prerequisite.kind).toEqual(inner.kind);
+    const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({
+      inner: pass,
+      timeout: tools.Duration.Ms(5),
+    });
+
+    expect(prerequisite.kind).toEqual(pass.kind);
   });
 });
