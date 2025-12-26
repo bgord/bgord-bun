@@ -6,7 +6,9 @@ import type { LoggerPort } from "./logger.port";
 import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "./prerequisite-verifier-with-cache.adapter";
 import { PrerequisiteVerifierWithLoggerAdapter } from "./prerequisite-verifier-with-logger.adapter";
+import { PrerequisiteVerifierWithRetryAdapter } from "./prerequisite-verifier-with-retry.adapter";
 import { PrerequisiteVerifierWithTimeoutAdapter } from "./prerequisite-verifier-with-timeout.adapter";
+import type { RetryConfigType } from "./retry.service";
 
 export type PrerequisiteVerifierDecorator = (verifier: PrerequisiteVerifierPort) => PrerequisiteVerifierPort;
 
@@ -28,4 +30,9 @@ const withLogger =
   (inner) =>
     new PrerequisiteVerifierWithLoggerAdapter({ inner }, deps);
 
-export const PrerequisiteDecorator = { withTimeout, withCache, withLogger };
+const withRetry =
+  (retry: RetryConfigType): PrerequisiteVerifierDecorator =>
+  (inner) =>
+    new PrerequisiteVerifierWithRetryAdapter({ inner, retry });
+
+export const PrerequisiteDecorator = { withTimeout, withCache, withLogger, withRetry };

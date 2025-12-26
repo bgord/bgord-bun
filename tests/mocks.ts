@@ -112,6 +112,22 @@ export const PrerequisiteUndetermined = new Prerequisite(
   new PrerequisiteVerifierUndetermined(),
 );
 
+export class PrerequisiteVerifierFailThenPass implements PrerequisiteVerifierPort {
+  private calls = 1;
+
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    if (this.calls < 3) {
+      this.calls++;
+      return PrerequisiteVerification.failure(IntentionalError as ErrorInfo);
+    }
+    return PrerequisiteVerification.success;
+  }
+
+  get kind() {
+    return "test";
+  }
+}
+
 export const hashValue = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
 export const hash = Hash.fromValue(hashValue);
 

@@ -1,6 +1,6 @@
 import type { RetryBackoffStrategyPort } from "./retry-backoff-strategy.port";
 
-type RetryConfigType = {
+export type RetryConfigType = {
   max: number;
   backoff: RetryBackoffStrategyPort;
   when?: (error: unknown) => boolean;
