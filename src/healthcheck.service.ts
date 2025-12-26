@@ -24,13 +24,15 @@ type HealthcheckResultType = {
     version: string;
     environment: NodeEnvironmentEnum;
   };
+  server: {
+    uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
+    memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
+  };
   details: {
     label: PrerequisiteLabelType;
     outcome: PrerequisiteVerificationResult;
     durationMs: tools.DurationMsType;
   }[];
-  uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
-  memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   durationMs: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
 };
@@ -74,10 +76,12 @@ export class Healthcheck {
           version: buildInfo.BUILD_VERSION ?? "unknown",
           environment: Env,
         },
-        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
-        memory: {
-          bytes: MemoryConsumption.get().toBytes(),
-          formatted: MemoryConsumption.get().format(tools.Size.unit.MB),
+        server: {
+          uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+          memory: {
+            bytes: MemoryConsumption.get().toBytes(),
+            formatted: MemoryConsumption.get().format(tools.Size.unit.MB),
+          },
         },
         durationMs: stopwatch.stop().ms,
         timestamp: deps.Clock.now().ms,

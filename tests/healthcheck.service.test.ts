@@ -44,8 +44,13 @@ describe("Healthcheck service", () => {
     expect(data).toEqual({
       ok: true,
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
-      uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
-      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
+      server: {
+        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        memory: {
+          bytes: memoryConsumption.toBytes(),
+          formatted: memoryConsumption.format(tools.Size.unit.MB),
+        },
+      },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
         { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -78,8 +83,13 @@ describe("Healthcheck service", () => {
     expect(data).toEqual({
       ok: true,
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
-      uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
-      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
+      server: {
+        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        memory: {
+          bytes: memoryConsumption.toBytes(),
+          formatted: memoryConsumption.format(tools.Size.unit.MB),
+        },
+      },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
         { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -109,8 +119,13 @@ describe("Healthcheck service", () => {
     expect(data).toEqual({
       ok: false,
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
-      uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
-      memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
+      server: {
+        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        memory: {
+          bytes: memoryConsumption.toBytes(),
+          formatted: memoryConsumption.format(tools.Size.unit.MB),
+        },
+      },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
         { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
