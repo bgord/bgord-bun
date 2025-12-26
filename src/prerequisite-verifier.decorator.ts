@@ -9,12 +9,12 @@ import { PrerequisiteVerifierTimeoutAdapter } from "./prerequisite-verifier-time
 
 export type PrerequisiteVerifierDecorator = (verifier: PrerequisiteVerifierPort) => PrerequisiteVerifierPort;
 
-export const withTimeout =
+const withTimeout =
   (timeout: tools.Duration): PrerequisiteVerifierDecorator =>
   (inner) =>
     new PrerequisiteVerifierTimeoutAdapter({ inner, timeout });
 
-export const withCache =
+const withCache =
   (
     id: string,
     deps: { CacheResolver: CacheResolverPort; HashContent: HashContentPort },
@@ -22,7 +22,9 @@ export const withCache =
   (inner) =>
     new PrerequisiteVerifierCacheAdapter({ id, inner }, deps);
 
-export const withLogger =
+const withLogger =
   (deps: { Logger: LoggerPort }): PrerequisiteVerifierDecorator =>
   (inner) =>
     new PrerequisiteVerifierLoggerAdapter({ inner }, deps);
+
+export const PrerequisiteDecorator = { withTimeout, withCache, withLogger };

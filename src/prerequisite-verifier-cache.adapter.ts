@@ -16,8 +16,8 @@ export class PrerequisiteVerifierCacheAdapter implements PrerequisiteVerifierPor
     const resolver = new CacheSubjectResolver(
       [
         new CacheSubjectSegmentFixed("prerequisite_verifier"),
-        new CacheSubjectSegmentFixed(this.config.id),
         new CacheSubjectSegmentFixed(this.kind),
+        new CacheSubjectSegmentFixed(this.config.id),
       ],
       this.deps,
     );
