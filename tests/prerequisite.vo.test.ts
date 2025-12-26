@@ -60,4 +60,38 @@ describe("Prerequisite VO", () => {
       durationMs: expect.any(Number),
     });
   });
+
+  test("with timeout - success", async () => {
+    spyOn(dns, "lookup").mockResolvedValue(result);
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+    ]);
+    const verifier = prerequisite.build();
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+  });
+
+  test("with timeout - failure", async () => {
+    spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+    ]);
+    const verifier = prerequisite.build();
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+  });
+
+  test("with timeout - timeout", async () => {
+    // @ts-expect-error
+    spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+    ]);
+    const verifier = prerequisite.build();
+
+    // @ts-expect-error
+    const result = (await verifier.verify()).error.message;
+
+    expect(result).toEqual(TimeoutError.Exceeded);
+  });
 });
