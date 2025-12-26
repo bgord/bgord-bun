@@ -14,18 +14,15 @@ import * as mocks from "./mocks";
 
 const hostname = "api.example.com";
 const result = { address: hostname, family: 4 };
-const inner = new PrerequisiteVerifierDnsAdapter({ hostname });
 
-const ttl = tools.Duration.Minutes(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-const HashContent = new HashContentSha256BunAdapter();
-const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const Logger = new LoggerNoopAdapter();
-const deps = { Clock, Logger, HashContent, CacheResolver };
+const inner = new PrerequisiteVerifierDnsAdapter({ hostname });
 
 describe("Prerequisite VO", () => {
   test("with logger - success", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const Logger = new LoggerNoopAdapter();
+    const deps = { Clock, Logger };
+
     spyOn(dns, "lookup").mockResolvedValue(result);
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("dns", inner, [PrerequisiteDecorator.withLogger(deps)]);
@@ -38,11 +35,13 @@ describe("Prerequisite VO", () => {
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
     });
-
-    await CacheRepository.flush();
   });
 
   test("with logger - failure", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const Logger = new LoggerNoopAdapter();
+    const deps = { Clock, Logger };
+
     spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
     const loggerError = spyOn(Logger, "error");
     const prerequisite = new Prerequisite("dns", inner, [PrerequisiteDecorator.withLogger(deps)]);
@@ -56,11 +55,13 @@ describe("Prerequisite VO", () => {
       durationMs: expect.any(Number),
       error: mocks.IntentionalError,
     });
-
-    await CacheRepository.flush();
   });
 
   test("with logger - undetermined", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const Logger = new LoggerNoopAdapter();
+    const deps = { Clock, Logger };
+
     const loggerInfo = spyOn(Logger, "info");
     spyOn(inner, "verify").mockResolvedValue(mocks.VerificationUndetermined);
     const prerequisite = new Prerequisite("dns", inner, [PrerequisiteDecorator.withLogger(deps)]);
@@ -73,8 +74,6 @@ describe("Prerequisite VO", () => {
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
     });
-
-    await CacheRepository.flush();
   });
 
   test("with timeout - success", async () => {
@@ -85,8 +84,6 @@ describe("Prerequisite VO", () => {
     const verifier = prerequisite.build();
 
     expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
-
-    await CacheRepository.flush();
   });
 
   test("with timeout - failure", async () => {
@@ -97,13 +94,11 @@ describe("Prerequisite VO", () => {
     const verifier = prerequisite.build();
 
     expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
-
-    await CacheRepository.flush();
   });
 
   test("with timeout - timeout", async () => {
     // @ts-expect-error
-    spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
     const prerequisite = new Prerequisite("dns", inner, [
       PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
     ]);
@@ -113,11 +108,15 @@ describe("Prerequisite VO", () => {
     const result = (await verifier.verify()).error.message;
 
     expect(result).toEqual(TimeoutError.Exceeded);
-
-    await CacheRepository.flush();
   });
 
   test("with cache - success", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const deps = { HashContent, CacheResolver };
+
     jest.useFakeTimers();
     const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
     const prerequisite = new Prerequisite("dns", inner, [PrerequisiteDecorator.withCache("dns", deps)]);
@@ -139,6 +138,12 @@ describe("Prerequisite VO", () => {
   });
 
   test("with cache - failure", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const deps = { HashContent, CacheResolver };
+
     jest.useFakeTimers();
     const dnsLookup = spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
     const prerequisite = new Prerequisite("dns", inner, [PrerequisiteDecorator.withCache("dns", deps)]);
@@ -160,6 +165,14 @@ describe("Prerequisite VO", () => {
   });
 
   test("with everything", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const Logger = new LoggerNoopAdapter();
+    const deps = { Clock, Logger, HashContent, CacheResolver };
+
     const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("dns", inner, [
@@ -182,6 +195,12 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x cache - success", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const deps = { HashContent, CacheResolver };
+
     const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
     const prerequisite = new Prerequisite("dns", inner, [
       PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
@@ -197,8 +216,14 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x cache - timeout not cached", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const deps = { HashContent, CacheResolver };
+
     // @ts-expect-error
-    const dnsLookup = spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const dnsLookup = spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
     const prerequisite = new Prerequisite("dns", inner, [
       PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
       PrerequisiteDecorator.withCache("dns", deps),
@@ -211,7 +236,7 @@ describe("Prerequisite VO", () => {
     expect(first).toEqual(TimeoutError.Exceeded);
 
     // @ts-expect-error
-    const second = (await verifier.verify()).error.message;
+    const second = (await verifier.verify())?.error?.message;
 
     expect(second).toEqual(TimeoutError.Exceeded);
     expect(dnsLookup).toHaveBeenCalledTimes(2);
@@ -220,8 +245,14 @@ describe("Prerequisite VO", () => {
   });
 
   test("cache x timeout - timeout cached", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const deps = { HashContent, CacheResolver };
+
     // @ts-expect-error
-    const dnsLookup = spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const dnsLookup = spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
     const prerequisite = new Prerequisite("dns", inner, [
       PrerequisiteDecorator.withCache("dns", deps),
       PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
@@ -243,6 +274,14 @@ describe("Prerequisite VO", () => {
   });
 
   test("cache x logger - logs once", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const Logger = new LoggerNoopAdapter();
+    const deps = { Clock, Logger, HashContent, CacheResolver };
+
     const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("dns", inner, [
@@ -260,6 +299,14 @@ describe("Prerequisite VO", () => {
   });
 
   test("logger x cache - logs twice", async () => {
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const Logger = new LoggerNoopAdapter();
+    const deps = { Clock, Logger, HashContent, CacheResolver };
+
     const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("dns", inner, [
