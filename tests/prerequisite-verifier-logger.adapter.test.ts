@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import dns from "dns/promises";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
 import { PrerequisiteVerifierLoggerAdapter } from "../src/prerequisite-verifier-logger.adapter";
@@ -9,8 +10,9 @@ const hostname = "api.example.com";
 const result = { address: hostname, family: 4 };
 const inner = new PrerequisiteVerifierDnsAdapter({ hostname });
 
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Logger = new LoggerNoopAdapter();
-const deps = { Logger };
+const deps = { Clock, Logger };
 
 const prerequisite = new PrerequisiteVerifierLoggerAdapter({ inner }, deps);
 
@@ -24,6 +26,7 @@ describe("PrerequisiteVerifierTimeoutAdapter", () => {
       component: "infra",
       message: `Success - ${inner.kind}`,
       operation: "prerequisite_verify",
+      durationMs: expect.any(Number),
     });
   });
 
@@ -36,6 +39,7 @@ describe("PrerequisiteVerifierTimeoutAdapter", () => {
       component: "infra",
       message: `Failure - ${inner.kind}`,
       operation: "prerequisite_verify",
+      durationMs: expect.any(Number),
       error: mocks.IntentionalError,
     });
   });
@@ -49,6 +53,7 @@ describe("PrerequisiteVerifierTimeoutAdapter", () => {
       component: "infra",
       message: `Undetermined - ${inner.kind}`,
       operation: "prerequisite_verify",
+      durationMs: expect.any(Number),
     });
   });
 
