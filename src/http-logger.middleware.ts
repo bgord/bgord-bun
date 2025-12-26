@@ -1,10 +1,10 @@
-import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { CacheSourceEnum } from "./cache-resolver.port";
 import { CacheResponse } from "./cache-response.middleware";
 import { ClientFromHono } from "./client-from-hono.adapter";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
+import { Stopwatch } from "./stopwatch.service";
 
 const UNINFORMATIVE_HEADERS = [
   "accept",
@@ -77,7 +77,7 @@ export class HttpLogger {
         ),
       });
 
-      const stopwatch = new tools.Stopwatch(deps.Clock.now());
+      const stopwatch = new Stopwatch(deps.Clock.now());
       await next();
       const duration = stopwatch.stop();
 
