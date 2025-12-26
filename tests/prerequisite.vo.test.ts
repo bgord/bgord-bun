@@ -8,6 +8,7 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
 import { RetryBackoffStrategyExponential } from "../src/retry-backoff-strategy-exponential";
+import { RetryBackoffStrategyNoop } from "../src/retry-backoff-strategy-noop";
 import { TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
 
@@ -308,6 +309,35 @@ describe("Prerequisite VO", () => {
 
     expect(second).toEqual(TimeoutError.Exceeded);
     expect(passVerify).toHaveBeenCalledTimes(1);
+
+    await CacheRepository.flush();
+  });
+
+  test("cache x retry", async () => {
+    const fail = new mocks.PrerequisiteVerifierFail();
+
+    const ttl = tools.Duration.Minutes(1);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const HashContent = new HashContentSha256BunAdapter();
+    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const deps = { HashContent, CacheResolver };
+
+    const failVerify = spyOn(fail, "verify");
+    const cacheRepositorySet = spyOn(CacheRepository, "set");
+    const prerequisite = new Prerequisite("example", fail, {
+      decorators: [
+        PrerequisiteDecorator.withCache("example", deps),
+        PrerequisiteDecorator.withRetry({
+          max: 3,
+          backoff: new RetryBackoffStrategyNoop(),
+        }),
+      ],
+    });
+    const verifier = prerequisite.build();
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(failVerify).toHaveBeenCalledTimes(3);
+    expect(cacheRepositorySet).toHaveBeenCalledTimes(1);
 
     await CacheRepository.flush();
   });
