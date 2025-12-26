@@ -7,6 +7,7 @@ import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adap
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
+import { RetryBackoffStrategyExponential } from "../src/retry-backoff-strategy-exponential";
 import { TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
 
@@ -200,6 +201,10 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
+        PrerequisiteDecorator.withRetry({
+          max: 3,
+          backoff: new RetryBackoffStrategyExponential(tools.Duration.Ms(5)),
+        }),
       ],
     });
     const verifier = prerequisite.build();
