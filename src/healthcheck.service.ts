@@ -1,3 +1,4 @@
+import os from "node:os";
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 import { BuildInfoRepository } from "./build-info-repository.service";
@@ -26,6 +27,7 @@ type HealthcheckResultType = {
   };
   server: {
     pid: typeof process.pid;
+    hostname: ReturnType<typeof os.hostname>;
     uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
     memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   };
@@ -79,6 +81,7 @@ export class Healthcheck {
         },
         server: {
           pid: process.pid,
+          hostname: os.hostname(),
           uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
           memory: {
             bytes: MemoryConsumption.get().toBytes(),

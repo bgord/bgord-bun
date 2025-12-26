@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import os from "node:os";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
@@ -14,6 +15,7 @@ import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-po
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
+const hostname = "macbook";
 const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
@@ -29,6 +31,7 @@ const buildInfo = {
 
 describe("Healthcheck service", () => {
   test("200", async () => {
+    spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
@@ -46,6 +49,7 @@ describe("Healthcheck service", () => {
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
+        hostname,
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -62,6 +66,7 @@ describe("Healthcheck service", () => {
   });
 
   test("200 - ignores port prerequisite", async () => {
+    spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
@@ -86,6 +91,7 @@ describe("Healthcheck service", () => {
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
+        hostname,
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -102,6 +108,7 @@ describe("Healthcheck service", () => {
   });
 
   test("424", async () => {
+    spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
@@ -123,6 +130,7 @@ describe("Healthcheck service", () => {
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
+        hostname,
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
