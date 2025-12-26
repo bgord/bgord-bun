@@ -28,6 +28,7 @@ type HealthcheckResultType = {
   server: {
     pid: typeof process.pid;
     hostname: ReturnType<typeof os.hostname>;
+    cpus: number;
     uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
     memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   };
@@ -82,6 +83,7 @@ export class Healthcheck {
         server: {
           pid: process.pid,
           hostname: os.hostname(),
+          cpus: os.cpus().length,
           uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
           memory: {
             bytes: MemoryConsumption.get().toBytes(),

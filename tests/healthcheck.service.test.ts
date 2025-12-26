@@ -16,6 +16,7 @@ import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
 const hostname = "macbook";
+const cpus = ["abc"];
 const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
@@ -31,6 +32,7 @@ const buildInfo = {
 
 describe("Healthcheck service", () => {
   test("200", async () => {
+    spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
@@ -50,6 +52,7 @@ describe("Healthcheck service", () => {
       server: {
         pid: expect.any(Number),
         hostname,
+        cpus: 1,
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -66,6 +69,7 @@ describe("Healthcheck service", () => {
   });
 
   test("200 - ignores port prerequisite", async () => {
+    spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
@@ -92,6 +96,7 @@ describe("Healthcheck service", () => {
       server: {
         pid: expect.any(Number),
         hostname,
+        cpus: 1,
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -108,6 +113,7 @@ describe("Healthcheck service", () => {
   });
 
   test("424", async () => {
+    spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
@@ -131,6 +137,7 @@ describe("Healthcheck service", () => {
       server: {
         pid: expect.any(Number),
         hostname,
+        cpus: 1,
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
