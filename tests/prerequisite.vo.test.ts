@@ -18,9 +18,10 @@ describe("Prerequisite VO", () => {
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger };
 
-    const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, [PrerequisiteDecorator.withLogger(deps)]);
     const verifier = prerequisite.build();
+
+    const loggerInfo = spyOn(Logger, "info");
 
     expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
     expect(loggerInfo).toHaveBeenCalledWith({
@@ -38,9 +39,10 @@ describe("Prerequisite VO", () => {
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger };
 
-    const loggerError = spyOn(Logger, "error");
     const prerequisite = new Prerequisite("example", fail, [PrerequisiteDecorator.withLogger(deps)]);
     const verifier = prerequisite.build();
+
+    const loggerError = spyOn(Logger, "error");
 
     expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
     expect(loggerError).toHaveBeenCalledWith({
@@ -58,10 +60,11 @@ describe("Prerequisite VO", () => {
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger };
 
-    const loggerInfo = spyOn(Logger, "info");
-    spyOn(pass, "verify").mockResolvedValue(mocks.VerificationUndetermined);
     const prerequisite = new Prerequisite("example", pass, [PrerequisiteDecorator.withLogger(deps)]);
     const verifier = prerequisite.build();
+
+    const loggerInfo = spyOn(Logger, "info");
+    spyOn(pass, "verify").mockResolvedValue(mocks.VerificationUndetermined);
 
     expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
     expect(loggerInfo).toHaveBeenCalledWith({
@@ -84,7 +87,6 @@ describe("Prerequisite VO", () => {
 
   test("with timeout - failure", async () => {
     const fail = new mocks.PrerequisiteVerifierFail();
-
     const prerequisite = new Prerequisite("example", fail, [
       PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
     ]);
@@ -95,12 +97,14 @@ describe("Prerequisite VO", () => {
 
   test("with timeout - timeout", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
-    // @ts-expect-error
-    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+
     const prerequisite = new Prerequisite("example", pass, [
       PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
     ]);
     const verifier = prerequisite.build();
+
+    // @ts-expect-error
+    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
 
     // @ts-expect-error
     const result = (await verifier.verify()).error.message;
@@ -117,12 +121,13 @@ describe("Prerequisite VO", () => {
     const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
-    jest.useFakeTimers();
-    const passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, [
       PrerequisiteDecorator.withCache("example", deps),
     ]);
     const verifier = prerequisite.build();
+
+    jest.useFakeTimers();
+    const passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(1);
@@ -148,12 +153,13 @@ describe("Prerequisite VO", () => {
     const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
-    jest.useFakeTimers();
-    const failVerify = spyOn(fail, "verify");
     const prerequisite = new Prerequisite("example", fail, [
       PrerequisiteDecorator.withCache("example", deps),
     ]);
     const verifier = prerequisite.build();
+
+    jest.useFakeTimers();
+    const failVerify = spyOn(fail, "verify");
 
     expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
