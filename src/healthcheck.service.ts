@@ -37,19 +37,21 @@ export class Healthcheck {
     handler.createHandlers(async (c) => {
       const stopwatch = new Stopwatch(deps);
 
-      const details: HealthcheckResultType["details"][number][] = [];
-
       const prerequisites = [self, ..._prerequisites]
         .filter((prerequisite) => prerequisite.enabled)
         .filter((prerequisite) => prerequisite.kind !== "port");
 
-      for (const prerequisite of prerequisites) {
-        const stopwatch = new Stopwatch(deps);
+      const details: HealthcheckResultType["details"][number][] = await Promise.all(
+        prerequisites.map(async (prerequisite) => {
+          const stopwatch = new Stopwatch(deps);
 
-        const outcome = await prerequisite.build().verify();
-
-        details.push({ label: prerequisite.label, outcome, durationMs: stopwatch.stop().ms });
-      }
+          return {
+            label: prerequisite.label,
+            outcome: await prerequisite.build().verify(),
+            durationMs: stopwatch.stop().ms,
+          };
+        }),
+      );
 
       const ok = details.every(
         (result) => result.outcome.outcome !== PrerequisiteVerificationOutcome.failure,
@@ -60,7 +62,7 @@ export class Healthcheck {
       const buildInfo = await BuildInfoRepository.extract(deps);
       const uptime = Uptime.get(deps.Clock);
 
-      const result: HealthcheckResultType = {
+      const response: HealthcheckResultType = {
         ok,
         details,
         version: buildInfo.BUILD_VERSION ?? "unknown",
@@ -72,6 +74,6 @@ export class Healthcheck {
         durationMs: stopwatch.stop().ms,
       };
 
-      return c.json(result, code);
+      return c.json(response, code);
     });
 }
