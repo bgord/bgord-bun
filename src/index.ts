@@ -206,6 +206,7 @@ export * from "./redactor-noop.adapter";
 export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
+export * from "./retry.service";
 export * from "./retry-backoff-strategy.port";
 export * from "./retry-backoff-strategy-exponential";
 export * from "./retry-backoff-strategy-fibonacci";
