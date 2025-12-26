@@ -38,6 +38,8 @@ describe("Prerequisite VO", () => {
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
     });
+
+    await CacheRepository.flush();
   });
 
   test("with logger - failure", async () => {
@@ -54,6 +56,8 @@ describe("Prerequisite VO", () => {
       durationMs: expect.any(Number),
       error: mocks.IntentionalError,
     });
+
+    await CacheRepository.flush();
   });
 
   test("with logger - undetermined", async () => {
@@ -69,6 +73,8 @@ describe("Prerequisite VO", () => {
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
     });
+
+    await CacheRepository.flush();
   });
 
   test("with timeout - success", async () => {
@@ -79,6 +85,8 @@ describe("Prerequisite VO", () => {
     const verifier = prerequisite.build();
 
     expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+
+    await CacheRepository.flush();
   });
 
   test("with timeout - failure", async () => {
@@ -89,6 +97,8 @@ describe("Prerequisite VO", () => {
     const verifier = prerequisite.build();
 
     expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+
+    await CacheRepository.flush();
   });
 
   test("with timeout - timeout", async () => {
@@ -103,6 +113,8 @@ describe("Prerequisite VO", () => {
     const result = (await verifier.verify()).error.message;
 
     expect(result).toEqual(TimeoutError.Exceeded);
+
+    await CacheRepository.flush();
   });
 
   test("with cache - success", async () => {
@@ -165,5 +177,102 @@ describe("Prerequisite VO", () => {
       durationMs: expect.any(Number),
     });
     expect(dnsLookup).toHaveBeenCalledTimes(1);
+
+    await CacheRepository.flush();
+  });
+
+  test("timeout x cache - success", async () => {
+    const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+      PrerequisiteDecorator.withCache("dns", deps),
+    ]);
+    const verifier = prerequisite.build();
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(dnsLookup).toHaveBeenCalledTimes(1);
+
+    await CacheRepository.flush();
+  });
+
+  test("timeout x cache - timeout not cached", async () => {
+    // @ts-expect-error
+    const dnsLookup = spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+      PrerequisiteDecorator.withCache("dns", deps),
+    ]);
+    const verifier = prerequisite.build();
+
+    // @ts-expect-error
+    const first = (await verifier.verify()).error.message;
+
+    expect(first).toEqual(TimeoutError.Exceeded);
+
+    // @ts-expect-error
+    const second = (await verifier.verify()).error.message;
+
+    expect(second).toEqual(TimeoutError.Exceeded);
+    expect(dnsLookup).toHaveBeenCalledTimes(2);
+
+    await CacheRepository.flush();
+  });
+
+  test("cache x timeout - timeout cached", async () => {
+    // @ts-expect-error
+    const dnsLookup = spyOn(dns, "lookup").mockImplementation(() => Bun.sleep(tools.Duration.Ms(6).ms));
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withCache("dns", deps),
+      PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+    ]);
+    const verifier = prerequisite.build();
+
+    // @ts-expect-error
+    const first = (await verifier.verify()).error.message;
+
+    expect(first).toEqual(TimeoutError.Exceeded);
+
+    // @ts-expect-error
+    const second = (await verifier.verify()).error.message;
+
+    expect(second).toEqual(TimeoutError.Exceeded);
+    expect(dnsLookup).toHaveBeenCalledTimes(1);
+
+    await CacheRepository.flush();
+  });
+
+  test("cache x logger - logs once", async () => {
+    const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
+    const loggerInfo = spyOn(Logger, "info");
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withCache("dns", deps),
+      PrerequisiteDecorator.withLogger(deps),
+    ]);
+    const verifier = prerequisite.build();
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(dnsLookup).toHaveBeenCalledTimes(1);
+    expect(loggerInfo).toHaveBeenCalledTimes(1);
+
+    await CacheRepository.flush();
+  });
+
+  test("logger x cache - logs twice", async () => {
+    const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);
+    const loggerInfo = spyOn(Logger, "info");
+    const prerequisite = new Prerequisite("dns", inner, [
+      PrerequisiteDecorator.withLogger(deps),
+      PrerequisiteDecorator.withCache("dns", deps),
+    ]);
+    const verifier = prerequisite.build();
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(dnsLookup).toHaveBeenCalledTimes(1);
+    expect(loggerInfo).toHaveBeenCalledTimes(2);
+
+    await CacheRepository.flush();
   });
 });

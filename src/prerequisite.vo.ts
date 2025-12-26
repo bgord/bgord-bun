@@ -12,7 +12,7 @@ export class Prerequisite {
   ) {}
 
   build(): PrerequisiteVerifierPort {
-    return this.decorators.reduce((verifier, decorator) => decorator(verifier), this.verifier);
+    return this.decorators.reduceRight((verifier, decorator) => decorator(verifier), this.verifier);
   }
 
   get kind() {
