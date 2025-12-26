@@ -25,6 +25,7 @@ type HealthcheckResultType = {
     environment: NodeEnvironmentEnum;
   };
   server: {
+    pid: typeof process.pid;
     uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
     memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   };
@@ -77,6 +78,7 @@ export class Healthcheck {
           environment: Env,
         },
         server: {
+          pid: process.pid,
           uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
           memory: {
             bytes: MemoryConsumption.get().toBytes(),

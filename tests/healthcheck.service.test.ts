@@ -45,6 +45,7 @@ describe("Healthcheck service", () => {
       ok: true,
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       server: {
+        pid: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -84,6 +85,7 @@ describe("Healthcheck service", () => {
       ok: true,
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       server: {
+        pid: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -120,6 +122,7 @@ describe("Healthcheck service", () => {
       ok: false,
       deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       server: {
+        pid: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
