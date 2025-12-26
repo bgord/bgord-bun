@@ -241,6 +241,7 @@ export * from "./shield-timeout.adapter";
 export * from "./simulated-error.middleware";
 export * from "./slower.middleware";
 export * from "./static-files.service";
+export * from "./stopwatch.service";
 export * from "./temporary-file.port";
 export * from "./temporary-file-absolute.adapter";
 export * from "./temporary-file-noop.adapter";
