@@ -6,9 +6,6 @@ const backoff = new RetryBackoffStrategyNoop();
 
 describe("RetryBackoffStrategyNoop", () => {
   test("next", () => {
-    const result = backoff.next();
-    const expected = tools.Duration.Ms(0);
-
-    expect(result.equals(expected)).toEqual(true);
+    expect(backoff.next().equals(tools.Duration.Ms(0))).toEqual(true);
   });
 });
