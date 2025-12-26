@@ -1,18 +1,19 @@
 import type * as tools from "@bgord/tools";
 import type { CacheResolverPort } from "./cache-resolver.port";
+import type { ClockPort } from "./clock.port";
 import type { HashContentPort } from "./hash-content.port";
 import type { LoggerPort } from "./logger.port";
 import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
-import { PrerequisiteVerifierCacheAdapter } from "./prerequisite-verifier-cache.adapter";
-import { PrerequisiteVerifierLoggerAdapter } from "./prerequisite-verifier-logger.adapter";
-import { PrerequisiteVerifierTimeoutAdapter } from "./prerequisite-verifier-timeout.adapter";
+import { PrerequisiteVerifierWithCacheAdapter } from "./prerequisite-verifier-with-cache.adapter";
+import { PrerequisiteVerifierWithLoggerAdapter } from "./prerequisite-verifier-with-logger.adapter";
+import { PrerequisiteVerifierWithTimeoutAdapter } from "./prerequisite-verifier-with-timeout.adapter";
 
 export type PrerequisiteVerifierDecorator = (verifier: PrerequisiteVerifierPort) => PrerequisiteVerifierPort;
 
 const withTimeout =
   (timeout: tools.Duration): PrerequisiteVerifierDecorator =>
   (inner) =>
-    new PrerequisiteVerifierTimeoutAdapter({ inner, timeout });
+    new PrerequisiteVerifierWithTimeoutAdapter({ inner, timeout });
 
 const withCache =
   (
@@ -20,11 +21,11 @@ const withCache =
     deps: { CacheResolver: CacheResolverPort; HashContent: HashContentPort },
   ): PrerequisiteVerifierDecorator =>
   (inner) =>
-    new PrerequisiteVerifierCacheAdapter({ id, inner }, deps);
+    new PrerequisiteVerifierWithCacheAdapter({ id, inner }, deps);
 
 const withLogger =
-  (deps: { Logger: LoggerPort }): PrerequisiteVerifierDecorator =>
+  (deps: { Clock: ClockPort; Logger: LoggerPort }): PrerequisiteVerifierDecorator =>
   (inner) =>
-    new PrerequisiteVerifierLoggerAdapter({ inner }, deps);
+    new PrerequisiteVerifierWithLoggerAdapter({ inner }, deps);
 
 export const PrerequisiteDecorator = { withTimeout, withCache, withLogger };

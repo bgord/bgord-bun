@@ -6,7 +6,7 @@ import {
 } from "./prerequisite-verifier.port";
 import { Timeout } from "./timeout.service";
 
-export class PrerequisiteVerifierTimeoutAdapter implements PrerequisiteVerifierPort {
+export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { inner: PrerequisiteVerifierPort; timeout: tools.Duration }) {}
 
   async verify() {

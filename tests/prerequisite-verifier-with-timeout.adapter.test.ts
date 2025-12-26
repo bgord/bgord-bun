@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import dns from "dns/promises";
 import * as tools from "@bgord/tools";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
-import { PrerequisiteVerifierTimeoutAdapter } from "../src/prerequisite-verifier-timeout.adapter";
+import { PrerequisiteVerifierWithTimeoutAdapter } from "../src/prerequisite-verifier-with-timeout.adapter";
 import { TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
 
@@ -10,9 +10,9 @@ const hostname = "api.example.com";
 const result = { address: hostname, family: 4 };
 
 const inner = new PrerequisiteVerifierDnsAdapter({ hostname });
-const prerequisite = new PrerequisiteVerifierTimeoutAdapter({ inner, timeout: tools.Duration.Ms(5) });
+const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner, timeout: tools.Duration.Ms(5) });
 
-describe("PrerequisiteVerifierTimeoutAdapter", () => {
+describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
   test("success", async () => {
     spyOn(dns, "lookup").mockResolvedValue(result);
 

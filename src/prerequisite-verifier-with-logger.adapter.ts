@@ -5,7 +5,7 @@ import { PrerequisiteVerificationOutcome, type PrerequisiteVerifierPort } from "
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
-export class PrerequisiteVerifierLoggerAdapter implements PrerequisiteVerifierPort {
+export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifierPort {
   private readonly base = (durationMs: tools.DurationMsType) => ({
     component: "infra",
     operation: "prerequisite_verify",

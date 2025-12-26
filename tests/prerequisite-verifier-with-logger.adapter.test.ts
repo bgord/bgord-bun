@@ -3,7 +3,7 @@ import dns from "dns/promises";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
-import { PrerequisiteVerifierLoggerAdapter } from "../src/prerequisite-verifier-logger.adapter";
+import { PrerequisiteVerifierWithLoggerAdapter } from "../src/prerequisite-verifier-with-logger.adapter";
 import * as mocks from "./mocks";
 
 const hostname = "api.example.com";
@@ -14,9 +14,9 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Logger = new LoggerNoopAdapter();
 const deps = { Clock, Logger };
 
-const prerequisite = new PrerequisiteVerifierLoggerAdapter({ inner }, deps);
+const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner }, deps);
 
-describe("PrerequisiteVerifierTimeoutAdapter", () => {
+describe("PrerequisiteVerifierWithLoggerAdapter", () => {
   test("success", async () => {
     const loggerInfo = spyOn(Logger, "info");
     spyOn(dns, "lookup").mockResolvedValue(result);

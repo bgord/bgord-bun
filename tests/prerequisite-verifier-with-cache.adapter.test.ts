@@ -4,8 +4,8 @@ import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
 import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
-import { PrerequisiteVerifierCacheAdapter } from "../src/prerequisite-verifier-cache.adapter";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
+import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
 import * as mocks from "./mocks";
 
 const hostname = "api.example.com";
@@ -18,9 +18,9 @@ const HashContent = new HashContentSha256BunAdapter();
 const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
 const deps = { CacheResolver, HashContent };
 
-const prerequisite = new PrerequisiteVerifierCacheAdapter({ id: "dns", inner }, deps);
+const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "dns", inner }, deps);
 
-describe("PrerequisiteVerifierCacheAdapter", () => {
+describe("PrerequisiteVerifierWithCacheAdapter", () => {
   test("success", async () => {
     jest.useFakeTimers();
     const dnsLookup = spyOn(dns, "lookup").mockResolvedValue(result);

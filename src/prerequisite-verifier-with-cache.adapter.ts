@@ -6,7 +6,7 @@ import type { PrerequisiteVerificationResult, PrerequisiteVerifierPort } from ".
 
 type Dependencies = { CacheResolver: CacheResolverPort; HashContent: HashContentPort };
 
-export class PrerequisiteVerifierCacheAdapter implements PrerequisiteVerifierPort {
+export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifierPort {
   constructor(
     private readonly config: { id: string; inner: PrerequisiteVerifierPort },
     private readonly deps: Dependencies,
