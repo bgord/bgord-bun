@@ -1,26 +1,26 @@
-import { describe, expect, jest, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { Stopwatch, StopwatchError } from "../src/stopwatch.service";
+import * as mocks from "./mocks";
 
 describe("Stopwatch", () => {
   test("happy path", () => {
-    jest.useFakeTimers();
-    const stopwatch = new Stopwatch(tools.Timestamp.fromNumber(Date.now()));
-    jest.advanceTimersByTime(tools.Duration.Ms(500).ms);
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const duration = tools.Duration.Seconds(5);
+    const stopwatch = new Stopwatch({ Clock });
 
-    expect(stopwatch.stop().ms).toEqual(tools.DurationMs.parse(500));
+    Clock.advanceBy(duration);
+    const result = stopwatch.stop();
 
-    jest.useRealTimers();
+    expect(result).toEqual(duration);
   });
 
   test("throws if stop is called twice", () => {
-    jest.useFakeTimers();
-    const stopwatch = new Stopwatch(tools.Timestamp.fromNumber(Date.now()));
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const stopwatch = new Stopwatch({ Clock });
 
     stopwatch.stop();
-
     expect(() => stopwatch.stop()).toThrow(StopwatchError.AlreadyStopped);
-
-    jest.useRealTimers();
   });
 });

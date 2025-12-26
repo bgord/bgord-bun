@@ -77,7 +77,7 @@ export class HttpLogger {
         ),
       });
 
-      const stopwatch = new Stopwatch(deps.Clock.now());
+      const stopwatch = new Stopwatch(deps);
       await next();
       const duration = stopwatch.stop();
 

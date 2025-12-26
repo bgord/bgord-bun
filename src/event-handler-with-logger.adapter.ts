@@ -13,7 +13,7 @@ export class EventHandlerWithLoggerAdapter implements EventHandlerPort {
 
   handle<T extends { name: z.infer<GenericEventSchema["shape"]["name"]> }>(fn: (event: T) => Promise<void>) {
     return async (event: T) => {
-      const stopwatch = new Stopwatch(this.deps.Clock.now());
+      const stopwatch = new Stopwatch(this.deps);
 
       try {
         await fn(event);

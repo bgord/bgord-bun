@@ -19,7 +19,7 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
   ) {}
 
   async verify() {
-    const stopwatch = new Stopwatch(this.deps.Clock.now());
+    const stopwatch = new Stopwatch(this.deps);
     const result = await this.config.inner.verify();
     const durationMs = stopwatch.stop().ms;
 

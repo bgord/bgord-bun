@@ -17,7 +17,7 @@ export class JobHandlerWithLogger implements JobHandlerPort {
     const correlationId = this.deps.IdProvider.generate();
 
     return async () => {
-      const stopwatch = new Stopwatch(this.deps.Clock.now());
+      const stopwatch = new Stopwatch(this.deps);
 
       try {
         this.deps.Logger.info({ message: `${uow.label} start`, correlationId, ...this.base });
