@@ -47,6 +47,7 @@ describe("Healthcheck service", () => {
         { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
+      timestamp: mocks.TIME_ZERO.ms,
     });
   });
 
@@ -79,6 +80,7 @@ describe("Healthcheck service", () => {
         { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
+      timestamp: mocks.TIME_ZERO.ms,
     });
   });
 
@@ -110,6 +112,7 @@ describe("Healthcheck service", () => {
         },
       ],
       durationMs: expect.any(Number),
+      timestamp: mocks.TIME_ZERO.ms,
     });
   });
 });

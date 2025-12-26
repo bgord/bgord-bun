@@ -28,6 +28,7 @@ type HealthcheckResultType = {
   uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
   memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
   durationMs: tools.Duration["ms"];
+  timestamp: tools.TimestampValueType;
 };
 
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
@@ -72,6 +73,7 @@ export class Healthcheck {
           formatted: MemoryConsumption.get().format(tools.Size.unit.MB),
         },
         durationMs: stopwatch.stop().ms,
+        timestamp: deps.Clock.now().ms,
       };
 
       return c.json(response, code);
