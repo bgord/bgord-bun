@@ -53,6 +53,7 @@ describe("Healthcheck service", () => {
         pid: expect.any(Number),
         hostname,
         cpus: 1,
+        startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -97,6 +98,7 @@ describe("Healthcheck service", () => {
         pid: expect.any(Number),
         hostname,
         cpus: 1,
+        startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
@@ -138,6 +140,7 @@ describe("Healthcheck service", () => {
         pid: expect.any(Number),
         hostname,
         cpus: 1,
+        startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: memoryConsumption.toBytes(),
