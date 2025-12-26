@@ -15,9 +15,10 @@ import { Stopwatch } from "./stopwatch.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
 const handler = createFactory();
+const self = new Prerequisite("self", new PrerequisiteVerifierSelfAdapter());
 
 type HealthcheckResultType = {
-  ok: PrerequisiteVerificationOutcome;
+  ok: boolean;
   version: string;
   details: {
     label: PrerequisiteLabelType;
@@ -32,35 +33,31 @@ type HealthcheckResultType = {
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
 
 export class Healthcheck {
-  static build = (prerequisites: Prerequisite[], deps: Dependencies) =>
+  static build = (_prerequisites: Prerequisite[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new Stopwatch(deps);
 
-      const buildInfo = await BuildInfoRepository.extract(deps);
-
       const details: HealthcheckResultType["details"][number][] = [];
 
-      for (const prerequisite of [
-        new Prerequisite("self", new PrerequisiteVerifierSelfAdapter()),
-        ...prerequisites,
-      ]
+      const prerequisites = [self, ..._prerequisites]
         .filter((prerequisite) => prerequisite.enabled)
-        .filter((prerequisite) => prerequisite.kind !== "port")) {
+        .filter((prerequisite) => prerequisite.kind !== "port");
+
+      for (const prerequisite of prerequisites) {
         const stopwatch = new Stopwatch(deps);
 
         const outcome = await prerequisite.build().verify();
 
-        const durationMs = stopwatch.stop().ms;
-
-        details.push({ label: prerequisite.label, outcome, durationMs });
+        details.push({ label: prerequisite.label, outcome, durationMs: stopwatch.stop().ms });
       }
 
-      const ok = details.every((result) => result.outcome.outcome !== PrerequisiteVerificationOutcome.failure)
-        ? PrerequisiteVerificationOutcome.success
-        : PrerequisiteVerificationOutcome.failure;
+      const ok = details.every(
+        (result) => result.outcome.outcome !== PrerequisiteVerificationOutcome.failure,
+      );
 
-      const code = ok === PrerequisiteVerificationOutcome.success ? 200 : 424;
+      const code = ok ? 200 : 424;
 
+      const buildInfo = await BuildInfoRepository.extract(deps);
       const uptime = Uptime.get(deps.Clock);
 
       const result: HealthcheckResultType = {

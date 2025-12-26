@@ -9,7 +9,6 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
-import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
@@ -39,7 +38,7 @@ describe("Healthcheck service", () => {
 
     expect(response.status).toEqual(200);
     expect(data).toEqual({
-      ok: PrerequisiteVerificationOutcome.success,
+      ok: true,
       version: buildInfo.BUILD_VERSION,
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
@@ -71,7 +70,7 @@ describe("Healthcheck service", () => {
 
     expect(response.status).toEqual(200);
     expect(data).toEqual({
-      ok: PrerequisiteVerificationOutcome.success,
+      ok: true,
       version: buildInfo.BUILD_VERSION,
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
@@ -97,7 +96,7 @@ describe("Healthcheck service", () => {
 
     expect(response.status).toEqual(424);
     expect(data).toEqual({
-      ok: PrerequisiteVerificationOutcome.failure,
+      ok: false,
       version: buildInfo.BUILD_VERSION,
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },

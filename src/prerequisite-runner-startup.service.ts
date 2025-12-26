@@ -8,13 +8,13 @@ export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 /** @public */
-export class Prerequisites {
+export class PrerequisiteRunnerStartup {
   private readonly base = { component: "infra", operation: "startup" };
 
   constructor(private readonly deps: Dependencies) {}
 
   async check(prerequisites: Prerequisite[]) {
-    const results = await Promise.all(
+    const result = await Promise.all(
       prerequisites
         .filter((prerequisite) => prerequisite.enabled)
         .map(async (prerequisite) => ({
@@ -23,13 +23,13 @@ export class Prerequisites {
         })),
     );
 
-    const failed = results.filter(
+    const failures = result.filter(
       (result) => result.outcome.outcome === PrerequisiteVerificationOutcome.failure,
     );
 
-    if (failed.length === 0) return this.deps.Logger.info({ message: "Prerequisites ok", ...this.base });
+    if (failures.length === 0) return this.deps.Logger.info({ message: "Prerequisites ok", ...this.base });
 
-    for (const failure of failed) {
+    for (const failure of failures) {
       this.deps.Logger.error({
         message: "Prerequisite failed",
         metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
