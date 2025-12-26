@@ -34,7 +34,7 @@ describe("Prerequisites service", () => {
         operation: "startup",
         message: "Prerequisite failed",
         metadata: expect.objectContaining({ label: "fail", kind: "test" }),
-        error: expect.objectContaining({ message: "boom" }),
+        error: mocks.IntentionalError,
       }),
     );
   });

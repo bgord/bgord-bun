@@ -106,7 +106,7 @@ describe("Healthcheck service", () => {
         { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
         {
           label: "fail",
-          outcome: mocks.VerificationFailure({ message: "boom" }),
+          outcome: mocks.VerificationFailure(mocks.IntentionalError),
           durationMs: expect.any(Number),
         },
       ],

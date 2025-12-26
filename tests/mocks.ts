@@ -7,6 +7,7 @@ import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
+import type { ErrorInfo } from "../src/logger.port";
 import type * as System from "../src/modules/system";
 import { Prerequisite } from "../src/prerequisite.vo";
 import {
@@ -75,7 +76,7 @@ export const VerificationFailure = (error?: any) => ({
   error,
 });
 
-export class PrerequisiteVerifierOk implements PrerequisiteVerifierPort {
+export class PrerequisiteVerifierPass implements PrerequisiteVerifierPort {
   async verify(): Promise<PrerequisiteVerificationResult> {
     return PrerequisiteVerification.success;
   }
@@ -84,11 +85,11 @@ export class PrerequisiteVerifierOk implements PrerequisiteVerifierPort {
     return "test";
   }
 }
-export const PrerequisiteOk = new Prerequisite("ok", new PrerequisiteVerifierOk());
+export const PrerequisiteOk = new Prerequisite("ok", new PrerequisiteVerifierPass());
 
 export class PrerequisiteVerifierFail implements PrerequisiteVerifierPort {
   async verify(): Promise<PrerequisiteVerificationResult> {
-    return PrerequisiteVerification.failure({ message: "boom" });
+    return PrerequisiteVerification.failure(IntentionalError as ErrorInfo);
   }
 
   get kind() {
