@@ -5,6 +5,7 @@ import type { ClockPort } from "./clock.port";
 import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
+import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
 import {
   PrerequisiteVerificationOutcome,
@@ -19,7 +20,10 @@ const self = new Prerequisite("self", new PrerequisiteVerifierSelfAdapter());
 
 type HealthcheckResultType = {
   ok: boolean;
-  version: string;
+  deployment: {
+    version: string;
+    environment: NodeEnvironmentEnum;
+  };
   details: {
     label: PrerequisiteLabelType;
     outcome: PrerequisiteVerificationResult;
@@ -34,7 +38,7 @@ type HealthcheckResultType = {
 type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
 
 export class Healthcheck {
-  static build = (_prerequisites: Prerequisite[], deps: Dependencies) =>
+  static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new Stopwatch(deps);
 
@@ -66,7 +70,10 @@ export class Healthcheck {
       const response: HealthcheckResultType = {
         ok,
         details,
-        version: buildInfo.BUILD_VERSION ?? "unknown",
+        deployment: {
+          version: buildInfo.BUILD_VERSION ?? "unknown",
+          environment: Env,
+        },
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           bytes: MemoryConsumption.get().toBytes(),

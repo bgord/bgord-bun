@@ -7,6 +7,7 @@ import { Healthcheck } from "../src/healthcheck.service";
 import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
+import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
@@ -31,7 +32,10 @@ describe("Healthcheck service", () => {
     spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
-    const app = new Hono().get("/health", ...Healthcheck.build([mocks.PrerequisiteOk], deps));
+    const app = new Hono().get(
+      "/health",
+      ...Healthcheck.build(NodeEnvironmentEnum.production, [mocks.PrerequisiteOk], deps),
+    );
 
     const response = await app.request("/health");
     const data = await response.json();
@@ -39,7 +43,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      version: buildInfo.BUILD_VERSION,
+      deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
@@ -58,6 +62,7 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
+        NodeEnvironmentEnum.production,
         [
           new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
           mocks.PrerequisiteOk,
@@ -72,7 +77,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      version: buildInfo.BUILD_VERSION,
+      deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
@@ -90,7 +95,11 @@ describe("Healthcheck service", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
       "/health",
-      ...Healthcheck.build([mocks.PrerequisiteOk, mocks.PrerequisiteFail], deps),
+      ...Healthcheck.build(
+        NodeEnvironmentEnum.production,
+        [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+        deps,
+      ),
     );
 
     const response = await app.request("/health");
@@ -99,7 +108,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(424);
     expect(data).toEqual({
       ok: false,
-      version: buildInfo.BUILD_VERSION,
+      deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
       uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
       memory: { bytes: memoryConsumption.toBytes(), formatted: memoryConsumption.format(tools.Size.unit.MB) },
       details: [
