@@ -6,15 +6,15 @@ export class Retry {
   static async run<T>(action: () => Promise<T>, config: RetryConfigType): Promise<T> {
     let lastError: unknown;
 
-    for (let attempt = 0; attempt < config.max; attempt++) {
-      const delay = config.backoff.next(attempt);
-
-      await Bun.sleep(delay.ms);
-
+    for (let attempt = 1; attempt <= config.max; attempt++) {
       try {
         return await action();
       } catch (error) {
         lastError = error;
+
+        if (attempt === config.max) break;
+
+        await Bun.sleep(config.backoff.next(attempt).ms);
       }
     }
 
