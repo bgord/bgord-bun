@@ -5,7 +5,7 @@ import { requestId } from "hono/request-id";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure-ban.adapter";
@@ -32,7 +32,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
 ]);
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl: duration });
 const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository };
 // =============================================

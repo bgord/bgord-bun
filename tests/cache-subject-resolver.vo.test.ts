@@ -7,7 +7,7 @@ import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentQuery } from "../src/cache-subject-segment-query";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
 import { Hash } from "../src/hash.vo";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 
 const fixed = new CacheSubjectSegmentFixed("response");
 const path = new CacheSubjectSegmentPath();
@@ -16,7 +16,7 @@ const headerAccept = new CacheSubjectSegmentHeader("accept");
 const query = new CacheSubjectSegmentQuery();
 const user = new CacheSubjectSegmentUser();
 
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
 describe("CacheSubject", () => {

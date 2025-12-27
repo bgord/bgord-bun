@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
-import type { HashContentPort } from "./hash-content.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 import type { LoggerPort } from "./logger.port";
 import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "./prerequisite-verifier-with-cache.adapter";
@@ -24,7 +24,7 @@ const withTimeout =
 const withCache =
   (
     id: string,
-    deps: { CacheResolver: CacheResolverStrategy; HashContent: HashContentPort },
+    deps: { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy },
   ): PrerequisiteVerifierDecorator =>
   (inner) =>
     new PrerequisiteVerifierWithCacheAdapter({ id, inner }, deps);

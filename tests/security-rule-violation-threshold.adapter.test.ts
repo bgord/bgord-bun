@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleViolationThresholdAdapter } from "../src/security-rule-violation-threshold.adapter";
@@ -13,7 +13,7 @@ const baitRoutes = new SecurityRuleBaitRoutesAdapter([forbidden]);
 
 const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { CacheRepository, HashContent };
 const config = { threshold: 3 };
 

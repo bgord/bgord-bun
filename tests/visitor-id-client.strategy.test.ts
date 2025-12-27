@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Client } from "../src/client.vo";
 import { Hash } from "../src/hash.vo";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { VisitorIdClientStrategy } from "../src/visitor-id-client.strategy";
 
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
 describe("VisitorIdClientStrategy", () => {

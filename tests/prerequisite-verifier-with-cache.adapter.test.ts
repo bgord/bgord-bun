@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
 import * as mocks from "./mocks";
 
@@ -12,7 +12,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-    const HashContent = new HashContentSha256BunAdapter();
+    const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
@@ -41,7 +41,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-    const HashContent = new HashContentSha256BunAdapter();
+    const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
@@ -70,7 +70,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-    const HashContent = new HashContentSha256BunAdapter();
+    const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 

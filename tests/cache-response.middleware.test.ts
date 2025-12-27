@@ -9,7 +9,7 @@ import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import type * as mocks from "./mocks";
 
 const config = { ttl: tools.Duration.Hours(1) };
@@ -17,7 +17,7 @@ const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
 const cacheResponse = new CacheResponse(

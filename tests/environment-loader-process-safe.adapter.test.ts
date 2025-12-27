@@ -4,7 +4,7 @@ import { z } from "zod/v4";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const Schema = z.object({ APP_NAME: z.string() });
@@ -13,7 +13,7 @@ const config = { ttl: tools.Duration.Hours(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { CacheResolver, HashContent };
 
 describe("EnvironmentLoaderProcessSafe", () => {

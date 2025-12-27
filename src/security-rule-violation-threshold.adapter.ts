@@ -3,11 +3,11 @@ import type { CacheRepositoryPort } from "./cache-repository.port";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
 import { CacheSubjectSegmentIp } from "./cache-subject-segment-ip";
-import type { HashContentPort } from "./hash-content.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 import type { SecurityRulePort } from "./security-rule.port";
 import { SecurityRuleName } from "./security-rule-name.vo";
 
-type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentPort };
+type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentStrategy };
 
 export class SecurityRuleViolationThresholdAdapter implements SecurityRulePort {
   constructor(

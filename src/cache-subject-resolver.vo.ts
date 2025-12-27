@@ -1,9 +1,9 @@
 import type { Context } from "hono";
 import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
 import type { Hash } from "./hash.vo";
-import type { HashContentPort } from "./hash-content.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 
-type Dependencies = { HashContent: HashContentPort };
+type Dependencies = { HashContent: HashContentStrategy };
 
 export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
 

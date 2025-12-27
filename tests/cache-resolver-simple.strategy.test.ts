@@ -5,14 +5,14 @@ import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import * as mocks from "./mocks";
 
 const cached = "cached-value";
 const fresh = "fresh-value";
 const config = { ttl: tools.Duration.Hours(1) };
 
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
 const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], deps);

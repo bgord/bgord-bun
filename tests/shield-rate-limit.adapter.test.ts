@@ -8,7 +8,7 @@ import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
 import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { ShieldRateLimitAdapter } from "../src/shield-rate-limit.adapter";
 import type * as mocks from "./mocks";
 
@@ -16,7 +16,7 @@ const config = { ttl: tools.Duration.Seconds(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { Clock, CacheResolver, HashContent };
 
 const resolver = new CacheSubjectResolver(
