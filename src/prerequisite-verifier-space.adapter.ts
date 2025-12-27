@@ -1,0 +1,32 @@
+import path from "node:path";
+import * as tools from "@bgord/tools";
+import type { DiskSpaceCheckerPort } from "./disk-space-checker.port";
+import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+
+type Dependencies = { DiskSpaceChecker: DiskSpaceCheckerPort };
+
+export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPort {
+  constructor(
+    private readonly config: { minimum: tools.Size },
+    private readonly deps: Dependencies,
+  ) {}
+
+  async verify() {
+    try {
+      const root = path.sep;
+      const freeDiskSpace = await this.deps.DiskSpaceChecker.get(root);
+
+      if (freeDiskSpace.isGreaterThan(this.config.minimum)) return PrerequisiteVerification.success;
+
+      const formatted = freeDiskSpace.format(tools.Size.unit.MB);
+
+      return PrerequisiteVerification.failure({ message: `Free disk space: ${formatted}` });
+    } catch (error) {
+      return PrerequisiteVerification.failure(error as Error);
+    }
+  }
+
+  get kind() {
+    return "space";
+  }
+}

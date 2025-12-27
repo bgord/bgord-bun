@@ -1,0 +1,31 @@
+import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import { PrerequisiteVerifierMemoryAdapter } from "../src/prerequisite-verifier-memory.adapter";
+import * as mocks from "./mocks";
+
+const maximum = tools.Size.fromMB(2);
+
+const prerequisite = new PrerequisiteVerifierMemoryAdapter({ maximum });
+
+describe("PrerequisiteVerifierMemoryAdapter", () => {
+  test("success", async () => {
+    // @ts-expect-error
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: tools.Size.fromMB(1).toBytes() }));
+
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+  });
+
+  test("failure - memory usage exceeds the maximum", async () => {
+    const memoryConsumption = tools.Size.fromMB(3);
+    // @ts-expect-error
+    spyOn(process, "memoryUsage").mockImplementation(() => ({ rss: memoryConsumption.toBytes() }));
+
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(
+      mocks.VerificationFailure({
+        message: `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
+      }),
+    );
+  });
+});

@@ -1,10 +1,10 @@
-import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { JobHandlerPort, UnitOfWork } from "./job-handler.port";
 import type { LoggerPort } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
+import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
@@ -17,7 +17,7 @@ export class JobHandlerWithLogger implements JobHandlerPort {
     const correlationId = this.deps.IdProvider.generate();
 
     return async () => {
-      const stopwatch = new tools.Stopwatch(this.deps.Clock.now());
+      const stopwatch = new Stopwatch(this.deps);
 
       try {
         this.deps.Logger.info({ message: `${uow.label} start`, correlationId, ...this.base });
