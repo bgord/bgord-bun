@@ -1,5 +1,5 @@
 import type { Hash } from "./hash.vo";
 
-export interface VisitorIdPort {
+export interface VisitorIdStrategy {
   get(): Promise<Hash>;
 }

@@ -260,6 +260,6 @@ export * from "./to-event-map.types";
 export * from "./translations.service";
 export * from "./uptime.service";
 export * from "./uuid.vo";
-export * from "./visitor-id.port";
-export * from "./visitor-id-client.adapter";
+export * from "./visitor-id.strategy";
+export * from "./visitor-id-client.strategy";
 export * from "./weak-etag-extractor.middleware";

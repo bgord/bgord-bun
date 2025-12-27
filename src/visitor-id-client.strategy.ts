@@ -1,10 +1,10 @@
 import type { Client } from "./client.vo";
 import type { HashContentPort } from "./hash-content.port";
-import type { VisitorIdPort } from "./visitor-id.port";
+import type { VisitorIdStrategy } from "./visitor-id.strategy";
 
 type Dependencies = { HashContent: HashContentPort };
 
-export class VisitorIdClientAdapter implements VisitorIdPort {
+export class VisitorIdClientStrategy implements VisitorIdStrategy {
   constructor(
     private readonly client: Client,
     private readonly deps: Dependencies,
