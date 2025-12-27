@@ -2,7 +2,7 @@ import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
 import type { EventStoreLike } from "../../../event-store-like.types";
 import type { IdProviderPort } from "../../../id-provider.port";
-import type { UnitOfWork } from "../../../job-handler.port";
+import type { UnitOfWork } from "../../../job-handler.strategy";
 import { Jobs } from "../../../jobs.service";
 import {
   HOUR_HAS_PASSED_EVENT,

@@ -1,10 +1,10 @@
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
-import type { JobHandlerPort, UnitOfWork } from "./job-handler.port";
+import type { JobHandlerStrategy, UnitOfWork } from "./job-handler.strategy";
 
 type Dependencies = { IdProvider: IdProviderPort };
 
-export class JobHandlerBare implements JobHandlerPort {
+export class JobHandlerBareStrategy implements JobHandlerStrategy {
   constructor(private readonly deps: Dependencies) {}
 
   handle(uow: UnitOfWork) {

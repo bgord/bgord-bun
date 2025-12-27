@@ -5,6 +5,6 @@ export interface UnitOfWork {
   process: () => Promise<void>;
 }
 
-export interface JobHandlerPort {
+export interface JobHandlerStrategy {
   handle(uow: UnitOfWork): () => Promise<void>;
 }

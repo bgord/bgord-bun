@@ -2,8 +2,8 @@ import { describe, expect, spyOn, test } from "bun:test";
 import type { ClockPort } from "../src/clock.port";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import type { UnitOfWork } from "../src/job-handler.port";
-import { JobHandlerWithLogger } from "../src/job-handler-with-logger.adapter";
+import type { UnitOfWork } from "../src/job-handler.strategy";
+import { JobHandlerWithLoggerStrategy } from "../src/job-handler-with-logger.strategy";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -12,7 +12,7 @@ const Clock = new ClockSystemAdapter();
 const IdProvider = new IdProviderCryptoAdapter();
 const deps = { Logger, Clock, IdProvider };
 
-const handler = new JobHandlerWithLogger(deps);
+const handler = new JobHandlerWithLoggerStrategy(deps);
 
 type Dependencies = { Clock: ClockPort };
 
@@ -28,7 +28,7 @@ class ClockWork implements UnitOfWork {
   }
 }
 
-describe("JobHandlerWithLogger", () => {
+describe("JobHandlerWithLoggerStrategy", () => {
   test("happy path", async () => {
     const uow = new ClockWork(deps);
     const loggerInfo = spyOn(Logger, "info");

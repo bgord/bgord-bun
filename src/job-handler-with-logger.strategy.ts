@@ -1,14 +1,14 @@
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
-import type { JobHandlerPort, UnitOfWork } from "./job-handler.port";
+import type { JobHandlerStrategy, UnitOfWork } from "./job-handler.strategy";
 import type { LoggerPort } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
 import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
-export class JobHandlerWithLogger implements JobHandlerPort {
+export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
   private readonly base = { component: "infra", operation: "job_handler" };
 
   constructor(private readonly deps: Dependencies) {}
