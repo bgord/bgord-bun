@@ -1,8 +1,83 @@
 # Changelog
+- 2025-12-27 21:39 95198fb **Merge pull request #142 from bgord/prerequisites-architecture**
+- 2025-12-27 19:20 b09e8c8 **refactor: simplify prereq verifier formatting**
+- 2025-12-27 19:20 40d4dba **refactor: simplify with retry and timeout**
+- 2025-12-27 18:59 8b7207a **step: update packages**
+- 2025-12-27 18:57 a2f1cb0 **refactor: define with fail safe default when**
+- 2025-12-27 18:46 b0647c9 **step: add prereq test with everything**
+- 2025-12-27 14:16 c9f6443 **feature: prereq decorator with fail safe**
+- 2025-12-26 22:02 47c3ab9 **step: add cache x retry test**
+- 2025-12-26 20:52 e0944ba **step: test exponential backoff**
+- 2025-12-26 20:46 be2b4a9 **step: add with retry to prereq vo with everything test**
+- 2025-12-26 20:43 d70b299 **feature: prerequisite verifier with retry**
+- 2025-12-26 19:16 8458796 **step: update packages**
+- 2025-12-26 18:53 728ed6e **step: add retry config.when**
+- 2025-12-26 18:42 a01de51 **refactor: start retry delays from the first attempt**
+- 2025-12-26 18:29 10c2293 **step: add retry service**
+- 2025-12-26 18:10 3d7ccac **feature: retry backoff fibonacci**
+- 2025-12-26 18:02 128435e **step: handle attempt 0**
+- 2025-12-26 17:56 a75f6a5 **feature: retry backoff expontential**
+- 2025-12-26 16:21 d623f27 **feature: retry backoff strategies**
+- 2025-12-26 16:04 b93b9b8 **step: update packages**
+- 2025-12-26 15:07 b775c3c **step: add timestamp startup**
+- 2025-12-26 15:04 00f72e5 **step: add server.cpus**
+- 2025-12-26 14:59 43efdbc **step: add server.hostname**
+- 2025-12-26 14:54 41af689 **step: add server.pid**
+- 2025-12-26 14:52 e329e81 **refactor: define server section**
+- 2025-12-26 14:50 6a36296 **step: add deployment.environment**
+- 2025-12-26 14:45 1fb7dc4 **step: add timestamp to healthcheck**
+- 2025-12-26 14:42 b6752ed **refactor: paralellize healthcheck**
+- 2025-12-26 14:30 8402292 **refactor: improve runners**
+- 2025-12-26 14:09 73830e0 **refactor: make stopwatch rely on clock port**
+- 2025-12-26 13:59 62c4036 **refactor: use local stopwatch**
+- 2025-12-26 13:57 83d0bc6 **step: update packages**
+- 2025-12-26 13:55 1dcfa5e **refactor: move stopwatch from tools**
+- 2025-12-26 13:53 2e3597f **refactor: simplify prerequisite config**
+- 2025-12-26 13:27 f5b561d **refactor: make with cache tests resilient**
+- 2025-12-26 13:19 68d5794 **refactor: make with timeout tests resilient**
+- 2025-12-26 13:19 1349b94 **refactor: make with logger tests resilient**
+- 2025-12-26 13:08 3003b7e **refactor: make prereq vo tests resilient**
+- 2025-12-26 12:46 2d4db75 **refactor: make tests more resilient**
+- 2025-12-26 12:23 9a481e0 **step: test cross cutting concerns**
+- 2025-12-26 10:19 a6d80c9 **step: add prerequisite vo tests with cache**
+- 2025-12-26 10:18 2b0a0ff **step: add prerequisite vo tests with timeout**
+- 2025-12-26 10:11 b1fd6f4 **step: add prerequisite vo tests with logger**
+- 2025-12-26 10:04 aee5dd1 **refactor: improve naming**
+- 2025-12-26 09:57 e108b1e **step: add durationMs to logger**
+- 2025-12-26 09:51 a936c92 **step: improve exports**
+- 2025-12-26 00:20 9cd62de **step: define prerequisite decorators**
+- 2025-12-26 00:07 cde9106 **step: wire up decorators to prerequisite vo**
+- 2025-12-26 00:03 0ddc772 **feature: prerequisite verifier decorator**
+- 2025-12-25 23:47 66fd862 **feature: prerequisite verifier logger adapter**
+- 2025-12-25 23:30 ede2ce7 **feature: prerequisite verifier cache adapter**
+- 2025-12-25 22:57 211868a **feature: prerequisite verifier timeout adapter**
+- 2025-12-25 20:12 ba8b429 **fix: timezone utc naming**
+- 2025-12-25 19:45 cb16aa2 **step: add enabled check in runners**
+- 2025-12-25 19:42 3eda287 **refactor: remove redundant types**
+- 2025-12-25 19:39 66da2a5 **refactor: cleanup prereq service file**
+- 2025-12-25 18:40 18fda9e **step: prerequisite vo**
+- 2025-12-25 18:25 826b63b **refactor: remove explicit adapter instantiation**
+- 2025-12-25 18:20 3ee9df9 **refactor: simplify tests**
+- 2025-12-25 18:13 a359fad **refactor: remove timeouts**
+- 2025-12-25 18:05 742b37a **refactor: remove label from prerequisite verifier**
+- 2025-12-25 17:12 5b81344 **step: adjust up to naming schemes**
+- 2025-12-25 16:41 93eedbb **refactor: remove is enabled check**
+- 2025-12-25 16:32 a7cf9fc **refactor: make prereqs implement prereq verifier port**
+- 2025-12-25 15:43 4ea7b80 **refactor: remove verify(clock) dependency**
+- 2025-12-25 15:36 42c3aec **refactor: simplify prerequisite verification undetermined**
+- 2025-12-25 15:33 a702a3f **refactor: simplify prerequisite verification success**
+- 2025-12-25 15:29 25e4471 **refactor: unify prerequisite verification helper**
+- 2025-12-25 15:25 bca4c08 **refactor: remove unused type**
+- 2025-12-25 15:24 05be45b **step: unify naming**
+- 2025-12-25 15:03 f2618e5 **refactor: define kind getter**
+- 2025-12-25 14:54 b206cbb **step: move duration to healthcheck runner**
+- 2025-12-25 14:37 2721eb0 **refactor: remove duration observer from the prerequisite**
 - 2025-12-25 13:19 97e945c **step: use maintenance mode in setup service**
 - 2025-12-25 13:13 9eebca3 **feature: maintenance mode middleware**
 - 2025-12-25 12:34 ba2d32c **Merge pull request #141 from bgord/security**
 - 2025-12-25 12:30 37d6cb4 **step: define custom type for user id in security context**
+- 2025-12-25 12:24 d215ad9 **docs: generate CHANGELOG**
+- 2025-12-25 12:24 820aeb7 **docs: generate readme**
 - 2025-12-25 12:23 d89462c **step: update packages**
 - 2025-12-25 12:22 add7b67 **step: update packages**
 - 2025-12-25 11:35 8a7a441 **docs: generate readme**
