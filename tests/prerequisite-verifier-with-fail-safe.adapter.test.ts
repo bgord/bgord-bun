@@ -10,22 +10,19 @@ const pass = new mocks.PrerequisiteVerifierPass();
 const fail = new mocks.PrerequisiteVerifierFail();
 const undetermined = new mocks.PrerequisiteVerifierUndetermined();
 
-const anyError = (result: PrerequisiteVerificationResult) =>
-  result.outcome === PrerequisiteVerificationOutcome.failure;
-
 const specificError = (result: PrerequisiteVerificationResult) =>
   // @ts-expect-error
   result.outcome === PrerequisiteVerificationOutcome.failure && result.error === mocks.IntentionalError;
 
 describe("PrerequisiteVerifierWithLoggerAdapter", () => {
   test("success", async () => {
-    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: pass, when: anyError });
+    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: pass });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure - any failure", async () => {
-    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: fail, when: anyError });
+    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: fail });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
@@ -45,13 +42,13 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: undetermined, when: anyError });
+    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: undetermined });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
 
   test("preserves kind", () => {
-    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: pass, when: anyError });
+    const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: pass });
 
     expect(prerequisite.kind).toEqual(pass.kind);
   });
