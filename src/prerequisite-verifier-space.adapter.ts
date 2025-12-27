@@ -17,9 +17,10 @@ export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPor
       const freeDiskSpace = await this.deps.DiskSpaceChecker.get(root);
 
       if (freeDiskSpace.isGreaterThan(this.config.minimum)) return PrerequisiteVerification.success;
-      return PrerequisiteVerification.failure({
-        message: `Free disk space: ${freeDiskSpace.format(tools.Size.unit.MB)}`,
-      });
+
+      const formatted = freeDiskSpace.format(tools.Size.unit.MB);
+
+      return PrerequisiteVerification.failure({ message: `Free disk space: ${formatted}` });
     } catch (error) {
       return PrerequisiteVerification.failure(error as Error);
     }

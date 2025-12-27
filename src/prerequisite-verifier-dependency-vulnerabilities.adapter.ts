@@ -12,18 +12,19 @@ export class PrerequisiteVerifierDependencyVulnerabilitiesAdapter implements Pre
 
       const audit = JSON.parse(command.stdout.toString()) as BunAuditOutput;
 
-      const criticalVulnerabilitiesCount = Object.values(audit).filter((name) =>
+      const criticalVulnerabilities = Object.values(audit).filter((name) =>
         name.some((vulnerability) => vulnerability.severity === "critical"),
       ).length;
 
-      const highVulnerabilitiesCount = Object.values(audit).filter((name) =>
+      const highVulnerabilities = Object.values(audit).filter((name) =>
         name.some((vulnerability) => vulnerability.severity === "high"),
       ).length;
 
-      if (criticalVulnerabilitiesCount > 0 || highVulnerabilitiesCount > 0)
-        return PrerequisiteVerification.failure({
-          message: `Critical: ${criticalVulnerabilitiesCount} and high: ${highVulnerabilitiesCount}`,
-        });
+      if (criticalVulnerabilities > 0 || highVulnerabilities > 0) {
+        const message = `Critical: ${criticalVulnerabilities} and high: ${highVulnerabilities}`;
+
+        return PrerequisiteVerification.failure({ message });
+      }
 
       return PrerequisiteVerification.success;
     } catch (error) {

@@ -5,9 +5,9 @@ export class PrerequisiteVerifierOsAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { accepted: string[] }) {}
 
   async verify() {
-    const type = os.type();
+    const type = os.type().toLowerCase();
 
-    if (this.config.accepted.map((type) => type.toLowerCase()).includes(type.toLowerCase())) {
+    if (this.config.accepted.map((given) => given.toLowerCase()).includes(type)) {
       return PrerequisiteVerification.success;
     }
 

@@ -9,7 +9,9 @@ export class PrerequisiteVerifierRamAdapter implements PrerequisiteVerifierPort 
     const freeRAM = tools.Size.fromBytes(os.freemem());
 
     if (freeRAM.isGreaterThan(this.config.minimum)) return PrerequisiteVerification.success;
-    return PrerequisiteVerification.failure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` });
+
+    const formatted = freeRAM.format(tools.Size.unit.MB);
+    return PrerequisiteVerification.failure({ message: `Free RAM: ${formatted}` });
   }
 
   get kind() {
