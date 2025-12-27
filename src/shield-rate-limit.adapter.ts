@@ -1,14 +1,14 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import type { CacheResolverPort } from "./cache-resolver.port";
+import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import type { ClockPort } from "./clock.port";
 import type { ShieldPort } from "./shield.port";
 
 type ShieldRateLimitOptionsType = { enabled: boolean; resolver: CacheSubjectResolver };
 
-type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverPort };
+type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 

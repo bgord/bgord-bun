@@ -1,8 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNoopAdapter } from "../src/cache-repository-noop.adapter";
-import { CacheSourceEnum } from "../src/cache-resolver.port";
-import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
+import { CacheSourceEnum } from "../src/cache-resolver.strategy";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
@@ -17,12 +17,12 @@ const deps = { HashContent };
 
 const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("key")], deps);
 
-describe("CacheResolverSimpleAdapter", async () => {
+describe("CacheResolverSimpleStrategy", async () => {
   const subject = await resolver.resolve();
 
   test("success - hit", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
 
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
@@ -33,7 +33,7 @@ describe("CacheResolverSimpleAdapter", async () => {
 
   test("success - miss", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
@@ -44,7 +44,7 @@ describe("CacheResolverSimpleAdapter", async () => {
 
   test("failure - error propagation", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
     expect(async () => CacheResolver.resolve(subject.hex, mocks.throwIntentionalErrorAsync)).toThrow(
@@ -55,7 +55,7 @@ describe("CacheResolverSimpleAdapter", async () => {
 
   test("resolveWithContext - hit", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
 
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
@@ -66,7 +66,7 @@ describe("CacheResolverSimpleAdapter", async () => {
 
   test("resolveWithContext - miss", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
@@ -77,7 +77,7 @@ describe("CacheResolverSimpleAdapter", async () => {
 
   test("flush", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
     const flushSpy = spyOn(CacheRepository, "flush");
 
@@ -93,7 +93,7 @@ describe("CacheResolverSimpleAdapter", async () => {
 
   test("get ttl", async () => {
     const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     expect(CacheResolver.ttl).toEqual(config.ttl);
   });

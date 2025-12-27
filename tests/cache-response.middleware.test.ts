@@ -2,8 +2,8 @@ import { afterEach, beforeEach, describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheSourceEnum } from "../src/cache-resolver.port";
-import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
+import { CacheSourceEnum } from "../src/cache-resolver.strategy";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponse } from "../src/cache-response.middleware";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
@@ -15,7 +15,7 @@ import type * as mocks from "./mocks";
 const config = { ttl: tools.Duration.Hours(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 
-const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { HashContent };

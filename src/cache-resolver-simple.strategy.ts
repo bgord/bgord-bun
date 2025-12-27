@@ -1,10 +1,10 @@
 import type { CacheRepositoryPort } from "./cache-repository.port";
-import { type CacheResolverPort, CacheSourceEnum } from "./cache-resolver.port";
+import { type CacheResolverStrategy, CacheSourceEnum } from "./cache-resolver.strategy";
 import type { Hash } from "./hash.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort };
 
-export class CacheResolverSimpleAdapter implements CacheResolverPort {
+export class CacheResolverSimpleStrategy implements CacheResolverStrategy {
   constructor(private readonly deps: Dependencies) {}
 
   async resolve<T>(subject: Hash, producer: () => Promise<T>): Promise<T> {

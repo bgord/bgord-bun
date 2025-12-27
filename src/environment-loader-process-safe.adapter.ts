@@ -1,12 +1,12 @@
 import type { z } from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
-import type { CacheResolverPort } from "./cache-resolver.port";
+import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
 import type { EnvironmentLoaderPort } from "./environment-loader.port";
 import type { HashContentPort } from "./hash-content.port";
 
-type Dependencies = { CacheResolver: CacheResolverPort; HashContent: HashContentPort };
+type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentPort };
 
 export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>

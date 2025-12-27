@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -126,7 +126,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
     const prerequisite = new Prerequisite("example", pass, {
@@ -158,7 +158,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
     const prerequisite = new Prerequisite("example", fail, {
@@ -190,7 +190,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
@@ -231,7 +231,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
     const passVerify = spyOn(pass, "verify");
@@ -256,7 +256,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
     // @ts-expect-error
@@ -289,7 +289,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
     // @ts-expect-error
@@ -322,7 +322,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
     const failVerify = spyOn(fail, "verify");
@@ -351,7 +351,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
@@ -377,7 +377,7 @@ describe("Prerequisite VO", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };

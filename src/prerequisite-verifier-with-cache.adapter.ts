@@ -1,10 +1,10 @@
-import type { CacheResolverPort } from "./cache-resolver.port";
+import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
 import type { HashContentPort } from "./hash-content.port";
 import type { PrerequisiteVerificationResult, PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
-type Dependencies = { CacheResolver: CacheResolverPort; HashContent: HashContentPort };
+type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentPort };
 
 export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifierPort {
   constructor(

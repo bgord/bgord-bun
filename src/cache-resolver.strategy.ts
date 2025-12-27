@@ -6,7 +6,7 @@ export enum CacheSourceEnum {
   miss = "",
 }
 
-export interface CacheResolverPort {
+export interface CacheResolverStrategy {
   resolve<T>(subject: Hash, producer: () => Promise<T>): Promise<T>;
 
   resolveWithContext<T>(

@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
 import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
@@ -14,7 +14,7 @@ import type * as mocks from "./mocks";
 
 const config = { ttl: tools.Duration.Seconds(1) };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256BunAdapter();
 const deps = { Clock, CacheResolver, HashContent };
