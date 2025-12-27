@@ -7,6 +7,7 @@ import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adap
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { RetryBackoffStrategyExponential } from "../src/retry-backoff-strategy-exponential";
 import { RetryBackoffStrategyNoop } from "../src/retry-backoff-strategy-noop";
 import { TimeoutError } from "../src/timeout.service";
@@ -205,6 +206,9 @@ describe("Prerequisite VO", () => {
           max: 3,
           backoff: new RetryBackoffStrategyExponential(tools.Duration.Ms(5)),
         }),
+        PrerequisiteDecorator.withFailSafe(
+          (result) => result.outcome === PrerequisiteVerificationOutcome.failure,
+        ),
       ],
     });
     const verifier = prerequisite.build();
@@ -391,5 +395,26 @@ describe("Prerequisite VO", () => {
     expect(loggerInfo).toHaveBeenCalledTimes(2);
 
     await CacheRepository.flush();
+  });
+
+  test("timeout x fail-safe - timeout", async () => {
+    const pass = new mocks.PrerequisiteVerifierPass();
+
+    const prerequisite = new Prerequisite("example", pass, {
+      decorators: [
+        PrerequisiteDecorator.withFailSafe(
+          (result) =>
+            result.outcome === PrerequisiteVerificationOutcome.failure &&
+            result?.error?.message === TimeoutError.Exceeded,
+        ),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+      ],
+    });
+    const verifier = prerequisite.build();
+
+    // @ts-expect-error
+    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
   });
 });
