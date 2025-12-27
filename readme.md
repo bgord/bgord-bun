@@ -229,32 +229,39 @@ src/
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator.port.ts
 ├── port.vo.ts
-├── prerequisites
-│   ├── binary.ts
-│   ├── bun.ts
-│   ├── clock-drift.ts
-│   ├── dependency-vulnerabilities.ts
-│   ├── directory.ts
-│   ├── dns.ts
-│   ├── external-api.ts
-│   ├── file.ts
-│   ├── jobs.ts
-│   ├── log-file.ts
-│   ├── mailer.ts
-│   ├── memory.ts
-│   ├── node.ts
-│   ├── os.ts
-│   ├── outside-connectivity.ts
-│   ├── port.ts
-│   ├── ram.ts
-│   ├── running-user.ts
-│   ├── self.ts
-│   ├── space.ts
-│   ├── sqlite.ts
-│   ├── ssl-certificate-expiry.ts
-│   ├── timezone-utc.ts
-│   └── translations.ts
-├── prerequisites.service.ts
+├── prerequisite-runner-startup.service.ts
+├── prerequisite-verifier-binary.adapter.ts
+├── prerequisite-verifier-bun.adapter.ts
+├── prerequisite-verifier-clock-drift.adapter.ts
+├── prerequisite-verifier-dependency-vulnerabilities.adapter.ts
+├── prerequisite-verifier-directory.adapter.ts
+├── prerequisite-verifier-dns.adapter.ts
+├── prerequisite-verifier-external-api.adapter.ts
+├── prerequisite-verifier-file.adapter.ts
+├── prerequisite-verifier-jobs.adapter.ts
+├── prerequisite-verifier-log-file.adapter.ts
+├── prerequisite-verifier-mailer.adapter.ts
+├── prerequisite-verifier-memory.adapter.ts
+├── prerequisite-verifier-node.adapter.ts
+├── prerequisite-verifier-os.adapter.ts
+├── prerequisite-verifier-outside-connectivity.adapter.ts
+├── prerequisite-verifier-port.adapter.ts
+├── prerequisite-verifier-ram.adapter.ts
+├── prerequisite-verifier-running-user.adapter.ts
+├── prerequisite-verifier-self.adapter.ts
+├── prerequisite-verifier-space.adapter.ts
+├── prerequisite-verifier-sqlite.adapter.ts
+├── prerequisite-verifier-ssl-certificate-expiry.adapter.ts
+├── prerequisite-verifier-timezone-utc.adapter.ts
+├── prerequisite-verifier-translations.adapter.ts
+├── prerequisite-verifier-with-cache.adapter.ts
+├── prerequisite-verifier-with-fail-safe.adapter.ts
+├── prerequisite-verifier-with-logger.adapter.ts
+├── prerequisite-verifier-with-retry.adapter.ts
+├── prerequisite-verifier-with-timeout.adapter.ts
+├── prerequisite-verifier.decorator.ts
+├── prerequisite-verifier.port.ts
+├── prerequisite.vo.ts
 ├── recaptcha-secret-key.vo.ts
 ├── recaptcha-site-key.vo.ts
 ├── redactor-compact-array.adapter.ts
@@ -267,6 +274,12 @@ src/
 ├── remote-file-storage-disk.adapter.ts
 ├── remote-file-storage-noop.adapter.ts
 ├── remote-file-storage.port.ts
+├── retry-backoff-strategy-exponential.ts
+├── retry-backoff-strategy-fibonacci.ts
+├── retry-backoff-strategy-linear.ts
+├── retry-backoff-strategy-noop.ts
+├── retry-backoff-strategy.port.ts
+├── retry.service.ts
 ├── safe-parse-body.service.ts
 ├── security-context.vo.ts
 ├── security-countermeasure-ban.adapter.ts
@@ -302,6 +315,7 @@ src/
 ├── simulated-error.middleware.ts
 ├── slower.middleware.ts
 ├── static-files.service.ts
+├── stopwatch.service.ts
 ├── temporary-file-absolute.adapter.ts
 ├── temporary-file-noop.adapter.ts
 ├── temporary-file.port.ts
