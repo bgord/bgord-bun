@@ -11,12 +11,10 @@ export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerif
 
   async verify() {
     try {
-      const result = await Timeout.run<PrerequisiteVerificationResult>(
+      return await Timeout.run<PrerequisiteVerificationResult>(
         this.config.inner.verify(),
         this.config.timeout,
       );
-
-      return result;
     } catch (error) {
       return PrerequisiteVerification.failure(error as Error);
     }

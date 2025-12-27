@@ -12,14 +12,12 @@ export class PrerequisiteVerifierWithRetryAdapter implements PrerequisiteVerifie
 
   async verify() {
     try {
-      const result = await Retry.run<PrerequisiteVerificationResult>(async () => {
+      return await Retry.run<PrerequisiteVerificationResult>(async () => {
         const result = await this.config.inner.verify();
 
         if (result.outcome === PrerequisiteVerificationOutcome.failure) throw result.error;
         return result;
       }, this.config.retry);
-
-      return result;
     } catch (error) {
       return PrerequisiteVerification.failure(error as ErrorInfo);
     }
