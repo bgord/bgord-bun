@@ -61,23 +61,22 @@ describe("Prerequisite VO", () => {
   });
 
   test("with logger - undetermined", async () => {
-    const pass = new mocks.PrerequisiteVerifierPass();
+    const undetermined = new mocks.PrerequisiteVerifierUndetermined();
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
     const deps = { Clock, Logger };
 
-    const prerequisite = new Prerequisite("example", pass, {
+    const prerequisite = new Prerequisite("example", undetermined, {
       decorators: [PrerequisiteDecorator.withLogger(deps)],
     });
     const verifier = prerequisite.build();
 
     const loggerInfo = spyOn(Logger, "info");
-    spyOn(pass, "verify").mockResolvedValue(mocks.VerificationUndetermined);
 
     expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
     expect(loggerInfo).toHaveBeenCalledWith({
       component: "infra",
-      message: `Undetermined - ${pass.kind}`,
+      message: `Undetermined - ${undetermined.kind}`,
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
     });

@@ -10,6 +10,7 @@ const deps = { Clock, Logger };
 
 const pass = new mocks.PrerequisiteVerifierPass();
 const fail = new mocks.PrerequisiteVerifierFail();
+const undetermined = new mocks.PrerequisiteVerifierUndetermined();
 
 describe("PrerequisiteVerifierWithLoggerAdapter", () => {
   test("success", async () => {
@@ -40,9 +41,8 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
   });
 
   test("undetermined", async () => {
-    const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner: pass }, deps);
-    spyOn(pass, "verify").mockResolvedValue(mocks.VerificationUndetermined);
     const loggerInfo = spyOn(Logger, "info");
+    const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner: undetermined }, deps);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
     expect(loggerInfo).toHaveBeenCalledWith({

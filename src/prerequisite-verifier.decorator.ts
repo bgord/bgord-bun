@@ -5,6 +5,10 @@ import type { HashContentPort } from "./hash-content.port";
 import type { LoggerPort } from "./logger.port";
 import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "./prerequisite-verifier-with-cache.adapter";
+import {
+  PrerequisiteVerifierWithFailSafeAdapter,
+  type PrerequisiteVerifierWithFailSafeAdapterConfigType,
+} from "./prerequisite-verifier-with-fail-safe.adapter";
 import { PrerequisiteVerifierWithLoggerAdapter } from "./prerequisite-verifier-with-logger.adapter";
 import { PrerequisiteVerifierWithRetryAdapter } from "./prerequisite-verifier-with-retry.adapter";
 import { PrerequisiteVerifierWithTimeoutAdapter } from "./prerequisite-verifier-with-timeout.adapter";
@@ -35,4 +39,9 @@ const withRetry =
   (inner) =>
     new PrerequisiteVerifierWithRetryAdapter({ inner, retry });
 
-export const PrerequisiteDecorator = { withTimeout, withCache, withLogger, withRetry };
+const withFailSafe =
+  (when: PrerequisiteVerifierWithFailSafeAdapterConfigType): PrerequisiteVerifierDecorator =>
+  (inner) =>
+    new PrerequisiteVerifierWithFailSafeAdapter({ inner, when });
+
+export const PrerequisiteDecorator = { withTimeout, withCache, withLogger, withRetry, withFailSafe };
