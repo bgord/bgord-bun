@@ -5,12 +5,17 @@ import type { Context } from "hono";
 import * as winston from "winston";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
-import type { ClockPort } from "../src/clock.port";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
+import type { ErrorInfo } from "../src/logger.port";
 import type * as System from "../src/modules/system";
-import * as prereqs from "../src/prerequisites.service";
-import { PrerequisiteStatusEnum } from "../src/prerequisites.service";
+import { Prerequisite } from "../src/prerequisite.vo";
+import {
+  PrerequisiteVerification,
+  PrerequisiteVerificationOutcome,
+  type PrerequisiteVerificationResult,
+  type PrerequisiteVerifierPort,
+} from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
@@ -64,46 +69,62 @@ export const TIME_ZERO_DATE = "2023-11-14";
 
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
-export const VerificationSuccess = { status: PrerequisiteStatusEnum.success, durationMs: expect.any(Number) };
-
-export const VerificationUndetermined = {
-  status: PrerequisiteStatusEnum.undetermined,
-  durationMs: expect.any(Number),
-};
-
+export const VerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
+export const VerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 export const VerificationFailure = (error?: any) => ({
-  status: PrerequisiteStatusEnum.failure,
-  durationMs: expect.any(Number),
+  outcome: PrerequisiteVerificationOutcome.failure,
   error,
 });
 
-export class PrerequisiteOk implements prereqs.Prerequisite {
-  readonly label = "ok";
-  readonly kind = "test";
-  readonly enabled = true;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.success(stopwatch.stop());
+export class PrerequisiteVerifierPass implements PrerequisiteVerifierPort {
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.success;
+  }
+
+  get kind() {
+    return "test";
   }
 }
+export const PrerequisiteOk = new Prerequisite("ok", new PrerequisiteVerifierPass());
 
-export class PrerequisiteFail implements prereqs.Prerequisite {
-  readonly label = "fail";
-  readonly kind = "test";
-  readonly enabled = true;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.failure(stopwatch.stop(), { message: "boom" });
+export class PrerequisiteVerifierFail implements PrerequisiteVerifierPort {
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.failure(IntentionalError as ErrorInfo);
+  }
+
+  get kind() {
+    return "test";
   }
 }
+export const PrerequisiteFail = new Prerequisite("fail", new PrerequisiteVerifierFail());
 
-export class PrerequisiteUndetermined implements prereqs.Prerequisite {
-  readonly label = "undetermined";
-  readonly kind = "test";
-  readonly enabled = false;
-  async verify(clock: ClockPort): Promise<prereqs.VerifyOutcome> {
-    const stopwatch = new tools.Stopwatch(clock.now());
-    return prereqs.Verification.undetermined(stopwatch.stop());
+export class PrerequisiteVerifierUndetermined implements PrerequisiteVerifierPort {
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.undetermined;
+  }
+
+  get kind() {
+    return "test";
+  }
+}
+export const PrerequisiteUndetermined = new Prerequisite(
+  "undetermined",
+  new PrerequisiteVerifierUndetermined(),
+);
+
+export class PrerequisiteVerifierFailThenPass implements PrerequisiteVerifierPort {
+  private calls = 1;
+
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    if (this.calls < 3) {
+      this.calls++;
+      return PrerequisiteVerification.failure(IntentionalError as ErrorInfo);
+    }
+    return PrerequisiteVerification.success;
+  }
+
+  get kind() {
+    return "test";
   }
 }
 
