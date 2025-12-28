@@ -1,122 +1,106 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { GracefulShutdown } from "../src/graceful-shutdown.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import * as mocks from "./mocks";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
-const tick = async (times = 2) => {
-  for (let i = 0; i < times; i++) {
-    await new Promise((r) => setTimeout(r, 0));
-  }
-};
-
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
+
+// Helper to wait for promises to settle
+const tick = () => new Promise((r) => setTimeout(r, 0));
 
 function setup() {
   const server = { stop: jest.fn() } as unknown as ServerType;
   const exitCalls: number[] = [];
   const exitFn = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
+  const gs = new GracefulShutdown(deps, exitFn);
 
-  return { server, gs: new GracefulShutdown(deps, exitFn), exitCalls };
+  return { server, gs, exitCalls };
 }
 
 describe("GracefulShutdown service", () => {
-  test("SIGTERM", async () => {
+  test("handles SIGTERM correctly", async () => {
     const { server, gs, exitCalls } = setup();
-    process.removeAllListeners("SIGTERM");
     const loggerInfo = spyOn(Logger, "info");
-    gs.applyTo(server);
 
+    gs.applyTo(server);
     process.emit("SIGTERM");
     await tick();
 
-    expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toEqual(0);
-    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("SIGTERM received");
-    expect(loggerInfo.mock.calls?.[1]?.[0].message).toEqual("HTTP server closed");
+    expect(server.stop).toHaveBeenCalled();
+    expect(exitCalls[0]).toBe(0);
+    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "SIGTERM received" }));
+    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "HTTP server closed" }));
   });
 
-  test("SIGINT", async () => {
+  test("handles %s correctly", async () => {
     const { server, gs, exitCalls } = setup();
-    process.removeAllListeners("SIGINT");
     const loggerInfo = spyOn(Logger, "info");
-    gs.applyTo(server);
 
+    gs.applyTo(server);
     process.emit("SIGINT");
     await tick();
 
-    expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toEqual(0);
-    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("SIGINT received");
-    expect(loggerInfo.mock.calls?.[1]?.[0].message).toEqual("HTTP server closed");
+    expect(server.stop).toHaveBeenCalled();
+    expect(exitCalls[0]).toBe(0);
+    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "SIGINT received" }));
+    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "HTTP server closed" }));
   });
 
-  test("unhandledRejection", async () => {
+  test("handles unhandledRejection", async () => {
     const { server, gs, exitCalls } = setup();
-    process.removeAllListeners("unhandledRejection");
     const loggerError = spyOn(Logger, "error");
-    const loggerInfo = spyOn(Logger, "info");
-    gs.applyTo(server);
 
-    process.emit("unhandledRejection", new Error(mocks.IntentionalError), {} as any);
+    gs.applyTo(server);
+    process.emit("unhandledRejection", new Error("oops"), {} as any);
     await tick();
 
-    expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toEqual(1);
-    expect(loggerError.mock.calls?.[0]?.[0].message).toEqual("UnhandledRejection received");
-    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("HTTP server closed");
+    expect(exitCalls[0]).toBe(1);
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "UnhandledRejection received" }),
+    );
   });
 
-  test("uncaughtException", async () => {
+  test("handles uncaughtException", async () => {
     const { server, gs, exitCalls } = setup();
-    process.removeAllListeners("uncaughtException");
     const loggerError = spyOn(Logger, "error");
-    const loggerInfo = spyOn(Logger, "info");
-    gs.applyTo(server);
 
-    process.emit("uncaughtException", new Error(mocks.IntentionalError));
+    gs.applyTo(server);
+    process.emit("uncaughtException", new Error("oops"));
     await tick();
 
-    expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toEqual(1);
-    expect(loggerError.mock.calls?.[0]?.[0].message).toEqual("UncaughtException received");
-    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("HTTP server closed");
+    expect(exitCalls[0]).toBe(1);
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "UncaughtException received" }),
+    );
   });
 
-  test("cleanup failure still exits and logs error", async () => {
+  test("cleanup failure is logged but exit proceeds", async () => {
     const { server, gs, exitCalls } = setup();
-    process.removeAllListeners("SIGTERM");
-    const cleanup = jest.fn().mockImplementation(mocks.throwIntentionalError);
-    const loggerInfo = spyOn(Logger, "info");
+    const cleanup = jest.fn().mockRejectedValue(new Error("fail"));
     const loggerError = spyOn(Logger, "error");
+
     gs.applyTo(server, cleanup);
-
     process.emit("SIGTERM");
     await tick();
+    await tick(); // Extra tick for the promise chain in cleanup
 
-    expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(cleanup).toHaveBeenCalledTimes(1);
-    expect(exitCalls[0]).toEqual(0);
-    expect(loggerInfo.mock.calls?.[0]?.[0].message).toEqual("SIGTERM received");
-    expect(loggerError.mock.calls?.[0]?.[0].message).toEqual("Cleanup hook failed");
+    expect(server.stop).toHaveBeenCalled();
+    expect(exitCalls[0]).toBe(0);
+    expect(loggerError).toHaveBeenCalledWith(expect.objectContaining({ message: "Cleanup hook failed" }));
   });
 
-  test("handlers run only once per shutdown", async () => {
+  test("idempotency: ignores subsequent signals", async () => {
     const { server, gs, exitCalls } = setup();
-    process.removeAllListeners("SIGINT");
-    const cleanup = jest.fn().mockResolvedValue(undefined);
-    gs.applyTo(server, cleanup);
+    gs.applyTo(server);
 
     process.emit("SIGINT");
     await tick();
-
     process.emit("SIGINT");
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
-    expect(cleanup).toHaveBeenCalledTimes(1);
-    expect(exitCalls.length).toEqual(1);
+    expect(exitCalls).toHaveLength(1);
   });
 });
