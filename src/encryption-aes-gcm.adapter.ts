@@ -4,11 +4,11 @@ import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import type { EncryptionPort, EncryptionRecipe } from "./encryption.port";
 import { EncryptionIV } from "./encryption-iv.vo";
 
-export const EncryptionBunAdapterError = { MissingFile: "encryption.bun.adapter.missing.file" };
-
 type Dependencies = { CryptoKeyProvider: CryptoKeyProviderPort };
 
-export class EncryptionBunAdapter implements EncryptionPort {
+export const EncryptionAesGcmAdapterError = { MissingFile: "encryption.aes.gcm.adapter.missing.file" };
+
+export class EncryptionAesGcmAdapter implements EncryptionPort {
   constructor(private readonly deps: Dependencies) {}
 
   async encrypt(recipe: EncryptionRecipe) {
@@ -17,7 +17,7 @@ export class EncryptionBunAdapter implements EncryptionPort {
 
     const file = Bun.file(recipe.input.get());
     const exists = await file.exists();
-    if (!exists) throw new Error(EncryptionBunAdapterError.MissingFile);
+    if (!exists) throw new Error(EncryptionAesGcmAdapterError.MissingFile);
 
     const plaintext = await file.arrayBuffer();
     const output = await CryptoAesGcm.encrypt(key, plaintext, iv);
@@ -32,7 +32,7 @@ export class EncryptionBunAdapter implements EncryptionPort {
 
     const file = Bun.file(recipe.input.get());
     const exists = await file.exists();
-    if (!exists) throw new Error(EncryptionBunAdapterError.MissingFile);
+    if (!exists) throw new Error(EncryptionAesGcmAdapterError.MissingFile);
 
     const bytes = new Uint8Array(await file.arrayBuffer());
 
@@ -48,7 +48,7 @@ export class EncryptionBunAdapter implements EncryptionPort {
 
     const file = Bun.file(input.get());
     const exists = await file.exists();
-    if (!exists) throw new Error(EncryptionBunAdapterError.MissingFile);
+    if (!exists) throw new Error(EncryptionAesGcmAdapterError.MissingFile);
 
     const bytes = new Uint8Array(await file.arrayBuffer());
 

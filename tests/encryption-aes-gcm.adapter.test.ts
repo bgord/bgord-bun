@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CryptoAesGcmError } from "../src/crypto-aes-gcm.service";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
-import { EncryptionBunAdapter, EncryptionBunAdapterError } from "../src/encryption-bun.adapter";
+import { EncryptionAesGcmAdapter, EncryptionAesGcmAdapterError } from "../src/encryption-aes-gcm.adapter";
 import { EncryptionIV } from "../src/encryption-iv.vo";
 
 const iv = new Uint8Array(Array.from({ length: 12 }, (_, i) => i + 1));
@@ -17,8 +17,8 @@ const recipe = {
   output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),
 };
 
-describe("EncryptionBunAdapter", () => {
-  const adapter = new EncryptionBunAdapter({ CryptoKeyProvider: new CryptoKeyProviderNoopAdapter() });
+describe("EncryptionAesGcmAdapter", () => {
+  const adapter = new EncryptionAesGcmAdapter({ CryptoKeyProvider: new CryptoKeyProviderNoopAdapter() });
 
   test("encrypt", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
@@ -35,7 +35,7 @@ describe("EncryptionBunAdapter", () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer } as any);
 
-    expect(async () => adapter.encrypt(recipe)).toThrow(EncryptionBunAdapterError.MissingFile);
+    expect(async () => adapter.encrypt(recipe)).toThrow(EncryptionAesGcmAdapterError.MissingFile);
   });
 
   test("decrypt", async () => {
@@ -63,7 +63,7 @@ describe("EncryptionBunAdapter", () => {
   test("decrypt - failure - missing file", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
 
-    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionBunAdapterError.MissingFile);
+    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionAesGcmAdapterError.MissingFile);
   });
 
   test("view", async () => {
@@ -88,6 +88,6 @@ describe("EncryptionBunAdapter", () => {
   test("view - failure - missing file", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
 
-    expect(async () => adapter.view(recipe.input)).toThrow(EncryptionBunAdapterError.MissingFile);
+    expect(async () => adapter.view(recipe.input)).toThrow(EncryptionAesGcmAdapterError.MissingFile);
   });
 });
