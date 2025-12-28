@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { CryptoAesGcmError } from "../src/crypto-aes-gcm.service";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { EncryptionBunAdapter, EncryptionBunAdapterError } from "../src/encryption-bun.adapter";
 import { EncryptionIV } from "../src/encryption-iv.vo";
@@ -56,7 +57,7 @@ describe("EncryptionBunAdapter", () => {
       arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
     } as any);
 
-    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionBunAdapterError.InvalidPayload);
+    expect(async () => adapter.decrypt(recipe)).toThrow(CryptoAesGcmError.InvalidPayload);
   });
 
   test("decrypt - failure - missing file", async () => {
@@ -81,7 +82,7 @@ describe("EncryptionBunAdapter", () => {
       arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
     } as any);
 
-    expect(async () => adapter.view(recipe.input)).toThrow(EncryptionBunAdapterError.InvalidPayload);
+    expect(async () => adapter.view(recipe.input)).toThrow(CryptoAesGcmError.InvalidPayload);
   });
 
   test("view - failure - missing file", async () => {
