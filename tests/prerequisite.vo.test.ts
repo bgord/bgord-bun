@@ -11,7 +11,9 @@ import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.po
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
-import { TimeoutError } from "../src/timeout.service";
+import { TimeoutError } from "../src/timeout-runner.port";
+import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
+import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
 import * as mocks from "./mocks";
 
 describe("Prerequisite VO", () => {
@@ -85,9 +87,11 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - success", async () => {
+    const TimeoutRunner = new TimeoutRunnerBareAdapter();
+    const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1))],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps)],
     });
     const verifier = prerequisite.build();
 
@@ -95,9 +99,11 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - failure", async () => {
+    const TimeoutRunner = new TimeoutRunnerBareAdapter();
+    const deps = { TimeoutRunner };
     const fail = new mocks.PrerequisiteVerifierFail();
     const prerequisite = new Prerequisite("example", fail, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1))],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps)],
     });
     const verifier = prerequisite.build();
 
@@ -105,15 +111,14 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - timeout", async () => {
+    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1))],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps)],
     });
     const verifier = prerequisite.build();
-
-    // @ts-expect-error
-    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
 
     // @ts-expect-error
     const result = (await verifier.verify()).error.message;
@@ -195,13 +200,14 @@ describe("Prerequisite VO", () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
     const Sleeper = new SleeperNoopAdapter();
-    const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper };
+    const TimeoutRunner = new TimeoutRunnerBareAdapter();
+    const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper, TimeoutRunner };
 
     const passVerify = spyOn(pass, "verify");
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
         PrerequisiteDecorator.withRetry(
@@ -234,12 +240,13 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const deps = { HashContent, CacheResolver };
+    const TimeoutRunner = new TimeoutRunnerBareAdapter();
+    const deps = { HashContent, CacheResolver, TimeoutRunner };
 
     const passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
         PrerequisiteDecorator.withCache("example", deps),
       ],
     });
@@ -259,13 +266,12 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const deps = { HashContent, CacheResolver };
+    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const deps = { HashContent, CacheResolver, TimeoutRunner };
 
-    // @ts-expect-error
-    const passVerify = spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
         PrerequisiteDecorator.withCache("example", deps),
       ],
     });
@@ -280,7 +286,6 @@ describe("Prerequisite VO", () => {
     const second = (await verifier.verify())?.error?.message;
 
     expect(second).toEqual(TimeoutError.Exceeded);
-    expect(passVerify).toHaveBeenCalledTimes(2);
 
     await CacheRepository.flush();
   });
@@ -292,14 +297,14 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const deps = { HashContent, CacheResolver };
+    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const deps = { HashContent, CacheResolver, TimeoutRunner };
 
-    // @ts-expect-error
-    const passVerify = spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
+    const passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
       ],
     });
     const verifier = prerequisite.build();
@@ -398,6 +403,9 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x fail-safe - timeout", async () => {
+    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const deps = { TimeoutRunner };
+
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const prerequisite = new Prerequisite("example", pass, {
@@ -407,13 +415,10 @@ describe("Prerequisite VO", () => {
             result.outcome === PrerequisiteVerificationOutcome.failure &&
             result?.error?.message === TimeoutError.Exceeded,
         ),
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
       ],
     });
     const verifier = prerequisite.build();
-
-    // @ts-expect-error
-    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
 
     expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
   });

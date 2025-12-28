@@ -14,13 +14,14 @@ import { PrerequisiteVerifierWithRetryAdapter } from "./prerequisite-verifier-wi
 import { PrerequisiteVerifierWithTimeoutAdapter } from "./prerequisite-verifier-with-timeout.adapter";
 import type { RetryConfigType } from "./retry.service";
 import type { SleeperPort } from "./sleeper.port";
+import type { TimeoutRunnerPort } from "./timeout-runner.port";
 
 export type PrerequisiteVerifierDecorator = (verifier: PrerequisiteVerifierPort) => PrerequisiteVerifierPort;
 
 const withTimeout =
-  (timeout: tools.Duration): PrerequisiteVerifierDecorator =>
+  (timeout: tools.Duration, deps: { TimeoutRunner: TimeoutRunnerPort }): PrerequisiteVerifierDecorator =>
   (inner) =>
-    new PrerequisiteVerifierWithTimeoutAdapter({ inner, timeout });
+    new PrerequisiteVerifierWithTimeoutAdapter({ inner, timeout }, deps);
 
 const withCache =
   (

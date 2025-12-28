@@ -4,14 +4,19 @@ import {
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
-import { Timeout } from "./timeout.service";
+import type { TimeoutRunnerPort } from "./timeout-runner.port";
+
+type Dependencies = { TimeoutRunner: TimeoutRunnerPort };
 
 export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { inner: PrerequisiteVerifierPort; timeout: tools.Duration }) {}
+  constructor(
+    private readonly config: { inner: PrerequisiteVerifierPort; timeout: tools.Duration },
+    private readonly deps: Dependencies,
+  ) {}
 
   async verify() {
     try {
-      return await Timeout.run<PrerequisiteVerificationResult>(
+      return await this.deps.TimeoutRunner.run<PrerequisiteVerificationResult>(
         this.config.inner.verify(),
         this.config.timeout,
       );
