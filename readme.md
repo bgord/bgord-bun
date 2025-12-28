@@ -60,6 +60,7 @@ src/
 ├── client-user-agent.vo.ts
 ├── client.vo.ts
 ├── clock-fixed.adapter.ts
+├── clock-offset.adapter.ts
 ├── clock-system.adapter.ts
 ├── clock.port.ts
 ├── command-envelope.ts
@@ -68,6 +69,7 @@ src/
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
+├── crypto-aes-gcm.service.ts
 ├── crypto-key-provider-file.adapter.ts
 ├── crypto-key-provider-memory.adapter.ts
 ├── crypto-key-provider-noop.adapter.ts
@@ -79,7 +81,7 @@ src/
 ├── disk-space-checker-noop.adapter.ts
 ├── disk-space-checker.port.ts
 ├── dispatching-event-store.ts
-├── encryption-bun.adapter.ts
+├── encryption-aes-gcm.adapter.ts
 ├── encryption-iv.vo.ts
 ├── encryption-key-value.vo.ts
 ├── encryption-key.vo.ts
@@ -282,6 +284,9 @@ src/
 ├── retry-backoff-strategy.port.ts
 ├── retry.service.ts
 ├── safe-parse-body.service.ts
+├── sealer-aes-gcm.adapter.ts
+├── sealer-noop.adapter.ts
+├── sealer.port.ts
 ├── security-context.vo.ts
 ├── security-countermeasure-ban.strategy.ts
 ├── security-countermeasure-mirage.strategy.ts
@@ -314,6 +319,9 @@ src/
 ├── shield-timeout.strategy.ts
 ├── shield.strategy.ts
 ├── simulated-error.middleware.ts
+├── sleeper-noop.adapter.ts
+├── sleeper-system.adapter.ts
+├── sleeper.port.ts
 ├── slower.middleware.ts
 ├── static-files.service.ts
 ├── stopwatch.service.ts
@@ -324,7 +332,14 @@ src/
 ├── timekeeper-google.adapter.ts
 ├── timekeeper-noop.adapter.ts
 ├── timekeeper.port.ts
-├── timeout.service.ts
+├── timeout-cancellable-runner-bare.adapter.ts
+├── timeout-cancellable-runner-noop.adapter.ts
+├── timeout-cancellable-runner.port.ts
+├── timeout-runner-bare.adapter.ts
+├── timeout-runner-error.adapter.ts
+├── timeout-runner-monitor.adapter.ts
+├── timeout-runner-noop.adapter.ts
+├── timeout-runner.port.ts
 ├── to-event-map.types.ts
 ├── translations.service.ts
 ├── uptime.service.ts
