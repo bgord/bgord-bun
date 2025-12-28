@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 
 const content = {};
 
-const JsonFileReader = new JsonFileReaderNoopAdapter(content);
+const JsonFileReader = new FileReaderJsonNoopAdapter(content);
 
 describe("JsonFileReaderBunAdapter", () => {
   test("happy path - string", async () => {

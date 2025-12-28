@@ -1,9 +1,9 @@
 import { createMiddleware } from "hono/factory";
 import { BuildInfoRepository } from "./build-info-repository.service";
 import type { ClockPort } from "./clock.port";
-import type { JsonFileReaderPort } from "./json-file-reader.port";
+import type { FileReaderJsonPort } from "./file-reader-json.port";
 
-type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort };
+type Dependencies = { Clock: ClockPort; JsonFileReader: FileReaderJsonPort };
 
 export class ApiVersion {
   static readonly HEADER_NAME = "api-version";

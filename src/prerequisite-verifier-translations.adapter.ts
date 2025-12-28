@@ -1,9 +1,9 @@
 import { constants } from "node:fs";
 import fsp from "node:fs/promises";
 import type * as tools from "@bgord/tools";
+import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type * as types from "./i18n.service";
 import { I18n } from "./i18n.service";
-import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
@@ -13,7 +13,7 @@ type PrerequisiteTranslationsProblemType = {
   missingIn: tools.LanguageType;
 };
 
-type Dependencies = { Logger: LoggerPort; JsonFileReader: JsonFileReaderPort };
+type Dependencies = { Logger: LoggerPort; JsonFileReader: FileReaderJsonPort };
 
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
   constructor(

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Translations } from "../src/translations.service";
 
@@ -11,7 +11,7 @@ enum SupportedLanguages {
 }
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
+const JsonFileReader = new FileReaderJsonNoopAdapter({ hello: "Hello" });
 const deps = { JsonFileReader, Logger };
 
 const app = new Hono()

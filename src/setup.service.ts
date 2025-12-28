@@ -10,10 +10,10 @@ import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
+import type { FileReaderJsonPort } from "./file-reader-json.port";
 import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
-import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
@@ -33,7 +33,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
   I18n: I18nConfigType;
   Clock: ClockPort;
-  JsonFileReader: JsonFileReaderPort;
+  JsonFileReader: FileReaderJsonPort;
 };
 
 export class Setup {

@@ -4,8 +4,8 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -21,7 +21,7 @@ const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({});
+const JsonFileReader = new FileReaderJsonNoopAdapter({});
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock, JsonFileReader, Logger };
 
