@@ -3,7 +3,7 @@ import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { ClientFromHono } from "./client-from-hono.adapter";
 import { SecurityContext } from "./security-context.vo";
 import type { SecurityPolicy } from "./security-policy.vo";
-import type { ShieldPort } from "./shield.port";
+import type { ShieldStrategy } from "./shield.strategy";
 
 export const ShieldSecurityAdapterError = {
   Unhandled: "shield.security.adapter.error.unhandled",
@@ -11,7 +11,7 @@ export const ShieldSecurityAdapterError = {
   MaxPolicies: "shield.security.adapter.error.max.policies",
 };
 
-export class ShieldSecurityAdapter implements ShieldPort {
+export class ShieldSecurityStrategy implements ShieldStrategy {
   constructor(private readonly policies: SecurityPolicy[]) {
     if (policies.length === 0) throw new Error(ShieldSecurityAdapterError.MissingPolicies);
     if (policies.length > 5) throw new Error(ShieldSecurityAdapterError.MaxPolicies);

@@ -3,13 +3,13 @@ import { Hono } from "hono";
 import { BasicAuth } from "../src/basic-auth.service";
 import { BasicAuthPassword } from "../src/basic-auth-password.vo";
 import { BasicAuthUsername } from "../src/basic-auth-username.vo";
-import { ShieldBasicAuthAdapter } from "../src/shield-basic-auth.adapter";
+import { ShieldBasicAuthStrategy } from "../src/shield-basic-auth.strategy";
 
 const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
 
-const shield = new ShieldBasicAuthAdapter(config);
+const shield = new ShieldBasicAuthStrategy(config);
 
-describe("ShieldBasicAuthAdapter", () => {
+describe("ShieldBasicAuthStrategy", () => {
   test("happy path", async () => {
     const app = new Hono().use(shield.verify).get("/ping", (c) => c.text("OK"));
 

@@ -4,7 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import type { ClockPort } from "./clock.port";
-import type { ShieldPort } from "./shield.port";
+import type { ShieldStrategy } from "./shield.strategy";
 
 type ShieldRateLimitOptionsType = { enabled: boolean; resolver: CacheSubjectResolver };
 
@@ -12,7 +12,7 @@ type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
 export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
 
-export class ShieldRateLimitAdapter implements ShieldPort {
+export class ShieldRateLimitStrategy implements ShieldStrategy {
   constructor(
     private readonly options: ShieldRateLimitOptionsType,
     private readonly deps: Dependencies,

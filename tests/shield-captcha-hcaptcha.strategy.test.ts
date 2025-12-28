@@ -2,18 +2,18 @@ import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
-import { ShieldCaptchaHcaptchaAdapter } from "../src/shield-captcha-hcaptcha.adapter";
+import { ShieldCaptchaHcaptchaStrategy } from "../src/shield-captcha-hcaptcha.strategy";
 import * as mocks from "./mocks";
 
 const SECRET_KEY = "11111111111111111111111111111111111";
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
-const shield = new ShieldCaptchaHcaptchaAdapter(HCaptchaSecretKey.parse(SECRET_KEY));
+const shield = new ShieldCaptchaHcaptchaStrategy(HCaptchaSecretKey.parse(SECRET_KEY));
 
 const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
-describe("ShieldCaptchaHcaptchaAdapter", () => {
+describe("ShieldCaptchaHcaptchaStrategy", () => {
   test("happy path", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
     const form = new FormData();

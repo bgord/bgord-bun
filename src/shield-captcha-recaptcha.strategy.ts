@@ -2,14 +2,14 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import type { ShieldPort } from "./shield.port";
+import type { ShieldStrategy } from "./shield.strategy";
 
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
 export type RecaptchaResultType = { success: boolean; score: number };
 
 export const AccessDeniedRecaptchaError = new HTTPException(403, { message: "access_denied_recaptcha" });
 
-export class ShieldCaptchaRecaptchaAdapter implements ShieldPort {
+export class ShieldCaptchaRecaptchaStrategy implements ShieldStrategy {
   private static readonly URL = tools.UrlWithoutSlash.parse(
     "https://www.google.com/recaptcha/api/siteverify",
   );
@@ -31,7 +31,7 @@ export class ShieldCaptchaRecaptchaAdapter implements ShieldPort {
 
       const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
 
-      const response = await fetch(ShieldCaptchaRecaptchaAdapter.URL, {
+      const response = await fetch(ShieldCaptchaRecaptchaStrategy.URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params,

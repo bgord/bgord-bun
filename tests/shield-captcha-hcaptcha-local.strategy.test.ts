@@ -1,17 +1,17 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import { ShieldCaptchaHcaptchaLocalAdapter } from "../src/shield-captcha-hcaptcha-local.adapter";
+import { ShieldCaptchaHcaptchaLocalStrategy } from "../src/shield-captcha-hcaptcha-local.strategy";
 import * as mocks from "./mocks";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";
 const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
 
-const shield = new ShieldCaptchaHcaptchaLocalAdapter(SECRET_KEY as any);
+const shield = new ShieldCaptchaHcaptchaLocalStrategy(SECRET_KEY as any);
 
 const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
-describe("ShieldCaptchaHcaptchaLocalAdapter", () => {
+describe("ShieldCaptchaHcaptchaLocalStrategy", () => {
   test("happy path", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
 

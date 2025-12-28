@@ -5,9 +5,9 @@ import type hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 
-export const AccessDeniedAuthShieldError = new HTTPException(403, { message: "access_denied_auth_shield" });
+export const ShieldAuthStrategyError = new HTTPException(403, { message: "access_denied_auth_shield" });
 
-export class ShieldAuth {
+export class ShieldAuthStrategy {
   constructor(private readonly Auth: ReturnType<typeof betterAuth>) {}
 
   attach = createMiddleware(async (c: hono.Context, next: hono.Next) => {
@@ -29,14 +29,14 @@ export class ShieldAuth {
   verify = createMiddleware(async (c: hono.Context, next: hono.Next) => {
     const user = c.get("user");
 
-    if (!user) throw AccessDeniedAuthShieldError;
+    if (!user) throw ShieldAuthStrategyError;
     return next();
   });
 
   reverse = createMiddleware(async (c: hono.Context, next: hono.Next) => {
     const user = c.get("user");
 
-    if (user) throw AccessDeniedAuthShieldError;
+    if (user) throw ShieldAuthStrategyError;
     return next();
   });
 }

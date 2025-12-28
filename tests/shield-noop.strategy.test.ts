@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { ShieldNoopAdapter } from "../src/shield-noop.adapter";
+import { ShieldNoopStrategy } from "../src/shield-noop.strategy";
 
-describe("ShieldNoopAdapter", () => {
+describe("ShieldNoopStrategy", () => {
   test("happy path", async () => {
-    const shield = new ShieldNoopAdapter();
+    const shield = new ShieldNoopStrategy();
     const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });

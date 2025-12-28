@@ -17,7 +17,7 @@ import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
 import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
 import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
 import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
-import { ShieldSecurityAdapter, ShieldSecurityAdapterError } from "../src/shield-security.adapter";
+import { ShieldSecurityAdapterError, ShieldSecurityStrategy } from "../src/shield-security.strategy";
 import * as mocks from "./mocks";
 
 const duration = tools.Duration.Seconds(5);
@@ -62,7 +62,7 @@ const mirageFail = new SecurityPolicy(fail, mirage);
 // =============================================
 
 // Shields =====================================
-const compositeShield = new ShieldSecurityAdapter([banBaitRoutes, tarpitHoneyPotField, mirageUserAgent]);
+const compositeShield = new ShieldSecurityStrategy([banBaitRoutes, tarpitHoneyPotField, mirageUserAgent]);
 // =============================================
 
 const app = new Hono()
@@ -77,7 +77,7 @@ const app = new Hono()
   .use(compositeShield.verify)
   .post("/ping", (c) => c.text("OK"));
 
-describe("ShieldSecurityAdapter", () => {
+describe("ShieldSecurityStrategy", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const result = await app.request("/ping", { method: "POST" }, mocks.ip);
@@ -131,7 +131,7 @@ describe("ShieldSecurityAdapter", () => {
 
   test("denied - Fail - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const shield = new ShieldSecurityAdapter([mirageFail]);
+    const shield = new ShieldSecurityStrategy([mirageFail]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)
@@ -146,7 +146,7 @@ describe("ShieldSecurityAdapter", () => {
   test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, { threshold: 3 }, deps);
-    const shield = new ShieldSecurityAdapter([new SecurityPolicy(rule, mirage)]);
+    const shield = new ShieldSecurityStrategy([new SecurityPolicy(rule, mirage)]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)
@@ -176,7 +176,7 @@ describe("ShieldSecurityAdapter", () => {
       duration,
       after: { kind: "delay", duration },
     } as any);
-    const shield = new ShieldSecurityAdapter([new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)]);
+    const shield = new ShieldSecurityStrategy([new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)
@@ -193,13 +193,13 @@ describe("ShieldSecurityAdapter", () => {
   });
 
   test("missing policies", () => {
-    expect(() => new ShieldSecurityAdapter([])).toThrow(ShieldSecurityAdapterError.MissingPolicies);
+    expect(() => new ShieldSecurityStrategy([])).toThrow(ShieldSecurityAdapterError.MissingPolicies);
   });
 
   test("max policies", () => {
     expect(
       () =>
-        new ShieldSecurityAdapter([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail]),
+        new ShieldSecurityStrategy([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail]),
     ).toThrow(ShieldSecurityAdapterError.MaxPolicies);
   });
 });

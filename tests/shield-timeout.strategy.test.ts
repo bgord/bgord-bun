@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { ShieldTimeoutAdapter } from "../src/shield-timeout.adapter";
+import { ShieldTimeoutStrategy } from "../src/shield-timeout.strategy";
 
-const shield = new ShieldTimeoutAdapter({ duration: tools.Duration.Ms(5) });
+const shield = new ShieldTimeoutStrategy({ duration: tools.Duration.Ms(5) });
 
-describe("ShieldTimeoutAdapter", () => {
+describe("ShieldTimeoutStrategy", () => {
   test("happy path", async () => {
     const app = new Hono().use(shield.verify).get("/ping", async (c) => c.text("OK"));
 
