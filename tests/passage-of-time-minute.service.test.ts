@@ -8,11 +8,16 @@ import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const EventStore = { save: async () => {} };
+const IdProvider = new IdProviderDeterministicAdapter([
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+]);
+const deps = { Clock, IdProvider, EventStore };
 
 describe("PassageOfTimeMinute", async () => {
   test("correct path", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
-    const deps = { Clock, IdProvider, EventStore };
     const service = new PassageOfTimeMinute(deps);
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
@@ -22,8 +27,6 @@ describe("PassageOfTimeMinute", async () => {
   });
 
   test("job handler", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
-    const deps = { Clock, IdProvider, EventStore };
     const JobHandler = new JobHandlerBareStrategy(deps);
     const service = new PassageOfTimeMinute(deps);
     const eventStoreSave = spyOn(deps.EventStore, "save");

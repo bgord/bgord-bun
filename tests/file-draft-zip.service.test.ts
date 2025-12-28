@@ -20,7 +20,7 @@ class Draft extends FileDraft {
   }
 }
 
-describe("ZipDraft service", () => {
+describe("FileDraftZip service", () => {
   test("returns a buffer with ZIP signature", async () => {
     const zip = new FileDraftZip(bundle, [new Draft(firstBasename, "alpha")]);
 
