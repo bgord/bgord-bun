@@ -1,12 +1,12 @@
 import type { z } from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
-import type { CacheResolverPort } from "./cache-resolver.port";
+import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
-import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
+import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { EnvironmentLoaderPort } from "./environment-loader.port";
-import type { HashContentPort } from "./hash-content.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 
-type Dependencies = { CacheResolver: CacheResolverPort; HashContent: HashContentPort };
+type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
 export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>>
   implements EnvironmentLoaderPort<Schema>
@@ -18,7 +18,7 @@ export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>
   ) {}
 
   async load() {
-    const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixed("env")], this.deps);
+    const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("env")], this.deps);
     const subject = await resolver.resolve();
 
     const result = await this.deps.CacheResolver.resolve(subject.hex, async () =>

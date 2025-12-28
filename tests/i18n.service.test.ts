@@ -2,9 +2,9 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
+import { FileReaderJsonBunForgivingAdapter } from "../src/file-reader-json-bun-forgiving.adapter";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
-import { JsonFileReaderBunForgivingAdapter } from "../src/json-file-reader-bun-forgiving.adapter";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -14,7 +14,7 @@ enum SupportedLanguages {
 }
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({ hello: "Hello" });
+const JsonFileReader = new FileReaderJsonNoopAdapter({ hello: "Hello" });
 const deps = { Logger, JsonFileReader };
 const i18n = new I18n(deps);
 
@@ -94,7 +94,7 @@ describe("I18n service", () => {
     test("returns empty object on error", async () => {
       spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-      const i18n = new I18n({ JsonFileReader: new JsonFileReaderBunForgivingAdapter(), Logger });
+      const i18n = new I18n({ JsonFileReader: new FileReaderJsonBunForgivingAdapter(), Logger });
 
       expect(await i18n.getTranslations("en")).toEqual({});
     });

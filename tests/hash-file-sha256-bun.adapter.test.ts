@@ -1,10 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hash } from "../src/hash.vo";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { HashFileSha256BunAdapter } from "../src/hash-file-sha256-bun.adapter";
 
-const HashContent = new HashContentSha256BunAdapter();
+const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
 const adapter = new HashFileSha256BunAdapter(deps);

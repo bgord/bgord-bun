@@ -1,9 +1,9 @@
 import type { Context } from "hono";
-import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
+import type { CacheSubjectSegmentStrategy, CacheSubjectSegmentType } from "./cache-subject-segment.strategy";
 import type { Hash } from "./hash.vo";
-import type { HashContentPort } from "./hash-content.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 
-type Dependencies = { HashContent: HashContentPort };
+type Dependencies = { HashContent: HashContentStrategy };
 
 export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
 
@@ -11,7 +11,7 @@ export class CacheSubjectResolver {
   private readonly SEPARATOR = "|";
 
   constructor(
-    private readonly segments: CacheSubjectSegmentPort[],
+    private readonly segments: CacheSubjectSegmentStrategy[],
     private readonly deps: Dependencies,
   ) {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);

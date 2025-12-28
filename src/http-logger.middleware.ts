@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import { CacheSourceEnum } from "./cache-resolver.port";
+import { CacheSourceEnum } from "./cache-resolver.strategy";
 import { CacheResponse } from "./cache-response.middleware";
 import { ClientFromHono } from "./client-from-hono.adapter";
 import type { ClockPort } from "./clock.port";

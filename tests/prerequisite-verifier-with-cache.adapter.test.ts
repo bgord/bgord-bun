@@ -1,8 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleAdapter } from "../src/cache-resolver-simple.adapter";
-import { HashContentSha256BunAdapter } from "../src/hash-content-sha256-bun.adapter";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
 import * as mocks from "./mocks";
 
@@ -12,8 +12,8 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-    const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const HashContent = new HashContentSha256BunStrategy();
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "example", inner: pass }, deps);
@@ -41,8 +41,8 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-    const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const HashContent = new HashContentSha256BunStrategy();
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "example", inner: fail }, deps);
@@ -70,8 +70,8 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
-    const HashContent = new HashContentSha256BunAdapter();
-    const CacheResolver = new CacheResolverSimpleAdapter({ CacheRepository });
+    const HashContent = new HashContentSha256BunStrategy();
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "dns", inner: pass }, deps);

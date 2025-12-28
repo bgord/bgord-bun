@@ -1,13 +1,13 @@
 import { createFactory } from "hono/factory";
+import type { FileReaderJsonPort } from "./file-reader-json.port";
 import { I18n, type TranslationsSupportedLanguagesType } from "./i18n.service";
-import type { JsonFileReaderPort } from "./json-file-reader.port";
 import type { LoggerPort } from "./logger.port";
 
 const handler = createFactory();
 
 type Config = TranslationsSupportedLanguagesType;
 
-type Dependencies = { JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
+type Dependencies = { JsonFileReader: FileReaderJsonPort; Logger: LoggerPort };
 
 export class Translations {
   static build = (config: Config, deps: Dependencies) =>

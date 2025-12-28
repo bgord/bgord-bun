@@ -4,12 +4,12 @@ import { Hono } from "hono";
 import { ApiVersion } from "../src/api-version.middleware";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 
 const BUILD_DATE = tools.Timestamp.fromNumber(123).ms;
 
 const Clock = new ClockSystemAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({});
+const JsonFileReader = new FileReaderJsonNoopAdapter({});
 const deps = { Clock, JsonFileReader };
 
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));

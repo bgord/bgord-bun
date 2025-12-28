@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 import { BuildInfoRepository } from "./build-info-repository.service";
 import type { ClockPort } from "./clock.port";
-import type { JsonFileReaderPort } from "./json-file-reader.port";
+import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -42,7 +42,7 @@ type HealthcheckResultType = {
   timestamp: tools.TimestampValueType;
 };
 
-type Dependencies = { Clock: ClockPort; JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
+type Dependencies = { Clock: ClockPort; JsonFileReader: FileReaderJsonPort; Logger: LoggerPort };
 
 export class Healthcheck {
   static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>

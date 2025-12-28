@@ -2,13 +2,13 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import * as mocks from "./mocks";
 
 const version = "1.2.3";
 
 const Clock = new ClockSystemAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({ version });
+const JsonFileReader = new FileReaderJsonNoopAdapter({ version });
 const deps = { Clock, JsonFileReader };
 
 describe("BuildInfoRepository service", () => {

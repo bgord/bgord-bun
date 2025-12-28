@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import fsp from "node:fs/promises";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
-import { JsonFileReaderNoopAdapter } from "../src/json-file-reader-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteVerifierTranslationsAdapter } from "../src/prerequisite-verifier-translations.adapter";
 import * as mocks from "./mocks";
@@ -9,7 +9,7 @@ import * as mocks from "./mocks";
 const supportedLanguages = { en: "en", es: "es" };
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new JsonFileReaderNoopAdapter({});
+const JsonFileReader = new FileReaderJsonNoopAdapter({});
 const deps = { Logger, JsonFileReader };
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {

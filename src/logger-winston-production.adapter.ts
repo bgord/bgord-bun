@@ -3,11 +3,11 @@ import * as winston from "winston";
 import type { LogAppType, LoggerPort, LogLevelEnum } from "./logger.port";
 import { LoggerWinstonAdapter } from "./logger-winston.adapter";
 import { NodeEnvironmentEnum } from "./node-env.vo";
-import type { RedactorPort } from "./redactor.port";
+import type { RedactorStrategy } from "./redactor.strategy";
 
 type LoggerWinstonProductionAdapterConfigType = {
   app: LogAppType;
-  redactor: RedactorPort;
+  redactor: RedactorStrategy;
 };
 
 export class LoggerWinstonProductionAdapter {

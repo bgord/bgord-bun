@@ -1,8 +1,8 @@
-import type { RetryBackoffStrategyPort } from "./retry-backoff-strategy.port";
+import type { RetryBackoffStrategy } from "./retry-backoff-strategy.port";
 
 export type RetryConfigType = {
   max: number;
-  backoff: RetryBackoffStrategyPort;
+  backoff: RetryBackoffStrategy;
   when?: (error: unknown) => boolean;
 };
 

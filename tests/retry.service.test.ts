@@ -1,10 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Retry, RetryError } from "../src/retry.service";
-import { RetryBackoffStrategyNoop } from "../src/retry-backoff-strategy-noop";
+import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import * as mocks from "./mocks";
 
 const max = 3;
-const backoff = new RetryBackoffStrategyNoop();
+const backoff = new RetryBackoffNoopStrategy();
 
 describe("Retry service", () => {
   test("invalid max", async () => {

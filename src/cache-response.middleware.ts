@@ -1,9 +1,9 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import type { CacheResolverPort } from "./cache-resolver.port";
+import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 
-type Dependencies = { CacheResolver: CacheResolverPort };
+type Dependencies = { CacheResolver: CacheResolverStrategy };
 
 type CacheResponseOptions = { enabled: boolean; resolver: CacheSubjectResolver };
 

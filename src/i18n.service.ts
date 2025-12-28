@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import type { JsonFileReaderPort } from "../src/json-file-reader.port";
+import type { FileReaderJsonPort } from "../src/file-reader-json.port";
 import type { LoggerPort } from "../src/logger.port";
 
 export type TranslationsKeyType = string;
@@ -17,7 +17,7 @@ export type I18nConfigType = {
   defaultLanguage?: string;
 };
 
-type Dependencies = { JsonFileReader: JsonFileReaderPort; Logger: LoggerPort };
+type Dependencies = { JsonFileReader: FileReaderJsonPort; Logger: LoggerPort };
 
 export class I18n {
   private readonly base = { component: "infra", operation: "translations" };

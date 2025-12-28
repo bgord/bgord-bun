@@ -1,8 +1,8 @@
 import * as tools from "@bgord/tools";
-import type { HashContentPort } from "./hash-content.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HashFilePort } from "./hash-file.port";
 
-type Dependencies = { HashContent: HashContentPort };
+type Dependencies = { HashContent: HashContentStrategy };
 
 export class HashFileSha256BunAdapter implements HashFilePort {
   constructor(private readonly deps: Dependencies) {}
