@@ -7,12 +7,13 @@ export class TimekeeperGoogleAdapter implements TimekeeperPort {
   async get(signal?: AbortSignal) {
     try {
       const response = await fetch(TimekeeperGoogleAdapter.URL, { signal });
+
       if (!response.ok) return null;
 
       const date = response.headers.get("Date");
-      if (!date) return null;
 
-      return tools.Timestamp.fromNumber(new Date(date).getTime());
+      if (!date) return null;
+      return tools.Timestamp.fromDateLike(date);
     } catch (error) {
       return null;
     }
