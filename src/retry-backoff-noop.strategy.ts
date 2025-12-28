@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import type { RetryBackoffStrategy } from "./retry-backoff-strategy.port";
+import type { RetryBackoffStrategy } from "./retry-backoff.strategy";
 
 export class RetryBackoffNoopStrategy implements RetryBackoffStrategy {
   next() {

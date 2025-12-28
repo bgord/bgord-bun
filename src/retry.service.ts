@@ -1,4 +1,4 @@
-import type { RetryBackoffStrategy } from "./retry-backoff-strategy.port";
+import type { RetryBackoffStrategy } from "./retry-backoff.strategy";
 import type { SleeperPort } from "./sleeper.port";
 
 type Dependencies = { Sleeper: SleeperPort };
