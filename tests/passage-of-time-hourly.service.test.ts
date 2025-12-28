@@ -7,7 +7,7 @@ import { PassageOfTimeHourly } from "../src/modules/system/services/passage-of-t
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const EventStore = { save: async () => {}, saveAfter: async () => {} };
+const EventStore = { save: async () => {} };
 
 describe("PassageOfTimeHourly", async () => {
   test("correct path", async () => {

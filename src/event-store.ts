@@ -1,4 +1,3 @@
-import type * as tools from "@bgord/tools";
 import type { z } from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
 import type { EventStreamType } from "./event-stream.vo";
@@ -52,11 +51,6 @@ export class EventStore<AllEvents extends GenericEventSchema> {
       ...event,
       payload: JSON.parse(event.payload),
     })) as z.infer<AllEvents>[];
-  }
-
-  async saveAfter(events: z.infer<AllEvents>[], offset: tools.Duration): Promise<z.infer<AllEvents>[]> {
-    await Bun.sleep(offset.ms);
-    return this.save(events);
   }
 }
 

@@ -33,7 +33,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
 ]);
 const Sleeper = new SleeperNoopAdapter();
-const EventStore = { save: async () => {}, saveAfter: async () => {} };
+const EventStore = { save: async () => {} };
 const HashContent = new HashContentSha256BunStrategy();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl: duration });
 const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository, Sleeper };

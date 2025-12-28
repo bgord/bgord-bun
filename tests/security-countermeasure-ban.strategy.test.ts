@@ -19,7 +19,7 @@ const context = new SecurityContext(rule.name, Client.fromParts("127.0.0.1", "an
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const EventStore = { save: async () => {}, saveAfter: async () => {} };
+const EventStore = { save: async () => {} };
 const deps = { Logger, IdProvider, Clock, EventStore };
 
 describe("SecurityCountermeasureBanStrategy", () => {
