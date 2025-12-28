@@ -86,6 +86,7 @@ export * from "./file-reader-json.port";
 export * from "./file-reader-json-bun.adapter";
 export * from "./file-reader-json-bun-forgiving.adapter";
 export * from "./file-reader-json-noop.adapter";
+export * from "./file-reader-json-with-cache.adapter";
 export * from "./file-renamer.port";
 export * from "./file-renamer.port";
 export * from "./file-renamer-fs.adapter";

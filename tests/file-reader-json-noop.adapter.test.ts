@@ -4,24 +4,24 @@ import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter"
 
 const content = {};
 
-const JsonFileReader = new FileReaderJsonNoopAdapter(content);
+const adapter = new FileReaderJsonNoopAdapter(content);
 
-describe("JsonFileReaderBunAdapter", () => {
+describe("FileReaderJsonNoopAdapter", () => {
   test("happy path - string", async () => {
     const path = "package.json";
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await adapter.read(path)).toEqual(content);
   });
 
   test("happy path - relative", async () => {
     const path = tools.FilePathRelative.fromString("users/package.json");
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await adapter.read(path)).toEqual(content);
   });
 
   test("happy path - absolute", async () => {
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await adapter.read(path)).toEqual(content);
   });
 });
