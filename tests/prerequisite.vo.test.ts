@@ -87,7 +87,7 @@ describe("Prerequisite VO", () => {
   test("with timeout - success", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5))],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1))],
     });
     const verifier = prerequisite.build();
 
@@ -97,7 +97,7 @@ describe("Prerequisite VO", () => {
   test("with timeout - failure", async () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     const prerequisite = new Prerequisite("example", fail, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5))],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1))],
     });
     const verifier = prerequisite.build();
 
@@ -108,12 +108,12 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5))],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1))],
     });
     const verifier = prerequisite.build();
 
     // @ts-expect-error
-    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
 
     // @ts-expect-error
     const result = (await verifier.verify()).error.message;
@@ -201,11 +201,11 @@ describe("Prerequisite VO", () => {
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
         PrerequisiteDecorator.withRetry(
-          { max: 3, backoff: new RetryBackoffExponentialStrategy(tools.Duration.Ms(5)) },
+          { max: 3, backoff: new RetryBackoffExponentialStrategy(tools.Duration.Ms(1)) },
           deps,
         ),
         PrerequisiteDecorator.withFailSafe(
@@ -239,7 +239,7 @@ describe("Prerequisite VO", () => {
     const passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
         PrerequisiteDecorator.withCache("example", deps),
       ],
     });
@@ -262,10 +262,10 @@ describe("Prerequisite VO", () => {
     const deps = { HashContent, CacheResolver };
 
     // @ts-expect-error
-    const passVerify = spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+    const passVerify = spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
         PrerequisiteDecorator.withCache("example", deps),
       ],
     });
@@ -295,11 +295,11 @@ describe("Prerequisite VO", () => {
     const deps = { HashContent, CacheResolver };
 
     // @ts-expect-error
-    const passVerify = spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+    const passVerify = spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
       ],
     });
     const verifier = prerequisite.build();
@@ -407,13 +407,13 @@ describe("Prerequisite VO", () => {
             result.outcome === PrerequisiteVerificationOutcome.failure &&
             result?.error?.message === TimeoutError.Exceeded,
         ),
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
+        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1)),
       ],
     });
     const verifier = prerequisite.build();
 
     // @ts-expect-error
-    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(10).ms));
+    spyOn(pass, "verify").mockImplementation(() => Bun.sleep(tools.Duration.Ms(5).ms));
 
     expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
   });
