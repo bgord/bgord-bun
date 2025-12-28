@@ -1,6 +1,33 @@
 # Changelog
+- 2025-12-28 20:55 fd9f4cb **feature: clock offset adapter**
+- 2025-12-28 18:24 e0bd5b4 **refactor: adjust tests**
+- 2025-12-28 18:22 c99079a **refactor: simplify graceful shutdown tests**
+- 2025-12-28 18:12 8b9978f **refactor: remove Bun.sleep from tests**
+- 2025-12-28 17:49 7197f72 **step: add timeout cancellable runner**
+- 2025-12-28 17:23 22354f3 **refactor: use sealer port in redactor encryption**
+- 2025-12-28 16:11 c3dcaac **refactor: make redactors async**
+- 2025-12-28 15:51 51040e5 **feature: sealer aes gcm**
+- 2025-12-28 15:31 038720c **refactor: unify encryption port name**
+- 2025-12-28 15:29 fb41059 **feature: sealer port**
+- 2025-12-28 15:22 3546f59 **refactor: introduce crypto aes gcm service**
+- 2025-12-28 14:40 76be7fa **refactor: use timeout runners in tests**
+- 2025-12-28 14:28 8113bbe **step: timeout runner monitor**
+- 2025-12-28 14:02 1a56f81 **feature: timeout runner port**
+- 2025-12-28 13:42 87254a1 **refactor: reduce timeouts in tests**
+- 2025-12-28 13:34 8404cb8 **refactor: remove saveAfter from event store**
+- 2025-12-28 13:31 0dabfc1 **step: cleanup shield timeout strategy tests**
+- 2025-12-28 13:26 4b65169 **refactor: use sleeper port in shield security strategy**
+- 2025-12-28 13:21 1f493c8 **refactor: use sleeper port in slower**
+- 2025-12-28 13:19 de9c82c **refactor: use sleeper port in retry**
+- 2025-12-28 13:02 ff7368a **step: use fromDateLike**
+- 2025-12-28 12:53 d55985a **step: update packages**
+- 2025-12-28 12:43 072a4b2 **refactor: simplify tests**
+- 2025-12-28 12:34 a0a9dbe **feature: sleeper port**
+- 2025-12-28 12:21 46a517c **refactor: simplify clock port**
 - 2025-12-28 12:03 128e9d6 **Merge pull request #143 from bgord/port-strategy-refactor**
 - 2025-12-28 12:00 b700f55 **step: environment loader noop adapter**
+- 2025-12-28 11:04 77dc36f **docs: generate readme**
+- 2025-12-28 11:04 2a984e2 **docs: generate CHANGELOG**
 - 2025-12-28 10:27 28250c1 **step: strategy conversion shield**
 - 2025-12-28 10:17 acd2a50 **step: strategy conversion security countermeasure**
 - 2025-12-28 10:09 4faffc7 **step: strategy conversion security rule**
