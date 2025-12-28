@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
-import { EventHandlerNoopAdapter } from "../src/event-handler-noop.adapter";
+import { EventHandlerBareStrategy } from "../src/event-handler-bare.strategy";
 import * as mocks from "./mocks";
 
 const event = { name: "user.created" };
 
-const handler = new EventHandlerNoopAdapter();
+const handler = new EventHandlerBareStrategy();
 
-describe("EventHandlerNoopAdapter", () => {
+describe("EventHandlerBareStrategy", () => {
   test("happy path", async () => {
     const fn = async (_event: typeof event) => {};
 
@@ -14,6 +14,6 @@ describe("EventHandlerNoopAdapter", () => {
   });
 
   test("failure", async () => {
-    expect(async () => handler.handle(mocks.throwIntentionalErrorAsync)(event)).not.toThrow();
+    expect(async () => handler.handle(mocks.throwIntentionalErrorAsync)(event)).toThrow();
   });
 });

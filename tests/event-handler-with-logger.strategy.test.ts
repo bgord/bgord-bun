@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { EventHandlerWithLoggerAdapter } from "../src/event-handler-with-logger.adapter";
+import { EventHandlerWithLoggerStrategy } from "../src/event-handler-with-logger.strategy";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -10,9 +10,9 @@ const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Logger, Clock };
 
-const handler = new EventHandlerWithLoggerAdapter(deps);
+const handler = new EventHandlerWithLoggerStrategy(deps);
 
-describe("EventHandlerWithLogger", () => {
+describe("EventHandlerWithLoggerStrategy", () => {
   test("happy path", async () => {
     const loggerErrorSpy = spyOn(Logger, "error");
     const fn = async (_event: typeof event) => {};
