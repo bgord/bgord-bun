@@ -1,15 +1,15 @@
 import type * as tools from "@bgord/tools";
-import { TimeoutError } from "./timeout-runner.port";
+import {
+  TimeoutCancellableError,
+  type TimeoutCancellableRunnerPort,
+} from "./timeout-cancellable-runner.port";
 
-export class Timeout {
-  static async cancellable<T>(
-    action: (signal: AbortSignal) => Promise<T>,
-    timeout: tools.Duration,
-  ): Promise<T> {
+export class TimeoutCancellableRunnerBare implements TimeoutCancellableRunnerPort {
+  async cancellable<T>(action: (signal: AbortSignal) => Promise<T>, timeout: tools.Duration): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const controller = new AbortController();
 
-      const reason = new Error(TimeoutError.Exceeded);
+      const reason = new Error(TimeoutCancellableError.Exceeded);
 
       const canceller = setTimeout(() => {
         controller.abort(reason);
