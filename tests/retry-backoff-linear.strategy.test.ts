@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { RetryBackoffStrategyLinear } from "../src/retry-backoff-strategy-linear";
+import { RetryBackoffLinearStrategy } from "../src/retry-backoff-linear.strategy";
 
-const backoff = new RetryBackoffStrategyLinear(tools.Duration.Seconds(1));
+const backoff = new RetryBackoffLinearStrategy(tools.Duration.Seconds(1));
 
-describe("RetryBackoffStrategyLinear", () => {
+describe("RetryBackoffLinearStrategy", () => {
   test("next", () => {
     expect(backoff.next(1).equals(tools.Duration.Seconds(1))).toEqual(true);
     expect(backoff.next(2).equals(tools.Duration.Seconds(2))).toEqual(true);

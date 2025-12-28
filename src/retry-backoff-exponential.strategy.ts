@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
-import type { RetryBackoffStrategyPort } from "./retry-backoff-strategy.port";
+import type { RetryBackoffStrategy } from "./retry-backoff-strategy.port";
 
-export class RetryBackoffStrategyExponential implements RetryBackoffStrategyPort {
+export class RetryBackoffExponentialStrategy implements RetryBackoffStrategy {
   constructor(private readonly delay: tools.Duration) {}
 
   next(attempt: number) {

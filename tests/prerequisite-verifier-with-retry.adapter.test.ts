@@ -1,13 +1,13 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { PrerequisiteVerifierWithRetryAdapter } from "../src/prerequisite-verifier-with-retry.adapter";
-import { RetryBackoffStrategyExponential } from "../src/retry-backoff-strategy-exponential";
-import { RetryBackoffStrategyNoop } from "../src/retry-backoff-strategy-noop";
+import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
+import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import * as mocks from "./mocks";
 
 const max = 3;
-const backoff = new RetryBackoffStrategyNoop();
-const exponential = new RetryBackoffStrategyExponential(tools.Duration.Ms(1));
+const backoff = new RetryBackoffNoopStrategy();
+const exponential = new RetryBackoffExponentialStrategy(tools.Duration.Ms(1));
 const retry = { max, backoff };
 
 const pass = new mocks.PrerequisiteVerifierPass();

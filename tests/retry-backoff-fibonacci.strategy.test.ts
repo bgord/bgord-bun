@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { RetryBackoffStrategyFibonacci } from "../src/retry-backoff-strategy-fibonacci";
+import { RetryBackoffFibonacciStrategy } from "../src/retry-backoff-fibonacci.strategy";
 
-const backoff = new RetryBackoffStrategyFibonacci(tools.Duration.Seconds(1));
+const backoff = new RetryBackoffFibonacciStrategy(tools.Duration.Seconds(1));
 
-describe("RetryBackoffStrategyFibonacci", () => {
+describe("RetryBackoffFibonacciStrategy", () => {
   test("next", () => {
     expect(backoff.next(1).equals(tools.Duration.Seconds(1))).toEqual(true);
     expect(backoff.next(2).equals(tools.Duration.Seconds(1))).toEqual(true);

@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { RetryBackoffStrategyNoop } from "../src/retry-backoff-strategy-noop";
+import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 
-const backoff = new RetryBackoffStrategyNoop();
+const backoff = new RetryBackoffNoopStrategy();
 
-describe("RetryBackoffStrategyNoop", () => {
+describe("RetryBackoffNoopStrategy", () => {
   test("next", () => {
     expect(backoff.next().equals(tools.Duration.Ms(0))).toEqual(true);
   });

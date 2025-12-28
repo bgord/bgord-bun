@@ -8,8 +8,8 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
 import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
-import { RetryBackoffStrategyExponential } from "../src/retry-backoff-strategy-exponential";
-import { RetryBackoffStrategyNoop } from "../src/retry-backoff-strategy-noop";
+import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
+import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
 
@@ -204,7 +204,7 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withLogger(deps),
         PrerequisiteDecorator.withRetry({
           max: 3,
-          backoff: new RetryBackoffStrategyExponential(tools.Duration.Ms(5)),
+          backoff: new RetryBackoffExponentialStrategy(tools.Duration.Ms(5)),
         }),
         PrerequisiteDecorator.withFailSafe(
           (result) => result.outcome === PrerequisiteVerificationOutcome.failure,
@@ -332,7 +332,7 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withRetry({
           max: 3,
-          backoff: new RetryBackoffStrategyNoop(),
+          backoff: new RetryBackoffNoopStrategy(),
         }),
       ],
     });
