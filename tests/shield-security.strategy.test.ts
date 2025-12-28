@@ -1,4 +1,4 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
@@ -18,6 +18,7 @@ import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-po
 import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
 import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
 import { ShieldSecurityAdapterError, ShieldSecurityStrategy } from "../src/shield-security.strategy";
+import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
 const duration = tools.Duration.Seconds(5);
@@ -31,10 +32,11 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
 ]);
+const Sleeper = new SleeperNoopAdapter();
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
 const HashContent = new HashContentSha256BunStrategy();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl: duration });
-const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository };
+const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository, Sleeper };
 // =============================================
 
 // Countermeasures =============================
@@ -62,7 +64,10 @@ const mirageFail = new SecurityPolicy(fail, mirage);
 // =============================================
 
 // Shields =====================================
-const compositeShield = new ShieldSecurityStrategy([banBaitRoutes, tarpitHoneyPotField, mirageUserAgent]);
+const compositeShield = new ShieldSecurityStrategy(
+  [banBaitRoutes, tarpitHoneyPotField, mirageUserAgent],
+  deps,
+);
 // =============================================
 
 const app = new Hono()
@@ -102,7 +107,7 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("denied - HoneyPotField - tarpit - allow", async () => {
-    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
+    const sleeperWait = spyOn(Sleeper, "wait");
     const loggerInfo = spyOn(Logger, "info");
 
     const result = await app.request(
@@ -113,7 +118,7 @@ describe("ShieldSecurityStrategy", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
-    expect(bunSleep).toHaveBeenCalledWith(duration.ms);
+    expect(sleeperWait).toHaveBeenCalledWith(duration);
   });
 
   test("denied - UserAgent - mirage", async () => {
@@ -131,7 +136,7 @@ describe("ShieldSecurityStrategy", () => {
 
   test("denied - Fail - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const shield = new ShieldSecurityStrategy([mirageFail]);
+    const shield = new ShieldSecurityStrategy([mirageFail], deps);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)
@@ -146,7 +151,7 @@ describe("ShieldSecurityStrategy", () => {
   test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, { threshold: 3 }, deps);
-    const shield = new ShieldSecurityStrategy([new SecurityPolicy(rule, mirage)]);
+    const shield = new ShieldSecurityStrategy([new SecurityPolicy(rule, mirage)], deps);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)
@@ -171,12 +176,15 @@ describe("ShieldSecurityStrategy", () => {
 
   test("unhandled security error", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
+    const sleeperWait = spyOn(Sleeper, "wait");
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "delay", duration },
     } as any);
-    const shield = new ShieldSecurityStrategy([new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)]);
+    const shield = new ShieldSecurityStrategy(
+      [new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)],
+      deps,
+    );
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)
@@ -189,17 +197,20 @@ describe("ShieldSecurityStrategy", () => {
     expect(result.status).toEqual(500);
     expect(text).toEqual(ShieldSecurityAdapterError.Unhandled);
     expect(loggerInfo).toHaveBeenCalled();
-    expect(bunSleep).toHaveBeenCalled();
+    expect(sleeperWait).toHaveBeenCalled();
   });
 
   test("missing policies", () => {
-    expect(() => new ShieldSecurityStrategy([])).toThrow(ShieldSecurityAdapterError.MissingPolicies);
+    expect(() => new ShieldSecurityStrategy([], deps)).toThrow(ShieldSecurityAdapterError.MissingPolicies);
   });
 
   test("max policies", () => {
     expect(
       () =>
-        new ShieldSecurityStrategy([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail]),
+        new ShieldSecurityStrategy(
+          [mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail],
+          deps,
+        ),
     ).toThrow(ShieldSecurityAdapterError.MaxPolicies);
   });
 });

@@ -4,6 +4,9 @@ import { ClientFromHono } from "./client-from-hono.adapter";
 import { SecurityContext } from "./security-context.vo";
 import type { SecurityPolicy } from "./security-policy.vo";
 import type { ShieldStrategy } from "./shield.strategy";
+import type { SleeperPort } from "./sleeper.port";
+
+type Dependencies = { Sleeper: SleeperPort };
 
 export const ShieldSecurityAdapterError = {
   Unhandled: "shield.security.adapter.error.unhandled",
@@ -12,7 +15,10 @@ export const ShieldSecurityAdapterError = {
 };
 
 export class ShieldSecurityStrategy implements ShieldStrategy {
-  constructor(private readonly policies: SecurityPolicy[]) {
+  constructor(
+    private readonly policies: SecurityPolicy[],
+    private readonly deps: Dependencies,
+  ) {
     if (policies.length === 0) throw new Error(ShieldSecurityAdapterError.MissingPolicies);
     if (policies.length > 5) throw new Error(ShieldSecurityAdapterError.MaxPolicies);
   }
@@ -38,7 +44,7 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
           return c.json({}, action.response.status as ContentfulStatusCode);
 
         case "delay": {
-          await Bun.sleep(action.duration.ms);
+          await this.deps.Sleeper.wait(action.duration);
 
           switch (action.after.kind) {
             case "allow":

@@ -2,7 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { PrerequisiteVerifierClockDriftAdapter } from "../src/prerequisite-verifier-clock-drift.adapter";
-import type { TimekeeperPort } from "../src/timekeeper.port";
 import { TimekeeperNoopAdapter } from "../src/timekeeper-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -11,13 +10,6 @@ const skew = tools.Duration.Minutes(1);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Timekeeper = new TimekeeperNoopAdapter({ Clock });
 const deps = { Timekeeper, Clock };
-
-export class TimekeeperDelayedAdapter implements TimekeeperPort {
-  async get() {
-    await Bun.sleep(tools.Duration.Ms(6).ms);
-    return null;
-  }
-}
 
 const prerequisite = new PrerequisiteVerifierClockDriftAdapter({ skew }, deps);
 
