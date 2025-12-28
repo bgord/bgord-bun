@@ -10,6 +10,7 @@ import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
 import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
+import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import { TimeoutError } from "../src/timeout.service";
 import * as mocks from "./mocks";
 
@@ -193,7 +194,8 @@ describe("Prerequisite VO", () => {
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
-    const deps = { Clock, Logger, HashContent, CacheResolver };
+    const Sleeper = new SleeperNoopAdapter();
+    const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper };
 
     const passVerify = spyOn(pass, "verify");
     const loggerInfo = spyOn(Logger, "info");
@@ -202,10 +204,10 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withTimeout(tools.Duration.Ms(5)),
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
-        PrerequisiteDecorator.withRetry({
-          max: 3,
-          backoff: new RetryBackoffExponentialStrategy(tools.Duration.Ms(5)),
-        }),
+        PrerequisiteDecorator.withRetry(
+          { max: 3, backoff: new RetryBackoffExponentialStrategy(tools.Duration.Ms(5)) },
+          deps,
+        ),
         PrerequisiteDecorator.withFailSafe(
           (result) => result.outcome === PrerequisiteVerificationOutcome.failure,
         ),
@@ -323,17 +325,15 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const deps = { HashContent, CacheResolver };
+    const Sleeper = new SleeperNoopAdapter();
+    const deps = { HashContent, CacheResolver, Sleeper };
 
     const failVerify = spyOn(fail, "verify");
     const cacheRepositorySet = spyOn(CacheRepository, "set");
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
-        PrerequisiteDecorator.withRetry({
-          max: 3,
-          backoff: new RetryBackoffNoopStrategy(),
-        }),
+        PrerequisiteDecorator.withRetry({ max: 3, backoff: new RetryBackoffNoopStrategy() }, deps),
       ],
     });
     const verifier = prerequisite.build();

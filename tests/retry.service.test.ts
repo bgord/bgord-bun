@@ -1,20 +1,25 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { Retry, RetryError } from "../src/retry.service";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
+import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
 const max = 3;
 const backoff = new RetryBackoffNoopStrategy();
+const Sleeper = new SleeperNoopAdapter();
+const deps = { Sleeper };
+
+const retry = new Retry(deps);
 
 describe("Retry service", () => {
   test("invalid max", async () => {
-    expect(() => Retry.run(async () => "ok", { max: 0, backoff })).toThrow(RetryError.InvalidMax);
+    expect(() => retry.run(async () => "ok", { max: 0, backoff })).toThrow(RetryError.InvalidMax);
   });
 
   test("success", async () => {
     const action = spyOn({ run: async () => "ok" }, "run");
 
-    const result = await Retry.run(action, { max, backoff });
+    const result = await retry.run(action, { max, backoff });
 
     expect(result).toEqual("ok");
     expect(action).toHaveBeenCalledTimes(1);
@@ -33,26 +38,26 @@ describe("Retry service", () => {
       },
       "run",
     );
-    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
+    const sleeperWait = spyOn(Sleeper, "wait");
 
-    const result = await Retry.run(action, { max, backoff });
+    const result = await retry.run(action, { max, backoff });
 
     expect(result).toEqual("ok");
     expect(action).toHaveBeenCalledTimes(3);
-    expect(bunSleep).toHaveBeenCalledTimes(2);
+    expect(sleeperWait).toHaveBeenCalledTimes(2);
   });
 
   test("fail after max", async () => {
     const action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
 
-    expect(async () => Retry.run(action, { max, backoff })).toThrow(mocks.IntentionalError);
+    expect(async () => retry.run(action, { max, backoff })).toThrow(mocks.IntentionalError);
     expect(action).toHaveBeenCalledTimes(3);
   });
 
   test("retryWhen false", async () => {
     const action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
 
-    expect(async () => Retry.run(action, { max: 5, backoff: backoff, when: () => false })).toThrow(
+    expect(async () => retry.run(action, { max: 5, backoff: backoff, when: () => false })).toThrow(
       mocks.IntentionalError,
     );
     expect(action).toHaveBeenCalledTimes(1);

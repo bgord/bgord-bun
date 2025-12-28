@@ -1,4 +1,7 @@
 import type { RetryBackoffStrategy } from "./retry-backoff-strategy.port";
+import type { SleeperPort } from "./sleeper.port";
+
+type Dependencies = { Sleeper: SleeperPort };
 
 export type RetryConfigType = {
   max: number;
@@ -9,7 +12,9 @@ export type RetryConfigType = {
 export const RetryError = { InvalidMax: "retry.invalid.max" };
 
 export class Retry {
-  static async run<T>(action: () => Promise<T>, config: RetryConfigType): Promise<T> {
+  constructor(private readonly deps: Dependencies) {}
+
+  async run<T>(action: () => Promise<T>, config: RetryConfigType): Promise<T> {
     if (config.max < 1) throw new Error(RetryError.InvalidMax);
 
     let lastError: unknown;
@@ -22,7 +27,7 @@ export class Retry {
 
         if (attempt === config.max || (config.when && !config.when(error))) break;
 
-        await Bun.sleep(config.backoff.next(attempt).ms);
+        await this.deps.Sleeper.wait(config.backoff.next(attempt));
       }
     }
 
