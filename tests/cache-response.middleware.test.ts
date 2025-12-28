@@ -6,9 +6,9 @@ import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponse } from "../src/cache-response.middleware";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
-import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
-import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
-import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
+import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
+import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
+import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import type * as mocks from "./mocks";
 
@@ -24,7 +24,11 @@ const cacheResponse = new CacheResponse(
   {
     enabled: true,
     resolver: new CacheSubjectResolver(
-      [new CacheSubjectSegmentFixed("ping"), new CacheSubjectSegmentPath(), new CacheSubjectSegmentUser()],
+      [
+        new CacheSubjectSegmentFixedStrategy("ping"),
+        new CacheSubjectSegmentPathStrategy(),
+        new CacheSubjectSegmentUserStrategy(),
+      ],
       deps,
     ),
   },

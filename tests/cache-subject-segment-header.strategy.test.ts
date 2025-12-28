@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentHeader } from "../src/cache-subject-segment-header";
+import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
 
-const segment = new CacheSubjectSegmentHeader("accept");
+const segment = new CacheSubjectSegmentHeaderStrategy("accept");
 
-describe("CacheSubjectSegmentHeader", () => {
+describe("CacheSubjectSegmentHeaderStrategy", () => {
   test("happy path", () => {
     const context = { req: { header: () => "application/json" } };
 

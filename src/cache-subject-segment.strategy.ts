@@ -2,6 +2,6 @@ import type { Context } from "hono";
 
 export type CacheSubjectSegmentType = string;
 
-export interface CacheSubjectSegmentPort {
+export interface CacheSubjectSegmentStrategy {
   create(context?: Context): CacheSubjectSegmentType;
 }

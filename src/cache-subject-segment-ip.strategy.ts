@@ -1,8 +1,8 @@
 import type { Context } from "hono";
-import type { CacheSubjectSegmentPort } from "./cache-subject-segment.port";
+import type { CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
 import { ClientFromHono } from "./client-from-hono.adapter";
 
-export class CacheSubjectSegmentIp implements CacheSubjectSegmentPort {
+export class CacheSubjectSegmentIpStrategy implements CacheSubjectSegmentStrategy {
   create(context?: Context) {
     if (!context) return "";
     return ClientFromHono.translate(context).ip;

@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentQuery } from "../src/cache-subject-segment-query";
+import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
 
-const segment = new CacheSubjectSegmentQuery();
+const segment = new CacheSubjectSegmentQueryStrategy();
 
-describe("CacheSubjectSegmentQuery", () => {
+describe("CacheSubjectSegmentQueryStrategy", () => {
   test("happy path", () => {
     const context = { req: { query: () => ({ aaa: "123", bbb: "234" }) } };
 

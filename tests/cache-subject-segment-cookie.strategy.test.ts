@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentCookie } from "../src/cache-subject-segment-cookie";
+import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
 
-const segment = new CacheSubjectSegmentCookie("language");
+const segment = new CacheSubjectSegmentCookieStrategy("language");
 
-describe("CacheSubjectSegmentCookie", () => {
+describe("CacheSubjectSegmentCookieStrategy", () => {
   test("happy path", () => {
     const context = { req: { raw: { headers: new Headers({ cookie: "language=en" }) } } };
 

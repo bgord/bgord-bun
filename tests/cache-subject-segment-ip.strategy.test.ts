@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentIp } from "../src/cache-subject-segment-ip";
+import { CacheSubjectSegmentIpStrategy } from "../src/cache-subject-segment-ip.strategy";
 import * as mocks from "./mocks";
 
-const segment = new CacheSubjectSegmentIp();
+const segment = new CacheSubjectSegmentIpStrategy();
 
-describe("CacheSubjectSegmentIp", () => {
+describe("CacheSubjectSegmentIpStrategy", () => {
   test("happy path", () => {
     const context = { env: mocks.ip, req: { raw: {}, header: () => "anon" } } as any;
 

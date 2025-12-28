@@ -1,8 +1,8 @@
 import type { Context } from "hono";
 import type { CacheRepositoryPort } from "./cache-repository.port";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
-import { CacheSubjectSegmentFixed } from "./cache-subject-segment-fixed";
-import { CacheSubjectSegmentIp } from "./cache-subject-segment-ip";
+import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
+import { CacheSubjectSegmentIpStrategy } from "./cache-subject-segment-ip.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { SecurityRulePort } from "./security-rule.port";
 import { SecurityRuleName } from "./security-rule-name.vo";
@@ -19,7 +19,7 @@ export class SecurityRuleViolationThresholdAdapter implements SecurityRulePort {
   // Best-effort increment, occasional lost increments are acceptable for concurrent requests.
   async isViolated(c: Context) {
     const resolver = new CacheSubjectResolver(
-      [new CacheSubjectSegmentFixed(this.name), new CacheSubjectSegmentIp()],
+      [new CacheSubjectSegmentFixedStrategy(this.name), new CacheSubjectSegmentIpStrategy()],
       this.deps,
     );
     const subject = await resolver.resolve(c);

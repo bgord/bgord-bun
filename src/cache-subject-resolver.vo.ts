@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import type { CacheSubjectSegmentPort, CacheSubjectSegmentType } from "./cache-subject-segment.port";
+import type { CacheSubjectSegmentStrategy, CacheSubjectSegmentType } from "./cache-subject-segment.strategy";
 import type { Hash } from "./hash.vo";
 import type { HashContentStrategy } from "./hash-content.strategy";
 
@@ -11,7 +11,7 @@ export class CacheSubjectResolver {
   private readonly SEPARATOR = "|";
 
   constructor(
-    private readonly segments: CacheSubjectSegmentPort[],
+    private readonly segments: CacheSubjectSegmentStrategy[],
     private readonly deps: Dependencies,
   ) {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);

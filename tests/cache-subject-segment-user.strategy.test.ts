@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
+import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 
-const segment = new CacheSubjectSegmentUser();
+const segment = new CacheSubjectSegmentUserStrategy();
 
-describe("CacheSubjectSegmentUser", () => {
+describe("CacheSubjectSegmentUserStrategy", () => {
   test("happy path", () => {
     const context = { get: () => ({ id: "123456789" }) };
 

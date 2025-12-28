@@ -1,7 +1,7 @@
 import type { Context } from "hono";
-import type { CacheSubjectSegmentPort } from "./cache-subject-segment.port";
+import type { CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
 
-export class CacheSubjectSegmentQuery implements CacheSubjectSegmentPort {
+export class CacheSubjectSegmentQueryStrategy implements CacheSubjectSegmentStrategy {
   create(context?: Context) {
     const query = context?.req.query() ?? {};
 

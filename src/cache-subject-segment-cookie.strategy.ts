@@ -1,8 +1,8 @@
 import type { Context } from "hono";
 import { getCookie } from "hono/cookie";
-import type { CacheSubjectSegmentPort } from "./cache-subject-segment.port";
+import type { CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
 
-export class CacheSubjectSegmentCookie implements CacheSubjectSegmentPort {
+export class CacheSubjectSegmentCookieStrategy implements CacheSubjectSegmentStrategy {
   constructor(private readonly name: string) {}
 
   create(context?: Context) {

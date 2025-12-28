@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
+import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
 
-const segment = new CacheSubjectSegmentPath();
+const segment = new CacheSubjectSegmentPathStrategy();
 
-describe("CacheSubjectSegmentPath", () => {
+describe("CacheSubjectSegmentPathStrategy", () => {
   test("happy path", () => {
     const context = { req: { path: "/about" } };
 

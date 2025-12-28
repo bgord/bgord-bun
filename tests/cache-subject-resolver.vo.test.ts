@@ -1,20 +1,20 @@
 import { describe, expect, test } from "bun:test";
 import { CacheSubjectResolver, CacheSubjectResolverError } from "../src/cache-subject-resolver.vo";
-import { CacheSubjectSegmentCookie } from "../src/cache-subject-segment-cookie";
-import { CacheSubjectSegmentFixed } from "../src/cache-subject-segment-fixed";
-import { CacheSubjectSegmentHeader } from "../src/cache-subject-segment-header";
-import { CacheSubjectSegmentPath } from "../src/cache-subject-segment-path";
-import { CacheSubjectSegmentQuery } from "../src/cache-subject-segment-query";
-import { CacheSubjectSegmentUser } from "../src/cache-subject-segment-user";
+import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
+import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
+import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
+import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
+import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
+import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 
-const fixed = new CacheSubjectSegmentFixed("response");
-const path = new CacheSubjectSegmentPath();
-const cookieLanguage = new CacheSubjectSegmentCookie("language");
-const headerAccept = new CacheSubjectSegmentHeader("accept");
-const query = new CacheSubjectSegmentQuery();
-const user = new CacheSubjectSegmentUser();
+const fixed = new CacheSubjectSegmentFixedStrategy("response");
+const path = new CacheSubjectSegmentPathStrategy();
+const cookieLanguage = new CacheSubjectSegmentCookieStrategy("language");
+const headerAccept = new CacheSubjectSegmentHeaderStrategy("accept");
+const query = new CacheSubjectSegmentQueryStrategy();
+const user = new CacheSubjectSegmentUserStrategy();
 
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
@@ -146,7 +146,7 @@ describe("CacheSubject", () => {
 
   test("sanitization", async () => {
     const context = {};
-    const fixed = new CacheSubjectSegmentFixed("a|b|c|");
+    const fixed = new CacheSubjectSegmentFixedStrategy("a|b|c|");
 
     const result = await new CacheSubjectResolver([fixed], deps).resolve(context as any);
 
