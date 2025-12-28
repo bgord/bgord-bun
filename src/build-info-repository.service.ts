@@ -8,7 +8,7 @@ type Dependencies = { Clock: ClockPort; JsonFileReader: FileReaderJsonPort };
 
 export class BuildInfoRepository {
   static async extract(deps: Dependencies): Promise<BuildInfoType> {
-    const BUILD_DATE = deps.Clock.nowMs();
+    const BUILD_DATE = deps.Clock.now().ms;
 
     try {
       const packageJson = await deps.JsonFileReader.read("package.json");

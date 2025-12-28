@@ -21,7 +21,7 @@ export const createEventEnvelope = (stream: EventStreamType, deps: Dependencies)
   ({
     id: deps.IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
-    createdAt: deps.Clock.nowMs(),
+    createdAt: deps.Clock.now().ms,
     stream,
     version: 1,
   }) as const;

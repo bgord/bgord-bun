@@ -4,10 +4,6 @@ import type { ClockPort } from "./clock.port";
 export class ClockFixedAdapter implements ClockPort {
   constructor(private value: tools.Timestamp) {}
 
-  nowMs() {
-    return this.value.ms;
-  }
-
   now() {
     return this.value;
   }

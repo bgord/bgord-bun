@@ -24,12 +24,10 @@ export class PassageOfTimeMinute implements UnitOfWork {
   label = "PassageOfTime";
 
   async process() {
-    const timestamp = this.deps.Clock.nowMs();
-
     const event = MinuteHasPassedEvent.parse({
       ...createEventEnvelope("passage_of_time", this.deps),
       name: MINUTE_HAS_PASSED_EVENT,
-      payload: { timestamp },
+      payload: { timestamp: this.deps.Clock.now().ms },
     } satisfies MinuteHasPassedEventType);
 
     await this.deps.EventStore.save([event]);

@@ -26,7 +26,7 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock, JsonFileReader, Logger };
 
 const buildInfo = {
-  BUILD_DATE: Clock.nowMs(),
+  BUILD_DATE: Clock.now().ms,
   BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
 };
 

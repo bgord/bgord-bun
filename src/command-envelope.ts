@@ -12,5 +12,5 @@ export const createCommandEnvelope = (deps: Dependencies) =>
   ({
     id: deps.IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
-    createdAt: deps.Clock.nowMs(),
+    createdAt: deps.Clock.now().ms,
   }) as const;

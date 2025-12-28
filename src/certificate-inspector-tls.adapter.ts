@@ -28,8 +28,9 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
 
           if (!certificate?.valid_to) return settle({ success: false });
 
-          const validToMs = new Date(certificate.valid_to).getTime();
-          const daysRemaining = tools.Duration.Ms(validToMs - this.deps.Clock.nowMs()).days;
+          const validTo = tools.Timestamp.fromNumber(new Date(certificate.valid_to).getTime());
+
+          const daysRemaining = validTo.difference(this.deps.Clock.now()).days;
 
           settle({
             success: true,

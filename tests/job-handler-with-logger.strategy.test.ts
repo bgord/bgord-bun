@@ -24,7 +24,7 @@ class ClockWork implements UnitOfWork {
   label = "PassageOfTime";
 
   async process() {
-    this.deps.Clock.nowMs();
+    this.deps.Clock.now();
   }
 }
 
