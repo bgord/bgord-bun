@@ -31,7 +31,7 @@ export class SealerAesGcmAdapter implements SealerPort {
     const key = await this.deps.CryptoKeyProvider.get();
     const bytes = Buffer.from(value.slice(SealerAesGcmAdapter.PREFIX.length), "base64");
 
-    const decrypted = await CryptoAesGcm.decrypt(key, new Uint8Array(bytes));
+    const decrypted = await CryptoAesGcm.decrypt(key, bytes);
 
     return JSON.parse(new TextDecoder().decode(decrypted));
   }

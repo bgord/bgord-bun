@@ -1,33 +1,40 @@
-import { describe, expect, test } from "bun:test";
-import { createDecipheriv, scryptSync } from "node:crypto";
+import { describe, expect, spyOn, test } from "bun:test";
+import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
+import { EncryptionIV } from "../src/encryption-iv.vo";
 import { RedactorEncryptionStrategy } from "../src/redactor-encrypt.strategy";
+import { SealerAesGcmAdapter } from "../src/sealer-aes-gcm.adapter";
 
-function decrypt(enc: string, secret: string) {
-  const b64 = enc.replace(/^enc:gcm:/, "");
-  const buf = Buffer.from(b64, "base64");
-  const iv = buf.subarray(0, 12);
-  const tag = buf.subarray(12, 28);
-  const ct = buf.subarray(28);
-  const key = scryptSync(secret, "redactor_salt", 32);
-  const d = createDecipheriv("aes-256-gcm", key, iv);
-  d.setAuthTag(tag);
-  const pt = Buffer.concat([d.update(ct), d.final()]);
-  return JSON.parse(pt.toString("utf8"));
-}
+const iv = new Uint8Array(Array.from({ length: 12 }, (_, i) => i + 1));
 
-const secret = "secret";
+const CryptoKeyProvider = new CryptoKeyProviderNoopAdapter();
+const Sealer = new SealerAesGcmAdapter({ CryptoKeyProvider });
+const deps = { Sealer };
+const adapter = new RedactorEncryptionStrategy("metadata", deps);
 
-const adapter = new RedactorEncryptionStrategy("secret", "metadata");
+const encrypted =
+  "sealed:gcm:AQIDBAUGBwgJCgsMRma/R0YdEfjwf4wj2cMB6oz4fNWDzUQHZV7guba4/fcZgltfOxucyofuokH63fh3fBTlV0fj/wm1s7/FgzE2ENf6mg0CVY0Uw6D7c4PGZJYzOJa4";
 
 describe("RedactorEncryptionStrategy", () => {
-  test("happy path", async () => {
-    const result = await adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
+  test("passthrough - non-object", async () => {
+    const result = await adapter.redact(5);
 
-    expect(typeof result.metadata).toEqual("string");
-    expect(result.nested.metadata).toEqual({ a: 1 });
+    expect(result).toEqual(5);
+  });
+
+  test("passthrough - empty object", async () => {
+    const result = await adapter.redact({});
+
+    expect(result).toEqual({});
+  });
+
+  test("passthrough - missing key", async () => {
+    const result = await adapter.redact({ other: "key" });
+
+    expect(result).toEqual({ other: "key" });
   });
 
   test("roundtrip", async () => {
+    spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     const input = {
       metadata: { headers: { Authorization: "Bearer xyz" }, client: { ip: "1.2.3.4" } },
       keep: 123,
@@ -35,9 +42,14 @@ describe("RedactorEncryptionStrategy", () => {
 
     const result = await adapter.redact(input);
 
-    expect(typeof result.metadata).toEqual("string");
+    // @ts-expect-error
+    expect(result.metadata).toEqual(encrypted);
     expect(result.keep).toEqual(123);
     expect(input.metadata.client.ip).toEqual("1.2.3.4");
-    expect(decrypt(result.metadata as unknown as string, secret)).toEqual(input.metadata);
+
+    // @ts-expect-error
+    const roundtrip = await Sealer.unseal(result.metadata);
+
+    expect(roundtrip).toEqual(input.metadata);
   });
 });

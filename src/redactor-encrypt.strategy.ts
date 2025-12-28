@@ -1,32 +1,24 @@
-import { createCipheriv, randomBytes, scryptSync } from "node:crypto";
-import cloneDeepWith from "lodash/cloneDeepWith";
+import cloneDeep from "lodash/cloneDeep";
+import isPlainObject from "lodash/isPlainObject";
 import type { RedactorStrategy } from "./redactor.strategy";
+import type { SealerPort } from "./sealer.port";
+
+type Dependencies = { Sealer: SealerPort };
 
 export class RedactorEncryptionStrategy implements RedactorStrategy {
-  private readonly secret: Buffer;
-
   constructor(
-    secret: string,
     private readonly key: string,
-  ) {
-    this.secret = scryptSync(secret, "redactor_salt", 32);
-  }
+    private readonly deps: Dependencies,
+  ) {}
 
   async redact<T>(input: T): Promise<T> {
-    const rootObject = Object(input);
+    if (!isPlainObject(input)) return input;
 
-    return cloneDeepWith(input, (value, key, parent) => {
-      if (parent === rootObject && typeof key === "string" && key.toLowerCase() === this.key) {
-        const iv = randomBytes(12);
-        const cipher = createCipheriv("aes-256-gcm", this.secret, iv);
-        const plaintext = Buffer.from(JSON.stringify(value), "utf8");
-        const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
-        const tag = cipher.getAuthTag();
+    const output = cloneDeep(input);
 
-        return `enc:gcm:${Buffer.concat([iv, tag, ciphertext]).toString("base64")}`;
-      }
+    // @ts-expect-error
+    if (output[this.key]) output[this.key] = await this.deps.Sealer.seal(output[this.key]);
 
-      return undefined;
-    });
+    return output;
   }
 }
