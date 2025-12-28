@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import { Retry, RetryError } from "../src/retry.service";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import * as mocks from "./mocks";
@@ -33,7 +33,7 @@ describe("Retry service", () => {
       },
       "run",
     );
-    const bunSleep = spyOn(Bun, "sleep").mockResolvedValue(undefined);
+    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
 
     const result = await Retry.run(action, { max, backoff });
 
