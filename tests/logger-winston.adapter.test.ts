@@ -3,13 +3,13 @@ import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerWinstonAdapter } from "../src/logger-winston.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { RedactorMaskAdapter } from "../src/redactor-mask.adapter";
-import { RedactorNoopAdapter } from "../src/redactor-noop.adapter";
+import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
+import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
 
 const filePath = tools.FilePathAbsolute.fromString("/var/www/logger.txt");
 
-const redactor = new RedactorNoopAdapter();
+const redactor = new RedactorNoopStrategy();
 
 describe("LoggerWinstonAdapter", () => {
   test("default meta", () => {
@@ -118,7 +118,7 @@ describe("LoggerWinstonAdapter", () => {
   });
 
   test("redactor", () => {
-    const redactor = new RedactorMaskAdapter(["secret"]);
+    const redactor = new RedactorMaskStrategy(["secret"]);
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",

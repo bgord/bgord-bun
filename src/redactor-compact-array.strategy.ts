@@ -1,7 +1,7 @@
 import cloneDeepWith from "lodash/cloneDeepWith";
-import type { RedactorPort } from "./redactor.port";
+import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorCompactArrayAdapter implements RedactorPort {
+export class RedactorCompactArrayStrategy implements RedactorStrategy {
   redact<T>(input: T): T {
     return cloneDeepWith(input, (value) =>
       Array.isArray(value) ? { type: "Array", length: value.length } : undefined,

@@ -1,8 +1,8 @@
 import { createCipheriv, randomBytes, scryptSync } from "node:crypto";
 import cloneDeepWith from "lodash/cloneDeepWith";
-import type { RedactorPort } from "./redactor.port";
+import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorEncryptionAdapter implements RedactorPort {
+export class RedactorEncryptionStrategy implements RedactorStrategy {
   private readonly secret: Buffer;
 
   constructor(

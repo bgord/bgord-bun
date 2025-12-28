@@ -1,7 +1,7 @@
 import cloneDeepWith from "lodash/cloneDeepWith";
-import type { RedactorPort } from "./redactor.port";
+import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorMaskAdapter implements RedactorPort {
+export class RedactorMaskStrategy implements RedactorStrategy {
   static readonly DEFAULT_KEYS: readonly string[] = [
     "authorization",
     "cookie",

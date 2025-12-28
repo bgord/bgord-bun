@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { createDecipheriv, scryptSync } from "node:crypto";
-import { RedactorEncryptionAdapter } from "../src/redactor-encrypt.adapter";
+import { RedactorEncryptionStrategy } from "../src/redactor-encrypt.strategy";
 
 function decrypt(enc: string, secret: string) {
   const b64 = enc.replace(/^enc:gcm:/, "");
@@ -17,9 +17,9 @@ function decrypt(enc: string, secret: string) {
 
 const secret = "secret";
 
-const adapter = new RedactorEncryptionAdapter("secret", "metadata");
+const adapter = new RedactorEncryptionStrategy("secret", "metadata");
 
-describe("RedactorEncryptionAdapter", () => {
+describe("RedactorEncryptionStrategy", () => {
   test("happy path", () => {
     const result = adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
 

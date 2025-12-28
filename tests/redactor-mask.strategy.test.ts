@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorMaskAdapter } from "../src/redactor-mask.adapter";
+import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 
-const redactor = new RedactorMaskAdapter(["password", "authorization", "x-api-key", "refreshToken"]);
+const redactor = new RedactorMaskStrategy(["password", "authorization", "x-api-key", "refreshToken"]);
 
-describe("RedactorMaskAdapter", () => {
+describe("RedactorMaskStrategy", () => {
   test("happy path", () => {
     const input = {
       meta: { headers: { Authorization: "Bearer abc.def.ghi", "x-api-key": "XYZ-123" } },

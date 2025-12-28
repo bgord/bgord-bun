@@ -2,9 +2,9 @@ import * as winston from "winston";
 import type { LogAppType, LoggerPort, LogLevelEnum } from "./logger.port";
 import { LoggerWinstonAdapter } from "./logger-winston.adapter";
 import { NodeEnvironmentEnum } from "./node-env.vo";
-import type { RedactorPort } from "./redactor.port";
+import type { RedactorStrategy } from "./redactor.strategy";
 
-type LoggerWinstonLocalAdapterConfigType = { app: LogAppType; redactor: RedactorPort };
+type LoggerWinstonLocalAdapterConfigType = { app: LogAppType; redactor: RedactorStrategy };
 
 export class LoggerWinstonLocalAdapter {
   constructor(private readonly config: LoggerWinstonLocalAdapterConfigType) {}

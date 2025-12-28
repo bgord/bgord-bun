@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorCompactArrayAdapter } from "../src/redactor-compact-array.adapter";
+import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
 
-const redactor = new RedactorCompactArrayAdapter();
+const redactor = new RedactorCompactArrayStrategy();
 
-describe("RedactorCompactAdapter", () => {
+describe("RedactorCompactArrayStrategy", () => {
   test("keeps primitives unchanged", () => {
     expect(redactor.redact(42)).toEqual(42);
     expect(redactor.redact("x")).toEqual("x");
