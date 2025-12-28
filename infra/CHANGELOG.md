@@ -1,5 +1,21 @@
 # Changelog
+- 2025-12-28 12:03 128e9d6 **Merge pull request #143 from bgord/port-strategy-refactor**
+- 2025-12-28 12:00 b700f55 **step: environment loader noop adapter**
+- 2025-12-28 10:27 28250c1 **step: strategy conversion shield**
+- 2025-12-28 10:17 acd2a50 **step: strategy conversion security countermeasure**
+- 2025-12-28 10:09 4faffc7 **step: strategy conversion security rule**
+- 2025-12-28 09:58 9789042 **step: strategy conversion retry backoff**
+- 2025-12-28 09:45 89066e7 **step: strategy conversion redactor**
+- 2025-12-28 09:37 bfa6e27 **step: strategy conversion file reader json**
+- 2025-12-28 09:28 a6407fd **step: strategy conversion cache subject segment**
+- 2025-12-28 09:14 977eadc **step: strategy conversion event handler**
+- 2025-12-28 00:10 d0ce4c5 **step: strategy conversion hash content**
+- 2025-12-28 00:00 d246437 **step: strategy conversion visitor id**
+- 2025-12-27 23:57 8bf4812 **step: strategy conversion job handler**
+- 2025-12-27 23:45 3fba783 **step: strategy conversion cache resolver**
 - 2025-12-27 21:39 95198fb **Merge pull request #142 from bgord/prerequisites-architecture**
+- 2025-12-27 20:40 62749d1 **docs: generate readme**
+- 2025-12-27 20:40 0eaf761 **docs: generate CHANGELOG**
 - 2025-12-27 19:20 b09e8c8 **refactor: simplify prereq verifier formatting**
 - 2025-12-27 19:20 40d4dba **refactor: simplify with retry and timeout**
 - 2025-12-27 18:59 8b7207a **step: update packages**
