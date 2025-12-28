@@ -4,22 +4,22 @@ import { RedactorCompactObjectStrategy } from "../src/redactor-compact-object.st
 const redactor = new RedactorCompactObjectStrategy();
 
 describe("RedactorCompactObjectStrategy", () => {
-  test("happy path", () => {
+  test("happy path", async () => {
     const redactor = new RedactorCompactObjectStrategy({ maxKeys: 5 });
     const wide = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [`k${i}`, i]));
 
     // @ts-expect-error
-    expect(redactor.redact(wide)).toEqual({ type: "Object", keys: 8 });
+    expect(await redactor.redact(wide)).toEqual({ type: "Object", keys: 8 });
   });
 
-  test("happy path - nested", () => {
+  test("happy path - nested", async () => {
     const redactor = new RedactorCompactObjectStrategy({ maxKeys: 2 });
     const input = {
       narrow: { a: 1, b: 2 },
       branch: { wide: { a: 1, b: 2, c: 3 }, deep: { nested: { x: 1, y: 2, z: 3 } } },
     };
 
-    const result = redactor.redact(input);
+    const result = await redactor.redact(input);
 
     expect(result.narrow).toEqual({ a: 1, b: 2 });
     // @ts-expect-error
@@ -28,23 +28,23 @@ describe("RedactorCompactObjectStrategy", () => {
     expect(result.branch.deep.nested).toEqual({ type: "Object", keys: 3 });
   });
 
-  test("keeps primitives unchanged", () => {
-    expect(redactor.redact(42)).toEqual(42);
-    expect(redactor.redact("x")).toEqual("x");
-    expect(redactor.redact(false)).toEqual(false);
-    expect(redactor.redact(null)).toEqual(null);
-    expect(redactor.redact(undefined)).toEqual(undefined);
+  test("keeps primitives unchanged", async () => {
+    expect(await redactor.redact(42)).toEqual(42);
+    expect(await redactor.redact("x")).toEqual("x");
+    expect(await redactor.redact(false)).toEqual(false);
+    expect(await redactor.redact(null)).toEqual(null);
+    expect(await redactor.redact(undefined)).toEqual(undefined);
   });
 
-  test("keeps small objects unchanged", () => {
+  test("keeps small objects unchanged", async () => {
     const maxKeys = 5;
     const boundary = Object.fromEntries(Array.from({ length: maxKeys }, (_, i) => [`k${i}`, i]));
     const redactor = new RedactorCompactObjectStrategy({ maxKeys });
 
-    expect(redactor.redact(boundary)).toEqual(boundary);
+    expect(await redactor.redact(boundary)).toEqual(boundary);
   });
 
-  test("keep non-objects unchanged ", () => {
+  test("keep non-objects unchanged ", async () => {
     class Custom {
       constructor(public value: number) {}
     }
@@ -59,7 +59,7 @@ describe("RedactorCompactObjectStrategy", () => {
       },
     };
 
-    const result = redactor.redact(input);
+    const result = await redactor.redact(input);
 
     expect(Array.isArray(result.bag.arr)).toEqual(true);
     expect(result.bag.arr).toEqual([1, 2, 3]);
@@ -72,11 +72,11 @@ describe("RedactorCompactObjectStrategy", () => {
     expect(result.bag.inst.value).toEqual(7);
   });
 
-  test("mixed structures", () => {
+  test("mixed structures", async () => {
     const redactor = new RedactorCompactObjectStrategy({ maxKeys: 2 });
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: 2, c: [1, 2, 3] } };
 
-    const result = redactor.redact(input);
+    const result = await redactor.redact(input);
 
     expect(result.keep).toEqual({ a: 1, b: 2 });
     // @ts-expect-error

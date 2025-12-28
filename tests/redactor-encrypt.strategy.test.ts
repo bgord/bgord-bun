@@ -20,20 +20,20 @@ const secret = "secret";
 const adapter = new RedactorEncryptionStrategy("secret", "metadata");
 
 describe("RedactorEncryptionStrategy", () => {
-  test("happy path", () => {
-    const result = adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
+  test("happy path", async () => {
+    const result = await adapter.redact({ nested: { metadata: { a: 1 } }, metadata: { b: 2 } });
 
     expect(typeof result.metadata).toEqual("string");
     expect(result.nested.metadata).toEqual({ a: 1 });
   });
 
-  test("roundtrip", () => {
+  test("roundtrip", async () => {
     const input = {
       metadata: { headers: { Authorization: "Bearer xyz" }, client: { ip: "1.2.3.4" } },
       keep: 123,
     };
 
-    const result = adapter.redact(input);
+    const result = await adapter.redact(input);
 
     expect(typeof result.metadata).toEqual("string");
     expect(result.keep).toEqual(123);

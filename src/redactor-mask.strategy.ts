@@ -29,7 +29,7 @@ export class RedactorMaskStrategy implements RedactorStrategy {
     this.keys = new Set(keys.map((key) => key.toLowerCase()));
   }
 
-  redact<T>(input: T): T {
+  async redact<T>(input: T): Promise<T> {
     return cloneDeepWith(input, (_value, key) => {
       if (typeof key === "string" && this.keys.has(key.toLowerCase())) return "***";
       return undefined;

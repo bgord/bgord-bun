@@ -1,3 +1,3 @@
 export interface RedactorStrategy {
-  redact<T>(value: T): T;
+  redact<T>(value: T): Promise<T>;
 }

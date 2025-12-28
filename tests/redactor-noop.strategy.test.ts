@@ -4,19 +4,19 @@ import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 const redactor = new RedactorNoopStrategy();
 
 describe("RedactorNoopStrategy", () => {
-  test("happy path", () => {
+  test("happy path", async () => {
     const input = {
       meta: { headers: { Authorization: "Bearer abc.def.ghi", "x-api-key": "XYZ-123" } },
       nested: [{ refreshToken: "r1-r2-r3" }, { Secret: "should-stay" }],
       password: "supersecret",
     };
 
-    expect(redactor.redact(input)).toEqual(input);
+    expect(await redactor.redact(input)).toEqual(input);
   });
 
-  test("happy path - nested", () => {
+  test("happy path - nested", async () => {
     const input = { password: { nested: "x" }, authorization: 123, ok: true };
 
-    expect(redactor.redact(input)).toEqual(input);
+    expect(await redactor.redact(input)).toEqual(input);
   });
 });

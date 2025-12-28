@@ -3,12 +3,8 @@ import * as winston from "winston";
 import type { LogAppType, LoggerPort, LogLevelEnum } from "./logger.port";
 import { LoggerWinstonAdapter } from "./logger-winston.adapter";
 import { NodeEnvironmentEnum } from "./node-env.vo";
-import type { RedactorStrategy } from "./redactor.strategy";
 
-type LoggerWinstonProductionAdapterConfigType = {
-  app: LogAppType;
-  redactor: RedactorStrategy;
-};
+type LoggerWinstonProductionAdapterConfigType = { app: LogAppType };
 
 export class LoggerWinstonProductionAdapter {
   constructor(private readonly config: LoggerWinstonProductionAdapterConfigType) {}
@@ -30,7 +26,6 @@ export class LoggerWinstonProductionAdapter {
       environment: NodeEnvironmentEnum.production,
       level,
       transports: [file],
-      redactor: this.config.redactor,
       filePath,
     });
   }

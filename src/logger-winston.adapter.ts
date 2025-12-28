@@ -2,13 +2,11 @@ import type * as tools from "@bgord/tools";
 import * as winston from "winston";
 import { type LogAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
-import type { RedactorStrategy } from "./redactor.strategy";
 
 type WinstonLoggerOptions = {
   app: LogAppType;
   environment: NodeEnvironmentEnum;
   level: LogLevelEnum;
-  redactor: RedactorStrategy;
   formats?: winston.Logform.Format[];
   transports?: winston.transport[];
   filePath: tools.FilePathAbsolute | null;
@@ -21,7 +19,6 @@ export class LoggerWinstonAdapter implements LoggerPort {
 
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
-      winston.format((info) => options.redactor.redact(info))(),
       winston.format.errors({ stack: true }),
       winston.format.timestamp(),
       winston.format.json(),

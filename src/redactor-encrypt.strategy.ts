@@ -12,7 +12,7 @@ export class RedactorEncryptionStrategy implements RedactorStrategy {
     this.secret = scryptSync(secret, "redactor_salt", 32);
   }
 
-  redact<T>(input: T): T {
+  async redact<T>(input: T): Promise<T> {
     const rootObject = Object(input);
 
     return cloneDeepWith(input, (value, key, parent) => {
