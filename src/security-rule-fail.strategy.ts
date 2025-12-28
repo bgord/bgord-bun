@@ -1,7 +1,7 @@
-import type { SecurityRulePort } from "./security-rule.port";
+import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName } from "./security-rule-name.vo";
 
-export class SecurityRuleFailAdapter implements SecurityRulePort {
+export class SecurityRuleFailStrategy implements SecurityRuleStrategy {
   async isViolated() {
     return true;
   }

@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
-import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
+import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 
-const rule = new SecurityRulePassAdapter();
+const rule = new SecurityRulePassStrategy();
 
-describe("SecurityRulePassAdapter", () => {
+describe("SecurityRulePassStrategy", () => {
   test("isViolated - false", async () => {
     expect(await rule.isViolated()).toEqual(false);
   });

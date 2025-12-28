@@ -1,16 +1,16 @@
 import type { Context } from "hono";
-import type { SecurityRulePort } from "./security-rule.port";
+import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName } from "./security-rule-name.vo";
 
-export const SecurityRuleAndAdapterError = {
+export const SecurityRuleAndStrategyError = {
   MissingRules: "security.rule.and.adapter.error.missing.rules",
   MaxRules: "security.rule.and.adapter.error.max.rules",
 };
 
-export class SecurityRuleAndAdapter implements SecurityRulePort {
-  constructor(private readonly rules: SecurityRulePort[]) {
-    if (rules.length === 0) throw new Error(SecurityRuleAndAdapterError.MissingRules);
-    if (rules.length > 5) throw new Error(SecurityRuleAndAdapterError.MaxRules);
+export class SecurityRuleAndStrategy implements SecurityRuleStrategy {
+  constructor(private readonly rules: SecurityRuleStrategy[]) {
+    if (rules.length === 0) throw new Error(SecurityRuleAndStrategyError.MissingRules);
+    if (rules.length > 5) throw new Error(SecurityRuleAndStrategyError.MaxRules);
   }
 
   async isViolated(c: Context) {

@@ -4,14 +4,14 @@ import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentIpStrategy } from "./cache-subject-segment-ip.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
-import type { SecurityRulePort } from "./security-rule.port";
+import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName } from "./security-rule-name.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentStrategy };
 
-export class SecurityRuleViolationThresholdAdapter implements SecurityRulePort {
+export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrategy {
   constructor(
-    private readonly rule: SecurityRulePort,
+    private readonly rule: SecurityRuleStrategy,
     private readonly config: { threshold: number },
     private readonly deps: Dependencies,
   ) {}

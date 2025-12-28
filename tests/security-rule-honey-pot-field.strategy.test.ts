@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test";
-import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
+import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import * as mocks from "./mocks";
 
 const field = "reference";
-const rule = new SecurityRuleHoneyPotFieldAdapter(field);
+const rule = new SecurityRuleHoneyPotFieldStrategy(field);
 
 const createContext = (value: Function) => ({ req: { raw: { clone: () => ({ json: value }) } } }) as any;
 
-describe("SecurityRuleHoneyPotFieldAdapter", () => {
+describe("SecurityRuleHoneyPotFieldStrategy", () => {
   test("isViolated - true", async () => {
     const context = createContext(async () => ({ [field]: "abc" }));
 

@@ -12,11 +12,11 @@ import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure
 import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
 import { SecurityCountermeasureTarpitAdapter } from "../src/security-countermeasure-tarpit.adapter";
 import { SecurityPolicy } from "../src/security-policy.vo";
-import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
-import { SecurityRuleFailAdapter } from "../src/security-rule-fail.adapter";
-import { SecurityRuleHoneyPotFieldAdapter } from "../src/security-rule-honey-pot-field.adapter";
-import { SecurityRuleUserAgentAdapter } from "../src/security-rule-user-agent.adapter";
-import { SecurityRuleViolationThresholdAdapter } from "../src/security-rule-violation-threshold.adapter";
+import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
+import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
+import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
+import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
+import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
 import { ShieldSecurityAdapter, ShieldSecurityAdapterError } from "../src/shield-security.adapter";
 import * as mocks from "./mocks";
 
@@ -44,11 +44,11 @@ const tarpit = new SecurityCountermeasureTarpitAdapter(deps, { duration, after: 
 // =============================================
 
 // Rules =======================================
-const baitRoutes = new SecurityRuleBaitRoutesAdapter(["/.env"]);
+const baitRoutes = new SecurityRuleBaitRoutesStrategy(["/.env"]);
 const field = "reference";
-const honeyPotField = new SecurityRuleHoneyPotFieldAdapter(field);
-const userAgent = new SecurityRuleUserAgentAdapter();
-const fail = new SecurityRuleFailAdapter();
+const honeyPotField = new SecurityRuleHoneyPotFieldStrategy(field);
+const userAgent = new SecurityRuleUserAgentStrategy();
+const fail = new SecurityRuleFailStrategy();
 // =============================================
 
 // Policies ====================================
@@ -142,7 +142,7 @@ describe("ShieldSecurityAdapter", () => {
 
   test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const rule = new SecurityRuleViolationThresholdAdapter(baitRoutes, { threshold: 3 }, deps);
+    const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, { threshold: 3 }, deps);
     const shield = new ShieldSecurityAdapter([new SecurityPolicy(rule, mirage)]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
@@ -173,7 +173,7 @@ describe("ShieldSecurityAdapter", () => {
       duration,
       after: { kind: "delay", duration },
     } as any);
-    const shield = new ShieldSecurityAdapter([new SecurityPolicy(new SecurityRuleFailAdapter(), tarpit)]);
+    const shield = new ShieldSecurityAdapter([new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)]);
     const app = new Hono()
       .use(CorrelationStorage.handle())
       .use(shield.verify)

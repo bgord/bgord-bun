@@ -2,14 +2,14 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
-import { SecurityRuleBaitRoutesAdapter } from "../src/security-rule-bait-routes.adapter";
+import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
-import { SecurityRuleViolationThresholdAdapter } from "../src/security-rule-violation-threshold.adapter";
+import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
 import * as mocks from "./mocks";
 
 const allowed = "/about";
 const forbidden = "/.env";
-const baitRoutes = new SecurityRuleBaitRoutesAdapter([forbidden]);
+const baitRoutes = new SecurityRuleBaitRoutesStrategy([forbidden]);
 
 const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
@@ -17,9 +17,9 @@ const HashContent = new HashContentSha256BunStrategy();
 const deps = { CacheRepository, HashContent };
 const config = { threshold: 3 };
 
-const rule = new SecurityRuleViolationThresholdAdapter(baitRoutes, config, deps);
+const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, config, deps);
 
-describe("SecurityRuleViolationThresholdAdapter", () => {
+describe("SecurityRuleViolationThresholdStrategy", () => {
   test("isViolated - true", async () => {
     jest.useFakeTimers();
     const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;

@@ -5,10 +5,10 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
 import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
-import { SecurityRulePassAdapter } from "../src/security-rule-pass.adapter";
+import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
 
-const rule = new SecurityRulePassAdapter();
+const rule = new SecurityRulePassStrategy();
 const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
 
 const Logger = new LoggerNoopAdapter();
