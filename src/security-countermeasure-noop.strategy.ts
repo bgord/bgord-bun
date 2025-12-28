@@ -1,7 +1,7 @@
-import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
+import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
 
-export class SecurityCountermeasureNoopAdapter implements SecurityCountermeasurePort {
+export class SecurityCountermeasureNoopStrategy implements SecurityCountermeasureStrategy {
   async execute(): Promise<SecurityAction> {
     return { kind: "allow" };
   }

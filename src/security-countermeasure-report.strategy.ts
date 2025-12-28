@@ -1,12 +1,12 @@
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
-import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
+import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
 
 type Dependencies = { Logger: LoggerPort };
 
-export class SecurityCountermeasureReportAdapter implements SecurityCountermeasurePort {
+export class SecurityCountermeasureReportStrategy implements SecurityCountermeasureStrategy {
   constructor(private readonly deps: Dependencies) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {

@@ -6,9 +6,9 @@ import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
 import {
-  SecurityCountermeasureBanAdapter,
-  SecurityCountermeasureBanAdapterError,
-} from "../src/security-countermeasure-ban.adapter";
+  SecurityCountermeasureBanStrategy,
+  SecurityCountermeasureBanStrategyError,
+} from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
@@ -22,18 +22,18 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const EventStore = { save: async () => {}, saveAfter: async () => {} };
 const deps = { Logger, IdProvider, Clock, EventStore };
 
-describe("SecurityCountermeasureBanAdapter", () => {
+describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
-    const countermeasure = new SecurityCountermeasureBanAdapter(deps);
+    const countermeasure = new SecurityCountermeasureBanStrategy(deps);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
 
       expect(action).toEqual({
         kind: "deny",
-        reason: SecurityCountermeasureBanAdapterError.Executed,
+        reason: SecurityCountermeasureBanStrategyError.Executed,
         response: { status: 403 },
       });
     });
@@ -52,14 +52,14 @@ describe("SecurityCountermeasureBanAdapter", () => {
     const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
     const config = { response: { status: 404 } };
-    const countermeasure = new SecurityCountermeasureBanAdapter(deps, config);
+    const countermeasure = new SecurityCountermeasureBanStrategy(deps, config);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
 
       expect(action).toEqual({
         kind: "deny",
-        reason: SecurityCountermeasureBanAdapterError.Executed,
+        reason: SecurityCountermeasureBanStrategyError.Executed,
         ...config,
       });
     });
@@ -75,7 +75,7 @@ describe("SecurityCountermeasureBanAdapter", () => {
   });
 
   test("name", () => {
-    const countermeasure = new SecurityCountermeasureBanAdapter(deps);
+    const countermeasure = new SecurityCountermeasureBanStrategy(deps);
 
     expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("ban"));
   });

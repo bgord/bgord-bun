@@ -8,7 +8,7 @@ export type SecurityAction =
   | { kind: "delay"; duration: tools.Duration; after: SecurityAction }
   | { kind: "mirage"; response: { status: number } };
 
-export interface SecurityCountermeasurePort {
+export interface SecurityCountermeasureStrategy {
   execute(context: SecurityContext): Promise<SecurityAction>;
 
   get name(): SecurityCountermeasureNameType;

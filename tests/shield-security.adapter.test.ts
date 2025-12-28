@@ -8,9 +8,9 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import { SecurityCountermeasureBanAdapter } from "../src/security-countermeasure-ban.adapter";
-import { SecurityCountermeasureMirageAdapter } from "../src/security-countermeasure-mirage.adapter";
-import { SecurityCountermeasureTarpitAdapter } from "../src/security-countermeasure-tarpit.adapter";
+import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
+import { SecurityCountermeasureMirageStrategy } from "../src/security-countermeasure-mirage.strategy";
+import { SecurityCountermeasureTarpitStrategy } from "../src/security-countermeasure-tarpit.strategy";
 import { SecurityPolicy } from "../src/security-policy.vo";
 import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
@@ -38,9 +38,12 @@ const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheReposito
 // =============================================
 
 // Countermeasures =============================
-const mirage = new SecurityCountermeasureMirageAdapter(deps);
-const ban = new SecurityCountermeasureBanAdapter(deps);
-const tarpit = new SecurityCountermeasureTarpitAdapter(deps, { duration, after: { kind: "allow" } as const });
+const mirage = new SecurityCountermeasureMirageStrategy(deps);
+const ban = new SecurityCountermeasureBanStrategy(deps);
+const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
+  duration,
+  after: { kind: "allow" } as const,
+});
 // =============================================
 
 // Rules =======================================
@@ -169,7 +172,7 @@ describe("ShieldSecurityAdapter", () => {
   test("unhandled security error", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
-    const tarpit = new SecurityCountermeasureTarpitAdapter(deps, {
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "delay", duration },
     } as any);

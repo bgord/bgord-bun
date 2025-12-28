@@ -10,7 +10,7 @@ import {
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
 import type { SecurityContext } from "./security-context.vo";
-import type { SecurityAction, SecurityCountermeasurePort } from "./security-countermeasure.port";
+import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
 
 type Dependencies = {
@@ -20,11 +20,11 @@ type Dependencies = {
   EventStore: EventStoreLike<SecurityViolationDetectedEventType>;
 };
 
-export const SecurityCountermeasureBanAdapterError = {
-  Executed: "security.countermeasure.ban.adapter.executed",
+export const SecurityCountermeasureBanStrategyError = {
+  Executed: "security.countermeasure.ban.strategy.executed",
 };
 
-export class SecurityCountermeasureBanAdapter implements SecurityCountermeasurePort {
+export class SecurityCountermeasureBanStrategy implements SecurityCountermeasureStrategy {
   constructor(
     private readonly deps: Dependencies,
     private readonly config: { response: { status: number } } = { response: { status: 403 } },
@@ -33,7 +33,7 @@ export class SecurityCountermeasureBanAdapter implements SecurityCountermeasureP
   async execute(context: SecurityContext): Promise<SecurityAction> {
     const action = {
       kind: "deny",
-      reason: SecurityCountermeasureBanAdapterError.Executed,
+      reason: SecurityCountermeasureBanStrategyError.Executed,
       ...this.config,
     } as const;
 

@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
-import { SecurityCountermeasureNoopAdapter } from "../src/security-countermeasure-noop.adapter";
+import { SecurityCountermeasureNoopStrategy } from "../src/security-countermeasure-noop.strategy";
 
-const countermeasure = new SecurityCountermeasureNoopAdapter();
+const countermeasure = new SecurityCountermeasureNoopStrategy();
 
-describe("SecurityCountermeasureNoopAdapter", () => {
+describe("SecurityCountermeasureNoopStrategy", () => {
   test("happy path", async () => {
     const result = await countermeasure.execute();
 
