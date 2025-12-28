@@ -1,5 +1,6 @@
 import { EncryptionIV } from "./encryption-iv.vo";
 
+/** @public */
 export const CryptoAesGcmError = { InvalidPayload: "aes.gcm.crypto.invalid.payload" };
 
 export class CryptoAesGcm {
