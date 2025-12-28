@@ -1,42 +1,42 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { TimeoutCancellableError } from "../src/timeout-cancellable-runner.port";
 import { TimeoutCancellableRunnerBare } from "../src/timeout-cancellable-runner-bare.adapter";
 import * as mocks from "./mocks";
 
-const duration = tools.Duration.Ms(1);
-const timeout = new TimeoutCancellableRunnerBare();
+const timeout = tools.Duration.Ms(1);
+const over = timeout.times(tools.MultiplicationFactor.parse(10)).ms;
+const adapter = new TimeoutCancellableRunnerBare();
 
 describe("TimeoutCancellableRunnerBare", () => {
   test(" happy path", async () => {
     const action = async (_signal: AbortSignal) => 2;
 
-    const result = await timeout.cancellable(action, duration);
+    const result = await adapter.cancellable(action, timeout);
 
     expect(result).toEqual(2);
   });
 
   test("cancellable - error propagation", async () => {
-    expect(async () => timeout.cancellable(mocks.throwIntentionalErrorAsync, duration)).toThrow(
+    expect(async () => adapter.cancellable(mocks.throwIntentionalErrorAsync, timeout)).toThrow(
       mocks.IntentionalError,
     );
   });
 
   test("cancellable - timeout", async () => {
-    const action = {
-      run: async (_signal: AbortSignal) => {
-        await Bun.sleep(duration.times(tools.MultiplicationFactor.parse(5)).ms);
-        return 2;
-      },
-    };
-    const actionRun = spyOn(action, "run");
+    jest.useFakeTimers();
+    const action = jest.fn(
+      async (_signal: AbortSignal) => new Promise((resolve) => setTimeout(resolve, over)),
+    );
 
-    expect(async () => timeout.cancellable(action.run, duration)).toThrow(TimeoutCancellableError.Exceeded);
+    const promise = adapter.cancellable(action, timeout);
+    jest.runAllTimers();
 
-    const captured = actionRun.mock.calls[0]?.[0];
+    const signal = action.mock.calls[0]?.[0];
+    expect(promise).rejects.toThrow(TimeoutCancellableError.Exceeded);
+    expect(signal?.aborted).toBe(true);
+    expect(signal?.reason.message).toEqual(TimeoutCancellableError.Exceeded);
 
-    expect(captured).not.toBeNull();
-    expect(captured!.aborted).toEqual(true);
-    expect(captured!.reason.message).toEqual(TimeoutCancellableError.Exceeded);
+    jest.useRealTimers();
   });
 });
