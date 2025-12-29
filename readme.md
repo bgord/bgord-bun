@@ -36,6 +36,7 @@ src/
 ├── bots.vo.ts
 ├── build-info-repository.service.ts
 ├── cache-file.service.ts
+├── cache-repository-lru-cache.adapter.ts
 ├── cache-repository-node-cache.adapter.ts
 ├── cache-repository-noop.adapter.ts
 ├── cache-repository.port.ts
@@ -114,6 +115,7 @@ src/
 ├── file-reader-json-bun-forgiving.adapter.ts
 ├── file-reader-json-bun.adapter.ts
 ├── file-reader-json-noop.adapter.ts
+├── file-reader-json-with-cache.adapter.ts
 ├── file-reader-json.port.ts
 ├── file-renamer-fs-forgiving.adapter.ts
 ├── file-renamer-fs.adapter.ts
@@ -281,7 +283,7 @@ src/
 ├── retry-backoff-fibonacci.strategy.ts
 ├── retry-backoff-linear.strategy.ts
 ├── retry-backoff-noop.strategy.ts
-├── retry-backoff-strategy.port.ts
+├── retry-backoff.strategy.ts
 ├── retry.service.ts
 ├── safe-parse-body.service.ts
 ├── sealer-aes-gcm.adapter.ts
