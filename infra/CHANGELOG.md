@@ -1,10 +1,12 @@
 # Changelog
+- 2025-12-29 17:53 53dfc96 **fix: make lru-cache dependency loading dynamic**
 ## 2025-12-29 17:19 v1.7.1
 - 2025-12-29 17:19 67bc662 **1.7.1**
 - 2025-12-29 17:18 f5130aa **fix: unify file reader json adapter naming**
 ## 2025-12-29 16:59 v1.7.0
 - 2025-12-29 16:59 92b31c6 **1.7.0**
 - 2025-12-29 16:43 253c58f **refactor: make setup tests thighter**
+- 2025-12-29 16:19 eef3550 **docs: generate CHANGELOG**
 - 2025-12-29 16:19 7efb0f1 **docs: generate CHANGELOG**
 - 2025-12-29 15:59 0c1d055 **docs: generate CHANGELOG**
 - 2025-12-29 15:58 6c3ac53 **docs: generate CHANGELOG**
