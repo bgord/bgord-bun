@@ -11,6 +11,7 @@ export * from "./bots.vo";
 export * from "./build-info-repository.service";
 export * from "./cache-file.service";
 export * from "./cache-repository.port";
+export * from "./cache-repository-lru-cache.adapter";
 export * from "./cache-repository-node-cache.adapter";
 export * from "./cache-repository-noop.adapter";
 export * from "./cache-resolver.strategy";

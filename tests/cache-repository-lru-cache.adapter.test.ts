@@ -1,6 +1,6 @@
-import { describe, expect, jest, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryLruCacheAdapter } from "../src/cache-repository-lru-cache.adapter";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
@@ -12,17 +12,17 @@ const HashContent = new HashContentSha256BunStrategy();
 
 const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("key")], { HashContent });
 
-describe("CacheRepositoryNodeCacheAdapter", async () => {
+describe("CacheRepositoryLruCacheAdapter", async () => {
   const subject = await resolver.resolve();
 
   test("get - null", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryLruCacheAdapter(config);
 
     expect(await adapter.get(subject.hex)).toEqual(null);
   });
 
   test("get - value", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryLruCacheAdapter(config);
     const value = "secret";
 
     await adapter.set(subject.hex, value);
@@ -31,7 +31,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test("delete", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryLruCacheAdapter(config);
 
     await adapter.set(subject.hex, value);
 
@@ -43,7 +43,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test("flush", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryLruCacheAdapter(config);
 
     await adapter.set(subject.hex, value);
     await adapter.flush();
@@ -53,9 +53,13 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
   test("ttl expiration", async () => {
     jest.useFakeTimers();
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    spyOn(performance, "now").mockImplementation(() => Date.now());
+    const adapter = new CacheRepositoryLruCacheAdapter(config);
 
     await adapter.set(subject.hex, value);
+
+    expect(await adapter.get<string>(subject.hex)).toEqual(value);
+
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.get(subject.hex)).toEqual(null);
