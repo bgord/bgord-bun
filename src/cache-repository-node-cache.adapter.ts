@@ -9,7 +9,6 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
   constructor(private readonly config: { ttl: tools.Duration }) {
     this.store = new NodeCache({
       stdTTL: config.ttl.seconds,
-      checkperiod: config.ttl.seconds,
       deleteOnExpire: true,
       maxKeys: 100_000,
       useClones: false,
