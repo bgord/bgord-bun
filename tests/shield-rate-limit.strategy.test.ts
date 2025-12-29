@@ -12,7 +12,8 @@ import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.str
 import { ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
 import type * as mocks from "./mocks";
 
-const config = { ttl: tools.Duration.Seconds(1) };
+const ttl = tools.Duration.Seconds(1);
+const config = { ttl };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
@@ -28,7 +29,7 @@ const resolver = new CacheSubjectResolver(
   deps,
 );
 
-const shieldRateLimit = new ShieldRateLimitStrategy({ enabled: true, resolver }, deps);
+const shieldRateLimit = new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps);
 
 const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));
 
@@ -75,7 +76,7 @@ describe("ShieldRateLimitStrategy", () => {
         c.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitStrategy({ enabled: true, resolver }, deps).verify,
+      new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -92,7 +93,7 @@ describe("ShieldRateLimitStrategy", () => {
         c.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitStrategy({ enabled: true, resolver }, deps).verify,
+      new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -112,7 +113,7 @@ describe("ShieldRateLimitStrategy", () => {
         c.set("user", { id: c.req.header("id") });
         return next();
       },
-      new ShieldRateLimitStrategy({ enabled: true, resolver }, deps).verify,
+      new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -139,7 +140,7 @@ describe("ShieldRateLimitStrategy", () => {
   test("disabled", async () => {
     const app = new Hono().get(
       "/ping",
-      new ShieldRateLimitStrategy({ enabled: false, resolver }, deps).verify,
+      new ShieldRateLimitStrategy({ enabled: false, resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 

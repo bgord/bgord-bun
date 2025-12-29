@@ -30,8 +30,4 @@ export class CacheResolverSimpleStrategy implements CacheResolverStrategy {
   async flush() {
     await this.deps.CacheRepository.flush();
   }
-
-  get ttl() {
-    return this.deps.CacheRepository.ttl;
-  }
 }

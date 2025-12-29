@@ -6,7 +6,11 @@ import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
 import type { ClockPort } from "./clock.port";
 import type { ShieldStrategy } from "./shield.strategy";
 
-type ShieldRateLimitOptionsType = { enabled: boolean; resolver: CacheSubjectResolver };
+type ShieldRateLimitOptionsType = {
+  enabled: boolean;
+  resolver: CacheSubjectResolver;
+  window: tools.Duration;
+};
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
@@ -25,7 +29,7 @@ export class ShieldRateLimitStrategy implements ShieldStrategy {
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject.hex,
-      async () => new tools.RateLimiter(this.deps.CacheResolver.ttl),
+      async () => new tools.RateLimiter(this.options.window),
     );
 
     const result = limiter.verify(this.deps.Clock.now());

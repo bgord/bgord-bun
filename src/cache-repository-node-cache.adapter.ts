@@ -6,7 +6,7 @@ import type { Hash } from "./hash.vo";
 export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
   private readonly store: NodeCache;
 
-  constructor(private readonly config: { ttl: tools.Duration }) {
+  constructor(config: { ttl: tools.Duration }) {
     this.store = new NodeCache({
       stdTTL: config.ttl.seconds,
       deleteOnExpire: true,
@@ -29,9 +29,5 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
 
   async flush() {
     this.store.flushAll();
-  }
-
-  get ttl() {
-    return this.config.ttl;
   }
 }

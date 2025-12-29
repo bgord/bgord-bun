@@ -1,4 +1,3 @@
-import type * as tools from "@bgord/tools";
 import type { Hash } from "./hash.vo";
 
 export enum CacheSourceEnum {
@@ -15,6 +14,4 @@ export interface CacheResolverStrategy {
   ): Promise<{ value: T; source: CacheSourceEnum }>;
 
   flush(): Promise<void>;
-
-  get ttl(): tools.Duration;
 }

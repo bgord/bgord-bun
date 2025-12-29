@@ -62,10 +62,4 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
     jest.useRealTimers();
   });
-
-  test("get ttl", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
-
-    expect(adapter.ttl).toEqual(config.ttl);
-  });
 });

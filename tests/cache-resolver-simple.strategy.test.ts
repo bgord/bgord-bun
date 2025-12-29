@@ -90,11 +90,4 @@ describe("CacheResolverSimpleStrategy", async () => {
 
     expect(flushSpy).toHaveBeenCalled();
   });
-
-  test("get ttl", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-
-    expect(CacheResolver.ttl).toEqual(config.ttl);
-  });
 });

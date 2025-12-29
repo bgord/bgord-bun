@@ -1,4 +1,4 @@
-import { describe, expect, jest, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNoopAdapter } from "../src/cache-repository-noop.adapter";
 
@@ -31,20 +31,5 @@ describe("CacheRepositoryNoopAdapter", async () => {
     await adapter.flush();
 
     expect(await adapter.get()).toEqual(null);
-  });
-
-  test("ttl expiration", async () => {
-    jest.useFakeTimers();
-
-    await adapter.set();
-    jest.advanceTimersByTime(config.ttl.add(tools.Duration.Seconds(1)).ms);
-
-    expect(await adapter.get()).toEqual(null);
-
-    jest.useRealTimers();
-  });
-
-  test("get ttl", async () => {
-    expect(adapter.ttl).toEqual(config.ttl);
   });
 });
