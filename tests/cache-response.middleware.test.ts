@@ -12,7 +12,7 @@ import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-us
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import type * as mocks from "./mocks";
 
-const config = { ttl: tools.Duration.Hours(1) };
+const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });

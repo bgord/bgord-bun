@@ -13,7 +13,7 @@ import { ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
 import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
-const config = { ttl };
+const config = { type: "finite", ttl } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));

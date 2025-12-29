@@ -1,14 +1,13 @@
-import type * as tools from "@bgord/tools";
 import NodeCache from "node-cache";
-import type { CacheRepositoryPort } from "./cache-repository.port";
+import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { Hash } from "./hash.vo";
 
 export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
   private readonly store: NodeCache;
 
-  constructor(config: { ttl: tools.Duration }) {
+  constructor(config: CacheRepositoryTtlType) {
     this.store = new NodeCache({
-      stdTTL: config.ttl.seconds,
+      stdTTL: config.type === "finite" ? config.ttl.seconds : 0,
       deleteOnExpire: true,
       maxKeys: 100_000,
       useClones: false,

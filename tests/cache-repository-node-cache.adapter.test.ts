@@ -6,7 +6,7 @@ import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-f
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 
 const value = "value";
-const config = { ttl: tools.Duration.Hours(1) };
+const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 
 const HashContent = new HashContentSha256BunStrategy();
 

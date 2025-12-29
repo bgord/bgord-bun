@@ -130,7 +130,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
@@ -162,7 +162,7 @@ describe("Prerequisite VO", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
@@ -194,7 +194,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -237,7 +237,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
@@ -263,7 +263,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerErrorAdapter();
@@ -294,7 +294,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerErrorAdapter();
@@ -327,7 +327,7 @@ describe("Prerequisite VO", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Sleeper = new SleeperNoopAdapter();
@@ -354,7 +354,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -380,7 +380,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);

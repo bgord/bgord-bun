@@ -35,7 +35,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
 const Sleeper = new SleeperNoopAdapter();
 const EventStore = { save: async () => {} };
 const HashContent = new HashContentSha256BunStrategy();
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl: duration });
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: duration });
 const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository, Sleeper };
 // =============================================
 

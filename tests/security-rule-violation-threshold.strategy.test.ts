@@ -12,7 +12,7 @@ const forbidden = "/.env";
 const baitRoutes = new SecurityRuleBaitRoutesStrategy([forbidden]);
 
 const ttl = tools.Duration.Minutes(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ ttl });
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { CacheRepository, HashContent };
 const config = { threshold: 3 };

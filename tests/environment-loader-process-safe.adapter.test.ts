@@ -9,7 +9,7 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const Schema = z.object({ APP_NAME: z.string() });
 
-const config = { ttl: tools.Duration.Hours(1) };
+const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });

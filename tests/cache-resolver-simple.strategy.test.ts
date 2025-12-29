@@ -10,7 +10,7 @@ import * as mocks from "./mocks";
 
 const cached = "cached-value";
 const fresh = "fresh-value";
-const config = { ttl: tools.Duration.Hours(1) };
+const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
