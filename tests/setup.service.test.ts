@@ -15,11 +15,11 @@ const predefinedRequestId = "123";
 const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
 
 const version = "1.2.3";
-const JsonFileReader = new FileReaderJsonNoopAdapter({ version });
+const FileReaderJson = new FileReaderJsonNoopAdapter({ version });
 const Logger = new LoggerNoopAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
 const Clock = new ClockSystemAdapter();
-const deps = { Logger, I18n, IdProvider, Clock, JsonFileReader };
+const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson };
 
 describe("Setup service", () => {
   test("happy path", async () => {

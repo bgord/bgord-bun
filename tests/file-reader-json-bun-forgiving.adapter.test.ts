@@ -6,14 +6,14 @@ import * as mocks from "./mocks";
 const json = { json: async () => ({}) } as any;
 const content = {};
 
-const JsonFileReader = new FileReaderJsonBunForgivingAdapter();
+const FileReaderJson = new FileReaderJsonBunForgivingAdapter();
 
-describe("JsonFileReaderBunForgivingAdapter", () => {
+describe("FileReaderJsonBunForgivingAdapter", () => {
   test("happy path - string", async () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = "package.json";
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path);
   });
 
@@ -21,7 +21,7 @@ describe("JsonFileReaderBunForgivingAdapter", () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = tools.FilePathRelative.fromString("users/package.json");
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
@@ -29,7 +29,7 @@ describe("JsonFileReaderBunForgivingAdapter", () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
@@ -37,7 +37,7 @@ describe("JsonFileReaderBunForgivingAdapter", () => {
     const bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(await JsonFileReader.read(path)).toEqual(content);
+    expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 });

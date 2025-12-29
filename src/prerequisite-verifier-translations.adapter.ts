@@ -13,7 +13,7 @@ type PrerequisiteTranslationsProblemType = {
   missingIn: tools.LanguageType;
 };
 
-type Dependencies = { Logger: LoggerPort; JsonFileReader: FileReaderJsonPort };
+type Dependencies = { Logger: LoggerPort; FileReaderJson: FileReaderJsonPort };
 
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
   constructor(

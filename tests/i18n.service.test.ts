@@ -14,8 +14,8 @@ enum SupportedLanguages {
 }
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new FileReaderJsonNoopAdapter({ hello: "Hello" });
-const deps = { Logger, JsonFileReader };
+const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
+const deps = { Logger, FileReaderJson };
 const i18n = new I18n(deps);
 
 const app = new Hono()
@@ -94,7 +94,7 @@ describe("I18n service", () => {
     test("returns empty object on error", async () => {
       spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-      const i18n = new I18n({ JsonFileReader: new FileReaderJsonBunForgivingAdapter(), Logger });
+      const i18n = new I18n({ FileReaderJson: new FileReaderJsonBunForgivingAdapter(), Logger });
 
       expect(await i18n.getTranslations("en")).toEqual({});
     });

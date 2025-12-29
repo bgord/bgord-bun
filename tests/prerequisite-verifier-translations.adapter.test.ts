@@ -9,8 +9,8 @@ import * as mocks from "./mocks";
 const supportedLanguages = { en: "en", es: "es" };
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new FileReaderJsonNoopAdapter({});
-const deps = { Logger, JsonFileReader };
+const FileReaderJson = new FileReaderJsonNoopAdapter({});
+const deps = { Logger, FileReaderJson };
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success", async () => {

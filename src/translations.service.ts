@@ -7,7 +7,7 @@ const handler = createFactory();
 
 type Config = TranslationsSupportedLanguagesType;
 
-type Dependencies = { JsonFileReader: FileReaderJsonPort; Logger: LoggerPort };
+type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class Translations {
   static build = (config: Config, deps: Dependencies) =>

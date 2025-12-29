@@ -3,7 +3,7 @@ import { BuildInfoRepository } from "./build-info-repository.service";
 import type { ClockPort } from "./clock.port";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 
-type Dependencies = { Clock: ClockPort; JsonFileReader: FileReaderJsonPort };
+type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort };
 
 export class ApiVersion {
   static readonly HEADER_NAME = "api-version";

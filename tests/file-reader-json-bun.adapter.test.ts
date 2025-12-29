@@ -1,14 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { JsonFileReaderBunAdapter } from "../src/file-reader-json-bun.adapter";
+import { FileReaderJsonBunAdapter } from "../src/file-reader-json-bun.adapter";
 import * as mocks from "./mocks";
 
 const json = { json: async () => ({}) } as any;
 const content = {};
 
-const adapter = new JsonFileReaderBunAdapter();
+const adapter = new FileReaderJsonBunAdapter();
 
-describe("JsonFileReaderBunAdapter", () => {
+describe("FileReaderJsonBunAdapter", () => {
   test("happy path - string", async () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = "package.json";

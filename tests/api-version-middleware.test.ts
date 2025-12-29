@@ -9,8 +9,8 @@ import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter"
 const BUILD_DATE = tools.Timestamp.fromNumber(123).ms;
 
 const Clock = new ClockSystemAdapter();
-const JsonFileReader = new FileReaderJsonNoopAdapter({});
-const deps = { Clock, JsonFileReader };
+const FileReaderJson = new FileReaderJsonNoopAdapter({});
+const deps = { Clock, FileReaderJson };
 
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 

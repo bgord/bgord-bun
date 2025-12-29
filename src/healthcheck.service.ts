@@ -42,7 +42,7 @@ type HealthcheckResultType = {
   timestamp: tools.TimestampValueType;
 };
 
-type Dependencies = { Clock: ClockPort; JsonFileReader: FileReaderJsonPort; Logger: LoggerPort };
+type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class Healthcheck {
   static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>

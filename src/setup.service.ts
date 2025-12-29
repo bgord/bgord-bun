@@ -33,7 +33,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
   I18n: I18nConfigType;
   Clock: ClockPort;
-  JsonFileReader: FileReaderJsonPort;
+  FileReaderJson: FileReaderJsonPort;
 };
 
 export class Setup {
@@ -45,7 +45,7 @@ export class Setup {
       MaintenanceMode.build(overrides?.maintenanceMode),
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
-      ApiVersion.build({ Clock: deps.Clock, JsonFileReader: deps.JsonFileReader }),
+      ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
       cors(corsOptions),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),

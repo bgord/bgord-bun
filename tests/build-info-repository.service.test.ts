@@ -8,8 +8,8 @@ import * as mocks from "./mocks";
 const version = "1.2.3";
 
 const Clock = new ClockSystemAdapter();
-const JsonFileReader = new FileReaderJsonNoopAdapter({ version });
-const deps = { Clock, JsonFileReader };
+const FileReaderJson = new FileReaderJsonNoopAdapter({ version });
+const deps = { Clock, FileReaderJson };
 
 describe("BuildInfoRepository service", () => {
   test("happy path", async () => {
@@ -21,7 +21,7 @@ describe("BuildInfoRepository service", () => {
   });
 
   test("failure - package.json read", async () => {
-    spyOn(JsonFileReader, "read").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(FileReaderJson, "read").mockRejectedValue(new Error(mocks.IntentionalError));
 
     const result = await BuildInfoRepository.extract(deps);
 

@@ -17,7 +17,7 @@ export type I18nConfigType = {
   defaultLanguage?: string;
 };
 
-type Dependencies = { JsonFileReader: FileReaderJsonPort; Logger: LoggerPort };
+type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class I18n {
   private readonly base = { component: "infra", operation: "translations" };
@@ -30,7 +30,7 @@ export class I18n {
   ) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
-    return this.deps.JsonFileReader.read(this.getTranslationPathForLanguage(language));
+    return this.deps.FileReaderJson.read(this.getTranslationPathForLanguage(language));
   }
 
   useTranslations(translations: TranslationsType) {

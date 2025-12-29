@@ -21,9 +21,9 @@ const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
 const Logger = new LoggerNoopAdapter();
-const JsonFileReader = new FileReaderJsonNoopAdapter({});
+const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const deps = { Clock, JsonFileReader, Logger };
+const deps = { Clock, FileReaderJson, Logger };
 
 const buildInfo = {
   BUILD_DATE: Clock.now().ms,
