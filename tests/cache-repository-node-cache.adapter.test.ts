@@ -51,7 +51,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     expect(await adapter.get(subject.hex)).toEqual(null);
   });
 
-  test("ttl expiration", async () => {
+  test("ttl expiration - finite", async () => {
     jest.useFakeTimers();
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
@@ -59,6 +59,18 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.get(subject.hex)).toEqual(null);
+
+    jest.useRealTimers();
+  });
+
+  test("ttl expiration - infinite", async () => {
+    jest.useFakeTimers();
+    const adapter = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
+
+    await adapter.set(subject.hex, value);
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
+
+    expect(await adapter.get<string>(subject.hex)).toEqual(value);
 
     jest.useRealTimers();
   });

@@ -66,4 +66,17 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
 
     jest.useRealTimers();
   });
+
+  test("ttl expiration - finite", async () => {
+    jest.useFakeTimers();
+    spyOn(performance, "now").mockImplementation(() => Date.now());
+    const adapter = new CacheRepositoryLruCacheAdapter({ type: "infinite" });
+
+    await adapter.set(subject.hex, value);
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
+
+    expect(await adapter.get<string>(subject.hex)).toEqual(value);
+
+    jest.useRealTimers();
+  });
 });
