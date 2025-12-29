@@ -1,5 +1,23 @@
 # Changelog
+- 2025-12-29 13:36 5d31001 **step: bump bgord/scripts**
+- 2025-12-29 13:35 96cb753 **step: make lru-cache package peer and optional**
+- 2025-12-29 13:25 e115309 **step: test infinite ttls in repos**
+- 2025-12-29 13:07 adc8437 **feature: cache repository lru cache adapter**
+- 2025-12-29 12:59 4ba3afe **step: install lru-cache**
+- 2025-12-29 12:54 4fc6681 **step: add ttl infinite test**
+- 2025-12-29 12:51 75441df **refactor: use node cache adapter in cache resolver simple test**
+- 2025-12-29 12:49 82c5a3b **refactor: allow infinite cache ttl**
+- 2025-12-29 12:39 1cac703 **refactor: remove ttl getters from cache repository and cache resolver**
+- 2025-12-29 12:04 c045c99 **step: remove checkperiod from node-cache adapter**
+- 2025-12-29 11:58 c7f8230 **refactor: use Duration.MIN**
+- 2025-12-29 11:54 09e34bb **refactor: update rounding**
+- 2025-12-29 11:53 b7e9bf9 **step: update packages**
+- 2025-12-29 00:01 fcf48e3 **refactor: retry backoff strategy naming**
+- 2025-12-28 23:46 4f9355d **feature: file-reader-json-with-cache**
+- 2025-12-28 23:15 2149f1b **refactor: define file reader json output type**
 - 2025-12-28 20:55 fd9f4cb **feature: clock offset adapter**
+- 2025-12-28 20:03 e1a083a **docs: generate CHANGELOG**
+- 2025-12-28 20:03 0d802eb **docs: generate readme**
 - 2025-12-28 18:24 e0bd5b4 **refactor: adjust tests**
 - 2025-12-28 18:22 c99079a **refactor: simplify graceful shutdown tests**
 - 2025-12-28 18:12 8b9978f **refactor: remove Bun.sleep from tests**
