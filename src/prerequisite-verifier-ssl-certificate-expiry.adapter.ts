@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import type { CertificateInspectorPort } from "./certificate-inspector.port";
 import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
@@ -5,7 +6,7 @@ type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
 export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { hostname: string; days: number },
+    private readonly config: { hostname: string; minimum: tools.Duration },
     private readonly deps: Dependencies,
   ) {}
 
@@ -14,8 +15,8 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
 
     if (!result.success) return PrerequisiteVerification.failure({ message: "Certificate unavailable" });
 
-    if (result.remaining <= this.config.days) {
-      return PrerequisiteVerification.failure({ message: `${result.remaining} days remaining` });
+    if (result.remaining.isShorterThan(this.config.minimum) || result.remaining.equals(this.config.minimum)) {
+      return PrerequisiteVerification.failure({ message: `${result.remaining.days} days remaining` });
     }
 
     return PrerequisiteVerification.success;

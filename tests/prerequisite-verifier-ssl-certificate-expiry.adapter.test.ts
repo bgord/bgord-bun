@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { CertificateInspectorNoopAdapter } from "../src/certificate-inspector-noop.adapter";
 import { PrerequisiteVerifierSSLCertificateExpiryAdapter } from "../src/prerequisite-verifier-ssl-certificate-expiry.adapter";
 import * as mocks from "./mocks";
@@ -9,9 +10,9 @@ class CertificateInspectorUnavailableAdapter {
   }
 }
 
-const config = { hostname: "example.com", days: 30 };
+const config = { hostname: "example.com", minimum: tools.Duration.Days(30) };
 
-const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(100) };
+const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(tools.Duration.Days(100)) };
 
 describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
   test("success", async () => {
@@ -22,7 +23,7 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
 
   test("failure - certificate expires too soon", async () => {
     const prerequisite = new PrerequisiteVerifierSSLCertificateExpiryAdapter(config, {
-      CertificateInspector: new CertificateInspectorNoopAdapter(10),
+      CertificateInspector: new CertificateInspectorNoopAdapter(tools.Duration.Days(10)),
     });
 
     const result = await prerequisite.verify();
