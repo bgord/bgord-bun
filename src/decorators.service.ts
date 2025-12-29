@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import type { LoggerPort } from "./logger.port";
 
 export class Decorators {
-  private readonly rounding = new tools.RoundToDecimal(2);
+  private readonly rounding = new tools.RoundingDecimalStrategy(2);
 
   constructor(private readonly logger: LoggerPort) {}
 

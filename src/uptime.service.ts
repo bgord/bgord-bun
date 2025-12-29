@@ -7,7 +7,7 @@ export type UptimeResultType = {
 };
 
 export class Uptime {
-  private static readonly rounding = new tools.RoundToNearest();
+  private static readonly rounding = new tools.RoundingToNearestStrategy();
 
   static get(clock: ClockPort): UptimeResultType {
     const duration = tools.Duration.Seconds(Uptime.rounding.round(process.uptime()));

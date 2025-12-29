@@ -6,7 +6,7 @@ import type { ClockPort } from "./clock.port";
 type Dependencies = { Clock: ClockPort };
 
 export class CertificateInspectorTLSAdapter implements CertificateInspectorPort {
-  private static readonly rounding = new tools.RoundToNearest();
+  private static readonly rounding = new tools.RoundingToNearestStrategy();
 
   constructor(private readonly deps: Dependencies) {}
 
