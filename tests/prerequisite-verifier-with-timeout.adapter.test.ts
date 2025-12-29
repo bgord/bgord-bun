@@ -6,7 +6,7 @@ import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
-const timeout = tools.Duration.Ms(1);
+const timeout = tools.Duration.MIN;
 
 const pass = new mocks.PrerequisiteVerifierPass();
 const fail = new mocks.PrerequisiteVerifierFail();

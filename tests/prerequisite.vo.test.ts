@@ -91,7 +91,7 @@ describe("Prerequisite VO", () => {
     const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps)],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
     });
     const verifier = prerequisite.build();
 
@@ -103,7 +103,7 @@ describe("Prerequisite VO", () => {
     const deps = { TimeoutRunner };
     const fail = new mocks.PrerequisiteVerifierFail();
     const prerequisite = new Prerequisite("example", fail, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps)],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
     });
     const verifier = prerequisite.build();
 
@@ -116,7 +116,7 @@ describe("Prerequisite VO", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps)],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
     });
     const verifier = prerequisite.build();
 
@@ -149,7 +149,7 @@ describe("Prerequisite VO", () => {
     expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(ttl.add(tools.Duration.Ms(1)).ms);
+    jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(2);
@@ -181,7 +181,7 @@ describe("Prerequisite VO", () => {
     expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(ttl.add(tools.Duration.Ms(1)).ms);
+    jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(2);
@@ -207,11 +207,11 @@ describe("Prerequisite VO", () => {
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
         PrerequisiteDecorator.withRetry(
-          { max: 3, backoff: new RetryBackoffExponentialStrategy(tools.Duration.Ms(1)) },
+          { max: 3, backoff: new RetryBackoffExponentialStrategy(tools.Duration.MIN) },
           deps,
         ),
         PrerequisiteDecorator.withFailSafe(
@@ -246,7 +246,7 @@ describe("Prerequisite VO", () => {
     const passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
         PrerequisiteDecorator.withCache("example", deps),
       ],
     });
@@ -271,7 +271,7 @@ describe("Prerequisite VO", () => {
 
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
         PrerequisiteDecorator.withCache("example", deps),
       ],
     });
@@ -304,7 +304,7 @@ describe("Prerequisite VO", () => {
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
       ],
     });
     const verifier = prerequisite.build();
@@ -415,7 +415,7 @@ describe("Prerequisite VO", () => {
             result.outcome === PrerequisiteVerificationOutcome.failure &&
             result?.error?.message === TimeoutError.Exceeded,
         ),
-        PrerequisiteDecorator.withTimeout(tools.Duration.Ms(1), deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
       ],
     });
     const verifier = prerequisite.build();

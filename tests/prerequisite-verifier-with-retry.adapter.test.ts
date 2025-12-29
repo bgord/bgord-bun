@@ -8,7 +8,7 @@ import * as mocks from "./mocks";
 
 const max = 3;
 const backoff = new RetryBackoffNoopStrategy();
-const base = tools.Duration.Ms(1);
+const base = tools.Duration.MIN;
 const exponential = new RetryBackoffExponentialStrategy(base);
 const retry = { max, backoff };
 

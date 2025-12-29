@@ -27,7 +27,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(ttl.add(tools.Duration.Ms(1)).ms);
+    jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(2);
@@ -56,7 +56,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(ttl.add(tools.Duration.Ms(1)).ms);
+    jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(2);

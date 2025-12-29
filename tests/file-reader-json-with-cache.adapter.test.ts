@@ -30,7 +30,7 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(ttl.add(tools.Duration.Ms(1)).ms);
+    jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(2);

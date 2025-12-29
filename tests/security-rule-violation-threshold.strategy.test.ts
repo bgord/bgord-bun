@@ -28,7 +28,7 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(true);
 
-    jest.advanceTimersByTime(ttl.add(tools.Duration.Ms(1)).ms);
+    jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await rule.isViolated(context)).toEqual(false);
 

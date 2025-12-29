@@ -4,7 +4,7 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TimeoutRunnerMonitorAdapter } from "../src/timeout-runner-monitor.adapter";
 
 const immediate = async () => 2;
-const timeout = tools.Duration.Ms(1);
+const timeout = tools.Duration.MIN;
 const over = timeout.times(tools.MultiplicationFactor.parse(10)).ms;
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };

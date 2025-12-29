@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { SleeperSystemAdapter } from "../src/sleeper-system.adapter";
 
-const duration = tools.Duration.Minutes(1);
+const duration = tools.Duration.MIN;
 const adapter = new SleeperSystemAdapter();
 
 describe("SleeperSystemAdapter", () => {
