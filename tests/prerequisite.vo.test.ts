@@ -422,4 +422,30 @@ describe("Prerequisite VO", () => {
 
     expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
   });
+
+  test("retry x timeout x fail-safe - timeout", async () => {
+    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const Sleeper = new SleeperNoopAdapter();
+    const deps = { TimeoutRunner, Sleeper };
+
+    const fail = new mocks.PrerequisiteVerifierFail();
+
+    const prerequisite = new Prerequisite("example", fail, {
+      decorators: [
+        PrerequisiteDecorator.withFailSafe(
+          (result) =>
+            result.outcome === PrerequisiteVerificationOutcome.failure &&
+            result?.error?.message === TimeoutError.Exceeded,
+        ),
+        PrerequisiteDecorator.withRetry({ max: 3, backoff: new RetryBackoffNoopStrategy() }, deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
+      ],
+    });
+    const verifier = prerequisite.build();
+
+    const failVerify = spyOn(fail, "verify");
+
+    expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(failVerify).toHaveBeenCalledTimes(3);
+  });
 });
