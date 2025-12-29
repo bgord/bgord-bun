@@ -25,10 +25,30 @@ describe("TimeZoneOffset middleware", () => {
     expect(await result.json()).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid time-zone-offset", async () => {
+  test("invalid - type", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "invalid-offset" }),
+    });
+
+    expect(result.status).toEqual(200);
+    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+  });
+
+  test("invalid - min", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "-841" }),
+    });
+
+    expect(result.status).toEqual(200);
+    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+  });
+
+  test("invalid - max", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "721" }),
     });
 
     expect(result.status).toEqual(200);

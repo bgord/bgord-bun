@@ -4,11 +4,20 @@ import { createMiddleware } from "hono/factory";
 export type TimeZoneOffsetVariables = { timeZoneOffset: tools.Duration };
 
 export class TimeZoneOffset {
-  static TIME_ZONE_OFFSET_HEADER_NAME = "time-zone-offset";
+  static readonly TIME_ZONE_OFFSET_HEADER_NAME = "time-zone-offset";
+
+  static readonly DEFAULT = tools.Duration.Minutes(0);
 
   static attach = createMiddleware(async (c, next) => {
-    const offset = tools.TimeZoneOffsetValue.parse(c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME));
-    c.set("timeZoneOffset", tools.Duration.Minutes(offset));
+    const header = c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME);
+
+    if (!header) c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
+    if (Number.isNaN(Number(header))) c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
+
+    const offset = tools.TimeZoneOffsetValue.safeParse(header);
+
+    if (!offset.success) c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
+    else c.set("timeZoneOffset", tools.Duration.Minutes(offset.data));
 
     await next();
   });
