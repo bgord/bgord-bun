@@ -1,5 +1,8 @@
 # Changelog
+## 2025-12-29 16:59 v1.7.0
+- 2025-12-29 16:59 92b31c6 **1.7.0**
 - 2025-12-29 16:43 253c58f **refactor: make setup tests thighter**
+- 2025-12-29 15:58 6c3ac53 **docs: generate CHANGELOG**
 - 2025-12-29 14:50 5dd5371 **step: add crypto key provider with cache**
 - 2025-12-29 14:46 f69b93a **docs: generate readme**
 - 2025-12-29 14:46 aaacb46 **docs: generate CHANGELOG**
