@@ -74,6 +74,7 @@ src/
 ├── crypto-key-provider-file.adapter.ts
 ├── crypto-key-provider-memory.adapter.ts
 ├── crypto-key-provider-noop.adapter.ts
+├── crypto-key-provider-with-cache.adapter.ts
 ├── crypto-key-provider.port.ts
 ├── csv-stringifier.adapter.ts
 ├── csv-stringifier.port.ts
@@ -272,7 +273,6 @@ src/
 ├── redactor-compact-array.strategy.ts
 ├── redactor-compact-object.strategy.ts
 ├── redactor-composite.strategy.ts
-├── redactor-encrypt.strategy.ts
 ├── redactor-mask.strategy.ts
 ├── redactor-noop.strategy.ts
 ├── redactor.strategy.ts
