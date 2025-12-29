@@ -28,7 +28,7 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect("example.com")).toEqual({ success: true, daysRemaining: 30 });
+    expect(await adapter.inspect("example.com")).toEqual({ success: true, remaining: 30 });
   });
 
   test("success - expired 2 days ago", async () => {
@@ -48,7 +48,7 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect("expired.example")).toEqual({ success: true, daysRemaining: -2 });
+    expect(await adapter.inspect("expired.example")).toEqual({ success: true, remaining: -2 });
   });
 
   test("failre - connection error", async () => {

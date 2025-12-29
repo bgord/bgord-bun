@@ -5,6 +5,6 @@ const adapter = new CertificateInspectorNoopAdapter(30);
 
 describe("CertificateInspectorNoopAdapter", () => {
   test("success", async () => {
-    expect(await adapter.inspect("example.com")).toEqual({ success: true, daysRemaining: 30 });
+    expect(await adapter.inspect("example.com")).toEqual({ success: true, remaining: 30 });
   });
 });

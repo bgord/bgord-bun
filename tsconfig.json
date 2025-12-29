@@ -21,6 +21,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false
   },
-  "include": ["src"],
-  "exclude": ["tests", "bgord-scripts"]
+  "include": ["src", "tests"],
+  "exclude": ["bgord-scripts"]
 }

@@ -14,8 +14,8 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
 
     if (!result.success) return PrerequisiteVerification.failure({ message: "Certificate unavailable" });
 
-    if (result.daysRemaining <= this.config.days) {
-      return PrerequisiteVerification.failure({ message: `${result.daysRemaining} days remaining` });
+    if (result.remaining <= this.config.days) {
+      return PrerequisiteVerification.failure({ message: `${result.remaining} days remaining` });
     }
 
     return PrerequisiteVerification.success;

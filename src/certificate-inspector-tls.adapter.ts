@@ -34,7 +34,7 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
 
           settle({
             success: true,
-            daysRemaining: CertificateInspectorTLSAdapter.rounding.round(daysRemaining),
+            remaining: CertificateInspectorTLSAdapter.rounding.round(daysRemaining),
           });
         },
       );
