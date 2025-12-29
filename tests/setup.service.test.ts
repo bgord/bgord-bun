@@ -42,23 +42,23 @@ describe("Setup service", () => {
     );
     const json = await response.json();
 
-    expect(response.headers.toJSON()).toMatchObject({
+    expect(response.headers.toJSON()).toEqual({
       "access-control-allow-origin": "*",
-      "api-version": version,
       "content-type": "application/json",
+      "server-timing": expect.any(String),
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "cross-origin",
-      "origin-agent-cluster": "?1",
       "referrer-policy": "no-referrer",
-      "server-timing": expect.any(String),
       "strict-transport-security": "max-age=15552000; includeSubDomains",
       "x-content-type-options": "nosniff",
       "x-dns-prefetch-control": "off",
-      "x-download-options": "noopen",
       "x-frame-options": "SAMEORIGIN",
-      "x-permitted-cross-domain-policies": "none",
-      "x-correlation-id": predefinedRequestId,
       "x-xss-protection": "0",
+      "api-version": version,
+      "x-correlation-id": predefinedRequestId,
+      "origin-agent-cluster": "?1",
+      "x-download-options": "noopen",
+      "x-permitted-cross-domain-policies": "none",
     });
     expect(json).toEqual({
       requestId: predefinedRequestId,
