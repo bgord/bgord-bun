@@ -1,32 +1,54 @@
-import { LRUCache } from "lru-cache";
+import type { LRUCache } from "lru-cache";
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { Hash } from "./hash.vo";
 import type { HashValueType } from "./hash-value.vo";
 
-export class CacheRepositoryLruCacheAdapter implements CacheRepositoryPort {
-  private readonly store;
+export const CacheRepositoryLruCacheAdapterError = {
+  MissingDependency: "cache.repository.lru.cache.adapter.error.missing.dependency",
+};
 
-  constructor(config: CacheRepositoryTtlType) {
-    this.store = new LRUCache<HashValueType, any>({
+export class CacheRepositoryLruCacheAdapter implements CacheRepositoryPort {
+  private readonly store: LRUCache<HashValueType, any>;
+
+  private constructor(store: LRUCache<HashValueType, any>) {
+    this.store = store;
+  }
+
+  static async build(config: CacheRepositoryTtlType): Promise<CacheRepositoryLruCacheAdapter> {
+    // biome-ignore lint: lint/suspicious/noAssignInExpressions
+    let LRUCacheConstructor;
+
+    try {
+      const module = await import("lru-cache");
+
+      LRUCacheConstructor = module.LRUCache;
+    } catch {
+      throw new Error(CacheRepositoryLruCacheAdapterError.MissingDependency);
+    }
+
+    const store = new LRUCacheConstructor<HashValueType, any>({
       max: 100_000,
       ttl: config.type === "finite" ? config.ttl.ms : undefined,
       ttlAutopurge: true,
     });
+
+    return new CacheRepositoryLruCacheAdapter(store);
   }
 
+  // 5. Clean implementation without null checks
   async get<T>(subject: Hash): Promise<T | null> {
     return (this.store.get(subject.get()) as T) ?? null;
   }
 
-  async set<T>(subject: Hash, value: T) {
+  async set<T>(subject: Hash, value: T): Promise<void> {
     this.store.set(subject.get(), value);
   }
 
-  async delete(subject: Hash) {
+  async delete(subject: Hash): Promise<void> {
     this.store.delete(subject.get());
   }
 
-  async flush() {
+  async flush(): Promise<void> {
     this.store.clear();
   }
 }

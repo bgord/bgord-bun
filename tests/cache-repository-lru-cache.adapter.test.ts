@@ -16,13 +16,13 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
   const subject = await resolver.resolve();
 
   test("get - null", async () => {
-    const adapter = new CacheRepositoryLruCacheAdapter(config);
+    const adapter = await CacheRepositoryLruCacheAdapter.build(config);
 
     expect(await adapter.get(subject.hex)).toEqual(null);
   });
 
   test("get - value", async () => {
-    const adapter = new CacheRepositoryLruCacheAdapter(config);
+    const adapter = await CacheRepositoryLruCacheAdapter.build(config);
     const value = "secret";
 
     await adapter.set(subject.hex, value);
@@ -31,7 +31,7 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
   });
 
   test("delete", async () => {
-    const adapter = new CacheRepositoryLruCacheAdapter(config);
+    const adapter = await CacheRepositoryLruCacheAdapter.build(config);
 
     await adapter.set(subject.hex, value);
 
@@ -43,7 +43,7 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
   });
 
   test("flush", async () => {
-    const adapter = new CacheRepositoryLruCacheAdapter(config);
+    const adapter = await CacheRepositoryLruCacheAdapter.build(config);
 
     await adapter.set(subject.hex, value);
     await adapter.flush();
@@ -54,7 +54,7 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
   test("ttl expiration", async () => {
     jest.useFakeTimers();
     spyOn(performance, "now").mockImplementation(() => Date.now());
-    const adapter = new CacheRepositoryLruCacheAdapter(config);
+    const adapter = await CacheRepositoryLruCacheAdapter.build(config);
 
     await adapter.set(subject.hex, value);
 
@@ -70,7 +70,7 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
   test("ttl expiration - finite", async () => {
     jest.useFakeTimers();
     spyOn(performance, "now").mockImplementation(() => Date.now());
-    const adapter = new CacheRepositoryLruCacheAdapter({ type: "infinite" });
+    const adapter = await CacheRepositoryLruCacheAdapter.build({ type: "infinite" });
 
     await adapter.set(subject.hex, value);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
