@@ -3,13 +3,7 @@ import type { RedactorStrategy } from "./redactor.strategy";
 export class RedactorCompositeStrategy implements RedactorStrategy {
   constructor(private readonly pipeline: readonly RedactorStrategy[]) {}
 
-  async redact<T>(input: T): Promise<T> {
-    let result = input;
-
-    for (const redactor of this.pipeline) {
-      result = await redactor.redact(result);
-    }
-
-    return result;
+  redact<T>(input: T): T {
+    return this.pipeline.reduce((result, redactor) => redactor.redact(result), input);
   }
 }

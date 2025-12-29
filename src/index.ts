@@ -204,7 +204,7 @@ export * from "./redactor.strategy";
 export * from "./redactor-compact-array.strategy";
 export * from "./redactor-compact-object.strategy";
 export * from "./redactor-composite.strategy";
-export * from "./redactor-encrypt.strategy";
+// export * from "./redactor-encrypt.strategy";
 export * from "./redactor-mask.strategy";
 export * from "./redactor-noop.strategy";
 export * from "./remote-file-storage.port";

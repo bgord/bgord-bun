@@ -12,7 +12,7 @@ export class RedactorCompactObjectStrategy implements RedactorStrategy {
     this.maxKeys = options.maxKeys ?? RedactorCompactObjectStrategy.DEFAULT_MAX_KEYS;
   }
 
-  async redact<T>(input: T): Promise<T> {
+  redact<T>(input: T): T {
     return _.cloneDeepWith(input, (value) => {
       if (!_.isPlainObject(value)) return undefined;
 
