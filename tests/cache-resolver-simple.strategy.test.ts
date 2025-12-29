@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
@@ -89,5 +89,23 @@ describe("CacheResolverSimpleStrategy", async () => {
     await CacheResolver.flush();
 
     expect(flushSpy).toHaveBeenCalled();
+  });
+
+  test("ttl - infinite", async () => {
+    jest.useFakeTimers();
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+
+    const first = await CacheResolver.resolve(subject.hex, async () => fresh);
+
+    expect(first).toEqual(fresh);
+
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
+
+    const second = await CacheResolver.resolve(subject.hex, async () => fresh);
+
+    expect(second).toEqual(fresh);
+
+    jest.useRealTimers();
   });
 });
