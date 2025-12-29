@@ -4,8 +4,10 @@ import { LogLevelEnum } from "../src/logger.port";
 import { LoggerWinstonAdapter } from "../src/logger-winston.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
+import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
 
+const redactor = new RedactorNoopStrategy();
 const filePath = tools.FilePathAbsolute.fromString("/var/www/logger.txt");
 
 describe("LoggerWinstonAdapter", () => {
@@ -16,6 +18,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
+      redactor,
       filePath,
     });
 
@@ -40,6 +43,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
+      redactor,
       filePath,
     });
 
@@ -67,6 +71,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
+      redactor,
       filePath,
     });
 
@@ -89,6 +94,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
+      redactor,
       filePath,
     });
 
@@ -118,6 +124,7 @@ describe("LoggerWinstonAdapter", () => {
       environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
+      redactor,
       filePath,
     });
 
@@ -125,7 +132,7 @@ describe("LoggerWinstonAdapter", () => {
       component: "infra",
       operation: "read",
       message: "Env variables",
-      metadata: await redactor.redact({ env: { secret: "abc" } }),
+      metadata: { env: { secret: "abc" } },
     });
 
     expect(JSON.parse(lines[0] as string).metadata).toEqual({ env: { secret: "***" } });

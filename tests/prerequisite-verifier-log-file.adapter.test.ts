@@ -4,9 +4,11 @@ import { LogLevelEnum } from "../src/logger.port";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
 import { PrerequisiteVerifierLogFileAdapter } from "../src/prerequisite-verifier-log-file.adapter";
+import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
 
-const Logger = new LoggerWinstonProductionAdapter({ app: "test-app" }).create(LogLevelEnum.http);
+const redactor = new RedactorNoopStrategy();
+const Logger = new LoggerWinstonProductionAdapter({ app: "test-app", redactor }).create(LogLevelEnum.http);
 const deps = { Logger };
 
 const prerequisite = new PrerequisiteVerifierLogFileAdapter(deps);
