@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNoopAdapter } from "../src/cache-repository-noop.adapter";
+import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
@@ -21,7 +21,7 @@ describe("CacheResolverSimpleStrategy", async () => {
   const subject = await resolver.resolve();
 
   test("success - hit", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
 
@@ -32,7 +32,7 @@ describe("CacheResolverSimpleStrategy", async () => {
   });
 
   test("success - miss", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
@@ -43,7 +43,7 @@ describe("CacheResolverSimpleStrategy", async () => {
   });
 
   test("failure - error propagation", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
@@ -54,7 +54,7 @@ describe("CacheResolverSimpleStrategy", async () => {
   });
 
   test("resolveWithContext - hit", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
 
@@ -65,7 +65,7 @@ describe("CacheResolverSimpleStrategy", async () => {
   });
 
   test("resolveWithContext - miss", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
 
@@ -76,7 +76,7 @@ describe("CacheResolverSimpleStrategy", async () => {
   });
 
   test("flush", async () => {
-    const CacheRepository = new CacheRepositoryNoopAdapter(config);
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const setSpy = spyOn(CacheRepository, "set");
     const flushSpy = spyOn(CacheRepository, "flush");
