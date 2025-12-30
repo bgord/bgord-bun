@@ -1,10 +1,13 @@
 # Changelog
+## 2025-12-30 12:00 v1.7.4
+- 2025-12-30 12:00 e5b3805 **1.7.4**
 ## 2025-12-30 11:56 v1.7.3
 - 2025-12-30 11:56 a56aebb **1.7.3**
 - 2025-12-30 11:54 437a4c5 **fix: client ip validation logic**
 - 2025-12-30 11:54 3b9a550 **step: add failing http logger client extraction testcase**
 - 2025-12-30 11:52 35c7886 **step: use mocks.ip in http logger tests**
 - 2025-12-30 11:50 a85baa4 **refactor: simplify http logger skip logic**
+- 2025-12-30 10:56 7907ca5 **docs: generate CHANGELOG**
 - 2025-12-30 10:55 da9472a **docs: generate CHANGELOG**
 - 2025-12-30 10:22 2a09aa0 **refactor: simplify error zod definition**
 - 2025-12-29 23:02 5264e17 **refactor: use duration in certificate inspector**
