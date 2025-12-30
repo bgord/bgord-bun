@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.2.11",
+        "@bgord/tools": "1.2.12",
         "better-auth": "1.4.9",
         "croner": "9.1.0",
         "csv": "6.4.1",
@@ -125,7 +125,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.21", "", {}, "sha512-/ImESw0sskqlVR94jB+5+Pxjf+xBwDZF/N5+y2/q4EqD7IARUTSpPfIo8uf39SYpCxyOCtbyYpUrZ3F/k0zT4A=="],
 
-    "@bgord/tools": ["@bgord/tools@1.2.11", "", { "dependencies": { "date-fns": "4.1.0", "mime-types": "3.0.2" }, "peerDependencies": { "zod": "4.2.1" } }, "sha512-tRqpXi51C9Ajp0k678y0FGUc09or6uu+I35+LgqmZa0V/V6S2dTZzxVrYLuPhGgduLN6qqavjJ58BjGkF+Ehmg=="],
+    "@bgord/tools": ["@bgord/tools@1.2.12", "", { "dependencies": { "date-fns": "4.1.0", "mime-types": "3.0.2" }, "peerDependencies": { "zod": "4.2.1" } }, "sha512-okivIJZRgvT1etOTKWmpy0cLiAsnXYLDdWQnUiIy0gT0neOzNNzcYW6OL/WTtlkguMUY42PDghdTcm0c+5MGPQ=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.3.10", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.3.10", "@biomejs/cli-darwin-x64": "2.3.10", "@biomejs/cli-linux-arm64": "2.3.10", "@biomejs/cli-linux-arm64-musl": "2.3.10", "@biomejs/cli-linux-x64": "2.3.10", "@biomejs/cli-linux-x64-musl": "2.3.10", "@biomejs/cli-win32-arm64": "2.3.10", "@biomejs/cli-win32-x64": "2.3.10" }, "bin": { "biome": "bin/biome" } }, "sha512-/uWSUd1MHX2fjqNLHNL6zLYWBbrJeG412/8H7ESuK8ewoRoMPUgHDebqKrPTx/5n6f17Xzqc9hdg3MEqA5hXnQ=="],
 
