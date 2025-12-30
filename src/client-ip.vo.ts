@@ -1,10 +1,14 @@
 import { z } from "zod/v4";
 
-export const ClientIpError = { Type: "client.ip.type", InvalidUnknown: "client.ip.invalid.unknown" };
+export const ClientIpError = { Type: "client.ip.type" };
 
 export const ClientIp = z
-  .ipv4(ClientIpError.Type)
-  .or(z.literal("anon", ClientIpError.InvalidUnknown))
-  .brand("ClientUserAgent");
+  .string(ClientIpError.Type)
+  .transform((value) => {
+    const result = z.ipv4().safeParse(value);
+
+    return result.success ? result.data : "anon";
+  })
+  .brand("ClientIp");
 
 export type ClientIpType = z.infer<typeof ClientIp>;
