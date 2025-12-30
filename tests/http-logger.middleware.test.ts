@@ -5,12 +5,7 @@ import { timing } from "hono/timing";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HttpLogger } from "../src/http-logger.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-
-const ip = {
-  server: {
-    requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }),
-  },
-};
+import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
@@ -28,7 +23,11 @@ describe("HttpLogger middleware", () => {
   test("200", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
-    const result = await app.request("/ping", { method: "GET", headers: { keep: "abc", origin: "def" } }, ip);
+    const result = await app.request(
+      "/ping",
+      { method: "GET", headers: { keep: "abc", origin: "def" } },
+      mocks.ip,
+    );
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
@@ -70,7 +69,7 @@ describe("HttpLogger middleware", () => {
   test("500", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
-    const result = await app.request("/pong", { method: "GET" }, ip);
+    const result = await app.request("/pong", { method: "GET" }, mocks.ip);
 
     expect(result.status).toEqual(500);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
@@ -110,7 +109,7 @@ describe("HttpLogger middleware", () => {
   test("skip", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
-    const result = await app.request("/i18n/en.json", { method: "GET" }, ip);
+    const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.ip);
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).not.toHaveBeenCalled();
