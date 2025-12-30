@@ -105,7 +105,7 @@ describe("LoggerWinstonAdapter", () => {
       method: "GET",
       url: "/api/entries",
       status: 200,
-      durationMs: 42,
+      durationMs: tools.DurationMs.parse(42),
       client: { ip: "1.2.3.4", userAgent: "UA" },
     });
     const log = JSON.parse(lines[0] as string);

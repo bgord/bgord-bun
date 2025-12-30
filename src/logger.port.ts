@@ -41,7 +41,7 @@ export type LogHttpType = LogCoreType & {
   method: string;
   url: string;
   status?: number;
-  durationMs?: number;
+  durationMs?: tools.DurationMsType;
   client: HttpClientInfo;
   cacheHit?: boolean;
 };
