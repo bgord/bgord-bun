@@ -8,16 +8,21 @@ import { SecurityCountermeasureName } from "../src/security-countermeasure-name.
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
 
-const rule = new SecurityRulePassStrategy();
-const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
-
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
+
+const rule = new SecurityRulePassStrategy();
+const countermeasure = new SecurityCountermeasureMirageStrategy(deps);
+const context = new SecurityContext(
+  rule.name,
+  countermeasure.name,
+  Client.fromParts("anon", "anon"),
+  undefined,
+);
 
 describe("SecurityCountermeasureMirageStrategy", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const countermeasure = new SecurityCountermeasureMirageStrategy(deps);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
@@ -55,8 +60,6 @@ describe("SecurityCountermeasureMirageStrategy", () => {
   });
 
   test("name", () => {
-    const countermeasure = new SecurityCountermeasureMirageStrategy(deps);
-
     expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("mirage"));
   });
 });

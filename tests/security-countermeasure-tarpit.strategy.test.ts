@@ -9,14 +9,18 @@ import { SecurityCountermeasureTarpitStrategy } from "../src/security-countermea
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
 
-const rule = new SecurityRulePassStrategy();
-const context = new SecurityContext(rule.name, Client.fromParts("anon", "anon"), undefined);
-
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
 const config = { duration: tools.Duration.Seconds(5), after: { kind: "allow" } as const };
 const countermeasure = new SecurityCountermeasureTarpitStrategy(deps, config);
+const rule = new SecurityRulePassStrategy();
+const context = new SecurityContext(
+  rule.name,
+  countermeasure.name,
+  Client.fromParts("anon", "anon"),
+  undefined,
+);
 
 describe("SecurityCountermeasureTarpitStrategy", () => {
   test("happy path", async () => {

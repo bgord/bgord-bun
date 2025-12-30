@@ -29,7 +29,12 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
 
       if (!violation) continue;
 
-      const context = new SecurityContext(policy.rule.name, ClientFromHono.translate(c), c.get("user")?.id);
+      const context = new SecurityContext(
+        policy.rule.name,
+        policy.countermeasure.name,
+        ClientFromHono.translate(c),
+        c.get("user")?.id,
+      );
 
       const action = await policy.countermeasure.execute(context);
 
