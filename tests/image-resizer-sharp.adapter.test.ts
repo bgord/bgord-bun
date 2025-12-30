@@ -31,7 +31,7 @@ describe("ImageResizerSharpAdapter", () => {
     const recipe: ImageResizerInPlaceStrategy = {
       strategy: "in_place",
       input,
-      maxSide: tools.IntegerPositive.parse(512),
+      maxSide: tools.ImageWidth.parse(512),
     };
 
     const result = await adapter.resize(recipe);
@@ -73,7 +73,7 @@ describe("ImageResizerSharpAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      maxSide: tools.IntegerPositive.parse(256),
+      maxSide: tools.ImageWidth.parse(256),
     };
 
     const result = await adapter.resize(recipe);
@@ -105,7 +105,7 @@ describe("ImageResizerSharpAdapter", () => {
     const recipe: ImageResizerInPlaceStrategy = {
       strategy: "in_place",
       input,
-      maxSide: tools.IntegerPositive.parse(128),
+      maxSide: tools.ImageWidth.parse(128),
     };
 
     await adapter.resize(recipe);
@@ -130,7 +130,7 @@ describe("ImageResizerSharpAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      maxSide: tools.IntegerPositive.parse(300),
+      maxSide: tools.ImageWidth.parse(300),
     };
 
     await adapter.resize(recipe);

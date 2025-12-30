@@ -36,7 +36,7 @@ describe("ImageProcessorSharpAdapter", () => {
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
-      maxSide: tools.IntegerPositive.parse(256),
+      maxSide: tools.ImageWidth.parse(256),
       to: tools.Extension.parse("webp"),
       quality: tools.IntegerPositive.parse(72),
       background: "#FFFFFF",
@@ -86,7 +86,7 @@ describe("ImageProcessorSharpAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      maxSide: tools.IntegerPositive.parse(512),
+      maxSide: tools.ImageWidth.parse(512),
       to: tools.Extension.parse("jpg"),
     };
 

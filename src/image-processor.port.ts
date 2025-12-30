@@ -5,7 +5,7 @@ type ImageProcessorOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
-  maxSide: tools.IntegerPositiveType;
+  maxSide: tools.ImageWidthType;
   to: tools.ExtensionType;
   quality?: tools.IntegerPositiveType;
   background?: ImageBackground;
@@ -13,7 +13,7 @@ type ImageProcessorOutputPathStrategy = {
 type ImageProcessorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
-  maxSide: tools.IntegerPositiveType;
+  maxSide: tools.ImageWidthType;
   to: tools.ExtensionType;
   quality?: tools.IntegerPositiveType;
   background?: ImageBackground;
