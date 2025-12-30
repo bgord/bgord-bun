@@ -1,7 +1,9 @@
 # Changelog
+- 2025-12-31 00:00 9affab6 **fix: crypto adapter id provider**
 ## 2025-12-30 23:50 v1.7.9
 - 2025-12-30 23:50 4e2209c **1.7.9**
 - 2025-12-30 23:50 2dc1c54 **fix: id provider deterministic adapter**
+- 2025-12-30 22:51 556f64d **docs: generate CHANGELOG**
 - 2025-12-30 22:50 6a7b259 **docs: generate CHANGELOG**
 ## 2025-12-30 14:54 v1.7.8
 - 2025-12-30 14:54 e4b2aa7 **1.7.8**
