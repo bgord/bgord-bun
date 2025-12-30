@@ -59,7 +59,12 @@ describe("ImageCompressorSharpAdapter", () => {
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.webp");
-    const recipe: ImageCompressorOutputPathStrategy = { strategy: "output_path", input, output, quality: 73 };
+    const recipe: ImageCompressorOutputPathStrategy = {
+      strategy: "output_path",
+      input,
+      output,
+      quality: tools.IntegerPositive.parse(73),
+    };
 
     const result = await adapter.compress(recipe);
 

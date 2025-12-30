@@ -4,12 +4,12 @@ export type ImageCompressorOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
-  quality?: number;
+  quality?: tools.IntegerPositiveType;
 };
 export type ImageCompressorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
-  quality?: number;
+  quality?: tools.IntegerPositiveType;
 };
 export type ImageCompressorStrategy = ImageCompressorInPlaceStrategy | ImageCompressorOutputPathStrategy;
 
