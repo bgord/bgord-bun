@@ -1,4 +1,6 @@
 # Changelog
+## 2025-12-30 14:54 v1.7.8
+- 2025-12-30 14:54 e4b2aa7 **1.7.8**
 - 2025-12-30 14:53 7d5e572 **fix: max size brand type**
 ## 2025-12-30 14:44 v1.7.7
 - 2025-12-30 14:44 fa228c0 **1.7.7**
@@ -16,6 +18,7 @@
 - 2025-12-30 14:01 09b2123 **refactor: use positive integer in shield security**
 - 2025-12-30 14:00 273754d **refactor: use positive integer in retry backoff**
 - 2025-12-30 13:53 c5977e0 **refactor: tighten type in countermeasure ban**
+- 2025-12-30 13:53 2cd6c0d **docs: generate CHANGELOG**
 - 2025-12-30 13:51 94c3209 **step: update packages**
 - 2025-12-30 13:44 c68ee2e **docs: generate CHANGELOG**
 - 2025-12-30 13:44 617fc0a **docs: generate CHANGELOG**
