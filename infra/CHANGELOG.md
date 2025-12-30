@@ -1,4 +1,16 @@
 # Changelog
+- 2025-12-30 14:10 82219f5 **refactor: use positive integer in redactors**
+- 2025-12-30 14:09 bde74fe **refactor: use positive integer in retry**
+- 2025-12-30 14:07 1562cb7 **refactor: use positive integer in image compressor**
+- 2025-12-30 14:06 f0b3e19 **refactor: use positive integer in mirage**
+- 2025-12-30 14:05 febd1e6 **refactor: use positive integer in logger**
+- 2025-12-30 14:04 9b251d5 **refactor: use positive integer in image resizer**
+- 2025-12-30 14:04 415c1ee **refactor: use positive integer in countermeasure strategy**
+- 2025-12-30 14:01 09b2123 **refactor: use positive integer in shield security**
+- 2025-12-30 14:00 273754d **refactor: use positive integer in retry backoff**
+- 2025-12-30 13:53 c5977e0 **refactor: tighten type in countermeasure ban**
+- 2025-12-30 13:51 94c3209 **step: update packages**
+- 2025-12-30 12:43 0d42c0a **step: add countermeasure name to security context**
 ## 2025-12-30 12:19 v1.7.5
 - 2025-12-30 12:19 fb9a31e **1.7.5**
 - 2025-12-30 12:17 fff9fe8 **fix: tsconfig**
@@ -10,6 +22,7 @@
 - 2025-12-30 11:54 3b9a550 **step: add failing http logger client extraction testcase**
 - 2025-12-30 11:52 35c7886 **step: use mocks.ip in http logger tests**
 - 2025-12-30 11:50 a85baa4 **refactor: simplify http logger skip logic**
+- 2025-12-30 11:19 d83ec93 **docs: generate CHANGELOG**
 - 2025-12-30 11:17 e775ce9 **docs: generate CHANGELOG**
 - 2025-12-30 11:01 b3f32f2 **docs: generate CHANGELOG**
 - 2025-12-30 10:56 7907ca5 **docs: generate CHANGELOG**
