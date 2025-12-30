@@ -106,6 +106,16 @@ describe("HttpLogger middleware", () => {
     );
   });
 
+  test("client extraction", async () => {
+    const result = await app.request(
+      "/ping",
+      { method: "GET" },
+      { server: { requestIP: () => ({ address: "invalid" }) } },
+    );
+
+    expect(result.status).toEqual(200);
+  });
+
   test("skip", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
