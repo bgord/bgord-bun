@@ -150,7 +150,11 @@ describe("ShieldSecurityStrategy", () => {
 
   test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, { threshold: 3 }, deps);
+    const rule = new SecurityRuleViolationThresholdStrategy(
+      baitRoutes,
+      { threshold: tools.IntegerPositive.parse(3) },
+      deps,
+    );
     const shield = new ShieldSecurityStrategy([new SecurityPolicy(rule, mirage)], deps);
     const app = new Hono()
       .use(CorrelationStorage.handle())

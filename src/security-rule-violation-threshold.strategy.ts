@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import type { CacheRepositoryPort } from "./cache-repository.port";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
@@ -12,7 +13,7 @@ type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashCon
 export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrategy {
   constructor(
     private readonly rule: SecurityRuleStrategy,
-    private readonly config: { threshold: number },
+    private readonly config: { threshold: tools.IntegerPositiveType },
     private readonly deps: Dependencies,
   ) {}
 
