@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import type { RedactorStrategy } from "../src/redactor.strategy";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
 import { RedactorCompactObjectStrategy } from "../src/redactor-compact-object.strategy";
@@ -35,7 +36,7 @@ describe("RedactorCompositeStrategy", () => {
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: [1, 2, 3] } };
     const redactor = new RedactorCompositeStrategy([
       new RedactorCompactArrayStrategy(),
-      new RedactorCompactObjectStrategy({ maxKeys: 2 }),
+      new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) }),
     ]);
 
     const result = redactor.redact(input);

@@ -1,11 +1,12 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { RedactorCompactObjectStrategy } from "../src/redactor-compact-object.strategy";
 
 const redactor = new RedactorCompactObjectStrategy();
 
 describe("RedactorCompactObjectStrategy", () => {
   test("happy path", () => {
-    const redactor = new RedactorCompactObjectStrategy({ maxKeys: 5 });
+    const redactor = new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(5) });
     const wide = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [`k${i}`, i]));
 
     // @ts-expect-error
@@ -13,7 +14,7 @@ describe("RedactorCompactObjectStrategy", () => {
   });
 
   test("happy path - nested", () => {
-    const redactor = new RedactorCompactObjectStrategy({ maxKeys: 2 });
+    const redactor = new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
     const input = {
       narrow: { a: 1, b: 2 },
       branch: { wide: { a: 1, b: 2, c: 3 }, deep: { nested: { x: 1, y: 2, z: 3 } } },
@@ -37,7 +38,7 @@ describe("RedactorCompactObjectStrategy", () => {
   });
 
   test("keeps small objects unchanged", () => {
-    const maxKeys = 5;
+    const maxKeys = tools.IntegerPositive.parse(5);
     const boundary = Object.fromEntries(Array.from({ length: maxKeys }, (_, i) => [`k${i}`, i]));
     const redactor = new RedactorCompactObjectStrategy({ maxKeys });
 
@@ -48,7 +49,7 @@ describe("RedactorCompactObjectStrategy", () => {
     class Custom {
       constructor(public value: number) {}
     }
-    const redactor = new RedactorCompactObjectStrategy({ maxKeys: 10 });
+    const redactor = new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(10) });
     const input = {
       bag: {
         arr: [1, 2, 3],
@@ -73,7 +74,7 @@ describe("RedactorCompactObjectStrategy", () => {
   });
 
   test("mixed structures", () => {
-    const redactor = new RedactorCompactObjectStrategy({ maxKeys: 2 });
+    const redactor = new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: 2, c: [1, 2, 3] } };
 
     const result = redactor.redact(input);

@@ -1,7 +1,8 @@
+import type * as tools from "@bgord/tools";
 import _ from "lodash";
 import type { RedactorStrategy } from "./redactor.strategy";
 
-type RedactorWideObjectOptions = { maxKeys?: number };
+type RedactorWideObjectOptions = { maxKeys?: tools.IntegerPositiveType };
 
 export class RedactorCompactObjectStrategy implements RedactorStrategy {
   private static readonly DEFAULT_MAX_KEYS = 20;
