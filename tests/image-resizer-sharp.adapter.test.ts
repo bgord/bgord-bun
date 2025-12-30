@@ -28,7 +28,11 @@ describe("ImageResizerSharpAdapter", () => {
     const destroy = spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
-    const recipe: ImageResizerInPlaceStrategy = { strategy: "in_place", input, maxSide: 512 };
+    const recipe: ImageResizerInPlaceStrategy = {
+      strategy: "in_place",
+      input,
+      maxSide: tools.IntegerPositive.parse(512),
+    };
 
     const result = await adapter.resize(recipe);
 
@@ -65,7 +69,12 @@ describe("ImageResizerSharpAdapter", () => {
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
-    const recipe: ImageResizerOutputPathStrategy = { strategy: "output_path", input, output, maxSide: 256 };
+    const recipe: ImageResizerOutputPathStrategy = {
+      strategy: "output_path",
+      input,
+      output,
+      maxSide: tools.IntegerPositive.parse(256),
+    };
 
     const result = await adapter.resize(recipe);
 
@@ -93,7 +102,11 @@ describe("ImageResizerSharpAdapter", () => {
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
-    const recipe: ImageResizerInPlaceStrategy = { strategy: "in_place", input, maxSide: 128 };
+    const recipe: ImageResizerInPlaceStrategy = {
+      strategy: "in_place",
+      input,
+      maxSide: tools.IntegerPositive.parse(128),
+    };
 
     await adapter.resize(recipe);
 
@@ -113,7 +126,12 @@ describe("ImageResizerSharpAdapter", () => {
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/a/in.jpeg");
     const output = tools.FilePathAbsolute.fromString("/b/out/photo.jpg");
-    const recipe: ImageResizerOutputPathStrategy = { strategy: "output_path", input, output, maxSide: 300 };
+    const recipe: ImageResizerOutputPathStrategy = {
+      strategy: "output_path",
+      input,
+      output,
+      maxSide: tools.IntegerPositive.parse(300),
+    };
 
     await adapter.resize(recipe);
 
