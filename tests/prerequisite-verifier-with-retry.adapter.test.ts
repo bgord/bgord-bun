@@ -6,7 +6,7 @@ import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
-const max = 3;
+const max = tools.IntegerPositive.parse(3);
 const backoff = new RetryBackoffNoopStrategy();
 const base = tools.Duration.MIN;
 const exponential = new RetryBackoffExponentialStrategy(base);
@@ -56,7 +56,7 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
     const failVerify = spyOn(fail, "verify");
     const sleeperWait = spyOn(Sleeper, "wait");
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter(
-      { inner: fail, retry: { max: 5, backoff: exponential } },
+      { inner: fail, retry: { max: tools.IntegerPositive.parse(5), backoff: exponential } },
       { Sleeper },
     );
 

@@ -5,7 +5,7 @@ import type { SleeperPort } from "./sleeper.port";
 type Dependencies = { Sleeper: SleeperPort };
 
 export type RetryConfigType = {
-  max: number;
+  max: tools.IntegerPositiveType;
   backoff: RetryBackoffStrategy;
   when?: (error: unknown) => boolean;
 };

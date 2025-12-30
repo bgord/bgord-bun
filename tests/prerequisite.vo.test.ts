@@ -211,7 +211,10 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
         PrerequisiteDecorator.withRetry(
-          { max: 3, backoff: new RetryBackoffExponentialStrategy(tools.Duration.MIN) },
+          {
+            max: tools.IntegerPositive.parse(3),
+            backoff: new RetryBackoffExponentialStrategy(tools.Duration.MIN),
+          },
           deps,
         ),
         PrerequisiteDecorator.withFailSafe(
@@ -338,7 +341,10 @@ describe("Prerequisite VO", () => {
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
-        PrerequisiteDecorator.withRetry({ max: 3, backoff: new RetryBackoffNoopStrategy() }, deps),
+        PrerequisiteDecorator.withRetry(
+          { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },
+          deps,
+        ),
       ],
     });
     const verifier = prerequisite.build();
@@ -437,7 +443,10 @@ describe("Prerequisite VO", () => {
             result.outcome === PrerequisiteVerificationOutcome.failure &&
             result?.error?.message === TimeoutError.Exceeded,
         ),
-        PrerequisiteDecorator.withRetry({ max: 3, backoff: new RetryBackoffNoopStrategy() }, deps),
+        PrerequisiteDecorator.withRetry(
+          { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },
+          deps,
+        ),
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
       ],
     });

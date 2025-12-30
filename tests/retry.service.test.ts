@@ -1,10 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Retry, RetryError } from "../src/retry.service";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
-const max = 3;
+const max = tools.IntegerPositive.parse(3);
 const backoff = new RetryBackoffNoopStrategy();
 const Sleeper = new SleeperNoopAdapter();
 const deps = { Sleeper };
@@ -13,6 +14,7 @@ const retry = new Retry(deps);
 
 describe("Retry service", () => {
   test("invalid max", async () => {
+    // @ts-expect-error
     expect(() => retry.run(async () => "ok", { max: 0, backoff })).toThrow(RetryError.InvalidMax);
   });
 
@@ -57,9 +59,9 @@ describe("Retry service", () => {
   test("retryWhen false", async () => {
     const action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
 
-    expect(async () => retry.run(action, { max: 5, backoff: backoff, when: () => false })).toThrow(
-      mocks.IntentionalError,
-    );
+    expect(async () =>
+      retry.run(action, { max: tools.IntegerPositive.parse(5), backoff: backoff, when: () => false }),
+    ).toThrow(mocks.IntentionalError);
     expect(action).toHaveBeenCalledTimes(1);
   });
 });
