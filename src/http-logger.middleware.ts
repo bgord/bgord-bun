@@ -39,10 +39,7 @@ export class HttpLogger {
 
       const pathname = new URL(request.url).pathname;
 
-      if (options?.skip?.some((prefix) => pathname.startsWith(prefix))) {
-        await next();
-        return;
-      }
+      if (options?.skip?.some((prefix) => pathname.startsWith(prefix))) return await next();
 
       const correlationId = context.get("requestId");
       const client = ClientFromHono.translate(context).toJSON();
