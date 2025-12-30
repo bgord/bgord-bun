@@ -11,7 +11,7 @@ const SchemaError = { InvalidAppName: "schema.app.name.invalid" };
 
 const config = {
   type: NodeEnvironmentEnum.local,
-  Schema: z.object({ APP_NAME: z.string({ error: SchemaError.InvalidAppName }) }),
+  Schema: z.object({ APP_NAME: z.string(SchemaError.InvalidAppName) }),
   path,
 };
 
