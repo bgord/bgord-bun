@@ -12,7 +12,7 @@ export class IdProviderDeterministicAdapter implements IdProviderPort {
     this.queue = [...sequence];
   }
 
-  generate(): string {
+  generate(): UUIDType {
     const next = this.queue.shift();
 
     if (!next) throw new Error(IdProviderDeterministicAdapterError.SequenceExhausted);
