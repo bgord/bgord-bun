@@ -1,4 +1,6 @@
 # Changelog
+- 2025-12-30 14:43 bb0260e **refactor: tighten types**
+- 2025-12-30 14:39 ea3c849 **step: update packages**
 ## 2025-12-30 14:12 v1.7.6
 - 2025-12-30 14:12 a9c0e73 **1.7.6**
 - 2025-12-30 14:10 82219f5 **refactor: use positive integer in redactors**
@@ -12,6 +14,7 @@
 - 2025-12-30 14:00 273754d **refactor: use positive integer in retry backoff**
 - 2025-12-30 13:53 c5977e0 **refactor: tighten type in countermeasure ban**
 - 2025-12-30 13:51 94c3209 **step: update packages**
+- 2025-12-30 13:12 592b18b **docs: generate CHANGELOG**
 - 2025-12-30 13:12 46aa8ec **docs: generate CHANGELOG**
 - 2025-12-30 12:43 0d42c0a **step: add countermeasure name to security context**
 ## 2025-12-30 12:19 v1.7.5
