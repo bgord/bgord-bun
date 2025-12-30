@@ -5,17 +5,17 @@ type ImageProcessorOutputPathStrategy = {
   strategy: "output_path";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
   output: tools.FilePathRelative | tools.FilePathAbsolute;
-  maxSide: number;
+  maxSide: tools.IntegerPositiveType;
   to: tools.ExtensionType;
-  quality?: number;
+  quality?: tools.IntegerPositiveType;
   background?: ImageBackground;
 };
 type ImageProcessorInPlaceStrategy = {
   strategy: "in_place";
   input: tools.FilePathRelative | tools.FilePathAbsolute;
-  maxSide: number;
+  maxSide: tools.IntegerPositiveType;
   to: tools.ExtensionType;
-  quality?: number;
+  quality?: tools.IntegerPositiveType;
   background?: ImageBackground;
 };
 export type ImageProcessorStrategy = ImageProcessorInPlaceStrategy | ImageProcessorOutputPathStrategy;

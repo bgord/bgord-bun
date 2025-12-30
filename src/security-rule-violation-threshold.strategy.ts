@@ -1,4 +1,4 @@
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import type { CacheRepositoryPort } from "./cache-repository.port";
 import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
@@ -30,9 +30,12 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
     if (!violated) return false;
 
     try {
-      const count = (await this.deps.CacheRepository.get<number>(subject.hex)) ?? 0;
+      const count = (await this.deps.CacheRepository.get<tools.IntegerNonNegativeType>(subject.hex)) ?? 0;
 
-      await this.deps.CacheRepository.set<number>(subject.hex, count + 1);
+      await this.deps.CacheRepository.set<tools.IntegerNonNegativeType>(
+        subject.hex,
+        tools.IntegerNonNegative.parse(count + 1),
+      );
 
       if (count + 1 >= this.config.threshold) return true;
       return false;

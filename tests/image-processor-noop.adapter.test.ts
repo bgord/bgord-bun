@@ -12,9 +12,9 @@ describe("ImageProcessorNoopAdapter", () => {
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
-      maxSide: 256,
+      maxSide: tools.IntegerPositive.parse(256),
       to: tools.Extension.parse("webp"),
-      quality: 72,
+      quality: tools.IntegerPositive.parse(72),
       background: "#FFFFFF",
     };
 
@@ -28,7 +28,7 @@ describe("ImageProcessorNoopAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      maxSide: 512,
+      maxSide: tools.IntegerPositive.parse(512),
       to: tools.Extension.parse("jpg"),
     };
 

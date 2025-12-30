@@ -7,7 +7,7 @@ export type SecurityAction =
   | { kind: "allow" }
   | { kind: "deny"; reason: string; response: { status: ContentfulStatusCode } }
   | { kind: "delay"; duration: tools.Duration; after: SecurityAction }
-  | { kind: "mirage"; response: { status: number } };
+  | { kind: "mirage"; response: { status: ContentfulStatusCode } };
 
 export interface SecurityCountermeasureStrategy {
   execute(context: SecurityContext): Promise<SecurityAction>;
