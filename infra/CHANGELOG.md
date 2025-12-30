@@ -1,7 +1,13 @@
 # Changelog
+- 2025-12-30 11:54 437a4c5 **fix: client ip validation logic**
+- 2025-12-30 11:54 3b9a550 **step: add failing http logger client extraction testcase**
+- 2025-12-30 11:52 35c7886 **step: use mocks.ip in http logger tests**
+- 2025-12-30 11:50 a85baa4 **refactor: simplify http logger skip logic**
+- 2025-12-30 10:22 2a09aa0 **refactor: simplify error zod definition**
 - 2025-12-29 23:02 5264e17 **refactor: use duration in certificate inspector**
 - 2025-12-29 22:56 15b7d8e **refactor: rename remaing days to remaining**
 - 2025-12-29 22:50 e8cff9b **step: test fail retry timeout case**
+- 2025-12-29 22:03 6d3b5d9 **docs: generate CHANGELOG**
 ## 2025-12-29 17:54 v1.7.2
 - 2025-12-29 17:54 c9b312b **1.7.2**
 - 2025-12-29 17:53 53dfc96 **fix: make lru-cache dependency loading dynamic**
