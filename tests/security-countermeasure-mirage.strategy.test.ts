@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Client } from "../src/client.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -41,7 +42,7 @@ describe("SecurityCountermeasureMirageStrategy", () => {
 
   test("happy path - custom status", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const config = { response: { status: 201 } };
+    const config = { response: { status: 201 as ContentfulStatusCode } };
     const countermeasure = new SecurityCountermeasureMirageStrategy(deps, config);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
