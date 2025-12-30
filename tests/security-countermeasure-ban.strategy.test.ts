@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Client } from "../src/client.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
@@ -56,7 +57,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path - custom config", async () => {
     const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
-    const config = { response: { status: 404 } };
+    const config = { response: { status: 404 as ContentfulStatusCode } };
     const countermeasure = new SecurityCountermeasureBanStrategy(deps, config);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
