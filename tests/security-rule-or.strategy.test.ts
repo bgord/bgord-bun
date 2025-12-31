@@ -29,6 +29,10 @@ describe("SecurityRuleOrStrategy", () => {
     expect(() => new SecurityRuleOrStrategy([])).toThrow(SecurityRuleOrStrategyError.MissingRules);
   });
 
+  test("just enough rules", () => {
+    expect(() => new SecurityRuleOrStrategy([pass, pass, pass, pass, pass])).not.toThrow();
+  });
+
   test("max rules", () => {
     expect(() => new SecurityRuleOrStrategy([pass, pass, pass, pass, pass, pass])).toThrow(
       SecurityRuleOrStrategyError.MaxRules,
