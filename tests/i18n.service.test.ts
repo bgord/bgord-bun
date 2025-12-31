@@ -79,10 +79,15 @@ describe("I18n service", () => {
     });
 
     test("returns key if translation is missing", () => {
+      const key = "nonexistent";
       const loggerWarn = spyOn(Logger, "warn");
 
-      expect(t("nonexistent")).toEqual("nonexistent");
-      expect(loggerWarn).toHaveBeenCalled();
+      expect(t(key)).toEqual(key);
+      expect(loggerWarn).toHaveBeenCalledWith({
+        message: `Missing translation for key ${key}`,
+        component: "infra",
+        operation: "translations",
+      });
     });
   });
 
