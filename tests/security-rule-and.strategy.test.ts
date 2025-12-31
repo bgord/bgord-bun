@@ -1,26 +1,30 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleAndStrategy, SecurityRuleAndStrategyError } from "../src/security-rule-and.strategy";
-import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
-
-const forbidden = "/.env";
-const allowed = "/about";
-const baitRoutes = new SecurityRuleBaitRoutesStrategy([forbidden]);
+import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 
 const fail = new SecurityRuleFailStrategy();
-
-const rule = new SecurityRuleAndStrategy([baitRoutes, fail]);
+const pass = new SecurityRulePassStrategy();
 
 describe("SecurityRuleAndStrategy", () => {
-  test("isViolated - true", async () => {
-    const context = { req: { path: forbidden } } as any;
+  test("isViolated - true - one failure", async () => {
+    const context = {} as any;
+    const rule = new SecurityRuleAndStrategy([pass, fail]);
+
+    expect(await rule.isViolated(context)).toEqual(true);
+  });
+
+  test("isViolated - true - all failures", async () => {
+    const context = {} as any;
+    const rule = new SecurityRuleAndStrategy([fail, fail]);
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - false", async () => {
-    const context = { req: { path: allowed } } as any;
+    const context = {} as any;
+    const rule = new SecurityRuleAndStrategy([fail, fail]);
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
@@ -40,6 +44,7 @@ describe("SecurityRuleAndStrategy", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual(SecurityRuleName.parse("and_bait_routes_fail"));
+    const rule = new SecurityRuleAndStrategy([pass, fail]);
+    expect(rule.name).toEqual(SecurityRuleName.parse("and_pass_fail"));
   });
 });

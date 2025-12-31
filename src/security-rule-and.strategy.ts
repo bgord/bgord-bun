@@ -14,7 +14,7 @@ export class SecurityRuleAndStrategy implements SecurityRuleStrategy {
   }
 
   async isViolated(c: Context) {
-    return this.rules.every((rule) => rule.isViolated(c));
+    return this.rules.some((rule) => rule.isViolated(c));
   }
 
   get name() {
