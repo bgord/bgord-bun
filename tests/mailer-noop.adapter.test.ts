@@ -19,4 +19,8 @@ describe("MailerNoopAdapter", () => {
 
     expect(loggerInfo).toHaveBeenCalledTimes(1);
   });
+
+  test("verify", async () => {
+    expect(await mailer.verify()).toEqual(true);
+  });
 });
