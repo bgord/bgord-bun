@@ -7,7 +7,6 @@ export class CacheSubjectSegmentQueryStrategy implements CacheSubjectSegmentStra
 
     const keys = Object.keys(query).toSorted();
 
-    if (keys.length === 0) return "";
     return keys.map((key) => `${key}=${query[key]}`).join("&");
   }
 }

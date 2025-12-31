@@ -21,7 +21,7 @@ describe("Retry service", () => {
   test("success", async () => {
     const action = spyOn({ run: async () => "ok" }, "run");
 
-    const result = await retry.run(action, { max, backoff });
+    const result = await retry.run(action, { max: tools.IntegerPositive.parse(1), backoff });
 
     expect(result).toEqual("ok");
     expect(action).toHaveBeenCalledTimes(1);
