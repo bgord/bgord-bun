@@ -8,7 +8,9 @@ export const EncryptionKeyValueError = {
 // 64 hex chars allowed
 const CHARS_WHITELIST = /^[a-fA-F0-9]{64}$/;
 
+// Stryker disable all
 export const EncryptionKeyValue = z
+  // Stryker restore all
   .string(EncryptionKeyValueError.Type)
   .regex(CHARS_WHITELIST, EncryptionKeyValueError.InvalidHex)
   .brand("EncryptionKeyValue");

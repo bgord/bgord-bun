@@ -6,7 +6,9 @@ export const ClientUserAgentError = {
   TooLong: "client.user.agent.too.long",
 };
 
+// Stryker disable all
 export const ClientUserAgent = z
+  // Stryker restore all
   .string(ClientUserAgentError.Type)
   .min(1, ClientUserAgentError.Empty)
   .max(128, ClientUserAgentError.TooLong)

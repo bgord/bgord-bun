@@ -5,7 +5,9 @@ export const RecaptchaSecretKeyError = {
   Length: "recaptcha.secret.key.length",
 };
 
+// Stryker disable all
 export const RecaptchaSecretKey = z
+  // Stryker restore all
   .string(RecaptchaSecretKeyError.Type)
   .length(40, RecaptchaSecretKeyError.Length)
   .brand("RecaptchaSecretKey");

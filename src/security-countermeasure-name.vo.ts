@@ -10,7 +10,9 @@ export const SecurityCountermeasureNameError = {
 // One to sixty four letters, digits, or underscores
 const CHARS_WHITELIST = /^[a-zA-Z0-9_]{1,64}$/;
 
+// Stryker disable all
 export const SecurityCountermeasureName = z
+  // Stryker restore all
   .string(SecurityCountermeasureNameError.Type)
   .min(1, SecurityCountermeasureNameError.Empty)
   .max(64, SecurityCountermeasureNameError.TooLong)

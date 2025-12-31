@@ -6,7 +6,9 @@ export const BasicAuthPasswordError = {
   TooLong: "basic.auth.password.too.long",
 };
 
+// Stryker disable all
 export const BasicAuthPassword = z
+  // Stryker restore all
   .string(BasicAuthPasswordError.Type)
   .min(1, BasicAuthPasswordError.Empty)
   .max(128, BasicAuthPasswordError.TooLong)

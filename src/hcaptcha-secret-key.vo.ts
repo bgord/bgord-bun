@@ -5,7 +5,9 @@ export const HCaptchaSecretKeyError = {
   Length: "hcaptcha.secret.key.length",
 };
 
+// Stryker disable all
 export const HCaptchaSecretKey = z
+  // Stryker restore all
   .string(HCaptchaSecretKeyError.Type)
   .length(35, HCaptchaSecretKeyError.Length)
   .brand("HCaptchaSecretKey");

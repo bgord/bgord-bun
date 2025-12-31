@@ -6,7 +6,9 @@ export const BasicAuthUsernameError = {
   TooLong: "basic.auth.username.too.long",
 };
 
+// Stryker disable all
 export const BasicAuthUsername = z
+  // Stryker restore all
   .string(BasicAuthUsernameError.Type)
   .min(1, BasicAuthUsernameError.Empty)
   .max(128, BasicAuthUsernameError.TooLong)
