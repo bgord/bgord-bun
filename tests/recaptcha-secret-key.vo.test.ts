@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { RecaptchaSecretKey, RecaptchaSecretKeyError } from "../src/recaptcha-secret-key.vo";
+import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
 
 describe("RecaptchaSiteKey VO", () => {
   test("happy path", () => {
@@ -8,18 +8,18 @@ describe("RecaptchaSiteKey VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => RecaptchaSecretKey.parse(null)).toThrow(RecaptchaSecretKeyError.Type);
+    expect(() => RecaptchaSecretKey.parse(null)).toThrow("recaptcha.secret.key.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => RecaptchaSecretKey.parse(123)).toThrow(RecaptchaSecretKeyError.Type);
+    expect(() => RecaptchaSecretKey.parse(123)).toThrow("recaptcha.secret.key.type");
   });
 
   test("rejects empty", () => {
-    expect(() => RecaptchaSecretKey.parse("")).toThrow(RecaptchaSecretKeyError.Length);
+    expect(() => RecaptchaSecretKey.parse("")).toThrow("recaptcha.secret.key.length");
   });
 
   test("rejects too long", () => {
-    expect(() => RecaptchaSecretKey.parse(`${"a".repeat(40)}a`)).toThrow(RecaptchaSecretKeyError.Length);
+    expect(() => RecaptchaSecretKey.parse(`${"a".repeat(40)}a`)).toThrow("recaptcha.secret.key.length");
   });
 });

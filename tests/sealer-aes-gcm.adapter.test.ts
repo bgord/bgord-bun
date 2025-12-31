@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { CryptoAesGcm } from "../src/crypto-aes-gcm.service";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { EncryptionIV } from "../src/encryption-iv.vo";
-import { SealerAesGcmAdapter, SealerAesGcmAdapterError } from "../src/sealer-aes-gcm.adapter";
+import { SealerAesGcmAdapter } from "../src/sealer-aes-gcm.adapter";
 
 const CryptoKeyProvider = new CryptoKeyProviderNoopAdapter();
 const deps = { CryptoKeyProvider };
@@ -39,6 +39,6 @@ describe("SealerAesGcmAdapter", () => {
   });
 
   test("unseal - invalid payload", async () => {
-    expect(async () => adapter.unseal("invalid:payload")).toThrow(SealerAesGcmAdapterError.InvalidPayload);
+    expect(async () => adapter.unseal("invalid:payload")).toThrow("sealer.aes.gcm.adapter.invalid.payload");
   });
 });

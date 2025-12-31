@@ -17,7 +17,7 @@ import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
 import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
 import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
 import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
-import { ShieldSecurityAdapterError, ShieldSecurityStrategy } from "../src/shield-security.strategy";
+import { ShieldSecurityStrategy } from "../src/shield-security.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -199,13 +199,15 @@ describe("ShieldSecurityStrategy", () => {
     const text = await result.text();
 
     expect(result.status).toEqual(500);
-    expect(text).toEqual(ShieldSecurityAdapterError.Unhandled);
+    expect(text).toEqual("shield.security.adapter.error.unhandled");
     expect(loggerInfo).toHaveBeenCalled();
     expect(sleeperWait).toHaveBeenCalled();
   });
 
   test("missing policies", () => {
-    expect(() => new ShieldSecurityStrategy([], deps)).toThrow(ShieldSecurityAdapterError.MissingPolicies);
+    expect(() => new ShieldSecurityStrategy([], deps)).toThrow(
+      "shield.security.adapter.error.missing.policies",
+    );
   });
 
   test("max policies", () => {
@@ -215,6 +217,6 @@ describe("ShieldSecurityStrategy", () => {
           [mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail],
           deps,
         ),
-    ).toThrow(ShieldSecurityAdapterError.MaxPolicies);
+    ).toThrow("shield.security.adapter.error.max.policies");
   });
 });

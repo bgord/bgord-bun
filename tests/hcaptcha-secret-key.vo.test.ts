@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { HCaptchaSecretKey, HCaptchaSecretKeyError } from "../src/hcaptcha-secret-key.vo";
+import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 
 describe("HCaptchaSecretKey VO", () => {
   test("happy path", () => {
@@ -8,18 +8,18 @@ describe("HCaptchaSecretKey VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => HCaptchaSecretKey.parse(null)).toThrow(HCaptchaSecretKeyError.Type);
+    expect(() => HCaptchaSecretKey.parse(null)).toThrow("hcaptcha.secret.key.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => HCaptchaSecretKey.parse(123)).toThrow(HCaptchaSecretKeyError.Type);
+    expect(() => HCaptchaSecretKey.parse(123)).toThrow("hcaptcha.secret.key.type");
   });
 
   test("rejects empty", () => {
-    expect(() => HCaptchaSecretKey.parse("")).toThrow(HCaptchaSecretKeyError.Length);
+    expect(() => HCaptchaSecretKey.parse("")).toThrow("hcaptcha.secret.key.length");
   });
 
   test("rejects too long", () => {
-    expect(() => HCaptchaSecretKey.parse(`${"a".repeat(35)}a`)).toThrow(HCaptchaSecretKeyError.Length);
+    expect(() => HCaptchaSecretKey.parse(`${"a".repeat(35)}a`)).toThrow("hcaptcha.secret.key.length");
   });
 });

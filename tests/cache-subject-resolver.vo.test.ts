@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectResolver, CacheSubjectResolverError } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
@@ -128,7 +128,7 @@ describe("CacheSubject", () => {
     const context = {};
 
     expect(async () => new CacheSubjectResolver([], deps).resolve(context as any)).toThrow(
-      CacheSubjectResolverError.NoSegments,
+      "cache.subject.no.segments",
     );
   });
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { HashValue, HashValueError } from "../src/hash-value.vo";
+import { HashValue } from "../src/hash-value.vo";
 
 describe("HashValue VO", () => {
   test("happy path", () => {
@@ -7,18 +7,18 @@ describe("HashValue VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => HashValue.parse(null)).toThrow(HashValueError.Type);
+    expect(() => HashValue.parse(null)).toThrow("hash.value.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => HashValue.parse(2024)).toThrow(HashValueError.Type);
+    expect(() => HashValue.parse(2024)).toThrow("hash.value.type");
   });
 
   test("rejects empty", () => {
-    expect(() => HashValue.parse("")).toThrow(HashValueError.InvalidHex);
+    expect(() => HashValue.parse("")).toThrow("hash.value.invalid.hex");
   });
 
   test("rejects invalid hex", () => {
-    expect(() => HashValue.parse(`${"f".repeat(63)}x`)).toThrow(HashValueError.InvalidHex);
+    expect(() => HashValue.parse(`${"f".repeat(63)}x`)).toThrow("hash.value.invalid.hex");
   });
 });

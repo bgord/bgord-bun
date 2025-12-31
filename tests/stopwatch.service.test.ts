@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { Stopwatch, StopwatchError } from "../src/stopwatch.service";
+import { Stopwatch } from "../src/stopwatch.service";
 import * as mocks from "./mocks";
 
 describe("Stopwatch", () => {
@@ -21,6 +21,6 @@ describe("Stopwatch", () => {
     const stopwatch = new Stopwatch({ Clock });
 
     stopwatch.stop();
-    expect(() => stopwatch.stop()).toThrow(StopwatchError.AlreadyStopped);
+    expect(() => stopwatch.stop()).toThrow("stopwatch.already.stopped");
   });
 });

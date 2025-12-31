@@ -1,6 +1,5 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { TimeoutCancellableError } from "../src/timeout-cancellable-runner.port";
 import { TimeoutCancellableRunnerBare } from "../src/timeout-cancellable-runner-bare.adapter";
 import * as mocks from "./mocks";
 
@@ -33,9 +32,9 @@ describe("TimeoutCancellableRunnerBare", () => {
     jest.runAllTimers();
 
     const signal = action.mock.calls[0]?.[0];
-    expect(promise).rejects.toThrow(TimeoutCancellableError.Exceeded);
+    expect(promise).rejects.toThrow("timeout.cancellable.exceeded");
     expect(signal?.aborted).toBe(true);
-    expect(signal?.reason.message).toEqual(TimeoutCancellableError.Exceeded);
+    expect(signal?.reason.message).toEqual("timeout.cancellable.exceeded");
 
     jest.useRealTimers();
   });

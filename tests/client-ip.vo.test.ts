@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { ClientIp, ClientIpError } from "../src/client-ip.vo";
+import { ClientIp } from "../src/client-ip.vo";
 
 describe("ClientIp VO", () => {
   test("happy path", () => {
@@ -14,10 +14,10 @@ describe("ClientIp VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => ClientIp.parse(null)).toThrow(ClientIpError.Type);
+    expect(() => ClientIp.parse(null)).toThrow("client.ip.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => ClientIp.parse(123)).toThrow(ClientIpError.Type);
+    expect(() => ClientIp.parse(123)).toThrow("client.ip.type");
   });
 });

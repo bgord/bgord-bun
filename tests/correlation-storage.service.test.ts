@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { CorrelationStorage, CorrelationStorageError } from "../src/correlation-storage.service";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 
 describe("CorrelationStorage service", () => {
   test("run - makes the correlationId available inside the callback", () => {
@@ -15,7 +15,7 @@ describe("CorrelationStorage service", () => {
   });
 
   test("run - throws when accessed outside a run-context", () => {
-    expect(() => CorrelationStorage.get()).toThrow(CorrelationStorageError.Missing);
+    expect(() => CorrelationStorage.get()).toThrow("correlation.storage.missing");
   });
 
   test("run - inner and outer", () => {
@@ -43,6 +43,6 @@ describe("CorrelationStorage service", () => {
 
     await CorrelationStorage.handle()(context, () => Promise.resolve());
 
-    expect(() => CorrelationStorage.get()).toThrow(CorrelationStorageError.Missing);
+    expect(() => CorrelationStorage.get()).toThrow("correlation.storage.missing");
   });
 });

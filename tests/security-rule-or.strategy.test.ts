@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
-import { SecurityRuleOrStrategy, SecurityRuleOrStrategyError } from "../src/security-rule-or.strategy";
+import { SecurityRuleOrStrategy } from "../src/security-rule-or.strategy";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 
 const forbidden = "/.env";
@@ -26,7 +26,7 @@ describe("SecurityRuleOrStrategy", () => {
   });
 
   test("missing rules", () => {
-    expect(() => new SecurityRuleOrStrategy([])).toThrow(SecurityRuleOrStrategyError.MissingRules);
+    expect(() => new SecurityRuleOrStrategy([])).toThrow("security.rule.or.adapter.error.missing.rules");
   });
 
   test("just enough rules", () => {
@@ -35,7 +35,7 @@ describe("SecurityRuleOrStrategy", () => {
 
   test("max rules", () => {
     expect(() => new SecurityRuleOrStrategy([pass, pass, pass, pass, pass, pass])).toThrow(
-      SecurityRuleOrStrategyError.MaxRules,
+      "security.rule.or.adapter.error.max.rules",
     );
   });
 

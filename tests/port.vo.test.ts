@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Port, PortError } from "../src/port.vo";
+import { Port } from "../src/port.vo";
 
 describe("Port VO", () => {
   test("happy path", () => {
@@ -20,10 +20,10 @@ describe("Port VO", () => {
   });
 
   test("transforms negative numbers to 1", () => {
-    expect(() => Port.parse(-2)).toThrow(PortError.Invalid);
+    expect(() => Port.parse(-2)).toThrow("port.invalid");
   });
 
   test("rejects fractions", () => {
-    expect(() => Port.parse(1.5)).toThrow(PortError.Type);
+    expect(() => Port.parse(1.5)).toThrow("port.type");
   });
 });

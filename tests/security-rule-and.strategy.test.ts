@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { SecurityRuleAndStrategy, SecurityRuleAndStrategyError } from "../src/security-rule-and.strategy";
+import { SecurityRuleAndStrategy } from "../src/security-rule-and.strategy";
 import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
@@ -30,7 +30,7 @@ describe("SecurityRuleAndStrategy", () => {
   });
 
   test("missing rules", () => {
-    expect(() => new SecurityRuleAndStrategy([])).toThrow(SecurityRuleAndStrategyError.MissingRules);
+    expect(() => new SecurityRuleAndStrategy([])).toThrow("security.rule.and.adapter.error.missing.rules");
   });
 
   test("just enough rules", () => {
@@ -39,7 +39,7 @@ describe("SecurityRuleAndStrategy", () => {
 
   test("max rules", () => {
     expect(() => new SecurityRuleAndStrategy([fail, fail, fail, fail, fail, fail])).toThrow(
-      SecurityRuleAndStrategyError.MaxRules,
+      "security.rule.and.adapter.error.max.rules",
     );
   });
 

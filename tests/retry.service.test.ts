@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Retry, RetryError } from "../src/retry.service";
+import { Retry } from "../src/retry.service";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
@@ -15,7 +15,7 @@ const retry = new Retry(deps);
 describe("Retry service", () => {
   test("invalid max", async () => {
     // @ts-expect-error
-    expect(() => retry.run(async () => "ok", { max: 0, backoff })).toThrow(RetryError.InvalidMax);
+    expect(() => retry.run(async () => "ok", { max: 0, backoff })).toThrow("retry.invalid.max");
   });
 
   test("success", async () => {

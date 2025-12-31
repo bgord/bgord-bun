@@ -1,5 +1,4 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { AntivirusPortError } from "../src/antivirus.port";
 import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 import * as mocks from "./mocks";
 
@@ -39,6 +38,6 @@ describe("AntivirusClamavAdapter", () => {
   test("ScanFailed", async () => {
     spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }) as any);
 
-    expect(async () => adapter.scanBytes(new Uint8Array([1]))).toThrow(AntivirusPortError.ScanFailed);
+    expect(async () => adapter.scanBytes(new Uint8Array([1]))).toThrow("antivirus.scan.failed");
   });
 });

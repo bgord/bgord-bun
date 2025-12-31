@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { ClientUserAgent, ClientUserAgentError } from "../src/client-user-agent.vo";
+import { ClientUserAgent } from "../src/client-user-agent.vo";
 
 describe("ClientUserAgent VO", () => {
   test("happy path", () => {
@@ -8,18 +8,18 @@ describe("ClientUserAgent VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => ClientUserAgent.parse(null)).toThrow(ClientUserAgentError.Type);
+    expect(() => ClientUserAgent.parse(null)).toThrow("client.user.agent.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => ClientUserAgent.parse(123)).toThrow(ClientUserAgentError.Type);
+    expect(() => ClientUserAgent.parse(123)).toThrow("client.user.agent.type");
   });
 
   test("rejects empty", () => {
-    expect(() => ClientUserAgent.parse("")).toThrow(ClientUserAgentError.Empty);
+    expect(() => ClientUserAgent.parse("")).toThrow("client.user.agent.empty");
   });
 
   test("rejects too long", () => {
-    expect(() => ClientUserAgent.parse(`${"a".repeat(128)}a`)).toThrow(ClientUserAgentError.TooLong);
+    expect(() => ClientUserAgent.parse(`${"a".repeat(128)}a`)).toThrow("client.user.agent.too.long");
   });
 });

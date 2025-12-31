@@ -1,8 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  IdProviderDeterministicAdapter,
-  IdProviderDeterministicAdapterError,
-} from "../src/id-provider-deterministic.adapter";
+import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 
 describe("IdProviderDeterministicAdapter", () => {
   test("happy path", () => {
@@ -10,6 +7,6 @@ describe("IdProviderDeterministicAdapter", () => {
 
     expect(provider.generate()).toEqual("123");
     expect(provider.generate()).toEqual("234");
-    expect(() => provider.generate()).toThrow(IdProviderDeterministicAdapterError.SequenceExhausted);
+    expect(() => provider.generate()).toThrow("id.provider.deterministic.adapter.sequence.exhausted");
   });
 });

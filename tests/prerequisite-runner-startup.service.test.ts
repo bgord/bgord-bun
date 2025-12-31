@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import { PrerequisiteRunnerStartup, PrerequisitesError } from "../src/prerequisite-runner-startup.service";
+import { PrerequisiteRunnerStartup } from "../src/prerequisite-runner-startup.service";
 import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
@@ -25,7 +25,7 @@ describe("PrerequisiteRunnerStartup service", () => {
     const loggerError = spyOn(Logger, "error");
 
     expect(async () => runner.check([mocks.PrerequisiteOk, mocks.PrerequisiteFail])).toThrow(
-      PrerequisitesError.Failure,
+      "prerequisites.failure",
     );
 
     expect(loggerError).toHaveBeenCalledWith(

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { SecurityRuleName, SecurityRuleNameError } from "../src/security-rule-name.vo";
+import { SecurityRuleName } from "../src/security-rule-name.vo";
 
 describe("SecurityRuleName VO", () => {
   test("happy path", () => {
@@ -9,22 +9,22 @@ describe("SecurityRuleName VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => SecurityRuleName.parse(null)).toThrow(SecurityRuleNameError.Type);
+    expect(() => SecurityRuleName.parse(null)).toThrow("security.rule.name.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => SecurityRuleName.parse(123)).toThrow(SecurityRuleNameError.Type);
+    expect(() => SecurityRuleName.parse(123)).toThrow("security.rule.name.type");
   });
 
   test("rejects empty", () => {
-    expect(() => SecurityRuleName.parse("")).toThrow(SecurityRuleNameError.Empty);
+    expect(() => SecurityRuleName.parse("")).toThrow("security.rule.name.empty");
   });
 
   test("rejects too long", () => {
-    expect(() => SecurityRuleName.parse(`${"a".repeat(512)}abc`)).toThrow(SecurityRuleNameError.TooLong);
+    expect(() => SecurityRuleName.parse(`${"a".repeat(512)}abc`)).toThrow("security.rule.name.too.long");
   });
 
   test("rejects bad chars", () => {
-    expect(() => SecurityRuleName.parse(`${"a".repeat(511)}!`)).toThrow(SecurityRuleNameError.BadChars);
+    expect(() => SecurityRuleName.parse(`${"a".repeat(511)}!`)).toThrow("security.rule.name.bad.chars");
   });
 });

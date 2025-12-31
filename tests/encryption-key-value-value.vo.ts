@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { EncryptionKeyValue, EncryptionKeyValueError } from "../src/encryption-key-value.vo";
+import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 
 describe("EncryptionKey VO", () => {
   test("happy path", () => {
@@ -7,18 +7,18 @@ describe("EncryptionKey VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => EncryptionKeyValue.parse(null)).toThrow(EncryptionKeyValueError.Type);
+    expect(() => EncryptionKeyValue.parse(null)).toThrow("encryption.key.value.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => EncryptionKeyValue.parse(2024)).toThrow(EncryptionKeyValueError.Type);
+    expect(() => EncryptionKeyValue.parse(2024)).toThrow("encryption.key.value.type");
   });
 
   test("rejects empty", () => {
-    expect(() => EncryptionKeyValue.parse("")).toThrow(EncryptionKeyValueError.InvalidHex);
+    expect(() => EncryptionKeyValue.parse("")).toThrow("encryption.key.value.invalid.hex");
   });
 
   test("rejects invalid hex", () => {
-    expect(() => EncryptionKeyValue.parse(`${"f".repeat(63)}x`)).toThrow(EncryptionKeyValueError.InvalidHex);
+    expect(() => EncryptionKeyValue.parse(`${"f".repeat(63)}x`)).toThrow("encryption.key.value.invalid.hex");
   });
 });

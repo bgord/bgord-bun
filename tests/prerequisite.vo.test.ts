@@ -11,7 +11,7 @@ import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.po
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
-import { TimeoutError } from "../src/timeout-runner.port";
+import {} from "../src/timeout-runner.port";
 import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
 import * as mocks from "./mocks";
@@ -123,7 +123,7 @@ describe("Prerequisite VO", () => {
     // @ts-expect-error
     const result = (await verifier.verify()).error.message;
 
-    expect(result).toEqual(TimeoutError.Exceeded);
+    expect(result).toEqual("timeout.exceeded");
   });
 
   test("with cache - success", async () => {
@@ -283,12 +283,12 @@ describe("Prerequisite VO", () => {
     // @ts-expect-error
     const first = (await verifier.verify()).error.message;
 
-    expect(first).toEqual(TimeoutError.Exceeded);
+    expect(first).toEqual("timeout.exceeded");
 
     // @ts-expect-error
     const second = (await verifier.verify())?.error?.message;
 
-    expect(second).toEqual(TimeoutError.Exceeded);
+    expect(second).toEqual("timeout.exceeded");
 
     await CacheRepository.flush();
   });
@@ -315,12 +315,12 @@ describe("Prerequisite VO", () => {
     // @ts-expect-error
     const first = (await verifier.verify()).error.message;
 
-    expect(first).toEqual(TimeoutError.Exceeded);
+    expect(first).toEqual("timeout.exceeded");
 
     // @ts-expect-error
     const second = (await verifier.verify()).error.message;
 
-    expect(second).toEqual(TimeoutError.Exceeded);
+    expect(second).toEqual("timeout.exceeded");
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     await CacheRepository.flush();
@@ -419,7 +419,7 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withFailSafe(
           (result) =>
             result.outcome === PrerequisiteVerificationOutcome.failure &&
-            result?.error?.message === TimeoutError.Exceeded,
+            result?.error?.message === "timeout.exceeded",
         ),
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
       ],
@@ -441,7 +441,7 @@ describe("Prerequisite VO", () => {
         PrerequisiteDecorator.withFailSafe(
           (result) =>
             result.outcome === PrerequisiteVerificationOutcome.failure &&
-            result?.error?.message === TimeoutError.Exceeded,
+            result?.error?.message === "timeout.exceeded",
         ),
         PrerequisiteDecorator.withRetry(
           { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },

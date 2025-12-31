@@ -1,10 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import {
-  CryptoKeyProviderFileAdapter,
-  CryptoKeyProviderFileAdapterError,
-} from "../src/crypto-key-provider-file.adapter";
-import { EncryptionKeyValue, EncryptionKeyValueError } from "../src/encryption-key-value.vo";
+import { CryptoKeyProviderFileAdapter } from "../src/crypto-key-provider-file.adapter";
+import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 
 const HEX = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
 const path = tools.FilePathAbsolute.fromString("/run/secret.key");
@@ -39,13 +36,13 @@ describe("CryptoKeyProviderFileAdapter", () => {
   test("missing file", async () => {
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => false }) as any);
 
-    expect(async () => adapter.get()).toThrow(CryptoKeyProviderFileAdapterError.MissingFile);
+    expect(async () => adapter.get()).toThrow("crypto.key.provider.file.adapter.missing.file");
   });
 
   test("empty file", async () => {
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => "" }) as any);
 
-    expect(async () => adapter.get()).toThrow(EncryptionKeyValueError.InvalidHex);
+    expect(async () => adapter.get()).toThrow("encryption.key.value.invalid.hex");
   });
 
   test("invalid content", async () => {
@@ -53,6 +50,6 @@ describe("CryptoKeyProviderFileAdapter", () => {
       () => ({ exists: () => true, text: () => "invalid-hex-string" }) as any,
     );
 
-    expect(async () => adapter.get()).toThrow(EncryptionKeyValueError.InvalidHex);
+    expect(async () => adapter.get()).toThrow("encryption.key.value.invalid.hex");
   });
 });

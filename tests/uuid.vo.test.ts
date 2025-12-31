@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { UUID, UUIDError } from "../src/uuid.vo";
+import { UUID } from "../src/uuid.vo";
 
 describe("UUID VO", () => {
   test("happy path", () => {
@@ -7,6 +7,6 @@ describe("UUID VO", () => {
   });
 
   test("rejects invalid", () => {
-    expect(() => UUID.parse("not-a-uuid")).toThrow(UUIDError.Type);
+    expect(() => UUID.parse("not-a-uuid")).toThrow("uuid.type");
   });
 });

@@ -1,6 +1,5 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { TimeoutError } from "../src/timeout-runner.port";
 import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import * as mocks from "./mocks";
 
@@ -27,7 +26,7 @@ describe("TimeoutRunnerBareAdapter", () => {
     const runner = adapter.run(action, timeout);
     jest.runAllTimers();
 
-    expect(runner).rejects.toThrow(TimeoutError.Exceeded);
+    expect(runner).rejects.toThrow("timeout.exceeded");
 
     jest.useRealTimers();
   });

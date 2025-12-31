@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { NodeEnvironment, NodeEnvironmentEnum, NodeEnvironmentError } from "../src/node-env.vo";
+import { NodeEnvironment, NodeEnvironmentEnum } from "../src/node-env.vo";
 
 describe("NodeEnvironment VO", () => {
   test("happy path", () => {
@@ -10,6 +10,6 @@ describe("NodeEnvironment VO", () => {
   });
 
   test("rejects unknown", () => {
-    expect(() => NodeEnvironment.parse("unknown")).toThrow(NodeEnvironmentError.Invalid);
+    expect(() => NodeEnvironment.parse("unknown")).toThrow("node.environment.invalid");
   });
 });

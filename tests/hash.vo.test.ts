@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { Hash } from "../src/hash.vo";
-import { HashValueError } from "../src/hash-value.vo";
 import * as mocks from "./mocks";
 
 describe("Hash VO", () => {
@@ -14,7 +13,7 @@ describe("Hash VO", () => {
   });
 
   test("fromString - invalid", () => {
-    expect(() => Hash.fromString("xyz").get()).toThrow(HashValueError.InvalidHex);
+    expect(() => Hash.fromString("xyz").get()).toThrow("hash.value.invalid.hex");
   });
 
   test("get", () => {

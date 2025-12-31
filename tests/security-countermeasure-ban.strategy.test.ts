@@ -6,10 +6,7 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
-import {
-  SecurityCountermeasureBanStrategy,
-  SecurityCountermeasureBanStrategyError,
-} from "../src/security-countermeasure-ban.strategy";
+import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
@@ -39,7 +36,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
 
       expect(action).toEqual({
         kind: "deny",
-        reason: SecurityCountermeasureBanStrategyError.Executed,
+        reason: "security.countermeasure.ban.strategy.executed",
         response: { status: 403 },
       });
     });
@@ -65,7 +62,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
 
       expect(action).toEqual({
         kind: "deny",
-        reason: SecurityCountermeasureBanStrategyError.Executed,
+        reason: "security.countermeasure.ban.strategy.executed",
         ...config,
       });
     });

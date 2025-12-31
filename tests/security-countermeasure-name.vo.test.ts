@@ -1,8 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  SecurityCountermeasureName,
-  SecurityCountermeasureNameError,
-} from "../src/security-countermeasure-name.vo";
+import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 describe("SecurityCountermeasureName VO", () => {
   test("happy path", () => {
@@ -12,26 +9,26 @@ describe("SecurityCountermeasureName VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => SecurityCountermeasureName.parse(null)).toThrow(SecurityCountermeasureNameError.Type);
+    expect(() => SecurityCountermeasureName.parse(null)).toThrow("security.countermeasure.name.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => SecurityCountermeasureName.parse(123)).toThrow(SecurityCountermeasureNameError.Type);
+    expect(() => SecurityCountermeasureName.parse(123)).toThrow("security.countermeasure.name.type");
   });
 
   test("rejects empty", () => {
-    expect(() => SecurityCountermeasureName.parse("")).toThrow(SecurityCountermeasureNameError.Empty);
+    expect(() => SecurityCountermeasureName.parse("")).toThrow("security.countermeasure.name.empty");
   });
 
   test("rejects too long", () => {
     expect(() => SecurityCountermeasureName.parse(`${"a".repeat(64)}abc`)).toThrow(
-      SecurityCountermeasureNameError.TooLong,
+      "security.countermeasure.name.too.long",
     );
   });
 
   test("rejects bad chars", () => {
     expect(() => SecurityCountermeasureName.parse(`${"a".repeat(63)}!`)).toThrow(
-      SecurityCountermeasureNameError.BadChars,
+      "security.countermeasure.name.bad.chars",
     );
   });
 });

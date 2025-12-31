@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { CryptoAesGcm, CryptoAesGcmError } from "../src/crypto-aes-gcm.service";
+import { CryptoAesGcm } from "../src/crypto-aes-gcm.service";
 import { EncryptionIV } from "../src/encryption-iv.vo";
 
 const cryptoKey = {} as CryptoKey;
@@ -33,7 +33,7 @@ describe("AesGcmCrypto", () => {
     const invalidPayload = new Uint8Array(EncryptionIV.LENGTH);
 
     expect(async () => CryptoAesGcm.decrypt(cryptoKey, invalidPayload)).toThrow(
-      CryptoAesGcmError.InvalidPayload,
+      "aes.gcm.crypto.invalid.payload",
     );
   });
 });

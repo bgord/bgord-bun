@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { EncryptionKey, EncryptionKeyError } from "../src/encryption-key.vo";
-import { EncryptionKeyValue, EncryptionKeyValueError } from "../src/encryption-key-value.vo";
+import { EncryptionKey } from "../src/encryption-key.vo";
+import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 
 const HEX = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
 const ANOTHER_HEX = EncryptionKeyValue.parse(
@@ -21,7 +21,7 @@ describe("EncryptionKey VO", () => {
   });
 
   test("fromString - invalid hex", () => {
-    expect(() => EncryptionKey.fromString("abc")).toThrow(EncryptionKeyValueError.InvalidHex);
+    expect(() => EncryptionKey.fromString("abc")).toThrow("encryption.key.value.invalid.hex");
   });
 
   test("fromBuffer", () => {
@@ -29,7 +29,7 @@ describe("EncryptionKey VO", () => {
   });
 
   test("fromBuffer - invalid length", () => {
-    expect(() => EncryptionKey.fromBuffer(new Uint8Array(31))).toThrow(EncryptionKeyError.InvalidBuffer);
+    expect(() => EncryptionKey.fromBuffer(new Uint8Array(31))).toThrow("encryption.key.invalid.buffer");
   });
 
   test("toBuffer", () => {
