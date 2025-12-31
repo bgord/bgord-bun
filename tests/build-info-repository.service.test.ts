@@ -21,11 +21,14 @@ describe("BuildInfoRepository service", () => {
   });
 
   test("failure - package.json read", async () => {
-    spyOn(FileReaderJson, "read").mockRejectedValue(new Error(mocks.IntentionalError));
+    const fileReaderJsonRead = spyOn(FileReaderJson, "read").mockRejectedValue(
+      new Error(mocks.IntentionalError),
+    );
 
     const result = await BuildInfoRepository.extract(deps);
 
     expect(typeof result.BUILD_DATE).toEqual("number");
     expect(result.BUILD_VERSION).toEqual(undefined);
+    expect(fileReaderJsonRead).toHaveBeenCalledWith("package.json");
   });
 });
