@@ -7,3 +7,5 @@ tsconfig.tsbuildinfo
 tests/tmp/*
 !tests/tmp/.gitkeep
 tmp/
+.stryker-tmp
+reports/
