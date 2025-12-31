@@ -45,4 +45,9 @@ describe("CorrelationStorage service", () => {
 
     expect(() => CorrelationStorage.get()).toThrow("correlation.storage.missing");
   });
+
+  test("global symbol", () => {
+    // @ts-expect-error
+    expect(CorrelationStorage.GLOBAL_KEY).toEqual(Symbol.for("bgord.CorrelationStorage"));
+  });
 });

@@ -7,7 +7,7 @@ type CorrelationContext = { correlationId: CorrelationIdType };
 export const CorrelationStorageError = { Missing: "correlation.storage.missing" } as const;
 
 export class CorrelationStorage {
-  private static readonly GLOBAL_KEY = Symbol.for("bgord.CorrelationStorage");
+  static readonly GLOBAL_KEY = Symbol.for("bgord.CorrelationStorage");
 
   // biome-ignore lint: lint/suspicious/noAssignInExpressions
   private static readonly als: AsyncLocalStorage<CorrelationContext> = ((globalThis as any)[
