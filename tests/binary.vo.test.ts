@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Binary, BinaryError } from "../src/binary.vo";
+import { Binary } from "../src/binary.vo";
 
 describe("Binary VO", () => {
   test("happy path", () => {
@@ -11,22 +11,22 @@ describe("Binary VO", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => Binary.parse(null)).toThrow(BinaryError.Type);
+    expect(() => Binary.parse(null)).toThrow("binary.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => Binary.parse(123)).toThrow(BinaryError.Type);
+    expect(() => Binary.parse(123)).toThrow("binary.type");
   });
 
   test("rejects empty", () => {
-    expect(() => Binary.parse("")).toThrow(BinaryError.Empty);
+    expect(() => Binary.parse("")).toThrow("binary.empty");
   });
 
   test("rejects too long", () => {
-    expect(() => Binary.parse(`${"a".repeat(64)}abc`)).toThrow(BinaryError.TooLong);
+    expect(() => Binary.parse(`${"a".repeat(64)}abc`)).toThrow("binary.too.long");
   });
 
   test("rejects bad chars", () => {
-    expect(() => Binary.parse(`${"a".repeat(63)}!`)).toThrow(BinaryError.BadChars);
+    expect(() => Binary.parse(`${"a".repeat(63)}!`)).toThrow("binary.bad.chars");
   });
 });

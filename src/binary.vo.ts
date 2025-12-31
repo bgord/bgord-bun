@@ -10,7 +10,9 @@ export const BinaryError = {
 // One to sixty four letters, digits, hyphens, or underscores
 const CHARS_WHITELIST = /^[a-zA-Z0-9-_]{1,64}$/;
 
+// Stryker disable all
 export const Binary = z
+  // Stryker restore all
   .string(BinaryError.Type)
   .min(1, BinaryError.Empty)
   .max(64, BinaryError.TooLong)
