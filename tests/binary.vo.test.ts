@@ -10,6 +10,10 @@ describe("Binary VO", () => {
     expect(Binary.safeParse("a2").success).toEqual(true);
   });
 
+  test("rejects prefix", () => {
+    expect(() => Binary.parse("!a")).toThrow("binary.bad.chars");
+  });
+
   test("rejects non-string - null", () => {
     expect(() => Binary.parse(null)).toThrow("binary.type");
   });
