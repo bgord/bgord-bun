@@ -7,7 +7,7 @@ import * as mocks from "./mocks";
 const directory = tools.DirectoryPathAbsoluteSchema.parse("/var/app/uploads");
 
 describe("PrerequisiteVerifierDirectoryAdapter", () => {
-  test("success", async () => {
+  test("success - all", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
@@ -16,6 +16,42 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+  });
+
+  test("success - read only", async () => {
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory, permissions: { read: true } });
+
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(fsAccess).toHaveBeenCalledTimes(1);
+    expect(fsAccess).toHaveBeenCalledWith(directory, fs.constants.R_OK);
+  });
+
+  test("success - write only", async () => {
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
+      directory,
+      permissions: { write: true },
+    });
+
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(fsAccess).toHaveBeenCalledTimes(1);
+    expect(fsAccess).toHaveBeenCalledWith(directory, fs.constants.W_OK);
+  });
+
+  test("success - execute only", async () => {
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
+      directory,
+      permissions: { execute: true },
+    });
+
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(fsAccess).toHaveBeenCalledTimes(1);
+    expect(fsAccess).toHaveBeenCalledWith(directory, fs.constants.X_OK);
   });
 
   test("failure - does not exist", async () => {
