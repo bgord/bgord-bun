@@ -29,6 +29,7 @@ describe("GzipStreamAdapter", () => {
     expect(result).toEqual(output);
     expect(fsCreateReadStream).toHaveBeenCalledWith(input.get());
     expect(zlibCreateGzip).toHaveBeenCalledTimes(1);
+    expect(zlibCreateGzip).toHaveBeenCalledWith({ level: 1 });
     expect(fsCreateWriteStream).toHaveBeenCalledWith(output.get());
   });
 
