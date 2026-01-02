@@ -3,6 +3,7 @@ import * as fs from "node:fs/promises";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { LoggerWinstonProductionAdapter } from "../src/logger-winston-production.adapter";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierLogFileAdapter } from "../src/prerequisite-verifier-log-file.adapter";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
@@ -60,6 +61,14 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
     const result = await prerequisite.verify();
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "File is not writable" }));
+  });
+
+  test("failure - error", async () => {
+    spyOn(Logger, "getFilePath").mockImplementation(mocks.throwIntentionalError);
+
+    const result = await prerequisite.verify();
+
+    expect(result.outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 
   test("undetermined - no path", async () => {
