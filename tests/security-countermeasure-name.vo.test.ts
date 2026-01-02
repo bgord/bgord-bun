@@ -8,6 +8,10 @@ describe("SecurityCountermeasureName VO", () => {
     expect(SecurityCountermeasureName.safeParse("ban_someone").success).toEqual(true);
   });
 
+  test("rejects prefix", () => {
+    expect(() => SecurityCountermeasureName.parse("!abc")).toThrow("security.countermeasure.name.bad.chars");
+  });
+
   test("rejects non-string - null", () => {
     expect(() => SecurityCountermeasureName.parse(null)).toThrow("security.countermeasure.name.type");
   });
