@@ -22,7 +22,7 @@ export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifi
       if (duration.isShorterThan(this.config.skew)) return PrerequisiteVerification.success;
       return PrerequisiteVerification.failure({ message: `Difference: ${duration.seconds}s` });
     } catch (error) {
-      return PrerequisiteVerification.undetermined;
+      return PrerequisiteVerification.failure(error as Error);
     }
   }
 

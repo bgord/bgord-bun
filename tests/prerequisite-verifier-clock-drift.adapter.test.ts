@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierClockDriftAdapter } from "../src/prerequisite-verifier-clock-drift.adapter";
 import { TimekeeperNoopAdapter } from "../src/timekeeper-noop.adapter";
 import * as mocks from "./mocks";
@@ -23,6 +24,14 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
     spyOn(Timekeeper, "get").mockResolvedValue(null);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
+  });
+
+  test("failure - timekeeper", async () => {
+    spyOn(Timekeeper, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    const result = await prerequisite.verify();
+
+    expect(result.outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 
   test("failure - skew", async () => {
