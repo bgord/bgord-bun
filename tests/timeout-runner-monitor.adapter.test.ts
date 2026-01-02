@@ -23,6 +23,7 @@ describe("TimeoutRunnerWithLoggerAdapter", () => {
   test("monitor - over timeout", async () => {
     jest.useFakeTimers();
     const loggerWarn = spyOn(Logger, "warn");
+    const globalClearTimeout = spyOn(global, "clearTimeout");
     const action = () => new Promise((resolve) => setTimeout(resolve, over));
 
     const runner = adapter.run(action(), timeout);
@@ -35,6 +36,7 @@ describe("TimeoutRunnerWithLoggerAdapter", () => {
       operation: "timeout_monitor",
       metadata: { timeoutMs: timeout.ms },
     });
+    expect(globalClearTimeout).toHaveBeenCalled();
 
     jest.useRealTimers();
   });
