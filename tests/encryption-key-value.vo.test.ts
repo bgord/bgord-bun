@@ -21,4 +21,12 @@ describe("EncryptionKey VO", () => {
   test("rejects invalid hex", () => {
     expect(() => EncryptionKeyValue.parse(`${"f".repeat(63)}x`)).toThrow("encryption.key.value.invalid.hex");
   });
+
+  test("rejects too long", () => {
+    expect(() => EncryptionKeyValue.parse("f".repeat(65))).toThrow("encryption.key.value.invalid.hex");
+  });
+
+  test("rejects too short", () => {
+    expect(() => EncryptionKeyValue.parse("f".repeat(63))).toThrow("encryption.key.value.invalid.hex");
+  });
 });
