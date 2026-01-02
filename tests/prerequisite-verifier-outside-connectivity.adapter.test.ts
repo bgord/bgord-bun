@@ -6,9 +6,10 @@ const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter();
 
 describe("PrerequisiteVerifierOutsideConnectivityAdapter", () => {
   test("success", async () => {
-    spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
+    const globalFetch = spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(globalFetch).toHaveBeenCalledWith("https://google.com", { method: "HEAD" });
   });
 
   test("failure", async () => {
