@@ -8,6 +8,10 @@ describe("SecurityRuleName VO", () => {
     expect(SecurityRuleName.safeParse("honey_pot").success).toEqual(true);
   });
 
+  test("rejects prefix", () => {
+    expect(() => SecurityRuleName.parse("!abc")).toThrow("security.rule.name.bad.chars");
+  });
+
   test("rejects non-string - null", () => {
     expect(() => SecurityRuleName.parse(null)).toThrow("security.rule.name.type");
   });
