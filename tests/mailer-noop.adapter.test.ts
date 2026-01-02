@@ -17,7 +17,12 @@ describe("MailerNoopAdapter", () => {
 
     await mailer.send(sendOptions);
 
-    expect(loggerInfo).toHaveBeenCalledTimes(1);
+    expect(loggerInfo).toHaveBeenCalledWith({
+      component: "infra",
+      message: "[NOOP] Mailer adapter",
+      operation: "mailer",
+      metadata: sendOptions,
+    });
   });
 
   test("verify", async () => {
