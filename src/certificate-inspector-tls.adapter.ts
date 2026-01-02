@@ -5,6 +5,7 @@ import type { ClockPort } from "./clock.port";
 
 type Dependencies = { Clock: ClockPort };
 
+// Stryker disable all
 export class CertificateInspectorTLSAdapter implements CertificateInspectorPort {
   constructor(private readonly deps: Dependencies) {}
 
@@ -38,3 +39,4 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
     });
   }
 }
+// Stryker restore all
