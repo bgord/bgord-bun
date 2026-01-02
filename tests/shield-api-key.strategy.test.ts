@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { ShieldApiKeyStrategy, AccessDeniedApiKeyError } from "../src/shield-api-key.strategy";
+import { AccessDeniedApiKeyError, ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
