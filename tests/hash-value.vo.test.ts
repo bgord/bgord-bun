@@ -21,4 +21,12 @@ describe("HashValue VO", () => {
   test("rejects invalid hex", () => {
     expect(() => HashValue.parse(`${"f".repeat(63)}x`)).toThrow("hash.value.invalid.hex");
   });
+
+  test("rejects too long", () => {
+    expect(() => HashValue.parse("f".repeat(65))).toThrow("hash.value.invalid.hex");
+  });
+
+  test("rejects too short", () => {
+    expect(() => HashValue.parse("f".repeat(63))).toThrow("hash.value.invalid.hex");
+  });
 });
