@@ -12,11 +12,11 @@ describe("PrerequisiteVerifierOsAdapter", () => {
   });
 
   test("failure", async () => {
-    const prerequisite = new PrerequisiteVerifierOsAdapter({ accepted: ["Nokia"] });
+    const prerequisite = new PrerequisiteVerifierOsAdapter({ accepted: ["Nokia", "Samsung"] });
 
     const result = await prerequisite.verify();
 
-    expect(result).toEqual(mocks.VerificationFailure({ message: "Unacceptable os: Nokia" }));
+    expect(result).toEqual(mocks.VerificationFailure({ message: "Unacceptable os: Nokia, Samsung" }));
   });
 
   test("kind", () => {
