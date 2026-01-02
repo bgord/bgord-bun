@@ -7,7 +7,7 @@ import * as mocks from "./mocks";
 const path = tools.FilePathAbsolute.fromString("/tmp/test-file.txt");
 
 describe("PrerequisiteVerifierFileAdapter", () => {
-  test("success", async () => {
+  test("success - all permissions", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({
@@ -16,6 +16,42 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+  });
+
+  test("success - read only", async () => {
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(fsAccess).toHaveBeenCalledTimes(1);
+    expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.R_OK);
+  });
+
+  test("success - write only", async () => {
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { write: true } });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(fsAccess).toHaveBeenCalledTimes(1);
+    expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.W_OK);
+  });
+
+  test("success - write only", async () => {
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { execute: true } });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(fsAccess).toHaveBeenCalledTimes(1);
+    expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.X_OK);
   });
 
   test("failure - file does not exist", async () => {
