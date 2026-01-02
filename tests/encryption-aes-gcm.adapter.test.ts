@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
-import { EncryptionAesGcmAdapter, EncryptionAesGcmAdapterError } from "../src/encryption-aes-gcm.adapter";
+import { EncryptionAesGcmAdapter } from "../src/encryption-aes-gcm.adapter";
 import { EncryptionIV } from "../src/encryption-iv.vo";
 
 const iv = new Uint8Array(Array.from({ length: 12 }, (_, i) => i + 1));
@@ -34,7 +34,7 @@ describe("EncryptionAesGcmAdapter", () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer } as any);
 
-    expect(async () => adapter.encrypt(recipe)).toThrow(EncryptionAesGcmAdapterError.MissingFile);
+    expect(async () => adapter.encrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
 
   test("decrypt", async () => {
@@ -62,7 +62,7 @@ describe("EncryptionAesGcmAdapter", () => {
   test("decrypt - failure - missing file", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
 
-    expect(async () => adapter.decrypt(recipe)).toThrow(EncryptionAesGcmAdapterError.MissingFile);
+    expect(async () => adapter.decrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
 
   test("view", async () => {
@@ -87,6 +87,6 @@ describe("EncryptionAesGcmAdapter", () => {
   test("view - failure - missing file", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
 
-    expect(async () => adapter.view(recipe.input)).toThrow(EncryptionAesGcmAdapterError.MissingFile);
+    expect(async () => adapter.view(recipe.input)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
 });
