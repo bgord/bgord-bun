@@ -15,7 +15,7 @@ export class ShieldCaptchaHcaptchaStrategy implements ShieldStrategy {
       const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as string;
       const result = await hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
 
-      if (!result?.success) throw AccessDeniedHcaptchaError;
+      if (!result.success) throw AccessDeniedHcaptchaError;
       return next();
     } catch {
       throw AccessDeniedHcaptchaError;
