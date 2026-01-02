@@ -7,16 +7,16 @@ export class RedactorMaskStrategy implements RedactorStrategy {
     "cookie",
     "set-cookie",
     "x-api-key",
-    "apiKey",
+    "apikey",
     "token",
-    "accessToken",
-    "refreshToken",
+    "accesstoken",
+    "refreshtoken",
 
     "password",
-    "currentPassword",
-    "newPassword",
-    "passwordConfirmation",
-    "clientSecret",
+    "currentpassword",
+    "newpassword",
+    "passwordconfirmation",
+    "clientsecret",
     "secret",
 
     "otp",
@@ -25,8 +25,10 @@ export class RedactorMaskStrategy implements RedactorStrategy {
 
   private readonly keys: Set<string>;
 
-  constructor(keys: readonly string[]) {
-    this.keys = new Set(keys.map((key) => key.toLowerCase()));
+  constructor(keys?: readonly string[]) {
+    this.keys = keys?.length
+      ? new Set(keys.map((key) => key.toLowerCase()))
+      : new Set(RedactorMaskStrategy.DEFAULT_KEYS);
   }
 
   redact<T>(input: T): T {

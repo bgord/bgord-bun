@@ -24,4 +24,44 @@ describe("RedactorMaskStrategy", () => {
     // @ts-expect-error
     expect(redactor.redact(input)).toEqual({ password: "***", authorization: "***", ok: true });
   });
+
+  test("default keys", () => {
+    const input = {
+      authorization: "a",
+      cookie: "a",
+      "set-cookie": "a",
+      "x-api-key": "a",
+      apiKey: "a",
+      token: "a",
+      accessToken: "a",
+      refreshToken: "a",
+      password: "a",
+      currentPassword: "a",
+      newPassword: "a",
+      passwordConfirmation: "a",
+      clientSecret: "a",
+      secret: "a",
+      otp: "a",
+      code: "a",
+    };
+
+    expect(new RedactorMaskStrategy().redact(input)).toEqual({
+      authorization: "***",
+      cookie: "***",
+      "set-cookie": "***",
+      "x-api-key": "***",
+      apiKey: "***",
+      token: "***",
+      accessToken: "***",
+      refreshToken: "***",
+      password: "***",
+      currentPassword: "***",
+      newPassword: "***",
+      passwordConfirmation: "***",
+      clientSecret: "***",
+      secret: "***",
+      otp: "***",
+      code: "***",
+    });
+  });
 });
