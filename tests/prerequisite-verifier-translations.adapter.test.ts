@@ -1,5 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import { constants } from "node:fs";
 import fsp from "node:fs/promises";
+import * as tools from "@bgord/tools";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -21,6 +23,18 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
     );
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+  });
+
+  test("success - custom path", async () => {
+    const fspAccess = spyOn(fsp, "access").mockResolvedValue(undefined);
+    const translationsPath = tools.DirectoryPathRelativeSchema.parse("custom/translations");
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
+      { translationsPath, supportedLanguages: { en: "en" } },
+      deps,
+    );
+
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(fspAccess).toHaveBeenCalledWith(translationsPath, constants.R_OK);
   });
 
   test("failure - missing file", async () => {
