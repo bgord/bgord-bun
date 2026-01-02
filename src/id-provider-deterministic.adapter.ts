@@ -8,7 +8,7 @@ export const IdProviderDeterministicAdapterError = {
 export class IdProviderDeterministicAdapter implements IdProviderPort {
   private readonly queue: UUIDType[];
 
-  constructor(sequence: UUIDType[] = []) {
+  constructor(sequence: UUIDType[]) {
     this.queue = [...sequence];
   }
 
