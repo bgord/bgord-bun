@@ -54,7 +54,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
     }
 
     for (const language in languageToTranslationKeys) {
-      const translationKeys = languageToTranslationKeys[language] ?? [];
+      const translationKeys = languageToTranslationKeys[language] ?? ([] as const);
 
       for (const translationKey of translationKeys) {
         for (const supportedLanguage of supportedLanguages) {

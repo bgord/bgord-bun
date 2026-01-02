@@ -16,13 +16,16 @@ const deps = { Logger, FileReaderJson };
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success", async () => {
-    spyOn(fsp, "access").mockResolvedValue(undefined);
+    const fspAccess = spyOn(fsp, "access").mockResolvedValue(undefined);
+    const getTranslations = spyOn(I18n.prototype, "getTranslations");
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
       { supportedLanguages: { en: "en" } },
       deps,
     );
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(getTranslations).not.toHaveBeenCalled();
+    expect(fspAccess).toHaveBeenCalledTimes(2);
   });
 
   test("success - custom path", async () => {
@@ -37,6 +40,15 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
     expect(fspAccess).toHaveBeenCalledWith(translationsPath, constants.R_OK);
   });
 
+  test("success - multiple languages have the same translation keys", async () => {
+    spyOn(fsp, "access").mockResolvedValue(undefined);
+    spyOn(I18n.prototype, "getTranslations").mockResolvedValue({ shared: "value" } as any);
+
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
+
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+  });
+
   test("failure - missing file", async () => {
     spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
@@ -48,11 +60,15 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - inconsistent translations", async () => {
-    spyOn(fsp, "access").mockImplementation(jest.fn());
+    spyOn(fsp, "access").mockResolvedValue(undefined);
     spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
       switch (language) {
         case "en":
-          return { key1: "English Translation 1", key2: "English Translation 2" };
+          return {
+            key1: "English Translation 1",
+            key2: "English Translation 2",
+            key3: "English Translation 3",
+          };
         case "es":
           return { key1: "Spanish Translation 1" };
         default:
@@ -61,8 +77,14 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
     });
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
 
-    expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }),
+    const result = await prerequisite.verify();
+
+    // @ts-expect-error
+    const message = result.error.message;
+    const lines = message.split("\n");
+    expect(lines).toHaveLength(2);
+    expect(message).toEqual(
+      "Key: key2, exists in en, missing in es\n" + "Key: key3, exists in en, missing in es",
     );
   });
 
