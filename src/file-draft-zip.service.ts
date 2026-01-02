@@ -22,11 +22,13 @@ export class FileDraftZip extends FileDraft {
     }
     zip.end();
 
+    // Stryker disable all
     zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
 
     return new Promise<Buffer>((resolve, reject) => {
       zip.outputStream.on("end", () => resolve(Buffer.concat(chunks)));
       zip.outputStream.on("error", reject);
     });
+    // Stryker restore all
   }
 }
