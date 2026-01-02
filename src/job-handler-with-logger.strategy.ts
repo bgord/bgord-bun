@@ -35,7 +35,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
           message: `${uow.label} error`,
           correlationId,
           error: formatError(error),
-          metadata: { ...stopwatch.stop() },
+          metadata: stopwatch.stop(),
           ...this.base,
         });
       }
