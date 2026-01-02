@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import { z } from "zod/v4";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { EventEnvelopeSchema, createEventEnvelope } from "../src/event-envelope";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import { createEventEnvelope, EventEnvelopeSchema } from "../src/event-envelope";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import * as mocks from "./mocks";
 
