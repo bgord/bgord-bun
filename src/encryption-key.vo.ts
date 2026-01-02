@@ -28,13 +28,7 @@ export class EncryptionKey {
   }
 
   toBuffer(): Uint8Array {
-    const bytes = new Uint8Array(32);
-
-    for (let i = 0; i < 32; i++) {
-      bytes[i] = Number.parseInt(this.value.slice(i * 2, i * 2 + 2), 16);
-    }
-
-    return bytes;
+    return Uint8Array.from(Buffer.from(this.value, "hex"));
   }
 
   toString(): string {
