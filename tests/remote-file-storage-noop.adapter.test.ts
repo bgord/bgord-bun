@@ -23,7 +23,12 @@ describe("RemoteFileStorageNoopAdapter", () => {
 
     expect(output.etag.matches(mocks.hash)).toEqual(true);
     expect(output.size.toBytes()).toEqual(tools.SizeBytes.parse(10));
-    expect(loggerInfo).toHaveBeenCalled();
+    expect(loggerInfo).toHaveBeenCalledWith({
+      component: "infra",
+      operation: "RemoteFileStorageNoopAdapter",
+      message: "[NOOP] RemoteFileStorageNoopAdapter putFromPath",
+      metadata: { input: { key, path: input } },
+    });
   });
 
   test("head", async () => {
@@ -32,21 +37,36 @@ describe("RemoteFileStorageNoopAdapter", () => {
     const result = await adapter.head(key);
 
     expect(result.exists).toEqual(false);
-    expect(loggerInfo).toHaveBeenCalled();
+    expect(loggerInfo).toHaveBeenNthCalledWith(1, {
+      component: "infra",
+      operation: "RemoteFileStorageNoopAdapter",
+      message: "[NOOP] RemoteFileStorageNoopAdapter head",
+      metadata: { key },
+    });
   });
 
   test("getStream", async () => {
     const loggerInfo = spyOn(Logger, "info");
 
     expect(await adapter.getStream(key)).toEqual(null);
-    expect(loggerInfo).toHaveBeenCalled();
+    expect(loggerInfo).toHaveBeenNthCalledWith(1, {
+      component: "infra",
+      operation: "RemoteFileStorageNoopAdapter",
+      message: "[NOOP] RemoteFileStorageNoopAdapter getStream",
+      metadata: { key },
+    });
   });
 
   test("delete", async () => {
     const loggerInfo = spyOn(Logger, "info");
 
     expect(async () => adapter.delete(key)).not.toThrow();
-    expect(loggerInfo).toHaveBeenCalled();
+    expect(loggerInfo).toHaveBeenNthCalledWith(1, {
+      component: "infra",
+      operation: "RemoteFileStorageNoopAdapter",
+      message: "[NOOP] RemoteFileStorageNoopAdapter delete",
+      metadata: { key },
+    });
   });
 
   test("get root", () => {
