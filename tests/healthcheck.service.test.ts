@@ -30,6 +30,8 @@ const buildInfo = {
   BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
 };
 
+const buildInfoEmpty = { BUILD_DATE: Clock.now().ms };
+
 describe("Healthcheck service", () => {
   test("200", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
@@ -39,7 +41,14 @@ describe("Healthcheck service", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
       "/health",
-      ...Healthcheck.build(NodeEnvironmentEnum.production, [mocks.PrerequisiteOk], deps),
+      ...Healthcheck.build(
+        NodeEnvironmentEnum.production,
+        [
+          mocks.PrerequisiteOk,
+          new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
+        ],
+        deps,
+      ),
     );
 
     const response = await app.request("/health");
@@ -117,7 +126,7 @@ describe("Healthcheck service", () => {
   test("424", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
+    spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfoEmpty);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
@@ -135,7 +144,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(424);
     expect(data).toEqual({
       ok: false,
-      deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
+      deployment: { version: "unknown", environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,
