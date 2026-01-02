@@ -9,7 +9,7 @@ import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-pa
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
-import { ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
+import { ShieldRateLimitStrategy, TooManyRequestsError } from "../src/shield-rate-limit.strategy";
 import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
@@ -31,7 +31,14 @@ const resolver = new CacheSubjectResolver(
 
 const shieldRateLimit = new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps);
 
-const app = new Hono().get("/ping", shieldRateLimit.verify, (c) => c.text("pong"));
+const app = new Hono()
+  .get("/ping", shieldRateLimit.verify, (c) => c.text("pong"))
+  .onError((error, c) => {
+    if (error.message === TooManyRequestsError.message) {
+      return c.json({ message: TooManyRequestsError.message, _known: true }, TooManyRequestsError.status);
+    }
+    return c.status(500);
+  });
 
 describe("ShieldRateLimitStrategy", () => {
   test("anon - happy path - within rate limit", async () => {
@@ -45,7 +52,12 @@ describe("ShieldRateLimitStrategy", () => {
 
   test("anon - failure - TooManyRequestsError", async () => {
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
+
+    const failure = await app.request("/ping", { method: "GET" });
+    const json = await failure.json();
+
+    expect(failure.status).toEqual(429);
+    expect(json.message).toEqual("app.too_many_requests");
 
     await CacheResolver.flush();
   });
