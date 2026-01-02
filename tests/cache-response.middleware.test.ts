@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, jest, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
@@ -20,27 +20,25 @@ const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
-const cacheResponse = new CacheResponse(
-  {
-    enabled: true,
-    resolver: new CacheSubjectResolver(
-      [
-        new CacheSubjectSegmentFixedStrategy("ping"),
-        new CacheSubjectSegmentPathStrategy(),
-        new CacheSubjectSegmentUserStrategy(),
-      ],
-      deps,
-    ),
-  },
-  { CacheResolver },
+const resolver = new CacheSubjectResolver(
+  [
+    new CacheSubjectSegmentFixedStrategy("ping"),
+    new CacheSubjectSegmentPathStrategy(),
+    new CacheSubjectSegmentUserStrategy(),
+  ],
+  deps,
 );
+
+const cacheResponse = new CacheResponse({ enabled: true, resolver }, { CacheResolver });
+const cacheResponseDisabled = new CacheResponse({ enabled: false, resolver }, { CacheResolver });
 
 const app = new Hono<mocks.Config>()
   .use((c, next) => {
     c.set("user", { id: c.req.header("id") });
     return next();
   })
-  .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }));
+  .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }))
+  .post("/clear", cacheResponse.clear, (c) => c.json({ message: "cleared" }));
 
 describe("CacheResponse middleware", () => {
   beforeEach(() => jest.useFakeTimers());
@@ -143,5 +141,40 @@ describe("CacheResponse middleware", () => {
     expect(responseEve.status).toEqual(200);
     expect(responseEve.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
     expect(jsonEve.message).toEqual("ping");
+  });
+
+  test("disabled", async () => {
+    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    const app = new Hono<mocks.Config>()
+      .use((c, next) => {
+        c.set("user", { id: c.req.header("id") });
+        return next();
+      })
+      .get("/ping", cacheResponseDisabled.handle, (c) => c.json({ message: "ping" }));
+
+    const response = await app.request("/ping");
+    const json = await response.json();
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get("Cache-Hit")).toEqual(null);
+    expect(json.message).toEqual("ping");
+    expect(cacheResolverResolve).not.toHaveBeenCalled();
+  });
+
+  test("clear", async () => {
+    const firstResponse = await app.request("/ping-cached");
+    const firstJson = await firstResponse.json();
+
+    expect(firstResponse.status).toEqual(200);
+    expect(firstResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
+    expect(firstJson.message).toEqual("ping");
+
+    await app.request("/clear", { method: "POST" });
+    const secondResponse = await app.request("/ping-cached");
+    const secondJson = await secondResponse.json();
+
+    expect(secondResponse.status).toEqual(200);
+    expect(secondResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
+    expect(secondJson.message).toEqual("ping");
   });
 });

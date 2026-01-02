@@ -39,17 +39,17 @@ describe("FileReaderJsonWithCacheAdapter", () => {
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve.mock.calls[0][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[0]?.[0]).toEqual(subject.hex);
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve.mock.calls[1][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[1]?.[0]).toEqual(subject.hex);
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve.mock.calls[2][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[2]?.[0]).toEqual(subject.hex);
 
     jest.useFakeTimers();
   });
@@ -70,17 +70,17 @@ describe("FileReaderJsonWithCacheAdapter", () => {
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve.mock.calls[0][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[0]?.[0]).toEqual(subject.hex);
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve.mock.calls[1][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[1]?.[0]).toEqual(subject.hex);
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve.mock.calls[2][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[2]?.[0]).toEqual(subject.hex);
 
     jest.useFakeTimers();
   });

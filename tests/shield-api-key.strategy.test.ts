@@ -11,6 +11,7 @@ const shield = new ShieldApiKeyStrategy({ API_KEY: tools.ApiKey.parse(VALID_API_
 const app = new Hono()
   .use(shield.verify)
   .get("/ping", (c) => c.text("OK"))
+  // @ts-expect-error
   .onError((error, c) => {
     if (error.message === AccessDeniedApiKeyError.message) {
       return c.json(

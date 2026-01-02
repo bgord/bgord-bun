@@ -33,6 +33,7 @@ const shieldRateLimit = new ShieldRateLimitStrategy({ enabled: true, resolver, w
 
 const app = new Hono()
   .get("/ping", shieldRateLimit.verify, (c) => c.text("pong"))
+  // @ts-expect-error
   .onError((error, c) => {
     if (error.message === TooManyRequestsError.message) {
       return c.json({ message: TooManyRequestsError.message, _known: true }, TooManyRequestsError.status);

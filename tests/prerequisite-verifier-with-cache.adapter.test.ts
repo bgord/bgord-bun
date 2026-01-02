@@ -36,7 +36,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve.mock.calls[0][0]).toEqual(subject.hex);
+    expect(cacheResolverResolve.mock.calls[0]?.[0]).toEqual(subject.hex);
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
     expect(passVerify).toHaveBeenCalledTimes(1);
