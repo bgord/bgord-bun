@@ -15,10 +15,11 @@ const DiskSpaceChecker = new DiskSpaceCheckerBunAdapter();
 describe("DiskSpaceCheckerBunAdapter", () => {
   test("happy path", async () => {
     // @ts-expect-error
-    spyOn(bun, "$").mockImplementation(() => ({ text: () => response }));
+    const bunShell = spyOn(bun, "$").mockImplementation(() => ({ text: () => response }));
 
     const result = await DiskSpaceChecker.get(root);
 
     expect(result.toBytes()).toEqual(size.toBytes());
+    expect(bunShell).toHaveBeenCalledWith(["df -kP ", ""], "/");
   });
 });
