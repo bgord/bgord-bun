@@ -16,6 +16,12 @@ describe("TimekeeperGoogleAdapter", () => {
     expect(await adapter.get()).toEqual(Clock.now());
   });
 
+  test("response not ok", async () => {
+    spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 500 }));
+
+    expect(await adapter.get()).toEqual(null);
+  });
+
   test("missing date header", async () => {
     spyOn(global, "fetch").mockResolvedValue(new Response(null));
 
