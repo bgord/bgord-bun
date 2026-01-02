@@ -69,7 +69,7 @@ const prerequisite = new PrerequisiteVerifierDependencyVulnerabilitiesAdapter();
 
 describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
   test("success", async () => {
-    spyOn(bun, "$").mockImplementation(() => ({
+    const bunShell = spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error
       quiet: () => ({
         exitCode: 0,
@@ -78,6 +78,7 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
     }));
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(bunShell).toHaveBeenCalledWith(["bun audit --json"]);
   });
 
   test("failure - high and critical vulnerabilities", async () => {
