@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "../src/clock.port";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
@@ -36,11 +37,20 @@ describe("JobHandlerWithLoggerStrategy", () => {
 
     await handler.handle(uow)();
 
-    expect(loggerInfo).toHaveBeenNthCalledWith(1, expect.objectContaining({ message: `${uow.label} start` }));
-    expect(loggerInfo).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({ message: `${uow.label} success` }),
-    );
+    expect(loggerInfo).toHaveBeenNthCalledWith(1, {
+      message: `${uow.label} start`,
+      component: "infra",
+      operation: "job_handler",
+      correlationId: expect.any(String),
+    });
+    expect(loggerInfo).toHaveBeenNthCalledWith(2, {
+      message: `${uow.label} success`,
+      component: "infra",
+      correlationId: expect.any(String),
+      // @ts-expect-error
+      metadata: expect.any(tools.Duration),
+      operation: "job_handler",
+    });
     expect(uowProcess).toHaveBeenCalled();
   });
 
@@ -62,7 +72,19 @@ describe("JobHandlerWithLoggerStrategy", () => {
 
     await handler.handle(uow)();
 
-    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job start" }));
-    expect(loggerError).toHaveBeenCalledWith(expect.objectContaining({ message: "Test Job error" }));
+    expect(loggerInfo).toHaveBeenCalledWith({
+      message: "Test Job start",
+      component: "infra",
+      operation: "job_handler",
+      correlationId: expect.any(String),
+    });
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: "Test Job error",
+        component: "infra",
+        correlationId: expect.any(String),
+        operation: "job_handler",
+      }),
+    );
   });
 });
