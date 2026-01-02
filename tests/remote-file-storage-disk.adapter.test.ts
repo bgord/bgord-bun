@@ -72,6 +72,14 @@ describe("RemoteFileStorageDiskAdapter", () => {
     expect(await adapter.getStream(key)).toEqual(stream);
   });
 
+  test("getStream - null", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+
+    const result = await adapter.getStream(key);
+
+    expect(result).toEqual(null);
+  });
+
   test("delete", async () => {
     const fileCleanerDelete = spyOn(FileCleaner, "delete");
 
