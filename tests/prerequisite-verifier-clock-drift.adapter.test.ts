@@ -33,4 +33,8 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }));
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("clock-drift");
+  });
 });

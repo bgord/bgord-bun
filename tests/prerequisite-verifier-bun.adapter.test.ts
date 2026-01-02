@@ -33,4 +33,10 @@ describe("PrerequisiteVerifierBunAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "Invalid version passed: abc" }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierBunAdapter({ version, current: "abc" });
+
+    expect(prerequisite.kind).toEqual("bun");
+  });
 });

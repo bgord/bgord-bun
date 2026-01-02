@@ -28,4 +28,8 @@ describe("PrerequisiteVerifierMemoryAdapter", () => {
       }),
     );
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("memory");
+  });
 });

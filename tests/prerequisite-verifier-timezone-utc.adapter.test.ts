@@ -20,4 +20,10 @@ describe("PrerequisiteVerifierTimezoneUtcAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: `Timezone: ${timezone}` }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierTimezoneUtcAdapter({ timezone: utc });
+
+    expect(prerequisite.kind).toEqual("timezone-utc");
+  });
 });

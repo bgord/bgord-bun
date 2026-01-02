@@ -19,4 +19,8 @@ describe("PrerequisiteVerifierPortAdapter", () => {
 
     occupied.stop();
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("port");
+  });
 });

@@ -67,4 +67,10 @@ describe("PrerequisiteVerifierLogFileAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierLogFileAdapter({ Logger });
+
+    expect(prerequisite.kind).toEqual("log-file");
+  });
 });

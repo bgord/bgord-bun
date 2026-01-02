@@ -51,4 +51,10 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
       mocks.VerificationFailure({ message: "Key: key2, exists in en, missing in es" }),
     );
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
+
+    expect(prerequisite.kind).toEqual("translations");
+  });
 });

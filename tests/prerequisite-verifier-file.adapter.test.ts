@@ -71,4 +71,13 @@ describe("PrerequisiteVerifierFileAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "File is not executable" }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierFileAdapter({
+      file: path,
+      permissions: { read: true, write: true, execute: true },
+    });
+
+    expect(prerequisite.kind).toEqual("file");
+  });
 });

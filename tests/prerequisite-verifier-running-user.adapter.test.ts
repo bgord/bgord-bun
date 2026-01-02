@@ -21,4 +21,10 @@ describe("PrerequisiteVerifierRunningUserAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: `Current user: ${username}` }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierRunningUserAdapter({ username: "root" });
+
+    expect(prerequisite.kind).toEqual("running-user");
+  });
 });

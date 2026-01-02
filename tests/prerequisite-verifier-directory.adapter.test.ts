@@ -80,4 +80,12 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "Directory is not executable" }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
+      directory,
+      permissions: { read: true, write: true, execute: true },
+    });
+    expect(prerequisite.kind).toEqual("directory");
+  });
 });

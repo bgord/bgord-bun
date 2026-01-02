@@ -25,4 +25,8 @@ describe("PrerequisiteVerifierOutsideConnectivityAdapter", () => {
 
     expect(result).toMatch(mocks.IntentionalError);
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("outside-connectivity");
+  });
 });

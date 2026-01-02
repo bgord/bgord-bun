@@ -18,4 +18,10 @@ describe("PrerequisiteVerifierOsAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "Unacceptable os: Nokia" }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierOsAdapter({ accepted });
+
+    expect(prerequisite.kind).toEqual("os");
+  });
 });

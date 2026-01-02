@@ -20,4 +20,8 @@ describe("PrerequisiteVerifierDnsAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("dns");
+  });
 });

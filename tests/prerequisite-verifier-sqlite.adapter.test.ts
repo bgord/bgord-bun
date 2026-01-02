@@ -37,4 +37,11 @@ describe("PrerequisiteVerifierSQLiteAdapter", () => {
 
     expect(result).toMatch(mocks.IntentionalError);
   });
+
+  test("kind", () => {
+    const sqlite = { query: () => ({ get: () => ({ integrity_check: "ok" }) }) } as any;
+    const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
+
+    expect(prerequisite.kind).toEqual("sqlite");
+  });
 });

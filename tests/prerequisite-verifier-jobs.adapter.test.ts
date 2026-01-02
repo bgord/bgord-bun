@@ -16,4 +16,10 @@ describe("PrerequisiteVerifierJobsAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierJobsAdapter({ Jobs: {} });
+
+    expect(prerequisite.kind).toEqual("jobs");
+  });
 });

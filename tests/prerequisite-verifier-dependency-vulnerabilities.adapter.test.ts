@@ -114,4 +114,8 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
 
     expect(result).toMatch(/Unexpected identifier "abc"/);
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("dependency-vulnerabilities");
+  });
 });

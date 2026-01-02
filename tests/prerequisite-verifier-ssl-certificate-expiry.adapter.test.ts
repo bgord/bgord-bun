@@ -40,4 +40,10 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierSSLCertificateExpiryAdapter(config, deps);
+
+    expect(prerequisite.kind).toEqual("ssl-certificate-expiry");
+  });
 });

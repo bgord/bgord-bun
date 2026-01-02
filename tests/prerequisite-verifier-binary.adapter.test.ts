@@ -19,4 +19,8 @@ describe("PrerequisiteVerifierBinaryAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("binary");
+  });
 });

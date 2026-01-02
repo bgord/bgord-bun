@@ -22,4 +22,8 @@ describe("PrerequisiteVerifierMailerAdapter", () => {
 
     expect(result).toMatch(mocks.IntentionalError);
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("mailer");
+  });
 });

@@ -38,4 +38,10 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
 
     expect(result).toMatch(mocks.IntentionalError);
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, deps);
+
+    expect(prerequisite.kind).toEqual("space");
+  });
 });

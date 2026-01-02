@@ -25,4 +25,8 @@ describe("PrerequisiteVerifierRamAdapter", () => {
       mocks.VerificationFailure({ message: `Free RAM: ${freeRAM.format(tools.Size.unit.MB)}` }),
     );
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("ram");
+  });
 });

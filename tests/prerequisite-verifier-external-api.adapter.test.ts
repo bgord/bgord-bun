@@ -16,4 +16,8 @@ describe("PrerequisiteVerifierExternalApiAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });
+
+  test("kind", () => {
+    expect(prerequisite.kind).toEqual("external-api");
+  });
 });

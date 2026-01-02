@@ -33,4 +33,10 @@ describe("PrerequisiteVerifierNodeAdapter", () => {
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "Invalid version passed: abc" }));
   });
+
+  test("kind", () => {
+    const prerequisite = new PrerequisiteVerifierNodeAdapter({ version, current: "abc" });
+
+    expect(prerequisite.kind).toEqual("node");
+  });
 });
