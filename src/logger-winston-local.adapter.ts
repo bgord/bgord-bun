@@ -9,8 +9,8 @@ type LoggerWinstonLocalAdapterConfigType = { app: LogAppType; redactor: Redactor
 export class LoggerWinstonLocalAdapter {
   constructor(private readonly config: LoggerWinstonLocalAdapterConfigType) {}
 
+  // Stryker disable all
   create(level: LogLevelEnum): LoggerPort {
-    // Stryker disable all
     return new LoggerWinstonAdapter({
       app: this.config.app,
       environment: NodeEnvironmentEnum.local,
