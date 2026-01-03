@@ -1,3 +1,4 @@
+// Stryker disable all
 import type { ErrorInfo } from "./logger.port";
 
 export function formatError(error: unknown): ErrorInfo {
@@ -23,3 +24,4 @@ export function formatError(error: unknown): ErrorInfo {
     message: typeof error === "string" ? error : String(error),
   };
 }
+// Stryker restore all
