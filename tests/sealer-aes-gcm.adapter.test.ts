@@ -22,23 +22,26 @@ const sealedValue = "sealed:gcm:" + Buffer.from(encrypted).toString("base64");
 
 describe("SealerAesGcmAdapter", () => {
   test("seal", async () => {
-    spyOn(EncryptionIV, "generate").mockReturnValue(iv);
-    spyOn(CryptoAesGcm, "encrypt").mockResolvedValue(encrypted);
+    const encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    const cryptoAesGcmEncrypt = spyOn(CryptoAesGcm, "encrypt").mockResolvedValue(encrypted);
 
     const result = await adapter.seal(input);
 
     expect(result).toEqual(sealedValue);
+    expect(encryptionIvGenerate).toHaveBeenCalled();
+    expect(cryptoAesGcmEncrypt).toHaveBeenCalled();
   });
 
   test("unseal", async () => {
-    spyOn(CryptoAesGcm, "decrypt").mockResolvedValue(plaintext.buffer);
+    const cryptoAesGcmDecrypt = spyOn(CryptoAesGcm, "decrypt").mockResolvedValue(plaintext.buffer);
 
     const result = await adapter.unseal(sealedValue);
 
     expect(result).toEqual(input);
+    expect(encrypted).toEqual(new Uint8Array(cryptoAesGcmDecrypt.mock.calls[0][1]));
   });
 
   test("unseal - invalid payload", async () => {
-    expect(async () => adapter.unseal("invalid:payload")).toThrow("sealer.aes.gcm.adapter.invalid.payload");
+    expect(adapter.unseal("invalid:payload")).rejects.toThrow("sealer.aes.gcm.adapter.invalid.payload");
   });
 });
