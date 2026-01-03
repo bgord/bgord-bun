@@ -2,11 +2,14 @@ import { z } from "zod/v4";
 
 export const HistoryPayload = z.record(z.string(), z.any());
 
-export const HistoryPayloadParsed = HistoryPayload.refine((value) => {
+export const HistoryPayloadParsedError = {
+  NotSerializable: "history.payload.parsed.not.serializable",
+};
+
+export const HistoryPayloadParsed = HistoryPayload.transform((value) => {
   try {
-    JSON.parse(JSON.stringify(value));
-    return true;
+    return JSON.stringify(value);
   } catch {
-    return false;
+    throw new Error(HistoryPayloadParsedError.NotSerializable);
   }
-}).transform((value) => JSON.stringify(value));
+});

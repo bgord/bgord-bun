@@ -9,7 +9,6 @@ export const HistorySubjectError = {
 export const HistorySubject = z
   .string(HistorySubjectError.Type)
   .min(1, HistorySubjectError.Empty)
-  .max(128, HistorySubjectError.TooLong)
-  .trim();
+  .max(128, HistorySubjectError.TooLong);
 
 export type HistorySubjectType = z.infer<typeof HistorySubject>;

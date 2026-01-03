@@ -5,7 +5,7 @@ import { HistoryOperation } from "./history-operation";
 import { HistoryPayload, HistoryPayloadParsed } from "./history-payload";
 import { HistorySubject } from "./history-subject";
 
-const History = z.object({
+export const History = z.object({
   id: HistoryId,
   operation: HistoryOperation,
   payload: HistoryPayload,
