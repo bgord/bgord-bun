@@ -70,6 +70,31 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
+  test("in_place - same extension", async () => {
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(pipeline, "rotate");
+    spyOn(pipeline, "toFormat");
+    spyOn(pipeline, "toFile");
+    spyOn(pipeline, "destroy");
+    const rename = spyOn(FileRenamer, "rename");
+    const fileCleaner = spyOn(FileCleaner, "delete");
+
+    const input = tools.FilePathAbsolute.fromString("/var/in/image.png");
+    const recipe: ImageProcessorStrategy = {
+      strategy: "in_place",
+      input,
+      maxSide: tools.ImageWidth.parse(100),
+      to: tools.Extension.parse("png"),
+    };
+
+    const result = await adapter.process(recipe);
+    const temporary = tools.FilePathAbsolute.fromString("/var/in/image-processed.png");
+
+    expect(rename).toHaveBeenCalledWith(temporary, input);
+    expect(fileCleaner).not.toHaveBeenCalled();
+    expect(result.get()).toEqual(input.get());
+  });
+
   test("output_path", async () => {
     const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
