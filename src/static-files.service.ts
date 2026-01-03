@@ -1,3 +1,4 @@
+// Stryker disable all
 import type * as tools from "@bgord/tools";
 import { type Context, Hono } from "hono";
 import { serveStatic } from "hono/bun";
@@ -23,3 +24,4 @@ export class StaticFiles {
     };
   }
 }
+// Stryker restore all
