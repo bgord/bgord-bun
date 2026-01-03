@@ -46,6 +46,23 @@ describe("ImageFormatterSharpAdapter", () => {
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
+  test("in_place - same extension", async () => {
+    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    const rename = spyOn(FileRenamer, "rename");
+    const fileCleaner = spyOn(FileCleaner, "delete");
+
+    const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
+    const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to: tools.Extension.parse("png") };
+
+    const result = await adapter.format(recipe);
+
+    const temporary = tools.FilePathAbsolute.fromString("/var/in/img-formatted.png");
+
+    expect(rename).toHaveBeenCalledWith(temporary, input);
+    expect(fileCleaner).not.toHaveBeenCalled();
+    expect(result.get()).toEqual(input.get());
+  });
+
   test("output_path", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");

@@ -25,7 +25,7 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     const extension = final.getFilename().getExtension();
     const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
-    const pipeline = sharp((recipe.strategy === "output_path" ? recipe.input : recipe.input).get());
+    const pipeline = sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.toFormat(encoder).toFile(temporary.get());
