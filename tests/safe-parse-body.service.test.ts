@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test, spyOn } from "bun:test";
 import { safeParseBody } from "../src/safe-parse-body.service";
 
 function createMockContext(body: string) {
@@ -22,5 +22,13 @@ describe("safeParseBody service", () => {
 
   test("empty object for whitespace-only body", async () => {
     expect(await safeParseBody(createMockContext("   \n   "))).toEqual({});
+  });
+
+  test("optimization - avoids parsing whitespace-only body", async () => {
+    const jsonParse = spyOn(JSON, "parse");
+
+    await safeParseBody(createMockContext("   "));
+
+    expect(jsonParse).not.toHaveBeenCalled();
   });
 });
