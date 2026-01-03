@@ -8,8 +8,7 @@ export class ETagExtractor {
     try {
       const header = c.req.header(tools.ETag.IF_MATCH_HEADER_NAME);
 
-      if (!header || header === "undefined") c.set("ETag", null);
-      else c.set("ETag", tools.ETag.fromHeader(header));
+      c.set("ETag", tools.ETag.fromHeader(header));
     } catch {
       c.set("ETag", null);
     }

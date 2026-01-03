@@ -28,10 +28,32 @@ describe("ETagExtractor middleware", () => {
     expect(json).toEqual(null);
   });
 
-  test("invalid ETag header", async () => {
+  test("invalid ETag header - NaN", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid" }),
+    });
+    const json = await result.json();
+
+    expect(result.status).toEqual(200);
+    expect(json).toEqual(null);
+  });
+
+  test("invalid ETag header - undefined string", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "undefined" }),
+    });
+    const json = await result.json();
+
+    expect(result.status).toEqual(200);
+    expect(json).toEqual(null);
+  });
+
+  test("invalid ETag header - negative", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "-1" }),
     });
     const json = await result.json();
 
