@@ -12,14 +12,13 @@ describe("AntivirusClamavAdapter", () => {
     }));
 
     expect(await adapter.scanBytes(new Uint8Array([1, 2, 3]))).toEqual({ clean: true });
-    // @ts-expect-error
-    expect(bunSpawn.mock.calls[0]?.[0].cmd).toEqual([
-      "clamscan",
-      "--infected",
-      "--no-summary",
-      "--stdout",
-      "-",
-    ]);
+    expect(bunSpawn.mock.calls[0]?.[0]).toEqual({
+      // @ts-expect-error
+      cmd: ["clamscan", "--infected", "--no-summary", "--stdout", "-"],
+      stdin: "pipe",
+      stdout: "pipe",
+      stderr: "pipe",
+    });
   });
 
   test("not clean - signature found", async () => {

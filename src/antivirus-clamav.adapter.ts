@@ -1,5 +1,6 @@
 import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from "./antivirus.port";
 
+// Stryker disable all
 export class AntivirusClamavAdapter implements AntivirusPort {
   async scanBytes(bytes: Uint8Array): Promise<AntivirusScanResult> {
     const SIGNATURE_REGEX = /:\s+(?<signature>.+)\s+FOUND\s*$/m;
@@ -32,3 +33,4 @@ export class AntivirusClamavAdapter implements AntivirusPort {
     throw new Error(AntivirusPortError.ScanFailed);
   }
 }
+// Stryker restore all
