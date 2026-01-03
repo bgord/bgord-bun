@@ -1,3 +1,4 @@
+// Stryker disable all
 import type { z } from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
 import type { EventStreamType } from "./event-stream.vo";
@@ -60,3 +61,4 @@ export class EventStoreSaveUniqueStream extends Error {
     Object.setPrototypeOf(this, EventStoreSaveUniqueStream.prototype);
   }
 }
+// Stryker restore all

@@ -1,5 +1,3 @@
-// TODO: tests
-
 import type { betterAuth } from "better-auth";
 import type hono from "hono";
 import { createMiddleware } from "hono/factory";
