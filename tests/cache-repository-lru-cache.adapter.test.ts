@@ -81,6 +81,24 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
     jest.useRealTimers();
   });
 
+  test("ttl autopurge", async () => {
+    jest.useFakeTimers();
+    spyOn(performance, "now").mockImplementation(() => Date.now());
+
+    const adapter = await CacheRepositoryLruCacheAdapter.build(config);
+    await adapter.set(subject.hex, value);
+
+    // @ts-expect-error
+    expect(adapter.store.size).toEqual(1);
+
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
+
+    // @ts-expect-error
+    expect(adapter.store.size).toEqual(0);
+
+    jest.useRealTimers();
+  });
+
   test("missing dependency", async () => {
     spyOn(CacheRepositoryLruCacheAdapter, "imports").mockRejectedValue(mocks.IntentionalError);
 
