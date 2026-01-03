@@ -14,7 +14,9 @@ export class SecurityRuleOrStrategy implements SecurityRuleStrategy {
   }
 
   async isViolated(c: Context) {
-    return this.rules.some((rule) => rule.isViolated(c));
+    const reports = await Promise.all(this.rules.map((rule) => rule.isViolated(c)));
+
+    return reports.some(Boolean);
   }
 
   get name() {
