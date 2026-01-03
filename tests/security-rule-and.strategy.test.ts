@@ -8,13 +8,6 @@ const fail = new SecurityRuleFailStrategy();
 const pass = new SecurityRulePassStrategy();
 
 describe("SecurityRuleAndStrategy", () => {
-  test("isViolated - true - one failure", async () => {
-    const context = {} as any;
-    const rule = new SecurityRuleAndStrategy([pass, fail]);
-
-    expect(await rule.isViolated(context)).toEqual(true);
-  });
-
   test("isViolated - true - all failures", async () => {
     const context = {} as any;
     const rule = new SecurityRuleAndStrategy([fail, fail]);
@@ -22,11 +15,18 @@ describe("SecurityRuleAndStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
-  test("isViolated - false", async () => {
+  test("isViolated - false - one failure", async () => {
     const context = {} as any;
-    const rule = new SecurityRuleAndStrategy([fail, fail]);
+    const rule = new SecurityRuleAndStrategy([pass, fail]);
 
-    expect(await rule.isViolated(context)).toEqual(true);
+    expect(await rule.isViolated(context)).toEqual(false);
+  });
+
+  test("isViolated - false - no failures", async () => {
+    const context = {} as any;
+    const rule = new SecurityRuleAndStrategy([pass, pass]);
+
+    expect(await rule.isViolated(context)).toEqual(false);
   });
 
   test("missing rules", () => {
