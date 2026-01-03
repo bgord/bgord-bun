@@ -14,26 +14,42 @@ encryptedPayload.set(ciphertext, iv.length);
 
 describe("AesGcmCrypto", () => {
   test("encrypt", async () => {
-    spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
+    const cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
 
     const result = await CryptoAesGcm.encrypt(cryptoKey, plaintext.buffer, iv);
 
     expect(result).toEqual(encryptedPayload);
+    expect(cryptoSubtleEncrypt).toHaveBeenCalledWith(
+      { name: "AES-GCM", iv: expect.any(Uint8Array) },
+      cryptoKey,
+      plaintext.buffer,
+    );
   });
 
   test("decrypt", async () => {
-    spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
+    const cryptoSubtleDecrypt = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
 
     const result = await CryptoAesGcm.decrypt(cryptoKey, encryptedPayload);
 
     expect(new Uint8Array(result)).toEqual(plaintext);
+    expect(cryptoSubtleDecrypt).toHaveBeenCalledWith(
+      { name: "AES-GCM", iv: expect.any(Uint8Array) },
+      cryptoKey,
+      expect.any(Uint8Array),
+    );
   });
 
-  test("decrypt → invalid payload", async () => {
-    const invalidPayload = new Uint8Array(EncryptionIV.LENGTH);
-
-    expect(async () => CryptoAesGcm.decrypt(cryptoKey, invalidPayload)).toThrow(
+  test("decrypt - invalid payload", async () => {
+    expect(async () => CryptoAesGcm.decrypt(cryptoKey, new Uint8Array(EncryptionIV.LENGTH))).toThrow(
       "aes.gcm.crypto.invalid.payload",
     );
+  });
+
+  test("decrypt - minimum valid payload", async () => {
+    spyOn(crypto.subtle, "decrypt").mockResolvedValue(new ArrayBuffer(1));
+
+    expect(async () =>
+      CryptoAesGcm.decrypt(cryptoKey, new Uint8Array(EncryptionIV.LENGTH + 1)),
+    ).not.toThrow();
   });
 });
