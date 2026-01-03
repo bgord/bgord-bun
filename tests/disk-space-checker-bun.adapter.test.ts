@@ -9,8 +9,8 @@ describe("DiskSpaceCheckerBunAdapter", () => {
   const size = tools.Size.fromMB(100);
 
   const output = {
-    header: "Filesystem 1024-blocks Used Available Capacity Mounted on",
-    data: `/dev/disk1s5s1 999999 0 ${size.tokB()} 50% ${root}`,
+    header: "Filesystem    1024-blocks    Used    Available    Capacity    Mounted on",
+    data: `/dev/disk1s5s1    999999    0    ${size.tokB()}    50%    ${root}`,
   };
 
   test("happy path", async () => {
@@ -26,8 +26,10 @@ describe("DiskSpaceCheckerBunAdapter", () => {
   });
 
   test("trim - handles leading newlines", async () => {
-    // @ts-expect-error
-    spyOn(bun, "$").mockImplementation(() => ({ text: () => `\n${output.header}\n${output.data}` }));
+    spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      text: () => `\n${output.header}\n${output.data}`,
+    }));
 
     const result = await adapter.get(root);
 
