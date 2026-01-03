@@ -35,4 +35,10 @@ describe("PassageOfTimeHourly", async () => {
 
     expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericHourHasPassedEvent]);
   });
+
+  test("label", () => {
+    const service = new PassageOfTimeHourly(deps);
+
+    expect(service.label).toEqual("PassageOfTime");
+  });
 });
