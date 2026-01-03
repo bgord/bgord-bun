@@ -3,23 +3,41 @@ import bun from "bun";
 import * as tools from "@bgord/tools";
 import { DiskSpaceCheckerBunAdapter } from "../src/disk-space-checker-bun.adapter";
 
-const root = "/";
-const size = tools.Size.fromMB(100);
-const response = [
-  "Filesystem 1024-blocks Used Available Capacity Mounted on",
-  `/dev/disk1s5s1 999999 0 ${size.tokB()} 50% ${root}`,
-].join("\n");
-
-const DiskSpaceChecker = new DiskSpaceCheckerBunAdapter();
-
 describe("DiskSpaceCheckerBunAdapter", () => {
-  test("happy path", async () => {
-    // @ts-expect-error
-    const bunShell = spyOn(bun, "$").mockImplementation(() => ({ text: () => response }));
+  const adapter = new DiskSpaceCheckerBunAdapter();
+  const root = "/";
+  const size = tools.Size.fromMB(100);
 
-    const result = await DiskSpaceChecker.get(root);
+  const output = {
+    header: "Filesystem 1024-blocks Used Available Capacity Mounted on",
+    data: `/dev/disk1s5s1 999999 0 ${size.tokB()} 50% ${root}`,
+  };
+
+  test("happy path", async () => {
+    const bunShell = spyOn(bun, "$").mockImplementation(() => ({
+      // @ts-expect-error
+      text: () => [output.header, output.data].join("\n"),
+    }));
+
+    const result = await adapter.get(root);
 
     expect(result.toBytes()).toEqual(size.toBytes());
-    expect(bunShell).toHaveBeenCalledWith(["df -kP ", ""], "/");
+    expect(bunShell).toHaveBeenCalledWith(["df -kP ", ""], root);
+  });
+
+  test("trim - handles leading newlines", async () => {
+    // @ts-expect-error
+    spyOn(bun, "$").mockImplementation(() => ({ text: () => `\n${output.header}\n${output.data}` }));
+
+    const result = await adapter.get(root);
+
+    expect(result.toBytes()).toEqual(size.toBytes());
+  });
+
+  test("optional chaining - handles missing data line", async () => {
+    // @ts-expect-error
+    spyOn(bun, "$").mockImplementation(() => ({ text: () => output.header }));
+
+    expect(adapter.get(root)).rejects.toThrow("size.bytes.invalid");
   });
 });
