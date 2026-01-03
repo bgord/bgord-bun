@@ -16,7 +16,6 @@ type UserLanguageHasChangedConfigType = {
 
 class UserLanguageHasChangedFactory extends Invariant<UserLanguageHasChangedConfigType> {
   fails(config: UserLanguageHasChangedConfigType) {
-    if (!config.current) return false;
     return config.current === config.candidate;
   }
 
