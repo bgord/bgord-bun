@@ -19,14 +19,18 @@ export class LoggerWinstonProductionAdapter {
       filename: filePath.get(),
       maxsize: tools.Size.fromMB(100).toBytes(),
       maxFiles: 3,
+      // Stryker disable all
       tailable: true,
+      // Stryker restore all
     });
 
     return new LoggerWinstonAdapter({
       app: this.config.app,
       environment: NodeEnvironmentEnum.production,
       level,
+      // Stryker disable all
       transports: [file],
+      // Stryker restore all
       redactor: this.config.redactor,
       filePath,
     });

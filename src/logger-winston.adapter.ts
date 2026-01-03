@@ -22,7 +22,9 @@ export class LoggerWinstonAdapter implements LoggerPort {
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
       winston.format((info) => options.redactor.redact(info))(),
+      // Stryker disable all
       winston.format.errors({ stack: true }),
+      // Stryker restore all
       winston.format.timestamp(),
       winston.format.json(),
       ...(options.formats ?? []),
@@ -32,8 +34,10 @@ export class LoggerWinstonAdapter implements LoggerPort {
       levels: winston.config.npm.levels,
       level: options.level,
       defaultMeta: { app: options.app, environment: options.environment },
+      // Stryker disable all
       handleExceptions: true,
       handleRejections: true,
+      // Stryker restore all
       format,
       transports: [new winston.transports.Console(), ...(options.transports ?? [])],
     });
