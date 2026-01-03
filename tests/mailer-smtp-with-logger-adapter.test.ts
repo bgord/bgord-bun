@@ -60,4 +60,12 @@ describe("SmtpMailerWithLoggerAdapter", () => {
       expect.objectContaining({ component: "infra", message: "Mailer error", operation: "mailer" }),
     );
   });
+
+  test("verfiy", async () => {
+    const mailerSmtpVerify = spyOn(MailerSmtp, "verify").mockImplementation(jest.fn());
+
+    await mailer.verify();
+
+    expect(mailerSmtpVerify).toHaveBeenCalled();
+  });
 });
