@@ -4,6 +4,7 @@ import { CacheRepositoryLruCacheAdapter } from "../src/cache-repository-lru-cach
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import * as mocks from "./mocks";
 
 const value = "value";
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
@@ -78,5 +79,13 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
     expect(await adapter.get<string>(subject.hex)).toEqual(value);
 
     jest.useRealTimers();
+  });
+
+  test("missing dependency", async () => {
+    spyOn(CacheRepositoryLruCacheAdapter, "imports").mockRejectedValue(mocks.IntentionalError);
+
+    expect(CacheRepositoryLruCacheAdapter.build(config)).rejects.toThrow(
+      "cache.repository.lru.cache.adapter.error.missing.dependency",
+    );
   });
 });

@@ -19,7 +19,7 @@ export class CacheRepositoryLruCacheAdapter implements CacheRepositoryPort {
     let LRUCacheConstructor;
 
     try {
-      const module = await import("lru-cache");
+      const module = await CacheRepositoryLruCacheAdapter.imports();
 
       LRUCacheConstructor = module.LRUCache;
     } catch {
@@ -35,7 +35,10 @@ export class CacheRepositoryLruCacheAdapter implements CacheRepositoryPort {
     return new CacheRepositoryLruCacheAdapter(store);
   }
 
-  // 5. Clean implementation without null checks
+  static async imports() {
+    return import("lru-cache");
+  }
+
   async get<T>(subject: Hash): Promise<T | null> {
     return (this.store.get(subject.get()) as T) ?? null;
   }
