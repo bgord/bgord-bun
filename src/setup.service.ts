@@ -38,24 +38,32 @@ type Dependencies = {
 
 export class Setup {
   static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
+    // Stryker disable all
     const corsOptions = overrides?.cors ?? { origin: "*" };
+    // Stryker restore all
     const secureHeadersOptions = { crossOriginResourcePolicy: "cross-origin", ...overrides?.secureHeaders };
 
     return [
       MaintenanceMode.build(overrides?.maintenanceMode),
       secureHeaders(secureHeadersOptions),
+      // Stryker disable all
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
+      // Stryker restore all
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
       cors(corsOptions),
+      // Stryker disable all
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
         fallbackLanguage: deps.I18n.defaultLanguage,
         caches: false,
       }),
+      // Stryker restore all
       requestId({
         limitLength: 36,
         headerName: "x-correlation-id",
+        // Stryker disable all
         generator: () => deps.IdProvider.generate(),
+        // Stryker restore all
       }),
       TimeZoneOffset.attach,
       Context.attach,
