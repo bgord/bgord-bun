@@ -10,14 +10,10 @@ export class TimeZoneOffset {
 
   static attach = createMiddleware(async (c, next) => {
     const header = c.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME);
-
-    if (!header) c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
-    if (Number.isNaN(Number(header))) c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
-
     const offset = tools.TimeZoneOffsetValue.safeParse(header);
 
-    if (!offset.success) c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
-    else c.set("timeZoneOffset", tools.Duration.Minutes(offset.data));
+    if (offset.success) c.set("timeZoneOffset", tools.Duration.Minutes(offset.data));
+    else c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
 
     await next();
   });
