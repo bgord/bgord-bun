@@ -37,9 +37,9 @@ export class LoggerWinstonAdapter implements LoggerPort {
       // Stryker disable all
       handleExceptions: true,
       handleRejections: true,
-      // Stryker restore all
       format,
       transports: [new winston.transports.Console(), ...(options.transports ?? [])],
+      // Stryker restore all
     });
 
     this.filePath = options.filePath;

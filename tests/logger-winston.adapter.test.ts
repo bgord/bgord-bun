@@ -10,8 +10,10 @@ import * as mocks from "./mocks";
 const redactor = new RedactorNoopStrategy();
 const filePath = tools.FilePathAbsolute.fromString("/var/www/logger.txt");
 
+const log = { component: "emotions", operation: "entry_create", message: "Created entry" };
+
 describe("LoggerWinstonAdapter", () => {
-  test("default meta", () => {
+  test("info", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
@@ -22,18 +24,195 @@ describe("LoggerWinstonAdapter", () => {
       filePath,
     });
 
-    logger.info({ component: "emotions", operation: "entry_create", message: "Created entry" });
+    logger.info(log);
 
-    expect(lines.length).toBeGreaterThan(0);
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "info",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
 
-    const log = JSON.parse(lines[0] as string);
+  test("error", () => {
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.info,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+    const log = {
+      component: "publishing",
+      operation: "weekly_review_generate",
+      message: "Failed",
+      error: { name: "InvariantViolationError", message: "limit exceeded" },
+    };
 
-    expect(log.app).toEqual("test-app");
-    expect(log.environment).toEqual("local");
-    expect(log.component).toEqual("emotions");
-    expect(log.operation).toEqual("entry_create");
-    expect(typeof log.timestamp).toEqual("string");
-    expect(log.level).toEqual("info");
+    logger.error(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "error",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
+
+  test("warn", () => {
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.info,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+
+    logger.warn(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "warn",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
+
+  test("silly", () => {
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.silly,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+
+    logger.silly(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "silly",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
+
+  test("verbose", () => {
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.verbose,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+
+    logger.verbose(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "verbose",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
+
+  test("debug", () => {
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.debug,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+
+    logger.debug(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "debug",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
+
+  test("http", () => {
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.http,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+    const log = {
+      component: "http",
+      operation: "after",
+      message: "response",
+      method: "GET",
+      url: "/api/entries",
+      status: 200,
+      durationMs: tools.DurationMs.parse(42),
+      client: { ip: "1.2.3.4", userAgent: "UA" },
+    } as const;
+
+    logger.http(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      environment: "local",
+      level: "http",
+      timestamp: expect.any(String),
+      ...log,
+    });
+  });
+
+  test("redactor", async () => {
+    const redactor = new RedactorMaskStrategy(["secret"]);
+    const { transport, lines } = mocks.makeCaptureTransport();
+    const logger = new LoggerWinstonAdapter({
+      app: "test-app",
+      environment: NodeEnvironmentEnum.local,
+      level: LogLevelEnum.http,
+      transports: [transport],
+      redactor,
+      filePath,
+    });
+    const log = {
+      component: "infra",
+      operation: "read",
+      message: "Env variables",
+      metadata: { env: { secret: "abc" } },
+    };
+
+    logger.info(log);
+
+    expect(JSON.parse(lines[0])).toEqual({
+      app: "test-app",
+      component: "infra",
+      environment: "local",
+      level: "info",
+      message: "Env variables",
+      metadata: { env: { secret: "***" } },
+      operation: "read",
+      timestamp: expect.any(String),
+    });
   });
 
   test("respects level threshold", () => {
@@ -61,80 +240,6 @@ describe("LoggerWinstonAdapter", () => {
     logger.warn({ component: "infra", operation: "rate_limit_hit", message: "Too many requests" });
 
     expect(lines.length).toEqual(1);
-    expect(JSON.parse(lines[0] as string).level).toEqual("warn");
-  });
-
-  test("error", () => {
-    const { transport, lines } = mocks.makeCaptureTransport();
-    const logger = new LoggerWinstonAdapter({
-      app: "test-app",
-      environment: NodeEnvironmentEnum.local,
-      level: LogLevelEnum.info,
-      transports: [transport],
-      redactor,
-      filePath,
-    });
-
-    logger.error({
-      component: "publishing",
-      operation: "weekly_review_generate",
-      message: "Failed",
-      error: { name: "InvariantViolationError", message: "limit exceeded" },
-    });
-
-    const obj = JSON.parse(lines[0] as string);
-    expect(obj.error.name).toEqual("InvariantViolationError");
-    expect(obj.error.message).toEqual("limit exceeded");
-  });
-
-  test("HTTP fields", () => {
-    const { transport, lines } = mocks.makeCaptureTransport();
-    const logger = new LoggerWinstonAdapter({
-      app: "test-app",
-      environment: NodeEnvironmentEnum.local,
-      level: LogLevelEnum.http,
-      transports: [transport],
-      redactor,
-      filePath,
-    });
-
-    logger.http({
-      component: "http",
-      operation: "after",
-      message: "response",
-      method: "GET",
-      url: "/api/entries",
-      status: 200,
-      durationMs: tools.DurationMs.parse(42),
-      client: { ip: "1.2.3.4", userAgent: "UA" },
-    });
-    const log = JSON.parse(lines[0] as string);
-
-    expect(log.method).toEqual("GET");
-    expect(log.status).toEqual(200);
-    expect(log.durationMs).toEqual(42);
-    expect(log.client.ip).toEqual("1.2.3.4");
-  });
-
-  test("redactor", async () => {
-    const redactor = new RedactorMaskStrategy(["secret"]);
-    const { transport, lines } = mocks.makeCaptureTransport();
-    const logger = new LoggerWinstonAdapter({
-      app: "test-app",
-      environment: NodeEnvironmentEnum.local,
-      level: LogLevelEnum.http,
-      transports: [transport],
-      redactor,
-      filePath,
-    });
-
-    logger.info({
-      component: "infra",
-      operation: "read",
-      message: "Env variables",
-      metadata: { env: { secret: "abc" } },
-    });
-
-    expect(JSON.parse(lines[0] as string).metadata).toEqual({ env: { secret: "***" } });
+    expect(JSON.parse(lines[0]).level).toEqual("warn");
   });
 });
