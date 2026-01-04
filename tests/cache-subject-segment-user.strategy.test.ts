@@ -5,15 +5,15 @@ const segment = new CacheSubjectSegmentUserStrategy();
 
 describe("CacheSubjectSegmentUserStrategy", () => {
   test("happy path", () => {
-    const context = { get: () => ({ id: "123456789" }) };
+    const context = { get: () => ({ id: "123456789" }) } as any;
 
-    expect(segment.create(context as any)).toEqual(context.get().id);
+    expect(segment.create(context)).toEqual(context.get().id);
   });
 
   test("empty", () => {
-    const context = { get: () => null };
+    const context = { get: () => null } as any;
 
-    expect(segment.create(context as any)).toEqual("anon");
+    expect(segment.create(context)).toEqual("anon");
   });
 
   test("no context", () => {
