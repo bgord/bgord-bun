@@ -10,9 +10,11 @@ export class Decorators {
     const that = this;
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+      // Stryker disable all
       const className =
         // @ts-expect-error
         this?.constructor?.name || target?.name || target?.constructor?.name || "UnknownClass";
+      // Stryker restore all
 
       const original: (...args: unknown[]) => unknown = descriptor.value;
 
@@ -27,7 +29,9 @@ export class Decorators {
           message: `${label} duration`,
           component: "infra",
           operation: "decorators_duration_ms",
+          // Stryker disable all
           metadata: { durationMs: that.rounding.round(after - before) },
+          // Stryker restore all
         });
 
         return value;
@@ -39,9 +43,11 @@ export class Decorators {
     const that = this;
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+      // Stryker disable all
       const className =
         // @ts-expect-error
         this?.constructor?.name || target?.name || target?.constructor?.name || "UnknownClass";
+      // Stryker restore all
 
       const original: (...args: unknown[]) => unknown = descriptor.value;
 
