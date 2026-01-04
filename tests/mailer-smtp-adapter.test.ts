@@ -1,13 +1,13 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import nodemailer from "nodemailer";
-import { SmtpPort } from "../src/mailer.vo";
+import { SmtpHost, SmtpPass, SmtpPort, SmtpUser } from "../src/mailer.vo";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 
 const smtp = {
-  SMTP_HOST: "smtp.example.com",
+  SMTP_HOST: SmtpHost.parse("smtp.example.com"),
   SMTP_PORT: SmtpPort.parse(587),
-  SMTP_USER: "user@example.com",
-  SMTP_PASS: "password",
+  SMTP_USER: SmtpUser.parse("user@example.com"),
+  SMTP_PASS: SmtpPass.parse("password"),
 };
 
 describe("MailerSmtpAdapter", () => {
