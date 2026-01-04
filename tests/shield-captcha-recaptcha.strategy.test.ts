@@ -6,10 +6,11 @@ import * as mocks from "./mocks";
 
 const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
+const remoteip = "1.2.3.4";
 
 const shield = new ShieldCaptchaRecaptchaStrategy({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
 
-const SAFE_HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
+const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 const SAFE_BODY = "dummy=1";
 
 const app = new Hono()
@@ -27,20 +28,18 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...SAFE_HEADERS, "x-forwarded-for": "1.2.3.4" },
+      headers: { ...HEADERS, "x-forwarded-for": remoteip },
       body: new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString(),
     });
+    const text = await response.text();
 
     expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
-
-    const [, config] = globalFetch.mock.calls[0];
-    const params = config?.body as URLSearchParams;
-
-    expect(config?.method).toEqual("POST");
-    expect(config?.headers).toEqual(SAFE_HEADERS);
-    expect(params.get("secret")).toEqual(VALID_SECRET_KEY);
-    expect(params.get("remoteip")).toEqual("1.2.3.4");
+    expect(text).toEqual("ok");
+    expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip }),
+      headers: HEADERS,
+    });
   });
 
   test("happy path - remote ip fallback", async () => {
@@ -50,28 +49,36 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
 
     await app.request("http://localhost/", {
       method: "POST",
-      headers: SAFE_HEADERS,
-      body: new URLSearchParams({
-        "g-recaptcha-response": VALID_TOKEN,
-      }).toString(),
+      headers: HEADERS,
+      body: new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString(),
     });
-    const config = globalFetch.mock.calls[0][1];
-    const params = config?.body as URLSearchParams;
 
-    expect(params.get("remoteip")).toEqual("");
+    expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      headers: HEADERS,
+    });
   });
 
   test("happy path - boundary score", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: true, score: 0.5 })));
+    const globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.5 })),
+    );
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...SAFE_HEADERS, "x-recaptcha-token": VALID_TOKEN },
+      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
       body: SAFE_BODY,
     });
+    const text = await response.text();
 
     expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
+    expect(text).toEqual("ok");
+    expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      headers: HEADERS,
+    });
   });
 
   test("failure - missing token", async () => {
@@ -81,7 +88,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: SAFE_HEADERS,
+      headers: HEADERS,
       body: SAFE_BODY,
     });
     const json = await response.json();
@@ -96,7 +103,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...SAFE_HEADERS, "x-recaptcha-token": VALID_TOKEN },
+      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
       body: SAFE_BODY,
     });
 
@@ -108,7 +115,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...SAFE_HEADERS, "x-recaptcha-token": VALID_TOKEN },
+      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
       body: SAFE_BODY,
     });
 
@@ -120,7 +127,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...SAFE_HEADERS, "x-recaptcha-token": VALID_TOKEN },
+      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
       body: SAFE_BODY,
     });
 
