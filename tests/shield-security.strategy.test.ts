@@ -210,6 +210,12 @@ describe("ShieldSecurityStrategy", () => {
     );
   });
 
+  test("just enough policies", () => {
+    expect(
+      () => new ShieldSecurityStrategy([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail], deps),
+    ).not.toThrow();
+  });
+
   test("max policies", () => {
     expect(
       () =>
