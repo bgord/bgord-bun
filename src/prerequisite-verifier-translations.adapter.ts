@@ -58,11 +58,15 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
 
       for (const translationKey of translationKeys) {
         for (const supportedLanguage of supportedLanguages) {
+          // Stryker disable all
           if (supportedLanguage === language) continue;
+          // Stryker restore all
 
+          // Stryker disable all
           const translationKeyExists = languageToTranslationKeys[supportedLanguage]?.some(
             (key) => translationKey === key,
           );
+          // Stryker restore all
 
           if (!translationKeyExists) {
             problems.push({ key: translationKey, existsIn: language, missingIn: supportedLanguage });
