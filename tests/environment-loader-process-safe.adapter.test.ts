@@ -37,13 +37,13 @@ describe("EnvironmentLoaderProcessSafe", () => {
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
     // @ts-expect-error
     expect(process.env.APP_NAME).toEqual(undefined);
-    expect(cacheResolverResolve.mock.calls[0]?.[0]).toEqual(subject.hex);
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
 
     const second = await adapter.load();
 
     expect(second.APP_NAME).toEqual("MyApp");
     expect(second.type).toEqual(NodeEnvironmentEnum.local);
-    expect(cacheResolverResolve.mock.calls[1]?.[0]).toEqual(subject.hex);
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(2, subject.hex, expect.any(Function));
 
     await CacheResolver.flush();
   });

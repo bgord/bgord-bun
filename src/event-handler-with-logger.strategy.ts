@@ -22,7 +22,7 @@ export class EventHandlerWithLoggerStrategy implements EventHandlerStrategy {
           message: `Unknown ${event.name} event handler error`,
           component: "infra",
           operation: "event_handler",
-          metadata: { name: event.name, duration: stopwatch.stop() },
+          metadata: { name: event.name, durationMs: stopwatch.stop().ms },
           error: formatError(error),
         });
       }

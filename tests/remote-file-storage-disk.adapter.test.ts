@@ -85,8 +85,9 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
     await adapter.delete(key);
 
-    // @ts-expect-error
-    expect(fileCleanerDelete.mock.calls[0][0].get()).toEqual("/root/users/1/avatar.webp");
+    expect(fileCleanerDelete).toHaveBeenCalledWith(
+      tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
+    );
   });
 
   test("get root", () => {

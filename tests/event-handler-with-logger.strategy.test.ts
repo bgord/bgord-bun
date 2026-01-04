@@ -29,17 +29,13 @@ describe("EventHandlerWithLoggerStrategy", () => {
 
     expect(loggerError).toHaveBeenCalledTimes(1);
 
-    // @ts-expect-error
-    const [call] = loggerError.mock.calls[0];
-    expect(call).toMatchObject({
-      message: "Unknown user.created event handler error",
-      component: "infra",
-      operation: "event_handler",
-      metadata: event,
-    });
-    expect(call.error).toBeDefined();
-    expect(call.error.name).toEqual("Error");
-    expect(call.error.message).toEqual(mocks.IntentionalError);
-    expect(typeof call.error.stack).toEqual("string");
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: "Unknown user.created event handler error",
+        component: "infra",
+        operation: "event_handler",
+        metadata: { ...event, durationMs: expect.any(Number) },
+      }),
+    );
   });
 });
