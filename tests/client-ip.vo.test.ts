@@ -13,6 +13,10 @@ describe("ClientIp VO", () => {
     expect(ClientIp.parse("anonx")).toEqual("anon");
   });
 
+  test("rejects empty", () => {
+    expect(() => ClientIp.parse("")).toThrow("client.ip.empty");
+  });
+
   test("rejects non-string - null", () => {
     expect(() => ClientIp.parse(null)).toThrow("client.ip.type");
   });

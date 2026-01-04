@@ -5,6 +5,7 @@ export type ClientType = { ip: ClientIpType; ua: ClientUserAgentType };
 
 export class Client {
   private static DEFAULT_IP = ClientIp.parse("anon");
+  private static DEFAULT_UA = ClientUserAgent.parse("anon");
 
   private constructor(private readonly value: ClientType) {}
 
@@ -14,14 +15,14 @@ export class Client {
   ): Client {
     return new Client({
       ip: ip ?? Client.DEFAULT_IP,
-      ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
+      ua: ClientUserAgent.parse((ua ?? Client.DEFAULT_UA).toLowerCase()),
     });
   }
 
   static fromParts(ip: string | null | undefined, ua: string | null | undefined): Client {
     return new Client({
       ip: ClientIp.parse(ip ?? Client.DEFAULT_IP),
-      ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
+      ua: ClientUserAgent.parse((ua ?? Client.DEFAULT_UA).toLowerCase()),
     });
   }
 
