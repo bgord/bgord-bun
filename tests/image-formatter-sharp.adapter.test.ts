@@ -31,15 +31,12 @@ describe("ImageFormatterSharpAdapter", () => {
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
     const result = await adapter.format(recipe);
-
     const formatted = tools.FilePathAbsolute.fromString("/var/in/img.webp");
-
-    expect(result.get()).toEqual(formatted.get());
-
     const temporary = tools.FilePathAbsolute.fromString("/var/in/img-formatted.webp");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
+    expect(result.get()).toEqual(formatted.get());
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("webp");
     expect(rename).toHaveBeenCalledWith(temporary, formatted);
     expect(fileCleaner).toHaveBeenCalledWith(input.get());
     expect(sharp).toHaveBeenCalledWith(input.get());
@@ -50,12 +47,10 @@ describe("ImageFormatterSharpAdapter", () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
-
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to: tools.Extension.parse("png") };
 
     const result = await adapter.format(recipe);
-
     const temporary = tools.FilePathAbsolute.fromString("/var/in/img-formatted.png");
 
     expect(rename).toHaveBeenCalledWith(temporary, input);
@@ -77,8 +72,8 @@ describe("ImageFormatterSharpAdapter", () => {
 
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-formatted.webp");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("webp");
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(fileCleaner).not.toHaveBeenCalled();
     expect(result.get()).toEqual(output.get());
@@ -94,7 +89,7 @@ describe("ImageFormatterSharpAdapter", () => {
 
     await adapter.format(recipe);
 
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(rename).toHaveBeenCalledWith(
       tools.FilePathAbsolute.fromString("/img/out/photo-formatted.jpg"),
       output,
@@ -115,7 +110,7 @@ describe("ImageFormatterSharpAdapter", () => {
     const temporary = tools.FilePathRelative.fromString("images/pic-formatted.jpeg");
     const formatted = tools.FilePathRelative.fromString("images/pic.jpeg");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, formatted);
     expect(fileCleaner).toHaveBeenCalledWith(input.get());
   });
