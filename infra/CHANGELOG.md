@@ -1,10 +1,169 @@
 # Changelog
+- 2026-01-04 16:11 c172362 **step: bump bgord/scripts**
+- 2026-01-04 16:11 640a96f **step: remove stryker config**
+- 2026-01-04 15:54 28c8e0b **refactor: make tests more readable**
+- 2026-01-04 15:50 3c2a5f9 **step: suppress smtp brand mutants**
+- 2026-01-04 15:48 9420d76 **step: improve tests**
+- 2026-01-04 15:35 bf57105 **step: add smtp tests**
+- 2026-01-04 15:31 5b1995e **step: cleanup tests**
+- 2026-01-04 15:30 979f0f3 **refactor: extract mailer vo**
+- 2026-01-04 15:28 007fa6a **refactor: extract smtp from mailer**
+- 2026-01-04 15:27 e43bf6e **step: define smtp vars**
+- 2026-01-04 15:21 f1ced5d **step: make mailer vos branded**
+- 2026-01-04 15:13 a942c1d **fix: types in tests**
+- 2026-01-04 15:13 3b2486b **step: update packages**
+- 2026-01-04 15:10 cee2946 **step: image processor**
+- 2026-01-04 15:08 2ba3e54 **step: image resizer**
+- 2026-01-04 15:04 1555d09 **step: image compressor**
+- 2026-01-04 15:03 1402701 **step: image formatter**
+- 2026-01-04 15:03 0ac3a5b **step: image exif clear**
+- 2026-01-04 15:02 0a6ee52 **step: image blur**
+- 2026-01-04 14:59 cf94132 **refactor: simplify mock assertions in tests**
+- 2026-01-04 14:59 a100eb8 **step: image alpha**
+- 2026-01-04 14:35 5570a55 **step: recaptcha**
+- 2026-01-04 14:25 cad8151 **step: http logger cache hit**
+- 2026-01-04 14:18 895583b **step: cache hit**
+- 2026-01-04 14:08 57912d6 **step: http logger**
+- 2026-01-04 13:59 d21311a **step: translations prereq**
+- 2026-01-04 13:23 5a1d166 **refactor: remove depend vuln prereq**
+- 2026-01-04 13:18 f4bdb16 **step: veri file**
+- 2026-01-04 13:13 dfba9dc **step: veri dir**
+- 2026-01-04 13:06 e97e551 **step: instrumentation service**
+- 2026-01-04 13:02 4070477 **step: remove decorators**
+- 2026-01-04 12:55 3879e60 **step: cache segment subject**
+- 2026-01-04 12:50 0daa244 **step: lru cache**
+- 2026-01-04 12:35 03f868b **step: antivirus**
+- 2026-01-04 12:33 9618bff **step: history payload**
+- 2026-01-04 11:30 818077a **step: final suppressions**
+- 2026-01-04 11:28 b2b61a6 **step: formatting**
+- 2026-01-04 10:52 af7fb4e **step: client vo**
+- 2026-01-04 10:42 78146bf **step: client vo**
+- 2026-01-04 10:37 96ff49f **step: shield security**
+- 2026-01-04 10:34 8db11ba **step: prereq veri translations**
+- 2026-01-04 10:33 c1f4e99 **step: smtp**
+- 2026-01-04 10:29 dec116e **step: dep vuln**
+- 2026-01-04 10:26 2c0df58 **step: http logger**
+- 2026-01-04 10:19 2e56473 **step: logger winston adapter**
+- 2026-01-04 09:59 892fcfb **step: gv2**
+- 2026-01-04 09:48 23aec4c **step: graceful shutdown**
+- 2026-01-04 09:31 a3864cb **step: decorators**
+- 2026-01-04 09:26 05cc051 **step: shield strategy just enough**
+- 2026-01-04 00:11 deb0053 **step: decorators**
+- 2026-01-03 23:57 2d042fd **step: sealer**
+- 2026-01-03 23:52 7b50252 **step: logger winston local**
+- 2026-01-03 23:32 82278fb **step: file uploader**
+- 2026-01-03 23:29 2caa316 **step: logger**
+- 2026-01-03 23:28 812a3f3 **step: setup**
+- 2026-01-03 23:23 0cc2b96 **step: loggers**
+- 2026-01-03 23:19 102312a **step: logger format error**
+- 2026-01-03 23:18 7ce2a84 **step: security and**
+- 2026-01-03 23:13 76f9041 **step: rule or**
+- 2026-01-03 23:03 592bd5d **step: image formatter**
+- 2026-01-03 22:57 5572808 **step: image processor sharp**
+- 2026-01-03 22:35 7207d8b **step: shield auth strategy**
+- 2026-01-03 22:30 4939e5e **step: static files service**
+- 2026-01-03 22:12 bb6e3c4 **step: recaptcha**
+- 2026-01-03 21:57 841bb57 **step: recaptcha**
+- 2026-01-03 21:48 022de99 **step: weak-etag extractor**
+- 2026-01-03 21:47 3f72af0 **step: etag extractor**
+- 2026-01-03 21:43 ec79efc **step: time zone offset**
+- 2026-01-03 21:00 2152d07 **step: disk space checker bun**
+- 2026-01-03 20:31 30e1dc0 **step: mailer smtp adapter**
+- 2026-01-03 20:28 8e17480 **step: mailer smtp with logger adapter**
+- 2026-01-03 20:25 e5a26c7 **step: safe parse body**
+- 2026-01-03 20:23 6402b21 **step: simulated error**
+- 2026-01-03 20:21 af7e986 **step: disk space checker bun**
+- 2026-01-03 20:11 da0a224 **step: crypto aes gcm**
+- 2026-01-03 20:00 25d1060 **step: client from hono**
+- 2026-01-03 19:53 2a4499a **step: checksum**
+- 2026-01-03 19:42 3987c9c **step: ttl autopurge**
+- 2026-01-03 19:40 0a2c25e **step: lru cache dependency missing**
+- 2026-01-03 19:08 9a577a6 **step: better auth logger**
+- 2026-01-03 18:53 28852a6 **step: clamav**
+- 2026-01-03 18:35 107ad32 **step: handleSetUserLanguageCommand**
+- 2026-01-03 10:55 9059cfe **step: user language has changed**
+- 2026-01-03 10:34 d07bc3d **step: passage of time**
+- 2026-01-03 10:21 2dd814c **step: history**
+- 2026-01-03 09:26 c80d7a3 **step: history subject**
+- 2026-01-03 09:23 361db9a **step: history payload**
+- 2026-01-02 22:13 30896ac **step: history event handlers**
+- 2026-01-02 20:43 5fc6d42 **step: cache response disabled**
+- 2026-01-02 20:36 382775c **step: cert insp tls**
+- 2026-01-02 20:34 d9b7f3e **step: crypto key prov with cache**
+- 2026-01-02 20:30 6067718 **step: file reader json with cache**
+- 2026-01-02 20:23 3f68842 **step: disk space checker bun**
+- 2026-01-02 20:20 50fa0e0 **step: mailer smtp with logger adapter**
+- 2026-01-02 20:13 f171013 **step: encryption**
+- 2026-01-02 20:12 326ff7b **step: file draft zip**
+- 2026-01-02 20:11 658c793 **step: pdf generator noop**
+- 2026-01-02 20:10 3004c5a **step: shield hcaptcha**
+- 2026-01-02 20:08 f5bec11 **step: checksum**
+- 2026-01-02 20:04 d03315b **step: job handler with logger**
+- 2026-01-02 19:37 cc14cbf **step: secu rule**
+- 2026-01-02 19:36 9c42fd1 **step: sec counter**
+- 2026-01-02 19:33 fe62994 **step: id prov deter**
+- 2026-01-02 19:32 662c13a **step: hash value**
+- 2026-01-02 19:31 2c41c1a **step: encryption key**
+- 2026-01-02 19:29 a2f14ec **step: encryption key value**
+- 2026-01-02 19:25 568083d **step: command envelope**
+- 2026-01-02 19:21 721ef1e **step: binary**
+- 2026-01-02 19:16 034defe **step: gzip stream**
+- 2026-01-02 19:12 3220bbb **step: healthcheck**
+- 2026-01-02 19:10 d7ed571 **step: job handler with logger**
+- 2026-01-02 19:04 2da1134 **step: mailer noop adapter**
+- 2026-01-02 19:03 5f83c88 **step: pdf generator noop**
+- 2026-01-02 19:01 7ba34c6 **step: get stream null**
+- 2026-01-02 18:59 dcf4820 **step: remote file storage noop**
+- 2026-01-02 18:21 10936b8 **step: redactor mask**
+- 2026-01-02 17:46 79402e8 **step: translations**
+- 2026-01-02 17:43 636176f **step: translations**
+- 2026-01-02 17:37 382005c **step: dep vuln**
+- 2026-01-02 17:30 caeac8d **step: dep vuln**
+- 2026-01-02 17:25 b49dbfc **step: prereq with cache**
+- 2026-01-02 17:20 95bb8ec **step: directory**
+- 2026-01-02 17:18 856a748 **step: file**
+- 2026-01-02 17:07 73a4fad **step: os**
+- 2026-01-02 17:06 0173f32 **step: outside conn**
+- 2026-01-02 17:04 ca3c497 **step: sqlite**
+- 2026-01-02 17:02 fff07f7 **step: prereq log file**
+- 2026-01-02 16:58 3cce4dc **step: prereq external api**
+- 2026-01-02 16:52 e3c7d06 **step: prereq clock drift**
+- 2026-01-02 16:47 2456f03 **step: binary**
+- 2026-01-02 16:44 a4c850b **step: add prereq kind tests**
+- 2026-01-02 16:36 3b63f33 **step: prereq runner startup**
+- 2026-01-02 16:13 ccf1f7d **step: event envelope**
+- 2026-01-02 16:10 a90555d **step: command envelope**
+- 2026-01-02 16:00 7729103 **step: shield timeout**
+- 2026-01-02 15:27 c5621f2 **step: shield api key**
+- 2026-01-02 15:23 f119287 **step: shield rate limit**
+- 2026-01-02 15:15 84c5f31 **step: timekeeper google adapter**
+- 2026-01-02 15:01 428627b **step: timeout runner monitor**
+- 2025-12-31 17:36 716c3f4 **step: mailer noop**
+- 2025-12-31 17:35 158b06d **step: logger noop**
+- 2025-12-31 17:33 d0f9c7e **step: env loader process safe**
+- 2025-12-31 17:33 8add818 **step: i18n**
+- 2025-12-31 17:33 4a4e53b **step: correlation storage**
+- 2025-12-31 17:24 966ea4d **step: checksum**
+- 2025-12-31 17:18 ab78778 **step: retry backoff expo**
+- 2025-12-31 17:01 d13528e **fix: errors in tests**
+- 2025-12-31 16:41 3c60aaa **step: disable brand checks**
+- 2025-12-31 16:38 924a0fe **step: build info repo**
+- 2025-12-31 16:36 f3f709c **step: binary**
+- 2025-12-31 16:35 e526575 **step: basic auth credentials**
+- 2025-12-31 16:05 31ba30f **step: setup stryker**
+- 2025-12-31 16:04 b5dc1dc **step: install stryker**
+- 2025-12-31 16:03 94a6851 **step: update packages**
+- 2025-12-31 16:02 8fc84c1 **step: update packages**
+- 2025-12-31 10:10 b1594fd **fix: and**
+- 2025-12-31 10:04 bdca42c **step: test just enough rules in or**
+- 2025-12-31 10:04 716a1c9 **step: test just enough rules in and**
 ## 2025-12-31 00:01 v1.7.10
 - 2025-12-31 00:01 db31b03 **1.7.10**
 - 2025-12-31 00:00 9affab6 **fix: crypto adapter id provider**
 ## 2025-12-30 23:50 v1.7.9
 - 2025-12-30 23:50 4e2209c **1.7.9**
 - 2025-12-30 23:50 2dc1c54 **fix: id provider deterministic adapter**
+- 2025-12-30 23:01 d4dcf7c **docs: generate CHANGELOG**
 - 2025-12-30 23:00 74c70a6 **docs: generate CHANGELOG**
 - 2025-12-30 22:51 556f64d **docs: generate CHANGELOG**
 - 2025-12-30 22:50 6a7b259 **docs: generate CHANGELOG**
