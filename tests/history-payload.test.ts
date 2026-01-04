@@ -7,15 +7,14 @@ describe("HistoryPayloadParsed", () => {
     expect(() => History.VO.HistoryPayload.parse({ subject: "order" })).not.toThrow();
   });
 
-  test("happy path", () => {
+  test("HistoryPayloadParsed", () => {
     const result = History.VO.HistoryPayloadParsed.safeParse({ subject: "order" });
+
     expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data).toBe('{"subject":"order"}');
-    }
+    expect(result.data).toBe('{"subject":"order"}');
   });
 
-  test("rejects circular references (Kills Mutants)", () => {
+  test("HistoryPayloadParsed - -rejects circular references", () => {
     const circular: Record<string, any> = { name: "loop" };
     circular.self = circular;
 
