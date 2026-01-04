@@ -38,6 +38,7 @@ describe("SealerAesGcmAdapter", () => {
     const result = await adapter.unseal(sealedValue);
 
     expect(result).toEqual(input);
+    // @ts-expect-error
     expect(encrypted).toEqual(new Uint8Array(cryptoAesGcmDecrypt.mock.calls[0][1]));
   });
 

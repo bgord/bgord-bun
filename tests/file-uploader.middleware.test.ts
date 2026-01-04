@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { FileTooBigError, FileUploader, InvalidFileMimeTypeError } from "../src/file-uploader.middleware";
+import { FileUploader } from "../src/file-uploader.middleware";
 
 const boundary = "----bun-test-boundary";
 const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };

@@ -26,7 +26,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.info(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "info",
@@ -54,7 +54,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.error(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "error",
@@ -76,7 +76,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.warn(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "warn",
@@ -98,7 +98,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.silly(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "silly",
@@ -120,7 +120,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.verbose(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "verbose",
@@ -142,7 +142,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.debug(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "debug",
@@ -174,7 +174,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.http(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       environment: "local",
       level: "http",
@@ -203,7 +203,7 @@ describe("LoggerWinstonAdapter", () => {
 
     logger.info(log);
 
-    expect(JSON.parse(lines[0])).toEqual({
+    expect(JSON.parse(lines[0] as string)).toEqual({
       app: "test-app",
       component: "infra",
       environment: "local",
@@ -240,6 +240,6 @@ describe("LoggerWinstonAdapter", () => {
     logger.warn({ component: "infra", operation: "rate_limit_hit", message: "Too many requests" });
 
     expect(lines.length).toEqual(1);
-    expect(JSON.parse(lines[0]).level).toEqual("warn");
+    expect(JSON.parse(lines[0] as string).level).toEqual("warn");
   });
 });
