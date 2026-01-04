@@ -31,16 +31,13 @@ describe("ImageAlphaSharpAdapter", () => {
     const recipe: ImageAlphaStrategy = { strategy: "in_place", input, background: "#F8FAFC" };
 
     const output = await adapter.flatten(recipe);
-
-    expect(output).toEqual(input);
-    expect(flatten).toHaveBeenCalledTimes(1);
-    expect(flatten).toHaveBeenCalledWith({ background: "#F8FAFC" });
-    expect(rotate).toHaveBeenCalledTimes(1);
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
-
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-flattened.jpg");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(output).toEqual(input);
+    expect(flatten).toHaveBeenCalledWith({ background: "#F8FAFC" });
+    expect(rotate).toHaveBeenCalledTimes(1);
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
@@ -58,13 +55,11 @@ describe("ImageAlphaSharpAdapter", () => {
     const recipe: ImageAlphaStrategy = { strategy: "output_path", input, output, background };
 
     const result = await adapter.flatten(recipe);
-
-    expect(flatten).toHaveBeenCalledWith({ background: background });
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
-
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-flattened.webp");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(flatten).toHaveBeenCalledWith({ background: background });
+    expect(toFormat).toHaveBeenCalledWith("webp");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(result).toEqual(output);
     expect(sharp).toHaveBeenCalledWith(input.get());
@@ -79,12 +74,10 @@ describe("ImageAlphaSharpAdapter", () => {
     const recipe: ImageAlphaStrategy = { strategy: "in_place", input, background: "#000" };
 
     await adapter.flatten(recipe);
-
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("png");
-
     const temporary = tools.FilePathRelative.fromString("images/pic-flattened.png");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("png");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
   });
 
@@ -97,11 +90,9 @@ describe("ImageAlphaSharpAdapter", () => {
     const recipe: ImageAlphaStrategy = { strategy: "output_path", input, output, background: "#fff" };
 
     await adapter.flatten(recipe);
-
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
-
     const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-flattened.jpg");
 
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 });
