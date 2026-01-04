@@ -1,96 +1,132 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { constants } from "node:fs";
-import fsp from "node:fs/promises";
-import * as tools from "@bgord/tools";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteVerifierTranslationsAdapter } from "../src/prerequisite-verifier-translations.adapter";
 import * as mocks from "./mocks";
 
-const supportedLanguages = { en: "en", es: "es" };
-
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const deps = { Logger, FileReaderJson };
 
-describe("PrerequisiteVerifierTranslationsAdapter", () => {
-  test("success", async () => {
-    const fspAccess = spyOn(fsp, "access").mockResolvedValue(undefined);
-    const getTranslations = spyOn(I18n.prototype, "getTranslations");
+const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
+  { supportedLanguages: { en: "en", pl: "pl" } },
+  deps,
+);
+
+describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
+  test("success - single language", async () => {
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
       { supportedLanguages: { en: "en" } },
       deps,
     );
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
-    expect(getTranslations).not.toHaveBeenCalled();
-    expect(fspAccess).toHaveBeenCalledTimes(2);
   });
 
-  test("success - custom path", async () => {
-    const fspAccess = spyOn(fsp, "access").mockResolvedValue(undefined);
-    const translationsPath = tools.DirectoryPathRelativeSchema.parse("custom/translations");
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
-      { translationsPath, supportedLanguages: { en: "en" } },
-      deps,
-    );
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
-    expect(fspAccess).toHaveBeenCalledWith(translationsPath, constants.R_OK);
-  });
-
-  test("success - multiple languages have the same translation keys", async () => {
-    spyOn(fsp, "access").mockResolvedValue(undefined);
-    spyOn(I18n.prototype, "getTranslations").mockResolvedValue({ shared: "value" } as any);
-
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
-
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
-  });
-
-  test("failure - missing file", async () => {
-    spyOn(fsp, "access").mockRejectedValue(new Error("Does not exist"));
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
-
-    // @ts-expect-error
-    const result = (await prerequisite.verify()).error.message;
-
-    expect(result).toMatch(/Does not exist/);
-  });
-
-  test("failure - inconsistent translations", async () => {
-    spyOn(fsp, "access").mockResolvedValue(undefined);
+  test("success - two languages", async () => {
     spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
       switch (language) {
         case "en":
-          return {
-            key1: "English Translation 1",
-            key2: "English Translation 2",
-            key3: "English Translation 3",
-          };
-        case "es":
-          return { key1: "Spanish Translation 1" };
+          return { dog: "dog", cat: "cat", cow: "cow" };
+        case "pl":
+          return { dog: "pies", cat: "kot", cow: "krowa" };
         default:
           return {} as any;
       }
     });
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
 
-    const result = await prerequisite.verify();
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+  });
 
-    // @ts-expect-error
-    const message = result.error.message;
-    const lines = message.split("\n");
-    expect(lines).toHaveLength(2);
-    expect(message).toEqual(
-      "Key: key2, exists in en, missing in es\n" + "Key: key3, exists in en, missing in es",
+  test("failure - one language translations not available", async () => {
+    spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
+      switch (language) {
+        case "en":
+          return { dog: "dog", cat: "cat", cow: "cow" };
+        case "pl":
+          throw mocks.throwIntentionalErrorAsync;
+        default:
+          return {} as any;
+      }
+    });
+
+    expect(await prerequisite.verify()).toEqual(
+      mocks.VerificationFailure({ message: "pl translations not available" }),
     );
   });
 
-  test("kind", () => {
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter({ supportedLanguages }, deps);
+  test("failure - both language translations not available", async () => {
+    spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
+      switch (language) {
+        case "en":
+          throw mocks.throwIntentionalErrorAsync;
+        case "pl":
+          throw mocks.throwIntentionalErrorAsync;
+        default:
+          return {} as any;
+      }
+    });
 
+    expect(await prerequisite.verify()).toEqual(
+      mocks.VerificationFailure({ message: "en translations not available" }),
+    );
+  });
+
+  test("failure - one difference", async () => {
+    spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
+      switch (language) {
+        case "en":
+          return { dog: "dog", cat: "cat", cow: "cow" };
+        case "pl":
+          return { dog: "pies", cat: "kot" };
+        default:
+          return {} as any;
+      }
+    });
+
+    expect(await prerequisite.verify()).toEqual(
+      mocks.VerificationFailure({ message: "Key: cow, exists in en, missing in pl" }),
+    );
+  });
+
+  test("failure - one empty", async () => {
+    spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
+      switch (language) {
+        case "en":
+          return { dog: "dog", cat: "cat", cow: "cow" };
+        case "pl":
+          return {};
+        default:
+          return {} as any;
+      }
+    });
+
+    const summary = [
+      "Key: dog, exists in en, missing in pl",
+      "Key: cat, exists in en, missing in pl",
+      "Key: cow, exists in en, missing in pl",
+    ];
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: summary.join("\n") }));
+  });
+
+  test("failure - both different", async () => {
+    spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
+      switch (language) {
+        case "en":
+          return { dog: "dog", cat: "cat", horse: "horse" };
+        case "pl":
+          return { dog: "pies", cat: "kot", sheep: "owca" };
+        default:
+          return {} as any;
+      }
+    });
+
+    const summary = ["Key: horse, exists in en, missing in pl", "Key: sheep, exists in pl, missing in en"];
+    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: summary.join("\n") }));
+  });
+
+  test("kind", () => {
     expect(prerequisite.kind).toEqual("translations");
   });
 });

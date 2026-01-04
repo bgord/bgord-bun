@@ -1,5 +1,3 @@
-import { constants } from "node:fs";
-import fsp from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type * as types from "./i18n.service";
@@ -15,62 +13,39 @@ type PrerequisiteTranslationsProblemType = {
 
 type Dependencies = { Logger: LoggerPort; FileReaderJson: FileReaderJsonPort };
 
+type Config = { supportedLanguages: types.I18nConfigType["supportedLanguages"] };
+
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: {
-      translationsPath?: typeof I18n.DEFAULT_TRANSLATIONS_PATH;
-      supportedLanguages: types.I18nConfigType["supportedLanguages"];
-    },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 
   async verify() {
-    const translationsPath = this.config.translationsPath ?? I18n.DEFAULT_TRANSLATIONS_PATH;
-
     const supportedLanguages = Object.keys(this.config.supportedLanguages);
     const i18n = new I18n(this.deps);
 
-    try {
-      await fsp.access(translationsPath, constants.R_OK);
+    const dictionary: Partial<Record<tools.LanguageType, types.TranslationsKeyType[]>> = {};
 
-      for (const language of supportedLanguages) {
-        await fsp.access(i18n.getTranslationPathForLanguage(language).get(), constants.R_OK);
+    for (const language of supportedLanguages) {
+      try {
+        const translations = await i18n.getTranslations(language);
+        dictionary[language] = Object.keys(translations);
+      } catch (error) {
+        return PrerequisiteVerification.failure({ message: `${language} translations not available` });
       }
-    } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
     }
-
-    if (supportedLanguages.length === 1) return PrerequisiteVerification.success;
-
-    const languageToTranslationKeys: Record<tools.LanguageType, types.TranslationsKeyType[]> = {};
 
     const problems: PrerequisiteTranslationsProblemType[] = [];
 
-    for (const language of supportedLanguages) {
-      const translations = await i18n.getTranslations(language);
-      const translationKeys = Object.keys(translations);
+    for (const language in dictionary) {
+      const phrases = dictionary[language] ?? ([] as const);
 
-      languageToTranslationKeys[language] = translationKeys;
-    }
-
-    for (const language in languageToTranslationKeys) {
-      const translationKeys = languageToTranslationKeys[language] ?? ([] as const);
-
-      for (const translationKey of translationKeys) {
+      for (const phrase of phrases) {
         for (const supportedLanguage of supportedLanguages) {
-          // Stryker disable all
-          if (supportedLanguage === language) continue;
-          // Stryker restore all
+          const phraseExists = new Set(dictionary[supportedLanguage]).has(phrase);
 
-          // Stryker disable all
-          const translationKeyExists = languageToTranslationKeys[supportedLanguage]?.some(
-            (key) => translationKey === key,
-          );
-          // Stryker restore all
-
-          if (!translationKeyExists) {
-            problems.push({ key: translationKey, existsIn: language, missingIn: supportedLanguage });
-          }
+          if (!phraseExists) problems.push({ key: phrase, existsIn: language, missingIn: supportedLanguage });
         }
       }
     }
