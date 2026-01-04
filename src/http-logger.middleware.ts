@@ -84,9 +84,7 @@ export class HttpLogger {
         status: response.status,
         durationMs: duration.ms,
         client,
-        // Stryker disable all
         cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheSourceEnum.hit,
-        // Stryker restore all
         metadata: { response: await HttpLogger.parseJSON(response) },
       });
     });

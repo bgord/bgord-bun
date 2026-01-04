@@ -1,8 +1,15 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
+import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResponse } from "../src/cache-response.middleware";
+import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { HttpLogger, UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
@@ -13,11 +20,24 @@ const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const deps = { Logger, Clock };
 
+const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const HashContent = new HashContentSha256BunStrategy();
+const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const cacheResponse = new CacheResponse(
+  {
+    enabled: true,
+    resolver: new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("ping")], { HashContent }),
+  },
+  { CacheResolver },
+);
+
 const app = new Hono()
   .use(requestId())
   .use(HttpLogger.build(deps, { skip: ["/i18n/", "/other"] }))
   .use(timing())
   .get("/ping", (c) => c.json({ message: "OK" }))
+  .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
   .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
@@ -125,5 +145,19 @@ describe("HttpLogger middleware", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).not.toHaveBeenCalled();
+  });
+
+  test("cache-hit", async () => {
+    const loggerHttp = spyOn(Logger, "http");
+
+    const first = await app.request("/ping-cached", {}, mocks.ip);
+
+    expect(first.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, expect.objectContaining({ cacheHit: false }));
+
+    const second = await app.request("/ping-cached", {}, mocks.ip);
+
+    expect(second.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(4, expect.objectContaining({ cacheHit: true }));
   });
 });
