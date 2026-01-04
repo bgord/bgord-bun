@@ -11,12 +11,12 @@ describe("RedactorNoopStrategy", () => {
       password: "supersecret",
     };
 
-    expect(await redactor.redact(input)).toEqual(input);
+    expect(redactor.redact(input)).toEqual(input);
   });
 
   test("happy path - nested", async () => {
     const input = { password: { nested: "x" }, authorization: 123, ok: true };
 
-    expect(await redactor.redact(input)).toEqual(input);
+    expect(redactor.redact(input)).toEqual(input);
   });
 });

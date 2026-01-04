@@ -21,6 +21,7 @@ const app = new Hono()
     }
     return c.status(500);
   });
+
 describe("ShieldApiKeyStrategy", () => {
   test("happy path", async () => {
     const result = await app.request("/ping", {
