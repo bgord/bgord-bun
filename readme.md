@@ -78,7 +78,6 @@ src/
 ├── crypto-key-provider.port.ts
 ├── csv-stringifier.adapter.ts
 ├── csv-stringifier.port.ts
-├── decorators.service.ts
 ├── disk-space-checker-bun.adapter.ts
 ├── disk-space-checker-noop.adapter.ts
 ├── disk-space-checker.port.ts
@@ -168,6 +167,7 @@ src/
 ├── image-resizer-noop.adapter.ts
 ├── image-resizer-sharp.adapter.ts
 ├── image-resizer.port.ts
+├── instrumentation.service.ts
 ├── invariant-error-handler.service.ts
 ├── invariant.service.ts
 ├── job-handler-bare.strategy.ts
@@ -181,11 +181,12 @@ src/
 ├── logger-winston-production.adapter.ts
 ├── logger-winston.adapter.ts
 ├── logger.port.ts
+├── mailer-content-html.vo.ts
 ├── mailer-noop.adapter.ts
 ├── mailer-smtp-with-logger.adapter.ts
 ├── mailer-smtp.adapter.ts
+├── mailer-subject.vo.ts
 ├── mailer.port.ts
-├── mailer.vo.ts
 ├── maintenance-mode.middleware.ts
 ├── memory-consumption.service.ts
 ├── modules
@@ -239,7 +240,6 @@ src/
 ├── prerequisite-verifier-binary.adapter.ts
 ├── prerequisite-verifier-bun.adapter.ts
 ├── prerequisite-verifier-clock-drift.adapter.ts
-├── prerequisite-verifier-dependency-vulnerabilities.adapter.ts
 ├── prerequisite-verifier-directory.adapter.ts
 ├── prerequisite-verifier-dns.adapter.ts
 ├── prerequisite-verifier-external-api.adapter.ts
@@ -325,6 +325,10 @@ src/
 ├── sleeper-system.adapter.ts
 ├── sleeper.port.ts
 ├── slower.middleware.ts
+├── smtp-host.vo.ts
+├── smtp-pass.vo.ts
+├── smtp-port.vo.ts
+├── smtp-user.vo.ts
 ├── static-files.service.ts
 ├── stopwatch.service.ts
 ├── temporary-file-absolute.adapter.ts
