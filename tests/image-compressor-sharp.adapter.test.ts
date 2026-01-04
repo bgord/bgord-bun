@@ -32,20 +32,11 @@ describe("ImageCompressorSharpAdapter", () => {
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
 
     const result = await adapter.compress(recipe);
-
-    expect(result).toEqual(input);
-
-    // @ts-expect-error
-    const [format, options] = toFormat.mock.calls[0];
-
-    expect(toFormat).toHaveBeenCalledTimes(1);
-    expect(format).toEqual("jpeg");
-    expect(options).toMatchObject({ quality: 85 });
-    expect(toFile).toHaveBeenCalledTimes(1);
-
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-compressed.jpg");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(result).toEqual(input);
+    expect(toFormat).toHaveBeenCalledWith("jpeg", { quality: 85 });
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(rotate).toHaveBeenCalledTimes(1);
@@ -54,7 +45,7 @@ describe("ImageCompressorSharpAdapter", () => {
 
   test("output_path", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/in/source.png");
@@ -67,55 +58,42 @@ describe("ImageCompressorSharpAdapter", () => {
     };
 
     const result = await adapter.compress(recipe);
-
-    expect(result).toEqual(output);
-
-    const [format, options] = toFormatSpy.mock.calls[0];
-
-    expect(toFormatSpy).toHaveBeenCalledTimes(1);
-    expect(format).toEqual("webp");
-    expect(options).toMatchObject({ quality: 73 });
-
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-compressed.webp");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(result).toEqual(output);
+    expect(toFormat).toHaveBeenCalledWith("webp", { quality: 73 });
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 
   test("in_place - relative", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
 
     await adapter.compress(recipe);
-
-    const [format, options] = toFormatSpy.mock.calls[0];
-
-    expect(format).toEqual("png");
-    expect(options).toMatchObject({ quality: 85 });
-
     const temporary = tools.FilePathRelative.fromString("images/pic-compressed.png");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("png", { quality: 85 });
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
   });
 
   test("output_path - jpeg to jpg", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
-    const toFormatSpy = spyOn(pipeline, "toFormat");
+    const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.jpeg");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
     const recipe: ImageCompressorOutputPathStrategy = { strategy: "output_path", input, output };
 
     await adapter.compress(recipe);
-
     const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-compressed.jpg");
 
     expect(rename).toHaveBeenCalledWith(temporary, output);
-    expect(toFormatSpy.mock.calls?.[0]?.[0]).toEqual("jpeg");
+    expect(toFormat).toHaveBeenCalledWith("jpeg", { quality: 85 });
   });
 });
