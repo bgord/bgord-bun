@@ -65,9 +65,7 @@ export class HttpLogger {
         method: request.method,
         url: request.url,
         client,
-        // Stryker disable all
         metadata: httpRequestBeforeMetadata,
-        // Stryker restore all
       });
 
       const stopwatch = new Stopwatch(deps);
@@ -86,7 +84,9 @@ export class HttpLogger {
         status: response.status,
         durationMs: duration.ms,
         client,
+        // Stryker disable all
         cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheSourceEnum.hit,
+        // Stryker restore all
         metadata: { response: await HttpLogger.parseJSON(response) },
       });
     });
