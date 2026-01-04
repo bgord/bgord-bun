@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-04 16:13 v1.8.0
+- 2026-01-04 16:13 7911eac **1.8.0**
 - 2026-01-04 16:11 c172362 **step: bump bgord/scripts**
 - 2026-01-04 16:11 640a96f **step: remove stryker config**
 - 2026-01-04 15:54 28c8e0b **refactor: make tests more readable**
@@ -12,6 +14,8 @@
 - 2026-01-04 15:21 f1ced5d **step: make mailer vos branded**
 - 2026-01-04 15:13 a942c1d **fix: types in tests**
 - 2026-01-04 15:13 3b2486b **step: update packages**
+- 2026-01-04 15:12 c0cfa72 **docs: generate CHANGELOG**
+- 2026-01-04 15:12 938a279 **docs: generate readme**
 - 2026-01-04 15:10 cee2946 **step: image processor**
 - 2026-01-04 15:08 2ba3e54 **step: image resizer**
 - 2026-01-04 15:04 1555d09 **step: image compressor**
