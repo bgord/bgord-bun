@@ -40,7 +40,7 @@ describe("PrerequisiteVerifierDependencyVulnerabilitiesAdapter", () => {
       // @ts-expect-error
       quiet: () => ({
         exitCode: 0,
-        stdout: Buffer.from(JSON.stringify({ pkg: [{ severity: "critical" }] })),
+        stdout: Buffer.from(JSON.stringify({ pkg: [{ severity: "critical" }, { severity: "low" }] })),
       }),
     }));
 
