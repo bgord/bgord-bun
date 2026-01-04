@@ -100,7 +100,7 @@ describe("CacheRepositoryLruCacheAdapter", async () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(CacheRepositoryLruCacheAdapter, "imports").mockRejectedValue(mocks.IntentionalError);
+    spyOn(CacheRepositoryLruCacheAdapter, "import").mockRejectedValue(mocks.IntentionalError);
 
     expect(CacheRepositoryLruCacheAdapter.build(config)).rejects.toThrow(
       "cache.repository.lru.cache.adapter.error.missing.dependency",

@@ -15,18 +15,9 @@ export class CacheRepositoryLruCacheAdapter implements CacheRepositoryPort {
   }
 
   static async build(config: CacheRepositoryTtlType): Promise<CacheRepositoryLruCacheAdapter> {
-    // biome-ignore lint: lint/suspicious/noAssignInExpressions
-    let LRUCacheConstructor;
+    const library = await CacheRepositoryLruCacheAdapter.resolve();
 
-    try {
-      const module = await CacheRepositoryLruCacheAdapter.imports();
-
-      LRUCacheConstructor = module.LRUCache;
-    } catch {
-      throw new Error(CacheRepositoryLruCacheAdapterError.MissingDependency);
-    }
-
-    const store = new LRUCacheConstructor<HashValueType, any>({
+    const store = new library<HashValueType, any>({
       max: 100_000,
       ttl: config.type === "finite" ? config.ttl.ms : undefined,
       ttlAutopurge: true,
@@ -35,7 +26,17 @@ export class CacheRepositoryLruCacheAdapter implements CacheRepositoryPort {
     return new CacheRepositoryLruCacheAdapter(store);
   }
 
-  static async imports() {
+  private static async resolve() {
+    try {
+      const library = await CacheRepositoryLruCacheAdapter.import();
+
+      return library.LRUCache;
+    } catch {
+      throw new Error(CacheRepositoryLruCacheAdapterError.MissingDependency);
+    }
+  }
+
+  static async import() {
     return import("lru-cache");
   }
 
