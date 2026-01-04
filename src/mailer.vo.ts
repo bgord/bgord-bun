@@ -1,16 +1,16 @@
 import { z } from "zod/v4";
 import { Port } from "./port.vo";
 
-export const SmtpHost = z.string().min(1);
+export const SmtpHost = z.string().min(1).brand("SmtpHost");
 export type SmtpHostType = z.infer<typeof SmtpHost>;
 
 export const SmtpPort = Port;
 export type SmtpPortType = z.infer<typeof SmtpPort>;
 
-export const SmtpUser = z.string().min(1);
+export const SmtpUser = z.string().min(1).brand("SmtpUser");
 export type SmtpUserType = z.infer<typeof SmtpUser>;
 
-export const SmtpPass = z.string().min(1);
+export const SmtpPass = z.string().min(1).brand("SmtpPass");
 export type SmtpPassType = z.infer<typeof SmtpPass>;
 
 export const EmailSubjectError = { Invalid: "email.subject.invalid" } as const;

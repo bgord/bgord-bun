@@ -1,16 +1,16 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import { SmtpPort } from "../src/mailer.vo";
+import { SmtpHost, SmtpPass, SmtpPort, SmtpUser } from "../src/mailer.vo";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
 import * as mocks from "./mocks";
 
 const Logger = new LoggerNoopAdapter();
 const MailerSmtp = new MailerSmtpAdapter({
-  SMTP_HOST: "smtp.example.com",
+  SMTP_HOST: SmtpHost.parse("smtp.example.com"),
   SMTP_PORT: SmtpPort.parse(587),
-  SMTP_USER: "user@example.com",
-  SMTP_PASS: "password",
+  SMTP_USER: SmtpUser.parse("user@example.com"),
+  SMTP_PASS: SmtpPass.parse("password"),
 });
 const deps = { Logger, MailerSmtp };
 
