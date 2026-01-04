@@ -28,11 +28,11 @@ describe("TimeoutCancellableRunnerBare", () => {
       async (_signal: AbortSignal) => new Promise((resolve) => setTimeout(resolve, over)),
     );
 
-    const promise = adapter.cancellable(action, timeout);
+    const runner = adapter.cancellable(action, timeout);
     jest.runAllTimers();
 
     const signal = action.mock.calls[0]?.[0];
-    expect(promise).rejects.toThrow("timeout.cancellable.exceeded");
+    expect(runner).rejects.toThrow("timeout.cancellable.exceeded");
     expect(signal?.aborted).toBe(true);
     expect(signal?.reason.message).toEqual("timeout.cancellable.exceeded");
 

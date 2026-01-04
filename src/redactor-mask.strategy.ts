@@ -11,14 +11,12 @@ export class RedactorMaskStrategy implements RedactorStrategy {
     "token",
     "accesstoken",
     "refreshtoken",
-
     "password",
     "currentpassword",
     "newpassword",
     "passwordconfirmation",
     "clientsecret",
     "secret",
-
     "otp",
     "code",
   ];

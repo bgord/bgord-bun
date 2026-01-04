@@ -20,7 +20,7 @@ const app = new Hono()
   });
 
 describe("ShieldCaptchaRecaptchaStrategy", () => {
-  test("happy path - full verification", async () => {
+  test("happy path", async () => {
     const globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
@@ -61,7 +61,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
     expect(params.get("remoteip")).toEqual("");
   });
 
-  test("happy path - boundary score 0.5", async () => {
+  test("happy path - boundary score", async () => {
     spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: true, score: 0.5 })));
 
     const response = await app.request("http://localhost/", {
@@ -74,7 +74,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
     expect(await response.text()).toEqual("ok");
   });
 
-  test("failure - missing token (Check Error Message)", async () => {
+  test("failure - missing token", async () => {
     const globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );

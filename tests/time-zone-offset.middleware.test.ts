@@ -28,14 +28,14 @@ describe("TimeZoneOffset middleware", () => {
     expect(await result.json()).toEqual(tools.Duration.Minutes(-120));
   });
 
-  test("missing time-zone-offset header (uses default)", async () => {
+  test("missing header", async () => {
     const result = await app.request("/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);
     expect(await result.json()).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("empty time-zone-offset header", async () => {
+  test("empty header", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "" }),
@@ -45,7 +45,7 @@ describe("TimeZoneOffset middleware", () => {
     expect(await result.json()).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid - non-numeric string", async () => {
+  test("invalid heaeder - format", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "invalid-offset" }),
@@ -55,7 +55,7 @@ describe("TimeZoneOffset middleware", () => {
     expect(await result.json()).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid - below min (Kiribati boundary)", async () => {
+  test("invalid header - below min", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "-841" }),
@@ -65,7 +65,7 @@ describe("TimeZoneOffset middleware", () => {
     expect(await result.json()).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid - above max (Baker Island boundary)", async () => {
+  test("invalid header - above max", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "721" }),

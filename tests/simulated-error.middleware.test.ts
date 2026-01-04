@@ -9,7 +9,7 @@ describe("SimulatedError middleware", () => {
         if (error.message === "Simulated error") return c.text("caught", 418);
         throw error;
       })
-      .get("/simulated-error", SimulatedError.handle(), (c) => c.text("unreachable", 200));
+      .get("/simulated-error", SimulatedError.handle());
 
     const response = await app.request("/simulated-error");
 

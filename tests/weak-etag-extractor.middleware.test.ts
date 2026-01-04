@@ -9,7 +9,7 @@ const app = new Hono<{ Variables: EtagVariables }>()
   .get("/ping", (c) => c.json(c.get("WeakETag")));
 
 describe("WeakETagExtractor middleware", () => {
-  test("extracts WeakETag from valid header", async () => {
+  test("valid header", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" }),
@@ -21,7 +21,7 @@ describe("WeakETagExtractor middleware", () => {
     expect(json.value).toEqual("W/12345");
   });
 
-  test("missing WeakETag header", async () => {
+  test("missing header", async () => {
     const result = await app.request("/ping", { method: "GET" });
     const json = await result.json();
 
@@ -29,7 +29,7 @@ describe("WeakETagExtractor middleware", () => {
     expect(json).toEqual(null);
   });
 
-  test("invalid WeakETag header - format", async () => {
+  test("invalid header - format", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid" }),
@@ -40,7 +40,7 @@ describe("WeakETagExtractor middleware", () => {
     expect(json).toEqual(null);
   });
 
-  test("invalid WeakETag header - undefined string", async () => {
+  test("invalid header - undefined string", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "undefined" }),
@@ -51,7 +51,7 @@ describe("WeakETagExtractor middleware", () => {
     expect(json).toEqual(null);
   });
 
-  test("invalid WeakETag header - negative", async () => {
+  test("invalid header - negative", async () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/-1" }),

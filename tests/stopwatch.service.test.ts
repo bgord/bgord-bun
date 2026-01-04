@@ -16,7 +16,7 @@ describe("Stopwatch", () => {
     expect(result).toEqual(duration);
   });
 
-  test("throws if stop is called twice", () => {
+  test("already stopped", () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const stopwatch = new Stopwatch({ Clock });
 
