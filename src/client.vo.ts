@@ -20,7 +20,7 @@ export class Client {
 
   static fromParts(ip: string | null | undefined, ua: string | null | undefined): Client {
     return new Client({
-      ip: ClientIp.parse(ip ?? "anon"),
+      ip: ClientIp.parse(ip ?? Client.DEFAULT_IP),
       ua: ClientUserAgent.parse((ua ?? "anon").toLowerCase()),
     });
   }
