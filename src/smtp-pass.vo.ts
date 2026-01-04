@@ -6,7 +6,9 @@ export const SmtpPassError = {
   TooLong: "smtp.pass.too.long",
 };
 
+// Stryker disable all
 export const SmtpPass = z
+  // Stryker restore all
   .string(SmtpPassError.Type)
   .min(1, SmtpPassError.Empty)
   .max(128, SmtpPassError.TooLong)

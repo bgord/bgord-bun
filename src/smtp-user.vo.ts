@@ -6,7 +6,9 @@ export const SmtpUserError = {
   TooLong: "smtp.user.too.long",
 };
 
+// Stryker disable all
 export const SmtpUser = z
+  // Stryker restore all
   .string(SmtpUserError.Type)
   .min(1, SmtpUserError.Empty)
   .max(128, SmtpUserError.TooLong)

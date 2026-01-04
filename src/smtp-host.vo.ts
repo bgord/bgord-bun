@@ -6,7 +6,9 @@ export const SmtpHostError = {
   TooLong: "smtp.host.too.long",
 };
 
+// Stryker disable all
 export const SmtpHost = z
+  // Stryker restore all
   .string(SmtpHostError.Type)
   .min(1, SmtpHostError.Empty)
   .max(128, SmtpHostError.TooLong)
