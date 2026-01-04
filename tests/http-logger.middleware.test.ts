@@ -45,7 +45,7 @@ describe("HttpLogger middleware", () => {
         method: "GET",
         url: "http://localhost/ping",
         client: { ip: "127.0.0.1", ua: "abc" },
-        metadata: { headers: { keep: "abc" } },
+        metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: {} },
       }),
     );
     expect(loggerHttp).toHaveBeenNthCalledWith(
@@ -86,7 +86,7 @@ describe("HttpLogger middleware", () => {
         method: "GET",
         url: "http://localhost/pong",
         client: { ip: "127.0.0.1", ua: "anon" },
-        metadata: {},
+        metadata: { headers: {}, body: {}, params: {}, query: {} },
       }),
     );
     expect(loggerHttp).toHaveBeenNthCalledWith(

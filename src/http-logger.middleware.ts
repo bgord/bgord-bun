@@ -53,7 +53,7 @@ export class HttpLogger {
             ([header]) => !UNINFORMATIVE_HEADERS.includes(header),
           ),
         ),
-        body: await HttpLogger.parseJSON(request),
+        body: (await HttpLogger.parseJSON(request)) ?? {},
         query: context.req.queries(),
       };
 
@@ -66,15 +66,7 @@ export class HttpLogger {
         url: request.url,
         client,
         // Stryker disable all
-        metadata: Object.fromEntries(
-          Object.entries(httpRequestBeforeMetadata).filter(
-            ([, value]) =>
-              value !== undefined &&
-              value !== null &&
-              typeof value === "object" &&
-              Object.keys(value).length > 0,
-          ),
-        ),
+        metadata: httpRequestBeforeMetadata,
         // Stryker restore all
       });
 
