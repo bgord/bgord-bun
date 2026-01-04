@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectSegmentEmpty } from "../src/cache-subject-segment.strategy";
 import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
@@ -138,7 +139,14 @@ describe("CacheSubject", () => {
       deps,
     ).resolve();
 
-    expect(result.raw).toEqual(["response", "", "", "", "", "anon"]);
+    expect(result.raw).toEqual([
+      "response",
+      CacheSubjectSegmentEmpty,
+      CacheSubjectSegmentEmpty,
+      CacheSubjectSegmentEmpty,
+      CacheSubjectSegmentEmpty,
+      "anon",
+    ]);
     expect(result.hex).toEqual(
       Hash.fromString("4a4fe1f33f2c51df0f9166c1bb8412c31bb50f6ae7300b68950ea34ccce2392e"),
     );

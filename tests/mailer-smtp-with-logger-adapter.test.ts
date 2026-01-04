@@ -8,6 +8,13 @@ import { SmtpPort } from "../src/smtp-port.vo";
 import { SmtpUser } from "../src/smtp-user.vo";
 import * as mocks from "./mocks";
 
+const sendOptions = {
+  from: "sender@example.com",
+  to: "recipient@example.com",
+  subject: "Test Email",
+  text: "This is a test email.",
+};
+
 const Logger = new LoggerNoopAdapter();
 const MailerSmtp = new MailerSmtpAdapter({
   SMTP_HOST: SmtpHost.parse("smtp.example.com"),
@@ -23,12 +30,6 @@ describe("SmtpMailerWithLoggerAdapter", () => {
   test("send - success", async () => {
     const sendMail = spyOn(MailerSmtp, "send").mockImplementation(jest.fn());
     const loggerInfo = spyOn(Logger, "info");
-    const sendOptions = {
-      from: "sender@example.com",
-      to: "recipient@example.com",
-      subject: "Test Email",
-      text: "This is a test email.",
-    };
 
     await mailer.send(sendOptions);
 
@@ -50,12 +51,6 @@ describe("SmtpMailerWithLoggerAdapter", () => {
   test("failure", async () => {
     const sendMail = spyOn(MailerSmtp, "send").mockImplementation(mocks.throwIntentionalError);
     const loggerError = spyOn(Logger, "error");
-    const sendOptions = {
-      from: "sender@example.com",
-      to: "recipient@example.com",
-      subject: "Test Email",
-      text: "This is a test email.",
-    };
 
     expect(async () => mailer.send(sendOptions)).toThrow(mocks.IntentionalError);
     expect(sendMail).toHaveBeenCalledWith(sendOptions);

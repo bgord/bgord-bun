@@ -18,6 +18,10 @@ const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
 const deps = { Logger, FileReaderJson };
 const i18n = new I18n(deps);
 
+const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
+
+const t = i18n.useTranslations(translations);
+
 const app = new Hono()
   .use(
     languageDetector({
@@ -28,80 +32,68 @@ const app = new Hono()
   .get("/", (c) => c.json({ language: c.get("language") }));
 
 describe("I18n service", () => {
-  describe("middleware", () => {
-    test("sets fallback language when cookie is missing", async () => {
-      const response = await app.request("/");
-      const json = await response.json();
+  test("middleware - happy path", async () => {
+    const response = await app.request("/", { headers: { cookie: "language=pl" } });
+    const json = await response.json();
 
-      expect(json.language).toEqual("en");
-    });
+    expect(json.language).toEqual("pl");
+  });
 
-    test("uses language from supported cookie", async () => {
-      const response = await app.request("/", { headers: { cookie: "language=pl" } });
-      const json = await response.json();
+  test("middleware - missing cookie", async () => {
+    const response = await app.request("/");
+    const json = await response.json();
 
-      expect(json.language).toEqual("pl");
-    });
+    expect(json.language).toEqual("en");
+  });
 
-    test("falls back to default for unsupported language cookie", async () => {
-      const response = await app.request("/", { headers: { cookie: "language=fr" } });
-      const json = await response.json();
+  test("middleware - unsupported language", async () => {
+    const response = await app.request("/", { headers: { cookie: "language=fr" } });
+    const json = await response.json();
 
-      expect(json.language).toEqual("en");
+    expect(json.language).toEqual("en");
+  });
+
+  test("getTranslationPathForLanguage", () => {
+    expect(i18n.getTranslationPathForLanguage("en").get()).toEqual("infra/translations/en.json");
+  });
+
+  test("getTranslationPathForLanguage - custom path", () => {
+    expect(
+      new I18n(deps, tools.DirectoryPathRelativeSchema.parse("custom/path"))
+        .getTranslationPathForLanguage("pl")
+        .get(),
+    ).toEqual("custom/path/pl.json");
+  });
+
+  test("useTranslations", () => {
+    expect(t("greeting")).toEqual("Hello");
+  });
+
+  test("useTranslations - placeholder", () => {
+    expect(t("welcome", { name: "John" })).toEqual("Welcome, John!");
+  });
+
+  test("useTranslations - passthrough", () => {
+    const key = "nonexistent";
+    const loggerWarn = spyOn(Logger, "warn");
+
+    expect(t(key)).toEqual(key);
+    expect(loggerWarn).toHaveBeenCalledWith({
+      message: `Missing translation for key ${key}`,
+      component: "infra",
+      operation: "translations",
     });
   });
 
-  describe("getTranslationPathForLanguage", () => {
-    test("returns the correct path for language", () => {
-      expect(i18n.getTranslationPathForLanguage("en").get()).toEqual("infra/translations/en.json");
-    });
-
-    test("uses custom translation path if provided", () => {
-      expect(
-        new I18n(deps, tools.DirectoryPathRelativeSchema.parse("custom/path"))
-          .getTranslationPathForLanguage("pl")
-          .get(),
-      ).toEqual("custom/path/pl.json");
-    });
+  test("getTranslations", async () => {
+    expect(await i18n.getTranslations("en")).toEqual({ hello: "Hello" });
   });
 
-  describe("useTranslations", () => {
-    const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
+  test("getTranslations - error", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    const t = i18n.useTranslations(translations);
+    const i18n = new I18n({ FileReaderJson: new FileReaderJsonBunForgivingAdapter(), Logger });
 
-    test("returns the correct translation", () => {
-      expect(t("greeting")).toEqual("Hello");
-    });
-
-    test("replaces placeholders with variables", () => {
-      expect(t("welcome", { name: "John" })).toEqual("Welcome, John!");
-    });
-
-    test("returns key if translation is missing", () => {
-      const key = "nonexistent";
-      const loggerWarn = spyOn(Logger, "warn");
-
-      expect(t(key)).toEqual(key);
-      expect(loggerWarn).toHaveBeenCalledWith({
-        message: `Missing translation for key ${key}`,
-        component: "infra",
-        operation: "translations",
-      });
-    });
-  });
-
-  describe("getTranslations", () => {
-    test("reads and parses translation file", async () => {
-      expect(await i18n.getTranslations("en")).toEqual({ hello: "Hello" });
-    });
-
-    test("returns empty object on error", async () => {
-      spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
-
-      const i18n = new I18n({ FileReaderJson: new FileReaderJsonBunForgivingAdapter(), Logger });
-
-      expect(await i18n.getTranslations("en")).toEqual({});
-    });
+    expect(await i18n.getTranslations("en")).toEqual({});
   });
 });
