@@ -72,10 +72,6 @@ describe("ImageProcessorSharpAdapter", () => {
 
   test("in_place - same extension", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
-    spyOn(pipeline, "rotate");
-    spyOn(pipeline, "toFormat");
-    spyOn(pipeline, "toFile");
-    spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
 
@@ -116,22 +112,13 @@ describe("ImageProcessorSharpAdapter", () => {
     };
 
     const result = await adapter.process(recipe);
+    const temporary = tools.FilePathAbsolute.fromString("/out/dest-processed.jpg");
 
     expect(rotate).toHaveBeenCalledTimes(1);
     expect(flatten).not.toHaveBeenCalled();
-
-    const [options] = resize.mock.calls[0];
-
-    expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
-
-    const [format, opts] = toFormat.mock.calls[0];
-
-    expect(format).toEqual("jpeg");
-    expect(opts).toMatchObject({ quality: 85 });
-
-    const temporary = tools.FilePathAbsolute.fromString("/out/dest-processed.jpg");
-
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(resize).toHaveBeenCalledWith({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
+    expect(toFormat).toHaveBeenCalledWith("jpeg", { quality: 85 });
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(fileCleaner).not.toHaveBeenCalled();
     expect(result).toEqual(output);
