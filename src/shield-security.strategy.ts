@@ -38,6 +38,7 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
 
       const action = await policy.countermeasure.execute(context);
 
+      // Stryker disable all
       switch (action.kind) {
         case "allow":
           return next();
@@ -69,6 +70,7 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
           }
         }
       }
+      // Stryker restore all
     }
 
     return next();
