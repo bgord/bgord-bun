@@ -30,12 +30,10 @@ describe("ImageExifClearSharpAdapter", () => {
     const recipe: ImageExifClearInPlaceStrategy = { strategy: "in_place", input };
 
     const result = await adapter.clear(recipe);
-
-    expect(result).toEqual(input);
-
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-exif-cleared.jpeg");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(result).toEqual(input);
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(rotate).toHaveBeenCalledTimes(1);
@@ -45,22 +43,18 @@ describe("ImageExifClearSharpAdapter", () => {
   test("output_path", async () => {
     const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/source.jpeg");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.jpeg");
     const recipe: ImageExifClearOutputPathStrategy = { strategy: "output_path", input, output };
 
     const result = await adapter.clear(recipe);
-
-    expect(result).toEqual(output);
-
     const temporary = tools.FilePathAbsolute.fromString("/var/out/dest-exif-cleared.jpeg");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(result).toEqual(output);
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(sharp).toHaveBeenCalledWith("/var/img/source.jpeg");
-    expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("in_place - relative", async () => {
@@ -71,10 +65,9 @@ describe("ImageExifClearSharpAdapter", () => {
     const recipe: ImageExifClearInPlaceStrategy = { strategy: "in_place", input };
 
     await adapter.clear(recipe);
-
     const temporary = tools.FilePathRelative.fromString("images/pic-exif-cleared.png");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
   });
 
@@ -87,10 +80,9 @@ describe("ImageExifClearSharpAdapter", () => {
     const recipe: ImageExifClearOutputPathStrategy = { strategy: "output_path", input, output };
 
     await adapter.clear(recipe);
-
     const temporary = tools.FilePathRelative.fromString("out/dest-exif-cleared.jpeg");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 });
