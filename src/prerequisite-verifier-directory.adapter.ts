@@ -23,27 +23,19 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
 
     const permissions = this.config.permissions ?? {};
 
-    if (permissions.read) {
-      try {
-        await access(this.config.directory, constants.R_OK);
-      } catch {
-        return PrerequisiteVerification.failure({ message: "Directory is not readable" });
-      }
-    }
+    const checks = [
+      { enabled: permissions.read, mode: constants.R_OK, error: "Directory is not readable" },
+      { enabled: permissions.write, mode: constants.W_OK, error: "Directory is not writable" },
+      { enabled: permissions.execute, mode: constants.X_OK, error: "Directory is not executable" },
+    ];
 
-    if (permissions.write) {
-      try {
-        await access(this.config.directory, constants.W_OK);
-      } catch {
-        return PrerequisiteVerification.failure({ message: "Directory is not writable" });
-      }
-    }
+    for (const check of checks) {
+      if (!check.enabled) continue;
 
-    if (permissions.execute) {
       try {
-        await access(this.config.directory, constants.X_OK);
+        await access(this.config.directory, check.mode);
       } catch {
-        return PrerequisiteVerification.failure({ message: "Directory is not executable" });
+        return PrerequisiteVerification.failure({ message: check.error });
       }
     }
 

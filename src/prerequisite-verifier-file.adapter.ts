@@ -21,27 +21,19 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
 
       const permissions = this.config.permissions ?? {};
 
-      if (permissions.read) {
-        try {
-          await access(path, constants.R_OK);
-        } catch {
-          return PrerequisiteVerification.failure({ message: "File is not readable" });
-        }
-      }
+      const checks = [
+        { enabled: permissions.read, mode: constants.R_OK, error: "File is not readable" },
+        { enabled: permissions.write, mode: constants.W_OK, error: "File is not writable" },
+        { enabled: permissions.execute, mode: constants.X_OK, error: "File is not executable" },
+      ];
 
-      if (permissions.write) {
-        try {
-          await access(path, constants.W_OK);
-        } catch {
-          return PrerequisiteVerification.failure({ message: "File is not writable" });
-        }
-      }
+      for (const check of checks) {
+        if (!check.enabled) continue;
 
-      if (permissions.execute) {
         try {
-          await access(path, constants.X_OK);
+          await access(this.config.file.get(), check.mode);
         } catch {
-          return PrerequisiteVerification.failure({ message: "File is not executable" });
+          return PrerequisiteVerification.failure({ message: check.error });
         }
       }
 

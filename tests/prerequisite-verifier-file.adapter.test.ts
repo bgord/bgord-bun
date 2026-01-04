@@ -7,7 +7,7 @@ import * as mocks from "./mocks";
 const path = tools.FilePathAbsolute.fromString("/tmp/test-file.txt");
 
 describe("PrerequisiteVerifierFileAdapter", () => {
-  test("success - all permissions", async () => {
+  test("success - all", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({
@@ -18,7 +18,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
-  test("success - read only", async () => {
+  test("success - read", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
@@ -30,7 +30,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.R_OK);
   });
 
-  test("success - write only", async () => {
+  test("success - write", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { write: true } });
@@ -42,7 +42,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.W_OK);
   });
 
-  test("success - write only", async () => {
+  test("success - execute", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { execute: true } });
@@ -63,7 +63,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(result).toEqual(mocks.VerificationFailure({ message: "File does not exist" }));
   });
 
-  test("failure - read permission", async () => {
+  test("failure - read", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
@@ -76,7 +76,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(result).toEqual(mocks.VerificationFailure({ message: "File is not readable" }));
   });
 
-  test("failure - write permission", async () => {
+  test("failure - write", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
@@ -92,7 +92,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(result).toEqual(mocks.VerificationFailure({ message: "File is not writable" }));
   });
 
-  test("failure - execute permission", async () => {
+  test("failure - execute", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
