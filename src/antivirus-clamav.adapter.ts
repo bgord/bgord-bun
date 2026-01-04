@@ -13,21 +13,19 @@ export class AntivirusClamavAdapter implements AntivirusPort {
     });
 
     if (!antivirus.stdin) throw new Error(AntivirusPortError.ScanFailed);
-
     antivirus.stdin.write(bytes);
     await antivirus.stdin.end();
-
     await antivirus.exited;
 
-    const stdoutText = await new Response(antivirus.stdout).text();
-    const stderrText = await new Response(antivirus.stderr).text();
+    const stdout = await new Response(antivirus.stdout).text();
+    const stderr = await new Response(antivirus.stderr).text();
 
     if (antivirus.exitCode === 0) return { clean: true };
 
     if (antivirus.exitCode === 1) {
-      const signature = stdoutText.match(SIGNATURE_REGEX) ?? stderrText.match(SIGNATURE_REGEX);
+      const signature = stdout.match(SIGNATURE_REGEX) ?? stderr.match(SIGNATURE_REGEX);
 
-      return { clean: false, signature: signature?.groups?.signature?.trim() ?? "Unknown" };
+      return { clean: false, signature: signature?.groups?.signature?.trim() ?? "unknown" };
     }
 
     throw new Error(AntivirusPortError.ScanFailed);
