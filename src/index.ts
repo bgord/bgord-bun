@@ -178,7 +178,6 @@ export * from "./prerequisite-verifier.port";
 export * from "./prerequisite-verifier-binary.adapter";
 export * from "./prerequisite-verifier-bun.adapter";
 export * from "./prerequisite-verifier-clock-drift.adapter";
-export * from "./prerequisite-verifier-dependency-vulnerabilities.adapter";
 export * from "./prerequisite-verifier-directory.adapter";
 export * from "./prerequisite-verifier-dns.adapter";
 export * from "./prerequisite-verifier-external-api.adapter";
