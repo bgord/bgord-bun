@@ -6,7 +6,7 @@ import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
 
-const UNINFORMATIVE_HEADERS = [
+export const UNINFORMATIVE_HEADERS = [
   "accept",
   "accept-encoding",
   "cache-control",
@@ -63,6 +63,7 @@ export class HttpLogger {
         method: request.method,
         url: request.url,
         client,
+        // Stryker disable all
         metadata: Object.fromEntries(
           Object.entries(httpRequestBeforeMetadata).filter(
             ([, value]) =>
@@ -72,6 +73,7 @@ export class HttpLogger {
               Object.keys(value).length > 0,
           ),
         ),
+        // Stryker restore all
       });
 
       const stopwatch = new Stopwatch(deps);

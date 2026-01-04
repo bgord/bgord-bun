@@ -3,9 +3,11 @@ import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { HttpLogger } from "../src/http-logger.middleware";
+import { HttpLogger, UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
+
+const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [header]: "abc" }), {});
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
@@ -13,7 +15,7 @@ const deps = { Logger, Clock };
 
 const app = new Hono()
   .use(requestId())
-  .use(HttpLogger.build(deps, { skip: ["/i18n/"] }))
+  .use(HttpLogger.build(deps, { skip: ["/i18n/", "/other"] }))
   .use(timing())
   .get("/ping", (c) => c.json({ message: "OK" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
@@ -25,7 +27,7 @@ describe("HttpLogger middleware", () => {
 
     const result = await app.request(
       "/ping",
-      { method: "GET", headers: { keep: "abc", origin: "def" } },
+      { method: "GET", headers: { keep: "abc", ...headers } },
       mocks.ip,
     );
 
@@ -42,7 +44,7 @@ describe("HttpLogger middleware", () => {
         message: "request",
         method: "GET",
         url: "http://localhost/ping",
-        client: { ip: "127.0.0.1", ua: "anon" },
+        client: { ip: "127.0.0.1", ua: "abc" },
         metadata: { headers: { keep: "abc" } },
       }),
     );
@@ -59,7 +61,7 @@ describe("HttpLogger middleware", () => {
         url: "http://localhost/ping",
         status: 200,
         durationMs: expect.any(Number),
-        client: { ip: "127.0.0.1", ua: "anon" },
+        client: { ip: "127.0.0.1", ua: "abc" },
         cacheHit: false,
         metadata: { response: { message: "OK" } },
       }),
