@@ -1,6 +1,9 @@
 import nodemailer, { type SendMailOptions } from "nodemailer";
 import type { MailerPort } from "./mailer.port";
-import type { SmtpHostType, SmtpPassType, SmtpPortType, SmtpUserType } from "./mailer.vo";
+import type { SmtpHostType } from "./smtp-host.vo";
+import type { SmtpPassType } from "./smtp-pass.vo";
+import type { SmtpPortType } from "./smtp-port.vo";
+import type { SmtpUserType } from "./smtp-user.vo";
 
 type MailerConfigType = {
   SMTP_HOST: SmtpHostType;
