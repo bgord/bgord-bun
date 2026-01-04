@@ -1,6 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { GracefulShutdown } from "../src/graceful-shutdown.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import * as mocks from "./mocks";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 
@@ -30,11 +31,19 @@ describe("GracefulShutdown service", () => {
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toBe(0);
-    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "SIGTERM received" }));
-    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "HTTP server closed" }));
+    expect(loggerInfo).toHaveBeenCalledWith({
+      message: "SIGTERM received",
+      operation: "shutdown",
+      component: "infra",
+    });
+    expect(loggerInfo).toHaveBeenCalledWith({
+      message: "HTTP server closed",
+      operation: "shutdown",
+      component: "infra",
+    });
   });
 
-  test("handles %s correctly", async () => {
+  test("handles SIGINT correctly", async () => {
     const { server, gs, exitCalls } = setup();
     const loggerInfo = spyOn(Logger, "info");
 
@@ -44,64 +53,91 @@ describe("GracefulShutdown service", () => {
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toBe(0);
-    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "SIGINT received" }));
-    expect(loggerInfo).toHaveBeenCalledWith(expect.objectContaining({ message: "HTTP server closed" }));
+    expect(loggerInfo).toHaveBeenCalledWith({
+      message: "SIGINT received",
+      operation: "shutdown",
+      component: "infra",
+    });
+    expect(loggerInfo).toHaveBeenCalledWith({
+      message: "HTTP server closed",
+      operation: "shutdown",
+      component: "infra",
+    });
   });
 
   test("handles unhandledRejection", async () => {
     const { server, gs, exitCalls } = setup();
     const loggerError = spyOn(Logger, "error");
-
     gs.applyTo(server);
-    process.emit("unhandledRejection", new Error("oops"), {} as any);
+
+    process.emit("unhandledRejection", new Error(mocks.IntentionalError), {});
     await tick();
 
     expect(exitCalls[0]).toBe(1);
     expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "UnhandledRejection received" }),
+      expect.objectContaining({
+        message: "UnhandledRejection received",
+        operation: "shutdown",
+        component: "infra",
+      }),
     );
   });
 
   test("handles uncaughtException", async () => {
     const { server, gs, exitCalls } = setup();
     const loggerError = spyOn(Logger, "error");
-
     gs.applyTo(server);
-    process.emit("uncaughtException", new Error("oops"));
+
+    process.emit("uncaughtException", new Error(mocks.IntentionalError));
     await tick();
 
     expect(exitCalls[0]).toBe(1);
     expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "UncaughtException received" }),
+      expect.objectContaining({
+        message: "UncaughtException received",
+        operation: "shutdown",
+        component: "infra",
+      }),
     );
   });
 
-  test("cleanup failure is logged but exit proceeds", async () => {
+  test("cleanup failure", async () => {
     const { server, gs, exitCalls } = setup();
-    const cleanup = jest.fn().mockRejectedValue(new Error("fail"));
+    const cleanup = jest.fn().mockRejectedValue(new Error(mocks.IntentionalError));
     const loggerError = spyOn(Logger, "error");
-
     gs.applyTo(server, cleanup);
+
     process.emit("SIGTERM");
     await tick();
     await tick(); // Extra tick for the promise chain in cleanup
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toBe(0);
-    expect(loggerError).toHaveBeenCalledWith(expect.objectContaining({ message: "Cleanup hook failed" }));
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: "Cleanup hook failed",
+        operation: "shutdown",
+        component: "infra",
+      }),
+    );
   });
 
-  test("idempotency: isShuttingDown", async () => {
+  test("idempotency", async () => {
     const { server, gs, exitCalls } = setup();
     const loggerInfo = spyOn(Logger, "info");
-    (server.stop as jest.Mock).mockImplementation(() => process.emit("SIGTERM"));
-
+    spyOn(server, "stop").mockImplementation(mocks.throwIntentionalError);
     gs.applyTo(server);
+
     process.emit("SIGTERM");
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls).toHaveLength(1);
+    expect(loggerInfo).toHaveBeenNthCalledWith(1, {
+      message: "SIGTERM received",
+      component: "infra",
+      operation: "shutdown",
+    });
     expect(loggerInfo).toHaveBeenNthCalledWith(2, {
       message: "HTTP server closed",
       component: "infra",
@@ -111,11 +147,7 @@ describe("GracefulShutdown service", () => {
 
   test("server stop failure", async () => {
     const { server, gs } = setup();
-    const error = new Error("Stop Failed");
-    (server.stop as jest.Mock).mockImplementation(() => {
-      throw error;
-    });
-
+    spyOn(server, "stop").mockImplementation(mocks.throwIntentionalError);
     const loggerError = spyOn(Logger, "error");
     gs.applyTo(server);
 
