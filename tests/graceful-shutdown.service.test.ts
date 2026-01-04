@@ -91,16 +91,49 @@ describe("GracefulShutdown service", () => {
     expect(loggerError).toHaveBeenCalledWith(expect.objectContaining({ message: "Cleanup hook failed" }));
   });
 
-  test("idempotency: ignores subsequent signals", async () => {
+  test("idempotency: isShuttingDown", async () => {
     const { server, gs, exitCalls } = setup();
-    gs.applyTo(server);
+    const loggerInfo = spyOn(Logger, "info");
+    (server.stop as jest.Mock).mockImplementation(() => process.emit("SIGTERM"));
 
-    process.emit("SIGINT");
-    await tick();
-    process.emit("SIGINT");
+    gs.applyTo(server);
+    process.emit("SIGTERM");
     await tick();
 
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls).toHaveLength(1);
+    expect(loggerInfo).toHaveBeenNthCalledWith(2, {
+      message: "HTTP server closed",
+      component: "infra",
+      operation: "shutdown",
+    });
+  });
+
+  test("server stop failure", async () => {
+    const { server, gs } = setup();
+    const error = new Error("Stop Failed");
+    (server.stop as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
+
+    const loggerError = spyOn(Logger, "error");
+    gs.applyTo(server);
+
+    process.emit("SIGTERM");
+    await tick();
+
+    expect(loggerError).toHaveBeenCalledWith(
+      expect.objectContaining({ message: "Server stop failed", operation: "shutdown", component: "infra" }),
+    );
+  });
+
+  test("unhandledRejection - exit code", async () => {
+    const { server, gs, exitCalls } = setup();
+    gs.applyTo(server);
+
+    process.emit("unhandledRejection", "reason");
+    await tick();
+
+    expect(exitCalls[0]).toEqual(1);
   });
 });
