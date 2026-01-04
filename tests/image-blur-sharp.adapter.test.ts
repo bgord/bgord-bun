@@ -31,17 +31,13 @@ describe("ImageBlurSharpAdapter", () => {
     const recipe: ImageBlurStrategy = { strategy: "in_place", input };
 
     const result = await adapter.blur(recipe);
-
-    expect(result).toEqual(input);
-    expect(blur).toHaveBeenCalledTimes(1);
-    expect(blur).toHaveBeenCalledWith(undefined);
-    expect(rotate).toHaveBeenCalledTimes(1);
-
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-blurred.jpg");
 
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
-    expect(toFormat).toHaveBeenCalledTimes(1);
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(result).toEqual(input);
+    expect(blur).toHaveBeenCalledWith(undefined);
+    expect(rotate).toHaveBeenCalledTimes(1);
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
@@ -59,20 +55,18 @@ describe("ImageBlurSharpAdapter", () => {
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 2.5 };
 
     const result = await adapter.blur(recipe);
+    const temporary = tools.FilePathAbsolute.fromString("/out/dest-blurred.webp");
 
     expect(result).toEqual(output);
     expect(blur).toHaveBeenCalledWith(2.5);
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
-
-    const temporary = tools.FilePathAbsolute.fromString("/out/dest-blurred.webp");
-
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("webp");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
-  test("in_place - relateive", async () => {
+  test("in_place - relative", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -82,13 +76,11 @@ describe("ImageBlurSharpAdapter", () => {
     const recipe: ImageBlurStrategy = { strategy: "in_place", input, sigma: 1 };
 
     const result = await adapter.blur(recipe);
-
-    expect(result.get()).toEqual(input.get());
-
     const temporary = tools.FilePathRelative.fromString("images/pic-blurred.png");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("png");
+    expect(result.get()).toEqual(input.get());
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("png");
     expect(rename).toHaveBeenCalledWith(temporary, input);
     expect(destroy).toHaveBeenCalledTimes(1);
   });
@@ -102,11 +94,9 @@ describe("ImageBlurSharpAdapter", () => {
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 0.7 };
 
     await adapter.blur(recipe);
-
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
-
     const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-blurred.jpg");
 
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 });
