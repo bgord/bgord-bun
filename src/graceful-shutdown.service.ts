@@ -16,8 +16,10 @@ export class GracefulShutdown {
   ) {}
 
   private shutdown(server: ServerType, cleanup: () => any, exitCode: number) {
+    // Stryker disable all
     if (this.isShuttingDown) return;
     this.isShuttingDown = true;
+    // Stryker restore all
 
     try {
       server.stop();

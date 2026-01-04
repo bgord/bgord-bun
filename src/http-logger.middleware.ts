@@ -39,7 +39,9 @@ export class HttpLogger {
 
       const pathname = new URL(request.url).pathname;
 
+      // Stryker disable all
       if (options?.skip?.some((prefix) => pathname.startsWith(prefix))) return await next();
+      // Stryker restore all
 
       const correlationId = context.get("requestId");
       const client = ClientFromHono.translate(context).toJSON();

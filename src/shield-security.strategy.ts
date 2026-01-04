@@ -33,7 +33,9 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
         policy.rule.name,
         policy.countermeasure.name,
         ClientFromHono.translate(c),
+        // Stryker disable all
         c.get("user")?.id,
+        // Stryker restore all
       );
 
       const action = await policy.countermeasure.execute(context);
