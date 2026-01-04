@@ -35,23 +35,11 @@ describe("ImageResizerSharpAdapter", () => {
     };
 
     const result = await adapter.resize(recipe);
-
-    // @ts-expect-error
-    const [options] = resize.mock.calls[0];
-
-    expect(resize).toHaveBeenCalledTimes(1);
-    expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
-
-    // @ts-expect-error
-    const [format] = toFormat.mock.calls[0];
-
-    expect(toFormat).toHaveBeenCalledTimes(1);
-    expect(format).toEqual("jpeg");
-
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-resized.jpg");
 
-    expect(toFile).toHaveBeenCalledTimes(1);
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(resize).toHaveBeenCalledWith({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
     expect(result).toEqual(input);
     expect(sharp).toHaveBeenCalledWith("/var/img/photo.jpg");
@@ -60,8 +48,6 @@ describe("ImageResizerSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    spyOn(pipeline, "destroy").mockReturnValue();
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const resize = spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -77,26 +63,16 @@ describe("ImageResizerSharpAdapter", () => {
     };
 
     const result = await adapter.resize(recipe);
-
-    expect(result).toEqual(output);
-    expect(resize.mock.calls?.[0]?.[0]).toMatchObject({
-      width: 256,
-      height: 256,
-      fit: "inside",
-      withoutEnlargement: true,
-    });
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("webp");
-
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-resized.webp");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(result).toEqual(output);
+    expect(resize).toHaveBeenCalledWith({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
+    expect(toFormat).toHaveBeenCalledWith("webp");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 
   test("in_place - relative", async () => {
-    spyOn(pipeline, "rotate").mockReturnValue(pipeline);
-    spyOn(pipeline, "resize").mockReturnValue(pipeline);
-    spyOn(pipeline, "destroy").mockReturnValue();
     spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
@@ -109,14 +85,10 @@ describe("ImageResizerSharpAdapter", () => {
     };
 
     await adapter.resize(recipe);
-
-    const [format] = toFormat.mock.calls[0];
-
-    expect(format).toEqual("png");
-
     const temporary = tools.FilePathRelative.fromString("images/pic-resized.png");
 
-    expect(toFile.mock.calls?.[0]?.[0]).toEqual(temporary.get());
+    expect(toFormat).toHaveBeenCalledWith("png");
+    expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
   });
 
@@ -134,11 +106,9 @@ describe("ImageResizerSharpAdapter", () => {
     };
 
     await adapter.resize(recipe);
-
-    expect(toFormat.mock.calls?.[0]?.[0]).toEqual("jpeg");
-
     const temporary = tools.FilePathAbsolute.fromString("/b/out/photo-resized.jpg");
 
+    expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(rename).toHaveBeenCalledWith(temporary, output);
   });
 });
