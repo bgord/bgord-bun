@@ -18,7 +18,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
-  test("success - read only", async () => {
+  test("success - read", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory, permissions: { read: true } });
@@ -28,7 +28,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     expect(fsAccess).toHaveBeenCalledWith(directory, fs.constants.R_OK);
   });
 
-  test("success - write only", async () => {
+  test("success - write", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
@@ -41,7 +41,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     expect(fsAccess).toHaveBeenCalledWith(directory, fs.constants.W_OK);
   });
 
-  test("success - execute only", async () => {
+  test("success - execute", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
@@ -72,7 +72,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     expect(result).toEqual(mocks.VerificationFailure({ message: "Not a directory" }));
   });
 
-  test("failure - read permission", async () => {
+  test("failure - read", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
@@ -85,7 +85,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     expect(result).toEqual(mocks.VerificationFailure({ message: "Directory is not readable" }));
   });
 
-  test("failure - write permission", async () => {
+  test("failure - write", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
@@ -101,7 +101,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
     expect(result).toEqual(mocks.VerificationFailure({ message: "Directory is not writable" }));
   });
 
-  test("failure - execute permission", async () => {
+  test("failure - execute", async () => {
     spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
