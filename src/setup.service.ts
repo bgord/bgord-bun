@@ -21,7 +21,6 @@ import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
 type SetupOverridesType = {
   cors?: Parameters<typeof cors>[0];
-  secureHeaders?: Parameters<typeof secureHeaders>[0];
   httpLogger?: HttpLoggerOptions;
   maintenanceMode?: MaintenanceModeConfigType;
   BODY_LIMIT_MAX_SIZE?: tools.Size;
@@ -37,13 +36,19 @@ type Dependencies = {
 
 export class Setup {
   static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
-    const secureHeadersOptions = { crossOriginResourcePolicy: "cross-origin", ...overrides?.secureHeaders };
-
     const BODY_LIMIT_MAX_SIZE = overrides?.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
 
     return [
       MaintenanceMode.build(overrides?.maintenanceMode),
-      secureHeaders(secureHeadersOptions),
+      secureHeaders({
+        crossOriginResourcePolicy: "same-origin",
+        contentSecurityPolicy: {
+          defaultSrc: ["'none'"],
+          scriptSrc: ["'self'"],
+          styleSrc: ["'self'"],
+          imgSrc: ["'self'"],
+        },
+      }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
       cors(overrides?.cors),
