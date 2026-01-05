@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-05 13:49 ffa124f **step: update packages**
 ## 2026-01-04 16:13 v1.8.0
 - 2026-01-04 16:13 7911eac **1.8.0**
 - 2026-01-04 16:11 c172362 **step: bump bgord/scripts**
@@ -12,6 +13,7 @@
 - 2026-01-04 15:28 007fa6a **refactor: extract smtp from mailer**
 - 2026-01-04 15:27 e43bf6e **step: define smtp vars**
 - 2026-01-04 15:21 f1ced5d **step: make mailer vos branded**
+- 2026-01-04 15:13 f13414d **docs: generate CHANGELOG**
 - 2026-01-04 15:13 a942c1d **fix: types in tests**
 - 2026-01-04 15:13 3b2486b **step: update packages**
 - 2026-01-04 15:12 c0cfa72 **docs: generate CHANGELOG**
