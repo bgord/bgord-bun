@@ -1,26 +1,27 @@
 import type { Constructor } from "@bgord/tools";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 
 type BaseInvariantConfig = Record<string, unknown>;
 
+export enum InvariantFailureKind {
+  forbidden = "forbidden",
+  precondition = "precondition",
+  not_found = "not_found",
+}
+
 export abstract class Invariant<T extends BaseInvariantConfig> {
-  abstract fails(config: T): boolean;
+  abstract passes(config: T): boolean;
 
   abstract error: Constructor<Error>;
 
   abstract message: string;
 
-  abstract code: ContentfulStatusCode;
+  abstract kind: InvariantFailureKind;
 
   throw() {
     throw new this.error();
   }
 
-  perform(config: T) {
-    if (this.fails(config)) this.throw();
-  }
-
-  passes(config: T) {
-    return !this.fails(config);
+  enforce(config: T) {
+    if (!this.passes(config)) this.throw();
   }
 }

@@ -13,15 +13,15 @@ describe("preferences - invariants - UserLanguageHasChanged", () => {
   });
 
   test("fails - equal", () => {
-    expect(UserLanguageHasChanged.fails({ current: "en", candidate: "en" })).toEqual(true);
+    expect(UserLanguageHasChanged.passes({ current: "en", candidate: "en" })).toEqual(false);
   });
 
   test("message", () => {
-    expect(UserLanguageHasChanged.message).toEqual("UserLanguageHasChanged");
+    expect(UserLanguageHasChanged.message).toEqual("user.language.has.changed");
   });
 
   test("error", () => {
-    expect(() => UserLanguageHasChanged.perform({ current: "en", candidate: "en" })).toThrow(
+    expect(() => UserLanguageHasChanged.enforce({ current: "en", candidate: "en" })).toThrow(
       UserLanguageHasChanged.error,
     );
   });
