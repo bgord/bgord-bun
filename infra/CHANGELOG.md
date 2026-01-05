@@ -1,8 +1,11 @@
 # Changelog
+## 2026-01-05 16:58 v1.8.1
+- 2026-01-05 16:58 fda2f56 **1.8.1**
 - 2026-01-05 16:57 7b421f4 **Merge pull request #144 from bgord/invariant**
 - 2026-01-05 16:56 cc04dce **refactor: make invariant error handler stateless**
 - 2026-01-05 16:56 72596d5 **step: bump bgord/scripts**
 - 2026-01-05 16:42 892d6d2 **refactor: invariants**
+- 2026-01-05 15:57 7275db7 **docs: generate CHANGELOG**
 - 2026-01-05 13:49 ffa124f **step: update packages**
 - 2026-01-05 12:50 2beaf3a **docs: generate CHANGELOG**
 ## 2026-01-04 16:13 v1.8.0
