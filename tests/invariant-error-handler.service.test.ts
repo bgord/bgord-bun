@@ -16,10 +16,10 @@ class SampleInvariantFactory extends Invariant<{ threshold: number }> {
 
 export class ErrorHandler {
   static handle: ErrorHandlerType = async (error, c) => {
-    const invariantErrorHandler = new InvariantErrorHandler([SampleInvariant]).detect(error);
+    const invariantError = InvariantErrorHandler.detect([SampleInvariant], error);
 
-    if (invariantErrorHandler.error) {
-      return c.json(...InvariantErrorHandler.respond(invariantErrorHandler.error));
+    if (invariantError) {
+      return c.json(...InvariantErrorHandler.respond(invariantError));
     }
 
     return c.json({ message: "general.unknown" }, 500);

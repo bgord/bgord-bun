@@ -6,13 +6,8 @@ type InvariantMessageType = BaseInvariantType["message"];
 type ErrorResponseTupleType = [{ message: InvariantMessageType; _known: true }, ContentfulStatusCode];
 
 export class InvariantErrorHandler {
-  error: BaseInvariantType | undefined = undefined;
-
-  constructor(private readonly invariants: BaseInvariantType[]) {}
-
-  detect(error: unknown) {
-    this.error = this.invariants.find((invariant) => error instanceof invariant.error);
-    return this;
+  static detect(invariants: BaseInvariantType[], error: unknown): BaseInvariantType | undefined {
+    return invariants.find((invariant) => error instanceof invariant.error);
   }
 
   static respond(error: BaseInvariantType): ErrorResponseTupleType {
