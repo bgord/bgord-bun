@@ -1,9 +1,9 @@
-import type { Invariant } from "./invariant.service";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { type Invariant, InvariantFailureKind } from "./invariant.service";
 
 type BaseInvariantType = Invariant<any>;
 type InvariantMessageType = BaseInvariantType["message"];
-type InvariantCodeType = BaseInvariantType["code"];
-type ErrorResponseTupleType = [{ message: InvariantMessageType; _known: true }, InvariantCodeType];
+type ErrorResponseTupleType = [{ message: InvariantMessageType; _known: true }, ContentfulStatusCode];
 
 export class InvariantErrorHandler {
   error: BaseInvariantType | undefined = undefined;
@@ -16,6 +16,12 @@ export class InvariantErrorHandler {
   }
 
   static respond(error: BaseInvariantType): ErrorResponseTupleType {
-    return [{ message: error.message, _known: true }, error.code];
+    const code: Record<InvariantFailureKind, ContentfulStatusCode> = {
+      [InvariantFailureKind.forbidden]: 403,
+      [InvariantFailureKind.not_found]: 404,
+      [InvariantFailureKind.precondition]: 400,
+    };
+
+    return [{ message: error.message, _known: true }, code[error.kind]];
   }
 }

@@ -1,23 +1,17 @@
 import { describe, expect, test } from "bun:test";
 import { type ErrorHandler as ErrorHandlerType, Hono } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { Invariant } from "../src/invariant.service";
+import { Invariant, InvariantFailureKind } from "../src/invariant.service";
 import { InvariantErrorHandler } from "../src/invariant-error-handler.service";
 
-class SampleInvariantError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, SampleInvariantError.prototype);
-  }
-}
+class MockError extends Error {}
 
 class SampleInvariantFactory extends Invariant<{ threshold: number }> {
-  fails(config: { threshold: number }) {
-    return config.threshold > 10;
+  passes(config: { threshold: number }) {
+    return config.threshold <= 10;
   }
-  error = SampleInvariantError;
-  message = "sample.invariant.failed";
-  code = 400 as ContentfulStatusCode;
+  error = MockError;
+  kind = InvariantFailureKind.precondition;
+  message = "SampleInvariant failed";
 }
 
 export class ErrorHandler {
@@ -28,7 +22,7 @@ export class ErrorHandler {
       return c.json(...InvariantErrorHandler.respond(invariantErrorHandler.error));
     }
 
-    return c.json({ message: "general.unknown" }, 400);
+    return c.json({ message: "general.unknown" }, 500);
   };
 }
 
@@ -38,7 +32,7 @@ describe("InvariantErrorHandler service", () => {
   test("happy path", async () => {
     const app = new Hono()
       .post("/ping", async (c) => {
-        SampleInvariant.perform({ threshold: 15 });
+        SampleInvariant.enforce({ threshold: 15 });
         return c.text("OK");
       })
       .onError(ErrorHandler.handle);
@@ -46,7 +40,7 @@ describe("InvariantErrorHandler service", () => {
     const result = await app.request("/ping", { method: "post" });
     const json = await result.json();
 
-    expect(result.status).toEqual(SampleInvariant.code);
+    expect(result.status).toEqual(400);
     expect(json).toEqual({ message: SampleInvariant.message, _known: true });
   });
 });
