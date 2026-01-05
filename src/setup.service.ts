@@ -19,13 +19,12 @@ import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-m
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
-export const BODY_LIMIT_MAX_SIZE = tools.Size.fromKb(128).toBytes();
-
 type SetupOverridesType = {
   cors?: Parameters<typeof cors>[0];
   secureHeaders?: Parameters<typeof secureHeaders>[0];
   httpLogger?: HttpLoggerOptions;
   maintenanceMode?: MaintenanceModeConfigType;
+  BODY_LIMIT_MAX_SIZE?: tools.Size;
 };
 
 type Dependencies = {
@@ -43,12 +42,12 @@ export class Setup {
     // Stryker restore all
     const secureHeadersOptions = { crossOriginResourcePolicy: "cross-origin", ...overrides?.secureHeaders };
 
+    const BODY_LIMIT_MAX_SIZE = overrides?.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
+
     return [
       MaintenanceMode.build(overrides?.maintenanceMode),
       secureHeaders(secureHeadersOptions),
-      // Stryker disable all
-      bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE }),
-      // Stryker restore all
+      bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
       cors(corsOptions),
       // Stryker disable all

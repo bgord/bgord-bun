@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
@@ -18,7 +18,7 @@ const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defau
 const version = "1.2.3";
 const FileReaderJson = new FileReaderJsonNoopAdapter({ version });
 const Logger = new LoggerNoopAdapter();
-const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
 const Clock = new ClockSystemAdapter();
 const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson };
 
@@ -101,5 +101,36 @@ describe("Setup service", () => {
       "retry-after": tools.Duration.Hours(1).seconds.toString(),
     });
     expect(json).toEqual({ reason: "maintenance" });
+  });
+
+  test("bodyLimit", async () => {
+    spyOn(process.stderr, "write").mockImplementation(jest.fn());
+    const boundary = "----bun-test-boundary";
+    const content = [
+      `--${boundary}`,
+      'Content-Disposition: form-data; name="file"; filename="too-big.txt"',
+      "Content-Type: text/plain",
+      "",
+      "this content is larger than 10 bytes",
+      `--${boundary}--`,
+      "",
+    ].join("\r\n");
+    const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
+
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>({})
+      .use(...Setup.essentials(deps, { BODY_LIMIT_MAX_SIZE: tools.Size.fromBytes(2) }))
+      .post("/upload", async (c) => {
+        await c.req.parseBody();
+
+        return c.text("OK");
+      });
+
+    const response = await app.request(
+      "/upload",
+      { method: "POST", body: new TextEncoder().encode(content), headers },
+      ip,
+    );
+
+    expect(response.status).toEqual(413);
   });
 });
