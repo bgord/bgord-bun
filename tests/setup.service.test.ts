@@ -146,4 +146,16 @@ describe("Setup service", () => {
 
     expect(await response.text()).toEqual(I18n.defaultLanguage as string);
   });
+
+  test("overrides - cors", async () => {
+    const origin = "https://some.example";
+    const app = new Hono()
+      .use(...Setup.essentials(deps, { cors: { origin } }))
+      .get("/cors", (c) => c.text("ok"));
+
+    const response = await app.request("/cors", { headers: { Origin: "https://some.example" } }, ip);
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get("access-control-allow-origin")).toEqual(origin);
+  });
 });

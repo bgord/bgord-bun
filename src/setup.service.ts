@@ -37,9 +37,6 @@ type Dependencies = {
 
 export class Setup {
   static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
-    // Stryker disable all
-    const corsOptions = overrides?.cors ?? { origin: "*" };
-    // Stryker restore all
     const secureHeadersOptions = { crossOriginResourcePolicy: "cross-origin", ...overrides?.secureHeaders };
 
     const BODY_LIMIT_MAX_SIZE = overrides?.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
@@ -49,7 +46,7 @@ export class Setup {
       secureHeaders(secureHeadersOptions),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
-      cors(corsOptions),
+      cors(overrides?.cors),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
         fallbackLanguage: deps.I18n.defaultLanguage,
