@@ -61,9 +61,7 @@ export class Setup {
       requestId({
         limitLength: 36,
         headerName: "x-correlation-id",
-        // Stryker disable all
         generator: () => deps.IdProvider.generate(),
-        // Stryker restore all
       }),
       TimeZoneOffset.attach,
       Context.attach,
