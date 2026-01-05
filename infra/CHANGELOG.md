@@ -1,10 +1,13 @@
 # Changelog
+## 2026-01-05 23:52 v1.8.2
+- 2026-01-05 23:52 c66ab98 **1.8.2**
 - 2026-01-05 23:50 b5ab4dc **step: update secureheaders options and test cases**
 - 2026-01-05 23:41 dcfad79 **step: add cors override test**
 - 2026-01-05 23:33 a8ea98a **step: add languageDetector defaultLanguage check**
 - 2026-01-05 23:20 f1f71d8 **step: add optional BODY_LIMIT_MAX_SIZE to setup overrides**
 - 2026-01-05 23:19 565e0f3 **step: bump bgord/scripts**
 - 2026-01-05 22:57 1f2b1f3 **step: remove request id stryker**
+- 2026-01-05 22:51 b32b9ef **docs: generate CHANGELOG**
 ## 2026-01-05 16:58 v1.8.1
 - 2026-01-05 16:58 fda2f56 **1.8.1**
 - 2026-01-05 16:57 7b421f4 **Merge pull request #144 from bgord/invariant**
