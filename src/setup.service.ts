@@ -50,13 +50,13 @@ export class Setup {
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
       cors(corsOptions),
-      // Stryker disable all
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
         fallbackLanguage: deps.I18n.defaultLanguage,
+        // Stryker disable all
         caches: false,
+        // Stryker restore all
       }),
-      // Stryker restore all
       requestId({
         limitLength: 36,
         headerName: "x-correlation-id",

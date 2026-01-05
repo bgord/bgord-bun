@@ -13,12 +13,17 @@ import * as mocks from "./mocks";
 
 const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };
 const predefinedRequestId = "123";
-const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "en" };
+const I18n: I18nConfigType = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "pl" };
 
 const version = "1.2.3";
 const FileReaderJson = new FileReaderJsonNoopAdapter({ version });
 const Logger = new LoggerNoopAdapter();
-const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+const IdProvider = new IdProviderDeterministicAdapter([
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+]);
 const Clock = new ClockSystemAdapter();
 const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson };
 
@@ -60,7 +65,7 @@ describe("Setup service", () => {
     expect(json).toEqual({
       requestId: mocks.correlationId,
       timeZoneOffset: { internal: 0 },
-      language: "en",
+      language: I18n.defaultLanguage,
       etag: null,
       weakEtag: null,
     });
@@ -132,5 +137,13 @@ describe("Setup service", () => {
     );
 
     expect(response.status).toEqual(413);
+  });
+
+  test("languageDetector - supportedLanguages", async () => {
+    const app = new Hono().use(...Setup.essentials(deps)).get("/lang", (c) => c.text(c.get("language")));
+
+    const response = await app.request("/lang", { headers: { "Accept-Language": "de-DE,de;q=0.9" } }, ip);
+
+    expect(await response.text()).toEqual(I18n.defaultLanguage as string);
   });
 });
