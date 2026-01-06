@@ -2,9 +2,8 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { BuildInfoRepositoryPackageJsonStrategy } from "../src/build-info-repository-package-json.strategy";
+import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
@@ -15,26 +14,25 @@ import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-po
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
+const version = "1.2.3";
 const hostname = "macbook";
 const cpus = ["abc"];
 const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 
 const Logger = new LoggerNoopAdapter();
-const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoRepository = new BuildInfoRepositoryPackageJsonStrategy({ Clock, FileReaderJson });
-const deps = { Clock, FileReaderJson, Logger, BuildInfoRepository };
-
-const buildInfo = { BUILD_DATE: Clock.now(), BUILD_VERSION: tools.PackageVersion.fromString("1.0.0") };
-
-const buildInfoEmpty = { BUILD_DATE: Clock.now() };
+const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
+  mocks.TIME_ZERO,
+  tools.PackageVersion.fromString(version),
+);
+const BuildInfoRepositoryEmpty = new BuildInfoRepositoryNoopStrategy(mocks.TIME_ZERO);
+const deps = { Clock, Logger, BuildInfoRepository };
 
 describe("Healthcheck service", () => {
   test("200", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
@@ -55,10 +53,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: {
-        version: buildInfo.BUILD_VERSION.toString(),
-        environment: NodeEnvironmentEnum.production,
-      },
+      deployment: { version, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -82,7 +77,6 @@ describe("Healthcheck service", () => {
   test("200 - ignores port prerequisite", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfo);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
@@ -103,10 +97,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: {
-        version: buildInfo.BUILD_VERSION.toString(),
-        environment: NodeEnvironmentEnum.production,
-      },
+      deployment: { version, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -130,16 +121,14 @@ describe("Healthcheck service", () => {
   test("424", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(BuildInfoRepository, "extract").mockResolvedValue(buildInfoEmpty);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
       "/health",
-      ...Healthcheck.build(
-        NodeEnvironmentEnum.production,
-        [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
-        deps,
-      ),
+      ...Healthcheck.build(NodeEnvironmentEnum.production, [mocks.PrerequisiteOk, mocks.PrerequisiteFail], {
+        ...deps,
+        BuildInfoRepository: BuildInfoRepositoryEmpty,
+      }),
     );
 
     const response = await app.request("/health");
