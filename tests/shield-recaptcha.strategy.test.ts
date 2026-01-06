@@ -1,14 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
-import { ShieldCaptchaRecaptchaStrategy } from "../src/shield-captcha-recaptcha.strategy";
+import { ShieldRecaptchaStrategy } from "../src/shield-recaptcha.strategy";
 import * as mocks from "./mocks";
 
 const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
 const remoteip = "1.2.3.4";
 
-const shield = new ShieldCaptchaRecaptchaStrategy({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
+const shield = new ShieldRecaptchaStrategy({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
 
 const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 const SAFE_BODY = "dummy=1";
@@ -20,7 +20,7 @@ const app = new Hono()
     return c.text("internal error", 500);
   });
 
-describe("ShieldCaptchaRecaptchaStrategy", () => {
+describe("ShieldRecaptchaStrategy", () => {
   test("happy path", async () => {
     const globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
@@ -94,7 +94,7 @@ describe("ShieldCaptchaRecaptchaStrategy", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(403);
-    expect(json.message).toEqual("access_denied_recaptcha");
+    expect(json.message).toEqual("shield.recaptcha");
     expect(globalFetch).not.toHaveBeenCalled();
   });
 

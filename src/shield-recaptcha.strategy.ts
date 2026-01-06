@@ -7,9 +7,9 @@ import type { ShieldStrategy } from "./shield.strategy";
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
 export type RecaptchaResultType = { success: boolean; score: number };
 
-export const AccessDeniedRecaptchaError = new HTTPException(403, { message: "access_denied_recaptcha" });
+export const ShieldRecaptchaError = new HTTPException(403, { message: "shield.recaptcha" });
 
-export class ShieldCaptchaRecaptchaStrategy implements ShieldStrategy {
+export class ShieldRecaptchaStrategy implements ShieldStrategy {
   private static readonly URL = tools.UrlWithoutSlash.parse(
     "https://www.google.com/recaptcha/api/siteverify",
   );
@@ -24,14 +24,14 @@ export class ShieldCaptchaRecaptchaStrategy implements ShieldStrategy {
 
       const token = header ?? query ?? form;
 
-      if (!token) throw AccessDeniedRecaptchaError;
+      if (!token) throw ShieldRecaptchaError;
 
       // cSpell:ignore remoteip
       const remoteip = c.req.header("x-forwarded-for") ?? "";
 
       const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
 
-      const response = await fetch(ShieldCaptchaRecaptchaStrategy.URL, {
+      const response = await fetch(ShieldRecaptchaStrategy.URL, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params,
@@ -39,11 +39,11 @@ export class ShieldCaptchaRecaptchaStrategy implements ShieldStrategy {
 
       const result: RecaptchaResultType = await response.json();
 
-      if (!result.success || result.score < 0.5) throw AccessDeniedRecaptchaError;
+      if (!result.success || result.score < 0.5) throw ShieldRecaptchaError;
 
       await next();
     } catch {
-      throw AccessDeniedRecaptchaError;
+      throw ShieldRecaptchaError;
     }
   });
 }
