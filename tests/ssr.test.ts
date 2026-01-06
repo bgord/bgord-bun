@@ -18,6 +18,8 @@ describe("SSR", async () => {
 
     expect(response.headers.toJSON()).toEqual({
       "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}'; script-src-elem 'self' 'nonce-${zeros}'; style-src 'self' 'nonce-${zeros}'; style-src-attr 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'`,
+      "permissions-policy":
+        "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "same-origin",
       "origin-agent-cluster": "?1",

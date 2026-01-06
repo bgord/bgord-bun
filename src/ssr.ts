@@ -35,6 +35,18 @@ export class SSR {
           connectSrc: ["'self'"],
           formAction: ["'self'"],
         },
+        permissionsPolicy: {
+          accelerometer: [],
+          autoplay: [],
+          camera: [],
+          fullscreen: ["self"],
+          geolocation: [],
+          gyroscope: [],
+          magnetometer: [],
+          microphone: [],
+          payment: [],
+          usb: [],
+        },
       })({ req: request, res: response } as any, noop);
 
       return response;

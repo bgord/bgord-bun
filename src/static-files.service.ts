@@ -39,6 +39,18 @@ const staticDocumentHeaders = secureHeaders({
     connectSrc: ["'self'"],
     formAction: ["'self'"],
   },
+  permissionsPolicy: {
+    accelerometer: [],
+    autoplay: [],
+    camera: [],
+    fullscreen: ["self"],
+    geolocation: [],
+    gyroscope: [],
+    magnetometer: [],
+    microphone: [],
+    payment: [],
+    usb: [],
+  },
 });
 
 type StaticFilesOptions = { root?: string };
