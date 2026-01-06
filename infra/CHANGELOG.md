@@ -1,4 +1,19 @@
 # Changelog
+- 2026-01-06 23:33 34753a8 **feature: add build segment**
+- 2026-01-06 23:28 3291208 **refactor: make build info non-static class**
+- 2026-01-06 23:15 445a862 **refactor: make build info return proper package version**
+- 2026-01-06 23:09 425a46e **feature: add env segment**
+- 2026-01-06 23:03 1c044ec **fix: request segment  mutant**
+- 2026-01-06 23:02 ecd9206 **fix: nonce provider crypto mutant**
+- 2026-01-06 22:46 8053ca2 **step: test cache subject application resolver**
+- 2026-01-06 22:41 1a97656 **fix: tests**
+- 2026-01-06 22:38 393e85d **refactor: use proper resolver for all use cases**
+- 2026-01-06 22:28 3f5b820 **step: define cache subject application resolver**
+- 2026-01-06 22:26 32ce110 **step: rename cache subject request-resolver**
+- 2026-01-06 22:23 6110d7b **refactor: make two strategies for cache subject segments**
+- 2026-01-06 22:07 0759c9d **step: limit segments to 10**
+- 2026-01-06 22:04 7e3e6a9 **step: add non-empty string for cache subject segment empty**
+- 2026-01-06 22:03 a93f554 **fix: cache subject segment query**
 - 2026-01-06 21:37 f1ef7b5 **step: improve file uploader error**
 - 2026-01-06 21:34 4852867 **step: improve shield hcaptcha local error**
 - 2026-01-06 21:31 fe80a73 **step: improve shield api key error**
@@ -14,6 +29,8 @@
 - 2026-01-06 20:54 5480a94 **step: make setup config non-optional**
 - 2026-01-06 20:46 4ef3fa2 **step: improve shield csrf tests**
 - 2026-01-06 20:43 6a414f5 **step: remove origin from uninformative headers in http logger**
+- 2026-01-06 20:39 2b51da9 **docs: generate CHANGELOG**
+- 2026-01-06 20:39 002fb0b **docs: generate readme**
 - 2026-01-06 20:34 4e6c757 **feature: shield csrf**
 - 2026-01-06 18:13 e1fc375 **fix: cache source enum miss value**
 ## 2026-01-06 18:03 v1.8.10
