@@ -46,7 +46,6 @@ export class Setup {
         crossOriginEmbedderPolicy: "require-corp",
         referrerPolicy: "no-referrer",
         xContentTypeOptions: "nosniff",
-        strictTransportSecurity: `max-age=${tools.Duration.Days(180).seconds}; includeSubDomains`,
       }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
