@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-06 23:37 23c8906 **refactor: unify context naming**
 - 2026-01-06 23:33 34753a8 **feature: add build segment**
 - 2026-01-06 23:28 3291208 **refactor: make build info non-static class**
 - 2026-01-06 23:15 445a862 **refactor: make build info return proper package version**
@@ -8,6 +9,8 @@
 - 2026-01-06 22:46 8053ca2 **step: test cache subject application resolver**
 - 2026-01-06 22:41 1a97656 **fix: tests**
 - 2026-01-06 22:38 393e85d **refactor: use proper resolver for all use cases**
+- 2026-01-06 22:34 d2533e1 **docs: generate readme**
+- 2026-01-06 22:34 760e97f **docs: generate CHANGELOG**
 - 2026-01-06 22:28 3f5b820 **step: define cache subject application resolver**
 - 2026-01-06 22:26 32ce110 **step: rename cache subject request-resolver**
 - 2026-01-06 22:23 6110d7b **refactor: make two strategies for cache subject segments**
