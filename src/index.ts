@@ -170,6 +170,7 @@ export * as System from "./modules/system";
 export * from "./node-env.vo";
 export * from "./nonce-provider.port";
 export * from "./nonce-provider-crypto.adapter";
+export * from "./nonce-provider-deterministic.adapter";
 export * from "./nonce-provider-noop.adapter";
 export * from "./nonce-value.vo";
 export * from "./pdf-generator.port";
