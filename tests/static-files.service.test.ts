@@ -76,4 +76,13 @@ describe("StaticFiles service", () => {
 
     expect(response?.status).toBe(404);
   });
+
+  test("precompressed assets", async () => {
+    const response = await routes["/public/*"]?.(
+      new Request("http://localhost/public/app.js", { headers: { "Accept-Encoding": "br" } }),
+    );
+
+    expect(response?.status).toBe(200);
+    expect(response?.headers.get("content-encoding")).toBe("br");
+  });
 });
