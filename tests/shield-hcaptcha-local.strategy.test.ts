@@ -1,17 +1,17 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
-import { ShieldCaptchaHcaptchaLocalStrategy } from "../src/shield-captcha-hcaptcha-local.strategy";
+import { ShieldHcaptchaLocalStrategy } from "../src/shield-hcaptcha-local.strategy";
 import * as mocks from "./mocks";
 
 const SECRET_KEY = "0x1111111111111111111111111111111111111111";
 const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
 
-const shield = new ShieldCaptchaHcaptchaLocalStrategy(SECRET_KEY as any);
+const shield = new ShieldHcaptchaLocalStrategy(SECRET_KEY as any);
 
 const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
-describe("ShieldCaptchaHcaptchaLocalStrategy", () => {
+describe("ShieldHcaptchaLocalStrategy", () => {
   test("happy path", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
 
@@ -28,7 +28,7 @@ describe("ShieldCaptchaHcaptchaLocalStrategy", () => {
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual("access_denied_hcaptcha_local");
+    expect(await response.text()).toEqual("shield.hcaptcha.local");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
   });
 
@@ -38,7 +38,7 @@ describe("ShieldCaptchaHcaptchaLocalStrategy", () => {
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual("access_denied_hcaptcha_local");
+    expect(await response.text()).toEqual("shield.hcaptcha.local");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
   });
 });
