@@ -23,6 +23,9 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
 ]);
 const Clock = new ClockSystemAdapter();
 const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson };
@@ -47,8 +50,7 @@ describe("Setup service", () => {
     expect(response.headers.toJSON()).toEqual({
       "content-type": "application/json",
       "server-timing": expect.any(String),
-      "content-security-policy":
-        "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; media-src 'self'; connect-src 'self'; worker-src 'self'; form-action 'self'",
+      "cross-origin-embedder-policy": "require-corp",
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "same-origin",
       "referrer-policy": "no-referrer",
@@ -149,13 +151,52 @@ describe("Setup service", () => {
     expect(await response.text()).toEqual(I18n.defaultLanguage as string);
   });
 
-  test("overrides - cors", async () => {
+  test("cors - server-to-server allowed", async () => {
+    const app = new Hono().use(...Setup.essentials(deps)).get("/cors", (c) => c.text("ok"));
+
+    const response = await app.request("/cors", {}, ip);
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get("access-control-allow-origin")).toEqual(null);
+  });
+
+  test("cors - same-origin fetch allowed", async () => {
+    const app = new Hono().use(...Setup.essentials(deps)).get("/cors", (c) => c.text("ok"));
+
+    const response = await app.request("/cors", { headers: { Origin: "http://localhost" } }, ip);
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get("access-control-allow-origin")).toBe("http://localhost");
+  });
+
+  test("cors - cross-origin fetch blocked", async () => {
+    const app = new Hono().use(...Setup.essentials(deps)).get("/cors", (c) => c.text("ok"));
+
+    const response = await app.request("/cors", { headers: { Origin: "https://evil.example" } }, ip);
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get("access-control-allow-origin")).toBeNull();
+  });
+
+  test("cors - cross-origin preflight blocked", async () => {
+    const app = new Hono().use(...Setup.essentials(deps)).options("/cors", (c) => c.text("ok"));
+
+    const response = await app.request("/cors", {
+      method: "OPTIONS",
+      headers: { Origin: "https://evil.example", "Access-Control-Request-Method": "POST" },
+    });
+
+    expect(response.headers.get("access-control-allow-origin")).toBeNull();
+  });
+
+  test("cors - overrides", async () => {
     const origin = "https://some.example";
+
     const app = new Hono()
       .use(...Setup.essentials(deps, { cors: { origin } }))
       .get("/cors", (c) => c.text("ok"));
 
-    const response = await app.request("/cors", { headers: { Origin: "https://some.example" } }, ip);
+    const response = await app.request("/cors", { headers: { Origin: origin } }, ip);
 
     expect(response.status).toEqual(200);
     expect(response.headers.get("access-control-allow-origin")).toEqual(origin);

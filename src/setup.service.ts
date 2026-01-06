@@ -42,31 +42,27 @@ export class Setup {
       MaintenanceMode.build(overrides?.maintenanceMode),
       secureHeaders({
         crossOriginResourcePolicy: "same-origin",
-        contentSecurityPolicy: {
-          defaultSrc: ["'none'"],
-
-          baseUri: ["'none'"],
-          objectSrc: ["'none'"],
-          frameAncestors: ["'none'"],
-
-          scriptSrc: ["'self'"],
-          styleSrc: ["'self'"],
-          imgSrc: ["'self'"],
-          fontSrc: ["'self'"],
-          mediaSrc: ["'self'"],
-          connectSrc: ["'self'"],
-          workerSrc: ["'self'"],
-
-          formAction: ["'self'"],
-        },
+        crossOriginOpenerPolicy: "same-origin",
+        crossOriginEmbedderPolicy: "require-corp",
+        referrerPolicy: "no-referrer",
+        xContentTypeOptions: "nosniff",
+        strictTransportSecurity: `max-age=${tools.Duration.Days(180).seconds}; includeSubDomains`,
       }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
       cors({
         // Stryker disable all
-        origin: [],
+        origin: (origin, c) => {
+          // server-to-server, curl, same-origin navigation
+          if (!origin) return undefined;
+
+          // same-origin fetch
+          if (origin === new URL(c.req.url).origin) return origin;
+
+          // deny cross-origin
+          return null;
+        },
         // Stryker restore all
-        // allowHeaders: ["authorization", "content-type", "x-correlation-id", "x-api-version"],
         credentials: false,
         maxAge: tools.Duration.Minutes(10).seconds,
         ...overrides?.cors,
