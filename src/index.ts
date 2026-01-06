@@ -10,6 +10,7 @@ export * from "./binary.vo";
 export * from "./bots.vo";
 export * from "./build-info-repository.strategy";
 export * from "./build-info-repository-package-json.strategy";
+export * from "./build-info-repository-package-json.strategy";
 export * from "./cache-file.service";
 export * from "./cache-repository.port";
 export * from "./cache-repository-lru-cache.adapter";
