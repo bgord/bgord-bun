@@ -20,7 +20,7 @@ const user = new CacheSubjectSegmentUserStrategy();
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
-describe("CacheSubject", () => {
+describe("CacheSubjectResolver VO", () => {
   test("fixed", async () => {
     const context = {};
 
@@ -148,7 +148,7 @@ describe("CacheSubject", () => {
       "anon",
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("4a4fe1f33f2c51df0f9166c1bb8412c31bb50f6ae7300b68950ea34ccce2392e"),
+      Hash.fromString("a6e698b59ac4d42e768c76043c6dce60fe5f58ae7d25859c91f48d1d6b1e0a27"),
     );
   });
 

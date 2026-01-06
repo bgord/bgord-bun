@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 
-export const CacheSubjectSegmentEmpty: CacheSubjectSegmentType = "";
+export const CacheSubjectSegmentEmpty: CacheSubjectSegmentType = "__absent__";
 
 export type CacheSubjectSegmentType = string;
 
