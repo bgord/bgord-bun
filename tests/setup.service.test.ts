@@ -30,6 +30,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
+  mocks.correlationId,
 ]);
 const Clock = new ClockSystemAdapter();
 const config = { type: "infinite" } as const;

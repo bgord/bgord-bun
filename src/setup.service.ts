@@ -46,6 +46,11 @@ export class Setup {
 
     return [
       MaintenanceMode.build(config.maintenanceMode),
+      requestId({
+        limitLength: 36,
+        headerName: "x-correlation-id",
+        generator: () => deps.IdProvider.generate(),
+      }),
       new ShieldCsrfStrategy(config.csrf).verify,
       secureHeaders({
         referrerPolicy: "no-referrer",
@@ -84,11 +89,6 @@ export class Setup {
         // Stryker disable all
         caches: false,
         // Stryker restore all
-      }),
-      requestId({
-        limitLength: 36,
-        headerName: "x-correlation-id",
-        generator: () => deps.IdProvider.generate(),
       }),
       TimeZoneOffset.attach,
       Context.attach,
