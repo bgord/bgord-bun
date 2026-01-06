@@ -1,9 +1,12 @@
 # Changelog
+## 2026-01-06 13:14 v1.8.4
+- 2026-01-06 13:14 8edc541 **1.8.4**
 - 2026-01-06 13:13 55d92ef **step: tighten cors**
 ## 2026-01-06 12:51 v1.8.3
 - 2026-01-06 12:51 6cfb8d8 **1.8.3**
 - 2026-01-06 12:49 4bef72e **feature: nonce value vo**
 - 2026-01-06 12:46 d1c44ba **feature: nonce provider**
+- 2026-01-06 12:13 2ebe4e1 **docs: generate CHANGELOG**
 - 2026-01-06 11:51 6b82bb3 **docs: generate CHANGELOG**
 - 2026-01-06 11:50 5c859cb **docs: generate readme**
 - 2026-01-06 11:50 5473b88 **docs: generate CHANGELOG**
