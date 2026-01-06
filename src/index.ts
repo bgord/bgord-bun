@@ -252,6 +252,7 @@ export * from "./shield-basic-auth.strategy";
 export * from "./shield-captcha-hcaptcha.strategy";
 export * from "./shield-captcha-hcaptcha-local.strategy";
 export * from "./shield-captcha-recaptcha.strategy";
+export * from "./shield-csrf.strategy";
 export * from "./shield-noop.strategy";
 export * from "./shield-rate-limit.strategy";
 export * from "./shield-security.strategy";
