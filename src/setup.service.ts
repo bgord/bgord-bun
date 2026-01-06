@@ -46,7 +46,7 @@ export class Setup {
 
     return [
       MaintenanceMode.build(config.maintenanceMode),
-      new ShieldCsrfStrategy(config.csrf),
+      new ShieldCsrfStrategy(config.csrf).verify,
       secureHeaders({
         referrerPolicy: "no-referrer",
         xContentTypeOptions: "nosniff",
