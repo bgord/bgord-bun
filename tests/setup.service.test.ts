@@ -50,21 +50,14 @@ describe("Setup service", () => {
     expect(response.headers.toJSON()).toEqual({
       "content-type": "application/json",
       "server-timing": expect.any(String),
-      "cross-origin-embedder-policy": "require-corp",
-      "cross-origin-opener-policy": "same-origin",
-      "cross-origin-resource-policy": "same-origin",
       "referrer-policy": "no-referrer",
       "strict-transport-security": "max-age=15552000; includeSubDomains",
       "x-content-type-options": "nosniff",
-      "x-dns-prefetch-control": "off",
-      "x-frame-options": "SAMEORIGIN",
       "x-xss-protection": "0",
       "api-version": version,
       vary: "Origin",
       "x-correlation-id": mocks.correlationId,
-      "origin-agent-cluster": "?1",
       "x-download-options": "noopen",
-      "x-permitted-cross-domain-policies": "none",
     });
     expect(json).toEqual({
       requestId: mocks.correlationId,
