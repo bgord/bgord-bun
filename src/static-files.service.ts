@@ -25,7 +25,6 @@ const staticAssetHeaders = secureHeaders({
 });
 
 const staticDocumentHeaders = secureHeaders({
-  strictTransportSecurity: `max-age=${tools.Duration.Days(180).seconds}; includeSubDomains`,
   crossOriginResourcePolicy: "same-origin",
   contentSecurityPolicy: {
     defaultSrc: ["'none'"],
