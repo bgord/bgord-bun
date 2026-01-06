@@ -45,7 +45,6 @@ describe("Setup service", () => {
     const json = await response.json();
 
     expect(response.headers.toJSON()).toEqual({
-      "access-control-allow-origin": "*",
       "content-type": "application/json",
       "server-timing": expect.any(String),
       "content-security-policy":
@@ -59,6 +58,7 @@ describe("Setup service", () => {
       "x-frame-options": "SAMEORIGIN",
       "x-xss-protection": "0",
       "api-version": version,
+      vary: "Origin",
       "x-correlation-id": mocks.correlationId,
       "origin-agent-cluster": "?1",
       "x-download-options": "noopen",

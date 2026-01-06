@@ -62,7 +62,15 @@ export class Setup {
       }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
-      cors(overrides?.cors),
+      cors({
+        // Stryker disable all
+        origin: [],
+        // Stryker restore all
+        // allowHeaders: ["authorization", "content-type", "x-correlation-id", "x-api-version"],
+        credentials: false,
+        maxAge: tools.Duration.Minutes(10).seconds,
+        ...overrides?.cors,
+      }),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
         fallbackLanguage: deps.I18n.defaultLanguage,
