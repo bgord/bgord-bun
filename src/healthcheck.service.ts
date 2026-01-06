@@ -78,7 +78,7 @@ export class Healthcheck {
         ok,
         details,
         deployment: {
-          version: buildInfo.BUILD_VERSION ?? "unknown",
+          version: buildInfo.BUILD_VERSION?.toString() ?? "unknown",
           environment: Env,
         },
         server: {

@@ -29,7 +29,10 @@ export class ApiVersion {
       const build = await deps.CacheResolver.resolve(subject.hex, async () =>
         BuildInfoRepository.extract(deps),
       );
-      c.res.headers.set(ApiVersion.HEADER_NAME, build.BUILD_VERSION ?? ApiVersion.DEFAULT_API_VERSION);
+      c.res.headers.set(
+        ApiVersion.HEADER_NAME,
+        build.BUILD_VERSION?.toString() ?? ApiVersion.DEFAULT_API_VERSION,
+      );
       await next();
     });
 }

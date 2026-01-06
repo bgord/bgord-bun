@@ -17,7 +17,7 @@ describe("BuildInfoRepository service", () => {
 
     expect(typeof result.BUILD_DATE).toEqual("number");
     expect(result.BUILD_VERSION).toBeDefined();
-    expect(result.BUILD_VERSION).toEqual(tools.PackageVersion.fromString(version).toString());
+    expect(result.BUILD_VERSION).toEqual(tools.PackageVersion.fromString(version));
   });
 
   test("failure - package.json read", async () => {

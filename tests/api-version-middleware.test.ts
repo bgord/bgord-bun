@@ -32,7 +32,7 @@ describe("ApiVersion middleware", async () => {
   test("happy path", async () => {
     const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE,
-      BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
+      BUILD_VERSION: tools.PackageVersion.fromString("1.0.0"),
     });
     const getSpy = spyOn(CacheRepository, "get");
 
@@ -63,7 +63,7 @@ describe("ApiVersion middleware", async () => {
     const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
     const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE,
-      BUILD_VERSION: "unknown",
+      BUILD_VERSION: undefined,
     });
     const getSpy = spyOn(CacheRepository, "get");
 

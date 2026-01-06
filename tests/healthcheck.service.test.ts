@@ -25,10 +25,7 @@ const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock, FileReaderJson, Logger };
 
-const buildInfo = {
-  BUILD_DATE: Clock.now().ms,
-  BUILD_VERSION: tools.PackageVersion.fromString("1.0.0").toString(),
-};
+const buildInfo = { BUILD_DATE: Clock.now().ms, BUILD_VERSION: tools.PackageVersion.fromString("1.0.0") };
 
 const buildInfoEmpty = { BUILD_DATE: Clock.now().ms };
 
@@ -57,7 +54,10 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
+      deployment: {
+        version: buildInfo.BUILD_VERSION.toString(),
+        environment: NodeEnvironmentEnum.production,
+      },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -102,7 +102,10 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: { version: buildInfo.BUILD_VERSION, environment: NodeEnvironmentEnum.production },
+      deployment: {
+        version: buildInfo.BUILD_VERSION.toString(),
+        environment: NodeEnvironmentEnum.production,
+      },
       server: {
         pid: expect.any(Number),
         hostname,
