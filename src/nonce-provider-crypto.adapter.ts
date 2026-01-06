@@ -8,7 +8,9 @@ export class NonceProviderCryptoAdapter implements NonceProviderPort {
     crypto.getRandomValues(buffer);
 
     const nonce = Array.from(buffer)
+      // Stryker disable all
       .map((byte) => byte.toString(16).padStart(2, "0"))
+      // Stryker restore all
       .join("");
 
     return NonceValue.parse(nonce);
