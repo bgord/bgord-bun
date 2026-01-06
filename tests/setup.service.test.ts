@@ -48,7 +48,8 @@ describe("Setup service", () => {
       "access-control-allow-origin": "*",
       "content-type": "application/json",
       "server-timing": expect.any(String),
-      "content-security-policy": "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'",
+      "content-security-policy":
+        "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; media-src 'self'; connect-src 'self'; worker-src 'self'; form-action 'self'",
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "same-origin",
       "referrer-policy": "no-referrer",

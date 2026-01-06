@@ -44,9 +44,20 @@ export class Setup {
         crossOriginResourcePolicy: "same-origin",
         contentSecurityPolicy: {
           defaultSrc: ["'none'"],
+
+          baseUri: ["'none'"],
+          objectSrc: ["'none'"],
+          frameAncestors: ["'none'"],
+
           scriptSrc: ["'self'"],
           styleSrc: ["'self'"],
           imgSrc: ["'self'"],
+          fontSrc: ["'self'"],
+          mediaSrc: ["'self'"],
+          connectSrc: ["'self'"],
+          workerSrc: ["'self'"],
+
+          formAction: ["'self'"],
         },
       }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
