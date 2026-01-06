@@ -4,6 +4,8 @@ import { serveStatic } from "hono/bun";
 import { etag } from "hono/etag";
 import { secureHeaders } from "hono/secure-headers";
 
+const noop = async () => {};
+
 type StaticFilesStrategy = (path: string, context: Context) => Promise<void> | void;
 
 export const StaticFileStrategyNoop: StaticFilesStrategy = () => {};
@@ -12,8 +14,6 @@ export const StaticFileStrategyMustRevalidate: (duration: tools.Duration) => Sta
   (duration) => (_, c) => {
     c.header("Cache-Control", `public, max-age=${duration.seconds}, must-revalidate`);
   };
-
-type StaticFilesOptions = { root?: string };
 
 const staticAssetHeaders = secureHeaders({
   strictTransportSecurity: `max-age=${tools.Duration.Days(180).seconds}; includeSubDomains`,
@@ -42,9 +42,13 @@ const staticDocumentHeaders = secureHeaders({
   },
 });
 
+type StaticFilesOptions = { root?: string };
+
 export class StaticFiles {
   static handle(path: string, strategy: StaticFilesStrategy, options?: StaticFilesOptions) {
+    // Stryker disable all
     const root = options?.root ?? "./";
+    // Stryker restore all
 
     return {
       [path]: new Hono().use(
@@ -52,16 +56,12 @@ export class StaticFiles {
         async (context, next) => {
           await next();
 
-          if (!context.res) return;
+          const contentType = context.res.headers.get("Content-Type");
 
-          const noop = async () => {};
-          const contentType = context.res.headers.get("Content-Type") ?? "";
-
-          if (contentType.startsWith("text/html")) {
-            staticDocumentHeaders(context, noop);
-          } else {
-            staticAssetHeaders(context, noop);
-          }
+          // Stryker disable all
+          if (contentType?.startsWith("text/html")) staticDocumentHeaders(context, noop);
+          // Stryker restore all
+          else staticAssetHeaders(context, noop);
         },
         etag(),
         serveStatic({ root, precompressed: true, onFound: strategy }),

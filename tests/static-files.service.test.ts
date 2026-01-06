@@ -71,10 +71,10 @@ describe("StaticFiles service", () => {
     );
   });
 
-  test("gracefully handles missing files", async () => {
+  test("missing files", async () => {
     const response = await routes["/public/*"]?.(new Request("http://localhost/public/does-not-exist.css"));
 
-    expect(response?.status).toBe(404);
+    expect(response?.status).toEqual(404);
   });
 
   test("precompressed assets", async () => {
@@ -82,7 +82,17 @@ describe("StaticFiles service", () => {
       new Request("http://localhost/public/app.js", { headers: { "Accept-Encoding": "br" } }),
     );
 
-    expect(response?.status).toBe(200);
-    expect(response?.headers.get("content-encoding")).toBe("br");
+    expect(response?.status).toEqual(200);
+    expect(response?.headers.get("content-encoding")).toEqual("br");
+  });
+
+  test("default root", async () => {
+    const routes = StaticFiles.handle("/public/*", StaticFileStrategyNoop);
+
+    const response = await routes["/public/*"]?.(
+      new Request("http://localhost/tests/fixtures/public/main.css"),
+    );
+
+    expect(response?.status).toEqual(404);
   });
 });
