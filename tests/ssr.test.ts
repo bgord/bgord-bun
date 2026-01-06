@@ -22,13 +22,11 @@ describe("SSR", async () => {
         "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "cross-origin-opener-policy": "same-origin",
       "cross-origin-resource-policy": "same-origin",
-      "origin-agent-cluster": "?1",
       "referrer-policy": "no-referrer",
       "strict-transport-security": "max-age=15552000; includeSubDomains",
       "x-content-type-options": "nosniff",
       "x-dns-prefetch-control": "off",
       "x-download-options": "noopen",
-      "x-frame-options": "SAMEORIGIN",
       "x-permitted-cross-domain-policies": "none",
       "x-xss-protection": "0",
     });

@@ -47,6 +47,8 @@ export class SSR {
           payment: [],
           usb: [],
         },
+        xFrameOptions: false,
+        originAgentCluster: false,
       })({ req: request, res: response } as any, noop);
 
       return response;
