@@ -1,4 +1,20 @@
 # Changelog
+- 2026-01-06 21:37 f1ef7b5 **step: improve file uploader error**
+- 2026-01-06 21:34 4852867 **step: improve shield hcaptcha local error**
+- 2026-01-06 21:31 fe80a73 **step: improve shield api key error**
+- 2026-01-06 21:31 b43633a **step: improve shield reaptcha error**
+- 2026-01-06 21:28 cdecd07 **step: improve shield hcaptcha error**
+- 2026-01-06 21:26 887a005 **step: improve shield rate limit error**
+- 2026-01-06 21:25 070e28b **step: improve shield auth error**
+- 2026-01-06 21:23 ddac99f **step: improve shield timeout error**
+- 2026-01-06 21:09 7d28bb7 **step: move api version earlier**
+- 2026-01-06 21:08 0302b1b **step: move request id middleware as early as possible**
+- 2026-01-06 21:00 6851af1 **step: add csrf to setup**
+- 2026-01-06 20:56 b4d9258 **step: add shield csrf to setup**
+- 2026-01-06 20:54 5480a94 **step: make setup config non-optional**
+- 2026-01-06 20:46 4ef3fa2 **step: improve shield csrf tests**
+- 2026-01-06 20:43 6a414f5 **step: remove origin from uninformative headers in http logger**
+- 2026-01-06 20:34 4e6c757 **feature: shield csrf**
 - 2026-01-06 18:13 e1fc375 **fix: cache source enum miss value**
 ## 2026-01-06 18:03 v1.8.10
 - 2026-01-06 18:03 fb855ee **1.8.10**
@@ -9,6 +25,7 @@
 - 2026-01-06 17:31 9fdba7d **feature: establish static documents secure headers**
 - 2026-01-06 17:28 4c48d93 **feature: establish ssr secure headers**
 - 2026-01-06 17:24 2bf8297 **feature: establish api secure headers**
+- 2026-01-06 17:13 a9ef265 **docs: generate CHANGELOG**
 ## 2026-01-06 17:09 v1.8.8
 - 2026-01-06 17:09 4baa5e6 **1.8.8**
 - 2026-01-06 17:08 eb32061 **refactor: remove explicit STS from static assets**
