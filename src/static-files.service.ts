@@ -21,6 +21,8 @@ const staticAssetHeaders = secureHeaders({
   crossOriginEmbedderPolicy: "require-corp",
   referrerPolicy: "no-referrer",
   xContentTypeOptions: "nosniff",
+  xFrameOptions: false,
+  xXssProtection: false,
 });
 
 const staticDocumentHeaders = secureHeaders({
