@@ -317,11 +317,12 @@ src/
 ├── shield-api-key.strategy.ts
 ├── shield-auth.strategy.ts
 ├── shield-basic-auth.strategy.ts
-├── shield-captcha-hcaptcha-local.strategy.ts
-├── shield-captcha-hcaptcha.strategy.ts
-├── shield-captcha-recaptcha.strategy.ts
+├── shield-csrf.strategy.ts
+├── shield-hcaptcha-local.strategy.ts
+├── shield-hcaptcha.strategy.ts
 ├── shield-noop.strategy.ts
 ├── shield-rate-limit.strategy.ts
+├── shield-recaptcha.strategy.ts
 ├── shield-security.strategy.ts
 ├── shield-timeout.strategy.ts
 ├── shield.strategy.ts
