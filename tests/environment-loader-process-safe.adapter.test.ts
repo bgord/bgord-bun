@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
@@ -22,7 +22,9 @@ describe("EnvironmentLoaderProcessSafe", () => {
   test("happy path", async () => {
     process.env.APP_NAME = "MyApp";
 
-    const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("env")], { HashContent });
+    const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("env")], {
+      HashContent,
+    });
     const subject = await resolver.resolve();
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
       { ...process.env, APP_NAME: "MyApp" },

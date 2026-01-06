@@ -5,7 +5,7 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponse } from "../src/cache-response.middleware";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
@@ -20,7 +20,7 @@ const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
-const resolver = new CacheSubjectResolver(
+const resolver = new CacheSubjectRequestResolver(
   [
     new CacheSubjectSegmentFixedStrategy("ping"),
     new CacheSubjectSegmentPathStrategy(),

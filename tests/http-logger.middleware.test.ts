@@ -6,7 +6,7 @@ import { timing } from "hono/timing";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponse } from "../src/cache-response.middleware";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
@@ -27,7 +27,9 @@ const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const cacheResponse = new CacheResponse(
   {
     enabled: true,
-    resolver: new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("ping")], { HashContent }),
+    resolver: new CacheSubjectRequestResolver([new CacheSubjectSegmentFixedStrategy("ping")], {
+      HashContent,
+    }),
   },
   { CacheResolver },
 );

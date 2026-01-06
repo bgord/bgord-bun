@@ -2,13 +2,13 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
+import type { CacheSubjectRequestResolver } from "./cache-subject-request-resolver.vo";
 import type { ClockPort } from "./clock.port";
 import type { ShieldStrategy } from "./shield.strategy";
 
 type ShieldRateLimitOptionsType = {
   enabled: boolean;
-  resolver: CacheSubjectResolver;
+  resolver: CacheSubjectRequestResolver;
   window: tools.Duration;
 };
 

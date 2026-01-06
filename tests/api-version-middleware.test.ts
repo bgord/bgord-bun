@@ -5,7 +5,7 @@ import { ApiVersion } from "../src/api-version.middleware";
 import { BuildInfoRepository } from "../src/build-info-repository.service";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
@@ -23,7 +23,10 @@ const deps = { Clock, FileReaderJson, CacheResolver, HashContent };
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 
 describe("ApiVersion middleware", async () => {
-  const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("api-version")], deps);
+  const resolver = new CacheSubjectApplicationResolver(
+    [new CacheSubjectSegmentFixedStrategy("api-version")],
+    deps,
+  );
   const subject = await resolver.resolve();
 
   test("happy path", async () => {

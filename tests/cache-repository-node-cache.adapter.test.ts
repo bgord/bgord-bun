@@ -1,7 +1,7 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 
@@ -10,7 +10,9 @@ const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 
 const HashContent = new HashContentSha256BunStrategy();
 
-const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("key")], { HashContent });
+const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], {
+  HashContent,
+});
 
 describe("CacheRepositoryNodeCacheAdapter", async () => {
   const subject = await resolver.resolve();

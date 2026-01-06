@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { FileReaderJsonOutputType, FileReaderJsonPort } from "./file-reader-json.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
@@ -16,7 +16,7 @@ export class FileReaderJsonWithCacheAdapter implements FileReaderJsonPort {
   async read(
     path: tools.FilePathRelative | tools.FilePathAbsolute | string,
   ): Promise<FileReaderJsonOutputType> {
-    const resolver = new CacheSubjectResolver(
+    const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_json"),
         new CacheSubjectSegmentFixedStrategy(this.config.id),

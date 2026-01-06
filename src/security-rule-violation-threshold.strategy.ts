@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import type { CacheRepositoryPort } from "./cache-repository.port";
-import { CacheSubjectResolver } from "./cache-subject-resolver.vo";
+import { CacheSubjectRequestResolver } from "./cache-subject-request-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentIpStrategy } from "./cache-subject-segment-ip.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
@@ -19,7 +19,7 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
 
   // Best-effort increment, occasional lost increments are acceptable for concurrent requests.
   async isViolated(c: Context) {
-    const resolver = new CacheSubjectResolver(
+    const resolver = new CacheSubjectRequestResolver(
       [new CacheSubjectSegmentFixedStrategy(this.name), new CacheSubjectSegmentIpStrategy()],
       this.deps,
     );

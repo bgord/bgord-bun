@@ -1,11 +1,11 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import type { CacheSubjectResolver } from "./cache-subject-resolver.vo";
+import type { CacheSubjectRequestResolver } from "./cache-subject-request-resolver.vo";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy };
 
-type CacheResponseOptions = { enabled: boolean; resolver: CacheSubjectResolver };
+type CacheResponseOptions = { enabled: boolean; resolver: CacheSubjectRequestResolver };
 
 type CachedResponse = {
   body: string;
@@ -21,15 +21,15 @@ export class CacheResponse {
     private readonly deps: Dependencies,
   ) {}
 
-  handle = createMiddleware(async (c, next) => {
+  handle = createMiddleware(async (context, next) => {
     if (!this.config.enabled) return next();
 
-    const subject = await this.config.resolver.resolve(c);
+    const subject = await this.config.resolver.resolve(context);
 
     const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject.hex, async () => {
       await next();
 
-      const response = c.res.clone();
+      const response = context.res.clone();
 
       return {
         body: await response.text(),
@@ -38,9 +38,9 @@ export class CacheResponse {
       };
     });
 
-    c.header(CacheResponse.CACHE_HIT_HEADER, result.source);
+    context.header(CacheResponse.CACHE_HIT_HEADER, result.source);
 
-    return c.newResponse(result.value.body, result.value.status, result.value.headers);
+    return context.newResponse(result.value.body, result.value.status, result.value.headers);
   });
 
   clear = createMiddleware(async (_c, next) => {

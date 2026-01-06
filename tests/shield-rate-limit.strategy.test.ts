@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
@@ -20,7 +20,7 @@ const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { Clock, CacheResolver, HashContent };
 
-const resolver = new CacheSubjectResolver(
+const resolver = new CacheSubjectRequestResolver(
   [
     new CacheSubjectSegmentFixedStrategy("ping"),
     new CacheSubjectSegmentPathStrategy(),

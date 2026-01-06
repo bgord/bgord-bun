@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { CryptoKeyProviderWithCacheAdapter } from "../src/crypto-key-provider-with-cache.adapter";
@@ -23,7 +23,7 @@ describe("CryptoKeyProviderWithCacheAdapter", () => {
     jest.useFakeTimers();
     const innerRead = spyOn(inner, "get");
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectResolver(
+    const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("crypto_key_provider"),
         new CacheSubjectSegmentFixedStrategy("crypto-key"),

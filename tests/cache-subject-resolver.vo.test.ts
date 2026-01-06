@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
-import { CacheSubjectSegmentEmpty } from "../src/cache-subject-segment.strategy";
+import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
 import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
 import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
 import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
+import { CacheSubjectSegmentRequestEmpty } from "../src/cache-subject-segment-request.strategy";
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
@@ -24,7 +24,7 @@ describe("CacheSubjectResolver VO", () => {
   test("fixed", async () => {
     const context = {};
 
-    const result = await new CacheSubjectResolver([fixed], deps).resolve(context as any);
+    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context as any);
 
     expect(result.raw).toEqual(["response"]);
     expect(result.hex).toEqual(
@@ -35,7 +35,7 @@ describe("CacheSubjectResolver VO", () => {
   test("fixed, path", async () => {
     const context = { req: { path: "/about", raw: { headers: new Headers({ cookie: "language=en" }) } } };
 
-    const result = await new CacheSubjectResolver([fixed, path], deps).resolve(context as any);
+    const result = await new CacheSubjectRequestResolver([fixed, path], deps).resolve(context as any);
 
     expect(result.raw).toEqual(["response", "/about"]);
     expect(result.hex).toEqual(
@@ -46,7 +46,7 @@ describe("CacheSubjectResolver VO", () => {
   test("fixed, path, cookie language", async () => {
     const context = { req: { path: "/about", raw: { headers: new Headers({ cookie: "language=en" }) } } };
 
-    const result = await new CacheSubjectResolver([fixed, path, cookieLanguage], deps).resolve(
+    const result = await new CacheSubjectRequestResolver([fixed, path, cookieLanguage], deps).resolve(
       context as any,
     );
 
@@ -65,9 +65,10 @@ describe("CacheSubjectResolver VO", () => {
       },
     };
 
-    const result = await new CacheSubjectResolver([fixed, path, cookieLanguage, headerAccept], deps).resolve(
-      context as any,
-    );
+    const result = await new CacheSubjectRequestResolver(
+      [fixed, path, cookieLanguage, headerAccept],
+      deps,
+    ).resolve(context as any);
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json"]);
     expect(result.hex).toEqual(
@@ -85,7 +86,7 @@ describe("CacheSubjectResolver VO", () => {
       },
     };
 
-    const result = await new CacheSubjectResolver(
+    const result = await new CacheSubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query],
       deps,
     ).resolve(context as any);
@@ -107,7 +108,7 @@ describe("CacheSubjectResolver VO", () => {
       },
     };
 
-    const result = await new CacheSubjectResolver(
+    const result = await new CacheSubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query, user],
       deps,
     ).resolve(context as any);
@@ -128,7 +129,7 @@ describe("CacheSubjectResolver VO", () => {
   test("segments - empty", async () => {
     const context = {};
 
-    expect(async () => new CacheSubjectResolver([], deps).resolve(context as any)).toThrow(
+    expect(async () => new CacheSubjectRequestResolver([], deps).resolve(context as any)).toThrow(
       "cache.subject.no.segments",
     );
   });
@@ -137,7 +138,7 @@ describe("CacheSubjectResolver VO", () => {
     const context = {};
 
     expect(async () =>
-      new CacheSubjectResolver(
+      new CacheSubjectRequestResolver(
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
       ).resolve(context as any),
@@ -148,7 +149,7 @@ describe("CacheSubjectResolver VO", () => {
     const context = {};
 
     expect(async () =>
-      new CacheSubjectResolver(
+      new CacheSubjectRequestResolver(
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
       ).resolve(context as any),
@@ -156,17 +157,17 @@ describe("CacheSubjectResolver VO", () => {
   });
 
   test("no context", async () => {
-    const result = await new CacheSubjectResolver(
+    const result = await new CacheSubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query, user],
       deps,
-    ).resolve();
+    ).resolve({} as any);
 
     expect(result.raw).toEqual([
       "response",
-      CacheSubjectSegmentEmpty,
-      CacheSubjectSegmentEmpty,
-      CacheSubjectSegmentEmpty,
-      CacheSubjectSegmentEmpty,
+      CacheSubjectSegmentRequestEmpty,
+      CacheSubjectSegmentRequestEmpty,
+      CacheSubjectSegmentRequestEmpty,
+      CacheSubjectSegmentRequestEmpty,
       "anon",
     ]);
     expect(result.hex).toEqual(
@@ -178,7 +179,7 @@ describe("CacheSubjectResolver VO", () => {
     const context = {};
     const fixed = new CacheSubjectSegmentFixedStrategy("a|b|c|");
 
-    const result = await new CacheSubjectResolver([fixed], deps).resolve(context as any);
+    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context as any);
 
     expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
     expect(result.hex).toEqual(

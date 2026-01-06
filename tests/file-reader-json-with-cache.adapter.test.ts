@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { FileReaderJsonWithCacheAdapter } from "../src/file-reader-json-with-cache.adapter";
@@ -27,7 +27,7 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     jest.useFakeTimers();
     const innerRead = spyOn(inner, "read");
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectResolver(
+    const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_json"),
         new CacheSubjectSegmentFixedStrategy("json"),
@@ -58,7 +58,7 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     jest.useFakeTimers();
     const innerRead = spyOn(inner, "read");
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectResolver(
+    const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_json"),
         new CacheSubjectSegmentFixedStrategy("json"),

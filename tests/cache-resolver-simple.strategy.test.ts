@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src/cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import * as mocks from "./mocks";
@@ -15,7 +15,7 @@ const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
-const resolver = new CacheSubjectResolver([new CacheSubjectSegmentFixedStrategy("key")], deps);
+const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], deps);
 
 describe("CacheResolverSimpleStrategy", async () => {
   const subject = await resolver.resolve();

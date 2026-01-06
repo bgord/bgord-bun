@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectResolver } from "../src//cache-subject-resolver.vo";
+import { CacheSubjectApplicationResolver } from "../src//cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src//cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
@@ -17,7 +17,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256BunStrategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const resolver = new CacheSubjectResolver(
+    const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("prerequisite_verifier"),
         new CacheSubjectSegmentFixedStrategy(pass.kind),
