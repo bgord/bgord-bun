@@ -5,7 +5,7 @@ import type { ShieldStrategy } from "./shield.strategy";
 
 type ApiKeyShieldConfigType = { API_KEY: tools.ApiKeyType };
 
-export const AccessDeniedApiKeyError = new HTTPException(403, { message: "access_denied_api_key" });
+export const ShieldApiKeyError = new HTTPException(403, { message: "shield.api.key" });
 
 export class ShieldApiKeyStrategy implements ShieldStrategy {
   static readonly HEADER_NAME = "bgord-api-key";
@@ -15,6 +15,6 @@ export class ShieldApiKeyStrategy implements ShieldStrategy {
   verify = createMiddleware(async (c, next) => {
     if (c.req.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY) return next();
 
-    throw AccessDeniedApiKeyError;
+    throw ShieldApiKeyError;
   });
 }

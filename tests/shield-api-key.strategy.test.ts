@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { AccessDeniedApiKeyError, ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
+import { ShieldApiKeyError, ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
@@ -13,11 +13,8 @@ const app = new Hono()
   .get("/ping", (c) => c.text("OK"))
   // @ts-expect-error
   .onError((error, c) => {
-    if (error.message === AccessDeniedApiKeyError.message) {
-      return c.json(
-        { message: AccessDeniedApiKeyError.message, _known: true },
-        AccessDeniedApiKeyError.status,
-      );
+    if (error.message === ShieldApiKeyError.message) {
+      return c.json({ message: ShieldApiKeyError.message, _known: true }, ShieldApiKeyError.status);
     }
     return c.status(500);
   });
@@ -40,7 +37,7 @@ describe("ShieldApiKeyStrategy", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(403);
-    expect(json.message).toEqual("access_denied_api_key");
+    expect(json.message).toEqual("shield.api.key");
   });
 
   test("denied - invalid api key", async () => {
@@ -51,6 +48,6 @@ describe("ShieldApiKeyStrategy", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(403);
-    expect(json.message).toEqual("access_denied_api_key");
+    expect(json.message).toEqual("shield.api.key");
   });
 });
