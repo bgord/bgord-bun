@@ -6,11 +6,13 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { ApiVersion } from "./api-version.middleware";
+import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractor } from "./etag-extractor.middleware";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
+import type { HashContentStrategy } from "./hash-content.strategy";
 import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
@@ -32,6 +34,8 @@ type Dependencies = {
   I18n: I18nConfigType;
   Clock: ClockPort;
   FileReaderJson: FileReaderJsonPort;
+  CacheResolver: CacheResolverStrategy;
+  HashContent: HashContentStrategy;
 };
 
 export class Setup {
@@ -53,7 +57,7 @@ export class Setup {
         xFrameOptions: false,
       }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
-      ApiVersion.build({ Clock: deps.Clock, FileReaderJson: deps.FileReaderJson }),
+      ApiVersion.build(deps),
       cors({
         // Stryker disable all
         origin: (origin, c) => {

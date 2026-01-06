@@ -1,9 +1,12 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
+import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import type { I18nConfigType } from "../src/i18n.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -28,7 +31,11 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
 ]);
 const Clock = new ClockSystemAdapter();
-const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson };
+const config = { type: "infinite" } as const;
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const HashContent = new HashContentSha256BunStrategy();
+const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson, CacheResolver, HashContent };
 
 describe("Setup service", () => {
   test("happy path", async () => {
