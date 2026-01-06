@@ -3,8 +3,8 @@ import type { BuildInfoRepositoryPort } from "./build-info-repository.strategy";
 
 export class BuildInfoRepositoryNoopStrategy implements BuildInfoRepositoryPort {
   constructor(
-    private readonly version: tools.PackageVersion,
     private readonly timestamp: tools.Timestamp,
+    private readonly version?: tools.PackageVersion,
   ) {}
 
   async extract() {
