@@ -21,7 +21,7 @@ import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-m
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
-type SetupOverridesType = {
+type SetupConfigType = {
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerOptions;
   maintenanceMode?: MaintenanceModeConfigType;
@@ -39,11 +39,11 @@ type Dependencies = {
 };
 
 export class Setup {
-  static essentials(deps: Dependencies, overrides?: SetupOverridesType) {
-    const BODY_LIMIT_MAX_SIZE = overrides?.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
+  static essentials(deps: Dependencies, config: SetupConfigType) {
+    const BODY_LIMIT_MAX_SIZE = config.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
 
     return [
-      MaintenanceMode.build(overrides?.maintenanceMode),
+      MaintenanceMode.build(config.maintenanceMode),
       secureHeaders({
         referrerPolicy: "no-referrer",
         xContentTypeOptions: "nosniff",
@@ -73,7 +73,7 @@ export class Setup {
         // Stryker restore all
         credentials: false,
         maxAge: tools.Duration.Minutes(10).seconds,
-        ...overrides?.cors,
+        ...config.cors,
       }),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
@@ -91,7 +91,7 @@ export class Setup {
       Context.attach,
       WeakETagExtractor.attach,
       ETagExtractor.attach,
-      HttpLogger.build(deps, overrides?.httpLogger),
+      HttpLogger.build(deps, config.httpLogger),
       timing(),
       CorrelationStorage.handle(),
     ];

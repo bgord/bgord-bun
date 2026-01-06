@@ -40,7 +40,7 @@ const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson, CacheResolver, H
 describe("Setup service", () => {
   test("happy path", async () => {
     const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
-      .use(...Setup.essentials(deps))
+      .use(...Setup.essentials(deps, {}))
       .get("/ping", (c) =>
         c.json({
           requestId: c.get("requestId"),
@@ -77,7 +77,7 @@ describe("Setup service", () => {
 
   test("x-correlation-id forwarding", async () => {
     const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
-      .use(...Setup.essentials(deps))
+      .use(...Setup.essentials(deps, {}))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request(
@@ -144,7 +144,7 @@ describe("Setup service", () => {
   });
 
   test("languageDetector - supportedLanguages", async () => {
-    const app = new Hono().use(...Setup.essentials(deps)).get("/lang", (c) => c.text(c.get("language")));
+    const app = new Hono().use(...Setup.essentials(deps, {})).get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request("/lang", { headers: { "Accept-Language": "de-DE,de;q=0.9" } }, ip);
 
@@ -152,7 +152,7 @@ describe("Setup service", () => {
   });
 
   test("cors - server-to-server allowed", async () => {
-    const app = new Hono().use(...Setup.essentials(deps)).get("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...Setup.essentials(deps, {})).get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", {}, ip);
 
@@ -161,7 +161,7 @@ describe("Setup service", () => {
   });
 
   test("cors - same-origin fetch allowed", async () => {
-    const app = new Hono().use(...Setup.essentials(deps)).get("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...Setup.essentials(deps, {})).get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: "http://localhost" } }, ip);
 
@@ -170,7 +170,7 @@ describe("Setup service", () => {
   });
 
   test("cors - cross-origin fetch blocked", async () => {
-    const app = new Hono().use(...Setup.essentials(deps)).get("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...Setup.essentials(deps, {})).get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: "https://evil.example" } }, ip);
 
@@ -179,7 +179,7 @@ describe("Setup service", () => {
   });
 
   test("cors - cross-origin preflight blocked", async () => {
-    const app = new Hono().use(...Setup.essentials(deps)).options("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...Setup.essentials(deps, {})).options("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", {
       method: "OPTIONS",
