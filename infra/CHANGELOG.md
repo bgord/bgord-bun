@@ -1,4 +1,7 @@
 # Changelog
+- 2026-01-06 16:44 e0bd903 **step: test ssr**
+- 2026-01-06 16:32 562cf02 **step: nonce provider deterministic**
+- 2026-01-06 16:26 1da5ddf **feature: ssr security setup**
 ## 2026-01-06 16:11 v1.8.6
 - 2026-01-06 16:11 7ee1f2f **1.8.6**
 - 2026-01-06 16:10 e69f9ef **fix: remove tests from build**
@@ -10,6 +13,7 @@
 - 2026-01-06 15:35 824b397 **step: test static files**
 - 2026-01-06 15:29 dd55eb7 **step: add static file fixtures**
 - 2026-01-06 15:25 7de62c6 **step: make root configurable**
+- 2026-01-06 15:11 ecee4ae **docs: generate CHANGELOG**
 - 2026-01-06 15:10 5f79083 **docs: generate CHANGELOG**
 - 2026-01-06 15:08 ca7aca0 **docs: generate CHANGELOG**
 - 2026-01-06 15:06 77f97ea **docs: generate CHANGELOG**
