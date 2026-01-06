@@ -16,7 +16,7 @@ const app = new Hono()
   .post("/uploader", (c) => c.text("uploaded"));
 
 describe("FileUploader middleware", () => {
-  test("accepts valid file upload", async () => {
+  test("happy path", async () => {
     const content = [
       `--${boundary}`,
       'Content-Disposition: form-data; name="file"; filename="image.png"',
@@ -57,7 +57,7 @@ describe("FileUploader middleware", () => {
     const result = await response.text();
 
     expect(response.status).toEqual(400);
-    expect(result).toEqual("invalid_file_mime_type_error");
+    expect(result).toEqual("file.uploader.invalid.mime");
   });
 
   test("rejects file too big", async () => {
@@ -82,7 +82,7 @@ describe("FileUploader middleware", () => {
     const result = await response.text();
 
     expect(response.status).toEqual(400);
-    expect(result).toEqual("file_too_big_error");
+    expect(result).toEqual("file.uploader.too.big");
   });
 
   test("rejects no file", async () => {
@@ -105,6 +105,6 @@ describe("FileUploader middleware", () => {
     });
 
     expect(response.status).toEqual(400);
-    expect(await response.text()).toEqual("invalid_file_mime_type_error");
+    expect(await response.text()).toEqual("file.uploader.invalid.mime");
   });
 });

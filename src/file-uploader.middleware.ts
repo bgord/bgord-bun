@@ -5,8 +5,11 @@ import { HTTPException } from "hono/http-exception";
 
 type FileUploaderConfigType = { mimeTypes: tools.Mime[]; maxFilesSize: tools.Size };
 
-export const InvalidFileMimeTypeError = new HTTPException(400, { message: "invalid_file_mime_type_error" });
-export const FileTooBigError = new HTTPException(400, { message: "file_too_big_error" });
+export const FileUploaderInvalidMimeError = new HTTPException(400, {
+  message: "file.uploader.invalid.mime",
+});
+
+export const FileUploaderTooBigError = new HTTPException(400, { message: "file.uploader.too.big" });
 
 export class FileUploader {
   static validate(config: FileUploaderConfigType) {
@@ -14,7 +17,7 @@ export class FileUploader {
       bodyLimit({
         maxSize: config.maxFilesSize.toBytes(),
         onError: () => {
-          throw FileTooBigError;
+          throw FileUploaderTooBigError;
         },
       }),
 
@@ -23,12 +26,12 @@ export class FileUploader {
 
         const file = body.get("file");
 
-        if (!(file instanceof File)) throw InvalidFileMimeTypeError;
+        if (!(file instanceof File)) throw FileUploaderInvalidMimeError;
 
         const contentType = tools.Mime.fromString(file.type);
         const accepted = config.mimeTypes.some((accepted) => accepted.isSatisfiedBy(contentType));
 
-        if (!accepted) throw InvalidFileMimeTypeError;
+        if (!accepted) throw FileUploaderInvalidMimeError;
         return next();
       }),
     ];
