@@ -13,6 +13,8 @@ export const StaticFileStrategyMustRevalidate: (duration: tools.Duration) => Sta
     c.header("Cache-Control", `public, max-age=${duration.seconds}, must-revalidate`);
   };
 
+type StaticFilesOptions = { root?: string };
+
 const staticAssetHeaders = secureHeaders({
   strictTransportSecurity: `max-age=${tools.Duration.Days(180).seconds}; includeSubDomains`,
   crossOriginResourcePolicy: "same-origin",
@@ -41,7 +43,9 @@ const staticDocumentHeaders = secureHeaders({
 });
 
 export class StaticFiles {
-  static handle(path: string, strategy: StaticFilesStrategy) {
+  static handle(path: string, strategy: StaticFilesStrategy, options?: StaticFilesOptions) {
+    const root = options?.root ?? "./";
+
     return {
       [path]: new Hono().use(
         path,
@@ -60,7 +64,7 @@ export class StaticFiles {
           }
         },
         etag(),
-        serveStatic({ root: "./", precompressed: true, onFound: strategy }),
+        serveStatic({ root, precompressed: true, onFound: strategy }),
       ).fetch,
     };
   }
