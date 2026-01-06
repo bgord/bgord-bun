@@ -8,20 +8,20 @@ import type { HashContentStrategy } from "./hash-content.strategy";
 
 type Dependencies = { HashContent: HashContentStrategy };
 
-export const CacheSubjectResolverError = {
-  NoSegments: "cache.subject.no.segments",
-  TooManySegments: "cache.subject.too.many.segments",
+export const CacheSubjectRequestResolverError = {
+  NoSegments: "cache.subject.request.no.segments",
+  TooManySegments: "cache.subject.request.too.many.segments",
 };
 
-export class CacheSubjectResolver {
+export class CacheSubjectRequestResolver {
   private readonly SEPARATOR = "|";
 
   constructor(
     private readonly segments: CacheSubjectSegmentRequestStrategy[],
     private readonly deps: Dependencies,
   ) {
-    if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
-    if (this.segments.length > 10) throw new Error(CacheSubjectResolverError.TooManySegments);
+    if (this.segments.length === 0) throw new Error(CacheSubjectRequestResolverError.NoSegments);
+    if (this.segments.length > 10) throw new Error(CacheSubjectRequestResolverError.TooManySegments);
   }
 
   async resolve(context: Context): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
