@@ -1,4 +1,11 @@
 # Changelog
+- 2026-01-06 16:06 8e2a113 **step: simplify precompressed tests**
+- 2026-01-06 16:04 f39ab3c **step: add static files tests**
+- 2026-01-06 15:49 c16f663 **step: add precompressed assets test**
+- 2026-01-06 15:35 824b397 **step: test static files**
+- 2026-01-06 15:29 dd55eb7 **step: add static file fixtures**
+- 2026-01-06 15:25 7de62c6 **step: make root configurable**
+- 2026-01-06 13:25 2530096 **feature: move static files**
 ## 2026-01-06 13:14 v1.8.4
 - 2026-01-06 13:14 8edc541 **1.8.4**
 - 2026-01-06 13:13 55d92ef **step: tighten cors**
@@ -6,6 +13,7 @@
 - 2026-01-06 12:51 6cfb8d8 **1.8.3**
 - 2026-01-06 12:49 4bef72e **feature: nonce value vo**
 - 2026-01-06 12:46 d1c44ba **feature: nonce provider**
+- 2026-01-06 12:14 db18837 **docs: generate CHANGELOG**
 - 2026-01-06 12:13 2ebe4e1 **docs: generate CHANGELOG**
 - 2026-01-06 11:51 6b82bb3 **docs: generate CHANGELOG**
 - 2026-01-06 11:50 5c859cb **docs: generate readme**
