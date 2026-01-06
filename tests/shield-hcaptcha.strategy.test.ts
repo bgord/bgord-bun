@@ -2,18 +2,18 @@ import { describe, expect, spyOn, test } from "bun:test";
 import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
-import { ShieldCaptchaHcaptchaStrategy } from "../src/shield-captcha-hcaptcha.strategy";
+import { ShieldHcaptchaStrategy } from "../src/shield-hcaptcha.strategy";
 import * as mocks from "./mocks";
 
 const SECRET_KEY = "11111111111111111111111111111111111";
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
-const shield = new ShieldCaptchaHcaptchaStrategy(HCaptchaSecretKey.parse(SECRET_KEY));
+const shield = new ShieldHcaptchaStrategy(HCaptchaSecretKey.parse(SECRET_KEY));
 
 const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
-describe("ShieldCaptchaHcaptchaStrategy", () => {
+describe("ShieldHcaptchaStrategy", () => {
   test("happy path", async () => {
     const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
     const form = new FormData();
@@ -34,7 +34,7 @@ describe("ShieldCaptchaHcaptchaStrategy", () => {
     const response = await app.request("/secure", { method: "POST", body: form });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual("access_denied_hcaptcha");
+    expect(await response.text()).toEqual("shield.hcaptcha");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, INVALID_TOKEN);
   });
 
@@ -44,7 +44,7 @@ describe("ShieldCaptchaHcaptchaStrategy", () => {
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual("access_denied_hcaptcha");
+    expect(await response.text()).toEqual("shield.hcaptcha");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, undefined);
   });
 
@@ -56,7 +56,7 @@ describe("ShieldCaptchaHcaptchaStrategy", () => {
     const response = await app.request("/secure", { method: "POST", body: form });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual("access_denied_hcaptcha");
+    expect(await response.text()).toEqual("shield.hcaptcha");
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "any-token");
   });
 });
