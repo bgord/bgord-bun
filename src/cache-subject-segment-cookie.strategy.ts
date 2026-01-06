@@ -1,12 +1,14 @@
 import type { Context } from "hono";
 import { getCookie } from "hono/cookie";
-import { CacheSubjectSegmentEmpty, type CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
+import {
+  CacheSubjectSegmentRequestEmpty,
+  type CacheSubjectSegmentRequestStrategy,
+} from "./cache-subject-segment-request.strategy";
 
-export class CacheSubjectSegmentCookieStrategy implements CacheSubjectSegmentStrategy {
+export class CacheSubjectSegmentCookieStrategy implements CacheSubjectSegmentRequestStrategy {
   constructor(private readonly name: string) {}
 
-  create(context?: Context) {
-    if (!context) return CacheSubjectSegmentEmpty;
-    return getCookie(context, this.name) ?? CacheSubjectSegmentEmpty;
+  create(context: Context) {
+    return getCookie(context, this.name) ?? CacheSubjectSegmentRequestEmpty;
   }
 }

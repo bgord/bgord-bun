@@ -1,8 +1,8 @@
 import type { Context } from "hono";
-import { CacheSubjectSegmentEmpty, type CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
+import type { CacheSubjectSegmentRequestStrategy } from "./cache-subject-segment-request.strategy";
 
-export class CacheSubjectSegmentPathStrategy implements CacheSubjectSegmentStrategy {
-  create(context?: Context) {
-    return context?.req.path ?? CacheSubjectSegmentEmpty;
+export class CacheSubjectSegmentPathStrategy implements CacheSubjectSegmentRequestStrategy {
+  create(context: Context) {
+    return context.req.path;
   }
 }

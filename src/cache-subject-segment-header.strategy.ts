@@ -1,10 +1,13 @@
 import type { Context } from "hono";
-import { CacheSubjectSegmentEmpty, type CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
+import {
+  CacheSubjectSegmentRequestEmpty,
+  type CacheSubjectSegmentRequestStrategy,
+} from "./cache-subject-segment-request.strategy";
 
-export class CacheSubjectSegmentHeaderStrategy implements CacheSubjectSegmentStrategy {
+export class CacheSubjectSegmentHeaderStrategy implements CacheSubjectSegmentRequestStrategy {
   constructor(private readonly name: string) {}
 
-  create(context?: Context) {
-    return context?.req.header(this.name) ?? CacheSubjectSegmentEmpty;
+  create(context: Context) {
+    return context.req.header(this.name) ?? CacheSubjectSegmentRequestEmpty;
   }
 }

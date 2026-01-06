@@ -1,5 +1,8 @@
 import type { Context } from "hono";
-import type { CacheSubjectSegmentStrategy, CacheSubjectSegmentType } from "./cache-subject-segment.strategy";
+import type {
+  CacheSubjectSegmentRequestStrategy,
+  CacheSubjectSegmentType,
+} from "./cache-subject-segment-request.strategy";
 import type { Hash } from "./hash.vo";
 import type { HashContentStrategy } from "./hash-content.strategy";
 
@@ -14,14 +17,14 @@ export class CacheSubjectResolver {
   private readonly SEPARATOR = "|";
 
   constructor(
-    private readonly segments: CacheSubjectSegmentStrategy[],
+    private readonly segments: CacheSubjectSegmentRequestStrategy[],
     private readonly deps: Dependencies,
   ) {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
     if (this.segments.length > 10) throw new Error(CacheSubjectResolverError.TooManySegments);
   }
 
-  async resolve(context?: Context): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
+  async resolve(context: Context): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
     const segments = this.segments.map((segment) =>
       segment.create(context).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
     );

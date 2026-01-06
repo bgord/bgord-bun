@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentEmpty } from "../src/cache-subject-segment.strategy";
 import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
+import { CacheSubjectSegmentRequestEmpty } from "../src/cache-subject-segment-request.strategy";
 
 const segment = new CacheSubjectSegmentQueryStrategy();
 
@@ -14,10 +14,6 @@ describe("CacheSubjectSegmentQueryStrategy", () => {
   test("empty", () => {
     const context = { req: { query: () => ({}) } } as any;
 
-    expect(segment.create(context)).toEqual(CacheSubjectSegmentEmpty);
-  });
-
-  test("no context", () => {
-    expect(segment.create()).toEqual(CacheSubjectSegmentEmpty);
+    expect(segment.create(context)).toEqual(CacheSubjectSegmentRequestEmpty);
   });
 });
