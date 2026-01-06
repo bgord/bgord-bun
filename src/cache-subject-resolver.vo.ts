@@ -5,7 +5,10 @@ import type { HashContentStrategy } from "./hash-content.strategy";
 
 type Dependencies = { HashContent: HashContentStrategy };
 
-export const CacheSubjectResolverError = { NoSegments: "cache.subject.no.segments" };
+export const CacheSubjectResolverError = {
+  NoSegments: "cache.subject.no.segments",
+  TooManySegments: "cache.subject.too.many.segments",
+};
 
 export class CacheSubjectResolver {
   private readonly SEPARATOR = "|";
@@ -15,6 +18,7 @@ export class CacheSubjectResolver {
     private readonly deps: Dependencies,
   ) {
     if (this.segments.length === 0) throw new Error(CacheSubjectResolverError.NoSegments);
+    if (this.segments.length > 10) throw new Error(CacheSubjectResolverError.TooManySegments);
   }
 
   async resolve(context?: Context): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {

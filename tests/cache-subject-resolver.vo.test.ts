@@ -125,12 +125,34 @@ describe("CacheSubjectResolver VO", () => {
     );
   });
 
-  test("NoSegments", async () => {
+  test("segments - empty", async () => {
     const context = {};
 
     expect(async () => new CacheSubjectResolver([], deps).resolve(context as any)).toThrow(
       "cache.subject.no.segments",
     );
+  });
+
+  test("segments - too many", async () => {
+    const context = {};
+
+    expect(async () =>
+      new CacheSubjectResolver(
+        [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
+        deps,
+      ).resolve(context as any),
+    ).toThrow("cache.subject.too.many.segments");
+  });
+
+  test("segments - at the limit", async () => {
+    const context = {};
+
+    expect(async () =>
+      new CacheSubjectResolver(
+        [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
+        deps,
+      ).resolve(context as any),
+    ).not.toThrow();
   });
 
   test("no context", async () => {
