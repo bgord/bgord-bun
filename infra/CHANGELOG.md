@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-06 17:07 c3c6cf3 **fix: remove explicit STS for API**
 ## 2026-01-06 16:56 v1.8.7
 - 2026-01-06 16:56 965903f **1.8.7**
 - 2026-01-06 16:55 21ea834 **step: add permissions policy**
@@ -13,6 +14,7 @@
 - 2026-01-06 16:07 4704a44 **1.8.5**
 - 2026-01-06 16:06 8e2a113 **step: simplify precompressed tests**
 - 2026-01-06 16:04 f39ab3c **step: add static files tests**
+- 2026-01-06 15:56 c1d82b9 **docs: generate CHANGELOG**
 - 2026-01-06 15:55 75ed3b2 **docs: generate CHANGELOG**
 - 2026-01-06 15:49 c16f663 **step: add precompressed assets test**
 - 2026-01-06 15:44 aea5dd6 **docs: generate readme**
