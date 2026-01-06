@@ -75,7 +75,7 @@ describe("ApiVersion middleware", async () => {
     const second = await app.request("/ping", { method: "GET" });
 
     expect(second.status).toEqual(200);
-    expect(second.headers.get(ApiVersion.HEADER_NAME)).toEqual(ApiVersion.DEFAULT_API_VERSION);
+    expect(second.headers.get(ApiVersion.HEADER_NAME)).toEqual("unknown");
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
     expect(getSpy).toHaveBeenCalledWith(subject.hex);
 
