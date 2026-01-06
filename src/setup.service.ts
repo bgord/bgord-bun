@@ -41,7 +41,7 @@ type Dependencies = {
 };
 
 export class Setup {
-  static essentials(deps: Dependencies, config: SetupConfigType) {
+  static essentials(config: SetupConfigType, deps: Dependencies) {
     const BODY_LIMIT_MAX_SIZE = config.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
 
     return [
