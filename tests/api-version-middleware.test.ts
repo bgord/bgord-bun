@@ -11,7 +11,7 @@ import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 
-const BUILD_DATE = tools.Timestamp.fromNumber(123).ms;
+const BUILD_DATE = tools.Timestamp.fromNumber(123);
 
 const Clock = new ClockSystemAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({});

@@ -26,9 +26,9 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const BuildInfoRepository = new BuildInfoRepositoryPackageJsonStrategy({ Clock, FileReaderJson });
 const deps = { Clock, FileReaderJson, Logger, BuildInfoRepository };
 
-const buildInfo = { BUILD_DATE: Clock.now().ms, BUILD_VERSION: tools.PackageVersion.fromString("1.0.0") };
+const buildInfo = { BUILD_DATE: Clock.now(), BUILD_VERSION: tools.PackageVersion.fromString("1.0.0") };
 
-const buildInfoEmpty = { BUILD_DATE: Clock.now().ms };
+const buildInfoEmpty = { BUILD_DATE: Clock.now() };
 
 describe("Healthcheck service", () => {
   test("200", async () => {

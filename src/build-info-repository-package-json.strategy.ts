@@ -9,7 +9,7 @@ export class BuildInfoRepositoryPackageJsonStrategy implements BuildInfoReposito
   constructor(private readonly deps: Dependencies) {}
 
   async extract() {
-    const BUILD_DATE = this.deps.Clock.now().ms;
+    const BUILD_DATE = this.deps.Clock.now();
 
     try {
       const packageJson = await this.deps.FileReaderJson.read("package.json");
