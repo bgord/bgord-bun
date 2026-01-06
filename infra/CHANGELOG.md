@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-06 17:09 v1.8.8
+- 2026-01-06 17:09 4baa5e6 **1.8.8**
 - 2026-01-06 17:08 eb32061 **refactor: remove explicit STS from static assets**
 - 2026-01-06 17:07 c3c6cf3 **fix: remove explicit STS for API**
 ## 2026-01-06 16:56 v1.8.7
@@ -11,6 +13,7 @@
 ## 2026-01-06 16:11 v1.8.6
 - 2026-01-06 16:11 7ee1f2f **1.8.6**
 - 2026-01-06 16:10 e69f9ef **fix: remove tests from build**
+- 2026-01-06 16:09 071dcfb **docs: generate CHANGELOG**
 ## 2026-01-06 16:07 v1.8.5
 - 2026-01-06 16:07 4704a44 **1.8.5**
 - 2026-01-06 16:07 0bb3db2 **docs: generate CHANGELOG**
