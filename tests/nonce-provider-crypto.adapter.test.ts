@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { NonceProviderCryptoAdapter } from "../src/nonce-provider-crypto.adapter";
+import { NonceValue } from "../src//nonce-value.vo";
 
 describe("NonceProviderCryptoAdapter", () => {
   test("happy path", () => {
@@ -9,5 +10,6 @@ describe("NonceProviderCryptoAdapter", () => {
 
     expect(result.length).toEqual(16);
     expect(typeof result).toEqual("string");
+    expect(NonceValue.safeParse(result).success).toEqual(true);
   });
 });
