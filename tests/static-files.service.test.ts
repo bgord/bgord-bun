@@ -53,9 +53,7 @@ describe("StaticFiles service", () => {
       "x-content-type-options": "nosniff",
       "x-dns-prefetch-control": "off",
       "x-download-options": "noopen",
-      "x-frame-options": "SAMEORIGIN",
       "x-permitted-cross-domain-policies": "none",
-      "x-xss-protection": "0",
     });
   });
 

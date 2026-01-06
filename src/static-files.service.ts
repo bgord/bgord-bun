@@ -50,6 +50,8 @@ const staticDocumentHeaders = secureHeaders({
     payment: [],
     usb: [],
   },
+  xFrameOptions: false,
+  xXssProtection: false,
 });
 
 type StaticFilesOptions = { root?: string };
