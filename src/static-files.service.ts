@@ -1,4 +1,4 @@
-import * as tools from "@bgord/tools";
+import type * as tools from "@bgord/tools";
 import { type Context, Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { etag } from "hono/etag";
@@ -16,7 +16,6 @@ export const StaticFileStrategyMustRevalidate: (duration: tools.Duration) => Sta
   };
 
 const staticAssetHeaders = secureHeaders({
-  strictTransportSecurity: `max-age=${tools.Duration.Days(180).seconds}; includeSubDomains`,
   crossOriginResourcePolicy: "same-origin",
   crossOriginOpenerPolicy: "same-origin",
   crossOriginEmbedderPolicy: "require-corp",
