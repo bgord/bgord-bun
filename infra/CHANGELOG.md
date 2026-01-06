@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-06 23:40 v1.8.11
+- 2026-01-06 23:40 1d59009 **1.8.11**
 - 2026-01-06 23:37 23c8906 **refactor: unify context naming**
 - 2026-01-06 23:33 34753a8 **feature: add build segment**
 - 2026-01-06 23:28 3291208 **refactor: make build info non-static class**
@@ -8,6 +10,7 @@
 - 2026-01-06 23:02 ecd9206 **fix: nonce provider crypto mutant**
 - 2026-01-06 22:46 8053ca2 **step: test cache subject application resolver**
 - 2026-01-06 22:41 1a97656 **fix: tests**
+- 2026-01-06 22:38 83637b9 **docs: generate CHANGELOG**
 - 2026-01-06 22:38 393e85d **refactor: use proper resolver for all use cases**
 - 2026-01-06 22:34 d2533e1 **docs: generate readme**
 - 2026-01-06 22:34 760e97f **docs: generate CHANGELOG**
