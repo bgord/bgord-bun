@@ -71,7 +71,7 @@ describe("ShieldAuthStrategy", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(403);
-    expect(json.message).toEqual("access_denied_auth_shield");
+    expect(json.message).toEqual("shield.auth");
   });
 
   test("reverse - guest user", async () => {
@@ -103,6 +103,6 @@ describe("ShieldAuthStrategy", () => {
     const json = await response.json();
 
     expect(response.status).toEqual(403);
-    expect(json.message).toEqual("access_denied_auth_shield");
+    expect(json.message).toEqual("shield.auth");
   });
 });
