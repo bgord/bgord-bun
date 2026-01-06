@@ -4,7 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import { timeout } from "hono/timeout";
 import type { ShieldStrategy } from "./shield.strategy";
 
-export const RequestTimeoutError = new HTTPException(408, { message: "request_timeout_error" });
+export const ShieldTimeoutError = new HTTPException(408, { message: "shield.timeout" });
 
 type ShieldTimeoutConfigType = { duration: tools.Duration };
 
@@ -12,7 +12,7 @@ export class ShieldTimeoutStrategy implements ShieldStrategy {
   private readonly timeout;
 
   constructor(config: ShieldTimeoutConfigType) {
-    this.timeout = timeout(config.duration.ms, RequestTimeoutError);
+    this.timeout = timeout(config.duration.ms, ShieldTimeoutError);
   }
 
   verify = createMiddleware(async (c, next) => this.timeout(c, next));
