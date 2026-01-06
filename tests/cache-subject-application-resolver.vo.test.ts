@@ -1,5 +1,7 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
+import { CacheSubjectSegmentBuildStrategy } from "../src/cache-subject-segment-build.strategy";
 import { CacheSubjectSegmentEnvStrategy } from "../src/cache-subject-segment-env.strategy";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { Hash } from "../src/hash.vo";
@@ -9,6 +11,9 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 const request = new CacheSubjectSegmentFixedStrategy("request");
 const response = new CacheSubjectSegmentFixedStrategy("response");
 const env = new CacheSubjectSegmentEnvStrategy(NodeEnvironmentEnum.production);
+
+const version = tools.PackageVersion.fromString("1.2.3");
+const build = new CacheSubjectSegmentBuildStrategy(version);
 
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
@@ -38,6 +43,15 @@ describe("CacheSubjectApplicationResolver VO", () => {
     expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production]);
     expect(result.hex).toEqual(
       Hash.fromString("82bbdcacdea5d8a4c9905184eb6e074a6af199b7bdb56f1f7e2dee7e4cbfcc75"),
+    );
+  });
+
+  test("fixed, env, build", async () => {
+    const result = await new CacheSubjectApplicationResolver([request, env, build], deps).resolve();
+
+    expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production, version.toString()]);
+    expect(result.hex).toEqual(
+      Hash.fromString("65222d61acd8176553ac178a7aff938b956f7bc1176a4df2b7658762b4531db1"),
     );
   });
 

@@ -20,6 +20,7 @@ export * from "./cache-response.middleware";
 export * from "./cache-subject-application-resolver.vo";
 export * from "./cache-subject-request-resolver.vo";
 export * from "./cache-subject-segment-application.strategy";
+export * from "./cache-subject-segment-build.strategy";
 export * from "./cache-subject-segment-cookie.strategy";
 export * from "./cache-subject-segment-env.strategy";
 export * from "./cache-subject-segment-fixed.strategy";
