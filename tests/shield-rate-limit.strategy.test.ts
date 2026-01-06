@@ -9,7 +9,7 @@ import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-pa
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
-import { ShieldRateLimitStrategy, TooManyRequestsError } from "../src/shield-rate-limit.strategy";
+import { ShieldRateLimitError, ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
 import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
@@ -35,8 +35,8 @@ const app = new Hono()
   .get("/ping", shieldRateLimit.verify, (c) => c.text("pong"))
   // @ts-expect-error
   .onError((error, c) => {
-    if (error.message === TooManyRequestsError.message) {
-      return c.json({ message: TooManyRequestsError.message, _known: true }, TooManyRequestsError.status);
+    if (error.message === ShieldRateLimitError.message) {
+      return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
     }
     return c.status(500);
   });
@@ -58,7 +58,7 @@ describe("ShieldRateLimitStrategy", () => {
     const json = await failure.json();
 
     expect(failure.status).toEqual(429);
-    expect(json.message).toEqual("app.too_many_requests");
+    expect(json.message).toEqual("shield.rate.limit");
 
     await CacheResolver.flush();
   });

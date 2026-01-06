@@ -14,7 +14,7 @@ type ShieldRateLimitOptionsType = {
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
-export const TooManyRequestsError = new HTTPException(429, { message: "app.too_many_requests" });
+export const ShieldRateLimitError = new HTTPException(429, { message: "shield.rate.limit" });
 
 export class ShieldRateLimitStrategy implements ShieldStrategy {
   constructor(
@@ -34,7 +34,7 @@ export class ShieldRateLimitStrategy implements ShieldStrategy {
 
     const result = limiter.verify(this.deps.Clock.now());
 
-    if (!result.allowed) throw TooManyRequestsError;
+    if (!result.allowed) throw ShieldRateLimitError;
 
     return next();
   });
