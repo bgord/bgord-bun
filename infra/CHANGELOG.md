@@ -1,4 +1,6 @@
 # Changelog
+- 2026-01-06 16:55 21ea834 **step: add permissions policy**
+- 2026-01-06 16:50 9e2c7b0 **refactor: remove explicit STS from static documents**
 - 2026-01-06 16:44 e0bd903 **step: test ssr**
 - 2026-01-06 16:32 562cf02 **step: nonce provider deterministic**
 - 2026-01-06 16:26 1da5ddf **feature: ssr security setup**
@@ -10,6 +12,8 @@
 - 2026-01-06 16:06 8e2a113 **step: simplify precompressed tests**
 - 2026-01-06 16:04 f39ab3c **step: add static files tests**
 - 2026-01-06 15:49 c16f663 **step: add precompressed assets test**
+- 2026-01-06 15:44 aea5dd6 **docs: generate readme**
+- 2026-01-06 15:44 8aec310 **docs: generate CHANGELOG**
 - 2026-01-06 15:35 824b397 **step: test static files**
 - 2026-01-06 15:29 dd55eb7 **step: add static file fixtures**
 - 2026-01-06 15:25 7de62c6 **step: make root configurable**
