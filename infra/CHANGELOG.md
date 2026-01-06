@@ -1,5 +1,9 @@
 # Changelog
+- 2026-01-06 12:49 4bef72e **feature: nonce value vo**
+- 2026-01-06 12:46 d1c44ba **feature: nonce provider**
+- 2026-01-06 10:14 c02bcf0 **step: tighten cors**
 - 2026-01-06 10:02 1316863 **step: harden security policy**
+- 2026-01-06 09:03 d90e496 **docs: generate CHANGELOG**
 ## 2026-01-05 23:52 v1.8.2
 - 2026-01-05 23:52 c66ab98 **1.8.2**
 - 2026-01-05 23:50 b5ab4dc **step: update secureheaders options and test cases**
