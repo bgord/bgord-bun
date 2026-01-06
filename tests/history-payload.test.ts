@@ -10,8 +10,8 @@ describe("HistoryPayloadParsed", () => {
   test("HistoryPayloadParsed", () => {
     const result = History.VO.HistoryPayloadParsed.safeParse({ subject: "order" });
 
-    expect(result.success).toBe(true);
-    expect(result.data).toBe('{"subject":"order"}');
+    expect(result.success).toEqual(true);
+    expect(result.data).toEqual('{"subject":"order"}');
   });
 
   test("HistoryPayloadParsed - -rejects circular references", () => {

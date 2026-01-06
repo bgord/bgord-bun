@@ -30,7 +30,7 @@ describe("GracefulShutdown service", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalled();
-    expect(exitCalls[0]).toBe(0);
+    expect(exitCalls[0]).toEqual(0);
     expect(loggerInfo).toHaveBeenCalledWith({
       message: "SIGTERM received",
       operation: "shutdown",
@@ -52,7 +52,7 @@ describe("GracefulShutdown service", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalled();
-    expect(exitCalls[0]).toBe(0);
+    expect(exitCalls[0]).toEqual(0);
     expect(loggerInfo).toHaveBeenCalledWith({
       message: "SIGINT received",
       operation: "shutdown",
@@ -73,7 +73,7 @@ describe("GracefulShutdown service", () => {
     process.emit("unhandledRejection", new Error(mocks.IntentionalError), {});
     await tick();
 
-    expect(exitCalls[0]).toBe(1);
+    expect(exitCalls[0]).toEqual(1);
     expect(loggerError).toHaveBeenCalledWith(
       expect.objectContaining({
         message: "UnhandledRejection received",
@@ -91,7 +91,7 @@ describe("GracefulShutdown service", () => {
     process.emit("uncaughtException", new Error(mocks.IntentionalError));
     await tick();
 
-    expect(exitCalls[0]).toBe(1);
+    expect(exitCalls[0]).toEqual(1);
     expect(loggerError).toHaveBeenCalledWith(
       expect.objectContaining({
         message: "UncaughtException received",
@@ -112,7 +112,7 @@ describe("GracefulShutdown service", () => {
     await tick(); // Extra tick for the promise chain in cleanup
 
     expect(server.stop).toHaveBeenCalled();
-    expect(exitCalls[0]).toBe(0);
+    expect(exitCalls[0]).toEqual(0);
     expect(loggerError).toHaveBeenCalledWith(
       expect.objectContaining({
         message: "Cleanup hook failed",

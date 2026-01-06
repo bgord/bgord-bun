@@ -181,7 +181,7 @@ describe("Setup service", () => {
     const response = await app.request("/cors", { headers: { Origin: "http://localhost" } }, ip);
 
     expect(response.status).toEqual(200);
-    expect(response.headers.get("access-control-allow-origin")).toBe("http://localhost");
+    expect(response.headers.get("access-control-allow-origin")).toEqual("http://localhost");
   });
 
   test("cors - cross-origin fetch blocked", async () => {
@@ -190,7 +190,7 @@ describe("Setup service", () => {
     const response = await app.request("/cors", { headers: { Origin: "https://evil.example" } }, ip);
 
     expect(response.status).toEqual(200);
-    expect(response.headers.get("access-control-allow-origin")).toBeNull();
+    expect(response.headers.get("access-control-allow-origin")).toEqual(null);
   });
 
   test("cors - cross-origin preflight blocked", async () => {
@@ -201,7 +201,7 @@ describe("Setup service", () => {
       headers: { Origin: "https://evil.example", "Access-Control-Request-Method": "POST" },
     });
 
-    expect(response.headers.get("access-control-allow-origin")).toBeNull();
+    expect(response.headers.get("access-control-allow-origin")).toEqual(null);
   });
 
   test("cors - overrides", async () => {

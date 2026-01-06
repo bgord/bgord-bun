@@ -33,7 +33,7 @@ describe("TimeoutCancellableRunnerBare", () => {
 
     const signal = action.mock.calls[0]?.[0];
     expect(runner).rejects.toThrow("timeout.cancellable.exceeded");
-    expect(signal?.aborted).toBe(true);
+    expect(signal?.aborted).toEqual(true);
     expect(signal?.reason.message).toEqual("timeout.cancellable.exceeded");
 
     jest.useRealTimers();
