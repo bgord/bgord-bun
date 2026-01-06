@@ -33,8 +33,8 @@ const cacheResponse = new CacheResponse({ enabled: true, resolver }, { CacheReso
 const cacheResponseDisabled = new CacheResponse({ enabled: false, resolver }, { CacheResolver });
 
 const app = new Hono<mocks.Config>()
-  .use((c, next) => {
-    c.set("user", { id: c.req.header("id") });
+  .use((context, next) => {
+    context.set("user", { id: context.req.header("id") });
     return next();
   })
   .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }))
@@ -146,8 +146,8 @@ describe("CacheResponse middleware", () => {
   test("disabled", async () => {
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const app = new Hono<mocks.Config>()
-      .use((c, next) => {
-        c.set("user", { id: c.req.header("id") });
+      .use((context, next) => {
+        context.set("user", { id: context.req.header("id") });
         return next();
       })
       .get("/ping", cacheResponseDisabled.handle, (c) => c.json({ message: "ping" }));

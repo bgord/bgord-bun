@@ -16,7 +16,7 @@ export class ApiVersion {
   static readonly DEFAULT_API_VERSION = "unknown";
 
   static build = (deps: Dependencies) =>
-    createMiddleware(async (c, next) => {
+    createMiddleware(async (context, next) => {
       const resolver = new CacheSubjectApplicationResolver(
         [new CacheSubjectSegmentFixedStrategy("api-version")],
         deps,
@@ -26,7 +26,7 @@ export class ApiVersion {
       const build = await deps.CacheResolver.resolve(subject.hex, async () =>
         deps.BuildInfoRepository.extract(),
       );
-      c.res.headers.set(
+      context.res.headers.set(
         ApiVersion.HEADER_NAME,
         build.BUILD_VERSION?.toString() ?? ApiVersion.DEFAULT_API_VERSION,
       );

@@ -13,8 +13,11 @@ export type ContextVariables = {
 } & TimeZoneOffsetVariables;
 
 export class Context {
-  static attach = createMiddleware(async (c, next) => {
-    c.set("context", { requestId: c.get("requestId"), timeZoneOffset: c.get("timeZoneOffset") });
+  static attach = createMiddleware(async (context, next) => {
+    context.set("context", {
+      requestId: context.get("requestId"),
+      timeZoneOffset: context.get("timeZoneOffset"),
+    });
 
     await next();
   });

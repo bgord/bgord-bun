@@ -5,11 +5,11 @@ export type MaintenanceModeConfigType = { enabled: boolean; RetryAfter?: tools.D
 
 export class MaintenanceMode {
   static build = (config?: MaintenanceModeConfigType) =>
-    createMiddleware(async (c, next) => {
+    createMiddleware(async (context, next) => {
       const enabled = config?.enabled ?? false;
       const RetryAfter = config?.RetryAfter ?? tools.Duration.Hours(1);
 
       if (!enabled) return next();
-      return c.json({ reason: "maintenance" }, 503, { "Retry-After": RetryAfter.seconds.toString() });
+      return context.json({ reason: "maintenance" }, 503, { "Retry-After": RetryAfter.seconds.toString() });
     });
 }

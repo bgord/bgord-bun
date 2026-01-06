@@ -13,5 +13,5 @@ export class ShieldBasicAuthStrategy implements ShieldStrategy {
     this.basicAuth = basicAuth(config);
   }
 
-  verify = createMiddleware(async (c, next) => this.basicAuth(c, next));
+  verify = createMiddleware(async (context, next) => this.basicAuth(context, next));
 }

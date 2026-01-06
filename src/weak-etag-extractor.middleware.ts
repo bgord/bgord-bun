@@ -3,13 +3,13 @@ import { createMiddleware } from "hono/factory";
 import type { EtagVariables } from "./etag-extractor.middleware";
 
 export class WeakETagExtractor {
-  static attach = createMiddleware<{ Variables: EtagVariables }>(async (c, next) => {
+  static attach = createMiddleware<{ Variables: EtagVariables }>(async (context, next) => {
     try {
-      const header = c.req.header(tools.WeakETag.IF_MATCH_HEADER_NAME);
+      const header = context.req.header(tools.WeakETag.IF_MATCH_HEADER_NAME);
 
-      c.set("WeakETag", tools.WeakETag.fromHeader(header));
+      context.set("WeakETag", tools.WeakETag.fromHeader(header));
     } catch {
-      c.set("WeakETag", null);
+      context.set("WeakETag", null);
     }
 
     await next();

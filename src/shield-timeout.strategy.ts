@@ -15,5 +15,5 @@ export class ShieldTimeoutStrategy implements ShieldStrategy {
     this.timeout = timeout(config.duration.ms, ShieldTimeoutError);
   }
 
-  verify = createMiddleware(async (c, next) => this.timeout(c, next));
+  verify = createMiddleware(async (context, next) => this.timeout(context, next));
 }

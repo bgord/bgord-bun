@@ -85,8 +85,8 @@ describe("ShieldRateLimitStrategy", () => {
   test("user - failure - TooManyRequestsError", async () => {
     const app = new Hono<mocks.Config>().get(
       "/ping",
-      (c, next) => {
-        c.set("user", { id: "abc" });
+      (context, next) => {
+        context.set("user", { id: "abc" });
         return next();
       },
       new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
@@ -102,8 +102,8 @@ describe("ShieldRateLimitStrategy", () => {
   test("user - happy path - after rate limit", async () => {
     const app = new Hono<mocks.Config>().get(
       "/ping",
-      (c, next) => {
-        c.set("user", { id: "abc" });
+      (context, next) => {
+        context.set("user", { id: "abc" });
         return next();
       },
       new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
@@ -122,8 +122,8 @@ describe("ShieldRateLimitStrategy", () => {
   test("user - does not impact other users", async () => {
     const app = new Hono<mocks.Config>().get(
       "/ping",
-      (c, next) => {
-        c.set("user", { id: c.req.header("id") });
+      (context, next) => {
+        context.set("user", { id: context.req.header("id") });
         return next();
       },
       new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,

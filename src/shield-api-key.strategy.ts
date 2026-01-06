@@ -12,8 +12,8 @@ export class ShieldApiKeyStrategy implements ShieldStrategy {
 
   constructor(private readonly config: ApiKeyShieldConfigType) {}
 
-  verify = createMiddleware(async (c, next) => {
-    if (c.req.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY) return next();
+  verify = createMiddleware(async (context, next) => {
+    if (context.req.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY) return next();
 
     throw ShieldApiKeyError;
   });

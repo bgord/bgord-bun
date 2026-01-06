@@ -9,9 +9,9 @@ export const ShieldHcaptchaError = new HTTPException(403, { message: "shield.hca
 export class ShieldHcaptchaStrategy implements ShieldStrategy {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
-  verify = createMiddleware(async (c, next) => {
+  verify = createMiddleware(async (context, next) => {
     try {
-      const form = await c.req.formData();
+      const form = await context.req.formData();
       const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as string;
       const result = await hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
 

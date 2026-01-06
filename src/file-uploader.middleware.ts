@@ -21,8 +21,8 @@ export class FileUploader {
         },
       }),
 
-      createMiddleware(async (c, next) => {
-        const body = await c.req.raw.clone().formData();
+      createMiddleware(async (context, next) => {
+        const body = await context.req.raw.clone().formData();
 
         const file = body.get("file");
 

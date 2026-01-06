@@ -6,7 +6,7 @@ type Dependencies = { Sleeper: SleeperPort };
 
 export class Slower {
   static handle = (offset: tools.Duration, deps: Dependencies) =>
-    createMiddleware(async (_c, next) => {
+    createMiddleware(async (_, next) => {
       await deps.Sleeper.wait(offset);
 
       return next();

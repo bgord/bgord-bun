@@ -9,7 +9,7 @@ export const ShieldHcaptchaLocalError = new HTTPException(403, { message: "shiel
 export class ShieldHcaptchaLocalStrategy implements ShieldStrategy {
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
-  verify = createMiddleware(async (_c, next) => {
+  verify = createMiddleware(async (_, next) => {
     try {
       const result = await hcaptcha.verify(this.secretKey, "10000000-aaaa-bbbb-cccc-000000000001");
 

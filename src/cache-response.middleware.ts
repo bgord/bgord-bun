@@ -43,7 +43,7 @@ export class CacheResponse {
     return context.newResponse(result.value.body, result.value.status, result.value.headers);
   });
 
-  clear = createMiddleware(async (_c, next) => {
+  clear = createMiddleware(async (_, next) => {
     await this.deps.CacheResolver.flush();
 
     return next();

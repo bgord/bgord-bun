@@ -16,18 +16,18 @@ export class ShieldRecaptchaStrategy implements ShieldStrategy {
 
   constructor(private readonly config: RecaptchaVerifierConfigType) {}
 
-  verify = createMiddleware(async (c, next) => {
+  verify = createMiddleware(async (context, next) => {
     try {
-      const header = c.req.header("x-recaptcha-token");
-      const query = c.req.query("recaptchaToken");
-      const form = (await c.req.formData()).get("g-recaptcha-response")?.toString();
+      const header = context.req.header("x-recaptcha-token");
+      const query = context.req.query("recaptchaToken");
+      const form = (await context.req.formData()).get("g-recaptcha-response")?.toString();
 
       const token = header ?? query ?? form;
 
       if (!token) throw ShieldRecaptchaError;
 
       // cSpell:ignore remoteip
-      const remoteip = c.req.header("x-forwarded-for") ?? "";
+      const remoteip = context.req.header("x-forwarded-for") ?? "";
 
       const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
 

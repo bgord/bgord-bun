@@ -4,13 +4,13 @@ import { createMiddleware } from "hono/factory";
 export type EtagVariables = { ETag: tools.ETag | null; WeakETag: tools.WeakETag | null };
 
 export class ETagExtractor {
-  static attach = createMiddleware<{ Variables: EtagVariables }>(async (c, next) => {
+  static attach = createMiddleware<{ Variables: EtagVariables }>(async (context, next) => {
     try {
-      const header = c.req.header(tools.ETag.IF_MATCH_HEADER_NAME);
+      const header = context.req.header(tools.ETag.IF_MATCH_HEADER_NAME);
 
-      c.set("ETag", tools.ETag.fromHeader(header));
+      context.set("ETag", tools.ETag.fromHeader(header));
     } catch {
-      c.set("ETag", null);
+      context.set("ETag", null);
     }
 
     await next();

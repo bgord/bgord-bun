@@ -44,8 +44,8 @@ describe("ShieldAuthStrategy", () => {
 
   test("verify - authenticated user", async () => {
     const app = new Hono<Env>()
-      .use(async (c, next) => {
-        c.set("user", user);
+      .use(async (context, next) => {
+        context.set("user", user);
         await next();
       })
       .use(strategy.verify)
@@ -59,8 +59,8 @@ describe("ShieldAuthStrategy", () => {
 
   test("verify - guest user", async () => {
     const app = new Hono<Env>()
-      .use(async (c, next) => {
-        c.set("user", null);
+      .use(async (context, next) => {
+        context.set("user", null);
         await next();
       })
       .use(strategy.verify)
@@ -76,8 +76,8 @@ describe("ShieldAuthStrategy", () => {
 
   test("reverse - guest user", async () => {
     const app = new Hono<Env>()
-      .use(async (c, next) => {
-        c.set("user", null);
+      .use(async (context, next) => {
+        context.set("user", null);
         await next();
       })
       .use(strategy.reverse)
@@ -91,8 +91,8 @@ describe("ShieldAuthStrategy", () => {
 
   test("reverse - authenticated user", async () => {
     const app = new Hono<Env>()
-      .use(async (c, next) => {
-        c.set("user", user);
+      .use(async (context, next) => {
+        context.set("user", user);
         await next();
       })
       .use(strategy.reverse)
