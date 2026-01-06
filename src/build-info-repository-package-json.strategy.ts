@@ -1,15 +1,14 @@
 import * as tools from "@bgord/tools";
+import type { BuildInfoRepositoryPort } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 
-export type BuildInfoType = { BUILD_DATE: tools.TimestampValueType; BUILD_VERSION?: tools.PackageVersion };
-
 type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort };
 
-export class BuildInfoRepository {
+export class BuildInfoRepositoryPackageJsonStrategy implements BuildInfoRepositoryPort {
   constructor(private readonly deps: Dependencies) {}
 
-  async extract(): Promise<BuildInfoType> {
+  async extract() {
     const BUILD_DATE = this.deps.Clock.now().ms;
 
     try {

@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { BuildInfoRepository } from "../src/build-info-repository.service";
+import { BuildInfoRepositoryPackageJsonStrategy } from "../src/build-info-repository-package-json.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import * as mocks from "./mocks";
@@ -11,9 +11,9 @@ const Clock = new ClockSystemAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ version });
 const deps = { Clock, FileReaderJson };
 
-const repository = new BuildInfoRepository(deps);
+const repository = new BuildInfoRepositoryPackageJsonStrategy(deps);
 
-describe("BuildInfoRepository service", () => {
+describe("BuildInfoRepositoryPackageJsonStrategy", () => {
   test("happy path", async () => {
     const result = await repository.extract();
 

@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ApiVersion } from "../src/api-version.middleware";
-import { BuildInfoRepository as _BuildInfoRepository } from "../src/build-info-repository.service";
+import { BuildInfoRepositoryPackageJsonStrategy } from "../src/build-info-repository-package-json.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
@@ -19,7 +19,7 @@ const config = { type: "infinite" } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();
-const BuildInfoRepository = new _BuildInfoRepository({ Clock, FileReaderJson });
+const BuildInfoRepository = new BuildInfoRepositoryPackageJsonStrategy({ Clock, FileReaderJson });
 const deps = {
   Clock,
   FileReaderJson,
@@ -66,7 +66,7 @@ describe("ApiVersion middleware", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const HashContent = new HashContentSha256BunStrategy();
-    const BuildInfoRepository = new _BuildInfoRepository({ Clock, FileReaderJson });
+    const BuildInfoRepository = new BuildInfoRepositoryPackageJsonStrategy({ Clock, FileReaderJson });
     const deps = { Clock, FileReaderJson, CacheResolver, HashContent, BuildInfoRepository };
     const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
     const buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract").mockResolvedValue({

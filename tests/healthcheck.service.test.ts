@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { BuildInfoRepository as _BuildInfoRepository } from "../src/build-info-repository.service";
+import { BuildInfoRepositoryPackageJsonStrategy } from "../src/build-info-repository-package-json.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { Healthcheck } from "../src/healthcheck.service";
@@ -23,7 +23,7 @@ const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago"
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoRepository = new _BuildInfoRepository({ Clock, FileReaderJson });
+const BuildInfoRepository = new BuildInfoRepositoryPackageJsonStrategy({ Clock, FileReaderJson });
 const deps = { Clock, FileReaderJson, Logger, BuildInfoRepository };
 
 const buildInfo = { BUILD_DATE: Clock.now().ms, BUILD_VERSION: tools.PackageVersion.fromString("1.0.0") };

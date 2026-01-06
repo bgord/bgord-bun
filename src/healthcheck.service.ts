@@ -1,7 +1,7 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
-import type { BuildInfoRepository } from "./build-info-repository.service";
+import type { BuildInfoRepositoryPort } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -40,7 +40,7 @@ type HealthcheckResultType = {
   timestamp: tools.TimestampValueType;
 };
 
-type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepository };
+type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepositoryPort };
 
 export class Healthcheck {
   static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>
