@@ -2,7 +2,7 @@ import type { Hash } from "./hash.vo";
 
 export enum CacheSourceEnum {
   hit = "hit",
-  miss = "",
+  miss = "miss",
 }
 
 export interface CacheResolverStrategy {
