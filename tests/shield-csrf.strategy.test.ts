@@ -6,7 +6,7 @@ const APP_ORIGIN = "http://localhost:3000";
 const EVIL_ORIGIN = "https://evil.example";
 
 const app = new Hono()
-  .use(new ShieldCsrfStrategy({ origins: [APP_ORIGIN] }).verify)
+  .use(new ShieldCsrfStrategy({ origin: [APP_ORIGIN] }).verify)
   .get("/ping", (c) => c.text("ok"))
   .post("/action", (c) => c.text("ok"))
   .put("/action", (c) => c.text("ok"))

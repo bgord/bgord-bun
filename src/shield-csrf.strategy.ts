@@ -4,7 +4,7 @@ import type { ShieldStrategy } from "./shield.strategy";
 
 const STATE_CHANGING_METHODS = ["POST", "PUT", "PATCH", "DELETE"];
 
-export type ShieldCsrfConfigType = { origins: string[] };
+export type ShieldCsrfConfigType = { origin: string[] };
 
 export const ShieldCsrfError = new HTTPException(403, { message: "shield.csrf" });
 
@@ -17,7 +17,7 @@ export class ShieldCsrfStrategy implements ShieldStrategy {
     const origin = context.req.header("Origin");
 
     if (!origin) return next();
-    if (!this.config.origins.includes(origin)) throw ShieldCsrfError;
+    if (!this.config.origin.includes(origin)) throw ShieldCsrfError;
     return next();
   });
 }
