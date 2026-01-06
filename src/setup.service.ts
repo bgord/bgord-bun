@@ -18,10 +18,12 @@ import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-mode.middleware";
+import { type ShieldCsrfConfigType, ShieldCsrfStrategy } from "./shield-csrf.strategy";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
 
 type SetupConfigType = {
+  csrf: ShieldCsrfConfigType;
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerOptions;
   maintenanceMode?: MaintenanceModeConfigType;
@@ -44,6 +46,7 @@ export class Setup {
 
     return [
       MaintenanceMode.build(config.maintenanceMode),
+      new ShieldCsrfStrategy(config.csrf),
       secureHeaders({
         referrerPolicy: "no-referrer",
         xContentTypeOptions: "nosniff",
