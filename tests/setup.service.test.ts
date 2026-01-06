@@ -1,6 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { BuildInfoRepository as _BuildInfoRepository } from "../src/build-info-repository.service";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
@@ -37,7 +38,17 @@ const config = { type: "infinite" } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();
-const deps = { Logger, I18n, IdProvider, Clock, FileReaderJson, CacheResolver, HashContent };
+const BuildInfoRepository = new _BuildInfoRepository({ Clock, FileReaderJson });
+const deps = {
+  Logger,
+  I18n,
+  IdProvider,
+  Clock,
+  FileReaderJson,
+  CacheResolver,
+  HashContent,
+  BuildInfoRepository,
+};
 
 describe("Setup service", () => {
   test("happy path", async () => {

@@ -11,9 +11,11 @@ const Clock = new ClockSystemAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ version });
 const deps = { Clock, FileReaderJson };
 
+const repository = new BuildInfoRepository(deps);
+
 describe("BuildInfoRepository service", () => {
   test("happy path", async () => {
-    const result = await BuildInfoRepository.extract(deps);
+    const result = await repository.extract();
 
     expect(typeof result.BUILD_DATE).toEqual("number");
     expect(result.BUILD_VERSION).toBeDefined();
@@ -25,7 +27,7 @@ describe("BuildInfoRepository service", () => {
       new Error(mocks.IntentionalError),
     );
 
-    const result = await BuildInfoRepository.extract(deps);
+    const result = await repository.extract();
 
     expect(typeof result.BUILD_DATE).toEqual("number");
     expect(result.BUILD_VERSION).toEqual(undefined);

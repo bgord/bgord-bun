@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { ApiVersion } from "../src/api-version.middleware";
-import { BuildInfoRepository } from "../src/build-info-repository.service";
+import { BuildInfoRepository as _BuildInfoRepository } from "../src/build-info-repository.service";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
@@ -19,7 +19,14 @@ const config = { type: "infinite" } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();
-const deps = { Clock, FileReaderJson, CacheResolver, HashContent };
+const BuildInfoRepository = new _BuildInfoRepository({ Clock, FileReaderJson });
+const deps = {
+  Clock,
+  FileReaderJson,
+  CacheResolver,
+  HashContent,
+  BuildInfoRepository,
+};
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 
 describe("ApiVersion middleware", async () => {
@@ -30,7 +37,7 @@ describe("ApiVersion middleware", async () => {
   const subject = await resolver.resolve();
 
   test("happy path", async () => {
-    const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
+    const buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE,
       BUILD_VERSION: tools.PackageVersion.fromString("1.0.0"),
     });
@@ -59,9 +66,10 @@ describe("ApiVersion middleware", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const HashContent = new HashContentSha256BunStrategy();
-    const deps = { Clock, FileReaderJson, CacheResolver, HashContent };
+    const BuildInfoRepository = new _BuildInfoRepository({ Clock, FileReaderJson });
+    const deps = { Clock, FileReaderJson, CacheResolver, HashContent, BuildInfoRepository };
     const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
-    const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract").mockResolvedValue({
+    const buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract").mockResolvedValue({
       BUILD_DATE,
       BUILD_VERSION: undefined,
     });

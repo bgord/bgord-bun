@@ -1,10 +1,8 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
-import { BuildInfoRepository } from "./build-info-repository.service";
+import type { BuildInfoRepository } from "./build-info-repository.service";
 import type { ClockPort } from "./clock.port";
-import type { FileReaderJsonPort } from "./file-reader-json.port";
-import type { LoggerPort } from "./logger.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
@@ -42,7 +40,7 @@ type HealthcheckResultType = {
   timestamp: tools.TimestampValueType;
 };
 
-type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
+type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepository };
 
 export class Healthcheck {
   static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>
@@ -71,7 +69,7 @@ export class Healthcheck {
 
       const code = ok ? 200 : 424;
 
-      const buildInfo = await BuildInfoRepository.extract(deps);
+      const buildInfo = await deps.BuildInfoRepository.extract();
       const uptime = Uptime.get(deps.Clock);
 
       const response: HealthcheckResultType = {

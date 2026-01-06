@@ -7,11 +7,13 @@ export type BuildInfoType = { BUILD_DATE: tools.TimestampValueType; BUILD_VERSIO
 type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort };
 
 export class BuildInfoRepository {
-  static async extract(deps: Dependencies): Promise<BuildInfoType> {
-    const BUILD_DATE = deps.Clock.now().ms;
+  constructor(private readonly deps: Dependencies) {}
+
+  async extract(): Promise<BuildInfoType> {
+    const BUILD_DATE = this.deps.Clock.now().ms;
 
     try {
-      const packageJson = await deps.FileReaderJson.read("package.json");
+      const packageJson = await this.deps.FileReaderJson.read("package.json");
 
       return { BUILD_DATE, BUILD_VERSION: tools.PackageVersion.fromString(packageJson.version) };
     } catch {
