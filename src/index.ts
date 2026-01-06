@@ -21,6 +21,7 @@ export * from "./cache-subject-application-resolver.vo";
 export * from "./cache-subject-request-resolver.vo";
 export * from "./cache-subject-segment-application.strategy";
 export * from "./cache-subject-segment-cookie.strategy";
+export * from "./cache-subject-segment-env.strategy";
 export * from "./cache-subject-segment-fixed.strategy";
 export * from "./cache-subject-segment-header.strategy";
 export * from "./cache-subject-segment-ip.strategy";
