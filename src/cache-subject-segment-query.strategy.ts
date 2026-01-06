@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import type { CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
+import { CacheSubjectSegmentEmpty, type CacheSubjectSegmentStrategy } from "./cache-subject-segment.strategy";
 
 export class CacheSubjectSegmentQueryStrategy implements CacheSubjectSegmentStrategy {
   create(context?: Context) {
@@ -7,6 +7,9 @@ export class CacheSubjectSegmentQueryStrategy implements CacheSubjectSegmentStra
 
     const keys = Object.keys(query).toSorted();
 
-    return keys.map((key) => `${key}=${query[key]}`).join("&");
+    const result = keys.map((key) => `${key}=${query[key]}`).join("&");
+
+    if (!result) return CacheSubjectSegmentEmpty;
+    return result;
   }
 }
