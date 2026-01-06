@@ -16,7 +16,6 @@ export const UNINFORMATIVE_HEADERS = [
   "cookie",
   "dnt",
   "host",
-  "origin",
   "pragma",
   "sec-fetch-dest",
   "sec-fetch-mode",
