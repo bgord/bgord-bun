@@ -78,9 +78,7 @@ describe("StaticFiles service", () => {
   });
 
   test("precompressed assets", async () => {
-    const response = await routes["/public/*"]?.(
-      new Request("http://localhost/public/app.js", { headers: { "Accept-Encoding": "br" } }),
-    );
+    const response = await routes["/public/*"]?.(new Request(CSS, { headers: { "Accept-Encoding": "br" } }));
 
     expect(response?.status).toEqual(200);
     expect(response?.headers.get("content-encoding")).toEqual("br");
