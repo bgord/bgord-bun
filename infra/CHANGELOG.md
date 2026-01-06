@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-06 17:55 cd0fafa **feature: add caching to api-version**
 ## 2026-01-06 17:33 v1.8.9
 - 2026-01-06 17:33 08419e1 **1.8.9**
 - 2026-01-06 17:32 a5e0421 **feature: establish static assets secure headers**
@@ -14,6 +15,7 @@
 - 2026-01-06 16:55 21ea834 **step: add permissions policy**
 - 2026-01-06 16:50 9e2c7b0 **refactor: remove explicit STS from static documents**
 - 2026-01-06 16:44 e0bd903 **step: test ssr**
+- 2026-01-06 16:34 0ed900d **docs: generate CHANGELOG**
 - 2026-01-06 16:33 28ac747 **docs: generate CHANGELOG**
 - 2026-01-06 16:32 562cf02 **step: nonce provider deterministic**
 - 2026-01-06 16:26 1da5ddf **feature: ssr security setup**
