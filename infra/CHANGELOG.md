@@ -1,10 +1,13 @@
 # Changelog
+## 2026-01-06 16:07 v1.8.5
+- 2026-01-06 16:07 4704a44 **1.8.5**
 - 2026-01-06 16:06 8e2a113 **step: simplify precompressed tests**
 - 2026-01-06 16:04 f39ab3c **step: add static files tests**
 - 2026-01-06 15:49 c16f663 **step: add precompressed assets test**
 - 2026-01-06 15:35 824b397 **step: test static files**
 - 2026-01-06 15:29 dd55eb7 **step: add static file fixtures**
 - 2026-01-06 15:25 7de62c6 **step: make root configurable**
+- 2026-01-06 15:06 77f97ea **docs: generate CHANGELOG**
 - 2026-01-06 13:25 2530096 **feature: move static files**
 ## 2026-01-06 13:14 v1.8.4
 - 2026-01-06 13:14 8edc541 **1.8.4**
