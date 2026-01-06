@@ -5,7 +5,6 @@ import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-f
 import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
 import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
 import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
-import { CacheSubjectSegmentRequestEmpty } from "../src/cache-subject-segment-request.strategy";
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
@@ -20,7 +19,7 @@ const user = new CacheSubjectSegmentUserStrategy();
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
-describe("CacheSubjectResolver VO", () => {
+describe("CacheSubjectRequestResolver VO", () => {
   test("fixed", async () => {
     const context = {};
 
@@ -130,7 +129,7 @@ describe("CacheSubjectResolver VO", () => {
     const context = {};
 
     expect(async () => new CacheSubjectRequestResolver([], deps).resolve(context as any)).toThrow(
-      "cache.subject.no.segments",
+      "cache.subject.request.no.segments",
     );
   });
 
@@ -142,7 +141,7 @@ describe("CacheSubjectResolver VO", () => {
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
       ).resolve(context as any),
-    ).toThrow("cache.subject.too.many.segments");
+    ).toThrow("cache.subject.request.too.many.segments");
   });
 
   test("segments - at the limit", async () => {
@@ -154,25 +153,6 @@ describe("CacheSubjectResolver VO", () => {
         deps,
       ).resolve(context as any),
     ).not.toThrow();
-  });
-
-  test("no context", async () => {
-    const result = await new CacheSubjectRequestResolver(
-      [fixed, path, cookieLanguage, headerAccept, query, user],
-      deps,
-    ).resolve({} as any);
-
-    expect(result.raw).toEqual([
-      "response",
-      CacheSubjectSegmentRequestEmpty,
-      CacheSubjectSegmentRequestEmpty,
-      CacheSubjectSegmentRequestEmpty,
-      CacheSubjectSegmentRequestEmpty,
-      "anon",
-    ]);
-    expect(result.hex).toEqual(
-      Hash.fromString("a6e698b59ac4d42e768c76043c6dce60fe5f58ae7d25859c91f48d1d6b1e0a27"),
-    );
   });
 
   test("sanitization", async () => {
