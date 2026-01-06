@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-06 18:13 e1fc375 **fix: cache source enum miss value**
 ## 2026-01-06 18:03 v1.8.10
 - 2026-01-06 18:03 fb855ee **1.8.10**
 - 2026-01-06 17:55 cd0fafa **feature: add caching to api-version**
@@ -12,6 +13,7 @@
 - 2026-01-06 17:09 4baa5e6 **1.8.8**
 - 2026-01-06 17:08 eb32061 **refactor: remove explicit STS from static assets**
 - 2026-01-06 17:07 c3c6cf3 **fix: remove explicit STS for API**
+- 2026-01-06 17:03 0f62f7d **docs: generate CHANGELOG**
 - 2026-01-06 17:01 70d6540 **docs: generate CHANGELOG**
 ## 2026-01-06 16:56 v1.8.7
 - 2026-01-06 16:56 965903f **1.8.7**
