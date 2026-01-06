@@ -51,6 +51,7 @@ export class Setup {
         headerName: "x-correlation-id",
         generator: () => deps.IdProvider.generate(),
       }),
+      ApiVersion.build(deps),
       new ShieldCsrfStrategy(config.csrf).verify,
       secureHeaders({
         referrerPolicy: "no-referrer",
@@ -65,7 +66,6 @@ export class Setup {
         xFrameOptions: false,
       }),
       bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
-      ApiVersion.build(deps),
       cors({
         // Stryker disable all
         origin: (origin, c) => {
