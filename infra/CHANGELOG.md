@@ -1,4 +1,7 @@
 # Changelog
+- 2026-01-06 17:32 a5e0421 **feature: establish static assets secure headers**
+- 2026-01-06 17:31 9fdba7d **feature: establish static documents secure headers**
+- 2026-01-06 17:28 4c48d93 **feature: establish ssr secure headers**
 - 2026-01-06 17:24 2bf8297 **feature: establish api secure headers**
 ## 2026-01-06 17:09 v1.8.8
 - 2026-01-06 17:09 4baa5e6 **1.8.8**
@@ -11,6 +14,7 @@
 - 2026-01-06 16:44 e0bd903 **step: test ssr**
 - 2026-01-06 16:32 562cf02 **step: nonce provider deterministic**
 - 2026-01-06 16:26 1da5ddf **feature: ssr security setup**
+- 2026-01-06 16:24 ed52c36 **docs: generate CHANGELOG**
 ## 2026-01-06 16:11 v1.8.6
 - 2026-01-06 16:11 7ee1f2f **1.8.6**
 - 2026-01-06 16:10 e69f9ef **fix: remove tests from build**
