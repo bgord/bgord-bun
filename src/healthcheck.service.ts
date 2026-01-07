@@ -21,6 +21,7 @@ type HealthcheckResultType = {
   ok: boolean;
   deployment: {
     version: string;
+    timestamp: tools.TimestampValueType;
     environment: NodeEnvironmentEnum;
   };
   server: {
@@ -75,7 +76,7 @@ export class Healthcheck {
       const response: HealthcheckResultType = {
         ok,
         details,
-        deployment: { version: build.version.toString(), environment: Env },
+        deployment: { version: build.version.toString(), timestamp: build.timestamp.ms, environment: Env },
         server: {
           pid: process.pid,
           hostname: os.hostname(),

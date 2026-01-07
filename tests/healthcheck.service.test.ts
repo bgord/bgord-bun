@@ -52,7 +52,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: { version, environment: NodeEnvironmentEnum.production },
+      deployment: { version, timestamp: mocks.TIME_ZERO.ms, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -96,7 +96,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: { version, environment: NodeEnvironmentEnum.production },
+      deployment: { version, timestamp: mocks.TIME_ZERO.ms, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -137,7 +137,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(424);
     expect(data).toEqual({
       ok: false,
-      deployment: { version, environment: NodeEnvironmentEnum.production },
+      deployment: { version, timestamp: mocks.TIME_ZERO.ms, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,
