@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import { BUILD_INFO_REPOSITORY_FILE_PATH } from "../src/build-info-repository-file.strategy";
 import { PrerequisiteVerifierFileAdapter } from "../src/prerequisite-verifier-file.adapter";
 import * as mocks from "./mocks";
 
@@ -106,6 +107,16 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     const result = await prerequisite.verify();
 
     expect(result).toEqual(mocks.VerificationFailure({ message: "File is not executable" }));
+  });
+
+  test("integration - BUILD_INFO_REPOSITORY_FILE_PATH", async () => {
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: BUILD_INFO_REPOSITORY_FILE_PATH });
+
+    const result = await prerequisite.verify();
+
+    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(bunFile).toHaveBeenCalledWith("infra/build-info.json");
   });
 
   test("kind", () => {
