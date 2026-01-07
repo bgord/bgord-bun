@@ -69,16 +69,13 @@ export class Healthcheck {
 
       const code = ok ? 200 : 424;
 
-      const buildInfo = await deps.BuildInfoRepository.extract();
+      const build = await deps.BuildInfoRepository.extract();
       const uptime = Uptime.get(deps.Clock);
 
       const response: HealthcheckResultType = {
         ok,
         details,
-        deployment: {
-          version: buildInfo.BUILD_VERSION?.toString() ?? "unknown",
-          environment: Env,
-        },
+        deployment: { version: build.version?.toString() ?? "unknown", environment: Env },
         server: {
           pid: process.pid,
           hostname: os.hostname(),

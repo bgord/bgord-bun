@@ -17,8 +17,8 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
   test("happy path", async () => {
     const result = await repository.extract();
 
-    expect(result.BUILD_DATE.equals(mocks.TIME_ZERO)).toEqual(true);
-    expect(result.BUILD_VERSION).toEqual(tools.PackageVersion.fromString(version));
+    expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
+    expect(result.version).toEqual(tools.PackageVersion.fromString(version));
   });
 
   test("failure - package.json read", async () => {
@@ -28,8 +28,8 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
 
     const result = await repository.extract();
 
-    expect(result.BUILD_DATE.equals(mocks.TIME_ZERO)).toEqual(true);
-    expect(result.BUILD_VERSION).toEqual(undefined);
+    expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
+    expect(result.version).toEqual(undefined);
     expect(fileReaderJsonRead).toHaveBeenCalledWith("package.json");
   });
 });

@@ -8,6 +8,6 @@ export class BuildInfoRepositoryNoopStrategy implements BuildInfoRepositoryStrat
   ) {}
 
   async extract() {
-    return { BUILD_DATE: this.timestamp, BUILD_VERSION: this.version };
+    return { timestamp: this.timestamp, version: this.version };
   }
 }

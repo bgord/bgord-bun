@@ -28,7 +28,7 @@ export class ApiVersion {
       );
       context.res.headers.set(
         ApiVersion.HEADER_NAME,
-        build.BUILD_VERSION?.toString() ?? ApiVersion.DEFAULT_API_VERSION,
+        build.version?.toString() ?? ApiVersion.DEFAULT_API_VERSION,
       );
       await next();
     });
