@@ -8,7 +8,6 @@ import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strate
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import * as mocks from "./mocks";
 
