@@ -14,7 +14,7 @@ export class ShieldCsrfStrategy implements ShieldStrategy {
   verify = createMiddleware(async (context, next) => {
     if (!STATE_CHANGING_METHODS.includes(context.req.method)) return next();
 
-    const origin = context.req.header("Origin");
+    const origin = context.req.header("origin");
 
     if (!origin) return next();
     if (!this.config.origin.includes(origin)) throw ShieldCsrfError;

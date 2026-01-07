@@ -54,16 +54,11 @@ describe("ApiVersion middleware", async () => {
   });
 
   test("unknown version", async () => {
-    const config = { type: "infinite" } as const;
-    const Clock = new ClockSystemAdapter();
-    const FileReaderJson = new FileReaderJsonNoopAdapter({});
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const HashContent = new HashContentSha256BunStrategy();
     const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(mocks.TIME_ZERO);
-    const deps = { Clock, FileReaderJson, CacheResolver, HashContent, BuildInfoRepository };
-    const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
-    const buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract");
+    const app = new Hono()
+      .use(ApiVersion.build({ ...deps, BuildInfoRepository }))
+      .get("/ping", (c) => c.text("OK"));
+    const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract");
     const getSpy = spyOn(CacheRepository, "get");
 
     const first = await app.request("/ping", { method: "GET" });

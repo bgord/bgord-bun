@@ -17,7 +17,7 @@ export class TimeoutCancellableRunnerBare implements TimeoutCancellableRunnerPor
       }, timeout.ms);
 
       // Promise.resolve.then used to prevent the initial action(controller.signal) call
-      // from throwing before the resulting work-promise is run by promise.then.
+      // from throwing before the resulting promise is run by Promise.then.
       const promise: Promise<T> = Promise.resolve().then(() => action(controller.signal));
 
       promise.then(

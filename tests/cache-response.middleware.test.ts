@@ -14,9 +14,7 @@ import type * as mocks from "./mocks";
 
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 

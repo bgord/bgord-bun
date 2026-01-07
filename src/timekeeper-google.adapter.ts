@@ -7,7 +7,6 @@ export class TimekeeperGoogleAdapter implements TimekeeperPort {
   async get() {
     try {
       const response = await fetch(TimekeeperGoogleAdapter.URL);
-
       const date = response.headers.get("Date");
 
       if (!date) return null;
