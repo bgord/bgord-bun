@@ -12,3 +12,7 @@ step_end "Directory clear"
 step_start "Package build"
 bunx tsc --build
 step_end "Package build"
+
+step_start "Guards"
+check_if_directory_does_not_exist "$OUTPUT_DIRECTORY/tests"
+step_end "Guards"
