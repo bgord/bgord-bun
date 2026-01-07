@@ -16,12 +16,4 @@ describe("BuildInfoRepositoryNoopStrategy", () => {
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
     expect(result.version).toEqual(tools.PackageVersion.fromString(version));
   });
-
-  test("no version", async () => {
-    const repository = new BuildInfoRepositoryNoopStrategy(mocks.TIME_ZERO);
-    const result = await repository.extract();
-
-    expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
-    expect(result.version).toEqual(undefined);
-  });
 });

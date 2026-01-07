@@ -4,7 +4,7 @@ import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strate
 export class BuildInfoRepositoryNoopStrategy implements BuildInfoRepositoryStrategy {
   constructor(
     private readonly timestamp: tools.Timestamp,
-    private readonly version?: tools.PackageVersion,
+    private readonly version: tools.PackageVersion,
   ) {}
 
   async extract() {

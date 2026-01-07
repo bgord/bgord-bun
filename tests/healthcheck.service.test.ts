@@ -26,7 +26,6 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
   tools.PackageVersion.fromString(version),
 );
-const BuildInfoRepositoryEmpty = new BuildInfoRepositoryNoopStrategy(mocks.TIME_ZERO);
 const deps = { Clock, Logger, BuildInfoRepository };
 
 describe("Healthcheck service", () => {
@@ -125,10 +124,11 @@ describe("Healthcheck service", () => {
     spyOn(Uptime, "get").mockReturnValue(uptime);
     const app = new Hono().get(
       "/health",
-      ...Healthcheck.build(NodeEnvironmentEnum.production, [mocks.PrerequisiteOk, mocks.PrerequisiteFail], {
-        ...deps,
-        BuildInfoRepository: BuildInfoRepositoryEmpty,
-      }),
+      ...Healthcheck.build(
+        NodeEnvironmentEnum.production,
+        [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+        deps,
+      ),
     );
 
     const response = await app.request("/health");
@@ -137,7 +137,7 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(424);
     expect(data).toEqual({
       ok: false,
-      deployment: { version: "unknown", environment: NodeEnvironmentEnum.production },
+      deployment: { version, environment: NodeEnvironmentEnum.production },
       server: {
         pid: expect.any(Number),
         hostname,

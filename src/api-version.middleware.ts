@@ -13,7 +13,6 @@ type Dependencies = {
 
 export class ApiVersion {
   static readonly HEADER_NAME = "api-version";
-  static readonly DEFAULT_API_VERSION = "unknown";
 
   static build = (deps: Dependencies) =>
     createMiddleware(async (context, next) => {
@@ -26,10 +25,7 @@ export class ApiVersion {
       const build = await deps.CacheResolver.resolve(subject.hex, async () =>
         deps.BuildInfoRepository.extract(),
       );
-      context.res.headers.set(
-        ApiVersion.HEADER_NAME,
-        build.version?.toString() ?? ApiVersion.DEFAULT_API_VERSION,
-      );
+      context.res.headers.set(ApiVersion.HEADER_NAME, build.version.toString());
       await next();
     });
 }

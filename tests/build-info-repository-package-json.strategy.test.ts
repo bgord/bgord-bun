@@ -29,7 +29,7 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
     const result = await repository.extract();
 
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
-    expect(result.version).toEqual(undefined);
+    expect(result.version.equals(tools.PackageVersion.fromString("0.0.0"))).toEqual(true);
     expect(fileReaderJsonRead).toHaveBeenCalledWith("package.json");
   });
 });

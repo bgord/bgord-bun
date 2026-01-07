@@ -51,28 +51,4 @@ describe("ApiVersion middleware", async () => {
 
     await CacheRepository.flush();
   });
-
-  test("unknown version", async () => {
-    const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(mocks.TIME_ZERO);
-    const app = new Hono()
-      .use(ApiVersion.build({ ...deps, BuildInfoRepository }))
-      .get("/ping", (c) => c.text("OK"));
-    const buildInfoRepositoryExtract = spyOn(BuildInfoRepository, "extract");
-    const getSpy = spyOn(CacheRepository, "get");
-
-    const first = await app.request("/ping", { method: "GET" });
-
-    expect(first.status).toEqual(200);
-    expect(first.headers.get(ApiVersion.HEADER_NAME)).toEqual(ApiVersion.DEFAULT_API_VERSION);
-    expect(getSpy).toHaveBeenCalledWith(subject.hex);
-
-    const second = await app.request("/ping", { method: "GET" });
-
-    expect(second.status).toEqual(200);
-    expect(second.headers.get(ApiVersion.HEADER_NAME)).toEqual("unknown");
-    expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
-    expect(getSpy).toHaveBeenCalledWith(subject.hex);
-
-    await CacheRepository.flush();
-  });
 });

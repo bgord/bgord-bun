@@ -16,7 +16,7 @@ export class BuildInfoRepositoryPackageJsonStrategy implements BuildInfoReposito
 
       return { timestamp, version: tools.PackageVersion.fromString(packageJson.version) };
     } catch {
-      return { timestamp };
+      return { timestamp, version: tools.PackageVersion.fromString("0.0.0") };
     }
   }
 }

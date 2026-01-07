@@ -75,7 +75,7 @@ export class Healthcheck {
       const response: HealthcheckResultType = {
         ok,
         details,
-        deployment: { version: build.version?.toString() ?? "unknown", environment: Env },
+        deployment: { version: build.version.toString(), environment: Env },
         server: {
           pid: process.pid,
           hostname: os.hostname(),
