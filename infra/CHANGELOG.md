@@ -1,4 +1,6 @@
 # Changelog
+- 2026-01-07 16:07 ecc6ce7 **step: add prereq file integration testcase**
+- 2026-01-07 16:05 71bef8e **fix: adjust build info file path**
 ## 2026-01-07 15:58 v1.8.13
 - 2026-01-07 15:58 e4fb35d **1.8.13**
 - 2026-01-07 15:43 e5cc175 **feature: build info repo file**
@@ -6,6 +8,7 @@
 - 2026-01-07 15:09 3ff5ded **step: add commit sha vo**
 - 2026-01-07 15:05 c04678f **step: add commit sha value vo**
 - 2026-01-07 15:02 6ca89dc **step: include build timestamp in healthcheck**
+- 2026-01-07 14:58 c0c1dc3 **docs: generate CHANGELOG**
 - 2026-01-07 14:57 b3c5b3e **step: make version required**
 - 2026-01-07 14:54 396075d **step: update packages**
 - 2026-01-07 14:46 f9f1ae4 **docs: generate CHANGELOG**
