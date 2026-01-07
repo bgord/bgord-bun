@@ -9,6 +9,7 @@ export * from "./better-auth-logger.service";
 export * from "./binary.vo";
 export * from "./bots.vo";
 export * from "./build-info-repository.strategy";
+export * from "./build-info-repository-file.strategy";
 export * from "./build-info-repository-noop.strategy";
 export * from "./build-info-repository-package-json.strategy";
 export * from "./cache-file.service";
