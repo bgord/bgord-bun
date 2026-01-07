@@ -33,7 +33,7 @@ describe("BuildInfoRepositoryFileStrategy", () => {
     );
 
     expect(async () => repository.extract()).toThrow(mocks.IntentionalError);
-    expect(fileReaderJsonRead).toHaveBeenCalledWith("build-info.json");
+    expect(fileReaderJsonRead).toHaveBeenCalledWith("infra/build-info.json");
   });
 
   test("failure - invalid version", async () => {
