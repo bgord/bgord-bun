@@ -1,4 +1,14 @@
 # Changelog
+- 2026-01-07 00:58 9ff9504 **fix: api version tests**
+- 2026-01-07 00:57 2a0edd6 **refactor: use noop build in healthcheck tests**
+- 2026-01-07 00:54 60ddc70 **refactor: use noop build in api version tests**
+- 2026-01-07 00:52 233fabf **refactor: use noop build in setup tests**
+- 2026-01-07 00:50 f27d7c9 **step: unify to equal in tests**
+- 2026-01-07 00:45 217143d **refactor: mimick empty version in noop**
+- 2026-01-07 00:43 9bd141f **refactor: return timestamp in build info repo**
+- 2026-01-07 00:34 4473bce **feature: add noop build info repo**
+- 2026-01-07 00:29 38679aa **refactor: make build info a strategy**
+- 2026-01-07 00:23 07f154e **refactor: make setup params order correct**
 - 2026-01-06 23:56 b65a1e5 **refactor: unify cqrs config**
 ## 2026-01-06 23:40 v1.8.11
 - 2026-01-06 23:40 1d59009 **1.8.11**
@@ -9,6 +19,7 @@
 - 2026-01-06 23:09 425a46e **feature: add env segment**
 - 2026-01-06 23:03 1c044ec **fix: request segment  mutant**
 - 2026-01-06 23:02 ecd9206 **fix: nonce provider crypto mutant**
+- 2026-01-06 22:56 e734936 **docs: generate CHANGELOG**
 - 2026-01-06 22:46 8053ca2 **step: test cache subject application resolver**
 - 2026-01-06 22:41 1a97656 **fix: tests**
 - 2026-01-06 22:40 5df363b **docs: generate CHANGELOG**
