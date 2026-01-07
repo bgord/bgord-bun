@@ -1,4 +1,8 @@
 # Changelog
+## 2026-01-07 09:42 v1.8.12
+- 2026-01-07 09:42 ee86645 **1.8.12**
+- 2026-01-07 08:41 faa74be **docs: generate readme**
+- 2026-01-07 08:41 18f16ce **docs: generate CHANGELOG**
 - 2026-01-07 00:58 9ff9504 **fix: api version tests**
 - 2026-01-07 00:57 2a0edd6 **refactor: use noop build in healthcheck tests**
 - 2026-01-07 00:54 60ddc70 **refactor: use noop build in api version tests**
