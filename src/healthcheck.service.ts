@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
+import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
@@ -22,6 +23,7 @@ type HealthcheckResultType = {
   deployment: {
     version: string;
     timestamp: tools.TimestampValueType;
+    sha: CommitShaValueType;
     environment: NodeEnvironmentEnum;
   };
   server: {
@@ -76,7 +78,12 @@ export class Healthcheck {
       const response: HealthcheckResultType = {
         ok,
         details,
-        deployment: { version: build.version.toString(), timestamp: build.timestamp.ms, environment: Env },
+        deployment: {
+          version: build.version.toString(),
+          timestamp: build.timestamp.ms,
+          sha: build.sha.toString(),
+          environment: Env,
+        },
         server: {
           pid: process.pid,
           hostname: os.hostname(),

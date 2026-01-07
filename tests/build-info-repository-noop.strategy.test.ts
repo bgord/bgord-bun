@@ -10,6 +10,7 @@ describe("BuildInfoRepositoryNoopStrategy", () => {
     const repository = new BuildInfoRepositoryNoopStrategy(
       mocks.TIME_ZERO,
       tools.PackageVersion.fromString(version),
+      mocks.SHA,
     );
     const result = await repository.extract();
 

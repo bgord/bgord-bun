@@ -5,6 +5,7 @@ import type { Context } from "hono";
 import * as winston from "winston";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
+import { CommitSha } from "../src/commit-sha.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type { ErrorInfo } from "../src/logger.port";
@@ -68,6 +69,8 @@ export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
 export const TIME_ZERO_DATE = "2023-11-14";
 
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
+
+export const SHA = CommitSha.fromString("a".repeat(40));
 
 export const VerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
 export const VerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };

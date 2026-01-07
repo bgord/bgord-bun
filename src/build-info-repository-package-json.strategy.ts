@@ -1,6 +1,7 @@
 import * as tools from "@bgord/tools";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
+import { CommitSha } from "./commit-sha.vo";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 
 type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort };
@@ -10,13 +11,14 @@ export class BuildInfoRepositoryPackageJsonStrategy implements BuildInfoReposito
 
   async extract() {
     const timestamp = this.deps.Clock.now();
+    const sha = CommitSha.fromString("a".repeat(40));
 
     try {
       const packageJson = await this.deps.FileReaderJson.read("package.json");
 
-      return { timestamp, version: tools.PackageVersion.fromString(packageJson.version) };
+      return { timestamp, version: tools.PackageVersion.fromString(packageJson.version), sha };
     } catch {
-      return { timestamp, version: tools.PackageVersion.fromString("0.0.0") };
+      return { timestamp, version: tools.PackageVersion.fromString("0.0.0"), sha };
     }
   }
 }

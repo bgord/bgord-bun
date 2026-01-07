@@ -25,6 +25,7 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
   tools.PackageVersion.fromString(version),
+  mocks.SHA,
 );
 const deps = { Clock, Logger, BuildInfoRepository };
 
@@ -52,7 +53,12 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: { version, timestamp: mocks.TIME_ZERO.ms, environment: NodeEnvironmentEnum.production },
+      deployment: {
+        version,
+        timestamp: mocks.TIME_ZERO.ms,
+        sha: mocks.SHA.toString(),
+        environment: NodeEnvironmentEnum.production,
+      },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -96,7 +102,12 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(200);
     expect(data).toEqual({
       ok: true,
-      deployment: { version, timestamp: mocks.TIME_ZERO.ms, environment: NodeEnvironmentEnum.production },
+      deployment: {
+        version,
+        timestamp: mocks.TIME_ZERO.ms,
+        sha: mocks.SHA.toString(),
+        environment: NodeEnvironmentEnum.production,
+      },
       server: {
         pid: expect.any(Number),
         hostname,
@@ -137,7 +148,12 @@ describe("Healthcheck service", () => {
     expect(response.status).toEqual(424);
     expect(data).toEqual({
       ok: false,
-      deployment: { version, timestamp: mocks.TIME_ZERO.ms, environment: NodeEnvironmentEnum.production },
+      deployment: {
+        version,
+        timestamp: mocks.TIME_ZERO.ms,
+        sha: mocks.SHA.toString(),
+        environment: NodeEnvironmentEnum.production,
+      },
       server: {
         pid: expect.any(Number),
         hostname,

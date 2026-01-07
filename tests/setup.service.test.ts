@@ -39,6 +39,7 @@ const HashContent = new HashContentSha256BunStrategy();
 const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
   tools.PackageVersion.fromString(version),
+  mocks.SHA,
 );
 const deps = {
   Logger,
