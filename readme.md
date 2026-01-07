@@ -34,7 +34,9 @@ src/
 ├── better-auth-logger.service.ts
 ├── binary.vo.ts
 ├── bots.vo.ts
-├── build-info-repository.service.ts
+├── build-info-repository-noop.strategy.ts
+├── build-info-repository-package-json.strategy.ts
+├── build-info-repository.strategy.ts
 ├── cache-file.service.ts
 ├── cache-repository-lru-cache.adapter.ts
 ├── cache-repository-node-cache.adapter.ts
