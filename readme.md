@@ -34,6 +34,7 @@ src/
 ├── better-auth-logger.service.ts
 ├── binary.vo.ts
 ├── bots.vo.ts
+├── build-info-repository-file.strategy.ts
 ├── build-info-repository-noop.strategy.ts
 ├── build-info-repository-package-json.strategy.ts
 ├── build-info-repository.strategy.ts
@@ -73,6 +74,8 @@ src/
 ├── command-envelope.ts
 ├── command-logger.service.ts
 ├── command.types.ts
+├── commit-sha-value.vo.ts
+├── commit-sha.vo.ts
 ├── context.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
@@ -246,6 +249,7 @@ src/
 ├── nonce-value.vo.ts
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator.port.ts
+├── ping.service.ts
 ├── port.vo.ts
 ├── prerequisite-runner-startup.service.ts
 ├── prerequisite-verifier-binary.adapter.ts
