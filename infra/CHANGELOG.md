@@ -1,6 +1,18 @@
 # Changelog
+- 2026-01-07 15:43 e5cc175 **feature: build info repo file**
+- 2026-01-07 15:20 34add29 **step: include sha in build info**
+- 2026-01-07 15:09 3ff5ded **step: add commit sha vo**
+- 2026-01-07 15:05 c04678f **step: add commit sha value vo**
+- 2026-01-07 15:02 6ca89dc **step: include build timestamp in healthcheck**
+- 2026-01-07 14:57 b3c5b3e **step: make version required**
+- 2026-01-07 14:54 396075d **step: update packages**
+- 2026-01-07 13:38 9ed2af9 **refactor: rename build info repository fields**
+- 2026-01-07 13:30 9010fc2 **feature: ping service**
+- 2026-01-07 10:09 033d9a9 **refactor: improve formatting**
+- 2026-01-07 09:45 8a3502d **refactor: change port to strategy**
 ## 2026-01-07 09:42 v1.8.12
 - 2026-01-07 09:42 ee86645 **1.8.12**
+- 2026-01-07 08:42 081bcb0 **docs: generate CHANGELOG**
 - 2026-01-07 08:41 faa74be **docs: generate readme**
 - 2026-01-07 08:41 18f16ce **docs: generate CHANGELOG**
 - 2026-01-07 00:58 9ff9504 **fix: api version tests**
