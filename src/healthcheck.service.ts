@@ -23,6 +23,7 @@ type HealthcheckResultType = {
   deployment: {
     version: string;
     timestamp: tools.TimestampValueType;
+    date: string;
     sha: CommitShaValueType;
     environment: NodeEnvironmentEnum;
   };
@@ -81,6 +82,7 @@ export class Healthcheck {
         deployment: {
           version: build.version.toString(),
           timestamp: build.timestamp.ms,
+          date: new Date(build.timestamp.ms).toISOString(),
           sha: build.sha.toString(),
           environment: Env,
         },

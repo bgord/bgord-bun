@@ -56,6 +56,7 @@ describe("Healthcheck service", () => {
       deployment: {
         version,
         timestamp: mocks.TIME_ZERO.ms,
+        date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
         environment: NodeEnvironmentEnum.production,
       },
@@ -105,6 +106,7 @@ describe("Healthcheck service", () => {
       deployment: {
         version,
         timestamp: mocks.TIME_ZERO.ms,
+        date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
         environment: NodeEnvironmentEnum.production,
       },
@@ -151,6 +153,7 @@ describe("Healthcheck service", () => {
       deployment: {
         version,
         timestamp: mocks.TIME_ZERO.ms,
+        date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
         environment: NodeEnvironmentEnum.production,
       },

@@ -68,6 +68,8 @@ export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
 
 export const TIME_ZERO_DATE = "2023-11-14";
 
+export const TIME_ZERO_ISO = "2023-11-14T22:13:20.000Z";
+
 export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
 export const SHA = CommitSha.fromString("a".repeat(40));
