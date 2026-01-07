@@ -47,6 +47,7 @@ export * from "./clock-system.adapter";
 export * from "./command.types";
 export * from "./command-envelope";
 export * from "./command-logger.service";
+export * from "./commit-sha.vo";
 export * from "./commit-sha-value.vo";
 export * from "./context.middleware";
 export * from "./correlation-id.vo";
