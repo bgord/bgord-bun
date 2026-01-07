@@ -1,11 +1,11 @@
 import * as tools from "@bgord/tools";
-import type { BuildInfoRepositoryPort } from "./build-info-repository.strategy";
+import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 
 type Dependencies = { Clock: ClockPort; FileReaderJson: FileReaderJsonPort };
 
-export class BuildInfoRepositoryPackageJsonStrategy implements BuildInfoRepositoryPort {
+export class BuildInfoRepositoryPackageJsonStrategy implements BuildInfoRepositoryStrategy {
   constructor(private readonly deps: Dependencies) {}
 
   async extract() {

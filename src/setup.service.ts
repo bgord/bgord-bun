@@ -6,7 +6,7 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { ApiVersion } from "./api-version.middleware";
-import type { BuildInfoRepositoryPort } from "./build-info-repository.strategy";
+import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
@@ -37,7 +37,7 @@ type Dependencies = {
   Clock: ClockPort;
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
-  BuildInfoRepository: BuildInfoRepositoryPort;
+  BuildInfoRepository: BuildInfoRepositoryStrategy;
 };
 
 export class Setup {

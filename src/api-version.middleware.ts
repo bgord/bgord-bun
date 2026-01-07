@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import type { BuildInfoRepositoryPort } from "./build-info-repository.strategy";
+import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
@@ -8,7 +8,7 @@ import type { HashContentStrategy } from "./hash-content.strategy";
 type Dependencies = {
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
-  BuildInfoRepository: BuildInfoRepositoryPort;
+  BuildInfoRepository: BuildInfoRepositoryStrategy;
 };
 
 export class ApiVersion {
