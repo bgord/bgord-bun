@@ -25,6 +25,7 @@ export const UNINFORMATIVE_HEADERS = [
   "upgrade-insecure-requests",
   "user-agent",
   "if-none-match",
+  "priority",
 ];
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
