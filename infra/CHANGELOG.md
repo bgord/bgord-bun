@@ -1,5 +1,7 @@
 # Changelog
+- 2026-01-12 22:43 dd0f5b4 **step: update packages**
 - 2026-01-12 22:38 f77b389 **step: update packages**
+- 2026-01-12 21:41 15f6e46 **docs: generate CHANGELOG**
 - 2026-01-08 19:44 ffc27f2 **step: add priority header to be skipped in http logger**
 - 2026-01-07 16:52 17e3ebb **step: add build guard**
 - 2026-01-07 16:44 72c43c4 **step: add iso date to build**
