@@ -1,4 +1,6 @@
 # Changelog
+- 2026-01-12 22:38 f77b389 **step: update packages**
+- 2026-01-08 19:44 ffc27f2 **step: add priority header to be skipped in http logger**
 - 2026-01-07 16:52 17e3ebb **step: add build guard**
 - 2026-01-07 16:44 72c43c4 **step: add iso date to build**
 ## 2026-01-07 16:08 v1.8.14
@@ -7,6 +9,7 @@
 - 2026-01-07 16:05 71bef8e **fix: adjust build info file path**
 ## 2026-01-07 15:58 v1.8.13
 - 2026-01-07 15:58 e4fb35d **1.8.13**
+- 2026-01-07 15:53 24d2cdb **docs: generate CHANGELOG**
 - 2026-01-07 15:43 e5cc175 **feature: build info repo file**
 - 2026-01-07 15:20 34add29 **step: include sha in build info**
 - 2026-01-07 15:09 3ff5ded **step: add commit sha vo**
