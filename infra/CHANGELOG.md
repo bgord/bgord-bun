@@ -1,8 +1,10 @@
 # Changelog
+- 2026-01-14 13:32 785691d **step: update packages**
 ## 2026-01-12 22:44 v1.8.15
 - 2026-01-12 22:44 83e8219 **1.8.15**
 - 2026-01-12 22:43 dd0f5b4 **step: update packages**
 - 2026-01-12 22:38 f77b389 **step: update packages**
+- 2026-01-12 21:44 267860a **docs: generate CHANGELOG**
 - 2026-01-12 21:43 1371562 **docs: generate CHANGELOG**
 - 2026-01-12 21:41 15f6e46 **docs: generate CHANGELOG**
 - 2026-01-08 19:44 ffc27f2 **step: add priority header to be skipped in http logger**
