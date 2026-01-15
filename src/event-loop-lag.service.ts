@@ -24,4 +24,9 @@ export class EventLoopLag {
       p99: tools.Duration.Ns(EventLoopLag.histogram.percentile(99)),
     };
   }
+
+  /** @internal TEST ONLY */
+  static _resetForTest(): void {
+    EventLoopLag.histogram = null;
+  }
 }
