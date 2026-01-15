@@ -21,8 +21,7 @@ describe("BuildInfoRepositoryFileStrategy", () => {
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
     expect(result.version.equals(tools.PackageVersion.fromString(version))).toEqual(true);
     expect(result.sha.equals(mocks.SHA)).toEqual(true);
-    // TODO
-    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(0));
+    expect(result.size.equals(size)).toEqual(true);
   });
 
   test("failure - file read", async () => {

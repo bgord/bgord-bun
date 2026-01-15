@@ -4,6 +4,7 @@ import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-no
 import * as mocks from "./mocks";
 
 const version = "1.2.3";
+const size = tools.Size.fromBytes(0);
 
 describe("BuildInfoRepositoryNoopStrategy", () => {
   test("happy path", async () => {
@@ -11,14 +12,13 @@ describe("BuildInfoRepositoryNoopStrategy", () => {
       mocks.TIME_ZERO,
       tools.PackageVersion.fromString(version),
       mocks.SHA,
-      tools.Size.fromBytes(0),
+      size,
     );
     const result = await repository.extract();
 
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
     expect(result.version).toEqual(tools.PackageVersion.fromString(version));
     expect(result.sha.equals(mocks.SHA)).toEqual(true);
-    // TODO
-    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(0));
+    expect(result.size.equals(size)).toEqual(true);
   });
 });
