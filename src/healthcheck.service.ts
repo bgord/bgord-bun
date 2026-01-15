@@ -42,7 +42,7 @@ type HealthcheckResultType = {
         total: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
       };
     };
-    eventLoop: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
+    eventLoop: { lag: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType } };
   };
   details: {
     label: PrerequisiteLabelType;
@@ -117,7 +117,7 @@ export class Healthcheck {
               },
             },
           },
-          eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
+          eventLoop: { lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms } },
         },
         durationMs: stopwatch.stop().ms,
         timestamp: deps.Clock.now().ms,

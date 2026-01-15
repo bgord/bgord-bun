@@ -86,7 +86,7 @@ describe("Healthcheck service", () => {
             total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
           },
         },
-        eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
+        eventLoop: { lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms } },
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -142,7 +142,7 @@ describe("Healthcheck service", () => {
             total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
           },
         },
-        eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
+        eventLoop: { lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms } },
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -195,7 +195,7 @@ describe("Healthcheck service", () => {
             total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
           },
         },
-        eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
+        eventLoop: { lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms } },
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
