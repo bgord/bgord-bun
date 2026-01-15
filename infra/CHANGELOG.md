@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-15 15:34 v1.8.17
+- 2026-01-15 15:34 ecf00ab **1.8.17**
 - 2026-01-15 15:33 1be6094 **refactor: use new size methods**
 - 2026-01-15 15:30 423e9fd **step: update packages**
 - 2026-01-15 14:55 d4aee38 **step: add deployment size to healthcheck**
@@ -7,6 +9,7 @@
 - 2026-01-15 14:47 90c87cf **step: adjust package-json tests**
 - 2026-01-15 14:47 76f3eeb **step: adjust noop tests**
 - 2026-01-15 14:41 c8f171a **feature: add size to build info repo**
+- 2026-01-15 14:33 56cfe89 **docs: generate CHANGELOG**
 ## 2026-01-14 13:43 v1.8.16
 - 2026-01-14 13:43 3d30207 **1.8.16**
 - 2026-01-14 13:42 1f1104f **step: update packages**
