@@ -19,6 +19,9 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
 
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
     expect(result.version).toEqual(tools.PackageVersion.fromString(version));
+    expect(result.sha.equals(mocks.SHA)).toEqual(true);
+    // TODO
+    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(0));
   });
 
   test("failure - package.json read", async () => {
@@ -31,5 +34,8 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
     expect(result.version.equals(tools.PackageVersion.fromString("0.0.0"))).toEqual(true);
     expect(fileReaderJsonRead).toHaveBeenCalledWith("package.json");
+    expect(result.sha.equals(mocks.SHA)).toEqual(true);
+    // TODO
+    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(0));
   });
 });
