@@ -35,7 +35,13 @@ type HealthcheckResultType = {
     cpus: number;
     startup: tools.TimestampValueType;
     uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
-    memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
+    memory: {
+      total: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
+      heap: {
+        used: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
+        total: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
+      };
+    };
     eventLoop: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
   };
   details: {
@@ -79,6 +85,7 @@ export class Healthcheck {
       const build = await deps.BuildInfoRepository.extract();
       const uptime = Uptime.get(deps.Clock);
       const histogram = EventLoopLag.snapshot();
+      const memory = MemoryConsumption.snapshot();
 
       const response: HealthcheckResultType = {
         ok,
@@ -98,8 +105,17 @@ export class Healthcheck {
           startup: deps.Clock.now().subtract(uptime.duration).ms,
           uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
           memory: {
-            bytes: MemoryConsumption.get().toBytes(),
-            formatted: MemoryConsumption.get().format(tools.Size.unit.MB),
+            total: { bytes: memory.total.toBytes(), formatted: memory.total.format(tools.Size.unit.MB) },
+            heap: {
+              used: {
+                bytes: memory.heap.used.toBytes(),
+                formatted: memory.heap.used.format(tools.Size.unit.MB),
+              },
+              total: {
+                bytes: memory.heap.total.toBytes(),
+                formatted: memory.heap.total.format(tools.Size.unit.MB),
+              },
+            },
           },
           eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
         },

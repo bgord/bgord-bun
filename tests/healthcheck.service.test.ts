@@ -18,7 +18,10 @@ import * as mocks from "./mocks";
 const version = "1.2.3";
 const hostname = "macbook";
 const cpus = ["abc"];
-const memoryConsumption = tools.Size.fromBytes(12345678);
+const memory = {
+  total: tools.Size.fromMB(3),
+  heap: { used: tools.Size.fromMB(1), total: tools.Size.fromMB(2) },
+};
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 const histogram: EventLoopLagSnapshotType = {
   p50: tools.Duration.Ms(1),
@@ -40,7 +43,7 @@ describe("Healthcheck service", () => {
   test("200", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
+    spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
 
@@ -77,8 +80,11 @@ describe("Healthcheck service", () => {
         startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
-          bytes: memoryConsumption.toBytes(),
-          formatted: memoryConsumption.format(tools.Size.unit.MB),
+          total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
+          heap: {
+            used: { bytes: memory.heap.used.toBytes(), formatted: "1 MB" },
+            total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
+          },
         },
         eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
       },
@@ -94,7 +100,7 @@ describe("Healthcheck service", () => {
   test("200 - ignores port prerequisite", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
+    spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
     const app = new Hono().get(
@@ -130,8 +136,11 @@ describe("Healthcheck service", () => {
         startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
-          bytes: memoryConsumption.toBytes(),
-          formatted: memoryConsumption.format(tools.Size.unit.MB),
+          total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
+          heap: {
+            used: { bytes: memory.heap.used.toBytes(), formatted: "1 MB" },
+            total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
+          },
         },
         eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
       },
@@ -147,7 +156,7 @@ describe("Healthcheck service", () => {
   test("424", async () => {
     spyOn(os, "cpus").mockReturnValue(cpus as any);
     spyOn(os, "hostname").mockReturnValue(hostname);
-    spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
+    spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
     spyOn(Uptime, "get").mockReturnValue(uptime);
     spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
     const app = new Hono().get(
@@ -180,8 +189,11 @@ describe("Healthcheck service", () => {
         startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
-          bytes: memoryConsumption.toBytes(),
-          formatted: memoryConsumption.format(tools.Size.unit.MB),
+          total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
+          heap: {
+            used: { bytes: memory.heap.used.toBytes(), formatted: "1 MB" },
+            total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
+          },
         },
         eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
       },
