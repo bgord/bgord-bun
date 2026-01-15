@@ -22,6 +22,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
   tools.PackageVersion.fromString(version),
   mocks.SHA,
+  tools.Size.fromBytes(0),
 );
 const deps = { Clock, CacheResolver, HashContent, BuildInfoRepository };
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));

@@ -40,6 +40,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
   tools.PackageVersion.fromString(version),
   mocks.SHA,
+  tools.Size.fromBytes(0),
 );
 const deps = {
   Logger,
