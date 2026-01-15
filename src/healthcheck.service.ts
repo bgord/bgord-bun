@@ -5,6 +5,7 @@ import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strate
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { EventLoopLag } from "./event-loop-lag.service";
+import { EventLoopUtilization, type EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
@@ -42,7 +43,10 @@ type HealthcheckResultType = {
         total: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
       };
     };
-    eventLoop: { lag: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType } };
+    eventLoop: {
+      lag: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
+      utilization: EventLoopUtilizationSnapshot;
+    };
   };
   details: {
     label: PrerequisiteLabelType;
@@ -117,7 +121,10 @@ export class Healthcheck {
               },
             },
           },
-          eventLoop: { lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms } },
+          eventLoop: {
+            lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
+            utilization: EventLoopUtilization.snapshot(),
+          },
         },
         durationMs: stopwatch.stop().ms,
         timestamp: deps.Clock.now().ms,
