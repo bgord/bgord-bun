@@ -1,4 +1,12 @@
 # Changelog
+- 2026-01-15 22:09 c8e67cb **step: add strip internal tsconfig option**
+- 2026-01-15 22:08 22aa5ec **step: mark the reset for test method properly as internal**
+- 2026-01-15 21:58 3b52b10 **step: add event loop lag snapshot to healthcheck**
+- 2026-01-15 21:51 289a455 **step: improve event loop lag tests**
+- 2026-01-15 21:50 0b25ed3 **step: add internal test only method**
+- 2026-01-15 21:29 580e3a9 **step: add testsl**
+- 2026-01-15 21:03 c748ee9 **feature: add event loop lag**
+- 2026-01-15 21:03 1b41e26 **step: update packages**
 ## 2026-01-15 15:34 v1.8.17
 - 2026-01-15 15:34 ecf00ab **1.8.17**
 - 2026-01-15 15:33 1be6094 **refactor: use new size methods**
@@ -9,6 +17,7 @@
 - 2026-01-15 14:47 90c87cf **step: adjust package-json tests**
 - 2026-01-15 14:47 76f3eeb **step: adjust noop tests**
 - 2026-01-15 14:41 c8f171a **feature: add size to build info repo**
+- 2026-01-15 14:34 75b5407 **docs: generate CHANGELOG**
 - 2026-01-15 14:33 56cfe89 **docs: generate CHANGELOG**
 ## 2026-01-14 13:43 v1.8.16
 - 2026-01-14 13:43 3d30207 **1.8.16**
