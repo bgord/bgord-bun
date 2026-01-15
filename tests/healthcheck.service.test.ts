@@ -59,6 +59,7 @@ describe("Healthcheck service", () => {
         timestamp: mocks.TIME_ZERO.ms,
         date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
+        size: "0 MB",
         environment: NodeEnvironmentEnum.production,
       },
       server: {
@@ -109,6 +110,7 @@ describe("Healthcheck service", () => {
         timestamp: mocks.TIME_ZERO.ms,
         date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
+        size: "0 MB",
         environment: NodeEnvironmentEnum.production,
       },
       server: {
@@ -156,6 +158,7 @@ describe("Healthcheck service", () => {
         timestamp: mocks.TIME_ZERO.ms,
         date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
+        size: "0 MB",
         environment: NodeEnvironmentEnum.production,
       },
       server: {

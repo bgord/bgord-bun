@@ -25,6 +25,7 @@ type HealthcheckResultType = {
     timestamp: tools.TimestampValueType;
     date: string;
     sha: CommitShaValueType;
+    size: string;
     environment: NodeEnvironmentEnum;
   };
   server: {
@@ -84,6 +85,7 @@ export class Healthcheck {
           timestamp: build.timestamp.ms,
           date: new Date(build.timestamp.ms).toISOString(),
           sha: build.sha.toString(),
+          size: build.size.format(tools.Size.unit.MB),
           environment: Env,
         },
         server: {
