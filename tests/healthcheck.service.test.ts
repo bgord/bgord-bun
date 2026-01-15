@@ -4,6 +4,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
 import { Healthcheck } from "../src/healthcheck.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
@@ -19,6 +20,11 @@ const hostname = "macbook";
 const cpus = ["abc"];
 const memoryConsumption = tools.Size.fromBytes(12345678);
 const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
+const histogram: EventLoopLagSnapshotType = {
+  p50: tools.Duration.Ms(1),
+  p95: tools.Duration.Ms(5),
+  p99: tools.Duration.Ms(9),
+};
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -36,6 +42,8 @@ describe("Healthcheck service", () => {
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
+    spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
+
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
@@ -72,6 +80,7 @@ describe("Healthcheck service", () => {
           bytes: memoryConsumption.toBytes(),
           formatted: memoryConsumption.format(tools.Size.unit.MB),
         },
+        eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -87,6 +96,7 @@ describe("Healthcheck service", () => {
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
+    spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
@@ -123,6 +133,7 @@ describe("Healthcheck service", () => {
           bytes: memoryConsumption.toBytes(),
           formatted: memoryConsumption.format(tools.Size.unit.MB),
         },
+        eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -138,6 +149,7 @@ describe("Healthcheck service", () => {
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(MemoryConsumption, "get").mockReturnValue(memoryConsumption);
     spyOn(Uptime, "get").mockReturnValue(uptime);
+    spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
@@ -171,6 +183,7 @@ describe("Healthcheck service", () => {
           bytes: memoryConsumption.toBytes(),
           formatted: memoryConsumption.format(tools.Size.unit.MB),
         },
+        eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },

@@ -4,6 +4,7 @@ import { createFactory } from "hono/factory";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
+import { EventLoopLag, type EventLoopLagSnapshotType } from "./event-loop-lag.service";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
@@ -35,6 +36,7 @@ type HealthcheckResultType = {
     startup: tools.TimestampValueType;
     uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
     memory: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
+    eventLoop: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
   };
   details: {
     label: PrerequisiteLabelType;
@@ -76,6 +78,7 @@ export class Healthcheck {
 
       const build = await deps.BuildInfoRepository.extract();
       const uptime = Uptime.get(deps.Clock);
+      const histogram = EventLoopLag.snapshot();
 
       const response: HealthcheckResultType = {
         ok,
@@ -98,6 +101,7 @@ export class Healthcheck {
             bytes: MemoryConsumption.get().toBytes(),
             formatted: MemoryConsumption.get().format(tools.Size.unit.MB),
           },
+          eventLoop: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
         },
         durationMs: stopwatch.stop().ms,
         timestamp: deps.Clock.now().ms,
