@@ -25,7 +25,7 @@ export class EventLoopLag {
     };
   }
 
-  /** @internal TEST ONLY */
+  /** @internal Test only helper */
   static _resetForTest(): void {
     EventLoopLag.histogram = null;
   }
