@@ -84,6 +84,7 @@ export * from "./event-handler-noop.strategy";
 export * from "./event-handler-with-logger.strategy";
 export * from "./event-logger.service";
 export * from "./event-loop-lag.service";
+export * from "./event-loop-utilization.service";
 export * from "./event-store";
 export * from "./event-store-like.types";
 export * from "./event-stream.vo";

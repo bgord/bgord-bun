@@ -1,0 +1,21 @@
+import { performance } from "node:perf_hooks";
+
+// 0.0 – 1.0
+export type EventLoopUtilizationSnapshot = number;
+
+export class EventLoopUtilization {
+  private static previous: ReturnType<typeof performance.eventLoopUtilization> | null = null;
+
+  static snapshot(): EventLoopUtilizationSnapshot {
+    const current = performance.eventLoopUtilization(EventLoopUtilization.previous ?? undefined);
+
+    EventLoopUtilization.previous = current;
+
+    return current.utilization;
+  }
+
+  /** @internal */
+  static _resetForTest(): void {
+    EventLoopUtilization.previous = null;
+  }
+}
