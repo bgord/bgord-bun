@@ -1,10 +1,14 @@
 # Changelog
+## 2026-01-15 22:27 v1.8.18
+- 2026-01-15 22:27 c3c443f **1.8.18**
 - 2026-01-15 22:09 c8e67cb **step: add strip internal tsconfig option**
 - 2026-01-15 22:08 22aa5ec **step: mark the reset for test method properly as internal**
 - 2026-01-15 21:58 3b52b10 **step: add event loop lag snapshot to healthcheck**
 - 2026-01-15 21:51 289a455 **step: improve event loop lag tests**
 - 2026-01-15 21:50 0b25ed3 **step: add internal test only method**
 - 2026-01-15 21:29 580e3a9 **step: add testsl**
+- 2026-01-15 21:11 d1977cf **docs: generate CHANGELOG**
+- 2026-01-15 21:11 05a39a7 **docs: generate readme**
 - 2026-01-15 21:03 c748ee9 **feature: add event loop lag**
 - 2026-01-15 21:03 1b41e26 **step: update packages**
 ## 2026-01-15 15:34 v1.8.17
