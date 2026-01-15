@@ -4,7 +4,7 @@ import { createFactory } from "hono/factory";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
-import { EventLoopLag, type EventLoopLagSnapshotType } from "./event-loop-lag.service";
+import { EventLoopLag } from "./event-loop-lag.service";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";

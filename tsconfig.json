@@ -19,7 +19,8 @@
     "skipLibCheck": true,
     "incremental": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": false
+    "emitDecoratorMetadata": false,
+    "stripInternal": true
   },
   "include": ["src"],
   "exclude": ["tests", "bgord-scripts"]
