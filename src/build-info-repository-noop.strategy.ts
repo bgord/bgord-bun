@@ -7,9 +7,10 @@ export class BuildInfoRepositoryNoopStrategy implements BuildInfoRepositoryStrat
     private readonly timestamp: tools.Timestamp,
     private readonly version: tools.PackageVersion,
     private readonly sha: CommitSha,
+    private readonly size: tools.Size,
   ) {}
 
   async extract() {
-    return { timestamp: this.timestamp, version: this.version, sha: this.sha };
+    return { timestamp: this.timestamp, version: this.version, sha: this.sha, size: this.size };
   }
 }

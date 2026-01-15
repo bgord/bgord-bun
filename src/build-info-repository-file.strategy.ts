@@ -16,7 +16,8 @@ export class BuildInfoRepositoryFileStrategy implements BuildInfoRepositoryStrat
     const version = tools.PackageVersion.fromString(file.version);
     const timestamp = tools.Timestamp.fromNumber(file.timestamp);
     const sha = CommitSha.fromString(file.sha);
+    const size = tools.Size.fromBytes(file.size);
 
-    return { version, timestamp, sha };
+    return { version, timestamp, sha, size };
   }
 }
