@@ -3,14 +3,13 @@ import * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 import { EnvironmentLoaderEncryptedAdapter } from "../src/environment-loader-encrypted.adapter";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const path = tools.FilePathAbsolute.fromString("/config/secrets.txt");
 const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
 const SchemaError = { InvalidAppName: "schema.app.name.invalid" };
 
 const config = {
-  type: NodeEnvironmentEnum.local,
+  type: "local" as const,
   Schema: z.object({ APP_NAME: z.string(SchemaError.InvalidAppName) }),
   path,
 };
@@ -22,7 +21,7 @@ describe("EnvironmentLoaderProcess", () => {
     }).load();
 
     expect(result.APP_NAME).toEqual("MyApp");
-    expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    expect(result.type).toEqual("local");
   });
 
   test("failure", () => {

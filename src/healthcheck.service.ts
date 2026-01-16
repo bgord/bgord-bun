@@ -8,7 +8,7 @@ import { EventLoopLag } from "./event-loop-lag.service";
 import { EventLoopUtilization, type EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
 import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
 import { MemoryConsumption } from "./memory-consumption.service";
-import type { NodeEnvironmentEnum } from "./node-env.vo";
+import type { NodeEnvironmentType } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
 import {
   PrerequisiteVerificationOutcome,
@@ -29,7 +29,7 @@ type HealthcheckResultType = {
     date: string;
     sha: CommitShaValueType;
     size: string;
-    environment: NodeEnvironmentEnum;
+    environment: NodeEnvironmentType;
   };
   server: {
     pid: typeof process.pid;
@@ -62,7 +62,7 @@ type HealthcheckResultType = {
 type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepositoryStrategy };
 
 export class Healthcheck {
-  static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>
+  static build = (Env: NodeEnvironmentType, _prerequisites: Prerequisite[], deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new Stopwatch(deps);
 

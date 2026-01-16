@@ -1,5 +1,5 @@
 import type { z } from "zod/v4";
-import type { NodeEnvironmentEnum } from "../src/node-env.vo";
+import type { NodeEnvironmentType } from "../src/node-env.vo";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
@@ -13,7 +13,7 @@ export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>
 {
   constructor(
     private env: NodeJS.ProcessEnv,
-    private readonly config: { type: NodeEnvironmentEnum; Schema: Schema },
+    private readonly config: { type: NodeEnvironmentType; Schema: Schema },
     private readonly deps: Dependencies,
   ) {}
 
