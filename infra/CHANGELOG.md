@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-16 16:08 e92307e **refactor: adjust zod enum handling**
 ## 2026-01-16 15:57 v1.8.23
 - 2026-01-16 15:57 987c811 **1.8.23**
 - 2026-01-16 15:56 8b117f9 **fix: node environment type**
@@ -12,6 +13,7 @@
 - 2026-01-16 15:08 662c815 **1.8.20**
 - 2026-01-16 15:06 fb82bf7 **refactor: replace dotenv parse with EnvironmentFileParser**
 - 2026-01-16 15:06 9265dd8 **step: remove dotenv dependency**
+- 2026-01-16 14:57 b9020b4 **docs: generate CHANGELOG**
 - 2026-01-16 14:56 535b1b5 **docs: generate CHANGELOG**
 - 2026-01-16 14:50 e85b5dd **feature: add custom environment file parser**
 - 2026-01-16 14:37 fc7a7b8 **docs: generate CHANGELOG**
