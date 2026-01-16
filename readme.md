@@ -97,6 +97,7 @@ src/
 ├── encryption-key.vo.ts
 ├── encryption-noop.adapter.ts
 ├── encryption.port.ts
+├── environment-file-parser.service.ts
 ├── environment-loader-encrypted.adapter.ts
 ├── environment-loader-noop.adapter.ts
 ├── environment-loader-process-safe.adapter.ts
