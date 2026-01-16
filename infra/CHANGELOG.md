@@ -1,6 +1,9 @@
 # Changelog
+## 2026-01-16 18:19 v1.9.2
+- 2026-01-16 18:19 93844735 **1.9.2**
 - 2026-01-16 18:16 0c4767a4 **refactor: adjust z imports**
 - 2026-01-16 18:12 ccafaf11 **step: update packages**
+- 2026-01-16 17:16 17e2ee70 **docs: generate CHANGELOG**
 ## 2026-01-16 17:01 v1.9.1
 - 2026-01-16 17:01 126c5aab **1.9.1**
 - 2026-01-16 16:59 eca1e633 **Revert "refactor: remove src from package json files"**
