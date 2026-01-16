@@ -1,4 +1,12 @@
 # Changelog
+- 2026-01-16 11:41 1391d13 **feature: add in flight requests middleware**
+- 2026-01-16 11:38 cc68b2f **step: add in flight requests tracker**
+- 2026-01-16 00:41 222ca9e **step: add elu to healthcheck**
+- 2026-01-16 00:38 73dcadc **step: make space for event loop utilization in the healthcheck**
+- 2026-01-15 23:27 fd170c8 **step: add event loop utilization**
+- 2026-01-15 23:17 592dd53 **step: expand memory info in healthcheck**
+- 2026-01-15 23:05 e2978fe **refactor: improve memory consumption tests**
+- 2026-01-15 23:05 a1bb53f **step: add memory consumption snapshot**
 ## 2026-01-15 22:27 v1.8.18
 - 2026-01-15 22:27 c3c443f **1.8.18**
 - 2026-01-15 22:09 c8e67cb **step: add strip internal tsconfig option**
@@ -7,6 +15,7 @@
 - 2026-01-15 21:51 289a455 **step: improve event loop lag tests**
 - 2026-01-15 21:50 0b25ed3 **step: add internal test only method**
 - 2026-01-15 21:29 580e3a9 **step: add testsl**
+- 2026-01-15 21:28 fdb90bb **docs: generate CHANGELOG**
 - 2026-01-15 21:11 d1977cf **docs: generate CHANGELOG**
 - 2026-01-15 21:11 05a39a7 **docs: generate readme**
 - 2026-01-15 21:03 c748ee9 **feature: add event loop lag**
