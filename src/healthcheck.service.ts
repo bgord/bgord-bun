@@ -6,6 +6,7 @@ import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { EventLoopLag } from "./event-loop-lag.service";
 import { EventLoopUtilization, type EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
+import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
@@ -47,6 +48,7 @@ type HealthcheckResultType = {
       lag: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
       utilization: EventLoopUtilizationSnapshot;
     };
+    inFlight: tools.IntegerType;
   };
   details: {
     label: PrerequisiteLabelType;
@@ -125,6 +127,7 @@ export class Healthcheck {
             lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
             utilization: EventLoopUtilization.snapshot(),
           },
+          inFlight: InFlightRequestsTracker.get(),
         },
         durationMs: stopwatch.stop().ms,
         timestamp: deps.Clock.now().ms,

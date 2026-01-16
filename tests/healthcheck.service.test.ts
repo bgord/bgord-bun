@@ -96,6 +96,7 @@ describe("Healthcheck service", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
+        inFlight: 0,
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -156,6 +157,7 @@ describe("Healthcheck service", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
+        inFlight: 0,
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
@@ -213,6 +215,7 @@ describe("Healthcheck service", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
+        inFlight: 0,
       },
       details: [
         { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
