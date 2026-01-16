@@ -1,3018 +1,3021 @@
 # Changelog
+- 2026-01-16 18:16 0c4767a4 **refactor: adjust z imports**
+- 2026-01-16 18:12 ccafaf11 **step: update packages**
 ## 2026-01-16 17:01 v1.9.1
-- 2026-01-16 17:01 126c5aa **1.9.1**
-- 2026-01-16 16:59 eca1e63 **Revert "refactor: remove src from package json files"**
-- 2026-01-16 16:59 4d2b9e1 **Revert "fix: node environment type"**
-- 2026-01-16 16:58 87a4b4e **Revert "refactor: adjust zod enum handling"**
-- 2026-01-16 16:58 61a3059 **Revert "refactor: remove node environment enum"**
+- 2026-01-16 17:01 126c5aab **1.9.1**
+- 2026-01-16 16:59 eca1e633 **Revert "refactor: remove src from package json files"**
+- 2026-01-16 16:59 4d2b9e15 **Revert "fix: node environment type"**
+- 2026-01-16 16:58 87a4b4e0 **Revert "refactor: adjust zod enum handling"**
+- 2026-01-16 16:58 61a30594 **Revert "refactor: remove node environment enum"**
 ## 2026-01-16 16:33 v1.9.0
-- 2026-01-16 16:33 5ca7832 **1.9.0**
-- 2026-01-16 16:25 88b6fb1 **refactor: remove node environment enum**
+- 2026-01-16 16:33 5ca78325 **1.9.0**
+- 2026-01-16 16:25 88b6fb17 **refactor: remove node environment enum**
 ## 2026-01-16 16:10 v1.8.24
-- 2026-01-16 16:10 284e89f **1.8.24**
-- 2026-01-16 16:08 e92307e **refactor: adjust zod enum handling**
-- 2026-01-16 16:00 a6d8093 **docs: generate CHANGELOG**
+- 2026-01-16 16:10 284e89f2 **1.8.24**
+- 2026-01-16 16:08 e92307e9 **refactor: adjust zod enum handling**
+- 2026-01-16 16:01 e2555ce0 **docs: generate CHANGELOG**
+- 2026-01-16 16:00 a6d80933 **docs: generate CHANGELOG**
 ## 2026-01-16 15:57 v1.8.23
-- 2026-01-16 15:57 987c811 **1.8.23**
-- 2026-01-16 15:56 8b117f9 **fix: node environment type**
+- 2026-01-16 15:57 987c811c **1.8.23**
+- 2026-01-16 15:56 8b117f9e **fix: node environment type**
 ## 2026-01-16 15:37 v1.8.22
-- 2026-01-16 15:37 d84b73a **1.8.22**
-- 2026-01-16 15:36 2ab8dcb **step: update packages**
-- 2026-01-16 15:33 65fbce8 **docs: generate CHANGELOG**
-- 2026-01-16 15:33 02d4696 **docs: generate CHANGELOG**
+- 2026-01-16 15:37 d84b73a0 **1.8.22**
+- 2026-01-16 15:36 2ab8dcbc **step: update packages**
+- 2026-01-16 15:33 65fbce8a **docs: generate CHANGELOG**
+- 2026-01-16 15:33 02d46969 **docs: generate CHANGELOG**
 ## 2026-01-16 15:30 v1.8.21
-- 2026-01-16 15:30 16e43ea **1.8.21**
-- 2026-01-16 15:28 0477487 **refactor: remove src from package json files**
-- 2026-01-16 15:10 13b0a7c **docs: generate CHANGELOG**
-- 2026-01-16 15:09 016487a **docs: generate CHANGELOG**
+- 2026-01-16 15:30 16e43eaa **1.8.21**
+- 2026-01-16 15:28 04774877 **refactor: remove src from package json files**
+- 2026-01-16 15:10 13b0a7c3 **docs: generate CHANGELOG**
+- 2026-01-16 15:09 016487ab **docs: generate CHANGELOG**
 ## 2026-01-16 15:08 v1.8.20
-- 2026-01-16 15:08 662c815 **1.8.20**
-- 2026-01-16 15:06 fb82bf7 **refactor: replace dotenv parse with EnvironmentFileParser**
-- 2026-01-16 15:06 9265dd8 **step: remove dotenv dependency**
-- 2026-01-16 14:57 b9020b4 **docs: generate CHANGELOG**
-- 2026-01-16 14:56 535b1b5 **docs: generate CHANGELOG**
-- 2026-01-16 14:50 e85b5dd **feature: add custom environment file parser**
-- 2026-01-16 14:37 fc7a7b8 **docs: generate CHANGELOG**
-- 2026-01-16 14:36 6fc3dfc **docs: generate CHANGELOG**
-- 2026-01-16 14:31 195073c **docs: generate CHANGELOG**
-- 2026-01-16 14:30 a441a5c **docs: generate CHANGELOG**
-- 2026-01-16 14:08 23121bc **docs: generate CHANGELOG**
-- 2026-01-16 14:07 6f8494f **docs: generate readme**
-- 2026-01-16 14:07 2be7952 **docs: generate CHANGELOG**
+- 2026-01-16 15:08 662c815e **1.8.20**
+- 2026-01-16 15:06 fb82bf74 **refactor: replace dotenv parse with EnvironmentFileParser**
+- 2026-01-16 15:06 9265dd86 **step: remove dotenv dependency**
+- 2026-01-16 14:57 b9020b45 **docs: generate CHANGELOG**
+- 2026-01-16 14:56 535b1b53 **docs: generate CHANGELOG**
+- 2026-01-16 14:50 e85b5dd1 **feature: add custom environment file parser**
+- 2026-01-16 14:37 fc7a7b87 **docs: generate CHANGELOG**
+- 2026-01-16 14:36 6fc3dfc7 **docs: generate CHANGELOG**
+- 2026-01-16 14:31 195073c5 **docs: generate CHANGELOG**
+- 2026-01-16 14:30 a441a5c9 **docs: generate CHANGELOG**
+- 2026-01-16 14:08 23121bc2 **docs: generate CHANGELOG**
+- 2026-01-16 14:07 6f8494fe **docs: generate readme**
+- 2026-01-16 14:07 2be7952b **docs: generate CHANGELOG**
 ## 2026-01-16 12:06 v1.8.19
-- 2026-01-16 12:06 3bfd466 **1.8.19**
-- 2026-01-16 12:00 31dc48a **step: add in flight requests tracker to healthcheck**
-- 2026-01-16 11:59 c768939 **refactor: use integer in in flight requests tracker correctly**
-- 2026-01-16 11:41 1391d13 **feature: add in flight requests middleware**
-- 2026-01-16 11:38 cc68b2f **step: add in flight requests tracker**
-- 2026-01-16 11:06 32bd3a9 **docs: generate CHANGELOG**
-- 2026-01-16 11:05 c42cd56 **docs: generate CHANGELOG**
-- 2026-01-16 10:53 d46b58f **docs: generate CHANGELOG**
-- 2026-01-16 10:53 6be35e7 **docs: generate readme**
-- 2026-01-16 00:41 222ca9e **step: add elu to healthcheck**
-- 2026-01-16 00:38 73dcadc **step: make space for event loop utilization in the healthcheck**
-- 2026-01-15 23:27 fd170c8 **step: add event loop utilization**
-- 2026-01-15 23:17 592dd53 **step: expand memory info in healthcheck**
-- 2026-01-15 23:05 e2978fe **refactor: improve memory consumption tests**
-- 2026-01-15 23:05 a1bb53f **step: add memory consumption snapshot**
+- 2026-01-16 12:06 3bfd4665 **1.8.19**
+- 2026-01-16 12:00 31dc48a5 **step: add in flight requests tracker to healthcheck**
+- 2026-01-16 11:59 c7689398 **refactor: use integer in in flight requests tracker correctly**
+- 2026-01-16 11:41 1391d13e **feature: add in flight requests middleware**
+- 2026-01-16 11:38 cc68b2f6 **step: add in flight requests tracker**
+- 2026-01-16 11:06 32bd3a9c **docs: generate CHANGELOG**
+- 2026-01-16 11:05 c42cd563 **docs: generate CHANGELOG**
+- 2026-01-16 10:53 d46b58fe **docs: generate CHANGELOG**
+- 2026-01-16 10:53 6be35e76 **docs: generate readme**
+- 2026-01-16 00:41 222ca9e1 **step: add elu to healthcheck**
+- 2026-01-16 00:38 73dcadcf **step: make space for event loop utilization in the healthcheck**
+- 2026-01-15 23:27 fd170c87 **step: add event loop utilization**
+- 2026-01-15 23:17 592dd534 **step: expand memory info in healthcheck**
+- 2026-01-15 23:05 e2978fef **refactor: improve memory consumption tests**
+- 2026-01-15 23:05 a1bb53f6 **step: add memory consumption snapshot**
 ## 2026-01-15 22:27 v1.8.18
-- 2026-01-15 22:27 c3c443f **1.8.18**
-- 2026-01-15 22:09 c8e67cb **step: add strip internal tsconfig option**
-- 2026-01-15 22:08 22aa5ec **step: mark the reset for test method properly as internal**
-- 2026-01-15 21:58 3b52b10 **step: add event loop lag snapshot to healthcheck**
-- 2026-01-15 21:51 289a455 **step: improve event loop lag tests**
-- 2026-01-15 21:50 0b25ed3 **step: add internal test only method**
-- 2026-01-15 21:29 580e3a9 **step: add testsl**
-- 2026-01-15 21:28 fdb90bb **docs: generate CHANGELOG**
-- 2026-01-15 21:11 d1977cf **docs: generate CHANGELOG**
-- 2026-01-15 21:11 05a39a7 **docs: generate readme**
-- 2026-01-15 21:03 c748ee9 **feature: add event loop lag**
-- 2026-01-15 21:03 1b41e26 **step: update packages**
+- 2026-01-15 22:27 c3c443f4 **1.8.18**
+- 2026-01-15 22:09 c8e67cb6 **step: add strip internal tsconfig option**
+- 2026-01-15 22:08 22aa5ecb **step: mark the reset for test method properly as internal**
+- 2026-01-15 21:58 3b52b108 **step: add event loop lag snapshot to healthcheck**
+- 2026-01-15 21:51 289a4553 **step: improve event loop lag tests**
+- 2026-01-15 21:50 0b25ed37 **step: add internal test only method**
+- 2026-01-15 21:29 580e3a93 **step: add testsl**
+- 2026-01-15 21:28 fdb90bb5 **docs: generate CHANGELOG**
+- 2026-01-15 21:11 d1977cfc **docs: generate CHANGELOG**
+- 2026-01-15 21:11 05a39a74 **docs: generate readme**
+- 2026-01-15 21:03 c748ee9b **feature: add event loop lag**
+- 2026-01-15 21:03 1b41e26e **step: update packages**
 ## 2026-01-15 15:34 v1.8.17
-- 2026-01-15 15:34 ecf00ab **1.8.17**
-- 2026-01-15 15:33 1be6094 **refactor: use new size methods**
-- 2026-01-15 15:30 423e9fd **step: update packages**
-- 2026-01-15 14:55 d4aee38 **step: add deployment size to healthcheck**
-- 2026-01-15 14:52 6e29115 **step: adjust dependent test**
-- 2026-01-15 14:51 83cdef3 **step: adjust file tests**
-- 2026-01-15 14:47 90c87cf **step: adjust package-json tests**
-- 2026-01-15 14:47 76f3eeb **step: adjust noop tests**
-- 2026-01-15 14:41 c8f171a **feature: add size to build info repo**
-- 2026-01-15 14:34 75b5407 **docs: generate CHANGELOG**
-- 2026-01-15 14:33 56cfe89 **docs: generate CHANGELOG**
+- 2026-01-15 15:34 ecf00ab7 **1.8.17**
+- 2026-01-15 15:33 1be60948 **refactor: use new size methods**
+- 2026-01-15 15:30 423e9fd2 **step: update packages**
+- 2026-01-15 14:55 d4aee38a **step: add deployment size to healthcheck**
+- 2026-01-15 14:52 6e291155 **step: adjust dependent test**
+- 2026-01-15 14:51 83cdef3f **step: adjust file tests**
+- 2026-01-15 14:47 90c87cfe **step: adjust package-json tests**
+- 2026-01-15 14:47 76f3eebb **step: adjust noop tests**
+- 2026-01-15 14:41 c8f171a5 **feature: add size to build info repo**
+- 2026-01-15 14:34 75b54079 **docs: generate CHANGELOG**
+- 2026-01-15 14:33 56cfe89d **docs: generate CHANGELOG**
 ## 2026-01-14 13:43 v1.8.16
-- 2026-01-14 13:43 3d30207 **1.8.16**
-- 2026-01-14 13:42 1f1104f **step: update packages**
-- 2026-01-14 13:32 785691d **step: update packages**
-- 2026-01-14 12:43 344ce7e **docs: generate CHANGELOG**
-- 2026-01-14 12:43 280e016 **docs: generate CHANGELOG**
-- 2026-01-14 12:33 a670f3d **docs: generate CHANGELOG**
+- 2026-01-14 13:43 3d302076 **1.8.16**
+- 2026-01-14 13:42 1f1104f5 **step: update packages**
+- 2026-01-14 13:32 785691db **step: update packages**
+- 2026-01-14 12:43 344ce7e9 **docs: generate CHANGELOG**
+- 2026-01-14 12:43 280e0161 **docs: generate CHANGELOG**
+- 2026-01-14 12:33 a670f3d1 **docs: generate CHANGELOG**
 ## 2026-01-12 22:44 v1.8.15
-- 2026-01-12 22:44 83e8219 **1.8.15**
-- 2026-01-12 22:43 dd0f5b4 **step: update packages**
-- 2026-01-12 22:38 f77b389 **step: update packages**
-- 2026-01-12 21:44 267860a **docs: generate CHANGELOG**
-- 2026-01-12 21:43 1371562 **docs: generate CHANGELOG**
-- 2026-01-12 21:41 15f6e46 **docs: generate CHANGELOG**
-- 2026-01-08 19:44 ffc27f2 **step: add priority header to be skipped in http logger**
-- 2026-01-07 16:52 17e3ebb **step: add build guard**
-- 2026-01-07 16:44 72c43c4 **step: add iso date to build**
+- 2026-01-12 22:44 83e82195 **1.8.15**
+- 2026-01-12 22:43 dd0f5b41 **step: update packages**
+- 2026-01-12 22:38 f77b389e **step: update packages**
+- 2026-01-12 21:44 267860a5 **docs: generate CHANGELOG**
+- 2026-01-12 21:43 13715624 **docs: generate CHANGELOG**
+- 2026-01-12 21:41 15f6e46f **docs: generate CHANGELOG**
+- 2026-01-08 19:44 ffc27f22 **step: add priority header to be skipped in http logger**
+- 2026-01-07 16:52 17e3ebbc **step: add build guard**
+- 2026-01-07 16:44 72c43c49 **step: add iso date to build**
 ## 2026-01-07 16:08 v1.8.14
-- 2026-01-07 16:08 b0d462e **1.8.14**
-- 2026-01-07 16:07 ecc6ce7 **step: add prereq file integration testcase**
-- 2026-01-07 16:05 71bef8e **fix: adjust build info file path**
+- 2026-01-07 16:08 b0d462e8 **1.8.14**
+- 2026-01-07 16:07 ecc6ce7c **step: add prereq file integration testcase**
+- 2026-01-07 16:05 71bef8e3 **fix: adjust build info file path**
 ## 2026-01-07 15:58 v1.8.13
-- 2026-01-07 15:58 e4fb35d **1.8.13**
-- 2026-01-07 15:53 24d2cdb **docs: generate CHANGELOG**
-- 2026-01-07 15:43 e5cc175 **feature: build info repo file**
-- 2026-01-07 15:20 34add29 **step: include sha in build info**
-- 2026-01-07 15:09 3ff5ded **step: add commit sha vo**
-- 2026-01-07 15:08 93dc957 **docs: generate CHANGELOG**
-- 2026-01-07 15:08 36425ea **docs: generate CHANGELOG**
-- 2026-01-07 15:05 c04678f **step: add commit sha value vo**
-- 2026-01-07 15:02 6ca89dc **step: include build timestamp in healthcheck**
-- 2026-01-07 14:58 c0c1dc3 **docs: generate CHANGELOG**
-- 2026-01-07 14:57 b3c5b3e **step: make version required**
-- 2026-01-07 14:54 396075d **step: update packages**
-- 2026-01-07 14:46 f9f1ae4 **docs: generate CHANGELOG**
-- 2026-01-07 14:46 40b1395 **docs: generate readme**
-- 2026-01-07 13:38 9ed2af9 **refactor: rename build info repository fields**
-- 2026-01-07 13:30 9010fc2 **feature: ping service**
-- 2026-01-07 10:09 033d9a9 **refactor: improve formatting**
-- 2026-01-07 09:45 8a3502d **refactor: change port to strategy**
+- 2026-01-07 15:58 e4fb35d5 **1.8.13**
+- 2026-01-07 15:53 24d2cdb1 **docs: generate CHANGELOG**
+- 2026-01-07 15:43 e5cc175b **feature: build info repo file**
+- 2026-01-07 15:20 34add29e **step: include sha in build info**
+- 2026-01-07 15:09 3ff5dede **step: add commit sha vo**
+- 2026-01-07 15:08 93dc957a **docs: generate CHANGELOG**
+- 2026-01-07 15:08 36425eaa **docs: generate CHANGELOG**
+- 2026-01-07 15:05 c04678f2 **step: add commit sha value vo**
+- 2026-01-07 15:02 6ca89dc1 **step: include build timestamp in healthcheck**
+- 2026-01-07 14:58 c0c1dc30 **docs: generate CHANGELOG**
+- 2026-01-07 14:57 b3c5b3ee **step: make version required**
+- 2026-01-07 14:54 396075d9 **step: update packages**
+- 2026-01-07 14:46 f9f1ae42 **docs: generate CHANGELOG**
+- 2026-01-07 14:46 40b1395a **docs: generate readme**
+- 2026-01-07 13:38 9ed2af9d **refactor: rename build info repository fields**
+- 2026-01-07 13:30 9010fc24 **feature: ping service**
+- 2026-01-07 10:09 033d9a97 **refactor: improve formatting**
+- 2026-01-07 09:45 8a3502df **refactor: change port to strategy**
 ## 2026-01-07 09:42 v1.8.12
-- 2026-01-07 09:42 ee86645 **1.8.12**
-- 2026-01-07 08:42 081bcb0 **docs: generate CHANGELOG**
-- 2026-01-07 08:41 faa74be **docs: generate readme**
-- 2026-01-07 08:41 18f16ce **docs: generate CHANGELOG**
-- 2026-01-07 00:58 9ff9504 **fix: api version tests**
-- 2026-01-07 00:57 2a0edd6 **refactor: use noop build in healthcheck tests**
-- 2026-01-07 00:54 60ddc70 **refactor: use noop build in api version tests**
-- 2026-01-07 00:52 233fabf **refactor: use noop build in setup tests**
-- 2026-01-07 00:50 f27d7c9 **step: unify to equal in tests**
-- 2026-01-07 00:45 217143d **refactor: mimick empty version in noop**
-- 2026-01-07 00:43 9bd141f **refactor: return timestamp in build info repo**
-- 2026-01-07 00:34 4473bce **feature: add noop build info repo**
-- 2026-01-07 00:29 38679aa **refactor: make build info a strategy**
-- 2026-01-07 00:23 07f154e **refactor: make setup params order correct**
-- 2026-01-06 23:56 b65a1e5 **refactor: unify cqrs config**
+- 2026-01-07 09:42 ee866459 **1.8.12**
+- 2026-01-07 08:42 081bcb02 **docs: generate CHANGELOG**
+- 2026-01-07 08:41 faa74be0 **docs: generate readme**
+- 2026-01-07 08:41 18f16ce5 **docs: generate CHANGELOG**
+- 2026-01-07 00:58 9ff95043 **fix: api version tests**
+- 2026-01-07 00:57 2a0edd66 **refactor: use noop build in healthcheck tests**
+- 2026-01-07 00:54 60ddc709 **refactor: use noop build in api version tests**
+- 2026-01-07 00:52 233fabf1 **refactor: use noop build in setup tests**
+- 2026-01-07 00:50 f27d7c9d **step: unify to equal in tests**
+- 2026-01-07 00:45 217143de **refactor: mimick empty version in noop**
+- 2026-01-07 00:43 9bd141f8 **refactor: return timestamp in build info repo**
+- 2026-01-07 00:34 4473bce7 **feature: add noop build info repo**
+- 2026-01-07 00:29 38679aa9 **refactor: make build info a strategy**
+- 2026-01-07 00:23 07f154ea **refactor: make setup params order correct**
+- 2026-01-06 23:56 b65a1e52 **refactor: unify cqrs config**
 ## 2026-01-06 23:40 v1.8.11
-- 2026-01-06 23:40 1d59009 **1.8.11**
-- 2026-01-06 23:37 23c8906 **refactor: unify context naming**
-- 2026-01-06 23:33 34753a8 **feature: add build segment**
-- 2026-01-06 23:28 3291208 **refactor: make build info non-static class**
-- 2026-01-06 23:15 445a862 **refactor: make build info return proper package version**
-- 2026-01-06 23:09 425a46e **feature: add env segment**
-- 2026-01-06 23:03 1c044ec **fix: request segment  mutant**
-- 2026-01-06 23:02 ecd9206 **fix: nonce provider crypto mutant**
-- 2026-01-06 22:56 e734936 **docs: generate CHANGELOG**
-- 2026-01-06 22:46 8053ca2 **step: test cache subject application resolver**
-- 2026-01-06 22:41 1a97656 **fix: tests**
-- 2026-01-06 22:40 5df363b **docs: generate CHANGELOG**
-- 2026-01-06 22:38 83637b9 **docs: generate CHANGELOG**
-- 2026-01-06 22:38 393e85d **refactor: use proper resolver for all use cases**
-- 2026-01-06 22:34 d2533e1 **docs: generate readme**
-- 2026-01-06 22:34 760e97f **docs: generate CHANGELOG**
-- 2026-01-06 22:28 3f5b820 **step: define cache subject application resolver**
-- 2026-01-06 22:26 32ce110 **step: rename cache subject request-resolver**
-- 2026-01-06 22:23 6110d7b **refactor: make two strategies for cache subject segments**
-- 2026-01-06 22:07 0759c9d **step: limit segments to 10**
-- 2026-01-06 22:04 7e3e6a9 **step: add non-empty string for cache subject segment empty**
-- 2026-01-06 22:03 a93f554 **fix: cache subject segment query**
-- 2026-01-06 21:37 f1ef7b5 **step: improve file uploader error**
-- 2026-01-06 21:34 4852867 **step: improve shield hcaptcha local error**
-- 2026-01-06 21:31 fe80a73 **step: improve shield api key error**
-- 2026-01-06 21:31 b43633a **step: improve shield reaptcha error**
-- 2026-01-06 21:28 cdecd07 **step: improve shield hcaptcha error**
-- 2026-01-06 21:26 887a005 **step: improve shield rate limit error**
-- 2026-01-06 21:25 070e28b **step: improve shield auth error**
-- 2026-01-06 21:23 ddac99f **step: improve shield timeout error**
-- 2026-01-06 21:09 7d28bb7 **step: move api version earlier**
-- 2026-01-06 21:08 0302b1b **step: move request id middleware as early as possible**
-- 2026-01-06 21:00 6851af1 **step: add csrf to setup**
-- 2026-01-06 20:56 b4d9258 **step: add shield csrf to setup**
-- 2026-01-06 20:54 5480a94 **step: make setup config non-optional**
-- 2026-01-06 20:46 4ef3fa2 **step: improve shield csrf tests**
-- 2026-01-06 20:43 6a414f5 **step: remove origin from uninformative headers in http logger**
-- 2026-01-06 20:39 2b51da9 **docs: generate CHANGELOG**
-- 2026-01-06 20:39 002fb0b **docs: generate readme**
-- 2026-01-06 20:34 4e6c757 **feature: shield csrf**
-- 2026-01-06 18:13 e1fc375 **fix: cache source enum miss value**
+- 2026-01-06 23:40 1d590095 **1.8.11**
+- 2026-01-06 23:37 23c89061 **refactor: unify context naming**
+- 2026-01-06 23:33 34753a8e **feature: add build segment**
+- 2026-01-06 23:28 3291208a **refactor: make build info non-static class**
+- 2026-01-06 23:15 445a8623 **refactor: make build info return proper package version**
+- 2026-01-06 23:09 425a46e4 **feature: add env segment**
+- 2026-01-06 23:03 1c044ec4 **fix: request segment  mutant**
+- 2026-01-06 23:02 ecd9206f **fix: nonce provider crypto mutant**
+- 2026-01-06 22:56 e734936e **docs: generate CHANGELOG**
+- 2026-01-06 22:46 8053ca2b **step: test cache subject application resolver**
+- 2026-01-06 22:41 1a976562 **fix: tests**
+- 2026-01-06 22:40 5df363b4 **docs: generate CHANGELOG**
+- 2026-01-06 22:38 83637b98 **docs: generate CHANGELOG**
+- 2026-01-06 22:38 393e85d9 **refactor: use proper resolver for all use cases**
+- 2026-01-06 22:34 d2533e19 **docs: generate readme**
+- 2026-01-06 22:34 760e97f1 **docs: generate CHANGELOG**
+- 2026-01-06 22:28 3f5b820a **step: define cache subject application resolver**
+- 2026-01-06 22:26 32ce1101 **step: rename cache subject request-resolver**
+- 2026-01-06 22:23 6110d7b6 **refactor: make two strategies for cache subject segments**
+- 2026-01-06 22:07 0759c9d2 **step: limit segments to 10**
+- 2026-01-06 22:04 7e3e6a9f **step: add non-empty string for cache subject segment empty**
+- 2026-01-06 22:03 a93f5544 **fix: cache subject segment query**
+- 2026-01-06 21:37 f1ef7b5d **step: improve file uploader error**
+- 2026-01-06 21:34 4852867b **step: improve shield hcaptcha local error**
+- 2026-01-06 21:31 fe80a732 **step: improve shield api key error**
+- 2026-01-06 21:31 b43633af **step: improve shield reaptcha error**
+- 2026-01-06 21:28 cdecd07d **step: improve shield hcaptcha error**
+- 2026-01-06 21:26 887a0050 **step: improve shield rate limit error**
+- 2026-01-06 21:25 070e28bb **step: improve shield auth error**
+- 2026-01-06 21:23 ddac99f3 **step: improve shield timeout error**
+- 2026-01-06 21:09 7d28bb73 **step: move api version earlier**
+- 2026-01-06 21:08 0302b1b5 **step: move request id middleware as early as possible**
+- 2026-01-06 21:00 6851af15 **step: add csrf to setup**
+- 2026-01-06 20:56 b4d92585 **step: add shield csrf to setup**
+- 2026-01-06 20:54 5480a94e **step: make setup config non-optional**
+- 2026-01-06 20:46 4ef3fa24 **step: improve shield csrf tests**
+- 2026-01-06 20:43 6a414f51 **step: remove origin from uninformative headers in http logger**
+- 2026-01-06 20:39 2b51da93 **docs: generate CHANGELOG**
+- 2026-01-06 20:39 002fb0bc **docs: generate readme**
+- 2026-01-06 20:34 4e6c7573 **feature: shield csrf**
+- 2026-01-06 18:13 e1fc3751 **fix: cache source enum miss value**
 ## 2026-01-06 18:03 v1.8.10
-- 2026-01-06 18:03 fb855ee **1.8.10**
-- 2026-01-06 17:55 cd0fafa **feature: add caching to api-version**
+- 2026-01-06 18:03 fb855eea **1.8.10**
+- 2026-01-06 17:55 cd0fafa6 **feature: add caching to api-version**
 ## 2026-01-06 17:33 v1.8.9
-- 2026-01-06 17:33 08419e1 **1.8.9**
-- 2026-01-06 17:32 a5e0421 **feature: establish static assets secure headers**
-- 2026-01-06 17:31 9fdba7d **feature: establish static documents secure headers**
-- 2026-01-06 17:28 4c48d93 **feature: establish ssr secure headers**
-- 2026-01-06 17:24 2bf8297 **feature: establish api secure headers**
-- 2026-01-06 17:13 a9ef265 **docs: generate CHANGELOG**
+- 2026-01-06 17:33 08419e11 **1.8.9**
+- 2026-01-06 17:32 a5e0421a **feature: establish static assets secure headers**
+- 2026-01-06 17:31 9fdba7d1 **feature: establish static documents secure headers**
+- 2026-01-06 17:28 4c48d939 **feature: establish ssr secure headers**
+- 2026-01-06 17:24 2bf82970 **feature: establish api secure headers**
+- 2026-01-06 17:13 a9ef265b **docs: generate CHANGELOG**
 ## 2026-01-06 17:09 v1.8.8
-- 2026-01-06 17:09 4baa5e6 **1.8.8**
-- 2026-01-06 17:08 eb32061 **refactor: remove explicit STS from static assets**
-- 2026-01-06 17:07 c3c6cf3 **fix: remove explicit STS for API**
-- 2026-01-06 17:03 0f62f7d **docs: generate CHANGELOG**
-- 2026-01-06 17:01 70d6540 **docs: generate CHANGELOG**
+- 2026-01-06 17:09 4baa5e69 **1.8.8**
+- 2026-01-06 17:08 eb32061a **refactor: remove explicit STS from static assets**
+- 2026-01-06 17:07 c3c6cf3f **fix: remove explicit STS for API**
+- 2026-01-06 17:03 0f62f7d8 **docs: generate CHANGELOG**
+- 2026-01-06 17:01 70d6540d **docs: generate CHANGELOG**
 ## 2026-01-06 16:56 v1.8.7
-- 2026-01-06 16:56 965903f **1.8.7**
-- 2026-01-06 16:55 21ea834 **step: add permissions policy**
-- 2026-01-06 16:50 9e2c7b0 **refactor: remove explicit STS from static documents**
-- 2026-01-06 16:44 e0bd903 **step: test ssr**
-- 2026-01-06 16:34 0ed900d **docs: generate CHANGELOG**
-- 2026-01-06 16:33 28ac747 **docs: generate CHANGELOG**
-- 2026-01-06 16:32 562cf02 **step: nonce provider deterministic**
-- 2026-01-06 16:26 1da5ddf **feature: ssr security setup**
-- 2026-01-06 16:24 ed52c36 **docs: generate CHANGELOG**
+- 2026-01-06 16:56 965903f8 **1.8.7**
+- 2026-01-06 16:55 21ea8343 **step: add permissions policy**
+- 2026-01-06 16:50 9e2c7b0f **refactor: remove explicit STS from static documents**
+- 2026-01-06 16:44 e0bd903d **step: test ssr**
+- 2026-01-06 16:34 0ed900de **docs: generate CHANGELOG**
+- 2026-01-06 16:33 28ac747c **docs: generate CHANGELOG**
+- 2026-01-06 16:32 562cf029 **step: nonce provider deterministic**
+- 2026-01-06 16:26 1da5ddf3 **feature: ssr security setup**
+- 2026-01-06 16:24 ed52c36f **docs: generate CHANGELOG**
 ## 2026-01-06 16:11 v1.8.6
-- 2026-01-06 16:11 7ee1f2f **1.8.6**
-- 2026-01-06 16:10 e69f9ef **fix: remove tests from build**
-- 2026-01-06 16:09 2de0040 **docs: generate CHANGELOG**
-- 2026-01-06 16:09 071dcfb **docs: generate CHANGELOG**
+- 2026-01-06 16:11 7ee1f2f5 **1.8.6**
+- 2026-01-06 16:10 e69f9efd **fix: remove tests from build**
+- 2026-01-06 16:09 2de00401 **docs: generate CHANGELOG**
+- 2026-01-06 16:09 071dcfb0 **docs: generate CHANGELOG**
 ## 2026-01-06 16:07 v1.8.5
-- 2026-01-06 16:07 4704a44 **1.8.5**
-- 2026-01-06 16:07 0bb3db2 **docs: generate CHANGELOG**
-- 2026-01-06 16:06 8e2a113 **step: simplify precompressed tests**
-- 2026-01-06 16:04 f39ab3c **step: add static files tests**
-- 2026-01-06 15:56 c1d82b9 **docs: generate CHANGELOG**
-- 2026-01-06 15:55 75ed3b2 **docs: generate CHANGELOG**
-- 2026-01-06 15:49 c16f663 **step: add precompressed assets test**
-- 2026-01-06 15:44 aea5dd6 **docs: generate readme**
-- 2026-01-06 15:44 8aec310 **docs: generate CHANGELOG**
-- 2026-01-06 15:35 824b397 **step: test static files**
-- 2026-01-06 15:29 dd55eb7 **step: add static file fixtures**
-- 2026-01-06 15:25 7de62c6 **step: make root configurable**
-- 2026-01-06 15:11 ecee4ae **docs: generate CHANGELOG**
-- 2026-01-06 15:10 5f79083 **docs: generate CHANGELOG**
-- 2026-01-06 15:08 ca7aca0 **docs: generate CHANGELOG**
-- 2026-01-06 15:06 77f97ea **docs: generate CHANGELOG**
-- 2026-01-06 13:25 2530096 **feature: move static files**
+- 2026-01-06 16:07 4704a447 **1.8.5**
+- 2026-01-06 16:07 0bb3db29 **docs: generate CHANGELOG**
+- 2026-01-06 16:06 8e2a1136 **step: simplify precompressed tests**
+- 2026-01-06 16:04 f39ab3cc **step: add static files tests**
+- 2026-01-06 15:56 c1d82b90 **docs: generate CHANGELOG**
+- 2026-01-06 15:55 75ed3b2e **docs: generate CHANGELOG**
+- 2026-01-06 15:49 c16f6632 **step: add precompressed assets test**
+- 2026-01-06 15:44 aea5dd6d **docs: generate readme**
+- 2026-01-06 15:44 8aec310b **docs: generate CHANGELOG**
+- 2026-01-06 15:35 824b397d **step: test static files**
+- 2026-01-06 15:29 dd55eb71 **step: add static file fixtures**
+- 2026-01-06 15:25 7de62c67 **step: make root configurable**
+- 2026-01-06 15:11 ecee4ae8 **docs: generate CHANGELOG**
+- 2026-01-06 15:10 5f79083c **docs: generate CHANGELOG**
+- 2026-01-06 15:08 ca7aca06 **docs: generate CHANGELOG**
+- 2026-01-06 15:06 77f97ea2 **docs: generate CHANGELOG**
+- 2026-01-06 13:25 25300965 **feature: move static files**
 ## 2026-01-06 13:14 v1.8.4
-- 2026-01-06 13:14 8edc541 **1.8.4**
-- 2026-01-06 13:13 55d92ef **step: tighten cors**
+- 2026-01-06 13:14 8edc5417 **1.8.4**
+- 2026-01-06 13:13 55d92ef7 **step: tighten cors**
 ## 2026-01-06 12:51 v1.8.3
-- 2026-01-06 12:51 6cfb8d8 **1.8.3**
-- 2026-01-06 12:49 4bef72e **feature: nonce value vo**
-- 2026-01-06 12:46 d1c44ba **feature: nonce provider**
-- 2026-01-06 12:14 db18837 **docs: generate CHANGELOG**
-- 2026-01-06 12:13 2ebe4e1 **docs: generate CHANGELOG**
-- 2026-01-06 11:51 6b82bb3 **docs: generate CHANGELOG**
-- 2026-01-06 11:50 5c859cb **docs: generate readme**
-- 2026-01-06 11:50 5473b88 **docs: generate CHANGELOG**
-- 2026-01-06 10:14 c02bcf0 **step: tighten cors**
-- 2026-01-06 10:02 1316863 **step: harden security policy**
-- 2026-01-06 09:03 d90e496 **docs: generate CHANGELOG**
+- 2026-01-06 12:51 6cfb8d8a **1.8.3**
+- 2026-01-06 12:49 4bef72ec **feature: nonce value vo**
+- 2026-01-06 12:46 d1c44ba1 **feature: nonce provider**
+- 2026-01-06 12:14 db188371 **docs: generate CHANGELOG**
+- 2026-01-06 12:13 2ebe4e12 **docs: generate CHANGELOG**
+- 2026-01-06 11:51 6b82bb32 **docs: generate CHANGELOG**
+- 2026-01-06 11:50 5c859cb1 **docs: generate readme**
+- 2026-01-06 11:50 5473b88f **docs: generate CHANGELOG**
+- 2026-01-06 10:14 c02bcf06 **step: tighten cors**
+- 2026-01-06 10:02 1316863b **step: harden security policy**
+- 2026-01-06 09:03 d90e4966 **docs: generate CHANGELOG**
 ## 2026-01-05 23:52 v1.8.2
-- 2026-01-05 23:52 c66ab98 **1.8.2**
-- 2026-01-05 23:50 b5ab4dc **step: update secureheaders options and test cases**
-- 2026-01-05 23:41 dcfad79 **step: add cors override test**
-- 2026-01-05 23:33 a8ea98a **step: add languageDetector defaultLanguage check**
-- 2026-01-05 23:20 f1f71d8 **step: add optional BODY_LIMIT_MAX_SIZE to setup overrides**
-- 2026-01-05 23:19 565e0f3 **step: bump bgord/scripts**
-- 2026-01-05 22:57 1f2b1f3 **step: remove request id stryker**
-- 2026-01-05 22:52 fa4b93c **docs: generate CHANGELOG**
-- 2026-01-05 22:51 b32b9ef **docs: generate CHANGELOG**
+- 2026-01-05 23:52 c66ab98c **1.8.2**
+- 2026-01-05 23:50 b5ab4dc9 **step: update secureheaders options and test cases**
+- 2026-01-05 23:41 dcfad79c **step: add cors override test**
+- 2026-01-05 23:33 a8ea98a2 **step: add languageDetector defaultLanguage check**
+- 2026-01-05 23:20 f1f71d82 **step: add optional BODY_LIMIT_MAX_SIZE to setup overrides**
+- 2026-01-05 23:19 565e0f35 **step: bump bgord/scripts**
+- 2026-01-05 22:57 1f2b1f37 **step: remove request id stryker**
+- 2026-01-05 22:52 fa4b93c5 **docs: generate CHANGELOG**
+- 2026-01-05 22:51 b32b9eff **docs: generate CHANGELOG**
 ## 2026-01-05 16:58 v1.8.1
-- 2026-01-05 16:58 fda2f56 **1.8.1**
-- 2026-01-05 16:57 7b421f4 **Merge pull request #144 from bgord/invariant**
-- 2026-01-05 16:56 cc04dce **refactor: make invariant error handler stateless**
-- 2026-01-05 16:56 72596d5 **step: bump bgord/scripts**
-- 2026-01-05 16:42 892d6d2 **refactor: invariants**
-- 2026-01-05 15:59 65465fb **docs: generate CHANGELOG**
-- 2026-01-05 15:57 7275db7 **docs: generate CHANGELOG**
-- 2026-01-05 13:49 ffa124f **step: update packages**
-- 2026-01-05 12:50 2beaf3a **docs: generate CHANGELOG**
+- 2026-01-05 16:58 fda2f564 **1.8.1**
+- 2026-01-05 16:57 7b421f4e **Merge pull request #144 from bgord/invariant**
+- 2026-01-05 16:56 cc04dce1 **refactor: make invariant error handler stateless**
+- 2026-01-05 16:56 72596d5b **step: bump bgord/scripts**
+- 2026-01-05 16:42 892d6d2c **refactor: invariants**
+- 2026-01-05 15:59 65465fb4 **docs: generate CHANGELOG**
+- 2026-01-05 15:57 7275db75 **docs: generate CHANGELOG**
+- 2026-01-05 13:49 ffa124f0 **step: update packages**
+- 2026-01-05 12:50 2beaf3a6 **docs: generate CHANGELOG**
 ## 2026-01-04 16:13 v1.8.0
-- 2026-01-04 16:13 7911eac **1.8.0**
-- 2026-01-04 16:11 c172362 **step: bump bgord/scripts**
-- 2026-01-04 16:11 640a96f **step: remove stryker config**
-- 2026-01-04 15:54 28c8e0b **refactor: make tests more readable**
-- 2026-01-04 15:50 3c2a5f9 **step: suppress smtp brand mutants**
-- 2026-01-04 15:48 9420d76 **step: improve tests**
-- 2026-01-04 15:35 bf57105 **step: add smtp tests**
-- 2026-01-04 15:31 5b1995e **step: cleanup tests**
-- 2026-01-04 15:30 979f0f3 **refactor: extract mailer vo**
-- 2026-01-04 15:28 007fa6a **refactor: extract smtp from mailer**
-- 2026-01-04 15:27 e43bf6e **step: define smtp vars**
-- 2026-01-04 15:21 f1ced5d **step: make mailer vos branded**
-- 2026-01-04 15:13 f13414d **docs: generate CHANGELOG**
-- 2026-01-04 15:13 a942c1d **fix: types in tests**
-- 2026-01-04 15:13 3b2486b **step: update packages**
-- 2026-01-04 15:12 c0cfa72 **docs: generate CHANGELOG**
-- 2026-01-04 15:12 938a279 **docs: generate readme**
-- 2026-01-04 15:10 cee2946 **step: image processor**
-- 2026-01-04 15:08 2ba3e54 **step: image resizer**
-- 2026-01-04 15:04 1555d09 **step: image compressor**
-- 2026-01-04 15:03 1402701 **step: image formatter**
-- 2026-01-04 15:03 0ac3a5b **step: image exif clear**
-- 2026-01-04 15:02 0a6ee52 **step: image blur**
-- 2026-01-04 14:59 cf94132 **refactor: simplify mock assertions in tests**
-- 2026-01-04 14:59 a100eb8 **step: image alpha**
-- 2026-01-04 14:35 5570a55 **step: recaptcha**
-- 2026-01-04 14:25 cad8151 **step: http logger cache hit**
-- 2026-01-04 14:18 895583b **step: cache hit**
-- 2026-01-04 14:08 57912d6 **step: http logger**
-- 2026-01-04 13:59 d21311a **step: translations prereq**
-- 2026-01-04 13:23 5a1d166 **refactor: remove depend vuln prereq**
-- 2026-01-04 13:18 f4bdb16 **step: veri file**
-- 2026-01-04 13:13 dfba9dc **step: veri dir**
-- 2026-01-04 13:06 e97e551 **step: instrumentation service**
-- 2026-01-04 13:02 4070477 **step: remove decorators**
-- 2026-01-04 12:55 3879e60 **step: cache segment subject**
-- 2026-01-04 12:50 0daa244 **step: lru cache**
-- 2026-01-04 12:35 03f868b **step: antivirus**
-- 2026-01-04 12:33 9618bff **step: history payload**
-- 2026-01-04 11:30 818077a **step: final suppressions**
-- 2026-01-04 11:28 b2b61a6 **step: formatting**
-- 2026-01-04 10:52 af7fb4e **step: client vo**
-- 2026-01-04 10:42 78146bf **step: client vo**
-- 2026-01-04 10:37 96ff49f **step: shield security**
-- 2026-01-04 10:34 8db11ba **step: prereq veri translations**
-- 2026-01-04 10:33 c1f4e99 **step: smtp**
-- 2026-01-04 10:29 dec116e **step: dep vuln**
-- 2026-01-04 10:26 2c0df58 **step: http logger**
-- 2026-01-04 10:19 2e56473 **step: logger winston adapter**
-- 2026-01-04 09:59 892fcfb **step: gv2**
-- 2026-01-04 09:48 23aec4c **step: graceful shutdown**
-- 2026-01-04 09:31 a3864cb **step: decorators**
-- 2026-01-04 09:26 05cc051 **step: shield strategy just enough**
-- 2026-01-04 00:11 deb0053 **step: decorators**
-- 2026-01-03 23:57 2d042fd **step: sealer**
-- 2026-01-03 23:52 7b50252 **step: logger winston local**
-- 2026-01-03 23:32 82278fb **step: file uploader**
-- 2026-01-03 23:29 2caa316 **step: logger**
-- 2026-01-03 23:28 812a3f3 **step: setup**
-- 2026-01-03 23:23 0cc2b96 **step: loggers**
-- 2026-01-03 23:19 102312a **step: logger format error**
-- 2026-01-03 23:18 7ce2a84 **step: security and**
-- 2026-01-03 23:13 76f9041 **step: rule or**
-- 2026-01-03 23:03 592bd5d **step: image formatter**
-- 2026-01-03 22:57 5572808 **step: image processor sharp**
-- 2026-01-03 22:35 7207d8b **step: shield auth strategy**
-- 2026-01-03 22:30 4939e5e **step: static files service**
-- 2026-01-03 22:12 bb6e3c4 **step: recaptcha**
-- 2026-01-03 21:57 841bb57 **step: recaptcha**
-- 2026-01-03 21:48 022de99 **step: weak-etag extractor**
-- 2026-01-03 21:47 3f72af0 **step: etag extractor**
-- 2026-01-03 21:43 ec79efc **step: time zone offset**
-- 2026-01-03 21:00 2152d07 **step: disk space checker bun**
-- 2026-01-03 20:31 30e1dc0 **step: mailer smtp adapter**
-- 2026-01-03 20:28 8e17480 **step: mailer smtp with logger adapter**
-- 2026-01-03 20:25 e5a26c7 **step: safe parse body**
-- 2026-01-03 20:23 6402b21 **step: simulated error**
-- 2026-01-03 20:21 af7e986 **step: disk space checker bun**
-- 2026-01-03 20:11 da0a224 **step: crypto aes gcm**
-- 2026-01-03 20:00 25d1060 **step: client from hono**
-- 2026-01-03 19:53 2a4499a **step: checksum**
-- 2026-01-03 19:42 3987c9c **step: ttl autopurge**
-- 2026-01-03 19:40 0a2c25e **step: lru cache dependency missing**
-- 2026-01-03 19:08 9a577a6 **step: better auth logger**
-- 2026-01-03 18:53 28852a6 **step: clamav**
-- 2026-01-03 18:35 107ad32 **step: handleSetUserLanguageCommand**
-- 2026-01-03 10:55 9059cfe **step: user language has changed**
-- 2026-01-03 10:34 d07bc3d **step: passage of time**
-- 2026-01-03 10:21 2dd814c **step: history**
-- 2026-01-03 09:26 c80d7a3 **step: history subject**
-- 2026-01-03 09:23 361db9a **step: history payload**
-- 2026-01-02 22:13 30896ac **step: history event handlers**
-- 2026-01-02 20:43 5fc6d42 **step: cache response disabled**
-- 2026-01-02 20:36 382775c **step: cert insp tls**
-- 2026-01-02 20:34 d9b7f3e **step: crypto key prov with cache**
-- 2026-01-02 20:30 6067718 **step: file reader json with cache**
-- 2026-01-02 20:23 3f68842 **step: disk space checker bun**
-- 2026-01-02 20:20 50fa0e0 **step: mailer smtp with logger adapter**
-- 2026-01-02 20:13 f171013 **step: encryption**
-- 2026-01-02 20:12 326ff7b **step: file draft zip**
-- 2026-01-02 20:11 658c793 **step: pdf generator noop**
-- 2026-01-02 20:10 3004c5a **step: shield hcaptcha**
-- 2026-01-02 20:08 f5bec11 **step: checksum**
-- 2026-01-02 20:04 d03315b **step: job handler with logger**
-- 2026-01-02 19:37 cc14cbf **step: secu rule**
-- 2026-01-02 19:36 9c42fd1 **step: sec counter**
-- 2026-01-02 19:33 fe62994 **step: id prov deter**
-- 2026-01-02 19:32 662c13a **step: hash value**
-- 2026-01-02 19:31 2c41c1a **step: encryption key**
-- 2026-01-02 19:29 a2f14ec **step: encryption key value**
-- 2026-01-02 19:25 568083d **step: command envelope**
-- 2026-01-02 19:21 721ef1e **step: binary**
-- 2026-01-02 19:16 034defe **step: gzip stream**
-- 2026-01-02 19:12 3220bbb **step: healthcheck**
-- 2026-01-02 19:10 d7ed571 **step: job handler with logger**
-- 2026-01-02 19:04 2da1134 **step: mailer noop adapter**
-- 2026-01-02 19:03 5f83c88 **step: pdf generator noop**
-- 2026-01-02 19:01 7ba34c6 **step: get stream null**
-- 2026-01-02 18:59 dcf4820 **step: remote file storage noop**
-- 2026-01-02 18:21 10936b8 **step: redactor mask**
-- 2026-01-02 17:46 79402e8 **step: translations**
-- 2026-01-02 17:43 636176f **step: translations**
-- 2026-01-02 17:37 382005c **step: dep vuln**
-- 2026-01-02 17:30 caeac8d **step: dep vuln**
-- 2026-01-02 17:25 b49dbfc **step: prereq with cache**
-- 2026-01-02 17:20 95bb8ec **step: directory**
-- 2026-01-02 17:18 856a748 **step: file**
-- 2026-01-02 17:07 73a4fad **step: os**
-- 2026-01-02 17:06 0173f32 **step: outside conn**
-- 2026-01-02 17:04 ca3c497 **step: sqlite**
-- 2026-01-02 17:02 fff07f7 **step: prereq log file**
-- 2026-01-02 16:58 3cce4dc **step: prereq external api**
-- 2026-01-02 16:52 e3c7d06 **step: prereq clock drift**
-- 2026-01-02 16:47 2456f03 **step: binary**
-- 2026-01-02 16:44 a4c850b **step: add prereq kind tests**
-- 2026-01-02 16:36 3b63f33 **step: prereq runner startup**
-- 2026-01-02 16:13 ccf1f7d **step: event envelope**
-- 2026-01-02 16:10 a90555d **step: command envelope**
-- 2026-01-02 16:00 7729103 **step: shield timeout**
-- 2026-01-02 15:27 c5621f2 **step: shield api key**
-- 2026-01-02 15:23 f119287 **step: shield rate limit**
-- 2026-01-02 15:15 84c5f31 **step: timekeeper google adapter**
-- 2026-01-02 15:01 428627b **step: timeout runner monitor**
-- 2025-12-31 17:36 716c3f4 **step: mailer noop**
-- 2025-12-31 17:35 158b06d **step: logger noop**
-- 2025-12-31 17:33 d0f9c7e **step: env loader process safe**
-- 2025-12-31 17:33 8add818 **step: i18n**
-- 2025-12-31 17:33 4a4e53b **step: correlation storage**
-- 2025-12-31 17:24 966ea4d **step: checksum**
-- 2025-12-31 17:18 ab78778 **step: retry backoff expo**
-- 2025-12-31 17:01 d13528e **fix: errors in tests**
-- 2025-12-31 16:41 3c60aaa **step: disable brand checks**
-- 2025-12-31 16:38 924a0fe **step: build info repo**
-- 2025-12-31 16:36 f3f709c **step: binary**
-- 2025-12-31 16:35 e526575 **step: basic auth credentials**
-- 2025-12-31 16:05 31ba30f **step: setup stryker**
-- 2025-12-31 16:04 b5dc1dc **step: install stryker**
-- 2025-12-31 16:03 94a6851 **step: update packages**
-- 2025-12-31 16:02 8fc84c1 **step: update packages**
-- 2025-12-31 10:10 b1594fd **fix: and**
-- 2025-12-31 10:04 bdca42c **step: test just enough rules in or**
-- 2025-12-31 10:04 716a1c9 **step: test just enough rules in and**
+- 2026-01-04 16:13 7911eac5 **1.8.0**
+- 2026-01-04 16:11 c1723628 **step: bump bgord/scripts**
+- 2026-01-04 16:11 640a96fd **step: remove stryker config**
+- 2026-01-04 15:54 28c8e0b9 **refactor: make tests more readable**
+- 2026-01-04 15:50 3c2a5f93 **step: suppress smtp brand mutants**
+- 2026-01-04 15:48 9420d762 **step: improve tests**
+- 2026-01-04 15:35 bf57105d **step: add smtp tests**
+- 2026-01-04 15:31 5b1995e4 **step: cleanup tests**
+- 2026-01-04 15:30 979f0f3c **refactor: extract mailer vo**
+- 2026-01-04 15:28 007fa6ac **refactor: extract smtp from mailer**
+- 2026-01-04 15:27 e43bf6e3 **step: define smtp vars**
+- 2026-01-04 15:21 f1ced5d0 **step: make mailer vos branded**
+- 2026-01-04 15:13 f13414df **docs: generate CHANGELOG**
+- 2026-01-04 15:13 a942c1df **fix: types in tests**
+- 2026-01-04 15:13 3b2486b0 **step: update packages**
+- 2026-01-04 15:12 c0cfa729 **docs: generate CHANGELOG**
+- 2026-01-04 15:12 938a2794 **docs: generate readme**
+- 2026-01-04 15:10 cee2946f **step: image processor**
+- 2026-01-04 15:08 2ba3e54a **step: image resizer**
+- 2026-01-04 15:04 1555d098 **step: image compressor**
+- 2026-01-04 15:03 14027015 **step: image formatter**
+- 2026-01-04 15:03 0ac3a5be **step: image exif clear**
+- 2026-01-04 15:02 0a6ee520 **step: image blur**
+- 2026-01-04 14:59 cf94132d **refactor: simplify mock assertions in tests**
+- 2026-01-04 14:59 a100eb88 **step: image alpha**
+- 2026-01-04 14:35 5570a55a **step: recaptcha**
+- 2026-01-04 14:25 cad81511 **step: http logger cache hit**
+- 2026-01-04 14:18 895583b0 **step: cache hit**
+- 2026-01-04 14:08 57912d68 **step: http logger**
+- 2026-01-04 13:59 d21311a4 **step: translations prereq**
+- 2026-01-04 13:23 5a1d166d **refactor: remove depend vuln prereq**
+- 2026-01-04 13:18 f4bdb16c **step: veri file**
+- 2026-01-04 13:13 dfba9dcf **step: veri dir**
+- 2026-01-04 13:06 e97e551e **step: instrumentation service**
+- 2026-01-04 13:02 40704772 **step: remove decorators**
+- 2026-01-04 12:55 3879e601 **step: cache segment subject**
+- 2026-01-04 12:50 0daa2449 **step: lru cache**
+- 2026-01-04 12:35 03f868b5 **step: antivirus**
+- 2026-01-04 12:33 9618bff2 **step: history payload**
+- 2026-01-04 11:30 818077a7 **step: final suppressions**
+- 2026-01-04 11:28 b2b61a67 **step: formatting**
+- 2026-01-04 10:52 af7fb4e7 **step: client vo**
+- 2026-01-04 10:42 78146bfc **step: client vo**
+- 2026-01-04 10:37 96ff49f2 **step: shield security**
+- 2026-01-04 10:34 8db11ba0 **step: prereq veri translations**
+- 2026-01-04 10:33 c1f4e99c **step: smtp**
+- 2026-01-04 10:29 dec116e2 **step: dep vuln**
+- 2026-01-04 10:26 2c0df582 **step: http logger**
+- 2026-01-04 10:19 2e56473f **step: logger winston adapter**
+- 2026-01-04 09:59 892fcfb9 **step: gv2**
+- 2026-01-04 09:48 23aec4ca **step: graceful shutdown**
+- 2026-01-04 09:31 a3864cb7 **step: decorators**
+- 2026-01-04 09:26 05cc0513 **step: shield strategy just enough**
+- 2026-01-04 00:11 deb0053c **step: decorators**
+- 2026-01-03 23:57 2d042fd8 **step: sealer**
+- 2026-01-03 23:52 7b502524 **step: logger winston local**
+- 2026-01-03 23:32 82278fb0 **step: file uploader**
+- 2026-01-03 23:29 2caa3160 **step: logger**
+- 2026-01-03 23:28 812a3f3f **step: setup**
+- 2026-01-03 23:23 0cc2b96d **step: loggers**
+- 2026-01-03 23:19 102312a2 **step: logger format error**
+- 2026-01-03 23:18 7ce2a846 **step: security and**
+- 2026-01-03 23:13 76f9041b **step: rule or**
+- 2026-01-03 23:03 592bd5de **step: image formatter**
+- 2026-01-03 22:57 5572808b **step: image processor sharp**
+- 2026-01-03 22:35 7207d8b7 **step: shield auth strategy**
+- 2026-01-03 22:30 4939e5e3 **step: static files service**
+- 2026-01-03 22:12 bb6e3c48 **step: recaptcha**
+- 2026-01-03 21:57 841bb57a **step: recaptcha**
+- 2026-01-03 21:48 022de993 **step: weak-etag extractor**
+- 2026-01-03 21:47 3f72af07 **step: etag extractor**
+- 2026-01-03 21:43 ec79efc9 **step: time zone offset**
+- 2026-01-03 21:00 2152d075 **step: disk space checker bun**
+- 2026-01-03 20:31 30e1dc00 **step: mailer smtp adapter**
+- 2026-01-03 20:28 8e17480d **step: mailer smtp with logger adapter**
+- 2026-01-03 20:25 e5a26c7c **step: safe parse body**
+- 2026-01-03 20:23 6402b215 **step: simulated error**
+- 2026-01-03 20:21 af7e9863 **step: disk space checker bun**
+- 2026-01-03 20:11 da0a2245 **step: crypto aes gcm**
+- 2026-01-03 20:00 25d10602 **step: client from hono**
+- 2026-01-03 19:53 2a4499af **step: checksum**
+- 2026-01-03 19:42 3987c9c6 **step: ttl autopurge**
+- 2026-01-03 19:40 0a2c25e7 **step: lru cache dependency missing**
+- 2026-01-03 19:08 9a577a6c **step: better auth logger**
+- 2026-01-03 18:53 28852a64 **step: clamav**
+- 2026-01-03 18:35 107ad328 **step: handleSetUserLanguageCommand**
+- 2026-01-03 10:55 9059cfea **step: user language has changed**
+- 2026-01-03 10:34 d07bc3d8 **step: passage of time**
+- 2026-01-03 10:21 2dd814c3 **step: history**
+- 2026-01-03 09:26 c80d7a33 **step: history subject**
+- 2026-01-03 09:23 361db9ab **step: history payload**
+- 2026-01-02 22:13 30896ac3 **step: history event handlers**
+- 2026-01-02 20:43 5fc6d42d **step: cache response disabled**
+- 2026-01-02 20:36 382775cc **step: cert insp tls**
+- 2026-01-02 20:34 d9b7f3e2 **step: crypto key prov with cache**
+- 2026-01-02 20:30 6067718c **step: file reader json with cache**
+- 2026-01-02 20:23 3f68842e **step: disk space checker bun**
+- 2026-01-02 20:20 50fa0e03 **step: mailer smtp with logger adapter**
+- 2026-01-02 20:13 f1710136 **step: encryption**
+- 2026-01-02 20:12 326ff7bc **step: file draft zip**
+- 2026-01-02 20:11 658c7930 **step: pdf generator noop**
+- 2026-01-02 20:10 3004c5ab **step: shield hcaptcha**
+- 2026-01-02 20:08 f5bec111 **step: checksum**
+- 2026-01-02 20:04 d03315bc **step: job handler with logger**
+- 2026-01-02 19:37 cc14cbf9 **step: secu rule**
+- 2026-01-02 19:36 9c42fd11 **step: sec counter**
+- 2026-01-02 19:33 fe62994a **step: id prov deter**
+- 2026-01-02 19:32 662c13ab **step: hash value**
+- 2026-01-02 19:31 2c41c1a9 **step: encryption key**
+- 2026-01-02 19:29 a2f14ec2 **step: encryption key value**
+- 2026-01-02 19:25 568083dd **step: command envelope**
+- 2026-01-02 19:21 721ef1ee **step: binary**
+- 2026-01-02 19:16 034defe5 **step: gzip stream**
+- 2026-01-02 19:12 3220bbbf **step: healthcheck**
+- 2026-01-02 19:10 d7ed5716 **step: job handler with logger**
+- 2026-01-02 19:04 2da11346 **step: mailer noop adapter**
+- 2026-01-02 19:03 5f83c887 **step: pdf generator noop**
+- 2026-01-02 19:01 7ba34c6b **step: get stream null**
+- 2026-01-02 18:59 dcf48204 **step: remote file storage noop**
+- 2026-01-02 18:21 10936b86 **step: redactor mask**
+- 2026-01-02 17:46 79402e8d **step: translations**
+- 2026-01-02 17:43 636176f3 **step: translations**
+- 2026-01-02 17:37 382005c2 **step: dep vuln**
+- 2026-01-02 17:30 caeac8d5 **step: dep vuln**
+- 2026-01-02 17:25 b49dbfc1 **step: prereq with cache**
+- 2026-01-02 17:20 95bb8ec9 **step: directory**
+- 2026-01-02 17:18 856a748a **step: file**
+- 2026-01-02 17:07 73a4fad5 **step: os**
+- 2026-01-02 17:06 0173f322 **step: outside conn**
+- 2026-01-02 17:04 ca3c4974 **step: sqlite**
+- 2026-01-02 17:02 fff07f7a **step: prereq log file**
+- 2026-01-02 16:58 3cce4dc3 **step: prereq external api**
+- 2026-01-02 16:52 e3c7d068 **step: prereq clock drift**
+- 2026-01-02 16:47 2456f038 **step: binary**
+- 2026-01-02 16:44 a4c850b2 **step: add prereq kind tests**
+- 2026-01-02 16:36 3b63f338 **step: prereq runner startup**
+- 2026-01-02 16:13 ccf1f7d5 **step: event envelope**
+- 2026-01-02 16:10 a90555de **step: command envelope**
+- 2026-01-02 16:00 7729103f **step: shield timeout**
+- 2026-01-02 15:27 c5621f23 **step: shield api key**
+- 2026-01-02 15:23 f1192873 **step: shield rate limit**
+- 2026-01-02 15:15 84c5f310 **step: timekeeper google adapter**
+- 2026-01-02 15:01 428627b2 **step: timeout runner monitor**
+- 2025-12-31 17:36 716c3f48 **step: mailer noop**
+- 2025-12-31 17:35 158b06de **step: logger noop**
+- 2025-12-31 17:33 d0f9c7e1 **step: env loader process safe**
+- 2025-12-31 17:33 8add818b **step: i18n**
+- 2025-12-31 17:33 4a4e53b3 **step: correlation storage**
+- 2025-12-31 17:24 966ea4d2 **step: checksum**
+- 2025-12-31 17:18 ab78778f **step: retry backoff expo**
+- 2025-12-31 17:01 d13528e8 **fix: errors in tests**
+- 2025-12-31 16:41 3c60aaac **step: disable brand checks**
+- 2025-12-31 16:38 924a0fe3 **step: build info repo**
+- 2025-12-31 16:36 f3f709cc **step: binary**
+- 2025-12-31 16:35 e5265754 **step: basic auth credentials**
+- 2025-12-31 16:05 31ba30ff **step: setup stryker**
+- 2025-12-31 16:04 b5dc1dc5 **step: install stryker**
+- 2025-12-31 16:03 94a68516 **step: update packages**
+- 2025-12-31 16:02 8fc84c10 **step: update packages**
+- 2025-12-31 10:10 b1594fd5 **fix: and**
+- 2025-12-31 10:04 bdca42c6 **step: test just enough rules in or**
+- 2025-12-31 10:04 716a1c90 **step: test just enough rules in and**
 ## 2025-12-31 00:01 v1.7.10
-- 2025-12-31 00:01 db31b03 **1.7.10**
-- 2025-12-31 00:00 9affab6 **fix: crypto adapter id provider**
+- 2025-12-31 00:01 db31b035 **1.7.10**
+- 2025-12-31 00:00 9affab61 **fix: crypto adapter id provider**
 ## 2025-12-30 23:50 v1.7.9
-- 2025-12-30 23:50 4e2209c **1.7.9**
-- 2025-12-30 23:50 2dc1c54 **fix: id provider deterministic adapter**
-- 2025-12-30 23:01 d4dcf7c **docs: generate CHANGELOG**
-- 2025-12-30 23:00 74c70a6 **docs: generate CHANGELOG**
-- 2025-12-30 22:51 556f64d **docs: generate CHANGELOG**
-- 2025-12-30 22:50 6a7b259 **docs: generate CHANGELOG**
+- 2025-12-30 23:50 4e2209ce **1.7.9**
+- 2025-12-30 23:50 2dc1c541 **fix: id provider deterministic adapter**
+- 2025-12-30 23:01 d4dcf7c9 **docs: generate CHANGELOG**
+- 2025-12-30 23:00 74c70a6e **docs: generate CHANGELOG**
+- 2025-12-30 22:51 556f64d5 **docs: generate CHANGELOG**
+- 2025-12-30 22:50 6a7b2597 **docs: generate CHANGELOG**
 ## 2025-12-30 14:54 v1.7.8
-- 2025-12-30 14:54 e4b2aa7 **1.7.8**
-- 2025-12-30 14:53 7d5e572 **fix: max size brand type**
+- 2025-12-30 14:54 e4b2aa73 **1.7.8**
+- 2025-12-30 14:53 7d5e572a **fix: max size brand type**
 ## 2025-12-30 14:44 v1.7.7
-- 2025-12-30 14:44 fa228c0 **1.7.7**
-- 2025-12-30 14:43 bb0260e **refactor: tighten types**
-- 2025-12-30 14:39 ea3c849 **step: update packages**
+- 2025-12-30 14:44 fa228c02 **1.7.7**
+- 2025-12-30 14:43 bb0260ea **refactor: tighten types**
+- 2025-12-30 14:39 ea3c849f **step: update packages**
 ## 2025-12-30 14:12 v1.7.6
-- 2025-12-30 14:12 a9c0e73 **1.7.6**
-- 2025-12-30 14:10 82219f5 **refactor: use positive integer in redactors**
-- 2025-12-30 14:09 bde74fe **refactor: use positive integer in retry**
-- 2025-12-30 14:07 1562cb7 **refactor: use positive integer in image compressor**
-- 2025-12-30 14:06 f0b3e19 **refactor: use positive integer in mirage**
-- 2025-12-30 14:05 febd1e6 **refactor: use positive integer in logger**
-- 2025-12-30 14:04 9b251d5 **refactor: use positive integer in image resizer**
-- 2025-12-30 14:04 415c1ee **refactor: use positive integer in countermeasure strategy**
-- 2025-12-30 14:01 09b2123 **refactor: use positive integer in shield security**
-- 2025-12-30 14:00 273754d **refactor: use positive integer in retry backoff**
-- 2025-12-30 13:54 93e81cd **docs: generate CHANGELOG**
-- 2025-12-30 13:53 c5977e0 **refactor: tighten type in countermeasure ban**
-- 2025-12-30 13:53 2cd6c0d **docs: generate CHANGELOG**
-- 2025-12-30 13:51 94c3209 **step: update packages**
-- 2025-12-30 13:44 c68ee2e **docs: generate CHANGELOG**
-- 2025-12-30 13:44 617fc0a **docs: generate CHANGELOG**
-- 2025-12-30 13:12 592b18b **docs: generate CHANGELOG**
-- 2025-12-30 13:12 46aa8ec **docs: generate CHANGELOG**
-- 2025-12-30 12:43 0d42c0a **step: add countermeasure name to security context**
+- 2025-12-30 14:12 a9c0e737 **1.7.6**
+- 2025-12-30 14:10 82219f52 **refactor: use positive integer in redactors**
+- 2025-12-30 14:09 bde74fe4 **refactor: use positive integer in retry**
+- 2025-12-30 14:07 1562cb7b **refactor: use positive integer in image compressor**
+- 2025-12-30 14:06 f0b3e194 **refactor: use positive integer in mirage**
+- 2025-12-30 14:05 febd1e65 **refactor: use positive integer in logger**
+- 2025-12-30 14:04 9b251d51 **refactor: use positive integer in image resizer**
+- 2025-12-30 14:04 415c1ee4 **refactor: use positive integer in countermeasure strategy**
+- 2025-12-30 14:01 09b2123d **refactor: use positive integer in shield security**
+- 2025-12-30 14:00 273754dd **refactor: use positive integer in retry backoff**
+- 2025-12-30 13:54 93e81cdc **docs: generate CHANGELOG**
+- 2025-12-30 13:53 c5977e0c **refactor: tighten type in countermeasure ban**
+- 2025-12-30 13:53 2cd6c0d8 **docs: generate CHANGELOG**
+- 2025-12-30 13:51 94c32099 **step: update packages**
+- 2025-12-30 13:44 c68ee2e5 **docs: generate CHANGELOG**
+- 2025-12-30 13:44 617fc0a3 **docs: generate CHANGELOG**
+- 2025-12-30 13:12 592b18be **docs: generate CHANGELOG**
+- 2025-12-30 13:12 46aa8ec6 **docs: generate CHANGELOG**
+- 2025-12-30 12:43 0d42c0ab **step: add countermeasure name to security context**
 ## 2025-12-30 12:19 v1.7.5
-- 2025-12-30 12:19 fb9a31e **1.7.5**
-- 2025-12-30 12:17 fff9fe8 **fix: tsconfig**
+- 2025-12-30 12:19 fb9a31ee **1.7.5**
+- 2025-12-30 12:17 fff9fe8f **fix: tsconfig**
 ## 2025-12-30 12:00 v1.7.4
-- 2025-12-30 12:00 e5b3805 **1.7.4**
+- 2025-12-30 12:00 e5b38054 **1.7.4**
 ## 2025-12-30 11:56 v1.7.3
-- 2025-12-30 11:56 a56aebb **1.7.3**
-- 2025-12-30 11:54 437a4c5 **fix: client ip validation logic**
-- 2025-12-30 11:54 3b9a550 **step: add failing http logger client extraction testcase**
-- 2025-12-30 11:52 35c7886 **step: use mocks.ip in http logger tests**
-- 2025-12-30 11:50 a85baa4 **refactor: simplify http logger skip logic**
-- 2025-12-30 11:19 d83ec93 **docs: generate CHANGELOG**
-- 2025-12-30 11:17 e775ce9 **docs: generate CHANGELOG**
-- 2025-12-30 11:01 b3f32f2 **docs: generate CHANGELOG**
-- 2025-12-30 10:56 7907ca5 **docs: generate CHANGELOG**
-- 2025-12-30 10:55 da9472a **docs: generate CHANGELOG**
-- 2025-12-30 10:22 2a09aa0 **refactor: simplify error zod definition**
-- 2025-12-29 23:02 5264e17 **refactor: use duration in certificate inspector**
-- 2025-12-29 22:56 15b7d8e **refactor: rename remaing days to remaining**
-- 2025-12-29 22:50 e8cff9b **step: test fail retry timeout case**
-- 2025-12-29 22:03 6d3b5d9 **docs: generate CHANGELOG**
+- 2025-12-30 11:56 a56aebb6 **1.7.3**
+- 2025-12-30 11:54 437a4c5b **fix: client ip validation logic**
+- 2025-12-30 11:54 3b9a5505 **step: add failing http logger client extraction testcase**
+- 2025-12-30 11:52 35c78865 **step: use mocks.ip in http logger tests**
+- 2025-12-30 11:50 a85baa4e **refactor: simplify http logger skip logic**
+- 2025-12-30 11:19 d83ec938 **docs: generate CHANGELOG**
+- 2025-12-30 11:17 e775ce90 **docs: generate CHANGELOG**
+- 2025-12-30 11:01 b3f32f2e **docs: generate CHANGELOG**
+- 2025-12-30 10:56 7907ca53 **docs: generate CHANGELOG**
+- 2025-12-30 10:55 da9472af **docs: generate CHANGELOG**
+- 2025-12-30 10:22 2a09aa0f **refactor: simplify error zod definition**
+- 2025-12-29 23:02 5264e175 **refactor: use duration in certificate inspector**
+- 2025-12-29 22:56 15b7d8e8 **refactor: rename remaing days to remaining**
+- 2025-12-29 22:50 e8cff9b1 **step: test fail retry timeout case**
+- 2025-12-29 22:03 6d3b5d9a **docs: generate CHANGELOG**
 ## 2025-12-29 17:54 v1.7.2
-- 2025-12-29 17:54 c9b312b **1.7.2**
-- 2025-12-29 17:53 53dfc96 **fix: make lru-cache dependency loading dynamic**
+- 2025-12-29 17:54 c9b312b6 **1.7.2**
+- 2025-12-29 17:53 53dfc96d **fix: make lru-cache dependency loading dynamic**
 ## 2025-12-29 17:19 v1.7.1
-- 2025-12-29 17:19 67bc662 **1.7.1**
-- 2025-12-29 17:18 f5130aa **fix: unify file reader json adapter naming**
+- 2025-12-29 17:19 67bc6622 **1.7.1**
+- 2025-12-29 17:18 f5130aac **fix: unify file reader json adapter naming**
 ## 2025-12-29 16:59 v1.7.0
-- 2025-12-29 16:59 92b31c6 **1.7.0**
-- 2025-12-29 16:54 90886eb **docs: generate CHANGELOG**
-- 2025-12-29 16:54 5bfa6fc **docs: generate CHANGELOG**
-- 2025-12-29 16:43 253c58f **refactor: make setup tests thighter**
-- 2025-12-29 16:19 eef3550 **docs: generate CHANGELOG**
-- 2025-12-29 16:19 7efb0f1 **docs: generate CHANGELOG**
-- 2025-12-29 15:59 0c1d055 **docs: generate CHANGELOG**
-- 2025-12-29 15:58 6c3ac53 **docs: generate CHANGELOG**
-- 2025-12-29 14:50 5dd5371 **step: add crypto key provider with cache**
-- 2025-12-29 14:46 f69b93a **docs: generate readme**
-- 2025-12-29 14:46 aaacb46 **docs: generate CHANGELOG**
-- 2025-12-29 14:42 31fff35 **refactor: make time zone offset tighter**
-- 2025-12-29 14:32 76dc0be **step: update packages**
-- 2025-12-29 14:05 a124e59 **refactor: restore redactor in loggers**
-- 2025-12-29 13:59 6b19858 **step: make redactors sync**
-- 2025-12-29 13:36 5d31001 **step: bump bgord/scripts**
-- 2025-12-29 13:35 96cb753 **step: make lru-cache package peer and optional**
-- 2025-12-29 13:25 e115309 **step: test infinite ttls in repos**
-- 2025-12-29 13:07 adc8437 **feature: cache repository lru cache adapter**
-- 2025-12-29 12:59 4ba3afe **step: install lru-cache**
-- 2025-12-29 12:54 4fc6681 **step: add ttl infinite test**
-- 2025-12-29 12:51 75441df **refactor: use node cache adapter in cache resolver simple test**
-- 2025-12-29 12:49 82c5a3b **refactor: allow infinite cache ttl**
-- 2025-12-29 12:39 1cac703 **refactor: remove ttl getters from cache repository and cache resolver**
-- 2025-12-29 12:37 ec57cd6 **docs: generate readme**
-- 2025-12-29 12:37 26a1241 **docs: generate CHANGELOG**
-- 2025-12-29 12:04 c045c99 **step: remove checkperiod from node-cache adapter**
-- 2025-12-29 11:58 c7f8230 **refactor: use Duration.MIN**
-- 2025-12-29 11:54 09e34bb **refactor: update rounding**
-- 2025-12-29 11:53 b7e9bf9 **step: update packages**
-- 2025-12-29 00:01 fcf48e3 **refactor: retry backoff strategy naming**
-- 2025-12-28 23:46 4f9355d **feature: file-reader-json-with-cache**
-- 2025-12-28 23:15 2149f1b **refactor: define file reader json output type**
-- 2025-12-28 20:55 fd9f4cb **feature: clock offset adapter**
-- 2025-12-28 20:03 e1a083a **docs: generate CHANGELOG**
-- 2025-12-28 20:03 0d802eb **docs: generate readme**
-- 2025-12-28 18:24 e0bd5b4 **refactor: adjust tests**
-- 2025-12-28 18:22 c99079a **refactor: simplify graceful shutdown tests**
-- 2025-12-28 18:12 8b9978f **refactor: remove Bun.sleep from tests**
-- 2025-12-28 17:49 7197f72 **step: add timeout cancellable runner**
-- 2025-12-28 17:23 22354f3 **refactor: use sealer port in redactor encryption**
-- 2025-12-28 16:11 c3dcaac **refactor: make redactors async**
-- 2025-12-28 15:51 51040e5 **feature: sealer aes gcm**
-- 2025-12-28 15:31 038720c **refactor: unify encryption port name**
-- 2025-12-28 15:29 fb41059 **feature: sealer port**
-- 2025-12-28 15:22 3546f59 **refactor: introduce crypto aes gcm service**
-- 2025-12-28 14:40 76be7fa **refactor: use timeout runners in tests**
-- 2025-12-28 14:28 8113bbe **step: timeout runner monitor**
-- 2025-12-28 14:02 1a56f81 **feature: timeout runner port**
-- 2025-12-28 13:42 87254a1 **refactor: reduce timeouts in tests**
-- 2025-12-28 13:34 8404cb8 **refactor: remove saveAfter from event store**
-- 2025-12-28 13:31 0dabfc1 **step: cleanup shield timeout strategy tests**
-- 2025-12-28 13:26 4b65169 **refactor: use sleeper port in shield security strategy**
-- 2025-12-28 13:21 1f493c8 **refactor: use sleeper port in slower**
-- 2025-12-28 13:19 de9c82c **refactor: use sleeper port in retry**
-- 2025-12-28 13:02 ff7368a **step: use fromDateLike**
-- 2025-12-28 12:53 d55985a **step: update packages**
-- 2025-12-28 12:43 072a4b2 **refactor: simplify tests**
-- 2025-12-28 12:34 a0a9dbe **feature: sleeper port**
-- 2025-12-28 12:21 46a517c **refactor: simplify clock port**
-- 2025-12-28 12:03 128e9d6 **Merge pull request #143 from bgord/port-strategy-refactor**
-- 2025-12-28 12:00 b700f55 **step: environment loader noop adapter**
-- 2025-12-28 11:04 77dc36f **docs: generate readme**
-- 2025-12-28 11:04 2a984e2 **docs: generate CHANGELOG**
-- 2025-12-28 10:27 28250c1 **step: strategy conversion shield**
-- 2025-12-28 10:17 acd2a50 **step: strategy conversion security countermeasure**
-- 2025-12-28 10:09 4faffc7 **step: strategy conversion security rule**
-- 2025-12-28 09:58 9789042 **step: strategy conversion retry backoff**
-- 2025-12-28 09:45 89066e7 **step: strategy conversion redactor**
-- 2025-12-28 09:37 bfa6e27 **step: strategy conversion file reader json**
-- 2025-12-28 09:28 a6407fd **step: strategy conversion cache subject segment**
-- 2025-12-28 09:14 977eadc **step: strategy conversion event handler**
-- 2025-12-28 00:10 d0ce4c5 **step: strategy conversion hash content**
-- 2025-12-28 00:00 d246437 **step: strategy conversion visitor id**
-- 2025-12-27 23:57 8bf4812 **step: strategy conversion job handler**
-- 2025-12-27 23:45 3fba783 **step: strategy conversion cache resolver**
-- 2025-12-27 21:39 95198fb **Merge pull request #142 from bgord/prerequisites-architecture**
-- 2025-12-27 20:40 62749d1 **docs: generate readme**
-- 2025-12-27 20:40 0eaf761 **docs: generate CHANGELOG**
-- 2025-12-27 19:20 b09e8c8 **refactor: simplify prereq verifier formatting**
-- 2025-12-27 19:20 40d4dba **refactor: simplify with retry and timeout**
-- 2025-12-27 18:59 8b7207a **step: update packages**
-- 2025-12-27 18:57 a2f1cb0 **refactor: define with fail safe default when**
-- 2025-12-27 18:46 b0647c9 **step: add prereq test with everything**
-- 2025-12-27 14:16 c9f6443 **feature: prereq decorator with fail safe**
-- 2025-12-26 22:02 47c3ab9 **step: add cache x retry test**
-- 2025-12-26 20:52 e0944ba **step: test exponential backoff**
-- 2025-12-26 20:46 be2b4a9 **step: add with retry to prereq vo with everything test**
-- 2025-12-26 20:43 d70b299 **feature: prerequisite verifier with retry**
-- 2025-12-26 19:16 8458796 **step: update packages**
-- 2025-12-26 18:53 728ed6e **step: add retry config.when**
-- 2025-12-26 18:42 a01de51 **refactor: start retry delays from the first attempt**
-- 2025-12-26 18:29 10c2293 **step: add retry service**
-- 2025-12-26 18:10 3d7ccac **feature: retry backoff fibonacci**
-- 2025-12-26 18:02 128435e **step: handle attempt 0**
-- 2025-12-26 17:56 a75f6a5 **feature: retry backoff expontential**
-- 2025-12-26 16:21 d623f27 **feature: retry backoff strategies**
-- 2025-12-26 16:04 b93b9b8 **step: update packages**
-- 2025-12-26 15:07 b775c3c **step: add timestamp startup**
-- 2025-12-26 15:04 00f72e5 **step: add server.cpus**
-- 2025-12-26 14:59 43efdbc **step: add server.hostname**
-- 2025-12-26 14:54 41af689 **step: add server.pid**
-- 2025-12-26 14:52 e329e81 **refactor: define server section**
-- 2025-12-26 14:50 6a36296 **step: add deployment.environment**
-- 2025-12-26 14:45 1fb7dc4 **step: add timestamp to healthcheck**
-- 2025-12-26 14:42 b6752ed **refactor: paralellize healthcheck**
-- 2025-12-26 14:30 8402292 **refactor: improve runners**
-- 2025-12-26 14:09 73830e0 **refactor: make stopwatch rely on clock port**
-- 2025-12-26 13:59 62c4036 **refactor: use local stopwatch**
-- 2025-12-26 13:57 83d0bc6 **step: update packages**
-- 2025-12-26 13:55 1dcfa5e **refactor: move stopwatch from tools**
-- 2025-12-26 13:53 2e3597f **refactor: simplify prerequisite config**
-- 2025-12-26 13:27 f5b561d **refactor: make with cache tests resilient**
-- 2025-12-26 13:19 68d5794 **refactor: make with timeout tests resilient**
-- 2025-12-26 13:19 1349b94 **refactor: make with logger tests resilient**
-- 2025-12-26 13:08 3003b7e **refactor: make prereq vo tests resilient**
-- 2025-12-26 12:46 2d4db75 **refactor: make tests more resilient**
-- 2025-12-26 12:23 9a481e0 **step: test cross cutting concerns**
-- 2025-12-26 10:19 a6d80c9 **step: add prerequisite vo tests with cache**
-- 2025-12-26 10:18 2b0a0ff **step: add prerequisite vo tests with timeout**
-- 2025-12-26 10:11 b1fd6f4 **step: add prerequisite vo tests with logger**
-- 2025-12-26 10:04 aee5dd1 **refactor: improve naming**
-- 2025-12-26 09:57 e108b1e **step: add durationMs to logger**
-- 2025-12-26 09:51 a936c92 **step: improve exports**
-- 2025-12-26 00:20 9cd62de **step: define prerequisite decorators**
-- 2025-12-26 00:07 cde9106 **step: wire up decorators to prerequisite vo**
-- 2025-12-26 00:03 0ddc772 **feature: prerequisite verifier decorator**
-- 2025-12-25 23:47 66fd862 **feature: prerequisite verifier logger adapter**
-- 2025-12-25 23:30 ede2ce7 **feature: prerequisite verifier cache adapter**
-- 2025-12-25 22:57 211868a **feature: prerequisite verifier timeout adapter**
-- 2025-12-25 20:12 ba8b429 **fix: timezone utc naming**
-- 2025-12-25 19:45 cb16aa2 **step: add enabled check in runners**
-- 2025-12-25 19:42 3eda287 **refactor: remove redundant types**
-- 2025-12-25 19:39 66da2a5 **refactor: cleanup prereq service file**
-- 2025-12-25 18:40 18fda9e **step: prerequisite vo**
-- 2025-12-25 18:25 826b63b **refactor: remove explicit adapter instantiation**
-- 2025-12-25 18:20 3ee9df9 **refactor: simplify tests**
-- 2025-12-25 18:13 a359fad **refactor: remove timeouts**
-- 2025-12-25 18:05 742b37a **refactor: remove label from prerequisite verifier**
-- 2025-12-25 17:12 5b81344 **step: adjust up to naming schemes**
-- 2025-12-25 16:41 93eedbb **refactor: remove is enabled check**
-- 2025-12-25 16:32 a7cf9fc **refactor: make prereqs implement prereq verifier port**
-- 2025-12-25 15:43 4ea7b80 **refactor: remove verify(clock) dependency**
-- 2025-12-25 15:36 42c3aec **refactor: simplify prerequisite verification undetermined**
-- 2025-12-25 15:33 a702a3f **refactor: simplify prerequisite verification success**
-- 2025-12-25 15:29 25e4471 **refactor: unify prerequisite verification helper**
-- 2025-12-25 15:25 bca4c08 **refactor: remove unused type**
-- 2025-12-25 15:24 05be45b **step: unify naming**
-- 2025-12-25 15:03 f2618e5 **refactor: define kind getter**
-- 2025-12-25 14:54 b206cbb **step: move duration to healthcheck runner**
-- 2025-12-25 14:37 2721eb0 **refactor: remove duration observer from the prerequisite**
-- 2025-12-25 13:19 97e945c **step: use maintenance mode in setup service**
-- 2025-12-25 13:13 9eebca3 **feature: maintenance mode middleware**
-- 2025-12-25 12:34 ba2d32c **Merge pull request #141 from bgord/security**
-- 2025-12-25 12:30 37d6cb4 **step: define custom type for user id in security context**
-- 2025-12-25 12:24 d215ad9 **docs: generate CHANGELOG**
-- 2025-12-25 12:24 820aeb7 **docs: generate readme**
-- 2025-12-25 12:23 d89462c **step: update packages**
-- 2025-12-25 12:22 add7b67 **step: update packages**
-- 2025-12-25 11:35 8a7a441 **docs: generate readme**
-- 2025-12-25 11:35 60802c5 **docs: generate CHANGELOG**
-- 2025-12-25 11:33 aa1274a **feature: security rule name vo**
-- 2025-12-25 11:25 c26c74c **step: test missing shield security policies**
-- 2025-12-25 11:13 e01efb3 **refactor: max rules**
-- 2025-12-25 09:50 74ba3db **feature: security countermeasure name vo**
-- 2025-12-24 22:56 6133a8c **refactor: use client vos**
-- 2025-12-24 22:48 9c4c9c3 **feature: client ip vo**
-- 2025-12-24 22:41 dd6f44e **refactor: apply client user agent across the stack**
-- 2025-12-24 22:35 0cd9213 **refactor: tighten client vo to use client user agent vo**
-- 2025-12-24 22:30 8da4f60 **feature: client user agent vo**
-- 2025-12-24 21:47 b9cd610 **refactor: extract client from hono**
-- 2025-12-24 21:13 cb80036 **step: test violation threshold in the shield**
-- 2025-12-24 20:45 191bcf1 **step: use ip segment in security rule violation**
-- 2025-12-24 20:39 c3d2c7a **feature: cache subject segment ip**
-- 2025-12-24 20:33 4ba2e95 **refactor: move subject into the adapter**
-- 2025-12-24 20:25 4678b2b **feature: security rule violation threshold**
-- 2025-12-24 15:37 82a46fd **refactor: unify test setup**
-- 2025-12-24 15:29 1502a2f **refactor: remove tests tmp**
-- 2025-12-24 14:02 8d1129e **fix: looping over policies**
-- 2025-12-24 13:46 4156ec2 **refactor: introduce security policy usage**
-- 2025-12-24 13:39 617875b **feature: security policy vo**
-- 2025-12-24 13:09 b21f160 **refactor: remove secret vo**
-- 2025-12-24 12:57 2b38059 **step: add countermeasure and action to security violation detected event**
-- 2025-12-24 12:51 34f5b79 **step: add security countermeasure name**
-- 2025-12-24 12:47 1193f0b **refactor: reorganize ban**
-- 2025-12-24 12:40 76fe97f **step: update packages**
-- 2025-12-24 12:38 fac09d3 **step: test fail and unhandled security error**
-- 2025-12-24 12:20 db858d4 **feature: security rule or**
-- 2025-12-24 12:17 3a64b9d **step: test rule names**
-- 2025-12-24 12:14 bf02d63 **feature: security rule and**
-- 2025-12-24 12:12 4574385 **feature: security rule fail adapter**
-- 2025-12-24 12:10 4fd9893 **refactor: rename security rule noop to pass**
-- 2025-12-24 11:30 24b45cc **feature: security rule user agent**
-- 2025-12-24 11:24 593f897 **refactor: remove shield user agent blocker adapter**
-- 2025-12-24 10:09 805008c **step: handle actions in shield security adapter**
-- 2025-12-24 10:05 3566b17 **refactor: unify countermeasures**
-- 2025-12-24 09:09 22b786c **step: adjust tests**
-- 2025-12-24 09:04 5f02bf5 **refactor: adjust countermeasures**
-- 2025-12-24 08:51 a397e11 **step: define security action types**
-- 2025-12-24 00:16 ed7cf49 **refactor: turn security context into vo**
-- 2025-12-24 00:05 42bb7f8 **refactor: rename is violated**
-- 2025-12-23 23:42 7706e49 **step: test security noop adapters**
-- 2025-12-23 23:29 b202474 **step: add rule name getter**
-- 2025-12-23 23:06 54ccd64 **step: update packages**
-- 2025-12-23 23:03 ffcb7aa **step: add user id to security context**
-- 2025-12-23 22:31 9c96698 **step: add context to security violation detected event**
-- 2025-12-23 22:14 ef354ba **step: add security context**
-- 2025-12-23 22:04 4f3609d **feature: define security context type**
-- 2025-12-23 21:36 a702737 **step: add SecurityRuleNoopAdapter**
-- 2025-12-23 21:35 a3bd2cd **step: implement SecurityCountermeasureNoopAdapter**
-- 2025-12-23 21:34 45930fa **feature: shield security adapter**
-- 2025-12-23 21:16 2b4cafa **feature: security rule honey pot field**
-- 2025-12-23 21:12 bbff6a7 **feature: security rule bait routes**
-- 2025-12-23 20:47 1cf6f82 **feature: security rule port**
-- 2025-12-23 19:01 f9f8ba1 **feature: implement SecurityCountermeasureBanAdapter**
-- 2025-12-23 18:30 58640e0 **feature: implement SecurityCountermeasureReportAdapter**
-- 2025-12-23 18:24 1a73d8e **feature: implement SecurityCountermeasureMirageAdapter**
-- 2025-12-23 18:14 1c2e954 **feature: implement SecurityCountermeasureTarpitAdapter**
-- 2025-12-23 18:02 0f90364 **feature: security countermeasure port**
-- 2025-12-19 22:00 7533e62 **refactor: make shield user agent blocker configurable**
+- 2025-12-29 16:59 92b31c68 **1.7.0**
+- 2025-12-29 16:54 90886eb2 **docs: generate CHANGELOG**
+- 2025-12-29 16:54 5bfa6fcd **docs: generate CHANGELOG**
+- 2025-12-29 16:43 253c58f7 **refactor: make setup tests thighter**
+- 2025-12-29 16:19 eef35504 **docs: generate CHANGELOG**
+- 2025-12-29 16:19 7efb0f12 **docs: generate CHANGELOG**
+- 2025-12-29 15:59 0c1d0555 **docs: generate CHANGELOG**
+- 2025-12-29 15:58 6c3ac53d **docs: generate CHANGELOG**
+- 2025-12-29 14:50 5dd53714 **step: add crypto key provider with cache**
+- 2025-12-29 14:46 f69b93a2 **docs: generate readme**
+- 2025-12-29 14:46 aaacb460 **docs: generate CHANGELOG**
+- 2025-12-29 14:42 31fff352 **refactor: make time zone offset tighter**
+- 2025-12-29 14:32 76dc0be3 **step: update packages**
+- 2025-12-29 14:05 a124e594 **refactor: restore redactor in loggers**
+- 2025-12-29 13:59 6b198585 **step: make redactors sync**
+- 2025-12-29 13:36 5d31001b **step: bump bgord/scripts**
+- 2025-12-29 13:35 96cb753f **step: make lru-cache package peer and optional**
+- 2025-12-29 13:25 e1153099 **step: test infinite ttls in repos**
+- 2025-12-29 13:07 adc8437d **feature: cache repository lru cache adapter**
+- 2025-12-29 12:59 4ba3afea **step: install lru-cache**
+- 2025-12-29 12:54 4fc66819 **step: add ttl infinite test**
+- 2025-12-29 12:51 75441dfd **refactor: use node cache adapter in cache resolver simple test**
+- 2025-12-29 12:49 82c5a3b4 **refactor: allow infinite cache ttl**
+- 2025-12-29 12:39 1cac703d **refactor: remove ttl getters from cache repository and cache resolver**
+- 2025-12-29 12:37 ec57cd6e **docs: generate readme**
+- 2025-12-29 12:37 26a1241f **docs: generate CHANGELOG**
+- 2025-12-29 12:04 c045c99b **step: remove checkperiod from node-cache adapter**
+- 2025-12-29 11:58 c7f82308 **refactor: use Duration.MIN**
+- 2025-12-29 11:54 09e34bbb **refactor: update rounding**
+- 2025-12-29 11:53 b7e9bf97 **step: update packages**
+- 2025-12-29 00:01 fcf48e33 **refactor: retry backoff strategy naming**
+- 2025-12-28 23:46 4f9355da **feature: file-reader-json-with-cache**
+- 2025-12-28 23:15 2149f1b4 **refactor: define file reader json output type**
+- 2025-12-28 20:55 fd9f4cb2 **feature: clock offset adapter**
+- 2025-12-28 20:03 e1a083a4 **docs: generate CHANGELOG**
+- 2025-12-28 20:03 0d802eb2 **docs: generate readme**
+- 2025-12-28 18:24 e0bd5b49 **refactor: adjust tests**
+- 2025-12-28 18:22 c99079a6 **refactor: simplify graceful shutdown tests**
+- 2025-12-28 18:12 8b9978f3 **refactor: remove Bun.sleep from tests**
+- 2025-12-28 17:49 7197f72c **step: add timeout cancellable runner**
+- 2025-12-28 17:23 22354f34 **refactor: use sealer port in redactor encryption**
+- 2025-12-28 16:11 c3dcaac4 **refactor: make redactors async**
+- 2025-12-28 15:51 51040e5f **feature: sealer aes gcm**
+- 2025-12-28 15:31 038720cb **refactor: unify encryption port name**
+- 2025-12-28 15:29 fb410595 **feature: sealer port**
+- 2025-12-28 15:22 3546f599 **refactor: introduce crypto aes gcm service**
+- 2025-12-28 14:40 76be7fab **refactor: use timeout runners in tests**
+- 2025-12-28 14:28 8113bbe3 **step: timeout runner monitor**
+- 2025-12-28 14:02 1a56f810 **feature: timeout runner port**
+- 2025-12-28 13:42 87254a1b **refactor: reduce timeouts in tests**
+- 2025-12-28 13:34 8404cb87 **refactor: remove saveAfter from event store**
+- 2025-12-28 13:31 0dabfc1b **step: cleanup shield timeout strategy tests**
+- 2025-12-28 13:26 4b651698 **refactor: use sleeper port in shield security strategy**
+- 2025-12-28 13:21 1f493c87 **refactor: use sleeper port in slower**
+- 2025-12-28 13:19 de9c82c7 **refactor: use sleeper port in retry**
+- 2025-12-28 13:02 ff7368af **step: use fromDateLike**
+- 2025-12-28 12:53 d55985a5 **step: update packages**
+- 2025-12-28 12:43 072a4b2f **refactor: simplify tests**
+- 2025-12-28 12:34 a0a9dbeb **feature: sleeper port**
+- 2025-12-28 12:21 46a517c6 **refactor: simplify clock port**
+- 2025-12-28 12:03 128e9d64 **Merge pull request #143 from bgord/port-strategy-refactor**
+- 2025-12-28 12:00 b700f554 **step: environment loader noop adapter**
+- 2025-12-28 11:04 77dc36f9 **docs: generate readme**
+- 2025-12-28 11:04 2a984e2b **docs: generate CHANGELOG**
+- 2025-12-28 10:27 28250c1f **step: strategy conversion shield**
+- 2025-12-28 10:17 acd2a50f **step: strategy conversion security countermeasure**
+- 2025-12-28 10:09 4faffc72 **step: strategy conversion security rule**
+- 2025-12-28 09:58 9789042f **step: strategy conversion retry backoff**
+- 2025-12-28 09:45 89066e70 **step: strategy conversion redactor**
+- 2025-12-28 09:37 bfa6e27c **step: strategy conversion file reader json**
+- 2025-12-28 09:28 a6407fd3 **step: strategy conversion cache subject segment**
+- 2025-12-28 09:14 977eadca **step: strategy conversion event handler**
+- 2025-12-28 00:10 d0ce4c59 **step: strategy conversion hash content**
+- 2025-12-28 00:00 d2464378 **step: strategy conversion visitor id**
+- 2025-12-27 23:57 8bf4812a **step: strategy conversion job handler**
+- 2025-12-27 23:45 3fba783a **step: strategy conversion cache resolver**
+- 2025-12-27 21:39 95198fb6 **Merge pull request #142 from bgord/prerequisites-architecture**
+- 2025-12-27 20:40 62749d13 **docs: generate readme**
+- 2025-12-27 20:40 0eaf7616 **docs: generate CHANGELOG**
+- 2025-12-27 19:20 b09e8c87 **refactor: simplify prereq verifier formatting**
+- 2025-12-27 19:20 40d4dba0 **refactor: simplify with retry and timeout**
+- 2025-12-27 18:59 8b7207ae **step: update packages**
+- 2025-12-27 18:57 a2f1cb05 **refactor: define with fail safe default when**
+- 2025-12-27 18:46 b0647c93 **step: add prereq test with everything**
+- 2025-12-27 14:16 c9f6443a **feature: prereq decorator with fail safe**
+- 2025-12-26 22:02 47c3ab93 **step: add cache x retry test**
+- 2025-12-26 20:52 e0944baf **step: test exponential backoff**
+- 2025-12-26 20:46 be2b4a9d **step: add with retry to prereq vo with everything test**
+- 2025-12-26 20:43 d70b2993 **feature: prerequisite verifier with retry**
+- 2025-12-26 19:16 8458796e **step: update packages**
+- 2025-12-26 18:53 728ed6e4 **step: add retry config.when**
+- 2025-12-26 18:42 a01de51e **refactor: start retry delays from the first attempt**
+- 2025-12-26 18:29 10c2293b **step: add retry service**
+- 2025-12-26 18:10 3d7ccacd **feature: retry backoff fibonacci**
+- 2025-12-26 18:02 128435e0 **step: handle attempt 0**
+- 2025-12-26 17:56 a75f6a57 **feature: retry backoff expontential**
+- 2025-12-26 16:21 d623f271 **feature: retry backoff strategies**
+- 2025-12-26 16:04 b93b9b8c **step: update packages**
+- 2025-12-26 15:07 b775c3c6 **step: add timestamp startup**
+- 2025-12-26 15:04 00f72e5a **step: add server.cpus**
+- 2025-12-26 14:59 43efdbcf **step: add server.hostname**
+- 2025-12-26 14:54 41af689b **step: add server.pid**
+- 2025-12-26 14:52 e329e817 **refactor: define server section**
+- 2025-12-26 14:50 6a362964 **step: add deployment.environment**
+- 2025-12-26 14:45 1fb7dc43 **step: add timestamp to healthcheck**
+- 2025-12-26 14:42 b6752edd **refactor: paralellize healthcheck**
+- 2025-12-26 14:30 8402292c **refactor: improve runners**
+- 2025-12-26 14:09 73830e0b **refactor: make stopwatch rely on clock port**
+- 2025-12-26 13:59 62c40362 **refactor: use local stopwatch**
+- 2025-12-26 13:57 83d0bc6c **step: update packages**
+- 2025-12-26 13:55 1dcfa5e9 **refactor: move stopwatch from tools**
+- 2025-12-26 13:53 2e3597f3 **refactor: simplify prerequisite config**
+- 2025-12-26 13:27 f5b561df **refactor: make with cache tests resilient**
+- 2025-12-26 13:19 68d5794d **refactor: make with timeout tests resilient**
+- 2025-12-26 13:19 1349b94d **refactor: make with logger tests resilient**
+- 2025-12-26 13:08 3003b7e9 **refactor: make prereq vo tests resilient**
+- 2025-12-26 12:46 2d4db758 **refactor: make tests more resilient**
+- 2025-12-26 12:23 9a481e06 **step: test cross cutting concerns**
+- 2025-12-26 10:19 a6d80c94 **step: add prerequisite vo tests with cache**
+- 2025-12-26 10:18 2b0a0ff7 **step: add prerequisite vo tests with timeout**
+- 2025-12-26 10:11 b1fd6f4c **step: add prerequisite vo tests with logger**
+- 2025-12-26 10:04 aee5dd18 **refactor: improve naming**
+- 2025-12-26 09:57 e108b1e1 **step: add durationMs to logger**
+- 2025-12-26 09:51 a936c92e **step: improve exports**
+- 2025-12-26 00:20 9cd62de2 **step: define prerequisite decorators**
+- 2025-12-26 00:07 cde91067 **step: wire up decorators to prerequisite vo**
+- 2025-12-26 00:03 0ddc772f **feature: prerequisite verifier decorator**
+- 2025-12-25 23:47 66fd8620 **feature: prerequisite verifier logger adapter**
+- 2025-12-25 23:30 ede2ce75 **feature: prerequisite verifier cache adapter**
+- 2025-12-25 22:57 211868a1 **feature: prerequisite verifier timeout adapter**
+- 2025-12-25 20:12 ba8b4292 **fix: timezone utc naming**
+- 2025-12-25 19:45 cb16aa22 **step: add enabled check in runners**
+- 2025-12-25 19:42 3eda287d **refactor: remove redundant types**
+- 2025-12-25 19:39 66da2a5d **refactor: cleanup prereq service file**
+- 2025-12-25 18:40 18fda9e4 **step: prerequisite vo**
+- 2025-12-25 18:25 826b63b8 **refactor: remove explicit adapter instantiation**
+- 2025-12-25 18:20 3ee9df93 **refactor: simplify tests**
+- 2025-12-25 18:13 a359fad4 **refactor: remove timeouts**
+- 2025-12-25 18:05 742b37a0 **refactor: remove label from prerequisite verifier**
+- 2025-12-25 17:12 5b813442 **step: adjust up to naming schemes**
+- 2025-12-25 16:41 93eedbbd **refactor: remove is enabled check**
+- 2025-12-25 16:32 a7cf9fca **refactor: make prereqs implement prereq verifier port**
+- 2025-12-25 15:43 4ea7b808 **refactor: remove verify(clock) dependency**
+- 2025-12-25 15:36 42c3aecb **refactor: simplify prerequisite verification undetermined**
+- 2025-12-25 15:33 a702a3fc **refactor: simplify prerequisite verification success**
+- 2025-12-25 15:29 25e4471a **refactor: unify prerequisite verification helper**
+- 2025-12-25 15:25 bca4c086 **refactor: remove unused type**
+- 2025-12-25 15:24 05be45be **step: unify naming**
+- 2025-12-25 15:03 f2618e50 **refactor: define kind getter**
+- 2025-12-25 14:54 b206cbb0 **step: move duration to healthcheck runner**
+- 2025-12-25 14:37 2721eb0e **refactor: remove duration observer from the prerequisite**
+- 2025-12-25 13:19 97e945c7 **step: use maintenance mode in setup service**
+- 2025-12-25 13:13 9eebca3c **feature: maintenance mode middleware**
+- 2025-12-25 12:34 ba2d32c9 **Merge pull request #141 from bgord/security**
+- 2025-12-25 12:30 37d6cb4c **step: define custom type for user id in security context**
+- 2025-12-25 12:24 d215ad93 **docs: generate CHANGELOG**
+- 2025-12-25 12:24 820aeb79 **docs: generate readme**
+- 2025-12-25 12:23 d89462cd **step: update packages**
+- 2025-12-25 12:22 add7b674 **step: update packages**
+- 2025-12-25 11:35 8a7a4412 **docs: generate readme**
+- 2025-12-25 11:35 60802c5a **docs: generate CHANGELOG**
+- 2025-12-25 11:33 aa1274a9 **feature: security rule name vo**
+- 2025-12-25 11:25 c26c74cd **step: test missing shield security policies**
+- 2025-12-25 11:13 e01efb37 **refactor: max rules**
+- 2025-12-25 09:50 74ba3dbe **feature: security countermeasure name vo**
+- 2025-12-24 22:56 6133a8c9 **refactor: use client vos**
+- 2025-12-24 22:48 9c4c9c38 **feature: client ip vo**
+- 2025-12-24 22:41 dd6f44eb **refactor: apply client user agent across the stack**
+- 2025-12-24 22:35 0cd92130 **refactor: tighten client vo to use client user agent vo**
+- 2025-12-24 22:30 8da4f601 **feature: client user agent vo**
+- 2025-12-24 21:47 b9cd6109 **refactor: extract client from hono**
+- 2025-12-24 21:13 cb800368 **step: test violation threshold in the shield**
+- 2025-12-24 20:45 191bcf14 **step: use ip segment in security rule violation**
+- 2025-12-24 20:39 c3d2c7a9 **feature: cache subject segment ip**
+- 2025-12-24 20:33 4ba2e954 **refactor: move subject into the adapter**
+- 2025-12-24 20:25 4678b2bb **feature: security rule violation threshold**
+- 2025-12-24 15:37 82a46fd5 **refactor: unify test setup**
+- 2025-12-24 15:29 1502a2f4 **refactor: remove tests tmp**
+- 2025-12-24 14:02 8d1129ef **fix: looping over policies**
+- 2025-12-24 13:46 4156ec26 **refactor: introduce security policy usage**
+- 2025-12-24 13:39 617875bb **feature: security policy vo**
+- 2025-12-24 13:09 b21f160b **refactor: remove secret vo**
+- 2025-12-24 12:57 2b380593 **step: add countermeasure and action to security violation detected event**
+- 2025-12-24 12:51 34f5b799 **step: add security countermeasure name**
+- 2025-12-24 12:47 1193f0bb **refactor: reorganize ban**
+- 2025-12-24 12:40 76fe97ff **step: update packages**
+- 2025-12-24 12:38 fac09d3b **step: test fail and unhandled security error**
+- 2025-12-24 12:20 db858d45 **feature: security rule or**
+- 2025-12-24 12:17 3a64b9dd **step: test rule names**
+- 2025-12-24 12:14 bf02d634 **feature: security rule and**
+- 2025-12-24 12:12 4574385a **feature: security rule fail adapter**
+- 2025-12-24 12:10 4fd98934 **refactor: rename security rule noop to pass**
+- 2025-12-24 11:30 24b45cc9 **feature: security rule user agent**
+- 2025-12-24 11:24 593f8978 **refactor: remove shield user agent blocker adapter**
+- 2025-12-24 10:09 805008c5 **step: handle actions in shield security adapter**
+- 2025-12-24 10:05 3566b174 **refactor: unify countermeasures**
+- 2025-12-24 09:09 22b786c6 **step: adjust tests**
+- 2025-12-24 09:04 5f02bf5d **refactor: adjust countermeasures**
+- 2025-12-24 08:51 a397e11b **step: define security action types**
+- 2025-12-24 00:16 ed7cf49c **refactor: turn security context into vo**
+- 2025-12-24 00:05 42bb7f87 **refactor: rename is violated**
+- 2025-12-23 23:42 7706e49f **step: test security noop adapters**
+- 2025-12-23 23:29 b2024742 **step: add rule name getter**
+- 2025-12-23 23:06 54ccd64e **step: update packages**
+- 2025-12-23 23:03 ffcb7aa8 **step: add user id to security context**
+- 2025-12-23 22:31 9c966986 **step: add context to security violation detected event**
+- 2025-12-23 22:14 ef354ba6 **step: add security context**
+- 2025-12-23 22:04 4f3609d1 **feature: define security context type**
+- 2025-12-23 21:36 a7027377 **step: add SecurityRuleNoopAdapter**
+- 2025-12-23 21:35 a3bd2cd5 **step: implement SecurityCountermeasureNoopAdapter**
+- 2025-12-23 21:34 45930faf **feature: shield security adapter**
+- 2025-12-23 21:16 2b4cafac **feature: security rule honey pot field**
+- 2025-12-23 21:12 bbff6a7d **feature: security rule bait routes**
+- 2025-12-23 20:47 1cf6f82d **feature: security rule port**
+- 2025-12-23 19:01 f9f8ba12 **feature: implement SecurityCountermeasureBanAdapter**
+- 2025-12-23 18:30 58640e05 **feature: implement SecurityCountermeasureReportAdapter**
+- 2025-12-23 18:24 1a73d8e6 **feature: implement SecurityCountermeasureMirageAdapter**
+- 2025-12-23 18:14 1c2e954e **feature: implement SecurityCountermeasureTarpitAdapter**
+- 2025-12-23 18:02 0f903643 **feature: security countermeasure port**
+- 2025-12-19 22:00 7533e62f **refactor: make shield user agent blocker configurable**
 ## 2025-12-19 21:43 v1.6.7
-- 2025-12-19 21:43 2fd417c **1.6.7**
-- 2025-12-19 21:42 3bc0617 **step: use shield user agent blocker in setup service**
-- 2025-12-19 21:41 ee54552 **feature: shield user agent blocker**
-- 2025-12-19 21:39 5553162 **step: lowercase compared ua and ip**
-- 2025-12-19 21:36 baec49f **step: setup new bots vo**
-- 2025-12-19 21:36 93cfb34 **step: add mocks.ip**
-- 2025-12-19 21:27 9783db8 **refactor: add client getters**
-- 2025-12-19 21:15 9cfe355 **refactor: remove ua blocker**
-- 2025-12-19 21:15 8398ed8 **step: remove ua blocker**
-- 2025-12-19 21:05 c48ca25 **step: add comparison methods to client vo**
-- 2025-12-19 21:00 6d5ed13 **docs: generate CHANGELOG**
-- 2025-12-19 20:43 859df26 **docs: generate CHANGELOG**
-- 2025-12-19 20:43 6cf26af **docs: generate CHANGELOG**
-- 2025-12-19 20:43 3576f68 **docs: generate readme**
-- 2025-12-19 20:36 7692b0d **refactor: remove axiom transport due to violated OCP**
-- 2025-12-19 20:28 6ae8af3 **step: remove unused dompurify dependency**
-- 2025-12-19 20:27 1d3f150 **step: remove unused marked dependency**
-- 2025-12-19 20:27 002a56d **step: remove unused marked dependency**
-- 2025-12-19 19:28 4674a35 **docs: generate CHANGELOG**
-- 2025-12-19 19:27 0bee107 **docs: generate CHANGELOG**
+- 2025-12-19 21:43 2fd417c7 **1.6.7**
+- 2025-12-19 21:42 3bc06177 **step: use shield user agent blocker in setup service**
+- 2025-12-19 21:41 ee54552f **feature: shield user agent blocker**
+- 2025-12-19 21:39 55531620 **step: lowercase compared ua and ip**
+- 2025-12-19 21:36 baec49f4 **step: setup new bots vo**
+- 2025-12-19 21:36 93cfb341 **step: add mocks.ip**
+- 2025-12-19 21:27 9783db85 **refactor: add client getters**
+- 2025-12-19 21:15 9cfe355f **refactor: remove ua blocker**
+- 2025-12-19 21:15 8398ed8f **step: remove ua blocker**
+- 2025-12-19 21:05 c48ca252 **step: add comparison methods to client vo**
+- 2025-12-19 21:00 6d5ed133 **docs: generate CHANGELOG**
+- 2025-12-19 20:43 859df261 **docs: generate CHANGELOG**
+- 2025-12-19 20:43 6cf26aff **docs: generate CHANGELOG**
+- 2025-12-19 20:43 3576f685 **docs: generate readme**
+- 2025-12-19 20:36 7692b0db **refactor: remove axiom transport due to violated OCP**
+- 2025-12-19 20:28 6ae8af39 **step: remove unused dompurify dependency**
+- 2025-12-19 20:27 1d3f1502 **step: remove unused marked dependency**
+- 2025-12-19 20:27 002a56d3 **step: remove unused marked dependency**
+- 2025-12-19 19:28 4674a352 **docs: generate CHANGELOG**
+- 2025-12-19 19:27 0bee1075 **docs: generate CHANGELOG**
 ## 2025-12-19 17:23 v1.6.6
-- 2025-12-19 17:23 fe939ae **1.6.6**
-- 2025-12-19 17:17 0c31e7f **step: test job handler testcases**
-- 2025-12-19 17:09 711a2b4 **feature: migrate passage of time minute service**
-- 2025-12-19 16:52 39e8209 **feature: migrate passage of time hourly service**
-- 2025-12-19 16:24 e56eff1 **docs: generate CHANGELOG**
-- 2025-12-19 16:18 bcc0e13 **docs: generate CHANGELOG**
-- 2025-12-19 16:18 72aaca2 **docs: generate readme**
+- 2025-12-19 17:23 fe939ae4 **1.6.6**
+- 2025-12-19 17:17 0c31e7fc **step: test job handler testcases**
+- 2025-12-19 17:09 711a2b4a **feature: migrate passage of time minute service**
+- 2025-12-19 16:52 39e8209c **feature: migrate passage of time hourly service**
+- 2025-12-19 16:24 e56eff1b **docs: generate CHANGELOG**
+- 2025-12-19 16:18 bcc0e13b **docs: generate CHANGELOG**
+- 2025-12-19 16:18 72aaca2b **docs: generate readme**
 ## 2025-12-19 15:25 v1.6.5
-- 2025-12-19 15:25 803c6e6 **1.6.5**
-- 2025-12-19 15:24 6386689 **feature: setup system module**
-- 2025-12-19 14:25 df754f0 **docs: generate CHANGELOG**
-- 2025-12-19 14:24 e95b284 **docs: generate CHANGELOG**
-- 2025-12-19 14:24 c8176fc **docs: generate readme**
+- 2025-12-19 15:25 803c6e66 **1.6.5**
+- 2025-12-19 15:24 6386689a **feature: setup system module**
+- 2025-12-19 14:25 df754f02 **docs: generate CHANGELOG**
+- 2025-12-19 14:24 e95b2845 **docs: generate CHANGELOG**
+- 2025-12-19 14:24 c8176fcb **docs: generate readme**
 ## 2025-12-19 12:46 v1.6.4
-- 2025-12-19 12:46 654a2bf **step: add noop event handler**
-- 2025-12-19 12:46 5b4416a **1.6.4**
-- 2025-12-19 12:42 7fab88f **step: add bare event handler**
-- 2025-12-19 12:38 338d5ab **refactor: introduce event handler port**
-- 2025-12-19 11:46 eca7ee0 **docs: generate CHANGELOG**
-- 2025-12-19 11:46 dbfdb0b **docs: generate CHANGELOG**
-- 2025-12-19 11:46 aca38cb **docs: generate readme**
+- 2025-12-19 12:46 654a2bf5 **step: add noop event handler**
+- 2025-12-19 12:46 5b4416af **1.6.4**
+- 2025-12-19 12:42 7fab88fb **step: add bare event handler**
+- 2025-12-19 12:38 338d5ab3 **refactor: introduce event handler port**
+- 2025-12-19 11:46 eca7ee0d **docs: generate CHANGELOG**
+- 2025-12-19 11:46 dbfdb0b8 **docs: generate CHANGELOG**
+- 2025-12-19 11:46 aca38cbf **docs: generate readme**
 ## 2025-12-19 11:13 v1.6.3
-- 2025-12-19 11:13 2feb636 **1.6.3**
-- 2025-12-19 11:12 1dc11ca **step: update packages**
-- 2025-12-19 10:13 3d741cb **docs: generate CHANGELOG**
-- 2025-12-19 10:12 9c4d882 **docs: generate CHANGELOG**
-- 2025-12-19 10:12 60828b7 **docs: generate readme**
-- 2025-12-19 10:00 700d64f **step: test noop adapters**
-- 2025-12-19 09:59 348f444 **refactor: remove unused mock implementations**
-- 2025-12-19 09:51 5da98c2 **step: improve intentional error handling**
-- 2025-12-19 09:41 6a4975e **feature: job handler noop**
-- 2025-12-19 09:31 b2e1a50 **step: simplify job handler tests**
-- 2025-12-19 09:31 727b715 **feature: job handler bare**
+- 2025-12-19 11:13 2feb6361 **1.6.3**
+- 2025-12-19 11:12 1dc11caf **step: update packages**
+- 2025-12-19 10:13 3d741cb7 **docs: generate CHANGELOG**
+- 2025-12-19 10:12 9c4d882b **docs: generate CHANGELOG**
+- 2025-12-19 10:12 60828b71 **docs: generate readme**
+- 2025-12-19 10:00 700d64fa **step: test noop adapters**
+- 2025-12-19 09:59 348f444a **refactor: remove unused mock implementations**
+- 2025-12-19 09:51 5da98c27 **step: improve intentional error handling**
+- 2025-12-19 09:41 6a4975e1 **feature: job handler noop**
+- 2025-12-19 09:31 b2e1a50b **step: simplify job handler tests**
+- 2025-12-19 09:31 727b715c **feature: job handler bare**
 ## 2025-12-19 01:04 v1.6.2
-- 2025-12-19 01:04 f899eae **1.6.2**
-- 2025-12-19 01:02 35a003d **refactor: create job handler port**
-- 2025-12-19 00:04 bd3aa95 **docs: generate CHANGELOG**
-- 2025-12-19 00:03 67bd596 **docs: generate readme**
+- 2025-12-19 01:04 f899eaee **1.6.2**
+- 2025-12-19 01:02 35a003d0 **refactor: create job handler port**
+- 2025-12-19 00:04 bd3aa959 **docs: generate CHANGELOG**
+- 2025-12-19 00:03 67bd5968 **docs: generate readme**
 ## 2025-12-19 00:02 v1.6.1
-- 2025-12-19 00:02 8b8eaed **docs: generate CHANGELOG**
-- 2025-12-19 00:02 2a81eb4 **1.6.1**
-- 2025-12-18 23:49 b9d3d85 **refactor: simplify client vo**
-- 2025-12-18 23:44 c2646a4 **refactor: cleanup visitor id**
-- 2025-12-18 23:03 a65dd45 **docs: generate CHANGELOG**
-- 2025-12-18 22:49 256990c **docs: generate readme**
-- 2025-12-18 22:49 17b8c2e **docs: generate CHANGELOG**
+- 2025-12-19 00:02 8b8eaedf **docs: generate CHANGELOG**
+- 2025-12-19 00:02 2a81eb4c **1.6.1**
+- 2025-12-18 23:49 b9d3d85d **refactor: simplify client vo**
+- 2025-12-18 23:44 c2646a43 **refactor: cleanup visitor id**
+- 2025-12-18 23:03 a65dd458 **docs: generate CHANGELOG**
+- 2025-12-18 22:49 256990c9 **docs: generate readme**
+- 2025-12-18 22:49 17b8c2e2 **docs: generate CHANGELOG**
 ## 2025-12-18 20:27 v1.6.0
-- 2025-12-18 20:27 0a768aa **1.6.0**
-- 2025-12-18 20:25 841b8d0 **step: update packages**
-- 2025-12-18 20:22 712a8b6 **refactor: remove secret manager**
-- 2025-12-18 20:13 c02c6cd **refactor: unify hash related files**
-- 2025-12-18 19:48 ff51c2b **step: adjust tests**
-- 2025-12-18 19:27 6ce4987 **docs: generate CHANGELOG**
-- 2025-12-18 19:25 f4810d7 **docs: generate CHANGELOG**
-- 2025-12-18 19:25 268fb87 **docs: generate readme**
-- 2025-12-18 16:04 a86ce70 **refactor: use content hash in file hash**
-- 2025-12-18 16:00 e2def42 **refactor: use content hash in visitor id**
-- 2025-12-18 15:50 6b84d9a **step: add mocks.hash**
-- 2025-12-18 15:46 2d48836 **refactor: use hash in content hash port**
-- 2025-12-18 15:43 da03ef3 **refactor: use hash in cache subject resolver**
-- 2025-12-18 15:39 7293446 **refactor: use hash in file hash port**
-- 2025-12-18 15:34 558580d **feature: add hash vo**
-- 2025-12-18 15:27 5b654e6 **step: define hash value vo**
-- 2025-12-18 14:29 e19dd72 **step: make context optional**
-- 2025-12-18 14:20 06ce50c **step: rename cache subject vo**
-- 2025-12-18 14:17 cad52c6 **refactor: remove rc**
-- 2025-12-18 14:17 381e54e **fix: failing tests**
-- 2025-12-18 14:14 8e3ac8a **step: cleanup rcs**
-- 2025-12-18 14:09 5f65fd4 **step: adjust tests**
-- 2025-12-18 14:07 24ea811 **fix: type errors in tests**
-- 2025-12-18 14:07 17be5bf **step: adjust cache subject resolver naming**
-- 2025-12-18 14:06 7093563 **fix: hono config error supressions**
-- 2025-12-18 14:02 d648e56 **fix: intentional error typo**
-- 2025-12-18 13:55 ae9de67 **step: use cache subject in shield rate limit adapter**
-- 2025-12-18 13:55 17b814d **step: use cache subject in env loader process safe adapter**
-- 2025-12-18 13:54 2b22c6d **step: use cache subject across the stack**
-- 2025-12-18 13:44 1c7c2f0 **step: use cache subject hex in cache subject**
-- 2025-12-18 13:43 9659a1e **feature: cache subject hex vo**
-- 2025-12-18 13:36 24fddac **refactor: use cache subject in cache response**
-- 2025-12-18 13:12 ac9b569 **feature: cache subject vo**
-- 2025-12-18 12:43 3afaf30 **feature: cache subject segment user**
-- 2025-12-18 12:40 48c84f9 **step: improve tests**
-- 2025-12-18 12:39 c91182b **feature: cache subject segment cookie**
-- 2025-12-18 12:22 c482a15 **feature: cache subject segment header**
-- 2025-12-18 12:15 beec492 **feature: cache subject segment query**
-- 2025-12-18 12:06 d57d407 **feature: cache subject segment path**
-- 2025-12-18 12:02 09434d5 **feature: cache subject segment fixed**
-- 2025-12-18 11:57 9468533 **feature: cache subject segment port**
+- 2025-12-18 20:27 0a768aa0 **1.6.0**
+- 2025-12-18 20:25 841b8d06 **step: update packages**
+- 2025-12-18 20:22 712a8b61 **refactor: remove secret manager**
+- 2025-12-18 20:13 c02c6cd2 **refactor: unify hash related files**
+- 2025-12-18 19:48 ff51c2b9 **step: adjust tests**
+- 2025-12-18 19:27 6ce49871 **docs: generate CHANGELOG**
+- 2025-12-18 19:25 f4810d77 **docs: generate CHANGELOG**
+- 2025-12-18 19:25 268fb877 **docs: generate readme**
+- 2025-12-18 16:04 a86ce704 **refactor: use content hash in file hash**
+- 2025-12-18 16:00 e2def421 **refactor: use content hash in visitor id**
+- 2025-12-18 15:50 6b84d9a9 **step: add mocks.hash**
+- 2025-12-18 15:46 2d488366 **refactor: use hash in content hash port**
+- 2025-12-18 15:43 da03ef31 **refactor: use hash in cache subject resolver**
+- 2025-12-18 15:39 72934467 **refactor: use hash in file hash port**
+- 2025-12-18 15:34 558580d6 **feature: add hash vo**
+- 2025-12-18 15:27 5b654e63 **step: define hash value vo**
+- 2025-12-18 14:29 e19dd720 **step: make context optional**
+- 2025-12-18 14:20 06ce50c1 **step: rename cache subject vo**
+- 2025-12-18 14:17 cad52c63 **refactor: remove rc**
+- 2025-12-18 14:17 381e54ee **fix: failing tests**
+- 2025-12-18 14:14 8e3ac8a4 **step: cleanup rcs**
+- 2025-12-18 14:09 5f65fd4b **step: adjust tests**
+- 2025-12-18 14:07 24ea8118 **fix: type errors in tests**
+- 2025-12-18 14:07 17be5bf1 **step: adjust cache subject resolver naming**
+- 2025-12-18 14:06 70935634 **fix: hono config error supressions**
+- 2025-12-18 14:02 d648e566 **fix: intentional error typo**
+- 2025-12-18 13:55 ae9de679 **step: use cache subject in shield rate limit adapter**
+- 2025-12-18 13:55 17b814d0 **step: use cache subject in env loader process safe adapter**
+- 2025-12-18 13:54 2b22c6d8 **step: use cache subject across the stack**
+- 2025-12-18 13:44 1c7c2f01 **step: use cache subject hex in cache subject**
+- 2025-12-18 13:43 9659a1ec **feature: cache subject hex vo**
+- 2025-12-18 13:36 24fddac4 **refactor: use cache subject in cache response**
+- 2025-12-18 13:12 ac9b5690 **feature: cache subject vo**
+- 2025-12-18 12:43 3afaf301 **feature: cache subject segment user**
+- 2025-12-18 12:40 48c84f9a **step: improve tests**
+- 2025-12-18 12:39 c91182b4 **feature: cache subject segment cookie**
+- 2025-12-18 12:22 c482a154 **feature: cache subject segment header**
+- 2025-12-18 12:15 beec492c **feature: cache subject segment query**
+- 2025-12-18 12:06 d57d4071 **feature: cache subject segment path**
+- 2025-12-18 12:02 09434d5c **feature: cache subject segment fixed**
+- 2025-12-18 11:57 9468533a **feature: cache subject segment port**
 ## 2025-12-18 00:03 v1.5.11
-- 2025-12-18 00:03 5606713 **1.5.11**
-- 2025-12-17 23:31 1d05710 **step: prefix shield rate limit subjects**
-- 2025-12-17 23:29 a45fb8f **step: prefix cache response subjects**
+- 2025-12-18 00:03 56067137 **1.5.11**
+- 2025-12-17 23:31 1d057101 **step: prefix shield rate limit subjects**
+- 2025-12-17 23:29 a45fb8f0 **step: prefix cache response subjects**
 ## 2025-12-17 23:06 v1.5.10
-- 2025-12-17 23:06 1f9b1df **1.5.10**
-- 2025-12-17 23:04 c2df131 **docs: generate CHANGELOG**
-- 2025-12-17 23:04 512a65d **fix: intentional error typo**
-- 2025-12-17 23:02 ea0bf0c **fix: flaky timeout test**
-- 2025-12-17 22:47 30a0db9 **feature: cache response middleware**
-- 2025-12-17 22:46 f3c70ce **docs: generate CHANGELOG**
-- 2025-12-17 22:29 d32c2c7 **refactor: rename shield rate limit adapter subject resolvers**
-- 2025-12-17 22:17 b1f74bc **step: define flush method on cache resolver**
-- 2025-12-17 22:06 f04476c **docs: generate CHANGELOG**
-- 2025-12-17 22:05 c61b3c6 **docs: generate readme**
-- 2025-12-17 22:05 6d42154 **docs: generate CHANGELOG**
-- 2025-12-17 21:54 6769084 **refactor: use cache resolver in environment loader process safe adapter**
-- 2025-12-17 21:27 4f32ed1 **refactor: make get ttl a getter**
-- 2025-12-17 18:05 c7d2754 **refactor: use cache resolver in shield rate limit**
-- 2025-12-17 18:02 120cb93 **step: ad get ttl to cache resolver port**
-- 2025-12-17 17:54 2271e3a **step: add get ttl to cache repository port**
-- 2025-12-17 17:43 4cea2ca **refactor: reprecate cache response**
-- 2025-12-17 17:17 45b6eaf **refactor: remove old cache resolver service**
-- 2025-12-17 17:14 0ae218c **step: add resolve with context**
-- 2025-12-17 16:53 168189c **step: test cache resolver simple adapter**
-- 2025-12-17 16:39 a84582b **step: add cache resolver simple adapter**
-- 2025-12-17 16:34 62d6373 **feature: cache resolver port**
-- 2025-12-17 16:30 3c9d7a6 **step: update packages**
-- 2025-12-17 16:29 8b7ce4b **step: add noop cache repository noop**
-- 2025-12-17 16:27 64ec0b4 **step: test cache repo node cache adapter**
-- 2025-12-17 16:10 57fbd22 **feature: add cache repo node cache adapter**
-- 2025-12-17 15:56 3b7e804 **feature: add cache repository port**
-- 2025-12-17 15:32 0463ef3 **step: improve tests**
+- 2025-12-17 23:06 1f9b1dfc **1.5.10**
+- 2025-12-17 23:04 c2df131e **docs: generate CHANGELOG**
+- 2025-12-17 23:04 512a65d0 **fix: intentional error typo**
+- 2025-12-17 23:02 ea0bf0cd **fix: flaky timeout test**
+- 2025-12-17 22:47 30a0db95 **feature: cache response middleware**
+- 2025-12-17 22:46 f3c70cea **docs: generate CHANGELOG**
+- 2025-12-17 22:29 d32c2c77 **refactor: rename shield rate limit adapter subject resolvers**
+- 2025-12-17 22:17 b1f74bc8 **step: define flush method on cache resolver**
+- 2025-12-17 22:06 f04476c6 **docs: generate CHANGELOG**
+- 2025-12-17 22:05 c61b3c6d **docs: generate readme**
+- 2025-12-17 22:05 6d421545 **docs: generate CHANGELOG**
+- 2025-12-17 21:54 67690847 **refactor: use cache resolver in environment loader process safe adapter**
+- 2025-12-17 21:27 4f32ed14 **refactor: make get ttl a getter**
+- 2025-12-17 18:05 c7d27549 **refactor: use cache resolver in shield rate limit**
+- 2025-12-17 18:02 120cb93d **step: ad get ttl to cache resolver port**
+- 2025-12-17 17:54 2271e3a5 **step: add get ttl to cache repository port**
+- 2025-12-17 17:43 4cea2ca0 **refactor: reprecate cache response**
+- 2025-12-17 17:17 45b6eaf7 **refactor: remove old cache resolver service**
+- 2025-12-17 17:14 0ae218c4 **step: add resolve with context**
+- 2025-12-17 16:53 168189c2 **step: test cache resolver simple adapter**
+- 2025-12-17 16:39 a84582b6 **step: add cache resolver simple adapter**
+- 2025-12-17 16:34 62d63730 **feature: cache resolver port**
+- 2025-12-17 16:30 3c9d7a68 **step: update packages**
+- 2025-12-17 16:29 8b7ce4bb **step: add noop cache repository noop**
+- 2025-12-17 16:27 64ec0b45 **step: test cache repo node cache adapter**
+- 2025-12-17 16:10 57fbd220 **feature: add cache repo node cache adapter**
+- 2025-12-17 15:56 3b7e8043 **feature: add cache repository port**
+- 2025-12-17 15:32 0463ef35 **step: improve tests**
 ## 2025-12-17 15:06 v1.5.9
-- 2025-12-17 15:06 7ff89e7 **1.5.9**
-- 2025-12-17 15:05 0e24536 **fix: this binding guardrails**
-- 2025-12-17 14:50 2da52ac **step: this alias testcase for job handler service**
-- 2025-12-17 14:06 c222755 **docs: generate CHANGELOG**
-- 2025-12-17 14:06 ba8782a **docs: generate CHANGELOG**
+- 2025-12-17 15:06 7ff89e70 **1.5.9**
+- 2025-12-17 15:05 0e245367 **fix: this binding guardrails**
+- 2025-12-17 14:50 2da52ac4 **step: this alias testcase for job handler service**
+- 2025-12-17 14:06 c222755d **docs: generate CHANGELOG**
+- 2025-12-17 14:06 ba8782a7 **docs: generate CHANGELOG**
 ## 2025-12-17 12:28 v1.5.8
-- 2025-12-17 12:28 2b939f9 **1.5.8**
+- 2025-12-17 12:28 2b939f9a **1.5.8**
 ## 2025-12-17 12:27 v1.5.7
-- 2025-12-17 12:27 e607840 **1.5.7**
-- 2025-12-17 12:27 5af68d2 **step: update packages**
-- 2025-12-17 12:24 e128b03 **step: update packages**
-- 2025-12-17 12:23 18c6acd **refactor: cleanup tests**
-- 2025-12-17 11:59 8f95037 **step: adjust directory tests**
-- 2025-12-17 11:41 cadc35e **step: update log file tests**
-- 2025-12-17 11:32 f07f941 **step: reuse prereq file in log-file**
-- 2025-12-17 11:28 8d0b3a5 **docs: generate CHANGELOG**
-- 2025-12-17 11:28 35143b2 **docs: generate CHANGELOG**
-- 2025-12-17 11:27 ca82e7d **docs: generate readme**
-- 2025-12-17 11:27 3b70537 **docs: generate CHANGELOG**
-- 2025-12-17 11:24 48279dc **step: test prerequisites file**
-- 2025-12-17 11:17 34a9890 **feature: file prereq**
-- 2025-12-16 15:47 744dd4b **step: test process safe adapter**
-- 2025-12-16 14:47 47e8ec1 **docs: generate CHANGELOG**
+- 2025-12-17 12:27 e607840d **1.5.7**
+- 2025-12-17 12:27 5af68d29 **step: update packages**
+- 2025-12-17 12:24 e128b039 **step: update packages**
+- 2025-12-17 12:23 18c6acd3 **refactor: cleanup tests**
+- 2025-12-17 11:59 8f950373 **step: adjust directory tests**
+- 2025-12-17 11:41 cadc35ec **step: update log file tests**
+- 2025-12-17 11:32 f07f9412 **step: reuse prereq file in log-file**
+- 2025-12-17 11:28 8d0b3a5b **docs: generate CHANGELOG**
+- 2025-12-17 11:28 35143b2c **docs: generate CHANGELOG**
+- 2025-12-17 11:27 ca82e7d2 **docs: generate readme**
+- 2025-12-17 11:27 3b705378 **docs: generate CHANGELOG**
+- 2025-12-17 11:24 48279dc0 **step: test prerequisites file**
+- 2025-12-17 11:17 34a98902 **feature: file prereq**
+- 2025-12-16 15:47 744dd4b9 **step: test process safe adapter**
+- 2025-12-16 14:47 47e8ec17 **docs: generate CHANGELOG**
 ## 2025-12-16 13:43 v1.5.6
-- 2025-12-16 13:43 6c90f8b **1.5.6**
+- 2025-12-16 13:43 6c90f8b2 **1.5.6**
 ## 2025-12-16 13:42 v1.5.5
-- 2025-12-16 13:42 ee76c50 **1.5.5**
-- 2025-12-16 13:41 2a1c227 **feature: environment loader process safe**
+- 2025-12-16 13:42 ee76c502 **1.5.5**
+- 2025-12-16 13:41 2a1c2271 **feature: environment loader process safe**
 ## 2025-12-16 13:00 v1.5.4
-- 2025-12-16 13:00 9cb5cfe **1.5.4**
-- 2025-12-16 12:59 d0dd356 **refactor: allow both file paths in crypto key provider and environment loader**
-- 2025-12-16 12:45 814045d **fix: trim file in crypto key provider file**
-- 2025-12-16 12:43 c07d825 **docs: generate CHANGELOG**
-- 2025-12-16 12:42 738678d **docs: generate CHANGELOG**
-- 2025-12-16 12:42 49fab49 **docs: generate CHANGELOG**
-- 2025-12-16 12:42 0e1e96c **docs: generate readme**
-- 2025-12-16 12:40 8635625 **docs: generate CHANGELOG**
-- 2025-12-16 12:00 ae97252 **docs: generate CHANGELOG**
-- 2025-12-16 12:00 1bead93 **docs: generate CHANGELOG**
-- 2025-12-16 10:24 43104c4 **refactor: arrange act assert**
-- 2025-12-16 10:09 00b3ccd **docs: generate CHANGELOG**
+- 2025-12-16 13:00 9cb5cfea **1.5.4**
+- 2025-12-16 12:59 d0dd3568 **refactor: allow both file paths in crypto key provider and environment loader**
+- 2025-12-16 12:45 814045dd **fix: trim file in crypto key provider file**
+- 2025-12-16 12:43 c07d825e **docs: generate CHANGELOG**
+- 2025-12-16 12:42 738678d3 **docs: generate CHANGELOG**
+- 2025-12-16 12:42 49fab49c **docs: generate CHANGELOG**
+- 2025-12-16 12:42 0e1e96c7 **docs: generate readme**
+- 2025-12-16 12:40 86356251 **docs: generate CHANGELOG**
+- 2025-12-16 12:00 ae972529 **docs: generate CHANGELOG**
+- 2025-12-16 12:00 1bead93c **docs: generate CHANGELOG**
+- 2025-12-16 10:24 43104c4b **refactor: arrange act assert**
+- 2025-12-16 10:09 00b3ccd3 **docs: generate CHANGELOG**
 ## 2025-12-16 10:00 v1.5.3
-- 2025-12-16 10:00 b32d40e **1.5.3**
-- 2025-12-16 09:59 dfae432 **step: update packages**
-- 2025-12-16 09:57 b213bc2 **step: cache internal environment loader process result**
+- 2025-12-16 10:00 b32d40e9 **1.5.3**
+- 2025-12-16 09:59 dfae432a **step: update packages**
+- 2025-12-16 09:57 b213bc2b **step: cache internal environment loader process result**
 ## 2025-12-16 09:11 v1.5.2
-- 2025-12-16 09:11 0f1218a **1.5.2**
-- 2025-12-16 09:10 d6998bb **step: update packages**
-- 2025-12-16 09:00 45198f9 **docs: generate CHANGELOG**
-- 2025-12-16 08:59 e3b5cf7 **docs: generate CHANGELOG**
-- 2025-12-16 08:11 90b474c **docs: generate CHANGELOG**
-- 2025-12-16 08:11 3c65971 **docs: generate CHANGELOG**
-- 2025-12-15 19:50 6cf294d **step: bump bgord/scripts**
-- 2025-12-15 18:50 140a74a **docs: generate CHANGELOG**
-- 2025-12-15 18:40 fda515d **step: bump bgord/scripts**
-- 2025-12-15 18:40 f7eea8e **step: install lockfile lint**
-- 2025-12-15 18:37 de8003d **step: bump bgord/scripts**
-- 2025-12-15 18:34 1e8ecc1 **step: bump bgord/scripts**
-- 2025-12-15 18:11 96b7327 **refactor: simplify type casting**
-- 2025-12-15 18:09 90ae2d4 **step: update packages**
-- 2025-12-15 18:06 bfbf197 **refactor: improve file checks in encryption adapter**
-- 2025-12-15 18:00 dce1830 **step: make env loader encrypted failure more descriptive**
-- 2025-12-15 17:56 ae28399 **refactor: use EncryptionKey vo**
-- 2025-12-15 17:42 b9898cd **feature: encryption key vo**
-- 2025-12-15 17:41 9b3af6b **docs: generate CHANGELOG**
-- 2025-12-15 17:40 16158a6 **docs: generate CHANGELOG**
-- 2025-12-15 17:37 f5ab6c2 **docs: generate CHANGELOG**
-- 2025-12-15 17:34 2802b21 **docs: generate CHANGELOG**
-- 2025-12-15 17:19 fedf4a1 **refactor: rename encryption key to value**
-- 2025-12-15 17:12 951a958 **docs: generate CHANGELOG**
-- 2025-12-15 17:11 a0da027 **step: test crypto key provider file adapter**
-- 2025-12-15 17:09 97733a5 **docs: generate CHANGELOG**
-- 2025-12-15 17:09 4547158 **docs: generate readme**
-- 2025-12-15 16:56 deaa8e8 **feature: crypto key provider file adapter**
-- 2025-12-15 14:57 b8f8654 **step: ignore tmp**
-- 2025-12-15 14:13 879a774 **refactor: rename crypto key provider**
-- 2025-12-15 13:13 bf1284b **docs: generate CHANGELOG**
-- 2025-12-15 13:13 8de9aad **docs: generate readme**
-- 2025-12-15 13:12 5a09f4e **step: add environment loader encrypted adapter tests**
-- 2025-12-15 13:08 20f2b4a **refactor: rename Schema paramter**
-- 2025-12-15 13:05 e650b93 **step: make encryption noop adapter flexible**
-- 2025-12-15 13:02 b0412b1 **feature: environment loader encrypted adapter**
-- 2025-12-15 13:00 16e1833 **refactor: rename process adapter**
-- 2025-12-15 12:57 9776159 **refactor: simplify process env loader**
-- 2025-12-15 12:48 5f5ffb2 **step: install dotenv**
-- 2025-12-15 12:39 21cb93d **fix: encryption port**
-- 2025-12-15 12:19 53f8833 **step: scrub process env in environment loader process env adapter**
+- 2025-12-16 09:11 0f1218a4 **1.5.2**
+- 2025-12-16 09:10 d6998bb3 **step: update packages**
+- 2025-12-16 09:00 45198f9a **docs: generate CHANGELOG**
+- 2025-12-16 08:59 e3b5cf7d **docs: generate CHANGELOG**
+- 2025-12-16 08:11 90b474c6 **docs: generate CHANGELOG**
+- 2025-12-16 08:11 3c65971c **docs: generate CHANGELOG**
+- 2025-12-15 19:50 6cf294dd **step: bump bgord/scripts**
+- 2025-12-15 18:50 140a74af **docs: generate CHANGELOG**
+- 2025-12-15 18:40 fda515d7 **step: bump bgord/scripts**
+- 2025-12-15 18:40 f7eea8ec **step: install lockfile lint**
+- 2025-12-15 18:37 de8003d4 **step: bump bgord/scripts**
+- 2025-12-15 18:34 1e8ecc19 **step: bump bgord/scripts**
+- 2025-12-15 18:11 96b7327e **refactor: simplify type casting**
+- 2025-12-15 18:09 90ae2d49 **step: update packages**
+- 2025-12-15 18:06 bfbf197d **refactor: improve file checks in encryption adapter**
+- 2025-12-15 18:00 dce18304 **step: make env loader encrypted failure more descriptive**
+- 2025-12-15 17:56 ae28399d **refactor: use EncryptionKey vo**
+- 2025-12-15 17:42 b9898cd2 **feature: encryption key vo**
+- 2025-12-15 17:41 9b3af6b5 **docs: generate CHANGELOG**
+- 2025-12-15 17:40 16158a65 **docs: generate CHANGELOG**
+- 2025-12-15 17:37 f5ab6c2a **docs: generate CHANGELOG**
+- 2025-12-15 17:34 2802b21e **docs: generate CHANGELOG**
+- 2025-12-15 17:19 fedf4a18 **refactor: rename encryption key to value**
+- 2025-12-15 17:12 951a9588 **docs: generate CHANGELOG**
+- 2025-12-15 17:11 a0da0278 **step: test crypto key provider file adapter**
+- 2025-12-15 17:09 97733a5d **docs: generate CHANGELOG**
+- 2025-12-15 17:09 4547158b **docs: generate readme**
+- 2025-12-15 16:56 deaa8e82 **feature: crypto key provider file adapter**
+- 2025-12-15 14:57 b8f86542 **step: ignore tmp**
+- 2025-12-15 14:13 879a7749 **refactor: rename crypto key provider**
+- 2025-12-15 13:13 bf1284b2 **docs: generate CHANGELOG**
+- 2025-12-15 13:13 8de9aadc **docs: generate readme**
+- 2025-12-15 13:12 5a09f4e0 **step: add environment loader encrypted adapter tests**
+- 2025-12-15 13:08 20f2b4a6 **refactor: rename Schema paramter**
+- 2025-12-15 13:05 e650b935 **step: make encryption noop adapter flexible**
+- 2025-12-15 13:02 b0412b16 **feature: environment loader encrypted adapter**
+- 2025-12-15 13:00 16e18331 **refactor: rename process adapter**
+- 2025-12-15 12:57 97761592 **refactor: simplify process env loader**
+- 2025-12-15 12:48 5f5ffb2c **step: install dotenv**
+- 2025-12-15 12:39 21cb93dc **fix: encryption port**
+- 2025-12-15 12:19 53f88331 **step: scrub process env in environment loader process env adapter**
 ## 2025-12-15 11:51 v1.5.1
-- 2025-12-15 11:51 a42f901 **1.5.1**
+- 2025-12-15 11:51 a42f901a **1.5.1**
 ## 2025-12-15 11:50 v1.5.0
-- 2025-12-15 11:50 84b6693 **1.5.0**
-- 2025-12-15 11:49 e3bb7ef **refactor: cleanup previous service**
-- 2025-12-15 11:47 269f0b4 **step: freeze returned env object**
-- 2025-12-15 11:43 f0e3475 **step: add environment process env adapter**
-- 2025-12-15 11:36 e5a98d7 **step: add environment loader port**
-- 2025-12-15 10:51 7ee6f80 **docs: generate CHANGELOG**
-- 2025-12-15 10:51 591ec3f **docs: generate CHANGELOG**
-- 2025-12-15 10:50 d75f65b **docs: generate readme**
-- 2025-12-15 10:50 4561b17 **docs: generate CHANGELOG**
+- 2025-12-15 11:50 84b6693a **1.5.0**
+- 2025-12-15 11:49 e3bb7ef0 **refactor: cleanup previous service**
+- 2025-12-15 11:47 269f0b40 **step: freeze returned env object**
+- 2025-12-15 11:43 f0e3475f **step: add environment process env adapter**
+- 2025-12-15 11:36 e5a98d78 **step: add environment loader port**
+- 2025-12-15 10:51 7ee6f80b **docs: generate CHANGELOG**
+- 2025-12-15 10:51 591ec3f8 **docs: generate CHANGELOG**
+- 2025-12-15 10:50 d75f65be **docs: generate readme**
+- 2025-12-15 10:50 4561b17c **docs: generate CHANGELOG**
 ## 2025-12-15 10:03 v1.4.26
-- 2025-12-15 10:03 ba0f7b5 **1.4.26**
-- 2025-12-15 10:02 586274e **step: update packages**
-- 2025-12-15 09:03 3889a3a **docs: generate CHANGELOG**
-- 2025-12-15 09:02 a5a6807 **docs: generate CHANGELOG**
+- 2025-12-15 10:03 ba0f7b5e **1.4.26**
+- 2025-12-15 10:02 586274e7 **step: update packages**
+- 2025-12-15 09:03 3889a3a3 **docs: generate CHANGELOG**
+- 2025-12-15 09:02 a5a68076 **docs: generate CHANGELOG**
 ## 2025-12-14 23:15 v1.4.25
-- 2025-12-14 23:15 b61ad29 **refactor: remove public url from remote file storage**
-- 2025-12-14 23:15 033169c **1.4.25**
+- 2025-12-14 23:15 b61ad29c **refactor: remove public url from remote file storage**
+- 2025-12-14 23:15 033169ce **1.4.25**
 ## 2025-12-14 23:13 v1.4.24
-- 2025-12-14 23:13 d597a5e **1.4.24**
-- 2025-12-14 23:13 7a99a21 **refactor: use url vo**
-- 2025-12-14 23:12 e20054a **refactor: remove unused email vos**
-- 2025-12-14 22:58 31c342c **step: update packages**
-- 2025-12-14 22:15 ed8e43b **docs: generate CHANGELOG**
-- 2025-12-14 22:15 c5402c7 **docs: generate CHANGELOG**
-- 2025-12-14 22:13 e16752b **docs: generate readme**
-- 2025-12-14 22:13 a22ee68 **docs: generate CHANGELOG**
-- 2025-12-14 22:13 0145477 **docs: generate CHANGELOG**
-- 2025-12-14 19:43 63788ca **feature: file etag**
+- 2025-12-14 23:13 d597a5e1 **1.4.24**
+- 2025-12-14 23:13 7a99a21b **refactor: use url vo**
+- 2025-12-14 23:12 e20054aa **refactor: remove unused email vos**
+- 2025-12-14 22:58 31c342c8 **step: update packages**
+- 2025-12-14 22:15 ed8e43b8 **docs: generate CHANGELOG**
+- 2025-12-14 22:15 c5402c7c **docs: generate CHANGELOG**
+- 2025-12-14 22:13 e16752b6 **docs: generate readme**
+- 2025-12-14 22:13 a22ee68a **docs: generate CHANGELOG**
+- 2025-12-14 22:13 01454778 **docs: generate CHANGELOG**
+- 2025-12-14 19:43 63788ca9 **feature: file etag**
 ## 2025-12-14 19:17 v1.4.23
-- 2025-12-14 19:17 2a7f0b5 **1.4.23**
+- 2025-12-14 19:17 2a7f0b5b **1.4.23**
 ## 2025-12-14 19:15 v1.4.22
-- 2025-12-14 19:15 59315ff **1.4.22**
-- 2025-12-14 19:10 d94fa09 **refactor: use visitor id vo**
-- 2025-12-14 19:05 60bf3bd **step: add visitor id vo**
+- 2025-12-14 19:15 59315ffe **1.4.22**
+- 2025-12-14 19:10 d94fa091 **refactor: use visitor id vo**
+- 2025-12-14 19:05 60bf3bdc **step: add visitor id vo**
 ## 2025-12-14 18:56 v1.4.21
-- 2025-12-14 18:56 81cf35f **1.4.21**
-- 2025-12-14 18:53 efb3c81 **step: change handle set user language command parameters**
-- 2025-12-14 18:17 786c063 **docs: generate CHANGELOG**
-- 2025-12-14 18:17 3482aaf **docs: generate CHANGELOG**
-- 2025-12-14 18:10 defe996 **docs: generate CHANGELOG**
-- 2025-12-14 18:10 6f6924b **docs: generate readme**
-- 2025-12-14 17:56 b203675 **docs: generate CHANGELOG**
-- 2025-12-14 17:56 263e22b **docs: generate CHANGELOG**
+- 2025-12-14 18:56 81cf35fe **1.4.21**
+- 2025-12-14 18:53 efb3c81e **step: change handle set user language command parameters**
+- 2025-12-14 18:17 786c0631 **docs: generate CHANGELOG**
+- 2025-12-14 18:17 3482aaf2 **docs: generate CHANGELOG**
+- 2025-12-14 18:10 defe9963 **docs: generate CHANGELOG**
+- 2025-12-14 18:10 6f6924ba **docs: generate readme**
+- 2025-12-14 17:56 b2036757 **docs: generate CHANGELOG**
+- 2025-12-14 17:56 263e22b1 **docs: generate CHANGELOG**
 ## 2025-12-14 13:01 v1.4.20
-- 2025-12-14 13:01 d76c023 **1.4.20**
-- 2025-12-14 13:00 dcdd628 **fix: tests**
-- 2025-12-14 12:55 bdd90c9 **step: update packages**
-- 2025-12-14 12:01 24a75de **docs: generate CHANGELOG**
-- 2025-12-14 12:00 2de0b72 **docs: generate CHANGELOG**
-- 2025-12-13 21:48 4e5354f **fix: hcaptcha secret key length**
-- 2025-12-13 21:14 cdcfde5 **refactor: unify deps in prereqs**
+- 2025-12-14 13:01 d76c0231 **1.4.20**
+- 2025-12-14 13:00 dcdd6289 **fix: tests**
+- 2025-12-14 12:55 bdd90c9c **step: update packages**
+- 2025-12-14 12:01 24a75de4 **docs: generate CHANGELOG**
+- 2025-12-14 12:00 2de0b720 **docs: generate CHANGELOG**
+- 2025-12-13 21:48 4e5354ff **fix: hcaptcha secret key length**
+- 2025-12-13 21:14 cdcfde59 **refactor: unify deps in prereqs**
 ## 2025-12-13 00:42 v1.4.19
-- 2025-12-13 00:42 b7a074c **refactor: unify remote file storage constract**
-- 2025-12-13 00:42 80c0c7d **1.4.19**
+- 2025-12-13 00:42 b7a074c0 **refactor: unify remote file storage constract**
+- 2025-12-13 00:42 80c0c7d9 **1.4.19**
 ## 2025-12-13 00:36 v1.4.18
-- 2025-12-13 00:36 2c78621 **1.4.18**
-- 2025-12-13 00:35 7fcb700 **step: add root getter to remote file storage port**
-- 2025-12-13 00:30 b3affad **step: add root getter to temporary file port**
+- 2025-12-13 00:36 2c786218 **1.4.18**
+- 2025-12-13 00:35 7fcb7008 **step: add root getter to remote file storage port**
+- 2025-12-13 00:30 b3affad6 **step: add root getter to temporary file port**
 ## 2025-12-13 00:00 v1.4.17
-- 2025-12-13 00:00 b1370f1 **refactor: refine job handler unit of work structure**
-- 2025-12-13 00:00 72f2d30 **1.4.17**
-- 2025-12-12 23:44 413085e **refactor: remove unused this alias**
-- 2025-12-12 23:43 da5685b **docs: generate CHANGELOG**
-- 2025-12-12 23:42 102a334 **docs: generate CHANGELOG**
-- 2025-12-12 23:41 bc7272c **step: test jobs service separately**
-- 2025-12-12 23:36 da26f69 **docs: generate CHANGELOG**
-- 2025-12-12 23:36 295900e **docs: generate CHANGELOG**
-- 2025-12-12 23:33 e1ab64c **refactor: extract job-handler service**
-- 2025-12-12 23:00 c702ca7 **docs: generate readme**
-- 2025-12-12 23:00 80d68d6 **docs: generate CHANGELOG**
-- 2025-12-12 23:00 193ecd5 **docs: generate CHANGELOG**
-- 2025-12-12 21:17 322eee0 **refactor: uppercase prereq jobs deps**
-- 2025-12-12 20:17 931b913 **docs: generate CHANGELOG**
+- 2025-12-13 00:00 b1370f14 **refactor: refine job handler unit of work structure**
+- 2025-12-13 00:00 72f2d305 **1.4.17**
+- 2025-12-12 23:44 413085e0 **refactor: remove unused this alias**
+- 2025-12-12 23:43 da5685b4 **docs: generate CHANGELOG**
+- 2025-12-12 23:42 102a3342 **docs: generate CHANGELOG**
+- 2025-12-12 23:41 bc7272cb **step: test jobs service separately**
+- 2025-12-12 23:36 da26f694 **docs: generate CHANGELOG**
+- 2025-12-12 23:36 295900e5 **docs: generate CHANGELOG**
+- 2025-12-12 23:33 e1ab64c9 **refactor: extract job-handler service**
+- 2025-12-12 23:00 c702ca79 **docs: generate readme**
+- 2025-12-12 23:00 80d68d64 **docs: generate CHANGELOG**
+- 2025-12-12 23:00 193ecd54 **docs: generate CHANGELOG**
+- 2025-12-12 21:17 322eee07 **refactor: uppercase prereq jobs deps**
+- 2025-12-12 20:17 931b9136 **docs: generate CHANGELOG**
 ## 2025-12-12 18:42 v1.4.16
-- 2025-12-12 18:42 53fbe3c **1.4.16**
-- 2025-12-12 18:41 7bd2bff **fix: restore EnvironmentResultType**
+- 2025-12-12 18:42 53fbe3c3 **1.4.16**
+- 2025-12-12 18:41 7bd2bffd **fix: restore EnvironmentResultType**
 ## 2025-12-12 18:38 v1.4.15
-- 2025-12-12 18:38 cf18094 **1.4.15**
-- 2025-12-12 18:34 8ba4a11 **step: bump bgord/scripts**
-- 2025-12-12 18:28 c6513a5 **refactor: require process.env to be passed to load method in environment validator**
-- 2025-12-12 18:27 5f34c57 **refactor: simplify environment validator node env parsing**
-- 2025-12-12 18:26 cd090f4 **step: test node env vo**
-- 2025-12-12 18:24 b0f85cd **refactor: rename port vo test file**
-- 2025-12-12 18:22 34ccfd1 **refactor: restrict environment validator node env type**
-- 2025-12-12 18:22 30493af **refactor: remove generic type from environment validator**
-- 2025-12-12 18:16 67d0da5 **refactor: simplify env validator**
+- 2025-12-12 18:38 cf180945 **1.4.15**
+- 2025-12-12 18:34 8ba4a11d **step: bump bgord/scripts**
+- 2025-12-12 18:28 c6513a5c **refactor: require process.env to be passed to load method in environment validator**
+- 2025-12-12 18:27 5f34c571 **refactor: simplify environment validator node env parsing**
+- 2025-12-12 18:26 cd090f4c **step: test node env vo**
+- 2025-12-12 18:24 b0f85cde **refactor: rename port vo test file**
+- 2025-12-12 18:22 34ccfd19 **refactor: restrict environment validator node env type**
+- 2025-12-12 18:22 30493af2 **refactor: remove generic type from environment validator**
+- 2025-12-12 18:16 67d0da5f **refactor: simplify env validator**
 ## 2025-12-12 17:54 v1.4.14
-- 2025-12-12 17:54 fdc0261 **1.4.14**
-- 2025-12-12 17:53 6deb38d **step: update packages**
-- 2025-12-12 17:42 3b9780e **docs: generate CHANGELOG**
-- 2025-12-12 17:41 dceedd1 **docs: generate CHANGELOG**
-- 2025-12-12 17:38 acad603 **docs: generate CHANGELOG**
-- 2025-12-12 17:36 bb189f1 **docs: generate CHANGELOG**
-- 2025-12-12 17:29 a5fcfaa **docs: generate CHANGELOG**
-- 2025-12-12 16:54 5e5d6d3 **docs: generate CHANGELOG**
-- 2025-12-12 16:53 2b3575a **docs: generate CHANGELOG**
-- 2025-12-12 13:42 52e2f13 **refactor: unify test names**
-- 2025-12-12 13:37 893cc95 **step: define environment result type**
-- 2025-12-12 13:35 a033cc8 **refactor: rename environment validator service**
-- 2025-12-12 13:31 c6cc3e1 **refactor: extract shield basic auth**
-- 2025-12-12 13:12 15130d7 **step: update packages**
-- 2025-12-12 13:05 8870430 **step: define shield timeout adapter**
-- 2025-12-12 12:43 ecaf96e **docs: generate CHANGELOG**
-- 2025-12-12 12:38 eff74a2 **docs: generate CHANGELOG**
-- 2025-12-12 12:38 e5e4ae7 **docs: generate readme**
-- 2025-12-12 12:34 8560954 **docs: generate readme**
-- 2025-12-12 12:34 5129527 **docs: generate CHANGELOG**
-- 2025-12-12 12:13 d7c5850 **docs: generate readme**
-- 2025-12-12 12:13 53e6c56 **docs: generate CHANGELOG**
+- 2025-12-12 17:54 fdc02615 **1.4.14**
+- 2025-12-12 17:53 6deb38de **step: update packages**
+- 2025-12-12 17:42 3b9780e0 **docs: generate CHANGELOG**
+- 2025-12-12 17:41 dceedd15 **docs: generate CHANGELOG**
+- 2025-12-12 17:38 acad6036 **docs: generate CHANGELOG**
+- 2025-12-12 17:36 bb189f10 **docs: generate CHANGELOG**
+- 2025-12-12 17:29 a5fcfaa1 **docs: generate CHANGELOG**
+- 2025-12-12 16:54 5e5d6d3d **docs: generate CHANGELOG**
+- 2025-12-12 16:53 2b3575a6 **docs: generate CHANGELOG**
+- 2025-12-12 13:42 52e2f132 **refactor: unify test names**
+- 2025-12-12 13:37 893cc956 **step: define environment result type**
+- 2025-12-12 13:35 a033cc84 **refactor: rename environment validator service**
+- 2025-12-12 13:31 c6cc3e12 **refactor: extract shield basic auth**
+- 2025-12-12 13:12 15130d72 **step: update packages**
+- 2025-12-12 13:05 8870430b **step: define shield timeout adapter**
+- 2025-12-12 12:43 ecaf96e9 **docs: generate CHANGELOG**
+- 2025-12-12 12:38 eff74a2f **docs: generate CHANGELOG**
+- 2025-12-12 12:38 e5e4ae73 **docs: generate readme**
+- 2025-12-12 12:34 85609543 **docs: generate readme**
+- 2025-12-12 12:34 5129527d **docs: generate CHANGELOG**
+- 2025-12-12 12:13 d7c58501 **docs: generate readme**
+- 2025-12-12 12:13 53e6c569 **docs: generate CHANGELOG**
 ## 2025-12-11 23:09 v1.4.13
-- 2025-12-11 23:09 1368cb3 **1.4.13**
-- 2025-12-11 23:07 0d433dd **refactor: restore colors**
+- 2025-12-11 23:09 1368cb37 **1.4.13**
+- 2025-12-11 23:07 0d433dd2 **refactor: restore colors**
 ## 2025-12-11 23:01 v1.4.12
-- 2025-12-11 23:01 fb25af3 **1.4.12**
-- 2025-12-11 23:01 7693bf2 **fix: try another approach for colored json**
+- 2025-12-11 23:01 fb25af3a **1.4.12**
+- 2025-12-11 23:01 7693bf20 **fix: try another approach for colored json**
 ## 2025-12-11 22:59 v1.4.11
-- 2025-12-11 22:59 e38017a **1.4.11**
-- 2025-12-11 22:58 1a009d6 **fix: use printf instead of pretty print**
+- 2025-12-11 22:59 e38017ae **1.4.11**
+- 2025-12-11 22:58 1a009d65 **fix: use printf instead of pretty print**
 ## 2025-12-11 22:53 v1.4.10
-- 2025-12-11 22:53 fddfd68 **1.4.10**
-- 2025-12-11 22:51 8771758 **fix: colored logs for local**
+- 2025-12-11 22:53 fddfd683 **1.4.10**
+- 2025-12-11 22:51 87717589 **fix: colored logs for local**
 ## 2025-12-11 22:42 v1.4.9
-- 2025-12-11 22:42 26b25ad **1.4.9**
-- 2025-12-11 22:41 484e445 **step: add colorize to logger inston local adapter**
+- 2025-12-11 22:42 26b25adc **1.4.9**
+- 2025-12-11 22:41 484e445d **step: add colorize to logger inston local adapter**
 ## 2025-12-11 22:32 v1.4.8
-- 2025-12-11 22:32 fece218 **1.4.8**
-- 2025-12-11 22:31 2f6522d **refactor: simplify healthcheck prerequisites**
-- 2025-12-11 22:09 a637d51 **docs: generate CHANGELOG**
+- 2025-12-11 22:32 fece2188 **1.4.8**
+- 2025-12-11 22:31 2f6522d5 **refactor: simplify healthcheck prerequisites**
+- 2025-12-11 22:09 a637d510 **docs: generate CHANGELOG**
 ## 2025-12-11 22:08 v1.4.7
-- 2025-12-11 22:08 e6a6f47 **1.4.7**
-- 2025-12-11 22:07 73d3e91 **docs: generate CHANGELOG**
-- 2025-12-11 22:05 0228668 **step: update packages**
-- 2025-12-11 22:02 93f0e15 **refactor: unify logger port**
-- 2025-12-11 22:01 9f04709 **docs: generate CHANGELOG**
-- 2025-12-11 22:01 3eb4944 **docs: generate CHANGELOG**
-- 2025-12-11 21:59 62ef495 **docs: generate CHANGELOG**
-- 2025-12-11 21:58 1fb67dc **docs: generate CHANGELOG**
-- 2025-12-11 21:53 f56fcaf **docs: generate CHANGELOG**
-- 2025-12-11 21:52 226daa2 **docs: generate CHANGELOG**
-- 2025-12-11 21:42 4840f80 **docs: generate CHANGELOG**
-- 2025-12-11 21:41 03af923 **docs: generate CHANGELOG**
-- 2025-12-11 21:32 309cdf7 **docs: generate CHANGELOG**
-- 2025-12-11 21:32 230c344 **docs: generate CHANGELOG**
-- 2025-12-11 21:08 9e8e02a **docs: generate CHANGELOG**
-- 2025-12-11 21:05 df8ab2b **docs: generate CHANGELOG**
-- 2025-12-10 15:03 a8b65e8 **refactor: create one shield noop adapter**
-- 2025-12-10 14:10 b53f4f9 **docs: generate CHANGELOG**
-- 2025-12-10 14:10 7cbfee4 **docs: generate readme**
+- 2025-12-11 22:08 e6a6f474 **1.4.7**
+- 2025-12-11 22:07 73d3e91d **docs: generate CHANGELOG**
+- 2025-12-11 22:05 02286686 **step: update packages**
+- 2025-12-11 22:02 93f0e153 **refactor: unify logger port**
+- 2025-12-11 22:01 9f047090 **docs: generate CHANGELOG**
+- 2025-12-11 22:01 3eb49444 **docs: generate CHANGELOG**
+- 2025-12-11 21:59 62ef4956 **docs: generate CHANGELOG**
+- 2025-12-11 21:58 1fb67dcb **docs: generate CHANGELOG**
+- 2025-12-11 21:53 f56fcaf7 **docs: generate CHANGELOG**
+- 2025-12-11 21:52 226daa2c **docs: generate CHANGELOG**
+- 2025-12-11 21:42 4840f80e **docs: generate CHANGELOG**
+- 2025-12-11 21:41 03af923c **docs: generate CHANGELOG**
+- 2025-12-11 21:32 309cdf7f **docs: generate CHANGELOG**
+- 2025-12-11 21:32 230c3448 **docs: generate CHANGELOG**
+- 2025-12-11 21:08 9e8e02ab **docs: generate CHANGELOG**
+- 2025-12-11 21:05 df8ab2b7 **docs: generate CHANGELOG**
+- 2025-12-10 15:03 a8b65e80 **refactor: create one shield noop adapter**
+- 2025-12-10 14:10 b53f4f92 **docs: generate CHANGELOG**
+- 2025-12-10 14:10 7cbfee43 **docs: generate readme**
 ## 2025-12-10 13:22 v1.4.6
-- 2025-12-10 13:22 caae5ed **1.4.6**
+- 2025-12-10 13:22 caae5eda **1.4.6**
 ## 2025-12-10 13:21 v1.4.5
-- 2025-12-10 13:21 8bc1b87 **1.4.5**
-- 2025-12-10 13:13 deb45c1 **step: add shield rate limit noop adapter**
-- 2025-12-10 13:06 140fde4 **refactor: shield api key noop adapter**
-- 2025-12-10 13:04 4f97b2e **refactor: unify shield port**
+- 2025-12-10 13:21 8bc1b877 **1.4.5**
+- 2025-12-10 13:13 deb45c1b **step: add shield rate limit noop adapter**
+- 2025-12-10 13:06 140fde46 **refactor: shield api key noop adapter**
+- 2025-12-10 13:04 4f97b2ed **refactor: unify shield port**
 ## 2025-12-10 12:59 v1.4.4
-- 2025-12-10 12:59 55e5100 **1.4.4**
-- 2025-12-10 12:58 af72435 **refactor: unify mailer noop deps**
-- 2025-12-10 12:22 a35dfaf **docs: generate CHANGELOG**
-- 2025-12-10 12:22 4a87e15 **docs: generate CHANGELOG**
-- 2025-12-10 12:20 f73ebb3 **docs: generate CHANGELOG**
-- 2025-12-10 12:20 cf7895d **docs: generate readme**
-- 2025-12-10 12:07 91b64d0 **docs: generate CHANGELOG**
-- 2025-12-10 12:07 8ef3170 **docs: generate readme**
-- 2025-12-10 11:59 eeffea0 **docs: generate CHANGELOG**
-- 2025-12-10 11:58 6067e3f **docs: generate CHANGELOG**
+- 2025-12-10 12:59 55e5100e **1.4.4**
+- 2025-12-10 12:58 af72435a **refactor: unify mailer noop deps**
+- 2025-12-10 12:22 a35dfafc **docs: generate CHANGELOG**
+- 2025-12-10 12:22 4a87e150 **docs: generate CHANGELOG**
+- 2025-12-10 12:20 f73ebb3d **docs: generate CHANGELOG**
+- 2025-12-10 12:20 cf7895dc **docs: generate readme**
+- 2025-12-10 12:07 91b64d0a **docs: generate CHANGELOG**
+- 2025-12-10 12:07 8ef3170a **docs: generate readme**
+- 2025-12-10 11:59 eeffea04 **docs: generate CHANGELOG**
+- 2025-12-10 11:58 6067e3fb **docs: generate CHANGELOG**
 ## 2025-12-10 11:57 v1.4.3
-- 2025-12-10 11:57 a17f1c7 **1.4.3**
-- 2025-12-10 11:54 f1e9dcf **refactor: do not use set system time**
-- 2025-12-10 11:52 0515935 **refactor: adjust setSystemTime**
-- 2025-12-10 11:51 9f80e57 **refactor: adjust tools changes**
-- 2025-12-10 11:50 c25b079 **step: update packages**
-- 2025-12-10 10:57 f56cad7 **docs: generate CHANGELOG**
-- 2025-12-10 10:54 2bf05ba **docs: generate CHANGELOG**
-- 2025-12-09 23:22 a4b9962 **step: add encryption.view method**
+- 2025-12-10 11:57 a17f1c74 **1.4.3**
+- 2025-12-10 11:54 f1e9dcfa **refactor: do not use set system time**
+- 2025-12-10 11:52 05159358 **refactor: adjust setSystemTime**
+- 2025-12-10 11:51 9f80e57b **refactor: adjust tools changes**
+- 2025-12-10 11:50 c25b0792 **step: update packages**
+- 2025-12-10 10:57 f56cad76 **docs: generate CHANGELOG**
+- 2025-12-10 10:54 2bf05ba6 **docs: generate CHANGELOG**
+- 2025-12-09 23:22 a4b9962d **step: add encryption.view method**
 ## 2025-12-09 22:59 v1.4.2
-- 2025-12-09 22:59 1f2ce90 **1.4.2**
-- 2025-12-09 22:56 3eb9a0e **step: avoid aggresive dynamic imports**
+- 2025-12-09 22:59 1f2ce90f **1.4.2**
+- 2025-12-09 22:56 3eb9a0e9 **step: avoid aggresive dynamic imports**
 ## 2025-12-09 22:49 v1.4.1
-- 2025-12-09 22:49 cbf6d16 **fix: make bun not resolve the dynamic imports immediately**
-- 2025-12-09 22:49 c80af33 **1.4.1**
+- 2025-12-09 22:49 cbf6d165 **fix: make bun not resolve the dynamic imports immediately**
+- 2025-12-09 22:49 c80af33b **1.4.1**
 ## 2025-12-09 22:41 v1.4.0
-- 2025-12-09 22:41 2398f6b **1.4.0**
-- 2025-12-09 22:40 8b73414 **step: bump bgord/scripts**
-- 2025-12-09 22:34 5349050 **step: improve tsconfig**
-- 2025-12-09 22:16 1633ec8 **refactor: adjust sharp adapters**
-- 2025-12-09 21:59 946ab08 **docs: generate CHANGELOG**
-- 2025-12-09 21:58 2dcd838 **docs: generate CHANGELOG**
-- 2025-12-09 21:56 edaad8e **feature: remove sharp from deps**
-- 2025-12-09 21:50 654bbd7 **docs: generate CHANGELOG**
-- 2025-12-09 21:49 c8ed341 **docs: generate CHANGELOG**
-- 2025-12-09 21:42 9d001df **docs: generate CHANGELOG**
-- 2025-12-09 21:40 7db739e **docs: generate CHANGELOG**
-- 2025-12-09 21:38 b078a6b **docs: generate CHANGELOG**
-- 2025-12-09 21:25 c46a267 **docs: generate CHANGELOG**
+- 2025-12-09 22:41 2398f6b6 **1.4.0**
+- 2025-12-09 22:40 8b73414d **step: bump bgord/scripts**
+- 2025-12-09 22:34 5349050b **step: improve tsconfig**
+- 2025-12-09 22:16 1633ec86 **refactor: adjust sharp adapters**
+- 2025-12-09 21:59 946ab08a **docs: generate CHANGELOG**
+- 2025-12-09 21:58 2dcd838e **docs: generate CHANGELOG**
+- 2025-12-09 21:56 edaad8ee **feature: remove sharp from deps**
+- 2025-12-09 21:50 654bbd75 **docs: generate CHANGELOG**
+- 2025-12-09 21:49 c8ed3411 **docs: generate CHANGELOG**
+- 2025-12-09 21:42 9d001dfe **docs: generate CHANGELOG**
+- 2025-12-09 21:40 7db739e8 **docs: generate CHANGELOG**
+- 2025-12-09 21:38 b078a6ba **docs: generate CHANGELOG**
+- 2025-12-09 21:25 c46a267f **docs: generate CHANGELOG**
 ## 2025-12-09 20:54 v1.3.2
-- 2025-12-09 20:54 d515c2b **1.3.2**
-- 2025-12-09 20:53 c3adfd3 **step: update packages**
-- 2025-12-09 20:52 0c6cb39 **step: bump bgord/scripts**
-- 2025-12-09 19:54 a130f37 **docs: generate CHANGELOG**
-- 2025-12-09 19:54 41f4f71 **docs: generate readme**
-- 2025-12-09 19:54 2aff6dd **docs: generate CHANGELOG**
+- 2025-12-09 20:54 d515c2b7 **1.3.2**
+- 2025-12-09 20:53 c3adfd37 **step: update packages**
+- 2025-12-09 20:52 0c6cb391 **step: bump bgord/scripts**
+- 2025-12-09 19:54 a130f378 **docs: generate CHANGELOG**
+- 2025-12-09 19:54 41f4f71e **docs: generate readme**
+- 2025-12-09 19:54 2aff6ddd **docs: generate CHANGELOG**
 ## 2025-12-04 14:24 v1.3.1
-- 2025-12-04 14:24 b604dd0 **1.3.1**
+- 2025-12-04 14:24 b604dd0c **1.3.1**
 ## 2025-12-04 14:11 v1.3.0
-- 2025-12-04 14:11 29fe5a2 **1.3.0**
-- 2025-12-04 14:01 43b04bd **step: add secret manager noop adapter**
-- 2025-12-04 13:57 2d4bc4a **feature: add secret manager port**
-- 2025-12-04 13:56 c1aade3 **step: define secret vo**
-- 2025-12-04 13:24 de21e7a **docs: generate CHANGELOG**
-- 2025-12-04 13:12 eaae60c **docs: generate CHANGELOG**
-- 2025-12-04 13:02 4cfc23e **docs: generate readme**
-- 2025-12-04 13:02 31af221 **docs: generate CHANGELOG**
+- 2025-12-04 14:11 29fe5a26 **1.3.0**
+- 2025-12-04 14:01 43b04bdd **step: add secret manager noop adapter**
+- 2025-12-04 13:57 2d4bc4a4 **feature: add secret manager port**
+- 2025-12-04 13:56 c1aade35 **step: define secret vo**
+- 2025-12-04 13:24 de21e7af **docs: generate CHANGELOG**
+- 2025-12-04 13:12 eaae60c2 **docs: generate CHANGELOG**
+- 2025-12-04 13:02 4cfc23e9 **docs: generate readme**
+- 2025-12-04 13:02 31af2219 **docs: generate CHANGELOG**
 ## 2025-12-04 12:19 v1.2.10
-- 2025-12-04 12:19 a35051e **1.2.10**
-- 2025-12-04 12:17 456d0c6 **refactor: mark markdown generator marked adapter as rc**
+- 2025-12-04 12:19 a35051ec **1.2.10**
+- 2025-12-04 12:17 456d0c65 **refactor: mark markdown generator marked adapter as rc**
 ## 2025-12-04 12:02 v1.2.9
-- 2025-12-04 12:02 263e16f **1.2.9**
-- 2025-12-04 11:58 a0415ab **step: comment encryption key whitelist**
-- 2025-12-04 11:58 70d11a6 **refactor: unify event store like offset type**
-- 2025-12-04 11:49 aad5004 **step: adjust tests**
-- 2025-12-04 11:47 0c80150 **step: update packages**
-- 2025-12-04 11:19 f3709d0 **refactor: unify file drafts**
-- 2025-12-04 11:19 3a92c52 **docs: generate CHANGELOG**
-- 2025-12-04 11:18 bf71900 **docs: generate readme**
-- 2025-12-04 11:18 05f4659 **docs: generate CHANGELOG**
-- 2025-12-04 11:11 a08cf94 **step: update packages**
-- 2025-12-04 11:03 74c0d50 **step: update packages**
-- 2025-12-04 11:03 0047831 **fix: file draft zip mime**
-- 2025-12-04 11:02 3a70ce1 **docs: generate CHANGELOG**
-- 2025-12-04 11:01 3096eca **docs: generate CHANGELOG**
+- 2025-12-04 12:02 263e16f6 **1.2.9**
+- 2025-12-04 11:58 a0415ab6 **step: comment encryption key whitelist**
+- 2025-12-04 11:58 70d11a60 **refactor: unify event store like offset type**
+- 2025-12-04 11:49 aad5004a **step: adjust tests**
+- 2025-12-04 11:47 0c80150f **step: update packages**
+- 2025-12-04 11:19 f3709d01 **refactor: unify file drafts**
+- 2025-12-04 11:19 3a92c525 **docs: generate CHANGELOG**
+- 2025-12-04 11:18 bf719009 **docs: generate readme**
+- 2025-12-04 11:18 05f46596 **docs: generate CHANGELOG**
+- 2025-12-04 11:11 a08cf942 **step: update packages**
+- 2025-12-04 11:03 74c0d501 **step: update packages**
+- 2025-12-04 11:03 0047831b **fix: file draft zip mime**
+- 2025-12-04 11:02 3a70ce1c **docs: generate CHANGELOG**
+- 2025-12-04 11:01 3096ecae **docs: generate CHANGELOG**
 ## 2025-12-04 10:50 v1.2.8
-- 2025-12-04 10:50 c02b25d **1.2.8**
-- 2025-12-04 10:48 9be2de7 **refactor: remove timeout decorator**
-- 2025-12-04 10:41 7984a4f **refactor: unify filename handling file drafts**
-- 2025-12-04 10:31 09c32cf **refactor: unify hostname**
-- 2025-12-04 10:27 9a9149c **refactor: improve mime usage**
-- 2025-12-04 10:24 3d83c3b **step: update packages**
-- 2025-12-04 10:16 4317039 **step: update packages**
-- 2025-12-04 09:50 fa64b81 **docs: generate CHANGELOG**
-- 2025-12-04 09:48 74ba7bf **docs: generate CHANGELOG**
+- 2025-12-04 10:50 c02b25d8 **1.2.8**
+- 2025-12-04 10:48 9be2de79 **refactor: remove timeout decorator**
+- 2025-12-04 10:41 7984a4f2 **refactor: unify filename handling file drafts**
+- 2025-12-04 10:31 09c32cfe **refactor: unify hostname**
+- 2025-12-04 10:27 9a9149cf **refactor: improve mime usage**
+- 2025-12-04 10:24 3d83c3b8 **step: update packages**
+- 2025-12-04 10:16 4317039f **step: update packages**
+- 2025-12-04 09:50 fa64b819 **docs: generate CHANGELOG**
+- 2025-12-04 09:48 74ba7bf4 **docs: generate CHANGELOG**
 ## 2025-12-03 18:09 v1.2.7
-- 2025-12-03 18:09 dae8e79 **1.2.7**
-- 2025-12-03 18:08 a23bca6 **step: update packages**
-- 2025-12-03 18:08 738ce0c **step: pinpoint version**
-- 2025-12-03 18:00 a5ba0f6 **feature: add markdown generator**
-- 2025-12-03 17:09 65c4045 **docs: generate CHANGELOG**
-- 2025-12-03 17:09 0606131 **docs: generate readme**
-- 2025-12-03 17:09 02dfc23 **docs: generate CHANGELOG**
-- 2025-12-03 17:08 c22eae1 **feature: add content hash**
-- 2025-12-03 12:53 16eb098 **step: test prereq dns**
-- 2025-12-03 12:44 c2a1085 **step: add dns prereq**
-- 2025-12-03 11:42 9f7ea76 **step: bump bgord/scripts**
-- 2025-12-03 10:43 f96742c **docs: generate CHANGELOG**
+- 2025-12-03 18:09 dae8e795 **1.2.7**
+- 2025-12-03 18:08 a23bca6a **step: update packages**
+- 2025-12-03 18:08 738ce0c0 **step: pinpoint version**
+- 2025-12-03 18:00 a5ba0f61 **feature: add markdown generator**
+- 2025-12-03 17:09 65c4045f **docs: generate CHANGELOG**
+- 2025-12-03 17:09 06061319 **docs: generate readme**
+- 2025-12-03 17:09 02dfc236 **docs: generate CHANGELOG**
+- 2025-12-03 17:08 c22eae15 **feature: add content hash**
+- 2025-12-03 12:53 16eb0982 **step: test prereq dns**
+- 2025-12-03 12:44 c2a1085c **step: add dns prereq**
+- 2025-12-03 11:42 9f7ea761 **step: bump bgord/scripts**
+- 2025-12-03 10:43 f96742c7 **docs: generate CHANGELOG**
 ## 2025-12-03 10:24 v1.2.6
-- 2025-12-03 10:24 8a3c160 **1.2.6**
-- 2025-12-03 10:23 09ae460 **step: update packages**
-- 2025-12-03 10:20 fd4e7a6 **step: update packages**
-- 2025-12-03 10:19 12ecc7c **refactor: unify spy naming**
-- 2025-12-03 09:58 d5644b1 **refactor: unify deps**
-- 2025-12-03 09:33 5084606 **step: make graceful shutdown accept deps**
-- 2025-12-03 09:24 c093450 **docs: generate CHANGELOG**
-- 2025-12-03 09:23 28d32ad **docs: generate CHANGELOG**
-- 2025-12-03 09:20 11ae420 **docs: generate CHANGELOG**
-- 2025-12-01 11:50 ea25ebd **step: bump bgord/scripts**
+- 2025-12-03 10:24 8a3c1605 **1.2.6**
+- 2025-12-03 10:23 09ae4609 **step: update packages**
+- 2025-12-03 10:20 fd4e7a6d **step: update packages**
+- 2025-12-03 10:19 12ecc7c9 **refactor: unify spy naming**
+- 2025-12-03 09:58 d5644b1d **refactor: unify deps**
+- 2025-12-03 09:33 5084606a **step: make graceful shutdown accept deps**
+- 2025-12-03 09:24 c093450d **docs: generate CHANGELOG**
+- 2025-12-03 09:23 28d32ad0 **docs: generate CHANGELOG**
+- 2025-12-03 09:20 11ae420e **docs: generate CHANGELOG**
+- 2025-12-01 11:50 ea25ebd8 **step: bump bgord/scripts**
 ## 2025-12-01 11:46 v1.2.5
-- 2025-12-01 11:46 165dbdb **1.2.5**
-- 2025-12-01 11:46 0761d91 **step: remove mime-types type declarations**
-- 2025-12-01 11:45 e9e20d4 **step: update packages**
-- 2025-12-01 11:45 78ded34 **step: remove mime-types**
-- 2025-12-01 10:51 60207f8 **docs: generate CHANGELOG**
-- 2025-12-01 10:46 f51f7f8 **docs: generate CHANGELOG**
-- 2025-12-01 10:46 8e407a5 **docs: generate CHANGELOG**
-- 2025-12-01 10:45 e98cb86 **docs: generate CHANGELOG**
-- 2025-12-01 10:45 a666c83 **docs: generate CHANGELOG**
+- 2025-12-01 11:46 165dbdba **1.2.5**
+- 2025-12-01 11:46 0761d91b **step: remove mime-types type declarations**
+- 2025-12-01 11:45 e9e20d47 **step: update packages**
+- 2025-12-01 11:45 78ded34a **step: remove mime-types**
+- 2025-12-01 10:51 60207f82 **docs: generate CHANGELOG**
+- 2025-12-01 10:46 f51f7f8a **docs: generate CHANGELOG**
+- 2025-12-01 10:46 8e407a5e **docs: generate CHANGELOG**
+- 2025-12-01 10:45 e98cb86c **docs: generate CHANGELOG**
+- 2025-12-01 10:45 a666c83b **docs: generate CHANGELOG**
 ## 2025-11-14 16:59 v1.2.4
-- 2025-11-14 16:59 f6b5f63 **1.2.4**
-- 2025-11-14 16:58 1701e1b **step: update packages**
-- 2025-11-14 15:59 e590b03 **docs: generate CHANGELOG**
-- 2025-11-14 15:59 671104e **docs: generate CHANGELOG**
-- 2025-11-13 09:53 024311b **step: update packages**
-- 2025-11-13 08:53 7c26432 **docs: generate CHANGELOG**
-- 2025-11-11 09:36 c3d31be **step: update packages**
-- 2025-11-08 19:29 8ca7a0b **step: update packages**
-- 2025-11-08 19:29 83c0ccd **step: bump bgord/scripts**
-- 2025-11-08 19:25 4066b35 **step: update bun**
-- 2025-11-08 18:29 411130f **docs: generate CHANGELOG**
+- 2025-11-14 16:59 f6b5f635 **1.2.4**
+- 2025-11-14 16:58 1701e1b0 **step: update packages**
+- 2025-11-14 15:59 e590b038 **docs: generate CHANGELOG**
+- 2025-11-14 15:59 671104e9 **docs: generate CHANGELOG**
+- 2025-11-13 09:53 024311be **step: update packages**
+- 2025-11-13 08:53 7c264326 **docs: generate CHANGELOG**
+- 2025-11-11 09:36 c3d31bec **step: update packages**
+- 2025-11-08 19:29 8ca7a0bf **step: update packages**
+- 2025-11-08 19:29 83c0ccdd **step: bump bgord/scripts**
+- 2025-11-08 19:25 4066b359 **step: update bun**
+- 2025-11-08 18:29 411130f7 **docs: generate CHANGELOG**
 ## 2025-11-06 23:41 v1.2.3
-- 2025-11-06 23:41 af688ca **1.2.3**
-- 2025-11-06 22:41 30afd69 **docs: generate CHANGELOG**
-- 2025-11-06 15:57 a8b9cbb **step: update packages**
-- 2025-11-06 15:49 574a82b **step: test encryption bun adapter**
-- 2025-11-06 15:25 49165b0 **step: add encryption bun adapter tests**
-- 2025-11-06 15:16 cefa28f **feature: add encryption bun adapter**
-- 2025-11-06 14:57 e721dda **docs: generate readme**
-- 2025-11-06 14:57 85b8e39 **docs: generate CHANGELOG**
-- 2025-11-06 14:35 1ff92ec **refactor: rewrite encryption iv**
-- 2025-11-06 14:34 c7a031e **refactor: remove unused encryption iv value**
-- 2025-11-06 14:22 729727b **step: add encryption iv vo**
-- 2025-11-06 14:11 87c585b **refactor: rename encryption iv value**
-- 2025-11-06 14:05 3f74856 **step: add crypto key provider noop adapter**
-- 2025-11-06 14:04 f196366 **step: test crypto key provider env adapter**
-- 2025-11-06 13:58 da23978 **step: add crypto key provider env adapter**
-- 2025-11-06 13:47 a7e1afc **step: define encryption key provider port**
-- 2025-11-06 13:46 dc432a6 **step: define encryption key**
-- 2025-11-06 13:26 7f62bf6 **step: add encryption salt tests**
-- 2025-11-06 13:24 9b369dc **feature: add encryption salt vo**
-- 2025-11-06 13:22 9525270 **step: add encryption iv tests**
-- 2025-11-06 13:20 46bff15 **feature: add encryption iv vo**
-- 2025-11-06 13:05 fe38c08 **step: define encryption port**
-- 2025-11-06 11:22 86b5225 **step: remove old encryption rc**
-- 2025-11-06 11:21 477b6ba **step: test gzip stream adapter**
-- 2025-11-06 11:14 e69d219 **step: test gzip bun adapter**
-- 2025-11-06 11:03 b05fdb7 **step: add gzip bun adapter**
-- 2025-11-06 11:03 08f9f25 **step: add gzip stream adapter**
-- 2025-11-06 10:54 946dbc6 **refactor: remove previous gzip service**
-- 2025-11-06 10:53 21b73d9 **feature: add gzip port**
-- 2025-11-06 10:40 fab9153 **refactor: use bun.which in binary prereq**
-- 2025-11-06 10:22 f4c4781 **docs: generate readme**
-- 2025-11-06 10:22 ab13f4e **docs: generate CHANGELOG**
+- 2025-11-06 23:41 af688ca1 **1.2.3**
+- 2025-11-06 22:41 30afd69b **docs: generate CHANGELOG**
+- 2025-11-06 15:57 a8b9cbb9 **step: update packages**
+- 2025-11-06 15:49 574a82b2 **step: test encryption bun adapter**
+- 2025-11-06 15:25 49165b04 **step: add encryption bun adapter tests**
+- 2025-11-06 15:16 cefa28f4 **feature: add encryption bun adapter**
+- 2025-11-06 14:57 e721ddaa **docs: generate readme**
+- 2025-11-06 14:57 85b8e39d **docs: generate CHANGELOG**
+- 2025-11-06 14:35 1ff92ec0 **refactor: rewrite encryption iv**
+- 2025-11-06 14:34 c7a031ee **refactor: remove unused encryption iv value**
+- 2025-11-06 14:22 729727b1 **step: add encryption iv vo**
+- 2025-11-06 14:11 87c585b6 **refactor: rename encryption iv value**
+- 2025-11-06 14:05 3f748564 **step: add crypto key provider noop adapter**
+- 2025-11-06 14:04 f196366a **step: test crypto key provider env adapter**
+- 2025-11-06 13:58 da239783 **step: add crypto key provider env adapter**
+- 2025-11-06 13:47 a7e1afc6 **step: define encryption key provider port**
+- 2025-11-06 13:46 dc432a6d **step: define encryption key**
+- 2025-11-06 13:26 7f62bf69 **step: add encryption salt tests**
+- 2025-11-06 13:24 9b369dc4 **feature: add encryption salt vo**
+- 2025-11-06 13:22 95252707 **step: add encryption iv tests**
+- 2025-11-06 13:20 46bff154 **feature: add encryption iv vo**
+- 2025-11-06 13:05 fe38c082 **step: define encryption port**
+- 2025-11-06 11:22 86b5225a **step: remove old encryption rc**
+- 2025-11-06 11:21 477b6ba5 **step: test gzip stream adapter**
+- 2025-11-06 11:14 e69d2193 **step: test gzip bun adapter**
+- 2025-11-06 11:03 b05fdb71 **step: add gzip bun adapter**
+- 2025-11-06 11:03 08f9f25f **step: add gzip stream adapter**
+- 2025-11-06 10:54 946dbc68 **refactor: remove previous gzip service**
+- 2025-11-06 10:53 21b73d9c **feature: add gzip port**
+- 2025-11-06 10:40 fab91532 **refactor: use bun.which in binary prereq**
+- 2025-11-06 10:22 f4c47817 **docs: generate readme**
+- 2025-11-06 10:22 ab13f4ee **docs: generate CHANGELOG**
 ## 2025-11-06 10:21 v1.2.2
-- 2025-11-06 10:21 6aa9a4f **1.2.2**
-- 2025-11-06 10:03 a823cfa **step: update packages**
-- 2025-11-06 10:02 48c54f9 **step: test prereq os**
-- 2025-11-06 09:55 91c7a2a **feature: define prereq os**
-- 2025-11-06 09:40 1a8ed78 **docs: generate CHANGELOG**
-- 2025-11-06 09:21 1ce9982 **docs: generate CHANGELOG**
-- 2025-11-06 09:03 cdff549 **docs: generate CHANGELOG**
-- 2025-11-06 09:03 324a4eb **docs: generate readme**
-- 2025-11-05 13:40 b4dd769 **step: add external api prereq timeout**
+- 2025-11-06 10:21 6aa9a4fc **1.2.2**
+- 2025-11-06 10:03 a823cfac **step: update packages**
+- 2025-11-06 10:02 48c54f96 **step: test prereq os**
+- 2025-11-06 09:55 91c7a2af **feature: define prereq os**
+- 2025-11-06 09:40 1a8ed787 **docs: generate CHANGELOG**
+- 2025-11-06 09:21 1ce99829 **docs: generate CHANGELOG**
+- 2025-11-06 09:03 cdff5497 **docs: generate CHANGELOG**
+- 2025-11-06 09:03 324a4eb3 **docs: generate readme**
+- 2025-11-05 13:40 b4dd769a **step: add external api prereq timeout**
 ## 2025-11-05 13:33 v1.2.1
-- 2025-11-05 13:33 3aa3d93 **1.2.1**
-- 2025-11-05 13:32 b3805c4 **step: provide default json file reader adapter for prereq translations**
-- 2025-11-05 13:31 6fc921d **step: provide default checker adapter for prereq disk space**
-- 2025-11-05 13:29 2fd1a98 **step: provide default timekeeper adapter for prereq clock drift**
-- 2025-11-05 13:27 a680cf3 **refactor: unify prereq translations naming**
+- 2025-11-05 13:33 3aa3d930 **1.2.1**
+- 2025-11-05 13:32 b3805c40 **step: provide default json file reader adapter for prereq translations**
+- 2025-11-05 13:31 6fc921db **step: provide default checker adapter for prereq disk space**
+- 2025-11-05 13:29 2fd1a98c **step: provide default timekeeper adapter for prereq clock drift**
+- 2025-11-05 13:27 a680cf31 **refactor: unify prereq translations naming**
 ## 2025-11-05 13:14 v1.2.0
-- 2025-11-05 13:14 9f183a2 **1.2.0**
-- 2025-11-05 13:09 e82b01f **step: add mailer prereq timeout**
-- 2025-11-05 13:09 35598d2 **refactor: adjust timeout across prereqs**
-- 2025-11-05 13:06 89da8c4 **fix: toAbsolute**
-- 2025-11-05 13:05 cdaf9c5 **step: update packages**
-- 2025-11-05 13:02 740d9ff **step: make prereq outside connectivity cancellable**
-- 2025-11-05 12:46 404f30c **step: use timeout cancellable in clock drift prereq**
-- 2025-11-05 12:45 2a8267a **docs: generate CHANGELOG**
-- 2025-11-05 12:42 fb3524a **step: make timekeeper port accept a signal**
-- 2025-11-05 12:33 c7adc23 **docs: generate CHANGELOG**
-- 2025-11-05 12:32 8f41148 **docs: generate CHANGELOG**
-- 2025-11-05 12:23 2e31b2b **refactor: simplify clock drift prereq config**
-- 2025-11-05 12:19 839204a **step: extract timekeeper google adapter url**
-- 2025-11-05 12:15 eaaafe6 **docs: generate CHANGELOG**
-- 2025-11-05 12:14 c021ef1 **docs: generate readme**
-- 2025-11-05 12:14 af0f287 **docs: generate CHANGELOG**
-- 2025-11-05 12:14 73a2eb6 **step: test monitor**
-- 2025-11-05 11:19 1e62ad6 **step: docs**
-- 2025-11-05 11:07 547b3b7 **step: test timeout cancellable**
-- 2025-11-05 10:20 18d09b6 **refactor: rename correlation storage action**
-- 2025-11-05 10:19 a13266f **step: add timeout cancellable**
-- 2025-11-04 23:04 94fc35e **step: test timeout service**
-- 2025-11-04 22:53 56c6561 **feature: define basic timeout service**
-- 2025-11-04 21:43 9c46a59 **feature: add checksum service**
+- 2025-11-05 13:14 9f183a27 **1.2.0**
+- 2025-11-05 13:09 e82b01fb **step: add mailer prereq timeout**
+- 2025-11-05 13:09 35598d24 **refactor: adjust timeout across prereqs**
+- 2025-11-05 13:06 89da8c41 **fix: toAbsolute**
+- 2025-11-05 13:05 cdaf9c57 **step: update packages**
+- 2025-11-05 13:02 740d9ff8 **step: make prereq outside connectivity cancellable**
+- 2025-11-05 12:46 404f30c1 **step: use timeout cancellable in clock drift prereq**
+- 2025-11-05 12:45 2a8267a2 **docs: generate CHANGELOG**
+- 2025-11-05 12:42 fb3524a4 **step: make timekeeper port accept a signal**
+- 2025-11-05 12:33 c7adc231 **docs: generate CHANGELOG**
+- 2025-11-05 12:32 8f411482 **docs: generate CHANGELOG**
+- 2025-11-05 12:23 2e31b2bb **refactor: simplify clock drift prereq config**
+- 2025-11-05 12:19 839204a3 **step: extract timekeeper google adapter url**
+- 2025-11-05 12:15 eaaafe62 **docs: generate CHANGELOG**
+- 2025-11-05 12:14 c021ef13 **docs: generate readme**
+- 2025-11-05 12:14 af0f2873 **docs: generate CHANGELOG**
+- 2025-11-05 12:14 73a2eb6a **step: test monitor**
+- 2025-11-05 11:19 1e62ad67 **step: docs**
+- 2025-11-05 11:07 547b3b79 **step: test timeout cancellable**
+- 2025-11-05 10:20 18d09b61 **refactor: rename correlation storage action**
+- 2025-11-05 10:19 a13266f2 **step: add timeout cancellable**
+- 2025-11-04 23:04 94fc35ee **step: test timeout service**
+- 2025-11-04 22:53 56c65619 **feature: define basic timeout service**
+- 2025-11-04 21:43 9c46a59b **feature: add checksum service**
 ## 2025-11-04 21:25 v1.1.7
-- 2025-11-04 21:25 d7e3e4d **1.1.7**
-- 2025-11-04 21:25 7fb8631 **fix: uptime in healthcheck**
-- 2025-11-04 21:21 00a598c **refactor: rename durationMs**
+- 2025-11-04 21:25 d7e3e4d2 **1.1.7**
+- 2025-11-04 21:25 7fb86314 **fix: uptime in healthcheck**
+- 2025-11-04 21:21 00a598c4 **refactor: rename durationMs**
 ## 2025-11-04 21:16 v1.1.6
-- 2025-11-04 21:16 a9a01d0 **1.1.6**
-- 2025-11-04 21:14 12cc165 **step: adjust tests**
-- 2025-11-04 21:06 ce9de4d **step: add duration to failure**
-- 2025-11-04 20:58 60e6f2b **step: add duration to undetermined**
-- 2025-11-04 20:56 2ae7d02 **step: adjust healthcheck tests**
-- 2025-11-04 20:55 965f9ae **step: switch to duration ms**
-- 2025-11-04 20:48 dd803c4 **docs: generate CHANGELOG**
-- 2025-11-04 20:48 3b2788a **docs: generate readme**
-- 2025-11-04 20:41 1b71ba0 **step: adjust tests**
-- 2025-11-04 20:25 dbdb754 **docs: generate CHANGELOG**
-- 2025-11-04 20:25 60f2094 **docs: generate CHANGELOG**
-- 2025-11-04 20:17 bf72034 **docs: generate CHANGELOG**
-- 2025-11-04 20:15 72e06d2 **step: implement the new interface**
-- 2025-11-04 20:15 7140656 **docs: generate CHANGELOG**
-- 2025-11-04 20:08 e1af78b **step: adjust prereqs to pass duration**
-- 2025-11-04 20:04 08f2774 **step: add successful prereq result duration**
-- 2025-11-04 20:00 655fdc4 **refactor: remove redundant Readonly**
-- 2025-11-04 19:59 3d5e744 **step: update packages**
+- 2025-11-04 21:16 a9a01d0f **1.1.6**
+- 2025-11-04 21:14 12cc1656 **step: adjust tests**
+- 2025-11-04 21:06 ce9de4d2 **step: add duration to failure**
+- 2025-11-04 20:58 60e6f2bc **step: add duration to undetermined**
+- 2025-11-04 20:56 2ae7d028 **step: adjust healthcheck tests**
+- 2025-11-04 20:55 965f9ae3 **step: switch to duration ms**
+- 2025-11-04 20:48 dd803c40 **docs: generate CHANGELOG**
+- 2025-11-04 20:48 3b2788a8 **docs: generate readme**
+- 2025-11-04 20:41 1b71ba09 **step: adjust tests**
+- 2025-11-04 20:25 dbdb7540 **docs: generate CHANGELOG**
+- 2025-11-04 20:25 60f2094a **docs: generate CHANGELOG**
+- 2025-11-04 20:17 bf720348 **docs: generate CHANGELOG**
+- 2025-11-04 20:15 72e06d2d **step: implement the new interface**
+- 2025-11-04 20:15 7140656c **docs: generate CHANGELOG**
+- 2025-11-04 20:08 e1af78bb **step: adjust prereqs to pass duration**
+- 2025-11-04 20:04 08f2774f **step: add successful prereq result duration**
+- 2025-11-04 20:00 655fdc4d **refactor: remove redundant Readonly**
+- 2025-11-04 19:59 3d5e7447 **step: update packages**
 ## 2025-11-04 15:44 v1.1.5
-- 2025-11-04 15:44 c3f81cf **1.1.5**
-- 2025-11-04 15:42 f6e8459 **step: test prereq clock drift**
-- 2025-11-04 15:32 3c96a32 **refactor: rename sqlite prereq test**
-- 2025-11-04 15:31 cb2eedc **step: handle missing timestamp in clock drift**
-- 2025-11-04 15:30 61dc64e **step: add timekeeper google adapter**
-- 2025-11-04 15:17 caa8e21 **step: implement timekeeper google adapter**
-- 2025-11-04 15:15 df9e97b **step: make timekeeper port accept null response**
-- 2025-11-04 15:07 c8c4f2d **step: define timekeeper noop adapter**
-- 2025-11-04 14:44 7f6cc5d **docs: generate CHANGELOG**
-- 2025-11-04 14:43 b6d8258 **docs: generate CHANGELOG**
-- 2025-11-04 14:43 79cc575 **docs: generate readme**
-- 2025-11-04 14:36 b6319d5 **feature: implement clock drift prereq**
-- 2025-11-04 14:31 50f76e3 **step: update packages**
-- 2025-11-04 14:27 6e6628d **step: accept clock port in clock drift**
-- 2025-11-04 14:25 95ada52 **step: accept timekeeper port in clock drift**
-- 2025-11-04 14:24 cd6c521 **step: define timekeeper port**
-- 2025-11-04 14:19 b9df8a5 **step: define skew**
-- 2025-11-04 14:18 69aa13b **step: setup clock drift prereq**
+- 2025-11-04 15:44 c3f81cf1 **1.1.5**
+- 2025-11-04 15:42 f6e84593 **step: test prereq clock drift**
+- 2025-11-04 15:32 3c96a32c **refactor: rename sqlite prereq test**
+- 2025-11-04 15:31 cb2eedcd **step: handle missing timestamp in clock drift**
+- 2025-11-04 15:30 61dc64e3 **step: add timekeeper google adapter**
+- 2025-11-04 15:17 caa8e21e **step: implement timekeeper google adapter**
+- 2025-11-04 15:15 df9e97b8 **step: make timekeeper port accept null response**
+- 2025-11-04 15:07 c8c4f2d1 **step: define timekeeper noop adapter**
+- 2025-11-04 14:44 7f6cc5da **docs: generate CHANGELOG**
+- 2025-11-04 14:43 b6d82580 **docs: generate CHANGELOG**
+- 2025-11-04 14:43 79cc5755 **docs: generate readme**
+- 2025-11-04 14:36 b6319d57 **feature: implement clock drift prereq**
+- 2025-11-04 14:31 50f76e36 **step: update packages**
+- 2025-11-04 14:27 6e6628d2 **step: accept clock port in clock drift**
+- 2025-11-04 14:25 95ada52d **step: accept timekeeper port in clock drift**
+- 2025-11-04 14:24 cd6c5217 **step: define timekeeper port**
+- 2025-11-04 14:19 b9df8a5f **step: define skew**
+- 2025-11-04 14:18 69aa13b5 **step: setup clock drift prereq**
 ## 2025-11-03 19:55 v1.1.4
-- 2025-11-03 19:55 abd3d02 **1.1.4**
-- 2025-11-03 19:54 e95b6a7 **step: update packages**
-- 2025-11-03 19:54 e32c4b7 **step: make axiom transport optional**
-- 2025-11-03 18:55 d9c683d **docs: generate CHANGELOG**
-- 2025-11-03 18:54 07d862c **docs: generate CHANGELOG**
-- 2025-11-02 23:20 aee1bbf **step: bump bgord/scripts**
-- 2025-11-02 23:07 57e8f02 **refactor: remove unused prereq service fields**
+- 2025-11-03 19:55 abd3d02c **1.1.4**
+- 2025-11-03 19:54 e95b6a79 **step: update packages**
+- 2025-11-03 19:54 e32c4b70 **step: make axiom transport optional**
+- 2025-11-03 18:55 d9c683df **docs: generate CHANGELOG**
+- 2025-11-03 18:54 07d862cb **docs: generate CHANGELOG**
+- 2025-11-02 23:20 aee1bbf2 **step: bump bgord/scripts**
+- 2025-11-02 23:07 57e8f027 **refactor: remove unused prereq service fields**
 ## 2025-11-02 23:01 v1.1.3
-- 2025-11-02 23:01 7227f13 **1.1.3**
-- 2025-11-02 23:00 c9a6e4e **refactor: rename timestamp vo**
-- 2025-11-02 22:59 fb0f242 **step: update packages**
-- 2025-11-02 22:20 8e59d3e **docs: generate CHANGELOG**
+- 2025-11-02 23:01 7227f132 **1.1.3**
+- 2025-11-02 23:00 c9a6e4e5 **refactor: rename timestamp vo**
+- 2025-11-02 22:59 fb0f2425 **step: update packages**
+- 2025-11-02 22:20 8e59d3e0 **docs: generate CHANGELOG**
 ## 2025-11-02 22:14 v1.1.2
-- 2025-11-02 22:14 508217a **step: simplify clock**
-- 2025-11-02 22:14 4988a28 **1.1.2**
-- 2025-11-02 22:11 3ac3112 **step: update packages**
-- 2025-11-02 22:01 f37adf5 **docs: generate CHANGELOG**
-- 2025-11-02 22:01 91b93dd **docs: generate CHANGELOG**
-- 2025-11-02 21:15 1351ecd **docs: generate CHANGELOG**
-- 2025-11-02 21:14 e12c2ce **docs: generate CHANGELOG**
-- 2025-11-02 21:12 ad32a18 **docs: generate CHANGELOG**
+- 2025-11-02 22:14 508217a0 **step: simplify clock**
+- 2025-11-02 22:14 4988a28c **1.1.2**
+- 2025-11-02 22:11 3ac31129 **step: update packages**
+- 2025-11-02 22:01 f37adf55 **docs: generate CHANGELOG**
+- 2025-11-02 22:01 91b93dd2 **docs: generate CHANGELOG**
+- 2025-11-02 21:15 1351ecd0 **docs: generate CHANGELOG**
+- 2025-11-02 21:14 e12c2ce3 **docs: generate CHANGELOG**
+- 2025-11-02 21:12 ad32a189 **docs: generate CHANGELOG**
 ## 2025-11-02 18:57 v1.1.1
-- 2025-11-02 18:57 525ce0c **1.1.1**
-- 2025-11-02 18:44 f97cca9 **refactor: remove vite from tsconfig exclude**
-- 2025-11-02 18:44 cd3d103 **step: adjust tests**
-- 2025-11-02 18:38 c80576a **refactor: adjust timestamp vo**
-- 2025-11-02 18:36 cdf4d99 **step: update packages**
-- 2025-11-02 17:57 e821bdf **docs: generate CHANGELOG**
-- 2025-11-02 17:57 64ec5c4 **docs: generate CHANGELOG**
-- 2025-11-02 16:32 56115ea **refactor: simplify clock fixed adapter**
+- 2025-11-02 18:57 525ce0c3 **1.1.1**
+- 2025-11-02 18:44 f97cca94 **refactor: remove vite from tsconfig exclude**
+- 2025-11-02 18:44 cd3d1033 **step: adjust tests**
+- 2025-11-02 18:38 c80576ad **refactor: adjust timestamp vo**
+- 2025-11-02 18:36 cdf4d992 **step: update packages**
+- 2025-11-02 17:57 e821bdff **docs: generate CHANGELOG**
+- 2025-11-02 17:57 64ec5c42 **docs: generate CHANGELOG**
+- 2025-11-02 16:32 56115ea7 **refactor: simplify clock fixed adapter**
 ## 2025-11-02 16:03 v1.1.0
-- 2025-11-02 16:03 f4f1ce6 **1.1.0**
-- 2025-11-02 16:01 e4e94af **refactor: remove adjust timestamp from tzo middleware**
-- 2025-11-02 15:59 bc36102 **step: adjust command envelope**
-- 2025-11-02 15:58 6788c5a **step: adjust prereq service**
-- 2025-11-02 15:57 f9e1ad2 **refactor: adjust event envelope schema**
-- 2025-11-02 15:57 bf93fce **step: adjust history created atl**
-- 2025-11-02 15:56 ca8648a **fix: tests**
-- 2025-11-02 15:52 b09520b **refactor: adjust timestamp useges**
-- 2025-11-02 15:46 2c415ff **step: update packages**
-- 2025-11-02 15:03 537c51f **docs: generate CHANGELOG**
-- 2025-11-02 15:02 936a5b5 **docs: generate CHANGELOG**
+- 2025-11-02 16:03 f4f1ce62 **1.1.0**
+- 2025-11-02 16:01 e4e94af0 **refactor: remove adjust timestamp from tzo middleware**
+- 2025-11-02 15:59 bc361022 **step: adjust command envelope**
+- 2025-11-02 15:58 6788c5a1 **step: adjust prereq service**
+- 2025-11-02 15:57 f9e1ad2f **refactor: adjust event envelope schema**
+- 2025-11-02 15:57 bf93fce7 **step: adjust history created atl**
+- 2025-11-02 15:56 ca8648a7 **fix: tests**
+- 2025-11-02 15:52 b09520b4 **refactor: adjust timestamp useges**
+- 2025-11-02 15:46 2c415ffa **step: update packages**
+- 2025-11-02 15:03 537c51f5 **docs: generate CHANGELOG**
+- 2025-11-02 15:02 936a5b51 **docs: generate CHANGELOG**
 ## 2025-11-01 19:31 v1.0.12
-- 2025-11-01 19:31 b43fb7a **1.0.12**
-- 2025-11-01 19:30 db56bf2 **step: add static files**
-- 2025-11-01 18:31 9d92556 **docs: generate CHANGELOG**
-- 2025-11-01 18:31 1af9e13 **docs: generate CHANGELOG**
-- 2025-11-01 18:31 0194f9d **docs: generate readme**
-- 2025-10-31 23:51 712b605 **refactor: remove default sharp export**
+- 2025-11-01 19:31 b43fb7aa **1.0.12**
+- 2025-11-01 19:30 db56bf20 **step: add static files**
+- 2025-11-01 18:31 9d92556a **docs: generate CHANGELOG**
+- 2025-11-01 18:31 1af9e13b **docs: generate CHANGELOG**
+- 2025-11-01 18:31 0194f9d8 **docs: generate readme**
+- 2025-10-31 23:51 712b6058 **refactor: remove default sharp export**
 ## 2025-10-31 23:41 v1.0.11
-- 2025-10-31 23:41 8df2863 **1.0.11**
-- 2025-10-31 23:40 a0ef445 **step: remove shield auth cors**
-- 2025-10-31 23:40 204edb1 **refactor: simplify history projection port**
-- 2025-10-31 22:52 72c81a8 **docs: generate CHANGELOG**
-- 2025-10-31 22:41 d65c2ba **docs: generate CHANGELOG**
-- 2025-10-31 22:41 bbada96 **docs: generate CHANGELOG**
+- 2025-10-31 23:41 8df28630 **1.0.11**
+- 2025-10-31 23:40 a0ef445c **step: remove shield auth cors**
+- 2025-10-31 23:40 204edb14 **refactor: simplify history projection port**
+- 2025-10-31 22:52 72c81a8f **docs: generate CHANGELOG**
+- 2025-10-31 22:41 d65c2baf **docs: generate CHANGELOG**
+- 2025-10-31 22:41 bbada969 **docs: generate CHANGELOG**
 ## 2025-10-30 13:17 v1.0.10
-- 2025-10-30 13:17 7e16826 **fix: history reader port read return type**
-- 2025-10-30 13:17 69877fd **1.0.10**
+- 2025-10-30 13:17 7e168262 **fix: history reader port read return type**
+- 2025-10-30 13:17 69877fd2 **1.0.10**
 ## 2025-10-30 13:11 v1.0.9
-- 2025-10-30 13:11 b3ee8f9 **step: define history reader port**
-- 2025-10-30 13:11 5a5bca2 **1.0.9**
-- 2025-10-30 13:10 969d08b **step: add history created at**
-- 2025-10-30 12:18 57a91a9 **docs: generate CHANGELOG**
-- 2025-10-30 12:17 f22d68d **docs: generate CHANGELOG**
-- 2025-10-30 12:12 d0a89e5 **docs: generate CHANGELOG**
-- 2025-10-30 12:11 ed18391 **docs: generate readme**
-- 2025-10-30 12:11 e695e07 **docs: generate CHANGELOG**
+- 2025-10-30 13:11 b3ee8f9b **step: define history reader port**
+- 2025-10-30 13:11 5a5bca21 **1.0.9**
+- 2025-10-30 13:10 969d08b0 **step: add history created at**
+- 2025-10-30 12:18 57a91a91 **docs: generate CHANGELOG**
+- 2025-10-30 12:17 f22d68d9 **docs: generate CHANGELOG**
+- 2025-10-30 12:12 d0a89e51 **docs: generate CHANGELOG**
+- 2025-10-30 12:11 ed18391f **docs: generate readme**
+- 2025-10-30 12:11 e695e072 **docs: generate CHANGELOG**
 ## 2025-10-30 09:02 v1.0.8
-- 2025-10-30 09:02 b53458e **1.0.8**
-- 2025-10-30 09:02 afdaa95 **step: update packages**
-- 2025-10-30 08:03 fec860e **docs: generate CHANGELOG**
-- 2025-10-30 08:02 5897f61 **docs: generate CHANGELOG**
+- 2025-10-30 09:02 b53458eb **1.0.8**
+- 2025-10-30 09:02 afdaa95a **step: update packages**
+- 2025-10-30 08:03 fec860ed **docs: generate CHANGELOG**
+- 2025-10-30 08:02 5897f611 **docs: generate CHANGELOG**
 ## 2025-10-27 11:32 v1.0.7
-- 2025-10-27 11:32 85cbd06 **1.0.7**
-- 2025-10-27 11:31 fa8b258 **step: update packages**
-- 2025-10-27 10:32 8a63a53 **docs: generate CHANGELOG**
-- 2025-10-27 10:32 2f476f3 **docs: generate CHANGELOG**
-- 2025-10-26 15:34 31f8d59 **refactor: use size toKb**
+- 2025-10-27 11:32 85cbd06a **1.0.7**
+- 2025-10-27 11:31 fa8b258e **step: update packages**
+- 2025-10-27 10:32 8a63a537 **docs: generate CHANGELOG**
+- 2025-10-27 10:32 2f476f3e **docs: generate CHANGELOG**
+- 2025-10-26 15:34 31f8d59e **refactor: use size toKb**
 ## 2025-10-26 15:31 v1.0.6
-- 2025-10-26 15:31 f59afa9 **step: update packages**
-- 2025-10-26 15:31 add3e4a **1.0.6**
-- 2025-10-26 14:35 aa1ffc3 **docs: generate CHANGELOG**
-- 2025-10-26 14:31 5c2e879 **docs: generate CHANGELOG**
-- 2025-10-26 14:31 1b5c68c **docs: generate CHANGELOG**
+- 2025-10-26 15:31 f59afa94 **step: update packages**
+- 2025-10-26 15:31 add3e4a0 **1.0.6**
+- 2025-10-26 14:35 aa1ffc38 **docs: generate CHANGELOG**
+- 2025-10-26 14:31 5c2e879a **docs: generate CHANGELOG**
+- 2025-10-26 14:31 1b5c68c7 **docs: generate CHANGELOG**
 ## 2025-10-26 13:14 v1.0.5
-- 2025-10-26 13:14 dda8e92 **1.0.5**
-- 2025-10-26 13:13 a6fabbd **step: remove disk space checker package adapter**
+- 2025-10-26 13:14 dda8e920 **1.0.5**
+- 2025-10-26 13:13 a6fabbdc **step: remove disk space checker package adapter**
 ## 2025-10-26 13:05 v1.0.4
-- 2025-10-26 13:05 9263eff **1.0.4**
-- 2025-10-26 13:03 ce02c62 **step: add tests**
-- 2025-10-26 12:56 5ad6c3d **feature: add disk space checker bun adapter**
-- 2025-10-26 12:41 97a669b **refactor: use disk space checker in space prereq**
-- 2025-10-26 12:36 94903d4 **feature: add disk space checker package adapter**
-- 2025-10-26 12:32 6113af4 **feature: define disk space checker**
-- 2025-10-26 12:24 866d976 **refactor: remove lodash from http logger**
-- 2025-10-26 12:24 29d657b **refactor: remove lodash from cache response**
-- 2025-10-26 12:14 d8cfc47 **docs: generate readme**
-- 2025-10-26 12:14 88f3f82 **docs: generate CHANGELOG**
-- 2025-10-26 12:14 338441c **docs: generate CHANGELOG**
-- 2025-10-26 12:13 1638294 **refactor: remove _.omit**
-- 2025-10-26 12:05 2b4985c **docs: generate readme**
-- 2025-10-26 12:05 0f265b4 **docs: generate CHANGELOG**
-- 2025-10-26 12:05 0c97f5c **docs: generate CHANGELOG**
-- 2025-10-26 11:30 c92e884 **step: update packages**
-- 2025-10-26 11:30 868117b **refactor: root**
-- 2025-10-26 10:30 95460b1 **docs: generate CHANGELOG**
+- 2025-10-26 13:05 9263eff2 **1.0.4**
+- 2025-10-26 13:03 ce02c627 **step: add tests**
+- 2025-10-26 12:56 5ad6c3d1 **feature: add disk space checker bun adapter**
+- 2025-10-26 12:41 97a669be **refactor: use disk space checker in space prereq**
+- 2025-10-26 12:36 94903d4d **feature: add disk space checker package adapter**
+- 2025-10-26 12:32 6113af42 **feature: define disk space checker**
+- 2025-10-26 12:24 866d9763 **refactor: remove lodash from http logger**
+- 2025-10-26 12:24 29d657b8 **refactor: remove lodash from cache response**
+- 2025-10-26 12:14 d8cfc477 **docs: generate readme**
+- 2025-10-26 12:14 88f3f829 **docs: generate CHANGELOG**
+- 2025-10-26 12:14 338441cc **docs: generate CHANGELOG**
+- 2025-10-26 12:13 16382941 **refactor: remove _.omit**
+- 2025-10-26 12:05 2b4985ce **docs: generate readme**
+- 2025-10-26 12:05 0f265b41 **docs: generate CHANGELOG**
+- 2025-10-26 12:05 0c97f5c3 **docs: generate CHANGELOG**
+- 2025-10-26 11:30 c92e8849 **step: update packages**
+- 2025-10-26 11:30 868117be **refactor: root**
+- 2025-10-26 10:30 95460b19 **docs: generate CHANGELOG**
 ## 2025-10-25 16:10 v1.0.3
-- 2025-10-25 16:10 c1688c5 **1.0.3**
-- 2025-10-25 16:09 ca8464a **step: update packages**
-- 2025-10-25 16:09 6da791a **step: update packages**
-- 2025-10-25 14:10 9e2a65e **docs: generate CHANGELOG**
-- 2025-10-25 14:10 4fed3df **docs: generate CHANGELOG**
+- 2025-10-25 16:10 c1688c50 **1.0.3**
+- 2025-10-25 16:09 ca8464a0 **step: update packages**
+- 2025-10-25 16:09 6da791ae **step: update packages**
+- 2025-10-25 14:10 9e2a65e1 **docs: generate CHANGELOG**
+- 2025-10-25 14:10 4fed3dfc **docs: generate CHANGELOG**
 ## 2025-10-23 16:07 v1.0.2
-- 2025-10-23 16:07 0cec644 **1.0.2**
-- 2025-10-23 16:06 0755477 **step: bump bgord/scripts**
-- 2025-10-23 16:05 548ac65 **refactor: expose supported languages in translations**
-- 2025-10-23 16:04 e2d2e34 **refactor: expose supported languages in translations**
-- 2025-10-23 15:57 52e3db8 **step: update packages**
-- 2025-10-23 14:08 e90e015 **docs: generate CHANGELOG**
-- 2025-10-23 14:06 df7d61a **docs: generate CHANGELOG**
-- 2025-10-23 13:57 d4e6d6f **docs: generate CHANGELOG**
-- 2025-10-21 09:45 dc49527 **step: bump bgord/scripts**
-- 2025-10-21 09:45 78fba62 **fix: loglevel in better-auth logger service**
-- 2025-10-21 09:37 4ee1f16 **refactor: clean up biome check**
-- 2025-10-21 09:35 a7b3b5f **step: update packages**
-- 2025-10-21 09:33 2ca0ea5 **fix: client-from-hono**
-- 2025-10-21 07:45 656c7ce **docs: generate CHANGELOG**
+- 2025-10-23 16:07 0cec6442 **1.0.2**
+- 2025-10-23 16:06 07554775 **step: bump bgord/scripts**
+- 2025-10-23 16:05 548ac652 **refactor: expose supported languages in translations**
+- 2025-10-23 16:04 e2d2e34a **refactor: expose supported languages in translations**
+- 2025-10-23 15:57 52e3db85 **step: update packages**
+- 2025-10-23 14:08 e90e0155 **docs: generate CHANGELOG**
+- 2025-10-23 14:06 df7d61a2 **docs: generate CHANGELOG**
+- 2025-10-23 13:57 d4e6d6fa **docs: generate CHANGELOG**
+- 2025-10-21 09:45 dc495276 **step: bump bgord/scripts**
+- 2025-10-21 09:45 78fba626 **fix: loglevel in better-auth logger service**
+- 2025-10-21 09:37 4ee1f163 **refactor: clean up biome check**
+- 2025-10-21 09:35 a7b3b5fa **step: update packages**
+- 2025-10-21 09:33 2ca0ea54 **fix: client-from-hono**
+- 2025-10-21 07:45 656c7ce0 **docs: generate CHANGELOG**
 ## 2025-10-16 15:06 v1.0.1
-- 2025-10-16 15:06 0051923 **1.0.1**
-- 2025-10-16 15:05 7151a88 **fix: translations prereq**
-- 2025-10-16 13:06 8acddc4 **docs: generate CHANGELOG**
-- 2025-10-16 13:05 a702d65 **docs: generate CHANGELOG**
+- 2025-10-16 15:06 0051923c **1.0.1**
+- 2025-10-16 15:05 7151a88a **fix: translations prereq**
+- 2025-10-16 13:06 8acddc49 **docs: generate CHANGELOG**
+- 2025-10-16 13:05 a702d654 **docs: generate CHANGELOG**
 ## 2025-10-16 11:55 v1.0.0
-- 2025-10-16 11:55 fa9b80c **1.0.0**
-- 2025-10-16 11:53 07f44fc **Merge pull request #140 from bgord/file-ports**
-- 2025-10-16 11:50 b5cad0a **refactor: unify test names**
-- 2025-10-16 11:30 962c75b **refactor: test mailer vo**
-- 2025-10-16 11:14 d6a07d1 **refactor: improve correlation storage tests**
-- 2025-10-16 11:06 d320b07 **step: bump bgord/scripts**
-- 2025-10-16 11:03 ebbc17c **refactor: move gzip and encryption to rc**
-- 2025-10-16 11:01 b222b9e **refactor: simplify i18n**
-- 2025-10-16 10:56 8adbda5 **step: update packages**
-- 2025-10-16 10:55 a625369 **refactor: extract reaptcha secret key**
-- 2025-10-16 10:49 479e8c7 **refactor: extract hcaptcha secret key**
-- 2025-10-16 10:45 5c3740e **refactor: extract hcaptcha site key**
-- 2025-10-16 10:38 31b3b28 **refactor: remove unnecessary vos**
-- 2025-10-16 10:34 fcfa8b3 **refactor: unify adapter naming**
-- 2025-10-16 10:12 e26ce33 **feature: add json file reader bun forgiving adapter**
-- 2025-10-16 09:55 e2089c3 **docs: generate CHANGELOG**
-- 2025-10-16 09:54 945d913 **docs: generate readme**
-- 2025-10-16 09:54 05a9cce **docs: generate CHANGELOG**
-- 2025-10-16 09:51 b0a95d0 **refactor: improve shield captcha recaptcha**
-- 2025-10-16 00:03 cd46bce **refactor: improve testS**
-- 2025-10-15 23:08 1d76ae4 **refactor: simplify image tests**
-- 2025-10-15 22:55 4d046f4 **refactor: adjust tests**
-- 2025-10-15 22:21 18d437a **refactor: use renamer**
-- 2025-10-15 22:03 d396414 **feature: add file-renamer port and adapters**
-- 2025-10-15 17:42 3d279b8 **refactor: simplify type casting**
-- 2025-10-15 17:01 6eca05a **step: add tests**
-- 2025-10-15 16:52 1903375 **refactor: use file cleaner in image processors**
-- 2025-10-15 16:45 762e284 **refactor: use file cleaner in temporary file absolute**
-- 2025-10-15 16:41 7df5d4f **refactor: use file cleaner in remote file storage disk adapter**
-- 2025-10-15 16:33 0f51018 **feature: add file-cleaner port and adapters**
-- 2025-10-15 16:17 142e444 **step: add tests**
-- 2025-10-15 16:08 d8f9f91 **refactor: rename files**
-- 2025-10-15 15:56 86e0940 **refactor: use json file reader**
-- 2025-10-15 14:56 fff5dd3 **feature: add file reader json port and adapter**
-- 2025-10-15 14:36 07f835d **refactor: simplify shield rate limit**
-- 2025-10-15 14:26 d7dc277 **refactor: simplify api key middleware**
-- 2025-10-15 14:24 28d0112 **refactor: simplify setup**
-- 2025-10-15 14:17 be651dd **refactor: simplify remote file storage disk**
-- 2025-10-15 14:08 dbe24d8 **refactor: simplify redactors**
-- 2025-10-15 13:52 a491f6b **refactor: simplify logger**
-- 2025-10-15 13:48 73f6593 **refactor: simplify jobs**
-- 2025-10-15 13:44 d3ab49b **refactor: simplify invariants**
-- 2025-10-15 13:10 a747cb1 **refactor: simplify image alpha sharp**
-- 2025-10-15 13:02 b32d6c4 **refactor: improve id provider crypto**
-- 2025-10-15 13:00 b915323 **refactor: improve i18n**
-- 2025-10-15 12:56 6463619 **refactor: improve http logger**
-- 2025-10-15 12:52 b2cd487 **refactor: improve healthcheck**
-- 2025-10-15 12:49 5d1a383 **refactor: improve event stream**
-- 2025-10-15 12:46 7c7e92e **refactor: improve event logger**
-- 2025-10-15 12:44 fd9cf97 **refactor: improve event handler**
-- 2025-10-15 12:41 b7e57ee **refactor: improve etag extractor**
-- 2025-10-15 12:40 e12978b **docs: generate readme**
-- 2025-10-15 12:40 7eb38ef **docs: generate CHANGELOG**
-- 2025-10-15 12:33 262545b **refactor: extract signature regex**
-- 2025-10-15 12:25 a7fac90 **refactor: improve formatting**
-- 2025-10-15 12:01 746ef60 **refactor: improve simulated error**
-- 2025-10-15 12:00 2220494 **refactor: improve slower**
-- 2025-10-15 11:58 fd5d3d5 **refactor: improve temporary file absolute adapter**
-- 2025-10-15 11:41 35a2014 **refactor: unify tests**
-- 2025-10-15 11:38 e1d72f4 **refactor: adjust uptime service**
-- 2025-10-15 11:32 4e37283 **refactor: rename open graph and sitemap**
-- 2025-10-15 11:31 95124e8 **refactor: adjust uuid**
-- 2025-10-15 11:29 5cc9ad6 **refactor: visitor id**
-- 2025-10-15 11:27 e4671e4 **refactor: week etag extractor middleware**
-- 2025-10-15 11:24 d957384 **refactor: unify translations tests**
-- 2025-10-15 11:22 4dd7fcb **refactor: unify utc tests**
-- 2025-10-15 11:20 06a0c9f **refactor: unify ssl tests**
-- 2025-10-15 11:17 d079aee **refactor: unify sqlite tests**
-- 2025-10-15 11:14 6522d4e **refactor: unify space tests**
-- 2025-10-15 11:11 8cacb61 **refactor: unify self tests**
-- 2025-10-15 11:10 27d10fb **refactor: unify runnign user tests**
-- 2025-10-15 11:08 4ddd7ea **refactor: unify ram tests**
-- 2025-10-15 11:06 6503b63 **refactor: unify port tests**
-- 2025-10-15 11:05 92495ee **refactor: unify outside connectivity tests**
-- 2025-10-15 11:04 221c341 **refactor: unify node tests**
-- 2025-10-15 11:02 3692f34 **refactor: unify memory tests**
-- 2025-10-15 11:00 9b03f8b **refactor: unify mailer tests**
-- 2025-10-15 10:59 967a293 **refactor: unify log file tests**
-- 2025-10-15 10:57 df49488 **refactor: unify jobs tests**
-- 2025-10-15 10:54 f02753a **refactor: unify external api tests**
-- 2025-10-15 10:54 5dd0608 **refactor: unify dir tests**
-- 2025-10-15 10:52 3a59733 **refactor: unify dep tests**
-- 2025-10-15 10:50 b31ef3c **refactor: unify bun tests**
-- 2025-10-15 10:46 422cd6e **refactor: unify undetermined tests**
-- 2025-10-15 10:43 eb30471 **refactor: adjust binary prereq**
-- 2025-10-15 10:40 81580db **refactor: adjust tests**
-- 2025-10-15 10:39 5e46373 **refactor: extract binary vo**
-- 2025-10-15 10:30 2da0723 **refactor: simplify user language resolver**
-- 2025-10-15 10:27 4ce1e81 **refactor: simplify history events**
-- 2025-10-14 15:04 0465e18 **refactor: improve api version**
-- 2025-10-14 15:01 e5b36d5 **refactor: improve basic auth**
-- 2025-10-14 01:13 7111235 **refactor: improve antivirus port and adapters**
-- 2025-10-14 01:08 6d77bc0 **refactor: simplify translations prereq**
-- 2025-10-14 01:04 2fc92b3 **refactor: improve formatting**
-- 2025-10-13 22:15 1b77d8e **refactor: improve antivirus**
-- 2025-10-13 15:06 3b8a94f **refactor: remove not handled _error**
-- 2025-10-13 15:04 ee4ff33 **step: update packages**
-- 2025-10-13 15:01 d6dd71b **step: update packages**
-- 2025-10-13 14:52 c3f6138 **refactor: adjust to bgord/tools**
-- 2025-10-13 14:49 9ddb7af **step: update tools to 1.0.0**
-- 2025-10-13 13:05 11400f6 **docs: generate CHANGELOG**
+- 2025-10-16 11:55 fa9b80c7 **1.0.0**
+- 2025-10-16 11:53 07f44fc6 **Merge pull request #140 from bgord/file-ports**
+- 2025-10-16 11:50 b5cad0a2 **refactor: unify test names**
+- 2025-10-16 11:30 962c75b1 **refactor: test mailer vo**
+- 2025-10-16 11:14 d6a07d1f **refactor: improve correlation storage tests**
+- 2025-10-16 11:06 d320b07b **step: bump bgord/scripts**
+- 2025-10-16 11:03 ebbc17c2 **refactor: move gzip and encryption to rc**
+- 2025-10-16 11:01 b222b9ed **refactor: simplify i18n**
+- 2025-10-16 10:56 8adbda57 **step: update packages**
+- 2025-10-16 10:55 a625369e **refactor: extract reaptcha secret key**
+- 2025-10-16 10:49 479e8c73 **refactor: extract hcaptcha secret key**
+- 2025-10-16 10:45 5c3740e5 **refactor: extract hcaptcha site key**
+- 2025-10-16 10:38 31b3b284 **refactor: remove unnecessary vos**
+- 2025-10-16 10:34 fcfa8b38 **refactor: unify adapter naming**
+- 2025-10-16 10:12 e26ce33f **feature: add json file reader bun forgiving adapter**
+- 2025-10-16 09:55 e2089c37 **docs: generate CHANGELOG**
+- 2025-10-16 09:54 945d9133 **docs: generate readme**
+- 2025-10-16 09:54 05a9cce1 **docs: generate CHANGELOG**
+- 2025-10-16 09:51 b0a95d05 **refactor: improve shield captcha recaptcha**
+- 2025-10-16 00:03 cd46bce4 **refactor: improve testS**
+- 2025-10-15 23:08 1d76ae4d **refactor: simplify image tests**
+- 2025-10-15 22:55 4d046f47 **refactor: adjust tests**
+- 2025-10-15 22:21 18d437a7 **refactor: use renamer**
+- 2025-10-15 22:03 d3964149 **feature: add file-renamer port and adapters**
+- 2025-10-15 17:42 3d279b85 **refactor: simplify type casting**
+- 2025-10-15 17:01 6eca05a5 **step: add tests**
+- 2025-10-15 16:52 19033751 **refactor: use file cleaner in image processors**
+- 2025-10-15 16:45 762e2849 **refactor: use file cleaner in temporary file absolute**
+- 2025-10-15 16:41 7df5d4f3 **refactor: use file cleaner in remote file storage disk adapter**
+- 2025-10-15 16:33 0f510183 **feature: add file-cleaner port and adapters**
+- 2025-10-15 16:17 142e444f **step: add tests**
+- 2025-10-15 16:08 d8f9f91a **refactor: rename files**
+- 2025-10-15 15:56 86e0940c **refactor: use json file reader**
+- 2025-10-15 14:56 fff5dd3e **feature: add file reader json port and adapter**
+- 2025-10-15 14:36 07f835d6 **refactor: simplify shield rate limit**
+- 2025-10-15 14:26 d7dc2773 **refactor: simplify api key middleware**
+- 2025-10-15 14:24 28d01129 **refactor: simplify setup**
+- 2025-10-15 14:17 be651dd5 **refactor: simplify remote file storage disk**
+- 2025-10-15 14:08 dbe24d84 **refactor: simplify redactors**
+- 2025-10-15 13:52 a491f6b5 **refactor: simplify logger**
+- 2025-10-15 13:48 73f6593c **refactor: simplify jobs**
+- 2025-10-15 13:44 d3ab49b4 **refactor: simplify invariants**
+- 2025-10-15 13:10 a747cb16 **refactor: simplify image alpha sharp**
+- 2025-10-15 13:02 b32d6c45 **refactor: improve id provider crypto**
+- 2025-10-15 13:00 b915323a **refactor: improve i18n**
+- 2025-10-15 12:56 64636195 **refactor: improve http logger**
+- 2025-10-15 12:52 b2cd487b **refactor: improve healthcheck**
+- 2025-10-15 12:49 5d1a3830 **refactor: improve event stream**
+- 2025-10-15 12:46 7c7e92e6 **refactor: improve event logger**
+- 2025-10-15 12:44 fd9cf975 **refactor: improve event handler**
+- 2025-10-15 12:41 b7e57eed **refactor: improve etag extractor**
+- 2025-10-15 12:40 e12978b1 **docs: generate readme**
+- 2025-10-15 12:40 7eb38efb **docs: generate CHANGELOG**
+- 2025-10-15 12:33 262545be **refactor: extract signature regex**
+- 2025-10-15 12:25 a7fac90c **refactor: improve formatting**
+- 2025-10-15 12:01 746ef605 **refactor: improve simulated error**
+- 2025-10-15 12:00 2220494c **refactor: improve slower**
+- 2025-10-15 11:58 fd5d3d5a **refactor: improve temporary file absolute adapter**
+- 2025-10-15 11:41 35a20149 **refactor: unify tests**
+- 2025-10-15 11:38 e1d72f4f **refactor: adjust uptime service**
+- 2025-10-15 11:32 4e372837 **refactor: rename open graph and sitemap**
+- 2025-10-15 11:31 95124e8a **refactor: adjust uuid**
+- 2025-10-15 11:29 5cc9ad6f **refactor: visitor id**
+- 2025-10-15 11:27 e4671e47 **refactor: week etag extractor middleware**
+- 2025-10-15 11:24 d9573849 **refactor: unify translations tests**
+- 2025-10-15 11:22 4dd7fcb6 **refactor: unify utc tests**
+- 2025-10-15 11:20 06a0c9fb **refactor: unify ssl tests**
+- 2025-10-15 11:17 d079aeee **refactor: unify sqlite tests**
+- 2025-10-15 11:14 6522d4e0 **refactor: unify space tests**
+- 2025-10-15 11:11 8cacb61f **refactor: unify self tests**
+- 2025-10-15 11:10 27d10fb2 **refactor: unify runnign user tests**
+- 2025-10-15 11:08 4ddd7ea6 **refactor: unify ram tests**
+- 2025-10-15 11:06 6503b631 **refactor: unify port tests**
+- 2025-10-15 11:05 92495ee8 **refactor: unify outside connectivity tests**
+- 2025-10-15 11:04 221c3411 **refactor: unify node tests**
+- 2025-10-15 11:02 3692f34e **refactor: unify memory tests**
+- 2025-10-15 11:00 9b03f8b6 **refactor: unify mailer tests**
+- 2025-10-15 10:59 967a293b **refactor: unify log file tests**
+- 2025-10-15 10:57 df49488c **refactor: unify jobs tests**
+- 2025-10-15 10:54 f02753a4 **refactor: unify external api tests**
+- 2025-10-15 10:54 5dd0608f **refactor: unify dir tests**
+- 2025-10-15 10:52 3a59733b **refactor: unify dep tests**
+- 2025-10-15 10:50 b31ef3c7 **refactor: unify bun tests**
+- 2025-10-15 10:46 422cd6e6 **refactor: unify undetermined tests**
+- 2025-10-15 10:43 eb304714 **refactor: adjust binary prereq**
+- 2025-10-15 10:40 81580dbf **refactor: adjust tests**
+- 2025-10-15 10:39 5e463739 **refactor: extract binary vo**
+- 2025-10-15 10:30 2da0723e **refactor: simplify user language resolver**
+- 2025-10-15 10:27 4ce1e81e **refactor: simplify history events**
+- 2025-10-14 15:04 0465e181 **refactor: improve api version**
+- 2025-10-14 15:01 e5b36d52 **refactor: improve basic auth**
+- 2025-10-14 01:13 71112352 **refactor: improve antivirus port and adapters**
+- 2025-10-14 01:08 6d77bc05 **refactor: simplify translations prereq**
+- 2025-10-14 01:04 2fc92b32 **refactor: improve formatting**
+- 2025-10-13 22:15 1b77d8e4 **refactor: improve antivirus**
+- 2025-10-13 15:06 3b8a94f9 **refactor: remove not handled _error**
+- 2025-10-13 15:04 ee4ff335 **step: update packages**
+- 2025-10-13 15:01 d6dd71bc **step: update packages**
+- 2025-10-13 14:52 c3f61382 **refactor: adjust to bgord/tools**
+- 2025-10-13 14:49 9ddb7af9 **step: update tools to 1.0.0**
+- 2025-10-13 13:05 11400f62 **docs: generate CHANGELOG**
 ## 2025-10-08 11:14 v0.30.1
-- 2025-10-08 11:14 c45d32a **0.30.1**
-- 2025-10-08 11:12 287fe9c **step: setup cors policy to cross-origin by default**
-- 2025-10-08 09:14 e6ff658 **docs: generate CHANGELOG**
-- 2025-10-08 09:13 122e7e7 **docs: generate CHANGELOG**
-- 2025-10-07 23:22 9a1e32c **refactor: simplify ssl naming**
-- 2025-10-07 23:19 25c81ce **step: round days remaining**
+- 2025-10-08 11:14 c45d32a3 **0.30.1**
+- 2025-10-08 11:12 287fe9c0 **step: setup cors policy to cross-origin by default**
+- 2025-10-08 09:14 e6ff658b **docs: generate CHANGELOG**
+- 2025-10-08 09:13 122e7e78 **docs: generate CHANGELOG**
+- 2025-10-07 23:22 9a1e32c4 **refactor: simplify ssl naming**
+- 2025-10-07 23:19 25c81ce2 **step: round days remaining**
 ## 2025-10-07 22:48 v0.30.0
-- 2025-10-07 22:48 adfddd4 **0.30.0**
-- 2025-10-07 22:47 e5992e9 **refactor: adjust ssl prereq tests**
-- 2025-10-07 22:39 1b3a01e **refactor: make noop inspector dynamic**
-- 2025-10-07 22:37 013f274 **refactor: use certificate inspector in ssl prereq**
-- 2025-10-07 22:05 02f4d4b **feature: add certificate inspector**
-- 2025-10-07 21:23 14ee82f **docs: generate CHANGELOG**
-- 2025-10-07 21:20 209e70d **docs: generate CHANGELOG**
-- 2025-10-07 20:48 2ddf57f **docs: generate CHANGELOG**
-- 2025-10-07 20:47 3bf4706 **docs: generate CHANGELOG**
-- 2025-10-07 20:47 134ca65 **docs: generate readme**
+- 2025-10-07 22:48 adfddd42 **0.30.0**
+- 2025-10-07 22:47 e5992e9d **refactor: adjust ssl prereq tests**
+- 2025-10-07 22:39 1b3a01e6 **refactor: make noop inspector dynamic**
+- 2025-10-07 22:37 013f2749 **refactor: use certificate inspector in ssl prereq**
+- 2025-10-07 22:05 02f4d4b9 **feature: add certificate inspector**
+- 2025-10-07 21:23 14ee82ff **docs: generate CHANGELOG**
+- 2025-10-07 21:20 209e70d6 **docs: generate CHANGELOG**
+- 2025-10-07 20:48 2ddf57fd **docs: generate CHANGELOG**
+- 2025-10-07 20:47 3bf47063 **docs: generate CHANGELOG**
+- 2025-10-07 20:47 134ca652 **docs: generate readme**
 ## 2025-10-07 20:30 v0.29.15
-- 2025-10-07 20:30 9487541 **0.29.15**
-- 2025-10-07 20:25 4a35f15 **step: update packages**
-- 2025-10-07 20:16 e53e808 **refactor: simplify jobs**
-- 2025-10-07 18:30 545eec0 **docs: generate CHANGELOG**
-- 2025-10-07 18:28 b8d35bf **docs: generate CHANGELOG**
+- 2025-10-07 20:30 94875414 **0.29.15**
+- 2025-10-07 20:25 4a35f153 **step: update packages**
+- 2025-10-07 20:16 e53e8084 **refactor: simplify jobs**
+- 2025-10-07 18:30 545eec03 **docs: generate CHANGELOG**
+- 2025-10-07 18:28 b8d35bf7 **docs: generate CHANGELOG**
 ## 2025-10-06 09:30 v0.29.14
-- 2025-10-06 09:30 315cab5 **0.29.14**
-- 2025-10-06 09:19 0f4c67e **refactor: unify assertions**
-- 2025-10-06 09:14 419a5fd **refactor: improve event stream vo**
-- 2025-10-06 09:11 6b6f8b4 **refactor: improve env validator**
-- 2025-10-06 09:08 9760955 **refactor: improve clock fixed adapter**
-- 2025-10-06 09:05 17dc1a8 **refactor: improve better auth**
-- 2025-10-06 09:04 7d5dea9 **refactor: improve basic auth**
-- 2025-10-06 07:30 ca3099b **docs: generate CHANGELOG**
-- 2025-10-06 07:29 43abcd5 **docs: generate CHANGELOG**
-- 2025-10-06 07:17 435b97a **docs: generate CHANGELOG**
-- 2025-10-06 06:58 9afc5b5 **docs: generate CHANGELOG**
-- 2025-10-06 00:14 ac05be8 **refactor: use time zone offset**
-- 2025-10-06 00:09 0273fc4 **refactor: use duration in uptime**
-- 2025-10-05 23:57 744a8fd **fix: duration usage**
-- 2025-10-05 23:34 6a75121 **step: update packages**
+- 2025-10-06 09:30 315cab5e **0.29.14**
+- 2025-10-06 09:19 0f4c67e9 **refactor: unify assertions**
+- 2025-10-06 09:14 419a5fd3 **refactor: improve event stream vo**
+- 2025-10-06 09:11 6b6f8b48 **refactor: improve env validator**
+- 2025-10-06 09:08 97609551 **refactor: improve clock fixed adapter**
+- 2025-10-06 09:05 17dc1a8f **refactor: improve better auth**
+- 2025-10-06 09:04 7d5dea91 **refactor: improve basic auth**
+- 2025-10-06 07:30 ca3099b6 **docs: generate CHANGELOG**
+- 2025-10-06 07:29 43abcd5e **docs: generate CHANGELOG**
+- 2025-10-06 07:17 435b97a3 **docs: generate CHANGELOG**
+- 2025-10-06 06:58 9afc5b5a **docs: generate CHANGELOG**
+- 2025-10-06 00:14 ac05be80 **refactor: use time zone offset**
+- 2025-10-06 00:09 0273fc4b **refactor: use duration in uptime**
+- 2025-10-05 23:57 744a8fdd **fix: duration usage**
+- 2025-10-05 23:34 6a751217 **step: update packages**
 ## 2025-10-04 19:39 v0.29.13
-- 2025-10-04 19:39 aae5224 **0.29.13**
-- 2025-10-04 19:39 7382057 **refactor: remove codeql workflow**
-- 2025-10-04 19:39 2884eb7 **step: update packages**
+- 2025-10-04 19:39 aae5224b **0.29.13**
+- 2025-10-04 19:39 73820578 **refactor: remove codeql workflow**
+- 2025-10-04 19:39 2884eb77 **step: update packages**
 ## 2025-10-04 19:21 v0.29.12
-- 2025-10-04 19:21 885b50a **refactor: unify files**
-- 2025-10-04 19:21 2768936 **0.29.12**
-- 2025-10-04 19:13 2dfb608 **refactor: adjust time result interface**
-- 2025-10-04 19:12 1572c53 **step: update packages**
+- 2025-10-04 19:21 885b50ac **refactor: unify files**
+- 2025-10-04 19:21 27689365 **0.29.12**
+- 2025-10-04 19:13 2dfb6089 **refactor: adjust time result interface**
+- 2025-10-04 19:12 1572c53c **step: update packages**
 ## 2025-10-04 18:54 v0.29.11
-- 2025-10-04 18:54 55a5ff6 **0.29.11**
-- 2025-10-04 18:53 462cb0a **fix: extension schema**
-- 2025-10-04 18:52 492da09 **step: update packages**
-- 2025-10-04 17:40 9c81c37 **docs: generate CHANGELOG**
-- 2025-10-04 17:39 91103fd **docs: generate CHANGELOG**
-- 2025-10-04 17:22 b915d67 **docs: generate CHANGELOG**
-- 2025-10-04 17:21 58ab877 **docs: generate CHANGELOG**
-- 2025-10-04 16:54 9963475 **docs: generate CHANGELOG**
-- 2025-10-04 16:54 86e0e7b **docs: generate CHANGELOG**
+- 2025-10-04 18:54 55a5ff69 **0.29.11**
+- 2025-10-04 18:53 462cb0af **fix: extension schema**
+- 2025-10-04 18:52 492da094 **step: update packages**
+- 2025-10-04 17:40 9c81c37b **docs: generate CHANGELOG**
+- 2025-10-04 17:39 91103fd3 **docs: generate CHANGELOG**
+- 2025-10-04 17:22 b915d67a **docs: generate CHANGELOG**
+- 2025-10-04 17:21 58ab877d **docs: generate CHANGELOG**
+- 2025-10-04 16:54 99634759 **docs: generate CHANGELOG**
+- 2025-10-04 16:54 86e0e7bc **docs: generate CHANGELOG**
 ## 2025-10-03 11:46 v0.29.10
-- 2025-10-03 11:46 7208cdb **0.29.10**
-- 2025-10-03 11:44 e973539 **fix: jobs service**
-- 2025-10-03 11:44 b6704f4 **step: update packages**
-- 2025-10-03 11:43 b974ae4 **fix: image-info port types**
-- 2025-10-03 11:40 e2472db **step: update packages**
-- 2025-10-03 09:46 b617b12 **docs: generate CHANGELOG**
-- 2025-10-03 09:44 3a6b9e3 **docs: generate CHANGELOG**
+- 2025-10-03 11:46 7208cdb0 **0.29.10**
+- 2025-10-03 11:44 e9735398 **fix: jobs service**
+- 2025-10-03 11:44 b6704f4a **step: update packages**
+- 2025-10-03 11:43 b974ae40 **fix: image-info port types**
+- 2025-10-03 11:40 e2472db1 **step: update packages**
+- 2025-10-03 09:46 b617b126 **docs: generate CHANGELOG**
+- 2025-10-03 09:44 3a6b9e39 **docs: generate CHANGELOG**
 ## 2025-10-02 10:42 v0.29.9
-- 2025-10-02 10:42 1929ed0 **0.29.9**
-- 2025-10-02 10:41 b7d8058 **step: bump bgord/scripts**
-- 2025-10-02 10:41 389317b **step: update packages**
-- 2025-10-02 08:42 a0ca8f2 **docs: generate CHANGELOG**
-- 2025-10-02 08:42 981537d **docs: generate CHANGELOG**
+- 2025-10-02 10:42 1929ed0f **0.29.9**
+- 2025-10-02 10:41 b7d80585 **step: bump bgord/scripts**
+- 2025-10-02 10:41 389317b3 **step: update packages**
+- 2025-10-02 08:42 a0ca8f2b **docs: generate CHANGELOG**
+- 2025-10-02 08:42 981537da **docs: generate CHANGELOG**
 ## 2025-10-01 21:51 v0.29.8
-- 2025-10-01 21:51 b269227 **0.29.8**
-- 2025-10-01 21:49 295fb6b **refactor: rename compact object redactor**
-- 2025-10-01 21:47 63ef574 **refactor: rename compact array redactor**
-- 2025-10-01 21:41 2be7ea2 **step: allow http logger overrides in setup**
-- 2025-10-01 21:39 88abb18 **feature: add http-logger skip**
-- 2025-10-01 21:23 c55fd54 **refactor: unify http logger fields**
-- 2025-10-01 21:15 87ca63e **step: extract default max keys in redactor object adapter**
-- 2025-10-01 19:51 ba583e3 **docs: generate CHANGELOG**
-- 2025-10-01 19:50 bffd253 **docs: generate CHANGELOG**
-- 2025-10-01 19:50 6c016fa **docs: generate readme**
-- 2025-10-01 17:20 d7eb9b5 **feature: add redactor object**
+- 2025-10-01 21:51 b2692270 **0.29.8**
+- 2025-10-01 21:49 295fb6bf **refactor: rename compact object redactor**
+- 2025-10-01 21:47 63ef574e **refactor: rename compact array redactor**
+- 2025-10-01 21:41 2be7ea28 **step: allow http logger overrides in setup**
+- 2025-10-01 21:39 88abb186 **feature: add http-logger skip**
+- 2025-10-01 21:23 c55fd541 **refactor: unify http logger fields**
+- 2025-10-01 21:15 87ca63e7 **step: extract default max keys in redactor object adapter**
+- 2025-10-01 19:51 ba583e30 **docs: generate CHANGELOG**
+- 2025-10-01 19:50 bffd2530 **docs: generate CHANGELOG**
+- 2025-10-01 19:50 6c016fa0 **docs: generate readme**
+- 2025-10-01 17:20 d7eb9b5d **feature: add redactor object**
 ## 2025-10-01 11:11 v0.29.7
-- 2025-10-01 11:11 3ee655f **0.29.7**
-- 2025-10-01 11:10 e6f7556 **step: update packages**
-- 2025-10-01 09:11 f7a68ff **docs: generate CHANGELOG**
-- 2025-10-01 09:11 6ea33a3 **docs: generate CHANGELOG**
+- 2025-10-01 11:11 3ee655f3 **0.29.7**
+- 2025-10-01 11:10 e6f75564 **step: update packages**
+- 2025-10-01 09:11 f7a68ff0 **docs: generate CHANGELOG**
+- 2025-10-01 09:11 6ea33a3a **docs: generate CHANGELOG**
 ## 2025-09-30 12:12 v0.29.6
-- 2025-09-30 12:12 ddfb42f **0.29.6**
-- 2025-09-30 12:06 ff97eaf **refactor: update image dimensions**
-- 2025-09-30 12:05 da0a6a0 **step: update packages**
-- 2025-09-30 10:12 5266af2 **docs: generate CHANGELOG**
-- 2025-09-30 10:11 f9d7ec6 **docs: generate CHANGELOG**
+- 2025-09-30 12:12 ddfb42f8 **0.29.6**
+- 2025-09-30 12:06 ff97eaff **refactor: update image dimensions**
+- 2025-09-30 12:05 da0a6a0f **step: update packages**
+- 2025-09-30 10:12 5266af29 **docs: generate CHANGELOG**
+- 2025-09-30 10:11 f9d7ec60 **docs: generate CHANGELOG**
 ## 2025-09-27 09:31 v0.29.5
-- 2025-09-27 09:31 87dd50d **0.29.5**
-- 2025-09-27 09:28 a0259ed **fix: graceful shutdown bun crash**
+- 2025-09-27 09:31 87dd50d9 **0.29.5**
+- 2025-09-27 09:28 a0259edd **fix: graceful shutdown bun crash**
 ## 2025-09-27 09:09 v0.29.4
-- 2025-09-27 09:09 8b88b02 **0.29.4**
-- 2025-09-27 09:08 e351ee8 **step: update packages**
-- 2025-09-27 09:08 ca9ca45 **fix: graceful shutdown**
-- 2025-09-27 07:31 59d6937 **docs: generate CHANGELOG**
-- 2025-09-27 07:29 81ec8fc **docs: generate CHANGELOG**
-- 2025-09-27 07:09 b16398b **docs: generate CHANGELOG**
-- 2025-09-27 07:08 81d9a6d **docs: generate CHANGELOG**
+- 2025-09-27 09:09 8b88b02a **0.29.4**
+- 2025-09-27 09:08 e351ee83 **step: update packages**
+- 2025-09-27 09:08 ca9ca45b **fix: graceful shutdown**
+- 2025-09-27 07:31 59d69372 **docs: generate CHANGELOG**
+- 2025-09-27 07:29 81ec8fc3 **docs: generate CHANGELOG**
+- 2025-09-27 07:09 b16398bd **docs: generate CHANGELOG**
+- 2025-09-27 07:08 81d9a6df **docs: generate CHANGELOG**
 ## 2025-09-26 11:38 v0.29.3
-- 2025-09-26 11:38 30962a5 **0.29.3**
-- 2025-09-26 11:37 d5d7787 **step: update packages**
-- 2025-09-26 11:31 1b0645b **step: update packages**
-- 2025-09-26 09:38 1c70026 **docs: generate CHANGELOG**
-- 2025-09-26 09:37 0b36220 **docs: generate CHANGELOG**
-- 2025-09-26 09:32 1b83ccb **docs: generate CHANGELOG**
-- 2025-09-23 12:20 2607d8d **step: bump bgord/scripts**
-- 2025-09-23 12:13 d0053c5 **step: bump bgord/scripts**
-- 2025-09-23 11:51 cf708a6 **step: bump bgord/scripts**
-- 2025-09-23 11:48 88fe23c **fix: package-build**
-- 2025-09-23 11:47 ce9d23f **step: bump bgord/scripts**
-- 2025-09-23 11:44 f99fcba **step: bump bgord/scripts**
-- 2025-09-23 11:40 47cb349 **step: bump bgord/scripts**
-- 2025-09-23 11:37 f543f78 **step: bump bgord/scripts**
+- 2025-09-26 11:38 30962a5a **0.29.3**
+- 2025-09-26 11:37 d5d7787f **step: update packages**
+- 2025-09-26 11:31 1b0645b9 **step: update packages**
+- 2025-09-26 09:38 1c70026e **docs: generate CHANGELOG**
+- 2025-09-26 09:37 0b362207 **docs: generate CHANGELOG**
+- 2025-09-26 09:32 1b83ccbe **docs: generate CHANGELOG**
+- 2025-09-23 12:20 2607d8d2 **step: bump bgord/scripts**
+- 2025-09-23 12:13 d0053c55 **step: bump bgord/scripts**
+- 2025-09-23 11:51 cf708a6e **step: bump bgord/scripts**
+- 2025-09-23 11:48 88fe23c6 **fix: package-build**
+- 2025-09-23 11:47 ce9d23f4 **step: bump bgord/scripts**
+- 2025-09-23 11:44 f99fcbab **step: bump bgord/scripts**
+- 2025-09-23 11:40 47cb349f **step: bump bgord/scripts**
+- 2025-09-23 11:37 f543f781 **step: bump bgord/scripts**
 ## 2025-09-23 11:03 v0.29.2
-- 2025-09-23 11:03 b94c058 **0.29.2**
-- 2025-09-23 10:53 68f7df6 **step: bump bgord/scripts**
-- 2025-09-23 10:53 4f50238 **refactor: unify package-build script**
-- 2025-09-23 10:50 48571b7 **step: update packages**
-- 2025-09-23 10:49 dd830da **refactor: make logger simplify a redactor**
-- 2025-09-23 10:13 c7fb2ec **docs: generate CHANGELOG**
-- 2025-09-23 09:52 19a8eca **docs: generate CHANGELOG**
-- 2025-09-23 09:48 189f6dd **docs: generate CHANGELOG**
-- 2025-09-23 09:03 fae3b59 **docs: generate CHANGELOG**
-- 2025-09-23 08:54 1750c98 **docs: generate CHANGELOG**
-- 2025-09-23 08:51 a2a3aff **docs: generate readme**
-- 2025-09-23 08:51 95ad63f **docs: generate CHANGELOG**
+- 2025-09-23 11:03 b94c0588 **0.29.2**
+- 2025-09-23 10:53 68f7df64 **step: bump bgord/scripts**
+- 2025-09-23 10:53 4f502380 **refactor: unify package-build script**
+- 2025-09-23 10:50 48571b7c **step: update packages**
+- 2025-09-23 10:49 dd830da4 **refactor: make logger simplify a redactor**
+- 2025-09-23 10:13 c7fb2ecc **docs: generate CHANGELOG**
+- 2025-09-23 09:52 19a8eca0 **docs: generate CHANGELOG**
+- 2025-09-23 09:48 189f6dd6 **docs: generate CHANGELOG**
+- 2025-09-23 09:03 fae3b59d **docs: generate CHANGELOG**
+- 2025-09-23 08:54 1750c98d **docs: generate CHANGELOG**
+- 2025-09-23 08:51 a2a3aff3 **docs: generate readme**
+- 2025-09-23 08:51 95ad63f4 **docs: generate CHANGELOG**
 ## 2025-09-22 22:43 v0.29.1
-- 2025-09-22 22:43 536a99e **0.29.1**
-- 2025-09-22 22:41 3323dd2 **step: define redactor mask default keys**
+- 2025-09-22 22:43 536a99e1 **0.29.1**
+- 2025-09-22 22:41 3323dd27 **step: define redactor mask default keys**
 ## 2025-09-22 22:32 v0.29.0
-- 2025-09-22 22:32 40b5114 **0.29.0**
-- 2025-09-22 22:30 0d89011 **step: update packages**
-- 2025-09-22 22:28 094435b **step: export redactors**
-- 2025-09-22 22:27 645b4b2 **step: adjust tests**
-- 2025-09-22 22:19 929527f **step: transform redactor to winston format**
-- 2025-09-22 22:16 5c01e89 **step: pass redactor to logger adapters**
-- 2025-09-22 20:43 8d03173 **docs: generate CHANGELOG**
-- 2025-09-22 20:42 4d539a1 **docs: generate CHANGELOG**
-- 2025-09-22 20:32 82e626b **docs: generate CHANGELOG**
-- 2025-09-22 20:31 8357e9e **docs: generate readme**
-- 2025-09-22 20:31 6206160 **docs: generate CHANGELOG**
-- 2025-09-22 17:40 3fbb94e **step: add composite redactor**
-- 2025-09-22 17:34 a84f6f5 **step: add noop redactor adapter**
-- 2025-09-22 17:31 0b6168b **step: add redactor encrypt adapter**
-- 2025-09-22 16:48 8d3c428 **step: add redactor mask adapter**
-- 2025-09-22 16:47 e635e3f **step: add redactor port**
-- 2025-09-22 15:31 7876278 **refactor: adjust size in logger winston prod adapter**
+- 2025-09-22 22:32 40b5114b **0.29.0**
+- 2025-09-22 22:30 0d890111 **step: update packages**
+- 2025-09-22 22:28 094435bf **step: export redactors**
+- 2025-09-22 22:27 645b4b2f **step: adjust tests**
+- 2025-09-22 22:19 929527f4 **step: transform redactor to winston format**
+- 2025-09-22 22:16 5c01e892 **step: pass redactor to logger adapters**
+- 2025-09-22 20:43 8d03173a **docs: generate CHANGELOG**
+- 2025-09-22 20:42 4d539a1b **docs: generate CHANGELOG**
+- 2025-09-22 20:32 82e626b8 **docs: generate CHANGELOG**
+- 2025-09-22 20:31 8357e9e7 **docs: generate readme**
+- 2025-09-22 20:31 62061606 **docs: generate CHANGELOG**
+- 2025-09-22 17:40 3fbb94e1 **step: add composite redactor**
+- 2025-09-22 17:34 a84f6f52 **step: add noop redactor adapter**
+- 2025-09-22 17:31 0b6168b6 **step: add redactor encrypt adapter**
+- 2025-09-22 16:48 8d3c4285 **step: add redactor mask adapter**
+- 2025-09-22 16:47 e635e3fe **step: add redactor port**
+- 2025-09-22 15:31 78762786 **refactor: adjust size in logger winston prod adapter**
 ## 2025-09-22 14:09 v0.28.2
-- 2025-09-22 14:09 10b4106 **0.28.2**
-- 2025-09-22 14:08 a25e33b **refactor: remove unused ts expect error directive**
-- 2025-09-22 14:07 d492690 **step: update packages**
-- 2025-09-22 14:06 ded679a **fix: prereq node error message**
-- 2025-09-22 12:09 5ef3685 **docs: generate CHANGELOG**
-- 2025-09-22 12:08 8765358 **docs: generate CHANGELOG**
+- 2025-09-22 14:09 10b41061 **0.28.2**
+- 2025-09-22 14:08 a25e33b0 **refactor: remove unused ts expect error directive**
+- 2025-09-22 14:07 d4926907 **step: update packages**
+- 2025-09-22 14:06 ded679a3 **fix: prereq node error message**
+- 2025-09-22 12:09 5ef3685e **docs: generate CHANGELOG**
+- 2025-09-22 12:08 87653586 **docs: generate CHANGELOG**
 ## 2025-09-17 12:31 v0.28.1
-- 2025-09-17 12:31 2d2cb9f **0.28.1**
-- 2025-09-17 12:29 979d104 **refactor: simplify logs**
-- 2025-09-17 12:22 2b46307 **refactor: reformat files**
-- 2025-09-17 12:05 dff924a **step: update packages**
-- 2025-09-17 10:31 417010a **docs: generate CHANGELOG**
-- 2025-09-17 10:29 669bb60 **docs: generate CHANGELOG**
-- 2025-09-17 10:22 521e6f8 **docs: generate CHANGELOG**
+- 2025-09-17 12:31 2d2cb9fd **0.28.1**
+- 2025-09-17 12:29 979d1043 **refactor: simplify logs**
+- 2025-09-17 12:22 2b463072 **refactor: reformat files**
+- 2025-09-17 12:05 dff924a5 **step: update packages**
+- 2025-09-17 10:31 417010a8 **docs: generate CHANGELOG**
+- 2025-09-17 10:29 669bb60e **docs: generate CHANGELOG**
+- 2025-09-17 10:22 521e6f86 **docs: generate CHANGELOG**
 ## 2025-09-16 20:44 v0.28.0
-- 2025-09-16 20:44 e578f44 **0.28.0**
-- 2025-09-16 20:42 aae6aaa **refactor: tidy up types**
-- 2025-09-16 20:31 f209c1d **step: update packages**
-- 2025-09-16 19:34 7429ac3 **refactor: simplify if throw new**
-- 2025-09-16 18:44 a7ad899 **docs: generate CHANGELOG**
-- 2025-09-16 18:42 4eb2bfa **docs: generate CHANGELOG**
-- 2025-09-16 15:56 6e08493 **refactor: do not use build version**
+- 2025-09-16 20:44 e578f44e **0.28.0**
+- 2025-09-16 20:42 aae6aaae **refactor: tidy up types**
+- 2025-09-16 20:31 f209c1d7 **step: update packages**
+- 2025-09-16 19:34 7429ac3d **refactor: simplify if throw new**
+- 2025-09-16 18:44 a7ad899c **docs: generate CHANGELOG**
+- 2025-09-16 18:42 4eb2bfa0 **docs: generate CHANGELOG**
+- 2025-09-16 15:56 6e084937 **refactor: do not use build version**
 ## 2025-09-16 13:14 v0.27.0
-- 2025-09-16 13:14 d9f372c **0.27.0**
-- 2025-09-16 13:11 7cc1e6a **refactor: update tests**
-- 2025-09-16 12:37 a0e0658 **fix: process exit code**
-- 2025-09-16 12:33 6638d55 **refactor: simplify logs**
-- 2025-09-16 12:31 edc7a49 **step: add cleanup error handler**
-- 2025-09-16 12:30 ebd97c4 **refactor: rename callback to cleanup**
-- 2025-09-16 12:29 b24a94e **step: add missing uncaught exception**
-- 2025-09-16 12:27 ab258a5 **refactor: use logger in graceful shutdown**
-- 2025-09-16 12:10 7e39fca **feature: add sqlite prereq**
+- 2025-09-16 13:14 d9f372c5 **0.27.0**
+- 2025-09-16 13:11 7cc1e6a3 **refactor: update tests**
+- 2025-09-16 12:37 a0e0658d **fix: process exit code**
+- 2025-09-16 12:33 6638d559 **refactor: simplify logs**
+- 2025-09-16 12:31 edc7a491 **step: add cleanup error handler**
+- 2025-09-16 12:30 ebd97c41 **refactor: rename callback to cleanup**
+- 2025-09-16 12:29 b24a94ed **step: add missing uncaught exception**
+- 2025-09-16 12:27 ab258a54 **refactor: use logger in graceful shutdown**
+- 2025-09-16 12:10 7e39fcac **feature: add sqlite prereq**
 ## 2025-09-16 11:48 v0.26.3
-- 2025-09-16 11:48 c2f3183 **0.26.3**
-- 2025-09-16 11:47 e2be2d9 **refactor: reformat files**
-- 2025-09-16 11:41 88c6e94 **refactor: improve prereq tests**
-- 2025-09-16 11:14 ecdc072 **docs: generate CHANGELOG**
-- 2025-09-16 11:14 95f58e0 **docs: generate CHANGELOG**
-- 2025-09-16 11:12 1e1342d **step: update packages**
-- 2025-09-16 11:03 7569403 **refactor: reformat files**
-- 2025-09-16 10:10 ddeaddc **docs: generate CHANGELOG**
-- 2025-09-16 10:10 33ffca8 **docs: generate readme**
-- 2025-09-16 09:49 78f27b1 **docs: generate CHANGELOG**
-- 2025-09-16 09:47 8b41840 **docs: generate CHANGELOG**
-- 2025-09-16 09:47 16e8dab **docs: generate readme**
-- 2025-09-16 09:41 a68759c **step: update packages**
-- 2025-09-09 19:42 4630e5c **refactor: simplify size**
+- 2025-09-16 11:48 c2f31835 **0.26.3**
+- 2025-09-16 11:47 e2be2d98 **refactor: reformat files**
+- 2025-09-16 11:41 88c6e945 **refactor: improve prereq tests**
+- 2025-09-16 11:14 ecdc0727 **docs: generate CHANGELOG**
+- 2025-09-16 11:14 95f58e0d **docs: generate CHANGELOG**
+- 2025-09-16 11:12 1e1342db **step: update packages**
+- 2025-09-16 11:03 75694037 **refactor: reformat files**
+- 2025-09-16 10:10 ddeaddcd **docs: generate CHANGELOG**
+- 2025-09-16 10:10 33ffca8a **docs: generate readme**
+- 2025-09-16 09:49 78f27b12 **docs: generate CHANGELOG**
+- 2025-09-16 09:47 8b418401 **docs: generate CHANGELOG**
+- 2025-09-16 09:47 16e8dabf **docs: generate readme**
+- 2025-09-16 09:41 a68759c7 **step: update packages**
+- 2025-09-09 19:42 4630e5cd **refactor: simplify size**
 ## 2025-09-09 14:43 v0.26.2
-- 2025-09-09 14:43 17c9d86 **refactor: do not process exit**
-- 2025-09-09 14:43 09a529a **0.26.2**
+- 2025-09-09 14:43 17c9d86c **refactor: do not process exit**
+- 2025-09-09 14:43 09a529af **0.26.2**
 ## 2025-09-09 14:39 v0.26.1
-- 2025-09-09 14:39 f16a277 **fix: env validator**
-- 2025-09-09 14:39 159a29b **0.26.1**
+- 2025-09-09 14:39 f16a277b **fix: env validator**
+- 2025-09-09 14:39 159a29bc **0.26.1**
 ## 2025-09-09 14:11 v0.26.0
-- 2025-09-09 14:11 aad00fa **0.26.0**
-- 2025-09-09 14:11 644a9a0 **refactor: pass logger in i18n where needed**
-- 2025-09-09 14:04 ee30b44 **refactor: eliminate console.log from i18n**
-- 2025-09-09 14:01 a0ed02f **refactor: eliminate console.log from env validator**
-- 2025-09-09 13:51 0f59505 **refactor: restore tsconfig**
-- 2025-09-09 13:17 a05b394 **refactor: unify tests**
-- 2025-09-09 13:08 2fcf9eb **refactor: improve version reporting in bun and node**
-- 2025-09-09 13:05 f884c3c **step: update packages**
-- 2025-09-09 13:02 5f9cb66 **step: update packages**
-- 2025-09-09 12:57 be38b69 **refactor: improve naming**
-- 2025-09-09 12:56 2f3b144 **refactor: healthcheck service**
-- 2025-09-09 12:50 7a3e1bf **refactor: prerequisites service**
-- 2025-09-09 12:44 74a1b2c **docs: generate CHANGELOG**
-- 2025-09-09 12:43 de77076 **docs: generate CHANGELOG**
-- 2025-09-09 12:40 eccdd39 **docs: generate CHANGELOG**
-- 2025-09-09 12:39 cb8704b **docs: generate CHANGELOG**
-- 2025-09-09 12:19 59ceacf **refactor: space try catch**
-- 2025-09-09 12:16 ebb29c9 **refactor: node try catch**
-- 2025-09-09 12:14 b1fd185 **refactor: bun try catch**
-- 2025-09-09 12:12 0f68630 **docs: generate CHANGELOG**
-- 2025-09-09 12:11 792aa6c **docs: generate CHANGELOG**
-- 2025-09-09 12:08 0ebd4d9 **refactor: improve formatting**
-- 2025-09-09 11:59 94f7560 **refactor: improve formatting**
-- 2025-09-09 11:52 2d0e849 **refactor: rewrite translations prereq**
-- 2025-09-09 11:51 c6cf2a6 **docs: generate CHANGELOG**
-- 2025-09-09 11:50 40fe061 **docs: generate CHANGELOG**
-- 2025-09-09 11:36 866fa0e **refactor: rewrite deps prereq**
-- 2025-09-09 11:22 e88c084 **refactor: rewrite directory prereq**
-- 2025-09-09 11:17 4f7f50e **refactor: rewrite log file prereq**
-- 2025-09-09 11:11 5d15c9f **refactor: rewrite ssl expiry prereq**
-- 2025-09-09 11:04 08c3582 **refactor: rewrite port prereq**
-- 2025-09-09 11:03 e0d3b37 **docs: generate CHANGELOG**
-- 2025-09-09 11:03 81d64fc **docs: generate readme**
-- 2025-09-09 10:59 84f4f7c **refactor: rewrite external api prereq**
-- 2025-09-09 10:53 d5847e9 **refactor: rewrite mailer prereq**
-- 2025-09-09 10:48 80ec5c6 **refactor: rewrite jobs prereq**
-- 2025-09-09 10:44 a3b9906 **refactor: rewrite memory prereq**
-- 2025-09-09 10:35 1c048a5 **refactor: rewrite node prereq**
-- 2025-09-09 10:25 6073724 **fix: formatting**
-- 2025-09-09 10:23 c8063d3 **refactor: rewrite ram prereq**
-- 2025-09-09 10:19 dd2b8fd **refactor: rewrite utc prereq**
-- 2025-09-09 00:05 d26787f **refactor: rewrite space prereq**
-- 2025-09-08 23:59 6de3f91 **refactor: rewrite self prereq**
-- 2025-09-08 23:21 57afc21 **refactor: rewrite bun prereq**
-- 2025-09-08 23:05 9db714d **refactor: rewrite binary**
-- 2025-09-08 22:55 c4de1d2 **refactor: rewrite outside connectivity**
-- 2025-09-08 22:34 4bcc1ab **step: add verification helper**
-- 2025-09-08 22:32 65f645b **refactor: reorganize prereq shape**
-- 2025-09-08 17:37 b9b5228 **refactor: rename path prereq to directory**
-- 2025-09-08 17:33 cb024a6 **fix: image adapter tests**
-- 2025-09-08 17:32 423cecf **fix: clamav adapter tests**
-- 2025-09-08 17:32 343c1bf **fix: event handler tests**
-- 2025-09-08 17:30 19078ae **fix: logger winston adapter tests**
-- 2025-09-08 17:29 f455311 **fix: prerequisites tests**
-- 2025-09-08 17:28 b62ff34 **fix: remote file storage disk adapter tests**
-- 2025-09-08 17:27 c5eff34 **fix: timezone offset tests**
-- 2025-09-08 17:26 d4a1460 **fix: zip draft tests**
-- 2025-09-08 17:26 205e54a **MVP**
+- 2025-09-09 14:11 aad00fa7 **0.26.0**
+- 2025-09-09 14:11 644a9a02 **refactor: pass logger in i18n where needed**
+- 2025-09-09 14:04 ee30b443 **refactor: eliminate console.log from i18n**
+- 2025-09-09 14:01 a0ed02f3 **refactor: eliminate console.log from env validator**
+- 2025-09-09 13:51 0f595058 **refactor: restore tsconfig**
+- 2025-09-09 13:17 a05b394d **refactor: unify tests**
+- 2025-09-09 13:08 2fcf9eb8 **refactor: improve version reporting in bun and node**
+- 2025-09-09 13:05 f884c3c1 **step: update packages**
+- 2025-09-09 13:02 5f9cb660 **step: update packages**
+- 2025-09-09 12:57 be38b69a **refactor: improve naming**
+- 2025-09-09 12:56 2f3b144f **refactor: healthcheck service**
+- 2025-09-09 12:50 7a3e1bf8 **refactor: prerequisites service**
+- 2025-09-09 12:44 74a1b2cc **docs: generate CHANGELOG**
+- 2025-09-09 12:43 de77076b **docs: generate CHANGELOG**
+- 2025-09-09 12:40 eccdd399 **docs: generate CHANGELOG**
+- 2025-09-09 12:39 cb8704bd **docs: generate CHANGELOG**
+- 2025-09-09 12:19 59ceacff **refactor: space try catch**
+- 2025-09-09 12:16 ebb29c94 **refactor: node try catch**
+- 2025-09-09 12:14 b1fd185d **refactor: bun try catch**
+- 2025-09-09 12:12 0f686300 **docs: generate CHANGELOG**
+- 2025-09-09 12:11 792aa6c1 **docs: generate CHANGELOG**
+- 2025-09-09 12:08 0ebd4d90 **refactor: improve formatting**
+- 2025-09-09 11:59 94f75601 **refactor: improve formatting**
+- 2025-09-09 11:52 2d0e8492 **refactor: rewrite translations prereq**
+- 2025-09-09 11:51 c6cf2a63 **docs: generate CHANGELOG**
+- 2025-09-09 11:50 40fe061d **docs: generate CHANGELOG**
+- 2025-09-09 11:36 866fa0e4 **refactor: rewrite deps prereq**
+- 2025-09-09 11:22 e88c0841 **refactor: rewrite directory prereq**
+- 2025-09-09 11:17 4f7f50e2 **refactor: rewrite log file prereq**
+- 2025-09-09 11:11 5d15c9f8 **refactor: rewrite ssl expiry prereq**
+- 2025-09-09 11:04 08c3582d **refactor: rewrite port prereq**
+- 2025-09-09 11:03 e0d3b372 **docs: generate CHANGELOG**
+- 2025-09-09 11:03 81d64fcb **docs: generate readme**
+- 2025-09-09 10:59 84f4f7c3 **refactor: rewrite external api prereq**
+- 2025-09-09 10:53 d5847e9b **refactor: rewrite mailer prereq**
+- 2025-09-09 10:48 80ec5c64 **refactor: rewrite jobs prereq**
+- 2025-09-09 10:44 a3b99067 **refactor: rewrite memory prereq**
+- 2025-09-09 10:35 1c048a5f **refactor: rewrite node prereq**
+- 2025-09-09 10:25 60737246 **fix: formatting**
+- 2025-09-09 10:23 c8063d3a **refactor: rewrite ram prereq**
+- 2025-09-09 10:19 dd2b8fdf **refactor: rewrite utc prereq**
+- 2025-09-09 00:05 d26787f6 **refactor: rewrite space prereq**
+- 2025-09-08 23:59 6de3f917 **refactor: rewrite self prereq**
+- 2025-09-08 23:21 57afc218 **refactor: rewrite bun prereq**
+- 2025-09-08 23:05 9db714dc **refactor: rewrite binary**
+- 2025-09-08 22:55 c4de1d2e **refactor: rewrite outside connectivity**
+- 2025-09-08 22:34 4bcc1ab3 **step: add verification helper**
+- 2025-09-08 22:32 65f645ba **refactor: reorganize prereq shape**
+- 2025-09-08 17:37 b9b52285 **refactor: rename path prereq to directory**
+- 2025-09-08 17:33 cb024a67 **fix: image adapter tests**
+- 2025-09-08 17:32 423cecff **fix: clamav adapter tests**
+- 2025-09-08 17:32 343c1bf3 **fix: event handler tests**
+- 2025-09-08 17:30 19078ae6 **fix: logger winston adapter tests**
+- 2025-09-08 17:29 f4553111 **fix: prerequisites tests**
+- 2025-09-08 17:28 b62ff341 **fix: remote file storage disk adapter tests**
+- 2025-09-08 17:27 c5eff34b **fix: timezone offset tests**
+- 2025-09-08 17:26 d4a1460e **fix: zip draft tests**
+- 2025-09-08 17:26 205e54ac **MVP**
 ## 2025-09-08 17:18 v0.25.5
-- 2025-09-08 17:18 fc9d6e4 **step: update packages**
-- 2025-09-08 17:18 f238001 **0.25.5**
-- 2025-09-08 17:18 6653568 **refactor: remove dependabot workflow**
-- 2025-09-08 17:18 225b06a **step: bump bgord/scripts**
-- 2025-09-08 17:09 cef34a5 **step: update packages**
-- 2025-09-08 17:08 6ed4565 **step: bump bgord/scripts**
-- 2025-09-08 15:34 e0a9cf1 **docs: generate CHANGELOG**
-- 2025-09-08 15:19 355e197 **docs: generate CHANGELOG**
-- 2025-09-08 15:18 38504f9 **docs: generate CHANGELOG**
-- 2025-09-08 15:09 fae2650 **docs: generate CHANGELOG**
+- 2025-09-08 17:18 fc9d6e4a **step: update packages**
+- 2025-09-08 17:18 f2380018 **0.25.5**
+- 2025-09-08 17:18 66535685 **refactor: remove dependabot workflow**
+- 2025-09-08 17:18 225b06a8 **step: bump bgord/scripts**
+- 2025-09-08 17:09 cef34a56 **step: update packages**
+- 2025-09-08 17:08 6ed4565c **step: bump bgord/scripts**
+- 2025-09-08 15:34 e0a9cf18 **docs: generate CHANGELOG**
+- 2025-09-08 15:19 355e1978 **docs: generate CHANGELOG**
+- 2025-09-08 15:18 38504f90 **docs: generate CHANGELOG**
+- 2025-09-08 15:09 fae26506 **docs: generate CHANGELOG**
 ## 2025-09-02 00:05 v0.25.4
-- 2025-09-02 00:05 70125fe **step: update packages**
-- 2025-09-02 00:05 3f4b6c0 **0.25.4**
-- 2025-09-02 00:04 cb62bc1 **step: add overrides for secure headers**
-- 2025-09-01 22:05 df6323a **docs: generate CHANGELOG**
-- 2025-09-01 22:05 010510e **docs: generate CHANGELOG**
+- 2025-09-02 00:05 70125fe1 **step: update packages**
+- 2025-09-02 00:05 3f4b6c07 **0.25.4**
+- 2025-09-02 00:04 cb62bc19 **step: add overrides for secure headers**
+- 2025-09-01 22:05 df6323a9 **docs: generate CHANGELOG**
+- 2025-09-01 22:05 010510e3 **docs: generate CHANGELOG**
 ## 2025-08-30 23:56 v0.25.3
-- 2025-08-30 23:56 9ef0bc0 **refactor: adjust stopwatch**
-- 2025-08-30 23:56 7c1d1dd **0.25.3**
-- 2025-08-30 23:50 bc0e8a6 **step: update packages**
-- 2025-08-30 21:56 2f7e013 **docs: generate CHANGELOG**
-- 2025-08-30 21:56 2ab5cf4 **docs: generate CHANGELOG**
+- 2025-08-30 23:56 9ef0bc0f **refactor: adjust stopwatch**
+- 2025-08-30 23:56 7c1d1dd9 **0.25.3**
+- 2025-08-30 23:50 bc0e8a62 **step: update packages**
+- 2025-08-30 21:56 2f7e0138 **docs: generate CHANGELOG**
+- 2025-08-30 21:56 2ab5cf42 **docs: generate CHANGELOG**
 ## 2025-08-30 21:25 v0.25.2
-- 2025-08-30 21:25 0be748d **0.25.2**
-- 2025-08-30 21:24 64ee861 **fix: clock system adapter**
-- 2025-08-30 21:23 ef932e4 **refactor: remove time.now.value**
-- 2025-08-30 21:22 fe2fa58 **step: update packages**
-- 2025-08-30 19:25 47801ff **docs: generate CHANGELOG**
-- 2025-08-30 19:25 457e531 **docs: generate CHANGELOG**
+- 2025-08-30 21:25 0be748dd **0.25.2**
+- 2025-08-30 21:24 64ee861f **fix: clock system adapter**
+- 2025-08-30 21:23 ef932e44 **refactor: remove time.now.value**
+- 2025-08-30 21:22 fe2fa582 **step: update packages**
+- 2025-08-30 19:25 47801ff9 **docs: generate CHANGELOG**
+- 2025-08-30 19:25 457e531f **docs: generate CHANGELOG**
 ## 2025-08-30 15:56 v0.25.1
-- 2025-08-30 15:56 b65a285 **0.25.1**
-- 2025-08-30 15:55 c8ee968 **step: update packages**
-- 2025-08-30 15:43 bc45820 **refactor: adjust envelopes**
-- 2025-08-30 15:34 2c07a56 **step: advance by**
-- 2025-08-30 15:29 a4ed976 **refactor: adjust rate limiters**
-- 2025-08-30 15:21 404fb1f **refactor: adjust healthcheck**
-- 2025-08-30 15:18 bee1275 **refactor: adjust remote file storage noop**
-- 2025-08-30 15:10 53cb8c6 **refactor: adjust build info repo**
-- 2025-08-30 15:08 f7d7d35 **refactor: adjust healthcheck**
-- 2025-08-30 15:06 ab66b35 **refactor: uptime**
-- 2025-08-30 14:59 1c21aee **step: rename nowMs**
-- 2025-08-30 13:56 c5d9267 **docs: generate readme**
-- 2025-08-30 13:56 95fcbea **docs: generate CHANGELOG**
-- 2025-08-30 13:56 5905048 **docs: generate CHANGELOG**
-- 2025-08-30 10:29 e90a315 **step: add fixed clock**
-- 2025-08-30 10:23 04a0c34 **step: add clock system adapter**
-- 2025-08-30 10:21 883e513 **step: add clock port**
-- 2025-08-30 10:19 0135ad1 **refactor: adjust request id tests**
-- 2025-08-30 10:12 3d1c324 **refactor: use id provider in setup**
+- 2025-08-30 15:56 b65a285f **0.25.1**
+- 2025-08-30 15:55 c8ee968d **step: update packages**
+- 2025-08-30 15:43 bc45820d **refactor: adjust envelopes**
+- 2025-08-30 15:34 2c07a561 **step: advance by**
+- 2025-08-30 15:29 a4ed976d **refactor: adjust rate limiters**
+- 2025-08-30 15:21 404fb1fe **refactor: adjust healthcheck**
+- 2025-08-30 15:18 bee1275f **refactor: adjust remote file storage noop**
+- 2025-08-30 15:10 53cb8c69 **refactor: adjust build info repo**
+- 2025-08-30 15:08 f7d7d353 **refactor: adjust healthcheck**
+- 2025-08-30 15:06 ab66b351 **refactor: uptime**
+- 2025-08-30 14:59 1c21aee5 **step: rename nowMs**
+- 2025-08-30 13:56 c5d92677 **docs: generate readme**
+- 2025-08-30 13:56 95fcbeaa **docs: generate CHANGELOG**
+- 2025-08-30 13:56 5905048f **docs: generate CHANGELOG**
+- 2025-08-30 10:29 e90a3159 **step: add fixed clock**
+- 2025-08-30 10:23 04a0c342 **step: add clock system adapter**
+- 2025-08-30 10:21 883e513a **step: add clock port**
+- 2025-08-30 10:19 0135ad1a **refactor: adjust request id tests**
+- 2025-08-30 10:12 3d1c3241 **refactor: use id provider in setup**
 ## 2025-08-29 22:01 v0.25.0
-- 2025-08-29 22:01 d2cfed0 **0.25.0**
-- 2025-08-29 21:51 217455c **refactor: use id port in job handler**
-- 2025-08-29 21:46 334b5f9 **step: use id provider crypto adapter**
-- 2025-08-29 21:39 f4c3598 **step: add tests**
-- 2025-08-29 21:37 fa64f68 **step: add id provider port and adapters**
-- 2025-08-29 20:02 7b0a753 **docs: generate CHANGELOG**
-- 2025-08-29 19:58 175e926 **docs: generate CHANGELOG**
-- 2025-08-29 19:42 5e3ec79 **docs: generate readme**
-- 2025-08-29 19:41 6d326ca **docs: generate CHANGELOG**
-- 2025-08-29 16:57 3ac6ed6 **step: add test**
-- 2025-08-29 16:44 4218644 **step: add antivirus port and adapters**
+- 2025-08-29 22:01 d2cfed05 **0.25.0**
+- 2025-08-29 21:51 217455ce **refactor: use id port in job handler**
+- 2025-08-29 21:46 334b5f9a **step: use id provider crypto adapter**
+- 2025-08-29 21:39 f4c3598d **step: add tests**
+- 2025-08-29 21:37 fa64f68e **step: add id provider port and adapters**
+- 2025-08-29 20:02 7b0a753d **docs: generate CHANGELOG**
+- 2025-08-29 19:58 175e9268 **docs: generate CHANGELOG**
+- 2025-08-29 19:42 5e3ec79c **docs: generate readme**
+- 2025-08-29 19:41 6d326caf **docs: generate CHANGELOG**
+- 2025-08-29 16:57 3ac6ed6f **step: add test**
+- 2025-08-29 16:44 4218644d **step: add antivirus port and adapters**
 ## 2025-08-29 15:29 v0.24.2
-- 2025-08-29 15:29 1f6c185 **0.24.2**
-- 2025-08-29 15:28 d538d6b **step: update hono**
-- 2025-08-29 15:28 a7b79a4 **step: define pdf generator port**
-- 2025-08-29 14:57 8466986 **docs: generate CHANGELOG**
-- 2025-08-29 14:57 82386af **docs: generate readme**
-- 2025-08-29 13:29 ac48147 **docs: generate CHANGELOG**
-- 2025-08-29 13:29 6cc927e **docs: generate CHANGELOG**
-- 2025-08-29 13:29 1ce3e8d **docs: generate readme**
-- 2025-08-28 23:52 22fd8a4 **step: bump bgord/scripts**
-- 2025-08-28 23:18 bed8c5e **refactor: adjust naming**
+- 2025-08-29 15:29 1f6c1858 **0.24.2**
+- 2025-08-29 15:28 d538d6b3 **step: update hono**
+- 2025-08-29 15:28 a7b79a48 **step: define pdf generator port**
+- 2025-08-29 14:57 84669864 **docs: generate CHANGELOG**
+- 2025-08-29 14:57 82386af3 **docs: generate readme**
+- 2025-08-29 13:29 ac48147f **docs: generate CHANGELOG**
+- 2025-08-29 13:29 6cc927ec **docs: generate CHANGELOG**
+- 2025-08-29 13:29 1ce3e8d7 **docs: generate readme**
+- 2025-08-28 23:52 22fd8a41 **step: bump bgord/scripts**
+- 2025-08-28 23:18 bed8c5e4 **refactor: adjust naming**
 ## 2025-08-28 23:16 v0.24.1
-- 2025-08-28 23:16 23bebdd **0.24.1**
-- 2025-08-28 23:15 20e495e **step: keep csv stream based**
+- 2025-08-28 23:16 23bebddd **0.24.1**
+- 2025-08-28 23:15 20e495e4 **step: keep csv stream based**
 ## 2025-08-28 22:59 v0.24.0
-- 2025-08-28 22:59 2200aac **0.24.0**
-- 2025-08-28 22:48 0c27f89 **step: add tests**
-- 2025-08-28 22:39 e1012e8 **step: add exports**
-- 2025-08-28 22:38 7d2be6d **step: add csv strigifier noop adapter**
-- 2025-08-28 22:38 002df27 **step: add csv strigifier sync adapter**
-- 2025-08-28 22:36 0dfaa2a **step: add csv stringifier port**
-- 2025-08-28 22:16 ba557dc **step: install csv**
-- 2025-08-28 21:52 a5c3d45 **docs: generate CHANGELOG**
+- 2025-08-28 22:59 2200aac6 **0.24.0**
+- 2025-08-28 22:48 0c27f899 **step: add tests**
+- 2025-08-28 22:39 e1012e8c **step: add exports**
+- 2025-08-28 22:38 7d2be6d4 **step: add csv strigifier noop adapter**
+- 2025-08-28 22:38 002df276 **step: add csv strigifier sync adapter**
+- 2025-08-28 22:36 0dfaa2ad **step: add csv stringifier port**
+- 2025-08-28 22:16 ba557dc8 **step: install csv**
+- 2025-08-28 21:52 a5c3d459 **docs: generate CHANGELOG**
 ## 2025-08-28 21:30 v0.23.4
-- 2025-08-28 21:30 61816aa **0.23.4**
-- 2025-08-28 21:28 e0c792a **step: update packages**
-- 2025-08-28 21:23 70bffc9 **step: add cache file**
-- 2025-08-28 21:18 1623ed4 **docs: generate CHANGELOG**
-- 2025-08-28 21:18 0c6cd26 **docs: generate readme**
-- 2025-08-28 21:16 cd332da **docs: generate CHANGELOG**
-- 2025-08-28 21:16 9cda3e0 **docs: generate CHANGELOG**
-- 2025-08-28 21:16 298da3a **docs: generate readme**
-- 2025-08-28 21:02 8015d55 **refactor: remove old cache code**
-- 2025-08-28 20:59 8c362ee **docs: generate CHANGELOG**
-- 2025-08-28 20:54 aa84859 **docs: generate readme**
-- 2025-08-28 20:54 04d1e41 **docs: generate CHANGELOG**
-- 2025-08-28 19:30 95641c2 **docs: generate CHANGELOG**
-- 2025-08-28 19:29 ab8f73b **docs: generate CHANGELOG**
-- 2025-08-28 19:29 1f740e2 **docs: generate readme**
+- 2025-08-28 21:30 61816aaf **0.23.4**
+- 2025-08-28 21:28 e0c792a1 **step: update packages**
+- 2025-08-28 21:23 70bffc9a **step: add cache file**
+- 2025-08-28 21:18 1623ed44 **docs: generate CHANGELOG**
+- 2025-08-28 21:18 0c6cd26b **docs: generate readme**
+- 2025-08-28 21:16 cd332da4 **docs: generate CHANGELOG**
+- 2025-08-28 21:16 9cda3e0e **docs: generate CHANGELOG**
+- 2025-08-28 21:16 298da3ab **docs: generate readme**
+- 2025-08-28 21:02 8015d551 **refactor: remove old cache code**
+- 2025-08-28 20:59 8c362eed **docs: generate CHANGELOG**
+- 2025-08-28 20:54 aa84859c **docs: generate readme**
+- 2025-08-28 20:54 04d1e410 **docs: generate CHANGELOG**
+- 2025-08-28 19:30 95641c2e **docs: generate CHANGELOG**
+- 2025-08-28 19:29 ab8f73b7 **docs: generate CHANGELOG**
+- 2025-08-28 19:29 1f740e23 **docs: generate readme**
 ## 2025-08-28 17:09 v0.23.3
-- 2025-08-28 17:09 4ccf29e **0.23.3**
-- 2025-08-28 17:08 2748b1a **step: update packages**
-- 2025-08-28 17:01 9356543 **refactor: return mime from file hash**
-- 2025-08-28 15:09 0b51441 **docs: generate CHANGELOG**
-- 2025-08-28 15:08 f8db862 **docs: generate CHANGELOG**
+- 2025-08-28 17:09 4ccf29ea **0.23.3**
+- 2025-08-28 17:08 2748b1a8 **step: update packages**
+- 2025-08-28 17:01 93565433 **refactor: return mime from file hash**
+- 2025-08-28 15:09 0b514416 **docs: generate CHANGELOG**
+- 2025-08-28 15:08 f8db862c **docs: generate CHANGELOG**
 ## 2025-08-27 13:58 v0.23.2
-- 2025-08-27 13:58 9f2f72a **0.23.2**
-- 2025-08-27 13:44 c7e89c3 **fix: empty size in file storage noop adapter**
-- 2025-08-27 11:58 97e2ae4 **docs: generate CHANGELOG**
-- 2025-08-27 11:56 0b4e397 **docs: generate CHANGELOG**
+- 2025-08-27 13:58 9f2f72a0 **0.23.2**
+- 2025-08-27 13:44 c7e89c35 **fix: empty size in file storage noop adapter**
+- 2025-08-27 11:58 97e2ae40 **docs: generate CHANGELOG**
+- 2025-08-27 11:56 0b4e3972 **docs: generate CHANGELOG**
 ## 2025-08-26 23:42 v0.23.1
-- 2025-08-26 23:42 16a5574 **0.23.1**
-- 2025-08-26 23:36 b3e6746 **refactor: remove root from noop**
+- 2025-08-26 23:42 16a5574a **0.23.1**
+- 2025-08-26 23:36 b3e6746f **refactor: remove root from noop**
 ## 2025-08-26 23:25 v0.23.0
-- 2025-08-26 23:25 28f45b1 **0.23.0**
-- 2025-08-26 23:24 a378daa **fix: exports**
-- 2025-08-26 23:23 3a75d11 **step: add noop**
-- 2025-08-26 23:06 731c85e **step: add tests**
-- 2025-08-26 22:53 c5e97d0 **feature: add remote file storage adapter**
-- 2025-08-26 22:46 42a7848 **refactor: file hash return type**
-- 2025-08-26 22:40 4bd96ea **step: return lastModified form file hash**
-- 2025-08-26 22:30 12f86c6 **step: add tests**
-- 2025-08-26 22:26 926b5e9 **step: define noop**
-- 2025-08-26 22:20 5e996d6 **step: add file hash sha 256 bun**
-- 2025-08-26 22:18 d6ecdc5 **step: setup file hash port**
-- 2025-08-26 21:54 c33505a **feature: add remote file storage**
-- 2025-08-26 21:53 76f8709 **step: update packages**
-- 2025-08-26 21:42 0a6dfe1 **docs: generate CHANGELOG**
-- 2025-08-26 21:36 a0a0856 **docs: generate CHANGELOG**
-- 2025-08-26 21:26 0ab225a **docs: generate CHANGELOG**
-- 2025-08-26 21:25 d1439b3 **docs: generate CHANGELOG**
-- 2025-08-26 21:25 77a3515 **docs: generate readme**
-- 2025-08-26 20:16 8694b30 **refactor: export image info type**
+- 2025-08-26 23:25 28f45b19 **0.23.0**
+- 2025-08-26 23:24 a378daa3 **fix: exports**
+- 2025-08-26 23:23 3a75d11f **step: add noop**
+- 2025-08-26 23:06 731c85e3 **step: add tests**
+- 2025-08-26 22:53 c5e97d0b **feature: add remote file storage adapter**
+- 2025-08-26 22:46 42a78485 **refactor: file hash return type**
+- 2025-08-26 22:40 4bd96ea3 **step: return lastModified form file hash**
+- 2025-08-26 22:30 12f86c6f **step: add tests**
+- 2025-08-26 22:26 926b5e9a **step: define noop**
+- 2025-08-26 22:20 5e996d6e **step: add file hash sha 256 bun**
+- 2025-08-26 22:18 d6ecdc5c **step: setup file hash port**
+- 2025-08-26 21:54 c33505ac **feature: add remote file storage**
+- 2025-08-26 21:53 76f87095 **step: update packages**
+- 2025-08-26 21:42 0a6dfe14 **docs: generate CHANGELOG**
+- 2025-08-26 21:36 a0a08564 **docs: generate CHANGELOG**
+- 2025-08-26 21:26 0ab225ab **docs: generate CHANGELOG**
+- 2025-08-26 21:25 d1439b30 **docs: generate CHANGELOG**
+- 2025-08-26 21:25 77a35159 **docs: generate readme**
+- 2025-08-26 20:16 8694b302 **refactor: export image info type**
 ## 2025-08-26 20:08 v0.22.1
-- 2025-08-26 20:08 568e202 **0.22.1**
-- 2025-08-26 20:06 8222fd0 **step: add image processor**
-- 2025-08-26 18:08 f6df3f3 **docs: generate CHANGELOG**
-- 2025-08-26 18:08 94674d8 **docs: generate readme**
-- 2025-08-26 18:08 017a6a9 **docs: generate CHANGELOG**
-- 2025-08-26 17:53 9f5e736 **docs: generate readme**
-- 2025-08-26 17:53 190b76a **docs: generate CHANGELOG**
-- 2025-08-26 16:57 6717c97 **step: add tests**
-- 2025-08-26 16:54 2a257be **step: define image alpha**
+- 2025-08-26 20:08 568e202f **0.22.1**
+- 2025-08-26 20:06 8222fd04 **step: add image processor**
+- 2025-08-26 18:08 f6df3f33 **docs: generate CHANGELOG**
+- 2025-08-26 18:08 94674d86 **docs: generate readme**
+- 2025-08-26 18:08 017a6a9a **docs: generate CHANGELOG**
+- 2025-08-26 17:53 9f5e736b **docs: generate readme**
+- 2025-08-26 17:53 190b76ab **docs: generate CHANGELOG**
+- 2025-08-26 16:57 6717c979 **step: add tests**
+- 2025-08-26 16:54 2a257bea **step: define image alpha**
 ## 2025-08-26 16:10 v0.22.0
-- 2025-08-26 16:10 29024c5 **0.22.0**
-- 2025-08-26 16:02 8c18554 **step: add tests**
-- 2025-08-26 15:58 59ba36c **step: add blur**
-- 2025-08-26 15:49 c7cbfdf **step: add tests**
-- 2025-08-26 15:41 f8f5ab6 **refactor: cleanup exports**
-- 2025-08-26 15:36 ab2a58b **step: add image formatters**
-- 2025-08-26 15:21 499bfc2 **step: add tests**
-- 2025-08-26 15:16 86a17b4 **step: add image resizer**
-- 2025-08-26 15:13 dfbfa8b **refactor: renamem compress**
-- 2025-08-26 15:07 7fca6bf **step: add tests**
-- 2025-08-26 15:01 befbd57 **refactor: remove old image compressor**
-- 2025-08-26 15:01 960be07 **feature: add image compressors**
-- 2025-08-26 14:53 9f2b8d2 **refactor: improve mock rejected value**
-- 2025-08-26 14:40 08cfeed **refactor: remove old image exif**
-- 2025-08-26 14:26 91f4c3c **refactor: remove manual mock restoring**
-- 2025-08-26 14:23 ea3c109 **step: add image exif clear tests**
-- 2025-08-26 14:23 2ede100 **step: add tests setup**
-- 2025-08-26 14:13 e352389 **step: add image exif clear port and adapters**
-- 2025-08-26 14:10 7ec2dd2 **docs: generate CHANGELOG**
-- 2025-08-26 14:08 caca9f2 **docs: generate readme**
-- 2025-08-26 14:08 c4817fe **docs: generate CHANGELOG**
-- 2025-08-26 13:09 450ae58 **step: add tests**
-- 2025-08-26 12:53 84e556e **feature: add image info port and adapters**
-- 2025-08-26 12:44 631914b **refactor: delete image exif read**
+- 2025-08-26 16:10 29024c53 **0.22.0**
+- 2025-08-26 16:02 8c185542 **step: add tests**
+- 2025-08-26 15:58 59ba36c0 **step: add blur**
+- 2025-08-26 15:49 c7cbfdfb **step: add tests**
+- 2025-08-26 15:41 f8f5ab6b **refactor: cleanup exports**
+- 2025-08-26 15:36 ab2a58b7 **step: add image formatters**
+- 2025-08-26 15:21 499bfc29 **step: add tests**
+- 2025-08-26 15:16 86a17b42 **step: add image resizer**
+- 2025-08-26 15:13 dfbfa8b0 **refactor: renamem compress**
+- 2025-08-26 15:07 7fca6bf1 **step: add tests**
+- 2025-08-26 15:01 befbd574 **refactor: remove old image compressor**
+- 2025-08-26 15:01 960be073 **feature: add image compressors**
+- 2025-08-26 14:53 9f2b8d22 **refactor: improve mock rejected value**
+- 2025-08-26 14:40 08cfeedf **refactor: remove old image exif**
+- 2025-08-26 14:26 91f4c3c0 **refactor: remove manual mock restoring**
+- 2025-08-26 14:23 ea3c1091 **step: add image exif clear tests**
+- 2025-08-26 14:23 2ede1004 **step: add tests setup**
+- 2025-08-26 14:13 e3523895 **step: add image exif clear port and adapters**
+- 2025-08-26 14:10 7ec2dd2a **docs: generate CHANGELOG**
+- 2025-08-26 14:08 caca9f24 **docs: generate readme**
+- 2025-08-26 14:08 c4817fec **docs: generate CHANGELOG**
+- 2025-08-26 13:09 450ae582 **step: add tests**
+- 2025-08-26 12:53 84e556e3 **feature: add image info port and adapters**
+- 2025-08-26 12:44 631914b4 **refactor: delete image exif read**
 ## 2025-08-26 12:35 v0.21.7
-- 2025-08-26 12:35 f9ec989 **step: update packages**
-- 2025-08-26 12:35 07c8c45 **0.21.7**
-- 2025-08-26 12:34 1e8eb45 **step: update packages**
-- 2025-08-26 10:36 efa0742 **docs: generate CHANGELOG**
-- 2025-08-26 10:35 74c9532 **docs: generate CHANGELOG**
+- 2025-08-26 12:35 f9ec989b **step: update packages**
+- 2025-08-26 12:35 07c8c45f **0.21.7**
+- 2025-08-26 12:34 1e8eb45b **step: update packages**
+- 2025-08-26 10:36 efa0742a **docs: generate CHANGELOG**
+- 2025-08-26 10:35 74c9532d **docs: generate CHANGELOG**
 ## 2025-08-26 00:35 v0.21.6
-- 2025-08-26 00:35 bf1ebfb **0.21.6**
-- 2025-08-26 00:35 3415ceb **step: update packages**
+- 2025-08-26 00:35 bf1ebfb1 **0.21.6**
+- 2025-08-26 00:35 3415cebd **step: update packages**
 ## 2025-08-25 23:51 v0.21.5
-- 2025-08-25 23:51 90893f1 **0.21.5**
-- 2025-08-25 23:50 9065bf7 **refactor: update naming**
-- 2025-08-25 23:47 50ad5c2 **step: update packages**
+- 2025-08-25 23:51 90893f1f **0.21.5**
+- 2025-08-25 23:50 9065bf76 **refactor: update naming**
+- 2025-08-25 23:47 50ad5c2e **step: update packages**
 ## 2025-08-25 23:15 v0.21.4
-- 2025-08-25 23:15 cdaaf1a **0.21.4**
-- 2025-08-25 22:57 1f240da **feature: create temporary file adapters**
-- 2025-08-25 22:35 f3fc361 **docs: generate CHANGELOG**
-- 2025-08-25 22:35 b64c236 **docs: generate CHANGELOG**
+- 2025-08-25 23:15 cdaaf1a1 **0.21.4**
+- 2025-08-25 22:57 1f240da3 **feature: create temporary file adapters**
+- 2025-08-25 22:35 f3fc361b **docs: generate CHANGELOG**
+- 2025-08-25 22:35 b64c2361 **docs: generate CHANGELOG**
 ## 2025-08-25 22:32 v0.21.3
-- 2025-08-25 22:32 dd01724 **0.21.3**
-- 2025-08-25 22:31 0a8c79d **Merge pull request #135 from bgord/files**
-- 2025-08-25 22:29 5fa7f6f **fix: exports**
-- 2025-08-25 22:26 c1881e2 **refactor: adjust mailer**
-- 2025-08-25 22:21 fae5fcc **refactor: adjust i18n**
-- 2025-08-25 21:52 b335050 **docs: generate CHANGELOG**
-- 2025-08-25 21:50 dda5f21 **docs: generate CHANGELOG**
-- 2025-08-25 21:15 5c4cbf1 **docs: generate CHANGELOG**
-- 2025-08-25 21:11 b1278bf **docs: generate readme**
-- 2025-08-25 21:11 1cffad9 **docs: generate CHANGELOG**
-- 2025-08-25 20:32 4b87273 **docs: generate CHANGELOG**
-- 2025-08-25 20:31 5eafc32 **docs: generate CHANGELOG**
-- 2025-08-25 20:31 0b3f2fa **docs: generate readme**
-- 2025-08-25 18:02 7968b09 **refactor: path prereq**
-- 2025-08-25 17:59 7132564 **refactor: reimplement temporary file port**
-- 2025-08-25 17:57 d0d6b34 **step: remove path**
-- 2025-08-25 17:57 890fab0 **step: update packages**
-- 2025-08-25 17:56 46ee59e **refactor: move to tools**
-- 2025-08-25 17:36 1c5e5c2 **step: add file path vo**
-- 2025-08-25 17:12 89faab0 **step: add directory path absolute**
-- 2025-08-25 17:10 6268ff1 **step: add directory path relative**
-- 2025-08-25 16:41 246aa7d **step: add with suffix safe**
-- 2025-08-25 16:38 f3d63ea **step: add creator methods**
-- 2025-08-25 16:27 77c9a49 **step: add suffix**
-- 2025-08-25 16:19 e8396be **step: add getters**
-- 2025-08-25 16:17 2c7e05a **refactor: use basename and extension internally**
-- 2025-08-25 16:14 50d99ce **refactor: adjust tests**
-- 2025-08-25 16:06 02100eb **step: add filename from string vo**
-- 2025-08-25 16:01 78c0d7f **step: add from parts safe**
-- 2025-08-25 15:55 01deab5 **step: setup filename**
-- 2025-08-25 15:50 897f56d **step: add extension vo**
-- 2025-08-25 15:32 64df7d2 **step: add basename vo**
-- 2025-08-25 15:04 f507db4 **step: add temporary file port**
-- 2025-08-25 15:04 7618d4a **refactor: remove legacy file location**
+- 2025-08-25 22:32 dd017245 **0.21.3**
+- 2025-08-25 22:31 0a8c79da **Merge pull request #135 from bgord/files**
+- 2025-08-25 22:29 5fa7f6fc **fix: exports**
+- 2025-08-25 22:26 c1881e2b **refactor: adjust mailer**
+- 2025-08-25 22:21 fae5fcc6 **refactor: adjust i18n**
+- 2025-08-25 21:52 b3350507 **docs: generate CHANGELOG**
+- 2025-08-25 21:50 dda5f219 **docs: generate CHANGELOG**
+- 2025-08-25 21:15 5c4cbf17 **docs: generate CHANGELOG**
+- 2025-08-25 21:11 b1278bfc **docs: generate readme**
+- 2025-08-25 21:11 1cffad9f **docs: generate CHANGELOG**
+- 2025-08-25 20:32 4b87273e **docs: generate CHANGELOG**
+- 2025-08-25 20:31 5eafc327 **docs: generate CHANGELOG**
+- 2025-08-25 20:31 0b3f2fa7 **docs: generate readme**
+- 2025-08-25 18:02 7968b093 **refactor: path prereq**
+- 2025-08-25 17:59 71325649 **refactor: reimplement temporary file port**
+- 2025-08-25 17:57 d0d6b347 **step: remove path**
+- 2025-08-25 17:57 890fab07 **step: update packages**
+- 2025-08-25 17:56 46ee59e0 **refactor: move to tools**
+- 2025-08-25 17:36 1c5e5c27 **step: add file path vo**
+- 2025-08-25 17:12 89faab00 **step: add directory path absolute**
+- 2025-08-25 17:10 6268ff1e **step: add directory path relative**
+- 2025-08-25 16:41 246aa7de **step: add with suffix safe**
+- 2025-08-25 16:38 f3d63eaa **step: add creator methods**
+- 2025-08-25 16:27 77c9a492 **step: add suffix**
+- 2025-08-25 16:19 e8396be2 **step: add getters**
+- 2025-08-25 16:17 2c7e05ab **refactor: use basename and extension internally**
+- 2025-08-25 16:14 50d99ce7 **refactor: adjust tests**
+- 2025-08-25 16:06 02100ebe **step: add filename from string vo**
+- 2025-08-25 16:01 78c0d7f0 **step: add from parts safe**
+- 2025-08-25 15:55 01deab54 **step: setup filename**
+- 2025-08-25 15:50 897f56d0 **step: add extension vo**
+- 2025-08-25 15:32 64df7d21 **step: add basename vo**
+- 2025-08-25 15:04 f507db42 **step: add temporary file port**
+- 2025-08-25 15:04 7618d4a8 **refactor: remove legacy file location**
 ## 2025-08-24 15:50 v0.21.2
-- 2025-08-24 15:50 43b0760 **0.21.2**
-- 2025-08-24 15:49 42fb280 **fix: tests**
-- 2025-08-24 15:48 2505bcb **step: add zod as dev and peer dep**
-- 2025-08-24 15:46 16ac470 **step: update bgord-tools**
-- 2025-08-24 13:50 666fcd4 **docs: generate CHANGELOG**
-- 2025-08-24 13:50 3047713 **docs: generate CHANGELOG**
+- 2025-08-24 15:50 43b0760b **0.21.2**
+- 2025-08-24 15:49 42fb2801 **fix: tests**
+- 2025-08-24 15:48 2505bcbe **step: add zod as dev and peer dep**
+- 2025-08-24 15:46 16ac470d **step: update bgord-tools**
+- 2025-08-24 13:50 666fcd43 **docs: generate CHANGELOG**
+- 2025-08-24 13:50 30477135 **docs: generate CHANGELOG**
 ## 2025-08-24 12:43 v0.21.1
-- 2025-08-24 12:43 87432ef **0.21.1**
-- 2025-08-24 12:39 1f7c304 **refactor: use client in visitor id**
-- 2025-08-24 12:36 44864f5 **refactor: use client from hono in http logger**
-- 2025-08-24 12:34 967c324 **step: add client from hono adapter tests**
-- 2025-08-24 12:27 b262eba **step: add client from hono adapter**
-- 2025-08-24 12:26 a612c8f **step: add test**
-- 2025-08-24 12:24 2dc0ecb **step: define client vo**
-- 2025-08-24 12:21 94a816e **step: define client vo**
-- 2025-08-24 12:12 c4e8e2e **refactor: use simplifier**
-- 2025-08-24 12:10 77ce8ac **step: add logger simplify service**
-- 2025-08-24 12:05 cb906a0 **refactor: extract parse json**
-- 2025-08-24 11:58 4b8934c **refactor: simplify result**
-- 2025-08-24 11:57 ec4c073 **refactor: move cache hit to top level**
-- 2025-08-24 11:55 5402848 **refactor: clone response after next**
-- 2025-08-24 11:53 ee98175 **refactor: make cache hit boolean**
-- 2025-08-24 11:51 f120261 **refactor: simplify durationMs**
-- 2025-08-24 11:42 b2cbe92 **refactor: use stopwatch**
-- 2025-08-24 11:41 2ab7cc3 **refactor: rename result**
-- 2025-08-24 11:24 c4b28d0 **refactor: clone request once**
-- 2025-08-24 11:23 e656228 **refactor: extract uninformative headers**
-- 2025-08-24 11:22 6e081bc **refactor: group fields in http logger**
-- 2025-08-24 11:09 b0d22fa **step: add log level schema**
-- 2025-08-24 10:56 4d395b1 **refactor: adjust local adapter config**
+- 2025-08-24 12:43 87432efc **0.21.1**
+- 2025-08-24 12:39 1f7c304a **refactor: use client in visitor id**
+- 2025-08-24 12:36 44864f5a **refactor: use client from hono in http logger**
+- 2025-08-24 12:34 967c3248 **step: add client from hono adapter tests**
+- 2025-08-24 12:27 b262ebaa **step: add client from hono adapter**
+- 2025-08-24 12:26 a612c8f7 **step: add test**
+- 2025-08-24 12:24 2dc0ecba **step: define client vo**
+- 2025-08-24 12:21 94a816ec **step: define client vo**
+- 2025-08-24 12:12 c4e8e2ef **refactor: use simplifier**
+- 2025-08-24 12:10 77ce8ac2 **step: add logger simplify service**
+- 2025-08-24 12:05 cb906a02 **refactor: extract parse json**
+- 2025-08-24 11:58 4b8934c5 **refactor: simplify result**
+- 2025-08-24 11:57 ec4c073b **refactor: move cache hit to top level**
+- 2025-08-24 11:55 54028481 **refactor: clone response after next**
+- 2025-08-24 11:53 ee981756 **refactor: make cache hit boolean**
+- 2025-08-24 11:51 f1202613 **refactor: simplify durationMs**
+- 2025-08-24 11:42 b2cbe92c **refactor: use stopwatch**
+- 2025-08-24 11:41 2ab7cc3c **refactor: rename result**
+- 2025-08-24 11:24 c4b28d0f **refactor: clone request once**
+- 2025-08-24 11:23 e6562289 **refactor: extract uninformative headers**
+- 2025-08-24 11:22 6e081bcf **refactor: group fields in http logger**
+- 2025-08-24 11:09 b0d22fa5 **step: add log level schema**
+- 2025-08-24 10:56 4d395b16 **refactor: adjust local adapter config**
 ## 2025-08-24 10:47 v0.21.0
-- 2025-08-24 10:47 eda3200 **0.21.0**
-- 2025-08-24 10:46 7a08b01 **Merge pull request #134 from bgord/logger**
-- 2025-08-24 10:44 63dbb26 **step: add proper exports**
-- 2025-08-24 10:43 743d20a **docs: generate CHANGELOG**
-- 2025-08-24 10:42 9977b3f **docs: generate CHANGELOG**
-- 2025-08-24 10:42 55572dc **docs: generate readme**
-- 2025-08-24 10:19 bceaa65 **refactor: cleanup tests**
-- 2025-08-24 09:52 a6d31c0 **refactor: use new logger port across the package**
-- 2025-08-24 08:47 cc54460 **docs: generate CHANGELOG**
-- 2025-08-24 08:46 bb51936 **docs: generate readme**
-- 2025-08-24 08:46 249bbe3 **docs: generate CHANGELOG**
-- 2025-08-24 01:24 f4b43f2 **refactor: remove old logger**
-- 2025-08-24 01:21 bcc3955 **refactor: adjust http logger**
-- 2025-08-24 01:18 a61155b **step: use string for http method**
-- 2025-08-24 01:17 fa66901 **step: add pretty print for the local logger**
-- 2025-08-24 01:14 584fed8 **step: write tests**
-- 2025-08-24 01:12 44f4d48 **fix: log error type**
-- 2025-08-24 01:00 01be287 **step: add logger format error service**
-- 2025-08-24 00:51 9a79283 **step: add logger winston production adapter**
-- 2025-08-24 00:46 b089652 **step: add logger winston local adapter**
-- 2025-08-24 00:45 06489e5 **refactor: define app type**
-- 2025-08-24 00:34 5400ba1 **step: setup logger winston adapter**
-- 2025-08-24 00:22 4b68262 **step: add logger noop adapter**
-- 2025-08-24 00:05 6baee53 **step: define logger port**
-- 2025-08-23 23:51 3380a99 **step: add log warn type**
-- 2025-08-23 23:49 d4c96a7 **step: define log error type**
-- 2025-08-23 23:43 919ddf2 **step: move correlation id and metadata to log core**
-- 2025-08-23 23:40 ab64653 **step: add LogHttpType**
-- 2025-08-23 23:39 f5493e8 **step: add log core type**
-- 2025-08-23 23:20 9dc0db3 **step: define new log level enum**
+- 2025-08-24 10:47 eda32004 **0.21.0**
+- 2025-08-24 10:46 7a08b011 **Merge pull request #134 from bgord/logger**
+- 2025-08-24 10:44 63dbb26e **step: add proper exports**
+- 2025-08-24 10:43 743d20a9 **docs: generate CHANGELOG**
+- 2025-08-24 10:42 9977b3fc **docs: generate CHANGELOG**
+- 2025-08-24 10:42 55572dc7 **docs: generate readme**
+- 2025-08-24 10:19 bceaa65c **refactor: cleanup tests**
+- 2025-08-24 09:52 a6d31c0a **refactor: use new logger port across the package**
+- 2025-08-24 08:47 cc54460a **docs: generate CHANGELOG**
+- 2025-08-24 08:46 bb51936e **docs: generate readme**
+- 2025-08-24 08:46 249bbe3c **docs: generate CHANGELOG**
+- 2025-08-24 01:24 f4b43f21 **refactor: remove old logger**
+- 2025-08-24 01:21 bcc3955d **refactor: adjust http logger**
+- 2025-08-24 01:18 a61155bb **step: use string for http method**
+- 2025-08-24 01:17 fa66901f **step: add pretty print for the local logger**
+- 2025-08-24 01:14 584fed8e **step: write tests**
+- 2025-08-24 01:12 44f4d48e **fix: log error type**
+- 2025-08-24 01:00 01be2879 **step: add logger format error service**
+- 2025-08-24 00:51 9a79283c **step: add logger winston production adapter**
+- 2025-08-24 00:46 b0896521 **step: add logger winston local adapter**
+- 2025-08-24 00:45 06489e59 **refactor: define app type**
+- 2025-08-24 00:34 5400ba13 **step: setup logger winston adapter**
+- 2025-08-24 00:22 4b682627 **step: add logger noop adapter**
+- 2025-08-24 00:05 6baee53b **step: define logger port**
+- 2025-08-23 23:51 3380a99c **step: add log warn type**
+- 2025-08-23 23:49 d4c96a7c **step: define log error type**
+- 2025-08-23 23:43 919ddf2c **step: move correlation id and metadata to log core**
+- 2025-08-23 23:40 ab646531 **step: add LogHttpType**
+- 2025-08-23 23:39 f5493e8b **step: add log core type**
+- 2025-08-23 23:20 9dc0db39 **step: define new log level enum**
 ## 2025-08-23 19:09 v0.20.0
-- 2025-08-23 19:09 e275557 **0.20.0**
-- 2025-08-23 19:07 264839c **Merge pull request #133 from bgord/preferences**
-- 2025-08-23 19:01 aad41ce **step: cleanup tests**
-- 2025-08-23 18:58 0ddf64a **step: move history writer to ports**
-- 2025-08-23 18:55 a01026f **refactor: replace strings with language type**
-- 2025-08-23 18:47 adfe762 **refactor: use language type and uuid when applicable**
-- 2025-08-23 18:42 450e4fa **refactor: remove language parsing**
-- 2025-08-23 18:39 a47d0a0 **step: update tools**
-- 2025-08-23 18:22 caebf5e **step: add tests**
-- 2025-08-23 18:11 0165903 **feature: define preferences module**
+- 2025-08-23 19:09 e2755579 **0.20.0**
+- 2025-08-23 19:07 264839c9 **Merge pull request #133 from bgord/preferences**
+- 2025-08-23 19:01 aad41cef **step: cleanup tests**
+- 2025-08-23 18:58 0ddf64aa **step: move history writer to ports**
+- 2025-08-23 18:55 a01026f7 **refactor: replace strings with language type**
+- 2025-08-23 18:47 adfe7627 **refactor: use language type and uuid when applicable**
+- 2025-08-23 18:42 450e4fac **refactor: remove language parsing**
+- 2025-08-23 18:39 a47d0a0e **step: update tools**
+- 2025-08-23 18:22 caebf5ea **step: add tests**
+- 2025-08-23 18:11 01659031 **feature: define preferences module**
 ## 2025-08-23 17:58 v0.19.7
-- 2025-08-23 17:58 ad2dfe1 **0.19.7**
-- 2025-08-23 17:56 1c496f7 **step: add event store like types**
+- 2025-08-23 17:58 ad2dfe16 **0.19.7**
+- 2025-08-23 17:56 1c496f7f **step: add event store like types**
 ## 2025-08-23 17:50 v0.19.6
-- 2025-08-23 17:50 9f46075 **0.19.6**
-- 2025-08-23 17:48 1f858b8 **step: update packages**
-- 2025-08-23 17:09 70d37dd **docs: generate CHANGELOG**
-- 2025-08-23 17:07 80a8faa **docs: generate readme**
-- 2025-08-23 17:07 1ba4298 **docs: generate CHANGELOG**
-- 2025-08-23 15:58 83727cc **docs: generate CHANGELOG**
-- 2025-08-23 15:57 b89e37d **docs: generate readme**
-- 2025-08-23 15:57 8c8afdf **docs: generate CHANGELOG**
-- 2025-08-23 15:50 665afc5 **docs: generate CHANGELOG**
-- 2025-08-23 15:49 6614579 **docs: generate CHANGELOG**
-- 2025-08-23 15:49 5902421 **docs: generate readme**
-- 2025-08-22 14:57 335d7c4 **step: add event-bus-like types**
+- 2025-08-23 17:50 9f460750 **0.19.6**
+- 2025-08-23 17:48 1f858b84 **step: update packages**
+- 2025-08-23 17:09 70d37dd1 **docs: generate CHANGELOG**
+- 2025-08-23 17:07 80a8faa1 **docs: generate readme**
+- 2025-08-23 17:07 1ba4298f **docs: generate CHANGELOG**
+- 2025-08-23 15:58 83727cc1 **docs: generate CHANGELOG**
+- 2025-08-23 15:57 b89e37d9 **docs: generate readme**
+- 2025-08-23 15:57 8c8afdf4 **docs: generate CHANGELOG**
+- 2025-08-23 15:50 665afc56 **docs: generate CHANGELOG**
+- 2025-08-23 15:49 66145797 **docs: generate CHANGELOG**
+- 2025-08-23 15:49 5902421c **docs: generate readme**
+- 2025-08-22 14:57 335d7c4f **step: add event-bus-like types**
 ## 2025-08-22 14:32 v0.19.5
-- 2025-08-22 14:32 eaccee5 **0.19.5**
-- 2025-08-22 14:31 13bdcec **step: add command envelope**
+- 2025-08-22 14:32 eaccee50 **0.19.5**
+- 2025-08-22 14:31 13bdcecd **step: add command envelope**
 ## 2025-08-22 13:50 v0.19.4
-- 2025-08-22 13:50 2125070 **0.19.4**
+- 2025-08-22 13:50 21250707 **0.19.4**
 ## 2025-08-22 13:49 v0.19.3
-- 2025-08-22 13:49 d7bbbe0 **0.19.3**
-- 2025-08-22 13:48 fe917f3 **step: add event envelope**
-- 2025-08-22 12:32 e8c50e9 **docs: generate CHANGELOG**
-- 2025-08-22 12:31 e1b0888 **docs: generate readme**
-- 2025-08-22 12:31 8903a5f **docs: generate CHANGELOG**
-- 2025-08-22 12:00 a251254 **refactor: rename event envelope**
+- 2025-08-22 13:49 d7bbbe04 **0.19.3**
+- 2025-08-22 13:48 fe917f32 **step: add event envelope**
+- 2025-08-22 12:32 e8c50e9b **docs: generate CHANGELOG**
+- 2025-08-22 12:31 e1b08884 **docs: generate readme**
+- 2025-08-22 12:31 8903a5f7 **docs: generate CHANGELOG**
+- 2025-08-22 12:00 a2512544 **refactor: rename event envelope**
 ## 2025-08-22 11:51 v0.19.2
-- 2025-08-22 11:51 a44ad56 **0.19.2**
-- 2025-08-22 11:50 f2952ce **docs: generate CHANGELOG**
-- 2025-08-22 11:50 7a2e402 **docs: generate CHANGELOG**
-- 2025-08-22 11:50 5e0cfaa **step: update hono**
-- 2025-08-22 11:49 a823ccd **docs: generate readme**
-- 2025-08-22 11:49 a70b4c2 **step: add base event data**
-- 2025-08-22 11:49 a674b14 **docs: generate CHANGELOG**
-- 2025-08-22 11:24 db72965 **step: expose rate limit store port**
-- 2025-08-22 11:10 55c09d9 **step: rename shields**
-- 2025-08-22 11:05 3c1d8e6 **refactor: rename file draft zip**
-- 2025-08-22 10:59 31ffa8a **refactor: rename adapter**
-- 2025-08-22 09:51 690cf1d **docs: generate CHANGELOG**
-- 2025-08-22 09:50 eac9334 **docs: generate CHANGELOG**
-- 2025-08-22 09:50 8b9aab3 **docs: generate readme**
-- 2025-08-21 16:38 d28ff02 **step: update packages**
-- 2025-08-21 14:38 7d96623 **docs: generate CHANGELOG**
+- 2025-08-22 11:51 a44ad56d **0.19.2**
+- 2025-08-22 11:50 f2952ced **docs: generate CHANGELOG**
+- 2025-08-22 11:50 7a2e402c **docs: generate CHANGELOG**
+- 2025-08-22 11:50 5e0cfaad **step: update hono**
+- 2025-08-22 11:49 a823ccd0 **docs: generate readme**
+- 2025-08-22 11:49 a70b4c21 **step: add base event data**
+- 2025-08-22 11:49 a674b14d **docs: generate CHANGELOG**
+- 2025-08-22 11:24 db729659 **step: expose rate limit store port**
+- 2025-08-22 11:10 55c09d9f **step: rename shields**
+- 2025-08-22 11:05 3c1d8e6f **refactor: rename file draft zip**
+- 2025-08-22 10:59 31ffa8a2 **refactor: rename adapter**
+- 2025-08-22 09:51 690cf1de **docs: generate CHANGELOG**
+- 2025-08-22 09:50 eac9334f **docs: generate CHANGELOG**
+- 2025-08-22 09:50 8b9aab3e **docs: generate readme**
+- 2025-08-21 16:38 d28ff027 **step: update packages**
+- 2025-08-21 14:38 7d96623e **docs: generate CHANGELOG**
 ## 2025-08-19 23:24 v0.19.1
-- 2025-08-19 23:24 6f68d7d **0.19.1**
-- 2025-08-19 23:14 3c79cf9 **step: add visitor id hash hono adapter**
-- 2025-08-19 23:05 dc85c3c **step: add visitor-id-hash adapter**
-- 2025-08-19 22:58 5205a62 **step: add visitor id port**
-- 2025-08-19 21:58 02f4144 **refactor: adjust recaptcha shield**
+- 2025-08-19 23:24 6f68d7dd **0.19.1**
+- 2025-08-19 23:14 3c79cf9d **step: add visitor id hash hono adapter**
+- 2025-08-19 23:05 dc85c3c9 **step: add visitor-id-hash adapter**
+- 2025-08-19 22:58 5205a625 **step: add visitor id port**
+- 2025-08-19 21:58 02f41446 **refactor: adjust recaptcha shield**
 ## 2025-08-19 21:48 v0.19.0
-- 2025-08-19 21:48 c9a0ad4 **0.19.0**
-- 2025-08-19 21:48 45f0123 **refactor: rename build to verify**
+- 2025-08-19 21:48 c9a0ad4e **0.19.0**
+- 2025-08-19 21:48 45f01232 **refactor: rename build to verify**
 ## 2025-08-19 21:46 v0.18.26
-- 2025-08-19 21:46 ff81ffb **refactor: use import type**
-- 2025-08-19 21:46 e3ae3f6 **0.18.26**
-- 2025-08-19 21:45 c40e54e **step: bump bgord/scripts**
-- 2025-08-19 21:42 eb6a962 **refactor: unify naming**
-- 2025-08-19 21:36 d020b27 **step: add hcaptcha local tests**
-- 2025-08-19 21:33 ef0c2c6 **step: test noop adapter**
-- 2025-08-19 21:33 5c0c911 **step: remove old tests**
-- 2025-08-19 21:29 69c0405 **refactor: unify error handling**
-- 2025-08-19 21:28 b01bcb3 **refactor: simplify captcha port**
-- 2025-08-19 21:24 c7093db **docs: generate CHANGELOG**
-- 2025-08-19 21:23 9e358ce **docs: generate CHANGELOG**
-- 2025-08-19 21:23 9ae1c9c **docs: generate readme**
-- 2025-08-19 21:21 daee14c **refactor: split hcaptcha shields**
-- 2025-08-19 21:20 e40685d **step: add CaptchaHcaptchaLocalShield**
-- 2025-08-19 21:17 0012c80 **step: add captcha noop adapter**
-- 2025-08-19 21:10 31d47ec **refactor: rename current hcaptcha shield adapter**
-- 2025-08-19 21:04 509ea3d **step: setup captcha-shield port**
+- 2025-08-19 21:46 ff81ffbd **refactor: use import type**
+- 2025-08-19 21:46 e3ae3f6a **0.18.26**
+- 2025-08-19 21:45 c40e54eb **step: bump bgord/scripts**
+- 2025-08-19 21:42 eb6a9626 **refactor: unify naming**
+- 2025-08-19 21:36 d020b275 **step: add hcaptcha local tests**
+- 2025-08-19 21:33 ef0c2c61 **step: test noop adapter**
+- 2025-08-19 21:33 5c0c9118 **step: remove old tests**
+- 2025-08-19 21:29 69c04052 **refactor: unify error handling**
+- 2025-08-19 21:28 b01bcb31 **refactor: simplify captcha port**
+- 2025-08-19 21:24 c7093db8 **docs: generate CHANGELOG**
+- 2025-08-19 21:23 9e358ce6 **docs: generate CHANGELOG**
+- 2025-08-19 21:23 9ae1c9c1 **docs: generate readme**
+- 2025-08-19 21:21 daee14c3 **refactor: split hcaptcha shields**
+- 2025-08-19 21:20 e40685da **step: add CaptchaHcaptchaLocalShield**
+- 2025-08-19 21:17 0012c80b **step: add captcha noop adapter**
+- 2025-08-19 21:10 31d47ec8 **refactor: rename current hcaptcha shield adapter**
+- 2025-08-19 21:04 509ea3d4 **step: setup captcha-shield port**
 ## 2025-08-19 20:24 v0.18.25
-- 2025-08-19 20:24 730bf4a **0.18.25**
-- 2025-08-19 19:59 daca52e **docs: generate CHANGELOG**
-- 2025-08-19 19:59 7d7e5d9 **docs: generate readme**
-- 2025-08-19 19:48 4707a6c **docs: generate CHANGELOG**
-- 2025-08-19 19:48 17035bf **docs: generate CHANGELOG**
-- 2025-08-19 19:46 c267041 **docs: generate readme**
-- 2025-08-19 19:46 967fb7b **docs: generate CHANGELOG**
-- 2025-08-19 19:46 1017457 **docs: generate CHANGELOG**
-- 2025-08-19 19:40 6852662 **docs: generate readme**
-- 2025-08-19 19:40 1ab3ac0 **docs: generate CHANGELOG**
-- 2025-08-19 18:24 96b12a7 **docs: generate CHANGELOG**
-- 2025-08-18 22:43 012c3e0 **step: update packages**
-- 2025-08-18 20:43 d2ab9f6 **docs: generate readme**
-- 2025-08-18 20:43 9f8be46 **docs: generate CHANGELOG**
-- 2025-08-17 14:22 67be425 **refactor: rename history projection port**
+- 2025-08-19 20:24 730bf4ac **0.18.25**
+- 2025-08-19 19:59 daca52e6 **docs: generate CHANGELOG**
+- 2025-08-19 19:59 7d7e5d9f **docs: generate readme**
+- 2025-08-19 19:48 4707a6c6 **docs: generate CHANGELOG**
+- 2025-08-19 19:48 17035bfb **docs: generate CHANGELOG**
+- 2025-08-19 19:46 c2670418 **docs: generate readme**
+- 2025-08-19 19:46 967fb7b7 **docs: generate CHANGELOG**
+- 2025-08-19 19:46 10174575 **docs: generate CHANGELOG**
+- 2025-08-19 19:40 6852662e **docs: generate readme**
+- 2025-08-19 19:40 1ab3ac09 **docs: generate CHANGELOG**
+- 2025-08-19 18:24 96b12a74 **docs: generate CHANGELOG**
+- 2025-08-18 22:43 012c3e0c **step: update packages**
+- 2025-08-18 20:43 d2ab9f60 **docs: generate readme**
+- 2025-08-18 20:43 9f8be463 **docs: generate CHANGELOG**
+- 2025-08-17 14:22 67be4253 **refactor: rename history projection port**
 ## 2025-08-16 12:17 v0.18.24
 ## 2025-08-16 12:17 v0.18.23
-- 2025-08-16 12:17 ac2130e **0.18.23**
-- 2025-08-16 12:17 97f391e **0.18.24**
-- 2025-08-16 12:11 05e56da **step: export history module**
-- 2025-08-16 12:10 cf5e578 **refactor: move modules to src**
-- 2025-08-16 12:07 255dc9e **feature: add history module**
-- 2025-08-16 10:18 ffd3a02 **docs: generate CHANGELOG**
-- 2025-08-16 10:17 f538049 **docs: generate CHANGELOG**
-- 2025-08-16 10:12 c976781 **docs: generate CHANGELOG**
-- 2025-08-16 10:12 b82c5e2 **docs: generate readme**
+- 2025-08-16 12:17 ac2130e1 **0.18.23**
+- 2025-08-16 12:17 97f391e4 **0.18.24**
+- 2025-08-16 12:11 05e56da3 **step: export history module**
+- 2025-08-16 12:10 cf5e578b **refactor: move modules to src**
+- 2025-08-16 12:07 255dc9ea **feature: add history module**
+- 2025-08-16 10:18 ffd3a025 **docs: generate CHANGELOG**
+- 2025-08-16 10:17 f538049e **docs: generate CHANGELOG**
+- 2025-08-16 10:12 c9767811 **docs: generate CHANGELOG**
+- 2025-08-16 10:12 b82c5e2c **docs: generate readme**
 ## 2025-08-15 19:44 v0.18.22
-- 2025-08-15 19:44 8ef8118 **0.18.22**
-- 2025-08-15 19:43 1777425 **step: update packages**
-- 2025-08-15 17:46 372aeed **docs: generate CHANGELOG**
-- 2025-08-15 17:44 e5d558a **docs: generate CHANGELOG**
-- 2025-08-15 09:58 c41b5df **step: add smtp mailer with logger adapter**
-- 2025-08-15 08:19 99984b7 **docs: generate readme**
-- 2025-08-15 08:19 304f5ff **docs: generate CHANGELOG**
+- 2025-08-15 19:44 8ef8118d **0.18.22**
+- 2025-08-15 19:43 17774253 **step: update packages**
+- 2025-08-15 17:46 372aeedf **docs: generate CHANGELOG**
+- 2025-08-15 17:44 e5d558a4 **docs: generate CHANGELOG**
+- 2025-08-15 09:58 c41b5dfc **step: add smtp mailer with logger adapter**
+- 2025-08-15 08:19 99984b78 **docs: generate readme**
+- 2025-08-15 08:19 304f5ff6 **docs: generate CHANGELOG**
 ## 2025-08-14 21:09 v0.18.21
-- 2025-08-14 21:09 1222d9f **0.18.21**
-- 2025-08-14 21:07 8d3348d **refactor: improve the better auth logger**
-- 2025-08-14 20:59 19378db **step: add better-auth-logger service**
-- 2025-08-14 19:47 63ac52f **fix: unused rule**
-- 2025-08-14 19:47 4081abe **step: bump bgord/scripts**
+- 2025-08-14 21:09 1222d9f0 **0.18.21**
+- 2025-08-14 21:07 8d3348dc **refactor: improve the better auth logger**
+- 2025-08-14 20:59 19378db6 **step: add better-auth-logger service**
+- 2025-08-14 19:47 63ac52f8 **fix: unused rule**
+- 2025-08-14 19:47 4081abef **step: bump bgord/scripts**
 ## 2025-08-14 19:43 v0.18.20
-- 2025-08-14 19:43 ccd0000 **0.18.20**
-- 2025-08-14 19:42 0daeae5 **fix: biome errors**
-- 2025-08-14 19:09 93fcfd0 **docs: generate CHANGELOG**
-- 2025-08-14 19:07 8e874dd **docs: generate CHANGELOG**
-- 2025-08-14 18:59 4fad8e9 **docs: generate CHANGELOG**
-- 2025-08-14 18:59 0317fde **docs: generate readme**
-- 2025-08-14 17:47 a9e63e1 **docs: generate CHANGELOG**
-- 2025-08-14 17:43 5a25c3d **docs: generate CHANGELOG**
-- 2025-08-14 17:42 1ae91b1 **docs: generate CHANGELOG**
-- 2025-08-14 00:19 ae41119 **step: bump bgord/scripts**
-- 2025-08-14 00:19 442c7a5 **refactor: format imports**
-- 2025-08-13 23:32 478aaaf **step: update packages**
-- 2025-08-13 23:32 4777e4a **step: bump bgord/scripts**
+- 2025-08-14 19:43 ccd00000 **0.18.20**
+- 2025-08-14 19:42 0daeae57 **fix: biome errors**
+- 2025-08-14 19:09 93fcfd0d **docs: generate CHANGELOG**
+- 2025-08-14 19:07 8e874dd8 **docs: generate CHANGELOG**
+- 2025-08-14 18:59 4fad8e99 **docs: generate CHANGELOG**
+- 2025-08-14 18:59 0317fdee **docs: generate readme**
+- 2025-08-14 17:47 a9e63e10 **docs: generate CHANGELOG**
+- 2025-08-14 17:43 5a25c3d5 **docs: generate CHANGELOG**
+- 2025-08-14 17:42 1ae91b12 **docs: generate CHANGELOG**
+- 2025-08-14 00:19 ae411197 **step: bump bgord/scripts**
+- 2025-08-14 00:19 442c7a54 **refactor: format imports**
+- 2025-08-13 23:32 478aaaf3 **step: update packages**
+- 2025-08-13 23:32 4777e4af **step: bump bgord/scripts**
 ## 2025-08-13 22:30 v0.18.19
-- 2025-08-13 22:30 07f182c **0.18.19**
-- 2025-08-13 22:29 9cb6e1b **step: update packages**
-- 2025-08-13 22:19 a3231dc **docs: generate CHANGELOG**
-- 2025-08-13 21:32 b69a1f4 **docs: generate CHANGELOG**
-- 2025-08-13 20:30 6e7302d **docs: generate CHANGELOG**
-- 2025-08-13 20:30 48dacb2 **docs: generate CHANGELOG**
+- 2025-08-13 22:30 07f182c3 **0.18.19**
+- 2025-08-13 22:29 9cb6e1be **step: update packages**
+- 2025-08-13 22:19 a3231dce **docs: generate CHANGELOG**
+- 2025-08-13 21:32 b69a1f4e **docs: generate CHANGELOG**
+- 2025-08-13 20:30 6e7302d8 **docs: generate CHANGELOG**
+- 2025-08-13 20:30 48dacb29 **docs: generate CHANGELOG**
 ## 2025-08-12 14:00 v0.18.18
-- 2025-08-12 14:00 fa2007e **step: update packages**
-- 2025-08-12 14:00 290fa1c **0.18.18**
-- 2025-08-12 12:01 243c987 **docs: generate CHANGELOG**
-- 2025-08-12 12:00 12cc402 **docs: generate CHANGELOG**
+- 2025-08-12 14:00 fa2007e5 **step: update packages**
+- 2025-08-12 14:00 290fa1c3 **0.18.18**
+- 2025-08-12 12:01 243c987f **docs: generate CHANGELOG**
+- 2025-08-12 12:00 12cc402a **docs: generate CHANGELOG**
 ## 2025-08-08 20:58 v0.18.17
-- 2025-08-08 20:58 847f414 **0.18.17**
-- 2025-08-08 20:57 904bcf8 **step: update tools**
-- 2025-08-08 20:57 0e85992 **step: update hono**
-- 2025-08-08 18:59 a67f8bb **docs: generate CHANGELOG**
-- 2025-08-08 18:58 be2c37e **docs: generate readme**
-- 2025-08-08 18:58 88ad1bc **docs: generate CHANGELOG**
-- 2025-08-06 14:36 bc8996c **refactor: rename policy to invariant**
+- 2025-08-08 20:58 847f4144 **0.18.17**
+- 2025-08-08 20:57 904bcf84 **step: update tools**
+- 2025-08-08 20:57 0e859926 **step: update hono**
+- 2025-08-08 18:59 a67f8bb6 **docs: generate CHANGELOG**
+- 2025-08-08 18:58 be2c37ed **docs: generate readme**
+- 2025-08-08 18:58 88ad1bc0 **docs: generate CHANGELOG**
+- 2025-08-06 14:36 bc8996c9 **refactor: rename policy to invariant**
 ## 2025-08-02 18:46 v0.18.16
-- 2025-08-02 18:46 da8069e **0.18.16**
-- 2025-08-02 18:45 6640c25 **step: tie store time with rate limit time**
+- 2025-08-02 18:46 da8069e4 **0.18.16**
+- 2025-08-02 18:45 6640c253 **step: tie store time with rate limit time**
 ## 2025-08-02 18:22 v0.18.15
-- 2025-08-02 18:22 b9fbcba **fix: add missing node cahe rate limiter store**
-- 2025-08-02 18:22 9bd60b1 **0.18.15**
+- 2025-08-02 18:22 b9fbcba0 **fix: add missing node cahe rate limiter store**
+- 2025-08-02 18:22 9bd60b1c **0.18.15**
 ## 2025-08-02 18:11 v0.18.14
-- 2025-08-02 18:11 2a29dd3 **0.18.14**
+- 2025-08-02 18:11 2a29dd38 **0.18.14**
 ## 2025-08-02 18:10 v0.18.13
-- 2025-08-02 18:10 6634f61 **0.18.13**
-- 2025-08-02 18:07 5ea087c **step: update packages**
-- 2025-08-02 18:04 0808248 **step: update hono**
-- 2025-08-02 16:46 ca4bd0e **docs: generate CHANGELOG**
-- 2025-08-02 16:46 1106414 **docs: generate CHANGELOG**
-- 2025-08-02 16:23 17adda1 **docs: generate CHANGELOG**
-- 2025-08-02 16:22 4c71bca **docs: generate CHANGELOG**
-- 2025-08-02 16:11 868aeb6 **docs: generate CHANGELOG**
-- 2025-08-02 16:10 dd4c855 **docs: generate CHANGELOG**
-- 2025-08-02 16:10 6317c11 **docs: generate readme**
-- 2025-08-02 16:10 2291a12 **docs: generate CHANGELOG**
-- 2025-08-01 11:52 9fe67c7 **step: test rate limiter per user**
-- 2025-08-01 10:41 f4090eb **step: define user subject resolver**
-- 2025-08-01 10:36 56a5a5d **step: use store in rate limit shield**
-- 2025-08-01 10:28 36367b0 **step: add anon subject resolver**
-- 2025-08-01 10:22 44d529a **step: plug-in store in shield tests**
-- 2025-08-01 10:21 87da936 **step: add flush all to node cache rts**
-- 2025-08-01 09:59 24d8c4e **refactor: make get/set async to allow future redis implementation**
-- 2025-08-01 09:57 1f537b9 **step: add node cache rls adapter**
-- 2025-08-01 09:56 ed4dfa2 **step: add rate limit store port**
+- 2025-08-02 18:10 6634f61e **0.18.13**
+- 2025-08-02 18:07 5ea087c3 **step: update packages**
+- 2025-08-02 18:04 08082487 **step: update hono**
+- 2025-08-02 16:46 ca4bd0e6 **docs: generate CHANGELOG**
+- 2025-08-02 16:46 11064146 **docs: generate CHANGELOG**
+- 2025-08-02 16:23 17adda13 **docs: generate CHANGELOG**
+- 2025-08-02 16:22 4c71bca5 **docs: generate CHANGELOG**
+- 2025-08-02 16:11 868aeb6f **docs: generate CHANGELOG**
+- 2025-08-02 16:10 dd4c855b **docs: generate CHANGELOG**
+- 2025-08-02 16:10 6317c119 **docs: generate readme**
+- 2025-08-02 16:10 2291a120 **docs: generate CHANGELOG**
+- 2025-08-01 11:52 9fe67c7e **step: test rate limiter per user**
+- 2025-08-01 10:41 f4090ebb **step: define user subject resolver**
+- 2025-08-01 10:36 56a5a5da **step: use store in rate limit shield**
+- 2025-08-01 10:28 36367b07 **step: add anon subject resolver**
+- 2025-08-01 10:22 44d529aa **step: plug-in store in shield tests**
+- 2025-08-01 10:21 87da9369 **step: add flush all to node cache rts**
+- 2025-08-01 09:59 24d8c4e7 **refactor: make get/set async to allow future redis implementation**
+- 2025-08-01 09:57 1f537b93 **step: add node cache rls adapter**
+- 2025-08-01 09:56 ed4dfa27 **step: add rate limit store port**
 ## 2025-07-31 16:34 v0.18.12
-- 2025-07-31 16:34 0edd06d **0.18.12**
-- 2025-07-31 16:33 dd10b12 **refactor: use tools.TimeResult in EventStore.saveAfter**
+- 2025-07-31 16:34 0edd06d8 **0.18.12**
+- 2025-07-31 16:33 dd10b12e **refactor: use tools.TimeResult in EventStore.saveAfter**
 ## 2025-07-31 16:28 v0.18.11
-- 2025-07-31 16:28 e00a6d1 **0.18.11**
-- 2025-07-31 16:27 92519ca **step: update packages**
-- 2025-07-31 14:34 df31370 **docs: generate CHANGELOG**
-- 2025-07-31 14:34 4d99938 **docs: generate CHANGELOG**
-- 2025-07-31 14:28 16ff491 **docs: generate CHANGELOG**
-- 2025-07-31 14:27 cd75cd9 **docs: generate CHANGELOG**
-- 2025-07-31 12:35 0a4a626 **feature: add save after to event store**
+- 2025-07-31 16:28 e00a6d14 **0.18.11**
+- 2025-07-31 16:27 92519ca7 **step: update packages**
+- 2025-07-31 14:34 df313706 **docs: generate CHANGELOG**
+- 2025-07-31 14:34 4d999385 **docs: generate CHANGELOG**
+- 2025-07-31 14:28 16ff491b **docs: generate CHANGELOG**
+- 2025-07-31 14:27 cd75cd91 **docs: generate CHANGELOG**
+- 2025-07-31 12:35 0a4a626b **feature: add save after to event store**
 ## 2025-07-30 17:32 v0.18.10
-- 2025-07-30 17:32 ad63c3b **0.18.10**
-- 2025-07-30 17:31 bbd7f5a **step: add file draft to attachment**
-- 2025-07-30 15:32 3614b14 **docs: generate CHANGELOG**
-- 2025-07-30 15:31 9e5a9c0 **docs: generate CHANGELOG**
+- 2025-07-30 17:32 ad63c3b5 **0.18.10**
+- 2025-07-30 17:31 bbd7f5a7 **step: add file draft to attachment**
+- 2025-07-30 15:32 3614b14f **docs: generate CHANGELOG**
+- 2025-07-30 15:31 9e5a9c0a **docs: generate CHANGELOG**
 ## 2025-07-29 23:01 v0.18.9
-- 2025-07-29 23:01 0135998 **0.18.9**
-- 2025-07-29 22:59 3763eed **step: update packages**
-- 2025-07-29 22:57 4003c9a **step: add noop mailer adapter**
-- 2025-07-29 22:52 72d8295 **refactor: expect a mailer port in prereq**
-- 2025-07-29 22:50 0389cbe **refactor: rename smtp mailer adapter**
-- 2025-07-29 22:48 ff64ac3 **step: add mailer port**
-- 2025-07-29 21:01 cacc886 **docs: generate CHANGELOG**
-- 2025-07-29 21:01 841ca4f **docs: generate readme**
-- 2025-07-29 21:01 0421238 **docs: generate CHANGELOG**
-- 2025-07-29 20:46 b48dea1 **docs: generate readme**
-- 2025-07-29 20:46 738b028 **docs: generate CHANGELOG**
-- 2025-07-24 20:18 cc7759a **refactor: unify naming**
-- 2025-07-24 19:52 31ec760 **fix: rate limit shield name**
-- 2025-07-24 19:37 b578842 **step: pinpoint yazl**
-- 2025-07-24 19:37 4f48b40 **step: bump bgord/scripts**
+- 2025-07-29 23:01 0135998e **0.18.9**
+- 2025-07-29 22:59 3763eed8 **step: update packages**
+- 2025-07-29 22:57 4003c9af **step: add noop mailer adapter**
+- 2025-07-29 22:52 72d8295a **refactor: expect a mailer port in prereq**
+- 2025-07-29 22:50 0389cbeb **refactor: rename smtp mailer adapter**
+- 2025-07-29 22:48 ff64ac38 **step: add mailer port**
+- 2025-07-29 21:01 cacc8860 **docs: generate CHANGELOG**
+- 2025-07-29 21:01 841ca4f8 **docs: generate readme**
+- 2025-07-29 21:01 0421238d **docs: generate CHANGELOG**
+- 2025-07-29 20:46 b48dea11 **docs: generate readme**
+- 2025-07-29 20:46 738b0289 **docs: generate CHANGELOG**
+- 2025-07-24 20:18 cc7759a7 **refactor: unify naming**
+- 2025-07-24 19:52 31ec760e **fix: rate limit shield name**
+- 2025-07-24 19:37 b578842a **step: pinpoint yazl**
+- 2025-07-24 19:37 4f48b40c **step: bump bgord/scripts**
 ## 2025-07-24 19:35 v0.18.8
-- 2025-07-24 19:35 f71fccf **0.18.8**
-- 2025-07-24 19:34 8a23221 **step: test zip draft**
-- 2025-07-24 19:29 ccf8fe1 **refactor: rename zip draft service**
-- 2025-07-24 19:28 f36caf3 **refactor: rename file draft service**
-- 2025-07-24 19:27 3992788 **feature: add zip draft**
-- 2025-07-24 19:26 d5eebe0 **step: install yazl**
+- 2025-07-24 19:35 f71fccfd **0.18.8**
+- 2025-07-24 19:34 8a23221c **step: test zip draft**
+- 2025-07-24 19:29 ccf8fe14 **refactor: rename zip draft service**
+- 2025-07-24 19:28 f36caf3c **refactor: rename file draft service**
+- 2025-07-24 19:27 39927889 **feature: add zip draft**
+- 2025-07-24 19:26 d5eebe04 **step: install yazl**
 ## 2025-07-24 17:47 v0.18.7
-- 2025-07-24 17:47 4c45d1e **0.18.7**
-- 2025-07-24 17:45 f6a8c89 **refactor: remove protecteed from file draft create**
-- 2025-07-24 17:36 c6c91ca **docs: generate CHANGELOG**
-- 2025-07-24 17:34 88d38aa **docs: generate CHANGELOG**
-- 2025-07-24 17:34 22214e9 **docs: generate readme**
+- 2025-07-24 17:47 4c45d1ed **0.18.7**
+- 2025-07-24 17:45 f6a8c89c **refactor: remove protecteed from file draft create**
+- 2025-07-24 17:36 c6c91ca5 **docs: generate CHANGELOG**
+- 2025-07-24 17:34 88d38aad **docs: generate CHANGELOG**
+- 2025-07-24 17:34 22214e98 **docs: generate readme**
 ## 2025-07-24 17:14 v0.18.6
-- 2025-07-24 17:14 b85e16d **step: update tools**
-- 2025-07-24 17:14 8703cbe **0.18.6**
+- 2025-07-24 17:14 b85e16d0 **step: update tools**
+- 2025-07-24 17:14 8703cbed **0.18.6**
 ## 2025-07-24 17:07 v0.18.5
-- 2025-07-24 17:07 1e6baee **0.18.5**
-- 2025-07-24 16:58 c81b764 **feature: add file draft**
-- 2025-07-24 16:53 62e7114 **step: remove download file**
-- 2025-07-24 15:47 d91ca5c **docs: generate CHANGELOG**
-- 2025-07-24 15:46 98c5e18 **docs: generate CHANGELOG**
-- 2025-07-24 15:15 2142999 **docs: generate CHANGELOG**
-- 2025-07-24 15:14 be2a5a8 **docs: generate CHANGELOG**
-- 2025-07-24 15:08 4861d25 **docs: generate CHANGELOG**
-- 2025-07-24 15:07 81656ad **docs: generate CHANGELOG**
-- 2025-07-24 15:07 720de63 **docs: generate readme**
+- 2025-07-24 17:07 1e6baee8 **0.18.5**
+- 2025-07-24 16:58 c81b764b **feature: add file draft**
+- 2025-07-24 16:53 62e7114a **step: remove download file**
+- 2025-07-24 15:47 d91ca5cb **docs: generate CHANGELOG**
+- 2025-07-24 15:46 98c5e183 **docs: generate CHANGELOG**
+- 2025-07-24 15:15 21429991 **docs: generate CHANGELOG**
+- 2025-07-24 15:14 be2a5a82 **docs: generate CHANGELOG**
+- 2025-07-24 15:08 4861d255 **docs: generate CHANGELOG**
+- 2025-07-24 15:07 81656ada **docs: generate CHANGELOG**
+- 2025-07-24 15:07 720de630 **docs: generate readme**
 ## 2025-07-24 13:35 v0.18.4
-- 2025-07-24 13:35 6b8ffec **0.18.4**
-- 2025-07-24 13:20 469db7c **step: add DAY_TIME job schedule**
-- 2025-07-24 12:58 9a6653a **refactor: simplify uuids**
-- 2025-07-24 11:35 bc65d89 **docs: generate readme**
-- 2025-07-24 11:35 0314793 **docs: generate CHANGELOG**
-- 2025-07-24 11:34 91ea64d **docs: generate CHANGELOG**
+- 2025-07-24 13:35 6b8ffecf **0.18.4**
+- 2025-07-24 13:20 469db7ca **step: add DAY_TIME job schedule**
+- 2025-07-24 12:58 9a6653a6 **refactor: simplify uuids**
+- 2025-07-24 11:35 bc65d897 **docs: generate readme**
+- 2025-07-24 11:35 0314793d **docs: generate CHANGELOG**
+- 2025-07-24 11:34 91ea64d8 **docs: generate CHANGELOG**
 ## 2025-07-23 16:56 v0.18.3
-- 2025-07-23 16:56 2819516 **0.18.3**
-- 2025-07-23 16:55 fa24380 **step: update packages**
-- 2025-07-23 14:56 e559ee0 **docs: generate CHANGELOG**
-- 2025-07-23 14:56 012cfc6 **docs: generate CHANGELOG**
+- 2025-07-23 16:56 28195160 **0.18.3**
+- 2025-07-23 16:55 fa24380d **step: update packages**
+- 2025-07-23 14:56 e559ee02 **docs: generate CHANGELOG**
+- 2025-07-23 14:56 012cfc6d **docs: generate CHANGELOG**
 ## 2025-07-22 21:24 v0.18.2
-- 2025-07-22 21:24 00ad271 **0.18.2**
-- 2025-07-22 21:23 9a0f4d5 **step: update packages**
-- 2025-07-22 19:24 3329b49 **docs: generate CHANGELOG**
-- 2025-07-22 19:23 8bf0097 **docs: generate CHANGELOG**
+- 2025-07-22 21:24 00ad2718 **0.18.2**
+- 2025-07-22 21:23 9a0f4d5a **step: update packages**
+- 2025-07-22 19:24 3329b499 **docs: generate CHANGELOG**
+- 2025-07-22 19:23 8bf00977 **docs: generate CHANGELOG**
 ## 2025-07-21 17:58 v0.18.1
-- 2025-07-21 17:58 a370fcc **0.18.1**
-- 2025-07-21 17:57 f57a7ba **step: update tools**
-- 2025-07-21 15:58 5baba93 **docs: generate CHANGELOG**
-- 2025-07-21 15:57 7e19767 **docs: generate CHANGELOG**
+- 2025-07-21 17:58 a370fcc8 **0.18.1**
+- 2025-07-21 17:57 f57a7ba6 **step: update tools**
+- 2025-07-21 15:58 5baba93d **docs: generate CHANGELOG**
+- 2025-07-21 15:57 7e197673 **docs: generate CHANGELOG**
 ## 2025-07-21 15:20 v0.18.0
-- 2025-07-21 15:20 115fc06 **0.18.0**
-- 2025-07-21 15:18 8ae011f **step: update packages**
-- 2025-07-21 15:16 ddc7d20 **step: update packages**
-- 2025-07-21 14:22 689c1d6 **step: make policies sync**
-- 2025-07-21 13:20 953dcbb **docs: generate CHANGELOG**
-- 2025-07-21 13:19 e95a4c6 **docs: generate CHANGELOG**
-- 2025-07-21 13:17 f548d12 **docs: generate CHANGELOG**
-- 2025-07-21 13:17 a501084 **docs: generate readme**
-- 2025-07-20 09:56 330a4a7 **step: update packages**
-- 2025-07-17 14:38 31f4f0b **step: update packages**
-- 2025-07-17 14:37 d62667a **refactor: remove unused test**
-- 2025-07-17 14:37 0fd4a42 **feature: define auth-shield**
-- 2025-07-17 14:35 a2ff8e7 **refactor: remove lucia**
-- 2025-07-17 14:35 49f1530 **refactor: remove auth related vos**
-- 2025-07-17 14:35 3d94672 **refactor: remove old auth shield**
-- 2025-07-17 14:33 1991d23 **step: install better auth**
-- 2025-07-17 14:32 0beb9ac **fix: language detector ovevrriding all cookies**
-- 2025-07-16 15:53 f2ec7bf **step: allow cors overrides**
+- 2025-07-21 15:20 115fc06d **0.18.0**
+- 2025-07-21 15:18 8ae011f6 **step: update packages**
+- 2025-07-21 15:16 ddc7d20f **step: update packages**
+- 2025-07-21 14:22 689c1d65 **step: make policies sync**
+- 2025-07-21 13:20 953dcbb9 **docs: generate CHANGELOG**
+- 2025-07-21 13:19 e95a4c67 **docs: generate CHANGELOG**
+- 2025-07-21 13:17 f548d122 **docs: generate CHANGELOG**
+- 2025-07-21 13:17 a501084a **docs: generate readme**
+- 2025-07-20 09:56 330a4a76 **step: update packages**
+- 2025-07-17 14:38 31f4f0b3 **step: update packages**
+- 2025-07-17 14:37 d62667a7 **refactor: remove unused test**
+- 2025-07-17 14:37 0fd4a42f **feature: define auth-shield**
+- 2025-07-17 14:35 a2ff8e70 **refactor: remove lucia**
+- 2025-07-17 14:35 49f15301 **refactor: remove auth related vos**
+- 2025-07-17 14:35 3d946720 **refactor: remove old auth shield**
+- 2025-07-17 14:33 1991d230 **step: install better auth**
+- 2025-07-17 14:32 0beb9acb **fix: language detector ovevrriding all cookies**
+- 2025-07-16 15:53 f2ec7bf0 **step: allow cors overrides**
 ## 2025-07-13 17:14 v0.17.0
-- 2025-07-13 17:14 b75090f **0.17.0**
-- 2025-07-13 17:13 dff9fb8 **step: update packages**
-- 2025-07-13 16:47 ec6c879 **step: define   static EMPTY_STREAM_REVISION = -1**
-- 2025-07-13 16:25 b47ce66 **feature: resurface events with revisions enriched by the inserter**
-- 2025-07-13 15:53 19c8bdb **fix: optional revision**
-- 2025-07-13 15:14 31ee28f **docs: generate CHANGELOG**
-- 2025-07-13 15:13 b15e7b2 **docs: generate CHANGELOG**
-- 2025-07-13 14:04 2688902 **step: make revision optional in generic event schema**
-- 2025-07-13 13:56 eb19e2b **feature: add event store save unique stream check**
-- 2025-07-13 11:53 3691514 **fix: event revision**
-- 2025-07-13 11:24 015300c **fix: revision type**
+- 2025-07-13 17:14 b75090ff **0.17.0**
+- 2025-07-13 17:13 dff9fb8e **step: update packages**
+- 2025-07-13 16:47 ec6c879b **step: define   static EMPTY_STREAM_REVISION = -1**
+- 2025-07-13 16:25 b47ce668 **feature: resurface events with revisions enriched by the inserter**
+- 2025-07-13 15:53 19c8bdbc **fix: optional revision**
+- 2025-07-13 15:14 31ee28f9 **docs: generate CHANGELOG**
+- 2025-07-13 15:13 b15e7b2b **docs: generate CHANGELOG**
+- 2025-07-13 14:04 2688902b **step: make revision optional in generic event schema**
+- 2025-07-13 13:56 eb19e2bb **feature: add event store save unique stream check**
+- 2025-07-13 11:53 36915144 **fix: event revision**
+- 2025-07-13 11:24 015300c7 **fix: revision type**
 ## 2025-07-12 19:33 v0.16.1
-- 2025-07-12 19:33 62b1eeb **0.16.1**
-- 2025-07-12 19:32 08624a3 **step: bump bgord/scripts**
-- 2025-07-12 19:30 a859ec3 **step: udpate packages**
-- 2025-07-12 18:40 97762f3 **step: add docs-package workfloW**
-- 2025-07-12 18:40 1ab7e49 **step: bump bgord/scripts**
-- 2025-07-12 18:39 24df55b **step: bump bgord/scripts**
+- 2025-07-12 19:33 62b1eebe **0.16.1**
+- 2025-07-12 19:32 08624a35 **step: bump bgord/scripts**
+- 2025-07-12 19:30 a859ec3b **step: udpate packages**
+- 2025-07-12 18:40 97762f31 **step: add docs-package workfloW**
+- 2025-07-12 18:40 1ab7e494 **step: bump bgord/scripts**
+- 2025-07-12 18:39 24df55bd **step: bump bgord/scripts**
 ## 2025-07-12 17:44 v0.16.0
-- 2025-07-12 17:44 2667edc **0.16.0**
-- 2025-07-12 17:43 93c9cc1 **refactor: switch to zod/v4**
-- 2025-07-12 17:42 0763ea3 **step: update packages**
-- 2025-07-12 17:41 dc261dc **step: update tools**
-- 2025-07-12 17:33 7db59b8 **docs: generate CHANGELOG**
-- 2025-07-12 17:31 cc6a6b3 **docs: generate readme**
-- 2025-07-12 17:31 42f6552 **docs: generate CHANGELOG**
-- 2025-07-12 15:44 892580c **docs: generate CHANGELOG**
-- 2025-07-12 15:44 38b15c0 **docs: generate CHANGELOG**
-- 2025-07-12 15:07 f8a9996 **feature: add translations service**
+- 2025-07-12 17:44 2667edc6 **0.16.0**
+- 2025-07-12 17:43 93c9cc13 **refactor: switch to zod/v4**
+- 2025-07-12 17:42 0763ea3a **step: update packages**
+- 2025-07-12 17:41 dc261dc0 **step: update tools**
+- 2025-07-12 17:33 7db59b8a **docs: generate CHANGELOG**
+- 2025-07-12 17:31 cc6a6b32 **docs: generate readme**
+- 2025-07-12 17:31 42f6552e **docs: generate CHANGELOG**
+- 2025-07-12 15:44 892580ca **docs: generate CHANGELOG**
+- 2025-07-12 15:44 38b15c02 **docs: generate CHANGELOG**
+- 2025-07-12 15:07 f8a99963 **feature: add translations service**
 ## 2025-07-10 21:26 v0.15.1
-- 2025-07-10 21:26 b9290af **0.15.1**
-- 2025-07-10 21:25 52ae4ca **step: add zod 4.0.3 resolution**
-- 2025-07-10 21:23 d69f7d6 **step: regenerate packages**
-- 2025-07-10 21:23 682a7a2 **refactor: remove zod/v4 reference**
-- 2025-07-10 21:21 ac96c55 **step: update packages**
-- 2025-07-10 19:27 3190481 **docs: generate CHANGELOG**
-- 2025-07-10 19:26 2c47008 **docs: generate CHANGELOG**
+- 2025-07-10 21:26 b9290af2 **0.15.1**
+- 2025-07-10 21:25 52ae4ca2 **step: add zod 4.0.3 resolution**
+- 2025-07-10 21:23 d69f7d6e **step: regenerate packages**
+- 2025-07-10 21:23 682a7a26 **refactor: remove zod/v4 reference**
+- 2025-07-10 21:21 ac96c554 **step: update packages**
+- 2025-07-10 19:27 31904819 **docs: generate CHANGELOG**
+- 2025-07-10 19:26 2c470082 **docs: generate CHANGELOG**
 ## 2025-07-07 16:41 v0.15.0
-- 2025-07-07 16:41 e512bb2 **0.15.0**
-- 2025-07-07 16:40 72e8f10 **fix: changed test**
-- 2025-07-07 16:37 f2c892e **step: update packages**
-- 2025-07-07 14:41 8720274 **docs: generate CHANGELOG**
-- 2025-07-07 14:41 2bcadf4 **docs: generate CHANGELOG**
-- 2025-07-07 14:39 babef7c **step: bump bgord/scripts**
-- 2025-07-07 13:54 003d56c **step: bump bgord/scripts**
-- 2025-07-07 13:49 d91a115 **step: update packages**
-- 2025-07-07 12:39 8687e4c **docs: generate CHANGELOG**
-- 2025-07-07 11:55 ed0edd0 **docs: generate CHANGELOG**
-- 2025-07-04 16:54 274242c **step: update packages**
-- 2025-07-04 16:26 5e29752 **feature: add polcy error handler service**
-- 2025-07-04 14:54 db2d226 **docs: generate CHANGELOG**
-- 2025-07-02 23:33 a137bfe **step: bump bgord/scripts**
-- 2025-07-02 23:29 f04ff1d **step: update packages**
-- 2025-07-02 23:29 114ea00 **step: bump bgord/scripts**
-- 2025-07-02 21:35 3450430 **docs: generate CHANGELOG**
+- 2025-07-07 16:41 e512bb20 **0.15.0**
+- 2025-07-07 16:40 72e8f107 **fix: changed test**
+- 2025-07-07 16:37 f2c892e0 **step: update packages**
+- 2025-07-07 14:41 8720274d **docs: generate CHANGELOG**
+- 2025-07-07 14:41 2bcadf4c **docs: generate CHANGELOG**
+- 2025-07-07 14:39 babef7c7 **step: bump bgord/scripts**
+- 2025-07-07 13:54 003d56cc **step: bump bgord/scripts**
+- 2025-07-07 13:49 d91a1150 **step: update packages**
+- 2025-07-07 12:39 8687e4cc **docs: generate CHANGELOG**
+- 2025-07-07 11:55 ed0edd08 **docs: generate CHANGELOG**
+- 2025-07-04 16:54 274242c7 **step: update packages**
+- 2025-07-04 16:26 5e29752a **feature: add polcy error handler service**
+- 2025-07-04 14:54 db2d2265 **docs: generate CHANGELOG**
+- 2025-07-02 23:33 a137bfe5 **step: bump bgord/scripts**
+- 2025-07-02 23:29 f04ff1d0 **step: update packages**
+- 2025-07-02 23:29 114ea00f **step: bump bgord/scripts**
+- 2025-07-02 21:35 3450430c **docs: generate CHANGELOG**
 ## 2025-06-30 19:53 v0.14.0
-- 2025-06-30 19:53 fb7b454 **0.14.0**
-- 2025-06-30 19:52 385fe35 **step: export axiom transport**
-- 2025-06-30 19:51 010bbae **step: install axiom**
-- 2025-06-30 19:49 3dc2f50 **step: accept more logger transports**
-- 2025-06-30 19:17 2ea7f7c **step: update packages**
-- 2025-06-30 19:16 853b7c0 **step: bump bgord/scripts**
-- 2025-06-30 17:54 7991c75 **docs: generate CHANGELOG**
-- 2025-06-30 17:53 c260134 **docs: generate CHANGELOG**
-- 2025-06-30 17:50 cb7afe5 **docs: generate CHANGELOG**
-- 2025-06-30 17:18 ea18ecf **docs: generate CHANGELOG**
-- 2025-06-30 15:03 e8cacb2 **step: run job handlers in correlation storage**
+- 2025-06-30 19:53 fb7b454c **0.14.0**
+- 2025-06-30 19:52 385fe350 **step: export axiom transport**
+- 2025-06-30 19:51 010bbaef **step: install axiom**
+- 2025-06-30 19:49 3dc2f505 **step: accept more logger transports**
+- 2025-06-30 19:17 2ea7f7c1 **step: update packages**
+- 2025-06-30 19:16 853b7c00 **step: bump bgord/scripts**
+- 2025-06-30 17:54 7991c753 **docs: generate CHANGELOG**
+- 2025-06-30 17:53 c2601343 **docs: generate CHANGELOG**
+- 2025-06-30 17:50 cb7afe51 **docs: generate CHANGELOG**
+- 2025-06-30 17:18 ea18ecf4 **docs: generate CHANGELOG**
+- 2025-06-30 15:03 e8cacb23 **step: run job handlers in correlation storage**
 ## 2025-06-28 19:15 v0.13.0
-- 2025-06-28 19:15 3bb43b3 **0.13.0**
-- 2025-06-28 19:14 97f66ba **step: update packages**
-- 2025-06-28 19:13 19bcbc0 **fix: formatting**
-- 2025-06-28 19:12 6585adc **fix: formatting**
-- 2025-06-28 19:12 25304e4 **step: bump bgord/scripts**
-- 2025-06-28 19:12 1bd2a65 **step: test command logger**
-- 2025-06-28 18:23 a582f11 **step: add event correlation id field**
-- 2025-06-28 18:07 ad38e06 **step: add correlationId to commands**
-- 2025-06-28 18:01 e6e4a35 **step: use correlation storage in setup**
-- 2025-06-28 18:00 33f7d49 **step: test correlation storage**
-- 2025-06-28 17:55 06be530 **feature: add correlation storage service**
-- 2025-06-28 17:25 bae575b **step: change request id header name**
-- 2025-06-28 17:15 bebcbd6 **docs: generate CHANGELOG**
-- 2025-06-28 17:15 0a454fd **docs: generate CHANGELOG**
-- 2025-06-27 20:37 88d2799 **refactor: remove command handler**
-- 2025-06-27 16:08 862e477 **step: bump bgord/scripts**
-- 2025-06-27 16:08 7d39bee **feature: create command handler service**
-- 2025-06-27 14:42 1183d37 **step: add command logger**
-- 2025-06-25 14:32 1155864 **step: update packages**
-- 2025-06-25 14:31 c488d80 **step: pinpoint dependencies**
+- 2025-06-28 19:15 3bb43b3b **0.13.0**
+- 2025-06-28 19:14 97f66bac **step: update packages**
+- 2025-06-28 19:13 19bcbc0e **fix: formatting**
+- 2025-06-28 19:12 6585adce **fix: formatting**
+- 2025-06-28 19:12 25304e42 **step: bump bgord/scripts**
+- 2025-06-28 19:12 1bd2a65f **step: test command logger**
+- 2025-06-28 18:23 a582f112 **step: add event correlation id field**
+- 2025-06-28 18:07 ad38e067 **step: add correlationId to commands**
+- 2025-06-28 18:01 e6e4a357 **step: use correlation storage in setup**
+- 2025-06-28 18:00 33f7d495 **step: test correlation storage**
+- 2025-06-28 17:55 06be530e **feature: add correlation storage service**
+- 2025-06-28 17:25 bae575bd **step: change request id header name**
+- 2025-06-28 17:15 bebcbd67 **docs: generate CHANGELOG**
+- 2025-06-28 17:15 0a454fd0 **docs: generate CHANGELOG**
+- 2025-06-27 20:37 88d2799e **refactor: remove command handler**
+- 2025-06-27 16:08 862e4772 **step: bump bgord/scripts**
+- 2025-06-27 16:08 7d39beeb **feature: create command handler service**
+- 2025-06-27 14:42 1183d375 **step: add command logger**
+- 2025-06-25 14:32 11558649 **step: update packages**
+- 2025-06-25 14:31 c488d80e **step: pinpoint dependencies**
 ## 2025-06-22 00:12 v0.12.1
-- 2025-06-22 00:12 6abf667 **0.12.1**
-- 2025-06-22 00:08 d111e88 **step: bump bgord/scripts**
-- 2025-06-22 00:08 c3c3ac0 **refactor: adjust event handler name type**
-- 2025-06-21 22:13 64b74a9 **docs: generate CHANGELOG**
-- 2025-06-21 22:10 89754c1 **docs: generate CHANGELOG**
-- 2025-06-21 17:14 c8d869a **step: use to-event-map internally in dispatching event store**
-- 2025-06-21 17:09 9e86984 **step: create to-event-map helper**
-- 2025-06-21 17:08 f5bb533 **feature: add dispatching event store**
-- 2025-06-20 11:58 485a48d **step: regenerate packages**
-- 2025-06-20 11:24 092ea74 **step: bump bgord/scripts**
-- 2025-06-20 09:59 5c8c96c **docs: generate CHANGELOG**
-- 2025-06-20 09:25 bb90e3c **docs: generate CHANGELOG**
-- 2025-06-19 23:19 e9d239e **feature: use uaBlocker for bots**
-- 2025-06-19 23:07 7a47770 **step: install hono/ua-blocker**
-- 2025-06-19 21:21 dde92ae **docs: generate CHANGELOG**
+- 2025-06-22 00:12 6abf6671 **0.12.1**
+- 2025-06-22 00:08 d111e888 **step: bump bgord/scripts**
+- 2025-06-22 00:08 c3c3ac0c **refactor: adjust event handler name type**
+- 2025-06-21 22:13 64b74a90 **docs: generate CHANGELOG**
+- 2025-06-21 22:10 89754c1a **docs: generate CHANGELOG**
+- 2025-06-21 17:14 c8d869a9 **step: use to-event-map internally in dispatching event store**
+- 2025-06-21 17:09 9e86984d **step: create to-event-map helper**
+- 2025-06-21 17:08 f5bb5338 **feature: add dispatching event store**
+- 2025-06-20 11:58 485a48de **step: regenerate packages**
+- 2025-06-20 11:24 092ea741 **step: bump bgord/scripts**
+- 2025-06-20 09:59 5c8c96c8 **docs: generate CHANGELOG**
+- 2025-06-20 09:25 bb90e3c1 **docs: generate CHANGELOG**
+- 2025-06-19 23:19 e9d239ed **feature: use uaBlocker for bots**
+- 2025-06-19 23:07 7a47770b **step: install hono/ua-blocker**
+- 2025-06-19 21:21 dde92ae2 **docs: generate CHANGELOG**
 ## 2025-06-19 21:08 v0.12.0
-- 2025-06-19 21:08 4a8f2dd **0.12.0**
-- 2025-06-19 20:43 8f031d8 **feature: add generic event store**
-- 2025-06-19 20:40 6cfdab4 **fix: event stream inference**
-- 2025-06-19 20:37 4402fe4 **refactor: fix EventHandler types**
-- 2025-06-19 20:36 629db7c **refactor: define event types**
-- 2025-06-19 20:35 c8006a4 **feature: define event stream vo**
-- 2025-06-19 20:34 c7461f6 **feature: define event stream vo**
-- 2025-06-19 19:08 53a8455 **docs: generate CHANGELOG**
-- 2025-06-19 19:07 e2babe6 **docs: generate CHANGELOG**
+- 2025-06-19 21:08 4a8f2dd3 **0.12.0**
+- 2025-06-19 20:43 8f031d8d **feature: add generic event store**
+- 2025-06-19 20:40 6cfdab42 **fix: event stream inference**
+- 2025-06-19 20:37 4402fe49 **refactor: fix EventHandler types**
+- 2025-06-19 20:36 629db7ca **refactor: define event types**
+- 2025-06-19 20:35 c8006a4b **feature: define event stream vo**
+- 2025-06-19 20:34 c7461f65 **feature: define event stream vo**
+- 2025-06-19 19:08 53a8455d **docs: generate CHANGELOG**
+- 2025-06-19 19:07 e2babe62 **docs: generate CHANGELOG**
 ## 2025-06-19 12:32 v0.11.2
-- 2025-06-19 12:32 fbd6858 **0.11.2**
-- 2025-06-19 12:28 d64500b **step: update hono**
-- 2025-06-19 12:27 02475c8 **refactor: regenerate packages**
-- 2025-06-19 12:17 cdf1d93 **step: update croner**
-- 2025-06-19 12:17 3387cf4 **step: migrate to biome v2**
-- 2025-06-19 12:15 dfda241 **step: update cspell**
-- 2025-06-19 12:15 6772a4a **step: update biome**
-- 2025-06-19 12:15 5901573 **step: bump bgord/scripts**
-- 2025-06-19 12:15 51017bc **step: update bgord/tools**
-- 2025-06-19 12:14 8a44b00 **step: update knip**
-- 2025-06-19 12:14 602050e **step: update cspell**
-- 2025-06-19 12:13 cdaea7a **step: update lodash**
-- 2025-06-19 12:13 58bdc42 **step: update lefthook**
-- 2025-06-19 10:32 ef37448 **docs: generate CHANGELOG**
-- 2025-06-19 10:32 0d80724 **docs: generate CHANGELOG**
-- 2025-06-19 10:27 4c3e33b **docs: generate CHANGELOG**
-- 2025-06-19 01:12 b4a28b2 **step: define policy.code**
-- 2025-06-19 01:12 02d7b63 **step: define policy.code**
-- 2025-06-17 17:52 02716de **step: simplify logger**
+- 2025-06-19 12:32 fbd6858b **0.11.2**
+- 2025-06-19 12:28 d64500b6 **step: update hono**
+- 2025-06-19 12:27 02475c86 **refactor: regenerate packages**
+- 2025-06-19 12:17 cdf1d934 **step: update croner**
+- 2025-06-19 12:17 3387cf4a **step: migrate to biome v2**
+- 2025-06-19 12:15 dfda241b **step: update cspell**
+- 2025-06-19 12:15 6772a4a5 **step: update biome**
+- 2025-06-19 12:15 59015737 **step: bump bgord/scripts**
+- 2025-06-19 12:15 51017bcf **step: update bgord/tools**
+- 2025-06-19 12:14 8a44b001 **step: update knip**
+- 2025-06-19 12:14 602050e4 **step: update cspell**
+- 2025-06-19 12:13 cdaea7aa **step: update lodash**
+- 2025-06-19 12:13 58bdc424 **step: update lefthook**
+- 2025-06-19 10:32 ef374482 **docs: generate CHANGELOG**
+- 2025-06-19 10:32 0d80724b **docs: generate CHANGELOG**
+- 2025-06-19 10:27 4c3e33bb **docs: generate CHANGELOG**
+- 2025-06-19 01:12 b4a28b24 **step: define policy.code**
+- 2025-06-19 01:12 02d7b63d **step: define policy.code**
+- 2025-06-17 17:52 02716def **step: simplify logger**
 ## 2025-06-14 17:03 v0.11.1
-- 2025-06-14 17:03 65b3487 **0.11.1**
-- 2025-06-14 17:02 e61aaa9 **refactor: loosen i18n config types**
-- 2025-06-14 15:03 9643f3c **docs: generate CHANGELOG**
-- 2025-06-14 15:03 60e29c0 **docs: generate CHANGELOG**
-- 2025-06-14 14:15 238dcf9 **fix: formatting**
+- 2025-06-14 17:03 65b34876 **0.11.1**
+- 2025-06-14 17:02 e61aaa95 **refactor: loosen i18n config types**
+- 2025-06-14 15:03 9643f3c3 **docs: generate CHANGELOG**
+- 2025-06-14 15:03 60e29c01 **docs: generate CHANGELOG**
+- 2025-06-14 14:15 238dcf90 **fix: formatting**
 ## 2025-06-14 14:14 v0.11.0
-- 2025-06-14 14:14 a870b97 **0.11.0**
-- 2025-06-14 14:01 cf3b24f **step: introduce brand types in bgord-bun**
-- 2025-06-14 13:21 fefa3dc **refactor: adjust tests**
-- 2025-06-14 13:08 792c325 **step: bump bgord/scripts**
-- 2025-06-14 13:04 cd3bc4b **step: update bgord tools**
-- 2025-06-14 12:42 f109ce9 **refactor: adjust translations prereq**
-- 2025-06-14 12:36 1c4002a **refactor: adjust rate limit shield**
-- 2025-06-14 12:32 c2292e7 **refactor: adjust healthcheck**
-- 2025-06-14 12:28 6c5ddc4 **refactor: adjust logger**
-- 2025-06-14 12:27 0bd0897 **refactor: adjust file uploader**
-- 2025-06-14 12:17 10f61b8 **refactor: adjust uptime**
-- 2025-06-14 12:16 884d849 **refactor: adjust time zone offset**
-- 2025-06-14 12:15 670e190 **docs: generate CHANGELOG**
-- 2025-06-14 12:14 0d990d6 **docs: generate CHANGELOG**
-- 2025-06-14 12:13 0eefae5 **docs: generate CHANGELOG**
-- 2025-06-14 11:27 6402e30 **refactor: adjust build info repo**
-- 2025-06-14 11:25 74183cd **docs: generate CHANGELOG**
-- 2025-06-14 11:09 0bc1b6d **docs: generate CHANGELOG**
-- 2025-06-14 11:04 87ce8ef **docs: generate CHANGELOG**
-- 2025-06-14 10:07 361ba79 **step: update packages**
-- 2025-06-14 10:07 2a48bf1 **step: update bgord tools**
-- 2025-06-14 08:07 e14089b **docs: generate CHANGELOG**
+- 2025-06-14 14:14 a870b973 **0.11.0**
+- 2025-06-14 14:01 cf3b24f1 **step: introduce brand types in bgord-bun**
+- 2025-06-14 13:21 fefa3dce **refactor: adjust tests**
+- 2025-06-14 13:08 792c3255 **step: bump bgord/scripts**
+- 2025-06-14 13:04 cd3bc4bf **step: update bgord tools**
+- 2025-06-14 12:42 f109ce97 **refactor: adjust translations prereq**
+- 2025-06-14 12:36 1c4002ac **refactor: adjust rate limit shield**
+- 2025-06-14 12:32 c2292e71 **refactor: adjust healthcheck**
+- 2025-06-14 12:28 6c5ddc49 **refactor: adjust logger**
+- 2025-06-14 12:27 0bd0897c **refactor: adjust file uploader**
+- 2025-06-14 12:17 10f61b89 **refactor: adjust uptime**
+- 2025-06-14 12:16 884d8499 **refactor: adjust time zone offset**
+- 2025-06-14 12:15 670e1901 **docs: generate CHANGELOG**
+- 2025-06-14 12:14 0d990d6f **docs: generate CHANGELOG**
+- 2025-06-14 12:13 0eefae52 **docs: generate CHANGELOG**
+- 2025-06-14 11:27 6402e300 **refactor: adjust build info repo**
+- 2025-06-14 11:25 74183cd9 **docs: generate CHANGELOG**
+- 2025-06-14 11:09 0bc1b6dd **docs: generate CHANGELOG**
+- 2025-06-14 11:04 87ce8ef6 **docs: generate CHANGELOG**
+- 2025-06-14 10:07 361ba790 **step: update packages**
+- 2025-06-14 10:07 2a48bf14 **step: update bgord tools**
+- 2025-06-14 08:07 e14089b9 **docs: generate CHANGELOG**
 ## 2025-06-11 22:37 v0.10.1
-- 2025-06-11 22:37 e0acd89 **0.10.1**
-- 2025-06-11 22:35 21f3ba7 **step: bump bgord/scripts**
-- 2025-06-11 22:29 54d081d **refactor: migrate safe-parse-body**
-- 2025-06-11 20:37 a64d926 **docs: generate CHANGELOG**
-- 2025-06-11 20:35 c798ed7 **docs: generate CHANGELOG**
-- 2025-06-11 20:29 ff56be1 **docs: generate CHANGELOG**
+- 2025-06-11 22:37 e0acd890 **0.10.1**
+- 2025-06-11 22:35 21f3ba74 **step: bump bgord/scripts**
+- 2025-06-11 22:29 54d081db **refactor: migrate safe-parse-body**
+- 2025-06-11 20:37 a64d9263 **docs: generate CHANGELOG**
+- 2025-06-11 20:35 c798ed78 **docs: generate CHANGELOG**
+- 2025-06-11 20:29 ff56be12 **docs: generate CHANGELOG**
 ## 2025-06-11 16:53 v0.10.0
-- 2025-06-11 16:53 e818335 **0.10.0**
+- 2025-06-11 16:53 e818335e **0.10.0**
 ## 2025-06-11 16:52 v0.9.2
-- 2025-06-11 16:52 92fbc5a **0.9.2**
-- 2025-06-11 16:51 aa41f5e **refactor: avoid bun.$ stdout in node prereqs**
-- 2025-06-11 16:49 e79ed38 **refactor: avoid bun.$ stdout in binary prereqs**
-- 2025-06-11 16:46 d669a56 **refactor: avoid bun.$ stdout in deps vulns prereqs**
+- 2025-06-11 16:52 92fbc5a5 **0.9.2**
+- 2025-06-11 16:51 aa41f5e9 **refactor: avoid bun.$ stdout in node prereqs**
+- 2025-06-11 16:49 e79ed386 **refactor: avoid bun.$ stdout in binary prereqs**
+- 2025-06-11 16:46 d669a561 **refactor: avoid bun.$ stdout in deps vulns prereqs**
 ## 2025-06-11 15:39 v0.9.1
-- 2025-06-11 15:39 cf4beb0 **0.9.1**
-- 2025-06-11 15:31 8408655 **fix: prerequisites service export**
+- 2025-06-11 15:39 cf4beb0e **0.9.1**
+- 2025-06-11 15:31 84086550 **fix: prerequisites service export**
 ## 2025-06-11 14:58 v0.9.0
-- 2025-06-11 14:58 7a4cddb **0.9.0**
-- 2025-06-11 14:53 5eedaed **docs: generate CHANGELOG**
-- 2025-06-11 14:52 d91d1c5 **docs: generate CHANGELOG**
-- 2025-06-11 14:51 a86c894 **docs: generate CHANGELOG**
-- 2025-06-11 13:56 3acbe5b **refactor: adjust build script**
+- 2025-06-11 14:58 7a4cddbd **0.9.0**
+- 2025-06-11 14:53 5eedaeda **docs: generate CHANGELOG**
+- 2025-06-11 14:52 d91d1c52 **docs: generate CHANGELOG**
+- 2025-06-11 14:51 a86c894f **docs: generate CHANGELOG**
+- 2025-06-11 13:56 3acbe5b4 **refactor: adjust build script**
 ## 2025-06-11 13:51 v0.8.2
-- 2025-06-11 13:51 a502867 **0.8.2**
-- 2025-06-11 13:50 b5b2688 **refactor: remove protected methods from abstract prerequisite**
-- 2025-06-11 13:40 d4bf273 **docs: generate CHANGELOG**
+- 2025-06-11 13:51 a502867d **0.8.2**
+- 2025-06-11 13:50 b5b26889 **refactor: remove protected methods from abstract prerequisite**
+- 2025-06-11 13:40 d4bf273b **docs: generate CHANGELOG**
 ## 2025-06-11 13:35 v0.8.1
-- 2025-06-11 13:35 3f72420 **0.8.1**
-- 2025-06-11 13:34 e9d89be **step: update bgord tools**
-- 2025-06-11 13:32 5576245 **docs: generate CHANGELOG**
-- 2025-06-11 12:58 34544b1 **docs: generate CHANGELOG**
-- 2025-06-11 12:44 74cb98b **step: add enabled flag to rate limit shield**
-- 2025-06-11 11:57 0d2fded **docs: generate CHANGELOG**
-- 2025-06-11 11:51 36338aa **docs: generate CHANGELOG**
-- 2025-06-11 11:50 f12daf3 **docs: generate CHANGELOG**
-- 2025-06-11 11:36 b7bf935 **docs: generate CHANGELOG**
-- 2025-06-11 11:35 cc2548c **docs: generate CHANGELOG**
-- 2025-06-11 00:01 a9fae5b **refactor: reorder i18n config type**
-- 2025-06-10 22:36 3f17fab **refactor: rename vo**
-- 2025-06-10 22:21 baf3338 **refactor: rename services**
-- 2025-06-10 21:59 a8f3705 **refactor: rename middlewares**
-- 2025-06-10 20:12 97b62c2 **step: improve readme**
-- 2025-06-07 15:52 5da36f1 **step: bump bgord/scripts**
-- 2025-06-07 15:51 57f230c **step: bump bgord/scripts**
-- 2025-06-07 15:40 47f8c32 **step: bump bgord/scripts**
-- 2025-06-07 15:31 8237770 **step: bump bgord/scripts**
+- 2025-06-11 13:35 3f724207 **0.8.1**
+- 2025-06-11 13:34 e9d89bed **step: update bgord tools**
+- 2025-06-11 13:32 55762453 **docs: generate CHANGELOG**
+- 2025-06-11 12:58 34544b15 **docs: generate CHANGELOG**
+- 2025-06-11 12:44 74cb98b3 **step: add enabled flag to rate limit shield**
+- 2025-06-11 11:57 0d2fded5 **docs: generate CHANGELOG**
+- 2025-06-11 11:51 36338aad **docs: generate CHANGELOG**
+- 2025-06-11 11:50 f12daf33 **docs: generate CHANGELOG**
+- 2025-06-11 11:36 b7bf9351 **docs: generate CHANGELOG**
+- 2025-06-11 11:35 cc2548ca **docs: generate CHANGELOG**
+- 2025-06-11 00:01 a9fae5bf **refactor: reorder i18n config type**
+- 2025-06-10 22:36 3f17fab9 **refactor: rename vo**
+- 2025-06-10 22:21 baf3338a **refactor: rename services**
+- 2025-06-10 21:59 a8f3705b **refactor: rename middlewares**
+- 2025-06-10 20:12 97b62c2e **step: improve readme**
+- 2025-06-07 15:52 5da36f12 **step: bump bgord/scripts**
+- 2025-06-07 15:51 57f230c2 **step: bump bgord/scripts**
+- 2025-06-07 15:40 47f8c320 **step: bump bgord/scripts**
+- 2025-06-07 15:31 82377703 **step: bump bgord/scripts**
 ## 2025-06-07 14:00 v0.8.0
-- 2025-06-07 14:00 78c91eb **0.8.0**
-- 2025-06-07 13:59 d7b463e **step: update packages**
-- 2025-06-07 13:56 0900f5d **step: remove testcases**
-- 2025-06-07 13:54 74f5ee9 **step: pin package versions**
-- 2025-06-07 13:53 7f74373 **docs: generate CHANGELOG**
-- 2025-06-07 13:53 4dd95d2 **step: test hcaptcha shield**
-- 2025-06-07 13:31 b9e09d8 **docs: generate CHANGELOG**
-- 2025-06-07 13:07 019c3e7 **step: migrate hcaptcha**
-- 2025-06-07 12:45 17bc490 **step: install hcaptcha**
-- 2025-06-07 12:37 3937e99 **step: migrate recaptcha**
-- 2025-06-07 12:00 cf46b86 **docs: generate CHANGELOG**
-- 2025-06-07 11:59 b794e9c **docs: generate CHANGELOG**
-- 2025-06-07 11:58 5a0fd4d **docs: generate CHANGELOG**
-- 2025-06-07 10:48 9ceb548 **step: test event handler**
-- 2025-06-07 10:45 ed63816 **step: test event logger**
-- 2025-06-07 10:44 8ef2eda **step: test event**
-- 2025-06-07 10:12 3c9454e **step: export event relatedd helpers**
-- 2025-06-07 10:11 4ad4d71 **refactor: extract event handler**
-- 2025-06-07 10:10 4b2f76d **refactor: extract event handler**
-- 2025-06-07 10:08 11186b0 **step: migrate event**
-- 2025-06-07 01:37 eabae4f **fix: unused files in knip**
-- 2025-06-07 01:33 5f2b684 **step: export open graph**
-- 2025-06-07 01:30 84a85ca **step: update bgord-tools**
-- 2025-06-07 01:25 53d0ab4 **step: test open graph**
-- 2025-06-07 01:11 19aa471 **step: migrate open graph**
-- 2025-06-07 00:57 48f2dfb **step: test sitemaps**
-- 2025-06-07 00:37 9d5998c **step: migrate sitemap**
-- 2025-06-07 00:26 62aa2ee **step: add url without trailing slash**
-- 2025-06-07 00:19 e585e9c **refactor: always test disabled prerequisite**
-- 2025-06-07 00:06 515373f **feature: add basic auth headers**
-- 2025-06-06 23:55 dc4f391 **feature: add external api prereq**
-- 2025-06-06 23:27 1e0679d **feature: add dependency vulnerabilities**
-- 2025-06-06 22:25 a553b6c **step: always use describe in tests**
-- 2025-06-06 22:12 e31d802 **step: cleanup test files**
-- 2025-06-06 22:04 a99e2e6 **step: add tests/tmp to gitignore**
-- 2025-06-06 21:47 d965162 **refactor: make tests use local tmp/**
-- 2025-06-06 21:42 0484fe0 **step: add image exif tests**
-- 2025-06-06 21:39 dc45610 **step: add test image fixture**
-- 2025-06-06 21:29 fda7c2e **step: migrate image-exif**
-- 2025-06-06 21:28 8c5f57d **step: switch to local bgord-bun**
-- 2025-06-06 21:23 bac847d **step: install mime-types**
-- 2025-06-06 21:12 58374d1 **feature: add timeout decorator**
-- 2025-06-06 21:02 43f7c4d **step: add timeout decorator**
-- 2025-06-06 20:54 242d6a5 **step: add experimental decorators support**
-- 2025-06-06 19:13 46d0e89 **step: test decorators**
-- 2025-06-06 18:47 c9d23f1 **step: migrate decorators**
-- 2025-06-06 18:43 2a7f738 **refactor: rename file location**
-- 2025-06-06 18:31 b9f0f73 **refactor: remove fs dep**
-- 2025-06-06 18:30 5628563 **step: migrate file location**
-- 2025-06-06 18:22 b881edd **step: migrate policy**
-- 2025-06-06 18:19 b729180 **step: unify spyOn**
-- 2025-06-06 18:00 2dad1f1 **refactor: unify spyOn calls in tests**
-- 2025-06-06 17:46 1955e56 **step: cleanup test output**
-- 2025-06-06 17:42 fc78e9b **step: test encryption**
-- 2025-06-06 17:35 b9e925f **step: migrate encryption**
-- 2025-06-06 16:44 1673d0f **refactor: reorganize tests**
-- 2025-06-06 16:43 ab912df **refactor: migrate pagination to tools**
-- 2025-06-06 16:37 8b41525 **refactor: reorganize tests**
-- 2025-06-06 16:27 5356474 **step: bump bgord/scripts**
-- 2025-06-06 00:56 8d7411d **step: test setup**
-- 2025-06-06 00:56 3bbac6b **step: bump bgord/scripts**
-- 2025-06-06 00:33 a79ebce **refactor: migrate gzip**
-- 2025-06-06 00:25 e803ca3 **step: migrate pagination**
-- 2025-06-06 00:20 acead69 **step: test requestid**
-- 2025-06-05 23:59 3345393 **step: migrate simulated error**
-- 2025-06-05 23:57 cdf9b65 **step: migrate slower**
+- 2025-06-07 14:00 78c91ebd **0.8.0**
+- 2025-06-07 13:59 d7b463e5 **step: update packages**
+- 2025-06-07 13:56 0900f5d0 **step: remove testcases**
+- 2025-06-07 13:54 74f5ee9f **step: pin package versions**
+- 2025-06-07 13:53 7f74373b **docs: generate CHANGELOG**
+- 2025-06-07 13:53 4dd95d2a **step: test hcaptcha shield**
+- 2025-06-07 13:31 b9e09d8e **docs: generate CHANGELOG**
+- 2025-06-07 13:07 019c3e73 **step: migrate hcaptcha**
+- 2025-06-07 12:45 17bc4907 **step: install hcaptcha**
+- 2025-06-07 12:37 3937e99e **step: migrate recaptcha**
+- 2025-06-07 12:00 cf46b860 **docs: generate CHANGELOG**
+- 2025-06-07 11:59 b794e9c1 **docs: generate CHANGELOG**
+- 2025-06-07 11:58 5a0fd4d9 **docs: generate CHANGELOG**
+- 2025-06-07 10:48 9ceb548f **step: test event handler**
+- 2025-06-07 10:45 ed63816d **step: test event logger**
+- 2025-06-07 10:44 8ef2eda2 **step: test event**
+- 2025-06-07 10:12 3c9454e3 **step: export event relatedd helpers**
+- 2025-06-07 10:11 4ad4d713 **refactor: extract event handler**
+- 2025-06-07 10:10 4b2f76d4 **refactor: extract event handler**
+- 2025-06-07 10:08 11186b01 **step: migrate event**
+- 2025-06-07 01:37 eabae4fa **fix: unused files in knip**
+- 2025-06-07 01:33 5f2b684b **step: export open graph**
+- 2025-06-07 01:30 84a85ca6 **step: update bgord-tools**
+- 2025-06-07 01:25 53d0ab4f **step: test open graph**
+- 2025-06-07 01:11 19aa4718 **step: migrate open graph**
+- 2025-06-07 00:57 48f2dfbb **step: test sitemaps**
+- 2025-06-07 00:37 9d5998c7 **step: migrate sitemap**
+- 2025-06-07 00:26 62aa2ee7 **step: add url without trailing slash**
+- 2025-06-07 00:19 e585e9c6 **refactor: always test disabled prerequisite**
+- 2025-06-07 00:06 515373f5 **feature: add basic auth headers**
+- 2025-06-06 23:55 dc4f3919 **feature: add external api prereq**
+- 2025-06-06 23:27 1e0679dc **feature: add dependency vulnerabilities**
+- 2025-06-06 22:25 a553b6cb **step: always use describe in tests**
+- 2025-06-06 22:12 e31d802b **step: cleanup test files**
+- 2025-06-06 22:04 a99e2e6b **step: add tests/tmp to gitignore**
+- 2025-06-06 21:47 d965162f **refactor: make tests use local tmp/**
+- 2025-06-06 21:42 0484fe09 **step: add image exif tests**
+- 2025-06-06 21:39 dc45610e **step: add test image fixture**
+- 2025-06-06 21:29 fda7c2ef **step: migrate image-exif**
+- 2025-06-06 21:28 8c5f57d4 **step: switch to local bgord-bun**
+- 2025-06-06 21:23 bac847df **step: install mime-types**
+- 2025-06-06 21:12 58374d14 **feature: add timeout decorator**
+- 2025-06-06 21:02 43f7c4d4 **step: add timeout decorator**
+- 2025-06-06 20:54 242d6a5c **step: add experimental decorators support**
+- 2025-06-06 19:13 46d0e897 **step: test decorators**
+- 2025-06-06 18:47 c9d23f18 **step: migrate decorators**
+- 2025-06-06 18:43 2a7f7387 **refactor: rename file location**
+- 2025-06-06 18:31 b9f0f73e **refactor: remove fs dep**
+- 2025-06-06 18:30 56285637 **step: migrate file location**
+- 2025-06-06 18:22 b881edde **step: migrate policy**
+- 2025-06-06 18:19 b729180f **step: unify spyOn**
+- 2025-06-06 18:00 2dad1f14 **refactor: unify spyOn calls in tests**
+- 2025-06-06 17:46 1955e569 **step: cleanup test output**
+- 2025-06-06 17:42 fc78e9bc **step: test encryption**
+- 2025-06-06 17:35 b9e925f4 **step: migrate encryption**
+- 2025-06-06 16:44 1673d0f3 **refactor: reorganize tests**
+- 2025-06-06 16:43 ab912df9 **refactor: migrate pagination to tools**
+- 2025-06-06 16:37 8b415251 **refactor: reorganize tests**
+- 2025-06-06 16:27 53564745 **step: bump bgord/scripts**
+- 2025-06-06 00:56 8d7411dc **step: test setup**
+- 2025-06-06 00:56 3bbac6ba **step: bump bgord/scripts**
+- 2025-06-06 00:33 a79ebcef **refactor: migrate gzip**
+- 2025-06-06 00:25 e803ca3b **step: migrate pagination**
+- 2025-06-06 00:20 acead69d **step: test requestid**
+- 2025-06-05 23:59 33453936 **step: migrate simulated error**
+- 2025-06-05 23:57 cdf9b658 **step: migrate slower**
 ## 2025-06-05 20:53 v0.7.0
-- 2025-06-05 20:53 001d686 **0.7.0**
-- 2025-06-05 20:51 e448e99 **step: test env validator**
-- 2025-06-05 20:51 67aa680 **refactor: remove quiet option**
-- 2025-06-05 20:39 0737670 **step: define env validator**
-- 2025-06-05 20:36 dd6447a **step: test basic auth**
-- 2025-06-05 20:35 b637342 **refactor: define basic auth validators**
-- 2025-06-05 20:33 7ec5a64 **refactor: export timezone utc**
-- 2025-06-05 20:31 f8c715f **step: add email from schema**
-- 2025-06-05 20:17 34fea63 **step: test email related validators**
-- 2025-06-05 20:16 17bd2c8 **step: define email related validators**
+- 2025-06-05 20:53 001d686e **0.7.0**
+- 2025-06-05 20:51 e448e991 **step: test env validator**
+- 2025-06-05 20:51 67aa6801 **refactor: remove quiet option**
+- 2025-06-05 20:39 07376706 **step: define env validator**
+- 2025-06-05 20:36 dd6447a1 **step: test basic auth**
+- 2025-06-05 20:35 b637342b **refactor: define basic auth validators**
+- 2025-06-05 20:33 7ec5a643 **refactor: export timezone utc**
+- 2025-06-05 20:31 f8c715f9 **step: add email from schema**
+- 2025-06-05 20:17 34fea637 **step: test email related validators**
+- 2025-06-05 20:16 17bd2c80 **step: define email related validators**
 ## 2025-06-05 20:05 v0.6.0
-- 2025-06-05 20:05 9cdf73a **0.6.0**
-- 2025-06-05 20:03 2f93d13 **step: bump bgord/tools**
-- 2025-06-05 20:02 cd5552a **refactor: remove infra keepme**
-- 2025-06-05 19:55 714975a **step: test cache resolver**
-- 2025-06-05 19:51 c651c57 **step: add cache resolver**
-- 2025-06-05 18:59 f3171e3 **docs: generate CHANGELOG**
-- 2025-06-05 15:47 ae35b58 **step: test time zone offset adjustTimestamp**
-- 2025-06-05 15:47 87fc48e **step: update knip**
-- 2025-06-05 15:43 a8b99bd **step: test log file prereq**
-- 2025-06-05 15:32 214cf0f **feature: define log file prereq**
-- 2025-06-05 15:26 52369e5 **step: add logger.getProductionLogFilePath**
-- 2025-06-05 15:24 9d2b8a6 **step: add logger.getProductionLogFilePath**
-- 2025-06-05 13:10 83eb2cd **step: setup coverage config**
-- 2025-06-05 13:06 b4f5cec **refactor: improve node prereqs**
-- 2025-06-05 13:06 9c8765a **refactor: improve prereq binary tests**
-- 2025-06-05 13:05 745eb9b **refactor: remove shell helper**
-- 2025-06-05 01:25 9cfecfb **refactor: remove image processor**
-- 2025-06-05 00:59 6325ade **refactor: rename test files**
-- 2025-06-05 00:55 cd09194 **step: bump bgord/scripts**
-- 2025-06-05 00:51 e3bb906 **refactor: remove brand types**
-- 2025-06-05 00:46 01a4e84 **refactor: do not export prereq config types**
-- 2025-06-05 00:41 f88b7b5 **step: update knip**
-- 2025-06-05 00:40 c373d66 **step: pin deps**
-- 2025-06-05 00:36 781c76a **fix: workflows ubuntu**
-- 2025-06-05 00:35 c96d0dd **step: bump bgord/scripts**
-- 2025-06-05 00:19 6b46db4 **refactor: remove unused dep**
-- 2025-06-05 00:12 3acb8b5 **refactor: reexport prereqs**
-- 2025-06-05 00:09 bc1adfb **fix: prereq mailer test**
-- 2025-06-05 00:05 71225f1 **step: bump bgord/tools**
-- 2025-06-04 23:59 d6aa4c1 **fix: exports**
-- 2025-06-04 23:59 4d17ef4 **step: add prereqs export**
-- 2025-06-04 23:54 60ef641 **step: test auth shield**
-- 2025-06-04 23:26 929f176 **refactor: rewrite auth shield**
-- 2025-06-04 23:25 5325cd2 **step: test session id**
-- 2025-06-04 23:21 2e61db7 **step: extract session id**
-- 2025-06-04 23:14 a63aca1 **step: test healthcheck**
-- 2025-06-04 23:04 5fabff2 **docs: generate CHANGELOG**
-- 2025-06-04 22:55 2dcac26 **docs: generate CHANGELOG**
-- 2025-06-04 22:52 d11d34c **docs: generate CHANGELOG**
-- 2025-06-04 22:49 6c3a49b **docs: generate CHANGELOG**
-- 2025-06-04 22:41 44490ba **docs: generate CHANGELOG**
-- 2025-06-04 22:40 a92ec5e **docs: generate CHANGELOG**
-- 2025-06-04 22:36 c955874 **docs: generate CHANGELOG**
-- 2025-06-04 17:57 8f6b5a3 **step: rename tests**
-- 2025-06-04 17:55 277ba7e **step: migrate jobs prereq**
-- 2025-06-04 17:54 46f4f6d **step: migrate jobs**
-- 2025-06-04 17:29 9ce5622 **step: install croner**
-- 2025-06-04 17:28 aea165c **step: cleanup tests**
-- 2025-06-04 17:07 bda9bc5 **step: migrate port prereq**
-- 2025-06-04 16:56 df43791 **step: migrate eailer prereq**
-- 2025-06-04 16:51 b5f38a3 **step: migrate mailer**
-- 2025-06-04 16:50 5d456af **step: migrate port**
-- 2025-06-04 16:47 ff20ca0 **step: install nodemailer**
-- 2025-06-04 16:47 dfe20c2 **step: migrate ssl cert expiry**
-- 2025-06-04 16:42 5992203 **step: install ssl-checker**
-- 2025-06-04 16:41 d9ac349 **refactor: simplify tests**
-- 2025-06-04 16:24 88a2717 **step: migrate translations prereq**
-- 2025-06-04 16:18 dafa747 **refactor: readd i18n default translations path**
-- 2025-06-04 16:14 7642e5e **step: migrate outside connectivity**
-- 2025-06-04 16:11 23303c5 **step: migrate memory prereq**
-- 2025-06-04 16:00 2fbc538 **step: migrate node prereq**
-- 2025-06-04 15:41 58016fa **step: test space prereq**
-- 2025-06-04 15:40 804f6c2 **step: install check-disk-space**
-- 2025-06-04 15:35 f6fcf20 **step: test prereqs**
-- 2025-06-04 15:28 ffcba51 **step: migrate ram prereq**
-- 2025-06-03 23:35 41bca63 **step: migrate path prereq**
-- 2025-06-03 23:30 5b93da6 **step: migrate self prereq**
-- 2025-06-03 23:29 2a67e07 **step: migrate timezone utc prereq**
-- 2025-06-03 23:19 6aad64e **step: migrate bun prereq**
-- 2025-06-03 23:14 41d876b **step: migrate binary prereq**
-- 2025-06-03 23:06 4b04213 **step: test image processor**
-- 2025-06-03 23:01 96a5233 **refactor: simplify i18n**
-- 2025-06-03 22:36 9d3f340 **step: test i18n**
-- 2025-06-03 16:04 3e9f333 **step: setup http logger tests**
-- 2025-06-03 15:18 1b1383e **step: test logger**
-- 2025-06-03 14:59 d37f2e6 **fix: this.level assignment in constructor**
-- 2025-06-03 00:29 f7be7c8 **step: test graceful shutdown**
-- 2025-06-03 00:14 0dc2af5 **step: test file uploader**
-- 2025-06-02 22:29 9568062 **step: test cache static files**
-- 2025-06-02 22:26 09c12e9 **step: add cache response tests**
-- 2025-06-02 22:11 82fc372 **step: remove supertest**
-- 2025-06-02 21:37 d77af67 **step: test download file**
-- 2025-06-02 17:16 9bb8fdc **step: test path**
-- 2025-06-02 17:15 2e0e34c **step: test correlation id**
-- 2025-06-02 17:13 cb296d8 **step: test build repo**
-- 2025-06-02 16:44 eb5de08 **step: test username**
-- 2025-06-02 16:37 d3912f2 **refactor: use built-in password hashing**
-- 2025-06-02 16:26 512caa8 **step: test passwords**
-- 2025-06-02 16:20 7eddfa1 **step: test memory consumption**
-- 2025-06-02 16:08 2bd9278 **step: test uptime**
-- 2025-06-02 15:58 c577045 **step: test new-uuid**
-- 2025-06-02 15:56 6a9d980 **step: test uuid**
-- 2025-06-01 19:35 d9368c5 **step: bump bgord/scripts**
-- 2025-06-01 19:02 c6c9ddf **step: bump types/bun**
-- 2025-06-01 19:00 a688ac2 **step: update commitlint**
-- 2025-06-01 18:43 ef65988 **refactor: rename passwords**
-- 2025-06-01 18:29 13d4ac4 **refactor: extract username**
-- 2025-06-01 18:04 0f5454f **refactor: split etag and weak etag**
-- 2025-06-01 17:51 8f0eb64 **refactor: extract path**
-- 2025-06-01 16:45 7b8a4df **refactor: move language vo to tools**
-- 2025-06-01 16:40 dab1273 **refactor: adjust timezone offset**
-- 2025-06-01 16:29 a8b6115 **refactor: move build version to tools**
-- 2025-06-01 16:25 26ed356 **refactor: move api key schema to tools**
-- 2025-06-01 16:24 806b312 **step: switch to local bgord/tools**
-- 2025-06-01 16:19 190c11d **refactor: adjust requestId type**
-- 2025-06-01 16:18 aaafcca **refactor: adjust BUILD_DATE type**
-- 2025-06-01 16:03 fad92b4 **refactor: reorganize exports**
-- 2025-06-01 15:59 6ad6e90 **refactor: adjust tests**
-- 2025-06-01 15:53 6d42fb1 **step: update bgord/tools**
-- 2025-06-01 15:49 e12fd5a **step: update bgord/tools**
-- 2025-06-01 13:29 43b0007 **refactor: migrate prereqs**
-- 2025-06-01 13:20 5039eef **refactor: migrate uptime**
-- 2025-06-01 13:06 cf41bb5 **refactor: use stopwatch**
-- 2025-06-01 12:54 8edea6e **refactor: migrate memory consumption**
-- 2025-06-01 00:54 c3ba581 **step: migrate node env enum**
-- 2025-06-01 00:53 1e0f9f0 **step: migrate logger**
-- 2025-06-01 00:48 70e5114 **step: install winston**
-- 2025-06-01 00:47 1110fab **refactor: fix rate limiter import**
-- 2025-06-01 00:44 7eecf72 **refactor: use timestamp from bgord/tools**
-- 2025-06-01 00:42 e5561d1 **refactor: fix getCookie import**
-- 2025-06-01 00:40 0b49f6f **refactor: migrate context variables**
-- 2025-06-01 00:21 260f0f1 **refactor: migrate language and path types**
-- 2025-05-31 19:37 6665122 **refactor: migrate timezone offset**
-- 2025-05-31 19:32 ef481b0 **refactor: migrate api key schema**
-- 2025-05-31 19:30 07166c5 **refactor: fix cache hit enum**
-- 2025-05-31 19:28 1105bbb **refactor: migrate credentials**
-- 2025-05-31 17:51 ab93697 **step: install missing node-cache**
-- 2025-05-31 17:50 daf9f06 **refactor: use time from tools**
-- 2025-05-31 17:45 af51c5c **refactor: migrate build-info-repository**
-- 2025-05-31 17:39 83f6ffe **refactor: use etags from tools**
-- 2025-05-31 17:34 218e316 **refactor: use mime from tools**
-- 2025-05-31 17:31 d33827e **refactor: use size from bgord/tools**
-- 2025-05-31 17:30 8eb3ab7 **refactor: remove bgord/node references**
-- 2025-05-31 17:29 7d4f68d **refactor: use bgord/tools exports**
-- 2025-05-31 17:27 ef69ec2 **step: install bgord/tools locally**
-- 2025-05-31 17:12 f7c55ce **step: migrate gracefeul-shutdown to bgord/tools**
-- 2025-05-31 17:12 4a202ad **step: bump bgord/tools**
-- 2025-05-31 17:08 857dea2 **step: bump bgord/tools**
-- 2025-05-31 17:01 72fd6a4 **step: remove bgord/node**
-- 2025-05-31 16:58 97a10bd **step: install bgord/tools**
+- 2025-06-05 20:05 9cdf73aa **0.6.0**
+- 2025-06-05 20:03 2f93d13e **step: bump bgord/tools**
+- 2025-06-05 20:02 cd5552a5 **refactor: remove infra keepme**
+- 2025-06-05 19:55 714975a3 **step: test cache resolver**
+- 2025-06-05 19:51 c651c57e **step: add cache resolver**
+- 2025-06-05 18:59 f3171e3a **docs: generate CHANGELOG**
+- 2025-06-05 15:47 ae35b58c **step: test time zone offset adjustTimestamp**
+- 2025-06-05 15:47 87fc48e9 **step: update knip**
+- 2025-06-05 15:43 a8b99bd8 **step: test log file prereq**
+- 2025-06-05 15:32 214cf0f4 **feature: define log file prereq**
+- 2025-06-05 15:26 52369e57 **step: add logger.getProductionLogFilePath**
+- 2025-06-05 15:24 9d2b8a63 **step: add logger.getProductionLogFilePath**
+- 2025-06-05 13:10 83eb2cdb **step: setup coverage config**
+- 2025-06-05 13:06 b4f5cec2 **refactor: improve node prereqs**
+- 2025-06-05 13:06 9c8765af **refactor: improve prereq binary tests**
+- 2025-06-05 13:05 745eb9bb **refactor: remove shell helper**
+- 2025-06-05 01:25 9cfecfb3 **refactor: remove image processor**
+- 2025-06-05 00:59 6325aded **refactor: rename test files**
+- 2025-06-05 00:55 cd091944 **step: bump bgord/scripts**
+- 2025-06-05 00:51 e3bb906d **refactor: remove brand types**
+- 2025-06-05 00:46 01a4e847 **refactor: do not export prereq config types**
+- 2025-06-05 00:41 f88b7b52 **step: update knip**
+- 2025-06-05 00:40 c373d66a **step: pin deps**
+- 2025-06-05 00:36 781c76ad **fix: workflows ubuntu**
+- 2025-06-05 00:35 c96d0dd3 **step: bump bgord/scripts**
+- 2025-06-05 00:19 6b46db4c **refactor: remove unused dep**
+- 2025-06-05 00:12 3acb8b58 **refactor: reexport prereqs**
+- 2025-06-05 00:09 bc1adfb2 **fix: prereq mailer test**
+- 2025-06-05 00:05 71225f16 **step: bump bgord/tools**
+- 2025-06-04 23:59 d6aa4c1b **fix: exports**
+- 2025-06-04 23:59 4d17ef48 **step: add prereqs export**
+- 2025-06-04 23:54 60ef641e **step: test auth shield**
+- 2025-06-04 23:26 929f1761 **refactor: rewrite auth shield**
+- 2025-06-04 23:25 5325cd26 **step: test session id**
+- 2025-06-04 23:21 2e61db76 **step: extract session id**
+- 2025-06-04 23:14 a63aca12 **step: test healthcheck**
+- 2025-06-04 23:04 5fabff24 **docs: generate CHANGELOG**
+- 2025-06-04 22:55 2dcac267 **docs: generate CHANGELOG**
+- 2025-06-04 22:52 d11d34c0 **docs: generate CHANGELOG**
+- 2025-06-04 22:49 6c3a49b0 **docs: generate CHANGELOG**
+- 2025-06-04 22:41 44490bac **docs: generate CHANGELOG**
+- 2025-06-04 22:40 a92ec5e4 **docs: generate CHANGELOG**
+- 2025-06-04 22:36 c9558742 **docs: generate CHANGELOG**
+- 2025-06-04 17:57 8f6b5a33 **step: rename tests**
+- 2025-06-04 17:55 277ba7ef **step: migrate jobs prereq**
+- 2025-06-04 17:54 46f4f6d3 **step: migrate jobs**
+- 2025-06-04 17:29 9ce56224 **step: install croner**
+- 2025-06-04 17:28 aea165cd **step: cleanup tests**
+- 2025-06-04 17:07 bda9bc57 **step: migrate port prereq**
+- 2025-06-04 16:56 df43791b **step: migrate eailer prereq**
+- 2025-06-04 16:51 b5f38a33 **step: migrate mailer**
+- 2025-06-04 16:50 5d456afc **step: migrate port**
+- 2025-06-04 16:47 ff20ca0e **step: install nodemailer**
+- 2025-06-04 16:47 dfe20c2d **step: migrate ssl cert expiry**
+- 2025-06-04 16:42 5992203d **step: install ssl-checker**
+- 2025-06-04 16:41 d9ac3492 **refactor: simplify tests**
+- 2025-06-04 16:24 88a27178 **step: migrate translations prereq**
+- 2025-06-04 16:18 dafa747b **refactor: readd i18n default translations path**
+- 2025-06-04 16:14 7642e5e8 **step: migrate outside connectivity**
+- 2025-06-04 16:11 23303c5d **step: migrate memory prereq**
+- 2025-06-04 16:00 2fbc5386 **step: migrate node prereq**
+- 2025-06-04 15:41 58016fac **step: test space prereq**
+- 2025-06-04 15:40 804f6c24 **step: install check-disk-space**
+- 2025-06-04 15:35 f6fcf20c **step: test prereqs**
+- 2025-06-04 15:28 ffcba51d **step: migrate ram prereq**
+- 2025-06-03 23:35 41bca63d **step: migrate path prereq**
+- 2025-06-03 23:30 5b93da67 **step: migrate self prereq**
+- 2025-06-03 23:29 2a67e078 **step: migrate timezone utc prereq**
+- 2025-06-03 23:19 6aad64ee **step: migrate bun prereq**
+- 2025-06-03 23:14 41d876b2 **step: migrate binary prereq**
+- 2025-06-03 23:06 4b042132 **step: test image processor**
+- 2025-06-03 23:01 96a52338 **refactor: simplify i18n**
+- 2025-06-03 22:36 9d3f340d **step: test i18n**
+- 2025-06-03 16:04 3e9f3334 **step: setup http logger tests**
+- 2025-06-03 15:18 1b1383ef **step: test logger**
+- 2025-06-03 14:59 d37f2e6c **fix: this.level assignment in constructor**
+- 2025-06-03 00:29 f7be7c89 **step: test graceful shutdown**
+- 2025-06-03 00:14 0dc2af57 **step: test file uploader**
+- 2025-06-02 22:29 95680620 **step: test cache static files**
+- 2025-06-02 22:26 09c12e9f **step: add cache response tests**
+- 2025-06-02 22:11 82fc3725 **step: remove supertest**
+- 2025-06-02 21:37 d77af677 **step: test download file**
+- 2025-06-02 17:16 9bb8fdc7 **step: test path**
+- 2025-06-02 17:15 2e0e34cf **step: test correlation id**
+- 2025-06-02 17:13 cb296d85 **step: test build repo**
+- 2025-06-02 16:44 eb5de085 **step: test username**
+- 2025-06-02 16:37 d3912f25 **refactor: use built-in password hashing**
+- 2025-06-02 16:26 512caa80 **step: test passwords**
+- 2025-06-02 16:20 7eddfa1c **step: test memory consumption**
+- 2025-06-02 16:08 2bd92785 **step: test uptime**
+- 2025-06-02 15:58 c5770457 **step: test new-uuid**
+- 2025-06-02 15:56 6a9d9802 **step: test uuid**
+- 2025-06-01 19:35 d9368c56 **step: bump bgord/scripts**
+- 2025-06-01 19:02 c6c9ddf6 **step: bump types/bun**
+- 2025-06-01 19:00 a688ac27 **step: update commitlint**
+- 2025-06-01 18:43 ef659888 **refactor: rename passwords**
+- 2025-06-01 18:29 13d4ac48 **refactor: extract username**
+- 2025-06-01 18:04 0f5454f7 **refactor: split etag and weak etag**
+- 2025-06-01 17:51 8f0eb64f **refactor: extract path**
+- 2025-06-01 16:45 7b8a4df8 **refactor: move language vo to tools**
+- 2025-06-01 16:40 dab12732 **refactor: adjust timezone offset**
+- 2025-06-01 16:29 a8b6115d **refactor: move build version to tools**
+- 2025-06-01 16:25 26ed3563 **refactor: move api key schema to tools**
+- 2025-06-01 16:24 806b3120 **step: switch to local bgord/tools**
+- 2025-06-01 16:19 190c11d5 **refactor: adjust requestId type**
+- 2025-06-01 16:18 aaafcca2 **refactor: adjust BUILD_DATE type**
+- 2025-06-01 16:03 fad92b4b **refactor: reorganize exports**
+- 2025-06-01 15:59 6ad6e90b **refactor: adjust tests**
+- 2025-06-01 15:53 6d42fb1e **step: update bgord/tools**
+- 2025-06-01 15:49 e12fd5a0 **step: update bgord/tools**
+- 2025-06-01 13:29 43b00079 **refactor: migrate prereqs**
+- 2025-06-01 13:20 5039eef4 **refactor: migrate uptime**
+- 2025-06-01 13:06 cf41bb57 **refactor: use stopwatch**
+- 2025-06-01 12:54 8edea6e0 **refactor: migrate memory consumption**
+- 2025-06-01 00:54 c3ba5814 **step: migrate node env enum**
+- 2025-06-01 00:53 1e0f9f07 **step: migrate logger**
+- 2025-06-01 00:48 70e5114f **step: install winston**
+- 2025-06-01 00:47 1110fabd **refactor: fix rate limiter import**
+- 2025-06-01 00:44 7eecf720 **refactor: use timestamp from bgord/tools**
+- 2025-06-01 00:42 e5561d15 **refactor: fix getCookie import**
+- 2025-06-01 00:40 0b49f6f2 **refactor: migrate context variables**
+- 2025-06-01 00:21 260f0f1e **refactor: migrate language and path types**
+- 2025-05-31 19:37 6665122b **refactor: migrate timezone offset**
+- 2025-05-31 19:32 ef481b02 **refactor: migrate api key schema**
+- 2025-05-31 19:30 07166c56 **refactor: fix cache hit enum**
+- 2025-05-31 19:28 1105bbbb **refactor: migrate credentials**
+- 2025-05-31 17:51 ab936974 **step: install missing node-cache**
+- 2025-05-31 17:50 daf9f061 **refactor: use time from tools**
+- 2025-05-31 17:45 af51c5c1 **refactor: migrate build-info-repository**
+- 2025-05-31 17:39 83f6ffed **refactor: use etags from tools**
+- 2025-05-31 17:34 218e316a **refactor: use mime from tools**
+- 2025-05-31 17:31 d33827e5 **refactor: use size from bgord/tools**
+- 2025-05-31 17:30 8eb3ab7a **refactor: remove bgord/node references**
+- 2025-05-31 17:29 7d4f68d6 **refactor: use bgord/tools exports**
+- 2025-05-31 17:27 ef69ec28 **step: install bgord/tools locally**
+- 2025-05-31 17:12 f7c55cef **step: migrate gracefeul-shutdown to bgord/tools**
+- 2025-05-31 17:12 4a202add **step: bump bgord/tools**
+- 2025-05-31 17:08 857dea22 **step: bump bgord/tools**
+- 2025-05-31 17:01 72fd6a4b **step: remove bgord/node**
+- 2025-05-31 16:58 97a10bda **step: install bgord/tools**
 ## 2025-05-31 15:47 v0.5.0
-- 2025-05-31 15:47 c178750 **0.5.0**
-- 2025-05-31 15:46 72d3979 **fix: httpRequestBeforeMetadata.headers**
-- 2025-05-31 15:46 633ef13 **step: adjust tsconfig.json**
-- 2025-05-31 15:03 802aa10 **fix: types from bgord/node**
-- 2025-05-31 15:02 be0961f **refactor: switch from microbundle to tsc**
-- 2025-05-31 14:59 77cc4e8 **refactor: update typescript**
+- 2025-05-31 15:47 c1787504 **0.5.0**
+- 2025-05-31 15:46 72d39799 **fix: httpRequestBeforeMetadata.headers**
+- 2025-05-31 15:46 633ef133 **step: adjust tsconfig.json**
+- 2025-05-31 15:03 802aa105 **fix: types from bgord/node**
+- 2025-05-31 15:02 be0961fc **refactor: switch from microbundle to tsc**
+- 2025-05-31 14:59 77cc4e86 **refactor: update typescript**
 ## 2025-05-29 21:28 v0.4.0
-- 2025-05-29 21:28 c74e7d9 **0.4.0**
-- 2025-05-29 21:27 a8a9ac7 **step: update knip**
-- 2025-05-29 21:26 29d0a04 **step: bump bgord/node**
-- 2025-02-03 21:58 f02e40d **step: bump bgord/scripts**
-- 2024-11-23 15:45 0c88878 **refactor: rename tests**
-- 2024-11-23 15:44 aee80af **step: update packages**
-- 2024-11-23 15:44 39497fb **step: bump bgord/scripts**
-- 2024-11-23 15:03 e22e39a **Merge pull request #33 from bgord/dependabot/npm_and_yarn/commitlint/config-conventional-19.6.0**
-- 2024-11-23 14:44 563fc19 **docs: generate CHANGELOG**
-- 2024-11-23 14:04 a7e4bbc **Merge pull request #32 from bgord/dependabot/npm_and_yarn/commitlint/cli-19.6.0**
-- 2024-11-23 14:04 7241669 **docs: generate CHANGELOG**
-- 2024-11-23 14:04 1395476 **Merge pull request #31 from bgord/dependabot/npm_and_yarn/lefthook-1.8.4**
-- 2024-11-23 13:54 6386842 **Merge pull request #30 from bgord/dependabot/npm_and_yarn/knip-5.37.1**
-- 2024-11-23 13:05 9a81322 **build(deps-dev): bump @commitlint/config-conventional**
-- 2024-11-23 13:04 2b93239 **docs: generate CHANGELOG**
-- 2024-11-23 12:55 d9d315b **build(deps-dev): bump lefthook from 1.8.2 to 1.8.4**
-- 2024-11-23 12:54 278e6d5 **docs: generate CHANGELOG**
-- 2024-11-20 06:21 4109d8a **build(deps-dev): bump @commitlint/cli from 19.5.0 to 19.6.0**
-- 2024-11-18 05:32 f12092c **build(deps-dev): bump knip from 5.36.7 to 5.37.1**
+- 2025-05-29 21:28 c74e7d90 **0.4.0**
+- 2025-05-29 21:27 a8a9ac71 **step: update knip**
+- 2025-05-29 21:26 29d0a049 **step: bump bgord/node**
+- 2025-02-03 21:58 f02e40d7 **step: bump bgord/scripts**
+- 2024-11-23 15:45 0c88878a **refactor: rename tests**
+- 2024-11-23 15:44 aee80afb **step: update packages**
+- 2024-11-23 15:44 39497fb3 **step: bump bgord/scripts**
+- 2024-11-23 15:03 e22e39a7 **Merge pull request #33 from bgord/dependabot/npm_and_yarn/commitlint/config-conventional-19.6.0**
+- 2024-11-23 14:44 563fc192 **docs: generate CHANGELOG**
+- 2024-11-23 14:04 a7e4bbc5 **Merge pull request #32 from bgord/dependabot/npm_and_yarn/commitlint/cli-19.6.0**
+- 2024-11-23 14:04 72416695 **docs: generate CHANGELOG**
+- 2024-11-23 14:04 1395476a **Merge pull request #31 from bgord/dependabot/npm_and_yarn/lefthook-1.8.4**
+- 2024-11-23 13:54 6386842a **Merge pull request #30 from bgord/dependabot/npm_and_yarn/knip-5.37.1**
+- 2024-11-23 13:05 9a813221 **build(deps-dev): bump @commitlint/config-conventional**
+- 2024-11-23 13:04 2b932394 **docs: generate CHANGELOG**
+- 2024-11-23 12:55 d9d315bc **build(deps-dev): bump lefthook from 1.8.2 to 1.8.4**
+- 2024-11-23 12:54 278e6d5d **docs: generate CHANGELOG**
+- 2024-11-20 06:21 4109d8a0 **build(deps-dev): bump @commitlint/cli from 19.5.0 to 19.6.0**
+- 2024-11-18 05:32 f12092c0 **build(deps-dev): bump knip from 5.36.7 to 5.37.1**
 ## 2024-11-13 18:11 v0.3.5
-- 2024-11-13 18:11 9147dfe **0.3.5**
-- 2024-11-13 18:10 e165192 **step: bump bgord/scripts**
-- 2024-11-13 17:11 4b2c750 **docs: generate CHANGELOG**
-- 2024-11-13 17:10 26cbed4 **docs: generate CHANGELOG**
-- 2024-11-13 15:23 84ffbcf **step: setup lefthook**
-- 2024-11-13 15:23 12dce65 **fix: formatting**
-- 2024-11-13 15:20 f2623dc **step: bump bgord/scripts**
-- 2024-11-13 15:20 df65044 **refactor: remove husky**
-- 2024-11-13 15:20 1ba5209 **step: update packages**
-- 2024-11-04 08:08 c092264 **Merge pull request #23 from bgord/dependabot/npm_and_yarn/knip-5.36.2**
-- 2024-11-04 08:08 a182dea **Merge pull request #22 from bgord/dependabot/npm_and_yarn/types/bun-1.1.13**
-- 2024-11-04 08:08 50a98c3 **Merge pull request #20 from bgord/dependabot/npm_and_yarn/hono-4.6.9**
-- 2024-11-04 08:08 2bdd7e7 **Merge pull request #21 from bgord/dependabot/npm_and_yarn/cspell-8.15.7**
-- 2024-11-04 07:08 0e41ebe **docs: generate CHANGELOG**
-- 2024-11-04 06:02 cea5213 **build(deps-dev): bump cspell from 8.15.5 to 8.15.7**
-- 2024-11-04 06:02 a767da6 **build(deps-dev): bump knip from 5.34.4 to 5.36.2**
-- 2024-11-04 06:02 85eda37 **build(deps): bump hono from 4.6.8 to 4.6.9**
-- 2024-11-04 06:02 165f165 **build(deps-dev): bump @types/bun from 1.1.12 to 1.1.13**
-- 2024-10-31 08:55 ec59bf4 **Merge pull request #18 from bgord/dependabot/npm_and_yarn/cspell-8.15.5**
-- 2024-10-31 08:54 f370f55 **Merge pull request #17 from bgord/dependabot/npm_and_yarn/knip-5.34.4**
-- 2024-10-31 08:54 676e9f1 **Merge pull request #16 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.13**
-- 2024-10-31 08:54 1ed192a **Merge pull request #15 from bgord/dependabot/npm_and_yarn/hono-4.6.8**
-- 2024-10-31 07:56 d5f76e3 **docs: generate CHANGELOG**
-- 2024-10-31 07:55 f6a902c **build(deps-dev): bump cspell from 8.15.4 to 8.15.5**
-- 2024-10-31 07:54 56717f7 **docs: generate CHANGELOG**
-- 2024-10-31 05:57 cb3ad31 **build(deps-dev): bump knip from 5.34.2 to 5.34.4**
-- 2024-10-30 05:26 d2c2b65 **build(deps): bump hono from 4.6.7 to 4.6.8**
-- 2024-10-30 05:26 7894e2f **build(deps-dev): bump @types/lodash from 4.17.12 to 4.17.13**
-- 2024-10-29 07:59 1b06739 **Merge pull request #11 from bgord/dependabot/npm_and_yarn/hono-4.6.7**
-- 2024-10-29 07:58 77c232f **Merge pull request #13 from bgord/dependabot/npm_and_yarn/knip-5.34.2**
-- 2024-10-29 06:59 758e21c **docs: generate CHANGELOG**
-- 2024-10-29 06:58 c20c220 **docs: generate CHANGELOG**
-- 2024-10-29 05:39 29c76e3 **build(deps-dev): bump knip from 5.34.0 to 5.34.2**
-- 2024-10-28 06:04 fc132e7 **build(deps): bump hono from 4.6.6 to 4.6.7**
+- 2024-11-13 18:11 9147dfe5 **0.3.5**
+- 2024-11-13 18:10 e1651922 **step: bump bgord/scripts**
+- 2024-11-13 17:11 4b2c7507 **docs: generate CHANGELOG**
+- 2024-11-13 17:10 26cbed45 **docs: generate CHANGELOG**
+- 2024-11-13 15:23 84ffbcf1 **step: setup lefthook**
+- 2024-11-13 15:23 12dce654 **fix: formatting**
+- 2024-11-13 15:20 f2623dc5 **step: bump bgord/scripts**
+- 2024-11-13 15:20 df65044a **refactor: remove husky**
+- 2024-11-13 15:20 1ba52090 **step: update packages**
+- 2024-11-04 08:08 c0922640 **Merge pull request #23 from bgord/dependabot/npm_and_yarn/knip-5.36.2**
+- 2024-11-04 08:08 a182deab **Merge pull request #22 from bgord/dependabot/npm_and_yarn/types/bun-1.1.13**
+- 2024-11-04 08:08 50a98c3d **Merge pull request #20 from bgord/dependabot/npm_and_yarn/hono-4.6.9**
+- 2024-11-04 08:08 2bdd7e72 **Merge pull request #21 from bgord/dependabot/npm_and_yarn/cspell-8.15.7**
+- 2024-11-04 07:08 0e41ebe4 **docs: generate CHANGELOG**
+- 2024-11-04 06:02 cea52130 **build(deps-dev): bump cspell from 8.15.5 to 8.15.7**
+- 2024-11-04 06:02 a767da65 **build(deps-dev): bump knip from 5.34.4 to 5.36.2**
+- 2024-11-04 06:02 85eda37b **build(deps): bump hono from 4.6.8 to 4.6.9**
+- 2024-11-04 06:02 165f1652 **build(deps-dev): bump @types/bun from 1.1.12 to 1.1.13**
+- 2024-10-31 08:55 ec59bf44 **Merge pull request #18 from bgord/dependabot/npm_and_yarn/cspell-8.15.5**
+- 2024-10-31 08:54 f370f552 **Merge pull request #17 from bgord/dependabot/npm_and_yarn/knip-5.34.4**
+- 2024-10-31 08:54 676e9f1e **Merge pull request #16 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.13**
+- 2024-10-31 08:54 1ed192aa **Merge pull request #15 from bgord/dependabot/npm_and_yarn/hono-4.6.8**
+- 2024-10-31 07:56 d5f76e35 **docs: generate CHANGELOG**
+- 2024-10-31 07:55 f6a902c1 **build(deps-dev): bump cspell from 8.15.4 to 8.15.5**
+- 2024-10-31 07:54 56717f72 **docs: generate CHANGELOG**
+- 2024-10-31 05:57 cb3ad31d **build(deps-dev): bump knip from 5.34.2 to 5.34.4**
+- 2024-10-30 05:26 d2c2b65e **build(deps): bump hono from 4.6.7 to 4.6.8**
+- 2024-10-30 05:26 7894e2fc **build(deps-dev): bump @types/lodash from 4.17.12 to 4.17.13**
+- 2024-10-29 07:59 1b06739d **Merge pull request #11 from bgord/dependabot/npm_and_yarn/hono-4.6.7**
+- 2024-10-29 07:58 77c232fd **Merge pull request #13 from bgord/dependabot/npm_and_yarn/knip-5.34.2**
+- 2024-10-29 06:59 758e21c1 **docs: generate CHANGELOG**
+- 2024-10-29 06:58 c20c2205 **docs: generate CHANGELOG**
+- 2024-10-29 05:39 29c76e33 **build(deps-dev): bump knip from 5.34.0 to 5.34.2**
+- 2024-10-28 06:04 fc132e75 **build(deps): bump hono from 4.6.6 to 4.6.7**
 ## 2024-10-26 14:15 v0.3.4
-- 2024-10-26 14:15 3141cee **0.3.4**
-- 2024-10-26 14:14 68cbc9a **step: bump packages**
-- 2024-10-26 14:14 31011fc **step: bump bgord/node**
-- 2024-10-26 12:16 312962f **docs: generate CHANGELOG**
-- 2024-10-26 12:14 b35554a **docs: generate CHANGELOG**
-- 2024-10-25 09:59 b7dda43 **Merge pull request #10 from bgord/dependabot/npm_and_yarn/knip-5.34.0**
-- 2024-10-25 08:00 4984d42 **docs: generate CHANGELOG**
-- 2024-10-25 05:30 6bbcb80 **build(deps-dev): bump knip from 5.33.3 to 5.34.0**
+- 2024-10-26 14:15 3141ceec **0.3.4**
+- 2024-10-26 14:14 68cbc9ab **step: bump packages**
+- 2024-10-26 14:14 31011fc3 **step: bump bgord/node**
+- 2024-10-26 12:16 312962f6 **docs: generate CHANGELOG**
+- 2024-10-26 12:14 b35554a4 **docs: generate CHANGELOG**
+- 2024-10-25 09:59 b7dda433 **Merge pull request #10 from bgord/dependabot/npm_and_yarn/knip-5.34.0**
+- 2024-10-25 08:00 4984d42a **docs: generate CHANGELOG**
+- 2024-10-25 05:30 6bbcb806 **build(deps-dev): bump knip from 5.33.3 to 5.34.0**
 ## 2024-10-23 08:48 v0.3.3
-- 2024-10-23 08:48 f04a1de **0.3.3**
-- 2024-10-23 08:47 e15d168 **step: bump bgord/node**
+- 2024-10-23 08:48 f04a1de8 **0.3.3**
+- 2024-10-23 08:47 e15d168a **step: bump bgord/node**
 ## 2024-10-23 08:42 v0.3.2
-- 2024-10-23 08:42 e015802 **0.3.2**
-- 2024-10-23 08:41 4c7eaeb **refactor: make preinstall script use bunx**
-- 2024-10-23 08:40 fd17aee **fix: etag extractor tests**
-- 2024-10-23 08:34 49cf5aa **step: bump packages**
-- 2024-10-23 08:34 3fae100 **step: bump bgord/node**
-- 2024-10-23 08:31 fe6cf34 **Merge pull request #8 from bgord/dependabot/npm_and_yarn/hono-4.6.6**
-- 2024-10-23 08:31 112f80c **Merge pull request #9 from bgord/dependabot/npm_and_yarn/types/bun-1.1.12**
-- 2024-10-23 08:30 e2347f8 **Merge branch 'master' into dependabot/npm_and_yarn/cspell-8.15.4**
-- 2024-10-23 08:30 9c25566 **Merge pull request #7 from bgord/dependabot/npm_and_yarn/cspell-8.15.4**
-- 2024-10-23 08:29 12ed758 **Merge pull request #6 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.12**
-- 2024-10-23 06:48 c646f18 **docs: generate CHANGELOG**
-- 2024-10-23 06:48 3c1b101 **docs: generate CHANGELOG**
-- 2024-10-23 06:42 6d118fb **docs: generate CHANGELOG**
-- 2024-10-23 06:42 3045bb5 **docs: generate CHANGELOG**
-- 2024-10-23 06:40 91f187e **docs: generate CHANGELOG**
-- 2024-10-23 06:35 2a8c512 **docs: generate CHANGELOG**
-- 2024-10-23 06:32 fc2d8b7 **docs: generate CHANGELOG**
-- 2024-10-23 06:31 c53bdc5 **docs: generate CHANGELOG**
-- 2024-10-23 06:31 5338578 **build(deps-dev): bump @types/bun from 1.1.11 to 1.1.12**
-- 2024-10-23 06:30 fe1c108 **docs: generate CHANGELOG**
-- 2024-10-23 06:29 da7f7f1 **docs: generate CHANGELOG**
-- 2024-10-22 05:58 e7022b3 **build(deps): bump hono from 4.6.5 to 4.6.6**
-- 2024-10-21 05:32 d549e4e **build(deps-dev): bump @types/lodash from 4.17.10 to 4.17.12**
-- 2024-10-21 05:32 b92bc23 **build(deps-dev): bump cspell from 8.15.3 to 8.15.4**
+- 2024-10-23 08:42 e015802e **0.3.2**
+- 2024-10-23 08:41 4c7eaebb **refactor: make preinstall script use bunx**
+- 2024-10-23 08:40 fd17aee9 **fix: etag extractor tests**
+- 2024-10-23 08:34 49cf5aac **step: bump packages**
+- 2024-10-23 08:34 3fae1007 **step: bump bgord/node**
+- 2024-10-23 08:31 fe6cf345 **Merge pull request #8 from bgord/dependabot/npm_and_yarn/hono-4.6.6**
+- 2024-10-23 08:31 112f80cf **Merge pull request #9 from bgord/dependabot/npm_and_yarn/types/bun-1.1.12**
+- 2024-10-23 08:30 e2347f82 **Merge branch 'master' into dependabot/npm_and_yarn/cspell-8.15.4**
+- 2024-10-23 08:30 9c25566a **Merge pull request #7 from bgord/dependabot/npm_and_yarn/cspell-8.15.4**
+- 2024-10-23 08:29 12ed758d **Merge pull request #6 from bgord/dependabot/npm_and_yarn/types/lodash-4.17.12**
+- 2024-10-23 06:48 c646f185 **docs: generate CHANGELOG**
+- 2024-10-23 06:48 3c1b101b **docs: generate CHANGELOG**
+- 2024-10-23 06:42 6d118fb2 **docs: generate CHANGELOG**
+- 2024-10-23 06:42 3045bb58 **docs: generate CHANGELOG**
+- 2024-10-23 06:40 91f187ef **docs: generate CHANGELOG**
+- 2024-10-23 06:35 2a8c5123 **docs: generate CHANGELOG**
+- 2024-10-23 06:32 fc2d8b76 **docs: generate CHANGELOG**
+- 2024-10-23 06:31 c53bdc57 **docs: generate CHANGELOG**
+- 2024-10-23 06:31 53385782 **build(deps-dev): bump @types/bun from 1.1.11 to 1.1.12**
+- 2024-10-23 06:30 fe1c108e **docs: generate CHANGELOG**
+- 2024-10-23 06:29 da7f7f17 **docs: generate CHANGELOG**
+- 2024-10-22 05:58 e7022b37 **build(deps): bump hono from 4.6.5 to 4.6.6**
+- 2024-10-21 05:32 d549e4ec **build(deps-dev): bump @types/lodash from 4.17.10 to 4.17.12**
+- 2024-10-21 05:32 b92bc232 **build(deps-dev): bump cspell from 8.15.3 to 8.15.4**
 ## 2024-10-19 15:59 v0.3.1
-- 2024-10-19 15:59 45b74ee **0.3.1**
-- 2024-10-19 15:57 0c0c990 **step: bump bgord/node**
+- 2024-10-19 15:59 45b74ee4 **0.3.1**
+- 2024-10-19 15:57 0c0c9901 **step: bump bgord/node**
 ## 2024-10-19 15:54 v0.3.0
-- 2024-10-19 15:54 d7b544d **0.3.0**
-- 2024-10-19 15:40 8507c6b **Merge pull request #5 from bgord/dependabot/npm_and_yarn/biomejs/biome-1.9.4**
-- 2024-10-19 13:59 e66b958 **docs: generate CHANGELOG**
-- 2024-10-19 13:58 0b1d3a8 **docs: generate CHANGELOG**
-- 2024-10-19 13:54 6dd6bd0 **docs: generate CHANGELOG**
-- 2024-10-19 13:54 0ce3ce0 **docs: generate CHANGELOG**
-- 2024-10-19 13:41 356daf5 **docs: generate CHANGELOG**
-- 2024-10-19 00:00 ca317f3 **fix: weak etag extractor**
-- 2024-10-18 05:50 8529d82 **build(deps-dev): bump @biomejs/biome from 1.9.3 to 1.9.4**
-- 2024-10-17 20:49 c632805 **step: add setup**
+- 2024-10-19 15:54 d7b544d6 **0.3.0**
+- 2024-10-19 15:40 8507c6bb **Merge pull request #5 from bgord/dependabot/npm_and_yarn/biomejs/biome-1.9.4**
+- 2024-10-19 13:59 e66b9589 **docs: generate CHANGELOG**
+- 2024-10-19 13:58 0b1d3a8f **docs: generate CHANGELOG**
+- 2024-10-19 13:54 6dd6bd0d **docs: generate CHANGELOG**
+- 2024-10-19 13:54 0ce3ce02 **docs: generate CHANGELOG**
+- 2024-10-19 13:41 356daf53 **docs: generate CHANGELOG**
+- 2024-10-19 00:00 ca317f39 **fix: weak etag extractor**
+- 2024-10-18 05:50 8529d82f **build(deps-dev): bump @biomejs/biome from 1.9.3 to 1.9.4**
+- 2024-10-17 20:49 c6328053 **step: add setup**
 ## 2024-10-17 20:28 v0.2.0
-- 2024-10-17 20:28 6dc8372 **0.2.0**
-- 2024-10-17 19:54 67ba6c3 **step: add image processor**
-- 2024-10-17 19:41 d3b78f9 **step: install sharp**
-- 2024-10-17 19:41 9ed1db8 **step: add body limit to file uploader**
-- 2024-10-17 18:28 b6de5ee **docs: generate CHANGELOG**
-- 2024-10-17 18:27 d5766c0 **docs: generate CHANGELOG**
-- 2024-10-17 17:09 cf7d6cc **refactor: add size validation to file uploader**
-- 2024-10-17 17:02 b2a0b14 **feature: add file uploader**
-- 2024-10-17 15:45 ded0170 **step: rewrite i18n**
-- 2024-10-17 15:09 9106aa3 **step: port download file**
-- 2024-10-17 08:09 3ca2fc8 **Merge pull request #4 from bgord/dependabot/npm_and_yarn/cspell-8.15.3**
-- 2024-10-17 06:10 73b0d38 **docs: generate CHANGELOG**
-- 2024-10-17 06:03 b80f68f **build(deps-dev): bump cspell from 8.15.2 to 8.15.3**
-- 2024-10-16 16:45 ddd9fbf **step: Add cache static files middleware**
-- 2024-10-16 16:45 2b411f8 **step: add AccessDeniedAuthShieldError**
-- 2024-10-16 16:45 007f470 **step: add cache response middleware**
-- 2024-10-16 15:36 351f94d **feature: add auth shield**
-- 2024-10-16 15:33 4cb7d5c **fix: http logger req/res consumption**
-- 2024-10-16 13:13 e4d77d8 **step: update packages**
-- 2024-10-15 17:37 a064e46 **Merge pull request #2 from bgord/dependabot/npm_and_yarn/knip-5.33.3**
-- 2024-10-15 17:37 695e978 **Merge pull request #3 from bgord/dependabot/npm_and_yarn/cspell-8.15.2**
-- 2024-10-15 17:36 32af6fa **Merge pull request #1 from bgord/dependabot/npm_and_yarn/hono-4.6.5**
+- 2024-10-17 20:28 6dc83728 **0.2.0**
+- 2024-10-17 19:54 67ba6c35 **step: add image processor**
+- 2024-10-17 19:41 d3b78f98 **step: install sharp**
+- 2024-10-17 19:41 9ed1db8b **step: add body limit to file uploader**
+- 2024-10-17 18:28 b6de5ee5 **docs: generate CHANGELOG**
+- 2024-10-17 18:27 d5766c0d **docs: generate CHANGELOG**
+- 2024-10-17 17:09 cf7d6cc5 **refactor: add size validation to file uploader**
+- 2024-10-17 17:02 b2a0b148 **feature: add file uploader**
+- 2024-10-17 15:45 ded01700 **step: rewrite i18n**
+- 2024-10-17 15:09 9106aa39 **step: port download file**
+- 2024-10-17 08:09 3ca2fc8a **Merge pull request #4 from bgord/dependabot/npm_and_yarn/cspell-8.15.3**
+- 2024-10-17 06:10 73b0d387 **docs: generate CHANGELOG**
+- 2024-10-17 06:03 b80f68f7 **build(deps-dev): bump cspell from 8.15.2 to 8.15.3**
+- 2024-10-16 16:45 ddd9fbf2 **step: Add cache static files middleware**
+- 2024-10-16 16:45 2b411f83 **step: add AccessDeniedAuthShieldError**
+- 2024-10-16 16:45 007f4702 **step: add cache response middleware**
+- 2024-10-16 15:36 351f94de **feature: add auth shield**
+- 2024-10-16 15:33 4cb7d5c9 **fix: http logger req/res consumption**
+- 2024-10-16 13:13 e4d77d8f **step: update packages**
+- 2024-10-15 17:37 a064e463 **Merge pull request #2 from bgord/dependabot/npm_and_yarn/knip-5.33.3**
+- 2024-10-15 17:37 695e978b **Merge pull request #3 from bgord/dependabot/npm_and_yarn/cspell-8.15.2**
+- 2024-10-15 17:36 32af6fa1 **Merge pull request #1 from bgord/dependabot/npm_and_yarn/hono-4.6.5**
 ## 2024-10-15 17:22 v0.1.0
-- 2024-10-15 17:22 de768d9 **0.1.0**
-- 2024-10-15 15:41 cd5b3cf **step: set base version**
-- 2024-10-15 15:39 fc56fe6 **step: switch to bun in git hooks**
-- 2024-10-15 15:37 4cfee63 **step: try bun as package manager**
-- 2024-10-15 15:37 07bbff4 **docs: generate CHANGELOG**
-- 2024-10-15 15:22 eb0b3f3 **docs: generate CHANGELOG**
-- 2024-10-15 14:57 e0527bc **step: rewrite tests**
-- 2024-10-15 14:30 c017ebf **refactor: remove unused packages**
-- 2024-10-15 14:29 d45ceeb **refactor: remove unused packages**
-- 2024-10-15 14:26 ae59bef **refactor: remove unused tests**
-- 2024-10-15 14:24 e0aadf2 **fix: context type exports**
-- 2024-10-15 14:24 6ae7f78 **step: remove commit-msg hook**
-- 2024-10-15 14:22 fb861bd **step: bump bgord/node**
-- 2024-10-15 13:42 c274697 **docs: generate CHANGELOG**
-- 2024-10-15 13:42 8c99017 **build(deps-dev): bump cspell from 8.14.4 to 8.15.2**
-- 2024-10-15 13:41 294f9f0 **build(deps-dev): bump knip from 5.33.2 to 5.33.3**
-- 2024-10-15 13:41 026a2b4 **build(deps): bump hono from 4.6.4 to 4.6.5**
-- 2024-10-15 13:40 9fce1c1 **docs: generate CHANGELOG**
-- 2024-10-15 11:52 61abb27 **refactor: adjust bun modules to bgord/node**
-- 2024-10-15 11:47 8c97670 **refactor: remove non-bun files**
-- 2024-10-15 11:47 8486e5d **step: move bun to main directory**
-- 2024-10-15 11:46 a7b85c6 **step: install bgord/node**
-- 2024-10-15 11:44 07cfb92 **step: move bgord node base**
-- 2024-10-15 11:40 d1419a1 **step: setup husky**
-- 2024-10-15 11:39 74b1be9 **step: setup bgord-scripts**
+- 2024-10-15 17:22 de768d92 **0.1.0**
+- 2024-10-15 15:41 cd5b3cf2 **step: set base version**
+- 2024-10-15 15:39 fc56fe65 **step: switch to bun in git hooks**
+- 2024-10-15 15:37 4cfee63b **step: try bun as package manager**
+- 2024-10-15 15:37 07bbff42 **docs: generate CHANGELOG**
+- 2024-10-15 15:22 eb0b3f3a **docs: generate CHANGELOG**
+- 2024-10-15 14:57 e0527bc5 **step: rewrite tests**
+- 2024-10-15 14:30 c017ebf6 **refactor: remove unused packages**
+- 2024-10-15 14:29 d45ceeb5 **refactor: remove unused packages**
+- 2024-10-15 14:26 ae59bef5 **refactor: remove unused tests**
+- 2024-10-15 14:24 e0aadf2f **fix: context type exports**
+- 2024-10-15 14:24 6ae7f783 **step: remove commit-msg hook**
+- 2024-10-15 14:22 fb861bd2 **step: bump bgord/node**
+- 2024-10-15 13:42 c274697b **docs: generate CHANGELOG**
+- 2024-10-15 13:42 8c990175 **build(deps-dev): bump cspell from 8.14.4 to 8.15.2**
+- 2024-10-15 13:41 294f9f05 **build(deps-dev): bump knip from 5.33.2 to 5.33.3**
+- 2024-10-15 13:41 026a2b47 **build(deps): bump hono from 4.6.4 to 4.6.5**
+- 2024-10-15 13:40 9fce1c1c **docs: generate CHANGELOG**
+- 2024-10-15 11:52 61abb279 **refactor: adjust bun modules to bgord/node**
+- 2024-10-15 11:47 8c976701 **refactor: remove non-bun files**
+- 2024-10-15 11:47 8486e5d6 **step: move bun to main directory**
+- 2024-10-15 11:46 a7b85c6f **step: install bgord/node**
+- 2024-10-15 11:44 07cfb92e **step: move bgord node base**
+- 2024-10-15 11:40 d1419a1b **step: setup husky**
+- 2024-10-15 11:39 74b1be99 **step: setup bgord-scripts**
