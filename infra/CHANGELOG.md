@@ -1,9 +1,11 @@
 # Changelog
+- 2026-01-16 15:28 0477487 **refactor: remove src from package json files**
 ## 2026-01-16 15:08 v1.8.20
 - 2026-01-16 15:08 662c815 **1.8.20**
 - 2026-01-16 15:06 fb82bf7 **refactor: replace dotenv parse with EnvironmentFileParser**
 - 2026-01-16 15:06 9265dd8 **step: remove dotenv dependency**
 - 2026-01-16 14:50 e85b5dd **feature: add custom environment file parser**
+- 2026-01-16 14:08 23121bc **docs: generate CHANGELOG**
 - 2026-01-16 14:07 6f8494f **docs: generate readme**
 - 2026-01-16 14:07 2be7952 **docs: generate CHANGELOG**
 ## 2026-01-16 12:06 v1.8.19
