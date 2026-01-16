@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerWinstonAdapter } from "../src/logger-winston.adapter";
+import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
@@ -16,7 +17,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
@@ -38,7 +39,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
@@ -66,7 +67,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
@@ -88,7 +89,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.silly,
       transports: [transport],
       redactor,
@@ -110,7 +111,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.verbose,
       transports: [transport],
       redactor,
@@ -132,7 +133,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.debug,
       transports: [transport],
       redactor,
@@ -154,7 +155,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
@@ -187,7 +188,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
@@ -218,7 +219,7 @@ describe("LoggerWinstonAdapter", () => {
     const { transport, lines } = mocks.makeCaptureTransport();
     const logger = new LoggerWinstonAdapter({
       app: "test-app",
-      environment: "local",
+      environment: NodeEnvironmentEnum.local,
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,

@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import { z } from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
-import type { NodeEnvironmentType } from "./node-env.vo";
+import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type HttpClientInfo = { ip?: string; userAgent?: string };
 export type LogAppType = string;
@@ -28,7 +28,7 @@ export type LogCoreType = {
   timestamp: string;
   level: LogLevelEnum;
   app: LogAppType;
-  environment: NodeEnvironmentType;
+  environment: NodeEnvironmentEnum;
   component: string;
   operation: string;
   message: string;

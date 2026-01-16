@@ -12,6 +12,7 @@ import {
 import { Healthcheck } from "../src/healthcheck.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
+import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
@@ -55,7 +56,7 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        "production",
+        NodeEnvironmentEnum.production,
         [
           mocks.PrerequisiteOk,
           new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
@@ -76,7 +77,7 @@ describe("Healthcheck service", () => {
         date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
         size: "0 MB",
-        environment: "production",
+        environment: NodeEnvironmentEnum.production,
       },
       server: {
         pid: expect.any(Number),
@@ -116,7 +117,7 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        "production",
+        NodeEnvironmentEnum.production,
         [
           new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
           mocks.PrerequisiteOk,
@@ -137,7 +138,7 @@ describe("Healthcheck service", () => {
         date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
         size: "0 MB",
-        environment: "production",
+        environment: NodeEnvironmentEnum.production,
       },
       server: {
         pid: expect.any(Number),
@@ -176,7 +177,11 @@ describe("Healthcheck service", () => {
     spyOn(EventLoopUtilization, "snapshot").mockReturnValue(utilization);
     const app = new Hono().get(
       "/health",
-      ...Healthcheck.build("production", [mocks.PrerequisiteOk, mocks.PrerequisiteFail], deps),
+      ...Healthcheck.build(
+        NodeEnvironmentEnum.production,
+        [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+        deps,
+      ),
     );
 
     const response = await app.request("/health");
@@ -191,7 +196,7 @@ describe("Healthcheck service", () => {
         date: mocks.TIME_ZERO_ISO,
         sha: mocks.SHA.toString(),
         size: "0 MB",
-        environment: "production",
+        environment: NodeEnvironmentEnum.production,
       },
       server: {
         pid: expect.any(Number),

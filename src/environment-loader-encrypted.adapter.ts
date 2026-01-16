@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { z } from "zod/v4";
-import type { NodeEnvironmentType } from "../src/node-env.vo";
+import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 import type { EncryptionPort } from "./encryption.port";
 import { EnvironmentFileParser } from "./environment-file-parser.service";
 import type { EnvironmentLoaderPort } from "./environment-loader.port";
@@ -12,7 +12,7 @@ export class EnvironmentLoaderEncryptedAdapter<Schema extends z.ZodObject<any>>
 {
   constructor(
     private readonly config: {
-      type: NodeEnvironmentType;
+      type: NodeEnvironmentEnum;
       Schema: Schema;
       path: tools.FilePathAbsolute | tools.FilePathRelative;
     },
