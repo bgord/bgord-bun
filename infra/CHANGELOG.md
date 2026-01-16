@@ -1,10 +1,14 @@
 # Changelog
+- 2026-01-16 15:06 fb82bf7 **refactor: replace dotenv parse with EnvironmentFileParser**
+- 2026-01-16 15:06 9265dd8 **step: remove dotenv dependency**
+- 2026-01-16 14:50 e85b5dd **feature: add custom environment file parser**
 ## 2026-01-16 12:06 v1.8.19
 - 2026-01-16 12:06 3bfd466 **1.8.19**
 - 2026-01-16 12:00 31dc48a **step: add in flight requests tracker to healthcheck**
 - 2026-01-16 11:59 c768939 **refactor: use integer in in flight requests tracker correctly**
 - 2026-01-16 11:41 1391d13 **feature: add in flight requests middleware**
 - 2026-01-16 11:38 cc68b2f **step: add in flight requests tracker**
+- 2026-01-16 11:06 32bd3a9 **docs: generate CHANGELOG**
 - 2026-01-16 11:05 c42cd56 **docs: generate CHANGELOG**
 - 2026-01-16 10:53 d46b58f **docs: generate CHANGELOG**
 - 2026-01-16 10:53 6be35e7 **docs: generate readme**
