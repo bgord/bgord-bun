@@ -10,3 +10,5 @@ export enum NodeEnvironmentEnum {
 export const NodeEnvironmentError = { Invalid: "node.environment.invalid" } as const;
 
 export const NodeEnvironment = z.enum(NodeEnvironmentEnum, NodeEnvironmentError.Invalid);
+
+export type NodeEnvironmentType = z.infer<typeof NodeEnvironment>;
