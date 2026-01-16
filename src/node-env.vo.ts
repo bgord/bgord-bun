@@ -1,5 +1,9 @@
 import { z } from "zod/v4";
 
+export const NodeEnvironmentValues = ["local", "test", "staging", "production"] as const;
+
+export type NodeEnvironmentType = (typeof NodeEnvironmentValues)[number];
+
 export enum NodeEnvironmentEnum {
   local = "local",
   test = "test",
@@ -7,8 +11,4 @@ export enum NodeEnvironmentEnum {
   production = "production",
 }
 
-export const NodeEnvironmentError = { Invalid: "node.environment.invalid" } as const;
-
-export const NodeEnvironment = z.enum(NodeEnvironmentEnum, NodeEnvironmentError.Invalid);
-
-export type NodeEnvironmentType = z.infer<typeof NodeEnvironment>;
+export const NodeEnvironment = z.enum(NodeEnvironmentValues, { message: "node.environment.invalid" });
