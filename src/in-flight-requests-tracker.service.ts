@@ -1,7 +1,7 @@
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 
 export class InFlightRequestsTracker {
-  private static count = 0 as tools.IntegerType;
+  private static count: tools.IntegerType = tools.Integer.parse(0);
 
   static increment(): void {
     InFlightRequestsTracker.count++;
@@ -11,12 +11,12 @@ export class InFlightRequestsTracker {
     InFlightRequestsTracker.count--;
   }
 
-  static get(): number {
+  static get(): tools.IntegerType {
     return InFlightRequestsTracker.count;
   }
 
   /** @internal */
   static _resetForTest(): void {
-    InFlightRequestsTracker.count = 0 as tools.IntegerType;
+    InFlightRequestsTracker.count = tools.Integer.parse(0);
   }
 }
