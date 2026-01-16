@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-16 15:56 8b117f9 **fix: node environment type**
 ## 2026-01-16 15:37 v1.8.22
 - 2026-01-16 15:37 d84b73a **1.8.22**
 - 2026-01-16 15:36 2ab8dcb **step: update packages**
@@ -10,6 +11,7 @@
 - 2026-01-16 15:06 fb82bf7 **refactor: replace dotenv parse with EnvironmentFileParser**
 - 2026-01-16 15:06 9265dd8 **step: remove dotenv dependency**
 - 2026-01-16 14:50 e85b5dd **feature: add custom environment file parser**
+- 2026-01-16 14:37 fc7a7b8 **docs: generate CHANGELOG**
 - 2026-01-16 14:36 6fc3dfc **docs: generate CHANGELOG**
 - 2026-01-16 14:31 195073c **docs: generate CHANGELOG**
 - 2026-01-16 14:30 a441a5c **docs: generate CHANGELOG**
