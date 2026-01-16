@@ -153,6 +153,7 @@ export * from "./image-processor-sharp.adapter";
 export * from "./image-resizer.port";
 export * from "./image-resizer-noop.adapter";
 export * from "./image-resizer-sharp.adapter";
+export * from "./in-flight-requests.middleware";
 export * from "./instrumentation.service";
 export * from "./invariant.service";
 export * from "./invariant-error-handler.service";
