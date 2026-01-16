@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-16 16:25 88b6fb1 **refactor: remove node environment enum**
 ## 2026-01-16 16:10 v1.8.24
 - 2026-01-16 16:10 284e89f **1.8.24**
 - 2026-01-16 16:08 e92307e **refactor: adjust zod enum handling**
@@ -11,6 +12,7 @@
 ## 2026-01-16 15:30 v1.8.21
 - 2026-01-16 15:30 16e43ea **1.8.21**
 - 2026-01-16 15:28 0477487 **refactor: remove src from package json files**
+- 2026-01-16 15:10 13b0a7c **docs: generate CHANGELOG**
 - 2026-01-16 15:09 016487a **docs: generate CHANGELOG**
 ## 2026-01-16 15:08 v1.8.20
 - 2026-01-16 15:08 662c815 **1.8.20**
