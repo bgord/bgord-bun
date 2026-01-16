@@ -1,4 +1,4 @@
-import type { z } from "zod/v4";
+import type * as z from "zod/v4";
 
 export type GenericCommandSchema = z.ZodObject<{
   id: z.ZodType<string>;

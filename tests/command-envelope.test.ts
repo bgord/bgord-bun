@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CommandEnvelopeSchema, createCommandEnvelope } from "../src/command-envelope";
 import { CorrelationStorage } from "../src/correlation-storage.service";

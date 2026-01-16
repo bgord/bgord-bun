@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 import { EnvironmentLoaderEncryptedAdapter } from "../src/environment-loader-encrypted.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";

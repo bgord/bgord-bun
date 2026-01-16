@@ -1,4 +1,4 @@
-import type { z } from "zod/v4";
+import type * as z from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 export type EnvironmentResultType<Schema> = z.infer<Schema> & { type: NodeEnvironmentEnum };

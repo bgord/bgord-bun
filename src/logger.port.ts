@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 

@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { z } from "zod/v4";
+import type * as z from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 import type { EncryptionPort } from "./encryption.port";
 import { EnvironmentFileParser } from "./environment-file-parser.service";

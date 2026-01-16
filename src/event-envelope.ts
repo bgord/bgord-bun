@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { EventStreamType } from "./event-stream.vo";

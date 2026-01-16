@@ -1,5 +1,5 @@
 // Stryker disable all
-import type { z } from "zod/v4";
+import type * as z from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
 import type { EventPublisher } from "./event-publisher.types";
 import { EventStore as BaseStore } from "./event-store";

@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { EventEnvelopeSchema } from "../../../event-envelope";
 import * as VO from "../value-objects";
 

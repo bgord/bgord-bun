@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { ClientIp } from "../../../client-ip.vo";
 import { ClientUserAgent } from "../../../client-user-agent.vo";
 import { EventEnvelopeSchema } from "../../../event-envelope";

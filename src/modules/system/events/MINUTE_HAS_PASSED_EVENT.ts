@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { EventEnvelopeSchema } from "../../../event-envelope";
 
 export const MINUTE_HAS_PASSED_EVENT = "MINUTE_HAS_PASSED_EVENT";

@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { HistoryCreatedAt } from "./history-created-at";
 import { HistoryId } from "./history-id";
 import { HistoryOperation } from "./history-operation";

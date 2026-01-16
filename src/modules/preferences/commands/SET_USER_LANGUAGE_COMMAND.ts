@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { CommandEnvelopeSchema } from "../../../command-envelope";
 import { UUID } from "../../../uuid.vo";
 

@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 
 export const PortError = { Type: "port.type", Invalid: "port.invalid" } as const;
 

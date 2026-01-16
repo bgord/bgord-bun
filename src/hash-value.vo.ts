@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 
 export const HashValueError = { Type: "hash.value.type", InvalidHex: "hash.value.invalid.hex" } as const;
 

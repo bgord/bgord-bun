@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { EnvironmentLoaderNoopAdapter } from "../src/environment-loader-noop.adapter";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 

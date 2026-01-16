@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 
 export const ClientIpError = { Type: "client.ip.type", Empty: "client.ip.empty" };
 

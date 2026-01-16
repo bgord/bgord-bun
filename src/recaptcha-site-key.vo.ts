@@ -1,4 +1,4 @@
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 
 export const RecaptchaSiteKeyError = { Type: "recaptcha.site.key.type", Length: "recaptcha.site.key.length" };
 

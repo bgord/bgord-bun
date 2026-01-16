@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import { z } from "zod/v4";
+import * as z from "zod/v4";
 import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export const TimezoneUtc = z.literal("UTC");
