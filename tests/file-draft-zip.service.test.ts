@@ -5,15 +5,18 @@ import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
 
 const bundle = tools.Basename.parse("bundle");
+
+const extension = tools.Extension.parse("csv");
 const firstBasename = tools.Basename.parse("first.csv");
 const secondBasename = tools.Basename.parse("second.csv");
 
 class Draft extends FileDraft {
   constructor(
     basename: tools.BasenameType,
+    extension: tools.ExtensionType,
     private readonly content: string,
   ) {
-    super(basename, tools.MIMES.text);
+    super(basename, extension, tools.MIMES.text);
   }
   create() {
     return Readable.from([this.content]);
@@ -22,7 +25,7 @@ class Draft extends FileDraft {
 
 describe("FileDraftZip service", () => {
   test("returns a buffer with ZIP signature", async () => {
-    const zip = new FileDraftZip(bundle, [new Draft(firstBasename, "alpha")]);
+    const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
 
     const buffer = await zip.create();
 
@@ -31,8 +34,8 @@ describe("FileDraftZip service", () => {
   });
 
   test("embeds all parts", async () => {
-    const first = new Draft(firstBasename, "id\n1");
-    const second = new Draft(secondBasename, "id\n2");
+    const first = new Draft(firstBasename, extension, "id\n1");
+    const second = new Draft(secondBasename, extension, "id\n2");
     const zip = new FileDraftZip(bundle, [first, second]);
 
     const text = (await zip.create()).toString("utf8");
