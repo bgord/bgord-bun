@@ -4,8 +4,9 @@ import * as _sharp from "sharp";
 import { ImageInfoNoopAdapter } from "../src/image-info-noop.adapter";
 
 const input = tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg");
+const jpegMime = tools.Mime.fromString("image/jpeg");
 
-const adapter = new ImageInfoNoopAdapter(tools.Mime.fromExtension(tools.Extension.parse("jpeg")));
+const adapter = new ImageInfoNoopAdapter(jpegMime);
 
 describe("ImageInfoNoopAdapter", () => {
   test("absolute path", async () => {
