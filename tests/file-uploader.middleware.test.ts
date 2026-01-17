@@ -3,16 +3,13 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { FileUploader } from "../src/file-uploader.middleware";
 
+const MimeRegistry = new tools.MimeRegistry([tools.Mimes.png, tools.Mimes.csv]);
+
 const boundary = "----bun-test-boundary";
 const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
 
 const app = new Hono()
-  .use(
-    ...FileUploader.validate({
-      mimeTypes: [tools.MIMES.png, tools.MIMES.csv],
-      maxFilesSize: tools.Size.fromKb(10),
-    }),
-  )
+  .use(...FileUploader.validate({ MimeRegistry, maxFilesSize: tools.Size.fromKb(10) }))
   .post("/uploader", (c) => c.text("uploaded"));
 
 describe("FileUploader middleware", () => {
@@ -71,7 +68,12 @@ describe("FileUploader middleware", () => {
       "",
     ].join("\r\n");
     const app = new Hono()
-      .use(...FileUploader.validate({ mimeTypes: [tools.MIMES.text], maxFilesSize: tools.Size.fromBytes(1) }))
+      .use(
+        ...FileUploader.validate({
+          MimeRegistry: new tools.MimeRegistry([tools.Mimes.text]),
+          maxFilesSize: tools.Size.fromBytes(1),
+        }),
+      )
       .post("/uploader", (c) => c.text("uploaded"));
 
     const response = await app.request("/uploader", {
@@ -95,7 +97,12 @@ describe("FileUploader middleware", () => {
       "",
     ].join("\r\n");
     const app = new Hono()
-      .use(...FileUploader.validate({ mimeTypes: [tools.MIMES.png], maxFilesSize: tools.Size.fromKb(10) }))
+      .use(
+        ...FileUploader.validate({
+          MimeRegistry: new tools.MimeRegistry([tools.Mimes.text]),
+          maxFilesSize: tools.Size.fromKb(10),
+        }),
+      )
       .post("/uploader", (c) => c.text("uploaded"));
 
     const response = await app.request("/uploader", {
