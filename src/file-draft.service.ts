@@ -6,13 +6,17 @@ export type DraftBody = BodyInit | NodeJS.ReadableStream | ReadableStream;
 export abstract class FileDraft {
   readonly filename: tools.Filename;
 
-  constructor(basename: tools.BasenameType, mime: tools.Mime) {
-    this.filename = tools.Filename.fromPartsSafe(basename, mime.toExtension());
+  constructor(
+    basename: tools.BasenameType,
+    extension: tools.ExtensionType,
+    readonly mime: tools.Mime,
+  ) {
+    this.filename = tools.Filename.fromPartsSafe(basename, extension);
   }
 
   getHeaders(): Headers {
     return new Headers({
-      "Content-Type": this.filename.getMime().toString(),
+      "Content-Type": this.mime.toString(),
       "Content-Disposition": `attachment; filename="${this.filename.get()}"`,
     });
   }
@@ -28,6 +32,6 @@ export abstract class FileDraft {
   async toAttachment() {
     const body = await this.create();
 
-    return { filename: this.filename, content: body, contentType: this.filename.getMime().toString() };
+    return { filename: this.filename, content: body, contentType: this.mime.toString() };
   }
 }

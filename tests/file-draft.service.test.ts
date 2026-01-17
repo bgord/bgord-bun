@@ -4,12 +4,13 @@ import { Hono } from "hono";
 import { FileDraft } from "../src/file-draft.service";
 
 const basename = tools.Basename.parse("alphabet");
+const extension = tools.Extension.parse("txt");
 const mime = tools.MIMES.text;
-const filename = tools.Filename.fromPartsSafe(basename, mime.toExtension());
+const filename = tools.Filename.fromPartsSafe(basename, extension);
 
 class AlphabetFile extends FileDraft {
   constructor() {
-    super(basename, tools.MIMES.text);
+    super(basename, extension, mime);
   }
 
   create() {
@@ -22,7 +23,7 @@ describe("FileDraft service", () => {
     const file = new AlphabetFile();
 
     expect(file.filename).toEqual(filename);
-    expect(file.filename.getMime().toString()).toEqual("text/plain");
+    expect(file.mime.toString()).toEqual("text/plain");
     expect(file.getHeaders().get("content-type")).toEqual("text/plain");
     expect(file.getHeaders().get("content-disposition")).toEqual(`attachment; filename="alphabet.txt"`);
   });
