@@ -14,7 +14,6 @@ export * from "./build-info-repository-noop.strategy";
 export * from "./build-info-repository-package-json.strategy";
 export * from "./cache-file.service";
 export * from "./cache-repository.port";
-export * from "./cache-repository-lru-cache.adapter";
 export * from "./cache-repository-node-cache.adapter";
 export * from "./cache-repository-noop.adapter";
 export * from "./cache-resolver.strategy";

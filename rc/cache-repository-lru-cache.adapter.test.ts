@@ -1,10 +1,10 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryLruCacheAdapter } from "../src/cache-repository-lru-cache.adapter";
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
-import * as mocks from "./mocks";
+import * as mocks from "../tests/mocks";
+import { CacheRepositoryLruCacheAdapter } from "./cache-repository-lru-cache.adapter";
 
 const value = "value";
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;

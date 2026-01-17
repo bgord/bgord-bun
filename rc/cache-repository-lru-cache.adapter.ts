@@ -1,7 +1,7 @@
 import type { LRUCache } from "lru-cache";
-import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
-import type { Hash } from "./hash.vo";
-import type { HashValueType } from "./hash-value.vo";
+import type { CacheRepositoryPort, CacheRepositoryTtlType } from "../src/cache-repository.port";
+import type { Hash } from "../src/hash.vo";
+import type { HashValueType } from "../src/hash-value.vo";
 
 export const CacheRepositoryLruCacheAdapterError = {
   MissingDependency: "cache.repository.lru.cache.adapter.error.missing.dependency",
