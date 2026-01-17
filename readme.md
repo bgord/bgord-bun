@@ -39,7 +39,6 @@ src/
 ├── build-info-repository-package-json.strategy.ts
 ├── build-info-repository.strategy.ts
 ├── cache-file.service.ts
-├── cache-repository-lru-cache.adapter.ts
 ├── cache-repository-node-cache.adapter.ts
 ├── cache-repository-noop.adapter.ts
 ├── cache-repository.port.ts
