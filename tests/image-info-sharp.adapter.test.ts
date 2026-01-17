@@ -7,7 +7,14 @@ const size = { size: 1000 } as any;
 const instance = { metadata: async () => ({}) as any, destroy: () => {} };
 const input = tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg");
 
-const adapter = new ImageInfoSharpAdapter();
+const jpegMime = tools.Mime.fromString("image/jpeg");
+const jpgExtension = tools.Extension.parse("jpg");
+const jpegExtension = tools.Extension.parse("jpeg");
+
+const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgExtension, jpegExtension] }]);
+const deps = { MimeRegistry };
+
+const adapter = new ImageInfoSharpAdapter(deps);
 
 describe("ImageInfoSharpAdapter", () => {
   test("absolute path", async () => {
@@ -33,11 +40,7 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("relative path", async () => {
     spyOn(_sharp as any, "default").mockImplementation(() => instance);
-    const metadata = spyOn(instance, "metadata").mockResolvedValue({
-      width: 64,
-      height: 64,
-      format: "png",
-    });
+    const metadata = spyOn(instance, "metadata").mockResolvedValue({ width: 64, height: 64, format: "jpg" });
     const destroy = spyOn(instance, "destroy");
     const bunFile = spyOn(Bun, "file").mockReturnValue(size);
 
@@ -67,6 +70,16 @@ describe("ImageInfoSharpAdapter", () => {
     const destroy = spyOn(instance, "destroy");
 
     expect(async () => adapter.inspect(input)).toThrow(tools.ImageWidthError.Type);
+    expect(destroy).toHaveBeenCalledTimes(1);
+  });
+
+  test("error - mime not found", async () => {
+    spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "png" });
+    spyOn(_sharp as any, "default").mockImplementation(() => instance);
+    spyOn(Bun, "file").mockReturnValue(size);
+    const destroy = spyOn(instance, "destroy");
+
+    expect(async () => adapter.inspect(input)).toThrow(tools.MimeRegistryError.MimeNotFound);
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 });
