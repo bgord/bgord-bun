@@ -1,4 +1,4 @@
-import cloneDeepWith from "lodash/cloneDeepWith";
+import { deepCloneWith } from "./deep-clone-with";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorMaskStrategy implements RedactorStrategy {
@@ -24,15 +24,14 @@ export class RedactorMaskStrategy implements RedactorStrategy {
   private readonly keys: Set<string>;
 
   constructor(keys?: readonly string[]) {
-    this.keys = keys?.length
-      ? new Set(keys.map((key) => key.toLowerCase()))
-      : new Set(RedactorMaskStrategy.DEFAULT_KEYS);
+    this.keys = new Set(
+      (keys?.length ? keys : RedactorMaskStrategy.DEFAULT_KEYS).map((key) => key.toLowerCase()),
+    );
   }
 
   redact<T>(input: T): T {
-    return cloneDeepWith(input, (_value, key) => {
-      if (typeof key === "string" && this.keys.has(key.toLowerCase())) return "***";
-      return undefined;
-    });
+    return deepCloneWith(input, (_value, key) =>
+      typeof key === "string" && this.keys.has(key.toLowerCase()) ? "***" : undefined,
+    );
   }
 }

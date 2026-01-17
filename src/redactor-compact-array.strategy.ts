@@ -1,10 +1,12 @@
-import cloneDeepWith from "lodash/cloneDeepWith";
+import { deepCloneWith } from "./deep-clone-with";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorCompactArrayStrategy implements RedactorStrategy {
   redact<T>(input: T): T {
-    return cloneDeepWith(input, (value) =>
-      Array.isArray(value) ? { type: "Array", length: value.length } : undefined,
+    return deepCloneWith(
+      input,
+      (value) => (Array.isArray(value) ? { type: "Array", length: value.length } : undefined),
+      { allowRootReplace: true },
     );
   }
 }

@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import _ from "lodash";
+import { deepCloneWith } from "./deep-clone-with";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 type RedactorWideObjectOptions = { maxKeys?: tools.IntegerPositiveType };
@@ -14,12 +14,16 @@ export class RedactorCompactObjectStrategy implements RedactorStrategy {
   }
 
   redact<T>(input: T): T {
-    return _.cloneDeepWith(input, (value) => {
-      if (!_.isPlainObject(value)) return undefined;
+    return deepCloneWith(
+      input,
+      (value) => {
+        if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
 
-      const keys = Object.keys(value).length;
+        const keys = Object.keys(value).length;
 
-      return keys <= this.maxKeys ? undefined : { type: "Object", keys };
-    });
+        return keys > this.maxKeys ? { type: "Object", keys } : undefined;
+      },
+      { allowRootReplace: true },
+    );
   }
 }
