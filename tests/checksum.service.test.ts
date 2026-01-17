@@ -9,7 +9,7 @@ const base: HashFileResult = {
   etag: mocks.hash,
   size: tools.Size.fromBytes(10),
   lastModified: tools.Timestamp.fromNumber(1000),
-  mime: tools.MIMES.text,
+  mime: tools.Mimes.text.mime,
 };
 
 describe("Checksum service", () => {

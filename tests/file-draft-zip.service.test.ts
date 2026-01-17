@@ -16,7 +16,7 @@ class Draft extends FileDraft {
     extension: tools.ExtensionType,
     private readonly content: string,
   ) {
-    super(basename, extension, tools.MIMES.text);
+    super(basename, extension, tools.Mimes.text.mime);
   }
   create() {
     return Readable.from([this.content]);

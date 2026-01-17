@@ -6,8 +6,8 @@ import * as mocks from "./mocks";
 const meta = {
   etag: mocks.hash,
   lastModified: mocks.TIME_ZERO,
-  mime: tools.MIMES.text,
   size: tools.Size.fromBytes(12345),
+  mime: tools.Mimes.text.mime,
 };
 
 describe("CacheFileMustRevalidate service", () => {

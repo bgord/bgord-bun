@@ -5,7 +5,7 @@ import { FileDraft } from "../src/file-draft.service";
 
 const basename = tools.Basename.parse("alphabet");
 const extension = tools.Extension.parse("txt");
-const mime = tools.MIMES.text;
+const mime = tools.Mimes.text.mime;
 const filename = tools.Filename.fromPartsSafe(basename, extension);
 
 class AlphabetFile extends FileDraft {

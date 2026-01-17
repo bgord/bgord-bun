@@ -11,7 +11,7 @@ const hash = {
   etag: mocks.hash,
   size: tools.Size.fromBytes(42),
   lastModified: tools.Timestamp.fromNumber(1000),
-  mime: tools.MIMES.text,
+  mime: tools.Mimes.text.mime,
 };
 const root = tools.DirectoryPathAbsoluteSchema.parse("/root");
 const key = tools.ObjectKey.parse("users/1/avatar.webp");

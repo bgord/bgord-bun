@@ -8,7 +8,7 @@ export class FileDraftZip extends FileDraft {
     basename: tools.BasenameType,
     private readonly parts: FileDraft[],
   ) {
-    super(basename, tools.Mimes.zip.extensions[0], tools.Mimes.zip.mime);
+    super(basename, tools.Extension.parse("zip"), tools.Mimes.zip.mime);
     this.parts = parts;
   }
 
