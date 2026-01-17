@@ -1,10 +1,14 @@
 # Changelog
+## 2026-01-17 21:56 v1.9.3
+- 2026-01-17 21:56 ecc070b8 **1.9.3**
 - 2026-01-17 21:53 ae78571d **refactor: make file uploader accept mime registry**
 - 2026-01-17 21:51 c33dd6cf **refactor: introduce class mime registry entry in tests**
 - 2026-01-17 21:48 665c76c2 **step: update packages**
 - 2026-01-17 21:35 e5da2569 **step: update packages**
 - 2026-01-17 21:30 21a7a89d **refactor: use proper tools.Mimes**
 - 2026-01-17 21:28 8e794beb **step: update packages**
+- 2026-01-17 20:55 8ca8cf79 **docs: generate CHANGELOG**
+- 2026-01-17 20:55 1b9ef7e2 **docs: generate readme**
 - 2026-01-17 18:32 5f5e7f3d **step: update packages**
 - 2026-01-17 17:56 60308544 **refactor: improve tests**
 - 2026-01-17 17:56 2b86ea6c **refactor: update image info noop tests**
