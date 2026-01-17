@@ -32,7 +32,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
       etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
       size: tools.Size.fromBytes(10),
       lastModified: this.deps.Clock.now(),
-      mime: tools.MIMES.text,
+      mime: tools.Mimes.text.mime,
     };
   }
 
