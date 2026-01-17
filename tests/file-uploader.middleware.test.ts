@@ -44,7 +44,7 @@ describe("FileUploader middleware", () => {
       'Content-Disposition: form-data; name="file"; filename="document.pdf"',
       "Content-Type: application/pdf",
       "",
-      "fake-pdf-content",
+      "pdf-content",
       `--${boundary}--`,
       "",
     ].join("\r\n");

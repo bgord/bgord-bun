@@ -6,7 +6,7 @@ const adapter = new SealerNoopAdapter();
 const input = { name: "John", age: 42 };
 const output = 'sealed:{"name":"John","age":42}';
 
-describe("SealerFakeAdapter", () => {
+describe("SealerNoopAdapter", () => {
   test("seal", async () => {
     const result = await adapter.seal(input);
 
