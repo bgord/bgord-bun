@@ -1,8 +1,26 @@
 # Changelog
+- 2026-01-17 21:53 ae78571d **refactor: make file uploader accept mime registry**
+- 2026-01-17 21:51 c33dd6cf **refactor: introduce class mime registry entry in tests**
+- 2026-01-17 21:48 665c76c2 **step: update packages**
+- 2026-01-17 21:35 e5da2569 **step: update packages**
+- 2026-01-17 21:30 21a7a89d **refactor: use proper tools.Mimes**
+- 2026-01-17 21:28 8e794beb **step: update packages**
+- 2026-01-17 18:32 5f5e7f3d **step: update packages**
+- 2026-01-17 17:56 60308544 **refactor: improve tests**
+- 2026-01-17 17:56 2b86ea6c **refactor: update image info noop tests**
+- 2026-01-17 17:53 2942f583 **refactor: update file draft zip service**
+- 2026-01-17 17:52 bbdebb37 **refactor: update file draft service**
+- 2026-01-17 17:48 dcae9125 **refactor: use mime registry in image info sharp adapter**
+- 2026-01-17 16:43 560bd860 **refactor: use mime registry in hash file sha 256 bun adapter**
+- 2026-01-17 16:33 c0cfbcbf **step: update packages**
+- 2026-01-17 16:28 95070933 **step: update packages**
+- 2026-01-17 09:40 c50bd129 **step: update packages**
+- 2026-01-17 09:39 655e5bac **step: move lru cache to rc**
 ## 2026-01-16 18:19 v1.9.2
 - 2026-01-16 18:19 93844735 **1.9.2**
 - 2026-01-16 18:16 0c4767a4 **refactor: adjust z imports**
 - 2026-01-16 18:12 ccafaf11 **step: update packages**
+- 2026-01-16 17:19 adf92e7e **docs: generate CHANGELOG**
 - 2026-01-16 17:16 17e2ee70 **docs: generate CHANGELOG**
 ## 2026-01-16 17:01 v1.9.1
 - 2026-01-16 17:01 126c5aab **1.9.1**
