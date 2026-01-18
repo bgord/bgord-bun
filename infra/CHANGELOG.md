@@ -1,10 +1,17 @@
 # Changelog
+- 2026-01-18 13:05 a8d21389 **refactor: export mailer template vo**
+- 2026-01-18 13:00 814ca70e **refactor: improve tests**
+- 2026-01-18 12:55 bf63910a **refactor: use new naming**
+- 2026-01-18 12:54 410c435e **refactor: rename message to template**
+- 2026-01-18 12:52 7fc69373 **refactor: use proper mailer template message**
+- 2026-01-18 12:50 332ba706 **step: update packages**
 ## 2026-01-18 12:41 v1.9.4
 - 2026-01-18 12:41 2173983d **1.9.4**
 - 2026-01-18 12:40 2f0be954 **step: update packages**
 - 2026-01-18 12:39 65ed63c1 **refactor: force bun not to resolve nodemailer and resend**
 - 2026-01-18 12:35 82f749e0 **step: make nodemailer optional dep**
 - 2026-01-18 12:27 9355f3dd **step: make resend optional dep**
+- 2026-01-18 11:42 ed6cb9f5 **docs: generate CHANGELOG**
 - 2026-01-18 11:41 0ec8ad1d **docs: generate readme**
 - 2026-01-18 11:41 0e6f8251 **docs: generate CHANGELOG**
 - 2026-01-18 10:56 d58241fa **refactor: use mailer template attachment type**
