@@ -17,7 +17,6 @@ export class LoggerWinstonLocalAdapter {
       level,
       formats: [winston.format.prettyPrint()],
       redactor: this.config.redactor,
-      filePath: null,
     });
     // Stryker restore all
   }

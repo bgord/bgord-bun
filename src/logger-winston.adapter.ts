@@ -1,4 +1,3 @@
-import type * as tools from "@bgord/tools";
 import * as winston from "winston";
 import { type LogAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -11,7 +10,6 @@ type WinstonLoggerOptions = {
   formats?: winston.Logform.Format[];
   transports?: winston.transport[];
   redactor: RedactorStrategy;
-  filePath: tools.FilePathAbsolute | null;
 };
 
 export class LoggerWinstonAdapter implements LoggerPort {

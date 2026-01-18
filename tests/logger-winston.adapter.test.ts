@@ -8,7 +8,6 @@ import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
 
 const redactor = new RedactorNoopStrategy();
-const filePath = tools.FilePathAbsolute.fromString("/var/www/logger.txt");
 
 const log = { component: "emotions", operation: "entry_create", message: "Created entry" };
 
@@ -21,7 +20,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
-      filePath,
     });
 
     logger.info(log);
@@ -43,7 +41,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
-      filePath,
     });
     const log = {
       component: "publishing",
@@ -71,7 +68,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
-      filePath,
     });
 
     logger.warn(log);
@@ -93,7 +89,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.silly,
       transports: [transport],
       redactor,
-      filePath,
     });
 
     logger.silly(log);
@@ -115,7 +110,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.verbose,
       transports: [transport],
       redactor,
-      filePath,
     });
 
     logger.verbose(log);
@@ -137,7 +131,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.debug,
       transports: [transport],
       redactor,
-      filePath,
     });
 
     logger.debug(log);
@@ -159,7 +152,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
-      filePath,
     });
     const log = {
       component: "http",
@@ -192,7 +184,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.http,
       transports: [transport],
       redactor,
-      filePath,
     });
     const log = {
       component: "infra",
@@ -223,7 +214,6 @@ describe("LoggerWinstonAdapter", () => {
       level: LogLevelEnum.info,
       transports: [transport],
       redactor,
-      filePath,
     });
 
     logger.http({
