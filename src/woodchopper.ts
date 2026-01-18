@@ -11,6 +11,7 @@ import {
   type LogWarnType,
 } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
+import type { RedactorStrategy } from "./redactor.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 
 export type WoodchopperConfigType = {
@@ -18,6 +19,7 @@ export type WoodchopperConfigType = {
   level: LogLevelEnum;
   environment: NodeEnvironmentEnum;
   sink: WoodchopperSinkStrategy;
+  redactor?: RedactorStrategy;
 };
 
 type Dependencies = { Clock: ClockPort };
@@ -44,18 +46,22 @@ export class Woodchopper implements LoggerPort {
   ) {
     if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return;
 
-    const normalized =
-      "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
+    const withNormalization =
+      "error" in entry && entry.error ? { ...entry, error: formatError(entry.error) } : entry;
 
     const withInjectedFields = {
       timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
       level: level,
       app: this.config.app,
       environment: this.config.environment,
-      ...normalized,
+      ...withNormalization,
     };
 
-    this.config.sink.write(withInjectedFields);
+    const withRedaction = this.config.redactor
+      ? this.config.redactor.redact(withInjectedFields)
+      : withInjectedFields;
+
+    this.config.sink.write(withRedaction);
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
