@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import { PrerequisiteVerifierMailerAdapter } from "../src/prerequisite-verifier-mailer.adapter";
 import * as mocks from "./mocks";
 
-const Mailer = { verify: jest.fn(), send: jest.fn() } as any;
+const Mailer = { verify: jest.fn(), send: jest.fn() };
 const deps = { Mailer };
 
 const prerequisite = new PrerequisiteVerifierMailerAdapter(deps);

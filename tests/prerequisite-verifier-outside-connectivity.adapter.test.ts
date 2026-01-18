@@ -6,14 +6,14 @@ const prerequisite = new PrerequisiteVerifierOutsideConnectivityAdapter();
 
 describe("PrerequisiteVerifierOutsideConnectivityAdapter", () => {
   test("success", async () => {
-    const globalFetch = spyOn(global, "fetch").mockResolvedValue({ ok: true } as any);
+    const globalFetch = spyOn(global, "fetch").mockResolvedValue(new Response());
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
     expect(globalFetch).toHaveBeenCalledWith("https://google.com", { method: "HEAD" });
   });
 
   test("failure", async () => {
-    spyOn(global, "fetch").mockResolvedValue({ ok: false, status: 400 } as any);
+    spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 400 }));
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: "HTTP 400" }));
   });

@@ -10,7 +10,9 @@ const memoryUsage = {
   rss: rss.toBytes(),
   heapUsed: heapUsed.toBytes(),
   heapTotal: heapTotal.toBytes(),
-} as any;
+  external: 0,
+  arrayBuffers: 0,
+};
 
 describe("MemoryConsumption service", () => {
   test("get", () => {

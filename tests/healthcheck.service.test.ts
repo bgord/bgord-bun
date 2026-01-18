@@ -21,7 +21,7 @@ import * as mocks from "./mocks";
 
 const version = "1.2.3";
 const hostname = "macbook";
-const cpus = ["abc"];
+const cpus = ["abc"] as any;
 const memory = {
   total: tools.Size.fromMB(3),
   heap: { used: tools.Size.fromMB(1), total: tools.Size.fromMB(2) },
@@ -46,7 +46,7 @@ const deps = { Clock, Logger, BuildInfoRepository };
 
 describe("Healthcheck service", () => {
   test("200", async () => {
-    spyOn(os, "cpus").mockReturnValue(cpus as any);
+    spyOn(os, "cpus").mockReturnValue(cpus);
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
     spyOn(Uptime, "get").mockReturnValue(uptime);
@@ -108,7 +108,7 @@ describe("Healthcheck service", () => {
   });
 
   test("200 - ignores port prerequisite", async () => {
-    spyOn(os, "cpus").mockReturnValue(cpus as any);
+    spyOn(os, "cpus").mockReturnValue(cpus);
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
     spyOn(Uptime, "get").mockReturnValue(uptime);
@@ -169,7 +169,7 @@ describe("Healthcheck service", () => {
   });
 
   test("424", async () => {
-    spyOn(os, "cpus").mockReturnValue(cpus as any);
+    spyOn(os, "cpus").mockReturnValue(cpus);
     spyOn(os, "hostname").mockReturnValue(hostname);
     spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
     spyOn(Uptime, "get").mockReturnValue(uptime);

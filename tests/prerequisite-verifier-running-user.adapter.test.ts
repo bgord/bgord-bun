@@ -4,17 +4,18 @@ import { PrerequisiteVerifierRunningUserAdapter } from "../src/prerequisite-veri
 import * as mocks from "./mocks";
 
 const username = "appuser";
+const userInfo = { username, uid: 0, gid: 0, shell: "", homedir: "" };
 
 describe("PrerequisiteVerifierRunningUserAdapter", () => {
   test("success", async () => {
-    spyOn(os, "userInfo").mockReturnValue({ username } as any);
+    spyOn(os, "userInfo").mockReturnValue(userInfo);
     const prerequisite = new PrerequisiteVerifierRunningUserAdapter({ username });
 
     expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
   });
 
   test("failure", async () => {
-    spyOn(os, "userInfo").mockReturnValue({ username } as any);
+    spyOn(os, "userInfo").mockReturnValue(userInfo);
     const prerequisite = new PrerequisiteVerifierRunningUserAdapter({ username: "root" });
 
     const result = await prerequisite.verify();

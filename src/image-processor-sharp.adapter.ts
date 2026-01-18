@@ -36,7 +36,7 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
     let processor = pipeline.rotate();
 
     if (recipe.background) {
-      processor = processor.flatten({ background: recipe.background as any });
+      processor = processor.flatten({ background: recipe.background });
     }
 
     processor = processor.resize({

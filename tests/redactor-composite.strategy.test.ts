@@ -7,14 +7,14 @@ import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 
 class UppercaseRedactor implements RedactorStrategy {
   redact<T>(input: T): T {
-    return (typeof input === "string" ? (input.toUpperCase() as any) : input) as T;
+    return (typeof input === "string" ? input.toUpperCase() : input) as T;
   }
 }
 class SuffixRedactor implements RedactorStrategy {
   constructor(private readonly suffix: string) {}
 
   redact<T>(input: T): T {
-    return (typeof input === "string" ? ((input + this.suffix) as any) : input) as T;
+    return (typeof input === "string" ? input + this.suffix : input) as T;
   }
 }
 

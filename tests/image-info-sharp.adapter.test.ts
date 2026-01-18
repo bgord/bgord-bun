@@ -4,7 +4,7 @@ import * as _sharp from "sharp";
 import { ImageInfoSharpAdapter } from "../src/image-info-sharp.adapter";
 
 const size = { size: 1000 } as any;
-const instance = { metadata: async () => ({}) as any, destroy: () => {} };
+const instance = { metadata: async () => ({}), destroy: () => {} };
 const input = tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg");
 
 const jpegMime = tools.Mime.fromString("image/jpeg");

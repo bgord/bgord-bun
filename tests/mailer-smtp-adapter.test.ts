@@ -32,7 +32,7 @@ describe("MailerSmtpAdapter", () => {
     const sendMail = spyOn({ sendMail: async () => {} }, "sendMail");
     const createTransport = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
       createTransport: () => ({ sendMail }),
-    } as any);
+    });
     const mailer = await MailerSmtpAdapter.build(smtp);
 
     await mailer.send(template);
@@ -43,9 +43,7 @@ describe("MailerSmtpAdapter", () => {
 
   test("verify - success", async () => {
     const verify = spyOn({ verify: async () => true }, "verify");
-    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
-      createTransport: () => ({ verify }),
-    } as any);
+    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport: () => ({ verify }) });
     const mailer = await MailerSmtpAdapter.build(smtp);
 
     await mailer.verify();
@@ -58,7 +56,7 @@ describe("MailerSmtpAdapter", () => {
       { createTransport: () => ({ sendMail: async () => {} }) },
       "createTransport",
     );
-    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport } as any);
+    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport });
 
     await MailerSmtpAdapter.build(smtp);
 
