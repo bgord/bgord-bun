@@ -2,8 +2,8 @@ import type * as z from "zod/v4";
 import type { ClockPort } from "./clock.port";
 import type { GenericEventSchema } from "./event.types";
 import type { EventHandlerStrategy } from "./event-handler.strategy";
+import { formatError } from "./format-error.service";
 import type { LoggerPort } from "./logger.port";
-import { formatError } from "./logger-format-error.service";
 import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };

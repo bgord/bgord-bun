@@ -1,5 +1,5 @@
+import { formatError } from "./format-error.service";
 import { type LoggerPort, LogLevelEnum } from "./logger.port";
-import { formatError } from "./logger-format-error.service";
 
 type LogLevel = "info" | "success" | "warn" | "error" | "debug";
 
