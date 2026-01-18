@@ -58,6 +58,4 @@ export interface LoggerPort {
   verbose(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
   debug(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
   silly(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
-
-  getFilePath(): tools.FilePathAbsolute | null;
 }

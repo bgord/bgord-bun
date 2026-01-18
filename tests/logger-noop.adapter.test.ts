@@ -14,8 +14,4 @@ describe("LoggerNoopAdapter", () => {
       }),
     ).not.toThrow();
   });
-
-  test("getFilePath", () => {
-    expect(adapter.getFilePath()).toEqual(null);
-  });
 });

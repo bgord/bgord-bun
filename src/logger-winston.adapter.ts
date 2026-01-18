@@ -17,8 +17,6 @@ type WinstonLoggerOptions = {
 export class LoggerWinstonAdapter implements LoggerPort {
   private readonly logger: winston.Logger;
 
-  private readonly filePath: tools.FilePathAbsolute | null;
-
   constructor(options: WinstonLoggerOptions) {
     const format = winston.format.combine(
       winston.format((info) => options.redactor.redact(info))(),
@@ -41,8 +39,6 @@ export class LoggerWinstonAdapter implements LoggerPort {
       transports: [new winston.transports.Console(), ...(options.transports ?? [])],
       // Stryker restore all
     });
-
-    this.filePath = options.filePath;
   }
 
   warn: LoggerPort["warn"] = (log) => this.logger.log({ level: LogLevelEnum.warn, ...log });
@@ -52,8 +48,4 @@ export class LoggerWinstonAdapter implements LoggerPort {
   verbose: LoggerPort["verbose"] = (log) => this.logger.log({ level: LogLevelEnum.verbose, ...log });
   debug: LoggerPort["debug"] = (log) => this.logger.log({ level: LogLevelEnum.debug, ...log });
   silly: LoggerPort["silly"] = (log) => this.logger.log({ level: LogLevelEnum.silly, ...log });
-
-  getFilePath() {
-    return this.filePath;
-  }
 }
