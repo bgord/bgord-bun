@@ -306,7 +306,7 @@ export * from "./uuid.vo";
 export * from "./visitor-id.strategy";
 export * from "./visitor-id-client.strategy";
 export * from "./weak-etag-extractor.middleware";
-export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink.strategy";
+export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink-stdout.strategy";
 export * from "./woodchopper-sink-stdout-pretty.strategy";
