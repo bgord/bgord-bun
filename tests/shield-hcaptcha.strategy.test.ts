@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
+import { HCaptchaService } from "../src/hcaptcha.service";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaStrategy } from "../src/shield-hcaptcha.strategy";
 import * as mocks from "./mocks";
@@ -15,7 +15,7 @@ const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.te
 
 describe("ShieldHcaptchaStrategy", () => {
   test("happy path", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
     const form = new FormData();
     form.set("h-captcha-response", VALID_TOKEN);
 
@@ -27,7 +27,7 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - known error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: false });
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
     const form = new FormData();
     form.set("h-captcha-response", INVALID_TOKEN);
 
@@ -39,7 +39,7 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - missing token", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: false });
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -49,7 +49,9 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - unknown error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockRejectedValue(
+      new Error(mocks.IntentionalError),
+    );
     const form = new FormData();
     form.set("h-captcha-response", "any-token");
 
