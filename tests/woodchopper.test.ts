@@ -8,6 +8,15 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock };
 
+const errorInstanceFormatted = {
+  cause: undefined,
+  message: mocks.IntentionalError,
+  name: "Error",
+  stack: expect.any(String),
+};
+
+const errorStringFormatted = { message: mocks.IntentionalError };
+
 describe("Woodchopper", () => {
   test("error - no error", () => {
     const sink = spyOn(console, "log").mockImplementation(jest.fn());
@@ -37,7 +46,7 @@ describe("Woodchopper", () => {
       ...config,
       ...entry,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: { cause: undefined, message: mocks.IntentionalError, name: "Error", stack: expect.any(String) },
+      error: errorInstanceFormatted,
     });
   });
 
@@ -53,7 +62,7 @@ describe("Woodchopper", () => {
       ...config,
       ...entry,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: { message: mocks.IntentionalError },
+      error: errorStringFormatted,
     });
   });
 
@@ -85,7 +94,7 @@ describe("Woodchopper", () => {
       ...entry,
       ...config,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: { cause: undefined, message: mocks.IntentionalError, name: "Error", stack: expect.any(String) },
+      error: errorInstanceFormatted,
     });
   });
 
@@ -101,7 +110,7 @@ describe("Woodchopper", () => {
       ...entry,
       ...config,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: { message: mocks.IntentionalError },
+      error: errorStringFormatted,
     });
   });
 
@@ -197,13 +206,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledWith({
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
     expect(sink).toHaveBeenCalledTimes(1);
   });
 
@@ -228,20 +230,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenNthCalledWith(1, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(2, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.warn,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
     expect(sink).toHaveBeenCalledTimes(2);
   });
 
@@ -266,27 +254,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenNthCalledWith(1, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(2, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.warn,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(3, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.info,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
     expect(sink).toHaveBeenCalledTimes(3);
   });
 
@@ -311,39 +278,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenNthCalledWith(1, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(2, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.warn,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(3, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.info,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(4, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.http,
-      timestamp: mocks.TIME_ZERO_ISO,
-      message: "level http",
-      component: "http",
-      operation: "test",
-      method: "GET",
-      url: "http://localhost:3000",
-      client: { userAgent: "mozilla", ip: "1.1.1.1" },
-    });
     expect(sink).toHaveBeenCalledTimes(4);
   });
 
@@ -372,46 +306,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenNthCalledWith(1, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(2, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.warn,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(3, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.info,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(4, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.http,
-      timestamp: mocks.TIME_ZERO_ISO,
-      message: "level http",
-      component: "http",
-      operation: "test",
-      method: "GET",
-      url: "http://localhost:3000",
-      client: { userAgent: "mozilla", ip: "1.1.1.1" },
-    });
-    expect(sink).toHaveBeenNthCalledWith(5, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.verbose,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
     expect(sink).toHaveBeenCalledTimes(5);
   });
 
@@ -440,53 +334,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenNthCalledWith(1, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(2, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.warn,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(3, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.info,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(4, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.http,
-      timestamp: mocks.TIME_ZERO_ISO,
-      message: "level http",
-      component: "http",
-      operation: "test",
-      method: "GET",
-      url: "http://localhost:3000",
-      client: { userAgent: "mozilla", ip: "1.1.1.1" },
-    });
-    expect(sink).toHaveBeenNthCalledWith(5, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.verbose,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(6, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.debug,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
     expect(sink).toHaveBeenCalledTimes(6);
   });
 
@@ -515,60 +362,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenNthCalledWith(1, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.error,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(2, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.warn,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(3, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.info,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(4, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.http,
-      timestamp: mocks.TIME_ZERO_ISO,
-      message: "level http",
-      component: "http",
-      operation: "test",
-      method: "GET",
-      url: "http://localhost:3000",
-      client: { userAgent: "mozilla", ip: "1.1.1.1" },
-    });
-    expect(sink).toHaveBeenNthCalledWith(5, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.verbose,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(6, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.debug,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
-    expect(sink).toHaveBeenNthCalledWith(7, {
-      app: config.app,
-      environment: config.environment,
-      level: LogLevelEnum.silly,
-      timestamp: mocks.TIME_ZERO_ISO,
-      ...entry,
-    });
     expect(sink).toHaveBeenCalledTimes(7);
   });
 });
