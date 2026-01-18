@@ -15,11 +15,11 @@ describe("Woodchopper", () => {
     expect(() => new Woodchopper(config, deps)).not.toThrow();
   });
 
-  test("error", () => {
+  test("error - no error", () => {
     const sink = spyOn(console, "log").mockImplementation(jest.fn());
     const woodchopper = new Woodchopper(config, deps);
 
-    const entry = { message: "error", component: "infra", operation: "test", error: null };
+    const entry = { message: "error", component: "infra", operation: "test" };
     woodchopper.error(entry);
 
     expect(sink).toHaveBeenCalledWith({
@@ -31,7 +31,46 @@ describe("Woodchopper", () => {
     });
   });
 
-  test("warn", () => {
+  test("error - error instance", () => {
+    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const woodchopper = new Woodchopper(config, deps);
+
+    const entry = {
+      message: "error",
+      component: "infra",
+      operation: "test",
+      error: new Error(mocks.IntentionalError),
+    };
+    woodchopper.error(entry);
+
+    expect(sink).toHaveBeenCalledWith({
+      app: config.app,
+      environment: config.environment,
+      level: LogLevelEnum.error,
+      timestamp: mocks.TIME_ZERO_ISO,
+      ...entry,
+      error: { cause: undefined, message: mocks.IntentionalError, name: "Error", stack: expect.any(String) },
+    });
+  });
+
+  test("error - string", () => {
+    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const woodchopper = new Woodchopper(config, deps);
+
+    const entry = { message: "error", component: "infra", operation: "test", error: mocks.IntentionalError };
+    woodchopper.error(entry);
+
+    expect(sink).toHaveBeenCalledWith({
+      app: config.app,
+      environment: config.environment,
+      level: LogLevelEnum.error,
+      timestamp: mocks.TIME_ZERO_ISO,
+      ...entry,
+      error: { message: mocks.IntentionalError },
+    });
+  });
+
+  test("warn - no error", () => {
     const sink = spyOn(console, "log").mockImplementation(jest.fn());
     const woodchopper = new Woodchopper(config, deps);
 
@@ -44,6 +83,45 @@ describe("Woodchopper", () => {
       level: LogLevelEnum.warn,
       timestamp: mocks.TIME_ZERO_ISO,
       ...entry,
+    });
+  });
+
+  test("warn - error instance", () => {
+    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const woodchopper = new Woodchopper(config, deps);
+
+    const entry = {
+      message: "warn",
+      component: "infra",
+      operation: "test",
+      error: new Error(mocks.IntentionalError),
+    };
+    woodchopper.warn(entry);
+
+    expect(sink).toHaveBeenCalledWith({
+      app: config.app,
+      environment: config.environment,
+      level: LogLevelEnum.warn,
+      timestamp: mocks.TIME_ZERO_ISO,
+      ...entry,
+      error: { cause: undefined, message: mocks.IntentionalError, name: "Error", stack: expect.any(String) },
+    });
+  });
+
+  test("warn - string", () => {
+    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const woodchopper = new Woodchopper(config, deps);
+
+    const entry = { message: "warn", component: "infra", operation: "test", error: mocks.IntentionalError };
+    woodchopper.warn(entry);
+
+    expect(sink).toHaveBeenCalledWith({
+      app: config.app,
+      environment: config.environment,
+      level: LogLevelEnum.warn,
+      timestamp: mocks.TIME_ZERO_ISO,
+      ...entry,
+      error: { message: mocks.IntentionalError },
     });
   });
 

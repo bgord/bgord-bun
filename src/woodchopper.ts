@@ -1,5 +1,15 @@
 import type { ClockPort } from "./clock.port";
-import { type LoggerAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
+import { formatError } from "./format-error.service";
+import {
+  type AdapterInjectedFields,
+  type LogCoreType,
+  type LogErrorType,
+  type LoggerAppType,
+  type LoggerPort,
+  type LogHttpType,
+  LogLevelEnum,
+  type LogWarnType,
+} from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type WoodchopperConfigType = {
@@ -16,13 +26,19 @@ export class Woodchopper implements LoggerPort {
     private readonly deps: Dependencies,
   ) {}
 
-  private log(level: LogLevelEnum, entry: any) {
+  private log(
+    level: LogLevelEnum,
+    entry: Omit<LogCoreType | LogHttpType | LogWarnType | LogErrorType, AdapterInjectedFields>,
+  ) {
+    const normalized =
+      "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
+
     console.log({
       timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
       level: level,
       app: this.config.app,
       environment: this.config.environment,
-      ...entry,
+      ...normalized,
     });
   }
 
