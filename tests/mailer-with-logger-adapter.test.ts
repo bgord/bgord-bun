@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
-import { MailerSmtpWithLoggerAdapter } from "../src/mailer-smtp-with-logger.adapter";
+import { MailerWithLoggerAdapter } from "../src/mailer-with-logger.adapter";
 import { SmtpHost } from "../src/smtp-host.vo";
 import { SmtpPass } from "../src/smtp-pass.vo";
 import { SmtpPort } from "../src/smtp-port.vo";
@@ -16,19 +16,19 @@ const sendOptions = {
 };
 
 const Logger = new LoggerNoopAdapter();
-const MailerSmtp = new MailerSmtpAdapter({
+const inner = new MailerSmtpAdapter({
   SMTP_HOST: SmtpHost.parse("smtp.example.com"),
   SMTP_PORT: SmtpPort.parse(587),
   SMTP_USER: SmtpUser.parse("user@example.com"),
   SMTP_PASS: SmtpPass.parse("password"),
 });
-const deps = { Logger, MailerSmtp };
+const deps = { Logger, inner };
 
-const mailer = new MailerSmtpWithLoggerAdapter(deps);
+const mailer = new MailerWithLoggerAdapter(deps);
 
-describe("SmtpMailerWithLoggerAdapter", () => {
+describe("MailerWithLoggerAdapter", () => {
   test("send - success", async () => {
-    const sendMail = spyOn(MailerSmtp, "send").mockImplementation(jest.fn());
+    const sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
     const loggerInfo = spyOn(Logger, "info");
 
     await mailer.send(sendOptions);
@@ -49,7 +49,7 @@ describe("SmtpMailerWithLoggerAdapter", () => {
   });
 
   test("failure", async () => {
-    const sendMail = spyOn(MailerSmtp, "send").mockImplementation(mocks.throwIntentionalError);
+    const sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
     const loggerError = spyOn(Logger, "error");
 
     expect(async () => mailer.send(sendOptions)).toThrow(mocks.IntentionalError);
@@ -60,7 +60,7 @@ describe("SmtpMailerWithLoggerAdapter", () => {
   });
 
   test("verfiy", async () => {
-    const mailerSmtpVerify = spyOn(MailerSmtp, "verify").mockImplementation(jest.fn());
+    const mailerSmtpVerify = spyOn(inner, "verify").mockImplementation(jest.fn());
 
     await mailer.verify();
 
