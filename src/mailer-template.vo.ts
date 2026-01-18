@@ -2,7 +2,7 @@ import type * as tools from "@bgord/tools";
 
 type MailerTemplateConfig = { from: tools.EmailType; to: tools.EmailType };
 
-type MailerTemplateAttachmentType = {
+export type MailerTemplateAttachmentType = {
   content?: string | Buffer;
   filename?: string | false | undefined;
   path?: string;

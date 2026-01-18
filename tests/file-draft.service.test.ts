@@ -42,7 +42,7 @@ describe("FileDraft service", () => {
 
   test("toAttachment", async () => {
     expect(await new AlphabetFile().toAttachment()).toEqual({
-      filename,
+      filename: filename.get(),
       contentType: "text/plain",
       content: "abc",
     });
