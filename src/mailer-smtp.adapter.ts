@@ -50,7 +50,7 @@ export class MailerSmtpAdapter implements MailerPort {
   async send(template: MailerTemplate): Promise<unknown> {
     return this.transport.sendMail({
       ...template.config,
-      ...template.template.get(),
+      ...template.message,
       attachments: template.attachments,
     });
   }

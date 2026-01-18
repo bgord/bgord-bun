@@ -4,7 +4,7 @@ import type { MailerSubjectType } from "./mailer-subject.vo";
 
 export type MailerTemplateConfig = { from: tools.EmailType; to: tools.EmailType };
 
-export type MailerTemplateMessage = { subject: MailerSubjectType; content: MailerContentHtmlType };
+export type MailerTemplateMessage = { subject: MailerSubjectType; html: MailerContentHtmlType };
 
 export type MailerTemplateAttachmentType = {
   content?: string | Buffer;
