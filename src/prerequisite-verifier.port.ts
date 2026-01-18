@@ -1,5 +1,5 @@
+import { formatError } from "./format-error.service";
 import type { ErrorInfo } from "./logger.port";
-import { formatError } from "./logger-format-error.service";
 
 export enum PrerequisiteVerificationOutcome {
   success = "success",

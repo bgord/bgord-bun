@@ -1,9 +1,9 @@
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
+import { formatError } from "./format-error.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { JobHandlerStrategy, UnitOfWork } from "./job-handler.strategy";
 import type { LoggerPort } from "./logger.port";
-import { formatError } from "./logger-format-error.service";
 import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };

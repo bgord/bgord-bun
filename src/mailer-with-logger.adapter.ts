@@ -1,5 +1,5 @@
+import { formatError } from "./format-error.service";
 import type { LoggerPort } from "./logger.port";
-import { formatError } from "./logger-format-error.service";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 

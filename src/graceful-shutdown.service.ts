@@ -1,6 +1,6 @@
 import * as tools from "@bgord/tools";
+import { formatError } from "./format-error.service";
 import type { LoggerPort } from "./logger.port";
-import { formatError } from "./logger-format-error.service";
 
 type ServerType = ReturnType<typeof Bun.serve>;
 

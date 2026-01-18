@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { formatError } from "../src/logger-format-error.service";
+import { formatError } from "../src/format-error.service";
 import * as mocks from "./mocks";
 
 describe("formatError", () => {
