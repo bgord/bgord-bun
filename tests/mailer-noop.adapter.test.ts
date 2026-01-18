@@ -11,10 +11,10 @@ describe("MailerNoopAdapter", () => {
       from: tools.Email.parse("sender@example.com"),
       to: tools.Email.parse("recipient@example.com"),
     };
-    const notification = new tools.NotificationTemplate("Test Email", "This is a test email.");
-    const message = new MailerTemplate(config, notification);
+    const message = { subject: "Test Email", html: "This is a test email." };
+    const template = new MailerTemplate(config, message);
 
-    expect(async () => mailer.send(message)).not.toThrow();
+    expect(async () => mailer.send(template)).not.toThrow();
   });
 
   test("verify", async () => {

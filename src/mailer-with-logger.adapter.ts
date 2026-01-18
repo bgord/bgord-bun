@@ -16,7 +16,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
       const result = await this.deps.inner.send(template);
       this.deps.Logger.info({
         message: "Mailer success",
-        metadata: { message: template.toJSON(), result },
+        metadata: { template: template.toJSON(), result },
         ...this.base,
       });
 

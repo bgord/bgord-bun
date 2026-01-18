@@ -14,38 +14,39 @@ const config = {
   from: tools.Email.parse("sender@example.com"),
   to: tools.Email.parse("recipient@example.com"),
 };
-const notification = new tools.NotificationTemplate("Test Email", "This is a test email.");
-const message = new MailerTemplate(config, notification);
+const message = { subject: "Test Email", html: "This is a test email." };
+const template = new MailerTemplate(config, message);
 
 const Logger = new LoggerNoopAdapter();
-const inner = new MailerSmtpAdapter({
-  SMTP_HOST: SmtpHost.parse("smtp.example.com"),
-  SMTP_PORT: SmtpPort.parse(587),
-  SMTP_USER: SmtpUser.parse("user@example.com"),
-  SMTP_PASS: SmtpPass.parse("password"),
-});
-const deps = { Logger, inner };
 
-const mailer = new MailerWithLoggerAdapter(deps);
+describe("MailerWithLoggerAdapter", async () => {
+  const inner = await MailerSmtpAdapter.build({
+    SMTP_HOST: SmtpHost.parse("smtp.example.com"),
+    SMTP_PORT: SmtpPort.parse(587),
+    SMTP_USER: SmtpUser.parse("user@example.com"),
+    SMTP_PASS: SmtpPass.parse("password"),
+  });
+  const deps = { Logger, inner };
 
-describe("MailerWithLoggerAdapter", () => {
+  const mailer = new MailerWithLoggerAdapter(deps);
+
   test("send - success", async () => {
     const sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
     const loggerInfo = spyOn(Logger, "info");
 
-    await mailer.send(message);
+    await mailer.send(template);
 
-    expect(sendMail).toHaveBeenCalledWith(message);
+    expect(sendMail).toHaveBeenCalledWith(template);
     expect(loggerInfo).toHaveBeenNthCalledWith(1, {
       component: "infra",
       message: "Mailer attempt",
-      metadata: message.toJSON(),
+      metadata: template.toJSON(),
       operation: "mailer",
     });
     expect(loggerInfo).toHaveBeenNthCalledWith(2, {
       component: "infra",
       message: "Mailer success",
-      metadata: { message: message.toJSON() },
+      metadata: { template: template.toJSON() },
       operation: "mailer",
     });
   });
@@ -54,8 +55,8 @@ describe("MailerWithLoggerAdapter", () => {
     const sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
     const loggerError = spyOn(Logger, "error");
 
-    expect(async () => mailer.send(message)).toThrow(mocks.IntentionalError);
-    expect(sendMail).toHaveBeenCalledWith(message);
+    expect(async () => mailer.send(template)).toThrow(mocks.IntentionalError);
+    expect(sendMail).toHaveBeenCalledWith(template);
     expect(loggerError).toHaveBeenCalledWith(
       expect.objectContaining({ component: "infra", message: "Mailer error", operation: "mailer" }),
     );

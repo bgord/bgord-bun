@@ -19,8 +19,8 @@ const config = {
   from: tools.Email.parse("sender@example.com"),
   to: tools.Email.parse("recipient@example.com"),
 };
-const notification = new tools.NotificationTemplate("Test Email", "This is a test email.");
-const message = new MailerTemplate(config, notification);
+const message = { subject: "Test Email", html: "This is a test email." };
+const template = new MailerTemplate(config, message);
 
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
@@ -30,9 +30,9 @@ describe("MailerSmtpAdapter", () => {
     } as any);
     const mailer = await MailerSmtpAdapter.build(smtp);
 
-    await mailer.send(message);
+    await mailer.send(template);
 
-    expect(sendMail).toHaveBeenCalledWith({ ...config, ...notification.get(), attachments: undefined });
+    expect(sendMail).toHaveBeenCalledWith({ ...config, ...message });
     expect(createTransport).toHaveBeenCalled();
   });
 

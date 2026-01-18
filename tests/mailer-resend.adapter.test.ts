@@ -8,8 +8,8 @@ const config = {
   from: tools.Email.parse("sender@example.com"),
   to: tools.Email.parse("recipient@example.com"),
 };
-const notification = new tools.NotificationTemplate("Test Email", "This is a test email.");
-const message = new MailerTemplate(config, notification);
+const message = { subject: "Test Email", html: "This is a test email." };
+const template = new MailerTemplate(config, message);
 
 const smtp = { key: "RESEND_API_KEY" };
 
@@ -26,16 +26,16 @@ describe("MailerResendAdapter", async () => {
   test("send - success", async () => {
     const resendEmailsSend = spyOn(mailer.transport.emails, "send").mockResolvedValue(success);
 
-    await mailer.send(message);
+    await mailer.send(template);
 
-    expect(resendEmailsSend).toHaveBeenCalledWith({ ...config, ...notification.get() });
+    expect(resendEmailsSend).toHaveBeenCalledWith({ ...config, ...message });
   });
 
   test("send - error", async () => {
     spyOn(mailer.transport.emails, "send").mockResolvedValue(failure);
 
     try {
-      await mailer.send(message);
+      await mailer.send(template);
       throw new Error("Expected send() to throw");
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
