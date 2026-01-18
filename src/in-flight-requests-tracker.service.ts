@@ -15,8 +15,10 @@ export class InFlightRequestsTracker {
     return InFlightRequestsTracker.count;
   }
 
+  // Stryker disable all
   /** @internal */
   static _resetForTest(): void {
     InFlightRequestsTracker.count = tools.Integer.parse(0);
   }
+  // Stryker restore all
 }
