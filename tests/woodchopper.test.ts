@@ -1,8 +1,9 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Woodchopper } from "../src/woodchopper";
+import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -34,23 +35,23 @@ const errorStringFormatted = { message: mocks.IntentionalError };
 
 describe("Woodchopper", () => {
   test("error - no error", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("error - error instance", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entryWithErrorInstance);
 
-    expect(sink).toHaveBeenCalledWith({
+    expect(sink.entries[0]).toEqual({
       ...config,
       ...entryWithErrorInstance,
       timestamp: mocks.TIME_ZERO_ISO,
@@ -59,13 +60,13 @@ describe("Woodchopper", () => {
   });
 
   test("error - string", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entryWithErrorString);
 
-    expect(sink).toHaveBeenCalledWith({
+    expect(sink.entries[0]).toEqual({
       ...config,
       ...entryWithErrorString,
       timestamp: mocks.TIME_ZERO_ISO,
@@ -74,23 +75,23 @@ describe("Woodchopper", () => {
   });
 
   test("warn - no error", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.warn(entry);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("warn - error instance", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.warn(entryWithErrorInstance);
 
-    expect(sink).toHaveBeenCalledWith({
+    expect(sink.entries[0]).toEqual({
       ...entryWithErrorInstance,
       ...config,
       timestamp: mocks.TIME_ZERO_ISO,
@@ -99,13 +100,13 @@ describe("Woodchopper", () => {
   });
 
   test("warn - string", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.warn(entryWithErrorString);
 
-    expect(sink).toHaveBeenCalledWith({
+    expect(sink.entries[0]).toEqual({
       ...entryWithErrorString,
       ...config,
       timestamp: mocks.TIME_ZERO_ISO,
@@ -114,59 +115,59 @@ describe("Woodchopper", () => {
   });
 
   test("info", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.info(entry);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("http", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.http, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.http(entryHttp);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entryHttp, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entryHttp, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("verbose", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.verbose, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.verbose(entry);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("debug", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.debug, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.debug(entry);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("silly", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.silly, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledWith({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
   });
 
   test("level threshold - error", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -176,13 +177,13 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(1);
+    expect(sink.entries.length).toEqual(1);
   });
 
   test("level threshold - warn", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -192,13 +193,13 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(2);
+    expect(sink.entries.length).toEqual(2);
   });
 
   test("level threshold - info", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -208,13 +209,13 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(3);
+    expect(sink.entries.length).toEqual(3);
   });
 
   test("level threshold - http", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.http, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -224,13 +225,13 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(4);
+    expect(sink.entries.length).toEqual(4);
   });
 
   test("level threshold - verbose", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.verbose, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -240,13 +241,13 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(5);
+    expect(sink.entries.length).toEqual(5);
   });
 
   test("level threshold - debug", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.debug, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -256,13 +257,13 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(6);
+    expect(sink.entries.length).toEqual(6);
   });
 
   test("level threshold - silly", () => {
-    const sink = spyOn(console, "log").mockImplementation(jest.fn());
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.silly, environment };
-    const woodchopper = new Woodchopper(config, deps);
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -272,6 +273,6 @@ describe("Woodchopper", () => {
     woodchopper.debug(entry);
     woodchopper.silly(entry);
 
-    expect(sink).toHaveBeenCalledTimes(7);
+    expect(sink.entries.length).toEqual(7);
   });
 });

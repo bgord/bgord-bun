@@ -47,13 +47,15 @@ export class Woodchopper implements LoggerPort {
     const normalized =
       "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
 
-    this.config.sink.write({
+    const withInjectedFields = {
       timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
       level: level,
       app: this.config.app,
       environment: this.config.environment,
       ...normalized,
-    });
+    };
+
+    this.config.sink.write(withInjectedFields);
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
