@@ -1,19 +1,20 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import hcaptcha from "hcaptcha";
 import { Hono } from "hono";
+import { HCaptchaService } from "../src/hcaptcha.service";
+import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaLocalStrategy } from "../src/shield-hcaptcha-local.strategy";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = "0x1111111111111111111111111111111111111111";
+const SECRET_KEY = HCaptchaSecretKey.parse("00000000000000000000000000000000000");
 const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
 
-const shield = new ShieldHcaptchaLocalStrategy(SECRET_KEY as any);
+const shield = new ShieldHcaptchaLocalStrategy(SECRET_KEY);
 
 const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
 
 describe("ShieldHcaptchaLocalStrategy", () => {
   test("happy path", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: true });
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -23,7 +24,7 @@ describe("ShieldHcaptchaLocalStrategy", () => {
   });
 
   test("failure - known error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockResolvedValue({ success: false });
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -33,7 +34,9 @@ describe("ShieldHcaptchaLocalStrategy", () => {
   });
 
   test("failure - uknown error", async () => {
-    const hcaptchaVerify = spyOn(hcaptcha, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockRejectedValue(
+      new Error(mocks.IntentionalError),
+    );
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
