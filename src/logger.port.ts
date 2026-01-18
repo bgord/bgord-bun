@@ -46,7 +46,7 @@ export type LogHttpType = LogCoreType & {
   client: HttpClientInfo;
   cacheHit?: boolean;
 };
-export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo };
+export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo | null };
 export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: ErrorInfo };
 export type AdapterInjectedFields = "timestamp" | "level" | "app" | "environment";
 
