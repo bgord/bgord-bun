@@ -36,11 +36,11 @@ export class MailerResendAdapter implements MailerPort {
     return import(name);
   }
 
-  async send(message: MailerTemplate): Promise<unknown> {
+  async send(template: MailerTemplate): Promise<unknown> {
     const result = await this.transport.emails.send({
-      ...message.config,
-      ...message.template.get(),
-      attachments: message.attachments,
+      ...template.config,
+      ...template.template.get(),
+      attachments: template.attachments,
     });
 
     if (!result.error) return result;

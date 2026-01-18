@@ -47,11 +47,11 @@ export class MailerSmtpAdapter implements MailerPort {
     return import(name);
   }
 
-  async send(message: MailerTemplate): Promise<unknown> {
+  async send(template: MailerTemplate): Promise<unknown> {
     return this.transport.sendMail({
-      ...message.config,
-      ...message.template.get(),
-      attachments: message.attachments,
+      ...template.config,
+      ...template.template.get(),
+      attachments: template.attachments,
     });
   }
 
