@@ -48,7 +48,7 @@ export type LogHttpType = LogCoreType & {
   cacheHit?: boolean;
 };
 
-export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo | null };
+export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error?: ErrorInfo };
 
 export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: ErrorInfo };
 
