@@ -2,8 +2,12 @@ import { describe, expect, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
+import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
+import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper } from "../src/woodchopper";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
+import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -274,5 +278,68 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(7);
+  });
+
+  test("redactor - noop", () => {
+    const sink = new WoodchopperSinkNoop();
+    const redactor = new RedactorNoopStrategy();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, redactor }, deps);
+
+    woodchopper.info(entry);
+
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+  });
+
+  test("redactor - mask", () => {
+    const sink = new WoodchopperSinkNoop();
+    const redactor = new RedactorMaskStrategy();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, redactor }, deps);
+
+    woodchopper.info({ ...entry, metadata: { password: "secret" } });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entry,
+      timestamp: mocks.TIME_ZERO_ISO,
+      metadata: { password: "***" },
+    });
+  });
+
+  test("redactor - compact array", () => {
+    const sink = new WoodchopperSinkNoop();
+    const redactor = new RedactorCompactArrayStrategy();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, redactor }, deps);
+
+    woodchopper.info({ ...entry, metadata: { users: ["1", "2", "3"] } });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entry,
+      timestamp: mocks.TIME_ZERO_ISO,
+      metadata: { users: { length: 3, type: "Array" } },
+    });
+  });
+
+  test("redactor - composite", () => {
+    const sink = new WoodchopperSinkNoop();
+    const redactor = new RedactorCompositeStrategy([
+      new RedactorNoopStrategy(),
+      new RedactorMaskStrategy(),
+      new RedactorCompactArrayStrategy(),
+    ]);
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, redactor }, deps);
+
+    woodchopper.info({ ...entry, metadata: { password: "secret", users: ["1", "2", "3"] } });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entry,
+      timestamp: mocks.TIME_ZERO_ISO,
+      metadata: { users: { length: 3, type: "Array" }, password: "***" },
+    });
   });
 });
