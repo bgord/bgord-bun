@@ -171,6 +171,7 @@ export * from "./logger-winston-production.adapter";
 export * from "./mailer.port";
 export * from "./mailer-content-html.vo";
 export * from "./mailer-noop.adapter";
+export * from "./mailer-resend.adapter";
 export * from "./mailer-smtp.adapter";
 export * from "./mailer-subject.vo";
 export * from "./mailer-with-logger.adapter";
