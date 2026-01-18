@@ -53,6 +53,22 @@ describe("MailerSmtpAdapter", () => {
     expect(verify).toHaveBeenCalled();
   });
 
+  test("build", async () => {
+    const createTransport = spyOn(
+      { createTransport: () => ({ sendMail: async () => {} }) },
+      "createTransport",
+    );
+    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport } as any);
+
+    await MailerSmtpAdapter.build(smtp);
+
+    expect(createTransport).toHaveBeenCalledWith({
+      host: smtp.SMTP_HOST,
+      port: smtp.SMTP_PORT,
+      auth: { user: smtp.SMTP_USER, pass: smtp.SMTP_PASS },
+    });
+  });
+
   test("missing dependency", async () => {
     spyOn(MailerSmtpAdapter, "import").mockRejectedValue(mocks.IntentionalError);
 
