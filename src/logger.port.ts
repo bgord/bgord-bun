@@ -3,9 +3,8 @@ import * as z from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
-export type HttpClientInfo = { ip?: string; userAgent?: string };
-
 export type LoggerAppType = string;
+
 export type ErrorInfo = {
   name?: string;
   message?: string;
@@ -36,6 +35,8 @@ export type LogCoreType = {
   correlationId?: CorrelationIdType;
   metadata?: Record<string, any>;
 };
+
+export type HttpClientInfo = { ip?: string; userAgent?: string };
 export type LogHttpType = LogCoreType & {
   level: LogLevelEnum.http;
   component: "http";
@@ -46,8 +47,11 @@ export type LogHttpType = LogCoreType & {
   client: HttpClientInfo;
   cacheHit?: boolean;
 };
+
 export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error: ErrorInfo | null };
+
 export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: ErrorInfo };
+
 export type AdapterInjectedFields = "timestamp" | "level" | "app" | "environment";
 
 export interface LoggerPort {
