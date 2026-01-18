@@ -1,27 +1,18 @@
-// Stryker disable all
 import type { ErrorInfo } from "./logger.port";
 
 export function formatError(error: unknown): ErrorInfo {
   if (error instanceof Error) {
-    const code = (error as any)?.code;
-    const cause = error?.cause;
+    const cause =
+      error.cause instanceof Error
+        ? formatError(error.cause)
+        : typeof error.cause === "string"
+          ? { message: error.cause }
+          : undefined;
 
-    return {
-      name: error.name ?? "Error",
-      message: error.message ?? "Unknown error",
-      stack: error.stack,
-      code: code ?? undefined,
-      cause:
-        cause instanceof Error
-          ? { name: cause.name, message: cause.message }
-          : typeof cause === "string"
-            ? { message: cause }
-            : undefined,
-    };
+    return { name: error.name, message: error.message || "Unknown error", stack: error.stack, cause };
   }
-  return {
-    name: "NonErrorThrown",
-    message: typeof error === "string" ? error : String(error),
-  };
+
+  if (typeof error === "string") return { message: error };
+
+  return { message: String(error) };
 }
-// Stryker restore all
