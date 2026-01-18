@@ -121,6 +121,7 @@ export * from "./hash-file.port";
 export * from "./hash-file-noop.adapter";
 export * from "./hash-file-sha256-bun.adapter";
 export * from "./hash-value.vo";
+export * from "./hcaptcha.service";
 export * from "./hcaptcha-secret-key.vo";
 export * from "./hcaptcha-site-key.vo";
 export * from "./healthcheck.service";
