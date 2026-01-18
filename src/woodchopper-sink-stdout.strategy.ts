@@ -1,7 +1,7 @@
-import type { SinkEntry, WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
+import type { WoodchopperSinkEntry, WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 
 export class WoodChopperSinkStdout implements WoodchopperSinkStrategy {
-  write(entry: SinkEntry): void {
+  write(entry: WoodchopperSinkEntry): void {
     process.stdout.write(JSON.stringify(entry));
   }
 }

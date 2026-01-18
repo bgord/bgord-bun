@@ -11,11 +11,13 @@ import {
   type LogWarnType,
 } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
+import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 
 export type WoodchopperConfigType = {
   app: LoggerAppType;
   level: LogLevelEnum;
   environment: NodeEnvironmentEnum;
+  sink: WoodchopperSinkStrategy;
 };
 
 type Dependencies = { Clock: ClockPort };
@@ -45,7 +47,7 @@ export class Woodchopper implements LoggerPort {
     const normalized =
       "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
 
-    console.log({
+    this.config.sink.write({
       timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
       level: level,
       app: this.config.app,
