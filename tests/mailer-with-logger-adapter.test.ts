@@ -1,7 +1,9 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
+import { MailerSubject } from "../src/mailer-subject.vo";
 import { MailerTemplate } from "../src/mailer-template.vo";
 import { MailerWithLoggerAdapter } from "../src/mailer-with-logger.adapter";
 import { SmtpHost } from "../src/smtp-host.vo";
@@ -14,7 +16,10 @@ const config = {
   from: tools.Email.parse("sender@example.com"),
   to: tools.Email.parse("recipient@example.com"),
 };
-const message = { subject: "Test Email", html: "This is a test email." };
+const message = {
+  subject: MailerSubject.parse("Test Email"),
+  html: MailerContentHtml.parse("This is a test email."),
+};
 const template = new MailerTemplate(config, message);
 
 const Logger = new LoggerNoopAdapter();
