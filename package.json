@@ -31,6 +31,7 @@
     "knip": "5.81.0",
     "lefthook": "2.0.15",
     "lockfile-lint": "4.14.1",
+    "nodemailer": "7.0.12",
     "only-allow": "1.2.2",
     "sharp": "0.34.5",
     "shellcheck": "4.1.0",
@@ -46,20 +47,23 @@
     "hcaptcha": "0.2.0",
     "hono": "4.11.4",
     "node-cache": "5.1.2",
-    "nodemailer": "7.0.12",
     "winston": "3.19.0",
     "yazl": "3.3.1"
   },
   "peerDependencies": {
     "zod": "4.3.5",
     "resend": "6.7.0",
-    "sharp": "0.34.5"
+    "sharp": "0.34.5",
+    "nodemailer": "7.0.12"
   },
   "peerDependenciesMeta": {
     "sharp": {
       "optional": true
     },
     "resend": {
+      "optional": true
+    },
+    "nodemailer": {
       "optional": true
     }
   }

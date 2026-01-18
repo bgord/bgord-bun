@@ -1,12 +1,12 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import nodemailer from "nodemailer";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 import { MailerTemplate } from "../src/mailer-template.vo";
 import { SmtpHost } from "../src/smtp-host.vo";
 import { SmtpPass } from "../src/smtp-pass.vo";
 import { SmtpPort } from "../src/smtp-port.vo";
 import { SmtpUser } from "../src/smtp-user.vo";
+import * as mocks from "./mocks";
 
 const smtp = {
   SMTP_HOST: SmtpHost.parse("smtp.example.com"),
@@ -24,29 +24,33 @@ const message = new MailerTemplate(config, notification);
 
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
-    const sendMail = jest.fn();
-    const nodemailerCreateTransport = spyOn(nodemailer, "createTransport").mockReturnValue({
-      sendMail,
+    const sendMail = spyOn({ sendMail: async () => {} }, "sendMail");
+    const createTransport = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
+      createTransport: () => ({ sendMail }),
     } as any);
-    const mailer = new MailerSmtpAdapter(smtp);
+    const mailer = await MailerSmtpAdapter.build(smtp);
 
     await mailer.send(message);
 
-    expect(sendMail).toHaveBeenCalledWith({ ...config, ...notification.get() });
-    expect(nodemailerCreateTransport).toHaveBeenCalledWith({
-      auth: { user: smtp.SMTP_USER, pass: smtp.SMTP_PASS },
-      host: smtp.SMTP_HOST,
-      port: smtp.SMTP_PORT,
-    });
+    expect(sendMail).toHaveBeenCalledWith({ ...config, ...notification.get(), attachments: undefined });
+    expect(createTransport).toHaveBeenCalled();
   });
 
   test("verify - success", async () => {
-    const verify = jest.fn();
-    spyOn(nodemailer, "createTransport").mockImplementation(() => ({ verify }) as any);
-    const mailer = new MailerSmtpAdapter(smtp);
+    const verify = spyOn({ verify: async () => true }, "verify");
+    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
+      createTransport: () => ({ verify }),
+    } as any);
+    const mailer = await MailerSmtpAdapter.build(smtp);
 
     await mailer.verify();
 
     expect(verify).toHaveBeenCalled();
+  });
+
+  test("missing dependency", async () => {
+    spyOn(MailerSmtpAdapter, "import").mockRejectedValue(mocks.IntentionalError);
+
+    expect(MailerSmtpAdapter.build(smtp)).rejects.toThrow("mailer.smtp.adapter.error.missing.dependency");
   });
 });

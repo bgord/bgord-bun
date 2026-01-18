@@ -1,10 +1,14 @@
-import nodemailer from "nodemailer";
+import type nodemailer from "nodemailer";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 import type { SmtpHostType } from "./smtp-host.vo";
 import type { SmtpPassType } from "./smtp-pass.vo";
 import type { SmtpPortType } from "./smtp-port.vo";
 import type { SmtpUserType } from "./smtp-user.vo";
+
+export const MailerSmtpAdapterError = {
+  MissingDependency: "mailer.smtp.adapter.error.missing.dependency",
+};
 
 type MailerConfigType = {
   SMTP_HOST: SmtpHostType;
@@ -14,14 +18,32 @@ type MailerConfigType = {
 };
 
 export class MailerSmtpAdapter implements MailerPort {
-  private readonly transport: nodemailer.Transporter;
+  private constructor(readonly transport: nodemailer.Transporter) {}
 
-  constructor(config: MailerConfigType) {
-    this.transport = nodemailer.createTransport({
-      host: config.SMTP_HOST,
-      port: config.SMTP_PORT,
-      auth: { user: config.SMTP_USER, pass: config.SMTP_PASS },
-    });
+  static async build(config: MailerConfigType): Promise<MailerSmtpAdapter> {
+    const library = await MailerSmtpAdapter.resolve();
+
+    return new MailerSmtpAdapter(
+      library.createTransport({
+        host: config.SMTP_HOST,
+        port: config.SMTP_PORT,
+        auth: { user: config.SMTP_USER, pass: config.SMTP_PASS },
+      }),
+    );
+  }
+
+  private static async resolve() {
+    try {
+      const library = await MailerSmtpAdapter.import();
+
+      return library;
+    } catch {
+      throw new Error(MailerSmtpAdapterError.MissingDependency);
+    }
+  }
+
+  static async import() {
+    return import("nodemailer");
   }
 
   async send(message: MailerTemplate): Promise<unknown> {
