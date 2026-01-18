@@ -1,7 +1,11 @@
 # Changelog
+## 2026-01-18 17:38 v1.9.7
+- 2026-01-18 17:38 ba205822 **1.9.7**
 - 2026-01-18 17:32 fe11e3e9 **refactor: remove file transport**
 - 2026-01-18 17:31 89756e32 **refactor: remove logger get file path**
 - 2026-01-18 17:22 49ecaa29 **refactor: remove set silent from logger port**
+- 2026-01-18 16:37 e1484658 **docs: generate CHANGELOG**
+- 2026-01-18 16:37 9ecea5b0 **docs: generate readme**
 ## 2026-01-18 15:33 v1.9.6
 - 2026-01-18 15:33 294ea342 **1.9.6**
 - 2026-01-18 15:29 b37eba11 **refactor: remove unused as any**
