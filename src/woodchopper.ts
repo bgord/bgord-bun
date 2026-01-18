@@ -20,6 +20,16 @@ export type WoodchopperConfigType = {
 
 type Dependencies = { Clock: ClockPort };
 
+const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, number> = {
+  [LogLevelEnum.error]: 0,
+  [LogLevelEnum.warn]: 1,
+  [LogLevelEnum.info]: 2,
+  [LogLevelEnum.http]: 3,
+  [LogLevelEnum.verbose]: 4,
+  [LogLevelEnum.debug]: 5,
+  [LogLevelEnum.silly]: 6,
+};
+
 export class Woodchopper implements LoggerPort {
   constructor(
     private readonly config: WoodchopperConfigType,
@@ -30,6 +40,8 @@ export class Woodchopper implements LoggerPort {
     level: LogLevelEnum,
     entry: Omit<LogCoreType | LogHttpType | LogWarnType | LogErrorType, AdapterInjectedFields>,
   ) {
+    if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return;
+
     const normalized =
       "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
 
