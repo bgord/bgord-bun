@@ -4,6 +4,7 @@ import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type HttpClientInfo = { ip?: string; userAgent?: string };
+
 export type LogAppType = string;
 export type ErrorInfo = {
   name?: string;
@@ -57,8 +58,6 @@ export interface LoggerPort {
   verbose(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
   debug(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
   silly(entry: Omit<LogCoreType, AdapterInjectedFields>): void;
-
-  setSilent(silent: boolean): void;
 
   getFilePath(): tools.FilePathAbsolute | null;
 }

@@ -53,10 +53,6 @@ export class LoggerWinstonAdapter implements LoggerPort {
   debug: LoggerPort["debug"] = (log) => this.logger.log({ level: LogLevelEnum.debug, ...log });
   silly: LoggerPort["silly"] = (log) => this.logger.log({ level: LogLevelEnum.silly, ...log });
 
-  setSilent: LoggerPort["setSilent"] = (silent) => {
-    this.logger.silent = silent;
-  };
-
   getFilePath() {
     return this.filePath;
   }
