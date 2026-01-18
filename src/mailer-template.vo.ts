@@ -1,0 +1,10 @@
+import type * as tools from "@bgord/tools";
+
+type MailerTemplateConfig = { from: tools.EmailType; to: tools.EmailType };
+
+export class MailerTemplate {
+  constructor(
+    readonly config: MailerTemplateConfig,
+    readonly template: tools.NotificationTemplate,
+  ) {}
+}
