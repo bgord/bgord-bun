@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-18 15:33 v1.9.6
+- 2026-01-18 15:33 294ea342 **1.9.6**
 - 2026-01-18 15:29 b37eba11 **refactor: remove unused as any**
 - 2026-01-18 15:18 eab1fbd3 **refactor: remove hcaptcha package**
 - 2026-01-18 15:18 d2337aa2 **refactor: use hcaptcha service in regular strategy**
@@ -10,6 +12,8 @@
 - 2026-01-18 14:43 04ea03c9 **fix: mutants for in flight requests tracker**
 - 2026-01-18 14:42 78008e9b **fix: mutants for env file parser**
 - 2026-01-18 14:42 5e99661e **fix: mutants for elu**
+- 2026-01-18 14:32 90aedcc7 **docs: generate readme**
+- 2026-01-18 14:32 4bc5b5ec **docs: generate CHANGELOG**
 - 2026-01-18 14:22 362f4550 **step: make mailer content html and subject branded**
 ## 2026-01-18 13:06 v1.9.5
 - 2026-01-18 13:06 c59743fc **1.9.5**
