@@ -26,9 +26,9 @@ export class MailerSmtpAdapter implements MailerPort {
 
   async send(message: MailerTemplate): Promise<unknown> {
     return this.transport.sendMail({
-      from: message.config.from,
-      to: message.config.to,
+      ...message.config,
       ...message.template.get(),
+      attachments: message.attachments,
     });
   }
 
