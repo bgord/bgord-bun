@@ -1,5 +1,6 @@
-import nodemailer, { type SendMailOptions } from "nodemailer";
+import nodemailer from "nodemailer";
 import type { MailerPort } from "./mailer.port";
+import type { MailerTemplate } from "./mailer-template.vo";
 import type { SmtpHostType } from "./smtp-host.vo";
 import type { SmtpPassType } from "./smtp-pass.vo";
 import type { SmtpPortType } from "./smtp-port.vo";
@@ -23,8 +24,12 @@ export class MailerSmtpAdapter implements MailerPort {
     });
   }
 
-  async send(message: SendMailOptions): Promise<unknown> {
-    return this.transport.sendMail(message);
+  async send(message: MailerTemplate): Promise<unknown> {
+    return this.transport.sendMail({
+      from: message.config.from,
+      to: message.config.to,
+      ...message.template.get(),
+    });
   }
 
   async verify() {

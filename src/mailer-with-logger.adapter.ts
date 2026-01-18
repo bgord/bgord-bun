@@ -1,9 +1,7 @@
-import type { SendMailOptions } from "nodemailer";
 import type { LoggerPort } from "./logger.port";
 import { formatError } from "./logger-format-error.service";
 import type { MailerPort } from "./mailer.port";
-
-type MailerSendOptionsType = SendMailOptions;
+import type { MailerTemplate } from "./mailer-template.vo";
 
 type Dependencies = { inner: MailerPort; Logger: LoggerPort };
 
@@ -12,11 +10,15 @@ export class MailerWithLoggerAdapter implements MailerPort {
 
   constructor(private readonly deps: Dependencies) {}
 
-  async send(message: MailerSendOptionsType): Promise<unknown> {
+  async send(message: MailerTemplate): Promise<unknown> {
     try {
-      this.deps.Logger.info({ message: "Mailer attempt", metadata: message, ...this.base });
+      this.deps.Logger.info({ message: "Mailer attempt", metadata: message.toJSON(), ...this.base });
       const result = await this.deps.inner.send(message);
-      this.deps.Logger.info({ message: "Mailer success", metadata: { message, result }, ...this.base });
+      this.deps.Logger.info({
+        message: "Mailer success",
+        metadata: { message: message.toJSON(), result },
+        ...this.base,
+      });
 
       return result;
     } catch (error) {

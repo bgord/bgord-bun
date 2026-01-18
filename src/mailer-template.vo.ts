@@ -7,4 +7,8 @@ export class MailerTemplate {
     readonly config: MailerTemplateConfig,
     readonly template: tools.NotificationTemplate,
   ) {}
+
+  toJSON() {
+    return { config: this.config, template: this.template.get() };
+  }
 }

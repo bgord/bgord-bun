@@ -1,6 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import nodemailer from "nodemailer";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
+import { MailerTemplate } from "../src/mailer-template.vo";
 import { SmtpHost } from "../src/smtp-host.vo";
 import { SmtpPass } from "../src/smtp-pass.vo";
 import { SmtpPort } from "../src/smtp-port.vo";
@@ -13,6 +15,13 @@ const smtp = {
   SMTP_PASS: SmtpPass.parse("password"),
 };
 
+const config = {
+  from: tools.Email.parse("sender@example.com"),
+  to: tools.Email.parse("recipient@example.com"),
+};
+const notification = new tools.NotificationTemplate("Test Email", "This is a test email.");
+const message = new MailerTemplate(config, notification);
+
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
     const sendMail = jest.fn();
@@ -20,16 +29,10 @@ describe("MailerSmtpAdapter", () => {
       sendMail,
     } as any);
     const mailer = new MailerSmtpAdapter(smtp);
-    const sendOptions = {
-      from: "sender@example.com",
-      to: "recipient@example.com",
-      subject: "Test Email",
-      text: "This is a test email.",
-    };
 
-    await mailer.send(sendOptions);
+    await mailer.send(message);
 
-    expect(sendMail).toHaveBeenCalledWith(sendOptions);
+    expect(sendMail).toHaveBeenCalledWith({ ...config, ...notification.get() });
     expect(nodemailerCreateTransport).toHaveBeenCalledWith({
       auth: { user: smtp.SMTP_USER, pass: smtp.SMTP_PASS },
       host: smtp.SMTP_HOST,

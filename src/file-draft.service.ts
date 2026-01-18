@@ -32,6 +32,7 @@ export abstract class FileDraft {
   async toAttachment() {
     const body = await this.create();
 
+    // TODO get
     return { filename: this.filename, content: body, contentType: this.mime.toString() };
   }
 }
