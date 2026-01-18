@@ -14,8 +14,10 @@ export class EventLoopUtilization {
     return current.utilization;
   }
 
+  // Stryker disable all
   /** @internal */
   static _resetForTest(): void {
     EventLoopUtilization.previous = null;
   }
+  // Stryker restore all
 }
