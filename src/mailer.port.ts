@@ -1,6 +1,6 @@
-import type { SendMailOptions } from "nodemailer";
+import type { MailerTemplate } from "./mailer-template.vo";
 
 export interface MailerPort {
-  send(message: SendMailOptions): Promise<unknown>;
+  send(message: MailerTemplate): Promise<unknown>;
   verify(): Promise<boolean>;
 }
