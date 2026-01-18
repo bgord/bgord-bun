@@ -1,4 +1,7 @@
 # Changelog
+- 2026-01-18 17:32 fe11e3e9 **refactor: remove file transport**
+- 2026-01-18 17:31 89756e32 **refactor: remove logger get file path**
+- 2026-01-18 17:22 49ecaa29 **refactor: remove set silent from logger port**
 ## 2026-01-18 15:33 v1.9.6
 - 2026-01-18 15:33 294ea342 **1.9.6**
 - 2026-01-18 15:29 b37eba11 **refactor: remove unused as any**
@@ -12,6 +15,7 @@
 - 2026-01-18 14:43 04ea03c9 **fix: mutants for in flight requests tracker**
 - 2026-01-18 14:42 78008e9b **fix: mutants for env file parser**
 - 2026-01-18 14:42 5e99661e **fix: mutants for elu**
+- 2026-01-18 14:33 6e06146b **docs: generate CHANGELOG**
 - 2026-01-18 14:32 90aedcc7 **docs: generate readme**
 - 2026-01-18 14:32 4bc5b5ec **docs: generate CHANGELOG**
 - 2026-01-18 14:22 362f4550 **step: make mailer content html and subject branded**
