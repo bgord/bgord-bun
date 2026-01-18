@@ -1,6 +1,10 @@
 import type * as tools from "@bgord/tools";
+import type { MailerContentHtmlType } from "./mailer-content-html.vo";
+import type { MailerSubjectType } from "./mailer-subject.vo";
 
-type MailerTemplateConfig = { from: tools.EmailType; to: tools.EmailType };
+export type MailerTemplateConfig = { from: tools.EmailType; to: tools.EmailType };
+
+export type MailerTemplateMessage = { subject: MailerSubjectType; content: MailerContentHtmlType };
 
 export type MailerTemplateAttachmentType = {
   content?: string | Buffer;
@@ -13,11 +17,11 @@ export type MailerTemplateAttachmentType = {
 export class MailerTemplate {
   constructor(
     readonly config: MailerTemplateConfig,
-    readonly template: tools.NotificationTemplate,
+    readonly message: MailerTemplateMessage,
     readonly attachments?: MailerTemplateAttachmentType[],
   ) {}
 
   toJSON() {
-    return { config: this.config, template: this.template.get() };
+    return { config: this.config, message: this.message };
   }
 }
