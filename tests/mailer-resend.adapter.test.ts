@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { MailerResendAdapter } from "../src/mailer-resend.adapter";
 import { MailerTemplate } from "../src/mailer-template.vo";
+import * as mocks from "./mocks";
 
 const config = {
   from: tools.Email.parse("sender@example.com"),
@@ -11,7 +12,6 @@ const notification = new tools.NotificationTemplate("Test Email", "This is a tes
 const message = new MailerTemplate(config, notification);
 
 const smtp = { key: "RESEND_API_KEY" };
-const mailer = new MailerResendAdapter(smtp);
 
 const success = { error: null, data: { id: "first" }, headers: null };
 const failure = {
@@ -20,7 +20,9 @@ const failure = {
   headers: null,
 } as const;
 
-describe("MailerResendAdapter", () => {
+describe("MailerResendAdapter", async () => {
+  const mailer = await MailerResendAdapter.build(smtp);
+
   test("send - success", async () => {
     const resendEmailsSend = spyOn(mailer.transport.emails, "send").mockResolvedValue(success);
 
@@ -44,5 +46,11 @@ describe("MailerResendAdapter", () => {
 
   test("verify - success", async () => {
     expect(await mailer.verify()).toEqual(true);
+  });
+
+  test("missing dependency", async () => {
+    spyOn(MailerResendAdapter, "import").mockRejectedValue(mocks.IntentionalError);
+
+    expect(MailerResendAdapter.build(smtp)).rejects.toThrow("mailer.resend.adapter.error.missing.dependency");
   });
 });

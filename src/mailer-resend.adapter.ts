@@ -1,14 +1,38 @@
-import { Resend } from "resend";
+import type { Resend } from "resend";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
+
+export const MailerResendAdapterError = {
+  MissingDependency: "mailer.resend.adapter.error.missing.dependency",
+};
 
 type MailerConfigType = { key: string };
 
 export class MailerResendAdapter implements MailerPort {
-  readonly transport;
+  readonly transport: Resend;
 
-  constructor(config: MailerConfigType) {
-    this.transport = new Resend(config.key);
+  private constructor(mailer: Resend) {
+    this.transport = mailer;
+  }
+
+  static async build(config: MailerConfigType): Promise<MailerResendAdapter> {
+    const library = await MailerResendAdapter.resolve();
+
+    return new MailerResendAdapter(new library(config.key));
+  }
+
+  private static async resolve() {
+    try {
+      const library = await MailerResendAdapter.import();
+
+      return library.Resend;
+    } catch {
+      throw new Error(MailerResendAdapterError.MissingDependency);
+    }
+  }
+
+  static async import() {
+    return import("resend");
   }
 
   async send(message: MailerTemplate): Promise<unknown> {
