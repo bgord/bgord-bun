@@ -268,7 +268,6 @@ src/
 ├── prerequisite-verifier-external-api.adapter.ts
 ├── prerequisite-verifier-file.adapter.ts
 ├── prerequisite-verifier-jobs.adapter.ts
-├── prerequisite-verifier-log-file.adapter.ts
 ├── prerequisite-verifier-mailer.adapter.ts
 ├── prerequisite-verifier-memory.adapter.ts
 ├── prerequisite-verifier-node.adapter.ts
