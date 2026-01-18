@@ -174,6 +174,7 @@ export * from "./mailer-noop.adapter";
 export * from "./mailer-resend.adapter";
 export * from "./mailer-smtp.adapter";
 export * from "./mailer-subject.vo";
+export * from "./mailer-template.vo";
 export * from "./mailer-with-logger.adapter";
 export * from "./maintenance-mode.middleware";
 export * from "./memory-consumption.service";
