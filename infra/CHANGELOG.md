@@ -1,4 +1,20 @@
 # Changelog
+- 2026-01-18 12:40 2f0be954 **step: update packages**
+- 2026-01-18 12:39 65ed63c1 **refactor: force bun not to resolve nodemailer and resend**
+- 2026-01-18 12:35 82f749e0 **step: make nodemailer optional dep**
+- 2026-01-18 12:27 9355f3dd **step: make resend optional dep**
+- 2026-01-18 10:56 d58241fa **refactor: use mailer template attachment type**
+- 2026-01-18 10:54 00175e4e **step: add attachments**
+- 2026-01-18 10:51 46ac3e8b **feature: mailer resend adapter**
+- 2026-01-18 10:18 b39a96b0 **refactor: use mailer template everywhere**
+- 2026-01-18 10:16 62ff785c **step: define basic mailer template**
+- 2026-01-18 10:15 1b6cb313 **refactor: use mailer template vo in mailer port**
+- 2026-01-18 10:14 56214516 **step: gitignore tmp**
+- 2026-01-18 09:56 1f6a868f **step: install resend**
+- 2026-01-18 09:54 d693f7d5 **refactor: rename mailer with logger**
+- 2026-01-18 09:46 88da2709 **refactor: make mailer noop really noop**
+- 2026-01-17 22:27 979bd81c **refactor: use custom deep clone with**
+- 2026-01-17 22:22 e9e5e163 **step: remove lodash**
 ## 2026-01-17 21:56 v1.9.3
 - 2026-01-17 21:56 ecc070b8 **1.9.3**
 - 2026-01-17 21:53 ae78571d **refactor: make file uploader accept mime registry**
@@ -7,6 +23,7 @@
 - 2026-01-17 21:35 e5da2569 **step: update packages**
 - 2026-01-17 21:30 21a7a89d **refactor: use proper tools.Mimes**
 - 2026-01-17 21:28 8e794beb **step: update packages**
+- 2026-01-17 20:56 3615f4c4 **docs: generate CHANGELOG**
 - 2026-01-17 20:55 8ca8cf79 **docs: generate CHANGELOG**
 - 2026-01-17 20:55 1b9ef7e2 **docs: generate readme**
 - 2026-01-17 18:32 5f5e7f3d **step: update packages**
