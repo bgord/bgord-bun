@@ -7,13 +7,10 @@ export class EnvironmentFileParser {
     for (const line of lines) {
       // Stryker disable all
       const trimmed = line.trim();
-      // Stryker restore all
 
-      // Stryker disable all
       if (!trimmed) continue;
-      // Stryker restore all
-
       if (trimmed.startsWith("#")) continue;
+      // Stryker restore all
 
       const separatorIndex = trimmed.indexOf("=");
 
