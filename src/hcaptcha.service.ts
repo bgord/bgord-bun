@@ -23,8 +23,4 @@ export class HCaptchaService {
 
     return response.json();
   }
-
-  async verifyLocal(token: HcaptchaTokenType): Promise<HCaptchaVerificationResult> {
-    return { success: token === "10000000-aaaa-bbbb-cccc-000000000001" };
-  }
 }

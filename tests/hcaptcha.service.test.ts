@@ -6,7 +6,6 @@ import * as mocks from "./mocks";
 const SECRET_KEY = HCaptchaSecretKey.parse("00000000000000000000000000000000000");
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
-const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
 
 const service = new HCaptchaService();
 
@@ -66,23 +65,5 @@ describe("HCaptchaService", () => {
     spyOn(globalThis, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
 
     expect(async () => service.verify(SECRET_KEY, VALID_TOKEN)).toThrow(mocks.IntentionalError);
-  });
-
-  test("verifyLocal - happy path", async () => {
-    const result = await service.verifyLocal(LOCAL_FIXED_TOKEN);
-
-    expect(result).toEqual({ success: true });
-  });
-
-  test("verifyLocal - failure - invalid token", async () => {
-    const result = await service.verifyLocal(INVALID_TOKEN);
-
-    expect(result).toEqual({ success: false });
-  });
-
-  test("verifyLocal - failure - missing token", async () => {
-    const result = await service.verifyLocal(undefined);
-
-    expect(result).toEqual({ success: false });
   });
 });
