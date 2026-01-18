@@ -5,13 +5,7 @@ import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type LoggerAppType = string;
 
-export type ErrorInfo = {
-  name?: string;
-  message?: string;
-  stack?: string;
-  code?: string;
-  cause?: { name?: string; message?: string };
-};
+export type ErrorInfo = { message: string; name?: string; stack?: string; cause?: ErrorInfo };
 
 export enum LogLevelEnum {
   error = "error",
