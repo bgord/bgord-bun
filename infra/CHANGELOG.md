@@ -1,4 +1,16 @@
 # Changelog
+- 2026-01-18 15:29 b37eba11 **refactor: remove unused as any**
+- 2026-01-18 15:18 eab1fbd3 **refactor: remove hcaptcha package**
+- 2026-01-18 15:18 d2337aa2 **refactor: use hcaptcha service in regular strategy**
+- 2026-01-18 15:17 228a7044 **refactor: use hcaptcha service in local strategy**
+- 2026-01-18 15:11 c9bb82d5 **refactor: remove verify local method**
+- 2026-01-18 15:08 1ede9a3d **feature: hcaptcha service**
+- 2026-01-18 14:52 228bf638 **fix: mutants for mailer smtp**
+- 2026-01-18 14:43 1048ad47 **fix: mutants for mailer noop**
+- 2026-01-18 14:43 04ea03c9 **fix: mutants for in flight requests tracker**
+- 2026-01-18 14:42 78008e9b **fix: mutants for env file parser**
+- 2026-01-18 14:42 5e99661e **fix: mutants for elu**
+- 2026-01-18 14:22 362f4550 **step: make mailer content html and subject branded**
 ## 2026-01-18 13:06 v1.9.5
 - 2026-01-18 13:06 c59743fc **1.9.5**
 - 2026-01-18 13:05 a8d21389 **refactor: export mailer template vo**
@@ -13,6 +25,7 @@
 - 2026-01-18 12:39 65ed63c1 **refactor: force bun not to resolve nodemailer and resend**
 - 2026-01-18 12:35 82f749e0 **step: make nodemailer optional dep**
 - 2026-01-18 12:27 9355f3dd **step: make resend optional dep**
+- 2026-01-18 12:07 20c44def **docs: generate CHANGELOG**
 - 2026-01-18 12:05 36190305 **docs: generate CHANGELOG**
 - 2026-01-18 11:42 ed6cb9f5 **docs: generate CHANGELOG**
 - 2026-01-18 11:41 0ec8ad1d **docs: generate readme**
