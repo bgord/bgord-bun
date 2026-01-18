@@ -9,3 +9,4 @@ tests/tmp/*
 tmp/
 .stryker-tmp
 reports/
+tmp
