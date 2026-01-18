@@ -86,6 +86,7 @@ src/
 ├── crypto-key-provider.port.ts
 ├── csv-stringifier.adapter.ts
 ├── csv-stringifier.port.ts
+├── deep-clone-with.ts
 ├── disk-space-checker-bun.adapter.ts
 ├── disk-space-checker-noop.adapter.ts
 ├── disk-space-checker.port.ts
@@ -196,9 +197,11 @@ src/
 ├── logger.port.ts
 ├── mailer-content-html.vo.ts
 ├── mailer-noop.adapter.ts
-├── mailer-smtp-with-logger.adapter.ts
+├── mailer-resend.adapter.ts
 ├── mailer-smtp.adapter.ts
 ├── mailer-subject.vo.ts
+├── mailer-template.vo.ts
+├── mailer-with-logger.adapter.ts
 ├── mailer.port.ts
 ├── maintenance-mode.middleware.ts
 ├── memory-consumption.service.ts
