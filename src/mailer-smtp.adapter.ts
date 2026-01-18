@@ -43,7 +43,8 @@ export class MailerSmtpAdapter implements MailerPort {
   }
 
   static async import() {
-    return import("nodemailer");
+    const name = "nodem" + "ailer"; // Bun does not resolve dynamic imports with a dynamic name
+    return import(name);
   }
 
   async send(message: MailerTemplate): Promise<unknown> {
