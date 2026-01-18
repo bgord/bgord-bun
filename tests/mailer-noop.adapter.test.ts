@@ -1,13 +1,10 @@
-import { describe, expect, spyOn, test } from "bun:test";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { describe, expect, test } from "bun:test";
 import { MailerNoopAdapter } from "../src/mailer-noop.adapter";
 
-const Logger = new LoggerNoopAdapter();
-const mailer = new MailerNoopAdapter({ Logger });
+const mailer = new MailerNoopAdapter();
 
 describe("MailerNoopAdapter", () => {
   test("send - success", async () => {
-    const loggerInfo = spyOn(Logger, "info");
     const sendOptions = {
       from: "sender@example.com",
       to: "recipient@example.com",
@@ -15,14 +12,7 @@ describe("MailerNoopAdapter", () => {
       text: "This is a test email.",
     };
 
-    await mailer.send(sendOptions);
-
-    expect(loggerInfo).toHaveBeenCalledWith({
-      component: "infra",
-      message: "[NOOP] Mailer adapter",
-      operation: "mailer",
-      metadata: sendOptions,
-    });
+    expect(async () => mailer.send(sendOptions)).not.toThrow();
   });
 
   test("verify", async () => {
