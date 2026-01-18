@@ -149,6 +149,7 @@ src/
 ├── hash.vo.ts
 ├── hcaptcha-secret-key.vo.ts
 ├── hcaptcha-site-key.vo.ts
+├── hcaptcha.service.ts
 ├── healthcheck.service.ts
 ├── http-logger.middleware.ts
 ├── i18n.service.ts
