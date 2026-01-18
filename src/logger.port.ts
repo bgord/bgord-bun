@@ -5,7 +5,7 @@ import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type HttpClientInfo = { ip?: string; userAgent?: string };
 
-export type LogAppType = string;
+export type LoggerAppType = string;
 export type ErrorInfo = {
   name?: string;
   message?: string;
@@ -28,7 +28,7 @@ export const LogLevel = z.enum(LogLevelEnum);
 export type LogCoreType = {
   timestamp: string;
   level: LogLevelEnum;
-  app: LogAppType;
+  app: LoggerAppType;
   environment: NodeEnvironmentEnum;
   component: string;
   operation: string;

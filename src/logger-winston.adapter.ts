@@ -1,10 +1,10 @@
 import * as winston from "winston";
-import { type LogAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
+import { type LoggerAppType, type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 type WinstonLoggerOptions = {
-  app: LogAppType;
+  app: LoggerAppType;
   environment: NodeEnvironmentEnum;
   level: LogLevelEnum;
   formats?: winston.Logform.Format[];
