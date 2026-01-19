@@ -3,11 +3,11 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
+import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper } from "../src/woodchopper";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
-import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);

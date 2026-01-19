@@ -61,7 +61,7 @@ export class Woodchopper implements LoggerPort {
       ? this.config.redactor.redact(withInjectedFields)
       : withInjectedFields;
 
-    this.config.sink.write(withRedaction);
+    this.config.sink.write(Object.freeze(withRedaction));
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
