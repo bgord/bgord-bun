@@ -408,6 +408,23 @@ describe("Woodchopper", () => {
     });
   });
 
+  test("diagnostics - redaction", () => {
+    const redactor = new RedactorNoopStrategy();
+    spyOn(redactor, "redact").mockImplementation(mocks.throwIntentionalError);
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkNoop();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, redactor, onDiagnostic: collector.handle }, deps);
+
+    woodchopper.info(entry);
+
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "redaction",
+      error: { message: mocks.IntentionalError },
+    });
+  });
+
   test("diagnostics - clock", () => {
     spyOn(Clock, "now").mockImplementation(mocks.throwIntentionalError);
     const collector = new mocks.DiagnosticCollector();
