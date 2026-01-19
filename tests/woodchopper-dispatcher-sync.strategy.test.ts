@@ -28,9 +28,8 @@ describe("WoodchopperDispatcherSync", () => {
   test("dispatch - error", () => {
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperDispatcherSync(sink, (error) =>
-      collector.handle({ kind: "sink", error }),
-    );
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
 
     expect(dispatcher.dispatch(entry)).toEqual(false);
     expect(collector.diagnostics[0]).toMatchObject({

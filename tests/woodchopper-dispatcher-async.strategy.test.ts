@@ -47,9 +47,8 @@ describe("WoodchopperAsyncDispatcher", () => {
   test("dispatch - error", async () => {
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperAsyncDispatcher(sink, 1, (error) =>
-      collector.handle({ kind: "sink", error }),
-    );
+    const dispatcher = new WoodchopperAsyncDispatcher(sink, 1);
+    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(collector.diagnostics.length).toEqual(0);

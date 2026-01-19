@@ -3,6 +3,8 @@ import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 
 export class WoodchopperAsyncDispatcher implements WoodchopperDispatcher {
+  onError?: (error: unknown) => void;
+
   private readonly buffer: LoggerEntry[] = [];
   private running = true;
 
@@ -11,7 +13,6 @@ export class WoodchopperAsyncDispatcher implements WoodchopperDispatcher {
   constructor(
     private readonly sink: WoodchopperSinkStrategy,
     private readonly capacity: number,
-    private readonly onError?: (error: unknown) => void,
   ) {
     this.run();
   }
