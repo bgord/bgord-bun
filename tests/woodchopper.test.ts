@@ -6,7 +6,7 @@ import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.stra
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
-import { Woodchopper } from "../src/woodchopper";
+import { Woodchopper, WoodchopperState } from "../src/woodchopper";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
@@ -351,6 +351,7 @@ describe("Woodchopper", () => {
     woodchopper.info(entry);
 
     expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 1, dropped: 0 });
 
     woodchopper.close();
     woodchopper.close();
@@ -359,6 +360,7 @@ describe("Woodchopper", () => {
     woodchopper.info(entry);
 
     expect(sink.entries.length).toEqual(1);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.closed, written: 1, dropped: 0 });
   });
 
   test("Object.freeze", () => {
@@ -369,5 +371,17 @@ describe("Woodchopper", () => {
     woodchopper.info(entry);
 
     expect(Object.isFrozen(sink.entries[0])).toEqual(true);
+  });
+
+  test("getStats", () => {
+    const sink = new WoodchopperSinkNoop();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
+
+    woodchopper.info(entry);
+    woodchopper.info(entry);
+    woodchopper.info(entry);
+
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 3, dropped: 0 });
   });
 });
