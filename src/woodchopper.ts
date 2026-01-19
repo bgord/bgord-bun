@@ -34,16 +34,26 @@ const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, number> = {
   [LogLevelEnum.silly]: 6,
 };
 
+enum WoodchopperState {
+  open = "open",
+  closed = "closed",
+}
+
 export class Woodchopper implements LoggerPort {
+  private state: WoodchopperState;
+
   constructor(
     private readonly config: WoodchopperConfigType,
     private readonly deps: Dependencies,
-  ) {}
+  ) {
+    this.state = WoodchopperState.open;
+  }
 
   private log(
     level: LogLevelEnum,
     entry: Omit<LogCoreType | LogHttpType | LogWarnType | LogErrorType, AdapterInjectedFields>,
   ) {
+    if (this.state === WoodchopperState.closed) return;
     if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return;
 
     const withNormalization =
@@ -71,4 +81,8 @@ export class Woodchopper implements LoggerPort {
   verbose: LoggerPort["verbose"] = (entry) => this.log(LogLevelEnum.verbose, entry);
   debug: LoggerPort["debug"] = (entry) => this.log(LogLevelEnum.debug, entry);
   silly: LoggerPort["silly"] = (entry) => this.log(LogLevelEnum.silly, entry);
+
+  close() {
+    this.state = WoodchopperState.closed;
+  }
 }

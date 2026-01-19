@@ -342,4 +342,22 @@ describe("Woodchopper", () => {
       metadata: { users: { length: 3, type: "Array" }, password: "***" },
     });
   });
+
+  test("close", () => {
+    const sink = new WoodchopperSinkNoop();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
+
+    woodchopper.info(entry);
+
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+
+    woodchopper.close();
+    woodchopper.close();
+
+    woodchopper.info(entry);
+    woodchopper.info(entry);
+
+    expect(sink.entries.length).toEqual(1);
+  });
 });
