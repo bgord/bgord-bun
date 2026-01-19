@@ -10,6 +10,7 @@ import {
 } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import type { RedactorStrategy } from "./redactor.strategy";
+import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 import { WoodchopperStats } from "./woodchopper-stats.service";
 
@@ -23,6 +24,7 @@ export type WoodchopperConfigType = {
   environment: NodeEnvironmentEnum;
   sink: WoodchopperSinkStrategy;
   redactor?: RedactorStrategy;
+  dispatcher: WoodchopperDispatcher;
   onDiagnostic?: (diagnostic: WoodchopperDiagnostic) => void;
 };
 
@@ -100,8 +102,11 @@ export class Woodchopper implements LoggerPort {
     }
 
     try {
-      this.config.sink.write(Object.freeze(withRedaction));
-      this.stats.recordWritten();
+      const finalEntry = Object.freeze(withRedaction);
+
+      const accepted = this.config.dispatcher.dispatch(finalEntry);
+
+      accepted ? this.stats.recordWritten() : this.stats.recordDropped();
     } catch (error) {
       this.stats.recordDropped();
       this.config.onDiagnostic?.({ kind: "sink", error });
