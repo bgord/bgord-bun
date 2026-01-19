@@ -182,6 +182,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(1);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 1, dropped: 6 });
   });
 
   test("level threshold - warn", () => {
@@ -198,6 +199,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(2);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 2, dropped: 5 });
   });
 
   test("level threshold - info", () => {
@@ -214,6 +216,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(3);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 3, dropped: 4 });
   });
 
   test("level threshold - http", () => {
@@ -230,6 +233,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(4);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 4, dropped: 3 });
   });
 
   test("level threshold - verbose", () => {
@@ -246,6 +250,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(5);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 5, dropped: 2 });
   });
 
   test("level threshold - debug", () => {
@@ -262,6 +267,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(6);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 6, dropped: 1 });
   });
 
   test("level threshold - silly", () => {
@@ -278,6 +284,7 @@ describe("Woodchopper", () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(7);
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 7, dropped: 0 });
   });
 
   test("redactor - noop", () => {
@@ -360,7 +367,7 @@ describe("Woodchopper", () => {
     woodchopper.info(entry);
 
     expect(sink.entries.length).toEqual(1);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.closed, written: 1, dropped: 0 });
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.closed, written: 1, dropped: 2 });
   });
 
   test("Object.freeze", () => {
