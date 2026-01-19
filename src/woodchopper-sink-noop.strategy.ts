@@ -1,9 +1,10 @@
-import type { WoodchopperSinkEntry, WoodchopperSinkStrategy } from "../src/woodchopper-sink.strategy";
+import type { WoodchopperSinkStrategy } from "../src/woodchopper-sink.strategy";
+import type { LoggerEntry } from "./logger.port";
 
 export class WoodchopperSinkNoop implements WoodchopperSinkStrategy {
-  readonly entries: WoodchopperSinkEntry[] = [];
+  readonly entries: LoggerEntry[] = [];
 
-  write(entry: WoodchopperSinkEntry): void {
+  write(entry: LoggerEntry): void {
     this.entries.push(entry);
   }
 }

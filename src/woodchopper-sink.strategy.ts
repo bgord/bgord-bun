@@ -1,7 +1,5 @@
-import type { LogCoreType, LogErrorType, LogHttpType, LogWarnType } from "./logger.port";
-
-export type WoodchopperSinkEntry = LogCoreType | LogHttpType | LogWarnType | LogErrorType;
+import type { LoggerEntry } from "./logger.port";
 
 export interface WoodchopperSinkStrategy {
-  write(entry: WoodchopperSinkEntry): void;
+  write(entry: LoggerEntry): void;
 }
