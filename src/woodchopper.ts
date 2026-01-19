@@ -57,7 +57,7 @@ export class Woodchopper implements LoggerPort {
     if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return;
 
     const withNormalization =
-      "error" in entry && entry.error ? { ...entry, error: formatError(entry.error) } : entry;
+      "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
 
     const withInjectedFields = {
       timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
