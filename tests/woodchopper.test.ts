@@ -45,7 +45,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
 
@@ -56,7 +56,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entryWithErrorInstance);
 
@@ -72,7 +72,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entryWithErrorString);
 
@@ -88,7 +88,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.warn(entry);
 
@@ -99,7 +99,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.warn(entryWithErrorInstance);
 
@@ -115,7 +115,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.warn(entryWithErrorString);
 
@@ -131,7 +131,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.info(entry);
 
@@ -142,7 +142,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.http, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.http(entryHttp);
 
@@ -153,7 +153,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.verbose, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.verbose(entry);
 
@@ -164,7 +164,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.debug, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.debug(entry);
 
@@ -175,7 +175,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.silly, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.silly(entry);
 
@@ -186,7 +186,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -204,7 +204,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -222,7 +222,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -240,7 +240,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.http, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -258,7 +258,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.verbose, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -276,7 +276,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.debug, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -294,7 +294,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.silly, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.error(entry);
     woodchopper.warn(entry);
@@ -313,7 +313,7 @@ describe("Woodchopper", () => {
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorNoopStrategy();
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher, redactor }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
     woodchopper.info(entry);
 
@@ -325,7 +325,7 @@ describe("Woodchopper", () => {
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorMaskStrategy();
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher, redactor }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
     woodchopper.info({ ...entry, metadata: { password: "secret" } });
 
@@ -342,7 +342,7 @@ describe("Woodchopper", () => {
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorCompactArrayStrategy();
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher, redactor }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
     woodchopper.info({ ...entry, metadata: { users: ["1", "2", "3"] } });
 
@@ -363,7 +363,7 @@ describe("Woodchopper", () => {
       new RedactorCompactArrayStrategy(),
     ]);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher, redactor }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
     woodchopper.info({ ...entry, metadata: { password: "secret", users: ["1", "2", "3"] } });
 
@@ -379,7 +379,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
     const dispatcherClose = spyOn(dispatcher, "close");
 
     woodchopper.info(entry);
@@ -402,7 +402,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.info(entry);
 
@@ -413,7 +413,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, sink, dispatcher }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
     woodchopper.info(entry);
     woodchopper.info(entry);
@@ -428,10 +428,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper(
-      { ...config, sink, dispatcher, onDiagnostic: collector.handle },
-      deps,
-    );
+    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
 
     woodchopper.error({ ...entry, error: mocks.IntentionalError });
 
@@ -448,10 +445,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper(
-      { ...config, sink, dispatcher, onDiagnostic: collector.handle },
-      deps,
-    );
+    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
 
     woodchopper.info(entry);
 
@@ -470,7 +464,7 @@ describe("Woodchopper", () => {
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper(
-      { ...config, sink, dispatcher, redactor, onDiagnostic: collector.handle },
+      { ...config, dispatcher, redactor, onDiagnostic: collector.handle },
       deps,
     );
 
@@ -488,10 +482,7 @@ describe("Woodchopper", () => {
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper(
-      { ...config, sink, dispatcher, onDiagnostic: collector.handle },
-      deps,
-    );
+    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
 
     woodchopper.info(entry);
 
