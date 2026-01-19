@@ -15,12 +15,17 @@ import type { RedactorStrategy } from "./redactor.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 import { WoodchopperStats } from "./woodchopper-stats.service";
 
+type WoodchopperDiagnosticKind = "normalization" | "injection" | "redaction" | "sink" | "clock";
+
+type WoodchopperDiagnostic = { kind: WoodchopperDiagnosticKind; error: unknown };
+
 export type WoodchopperConfigType = {
   app: LoggerAppType;
   level: LogLevelEnum;
   environment: NodeEnvironmentEnum;
   sink: WoodchopperSinkStrategy;
   redactor?: RedactorStrategy;
+  onDiagnostic?: (diagnostic: WoodchopperDiagnostic) => void;
 };
 
 type Dependencies = { Clock: ClockPort };
