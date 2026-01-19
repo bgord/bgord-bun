@@ -11,6 +11,7 @@ export class WoodchopperAsyncDispatcher implements WoodchopperDispatcher {
   constructor(
     private readonly sink: WoodchopperSinkStrategy,
     private readonly capacity: number,
+    private readonly onError?: (error: unknown) => void,
   ) {
     this.run();
   }
@@ -49,8 +50,8 @@ export class WoodchopperAsyncDispatcher implements WoodchopperDispatcher {
       const entry = this.buffer.shift()!;
       try {
         this.sink.write(entry);
-      } catch {
-        // sink failures handled by Woodchopper diagnostics
+      } catch (error) {
+        this.onError?.(error);
       }
     }
   }

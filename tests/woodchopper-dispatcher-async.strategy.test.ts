@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperAsyncDispatcher } from "../src/woodchopper-dispatcher-async.strategy";
+import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
@@ -41,6 +42,26 @@ describe("WoodchopperAsyncDispatcher", () => {
     await tick();
 
     expect(sink.entries.length).toEqual(1);
+  });
+
+  test("dispatch - error", async () => {
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkError();
+    const dispatcher = new WoodchopperAsyncDispatcher(sink, 1, (error) =>
+      collector.handle({ kind: "sink", error }),
+    );
+
+    expect(dispatcher.dispatch(entry)).toEqual(true);
+    expect(collector.diagnostics.length).toEqual(0);
+
+    expect(dispatcher.dispatch(entry)).toEqual(false);
+
+    await tick();
+
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "sink",
+      error: { message: mocks.IntentionalError },
+    });
   });
 
   test("idle", async () => {
