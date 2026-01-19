@@ -480,7 +480,9 @@ describe("Woodchopper", () => {
   test("diagnostics - sink", () => {
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const dispatcher = new WoodchopperDispatcherSync(sink, (error) =>
+      collector.handle({ kind: "sink", error }),
+    );
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
 
