@@ -310,3 +310,4 @@ export * from "./woodchopper-sink.strategy";
 export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink-stdout.strategy";
 export * from "./woodchopper-sink-stdout-pretty.strategy";
+export * from "./woodchopper-stats.service";
