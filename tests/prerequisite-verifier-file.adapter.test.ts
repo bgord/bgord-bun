@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { BUILD_INFO_REPOSITORY_FILE_PATH } from "../src/build-info-repository-file.strategy";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierFileAdapter } from "../src/prerequisite-verifier-file.adapter";
 import * as mocks from "./mocks";
 
@@ -16,7 +17,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       permissions: { read: true, write: true, execute: true },
     });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("success - read", async () => {
@@ -24,9 +25,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(fsAccess).toHaveBeenCalledTimes(1);
     expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.R_OK);
   });
@@ -36,9 +35,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { write: true } });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(fsAccess).toHaveBeenCalledTimes(1);
     expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.W_OK);
   });
@@ -48,9 +45,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { execute: true } });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(fsAccess).toHaveBeenCalledTimes(1);
     expect(fsAccess).toHaveBeenCalledWith(path.get(), fs.constants.X_OK);
   });
@@ -59,9 +54,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: "File does not exist" }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File does not exist"));
   });
 
   test("failure - read", async () => {
@@ -72,9 +65,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not readable" }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File is not readable"));
   });
 
   test("failure - write", async () => {
@@ -88,9 +79,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       permissions: { read: true, write: true },
     });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not writable" }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File is not writable"));
   });
 
   test("failure - execute", async () => {
@@ -104,18 +93,14 @@ describe("PrerequisiteVerifierFileAdapter", () => {
       permissions: { read: true, write: true, execute: true },
     });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: "File is not executable" }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File is not executable"));
   });
 
   test("integration - BUILD_INFO_REPOSITORY_FILE_PATH", async () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: BUILD_INFO_REPOSITORY_FILE_PATH });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(bunFile).toHaveBeenCalledWith("infra/build-info.json");
   });
 

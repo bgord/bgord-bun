@@ -40,7 +40,7 @@ describe("PrerequisiteRunnerStartup service", () => {
       operation: "startup",
       message: "Prerequisite failed",
       metadata: { label: "fail", kind: "test" },
-      error: mocks.IntentionalError,
+      error: { message: mocks.IntentionalError },
     });
   });
 

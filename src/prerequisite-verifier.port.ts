@@ -21,11 +21,8 @@ export type PrerequisiteVerificationResult =
 export class PrerequisiteVerification {
   static success = { outcome: PrerequisiteVerificationOutcome.success };
 
-  static failure(meta?: Error | ErrorInfo): PrerequisiteVerificationFailure {
-    return {
-      outcome: PrerequisiteVerificationOutcome.failure,
-      error: meta instanceof Error ? formatError(meta) : meta,
-    };
+  static failure(meta?: unknown): PrerequisiteVerificationFailure {
+    return { outcome: PrerequisiteVerificationOutcome.failure, error: meta ? formatError(meta) : undefined };
   }
 
   static undetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };

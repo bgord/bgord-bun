@@ -12,7 +12,7 @@ export class PrerequisiteVerifierMailerAdapter implements PrerequisiteVerifierPo
 
       return PrerequisiteVerification.success;
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

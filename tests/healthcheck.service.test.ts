@@ -15,6 +15,7 @@ import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
@@ -99,8 +100,8 @@ describe("Healthcheck service", () => {
         inFlight: 0,
       },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
+        { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
@@ -160,8 +161,8 @@ describe("Healthcheck service", () => {
         inFlight: 0,
       },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
+        { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
       ],
       durationMs: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
@@ -218,11 +219,11 @@ describe("Healthcheck service", () => {
         inFlight: 0,
       },
       details: [
-        { label: "self", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
-        { label: "ok", outcome: mocks.VerificationSuccess, durationMs: expect.any(Number) },
+        { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
+        { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         {
           label: "fail",
-          outcome: mocks.VerificationFailure(mocks.IntentionalError),
+          outcome: PrerequisiteVerification.failure(mocks.IntentionalError),
           durationMs: expect.any(Number),
         },
       ],

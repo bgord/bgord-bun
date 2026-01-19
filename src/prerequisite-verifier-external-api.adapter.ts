@@ -8,9 +8,9 @@ export class PrerequisiteVerifierExternalApiAdapter implements PrerequisiteVerif
       const response = await this.config.request();
 
       if (response.ok) return PrerequisiteVerification.success;
-      return PrerequisiteVerification.failure({ message: `HTTP ${response.status}` });
+      return PrerequisiteVerification.failure(`HTTP ${response.status}`);
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

@@ -20,9 +20,9 @@ export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifi
       const duration = this.deps.Clock.now().difference(timestamp).toAbsolute();
 
       if (duration.isShorterThan(this.config.skew)) return PrerequisiteVerification.success;
-      return PrerequisiteVerification.failure({ message: `Difference: ${duration.seconds}s` });
+      return PrerequisiteVerification.failure(`Difference: ${duration.seconds}s`);
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

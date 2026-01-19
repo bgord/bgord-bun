@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import {
+  PrerequisiteVerification,
   PrerequisiteVerificationOutcome,
   type PrerequisiteVerificationResult,
 } from "../src/prerequisite-verifier.port";
@@ -11,40 +12,40 @@ const fail = new mocks.PrerequisiteVerifierFail();
 const undetermined = new mocks.PrerequisiteVerifierUndetermined();
 
 const specificError = (result: PrerequisiteVerificationResult) =>
-  // @ts-expect-error
-  result.outcome === PrerequisiteVerificationOutcome.failure && result.error === mocks.IntentionalError;
+  result.outcome === PrerequisiteVerificationOutcome.failure &&
+  result.error?.message === mocks.IntentionalError;
 
 describe("PrerequisiteVerifierWithLoggerAdapter", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: pass });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - any failure", async () => {
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: fail });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("failure - specific failure - downgrade", async () => {
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: fail, when: specificError });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("failure - specific failure - no downgrade", async () => {
     const OtherError = "other.error";
-    spyOn(fail, "verify").mockResolvedValue(mocks.VerificationFailure(OtherError));
+    spyOn(fail, "verify").mockResolvedValue(PrerequisiteVerification.failure(OtherError));
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: fail, when: specificError });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(OtherError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(OtherError));
   });
 
   test("undetermined", async () => {
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: undetermined });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("preserves kind", () => {

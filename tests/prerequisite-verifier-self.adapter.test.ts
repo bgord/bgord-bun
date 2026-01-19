@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierSelfAdapter } from "../src/prerequisite-verifier-self.adapter";
-import * as mocks from "./mocks";
 
 const prerequisite = new PrerequisiteVerifierSelfAdapter();
 
 describe("PrerequisiteVerifierSelfAdapter", () => {
   test("success", async () => {
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("kind", () => {

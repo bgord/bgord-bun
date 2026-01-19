@@ -13,12 +13,10 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
   async verify() {
     const result = await this.deps.CertificateInspector.inspect(this.config.hostname);
 
-    if (!result.success) return PrerequisiteVerification.failure({ message: "Certificate unavailable" });
-
+    if (!result.success) return PrerequisiteVerification.failure("Certificate unavailable");
     if (result.remaining.isShorterThan(this.config.minimum) || result.remaining.equals(this.config.minimum)) {
-      return PrerequisiteVerification.failure({ message: `${result.remaining.days} days remaining` });
+      return PrerequisiteVerification.failure(`${result.remaining.days} days remaining`);
     }
-
     return PrerequisiteVerification.success;
   }
 

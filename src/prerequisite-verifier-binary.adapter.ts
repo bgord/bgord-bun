@@ -11,7 +11,7 @@ export class PrerequisiteVerifierBinaryAdapter implements PrerequisiteVerifierPo
       if (result) return PrerequisiteVerification.success;
       return PrerequisiteVerification.failure();
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

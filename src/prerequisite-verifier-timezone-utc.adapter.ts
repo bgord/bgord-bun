@@ -11,7 +11,7 @@ export class PrerequisiteVerifierTimezoneUtcAdapter implements PrerequisiteVerif
     const result = TimezoneUtc.safeParse(this.config.timezone);
 
     if (result.success) return PrerequisiteVerification.success;
-    return PrerequisiteVerification.failure({ message: `Timezone: ${this.config.timezone}` });
+    return PrerequisiteVerification.failure(`Timezone: ${this.config.timezone}`);
   }
 
   get kind() {

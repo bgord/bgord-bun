@@ -5,6 +5,7 @@ import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strate
 import { CacheSubjectApplicationResolver } from "../src//cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src//cache-subject-segment-fixed.strategy";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
 import * as mocks from "./mocks";
 
@@ -34,16 +35,16 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const passVerify = spyOn(pass, "verify");
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(2);
 
     await CacheRepository.flush();
@@ -64,15 +65,15 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     jest.useFakeTimers();
     const failVerify = spyOn(fail, "verify");
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(2);
 
     await CacheRepository.flush();

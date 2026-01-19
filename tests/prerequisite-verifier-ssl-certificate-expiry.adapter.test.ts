@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CertificateInspectorNoopAdapter } from "../src/certificate-inspector-noop.adapter";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierSSLCertificateExpiryAdapter } from "../src/prerequisite-verifier-ssl-certificate-expiry.adapter";
-import * as mocks from "./mocks";
 
 class CertificateInspectorUnavailableAdapter {
   async inspect() {
@@ -18,7 +18,7 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteVerifierSSLCertificateExpiryAdapter(config, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - certificate expires too soon", async () => {
@@ -26,9 +26,7 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
       CertificateInspector: new CertificateInspectorNoopAdapter(tools.Duration.Days(10)),
     });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: "10 days remaining" }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("10 days remaining"));
   });
 
   test("failure - certificate unavailable", async () => {
@@ -36,9 +34,7 @@ describe("PrerequisiteVerifierSSLCertificateExpiryAdapter", () => {
       CertificateInspector: new CertificateInspectorUnavailableAdapter(),
     });
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: "Certificate unavailable" }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Certificate unavailable"));
   });
 
   test("kind", () => {

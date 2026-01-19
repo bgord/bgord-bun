@@ -1,20 +1,20 @@
 import { describe, expect, test } from "bun:test";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierJobsAdapter } from "../src/prerequisite-verifier-jobs.adapter";
-import * as mocks from "./mocks";
 
 describe("PrerequisiteVerifierJobsAdapter", () => {
   test("success", async () => {
     const Jobs = { a: { isRunning: () => true } as any };
     const prerequisite = new PrerequisiteVerifierJobsAdapter({ Jobs });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - one job not running", async () => {
     const Jobs = { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any };
     const prerequisite = new PrerequisiteVerifierJobsAdapter({ Jobs });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure());
   });
 
   test("kind", () => {

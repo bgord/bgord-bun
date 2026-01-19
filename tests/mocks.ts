@@ -8,12 +8,10 @@ import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
-import type { ErrorInfo } from "../src/logger.port";
 import type * as System from "../src/modules/system";
 import { Prerequisite } from "../src/prerequisite.vo";
 import {
   PrerequisiteVerification,
-  PrerequisiteVerificationOutcome,
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "../src/prerequisite-verifier.port";
@@ -74,13 +72,6 @@ export const TIME_ZERO_DATE_UTC = new Date(TIME_ZERO.ms).toUTCString();
 
 export const SHA = CommitSha.fromString("a".repeat(40));
 
-export const VerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
-export const VerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
-export const VerificationFailure = (error?: any) => ({
-  outcome: PrerequisiteVerificationOutcome.failure,
-  error,
-});
-
 export class PrerequisiteVerifierPass implements PrerequisiteVerifierPort {
   async verify(): Promise<PrerequisiteVerificationResult> {
     return PrerequisiteVerification.success;
@@ -94,7 +85,7 @@ export const PrerequisiteOk = new Prerequisite("ok", new PrerequisiteVerifierPas
 
 export class PrerequisiteVerifierFail implements PrerequisiteVerifierPort {
   async verify(): Promise<PrerequisiteVerificationResult> {
-    return PrerequisiteVerification.failure(IntentionalError as ErrorInfo);
+    return PrerequisiteVerification.failure(IntentionalError);
   }
 
   get kind() {
@@ -123,7 +114,7 @@ export class PrerequisiteVerifierFailThenPass implements PrerequisiteVerifierPor
   async verify(): Promise<PrerequisiteVerificationResult> {
     if (this.calls < 3) {
       this.calls++;
-      return PrerequisiteVerification.failure(IntentionalError as ErrorInfo);
+      return PrerequisiteVerification.failure(IntentionalError);
     }
     return PrerequisiteVerification.success;
   }

@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { DiskSpaceCheckerNoopAdapter } from "../src/disk-space-checker-noop.adapter";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierSpaceAdapter } from "../src/prerequisite-verifier-space.adapter";
 import * as mocks from "./mocks";
 
@@ -16,16 +17,14 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - not enough space", async () => {
     const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(
-      mocks.VerificationFailure({ message: `Free disk space: ${failure.format(tools.Size.unit.MB)}` }),
+    expect(await prerequisite.verify()).toEqual(
+      PrerequisiteVerification.failure(`Free disk space: ${failure.format(tools.Size.unit.MB)}`),
     );
   });
 
@@ -33,10 +32,9 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
     spyOn(DiskSpaceCheckerFailure, "get").mockRejectedValue(new Error(mocks.IntentionalError));
     const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
-    // @ts-expect-error
-    const result = (await prerequisite.verify()).error.message;
-
-    expect(result).toMatch(mocks.IntentionalError);
+    expect(await prerequisite.verify()).toMatchObject(
+      PrerequisiteVerification.failure(mocks.IntentionalError),
+    );
   });
 
   test("kind", () => {

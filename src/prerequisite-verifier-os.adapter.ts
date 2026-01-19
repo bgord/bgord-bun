@@ -10,10 +10,7 @@ export class PrerequisiteVerifierOsAdapter implements PrerequisiteVerifierPort {
     if (this.config.accepted.map((given) => given.toLowerCase()).includes(type)) {
       return PrerequisiteVerification.success;
     }
-
-    return PrerequisiteVerification.failure({
-      message: `Unacceptable os: ${this.config.accepted.join(", ")}`,
-    });
+    return PrerequisiteVerification.failure(`Unacceptable os: ${this.config.accepted.join(", ")}`);
   }
 
   get kind() {

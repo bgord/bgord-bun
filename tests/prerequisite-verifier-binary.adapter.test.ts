@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Binary } from "../src/binary.vo";
-import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierBinaryAdapter } from "../src/prerequisite-verifier-binary.adapter";
 import * as mocks from "./mocks";
 
@@ -12,21 +12,21 @@ describe("PrerequisiteVerifierBinaryAdapter", () => {
   test("success", async () => {
     spyOn(Bun, "which").mockReturnValue(binary);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - binary not found", async () => {
     spyOn(Bun, "which").mockReturnValue(null);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure());
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure());
   });
 
   test("failure - error", async () => {
     spyOn(Bun, "which").mockImplementation(mocks.throwIntentionalError);
 
-    const result = await prerequisite.verify();
-
-    expect(result.outcome).toEqual(PrerequisiteVerificationOutcome.failure);
+    expect(await prerequisite.verify()).toMatchObject(
+      PrerequisiteVerification.failure(mocks.IntentionalError),
+    );
   });
 
   test("kind", () => {

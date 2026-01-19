@@ -7,11 +7,10 @@ import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.str
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
-import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
+import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
-import {} from "../src/timeout-runner.port";
 import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
 import * as mocks from "./mocks";
@@ -31,7 +30,7 @@ describe("Prerequisite VO", () => {
 
     const loggerInfo = spyOn(Logger, "info");
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(loggerInfo).toHaveBeenCalledWith({
       component: "infra",
       message: `Success - ${pass.kind}`,
@@ -54,13 +53,13 @@ describe("Prerequisite VO", () => {
 
     const loggerError = spyOn(Logger, "error");
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(loggerError).toHaveBeenCalledWith({
       component: "infra",
       message: `Failure - ${fail.kind}`,
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
-      error: mocks.IntentionalError,
+      error: { message: mocks.IntentionalError },
     });
   });
 
@@ -77,7 +76,7 @@ describe("Prerequisite VO", () => {
 
     const loggerInfo = spyOn(Logger, "info");
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
     expect(loggerInfo).toHaveBeenCalledWith({
       component: "infra",
       message: `Undetermined - ${undetermined.kind}`,
@@ -95,7 +94,7 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("with timeout - failure", async () => {
@@ -107,7 +106,7 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
   });
 
   test("with timeout - timeout", async () => {
@@ -120,10 +119,7 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    // @ts-expect-error
-    const result = (await verifier.verify()).error.message;
-
-    expect(result).toEqual("timeout.exceeded");
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
   });
 
   test("with cache - success", async () => {
@@ -143,15 +139,15 @@ describe("Prerequisite VO", () => {
     jest.useFakeTimers();
     const passVerify = spyOn(pass, "verify");
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(2);
 
     await CacheRepository.flush();
@@ -175,15 +171,15 @@ describe("Prerequisite VO", () => {
     jest.useFakeTimers();
     const failVerify = spyOn(fail, "verify");
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(2);
 
     await CacheRepository.flush();
@@ -224,7 +220,7 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(loggerInfo).toHaveBeenCalledWith({
       component: "infra",
       message: `Success - ${pass.kind}`,
@@ -255,8 +251,8 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     await CacheRepository.flush();
@@ -280,15 +276,8 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    // @ts-expect-error
-    const first = (await verifier.verify()).error.message;
-
-    expect(first).toEqual("timeout.exceeded");
-
-    // @ts-expect-error
-    const second = (await verifier.verify())?.error?.message;
-
-    expect(second).toEqual("timeout.exceeded");
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
 
     await CacheRepository.flush();
   });
@@ -312,15 +301,8 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    // @ts-expect-error
-    const first = (await verifier.verify()).error.message;
-
-    expect(first).toEqual("timeout.exceeded");
-
-    // @ts-expect-error
-    const second = (await verifier.verify()).error.message;
-
-    expect(second).toEqual("timeout.exceeded");
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     await CacheRepository.flush();
@@ -349,7 +331,7 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(3);
     expect(cacheRepositorySet).toHaveBeenCalledTimes(1);
 
@@ -374,8 +356,8 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
     expect(loggerInfo).toHaveBeenCalledTimes(1);
 
@@ -400,8 +382,8 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
-    expect(await verifier.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
     expect(loggerInfo).toHaveBeenCalledTimes(2);
 
@@ -426,7 +408,7 @@ describe("Prerequisite VO", () => {
     });
     const verifier = prerequisite.build();
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("retry x timeout x fail-safe - timeout", async () => {
@@ -454,7 +436,7 @@ describe("Prerequisite VO", () => {
 
     const failVerify = spyOn(fail, "verify");
 
-    expect(await verifier.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
     expect(failVerify).toHaveBeenCalledTimes(3);
   });
 });

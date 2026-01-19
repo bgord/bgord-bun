@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithRetryAdapter } from "../src/prerequisite-verifier-with-retry.adapter";
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
@@ -22,7 +23,7 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
 
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter({ inner: pass, retry }, { Sleeper });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
@@ -31,7 +32,7 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
     const sleeperWait = spyOn(Sleeper, "wait");
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter({ inner: fail, retry }, { Sleeper });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(3);
     expect(sleeperWait).toHaveBeenCalledTimes(2);
   });
@@ -45,7 +46,7 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
       { Sleeper },
     );
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(failThenPassVerify).toHaveBeenCalledTimes(3);
     expect(sleeperWait).toHaveBeenCalledTimes(2);
   });
@@ -60,7 +61,7 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
       { Sleeper },
     );
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(5);
     expect(sleeperWait).toHaveBeenNthCalledWith(1, base.times(tools.MultiplicationFactor.parse(1)));
     expect(sleeperWait).toHaveBeenNthCalledWith(2, base.times(tools.MultiplicationFactor.parse(2)));

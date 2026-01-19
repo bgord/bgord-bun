@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithLoggerAdapter } from "../src/prerequisite-verifier-with-logger.adapter";
 import * as mocks from "./mocks";
 
@@ -17,7 +18,7 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner: pass }, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(loggerInfo).toHaveBeenCalledWith({
       component: "infra",
       message: `Success - ${pass.kind}`,
@@ -30,13 +31,13 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
     const loggerError = spyOn(Logger, "error");
     const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner: fail }, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(loggerError).toHaveBeenCalledWith({
       component: "infra",
       message: `Failure - ${fail.kind}`,
       operation: "prerequisite_verify",
       durationMs: expect.any(Number),
-      error: mocks.IntentionalError,
+      error: { message: mocks.IntentionalError },
     });
   });
 
@@ -44,7 +45,7 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
     const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner: undetermined }, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
     expect(loggerInfo).toHaveBeenCalledWith({
       component: "infra",
       message: `Undetermined - ${pass.kind}`,
