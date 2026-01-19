@@ -54,6 +54,10 @@ export class Woodchopper implements LoggerPort {
   ) {
     this.state = WoodchopperState.open;
     this.stats = stats ?? new WoodchopperStats();
+
+    this.config.dispatcher.onError = (error) => {
+      this.config.onDiagnostic?.({ kind: "sink", error });
+    };
   }
 
   private log(level: LogLevelEnum, entry: LoggerEntryBare) {
