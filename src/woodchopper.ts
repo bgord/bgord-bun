@@ -123,6 +123,7 @@ export class Woodchopper implements LoggerPort {
 
   close() {
     this.state = WoodchopperState.closed;
+    this.config.dispatcher.close();
   }
 
   getStats() {
