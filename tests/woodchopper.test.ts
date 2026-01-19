@@ -360,4 +360,14 @@ describe("Woodchopper", () => {
 
     expect(sink.entries.length).toEqual(1);
   });
+
+  test("Object.freeze", () => {
+    const sink = new WoodchopperSinkNoop();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink }, deps);
+
+    woodchopper.info(entry);
+
+    expect(Object.isFrozen(sink.entries[0])).toEqual(true);
+  });
 });
