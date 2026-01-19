@@ -99,14 +99,8 @@ export class Woodchopper implements LoggerPort {
       return;
     }
 
-    try {
-      const accepted = this.config.dispatcher.dispatch(Object.freeze(withRedaction));
-
-      accepted ? this.stats.recordWritten() : this.stats.recordDropped();
-    } catch (error) {
-      this.stats.recordDropped();
-      this.config.onDiagnostic?.({ kind: "sink", error });
-    }
+    const accepted = this.config.dispatcher.dispatch(Object.freeze(withRedaction));
+    accepted ? this.stats.recordWritten() : this.stats.recordDropped();
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
