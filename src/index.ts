@@ -309,6 +309,7 @@ export * from "./weak-etag-extractor.middleware";
 export * from "./woodchopper";
 export * from "./woodchopper-dispatcher.strategy";
 export * from "./woodchopper-dispatcher-noop.strategy";
+export * from "./woodchopper-dispatcher-sync.strategy";
 export * from "./woodchopper-sink.strategy";
 export * from "./woodchopper-sink-error.strategy";
 export * from "./woodchopper-sink-noop.strategy";
