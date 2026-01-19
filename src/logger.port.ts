@@ -48,6 +48,15 @@ export type LogWarnType = LogCoreType & { level: LogLevelEnum.warn; error?: unkn
 
 export type AdapterInjectedFields = "timestamp" | "level" | "app" | "environment";
 
+export type LoggerEntryBare = Omit<
+  LogCoreType | LogHttpType | LogWarnType | LogErrorType,
+  AdapterInjectedFields
+>;
+
+export type LoggerEntryBareWithError = Omit<LoggerEntryBare, "error"> & { error: ErrorInfo };
+
+export type LoggerEntry = LogCoreType | LogHttpType | LogWarnType | LogErrorType;
+
 export interface LoggerPort {
   error(entry: Omit<LogErrorType, AdapterInjectedFields>): void;
   warn(entry: Omit<LogWarnType, AdapterInjectedFields>): void;

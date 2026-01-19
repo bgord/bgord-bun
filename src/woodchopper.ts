@@ -1,15 +1,12 @@
 import type { ClockPort } from "./clock.port";
 import { formatError } from "./format-error.service";
 import {
-  type AdapterInjectedFields,
-  type ErrorInfo,
-  type LogCoreType,
-  type LogErrorType,
   type LoggerAppType,
+  type LoggerEntry,
+  type LoggerEntryBare,
+  type LoggerEntryBareWithError,
   type LoggerPort,
-  type LogHttpType,
   LogLevelEnum,
-  type LogWarnType,
 } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import type { RedactorStrategy } from "./redactor.strategy";
@@ -59,14 +56,11 @@ export class Woodchopper implements LoggerPort {
     this.stats = stats ?? new WoodchopperStats();
   }
 
-  private log(
-    level: LogLevelEnum,
-    entry: Omit<LogCoreType | LogHttpType | LogWarnType | LogErrorType, AdapterInjectedFields>,
-  ) {
+  private log(level: LogLevelEnum, entry: LoggerEntryBare) {
     if (this.state === WoodchopperState.closed) return this.stats.recordDropped();
     if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return this.stats.recordDropped();
 
-    let withNormalization: typeof entry | (Omit<typeof entry, "error"> & { error: ErrorInfo });
+    let withNormalization: LoggerEntryBare | LoggerEntryBareWithError;
 
     try {
       withNormalization =
@@ -77,7 +71,7 @@ export class Woodchopper implements LoggerPort {
       return;
     }
 
-    let withInjectedFields: LogCoreType | LogHttpType | LogWarnType | LogErrorType;
+    let withInjectedFields: LoggerEntry;
 
     try {
       withInjectedFields = {
@@ -93,7 +87,7 @@ export class Woodchopper implements LoggerPort {
       return;
     }
 
-    let withRedaction: typeof withInjectedFields;
+    let withRedaction: LoggerEntry;
 
     try {
       withRedaction = this.config.redactor
