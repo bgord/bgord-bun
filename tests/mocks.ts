@@ -1,5 +1,4 @@
 import { expect } from "bun:test";
-import { formatError } from "../src/format-error.service";
 import { Writable } from "node:stream";
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
@@ -7,6 +6,7 @@ import * as winston from "winston";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
+import { formatError } from "../src/format-error.service";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
