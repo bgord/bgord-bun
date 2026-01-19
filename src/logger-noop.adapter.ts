@@ -8,4 +8,6 @@ export class LoggerNoopAdapter implements LoggerPort {
   verbose: LoggerPort["verbose"] = (_log) => {};
   debug: LoggerPort["debug"] = (_log) => {};
   silly: LoggerPort["silly"] = (_log) => {};
+
+  close() {}
 }

@@ -46,4 +46,6 @@ export class LoggerWinstonAdapter implements LoggerPort {
   verbose: LoggerPort["verbose"] = (log) => this.logger.log({ level: LogLevelEnum.verbose, ...log });
   debug: LoggerPort["debug"] = (log) => this.logger.log({ level: LogLevelEnum.debug, ...log });
   silly: LoggerPort["silly"] = (log) => this.logger.log({ level: LogLevelEnum.silly, ...log });
+
+  close() {}
 }
