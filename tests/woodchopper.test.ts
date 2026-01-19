@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -404,6 +404,22 @@ describe("Woodchopper", () => {
     expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
+      error: { message: mocks.IntentionalError },
+    });
+  });
+
+  test("diagnostics - clock", () => {
+    spyOn(Clock, "now").mockImplementation(mocks.throwIntentionalError);
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkNoop();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, onDiagnostic: collector.handle }, deps);
+
+    woodchopper.info(entry);
+
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "clock",
       error: { message: mocks.IntentionalError },
     });
   });
