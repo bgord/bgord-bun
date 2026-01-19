@@ -13,6 +13,7 @@ import {
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import type { RedactorStrategy } from "./redactor.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
+import { WoodchopperStats } from "./woodchopper-stats.service";
 
 export type WoodchopperConfigType = {
   app: LoggerAppType;
@@ -34,19 +35,22 @@ const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, number> = {
   [LogLevelEnum.silly]: 6,
 };
 
-enum WoodchopperState {
+export enum WoodchopperState {
   open = "open",
   closed = "closed",
 }
 
 export class Woodchopper implements LoggerPort {
   private state: WoodchopperState;
+  private readonly stats: WoodchopperStats;
 
   constructor(
     private readonly config: WoodchopperConfigType,
     private readonly deps: Dependencies,
+    stats?: WoodchopperStats,
   ) {
     this.state = WoodchopperState.open;
+    this.stats = stats ?? new WoodchopperStats();
   }
 
   private log(
@@ -72,6 +76,7 @@ export class Woodchopper implements LoggerPort {
       : withInjectedFields;
 
     this.config.sink.write(Object.freeze(withRedaction));
+    this.stats.recordWritten();
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
@@ -84,5 +89,9 @@ export class Woodchopper implements LoggerPort {
 
   close() {
     this.state = WoodchopperState.closed;
+  }
+
+  getStats() {
+    return { ...this.stats.snapshot, state: this.state };
   }
 }
