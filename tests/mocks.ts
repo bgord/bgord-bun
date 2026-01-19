@@ -1,4 +1,5 @@
 import { expect } from "bun:test";
+import { formatError } from "../src/format-error.service";
 import { Writable } from "node:stream";
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
@@ -16,6 +17,7 @@ import {
   type PrerequisiteVerifierPort,
 } from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
+import type { WoodchopperDiagnostic } from "../src/woodchopper";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
 
@@ -166,3 +168,11 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
     action: "deny",
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;
+
+export class DiagnosticCollector {
+  readonly diagnostics: WoodchopperDiagnostic[] = [];
+
+  handle = (diagnostic: WoodchopperDiagnostic) => {
+    this.diagnostics.push({ ...diagnostic, error: formatError(diagnostic.error) });
+  };
+}

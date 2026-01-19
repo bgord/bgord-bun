@@ -16,9 +16,9 @@ import type { RedactorStrategy } from "./redactor.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 import { WoodchopperStats } from "./woodchopper-stats.service";
 
-type WoodchopperDiagnosticKind = "normalization" | "injection" | "redaction" | "sink" | "clock";
+type WoodchopperDiagnosticKind = "normalization" | "redaction" | "sink" | "clock";
 
-type WoodchopperDiagnostic = { kind: WoodchopperDiagnosticKind; error: unknown };
+export type WoodchopperDiagnostic = { kind: WoodchopperDiagnosticKind; error: unknown };
 
 export type WoodchopperConfigType = {
   app: LoggerAppType;
