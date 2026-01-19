@@ -7,6 +7,7 @@ import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper, WoodchopperState } from "../src/woodchopper";
+import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
@@ -390,5 +391,20 @@ describe("Woodchopper", () => {
     woodchopper.info(entry);
 
     expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 3, dropped: 0 });
+  });
+
+  test("diagnostics - sink", () => {
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkError();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, onDiagnostic: collector.handle }, deps);
+
+    woodchopper.info(entry);
+
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "sink",
+      error: { message: mocks.IntentionalError },
+    });
   });
 });
