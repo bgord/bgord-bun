@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { WoodchopperAsyncDispatcher } from "../src/woodchopper-dispatcher-async.strategy";
+import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
@@ -16,30 +16,26 @@ const entry = {
   timestamp: mocks.TIME_ZERO_ISO,
 };
 
-async function tick() {
-  await Promise.resolve();
-}
-
-describe("WoodchopperAsyncDispatcher", () => {
+describe("WoodchopperDispatcherAsync", () => {
   test("dispatch", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperAsyncDispatcher(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
 
-    await tick();
+    await mocks.tick();
 
     expect(sink.entries).toEqual([entry]);
   });
 
   test("dispatch - capacity", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperAsyncDispatcher(sink, 1);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(dispatcher.dispatch(entry)).toEqual(false);
 
-    await tick();
+    await mocks.tick();
 
     expect(sink.entries.length).toEqual(1);
   });
@@ -47,7 +43,7 @@ describe("WoodchopperAsyncDispatcher", () => {
   test("dispatch - error", async () => {
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperAsyncDispatcher(sink, 1);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
     dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
@@ -55,7 +51,7 @@ describe("WoodchopperAsyncDispatcher", () => {
 
     expect(dispatcher.dispatch(entry)).toEqual(false);
 
-    await tick();
+    await mocks.tick();
 
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
@@ -65,21 +61,21 @@ describe("WoodchopperAsyncDispatcher", () => {
 
   test("idle", async () => {
     const sink = new WoodchopperSinkNoop();
-    new WoodchopperAsyncDispatcher(sink, 10);
+    new WoodchopperDispatcherAsync(sink, 10);
 
-    await tick();
+    await mocks.tick();
 
     expect(sink.entries.length).toEqual(0);
   });
 
   test("close", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperAsyncDispatcher(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     dispatcher.close();
 
-    await tick();
+    await mocks.tick();
 
     expect(sink.entries.length).toEqual(0);
 

@@ -2,7 +2,7 @@ import type { LoggerEntry } from "./logger.port";
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 
-export class WoodchopperAsyncDispatcher implements WoodchopperDispatcher {
+export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   onError?: (error: unknown) => void;
 
   private readonly buffer: LoggerEntry[] = [];
