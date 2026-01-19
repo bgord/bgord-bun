@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import * as format from "../src/format-error.service";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
@@ -393,9 +394,26 @@ describe("Woodchopper", () => {
     expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 3, dropped: 0 });
   });
 
-  test("diagnostics - sink", () => {
+  test("diagnostics - normalization", () => {
+    spyOn(format, "formatError").mockImplementationOnce(mocks.throwIntentionalError);
     const collector = new mocks.DiagnosticCollector();
-    const sink = new WoodchopperSinkError();
+    const sink = new WoodchopperSinkNoop();
+    const config = { app, level: LogLevelEnum.error, environment };
+    const woodchopper = new Woodchopper({ ...config, sink, onDiagnostic: collector.handle }, deps);
+
+    woodchopper.error({ ...entry, error: mocks.IntentionalError });
+
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "normalization",
+      error: { message: mocks.IntentionalError },
+    });
+  });
+
+  test("diagnostics - clock", () => {
+    spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, sink, onDiagnostic: collector.handle }, deps);
 
@@ -403,14 +421,14 @@ describe("Woodchopper", () => {
 
     expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
     expect(collector.diagnostics[0]).toMatchObject({
-      kind: "sink",
+      kind: "clock",
       error: { message: mocks.IntentionalError },
     });
   });
 
   test("diagnostics - redaction", () => {
     const redactor = new RedactorNoopStrategy();
-    spyOn(redactor, "redact").mockImplementation(mocks.throwIntentionalError);
+    spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkNoop();
     const config = { app, level: LogLevelEnum.info, environment };
@@ -425,10 +443,9 @@ describe("Woodchopper", () => {
     });
   });
 
-  test("diagnostics - clock", () => {
-    spyOn(Clock, "now").mockImplementation(mocks.throwIntentionalError);
+  test("diagnostics - sink", () => {
     const collector = new mocks.DiagnosticCollector();
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkError();
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, sink, onDiagnostic: collector.handle }, deps);
 
@@ -436,7 +453,7 @@ describe("Woodchopper", () => {
 
     expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
     expect(collector.diagnostics[0]).toMatchObject({
-      kind: "clock",
+      kind: "sink",
       error: { message: mocks.IntentionalError },
     });
   });
