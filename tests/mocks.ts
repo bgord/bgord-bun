@@ -176,3 +176,7 @@ export class DiagnosticCollector {
     this.diagnostics.push({ ...diagnostic, error: formatError(diagnostic.error) });
   };
 }
+
+export async function tick() {
+  await Promise.resolve();
+}

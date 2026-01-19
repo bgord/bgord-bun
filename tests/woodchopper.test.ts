@@ -8,6 +8,7 @@ import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper, WoodchopperState } from "../src/woodchopper";
+import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
@@ -40,7 +41,7 @@ const errorInstanceFormatted = {
 };
 const errorStringFormatted = { message: mocks.IntentionalError };
 
-describe("Woodchopper", () => {
+describe("Woodchopper", async () => {
   test("error - no error", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -477,7 +478,7 @@ describe("Woodchopper", () => {
     });
   });
 
-  test("diagnostics - sink", () => {
+  test("diagnostics - sink - dispatcher sync", () => {
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -487,6 +488,24 @@ describe("Woodchopper", () => {
     woodchopper.info(entry);
 
     expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "sink",
+      error: { message: mocks.IntentionalError },
+    });
+  });
+
+  test("diagnostics - sink - dispatcher async", async () => {
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkError();
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 100);
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
+
+    woodchopper.info(entry);
+
+    await mocks.tick();
+
+    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 1, dropped: 0 });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
       error: { message: mocks.IntentionalError },
