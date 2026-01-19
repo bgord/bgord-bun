@@ -17,7 +17,8 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
       const path = this.config.file.get();
 
       const exists = await Bun.file(path).exists();
-      if (!exists) return PrerequisiteVerification.failure({ message: "File does not exist" });
+
+      if (!exists) return PrerequisiteVerification.failure("File does not exist");
 
       const permissions = this.config.permissions ?? {};
 
@@ -33,13 +34,13 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
         try {
           await access(this.config.file.get(), check.mode);
         } catch {
-          return PrerequisiteVerification.failure({ message: check.error });
+          return PrerequisiteVerification.failure(check.error);
         }
       }
 
       return PrerequisiteVerification.success;
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

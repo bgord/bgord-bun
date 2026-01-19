@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithTimeoutAdapter } from "../src/prerequisite-verifier-with-timeout.adapter";
 import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
@@ -17,13 +18,13 @@ describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner: pass, timeout }, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
     const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner: fail, timeout }, deps);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
   });
 
   test("timeout", async () => {
@@ -31,10 +32,7 @@ describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
     const deps = { TimeoutRunner };
     const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner: pass, timeout }, deps);
 
-    // @ts-expect-error
-    const result = (await prerequisite.verify()).error.message;
-
-    expect(result).toEqual("timeout.exceeded");
+    expect(await prerequisite.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
   });
 
   test("preserves kind", () => {

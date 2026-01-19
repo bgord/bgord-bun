@@ -32,7 +32,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
         const translations = await i18n.getTranslations(language);
         dictionary[language] = Object.keys(translations);
       } catch (error) {
-        return PrerequisiteVerification.failure({ message: `${language} translations not available` });
+        return PrerequisiteVerification.failure(`${language} translations not available`);
       }
     }
 
@@ -56,7 +56,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
       .map((problem) => `Key: ${problem.key}, exists in ${problem.existsIn}, missing in ${problem.missingIn}`)
       .join("\n");
 
-    return PrerequisiteVerification.failure({ message: summary });
+    return PrerequisiteVerification.failure(summary);
   }
 
   get kind() {

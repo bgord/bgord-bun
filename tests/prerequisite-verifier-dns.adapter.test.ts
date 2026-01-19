@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import dns from "dns/promises";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
 import * as mocks from "./mocks";
 
@@ -12,13 +13,13 @@ describe("PrerequisiteVerifierDnsAdapter", () => {
   test("success", async () => {
     spyOn(dns, "lookup").mockResolvedValue(result);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
     spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure(mocks.IntentionalError));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
   });
 
   test("kind", () => {

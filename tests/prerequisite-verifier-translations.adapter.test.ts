@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierTranslationsAdapter } from "../src/prerequisite-verifier-translations.adapter";
 import * as mocks from "./mocks";
 
@@ -14,14 +15,14 @@ const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
   deps,
 );
 
-describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
+describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success - single language", async () => {
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
       { supportedLanguages: { en: "en" } },
       deps,
     );
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("success - two languages", async () => {
@@ -36,7 +37,7 @@ describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
       }
     });
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - one language translations not available", async () => {
@@ -52,7 +53,7 @@ describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
     });
 
     expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "pl translations not available" }),
+      PrerequisiteVerification.failure("pl translations not available"),
     );
   });
 
@@ -69,7 +70,7 @@ describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
     });
 
     expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "en translations not available" }),
+      PrerequisiteVerification.failure("en translations not available"),
     );
   });
 
@@ -86,7 +87,7 @@ describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
     });
 
     expect(await prerequisite.verify()).toEqual(
-      mocks.VerificationFailure({ message: "Key: cow, exists in en, missing in pl" }),
+      PrerequisiteVerification.failure("Key: cow, exists in en, missing in pl"),
     );
   });
 
@@ -107,7 +108,7 @@ describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
       "Key: cat, exists in en, missing in pl",
       "Key: cow, exists in en, missing in pl",
     ];
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: summary.join("\n") }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(summary.join("\n")));
   });
 
   test("failure - both different", async () => {
@@ -123,7 +124,7 @@ describe("PrerequisiteVerifierTranslationsAdapter V2", () => {
     });
 
     const summary = ["Key: horse, exists in en, missing in pl", "Key: sheep, exists in pl, missing in en"];
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationFailure({ message: summary.join("\n") }));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(summary.join("\n")));
   });
 
   test("kind", () => {

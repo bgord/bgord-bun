@@ -11,11 +11,11 @@ export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPo
         | undefined;
 
       if (!(integrity && integrity.integrity_check) || integrity.integrity_check.toLowerCase() !== "ok") {
-        return PrerequisiteVerification.failure({ message: "Integrity check failed" });
+        return PrerequisiteVerification.failure("Integrity check failed");
       }
       return PrerequisiteVerification.success;
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

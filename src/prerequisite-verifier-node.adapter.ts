@@ -9,9 +9,9 @@ export class PrerequisiteVerifierNodeAdapter implements PrerequisiteVerifierPort
       const current = tools.PackageVersion.fromVersionString(this.config.current);
 
       if (current.isGreaterThanOrEqual(this.config.version)) return PrerequisiteVerification.success;
-      return PrerequisiteVerification.failure({ message: `Version: ${this.config.current}` });
+      return PrerequisiteVerification.failure(`Version: ${this.config.current}`);
     } catch {
-      return PrerequisiteVerification.failure({ message: `Invalid version passed: ${this.config.current}` });
+      return PrerequisiteVerification.failure(`Invalid version passed: ${this.config.current}`);
     }
   }
 

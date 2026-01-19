@@ -8,12 +8,10 @@ export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPo
   async verify() {
     const memoryConsumption = MemoryConsumption.get();
 
-    if (memoryConsumption.isGreaterThan(this.config.maximum)) {
-      const formatted = memoryConsumption.format(tools.Size.unit.MB);
-
-      return PrerequisiteVerification.failure({ message: `Memory consumption: ${formatted}` });
-    }
-    return PrerequisiteVerification.success;
+    if (memoryConsumption.isSmallerThan(this.config.maximum)) return PrerequisiteVerification.success;
+    return PrerequisiteVerification.failure(
+      `Memory consumption: ${memoryConsumption.format(tools.Size.unit.MB)}`,
+    );
   }
 
   get kind() {

@@ -11,9 +11,9 @@ export class PrerequisiteVerifierOutsideConnectivityAdapter implements Prerequis
       const response = await fetch(PrerequisiteVerifierOutsideConnectivityAdapter.URL, { method: "HEAD" });
 
       if (response.ok) return PrerequisiteVerification.success;
-      return PrerequisiteVerification.failure({ message: `HTTP ${response.status}` });
+      return PrerequisiteVerification.failure(`HTTP ${response.status}`);
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

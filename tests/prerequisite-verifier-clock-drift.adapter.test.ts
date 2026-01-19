@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
+import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierClockDriftAdapter } from "../src/prerequisite-verifier-clock-drift.adapter";
 import { TimekeeperNoopAdapter } from "../src/timekeeper-noop.adapter";
 import * as mocks from "./mocks";
@@ -16,14 +16,14 @@ const prerequisite = new PrerequisiteVerifierClockDriftAdapter({ skew }, deps);
 
 describe("PrerequisiteVerifierClockDriftAdapter", () => {
   test("success", async () => {
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - missing timestamp", async () => {
     // @ts-expect-error
     spyOn(Timekeeper, "get").mockResolvedValue(null);
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationUndetermined);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("failure - timekeeper", async () => {
@@ -38,9 +38,9 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
     const duration = tools.Duration.Minutes(1);
     spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
 
-    const result = await prerequisite.verify();
-
-    expect(result).toEqual(mocks.VerificationFailure({ message: `Difference: ${duration.seconds}s` }));
+    expect(await prerequisite.verify()).toEqual(
+      PrerequisiteVerification.failure(`Difference: ${duration.seconds}s`),
+    );
   });
 
   test("kind", () => {

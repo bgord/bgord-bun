@@ -14,11 +14,11 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
 
   async verify() {
     try {
-      const stats = await stat(this.config.directory);
+      const node = await stat(this.config.directory);
 
-      if (!stats.isDirectory()) return PrerequisiteVerification.failure({ message: "Not a directory" });
+      if (!node.isDirectory()) return PrerequisiteVerification.failure("Not a directory");
     } catch {
-      return PrerequisiteVerification.failure({ message: "Directory does not exist" });
+      return PrerequisiteVerification.failure("Directory does not exist");
     }
 
     const permissions = this.config.permissions ?? {};
@@ -35,7 +35,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
       try {
         await access(this.config.directory, check.mode);
       } catch {
-        return PrerequisiteVerification.failure({ message: check.error });
+        return PrerequisiteVerification.failure(check.error);
       }
     }
 

@@ -10,7 +10,7 @@ export class PrerequisiteVerifierDnsAdapter implements PrerequisiteVerifierPort 
 
       return PrerequisiteVerification.success;
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

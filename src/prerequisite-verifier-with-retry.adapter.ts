@@ -1,4 +1,3 @@
-import type { ErrorInfo } from "./logger.port";
 import {
   PrerequisiteVerification,
   PrerequisiteVerificationOutcome,
@@ -21,11 +20,11 @@ export class PrerequisiteVerifierWithRetryAdapter implements PrerequisiteVerifie
       return await new Retry(this.deps).run<PrerequisiteVerificationResult>(async () => {
         const result = await this.config.inner.verify();
 
-        if (result.outcome === PrerequisiteVerificationOutcome.failure) throw result.error;
+        if (result.outcome === PrerequisiteVerificationOutcome.failure) throw result.error?.message;
         return result;
       }, this.config.retry);
     } catch (error) {
-      return PrerequisiteVerification.failure(error as ErrorInfo);
+      return PrerequisiteVerification.failure(error);
     }
   }
 

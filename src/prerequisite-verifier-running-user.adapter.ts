@@ -8,7 +8,7 @@ export class PrerequisiteVerifierRunningUserAdapter implements PrerequisiteVerif
     const current = os.userInfo().username;
 
     if (current === this.config.username) return PrerequisiteVerification.success;
-    return PrerequisiteVerification.failure({ message: `Current user: ${current}` });
+    return PrerequisiteVerification.failure(`Current user: ${current}`);
   }
 
   get kind() {

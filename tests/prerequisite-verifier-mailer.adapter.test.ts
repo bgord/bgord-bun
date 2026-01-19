@@ -1,4 +1,5 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierMailerAdapter } from "../src/prerequisite-verifier-mailer.adapter";
 import * as mocks from "./mocks";
 
@@ -11,16 +12,16 @@ describe("PrerequisiteVerifierMailerAdapter", () => {
   test("success", async () => {
     spyOn(Mailer, "verify").mockResolvedValue(() => Promise.resolve());
 
-    expect(await prerequisite.verify()).toEqual(mocks.VerificationSuccess);
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
-    spyOn(Mailer, "verify").mockRejectedValue(new Error(mocks.IntentionalError));
-
     // @ts-expect-error
-    const result = (await prerequisite.verify()).error.message;
+    spyOn(Mailer, "verify").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(result).toMatch(mocks.IntentionalError);
+    expect(await prerequisite.verify()).toMatchObject(
+      PrerequisiteVerification.failure(mocks.IntentionalError),
+    );
   });
 
   test("kind", () => {

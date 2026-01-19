@@ -21,7 +21,7 @@ export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerif
         this.config.timeout,
       );
     } catch (error) {
-      return PrerequisiteVerification.failure(error as Error);
+      return PrerequisiteVerification.failure(error);
     }
   }
 
