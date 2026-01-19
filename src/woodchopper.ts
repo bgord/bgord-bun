@@ -2,6 +2,7 @@ import type { ClockPort } from "./clock.port";
 import { formatError } from "./format-error.service";
 import {
   type AdapterInjectedFields,
+  type ErrorInfo,
   type LogCoreType,
   type LogErrorType,
   type LoggerAppType,
@@ -62,26 +63,55 @@ export class Woodchopper implements LoggerPort {
     level: LogLevelEnum,
     entry: Omit<LogCoreType | LogHttpType | LogWarnType | LogErrorType, AdapterInjectedFields>,
   ) {
-    if (this.state === WoodchopperState.closed) return;
-    if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return;
+    if (this.state === WoodchopperState.closed) return this.stats.recordDropped();
+    if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return this.stats.recordDropped();
 
-    const withNormalization =
-      "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
+    let withNormalization: typeof entry | (Omit<typeof entry, "error"> & { error: ErrorInfo });
 
-    const withInjectedFields = {
-      timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
-      level: level,
-      app: this.config.app,
-      environment: this.config.environment,
-      ...withNormalization,
-    };
+    try {
+      withNormalization =
+        "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
+    } catch (error) {
+      this.stats.recordDropped();
+      this.config.onDiagnostic?.({ kind: "normalization", error });
+      return;
+    }
 
-    const withRedaction = this.config.redactor
-      ? this.config.redactor.redact(withInjectedFields)
-      : withInjectedFields;
+    let withInjectedFields: LogCoreType | LogHttpType | LogWarnType | LogErrorType;
 
-    this.config.sink.write(Object.freeze(withRedaction));
-    this.stats.recordWritten();
+    try {
+      withInjectedFields = {
+        timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
+        level,
+        app: this.config.app,
+        environment: this.config.environment,
+        ...withNormalization,
+      };
+    } catch (error) {
+      this.stats.recordDropped();
+      this.config.onDiagnostic?.({ kind: "clock", error });
+      return;
+    }
+
+    let withRedaction: typeof withInjectedFields;
+
+    try {
+      withRedaction = this.config.redactor
+        ? this.config.redactor.redact(withInjectedFields)
+        : withInjectedFields;
+    } catch (error) {
+      this.stats.recordDropped();
+      this.config.onDiagnostic?.({ kind: "redaction", error });
+      return;
+    }
+
+    try {
+      this.config.sink.write(Object.freeze(withRedaction));
+      this.stats.recordWritten();
+    } catch (error) {
+      this.stats.recordDropped();
+      this.config.onDiagnostic?.({ kind: "sink", error });
+    }
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
