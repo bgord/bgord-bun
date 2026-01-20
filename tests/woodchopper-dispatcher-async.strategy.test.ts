@@ -28,6 +28,23 @@ describe("WoodchopperDispatcherAsync", () => {
     expect(sink.entries).toEqual([entry]);
   });
 
+  test("dispatch - order", async () => {
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+
+    expect(dispatcher.dispatch({ ...entry, message: "1" })).toEqual(true);
+    expect(dispatcher.dispatch({ ...entry, message: "2" })).toEqual(true);
+    expect(dispatcher.dispatch({ ...entry, message: "3" })).toEqual(true);
+
+    await mocks.tick();
+
+    expect(sink.entries).toEqual([
+      { ...entry, message: "1" },
+      { ...entry, message: "2" },
+      { ...entry, message: "3" },
+    ]);
+  });
+
   test("dispatch - capacity", async () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
@@ -82,7 +99,7 @@ describe("WoodchopperDispatcherAsync", () => {
     expect(dispatcher.dispatch(entry)).toEqual(false);
   });
 
-  test("close emits diagnostic when buffered entries are dropped", async () => {
+  test("close - cloes with buffered entries", async () => {
     const collector = new mocks.DiagnosticCollector();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
