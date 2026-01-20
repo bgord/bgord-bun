@@ -23,9 +23,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
     this.buffer.push(entry);
 
-    // wake consumer if sleeping
-    this.wake?.();
-    this.wake = undefined;
+    this.wakeConsumer();
 
     return true;
   }
@@ -35,8 +33,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
     this.buffer.length = 0;
 
     // wake so the loop can exit immediately
-    this.wake?.();
-    this.wake = undefined;
+    this.wakeConsumer();
   }
 
   private async run(): Promise<void> {
@@ -55,5 +52,10 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
         this.onError?.(error);
       }
     }
+  }
+
+  private async wakeConsumer() {
+    this.wake?.();
+    this.wake = undefined;
   }
 }
