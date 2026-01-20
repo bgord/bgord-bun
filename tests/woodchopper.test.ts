@@ -411,7 +411,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("close - idempotency", () => {
+  test("close - idempotency - dispatcher sync", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
@@ -442,6 +442,44 @@ describe("Woodchopper", async () => {
       deliveryFailures: 0,
     });
     expect(dispatcherClose).toHaveBeenCalledTimes(1);
+  });
+
+  test("close - idempotency - dispatcher async", async () => {
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
+    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
+    const dispatcherClose = spyOn(dispatcher, "close");
+
+    woodchopper.info(entry);
+
+    await mocks.tick();
+
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 1,
+      dropped: 0,
+      deliveryFailures: 0,
+    });
+
+    woodchopper.close();
+    woodchopper.close();
+
+    woodchopper.info(entry);
+    woodchopper.info(entry);
+
+    expect(sink.entries.length).toEqual(1);
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.closed,
+      written: 1,
+      dropped: 2,
+      deliveryFailures: 0,
+    });
+    expect(dispatcherClose).toHaveBeenCalledTimes(1);
+    expect(collector.diagnostics.length).toEqual(0);
   });
 
   test("Object.freeze", () => {
