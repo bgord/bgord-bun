@@ -6,8 +6,6 @@ import * as mocks from "./mocks";
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
-// "success" | "warn" | "error" | "debug"
-
 describe("BetterAuthLogger", () => {
   test("info", () => {
     const service = new BetterAuthLogger(deps).attach();
@@ -59,15 +57,15 @@ describe("BetterAuthLogger", () => {
     const service = new BetterAuthLogger(deps).attach();
     const loggerError = spyOn(Logger, "error");
 
-    service.log("error", "User does not exist", { error: new Error(mocks.IntentionalError) });
+    const message = "User does not exist";
+    service.log("error", message, { error: new Error(mocks.IntentionalError) });
 
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        component: "infra",
-        message: "User does not exist",
-        metadata: { args: [{ error: new Error(mocks.IntentionalError) }] },
-        operation: "better-auth",
-      }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      component: "infra",
+      message: "User does not exist",
+      metadata: { args: [{ error: new Error(mocks.IntentionalError) }] },
+      operation: "better-auth",
+      error: new Error(message),
+    });
   });
 });

@@ -1,4 +1,3 @@
-import { formatError } from "./format-error.service";
 import { type LoggerPort, LogLevelEnum } from "./logger.port";
 
 type LogLevel = "info" | "success" | "warn" | "error" | "debug";
@@ -20,7 +19,7 @@ export class BetterAuthLogger {
           case LogLevelEnum.error: {
             this.deps.Logger.error({
               ...base,
-              error: formatError(args.find((arg) => arg instanceof Error) ?? new Error(message)),
+              error: args.find((arg) => arg instanceof Error) ?? new Error(message),
             });
             break;
           }
