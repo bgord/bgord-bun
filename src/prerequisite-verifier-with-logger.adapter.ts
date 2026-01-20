@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
-import { ErrorInfo } from "./error-normalizer.service";
+import type { NormalizedError } from "./error-normalizer.service";
 import type { LoggerPort } from "./logger.port";
 import { PrerequisiteVerificationOutcome, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { Stopwatch } from "./stopwatch.service";
@@ -32,7 +32,7 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
       case PrerequisiteVerificationOutcome.failure: {
         this.deps.Logger.error({
           message: `Failure - ${this.kind}`,
-          error: result.error as ErrorInfo,
+          error: result.error,
           ...this.base(durationMs),
         });
         break;

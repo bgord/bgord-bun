@@ -1,4 +1,4 @@
-import { ErrorInfo, ErrorNormalizer } from "./error-normalizer.service";
+import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.service";
 
 export enum PrerequisiteVerificationOutcome {
   success = "success",
@@ -9,7 +9,7 @@ export enum PrerequisiteVerificationOutcome {
 export type PrerequisiteVerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
 export type PrerequisiteVerificationFailure = {
   outcome: PrerequisiteVerificationOutcome.failure;
-  error?: ErrorInfo;
+  error?: NormalizedError;
 };
 export type PrerequisiteVerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 export type PrerequisiteVerificationResult =
