@@ -119,6 +119,8 @@ export class Woodchopper implements LoggerPort {
   silly: LoggerPort["silly"] = (entry) => this.log(LogLevelEnum.silly, entry);
 
   close() {
+    if (this.state === WoodchopperState.closed) return;
+
     this.state = WoodchopperState.closed;
     this.config.dispatcher.close();
   }

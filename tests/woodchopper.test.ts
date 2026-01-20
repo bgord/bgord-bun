@@ -411,7 +411,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("close", () => {
+  test("close - idempotency", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
@@ -441,7 +441,7 @@ describe("Woodchopper", async () => {
       dropped: 2,
       deliveryFailures: 0,
     });
-    expect(dispatcherClose).toHaveBeenCalledTimes(2);
+    expect(dispatcherClose).toHaveBeenCalledTimes(1);
   });
 
   test("Object.freeze", () => {
