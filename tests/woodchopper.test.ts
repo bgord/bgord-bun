@@ -202,7 +202,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 1,
       dropped: 6,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -225,7 +225,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 2,
       dropped: 5,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -248,7 +248,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 3,
       dropped: 4,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -271,7 +271,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 4,
       dropped: 3,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -294,7 +294,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 5,
       dropped: 2,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -317,7 +317,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 6,
       dropped: 1,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -340,7 +340,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 7,
       dropped: 0,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -425,7 +425,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 1,
       dropped: 0,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
 
     woodchopper.close();
@@ -439,7 +439,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.closed,
       written: 1,
       dropped: 2,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
     expect(dispatcherClose).toHaveBeenCalledTimes(2);
   });
@@ -469,7 +469,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 3,
       dropped: 0,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
   });
 
@@ -487,7 +487,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 0,
       dropped: 1,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "normalization",
@@ -509,7 +509,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 0,
       dropped: 1,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "clock",
@@ -535,7 +535,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 0,
       dropped: 1,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "redaction",
@@ -556,7 +556,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 0,
       dropped: 1,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
@@ -579,7 +579,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 1,
       dropped: 0,
-      diagnostics: 0,
+      deliveryFailures: 0,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
