@@ -44,9 +44,8 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   private async run(): Promise<void> {
     while (this.state === WoodchopperDispatcherAsyncState.running) {
       if (this.buffer.length === 0) {
-        await new Promise<void>((resolve) => {
-          this.wake = resolve;
-        });
+        await this.waitForEntry();
+
         continue;
       }
 
@@ -63,5 +62,11 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   private async wakeConsumer() {
     this.wake?.();
     this.wake = undefined;
+  }
+
+  private async waitForEntry() {
+    await new Promise<void>((resolve) => {
+      this.wake = resolve;
+    });
   }
 }
