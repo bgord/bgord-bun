@@ -35,7 +35,7 @@ describe("WoodchopperDispatcherSync", () => {
     expect(dispatcher.dispatch(entry)).toEqual(false);
     expect(diagnostics.entries[0]).toMatchObject({
       kind: "sink",
-      error: { message: mocks.IntentionalError },
+      error: { message: "woodchopper.sink.error" },
     });
   });
 
