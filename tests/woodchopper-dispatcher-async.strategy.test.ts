@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { WoodchopperDiagnosticsNoop } from "../src/woodchopper-diagnostics-noop.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
@@ -58,19 +59,19 @@ describe("WoodchopperDispatcherAsync", () => {
   });
 
   test("dispatch - error", async () => {
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
-    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
+    dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
-    expect(collector.diagnostics.length).toEqual(0);
+    expect(diagnostics.entries.length).toEqual(0);
 
     expect(dispatcher.dispatch(entry)).toEqual(false);
 
     await mocks.tick();
 
-    expect(collector.diagnostics[0]).toMatchObject({
+    expect(diagnostics.entries[0]).toMatchObject({
       kind: "sink",
       error: { message: mocks.IntentionalError },
     });
@@ -100,26 +101,19 @@ describe("WoodchopperDispatcherAsync", () => {
   });
 
   test("close - cloes with buffered entries", async () => {
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
-
-    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
+    dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     dispatcher.dispatch(entry);
-
     await mocks.tick();
-
     dispatcher.dispatch(entry);
-
     dispatcher.close();
-
     await mocks.tick();
 
-    expect(collector.diagnostics.length).toEqual(1);
-    expect(collector.diagnostics[0]).toMatchObject({
-      kind: "sink",
-      error: { message: "woodchopper.dispatcher.async.closed.with.buffered.entries.1" },
-    });
+    expect(diagnostics.entries).toMatchObject([
+      { kind: "sink", error: { message: "woodchopper.dispatcher.async.closed.with.buffered.entries.1" } },
+    ]);
   });
 });

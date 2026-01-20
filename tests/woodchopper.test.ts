@@ -8,6 +8,7 @@ import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper, WoodchopperState } from "../src/woodchopper";
+import { WoodchopperDiagnosticsNoop } from "../src/woodchopper-diagnostics-noop.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
@@ -445,10 +446,10 @@ describe("Woodchopper", async () => {
   });
 
   test("close - idempotency - dispatcher async", async () => {
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
-    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
+    dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
     const dispatcherClose = spyOn(dispatcher, "close");
@@ -479,7 +480,7 @@ describe("Woodchopper", async () => {
       deliveryFailures: 0,
     });
     expect(dispatcherClose).toHaveBeenCalledTimes(1);
-    expect(collector.diagnostics.length).toEqual(0);
+    expect(diagnostics.entries.length).toEqual(0);
   });
 
   test("Object.freeze", () => {
@@ -513,11 +514,11 @@ describe("Woodchopper", async () => {
 
   test("diagnostics - normalization", () => {
     spyOn(format, "formatError").mockImplementationOnce(mocks.throwIntentionalError);
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
 
     woodchopper.error({ ...entry, error: mocks.IntentionalError });
 
@@ -527,7 +528,7 @@ describe("Woodchopper", async () => {
       dropped: 1,
       deliveryFailures: 0,
     });
-    expect(collector.diagnostics[0]).toMatchObject({
+    expect(diagnostics.entries[0]).toMatchObject({
       kind: "normalization",
       error: { message: mocks.IntentionalError },
     });
@@ -535,11 +536,11 @@ describe("Woodchopper", async () => {
 
   test("diagnostics - clock", () => {
     spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
 
     woodchopper.info(entry);
 
@@ -549,7 +550,7 @@ describe("Woodchopper", async () => {
       dropped: 1,
       deliveryFailures: 0,
     });
-    expect(collector.diagnostics[0]).toMatchObject({
+    expect(diagnostics.entries[0]).toMatchObject({
       kind: "clock",
       error: { message: mocks.IntentionalError },
     });
@@ -558,14 +559,11 @@ describe("Woodchopper", async () => {
   test("diagnostics - redaction", () => {
     const redactor = new RedactorNoopStrategy();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper(
-      { ...config, dispatcher, redactor, onDiagnostic: collector.handle },
-      deps,
-    );
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor, diagnostics }, deps);
 
     woodchopper.info(entry);
 
@@ -575,18 +573,18 @@ describe("Woodchopper", async () => {
       dropped: 1,
       deliveryFailures: 0,
     });
-    expect(collector.diagnostics[0]).toMatchObject({
+    expect(diagnostics.entries[0]).toMatchObject({
       kind: "redaction",
       error: { message: mocks.IntentionalError },
     });
   });
 
   test("diagnostics - sink - dispatcher sync", () => {
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
 
     woodchopper.info(entry);
 
@@ -596,18 +594,18 @@ describe("Woodchopper", async () => {
       dropped: 1,
       deliveryFailures: 1,
     });
-    expect(collector.diagnostics[0]).toMatchObject({
+    expect(diagnostics.entries[0]).toMatchObject({
       kind: "sink",
       error: { message: mocks.IntentionalError },
     });
   });
 
   test("diagnostics - sink - dispatcher async", async () => {
-    const collector = new mocks.DiagnosticCollector();
+    const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 100);
     const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher, onDiagnostic: collector.handle }, deps);
+    const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
 
     woodchopper.info(entry);
 
@@ -619,7 +617,7 @@ describe("Woodchopper", async () => {
       dropped: 0,
       deliveryFailures: 1,
     });
-    expect(collector.diagnostics[0]).toMatchObject({
+    expect(diagnostics.entries[0]).toMatchObject({
       kind: "sink",
       error: { message: mocks.IntentionalError },
     });
