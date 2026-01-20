@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { EventHandlerWithLoggerStrategy } from "../src/event-handler-with-logger.strategy";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -33,7 +34,8 @@ describe("EventHandlerWithLoggerStrategy", () => {
       message: "Unknown user.created event handler error",
       component: "infra",
       operation: "event_handler",
-      metadata: { ...event, durationMs: expect.any(Number) },
+      // @ts-expect-error Private constructor assertion
+      metadata: { ...event, duration: expect.any(tools.Duration) },
       error: new Error(mocks.IntentionalError),
     });
   });
