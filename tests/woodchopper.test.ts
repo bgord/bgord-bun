@@ -198,7 +198,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(1);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 1, dropped: 6 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 1,
+      dropped: 6,
+      diagnostics: 0,
+    });
   });
 
   test("level threshold - warn", () => {
@@ -216,7 +221,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(2);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 2, dropped: 5 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 2,
+      dropped: 5,
+      diagnostics: 0,
+    });
   });
 
   test("level threshold - info", () => {
@@ -234,7 +244,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(3);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 3, dropped: 4 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 3,
+      dropped: 4,
+      diagnostics: 0,
+    });
   });
 
   test("level threshold - http", () => {
@@ -252,7 +267,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(4);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 4, dropped: 3 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 4,
+      dropped: 3,
+      diagnostics: 0,
+    });
   });
 
   test("level threshold - verbose", () => {
@@ -270,7 +290,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(5);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 5, dropped: 2 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 5,
+      dropped: 2,
+      diagnostics: 0,
+    });
   });
 
   test("level threshold - debug", () => {
@@ -288,7 +313,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(6);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 6, dropped: 1 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 6,
+      dropped: 1,
+      diagnostics: 0,
+    });
   });
 
   test("level threshold - silly", () => {
@@ -306,7 +336,12 @@ describe("Woodchopper", async () => {
     woodchopper.silly(entry);
 
     expect(sink.entries.length).toEqual(7);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 7, dropped: 0 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 7,
+      dropped: 0,
+      diagnostics: 0,
+    });
   });
 
   test("redactor - noop", () => {
@@ -386,7 +421,12 @@ describe("Woodchopper", async () => {
     woodchopper.info(entry);
 
     expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 1, dropped: 0 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 1,
+      dropped: 0,
+      diagnostics: 0,
+    });
 
     woodchopper.close();
     woodchopper.close();
@@ -395,7 +435,12 @@ describe("Woodchopper", async () => {
     woodchopper.info(entry);
 
     expect(sink.entries.length).toEqual(1);
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.closed, written: 1, dropped: 2 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.closed,
+      written: 1,
+      dropped: 2,
+      diagnostics: 0,
+    });
     expect(dispatcherClose).toHaveBeenCalledTimes(2);
   });
 
@@ -420,7 +465,12 @@ describe("Woodchopper", async () => {
     woodchopper.info(entry);
     woodchopper.info(entry);
 
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 3, dropped: 0 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 3,
+      dropped: 0,
+      diagnostics: 0,
+    });
   });
 
   test("diagnostics - normalization", () => {
@@ -433,7 +483,12 @@ describe("Woodchopper", async () => {
 
     woodchopper.error({ ...entry, error: mocks.IntentionalError });
 
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 0,
+      dropped: 1,
+      diagnostics: 0,
+    });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "normalization",
       error: { message: mocks.IntentionalError },
@@ -450,7 +505,12 @@ describe("Woodchopper", async () => {
 
     woodchopper.info(entry);
 
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 0,
+      dropped: 1,
+      diagnostics: 0,
+    });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "clock",
       error: { message: mocks.IntentionalError },
@@ -471,7 +531,12 @@ describe("Woodchopper", async () => {
 
     woodchopper.info(entry);
 
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 0,
+      dropped: 1,
+      diagnostics: 0,
+    });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "redaction",
       error: { message: mocks.IntentionalError },
@@ -487,7 +552,12 @@ describe("Woodchopper", async () => {
 
     woodchopper.info(entry);
 
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 0, dropped: 1 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 0,
+      dropped: 1,
+      diagnostics: 0,
+    });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
       error: { message: mocks.IntentionalError },
@@ -505,7 +575,12 @@ describe("Woodchopper", async () => {
 
     await mocks.tick();
 
-    expect(woodchopper.getStats()).toEqual({ state: WoodchopperState.open, written: 1, dropped: 0 });
+    expect(woodchopper.getStats()).toEqual({
+      state: WoodchopperState.open,
+      written: 1,
+      dropped: 0,
+      diagnostics: 0,
+    });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
       error: { message: mocks.IntentionalError },
