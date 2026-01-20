@@ -18,6 +18,6 @@ describe("WoodchopperSinkError", () => {
   test("write", () => {
     const sink = new WoodchopperSinkError();
 
-    expect(() => sink.write(entry)).toThrow(mocks.IntentionalError);
+    expect(() => sink.write(entry)).toThrow("woodchopper.sink.error");
   });
 });
