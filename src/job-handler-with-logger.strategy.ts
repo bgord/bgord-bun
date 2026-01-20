@@ -1,6 +1,5 @@
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
-import { formatError } from "./format-error.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { JobHandlerStrategy, UnitOfWork } from "./job-handler.strategy";
 import type { LoggerPort } from "./logger.port";
@@ -34,7 +33,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
         this.deps.Logger.error({
           message: `${uow.label} error`,
           correlationId,
-          error: formatError(error),
+          error,
           metadata: stopwatch.stop(),
           ...this.base,
         });

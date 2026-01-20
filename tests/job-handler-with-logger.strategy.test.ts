@@ -78,13 +78,14 @@ describe("JobHandlerWithLoggerStrategy", () => {
       operation: "job_handler",
       correlationId: expect.any(String),
     });
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: "Test Job error",
-        component: "infra",
-        correlationId: expect.any(String),
-        operation: "job_handler",
-      }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      message: "Test Job error",
+      component: "infra",
+      correlationId: expect.any(String),
+      operation: "job_handler",
+      error: new Error(mocks.IntentionalError),
+      // @ts-expect-error Private constructor assertion
+      metadata: expect.any(tools.Duration),
+    });
   });
 });
