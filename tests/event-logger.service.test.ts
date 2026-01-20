@@ -15,14 +15,12 @@ describe("EventLogger service", () => {
 
     eventLogger.handle("emit", "debug:name", eventName, { userId: 123 });
 
-    expect(loggerInfo).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: `${eventName} emitted`,
-        component: "infra",
-        operation: "event_emitted",
-        metadata: { userId: 123 },
-      }),
-    );
+    expect(loggerInfo).toHaveBeenCalledWith({
+      message: `${eventName} emitted`,
+      component: "infra",
+      operation: "event_emitted",
+      metadata: { userId: 123 },
+    });
   });
 
   test("does not log subscribe commands", () => {

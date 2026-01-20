@@ -55,39 +55,33 @@ describe("HttpLogger middleware", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
-    expect(loggerHttp).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        component: "http",
-        operation: "http_request_before",
-        correlationId: expect.stringMatching(
-          /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-        ),
-        message: "request",
-        method: "GET",
-        url: "http://localhost/ping",
-        client: { ip: "127.0.0.1", ua: "abc" },
-        metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: {} },
-      }),
-    );
-    expect(loggerHttp).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({
-        component: "http",
-        operation: "http_request_after",
-        correlationId: expect.stringMatching(
-          /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-        ),
-        message: "response",
-        method: "GET",
-        url: "http://localhost/ping",
-        status: 200,
-        durationMs: expect.any(Number),
-        client: { ip: "127.0.0.1", ua: "abc" },
-        cacheHit: false,
-        metadata: { response: { message: "OK" } },
-      }),
-    );
+    expect(loggerHttp).toHaveBeenNthCalledWith(1, {
+      component: "http",
+      operation: "http_request_before",
+      correlationId: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+      message: "request",
+      method: "GET",
+      url: "http://localhost/ping",
+      client: { ip: "127.0.0.1", ua: "abc" },
+      metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: {} },
+    });
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+      component: "http",
+      operation: "http_request_after",
+      correlationId: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+      message: "response",
+      method: "GET",
+      url: "http://localhost/ping",
+      status: 200,
+      durationMs: expect.any(Number),
+      client: { ip: "127.0.0.1", ua: "abc" },
+      cacheHit: false,
+      metadata: { response: { message: "OK" } },
+    });
   });
 
   test("500", async () => {
@@ -97,37 +91,33 @@ describe("HttpLogger middleware", () => {
 
     expect(result.status).toEqual(500);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
-    expect(loggerHttp).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        operation: "http_request_before",
-        correlationId: expect.stringMatching(
-          /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-        ),
-        message: "request",
-        method: "GET",
-        url: "http://localhost/pong",
-        client: { ip: "127.0.0.1", ua: "anon" },
-        metadata: { headers: {}, body: {}, params: {}, query: {} },
-      }),
-    );
-    expect(loggerHttp).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({
-        operation: "http_request_after",
-        correlationId: expect.stringMatching(
-          /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-        ),
-        message: "response",
-        method: "GET",
-        url: "http://localhost/pong",
-        status: 500,
-        durationMs: expect.any(Number),
-        client: { ip: "127.0.0.1", ua: "anon" },
-        cacheHit: false,
-        metadata: { response: { message: "general.unknown" } },
-      }),
-    );
+    expect(loggerHttp).toHaveBeenNthCalledWith(1, {
+      operation: "http_request_before",
+      component: "http",
+      correlationId: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+      message: "request",
+      method: "GET",
+      url: "http://localhost/pong",
+      client: { ip: "127.0.0.1", ua: "anon" },
+      metadata: { headers: {}, body: {}, params: {}, query: {} },
+    });
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+      operation: "http_request_after",
+      component: "http",
+      correlationId: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+      message: "response",
+      method: "GET",
+      url: "http://localhost/pong",
+      status: 500,
+      durationMs: expect.any(Number),
+      client: { ip: "127.0.0.1", ua: "anon" },
+      cacheHit: false,
+      metadata: { response: { message: "general.unknown" } },
+    });
   });
 
   test("client extraction", async () => {

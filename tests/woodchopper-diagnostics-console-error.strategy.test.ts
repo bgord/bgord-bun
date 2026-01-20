@@ -9,16 +9,9 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
 
     diagnostics.handle({ kind: "sink", error: new Error(mocks.IntentionalError) });
 
-    expect(consoleError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        kind: "sink",
-        error: {
-          message: mocks.IntentionalError,
-          name: "Error",
-          cause: undefined,
-          stack: expect.any(String),
-        },
-      }),
-    );
+    expect(consoleError).toHaveBeenCalledWith({
+      kind: "sink",
+      error: { message: mocks.IntentionalError, name: "Error", cause: undefined, stack: expect.any(String) },
+    });
   });
 });
