@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
-import type { ErrorInfo, LoggerPort } from "./logger.port";
+import { ErrorInfo } from "./error-normalizer.service";
+import type { LoggerPort } from "./logger.port";
 import { PrerequisiteVerificationOutcome, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { Stopwatch } from "./stopwatch.service";
 

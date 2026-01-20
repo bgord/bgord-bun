@@ -1,5 +1,4 @@
-import { formatError } from "./format-error.service";
-import type { ErrorInfo } from "./logger.port";
+import { ErrorInfo, ErrorNormalizer } from "./error-normalizer.service";
 
 export enum PrerequisiteVerificationOutcome {
   success = "success",
@@ -22,7 +21,10 @@ export class PrerequisiteVerification {
   static success = { outcome: PrerequisiteVerificationOutcome.success };
 
   static failure(meta?: unknown): PrerequisiteVerificationFailure {
-    return { outcome: PrerequisiteVerificationOutcome.failure, error: meta ? formatError(meta) : undefined };
+    return {
+      outcome: PrerequisiteVerificationOutcome.failure,
+      error: meta ? ErrorNormalizer.normalize(meta) : undefined,
+    };
   }
 
   static undetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };

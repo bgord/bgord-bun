@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import * as format from "../src/format-error.service";
+import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
@@ -513,7 +513,7 @@ describe("Woodchopper", async () => {
   });
 
   test("diagnostics - normalization", () => {
-    spyOn(format, "formatError").mockImplementationOnce(mocks.throwIntentionalError);
+    spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
