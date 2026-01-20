@@ -556,7 +556,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 0,
       dropped: 1,
-      deliveryFailures: 0,
+      deliveryFailures: 1,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
@@ -579,7 +579,7 @@ describe("Woodchopper", async () => {
       state: WoodchopperState.open,
       written: 1,
       dropped: 0,
-      deliveryFailures: 0,
+      deliveryFailures: 1,
     });
     expect(collector.diagnostics[0]).toMatchObject({
       kind: "sink",
