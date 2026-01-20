@@ -2,7 +2,6 @@ import type * as z from "zod/v4";
 import type { ClockPort } from "./clock.port";
 import type { GenericEventSchema } from "./event.types";
 import type { EventHandlerStrategy } from "./event-handler.strategy";
-import { formatError } from "./format-error.service";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
 
@@ -23,7 +22,7 @@ export class EventHandlerWithLoggerStrategy implements EventHandlerStrategy {
           component: "infra",
           operation: "event_handler",
           metadata: { name: event.name, durationMs: stopwatch.stop().ms },
-          error: formatError(error),
+          error,
         });
       }
     };
