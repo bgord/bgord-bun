@@ -307,6 +307,7 @@ export * from "./visitor-id.strategy";
 export * from "./visitor-id-client.strategy";
 export * from "./weak-etag-extractor.middleware";
 export * from "./woodchopper";
+export * from "./woodchopper-diagnostics.strategy";
 export * from "./woodchopper-dispatcher.strategy";
 export * from "./woodchopper-dispatcher-async.strategy";
 export * from "./woodchopper-dispatcher-noop.strategy";
