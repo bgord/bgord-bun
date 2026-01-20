@@ -10,20 +10,17 @@ import {
 } from "./logger.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import type { RedactorStrategy } from "./redactor.strategy";
+import type { WoodchopperDiagnosticsStrategy } from "./woodchopper-diagnostics.strategy";
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import { WoodchopperStats } from "./woodchopper-stats.service";
-
-type WoodchopperDiagnosticKind = "normalization" | "redaction" | "sink" | "clock";
-
-export type WoodchopperDiagnostic = { kind: WoodchopperDiagnosticKind; error: unknown };
 
 export type WoodchopperConfigType = {
   app: LoggerAppType;
   level: LogLevelEnum;
   environment: NodeEnvironmentEnum;
-  redactor?: RedactorStrategy;
   dispatcher: WoodchopperDispatcher;
-  onDiagnostic?: (diagnostic: WoodchopperDiagnostic) => void;
+  redactor?: RedactorStrategy;
+  diagnostics?: WoodchopperDiagnosticsStrategy;
 };
 
 type Dependencies = { Clock: ClockPort };
@@ -56,7 +53,7 @@ export class Woodchopper implements LoggerPort {
     this.stats = stats ?? new WoodchopperStats();
 
     this.config.dispatcher.onError = (error) => {
-      this.config.onDiagnostic?.({ kind: "sink", error });
+      this.config.diagnostics?.handle({ kind: "sink", error });
       this.stats.recordDeliveryFailure();
     };
   }
@@ -72,7 +69,7 @@ export class Woodchopper implements LoggerPort {
         "error" in entry && entry.error !== undefined ? { ...entry, error: formatError(entry.error) } : entry;
     } catch (error) {
       this.stats.recordDropped();
-      this.config.onDiagnostic?.({ kind: "normalization", error });
+      this.config.diagnostics?.handle({ kind: "normalization", error });
       return;
     }
 
@@ -88,7 +85,7 @@ export class Woodchopper implements LoggerPort {
       };
     } catch (error) {
       this.stats.recordDropped();
-      this.config.onDiagnostic?.({ kind: "clock", error });
+      this.config.diagnostics?.handle({ kind: "clock", error });
       return;
     }
 
@@ -100,7 +97,7 @@ export class Woodchopper implements LoggerPort {
         : withInjectedFields;
     } catch (error) {
       this.stats.recordDropped();
-      this.config.onDiagnostic?.({ kind: "redaction", error });
+      this.config.diagnostics?.handle({ kind: "redaction", error });
       return;
     }
 
