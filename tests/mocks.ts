@@ -6,7 +6,6 @@ import * as winston from "winston";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
-import { formatError } from "../src/format-error.service";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import type * as System from "../src/modules/system";
@@ -17,7 +16,6 @@ import {
   type PrerequisiteVerifierPort,
 } from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
-import type { WoodchopperDiagnostic } from "../src/woodchopper";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
 
@@ -168,14 +166,6 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
     action: "deny",
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;
-
-export class DiagnosticCollector {
-  readonly diagnostics: WoodchopperDiagnostic[] = [];
-
-  handle = (diagnostic: WoodchopperDiagnostic) => {
-    this.diagnostics.push({ ...diagnostic, error: formatError(diagnostic.error) });
-  };
-}
 
 export async function tick() {
   await Promise.resolve();
