@@ -34,6 +34,8 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   }
 
   close(): void {
+    if (this.state === WoodchopperDispatcherAsyncState.closed) return;
+
     this.state = WoodchopperDispatcherAsyncState.closed;
     this.buffer.length = 0;
 
