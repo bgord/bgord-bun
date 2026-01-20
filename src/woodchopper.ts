@@ -57,6 +57,7 @@ export class Woodchopper implements LoggerPort {
 
     this.config.dispatcher.onError = (error) => {
       this.config.onDiagnostic?.({ kind: "sink", error });
+      this.stats.recordDeliveryFailure();
     };
   }
 
