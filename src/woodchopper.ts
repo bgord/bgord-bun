@@ -42,15 +42,13 @@ export enum WoodchopperState {
 
 export class Woodchopper implements LoggerPort {
   private state: WoodchopperState;
-  private readonly stats: WoodchopperStats;
+  private readonly stats = new WoodchopperStats();
 
   constructor(
     private readonly config: WoodchopperConfigType,
     private readonly deps: Dependencies,
-    stats?: WoodchopperStats,
   ) {
     this.state = WoodchopperState.open;
-    this.stats = stats ?? new WoodchopperStats();
 
     this.config.dispatcher.onError = (error) => {
       this.config.diagnostics?.handle({ kind: "sink", error });
