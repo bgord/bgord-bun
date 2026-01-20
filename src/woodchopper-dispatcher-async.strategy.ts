@@ -12,7 +12,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
   constructor(
     private readonly sink: WoodchopperSinkStrategy,
-    private readonly capacity: number,
+    private readonly capacity: number = 256,
   ) {
     this.run();
   }
