@@ -12,7 +12,9 @@ export class MailerWithLoggerAdapter implements MailerPort {
   async send(template: MailerTemplate): Promise<unknown> {
     try {
       this.deps.Logger.info({ message: "Mailer attempt", metadata: template.toJSON(), ...this.base });
+
       const result = await this.deps.inner.send(template);
+
       this.deps.Logger.info({
         message: "Mailer success",
         metadata: { template: template.toJSON(), result },

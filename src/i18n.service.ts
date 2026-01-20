@@ -20,8 +20,6 @@ export type I18nConfigType = {
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class I18n {
-  private readonly base = { component: "infra", operation: "translations" };
-
   static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
 
   constructor(
@@ -40,7 +38,12 @@ export class I18n {
       const translation = translations[key];
 
       if (!translation) {
-        that.deps.Logger.warn({ message: `Missing translation for key ${key}`, ...that.base });
+        that.deps.Logger.warn({
+          message: `Missing translation for key ${key}`,
+          component: "infra",
+          operation: "translations",
+        });
+
         return key;
       }
 

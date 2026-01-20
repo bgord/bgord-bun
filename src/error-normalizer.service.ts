@@ -1,7 +1,7 @@
-export type ErrorInfo = { message: string; name?: string; stack?: string; cause?: ErrorInfo };
+export type NormalizedError = { message: string; name?: string; stack?: string; cause?: NormalizedError };
 
 export class ErrorNormalizer {
-  static normalize(error: unknown): ErrorInfo {
+  static normalize(error: unknown): NormalizedError {
     if (error instanceof Error) {
       const cause =
         error.cause instanceof Error

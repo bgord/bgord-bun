@@ -1,8 +1,8 @@
 import type * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
+import type { NormalizedError } from "./error-normalizer.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
-import { ErrorInfo } from "./error-normalizer.service";
 
 export type LoggerAppType = string;
 
@@ -52,7 +52,7 @@ export type LoggerEntryBare = Omit<
   AdapterInjectedFields
 >;
 
-export type LoggerEntryBareWithError = Omit<LoggerEntryBare, "error"> & { error: ErrorInfo };
+export type LoggerEntryBareWithError = Omit<LoggerEntryBare, "error"> & { error: NormalizedError };
 
 export type LoggerEntry = LogCoreType | LogHttpType | LogWarnType | LogErrorType;
 
