@@ -104,7 +104,9 @@ export class Woodchopper implements LoggerPort {
       return;
     }
 
-    const accepted = this.config.dispatcher.dispatch(Object.freeze(withRedaction));
+    const final = Object.freeze(withRedaction);
+
+    const accepted = this.config.dispatcher.dispatch(final);
     accepted ? this.stats.recordWritten() : this.stats.recordDropped();
   }
 

@@ -25,4 +25,16 @@ describe("WoodchopperStats", () => {
 
     expect(stats.snapshot).toEqual({ written: 0, dropped: 2, deliveryFailures: 0 });
   });
+
+  test("recordDeliveryFailure", () => {
+    const stats = new WoodchopperStats();
+
+    stats.recordDeliveryFailure();
+
+    expect(stats.snapshot).toEqual({ written: 0, dropped: 0, deliveryFailures: 1 });
+
+    stats.recordDeliveryFailure();
+
+    expect(stats.snapshot).toEqual({ written: 0, dropped: 0, deliveryFailures: 2 });
+  });
 });
