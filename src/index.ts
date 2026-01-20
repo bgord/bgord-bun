@@ -317,5 +317,6 @@ export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink-stderr.strategy";
 export * from "./woodchopper-sink-stderr-raw.strategy";
 export * from "./woodchopper-sink-stdout.strategy";
+export * from "./woodchopper-sink-stdout-human.strategy";
 export * from "./woodchopper-sink-stdout-raw.strategy";
 export * from "./woodchopper-stats.service";
