@@ -46,7 +46,6 @@
     "csv": "6.4.1",
     "hono": "4.11.4",
     "node-cache": "5.1.2",
-    "winston": "3.19.0",
     "yazl": "3.3.1"
   },
   "peerDependencies": {
