@@ -62,9 +62,12 @@ describe("MailerWithLoggerAdapter", async () => {
 
     expect(async () => mailer.send(template)).toThrow(mocks.IntentionalError);
     expect(sendMail).toHaveBeenCalledWith(template);
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({ component: "infra", message: "Mailer error", operation: "mailer" }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      component: "infra",
+      message: "Mailer error",
+      operation: "mailer",
+      error: new Error(mocks.IntentionalError),
+    });
   });
 
   test("verfiy", async () => {

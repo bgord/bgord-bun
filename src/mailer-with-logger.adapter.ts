@@ -1,4 +1,3 @@
-import { formatError } from "./format-error.service";
 import type { LoggerPort } from "./logger.port";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
@@ -22,7 +21,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
 
       return result;
     } catch (error) {
-      this.deps.Logger.error({ message: "Mailer error", error: formatError(error), ...this.base });
+      this.deps.Logger.error({ message: "Mailer error", error, ...this.base });
 
       throw error;
     }
