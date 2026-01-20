@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { WoodChopperSinkStderrPretty } from "../src/woodchopper-sink-stderr-pretty.strategy";
+import { WoodchopperSinkStderrPretty } from "../src/woodchopper-sink-stderr-pretty.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -14,10 +14,10 @@ const entry = {
   timestamp: mocks.TIME_ZERO_ISO,
 };
 
-describe("WoodChopperSinkStderrPretty", () => {
+describe("WoodchopperSinkStderrPretty", () => {
   test("write", () => {
     const processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
-    const sink = new WoodChopperSinkStderrPretty();
+    const sink = new WoodchopperSinkStderrPretty();
 
     sink.write(entry);
 
