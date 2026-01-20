@@ -1,8 +1,6 @@
 import { expect } from "bun:test";
-import { Writable } from "node:stream";
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
-import * as winston from "winston";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
@@ -37,20 +35,6 @@ export const throwIntentionalError = () => {
 export const throwIntentionalErrorAsync = async () => {
   throw new Error(IntentionalError);
 };
-
-export function makeCaptureTransport() {
-  const lines: string[] = [];
-  const stream = new Writable({
-    write(chunk, _enc, cb) {
-      lines.push(chunk.toString()); // pretty or single-line JSON; both OK
-      cb();
-    },
-  });
-
-  const transport = new winston.transports.Stream({ stream });
-
-  return { transport, lines };
-}
 
 export function createContext(headers: Record<string, string | undefined>): Context {
   return {
