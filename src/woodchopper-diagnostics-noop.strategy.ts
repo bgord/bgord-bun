@@ -1,4 +1,4 @@
-import { formatError } from "./format-error.service";
+import { ErrorNormalizer } from "./error-normalizer.service";
 import type {
   WoodchopperDiagnosticsStrategy,
   WoodchopperDiagnosticType,
@@ -8,6 +8,6 @@ export class WoodchopperDiagnosticsNoop implements WoodchopperDiagnosticsStrateg
   readonly entries: WoodchopperDiagnosticType[] = [];
 
   handle(diagnostic: WoodchopperDiagnosticType) {
-    this.entries.push({ ...diagnostic, error: formatError(diagnostic.error) });
+    this.entries.push({ ...diagnostic, error: ErrorNormalizer.normalize(diagnostic.error) });
   }
 }

@@ -1,4 +1,4 @@
-import { formatError } from "./format-error.service";
+import { ErrorNormalizer } from "./error-normalizer.service";
 import type {
   WoodchopperDiagnosticsStrategy,
   WoodchopperDiagnosticType,
@@ -7,6 +7,6 @@ import type {
 export class WoodchopperDiagnosticsConsoleError implements WoodchopperDiagnosticsStrategy {
   handle(diagnostic: WoodchopperDiagnosticType) {
     // biome-ignore lint: lint/suspicious/noConsole
-    console.error({ ...diagnostic, error: formatError(diagnostic.error) });
+    console.error({ ...diagnostic, error: ErrorNormalizer.normalize(diagnostic.error) });
   }
 }

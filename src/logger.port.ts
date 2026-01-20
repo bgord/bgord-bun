@@ -2,10 +2,9 @@ import type * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
+import { ErrorInfo } from "./error-normalizer.service";
 
 export type LoggerAppType = string;
-
-export type ErrorInfo = { message: string; name?: string; stack?: string; cause?: ErrorInfo };
 
 export enum LogLevelEnum {
   error = "error",
