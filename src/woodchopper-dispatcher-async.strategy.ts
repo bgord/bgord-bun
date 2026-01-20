@@ -2,11 +2,16 @@ import type { LoggerEntry } from "./logger.port";
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
 
+enum WoodchopperDispatcherAsyncState {
+  running = "running",
+  closed = "closed",
+}
+
 export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   onError?: (error: unknown) => void;
 
   private readonly buffer: LoggerEntry[] = [];
-  private running = true;
+  private state = WoodchopperDispatcherAsyncState.running;
 
   private wake?: () => void;
 
@@ -18,7 +23,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   }
 
   dispatch(entry: LoggerEntry): boolean {
-    if (!this.running) return false;
+    if (this.state === WoodchopperDispatcherAsyncState.closed) return false;
     if (this.buffer.length >= this.capacity) return false;
 
     this.buffer.push(entry);
@@ -29,7 +34,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   }
 
   close(): void {
-    this.running = false;
+    this.state = WoodchopperDispatcherAsyncState.closed;
     this.buffer.length = 0;
 
     // wake so the loop can exit immediately
@@ -37,7 +42,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   }
 
   private async run(): Promise<void> {
-    while (this.running) {
+    while (this.state === WoodchopperDispatcherAsyncState.running) {
       if (this.buffer.length === 0) {
         await new Promise<void>((resolve) => {
           this.wake = resolve;
@@ -46,6 +51,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
       }
 
       const entry = this.buffer.shift()!;
+
       try {
         this.sink.write(entry);
       } catch (error) {
