@@ -81,4 +81,28 @@ describe("WoodchopperDispatcherAsync", () => {
 
     expect(dispatcher.dispatch(entry)).toEqual(false);
   });
+
+  test("close emits diagnostic when buffered entries are dropped", async () => {
+    const collector = new mocks.DiagnosticCollector();
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+
+    dispatcher.onError = (error) => collector.handle({ kind: "sink", error });
+
+    dispatcher.dispatch(entry);
+
+    await mocks.tick();
+
+    dispatcher.dispatch(entry);
+
+    dispatcher.close();
+
+    await mocks.tick();
+
+    expect(collector.diagnostics.length).toEqual(1);
+    expect(collector.diagnostics[0]).toMatchObject({
+      kind: "sink",
+      error: { message: "woodchopper.dispatcher.async.closed.with.buffered.entries.1" },
+    });
+  });
 });

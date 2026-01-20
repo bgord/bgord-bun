@@ -7,6 +7,11 @@ enum WoodchopperDispatcherAsyncState {
   closed = "closed",
 }
 
+export const WoodchopperDispatcherAsyncError = {
+  ClosedWithBufferedEntries: (count: number) =>
+    `woodchopper.dispatcher.async.closed.with.buffered.entries.${count}`,
+};
+
 export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   onError?: (error: unknown) => void;
 
@@ -37,6 +42,13 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
     if (this.state === WoodchopperDispatcherAsyncState.closed) return;
 
     this.state = WoodchopperDispatcherAsyncState.closed;
+
+    if (this.buffer.length > 0) {
+      const message = WoodchopperDispatcherAsyncError.ClosedWithBufferedEntries(this.buffer.length);
+
+      this.onError?.(new Error(message));
+    }
+
     this.buffer.length = 0;
 
     // wake so the loop can exit immediately
