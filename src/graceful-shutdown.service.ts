@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import { formatError } from "./format-error.service";
 import type { LoggerPort } from "./logger.port";
 
 type ServerType = ReturnType<typeof Bun.serve>;
@@ -24,15 +23,13 @@ export class GracefulShutdown {
     try {
       server.stop();
     } catch (error) {
-      this.deps.Logger.error({ message: "Server stop failed", error: formatError(error), ...this.base });
+      this.deps.Logger.error({ message: "Server stop failed", error, ...this.base });
     }
 
     Promise.resolve()
       .then(() => cleanup())
       .then(() => this.deps.Logger.info({ message: "HTTP server closed", ...this.base }))
-      .catch((error) =>
-        this.deps.Logger.error({ message: "Cleanup hook failed", error: formatError(error), ...this.base }),
-      )
+      .catch((error) => this.deps.Logger.error({ message: "Cleanup hook failed", error, ...this.base }))
       .finally(() => this.exitFn(exitCode));
   }
 
@@ -47,21 +44,13 @@ export class GracefulShutdown {
       this.shutdown(server, cleanup, 0);
     });
 
-    process.once("unhandledRejection", (reason) => {
-      this.deps.Logger.error({
-        message: "UnhandledRejection received",
-        error: formatError(reason),
-        ...this.base,
-      });
+    process.once("unhandledRejection", (error) => {
+      this.deps.Logger.error({ message: "UnhandledRejection received", error, ...this.base });
       this.shutdown(server, cleanup, 1);
     });
 
     process.once("uncaughtException", (error) => {
-      this.deps.Logger.error({
-        message: "UncaughtException received",
-        error: formatError(error),
-        ...this.base,
-      });
+      this.deps.Logger.error({ message: "UncaughtException received", error, ...this.base });
       this.shutdown(server, cleanup, 1);
     });
   }

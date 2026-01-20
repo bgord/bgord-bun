@@ -74,13 +74,12 @@ describe("GracefulShutdown service", () => {
     await tick();
 
     expect(exitCalls[0]).toEqual(1);
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: "UnhandledRejection received",
-        operation: "shutdown",
-        component: "infra",
-      }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      message: "UnhandledRejection received",
+      operation: "shutdown",
+      component: "infra",
+      error: new Error(mocks.IntentionalError),
+    });
   });
 
   test("handles uncaughtException", async () => {
@@ -92,13 +91,12 @@ describe("GracefulShutdown service", () => {
     await tick();
 
     expect(exitCalls[0]).toEqual(1);
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: "UncaughtException received",
-        operation: "shutdown",
-        component: "infra",
-      }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      message: "UncaughtException received",
+      operation: "shutdown",
+      component: "infra",
+      error: new Error(mocks.IntentionalError),
+    });
   });
 
   test("cleanup failure", async () => {
@@ -113,13 +111,12 @@ describe("GracefulShutdown service", () => {
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toEqual(0);
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: "Cleanup hook failed",
-        operation: "shutdown",
-        component: "infra",
-      }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      message: "Cleanup hook failed",
+      operation: "shutdown",
+      component: "infra",
+      error: new Error(mocks.IntentionalError),
+    });
   });
 
   test("idempotency", async () => {
@@ -154,9 +151,12 @@ describe("GracefulShutdown service", () => {
     process.emit("SIGTERM");
     await tick();
 
-    expect(loggerError).toHaveBeenCalledWith(
-      expect.objectContaining({ message: "Server stop failed", operation: "shutdown", component: "infra" }),
-    );
+    expect(loggerError).toHaveBeenCalledWith({
+      message: "Server stop failed",
+      operation: "shutdown",
+      component: "infra",
+      error: new Error(mocks.IntentionalError),
+    });
   });
 
   test("unhandledRejection - exit code", async () => {
