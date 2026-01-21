@@ -57,6 +57,15 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File does not exist"));
   });
 
+  test("failure - file does not exist error", async () => {
+    spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync } as any);
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
+
+    expect(await prerequisite.verify()).toMatchObject(
+      PrerequisiteVerification.failure(mocks.IntentionalError),
+    );
+  });
+
   test("failure - read", async () => {
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
