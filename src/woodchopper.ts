@@ -62,7 +62,6 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
     if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return this.stats.recordDropped();
 
     let withNormalization: LoggerEntryBare | LoggerEntryBareWithError;
-
     try {
       withNormalization =
         "error" in entry ? { ...entry, error: ErrorNormalizer.normalize(entry.error) } : entry;
@@ -73,7 +72,6 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
     }
 
     let withInjectedFields: LoggerEntry;
-
     try {
       withInjectedFields = {
         timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
@@ -89,7 +87,6 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
     }
 
     let withRedaction: LoggerEntry;
-
     try {
       withRedaction = this.config.redactor
         ? this.config.redactor.redact(withInjectedFields)
@@ -102,8 +99,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
 
     const final = Object.freeze(withRedaction);
 
-    const accepted = this.config.dispatcher.dispatch(final);
-    accepted ? this.stats.recordWritten() : this.stats.recordDropped();
+    this.config.dispatcher.dispatch(final) ? this.stats.recordWritten() : this.stats.recordDropped();
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
