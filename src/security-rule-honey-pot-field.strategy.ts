@@ -1,12 +1,12 @@
-import type { Context } from "hono";
+import type { RequestContext } from "./request-context.port";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleHoneyPotFieldStrategy implements SecurityRuleStrategy {
   constructor(private readonly field: string) {}
 
-  async isViolated(c: Context): Promise<boolean> {
-    const request = c.req.raw.clone();
+  async isViolated(context: RequestContext): Promise<boolean> {
+    const request = context.req.raw.clone();
 
     const body = await request.json().catch(() => ({}));
     const value = body[this.field];
