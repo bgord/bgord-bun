@@ -1,10 +1,10 @@
-import type { Context } from "hono";
 import type {
   CacheSubjectSegmentRequestStrategy,
   CacheSubjectSegmentType,
 } from "./cache-subject-segment-request.strategy";
 import type { Hash } from "./hash.vo";
 import type { HashContentStrategy } from "./hash-content.strategy";
+import type { RequestContext } from "./request-context.port";
 
 type Dependencies = { HashContent: HashContentStrategy };
 
@@ -24,7 +24,7 @@ export class CacheSubjectRequestResolver {
     if (this.segments.length > 10) throw new Error(CacheSubjectRequestResolverError.TooManySegments);
   }
 
-  async resolve(context: Context): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
+  async resolve(context: RequestContext): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
     const segments = this.segments.map((segment) =>
       segment.create(context).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
     );
