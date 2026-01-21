@@ -11,7 +11,7 @@ export class RedactorErrorCauseDepthLimitStrategy implements RedactorStrategy {
     if (!("error" in input)) return input;
     if (!ErrorNormalizer.isNormalizedError(input.error)) return input;
 
-    return { ...input, error: this.limit(input.error, tools.IntegerNonNegative.parse(0)) } as T;
+    return { ...input, error: this.limit(input.error, tools.IntegerNonNegative.parse(0)) };
   }
 
   private limit(error: NormalizedError, depth: tools.IntegerNonNegativeType): NormalizedError {

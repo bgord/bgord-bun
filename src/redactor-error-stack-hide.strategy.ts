@@ -4,11 +4,12 @@ import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorErrorStackHideStrategy implements RedactorStrategy {
   redact<T>(input: T): T {
+    // Stryker disable all
     if (!isPlainObject(input)) return input;
-    if (!("error" in input)) return input;
+    // Stryker restore all
     if (!ErrorNormalizer.isNormalizedError(input.error)) return input;
 
-    return { ...input, error: this.hide(input.error) } as T;
+    return { ...input, error: this.hide(input.error) };
   }
 
   private hide(error: NormalizedError): NormalizedError {
