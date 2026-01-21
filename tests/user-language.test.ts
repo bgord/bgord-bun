@@ -11,7 +11,7 @@ export enum SupportedLanguages {
 export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl] as const;
 
 class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQueryPort {
-  async get(_userId: tools.LanguageType) {
+  async get(_userId: tools.LanguageType): Promise<tools.LanguageType | null> {
     return SupportedLanguages.en;
   }
 }
@@ -31,7 +31,7 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
   });
 
   test("UserLanguageResolverThrowIfMissing", async () => {
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null as any);
+    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
@@ -44,7 +44,7 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
   });
 
   test("UserLanguageResolverSystemDefaultFallback", async () => {
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null as any);
+    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
