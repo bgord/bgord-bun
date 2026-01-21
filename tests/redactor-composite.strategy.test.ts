@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import type { RedactorStrategy } from "../src/redactor.strategy";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
-import { RedactorMetadataCompactStrategy } from "../src/redactor-metadata-compact.strategy";
+import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
 
 class UppercaseRedactor implements RedactorStrategy {
   redact<T>(input: T): T {
@@ -36,7 +36,7 @@ describe("RedactorCompositeStrategy", () => {
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: [1, 2, 3] } };
     const redactor = new RedactorCompositeStrategy([
       new RedactorCompactArrayStrategy(),
-      new RedactorMetadataCompactStrategy({ maxKeys: tools.IntegerPositive.parse(2) }),
+      new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) }),
     ]);
 
     const result = redactor.redact(input);
