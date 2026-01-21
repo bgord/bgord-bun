@@ -7,5 +7,9 @@ export interface RequestContext {
     json(): Promise<Record<string, unknown>>;
   };
 
-  readonly identity: { userId(): string | null; ip(): string | null; userAgent(): string | null };
+  readonly identity: {
+    userId(): string | undefined;
+    ip(): string | undefined;
+    userAgent(): string | undefined;
+  };
 }

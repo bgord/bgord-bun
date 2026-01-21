@@ -13,7 +13,7 @@ describe("CacheSubjectSegmentUserStrategy", () => {
   });
 
   test("empty", () => {
-    const context = new RequestContextBuilder().withUserId(null).build();
+    const context = new RequestContextBuilder().withUserId(undefined).build();
 
     expect(segment.create(context)).toEqual("anon");
   });
