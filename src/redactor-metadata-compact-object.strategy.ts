@@ -4,13 +4,13 @@ import type { RedactorStrategy } from "./redactor.strategy";
 
 type RedactorWideObjectOptions = { maxKeys?: tools.IntegerPositiveType };
 
-export class RedactorMetadataCompactStrategy implements RedactorStrategy {
+export class RedactorMetadataCompactObjectStrategy implements RedactorStrategy {
   private static readonly DEFAULT_MAX_KEYS = tools.IntegerPositive.parse(20);
 
   private readonly maxKeys: tools.IntegerPositiveType;
 
   constructor(options: RedactorWideObjectOptions = {}) {
-    this.maxKeys = options.maxKeys ?? RedactorMetadataCompactStrategy.DEFAULT_MAX_KEYS;
+    this.maxKeys = options.maxKeys ?? RedactorMetadataCompactObjectStrategy.DEFAULT_MAX_KEYS;
   }
 
   redact<T>(input: T): T {

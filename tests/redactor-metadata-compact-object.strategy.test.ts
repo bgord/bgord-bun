@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { RedactorMetadataCompactStrategy } from "../src/redactor-metadata-compact.strategy";
+import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
 
-const redactor = new RedactorMetadataCompactStrategy({ maxKeys: tools.IntegerPositive.parse(1) });
+const redactor = new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(1) });
 
-describe("RedactorMetadataCompactStrategy", () => {
+describe("RedactorMetadataCompactObjectStrategy", () => {
   test("happy path", () => {
     expect(redactor.redact({ metadata: { admins: 1, users: 2 } })).toEqual({
       // @ts-expect-error

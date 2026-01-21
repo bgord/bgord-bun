@@ -223,7 +223,7 @@ export * from "./redactor-composite.strategy";
 export * from "./redactor-error-cause-depth-limit.strategy";
 export * from "./redactor-error-stack-hide.strategy";
 export * from "./redactor-mask.strategy";
-export * from "./redactor-metadata-compact.strategy";
+export * from "./redactor-metadata-compact-object.strategy";
 export * from "./redactor-noop.strategy";
 export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
