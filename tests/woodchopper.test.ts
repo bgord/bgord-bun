@@ -48,9 +48,10 @@ const errorInstanceFormattedStackHidden = {
   name: "Error",
 };
 const errorInstanceFormattedCause = {
-  cause: { name: "Error", message: "intentional.cause.first", cause: undefined },
+  cause: { name: "Error", message: "intentional.cause.first", cause: undefined, stack: expect.any(String) },
   message: mocks.IntentionalError,
   name: "Error",
+  stack: expect.any(String),
 };
 const errorStringFormatted = { message: mocks.IntentionalError };
 
