@@ -1,6 +1,7 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { CacheSubjectRequestResolver } from "./cache-subject-request-resolver.vo";
 import type { ClockPort } from "./clock.port";
@@ -25,7 +26,7 @@ export class ShieldRateLimitStrategy implements ShieldStrategy {
   verify = createMiddleware(async (context, next) => {
     if (!this.options.enabled) return next();
 
-    const subject = await this.options.resolver.resolve(context);
+    const subject = await this.options.resolver.resolve(new RequestContextAdapterHono(context));
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject.hex,

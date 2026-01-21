@@ -1,13 +1,13 @@
-import type { Context } from "hono";
 import type { CacheSubjectSegmentType } from "./cache-subject-segment-request.strategy";
 import {
   CacheSubjectSegmentRequestEmpty,
   type CacheSubjectSegmentRequestStrategy,
 } from "./cache-subject-segment-request.strategy";
+import type { RequestContext } from "./request-context.port";
 
 export class CacheSubjectSegmentQueryStrategy implements CacheSubjectSegmentRequestStrategy {
-  create(context: Context): CacheSubjectSegmentType {
-    const query = context.req.query() ?? {};
+  create(context: RequestContext): CacheSubjectSegmentType {
+    const query = context.request.query() ?? {};
 
     const keys = Object.keys(query).toSorted();
 
