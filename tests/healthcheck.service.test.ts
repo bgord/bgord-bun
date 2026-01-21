@@ -17,10 +17,10 @@ import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
-import { Uptime } from "../src/uptime.service";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
+import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
 const version = "1.2.3";
@@ -46,7 +46,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.SHA,
   tools.Size.fromBytes(0),
 );
-const deps = { Clock, Logger, BuildInfoRepository };
+const deps = { Clock, BuildInfoRepository };
 
 describe("Healthcheck service", () => {
   test("200", async () => {
@@ -67,7 +67,7 @@ describe("Healthcheck service", () => {
             new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
           ],
         },
-        deps,
+        { ...deps, LoggerStatsProvider: Logger },
       ),
     );
 
@@ -108,6 +108,7 @@ describe("Healthcheck service", () => {
         { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
       ],
+      logger: Logger.getStats(),
       durationMs: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
     });

@@ -9,6 +9,11 @@ import {
   type LoggerPort,
   LogLevelEnum,
 } from "./logger.port";
+import {
+  LoggerState,
+  type LoggerStatsProviderPort,
+  type LoggerStatsSnapshot,
+} from "./logger-stats-provider.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import type { RedactorStrategy } from "./redactor.strategy";
 import type { WoodchopperDiagnosticsStrategy } from "./woodchopper-diagnostics.strategy";
@@ -36,20 +41,15 @@ const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, tools.IntegerNonNegativeType> = {
   [LogLevelEnum.silly]: tools.IntegerNonNegative.parse(6),
 };
 
-export enum WoodchopperState {
-  open = "open",
-  closed = "closed",
-}
-
-export class Woodchopper implements LoggerPort {
-  private state: WoodchopperState;
+export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
+  private state: LoggerState;
   private readonly stats = new WoodchopperStats();
 
   constructor(
     private readonly config: WoodchopperConfigType,
     private readonly deps: Dependencies,
   ) {
-    this.state = WoodchopperState.open;
+    this.state = LoggerState.open;
 
     this.config.dispatcher.onError = (error) => {
       this.config.diagnostics?.handle({ kind: "sink", error });
@@ -58,7 +58,7 @@ export class Woodchopper implements LoggerPort {
   }
 
   private log(level: LogLevelEnum, entry: LoggerEntryBare) {
-    if (this.state === WoodchopperState.closed) return this.stats.recordDropped();
+    if (this.state === LoggerState.closed) return this.stats.recordDropped();
     if (LOG_LEVEL_PRIORITY[level] > LOG_LEVEL_PRIORITY[this.config.level]) return this.stats.recordDropped();
 
     let withNormalization: LoggerEntryBare | LoggerEntryBareWithError;
@@ -117,13 +117,13 @@ export class Woodchopper implements LoggerPort {
   silly: LoggerPort["silly"] = (entry) => this.log(LogLevelEnum.silly, entry);
 
   close() {
-    if (this.state === WoodchopperState.closed) return;
+    if (this.state === LoggerState.closed) return;
 
-    this.state = WoodchopperState.closed;
+    this.state = LoggerState.closed;
     this.config.dispatcher.close();
   }
 
-  getStats() {
+  getStats(): LoggerStatsSnapshot {
     return { ...this.stats.snapshot, state: this.state };
   }
 }
