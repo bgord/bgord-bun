@@ -6,9 +6,9 @@ export class RequestContextBuilder {
   private query: Record<string, string> = {};
   private cookies: Record<string, string> = {};
   private json: Record<string, unknown> = {};
-  private userId: string | null = null;
-  private ip: string | null = null;
-  private userAgent: string | null = null;
+  private userId: string | undefined = undefined;
+  private ip: string | undefined = undefined;
+  private userAgent: string | undefined = undefined;
 
   withPath(path: string) {
     this.path = path;
@@ -35,17 +35,17 @@ export class RequestContextBuilder {
     return this;
   }
 
-  withUserId(id: string | null) {
+  withUserId(id: string | undefined) {
     this.userId = id;
     return this;
   }
 
-  withIp(ip: string | null) {
+  withIp(ip: string | undefined) {
     this.ip = ip;
     return this;
   }
 
-  withUserAgent(userAgent: string | null) {
+  withUserAgent(userAgent: string | undefined) {
     this.userAgent = userAgent;
     return this;
   }

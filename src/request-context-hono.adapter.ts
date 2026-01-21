@@ -25,7 +25,7 @@ export class RequestContextAdapterHono implements RequestContext {
     };
 
     this.identity = {
-      userId: () => context.get("user")?.id ?? null,
+      userId: () => context.get("user")?.id ?? undefined,
 
       ip: () => {
         const realIp = context.req.header("x-real-ip");
@@ -34,11 +34,10 @@ export class RequestContextAdapterHono implements RequestContext {
 
         if (realIp) return realIp;
         if (forwarderdFor) return forwarderdFor;
-        if (info) return info;
-        return null;
+        return info;
       },
 
-      userAgent: () => context.req.header("user-agent") ?? null,
+      userAgent: () => context.req.header("user-agent"),
     };
   }
 }
