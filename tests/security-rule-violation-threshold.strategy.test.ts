@@ -6,6 +6,7 @@ import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
 import * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const allowed = "/about";
 const forbidden = "/.env";
@@ -22,7 +23,7 @@ const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, config, deps
 describe("SecurityRuleViolationThresholdStrategy", () => {
   test("isViolated - true", async () => {
     jest.useFakeTimers();
-    const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;
+    const context = new RequestContextBuilder().withPath(forbidden).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
@@ -37,7 +38,7 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
   });
 
   test("isViolated - false", async () => {
-    const context = { env: mocks.ip, req: { path: allowed, raw: {}, header: () => "anon" } } as any;
+    const context = new RequestContextBuilder().withPath(allowed).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
@@ -47,13 +48,11 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
   });
 
   test("isViolated - non-violations do not reset the counter", async () => {
-    const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;
+    const context = new RequestContextBuilder().withPath(forbidden).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
-    expect(
-      await rule.isViolated({ env: mocks.ip, req: { path: allowed, raw: {}, header: () => "anon" } } as any),
-    ).toEqual(false);
+    expect(await rule.isViolated(new RequestContextBuilder().withPath(allowed).build())).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(true);
 
     await CacheRepository.flush();
@@ -61,7 +60,7 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
 
   test("isViolated - cache failure", async () => {
     spyOn(CacheRepository, "get").mockImplementation(mocks.throwIntentionalError);
-    const context = { env: mocks.ip, req: { path: forbidden, raw: {}, header: () => "anon" } } as any;
+    const context = new RequestContextBuilder().withPath(forbidden).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);

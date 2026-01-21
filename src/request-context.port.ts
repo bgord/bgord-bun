@@ -5,7 +5,7 @@ export interface RequestContext {
     query(): Record<string, string>;
     cookies(): Record<string, string>;
     rawHeaders(): Headers;
-    raw(): Request;
+    json(): Promise<Record<string, unknown>>;
   };
 
   readonly identity: { userId(): string | null; ip(): string | null; userAgent(): string | null };

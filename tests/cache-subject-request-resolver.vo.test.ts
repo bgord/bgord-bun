@@ -8,6 +8,7 @@ import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-q
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const fixed = new CacheSubjectSegmentFixedStrategy("response");
 const path = new CacheSubjectSegmentPathStrategy();
@@ -21,9 +22,9 @@ const deps = { HashContent };
 
 describe("CacheSubjectRequestResolver VO", () => {
   test("fixed", async () => {
-    const context = {};
+    const context = new RequestContextBuilder().build();
 
-    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context as any);
+    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context);
 
     expect(result.raw).toEqual(["response"]);
     expect(result.hex).toEqual(
@@ -32,9 +33,9 @@ describe("CacheSubjectRequestResolver VO", () => {
   });
 
   test("fixed, path", async () => {
-    const context = { req: { path: "/about", raw: { headers: new Headers({ cookie: "language=en" }) } } };
+    const context = new RequestContextBuilder().withPath("/about").build();
 
-    const result = await new CacheSubjectRequestResolver([fixed, path], deps).resolve(context as any);
+    const result = await new CacheSubjectRequestResolver([fixed, path], deps).resolve(context);
 
     expect(result.raw).toEqual(["response", "/about"]);
     expect(result.hex).toEqual(
@@ -43,10 +44,10 @@ describe("CacheSubjectRequestResolver VO", () => {
   });
 
   test("fixed, path, cookie language", async () => {
-    const context = { req: { path: "/about", raw: { headers: new Headers({ cookie: "language=en" }) } } };
+    const context = new RequestContextBuilder().withPath("/about").withCookie("language", "en").build();
 
     const result = await new CacheSubjectRequestResolver([fixed, path, cookieLanguage], deps).resolve(
-      context as any,
+      context,
     );
 
     expect(result.raw).toEqual(["response", "/about", "en"]);
@@ -56,18 +57,16 @@ describe("CacheSubjectRequestResolver VO", () => {
   });
 
   test("fixed, path, cookie language, header accept", async () => {
-    const context = {
-      req: {
-        header: () => "application/json",
-        path: "/about",
-        raw: { headers: new Headers({ cookie: "language=en" }) },
-      },
-    };
+    const context = new RequestContextBuilder()
+      .withPath("/about")
+      .withCookie("language", "en")
+      .withHeader("accept", "application/json")
+      .build();
 
     const result = await new CacheSubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept],
       deps,
-    ).resolve(context as any);
+    ).resolve(context);
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json"]);
     expect(result.hex).toEqual(
@@ -76,19 +75,17 @@ describe("CacheSubjectRequestResolver VO", () => {
   });
 
   test("fixed, path, cookie language, header accept, query", async () => {
-    const context = {
-      req: {
-        query: () => ({ aaa: "123", bbb: "234" }),
-        header: () => "application/json",
-        path: "/about",
-        raw: { headers: new Headers({ cookie: "language=en" }) },
-      },
-    };
+    const context = new RequestContextBuilder()
+      .withPath("/about")
+      .withCookie("language", "en")
+      .withHeader("accept", "application/json")
+      .withQuery({ aaa: "123", bbb: "234" })
+      .build();
 
     const result = await new CacheSubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query],
       deps,
-    ).resolve(context as any);
+    ).resolve(context);
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json", "aaa=123&bbb=234"]);
     expect(result.hex).toEqual(
@@ -97,20 +94,18 @@ describe("CacheSubjectRequestResolver VO", () => {
   });
 
   test("fixed, path, cookie language, header accept, query, user", async () => {
-    const context = {
-      get: () => ({ id: "123456789" }),
-      req: {
-        query: () => ({ aaa: "123", bbb: "234" }),
-        header: () => "application/json",
-        path: "/about",
-        raw: { headers: new Headers({ cookie: "language=en" }) },
-      },
-    };
+    const context = new RequestContextBuilder()
+      .withPath("/about")
+      .withCookie("language", "en")
+      .withHeader("accept", "application/json")
+      .withQuery({ aaa: "123", bbb: "234" })
+      .withUserId("123456789")
+      .build();
 
     const result = await new CacheSubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query, user],
       deps,
-    ).resolve(context as any);
+    ).resolve(context);
 
     expect(result.raw).toEqual([
       "response",
@@ -126,40 +121,40 @@ describe("CacheSubjectRequestResolver VO", () => {
   });
 
   test("segments - empty", async () => {
-    const context = {};
+    const context = new RequestContextBuilder().build();
 
-    expect(async () => new CacheSubjectRequestResolver([], deps).resolve(context as any)).toThrow(
+    expect(async () => new CacheSubjectRequestResolver([], deps).resolve(context)).toThrow(
       "cache.subject.request.no.segments",
     );
   });
 
   test("segments - too many", async () => {
-    const context = {};
+    const context = new RequestContextBuilder().build();
 
     expect(async () =>
       new CacheSubjectRequestResolver(
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
-      ).resolve(context as any),
+      ).resolve(context),
     ).toThrow("cache.subject.request.too.many.segments");
   });
 
   test("segments - at the limit", async () => {
-    const context = {};
+    const context = new RequestContextBuilder().build();
 
     expect(async () =>
       new CacheSubjectRequestResolver(
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
-      ).resolve(context as any),
+      ).resolve(context),
     ).not.toThrow();
   });
 
   test("sanitization", async () => {
-    const context = {};
+    const context = new RequestContextBuilder().build();
     const fixed = new CacheSubjectSegmentFixedStrategy("a|b|c|");
 
-    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context as any);
+    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context);
 
     expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
     expect(result.hex).toEqual(
