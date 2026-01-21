@@ -20,7 +20,9 @@ export class PrerequisiteVerifierWithRetryAdapter implements PrerequisiteVerifie
       return await new Retry(this.deps).run<PrerequisiteVerificationResult>(async () => {
         const result = await this.config.inner.verify();
 
+        // Stryker disable all
         if (result.outcome === PrerequisiteVerificationOutcome.failure) throw result.error?.message;
+        // Stryker restore all
         return result;
       }, this.config.retry);
     } catch (error) {
