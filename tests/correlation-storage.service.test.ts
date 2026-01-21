@@ -1,20 +1,21 @@
 import { describe, expect, test } from "bun:test";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import * as mocks from "./mocks";
 
 describe("CorrelationStorage service", () => {
-  test("run - makes the correlationId available inside the callback", () => {
-    const id = "cid-1";
-
-    CorrelationStorage.run(id, () => expect(CorrelationStorage.get()).toEqual(id));
+  test("run - sync", () => {
+    CorrelationStorage.run(mocks.correlationId, () =>
+      expect(CorrelationStorage.get()).toEqual(mocks.correlationId),
+    );
   });
 
-  test("run - propagates across awaits/promises", async () => {
-    const id = "cid-async";
-
-    await CorrelationStorage.run(id, async () => expect(CorrelationStorage.get()).toEqual(id));
+  test("run - async", async () => {
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      expect(CorrelationStorage.get()).toEqual(mocks.correlationId),
+    );
   });
 
-  test("run - throws when accessed outside a run-context", () => {
+  test("run - outside context", () => {
     expect(() => CorrelationStorage.get()).toThrow("correlation.storage.missing");
   });
 
@@ -28,18 +29,17 @@ describe("CorrelationStorage service", () => {
     });
   });
 
-  test("handle - seeds requestId", async () => {
-    const id = "cid-mw";
-    const context = { get: () => id } as any;
+  test("handle - seeding", async () => {
+    const context = { get: () => mocks.correlationId } as any;
 
     const result = await CorrelationStorage.handle()(context, () => CorrelationStorage.get() as any);
 
     // @ts-expect-error
-    expect(result).toEqual(id);
+    expect(result).toEqual(mocks.correlationId);
   });
 
-  test("handle - cleans up after the request completes", async () => {
-    const context = { get: () => "cid-cleanup" } as any;
+  test("handle - cleanup", async () => {
+    const context = { get: () => mocks.correlationId } as any;
 
     await CorrelationStorage.handle()(context, () => Promise.resolve());
 
