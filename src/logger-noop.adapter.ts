@@ -1,7 +1,6 @@
 import type { LoggerPort } from "./logger.port";
-import { LoggerStatsProviderPort, LoggerStatsSnapshot, LoggerState } from "./logger-stats-provider.port";
 
-export class LoggerNoopAdapter implements LoggerPort, LoggerStatsProviderPort {
+export class LoggerNoopAdapter implements LoggerPort {
   warn: LoggerPort["warn"] = (_log): void => {};
   error: LoggerPort["error"] = (_log): void => {};
   info: LoggerPort["info"] = (_log): void => {};
@@ -11,8 +10,4 @@ export class LoggerNoopAdapter implements LoggerPort, LoggerStatsProviderPort {
   silly: LoggerPort["silly"] = (_log): void => {};
 
   close() {}
-
-  getStats(): LoggerStatsSnapshot {
-    return { state: LoggerState.open, dropped: 0, deliveryFailures: 0, written: 0 };
-  }
 }

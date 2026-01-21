@@ -10,7 +10,7 @@ import {
   type EventLoopUtilizationSnapshot,
 } from "../src/event-loop-utilization.service";
 import { Healthcheck } from "../src/healthcheck.service";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { LoggerStatsProviderNoopAdapter } from "../src/logger-stats-provider-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Port } from "../src/port.vo";
@@ -38,7 +38,6 @@ const histogram: EventLoopLagSnapshotType = {
 };
 const utilization: EventLoopUtilizationSnapshot = 0.5;
 
-const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
@@ -46,6 +45,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.SHA,
   tools.Size.fromBytes(0),
 );
+const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
 const deps = { Clock, BuildInfoRepository };
 
 describe("Healthcheck service", () => {
@@ -67,7 +67,7 @@ describe("Healthcheck service", () => {
             new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
           ],
         },
-        { ...deps, LoggerStatsProvider: Logger },
+        { ...deps, LoggerStatsProvider },
       ),
     );
 
@@ -108,7 +108,7 @@ describe("Healthcheck service", () => {
         { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
       ],
-      logger: Logger.getStats(),
+      logger: LoggerStatsProvider.getStats(),
       durationMs: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
     });
