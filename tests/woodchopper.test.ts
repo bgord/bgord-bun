@@ -5,11 +5,11 @@ import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
-import { RedactorCompactObjectStrategy } from "../src/redactor-compact-object.strategy";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
+import { RedactorMetadataCompactStrategy } from "../src/redactor-metadata-compact.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper, WoodchopperState } from "../src/woodchopper";
 import { WoodchopperDiagnosticsNoop } from "../src/woodchopper-diagnostics-noop.strategy";
@@ -387,10 +387,10 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("redactor - compact object", () => {
+  test("redactor - metadata compact", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
+    const redactor = new RedactorMetadataCompactStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
