@@ -1,3 +1,5 @@
+import { isPlainObject } from "./deep-clone-with";
+
 export type NormalizedError = { message: string; name?: string; stack?: string; cause?: NormalizedError };
 
 export class ErrorNormalizer {
@@ -6,12 +8,7 @@ export class ErrorNormalizer {
   }
 
   static isNormalizedError(value: unknown): value is NormalizedError {
-    return (
-      typeof value === "object" &&
-      value !== null &&
-      "message" in value &&
-      typeof (value as any).message === "string"
-    );
+    return isPlainObject(value) && "message" in value && typeof (value as any).message === "string";
   }
 
   private static normalizeWithGuard(error: unknown, seen: WeakSet<object>): NormalizedError {
