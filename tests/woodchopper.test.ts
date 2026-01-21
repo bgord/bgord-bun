@@ -1,9 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
+import { RedactorCompactObjectStrategy } from "../src/redactor-compact-object.strategy";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
@@ -382,6 +384,23 @@ describe("Woodchopper", async () => {
       ...entry,
       timestamp: mocks.TIME_ZERO_ISO,
       metadata: { users: { length: 3, type: "Array" } },
+    });
+  });
+
+  test("redactor - compact object", () => {
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const redactor = new RedactorCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
+
+    woodchopper.info({ ...entry, metadata: { users: { admins: 1, users: 1, anon: 1 } } });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entry,
+      timestamp: mocks.TIME_ZERO_ISO,
+      metadata: { users: { type: "Object", keys: 3 } },
     });
   });
 
