@@ -5,6 +5,17 @@ import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-
 const redactor = new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(1) });
 
 describe("RedactorMetadataCompactObjectStrategy", () => {
+  test("redact - default max keys", () => {
+    const redactor = new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(1) });
+
+    const result = redactor.redact({
+      metadata: Object.fromEntries(Array.from({ length: 21 }).map((_, index) => [`user_${index}`, true])),
+    });
+
+    // @ts-expect-error Intentional schema change
+    expect(result).toEqual({ metadata: { type: "Object", keys: 21 } });
+  });
+
   test("redact", () => {
     expect(redactor.redact({ metadata: { admins: 1, users: 2 } })).toEqual({
       // @ts-expect-error Intentional schema change

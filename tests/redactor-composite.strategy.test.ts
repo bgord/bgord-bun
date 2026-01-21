@@ -14,7 +14,7 @@ describe("RedactorCompositeStrategy", () => {
     const redactor = new RedactorCompositeStrategy([
       new RedactorNoopStrategy(),
       new RedactorMaskStrategy(),
-      new RedactorMetadataCompactArrayStrategy(),
+      new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) }),
       new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
       new RedactorErrorStackHideStrategy(),
       new RedactorErrorCauseDepthLimitStrategy(1),
