@@ -49,4 +49,18 @@ describe("ErrorNormalizer", () => {
 
     expect(result).toEqual({ message: "123" });
   });
+
+  test("circular error", () => {
+    const error = new Error(mocks.IntentionalError);
+    (error as any).cause = error;
+
+    const normalized = ErrorNormalizer.normalize(error);
+
+    expect(normalized).toEqual({
+      message: mocks.IntentionalError,
+      name: "Error",
+      cause: { message: mocks.IntentionalError, name: "Error" },
+      stack: expect.any(String),
+    });
+  });
 });

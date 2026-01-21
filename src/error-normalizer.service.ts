@@ -2,15 +2,23 @@ export type NormalizedError = { message: string; name?: string; stack?: string; 
 
 export class ErrorNormalizer {
   static normalize(error: unknown): NormalizedError {
+    return ErrorNormalizer.normalizeWithGuard(error, new WeakSet());
+  }
+
+  private static normalizeWithGuard(error: unknown, seen: WeakSet<object>): NormalizedError {
     if (error instanceof Error) {
+      if (seen.has(error)) return { message: error.message || "Circular error cause", name: error.name };
+
+      seen.add(error);
+
       const cause =
         error.cause instanceof Error
-          ? ErrorNormalizer.normalize(error.cause)
+          ? ErrorNormalizer.normalizeWithGuard(error.cause, seen)
           : typeof error.cause === "string"
             ? { message: error.cause }
             : undefined;
 
-      return { name: error.name, message: error.message || "Unknown error", stack: error.stack, cause };
+      return { message: error.message || "Unknown error", name: error.name, stack: error.stack, cause };
     }
 
     if (typeof error === "string") return { message: error };

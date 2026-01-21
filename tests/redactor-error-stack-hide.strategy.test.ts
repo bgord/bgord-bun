@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
 import type { NormalizedError } from "../src/error-normalizer.service";
+import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
 
 const redactor = new RedactorErrorStackHideStrategy();
 

@@ -1,5 +1,5 @@
-import type { RedactorStrategy } from "./redactor.strategy";
 import type { NormalizedError } from "./error-normalizer.service";
+import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorErrorStackHideStrategy implements RedactorStrategy {
   redact<T>(input: T): T {
