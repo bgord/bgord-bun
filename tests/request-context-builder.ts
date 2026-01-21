@@ -1,0 +1,64 @@
+import type { RequestContext } from "../src/request-context.port";
+
+export class TestRequestContextBuilder {
+  private path = "/";
+  private headers = new Headers();
+  private query: Record<string, string> = {};
+  private cookies: Record<string, string> = {};
+  private userId: string | null = null;
+  private ip: string | null = null;
+  private userAgent: string | null = null;
+
+  withPath(path: string) {
+    this.path = path;
+    return this;
+  }
+
+  withHeader(name: string, value: string) {
+    this.headers.set(name, value);
+    return this;
+  }
+
+  withQuery(query: Record<string, string>) {
+    this.query = query;
+    return this;
+  }
+
+  withCookie(name: string, value: string) {
+    this.cookies[name] = value;
+    return this;
+  }
+
+  withUserId(id: string | null) {
+    this.userId = id;
+    return this;
+  }
+
+  withIp(ip: string | null) {
+    this.ip = ip;
+    return this;
+  }
+
+  withUserAgent(userAgent: string | null) {
+    this.userAgent = userAgent;
+    return this;
+  }
+
+  build(): RequestContext {
+    return {
+      request: {
+        path: this.path,
+        header: (name) => this.headers.get(name) ?? undefined,
+        query: () => this.query,
+        cookies: () => this.cookies,
+        rawHeaders: () => this.headers,
+        raw: () => new Request(this.path),
+      },
+      identity: {
+        userId: () => this.userId,
+        ip: () => this.ip,
+        userAgent: () => this.userAgent,
+      },
+    };
+  }
+}
