@@ -26,7 +26,7 @@ describe("WoodchopperDispatcherSync", () => {
     expect(sink.entries[0]).toEqual(entry);
   });
 
-  test("dispatch - error", () => {
+  test("dispatch - error with diagnostics", () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -37,6 +37,13 @@ describe("WoodchopperDispatcherSync", () => {
       kind: "sink",
       error: { message: "woodchopper.sink.error" },
     });
+  });
+
+  test("dispatch - error without diagnostics", () => {
+    const sink = new WoodchopperSinkError();
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+
+    expect(dispatcher.dispatch(entry)).toEqual(false);
   });
 
   test("close", () => {
