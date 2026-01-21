@@ -9,6 +9,6 @@ export class CacheSubjectSegmentCookieStrategy implements CacheSubjectSegmentReq
   constructor(private readonly name: string) {}
 
   create(context: RequestContext): CacheSubjectSegmentType {
-    return context.request.cookies()[this.name] ?? CacheSubjectSegmentRequestEmpty;
+    return context.request.cookie(this.name) ?? CacheSubjectSegmentRequestEmpty;
   }
 }
