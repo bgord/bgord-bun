@@ -8,7 +8,7 @@ export class ErrorNormalizer {
   }
 
   static isNormalizedError(value: unknown): value is NormalizedError {
-    return isPlainObject(value) && "message" in value && typeof (value as any).message === "string";
+    return isPlainObject(value) && "message" in value && typeof value.message === "string";
   }
 
   private static normalizeWithGuard(error: unknown, seen: WeakSet<object>): NormalizedError {

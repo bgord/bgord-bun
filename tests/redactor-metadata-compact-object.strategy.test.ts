@@ -7,14 +7,14 @@ const redactor = new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.Inte
 describe("RedactorMetadataCompactObjectStrategy", () => {
   test("redact", () => {
     expect(redactor.redact({ metadata: { admins: 1, users: 2 } })).toEqual({
-      // @ts-expect-error
+      // @ts-expect-error Intentional schema change
       metadata: { type: "Object", keys: 2 },
     });
   });
 
   test("redact - nested", () => {
     expect(redactor.redact({ metadata: { users: { admins: 1, users: 2 } } })).toEqual({
-      // @ts-expect-error
+      // @ts-expect-error Intentional schema change
       metadata: { users: { type: "Object", keys: 2 } },
     });
   });

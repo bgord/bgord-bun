@@ -37,7 +37,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
 
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
-    // @ts-expect-error
+    // @ts-expect-error process.env cleanup
     expect(process.env.APP_NAME).toEqual(undefined);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
 
@@ -52,7 +52,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
 
   test("failure", async () => {
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
-      // @ts-expect-error
+      // @ts-expect-error Intentional invalid schema setup
       { ...process.env, APP_NAME: 123 },
       { type: "invalid", Schema },
       deps,

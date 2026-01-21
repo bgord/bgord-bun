@@ -14,8 +14,7 @@ describe("HashContentNoopAdapter", () => {
     expect(result.etag).toEqual(
       Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
     );
-    // @ts-expect-error
-    expect(result.size.toBytes()).toEqual(10);
+    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(10));
     expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(1000));
     expect(result.mime.toString()).toEqual("text/plain");
   });
@@ -28,8 +27,7 @@ describe("HashContentNoopAdapter", () => {
     expect(result.etag).toEqual(
       Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
     );
-    // @ts-expect-error
-    expect(result.size.toBytes()).toEqual(10);
+    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(10));
     expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(1000));
     expect(result.mime.toString()).toEqual("text/plain");
   });

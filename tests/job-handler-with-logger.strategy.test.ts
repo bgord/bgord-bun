@@ -47,7 +47,7 @@ describe("JobHandlerWithLoggerStrategy", () => {
       message: `${uow.label} success`,
       component: "infra",
       correlationId: expect.any(String),
-      // @ts-expect-error
+      // @ts-expect-error Private constructor assertion
       metadata: expect.any(tools.Duration),
       operation: "job_handler",
     });

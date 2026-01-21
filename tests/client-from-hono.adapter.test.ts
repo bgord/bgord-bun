@@ -33,7 +33,7 @@ describe("ClientFromHono", () => {
   });
 
   test("fallback - missing connection info", () => {
-    // @ts-expect-error
+    // @ts-expect-error Intentional failure assertion
     spyOn(ClientFromHono, "retrieveConnInfo").mockReturnValue(undefined);
     const context = mocks.createContext({});
 
