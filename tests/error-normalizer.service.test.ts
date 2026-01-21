@@ -62,7 +62,7 @@ describe("ErrorNormalizer", () => {
     expect(result).toEqual({ message: "null" });
   });
 
-  test("normalize -circular error", () => {
+  test("normalize - circular error", () => {
     const error = new Error(mocks.IntentionalError);
     (error as any).cause = error;
 
@@ -74,5 +74,26 @@ describe("ErrorNormalizer", () => {
       cause: { message: mocks.IntentionalError, name: "Error" },
       stack: expect.any(String),
     });
+  });
+
+  test("isNormalizedError - happy path", () => {
+    const error = new Error(mocks.IntentionalError);
+    const result = ErrorNormalizer.isNormalizedError(ErrorNormalizer.normalize(error));
+
+    expect(result).toEqual(true);
+  });
+
+  test("isNormalizedError - not an object", () => {
+    expect(ErrorNormalizer.isNormalizedError(5)).toEqual(false);
+    expect(ErrorNormalizer.isNormalizedError(null)).toEqual(false);
+    expect(ErrorNormalizer.isNormalizedError(undefined)).toEqual(false);
+  });
+
+  test("isNormalizedError - without message", () => {
+    expect(ErrorNormalizer.isNormalizedError({ code: "critical" })).toEqual(false);
+  });
+
+  test("isNormalizedError - message not a string", () => {
+    expect(ErrorNormalizer.isNormalizedError({ message: 5 })).toEqual(false);
   });
 });
