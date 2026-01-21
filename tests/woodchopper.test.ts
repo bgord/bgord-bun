@@ -36,25 +36,6 @@ const entryHttp = {
 const entryWithErrorInstance = { ...entry, error: new Error(mocks.IntentionalError) };
 const entryWithErrorString = { ...entry, error: mocks.IntentionalError };
 
-const errorInstanceFormatted = {
-  cause: undefined,
-  message: mocks.IntentionalError,
-  name: "Error",
-  stack: expect.any(String),
-};
-const errorInstanceFormattedStackHidden = {
-  cause: undefined,
-  message: mocks.IntentionalError,
-  name: "Error",
-};
-const errorInstanceFormattedCause = {
-  cause: { name: "Error", message: "intentional.cause.first", cause: undefined, stack: expect.any(String) },
-  message: mocks.IntentionalError,
-  name: "Error",
-  stack: expect.any(String),
-};
-const errorStringFormatted = { message: mocks.IntentionalError };
-
 describe("Woodchopper", async () => {
   test("error - no error", () => {
     const sink = new WoodchopperSinkNoop();
@@ -79,7 +60,7 @@ describe("Woodchopper", async () => {
       ...config,
       ...entryWithErrorInstance,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: errorInstanceFormatted,
+      error: mocks.IntentionalErrorNormalized,
     });
   });
 
@@ -95,7 +76,7 @@ describe("Woodchopper", async () => {
       ...config,
       ...entryWithErrorString,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: errorStringFormatted,
+      error: { message: mocks.IntentionalError },
     });
   });
 
@@ -122,7 +103,7 @@ describe("Woodchopper", async () => {
       ...entryWithErrorInstance,
       ...config,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: errorInstanceFormatted,
+      error: mocks.IntentionalErrorNormalized,
     });
   });
 
@@ -138,7 +119,7 @@ describe("Woodchopper", async () => {
       ...entryWithErrorString,
       ...config,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: errorStringFormatted,
+      error: { message: mocks.IntentionalError },
     });
   });
 
@@ -399,7 +380,7 @@ describe("Woodchopper", async () => {
       ...config,
       ...entryWithErrorInstance,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: errorInstanceFormattedStackHidden,
+      error: { ...mocks.IntentionalErrorNormalized, stack: undefined },
     });
   });
 
@@ -411,8 +392,8 @@ describe("Woodchopper", async () => {
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
     const error = new Error(mocks.IntentionalError);
-    const first = new Error("intentional.cause.first");
-    const second = new Error("intentional.cause.second");
+    const first = new Error(mocks.IntentionalCause);
+    const second = new Error(mocks.IntentionalCause);
     error.cause = first;
     first.cause = second;
 
@@ -422,7 +403,10 @@ describe("Woodchopper", async () => {
       ...config,
       ...entryWithErrorInstance,
       timestamp: mocks.TIME_ZERO_ISO,
-      error: errorInstanceFormattedCause,
+      error: {
+        ...mocks.IntentionalErrorNormalized,
+        cause: { name: "Error", message: mocks.IntentionalCause, stack: expect.any(String) },
+      },
     });
   });
 

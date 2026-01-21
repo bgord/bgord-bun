@@ -66,7 +66,6 @@ describe("WoodchopperDispatcherAsync", () => {
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(diagnostics.entries.length).toEqual(0);
-
     expect(dispatcher.dispatch(entry)).toEqual(false);
 
     await mocks.tick();
@@ -96,7 +95,6 @@ describe("WoodchopperDispatcherAsync", () => {
     await mocks.tick();
 
     expect(sink.entries.length).toEqual(0);
-
     expect(dispatcher.dispatch(entry)).toEqual(false);
   });
 

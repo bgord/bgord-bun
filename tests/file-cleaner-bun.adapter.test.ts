@@ -33,8 +33,7 @@ describe("FileCleanerBunAdapter", () => {
   });
 
   test("throw an error", () => {
-    // @ts-expect-error
-    spyOn(Bun, "file").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
     expect(async () => FileCleaner.delete(path)).toThrow();

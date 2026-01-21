@@ -37,7 +37,7 @@ describe("FileRenamerFsForgivingAdapter", () => {
   });
 
   test("throw an error", () => {
-    spyOn(fs, "rename").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(fs, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathAbsolute.fromString("/users/package.json");
     const output = tools.FilePathAbsolute.fromString("/users/package-lock.json");
 

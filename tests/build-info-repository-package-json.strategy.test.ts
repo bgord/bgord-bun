@@ -25,8 +25,8 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
   });
 
   test("failure - package.json read", async () => {
-    const fileReaderJsonRead = spyOn(FileReaderJson, "read").mockRejectedValue(
-      new Error(mocks.IntentionalError),
+    const fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
     );
 
     const result = await repository.extract();

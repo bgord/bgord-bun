@@ -49,8 +49,8 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - unknown error", async () => {
-    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockRejectedValue(
-      new Error(mocks.IntentionalError),
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockImplementation(
+      mocks.throwIntentionalError,
     );
     const form = new FormData();
     form.set("h-captcha-response", "any-token");

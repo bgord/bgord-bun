@@ -34,8 +34,8 @@ describe("ShieldHcaptchaLocalStrategy", () => {
   });
 
   test("failure - uknown error", async () => {
-    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockRejectedValue(
-      new Error(mocks.IntentionalError),
+    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
     );
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
