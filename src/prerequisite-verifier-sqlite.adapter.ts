@@ -1,7 +1,7 @@
 import type { Database } from "bun:sqlite";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

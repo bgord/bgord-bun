@@ -1,5 +1,5 @@
-import type { FileCleanerPort } from "./file-cleaner.port";
 import type * as tools from "@bgord/tools";
+import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
 

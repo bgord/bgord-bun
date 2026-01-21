@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
-import { SecurityRuleName, SecurityRuleNameType } from "./security-rule-name.vo";
+import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleHoneyPotFieldStrategy implements SecurityRuleStrategy {
   constructor(private readonly field: string) {}

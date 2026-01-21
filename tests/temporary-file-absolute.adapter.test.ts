@@ -24,7 +24,7 @@ describe("TemporaryFileAbsoluteAdapter", () => {
     const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
     const fileRenamerRename = spyOn(FileRenamer, "rename");
 
-    const { path } = await adapter.write(filename, content);
+    const path = await adapter.write(filename, content);
 
     expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
     expect(fileRenamerRename).toHaveBeenCalledWith(partial, final);

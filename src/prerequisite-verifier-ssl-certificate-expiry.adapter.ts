@@ -1,8 +1,8 @@
 import type * as tools from "@bgord/tools";
 import type { CertificateInspectorPort } from "./certificate-inspector.port";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

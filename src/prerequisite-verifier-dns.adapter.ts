@@ -1,7 +1,7 @@
 import dns from "dns/promises";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

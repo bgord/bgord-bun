@@ -3,7 +3,7 @@ import { ALL_BOTS } from "./bots.vo";
 import { ClientFromHono } from "./client-from-hono.adapter";
 import { ClientUserAgent } from "./client-user-agent.vo";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
-import { SecurityRuleName, SecurityRuleNameType } from "./security-rule-name.vo";
+import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleUserAgentStrategy implements SecurityRuleStrategy {
   constructor(private readonly blacklist: string[] = ALL_BOTS) {}

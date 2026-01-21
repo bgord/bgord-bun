@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import {
-  type PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

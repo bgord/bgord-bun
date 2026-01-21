@@ -1,7 +1,7 @@
 import os from "node:os";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

@@ -1,7 +1,7 @@
 import { createReadStream, createWriteStream } from "node:fs";
-import type * as tools from "@bgord/tools";
 import { pipeline } from "node:stream/promises";
 import { constants, createGzip } from "node:zlib";
+import type * as tools from "@bgord/tools";
 import type { GzipPort, GzipRecipe } from "./gzip.port";
 
 export class GzipStreamAdapter implements GzipPort {
