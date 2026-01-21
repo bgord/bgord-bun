@@ -1,12 +1,12 @@
-import type { Context } from "hono";
+import type { RequestContext } from "./request-context.port";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleBaitRoutesStrategy implements SecurityRuleStrategy {
   constructor(private readonly routes: string[]) {}
 
-  async isViolated(c: Context): Promise<boolean> {
-    return this.routes.includes(c.req.path);
+  async isViolated(context: RequestContext): Promise<boolean> {
+    return this.routes.includes(context.request.path);
   }
 
   get name(): SecurityRuleNameType {

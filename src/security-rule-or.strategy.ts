@@ -1,4 +1,4 @@
-import type { Context } from "hono";
+import type { RequestContext } from "./request-context.port";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
@@ -13,8 +13,8 @@ export class SecurityRuleOrStrategy implements SecurityRuleStrategy {
     if (rules.length > 5) throw new Error(SecurityRuleOrStrategyError.MaxRules);
   }
 
-  async isViolated(c: Context): Promise<boolean> {
-    const reports = await Promise.all(this.rules.map((rule) => rule.isViolated(c)));
+  async isViolated(context: RequestContext): Promise<boolean> {
+    const reports = await Promise.all(this.rules.map((rule) => rule.isViolated(context)));
 
     return reports.some(Boolean);
   }
