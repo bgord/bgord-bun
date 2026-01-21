@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperDiagnosticsNoop } from "../src/woodchopper-diagnostics-noop.strategy";
@@ -17,10 +18,12 @@ const entry = {
   timestamp: mocks.TIME_ZERO_ISO,
 };
 
+const capacity = tools.IntegerPositive.parse(1);
+
 describe("WoodchopperDispatcherAsync", () => {
   test("dispatch", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
 
@@ -31,7 +34,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("dispatch - order", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
 
     expect(dispatcher.dispatch({ ...entry, message: "1" })).toEqual(true);
     expect(dispatcher.dispatch({ ...entry, message: "2" })).toEqual(true);
@@ -48,7 +51,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("dispatch - capacity", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(dispatcher.dispatch(entry)).toEqual(false);
@@ -61,7 +64,7 @@ describe("WoodchopperDispatcherAsync", () => {
   test("dispatch - error - with diagnostics", async () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
@@ -78,7 +81,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("dispatch - error - without diagnostics", async () => {
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 1);
+    const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(dispatcher.dispatch(entry)).toEqual(false);
@@ -86,7 +89,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("idle", async () => {
     const sink = new WoodchopperSinkNoop();
-    new WoodchopperDispatcherAsync(sink, 10);
+    new WoodchopperDispatcherAsync(sink);
 
     await mocks.tick();
 
@@ -95,7 +98,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("close", async () => {
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     dispatcher.close();
@@ -109,7 +112,7 @@ describe("WoodchopperDispatcherAsync", () => {
   test("close - idempotency", async () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     dispatcher.dispatch(entry);
@@ -124,7 +127,7 @@ describe("WoodchopperDispatcherAsync", () => {
   test("close - buffered entries", async () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     dispatcher.dispatch(entry);
