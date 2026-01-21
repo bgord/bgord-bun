@@ -18,6 +18,9 @@ import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import { Uptime } from "../src/uptime.service";
+import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
+import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
 import * as mocks from "./mocks";
 
 const version = "1.2.3";
@@ -185,7 +188,11 @@ describe("Healthcheck service", () => {
       ...Healthcheck.build(
         {
           Env: NodeEnvironmentEnum.production,
-          prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+          prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
+          redactor: new RedactorCompositeStrategy([
+            new RedactorErrorStackHideStrategy(),
+            new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1)),
+          ]),
         },
         deps,
       ),
@@ -228,8 +235,8 @@ describe("Healthcheck service", () => {
         { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         {
-          label: "fail",
-          outcome: PrerequisiteVerification.failure(mocks.IntentionalError),
+          label: "fail-with-stack",
+          outcome: { outcome: "failure", error: { message: mocks.IntentionalError, name: "Error" } },
           durationMs: expect.any(Number),
         },
       ],

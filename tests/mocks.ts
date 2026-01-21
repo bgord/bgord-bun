@@ -116,6 +116,20 @@ export class PrerequisiteVerifierFailThenPass implements PrerequisiteVerifierPor
   }
 }
 
+export class PrerequisiteVerifierFailWithStack implements PrerequisiteVerifierPort {
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    return PrerequisiteVerification.failure(new Error(IntentionalError));
+  }
+
+  get kind() {
+    return "test";
+  }
+}
+export const PrerequisiteFailWithStack = new Prerequisite(
+  "fail-with-stack",
+  new PrerequisiteVerifierFailWithStack(),
+);
+
 export const hashValue = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
 export const hash = Hash.fromValue(hashValue);
 

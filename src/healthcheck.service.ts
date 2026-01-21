@@ -15,6 +15,7 @@ import {
   type PrerequisiteVerificationResult,
 } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierSelfAdapter } from "./prerequisite-verifier-self.adapter";
+import type { RedactorStrategy } from "./redactor.strategy";
 import { Stopwatch } from "./stopwatch.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
@@ -59,7 +60,11 @@ type HealthcheckResultType = {
   timestamp: tools.TimestampValueType;
 };
 
-type HealthcheckConfigType = { Env: NodeEnvironmentEnum; prerequisites: Prerequisite[] };
+type HealthcheckConfigType = {
+  Env: NodeEnvironmentEnum;
+  prerequisites: Prerequisite[];
+  redactor?: RedactorStrategy;
+};
 type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepositoryStrategy };
 
 export class Healthcheck {
@@ -75,9 +80,11 @@ export class Healthcheck {
         prerequisites.map(async (prerequisite) => {
           const stopwatch = new Stopwatch(deps);
 
+          const outcome = await prerequisite.build().verify();
+
           return {
             label: prerequisite.label,
-            outcome: await prerequisite.build().verify(),
+            outcome: config.redactor ? config.redactor.redact(outcome) : outcome,
             durationMs: stopwatch.stop().ms,
           };
         }),
