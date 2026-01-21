@@ -24,8 +24,8 @@ export function deepCloneWith<T>(
       const result: Record<string | symbol, unknown> = {};
 
       for (const ownKey of Reflect.ownKeys(current)) {
-        const value = (current as any)[ownKey];
-        (result as any)[ownKey] = clone(value, ownKey as string);
+        const value = current[ownKey];
+        result[ownKey] = clone(value, ownKey as string);
       }
       return result;
     }

@@ -11,12 +11,11 @@ const shield = new ShieldApiKeyStrategy({ API_KEY: tools.ApiKey.parse(VALID_API_
 const app = new Hono()
   .use(shield.verify)
   .get("/ping", (c) => c.text("OK"))
-  // @ts-expect-error
   .onError((error, c) => {
     if (error.message === ShieldApiKeyError.message) {
       return c.json({ message: ShieldApiKeyError.message, _known: true }, ShieldApiKeyError.status);
     }
-    return c.status(500);
+    return c.json({}, 500);
   });
 
 describe("ShieldApiKeyStrategy", () => {

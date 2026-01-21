@@ -3,13 +3,13 @@ import { ClientIp } from "../src/client-ip.vo";
 
 describe("ClientIp VO", () => {
   test("happy path", () => {
-    // @ts-expect-error
+    // @ts-expect-error Coercion
     expect(ClientIp.parse("127.0.0.1")).toEqual("127.0.0.1");
-    // @ts-expect-error
+    // @ts-expect-error Coercion
     expect(ClientIp.parse("::ffff:127.0.0.1")).toEqual("anon");
-    // @ts-expect-error
+    // @ts-expect-error Coercion
     expect(ClientIp.parse("anon")).toEqual("anon");
-    // @ts-expect-error
+    // @ts-expect-error Coercion
     expect(ClientIp.parse("anonx")).toEqual("anon");
   });
 

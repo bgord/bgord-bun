@@ -27,7 +27,7 @@ describe("EncryptionAesGcmAdapter", () => {
 
     expect(await adapter.encrypt(recipe)).toEqual(recipe.output);
     // @ts-expect-error
-    expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(encryptedFileContent);
+    expect(new Uint8Array(bunWrite.mock.calls[0]?.[1])).toEqual(encryptedFileContent);
   });
 
   test("encrypt - missing file", async () => {
@@ -47,7 +47,7 @@ describe("EncryptionAesGcmAdapter", () => {
 
     expect(await adapter.decrypt(recipe)).toEqual(recipe.output);
     // @ts-expect-error
-    expect(new Uint8Array(bunWrite.mock.calls[0][1] as any)).toEqual(plaintext);
+    expect(new Uint8Array(bunWrite.mock.calls[0]?.[1])).toEqual(plaintext);
   });
 
   test("decrypt - failure - invalid payload", async () => {

@@ -33,12 +33,11 @@ const shieldRateLimit = new ShieldRateLimitStrategy({ enabled: true, resolver, w
 
 const app = new Hono()
   .get("/ping", shieldRateLimit.verify, (c) => c.text("pong"))
-  // @ts-expect-error
   .onError((error, c) => {
     if (error.message === ShieldRateLimitError.message) {
       return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
     }
-    return c.status(500);
+    return c.json({}, 500);
   });
 
 describe("ShieldRateLimitStrategy", () => {

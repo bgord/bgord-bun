@@ -23,12 +23,11 @@ describe("ShieldTimeoutStrategy", () => {
         jest.advanceTimersByTime(duration.times(tools.MultiplicationFactor.parse(2)).ms);
         return c.text("OK");
       })
-      // @ts-expect-error
       .onError((error, c) => {
         if (error.message === ShieldTimeoutError.message) {
           return c.json({ message: ShieldTimeoutError.message, _known: true }, ShieldTimeoutError.status);
         }
-        return c.status(500);
+        return c.json({}, 500);
       });
     const result = await app.request("/ping", { method: "GET" });
     const json = await result.json();

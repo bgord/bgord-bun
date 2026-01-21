@@ -39,7 +39,7 @@ describe("RedactorCompositeStrategy", () => {
       },
     };
 
-    // @ts-expect-error
+    // @ts-expect-error Intentional schema change
     expect(redactor.redact(log)).toEqual({
       ...log,
       timestamp: mocks.TIME_ZERO_ISO,

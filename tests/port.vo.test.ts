@@ -10,12 +10,12 @@ describe("Port VO", () => {
   });
 
   test("transforms null to 0", () => {
-    // @ts-expect-error
+    // @ts-expect-error Coercion
     expect(Port.safeParse(null)).toEqual({ success: true, data: 0 });
   });
 
   test("transforms string to int", () => {
-    // @ts-expect-error
+    // @ts-expect-error Coercion
     expect(Port.safeParse("123")).toEqual({ success: true, data: 123 });
   });
 

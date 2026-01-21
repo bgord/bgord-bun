@@ -14,7 +14,7 @@ const retry = new Retry(deps);
 
 describe("Retry service", () => {
   test("invalid max", async () => {
-    // @ts-expect-error
+    // @ts-expect-error Intentional invalid positive integer
     expect(() => retry.run(async () => "ok", { max: 0, backoff })).toThrow("retry.invalid.max");
   });
 

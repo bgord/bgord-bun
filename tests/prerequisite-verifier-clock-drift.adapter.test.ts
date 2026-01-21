@@ -20,7 +20,6 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
   });
 
   test("failure - missing timestamp", async () => {
-    // @ts-expect-error
     spyOn(Timekeeper, "get").mockResolvedValue(null);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
