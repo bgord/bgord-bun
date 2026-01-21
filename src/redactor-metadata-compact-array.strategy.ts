@@ -15,7 +15,6 @@ export class RedactorMetadataCompactArrayStrategy implements RedactorStrategy {
 
   redact<T>(input: T): T {
     if (!isPlainObject(input)) return input;
-    if (!("metadata" in input)) return input;
 
     return {
       ...input,
