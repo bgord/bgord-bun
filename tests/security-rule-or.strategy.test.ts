@@ -4,6 +4,7 @@ import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleOrStrategy } from "../src/security-rule-or.strategy";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const forbidden = "/.env";
 const allowed = "/about";
@@ -12,24 +13,23 @@ const baitRoutes = new SecurityRuleBaitRoutesStrategy([forbidden]);
 const pass = new SecurityRulePassStrategy();
 const fail = new SecurityRuleFailStrategy();
 
+const context = new RequestContextBuilder().withPath(allowed).build();
+
 describe("SecurityRuleOrStrategy", () => {
   test("isViolated - one violation", async () => {
     const rule = new SecurityRuleOrStrategy([fail, pass]);
-    const context = { req: { path: allowed } } as any;
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - all violated", async () => {
     const rule = new SecurityRuleOrStrategy([fail, fail]);
-    const context = { req: { path: allowed } } as any;
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - false", async () => {
     const rule = new SecurityRuleOrStrategy([pass, pass]);
-    const context = { req: { path: allowed } } as any;
 
     expect(await rule.isViolated(context)).toEqual(false);
   });

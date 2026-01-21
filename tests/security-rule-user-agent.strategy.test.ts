@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
-import * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const valid = "anon";
 const invalid = "unknown";
@@ -9,14 +9,14 @@ const invalid = "unknown";
 describe("SecurityRuleUserAgentStrategy", () => {
   test("isViolated - true", async () => {
     const rule = new SecurityRuleUserAgentStrategy([valid]);
-    const context = { env: mocks.ip, req: { raw: {}, header: () => valid } } as any;
+    const context = new RequestContextBuilder().withUserAgent(valid).build();
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - false", async () => {
     const rule = new SecurityRuleUserAgentStrategy([invalid]);
-    const context = { env: mocks.ip, req: { raw: {}, header: () => valid } } as any;
+    const context = new RequestContextBuilder().withUserAgent(valid).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
   });

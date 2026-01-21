@@ -14,18 +14,29 @@ export class RequestContextAdapterHono implements RequestContext {
       query: () => context.req.query() ?? {},
       cookies: () => getCookie(context),
       rawHeaders: () => context.req.raw.headers,
-      raw: () => context.req.raw.clone(),
+      json: async () => {
+        try {
+          const request = context.req.raw.clone();
+
+          return await request.json();
+        } catch {
+          return {};
+        }
+      },
     };
 
     this.identity = {
       userId: () => context.get("user")?.id ?? null,
 
       ip: () => {
-        const info = getConnInfo(context);
         const realIp = context.req.header("x-real-ip");
         const forwarderdFor = context.req.header("x-forwarded-for");
+        const info = getConnInfo(context).remote.address;
 
-        return (realIp || forwarderdFor || info?.remote?.address) ?? null;
+        if (realIp) return realIp;
+        if (forwarderdFor) return forwarderdFor;
+        if (info) return info;
+        return null;
       },
 
       userAgent: () => context.req.header("user-agent") ?? null,

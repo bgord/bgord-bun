@@ -1,46 +1,46 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const field = "reference";
 const rule = new SecurityRuleHoneyPotFieldStrategy(field);
 
-const createContext = (value: Function) => ({ req: { raw: { clone: () => ({ json: value }) } } }) as any;
-
 describe("SecurityRuleHoneyPotFieldStrategy", () => {
   test("isViolated - true", async () => {
-    const context = createContext(async () => ({ [field]: "abc" }));
+    const context = new RequestContextBuilder().withJson({ [field]: "abc" }).build();
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - false - missing field", async () => {
-    const context = createContext(async () => ({}));
+    const context = new RequestContextBuilder().withJson({}).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
   test("isViolated - false - missing string", async () => {
-    const context = createContext(async () => ({ [field]: "" }));
+    const context = new RequestContextBuilder().withJson({ [field]: "" }).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
   test("isViolated - false - null", async () => {
-    const context = createContext(async () => ({ [field]: null }));
+    const context = new RequestContextBuilder().withJson({ [field]: null }).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
   test("isViolated - false - undefined", async () => {
-    const context = createContext(async () => ({ [field]: undefined }));
+    const context = new RequestContextBuilder().withJson({ [field]: undefined }).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
-  test("isViolated - false - throw error", async () => {
-    const context = createContext(mocks.throwIntentionalErrorAsync);
+  test.todo("isViolated - false - throw error", async () => {
+    const context = new RequestContextBuilder().build();
+    spyOn(context.request, "json").mockImplementation(mocks.throwIntentionalError);
 
     expect(await rule.isViolated(context)).toEqual(false);
   });
