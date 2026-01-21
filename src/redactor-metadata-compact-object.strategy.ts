@@ -2,14 +2,14 @@ import * as tools from "@bgord/tools";
 import { deepCloneWith, isPlainObject } from "./deep-clone-with";
 import type { RedactorStrategy } from "./redactor.strategy";
 
-type RedactorWideObjectOptions = { maxKeys?: tools.IntegerPositiveType };
+type RedactorMetadataCompactObjectOptions = { maxKeys?: tools.IntegerPositiveType };
 
 export class RedactorMetadataCompactObjectStrategy implements RedactorStrategy {
   private static readonly DEFAULT_MAX_KEYS = tools.IntegerPositive.parse(20);
 
   private readonly maxKeys: tools.IntegerPositiveType;
 
-  constructor(options: RedactorWideObjectOptions = {}) {
+  constructor(options: RedactorMetadataCompactObjectOptions = {}) {
     this.maxKeys = options.maxKeys ?? RedactorMetadataCompactObjectStrategy.DEFAULT_MAX_KEYS;
   }
 
