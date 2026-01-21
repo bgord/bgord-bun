@@ -1,48 +1,50 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import type { RedactorStrategy } from "../src/redactor.strategy";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
+import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
+import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorMetadataCompactArrayStrategy } from "../src/redactor-metadata-compact-array.strategy";
 import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
-
-class UppercaseRedactor implements RedactorStrategy {
-  redact<T>(input: T): T {
-    return (typeof input === "string" ? input.toUpperCase() : input) as T;
-  }
-}
-class SuffixRedactor implements RedactorStrategy {
-  constructor(private readonly suffix: string) {}
-
-  redact<T>(input: T): T {
-    return (typeof input === "string" ? input + this.suffix : input) as T;
-  }
-}
+import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
+import * as mocks from "./mocks";
 
 describe("RedactorCompositeStrategy", () => {
-  test("keeps the order", () => {
-    const redactor = new RedactorCompositeStrategy([new UppercaseRedactor(), new SuffixRedactor("!")]);
-
-    expect(redactor.redact("hello")).toEqual("HELLO!");
-  });
-
-  test("empty pipeline", () => {
-    const input = { a: 1 };
-    const redactor = new RedactorCompositeStrategy([]);
-
-    expect(redactor.redact(input)).toEqual(input);
-  });
-
-  test("compact array and object pipeline", () => {
-    const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: [1, 2, 3] } };
+  test("redact", () => {
     const redactor = new RedactorCompositeStrategy([
+      new RedactorNoopStrategy(),
+      new RedactorMaskStrategy(),
       new RedactorMetadataCompactArrayStrategy(),
-      new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) }),
+      new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
+      new RedactorErrorStackHideStrategy(),
+      new RedactorErrorCauseDepthLimitStrategy(1),
     ]);
 
-    const result = redactor.redact(input);
+    const error = new Error(mocks.IntentionalError);
+    const first = new Error(mocks.IntentionalCause);
+    const second = new Error(mocks.IntentionalCause);
+    error.cause = first;
+    first.cause = second;
 
-    expect(result.keep).toEqual(input.keep);
+    const log = {
+      message: "message",
+      component: "infra",
+      operation: "test",
+      error,
+      timestamp: mocks.TIME_ZERO_ISO,
+      metadata: {
+        password: "secret",
+        users: ["1", "2", "3"],
+        types: { admin: true, user: true, api: true, anon: true },
+      },
+    };
+
     // @ts-expect-error
-    expect(result.summarize).toEqual({ a: 1, b: { length: 3, type: "Array" } });
+    expect(redactor.redact(log)).toEqual({
+      ...log,
+      timestamp: mocks.TIME_ZERO_ISO,
+      error,
+      metadata: { password: "***", users: { length: 3, type: "Array" }, types: { type: "Object", keys: 4 } },
+    });
   });
 });
