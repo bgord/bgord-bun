@@ -65,9 +65,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
 
     try {
       withNormalization =
-        "error" in entry && entry.error !== undefined
-          ? { ...entry, error: ErrorNormalizer.normalize(entry.error) }
-          : entry;
+        "error" in entry ? { ...entry, error: ErrorNormalizer.normalize(entry.error) } : entry;
     } catch (error) {
       this.stats.recordDropped();
       this.config.diagnostics?.handle({ kind: "normalization", error });
