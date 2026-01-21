@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type { LoggerEntry } from "./logger.port";
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
@@ -8,7 +9,7 @@ enum WoodchopperDispatcherAsyncState {
 }
 
 export const WoodchopperDispatcherAsyncError = {
-  ClosedWithBufferedEntries: (count: number) =>
+  ClosedWithBufferedEntries: (count: tools.IntegerPositiveType) =>
     `woodchopper.dispatcher.async.closed.with.buffered.entries.${count}`,
 };
 
@@ -44,7 +45,9 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
     this.state = WoodchopperDispatcherAsyncState.closed;
 
     if (this.buffer.length > 0) {
-      const message = WoodchopperDispatcherAsyncError.ClosedWithBufferedEntries(this.buffer.length);
+      const message = WoodchopperDispatcherAsyncError.ClosedWithBufferedEntries(
+        tools.IntegerPositive.parse(this.buffer.length),
+      );
 
       this.onError?.(new Error(message));
     }

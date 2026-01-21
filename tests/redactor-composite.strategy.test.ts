@@ -17,7 +17,7 @@ describe("RedactorCompositeStrategy", () => {
       new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) }),
       new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
       new RedactorErrorStackHideStrategy(),
-      new RedactorErrorCauseDepthLimitStrategy(1),
+      new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1)),
     ]);
 
     const error = new Error(mocks.IntentionalError);
