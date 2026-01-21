@@ -590,7 +590,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("diagnostics - normalization", () => {
+  test("pipeline - normalization - diagnostics", () => {
     spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
@@ -612,7 +612,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("diagnostics - clock", () => {
+  test("pipeline - clock - diagnostics", () => {
     spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
@@ -634,7 +634,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("diagnostics - redaction", () => {
+  test("pipeline - redaction - diagnostics", () => {
     const redactor = new RedactorNoopStrategy();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsNoop();
@@ -657,7 +657,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("diagnostics - sink - dispatcher sync", () => {
+  test("pipeline - sink - dispatcher sync - diagnostics", () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -678,7 +678,7 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("diagnostics - sink - dispatcher async", async () => {
+  test("pipeline - sink - dispatcher async - diagnostics", async () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 100);
