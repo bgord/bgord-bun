@@ -5,6 +5,8 @@ import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
+import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
 import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper, WoodchopperState } from "../src/woodchopper";
@@ -39,6 +41,16 @@ const errorInstanceFormatted = {
   message: mocks.IntentionalError,
   name: "Error",
   stack: expect.any(String),
+};
+const errorInstanceFormattedStackHidden = {
+  cause: undefined,
+  message: mocks.IntentionalError,
+  name: "Error",
+};
+const errorInstanceFormattedCause = {
+  cause: { name: "Error", message: "intentional.cause.first", cause: undefined },
+  message: mocks.IntentionalError,
+  name: "Error",
 };
 const errorStringFormatted = { message: mocks.IntentionalError };
 
@@ -374,7 +386,46 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("redactor - compact array", () => {
+  test("redactor - error stack hide", () => {
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const redactor = new RedactorErrorStackHideStrategy();
+    const config = { app, level: LogLevelEnum.error, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
+    woodchopper.error({ ...entryWithErrorInstance });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entryWithErrorInstance,
+      timestamp: mocks.TIME_ZERO_ISO,
+      error: errorInstanceFormattedStackHidden,
+    });
+  });
+
+  test("redactor - error cause depth limit", () => {
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const redactor = new RedactorErrorCauseDepthLimitStrategy(1);
+    const config = { app, level: LogLevelEnum.error, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
+
+    const error = new Error(mocks.IntentionalError);
+    const first = new Error("intentional.cause.first");
+    const second = new Error("intentional.cause.second");
+    error.cause = first;
+    first.cause = second;
+
+    woodchopper.error({ ...entry, error });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entryWithErrorInstance,
+      timestamp: mocks.TIME_ZERO_ISO,
+      error: errorInstanceFormattedCause,
+    });
+  });
+
+  test("redactor - ", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorCompactArrayStrategy();
@@ -391,6 +442,7 @@ describe("Woodchopper", async () => {
     });
   });
 
+  // TODO: add all
   test("redactor - composite", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
