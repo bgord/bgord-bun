@@ -10,9 +10,7 @@ const adapter = new TemporaryFileNoopAdapter(directory);
 
 describe("TemporaryFileAbsoluteAdapter", () => {
   test("write", async () => {
-    const { path } = await adapter.write(filename);
-
-    expect(path).toEqual(final);
+    expect(await adapter.write(filename)).toEqual(final);
   });
 
   test("cleanup", async () => {

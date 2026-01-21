@@ -1,8 +1,8 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 import type { TimekeeperPort } from "./timekeeper.port";

@@ -2,8 +2,8 @@ import path from "node:path";
 import * as tools from "@bgord/tools";
 import type { DiskSpaceCheckerPort } from "./disk-space-checker.port";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

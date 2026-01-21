@@ -1,5 +1,5 @@
-import type { FileRenamerPort } from "./file-renamer.port";
 import type * as tools from "@bgord/tools";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort };

@@ -1,5 +1,5 @@
-import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 import type * as tools from "@bgord/tools";
+import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 
 export class ImageAlphaNoopAdapter implements ImageAlphaPort {
   async flatten(recipe: ImageAlphaStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {

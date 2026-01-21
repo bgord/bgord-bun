@@ -1,7 +1,7 @@
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import {
   SecurityCountermeasureName,
-  SecurityCountermeasureNameType,
+  type SecurityCountermeasureNameType,
 } from "./security-countermeasure-name.vo";
 
 export class SecurityCountermeasureNoopStrategy implements SecurityCountermeasureStrategy {

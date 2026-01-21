@@ -1,5 +1,5 @@
 import type { NonceProviderPort } from "./nonce-provider.port";
-import { NonceValue, NonceValueType } from "./nonce-value.vo";
+import { NonceValue, type NonceValueType } from "./nonce-value.vo";
 
 export class NonceProviderNoopAdapter implements NonceProviderPort {
   generate(): NonceValueType {

@@ -1,8 +1,8 @@
 import type * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

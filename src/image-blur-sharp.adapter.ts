@@ -1,5 +1,5 @@
-import type { FileRenamerPort } from "./file-renamer.port";
 import type * as tools from "@bgord/tools";
+import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort };

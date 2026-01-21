@@ -14,7 +14,7 @@ import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import {
   SecurityCountermeasureName,
-  SecurityCountermeasureNameType,
+  type SecurityCountermeasureNameType,
 } from "./security-countermeasure-name.vo";
 
 type Dependencies = {

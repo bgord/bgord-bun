@@ -4,8 +4,8 @@ import type * as types from "./i18n.service";
 import { I18n } from "./i18n.service";
 import type { LoggerPort } from "./logger.port";
 import {
-  type PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

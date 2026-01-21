@@ -4,8 +4,8 @@ import type { TemporaryFilePort } from "./temporary-file.port";
 export class TemporaryFileNoopAdapter implements TemporaryFilePort {
   constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
 
-  async write(filename: tools.Filename): Promise<{ path: tools.FilePathAbsolute }> {
-    return { path: tools.FilePathAbsolute.fromPartsSafe(this.directory, filename) };
+  async write(filename: tools.Filename): Promise<tools.FilePathAbsolute> {
+    return tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
   }
 
   async cleanup(): Promise<void> {}

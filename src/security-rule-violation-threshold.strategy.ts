@@ -6,7 +6,7 @@ import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.
 import { CacheSubjectSegmentIpStrategy } from "./cache-subject-segment-ip.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
-import { SecurityRuleName, SecurityRuleNameType } from "./security-rule-name.vo";
+import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentStrategy };
 

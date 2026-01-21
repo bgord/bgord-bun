@@ -1,7 +1,7 @@
 import { Jobs, type MultipleJobsType } from "./jobs.service";
 import {
-  PrerequisiteVerificationResult,
   PrerequisiteVerification,
+  type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 

@@ -11,14 +11,14 @@ export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
     private readonly deps: Dependencies,
   ) {}
 
-  async write(filename: tools.Filename, content: File): Promise<{ path: tools.FilePathAbsolute }> {
+  async write(filename: tools.Filename, content: File): Promise<tools.FilePathAbsolute> {
     const temporary = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
     await Bun.write(temporary.get(), content);
     await this.deps.FileRenamer.rename(temporary, final);
 
-    return { path: final };
+    return final;
   }
 
   async cleanup(filename: tools.Filename): Promise<void> {
