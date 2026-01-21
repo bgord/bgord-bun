@@ -1,17 +1,20 @@
 import { describe, expect, test } from "bun:test";
 import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const segment = new CacheSubjectSegmentHeaderStrategy("accept");
+const name = "accept";
+const value = "application/json";
+const segment = new CacheSubjectSegmentHeaderStrategy(name);
 
 describe("CacheSubjectSegmentHeaderStrategy", () => {
   test("happy path", () => {
-    const context = { req: { header: () => "application/json" } } as any;
+    const context = new RequestContextBuilder().withHeader(name, value).build();
 
-    expect(segment.create(context)).toEqual(context.req.header());
+    expect(segment.create(context)).toEqual(value);
   });
 
   test("empty", () => {
-    const context = { req: { header: () => undefined } } as any;
+    const context = new RequestContextBuilder().build();
 
     expect(segment.create(context)).toEqual("__absent__");
   });

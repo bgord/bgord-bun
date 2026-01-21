@@ -1,10 +1,11 @@
 import type { RequestContext } from "../src/request-context.port";
 
-export class TestRequestContextBuilder {
+export class RequestContextBuilder {
   private path = "/";
   private headers = new Headers();
   private query: Record<string, string> = {};
   private cookies: Record<string, string> = {};
+  private json: Record<string, unknown> = {};
   private userId: string | null = null;
   private ip: string | null = null;
   private userAgent: string | null = null;
@@ -16,6 +17,11 @@ export class TestRequestContextBuilder {
 
   withHeader(name: string, value: string) {
     this.headers.set(name, value);
+    return this;
+  }
+
+  withJson(json: Record<string, unknown>) {
+    this.json = json;
     return this;
   }
 
@@ -52,7 +58,7 @@ export class TestRequestContextBuilder {
         query: () => this.query,
         cookies: () => this.cookies,
         rawHeaders: () => this.headers,
-        raw: () => new Request(this.path),
+        json: async () => this.json,
       },
       identity: {
         userId: () => this.userId,
