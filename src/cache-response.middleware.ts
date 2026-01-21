@@ -1,8 +1,8 @@
 import { createMiddleware } from "hono/factory";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { CacheSubjectRequestResolver } from "./cache-subject-request-resolver.vo";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy };
 

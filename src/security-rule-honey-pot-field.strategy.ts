@@ -6,7 +6,7 @@ export class SecurityRuleHoneyPotFieldStrategy implements SecurityRuleStrategy {
   constructor(private readonly field: string) {}
 
   async isViolated(context: RequestContext): Promise<boolean> {
-    const request = context.req.raw.clone();
+    const request = context.request.raw();
 
     const body = await request.json().catch(() => ({}));
     const value = body[this.field];

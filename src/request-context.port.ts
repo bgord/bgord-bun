@@ -5,7 +5,8 @@ export interface RequestContext {
     query(): Record<string, string>;
     cookies(): Record<string, string>;
     rawHeaders(): Headers;
+    raw(): Request;
   };
 
-  readonly identity: { userId(): string | null; ip(): string | null };
+  readonly identity: { userId(): string | null; ip(): string | null; userAgent(): string | null };
 }
