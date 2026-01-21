@@ -4,13 +4,13 @@ import type { TemporaryFilePort } from "./temporary-file.port";
 export class TemporaryFileNoopAdapter implements TemporaryFilePort {
   constructor(private readonly directory: tools.DirectoryPathAbsoluteType) {}
 
-  async write(filename: tools.Filename) {
+  async write(filename: tools.Filename): Promise<{ path: tools.FilePathAbsolute }> {
     return { path: tools.FilePathAbsolute.fromPartsSafe(this.directory, filename) };
   }
 
-  async cleanup() {}
+  async cleanup(): Promise<void> {}
 
-  get root() {
+  get root(): tools.DirectoryPathAbsoluteType {
     return this.directory;
   }
 }

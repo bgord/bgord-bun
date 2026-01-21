@@ -4,15 +4,15 @@ import type { EncryptionPort, EncryptionRecipe } from "./encryption.port";
 export class EncryptionNoopAdapter implements EncryptionPort {
   constructor(private readonly buffer: ArrayBuffer = new TextEncoder().encode("noop").buffer) {}
 
-  async encrypt(recipe: EncryptionRecipe) {
+  async encrypt(recipe: EncryptionRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     return recipe.output;
   }
 
-  async decrypt(recipe: EncryptionRecipe) {
+  async decrypt(recipe: EncryptionRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     return recipe.output;
   }
 
-  async view(_input: tools.FilePathRelative | tools.FilePathAbsolute) {
+  async view(_input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ArrayBuffer> {
     return this.buffer;
   }
 }

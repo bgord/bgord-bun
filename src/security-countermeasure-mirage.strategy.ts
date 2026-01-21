@@ -3,7 +3,10 @@ import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
-import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
+import {
+  SecurityCountermeasureName,
+  SecurityCountermeasureNameType,
+} from "./security-countermeasure-name.vo";
 
 type Dependencies = { Logger: LoggerPort };
 
@@ -25,7 +28,7 @@ export class SecurityCountermeasureMirageStrategy implements SecurityCountermeas
     return { kind: "mirage", ...this.config };
   }
 
-  get name() {
+  get name(): SecurityCountermeasureNameType {
     return SecurityCountermeasureName.parse("mirage");
   }
 }

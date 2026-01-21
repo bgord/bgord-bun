@@ -1,6 +1,10 @@
 import { access, constants, stat } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -12,7 +16,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
     },
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const node = await stat(this.config.directory);
 
@@ -42,7 +46,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
     return PrerequisiteVerification.success;
   }
 
-  get kind() {
+  get kind(): string {
     return "directory";
   }
 }

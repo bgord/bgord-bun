@@ -64,7 +64,7 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
     });
   }
 
-  get root() {
+  get root(): tools.DirectoryPathAbsoluteType {
     return this.config.root;
   }
 }

@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
-import { SecurityRuleName } from "./security-rule-name.vo";
+import { SecurityRuleName, SecurityRuleNameType } from "./security-rule-name.vo";
 
 export const SecurityRuleAndStrategyError = {
   MissingRules: "security.rule.and.adapter.error.missing.rules",
@@ -13,13 +13,13 @@ export class SecurityRuleAndStrategy implements SecurityRuleStrategy {
     if (rules.length > 5) throw new Error(SecurityRuleAndStrategyError.MaxRules);
   }
 
-  async isViolated(c: Context) {
+  async isViolated(c: Context): Promise<boolean> {
     const reports = await Promise.all(this.rules.map((rule) => rule.isViolated(c)));
 
     return reports.every(Boolean);
   }
 
-  get name() {
+  get name(): SecurityRuleNameType {
     return SecurityRuleName.parse(`and_${this.rules.map((rule) => rule.name).join("_")}`);
   }
 }

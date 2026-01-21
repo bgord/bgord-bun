@@ -1,12 +1,16 @@
 import type { MailerPort } from "./mailer.port";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 type Dependencies = { Mailer: MailerPort };
 
 export class PrerequisiteVerifierMailerAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly deps: Dependencies) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       await this.deps.Mailer.verify();
 
@@ -16,7 +20,7 @@ export class PrerequisiteVerifierMailerAdapter implements PrerequisiteVerifierPo
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "mailer";
   }
 }

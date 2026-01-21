@@ -9,7 +9,7 @@ export class ClockOffsetAdapter implements ClockPort {
     private readonly deps: Dependencies,
   ) {}
 
-  now() {
+  now(): tools.Timestamp {
     return this.deps.Clock.now().add(this.offset);
   }
 }

@@ -8,7 +8,7 @@ export class MailerNoopAdapter implements MailerPort {
   }
   // Stryker restore all
 
-  async verify() {
+  async verify(): Promise<boolean> {
     return true;
   }
 }

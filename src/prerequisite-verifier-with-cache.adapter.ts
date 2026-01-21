@@ -12,7 +12,7 @@ export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifie
     private readonly deps: Dependencies,
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("prerequisite_verifier"),
@@ -29,7 +29,7 @@ export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifie
     );
   }
 
-  get kind() {
+  get kind(): string {
     return this.config.inner.kind;
   }
 }

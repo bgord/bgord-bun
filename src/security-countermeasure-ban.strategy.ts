@@ -12,7 +12,10 @@ import {
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
 import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
-import { SecurityCountermeasureName } from "./security-countermeasure-name.vo";
+import {
+  SecurityCountermeasureName,
+  SecurityCountermeasureNameType,
+} from "./security-countermeasure-name.vo";
 
 type Dependencies = {
   IdProvider: IdProviderPort;
@@ -57,7 +60,7 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
     return action;
   }
 
-  get name() {
+  get name(): SecurityCountermeasureNameType {
     return SecurityCountermeasureName.parse("ban");
   }
 }

@@ -1,6 +1,10 @@
 import type * as tools from "@bgord/tools";
 import type { CertificateInspectorPort } from "./certificate-inspector.port";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
@@ -10,7 +14,7 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
     private readonly deps: Dependencies,
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const result = await this.deps.CertificateInspector.inspect(this.config.hostname);
 
     if (!result.success) return PrerequisiteVerification.failure("Certificate unavailable");
@@ -20,7 +24,7 @@ export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements Prerequi
     return PrerequisiteVerification.success;
   }
 
-  get kind() {
+  get kind(): string {
     return "ssl-certificate-expiry";
   }
 }

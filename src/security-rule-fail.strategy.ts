@@ -1,12 +1,12 @@
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
-import { SecurityRuleName } from "./security-rule-name.vo";
+import { SecurityRuleName, SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleFailStrategy implements SecurityRuleStrategy {
-  async isViolated() {
+  async isViolated(): Promise<boolean> {
     return true;
   }
 
-  get name() {
+  get name(): SecurityRuleNameType {
     return SecurityRuleName.parse("fail");
   }
 }

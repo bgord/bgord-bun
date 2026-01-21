@@ -55,7 +55,7 @@ export class MailerSmtpAdapter implements MailerPort {
     });
   }
 
-  async verify() {
+  async verify(): Promise<boolean> {
     return this.transport.verify();
   }
 }

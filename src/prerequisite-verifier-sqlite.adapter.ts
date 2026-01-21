@@ -1,10 +1,14 @@
 import type { Database } from "bun:sqlite";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { sqlite: Database }) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const integrity = this.config.sqlite.query("PRAGMA integrity_check;").get() as
         | { integrity_check?: string }
@@ -19,7 +23,7 @@ export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPo
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "sqlite";
   }
 }

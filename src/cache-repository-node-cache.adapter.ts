@@ -18,15 +18,15 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
     return this.store.get(subject.get()) ?? null;
   }
 
-  async set<T>(subject: Hash, value: T) {
+  async set<T>(subject: Hash, value: T): Promise<void> {
     this.store.set(subject.get(), value);
   }
 
-  async delete(subject: Hash) {
+  async delete(subject: Hash): Promise<void> {
     this.store.del(subject.get());
   }
 
-  async flush() {
+  async flush(): Promise<void> {
     this.store.flushAll();
   }
 }

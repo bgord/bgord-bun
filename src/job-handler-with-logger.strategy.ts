@@ -12,7 +12,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
 
   constructor(private readonly deps: Dependencies) {}
 
-  handle(uow: UnitOfWork) {
+  handle(uow: UnitOfWork): () => Promise<void> {
     const correlationId = this.deps.IdProvider.generate();
 
     return async () => {

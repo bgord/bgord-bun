@@ -7,7 +7,7 @@ type Dependencies = { IdProvider: IdProviderPort };
 export class JobHandlerBareStrategy implements JobHandlerStrategy {
   constructor(private readonly deps: Dependencies) {}
 
-  handle(uow: UnitOfWork) {
+  handle(uow: UnitOfWork): () => Promise<void> {
     const correlationId = this.deps.IdProvider.generate();
 
     return async () => CorrelationStorage.run(correlationId, async () => uow.process());

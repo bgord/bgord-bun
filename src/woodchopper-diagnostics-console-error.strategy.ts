@@ -8,7 +8,7 @@ import type {
 export class WoodchopperDiagnosticsConsoleError implements WoodchopperDiagnosticsStrategy {
   constructor(private readonly redactor?: RedactorStrategy) {}
 
-  handle(diagnostic: WoodchopperDiagnosticType) {
+  handle(diagnostic: WoodchopperDiagnosticType): void {
     const output = { ...diagnostic, error: ErrorNormalizer.normalize(diagnostic.error) };
 
     // biome-ignore lint: lint/suspicious/noConsole

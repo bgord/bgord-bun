@@ -7,7 +7,7 @@ import type {
 export class WoodchopperDiagnosticsNoop implements WoodchopperDiagnosticsStrategy {
   readonly entries: WoodchopperDiagnosticType[] = [];
 
-  handle(diagnostic: WoodchopperDiagnosticType) {
+  handle(diagnostic: WoodchopperDiagnosticType): void {
     this.entries.push({ ...diagnostic, error: ErrorNormalizer.normalize(diagnostic.error) });
   }
 }

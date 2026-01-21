@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import type { ImageInfoPort } from "./image-info.port";
+import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
 
 type Dependencies = { MimeRegistry: tools.MimeRegistry };
 
@@ -11,7 +11,7 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
     return (await import(name)).default;
   }
 
-  async inspect(filePath: tools.FilePathRelative | tools.FilePathAbsolute) {
+  async inspect(filePath: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
     const sharp = await this.load();
 
     const path = filePath.get();

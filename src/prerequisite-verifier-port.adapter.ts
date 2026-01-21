@@ -17,7 +17,7 @@ export class PrerequisiteVerifierPortAdapter implements PrerequisiteVerifierPort
     });
   }
 
-  get kind() {
+  get kind(): string {
     return "port";
   }
 }

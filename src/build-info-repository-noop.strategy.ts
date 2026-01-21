@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
+import type { BuildInfoRepositoryStrategy, BuildInfoType } from "./build-info-repository.strategy";
 import type { CommitSha } from "./commit-sha.vo";
 
 export class BuildInfoRepositoryNoopStrategy implements BuildInfoRepositoryStrategy {
@@ -10,7 +10,7 @@ export class BuildInfoRepositoryNoopStrategy implements BuildInfoRepositoryStrat
     private readonly size: tools.Size,
   ) {}
 
-  async extract() {
+  async extract(): Promise<BuildInfoType> {
     return { timestamp: this.timestamp, version: this.version, sha: this.sha, size: this.size };
   }
 }
