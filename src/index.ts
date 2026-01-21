@@ -221,6 +221,7 @@ export * from "./redactor.strategy";
 export * from "./redactor-compact-array.strategy";
 export * from "./redactor-compact-object.strategy";
 export * from "./redactor-composite.strategy";
+export * from "./redactor-error-cause-depth-limit.strategy";
 export * from "./redactor-error-stack-hide.strategy";
 export * from "./redactor-mask.strategy";
 export * from "./redactor-noop.strategy";
