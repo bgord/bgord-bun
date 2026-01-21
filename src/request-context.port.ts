@@ -3,7 +3,7 @@ export interface RequestContext {
     readonly path: string;
     header(name: string): string | undefined;
     query(): Record<string, string>;
-    cookies(): Record<string, string>;
+    cookie(name: string): string | undefined;
     json(): Promise<Record<string, unknown>>;
   };
 
