@@ -1,7 +1,11 @@
 import path from "node:path";
 import * as tools from "@bgord/tools";
 import type { DiskSpaceCheckerPort } from "./disk-space-checker.port";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 type Dependencies = { DiskSpaceChecker: DiskSpaceCheckerPort };
 
@@ -11,7 +15,7 @@ export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPor
     private readonly deps: Dependencies,
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const root = path.sep;
       const freeDiskSpace = await this.deps.DiskSpaceChecker.get(root);
@@ -23,7 +27,7 @@ export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPor
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "space";
   }
 }

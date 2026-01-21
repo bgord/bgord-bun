@@ -1,4 +1,5 @@
 import type { FileRenamerPort } from "./file-renamer.port";
+import type * as tools from "@bgord/tools";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort };
@@ -11,7 +12,7 @@ export class ImageBlurSharpAdapter implements ImageBlurPort {
     return (await import(name)).default;
   }
 
-  async blur(recipe: ImageBlurStrategy) {
+  async blur(recipe: ImageBlurStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const sharp = await this.load();
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

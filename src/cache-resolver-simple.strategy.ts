@@ -27,7 +27,7 @@ export class CacheResolverSimpleStrategy implements CacheResolverStrategy {
     return { value, source: CacheSourceEnum.miss };
   }
 
-  async flush() {
+  async flush(): Promise<void> {
     await this.deps.CacheRepository.flush();
   }
 }

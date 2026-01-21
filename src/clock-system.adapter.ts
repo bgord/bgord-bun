@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 
 export class ClockSystemAdapter implements ClockPort {
-  now() {
+  now(): tools.Timestamp {
     return tools.Timestamp.fromNumber(Date.now());
   }
 }

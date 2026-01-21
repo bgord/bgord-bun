@@ -1,10 +1,14 @@
 import dns from "dns/promises";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierDnsAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { hostname: string }) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       await dns.lookup(this.config.hostname);
 
@@ -14,7 +18,7 @@ export class PrerequisiteVerifierDnsAdapter implements PrerequisiteVerifierPort 
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "dns";
   }
 }

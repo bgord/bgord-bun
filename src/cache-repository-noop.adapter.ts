@@ -7,9 +7,9 @@ export class CacheRepositoryNoopAdapter implements CacheRepositoryPort {
     return null;
   }
 
-  async set() {}
+  async set(): Promise<void> {}
 
-  async delete() {}
+  async delete(): Promise<void> {}
 
-  async flush() {}
+  async flush(): Promise<void> {}
 }

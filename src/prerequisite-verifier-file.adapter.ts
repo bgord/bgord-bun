@@ -1,6 +1,10 @@
 import { access, constants } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -12,7 +16,7 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
     },
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const path = this.config.file.get();
 
@@ -44,7 +48,7 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "file";
   }
 }

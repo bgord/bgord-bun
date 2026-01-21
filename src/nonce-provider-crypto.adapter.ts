@@ -1,8 +1,8 @@
 import type { NonceProviderPort } from "./nonce-provider.port";
-import { NonceValue } from "./nonce-value.vo";
+import { NonceValue, NonceValueType } from "./nonce-value.vo";
 
 export class NonceProviderCryptoAdapter implements NonceProviderPort {
-  generate() {
+  generate(): NonceValueType {
     const buffer = new Uint8Array(8);
 
     crypto.getRandomValues(buffer);

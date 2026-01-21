@@ -11,7 +11,7 @@ export const EncryptionAesGcmAdapterError = { MissingFile: "encryption.aes.gcm.a
 export class EncryptionAesGcmAdapter implements EncryptionPort {
   constructor(private readonly deps: Dependencies) {}
 
-  async encrypt(recipe: EncryptionRecipe) {
+  async encrypt(recipe: EncryptionRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const key = await this.deps.CryptoKeyProvider.get();
     const iv = EncryptionIV.generate();
 
@@ -27,7 +27,7 @@ export class EncryptionAesGcmAdapter implements EncryptionPort {
     return recipe.output;
   }
 
-  async decrypt(recipe: EncryptionRecipe) {
+  async decrypt(recipe: EncryptionRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const key = await this.deps.CryptoKeyProvider.get();
 
     const file = Bun.file(recipe.input.get());
@@ -43,7 +43,7 @@ export class EncryptionAesGcmAdapter implements EncryptionPort {
     return recipe.output;
   }
 
-  async view(input: tools.FilePathRelative | tools.FilePathAbsolute) {
+  async view(input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ArrayBuffer> {
     const key = await this.deps.CryptoKeyProvider.get();
 
     const file = Bun.file(input.get());

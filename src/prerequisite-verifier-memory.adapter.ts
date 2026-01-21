@@ -1,11 +1,15 @@
 import * as tools from "@bgord/tools";
 import { MemoryConsumption } from "./memory-consumption.service";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { maximum: tools.Size }) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const memoryConsumption = MemoryConsumption.get();
 
     if (memoryConsumption.isSmallerThan(this.config.maximum)) return PrerequisiteVerification.success;
@@ -14,7 +18,7 @@ export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPo
     );
   }
 
-  get kind() {
+  get kind(): string {
     return "memory";
   }
 }

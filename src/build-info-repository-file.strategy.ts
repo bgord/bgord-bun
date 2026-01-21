@@ -1,5 +1,5 @@
 import * as tools from "@bgord/tools";
-import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
+import type { BuildInfoRepositoryStrategy, BuildInfoType } from "./build-info-repository.strategy";
 import { CommitSha } from "./commit-sha.vo";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 
@@ -10,7 +10,7 @@ export const BUILD_INFO_REPOSITORY_FILE_PATH = tools.FilePathRelative.fromString
 export class BuildInfoRepositoryFileStrategy implements BuildInfoRepositoryStrategy {
   constructor(private readonly deps: Dependencies) {}
 
-  async extract() {
+  async extract(): Promise<BuildInfoType> {
     const file = await this.deps.FileReaderJson.read(BUILD_INFO_REPOSITORY_FILE_PATH.get());
 
     const version = tools.PackageVersion.fromString(file.version);

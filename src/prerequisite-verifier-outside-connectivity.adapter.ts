@@ -1,12 +1,16 @@
 import * as tools from "@bgord/tools";
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierOutsideConnectivityAdapter implements PrerequisiteVerifierPort {
   private static readonly URL = tools.UrlWithoutSlash.parse("https://google.com");
 
   constructor() {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const response = await fetch(PrerequisiteVerifierOutsideConnectivityAdapter.URL, { method: "HEAD" });
 
@@ -17,7 +21,7 @@ export class PrerequisiteVerifierOutsideConnectivityAdapter implements Prerequis
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "outside-connectivity";
   }
 }

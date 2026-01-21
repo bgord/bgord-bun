@@ -1,4 +1,5 @@
 import type { FileRenamerPort } from "./file-renamer.port";
+import type * as tools from "@bgord/tools";
 import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort };
@@ -11,7 +12,7 @@ export class ImageAlphaSharpAdapter implements ImageAlphaPort {
     return (await import(name)).default;
   }
 
-  async flatten(recipe: ImageAlphaStrategy) {
+  async flatten(recipe: ImageAlphaStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const sharp = await this.load();
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

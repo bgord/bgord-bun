@@ -1,4 +1,5 @@
 import type { FileCleanerPort } from "./file-cleaner.port";
+import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
 
@@ -12,7 +13,7 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     return (await import(name)).default;
   }
 
-  async format(recipe: ImageFormatterStrategy) {
+  async format(recipe: ImageFormatterStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const sharp = await this.load();
 
     const final =

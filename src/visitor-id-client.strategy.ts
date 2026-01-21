@@ -1,4 +1,5 @@
 import type { Client } from "./client.vo";
+import type { Hash } from "./hash.vo";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { VisitorIdStrategy } from "./visitor-id.strategy";
 
@@ -10,7 +11,7 @@ export class VisitorIdClientStrategy implements VisitorIdStrategy {
     private readonly deps: Dependencies,
   ) {}
 
-  async get() {
+  async get(): Promise<Hash> {
     const { ip, ua } = this.client.toJSON();
 
     const value = `${ip}|${ua}`;

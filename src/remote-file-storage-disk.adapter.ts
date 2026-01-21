@@ -66,7 +66,7 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     await this.deps.FileCleaner.delete(this.resolveKeyToAbsoluteFilePath(key));
   }
 
-  get root() {
+  get root(): tools.DirectoryPathAbsoluteType {
     return this.config.root;
   }
 }

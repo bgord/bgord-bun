@@ -15,7 +15,7 @@ export class PrerequisiteVerifierWithRetryAdapter implements PrerequisiteVerifie
     private readonly deps: Dependencies,
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       return await new Retry(this.deps).run<PrerequisiteVerificationResult>(async () => {
         const result = await this.config.inner.verify();
@@ -28,7 +28,7 @@ export class PrerequisiteVerifierWithRetryAdapter implements PrerequisiteVerifie
     }
   }
 
-  get kind() {
+  get kind(): string {
     return this.config.inner.kind;
   }
 }

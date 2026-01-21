@@ -51,7 +51,7 @@ export class MailerResendAdapter implements MailerPort {
     throw error;
   }
 
-  async verify() {
+  async verify(): Promise<boolean> {
     return true;
   }
 }

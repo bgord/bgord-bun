@@ -1,9 +1,13 @@
-import { PrerequisiteVerification, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  PrerequisiteVerificationResult,
+  PrerequisiteVerification,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierExternalApiAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: { request: () => Promise<Response> }) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const response = await this.config.request();
 
@@ -14,7 +18,7 @@ export class PrerequisiteVerifierExternalApiAdapter implements PrerequisiteVerif
     }
   }
 
-  get kind() {
+  get kind(): string {
     return "external-api";
   }
 }

@@ -1,7 +1,11 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
-import { PrerequisiteVerificationOutcome, type PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import {
+  type PrerequisiteVerificationResult,
+  PrerequisiteVerificationOutcome,
+  type PrerequisiteVerifierPort,
+} from "./prerequisite-verifier.port";
 import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
@@ -18,7 +22,7 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
     private readonly deps: Dependencies,
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const stopwatch = new Stopwatch(this.deps);
     const result = await this.config.inner.verify();
     const durationMs = stopwatch.stop().ms;
@@ -45,7 +49,7 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
     return result;
   }
 
-  get kind() {
+  get kind(): string {
     return this.config.inner.kind;
   }
 }

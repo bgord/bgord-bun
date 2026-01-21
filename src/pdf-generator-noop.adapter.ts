@@ -11,7 +11,7 @@ export class PdfGeneratorNoopAdapter implements PdfGeneratorPort {
 
   constructor(private readonly deps: Dependencies) {}
 
-  async request(template: PdfGeneratorTemplateType, data: Record<string, unknown>) {
+  async request(template: PdfGeneratorTemplateType, data: Record<string, unknown>): Promise<Buffer> {
     this.deps.Logger.info({
       message: "[NOOP] PDF generator adapter",
       metadata: { template, data },

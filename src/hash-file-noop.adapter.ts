@@ -1,9 +1,9 @@
 import * as tools from "@bgord/tools";
 import { Hash } from "./hash.vo";
-import type { HashFilePort } from "./hash-file.port";
+import type { HashFilePort, HashFileResult } from "./hash-file.port";
 
 export class HashFileNoopAdapter implements HashFilePort {
-  async hash(_path: tools.FilePathAbsolute | tools.FilePathRelative) {
+  async hash(_path: tools.FilePathAbsolute | tools.FilePathRelative): Promise<HashFileResult> {
     return {
       etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
       size: tools.Size.fromBytes(10),

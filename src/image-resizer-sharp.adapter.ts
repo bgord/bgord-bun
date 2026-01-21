@@ -1,4 +1,5 @@
 import type { FileRenamerPort } from "./file-renamer.port";
+import type * as tools from "@bgord/tools";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort };
@@ -11,7 +12,7 @@ export class ImageResizerSharpAdapter implements ImageResizerPort {
     return (await import(name)).default;
   }
 
-  async resize(recipe: ImageResizerStrategy) {
+  async resize(recipe: ImageResizerStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const sharp = await this.load();
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

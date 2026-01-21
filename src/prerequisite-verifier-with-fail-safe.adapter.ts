@@ -24,14 +24,14 @@ export class PrerequisiteVerifierWithFailSafeAdapter implements PrerequisiteVeri
     this.when = config.when ?? AnyErrorFailSafe;
   }
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     const result = await this.config.inner.verify();
 
     if (this.when(result)) return PrerequisiteVerification.undetermined;
     return result;
   }
 
-  get kind() {
+  get kind(): string {
     return this.config.inner.kind;
   }
 }

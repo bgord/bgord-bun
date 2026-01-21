@@ -7,7 +7,7 @@ import type { DiskSpaceCheckerPort } from "./disk-space-checker.port";
 // /dev/disk3s1s1   239362496  10997540  43650948    21%    /
 
 export class DiskSpaceCheckerBunAdapter implements DiskSpaceCheckerPort {
-  async get(root: string) {
+  async get(root: string): Promise<tools.Size> {
     const stdout = await bun.$`df -kP ${root}`.text();
 
     const line = stdout.trim().split(/\r?\n/)[1]; // Select the second line

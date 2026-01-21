@@ -1,4 +1,5 @@
 import type { FileRenamerPort } from "./file-renamer.port";
+import type * as tools from "@bgord/tools";
 import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort };
@@ -13,7 +14,7 @@ export class ImageCompressorSharpAdapter implements ImageCompressorPort {
 
   private static readonly DEFAULT_QUALITY = 85;
 
-  async compress(recipe: ImageCompressorStrategy) {
+  async compress(recipe: ImageCompressorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const sharp = await this.load();
 
     const quality = recipe.quality ?? ImageCompressorSharpAdapter.DEFAULT_QUALITY;

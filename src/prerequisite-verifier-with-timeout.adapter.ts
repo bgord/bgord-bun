@@ -14,7 +14,7 @@ export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerif
     private readonly deps: Dependencies,
   ) {}
 
-  async verify() {
+  async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       return await this.deps.TimeoutRunner.run<PrerequisiteVerificationResult>(
         this.config.inner.verify(),
@@ -25,7 +25,7 @@ export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerif
     }
   }
 
-  get kind() {
+  get kind(): string {
     return this.config.inner.kind;
   }
 }
