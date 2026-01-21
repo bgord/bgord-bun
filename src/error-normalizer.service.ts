@@ -5,6 +5,15 @@ export class ErrorNormalizer {
     return ErrorNormalizer.normalizeWithGuard(error, new WeakSet());
   }
 
+  static isNormalizedError(value: unknown): value is NormalizedError {
+    return (
+      typeof value === "object" &&
+      value !== null &&
+      "message" in value &&
+      typeof (value as any).message === "string"
+    );
+  }
+
   private static normalizeWithGuard(error: unknown, seen: WeakSet<object>): NormalizedError {
     if (error instanceof Error) {
       if (seen.has(error)) return { message: error.message || "Circular error cause", name: error.name };
