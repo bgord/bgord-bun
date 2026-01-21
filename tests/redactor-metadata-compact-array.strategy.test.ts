@@ -13,6 +13,12 @@ describe("RedactorMetadataCompactArrayStrategy", () => {
     expect(redactor.redact(input)).toEqual({ metadata: { type: "Array", length: 21 } });
   });
 
+  test("redact - max items", () => {
+    const input = { metadata: ["admin"] };
+
+    expect(redactor.redact(input)).toEqual(input);
+  });
+
   test("redact - metadata array", () => {
     const input = { metadata: ["admin", "user"] };
 
