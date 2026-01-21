@@ -89,7 +89,7 @@ describe("PrerequisiteRunnerStartup service", () => {
     expect(async () => runner.check([PrerequisiteError])).toThrow("prerequisites.failure");
     expect(loggerError).toHaveBeenCalledWith({
       component: "infra",
-      error: { message: "unknown error" },
+      error: new Error("Unknown error"),
       message: "Prerequisite failed",
       metadata: {
         kind: PrerequisiteError.kind,

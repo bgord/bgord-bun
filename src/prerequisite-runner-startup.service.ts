@@ -33,8 +33,10 @@ export class PrerequisiteRunnerStartup {
       this.deps.Logger.error({
         message: "Prerequisite failed",
         metadata: { label: failure.prerequisite.label, kind: failure.prerequisite.kind },
-        // @ts-expect-error
-        error: failure.outcome.error ?? { message: "unknown error" },
+        error:
+          "error" in failure.outcome && failure.outcome.error
+            ? failure.outcome.error
+            : new Error("Unknown error"),
         ...this.base,
       });
     }
