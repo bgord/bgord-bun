@@ -23,7 +23,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
   constructor(
     private readonly sink: WoodchopperSinkStrategy,
-    private readonly capacity: number = 256,
+    private readonly capacity: tools.IntegerPositiveType = tools.IntegerPositive.parse(256),
   ) {
     this.run();
   }

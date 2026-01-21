@@ -749,7 +749,7 @@ describe("Woodchopper", async () => {
   test("pipeline - sink - dispatcher async - diagnostics", async () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 100);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
 
@@ -771,7 +771,7 @@ describe("Woodchopper", async () => {
 
   test("pipeline - sink - dispatcher async - no diagnostics", async () => {
     const sink = new WoodchopperSinkError();
-    const dispatcher = new WoodchopperDispatcherAsync(sink, 100);
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
 
