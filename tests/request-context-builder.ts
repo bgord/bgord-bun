@@ -56,7 +56,7 @@ export class RequestContextBuilder {
         path: this.path,
         header: (name) => this.headers.get(name) ?? undefined,
         query: () => this.query,
-        cookies: () => this.cookies,
+        cookie: (name) => this.cookies[name],
         json: async () => this.json,
       },
       identity: {
