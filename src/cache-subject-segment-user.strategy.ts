@@ -1,11 +1,11 @@
-import type { Context } from "hono";
 import type {
   CacheSubjectSegmentRequestStrategy,
   CacheSubjectSegmentType,
 } from "./cache-subject-segment-request.strategy";
+import type { RequestContext } from "./request-context.port";
 
 export class CacheSubjectSegmentUserStrategy implements CacheSubjectSegmentRequestStrategy {
-  create(context: Context): CacheSubjectSegmentType {
-    return context.get("user")?.id ?? "anon";
+  create(context: RequestContext): CacheSubjectSegmentType {
+    return context.identity.userId() ?? "anon";
   }
 }
