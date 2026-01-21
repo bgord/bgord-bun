@@ -1,4 +1,4 @@
-import { isPlainObject } from "./deep-clone-with";
+import { isPlainObject } from "./is-plain-object";
 
 export type NormalizedError = { message: string; name?: string; stack?: string; cause?: NormalizedError };
 

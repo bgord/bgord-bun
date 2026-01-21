@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
-import { deepCloneWith, isPlainObject } from "./deep-clone-with";
+import { deepCloneWith } from "./deep-clone-with";
+import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 type RedactorMetadataCompactArrayOptions = { maxItems?: tools.IntegerPositiveType };
