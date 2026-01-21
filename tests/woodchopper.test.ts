@@ -368,6 +368,23 @@ describe("Woodchopper", async () => {
     });
   });
 
+  test("redactor - compact array", () => {
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const redactor = new RedactorCompactArrayStrategy();
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
+
+    woodchopper.info({ ...entry, metadata: { users: ["1", "2", "3"] } });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entry,
+      timestamp: mocks.TIME_ZERO_ISO,
+      metadata: { users: { length: 3, type: "Array" } },
+    });
+  });
+
   test("redactor - error stack hide", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -410,24 +427,6 @@ describe("Woodchopper", async () => {
     });
   });
 
-  test("redactor - ", () => {
-    const sink = new WoodchopperSinkNoop();
-    const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorCompactArrayStrategy();
-    const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
-
-    woodchopper.info({ ...entry, metadata: { users: ["1", "2", "3"] } });
-
-    expect(sink.entries[0]).toEqual({
-      ...config,
-      ...entry,
-      timestamp: mocks.TIME_ZERO_ISO,
-      metadata: { users: { length: 3, type: "Array" } },
-    });
-  });
-
-  // TODO: add all
   test("redactor - composite", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -435,16 +434,29 @@ describe("Woodchopper", async () => {
       new RedactorNoopStrategy(),
       new RedactorMaskStrategy(),
       new RedactorCompactArrayStrategy(),
+      new RedactorErrorStackHideStrategy(),
+      new RedactorErrorCauseDepthLimitStrategy(1),
     ]);
-    const config = { app, level: LogLevelEnum.info, environment };
+    const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
-    woodchopper.info({ ...entry, metadata: { password: "secret", users: ["1", "2", "3"] } });
+    const error = new Error(mocks.IntentionalError);
+    const first = new Error(mocks.IntentionalCause);
+    const second = new Error(mocks.IntentionalCause);
+    error.cause = first;
+    first.cause = second;
+
+    woodchopper.error({ ...entry, error, metadata: { password: "secret", users: ["1", "2", "3"] } });
 
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entry,
       timestamp: mocks.TIME_ZERO_ISO,
+      error: {
+        ...mocks.IntentionalErrorNormalized,
+        stack: undefined,
+        cause: { cause: undefined, message: mocks.IntentionalCause, name: "Error" },
+      },
       metadata: { users: { length: 3, type: "Array" }, password: "***" },
     });
   });
