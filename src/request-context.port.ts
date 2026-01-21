@@ -4,7 +4,6 @@ export interface RequestContext {
     header(name: string): string | undefined;
     query(): Record<string, string>;
     cookies(): Record<string, string>;
-    rawHeaders(): Headers;
     json(): Promise<Record<string, unknown>>;
   };
 
