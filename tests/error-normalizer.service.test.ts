@@ -6,35 +6,28 @@ describe("ErrorNormalizer", () => {
   test("normalize - error instance", () => {
     const result = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
 
-    expect(result).toEqual({
-      name: "Error",
-      message: mocks.IntentionalError,
-      stack: expect.any(String),
-      cause: undefined,
-    });
+    expect(result).toEqual(mocks.IntentionalErrorNormalized);
   });
 
   test("normalize - error instance - cause - error", () => {
-    const error = new Error(mocks.IntentionalError, { cause: new Error("cause") });
+    const error = new Error(mocks.IntentionalError, { cause: new Error(mocks.IntentionalCause) });
 
     const result = ErrorNormalizer.normalize(error);
 
     expect(result).toEqual({
-      name: "Error",
-      message: mocks.IntentionalError,
-      stack: expect.any(String),
-      cause: { name: "Error", message: "cause", stack: expect.any(String), cause: undefined },
+      ...mocks.IntentionalErrorNormalized,
+      cause: { name: "Error", message: mocks.IntentionalCause, stack: expect.any(String), cause: undefined },
     });
   });
 
   test("normalize - error instance - cause - string", () => {
-    const result = ErrorNormalizer.normalize(new Error(mocks.IntentionalError, { cause: "root" }));
+    const result = ErrorNormalizer.normalize(
+      new Error(mocks.IntentionalError, { cause: mocks.IntentionalCause }),
+    );
 
     expect(result).toEqual({
-      name: "Error",
-      message: mocks.IntentionalError,
-      stack: expect.any(String),
-      cause: { message: "root" },
+      ...mocks.IntentionalErrorNormalized,
+      cause: { message: mocks.IntentionalCause },
     });
   });
 
@@ -64,15 +57,13 @@ describe("ErrorNormalizer", () => {
 
   test("normalize - circular error", () => {
     const error = new Error(mocks.IntentionalError);
-    (error as any).cause = error;
+    error.cause = error;
 
     const normalized = ErrorNormalizer.normalize(error);
 
     expect(normalized).toEqual({
-      message: mocks.IntentionalError,
-      name: "Error",
+      ...mocks.IntentionalErrorNormalized,
       cause: { message: mocks.IntentionalError, name: "Error" },
-      stack: expect.any(String),
     });
   });
 

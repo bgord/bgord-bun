@@ -7,17 +7,14 @@ const redactor = new RedactorErrorCauseDepthLimitStrategy(1);
 
 describe("RedactorLimitErrorCauseDepthStrategy", () => {
   test("limit - above", () => {
-    const IntentionalCause = "intentional.cause";
-    const cause = ErrorNormalizer.normalize(new Error(IntentionalCause));
+    const cause = ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
     const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
     error.cause = cause;
 
     expect(redactor.redact({ error })).toEqual({
       error: {
-        message: mocks.IntentionalError,
-        name: "Error",
-        stack: expect.any(String),
-        cause: { message: IntentionalCause, name: "Error", stack: expect.any(String), cause: undefined },
+        ...mocks.IntentionalErrorNormalized,
+        cause: { message: mocks.IntentionalCause, name: "Error", stack: expect.any(String) },
       },
     });
   });

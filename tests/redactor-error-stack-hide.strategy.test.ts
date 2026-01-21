@@ -10,22 +10,20 @@ describe("RedactorErrorStackHideStrategy", () => {
     const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
 
     expect(redactor.redact({ error })).toEqual({
-      error: { message: mocks.IntentionalError, name: "Error", cause: undefined, stack: undefined },
+      error: { ...mocks.IntentionalErrorNormalized, stack: undefined },
     });
   });
 
   test("stack - cause", () => {
-    const IntentionalCause = "intentional.cause";
-    const cause = ErrorNormalizer.normalize(new Error(IntentionalCause));
+    const cause = ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
     const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
     error.cause = cause;
 
     expect(redactor.redact({ error })).toEqual({
       error: {
-        message: mocks.IntentionalError,
-        name: "Error",
-        cause: { message: IntentionalCause, name: "Error", stack: undefined, cause: undefined },
+        ...mocks.IntentionalErrorNormalized,
         stack: undefined,
+        cause: { message: mocks.IntentionalCause, name: "Error" },
       },
     });
   });

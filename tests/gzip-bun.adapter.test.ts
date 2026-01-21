@@ -38,11 +38,7 @@ describe("GzipBunAdapter", () => {
   });
 
   test("read error propagation", async () => {
-    spyOn(Bun, "file").mockReturnValue({
-      arrayBuffer: async () => {
-        throw mocks.IntentionalError;
-      },
-    } as any);
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: mocks.throwIntentionalErrorAsync } as any);
     const bunGzipSync = spyOn(Bun, "gzipSync");
     const bunWrite = spyOn(Bun, "write");
 

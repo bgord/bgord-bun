@@ -12,10 +12,7 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
 
     diagnostics.handle({ kind: "sink", error: new Error(mocks.IntentionalError) });
 
-    expect(consoleError).toHaveBeenCalledWith({
-      kind: "sink",
-      error: { message: mocks.IntentionalError, name: "Error", cause: undefined, stack: expect.any(String) },
-    });
+    expect(consoleError).toHaveBeenCalledWith({ kind: "sink", error: mocks.IntentionalErrorNormalized });
   });
 
   test("handle - redactor", () => {
@@ -26,10 +23,9 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
     ]);
     const diagnostics = new WoodchopperDiagnosticsConsoleError(redactor);
 
-    const IntentionalCause = "intentional.cause";
     const error = new Error(mocks.IntentionalError);
-    const first = new Error(IntentionalCause);
-    const second = new Error(IntentionalCause);
+    const first = new Error(mocks.IntentionalCause);
+    const second = new Error(mocks.IntentionalCause);
     error.cause = first;
     first.cause = second;
 
@@ -38,9 +34,9 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
     expect(consoleError).toHaveBeenCalledWith({
       kind: "sink",
       error: {
-        message: mocks.IntentionalError,
-        name: "Error",
-        cause: { name: "Error", cause: undefined, message: IntentionalCause },
+        ...mocks.IntentionalErrorNormalized,
+        stack: undefined,
+        cause: { name: "Error", message: mocks.IntentionalCause },
       },
     });
   });

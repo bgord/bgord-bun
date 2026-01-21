@@ -28,12 +28,20 @@ export function stringToStream(string: string): ReadableStream<Uint8Array> {
   });
 }
 
+export const IntentionalCause = "intentional.cause" as const;
 export const IntentionalError = "intentional.error" as const;
 export const throwIntentionalError = () => {
   throw new Error(IntentionalError);
 };
 export const throwIntentionalErrorAsync = async () => {
   throw new Error(IntentionalError);
+};
+
+export const IntentionalErrorNormalized = {
+  cause: undefined,
+  message: IntentionalError,
+  name: "Error",
+  stack: expect.any(String),
 };
 
 export function createContext(headers: Record<string, string | undefined>): Context {
