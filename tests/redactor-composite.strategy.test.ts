@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import type { RedactorStrategy } from "../src/redactor.strategy";
-import { RedactorCompactArrayStrategy } from "../src/redactor-compact-array.strategy";
 import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
+import { RedactorMetadataCompactArrayStrategy } from "../src/redactor-metadata-compact-array.strategy";
 import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
 
 class UppercaseRedactor implements RedactorStrategy {
@@ -35,7 +35,7 @@ describe("RedactorCompositeStrategy", () => {
   test("compact array and object pipeline", () => {
     const input = { keep: { a: 1, b: 2 }, summarize: { a: 1, b: [1, 2, 3] } };
     const redactor = new RedactorCompositeStrategy([
-      new RedactorCompactArrayStrategy(),
+      new RedactorMetadataCompactArrayStrategy(),
       new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) }),
     ]);
 
