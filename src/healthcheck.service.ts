@@ -34,7 +34,7 @@ type HealthcheckResultType = {
   server: {
     pid: typeof process.pid;
     hostname: ReturnType<typeof os.hostname>;
-    cpus: number;
+    cpus: tools.IntegerNonNegativeType;
     startup: tools.TimestampValueType;
     uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
     memory: {
@@ -107,7 +107,7 @@ export class Healthcheck {
         server: {
           pid: process.pid,
           hostname: os.hostname(),
-          cpus: os.cpus().length,
+          cpus: tools.IntegerNonNegative.parse(os.cpus().length),
           startup: deps.Clock.now().subtract(uptime.duration).ms,
           uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
           memory: {

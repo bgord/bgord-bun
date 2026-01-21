@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import { ErrorNormalizer } from "./error-normalizer.service";
 import {
@@ -25,14 +26,14 @@ export type WoodchopperConfigType = {
 
 type Dependencies = { Clock: ClockPort };
 
-const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, number> = {
-  [LogLevelEnum.error]: 0,
-  [LogLevelEnum.warn]: 1,
-  [LogLevelEnum.info]: 2,
-  [LogLevelEnum.http]: 3,
-  [LogLevelEnum.verbose]: 4,
-  [LogLevelEnum.debug]: 5,
-  [LogLevelEnum.silly]: 6,
+const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, tools.IntegerNonNegativeType> = {
+  [LogLevelEnum.error]: tools.IntegerNonNegative.parse(0),
+  [LogLevelEnum.warn]: tools.IntegerNonNegative.parse(1),
+  [LogLevelEnum.info]: tools.IntegerNonNegative.parse(2),
+  [LogLevelEnum.http]: tools.IntegerNonNegative.parse(3),
+  [LogLevelEnum.verbose]: tools.IntegerNonNegative.parse(4),
+  [LogLevelEnum.debug]: tools.IntegerNonNegative.parse(5),
+  [LogLevelEnum.silly]: tools.IntegerNonNegative.parse(6),
 };
 
 export enum WoodchopperState {

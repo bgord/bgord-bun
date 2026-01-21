@@ -423,7 +423,7 @@ describe("Woodchopper", async () => {
   test("redactor - error cause depth limit", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorErrorCauseDepthLimitStrategy(1);
+    const redactor = new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1));
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -455,7 +455,7 @@ describe("Woodchopper", async () => {
       new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) }),
       new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
       new RedactorErrorStackHideStrategy(),
-      new RedactorErrorCauseDepthLimitStrategy(1),
+      new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1)),
     ]);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
