@@ -13,7 +13,6 @@ export class RequestContextAdapterHono implements RequestContext {
       header: (name) => context.req.header(name),
       query: () => context.req.query() ?? {},
       cookies: () => getCookie(context),
-      rawHeaders: () => context.req.raw.headers,
       json: async () => {
         try {
           const request = context.req.raw.clone();
