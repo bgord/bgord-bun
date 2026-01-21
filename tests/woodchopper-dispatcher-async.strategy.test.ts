@@ -106,7 +106,22 @@ describe("WoodchopperDispatcherAsync", () => {
     expect(dispatcher.dispatch(entry)).toEqual(false);
   });
 
-  test("close - cloes with buffered entries", async () => {
+  test("close - idempotency", async () => {
+    const diagnostics = new WoodchopperDiagnosticsNoop();
+    const sink = new WoodchopperSinkNoop();
+    const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
+    dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
+
+    dispatcher.dispatch(entry);
+    dispatcher.close();
+    dispatcher.close();
+
+    await mocks.tick();
+
+    expect(diagnostics.entries.length).toEqual(1);
+  });
+
+  test("close - buffered entries", async () => {
     const diagnostics = new WoodchopperDiagnosticsNoop();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, 10);
