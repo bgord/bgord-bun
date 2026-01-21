@@ -1,5 +1,5 @@
-import { isPlainObject } from "./deep-clone-with";
 import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.service";
+import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorErrorStackHideStrategy implements RedactorStrategy {
