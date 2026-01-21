@@ -4,7 +4,7 @@ import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
 const redactor = new RedactorMaskStrategy(["password", "authorization", "x-api-key", "refreshToken"]);
 
 describe("RedactorMaskStrategy", () => {
-  test("happy path", () => {
+  test("redact", () => {
     const input = {
       meta: { headers: { Authorization: "Bearer abc.def.ghi", "x-api-key": "XYZ-123" } },
       nested: [{ refreshToken: "r1-r2-r3" }, { Secret: "should-stay" }],
@@ -18,7 +18,7 @@ describe("RedactorMaskStrategy", () => {
     });
   });
 
-  test("happy path - nested", () => {
+  test("redact - nested", () => {
     const input = { password: { nested: "x" }, authorization: 123, ok: true };
 
     // @ts-expect-error
