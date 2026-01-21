@@ -453,6 +453,7 @@ describe("Woodchopper", async () => {
       new RedactorNoopStrategy(),
       new RedactorMaskStrategy(),
       new RedactorCompactArrayStrategy(),
+      new RedactorMetadataCompactStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
       new RedactorErrorStackHideStrategy(),
       new RedactorErrorCauseDepthLimitStrategy(1),
     ]);
@@ -465,7 +466,15 @@ describe("Woodchopper", async () => {
     error.cause = first;
     first.cause = second;
 
-    woodchopper.error({ ...entry, error, metadata: { password: "secret", users: ["1", "2", "3"] } });
+    woodchopper.error({
+      ...entry,
+      error,
+      metadata: {
+        password: "secret",
+        users: ["1", "2", "3"],
+        types: { admin: true, user: true, api: true, anon: true },
+      },
+    });
 
     expect(sink.entries[0]).toEqual({
       ...config,
@@ -476,7 +485,7 @@ describe("Woodchopper", async () => {
         stack: undefined,
         cause: { cause: undefined, message: mocks.IntentionalCause, name: "Error" },
       },
-      metadata: { users: { length: 3, type: "Array" }, password: "***" },
+      metadata: { password: "***", users: { length: 3, type: "Array" }, types: { type: "Object", keys: 4 } },
     });
   });
 
