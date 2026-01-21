@@ -1,3 +1,5 @@
+import type { UUIDType } from "./uuid.vo";
+
 export interface RequestContext {
   readonly request: {
     readonly path: string;
@@ -8,7 +10,7 @@ export interface RequestContext {
   };
 
   readonly identity: {
-    userId(): string | undefined;
+    userId(): UUIDType | undefined;
     ip(): string | undefined;
     userAgent(): string | undefined;
   };

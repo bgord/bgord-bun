@@ -38,13 +38,6 @@ describe("SecurityRuleHoneyPotFieldStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
-  test.todo("isViolated - false - throw error", async () => {
-    const context = new RequestContextBuilder().build();
-    spyOn(context.request, "json").mockImplementation(mocks.throwIntentionalError);
-
-    expect(await rule.isViolated(context)).toEqual(false);
-  });
-
   test("name", () => {
     expect(rule.name).toEqual(SecurityRuleName.parse("honey_pot_field"));
   });
