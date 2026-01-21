@@ -13,7 +13,7 @@ export class ErrorNormalizer {
 
   private static normalizeWithGuard(error: unknown, seen: WeakSet<object>): NormalizedError {
     if (error instanceof Error) {
-      if (seen.has(error)) return { message: error.message || "Circular error cause", name: error.name };
+      if (seen.has(error)) return { message: error.message, name: error.name };
 
       seen.add(error);
 
@@ -24,10 +24,8 @@ export class ErrorNormalizer {
             ? { message: error.cause }
             : undefined;
 
-      return { message: error.message || "Unknown error", name: error.name, stack: error.stack, cause };
+      return { message: error.message, name: error.name, stack: error.stack, cause };
     }
-
-    if (typeof error === "string") return { message: error };
 
     return { message: String(error) };
   }
