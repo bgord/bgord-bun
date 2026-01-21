@@ -15,8 +15,6 @@ export class RedactorMetadataCompactObjectStrategy implements RedactorStrategy {
 
   redact<T>(input: T): T {
     if (!isPlainObject(input)) return input;
-    if (!("metadata" in input)) return input;
-    if (!isPlainObject(input.metadata)) return input;
 
     return {
       ...input,
