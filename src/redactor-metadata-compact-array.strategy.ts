@@ -1,7 +1,7 @@
 import { deepCloneWith } from "./deep-clone-with";
 import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorCompactArrayStrategy implements RedactorStrategy {
+export class RedactorMetadataCompactArrayStrategy implements RedactorStrategy {
   redact<T>(input: T): T {
     return deepCloneWith(
       input,
