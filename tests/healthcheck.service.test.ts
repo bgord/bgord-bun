@@ -57,11 +57,13 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        NodeEnvironmentEnum.production,
-        [
-          mocks.PrerequisiteOk,
-          new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
-        ],
+        {
+          Env: NodeEnvironmentEnum.production,
+          prerequisites: [
+            mocks.PrerequisiteOk,
+            new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
+          ],
+        },
         deps,
       ),
     );
@@ -118,11 +120,13 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        NodeEnvironmentEnum.production,
-        [
-          new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
-          mocks.PrerequisiteOk,
-        ],
+        {
+          Env: NodeEnvironmentEnum.production,
+          prerequisites: [
+            new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
+            mocks.PrerequisiteOk,
+          ],
+        },
         deps,
       ),
     );
@@ -179,8 +183,10 @@ describe("Healthcheck service", () => {
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(
-        NodeEnvironmentEnum.production,
-        [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+        {
+          Env: NodeEnvironmentEnum.production,
+          prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+        },
         deps,
       ),
     );
