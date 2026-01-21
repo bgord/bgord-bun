@@ -41,4 +41,10 @@ describe("RedactorErrorStackHideStrategy", () => {
 
     expect(redactor.redact(input)).toEqual(input);
   });
+
+  test("noop - not normalized error", () => {
+    const input = { error: 5 };
+
+    expect(redactor.redact(input)).toEqual(input);
+  });
 });
