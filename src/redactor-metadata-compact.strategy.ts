@@ -14,16 +14,23 @@ export class RedactorMetadataCompactStrategy implements RedactorStrategy {
   }
 
   redact<T>(input: T): T {
-    return deepCloneWith(
-      input,
-      (value) => {
-        if (!isPlainObject(value) || Array.isArray(value)) return undefined;
+    if (!isPlainObject(input)) return input;
+    if (!("metadata" in input)) return input;
+    if (!isPlainObject(input.metadata)) return input;
 
-        const keys = Object.keys(value).length;
+    return {
+      ...input,
+      metadata: deepCloneWith(
+        input.metadata,
+        (value) => {
+          if (!isPlainObject(value) || Array.isArray(value)) return undefined;
 
-        return keys > this.maxKeys ? { type: "Object", keys } : undefined;
-      },
-      { allowRootReplace: true },
-    );
+          const keys = Object.keys(value).length;
+
+          return keys > this.maxKeys ? { type: "Object", keys } : undefined;
+        },
+        { allowRootReplace: true },
+      ),
+    };
   }
 }
