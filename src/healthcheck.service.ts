@@ -59,14 +59,15 @@ type HealthcheckResultType = {
   timestamp: tools.TimestampValueType;
 };
 
+type HealthcheckConfigType = { Env: NodeEnvironmentEnum; prerequisites: Prerequisite[] };
 type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepositoryStrategy };
 
 export class Healthcheck {
-  static build = (Env: NodeEnvironmentEnum, _prerequisites: Prerequisite[], deps: Dependencies) =>
+  static build = (config: HealthcheckConfigType, deps: Dependencies) =>
     handler.createHandlers(async (c) => {
       const stopwatch = new Stopwatch(deps);
 
-      const prerequisites = [self, ..._prerequisites]
+      const prerequisites = [self, ...config.prerequisites]
         .filter((prerequisite) => prerequisite.enabled)
         .filter((prerequisite) => prerequisite.kind !== "port");
 
@@ -102,7 +103,7 @@ export class Healthcheck {
           date: new Date(build.timestamp.ms).toISOString(),
           sha: build.sha.toString(),
           size: build.size.format(tools.Size.unit.MB),
-          environment: Env,
+          environment: config.Env,
         },
         server: {
           pid: process.pid,
