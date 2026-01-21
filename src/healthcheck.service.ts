@@ -7,6 +7,7 @@ import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { EventLoopLag } from "./event-loop-lag.service";
 import { EventLoopUtilization, type EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
 import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
+import type { LoggerStatsProviderPort, LoggerStatsSnapshot } from "./logger-stats-provider.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
@@ -56,6 +57,7 @@ type HealthcheckResultType = {
     outcome: PrerequisiteVerificationResult;
     durationMs: tools.DurationMsType;
   }[];
+  logger?: LoggerStatsSnapshot;
   durationMs: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
 };
@@ -65,7 +67,11 @@ type HealthcheckConfigType = {
   prerequisites: Prerequisite[];
   redactor?: RedactorStrategy;
 };
-type Dependencies = { Clock: ClockPort; BuildInfoRepository: BuildInfoRepositoryStrategy };
+type Dependencies = {
+  Clock: ClockPort;
+  BuildInfoRepository: BuildInfoRepositoryStrategy;
+  LoggerStatsProvider?: LoggerStatsProviderPort;
+};
 
 export class Healthcheck {
   static build = (config: HealthcheckConfigType, deps: Dependencies) =>
@@ -137,6 +143,7 @@ export class Healthcheck {
           },
           inFlight: InFlightRequestsTracker.get(),
         },
+        logger: deps.LoggerStatsProvider?.getStats(),
         durationMs: stopwatch.stop().ms,
         timestamp: deps.Clock.now().ms,
       };

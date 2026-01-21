@@ -166,6 +166,7 @@ export * from "./job-handler-with-logger.strategy";
 export * from "./jobs.service";
 export * from "./logger.port";
 export * from "./logger-noop.adapter";
+export * from "./logger-stats-provider.port";
 export * from "./mailer.port";
 export * from "./mailer-content-html.vo";
 export * from "./mailer-noop.adapter";
