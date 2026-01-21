@@ -26,10 +26,10 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
     ]);
     const diagnostics = new WoodchopperDiagnosticsConsoleError(redactor);
 
+    const IntentionalCause = "intentional.cause";
     const error = new Error(mocks.IntentionalError);
-    const first = new Error("intentional.cause.first");
-    const second = new Error("intentional.cause.second");
-
+    const first = new Error(IntentionalCause);
+    const second = new Error(IntentionalCause);
     error.cause = first;
     first.cause = second;
 
@@ -40,7 +40,7 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
       error: {
         message: mocks.IntentionalError,
         name: "Error",
-        cause: { name: "Error", cause: undefined, message: "intentional.cause.first" },
+        cause: { name: "Error", cause: undefined, message: IntentionalCause },
       },
     });
   });
