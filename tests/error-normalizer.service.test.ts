@@ -3,7 +3,7 @@ import { ErrorNormalizer } from "../src/error-normalizer.service";
 import * as mocks from "./mocks";
 
 describe("ErrorNormalizer", () => {
-  test("error instance", () => {
+  test("normalize - error instance", () => {
     const result = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
 
     expect(result).toEqual({
@@ -14,7 +14,7 @@ describe("ErrorNormalizer", () => {
     });
   });
 
-  test("error instance - cause - error", () => {
+  test("normalize - error instance - cause - error", () => {
     const error = new Error(mocks.IntentionalError, { cause: new Error("cause") });
 
     const result = ErrorNormalizer.normalize(error);
@@ -27,7 +27,7 @@ describe("ErrorNormalizer", () => {
     });
   });
 
-  test("error instance - cause - string", () => {
+  test("normalize - error instance - cause - string", () => {
     const result = ErrorNormalizer.normalize(new Error(mocks.IntentionalError, { cause: "root" }));
 
     expect(result).toEqual({
@@ -38,19 +38,31 @@ describe("ErrorNormalizer", () => {
     });
   });
 
-  test("string", () => {
+  test("normalize - string", () => {
     const result = ErrorNormalizer.normalize("Something has crashed");
 
     expect(result).toEqual({ message: "Something has crashed" });
   });
 
-  test("number", () => {
+  test("normalize - number", () => {
     const result = ErrorNormalizer.normalize(123);
 
     expect(result).toEqual({ message: "123" });
   });
 
-  test("circular error", () => {
+  test("normalize - undefined", () => {
+    const result = ErrorNormalizer.normalize(undefined);
+
+    expect(result).toEqual({ message: "undefined" });
+  });
+
+  test("normalize - null", () => {
+    const result = ErrorNormalizer.normalize(null);
+
+    expect(result).toEqual({ message: "null" });
+  });
+
+  test("normalize -circular error", () => {
     const error = new Error(mocks.IntentionalError);
     (error as any).cause = error;
 
