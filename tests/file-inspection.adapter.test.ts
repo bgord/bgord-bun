@@ -1,8 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as mocks from "./mocks";
-import * as tools from "@bgord/tools";
 import * as fs from "node:fs/promises";
+import * as tools from "@bgord/tools";
 import { FileInspectionAdapter } from "../src/file-inspection.adapter";
+import * as mocks from "./mocks";
 
 const adapter = new FileInspectionAdapter();
 

@@ -1,4 +1,3 @@
-import { access, constants } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import type { FileInspectionPort } from "./file-inspection.port";
 import {
@@ -22,28 +21,22 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
-      const path = this.config.file.get();
-
-      const exists = await this.deps.FileInspection.exists(path);
+      const exists = await this.deps.FileInspection.exists(this.config.file);
 
       if (!exists) return PrerequisiteVerification.failure("File does not exist");
 
       const permissions = this.config.permissions ?? {};
 
-      const checks = [
-        { enabled: permissions.read, mode: constants.R_OK, error: "File is not readable" },
-        { enabled: permissions.write, mode: constants.W_OK, error: "File is not writable" },
-        { enabled: permissions.execute, mode: constants.X_OK, error: "File is not executable" },
-      ];
+      if (permissions.read && !(await this.deps.FileInspection.canRead(this.config.file))) {
+        return PrerequisiteVerification.failure("File is not readable");
+      }
 
-      for (const check of checks) {
-        if (!check.enabled) continue;
+      if (permissions.write && !(await this.deps.FileInspection.canWrite(this.config.file))) {
+        return PrerequisiteVerification.failure("File is not writable");
+      }
 
-        try {
-          await access(this.config.file.get(), check.mode);
-        } catch {
-          return PrerequisiteVerification.failure(check.error);
-        }
+      if (permissions.execute && !(await this.deps.FileInspection.canExecute(this.config.file))) {
+        return PrerequisiteVerification.failure("File is not executable");
       }
 
       return PrerequisiteVerification.success;

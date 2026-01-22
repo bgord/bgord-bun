@@ -3,7 +3,7 @@ import type { FileInspectionPort } from "./file-inspection.port";
 
 type FileInspectionNoopAdapterConfigType = {
   exists: boolean;
-  requirements?: { read: boolean; write: boolean; execute: boolean };
+  permissions?: { read?: boolean; write?: boolean; execute?: boolean };
 };
 
 export class FileInspectionNoopAdapter implements FileInspectionPort {
@@ -14,12 +14,12 @@ export class FileInspectionNoopAdapter implements FileInspectionPort {
   }
 
   async canRead(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean> {
-    return this.config.requirements?.read ?? true;
+    return this.config.permissions?.read ?? true;
   }
   async canWrite(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean> {
-    return this.config.requirements?.write ?? true;
+    return this.config.permissions?.write ?? true;
   }
   async canExecute(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean> {
-    return this.config.requirements?.execute ?? true;
+    return this.config.permissions?.execute ?? true;
   }
 }
