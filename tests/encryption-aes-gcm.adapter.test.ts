@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { EncryptionAesGcmAdapter } from "../src/encryption-aes-gcm.adapter";
 import { EncryptionIV } from "../src/encryption-iv.vo";
+import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 
 const iv = new Uint8Array(Array.from({ length: 12 }, (_, i) => i + 1));
 const plaintext = new Uint8Array([10, 20, 30, 40, 50]);
@@ -16,13 +17,18 @@ const recipe = {
   output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),
 };
 
-describe("EncryptionAesGcmAdapter", () => {
-  const adapter = new EncryptionAesGcmAdapter({ CryptoKeyProvider: new CryptoKeyProviderNoopAdapter() });
+const FileInspection = new FileInspectionNoopAdapter({ exists: true });
+const CryptoKeyProvider = new CryptoKeyProviderNoopAdapter();
 
+const deps = { CryptoKeyProvider, FileInspection };
+
+const adapter = new EncryptionAesGcmAdapter(deps);
+
+describe("EncryptionAesGcmAdapter", () => {
   test("encrypt", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     // @ts-expect-error TODO
-    spyOn(Bun, "file").mockReturnValue({ exists: () => true, arrayBuffer: () => plaintext.buffer });
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: () => plaintext.buffer });
     spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
@@ -34,18 +40,16 @@ describe("EncryptionAesGcmAdapter", () => {
   test("encrypt - missing file", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     // @ts-expect-error TODO
-    spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer });
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: () => plaintext.buffer });
+    const FileInspection = new FileInspectionNoopAdapter({ exists: false });
+    const adapter = new EncryptionAesGcmAdapter({ CryptoKeyProvider, FileInspection });
 
     expect(async () => adapter.encrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
 
   test("decrypt", async () => {
-    spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error TODO
-      exists: () => true,
-      // @ts-expect-error TODO - file system port
-      arrayBuffer: () => encryptedFileContent.buffer,
-    });
+    // @ts-expect-error TODO
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: () => encryptedFileContent.buffer });
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
@@ -55,49 +59,37 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("decrypt - failure - invalid payload", async () => {
-    spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error TODO
-      exists: () => true,
-      // @ts-expect-error TODO
-      arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
-    });
+    // @ts-expect-error TODO
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer });
 
     expect(async () => adapter.decrypt(recipe)).toThrow("aes.gcm.crypto.invalid.payload");
   });
 
   test("decrypt - failure - missing file", async () => {
-    // @ts-expect-error TODO
-    spyOn(Bun, "file").mockReturnValue({ exists: () => false });
+    const FileInspection = new FileInspectionNoopAdapter({ exists: false });
+    const adapter = new EncryptionAesGcmAdapter({ CryptoKeyProvider, FileInspection });
 
     expect(async () => adapter.decrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
 
   test("view", async () => {
-    spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error TODO
-      exists: () => true,
-      // @ts-expect-error TODO
-      arrayBuffer: () => encryptedFileContent.buffer,
-    });
+    // @ts-expect-error TODO
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: () => encryptedFileContent.buffer });
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
 
     expect(await adapter.view(recipe.input)).toEqual(plaintext.buffer);
   });
 
   test("view - failure - invalid payload", async () => {
-    spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error TODO
-      exists: () => true,
-      // @ts-expect-error TODO
-      arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
-    });
+    // @ts-expect-error TODO
+    spyOn(Bun, "file").mockReturnValue({ arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer });
 
     expect(async () => adapter.view(recipe.input)).toThrow("aes.gcm.crypto.invalid.payload");
   });
 
   test("view - failure - missing file", async () => {
-    // @ts-expect-error TODO
-    spyOn(Bun, "file").mockReturnValue({ exists: () => false });
+    const FileInspection = new FileInspectionNoopAdapter({ exists: false });
+    const adapter = new EncryptionAesGcmAdapter({ CryptoKeyProvider, FileInspection });
 
     expect(async () => adapter.view(recipe.input)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
