@@ -166,7 +166,7 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
   payload: {
     rule: expect.any(String),
-    client: { ip: ClientIp.parse("127.0.0.1"), ua: ClientUserAgent.parse("anon") },
+    client: { ip: ClientIp.parse("127.0.0.1"), ua: ClientUserAgent.parse("firefox") },
     userId: undefined,
     countermeasure: SecurityCountermeasureName.parse("ban"),
     action: "deny",
