@@ -41,7 +41,7 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
       ...this.config,
     } as const;
 
-    this.deps.Logger.info({
+    this.deps.Logger.warn({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
