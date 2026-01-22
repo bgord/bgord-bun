@@ -8,6 +8,7 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import type { SecurityAction } from "../src/security-countermeasure.strategy";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureMirageStrategy } from "../src/security-countermeasure-mirage.strategy";
 import { SecurityCountermeasureTarpitStrategy } from "../src/security-countermeasure-tarpit.strategy";
@@ -183,7 +184,7 @@ describe("ShieldSecurityStrategy", () => {
     const sleeperWait = spyOn(Sleeper, "wait");
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
-      after: { kind: "delay", duration },
+      after: { kind: "delay", duration } as SecurityAction,
     });
     const shield = new ShieldSecurityStrategy(
       [new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)],
