@@ -3,13 +3,14 @@ import * as tools from "@bgord/tools";
 import { FileReaderJsonBunAdapter } from "../src/file-reader-json-bun.adapter";
 import * as mocks from "./mocks";
 
-const json = { json: async () => ({}) };
-const content = {};
+const content = { version: 1 };
+const json = { json: async () => content };
 
 const adapter = new FileReaderJsonBunAdapter();
 
 describe("FileReaderJsonBunAdapter", () => {
   test("happy path - string", async () => {
+    // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = "package.json";
 
@@ -18,6 +19,7 @@ describe("FileReaderJsonBunAdapter", () => {
   });
 
   test("happy path - relative", async () => {
+    // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = tools.FilePathRelative.fromString("users/package.json");
 
@@ -26,6 +28,7 @@ describe("FileReaderJsonBunAdapter", () => {
   });
 
   test("happy path - absolute", async () => {
+    // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
