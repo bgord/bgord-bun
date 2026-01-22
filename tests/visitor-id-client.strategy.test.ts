@@ -10,7 +10,7 @@ const deps = { HashContent };
 describe("VisitorIdClientStrategy", () => {
   test("get", async () => {
     const hashContentGet = spyOn(HashContent, "hash");
-    const adapter = new VisitorIdClientStrategy(Client.fromParts(mocks.ip, mocks.ua), deps);
+    const adapter = new VisitorIdClientStrategy(mocks.client, deps);
 
     await adapter.get();
 
@@ -35,9 +35,9 @@ describe("VisitorIdClientStrategy", () => {
     expect(hashContentGet).toHaveBeenCalledWith(`${mocks.ip}|anon`);
   });
 
-  test.only("get - missing", async () => {
+  test("get - missing", async () => {
     const hashContentGet = spyOn(HashContent, "hash");
-    const adapter = new VisitorIdClientStrategy(Client.fromParts(undefined, undefined), deps);
+    const adapter = new VisitorIdClientStrategy(mocks.clientEmpty, deps);
 
     await adapter.get();
 
