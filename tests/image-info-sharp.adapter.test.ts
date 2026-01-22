@@ -18,6 +18,7 @@ const adapter = new ImageInfoSharpAdapter(deps);
 
 describe("ImageInfoSharpAdapter", () => {
   test("absolute path", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 120,
@@ -25,6 +26,7 @@ describe("ImageInfoSharpAdapter", () => {
       format: "jpeg",
     });
     const destroy = spyOn(instance, "destroy");
+    // @ts-expect-error TODO - file system port
     const bunFile = spyOn(Bun, "file").mockReturnValue(size);
 
     const info = await adapter.inspect(input);
@@ -39,9 +41,11 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("relative path", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({ width: 64, height: 64, format: "jpg" });
     const destroy = spyOn(instance, "destroy");
+    // @ts-expect-error TODO - file system port
     const bunFile = spyOn(Bun, "file").mockReturnValue(size);
 
     const info = await adapter.inspect(input);
@@ -54,8 +58,10 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - extension empty", async () => {
-    spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
+    spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 
@@ -64,8 +70,10 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - width", async () => {
-    spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" });
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
+    spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" });
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 
@@ -74,8 +82,10 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - mime not found", async () => {
-    spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "png" });
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
+    spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "png" });
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 

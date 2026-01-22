@@ -20,6 +20,7 @@ const adapter = new ImageFormatterSharpAdapter(deps);
 
 describe("ImageFormatterSharpAdapter", () => {
   test("in_place", async () => {
+    // @ts-expect-error Partial access
     const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -44,6 +45,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - same extension", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
@@ -59,6 +61,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -80,6 +83,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
@@ -97,6 +101,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
