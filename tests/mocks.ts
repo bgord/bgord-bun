@@ -1,6 +1,5 @@
 import { expect } from "bun:test";
 import * as tools from "@bgord/tools";
-import type { Context } from "hono";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
@@ -43,13 +42,6 @@ export const IntentionalErrorNormalized = {
   name: "Error",
   stack: expect.any(String),
 };
-
-export function createContext(headers: Record<string, string | undefined>): Context {
-  return {
-    req: { header: (name: string) => headers[name.toLowerCase()] ?? undefined },
-    env: { server: { requestIP: () => ({ address: "127.0.0.1" }) } },
-  } as unknown as Context;
-}
 
 export const ip = { server: { requestIP: () => ({ address: "127.0.0.1" }) } };
 
