@@ -47,7 +47,6 @@ describe("JobHandlerWithLoggerStrategy", () => {
       message: `${uow.label} success`,
       component: "infra",
       correlationId: expect.any(String),
-      // @ts-expect-error Private constructor assertion
       metadata: expect.any(tools.Duration),
       operation: "job_handler",
     });
@@ -84,7 +83,6 @@ describe("JobHandlerWithLoggerStrategy", () => {
       correlationId: expect.any(String),
       operation: "job_handler",
       error: new Error(mocks.IntentionalError),
-      // @ts-expect-error Private constructor assertion
       metadata: expect.any(tools.Duration),
     });
   });

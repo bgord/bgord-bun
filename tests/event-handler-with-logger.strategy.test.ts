@@ -34,7 +34,6 @@ describe("EventHandlerWithLoggerStrategy", () => {
       message: "Unknown user.created event handler error",
       component: "infra",
       operation: "event_handler",
-      // @ts-expect-error Private constructor assertion
       metadata: { ...event, duration: expect.any(tools.Duration) },
       error: new Error(mocks.IntentionalError),
     });

@@ -83,7 +83,7 @@ describe("Setup service", () => {
     });
     expect(json).toEqual({
       requestId: mocks.correlationId,
-      timeZoneOffset: { internal: 0 },
+      timeZoneOffset: 0,
       language: I18n.defaultLanguage,
       etag: null,
       weakEtag: null,

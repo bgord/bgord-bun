@@ -18,6 +18,6 @@ describe("Context middleware", () => {
     expect(result.status).toEqual(200);
     expect(typeof json.requestId).toEqual("string");
     expect(json.requestId.length).toEqual(36);
-    expect(json.timeZoneOffset).toEqual({ internal: 0 });
+    expect(json.timeZoneOffset).toEqual(0);
   });
 });

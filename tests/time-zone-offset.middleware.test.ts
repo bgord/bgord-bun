@@ -13,9 +13,10 @@ describe("TimeZoneOffset middleware", () => {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "120" }),
     });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(120));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(120));
   });
 
   test("valid header - negative", async () => {
@@ -23,16 +24,18 @@ describe("TimeZoneOffset middleware", () => {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "-120" }),
     });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(-120));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(-120));
   });
 
   test("missing header", async () => {
     const result = await app.request("/ping", { method: "GET" });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
   });
 
   test("empty header", async () => {
@@ -40,9 +43,10 @@ describe("TimeZoneOffset middleware", () => {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "" }),
     });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
   });
 
   test("invalid heaeder - format", async () => {
@@ -50,9 +54,10 @@ describe("TimeZoneOffset middleware", () => {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "invalid-offset" }),
     });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
   });
 
   test("invalid header - below min", async () => {
@@ -60,9 +65,10 @@ describe("TimeZoneOffset middleware", () => {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "-841" }),
     });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
   });
 
   test("invalid header - above max", async () => {
@@ -70,9 +76,10 @@ describe("TimeZoneOffset middleware", () => {
       method: "GET",
       headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "721" }),
     });
+    const duration = await result.json();
 
     expect(result.status).toEqual(200);
-    expect(await result.json()).toEqual(tools.Duration.Minutes(0));
+    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
   });
 
   test("adjustDate", () => {
