@@ -3,10 +3,10 @@ import {
   type CacheSubjectSegmentRequestStrategy,
   type CacheSubjectSegmentType,
 } from "./cache-subject-segment-request.strategy";
-import type { RequestContext } from "./request-context.port";
+import type { HasIdentityUserId } from "./request-context.port";
 
 export class CacheSubjectSegmentUserStrategy implements CacheSubjectSegmentRequestStrategy {
-  create(context: RequestContext): CacheSubjectSegmentType {
+  create(context: HasIdentityUserId): CacheSubjectSegmentType {
     return context.identity.userId() ?? CacheSubjectSegmentRequestEmpty;
   }
 }
