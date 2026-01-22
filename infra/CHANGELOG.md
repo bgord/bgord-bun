@@ -1,9 +1,224 @@
 # Changelog
+- 2026-01-22 15:04 69c5310c **refactor: remove hono import wherever possible**
+- 2026-01-22 15:02 8c88c85f **refactor: use capabilities**
+- 2026-01-22 14:50 48535b3b **step: add capabilities**
+- 2026-01-22 13:39 7f3b89f7 **refactor: simplify tests**
+- 2026-01-22 13:31 4fcf5386 **refactor: simplify request.query**
+- 2026-01-22 13:31 462e8349 **fix: chars in client ua**
+- 2026-01-22 13:29 b9340218 **refactor: simplify cache subject segment query**
+- 2026-01-22 13:27 e92bdd52 **refactor: unify mocks ip and ua**
+- 2026-01-22 13:23 a1419286 **step: define mocks ip and ua**
+- 2026-01-22 13:23 80554163 **refactor: rename conn info**
+- 2026-01-22 13:18 80c50234 **refactor: remove create context from mocks**
+- 2026-01-22 13:13 dc227864 **step: update packages**
+- 2026-01-22 13:03 6fdc25e9 **refactor: suppress safe parse body warning**
+- 2026-01-22 12:58 33a31af6 **refactor: gzip**
+- 2026-01-22 12:58 252644b5 **refactor: crypto key**
+- 2026-01-22 12:55 5f8c577b **refactor: encryption**
+- 2026-01-22 12:54 a5543627 **refactor: ell**
+- 2026-01-22 12:48 888670fd **refactor: file cleaner**
+- 2026-01-22 12:46 92037c5d **refactor: file reader json**
+- 2026-01-22 12:42 dc28dfa5 **refactor: renamer**
+- 2026-01-22 12:38 3a1e32d0 **refactor: hash file**
+- 2026-01-22 12:38 12d8e54d **refactor: adjust cpu info type**
+- 2026-01-22 12:35 93f6b9d2 **refactor: tighten up image types**
+- 2026-01-22 12:31 fa598531 **refactor: tighten up jobs service types**
+- 2026-01-22 12:29 3230d4a6 **step: add todo to prereq veri file**
+- 2026-01-22 12:25 ffd727d3 **refactor: prereq veri sqlite**
+- 2026-01-22 12:24 e4464acf **refactor: adjust translations prereq**
+- 2026-01-22 12:19 b3cef4e8 **refactor: tighten up test types**
+- 2026-01-22 12:19 3b8fd706 **refactor: remove as any type casting in tests**
+- 2026-01-22 12:08 a6e96941 **refactor: unify cache subject segment user**
+- 2026-01-22 12:03 3576a438 **refactor: rename user agent to ua in request context**
+- 2026-01-22 12:00 7d7efbda **refactor: improve tests**
+- 2026-01-22 11:56 3598a8fe **step: add ban test without client**
+- 2026-01-22 11:55 f9087e6e **refactor: warn in ban countermeasure**
+- 2026-01-22 11:55 08518928 **step: make client ip and ua optional in event**
+- 2026-01-22 11:00 682c6c6d **refactor: adjust cache subject segment ip**
+- 2026-01-22 10:57 daad6c52 **refactor: http logger request context**
+- 2026-01-22 10:44 e789531e **refactor: use client in security rule ua**
+- 2026-01-22 10:43 c8f997d0 **refactor: use client in shield security strategy**
+- 2026-01-22 10:36 6d6f4a4c **refactor: visitor id client**
+- 2026-01-22 10:30 c5a645ad **refactor: make ip and ua public**
+- 2026-01-22 10:28 9d3fc25e **refactor: remove client from hono**
+- 2026-01-22 10:27 70f94c25 **refactor: simplify client vo**
+- 2026-01-22 09:56 ff53aa71 **refactor: simplify client ua vo**
+- 2026-01-22 09:49 58a293b0 **refactor: simplify client ip vo**
+- 2026-01-22 00:32 7ae86122 **refactor: use userId in request context type**
+- 2026-01-22 00:31 93190be7 **step: add request context hono adapter tests**
+- 2026-01-21 23:58 fac620aa **refactor: switch to cookie**
+- 2026-01-21 23:56 f8d16e53 **refactor: unify request context**
+- 2026-01-21 23:49 e33c6e68 **refactor: remove raw headers**
+- 2026-01-21 23:10 13220f6c **refactor: adjust tests**
+- 2026-01-21 22:56 cd9a306d **step: setup request context builder for tests**
+- 2026-01-21 22:50 080c9fb7 **refactor: make request context cover all cases**
+- 2026-01-21 22:38 39a86280 **refactor: use request context in cache subject request**
+- 2026-01-21 22:29 b443f314 **step: define request context hono adapter**
+- 2026-01-21 22:29 4c25d5a7 **refactor: use request context in security rule strategy**
+- 2026-01-21 22:28 ef7ca19a **step: define request context**
+- 2026-01-21 20:29 5b95a418 **refactor: remove as any in user language test**
+- 2026-01-21 20:22 be1859c0 **step: make dispatcher async capacity an integer positive**
+- 2026-01-21 20:17 8e70855a **step: add deep clone with tests**
+- 2026-01-21 20:02 3b6d8732 **step: add is plain object tests**
+- 2026-01-21 19:58 d9e5c09e **refactor: split is plain object**
+- 2026-01-21 19:54 c6569687 **step: add missing no diagnostics woodchopper tests**
+- 2026-01-21 19:50 a588a959 **refactor: improve test cases**
+- 2026-01-21 19:49 32ecfe62 **refactor: improve formatting**
+- 2026-01-21 19:48 4d39050f **refactor: smplify with normalization condition**
+- 2026-01-21 19:44 a223cbfb **step: dispatcher async close idempotency test**
+- 2026-01-21 19:38 38e253cb **step: add dispatch async no diagnostics testcase**
+- 2026-01-21 19:36 e65c3104 **step: add dispatch sync no diagnostics testcase**
+- 2026-01-21 19:29 19c17c41 **refactor: add missing prereq verifier file test**
+- 2026-01-21 19:22 4e960efd **refactor: improve error cause depth**
+- 2026-01-21 19:21 a30aed24 **refactor: improve error stack hide**
+- 2026-01-21 19:14 26ab5849 **refactor: add missing compact array testcase**
+- 2026-01-21 19:10 85686fb4 **refactor: simplify metadata compact object**
+- 2026-01-21 18:58 9282765d **refactor: simplify error normalizer**
+- 2026-01-21 18:46 f6494eb0 **fix: nonce provider crypto**
+- 2026-01-21 18:15 da9b9208 **step: add logger-stats-provider-noop adapter**
+- 2026-01-21 18:12 616cefc8 **step: add logger noop get stats**
+- 2026-01-21 18:04 a5c48a5b **step: pass optional logger stats provider to healthcheck**
+- 2026-01-21 17:46 7c683ff1 **step: inject redactor into healthcheck**
+- 2026-01-21 17:43 f4f0d512 **refactor: create healthcheck config object**
+- 2026-01-21 15:22 d1a80e00 **refactor: use integer types**
+- 2026-01-21 15:08 9a3dda78 **step: add max items to metadata compact array**
+- 2026-01-21 15:07 78b342f5 **fix: metadata compact object options object**
+- 2026-01-21 14:59 b0759f8f **refactor: simplify temporary file port**
+- 2026-01-21 14:31 ff9bba6b **refactor: seal return types in ports/strategies**
+- 2026-01-21 14:17 cb98bafc **refactor: improve correlation storage tests**
+- 2026-01-21 14:02 cfe120d5 **refactor: clean up ts-expect-error in tests**
+- 2026-01-21 13:53 085990e9 **refactor: remove ts expect error in prereq runner startup**
+- 2026-01-21 13:46 68289a67 **refactor: improve test naming**
+- 2026-01-21 13:43 24460d65 **refactor: test composite**
+- 2026-01-21 13:38 fcdc5836 **refactor: adjust metada compact array implementation**
+- 2026-01-21 13:34 0d435e6d **refactor: rename metadata compact array redactor**
+- 2026-01-21 13:32 e698c5fa **refactor: rename compact object redactor**
+- 2026-01-21 13:24 5ac255be **step: add metadata compact to composite test**
+- 2026-01-21 13:21 e38f0bc3 **refactor: simplify redactor compact object**
+- 2026-01-21 13:12 e53968d4 **refactor: rename to metadata compact**
+- 2026-01-21 13:00 123e2c17 **step: add redactor compact object woodchoper test**
+- 2026-01-21 12:54 0200a8d4 **refactor: use isPlainObject in redactor compact object**
+- 2026-01-21 12:48 96374933 **step: update packages**
+- 2026-01-21 12:48 29afae8d **step: bump bgord/scripts**
+- 2026-01-21 12:47 304517d7 **refactor: test composite redactor with all strategies**
+- 2026-01-21 12:22 2ef8eb69 **refactor: unify intentional errors in tests**
+- 2026-01-21 12:10 8181c800 **refactor: simplify error normalizer**
+- 2026-01-21 12:09 b85cb53f **refactor: adjust woodchopper tests**
+- 2026-01-21 12:08 888045b5 **refactor: adjust console error**
+- 2026-01-21 12:04 18726d19 **step: test isNormalizedError**
+- 2026-01-21 12:01 bbab8d56 **step: add more error normalizer normalize tests**
+- 2026-01-21 11:59 887d2e5f **step: add more noop tests**
+- 2026-01-21 11:54 68b160d5 **refactor: handle top level error in redactor error cause depth limit**
+- 2026-01-21 11:51 d4a20356 **refactor: handle top level error in redactor error stack hide**
+- 2026-01-21 11:30 2080f034 **step: add woodchopper redactor tests**
+- 2026-01-21 10:09 5e4225c3 **step: add optional redactor to diagnostics console error**
+- 2026-01-21 09:54 9922cadb **refactor: extract is normalized error to error normalizer**
+- 2026-01-21 09:52 94c028fd **step: add redactor error cause depth limit**
+- 2026-01-21 09:47 83b56a3b **refactor: error normalizer recursion guard**
+- 2026-01-21 09:28 9187ceb0 **step: add redactor error hide stack**
+- 2026-01-21 09:20 b705afff **refactor: export is plain object**
+- 2026-01-20 23:46 352f24e2 **refactor: rename normalized error**
+- 2026-01-20 23:40 e3a13d3e **refactor: rename formatError function to ErrorNormalizer**
+- 2026-01-20 22:31 34c6e43f **refactor: limit object containing assertion in tests**
+- 2026-01-20 22:27 b8dc7a30 **refactor: remove format error in better auth logger**
+- 2026-01-20 22:24 6d003134 **refactor: remove format error in graceful shutdown**
+- 2026-01-20 22:21 c4e51543 **refactor: unify duration in with logger handlers**
+- 2026-01-20 22:20 f0f47377 **refactor: remove format error in event handler with logger**
+- 2026-01-20 22:16 dde6a918 **refactor: remove format error in mailer with logger**
+- 2026-01-20 22:15 6f0018ef **refactor: remove format error in job handler with logger**
+- 2026-01-20 21:58 9c6a6be4 **step: add stdout human sink**
+- 2026-01-20 21:26 6832a160 **refactor: remove stderr-pretty to stderr**
+- 2026-01-20 21:25 ee0de66e **refactor: remove stdout-pretty to stdout**
+- 2026-01-20 21:24 97b799ad **refactor: remove stdout to stderr-raw**
+- 2026-01-20 21:23 652c40d7 **refactor: remove stdout to stdout-raw**
+- 2026-01-20 21:16 dc587569 **refactor: remove mock import in src**
+- 2026-01-20 21:09 d258f492 **refactor: cleanup mocks**
+- 2026-01-20 21:07 45ddee22 **refactor: remove winston logger**
+- 2026-01-20 21:04 b51225a3 **step: remove winston**
+- 2026-01-20 20:57 889cf74d **refactor: remove stats from the constructor parameters**
+- 2026-01-20 20:46 c007b3e6 **step: add console error diagnostics**
+- 2026-01-20 20:40 d6ffc73b **refactor: adjust tests**
+- 2026-01-20 20:29 28ff415a **step: add noop diagnostics**
+- 2026-01-20 20:25 838a30d3 **step: inject woodchopper diagnostics strategy into woodchopper**
+- 2026-01-20 20:23 61d7c852 **step: add woodchopper diagnostics strategy**
+- 2026-01-20 16:03 d55db48a **step: test woodchopper close dispatcher async order**
+- 2026-01-20 15:59 b4d07f44 **step: test woodchopper close dispatcher async idempotency**
+- 2026-01-20 15:51 b7f78905 **step: test woodchopper dispatcher async close**
+- 2026-01-20 15:36 486fb3f9 **step: make dispatcher async close idempotent**
+- 2026-01-20 15:15 7e66c74b **refactor: extract wait for entry method**
+- 2026-01-20 15:08 985776cc **refactor: introduce dispatcher async state**
+- 2026-01-20 14:53 ba12eaef **refactor: extract wake consumer method**
+- 2026-01-20 14:52 d0e5fdee **step: make woodchopper close idempotent**
+- 2026-01-20 13:23 97b8e9b5 **step: inline frozen final entry**
+- 2026-01-20 13:22 94d092e3 **step: set default capactity to 256**
+- 2026-01-20 11:32 d326ea7c **refactor: unify naming**
+- 2026-01-20 11:28 8800781e **step: update packages**
+- 2026-01-20 11:28 028ee505 **step: sink stderr pretty**
+- 2026-01-20 11:27 e2ad5700 **step: sink stderr**
+- 2026-01-20 11:22 e0eb1230 **step: wire up record delivery failure**
+- 2026-01-20 11:20 4d43a6d3 **refactor: rename record delivery failures**
+- 2026-01-20 11:13 8d9a82ea **step: add diagnostics to woodchopper stats**
+- 2026-01-20 00:22 b7488829 **step: test async dispatcher sink failyre**
+- 2026-01-20 00:07 a6722461 **refactor: improve config ceremony**
+- 2026-01-19 23:50 09958a88 **step: add woodchopper dispatcher async on error**
+- 2026-01-19 23:44 fbb2ea34 **refactor: woodchopper dispatcher sync error**
+- 2026-01-19 23:40 0710e0ed **refactor: remove try catch around the dispatch call**
+- 2026-01-19 17:46 3c48b8e6 **step: async dispatcher**
+- 2026-01-19 16:03 0d48d45a **refactor: remove sink from woodchopper config**
+- 2026-01-19 15:59 27195429 **refactor: update tests**
+- 2026-01-19 15:54 bdc533ec **step: inject dispatcher into the woodchopper class**
+- 2026-01-19 15:50 b8d5ecf7 **step: add sync dispatcher**
+- 2026-01-19 15:47 bc44dc86 **step: add noop dispatcher**
+- 2026-01-19 15:47 6299fae1 **step: bump bgord/scripts**
+- 2026-01-19 15:44 e8691901 **step: add woodchopper dispatcher strategy**
+- 2026-01-19 15:00 cfca8779 **refactor: cleanup types**
+- 2026-01-19 14:51 f80134ef **step: update packages**
+- 2026-01-19 13:22 b4f6277d **refactor: cleanup types**
+- 2026-01-19 13:17 82cf477f **step: test normalization**
+- 2026-01-19 13:10 a73fded5 **step: test diagnostic redaction**
+- 2026-01-19 13:07 63358cbe **step: test diagnostic clock**
+- 2026-01-19 13:04 7a2e4c60 **step: test diagnostic sink**
+- 2026-01-19 13:01 c4f41ddd **step: define diagnostic collector**
+- 2026-01-19 13:00 e5ae08a5 **step: add woodchopper sink error**
+- 2026-01-19 12:53 5ecd93d6 **step: add dropped checks for the existing tests**
+- 2026-01-19 12:51 c60624a6 **step: implement diagnostics in the woodchopper**
+- 2026-01-19 12:38 1fe82641 **step: define woodchopper diagnostics**
+- 2026-01-19 12:20 3504fc26 **step: inject stats into woodchopper**
+- 2026-01-19 12:07 0d2442a9 **step: add woodchopper stats**
+- 2026-01-19 11:23 0b8f317e **refactor: unify prereq error handling**
+- 2026-01-19 10:30 7615e9bf **step: add close methods in legacy adapters**
+- 2026-01-19 10:12 9deae32c **step: add object freeze test**
+- 2026-01-19 10:10 fcbac3b3 **step: add close method**
+- 2026-01-19 10:02 ca42e50f **step: add object freeze**
+- 2026-01-18 23:56 c8983f2d **step: add redactor tests**
+- 2026-01-18 23:47 147485e7 **step: define optional redactor**
+- 2026-01-18 23:43 68de2ad6 **refactor: adjust woodchopper tests with sinks**
+- 2026-01-18 23:37 f29cfce0 **step: add woodchopper sink stdout pretty**
+- 2026-01-18 23:36 cecd05fb **step: add woodchopper sink stdout**
+- 2026-01-18 23:33 8e0be777 **step: add woodchopper sink noop test**
+- 2026-01-18 23:14 f92fa25d **step: inject sink strategy into woodchopper**
+- 2026-01-18 23:14 dd79723d **step: add woodchopper sink strategies**
+- 2026-01-18 22:06 f3e15f7f **refactor: shorten tests**
+- 2026-01-18 22:03 affc18e9 **refactor: extract error formatted**
+- 2026-01-18 21:39 33ef9e43 **step: levels**
+- 2026-01-18 20:29 8aaf8874 **refactor: use format error in woodchopper**
+- 2026-01-18 20:08 886d711a **refactor: rename format error**
+- 2026-01-18 20:05 6ee65c48 **refactor: test format error**
+- 2026-01-18 19:10 86e37287 **refactor: make error unknown in log error and warn**
+- 2026-01-18 19:03 a07767a4 **refactor: unify log error and warn type**
+- 2026-01-18 18:35 45c080c7 **step: make woodchopper implement the logger port**
+- 2026-01-18 18:30 1c2c3f16 **refactor: make error in log error type nullable**
+- 2026-01-18 18:08 a7820ac7 **step: define clock dependency**
+- 2026-01-18 18:02 802b3a3e **step: setup tests**
+- 2026-01-18 18:00 7c7ee105 **step: define basic woodchopper config**
+- 2026-01-18 17:58 9e7ba824 **step: define woodchopper class**
+- 2026-01-18 17:57 27000908 **refactor: rename logger app type**
 ## 2026-01-18 17:38 v1.9.7
 - 2026-01-18 17:38 ba205822 **1.9.7**
 - 2026-01-18 17:32 fe11e3e9 **refactor: remove file transport**
 - 2026-01-18 17:31 89756e32 **refactor: remove logger get file path**
 - 2026-01-18 17:22 49ecaa29 **refactor: remove set silent from logger port**
+- 2026-01-18 16:38 9dc82ba5 **docs: generate CHANGELOG**
 - 2026-01-18 16:37 e1484658 **docs: generate CHANGELOG**
 - 2026-01-18 16:37 9ecea5b0 **docs: generate readme**
 ## 2026-01-18 15:33 v1.9.6
