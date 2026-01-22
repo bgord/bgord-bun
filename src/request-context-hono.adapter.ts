@@ -30,7 +30,7 @@ export class RequestContextAdapterHono implements RequestContext {
         context.req.header("x-real-ip") ||
         context.req.header("x-forwarded-for") ||
         getConnInfo(context).remote.address,
-      userAgent: () => context.req.header("user-agent"),
+      ua: () => context.req.header("user-agent"),
     };
   }
 }

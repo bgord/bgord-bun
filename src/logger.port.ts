@@ -29,7 +29,7 @@ export type LogCoreType = {
   metadata?: Record<string, any>;
 };
 
-export type HttpClientInfo = { ip?: string; userAgent?: string };
+export type HttpClientInfo = { ip?: string; ua?: string };
 export type LogHttpType = LogCoreType & {
   level: LogLevelEnum.http;
   component: "http";

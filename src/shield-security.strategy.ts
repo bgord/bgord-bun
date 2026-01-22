@@ -35,7 +35,7 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
       const context = new SecurityContext(
         policy.rule.name,
         policy.countermeasure.name,
-        Client.fromParts(request.identity.ip(), request.identity.userAgent()),
+        Client.fromParts(request.identity.ip(), request.identity.ua()),
         request.identity.userId(),
       );
 

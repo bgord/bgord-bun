@@ -64,7 +64,7 @@ describe("HttpLogger middleware", () => {
       message: "request",
       method: "GET",
       url: "http://localhost/ping?page=1",
-      client: { ip: "127.0.0.1", userAgent: "abc" },
+      client: { ip: "127.0.0.1", ua: "abc" },
       metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: { page: "1" } },
     });
     expect(loggerHttp).toHaveBeenNthCalledWith(2, {
@@ -78,7 +78,7 @@ describe("HttpLogger middleware", () => {
       url: "http://localhost/ping?page=1",
       status: 200,
       durationMs: expect.any(Number),
-      client: { ip: "127.0.0.1", userAgent: "abc" },
+      client: { ip: "127.0.0.1", ua: "abc" },
       cacheHit: false,
       metadata: { response: { message: "OK" } },
     });
