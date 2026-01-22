@@ -1,7 +1,6 @@
-import type { Cron } from "croner";
-
 export type JobNameType = string;
-export type MultipleJobsType = Record<JobNameType, Cron>;
+export type JobType = { stop: () => void; isRunning: () => boolean };
+export type MultipleJobsType = Record<JobNameType, JobType>;
 
 export class Jobs {
   static SCHEDULES = { EVERY_MINUTE: "* * * * *", EVERY_HOUR: "0 * * * *" };
