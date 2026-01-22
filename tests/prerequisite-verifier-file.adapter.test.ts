@@ -23,7 +23,10 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - read", async () => {
-    const FileInspection = new FileInspectionNoopAdapter({ exists: true, permissions: { read: true } });
+    const FileInspection = new FileInspectionNoopAdapter({
+      exists: true,
+      permissions: { read: true, write: false, execute: false },
+    });
     const prerequisite = new PrerequisiteVerifierFileAdapter(
       { file: path, permissions: { read: true } },
       { FileInspection },
@@ -33,7 +36,10 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - write", async () => {
-    const FileInspection = new FileInspectionNoopAdapter({ exists: true, permissions: { write: true } });
+    const FileInspection = new FileInspectionNoopAdapter({
+      exists: true,
+      permissions: { read: false, write: true, execute: false },
+    });
     const prerequisite = new PrerequisiteVerifierFileAdapter(
       { file: path, permissions: { write: true } },
       { FileInspection },
@@ -43,7 +49,10 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - execute", async () => {
-    const FileInspection = new FileInspectionNoopAdapter({ exists: true, permissions: { execute: true } });
+    const FileInspection = new FileInspectionNoopAdapter({
+      exists: true,
+      permissions: { read: false, write: false, execute: true },
+    });
     const prerequisite = new PrerequisiteVerifierFileAdapter(
       { file: path, permissions: { execute: true } },
       { FileInspection },
@@ -70,7 +79,10 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - read", async () => {
-    const FileInspection = new FileInspectionNoopAdapter({ exists: true, permissions: { read: false } });
+    const FileInspection = new FileInspectionNoopAdapter({
+      exists: true,
+      permissions: { read: false, write: false, execute: false },
+    });
     const prerequisite = new PrerequisiteVerifierFileAdapter(
       { file: path, permissions: { read: true } },
       { FileInspection },
@@ -82,7 +94,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   test("failure - write", async () => {
     const FileInspection = new FileInspectionNoopAdapter({
       exists: true,
-      permissions: { read: true, write: false },
+      permissions: { read: true, write: false, execute: false },
     });
     const prerequisite = new PrerequisiteVerifierFileAdapter(
       { file: path, permissions: { read: true, write: true } },

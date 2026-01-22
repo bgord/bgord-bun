@@ -1,10 +1,13 @@
-import { access, constants, stat } from "node:fs/promises";
+import { stat } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
+import type { FileInspectionPort } from "../src/file-inspection.port";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
+
+type Dependencies = { FileInspection: FileInspectionPort };
 
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -14,6 +17,7 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
       directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
       permissions?: PrerequisiteDirectoryPermissionsType;
     },
+    private readonly deps: Dependencies,
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
@@ -27,20 +31,16 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
 
     const permissions = this.config.permissions ?? {};
 
-    const checks = [
-      { enabled: permissions.read, mode: constants.R_OK, error: "Directory is not readable" },
-      { enabled: permissions.write, mode: constants.W_OK, error: "Directory is not writable" },
-      { enabled: permissions.execute, mode: constants.X_OK, error: "Directory is not executable" },
-    ];
+    if (permissions.read && !(await this.deps.FileInspection.canRead(this.config.directory))) {
+      return PrerequisiteVerification.failure("Directory is not readable");
+    }
 
-    for (const check of checks) {
-      if (!check.enabled) continue;
+    if (permissions.write && !(await this.deps.FileInspection.canWrite(this.config.directory))) {
+      return PrerequisiteVerification.failure("Directory is not writable");
+    }
 
-      try {
-        await access(this.config.directory, check.mode);
-      } catch {
-        return PrerequisiteVerification.failure(check.error);
-      }
+    if (permissions.execute && !(await this.deps.FileInspection.canExecute(this.config.directory))) {
+      return PrerequisiteVerification.failure("Directory is not executable");
     }
 
     return PrerequisiteVerification.success;
