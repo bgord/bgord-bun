@@ -1,9 +1,9 @@
 import { createMiddleware } from "hono/factory";
 import { CacheSourceEnum } from "./cache-resolver.strategy";
 import { CacheResponse } from "./cache-response.middleware";
-import { ClientFromHono } from "./client-from-hono.adapter";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import { Stopwatch } from "./stopwatch.service";
 
 export const UNINFORMATIVE_HEADERS = [
@@ -34,27 +34,29 @@ export type HttpLoggerOptions = { skip?: readonly string[] };
 
 export class HttpLogger {
   static build = (deps: Dependencies, options?: HttpLoggerOptions) =>
-    createMiddleware(async (context, next) => {
-      const request = context.req.raw.clone();
+    createMiddleware(async (c, next) => {
+      const context = new RequestContextAdapterHono(c);
+      const client = { ip: context.identity.ip(), userAgent: context.identity.userAgent() };
 
-      const pathname = new URL(request.url).pathname;
+      const request = c.req.raw.clone();
 
       // Stryker disable all
-      if (options?.skip?.some((prefix) => pathname.startsWith(prefix))) return await next();
+      if (options?.skip?.some((prefix) => new URL(request.url).pathname.startsWith(prefix))) {
+        return await next();
+      }
       // Stryker restore all
 
-      const correlationId = context.get("requestId");
-      const client = ClientFromHono.translate(context).toJSON();
+      const correlationId = c.get("requestId");
 
       const httpRequestBeforeMetadata = {
-        params: context.req.param(),
+        params: c.req.param(),
         headers: Object.fromEntries(
           Object.entries(request.headers.toJSON()).filter(
             ([header]) => !UNINFORMATIVE_HEADERS.includes(header),
           ),
         ),
         body: (await HttpLogger.parseJSON(request)) ?? {},
-        query: context.req.queries(),
+        query: context.request.query(),
       };
 
       deps.Logger.http({
@@ -72,7 +74,7 @@ export class HttpLogger {
       await next();
       const duration = stopwatch.stop();
 
-      const response = context.res.clone();
+      const response = c.res.clone();
 
       deps.Logger.http({
         component: "http",
