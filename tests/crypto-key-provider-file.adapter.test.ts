@@ -10,6 +10,7 @@ const adapter = new CryptoKeyProviderFileAdapter(path);
 
 describe("CryptoKeyProviderFileAdapter", () => {
   test("happy path", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => HEX }));
 
     const result = await adapter.get();
@@ -21,6 +22,7 @@ describe("CryptoKeyProviderFileAdapter", () => {
   });
 
   test("happy path - trimmed EOL", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => `${"0".repeat(64)}\n` }));
 
     const result = await adapter.get();
@@ -32,18 +34,21 @@ describe("CryptoKeyProviderFileAdapter", () => {
   });
 
   test("missing file", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => false }));
 
     expect(async () => adapter.get()).toThrow("crypto.key.provider.file.adapter.missing.file");
   });
 
   test("empty file", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => "" }));
 
     expect(async () => adapter.get()).toThrow("encryption.key.value.invalid.hex");
   });
 
   test("invalid content", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockImplementation(() => ({ exists: () => true, text: () => "invalid-hex-string" }));
 
     expect(async () => adapter.get()).toThrow("encryption.key.value.invalid.hex");

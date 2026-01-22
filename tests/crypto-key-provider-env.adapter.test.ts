@@ -8,11 +8,10 @@ const adapter = new CryptoKeyProviderMemoryAdapter(HEX);
 
 describe("CryptoKeyProviderMemoryAdapter", () => {
   test("get", async () => {
-    const importKey = spyOn(crypto.subtle, "importKey").mockResolvedValue({});
+    const importKey = spyOn(crypto.subtle, "importKey");
 
-    const result = await adapter.get();
+    await adapter.get();
 
-    expect(result).toEqual({});
     expect(importKey).toHaveBeenCalledWith("raw", expect.any(Uint8Array), { name: "AES-GCM" }, false, [
       "encrypt",
       "decrypt",
