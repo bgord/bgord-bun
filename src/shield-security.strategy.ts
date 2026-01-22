@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { ClientFromHono } from "./client-from-hono.adapter";
+import { Client } from "./client.vo";
 import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import { SecurityContext } from "./security-context.vo";
 import type { SecurityPolicy } from "./security-policy.vo";
@@ -26,17 +26,17 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
 
   verify = createMiddleware(async (c, next) => {
     for (const policy of this.policies) {
-      const violation = await policy.rule.isViolated(new RequestContextAdapterHono(c));
+      const request = new RequestContextAdapterHono(c);
+
+      const violation = await policy.rule.isViolated(request);
 
       if (!violation) continue;
 
       const context = new SecurityContext(
         policy.rule.name,
         policy.countermeasure.name,
-        ClientFromHono.translate(c),
-        // Stryker disable all
-        c.get("user")?.id,
-        // Stryker restore all
+        Client.fromParts(request.identity.ip(), request.identity.userAgent()),
+        request.identity.userId(),
       );
 
       const action = await policy.countermeasure.execute(context);
