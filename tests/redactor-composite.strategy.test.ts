@@ -35,7 +35,7 @@ describe("RedactorCompositeStrategy", () => {
       metadata: {
         password: "secret",
         users: ["1", "2", "3"],
-        types: { admin: true, user: true, api: true, anon: true },
+        types: { admin: true, user: true, api: true, bots: true },
       },
     };
 
