@@ -3,7 +3,7 @@ import type { LoggerPort } from "../src/logger.port";
 import type { Prerequisite } from "./prerequisite.vo";
 import { PrerequisiteVerificationOutcome } from "./prerequisite-verifier.port";
 
-export const PrerequisitesError = { Failure: "prerequisites.failure" } as const;
+export const PrerequisitesError = { Failure: "prerequisites.failure" };
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 

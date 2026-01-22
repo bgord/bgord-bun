@@ -4,7 +4,7 @@ import type { CorrelationIdType } from "./correlation-id.vo";
 
 type CorrelationContext = { correlationId: CorrelationIdType };
 
-export const CorrelationStorageError = { Missing: "correlation.storage.missing" } as const;
+export const CorrelationStorageError = { Missing: "correlation.storage.missing" };
 
 export class CorrelationStorage {
   static readonly GLOBAL_KEY = Symbol.for("bgord.CorrelationStorage");

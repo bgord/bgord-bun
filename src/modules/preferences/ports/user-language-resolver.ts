@@ -4,7 +4,7 @@ export interface UserLanguageResolverPort {
   resolve(input: tools.LanguageType | null): tools.LanguageType | Promise<tools.LanguageType>;
 }
 
-export const UserLanguagePreferenceError = { Missing: "user.language.preference.missing" } as const;
+export const UserLanguagePreferenceError = { Missing: "user.language.preference.missing" };
 
 export class UserLanguageResolverThrowIfMissing implements UserLanguageResolverPort {
   resolve(stored: tools.LanguageType | null) {

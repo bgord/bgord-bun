@@ -3,7 +3,7 @@ import type { UUIDType } from "./uuid.vo";
 
 export const IdProviderDeterministicAdapterError = {
   SequenceExhausted: "id.provider.deterministic.adapter.sequence.exhausted",
-} as const;
+};
 
 export class IdProviderDeterministicAdapter implements IdProviderPort {
   constructor(private readonly queue: UUIDType[]) {}

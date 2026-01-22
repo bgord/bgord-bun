@@ -43,7 +43,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
     const problems: PrerequisiteTranslationsProblemType[] = [];
 
     for (const language in dictionary) {
-      const phrases = dictionary[language] ?? ([] as const);
+      const phrases = dictionary[language] ?? [];
 
       for (const phrase of phrases) {
         for (const supportedLanguage of supportedLanguages) {

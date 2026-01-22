@@ -11,7 +11,7 @@ export class GracefulShutdown {
 
   constructor(
     private readonly deps: Dependencies,
-    private readonly exitFn: (code: number) => never = ((code: number) => process.exit(code)) as never,
+    private readonly exitFn: (code: number) => never = (code: number) => process.exit(code),
   ) {}
 
   private shutdown(server: ServerType, cleanup: () => any, exitCode: number) {

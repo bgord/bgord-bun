@@ -1,9 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import { CacheRepositoryNoopAdapter } from "../src/cache-repository-noop.adapter";
 
-const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
-const adapter = new CacheRepositoryNoopAdapter(config);
+const adapter = new CacheRepositoryNoopAdapter();
 
 describe("CacheRepositoryNoopAdapter", async () => {
   test("get - null", async () => {

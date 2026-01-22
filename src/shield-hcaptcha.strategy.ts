@@ -14,7 +14,7 @@ export class ShieldHcaptchaStrategy implements ShieldStrategy {
   verify = createMiddleware(async (context, next) => {
     try {
       const form = await context.req.formData();
-      const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString() as string;
+      const hcaptchaTokenFormData = form.get("h-captcha-response")?.toString();
       const result = await this.hcaptcha.verify(this.secretKey, hcaptchaTokenFormData);
 
       if (!result.success) throw ShieldHcaptchaError;
