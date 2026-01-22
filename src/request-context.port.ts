@@ -44,6 +44,6 @@ export interface HasIdentityIp {
   readonly identity: { ip(): string | undefined };
 }
 
-export interface HasIdentityU {
+export interface HasIdentityUa {
   readonly identity: { ua(): string | undefined };
 }

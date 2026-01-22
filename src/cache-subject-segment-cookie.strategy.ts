@@ -3,12 +3,12 @@ import {
   CacheSubjectSegmentRequestEmpty,
   type CacheSubjectSegmentRequestStrategy,
 } from "./cache-subject-segment-request.strategy";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestCookie } from "./request-context.port";
 
 export class CacheSubjectSegmentCookieStrategy implements CacheSubjectSegmentRequestStrategy {
   constructor(private readonly name: string) {}
 
-  create(context: RequestContext): CacheSubjectSegmentType {
+  create(context: HasRequestCookie): CacheSubjectSegmentType {
     return context.request.cookie(this.name) ?? CacheSubjectSegmentRequestEmpty;
   }
 }

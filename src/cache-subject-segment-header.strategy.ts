@@ -3,12 +3,12 @@ import {
   CacheSubjectSegmentRequestEmpty,
   type CacheSubjectSegmentRequestStrategy,
 } from "./cache-subject-segment-request.strategy";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestHeader } from "./request-context.port";
 
 export class CacheSubjectSegmentHeaderStrategy implements CacheSubjectSegmentRequestStrategy {
   constructor(private readonly name: string) {}
 
-  create(context: RequestContext): CacheSubjectSegmentType {
+  create(context: HasRequestHeader): CacheSubjectSegmentType {
     return context.request.header(this.name) ?? CacheSubjectSegmentRequestEmpty;
   }
 }
