@@ -20,6 +20,7 @@ const adapter = new ImageBlurSharpAdapter(deps);
 
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
+    // @ts-expect-error Partial access
     const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const blur = spyOn(pipeline, "blur");
@@ -44,6 +45,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path", async () => {
+    // @ts-expect-error Partial access
     const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -67,6 +69,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -86,6 +89,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");

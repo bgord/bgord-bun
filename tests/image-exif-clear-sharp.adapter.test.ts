@@ -21,6 +21,7 @@ const adapter = new ImageExifClearSharpAdapter(deps);
 
 describe("ImageExifClearSharpAdapter", () => {
   test("in_place", async () => {
+    // @ts-expect-error Partial access
     const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const toFile = spyOn(pipeline, "toFile");
@@ -41,6 +42,7 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path", async () => {
+    // @ts-expect-error Partial access
     const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
@@ -58,6 +60,7 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
@@ -72,6 +75,7 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path - relative", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
