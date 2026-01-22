@@ -8,8 +8,6 @@ import {
 export class PrerequisiteVerifierOutsideConnectivityAdapter implements PrerequisiteVerifierPort {
   private static readonly URL = tools.UrlWithoutSlash.parse("https://google.com");
 
-  constructor() {}
-
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const response = await fetch(PrerequisiteVerifierOutsideConnectivityAdapter.URL, { method: "HEAD" });
