@@ -94,6 +94,7 @@ export * from "./file-cleaner-forgiving.adapter";
 export * from "./file-cleaner-noop.adapter";
 export * from "./file-draft.service";
 export * from "./file-draft-zip.service";
+export * from "./file-inspection.port";
 export * from "./file-reader-json.adapter";
 export * from "./file-reader-json.port";
 export * from "./file-reader-json-forgiving.adapter";
