@@ -173,6 +173,22 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;
 
+export const GenericSecurityViolationDetectedBanDenyWithoutContextEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: "security",
+  version: 1,
+  name: "SECURITY_VIOLATION_DETECTED_EVENT",
+  payload: {
+    rule: expect.any(String),
+    client: { ip: undefined, ua: undefined },
+    userId: undefined,
+    countermeasure: SecurityCountermeasureName.parse("ban"),
+    action: "deny",
+  },
+} satisfies System.Events.SecurityViolationDetectedEventType;
+
 export async function tick() {
   await Promise.resolve();
 }
