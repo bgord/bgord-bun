@@ -1,52 +1,36 @@
 import { ClientIp, type ClientIpType } from "./client-ip.vo";
 import { ClientUserAgent, type ClientUserAgentType } from "./client-user-agent.vo";
 
-export type ClientType = { ip: ClientIpType; ua: ClientUserAgentType };
-
 export class Client {
-  private static DEFAULT_IP = ClientIp.parse("anon");
-  private static DEFAULT_UA = ClientUserAgent.parse("anon");
+  private constructor(
+    private readonly ip?: ClientIpType,
+    private readonly ua?: ClientUserAgentType,
+  ) {}
 
-  private constructor(private readonly value: ClientType) {}
+  static fromParts(ip: string | undefined, ua: string | undefined): Client {
+    const parsedIp = ClientIp.safeParse(ip);
+    const parsedUa = ClientUserAgent.safeParse(ua);
 
-  static fromPartsSafe(
-    ip: ClientIpType | null | undefined,
-    ua: ClientUserAgentType | null | undefined,
-  ): Client {
-    return new Client({
-      ip: ip ?? Client.DEFAULT_IP,
-      ua: ClientUserAgent.parse((ua ?? Client.DEFAULT_UA).toLowerCase()),
-    });
+    return new Client(parsedIp.data, parsedUa.data);
   }
 
-  static fromParts(ip: string | null | undefined, ua: string | null | undefined): Client {
-    return new Client({
-      ip: ClientIp.parse(ip ?? Client.DEFAULT_IP),
-      ua: ClientUserAgent.parse((ua ?? Client.DEFAULT_UA).toLowerCase()),
-    });
+  static fromSafeParts(ip: ClientIpType | undefined, ua: ClientUserAgentType | undefined): Client {
+    return new Client(ip, ua);
   }
 
-  equals(another: Client): boolean {
-    return this.value.ip === another.value.ip && this.value.ua === another.value.ua;
+  equals(other: Client): boolean {
+    return this.ip === other.ip && this.ua === other.ua;
   }
 
-  matchesUa(ua: ClientUserAgentType): boolean {
-    return this.value.ua.includes(ua.toLowerCase());
+  hasSameUa(other: Client): boolean {
+    return this.ua !== undefined && this.ua === other.ua;
   }
 
-  matchesIp(ip: ClientIpType): boolean {
-    return this.value.ip.includes(ip.toLowerCase());
+  hasSameIp(other: Client): boolean {
+    return this.ip !== undefined && this.ip === other.ip;
   }
 
-  get ip(): ClientIpType {
-    return this.value.ip;
-  }
-
-  get ua(): ClientUserAgentType {
-    return this.value.ua;
-  }
-
-  toJSON(): ClientType {
-    return this.value;
+  toJSON(): { ip?: ClientIpType; ua?: ClientUserAgentType } {
+    return { ip: this.ip, ua: this.ua };
   }
 }
