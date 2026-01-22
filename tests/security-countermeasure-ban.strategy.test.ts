@@ -26,7 +26,7 @@ const countermeasure = new SecurityCountermeasureBanStrategy(deps);
 const context = new SecurityContext(
   rule.name,
   countermeasure.name,
-  Client.fromParts("127.0.0.1", "anon"),
+  Client.fromParts("127.0.0.1", "firefox"),
   undefined,
 );
 const contextWithoutClient = new SecurityContext(
@@ -38,7 +38,7 @@ const contextWithoutClient = new SecurityContext(
 
 describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path", async () => {
-    const loggerWarn = spyOn(Logger, "warn");
+    const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -51,7 +51,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerWarn).toHaveBeenCalledWith({
+    expect(loggerInfo).toHaveBeenCalledWith({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
@@ -62,7 +62,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - without client", async () => {
-    const loggerWarn = spyOn(Logger, "warn");
+    const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -75,7 +75,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerWarn).toHaveBeenCalledWith({
+    expect(loggerInfo).toHaveBeenCalledWith({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
@@ -88,7 +88,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - custom config", async () => {
-    const loggerWarn = spyOn(Logger, "warn");
+    const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
     const config = { response: { status: 404 as ContentfulStatusCode } };
     const countermeasure = new SecurityCountermeasureBanStrategy(deps, config);
@@ -103,7 +103,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerWarn).toHaveBeenCalledWith({
+    expect(loggerInfo).toHaveBeenCalledWith({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
