@@ -4,13 +4,13 @@ import * as tools from "@bgord/tools";
 import { FileRenamerFsAdapter } from "../src/file-renamer-fs.adapter";
 import * as mocks from "./mocks";
 
-const renamer = { delete: async () => ({}) };
+const renamer = async () => {};
 
 const adapter = new FileRenamerFsAdapter();
 
 describe("FileRenamerFsAdapter", () => {
   test("happy path - string", async () => {
-    const fsRename = spyOn(fs, "rename").mockReturnValue(renamer);
+    const fsRename = spyOn(fs, "rename").mockImplementation(renamer);
     const input = "package.json";
     const output = "package-lock.json";
 
@@ -19,7 +19,7 @@ describe("FileRenamerFsAdapter", () => {
   });
 
   test("happy path - relative", async () => {
-    const fsRename = spyOn(fs, "rename").mockReturnValue(renamer);
+    const fsRename = spyOn(fs, "rename").mockImplementation(renamer);
     const input = tools.FilePathRelative.fromString("users/package.json");
     const output = tools.FilePathRelative.fromString("users/package-lock.json");
 
@@ -28,7 +28,7 @@ describe("FileRenamerFsAdapter", () => {
   });
 
   test("happy path - absolute", async () => {
-    const fsRename = spyOn(fs, "rename").mockReturnValue(renamer);
+    const fsRename = spyOn(fs, "rename").mockImplementation(renamer);
     const input = tools.FilePathAbsolute.fromString("/users/package.json");
     const output = tools.FilePathAbsolute.fromString("/users/package-lock.json");
 
