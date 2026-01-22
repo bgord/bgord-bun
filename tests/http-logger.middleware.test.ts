@@ -48,7 +48,7 @@ describe("HttpLogger middleware", () => {
     const loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request(
-      "/ping",
+      "/ping?page=1",
       { method: "GET", headers: { keep: "abc", ...headers } },
       mocks.ip,
     );
@@ -63,9 +63,9 @@ describe("HttpLogger middleware", () => {
       ),
       message: "request",
       method: "GET",
-      url: "http://localhost/ping",
-      client: { ip: "127.0.0.1", ua: "abc" },
-      metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: {} },
+      url: "http://localhost/ping?page=1",
+      client: { ip: "127.0.0.1", userAgent: "abc" },
+      metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: { page: "1" } },
     });
     expect(loggerHttp).toHaveBeenNthCalledWith(2, {
       component: "http",
@@ -75,10 +75,10 @@ describe("HttpLogger middleware", () => {
       ),
       message: "response",
       method: "GET",
-      url: "http://localhost/ping",
+      url: "http://localhost/ping?page=1",
       status: 200,
       durationMs: expect.any(Number),
-      client: { ip: "127.0.0.1", ua: "abc" },
+      client: { ip: "127.0.0.1", userAgent: "abc" },
       cacheHit: false,
       metadata: { response: { message: "OK" } },
     });
@@ -100,7 +100,7 @@ describe("HttpLogger middleware", () => {
       message: "request",
       method: "GET",
       url: "http://localhost/pong",
-      client: { ip: "127.0.0.1", ua: "anon" },
+      client: { ip: "127.0.0.1" },
       metadata: { headers: {}, body: {}, params: {}, query: {} },
     });
     expect(loggerHttp).toHaveBeenNthCalledWith(2, {
@@ -114,7 +114,7 @@ describe("HttpLogger middleware", () => {
       url: "http://localhost/pong",
       status: 500,
       durationMs: expect.any(Number),
-      client: { ip: "127.0.0.1", ua: "anon" },
+      client: { ip: "127.0.0.1" },
       cacheHit: false,
       metadata: { response: { message: "general.unknown" } },
     });
