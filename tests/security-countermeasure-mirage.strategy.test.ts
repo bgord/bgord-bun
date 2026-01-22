@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { Client } from "../src/client.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
@@ -14,12 +13,7 @@ const deps = { Logger };
 
 const rule = new SecurityRulePassStrategy();
 const countermeasure = new SecurityCountermeasureMirageStrategy(deps);
-const context = new SecurityContext(
-  rule.name,
-  countermeasure.name,
-  Client.fromParts("127.0.0.1", "firefox"),
-  undefined,
-);
+const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
 describe("SecurityCountermeasureMirageStrategy", () => {
   test("happy path", async () => {

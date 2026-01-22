@@ -2,33 +2,25 @@ import { describe, expect, test } from "bun:test";
 import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
+import * as mocks from "./mocks";
 
-// const localFirefox = Client.fromParts("127.0.0.1", ClientUserAgent.parse("firefox"));
-// const localChrome = Client.fromParts("127.0.0.1", ClientUserAgent.parse("Chrome"));
-// const remoteFirefox = Client.fromParts("0.0.0.0", ClientUserAgent.parse("Firefox"));
-
-// const ip = ClientIp.parse("1.1.1.1");
-// const ua = ClientUserAgent.parse("ua");
-
-const ip = "1.1.1.1";
-const ipVO = ClientIp.parse(ip);
+const ipVO = ClientIp.parse(mocks.ip);
 const invalidIp = "invalid";
 
-const ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0";
-const uaVO = ClientUserAgent.parse(ua);
+const uaVO = ClientUserAgent.parse(mocks.ua);
 const invalidUa = "a".repeat(257);
 
 describe("Client VO", () => {
   test("fromParts", () => {
-    expect(Client.fromParts(ip, ua).toJSON()).toEqual({ ip: ipVO, ua: uaVO });
+    expect(Client.fromParts(mocks.ip, mocks.ua).toJSON()).toEqual({ ip: ipVO, ua: uaVO });
   });
 
   test("fromParts - invalid ip", () => {
-    expect(Client.fromParts(invalidIp, ua).toJSON()).toEqual({ ip: undefined, ua: uaVO });
+    expect(Client.fromParts(invalidIp, mocks.ua).toJSON()).toEqual({ ip: undefined, ua: uaVO });
   });
 
   test("fromParts - invalid ua", () => {
-    expect(Client.fromParts(ip, invalidUa).toJSON()).toEqual({ ip: ipVO, ua: undefined });
+    expect(Client.fromParts(mocks.ip, invalidUa).toJSON()).toEqual({ ip: ipVO, ua: undefined });
   });
 
   test("fromParts - invalid", () => {
@@ -36,11 +28,11 @@ describe("Client VO", () => {
   });
 
   test("fromParts - missing ip", () => {
-    expect(Client.fromParts(undefined, ua).toJSON()).toEqual({ ip: undefined, ua: uaVO });
+    expect(Client.fromParts(undefined, mocks.ua).toJSON()).toEqual({ ip: undefined, ua: uaVO });
   });
 
   test("fromParts - missing ua", () => {
-    expect(Client.fromParts(ip, undefined).toJSON()).toEqual({ ip: ipVO, ua: undefined });
+    expect(Client.fromParts(mocks.ip, undefined).toJSON()).toEqual({ ip: ipVO, ua: undefined });
   });
 
   test("fromParts - missing", () => {

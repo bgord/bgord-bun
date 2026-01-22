@@ -34,7 +34,7 @@ const entryHttp = {
   operation: "test",
   method: "GET",
   url: "http://localhost:3000",
-  client: { ua: "firefox", ip: "127.0.0.1" },
+  client: { ua: mocks.ua, ip: mocks.ip },
 } as const;
 const entryWithErrorInstance = { ...entry, error: new Error(mocks.IntentionalError) };
 const entryWithErrorString = { ...entry, error: mocks.IntentionalError };
