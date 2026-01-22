@@ -395,7 +395,7 @@ describe("Woodchopper", async () => {
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
-    woodchopper.info({ ...entry, metadata: { users: { admins: 1, users: 1, anon: 1 } } });
+    woodchopper.info({ ...entry, metadata: { users: { admins: 1, users: 1, bots: 1 } } });
 
     expect(sink.entries[0]).toEqual({
       ...config,
@@ -473,7 +473,7 @@ describe("Woodchopper", async () => {
       metadata: {
         password: "secret",
         users: ["1", "2", "3"],
-        types: { admin: true, user: true, api: true, anon: true },
+        types: { admin: true, user: true, api: true, bots: true },
       },
     });
 

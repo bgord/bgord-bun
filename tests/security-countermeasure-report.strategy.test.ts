@@ -16,7 +16,7 @@ const countermeasure = new SecurityCountermeasureReportStrategy(deps);
 const context = new SecurityContext(
   rule.name,
   countermeasure.name,
-  Client.fromParts("anon", "anon"),
+  Client.fromParts("127.0.01", "firefox"),
   undefined,
 );
 
