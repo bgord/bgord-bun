@@ -12,9 +12,7 @@ export class VisitorIdClientStrategy implements VisitorIdStrategy {
   ) {}
 
   async get(): Promise<Hash> {
-    const { ip, ua } = this.client.toJSON();
-
-    const value = `${ip}|${ua}`;
+    const value = `${this.client.ip ?? "anon"}|${this.client.ua ?? "anon"}`;
 
     return this.deps.HashContent.hash(value);
   }
