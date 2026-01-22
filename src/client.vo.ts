@@ -3,8 +3,8 @@ import { ClientUserAgent, type ClientUserAgentType } from "./client-user-agent.v
 
 export class Client {
   private constructor(
-    private readonly ip?: ClientIpType,
-    private readonly ua?: ClientUserAgentType,
+    readonly ip?: ClientIpType,
+    readonly ua?: ClientUserAgentType,
   ) {}
 
   static fromParts(ip: string | undefined, ua: string | undefined): Client {
