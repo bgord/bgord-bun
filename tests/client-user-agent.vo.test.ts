@@ -3,8 +3,8 @@ import { ClientUserAgent } from "../src/client-user-agent.vo";
 
 describe("ClientUserAgent VO", () => {
   test("happy path", () => {
-    expect(ClientUserAgent.safeParse("a".repeat(128)).success).toEqual(true);
-    expect(ClientUserAgent.safeParse("A".repeat(128)).success).toEqual(true);
+    expect(ClientUserAgent.safeParse("a".repeat(256)).success).toEqual(true);
+    expect(ClientUserAgent.safeParse("A".repeat(256)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
@@ -16,10 +16,19 @@ describe("ClientUserAgent VO", () => {
   });
 
   test("rejects empty", () => {
-    expect(() => ClientUserAgent.parse("")).toThrow("client.user.agent.empty");
+    expect(() => ClientUserAgent.parse("")).toThrow("client.user.agent.invalid");
   });
 
   test("rejects too long", () => {
-    expect(() => ClientUserAgent.parse(`${"a".repeat(128)}a`)).toThrow("client.user.agent.too.long");
+    expect(() => ClientUserAgent.parse(`${"a".repeat(255)}a`)).toThrow("client.user.agent.invalid");
+  });
+
+  test("rejects control characters", () => {
+    expect(() => ClientUserAgent.parse("\n")).toThrow("client.user.agent.invalid");
+    expect(() => ClientUserAgent.parse("\u0000")).toThrow("client.user.agent.invalid");
+  });
+
+  test("rejects unicode emoji", () => {
+    expect(() => ClientUserAgent.parse("🔥")).toThrow("client.user.agent.invalid");
   });
 });
