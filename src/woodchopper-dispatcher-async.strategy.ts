@@ -68,10 +68,10 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
         continue;
       }
 
-      const entry = this.buffer.shift()!;
+      const entry = this.buffer.shift();
 
       try {
-        this.sink.write(entry);
+        this.sink.write(entry as LoggerEntry);
       } catch (error) {
         this.onError?.(error);
       }
