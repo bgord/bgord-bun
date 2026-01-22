@@ -107,7 +107,7 @@ describe("RequestContextAdapterHono", () => {
       context.json({ ip: new RequestContextAdapterHono(context).identity.ip() }),
     );
 
-    const response = await app.request("/test", {}, mocks.ip);
+    const response = await app.request("/test", {}, mocks.connInfo);
 
     expect(await response.json()).toEqual({ ip: "127.0.0.1" });
   });
