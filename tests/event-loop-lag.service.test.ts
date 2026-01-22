@@ -11,7 +11,7 @@ const histogram = {
     if (value === 99) return 9_000_000;
     return 0;
   },
-};
+} as perf_hooks.IntervalHistogram;
 
 describe("EventLoopLag service", () => {
   test("start - idempotency", () => {
