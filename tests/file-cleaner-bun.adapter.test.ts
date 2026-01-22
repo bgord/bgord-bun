@@ -9,6 +9,7 @@ const FileCleaner = new FileCleanerBunAdapter();
 
 describe("FileCleanerBunAdapter", () => {
   test("happy path - string", async () => {
+    // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
     const path = "package.json";
 
@@ -17,6 +18,7 @@ describe("FileCleanerBunAdapter", () => {
   });
 
   test("happy path - relative", async () => {
+    // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
     const path = tools.FilePathRelative.fromString("users/package.json");
 
@@ -25,6 +27,7 @@ describe("FileCleanerBunAdapter", () => {
   });
 
   test("happy path - absolute", async () => {
+    // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
