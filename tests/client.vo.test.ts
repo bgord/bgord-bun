@@ -35,15 +35,15 @@ describe("Client VO", () => {
     expect(Client.fromParts(invalidIp, invalidUa).toJSON()).toEqual({ ip: undefined, ua: undefined });
   });
 
-  test("fromParts - undefined ip", () => {
+  test("fromParts - missing ip", () => {
     expect(Client.fromParts(undefined, ua).toJSON()).toEqual({ ip: undefined, ua: uaVO });
   });
 
-  test("fromParts - undefined ua", () => {
+  test("fromParts - missing ua", () => {
     expect(Client.fromParts(ip, undefined).toJSON()).toEqual({ ip: ipVO, ua: undefined });
   });
 
-  test("fromParts - undefined", () => {
+  test("fromParts - missing", () => {
     expect(Client.fromParts(undefined, undefined).toJSON()).toEqual({ ip: undefined, ua: undefined });
   });
 
@@ -51,15 +51,15 @@ describe("Client VO", () => {
     expect(Client.fromSafeParts(ipVO, uaVO).toJSON()).toEqual({ ip: ipVO, ua: uaVO });
   });
 
-  test("fromSafeParts - undefined ip", () => {
+  test("fromSafeParts - missing ip", () => {
     expect(Client.fromSafeParts(undefined, uaVO).toJSON()).toEqual({ ip: undefined, ua: uaVO });
   });
 
-  test("fromSafeParts - undefined ua", () => {
+  test("fromSafeParts - missing ua", () => {
     expect(Client.fromSafeParts(ipVO, undefined).toJSON()).toEqual({ ip: ipVO, ua: undefined });
   });
 
-  test("fromSafeParts - undefined", () => {
+  test("fromSafeParts - missing", () => {
     expect(Client.fromSafeParts(undefined, undefined).toJSON()).toEqual({ ip: undefined, ua: undefined });
   });
 
