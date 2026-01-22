@@ -50,7 +50,7 @@ describe("HttpLogger middleware", () => {
     const result = await app.request(
       "/ping?page=1",
       { method: "GET", headers: { keep: "abc", ...headers } },
-      mocks.ip,
+      mocks.connInfo,
     );
 
     expect(result.status).toEqual(200);
@@ -87,7 +87,7 @@ describe("HttpLogger middleware", () => {
   test("500", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
-    const result = await app.request("/pong", { method: "GET" }, mocks.ip);
+    const result = await app.request("/pong", { method: "GET" }, mocks.connInfo);
 
     expect(result.status).toEqual(500);
     expect(loggerHttp).toHaveBeenCalledTimes(2);
@@ -133,7 +133,7 @@ describe("HttpLogger middleware", () => {
   test("skip", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
-    const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.ip);
+    const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.connInfo);
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).not.toHaveBeenCalled();
@@ -142,12 +142,12 @@ describe("HttpLogger middleware", () => {
   test("cache-hit", async () => {
     const loggerHttp = spyOn(Logger, "http");
 
-    const first = await app.request("/ping-cached", {}, mocks.ip);
+    const first = await app.request("/ping-cached", {}, mocks.connInfo);
 
     expect(first.status).toEqual(200);
     expect(loggerHttp).toHaveBeenNthCalledWith(2, expect.objectContaining({ cacheHit: false }));
 
-    const second = await app.request("/ping-cached", {}, mocks.ip);
+    const second = await app.request("/ping-cached", {}, mocks.connInfo);
 
     expect(second.status).toEqual(200);
     expect(loggerHttp).toHaveBeenNthCalledWith(4, expect.objectContaining({ cacheHit: true }));
