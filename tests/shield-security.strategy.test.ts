@@ -86,7 +86,7 @@ const app = new Hono()
 describe("ShieldSecurityStrategy", () => {
   test("happy path", async () => {
     const loggerInfo = spyOn(Logger, "info");
-    const result = await app.request("/ping", { method: "POST" }, mocks.ip);
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
     expect(result.status).toEqual(200);
     expect(loggerInfo).not.toHaveBeenCalled();
@@ -99,7 +99,7 @@ describe("ShieldSecurityStrategy", () => {
     const result = await app.request(
       "/.env",
       { method: "POST", headers: { "x-correlation-id": mocks.correlationId, "user-agent": "firefox" } },
-      mocks.ip,
+      mocks.connInfo,
     );
 
     expect(result.status).toEqual(403);
@@ -114,7 +114,7 @@ describe("ShieldSecurityStrategy", () => {
     const result = await app.request(
       "/ping",
       { method: "POST", body: JSON.stringify({ [field]: "here" }) },
-      mocks.ip,
+      mocks.connInfo,
     );
 
     expect(result.status).toEqual(200);
@@ -128,7 +128,7 @@ describe("ShieldSecurityStrategy", () => {
     const result = await app.request(
       "/ping",
       { method: "POST", headers: { "user-agent": "AI2Bot-DeepResearchEval" } },
-      mocks.ip,
+      mocks.connInfo,
     );
 
     expect(result.status).toEqual(200);
@@ -143,7 +143,7 @@ describe("ShieldSecurityStrategy", () => {
       .use(shield.verify)
       .post("/ping", (c) => c.text("OK"));
 
-    const result = await app.request("/ping", { method: "POST" }, mocks.ip);
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
     expect(result.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
@@ -163,17 +163,17 @@ describe("ShieldSecurityStrategy", () => {
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));
 
-    const first = await app.request("/.env", { method: "POST" }, mocks.ip);
+    const first = await app.request("/.env", { method: "POST" }, mocks.connInfo);
 
     expect(first.status).toEqual(404);
     expect(loggerInfo).not.toHaveBeenCalled();
 
-    const second = await app.request("/.env", { method: "POST" }, mocks.ip);
+    const second = await app.request("/.env", { method: "POST" }, mocks.connInfo);
 
     expect(second.status).toEqual(404);
     expect(loggerInfo).not.toHaveBeenCalled();
 
-    const third = await app.request("/.env", { method: "POST" }, mocks.ip);
+    const third = await app.request("/.env", { method: "POST" }, mocks.connInfo);
 
     expect(third.status).toEqual(200);
     expect(loggerInfo).toHaveBeenCalled();
@@ -196,7 +196,7 @@ describe("ShieldSecurityStrategy", () => {
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));
 
-    const result = await app.request("/ping", { method: "POST" }, mocks.ip);
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
     const text = await result.text();
 
     expect(result.status).toEqual(500);
