@@ -8,7 +8,7 @@ export class RequestContextBuilder {
   private json: Record<string, unknown> = {};
   private userId: string | undefined = undefined;
   private ip: string | undefined = undefined;
-  private userAgent: string | undefined = undefined;
+  private ua: string | undefined = undefined;
 
   withPath(path: string) {
     this.path = path;
@@ -45,8 +45,8 @@ export class RequestContextBuilder {
     return this;
   }
 
-  withUserAgent(userAgent: string | undefined) {
-    this.userAgent = userAgent;
+  withUserAgent(ua: string | undefined) {
+    this.ua = ua;
     return this;
   }
 
@@ -62,7 +62,7 @@ export class RequestContextBuilder {
       identity: {
         userId: () => this.userId,
         ip: () => this.ip,
-        userAgent: () => this.userAgent,
+        ua: () => this.ua,
       },
     };
   }

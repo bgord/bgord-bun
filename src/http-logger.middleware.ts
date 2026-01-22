@@ -36,7 +36,7 @@ export class HttpLogger {
   static build = (deps: Dependencies, options?: HttpLoggerOptions) =>
     createMiddleware(async (c, next) => {
       const context = new RequestContextAdapterHono(c);
-      const client = { ip: context.identity.ip(), userAgent: context.identity.userAgent() };
+      const client = { ip: context.identity.ip(), ua: context.identity.ua() };
 
       const request = c.req.raw.clone();
 
