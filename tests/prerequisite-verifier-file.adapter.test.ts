@@ -10,6 +10,7 @@ const path = tools.FilePathAbsolute.fromString("/tmp/test-file.txt");
 
 describe("PrerequisiteVerifierFileAdapter", () => {
   test("success - all", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({
@@ -21,6 +22,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - read", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
@@ -31,6 +33,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - write", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { write: true } });
@@ -41,6 +44,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - execute", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { execute: true } });
@@ -51,6 +55,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - file does not exist", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => false });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
@@ -58,6 +63,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - file does not exist error", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
@@ -67,6 +73,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - read", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
@@ -78,6 +85,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - write", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
@@ -92,6 +100,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - execute", async () => {
+    // @ts-expect-error TODO - file system port
     spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
@@ -106,6 +115,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("integration - BUILD_INFO_REPOSITORY_FILE_PATH", async () => {
+    // @ts-expect-error TODO - file system port
     const bunFile = spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: BUILD_INFO_REPOSITORY_FILE_PATH });
 
