@@ -14,7 +14,7 @@ export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPo
         | { integrity_check?: string }
         | undefined;
 
-      if (!(integrity && integrity.integrity_check) || integrity.integrity_check.toLowerCase() !== "ok") {
+      if (!integrity?.integrity_check || integrity.integrity_check.toLowerCase() !== "ok") {
         return PrerequisiteVerification.failure("Integrity check failed");
       }
       return PrerequisiteVerification.success;
