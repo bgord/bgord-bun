@@ -1,4 +1,3 @@
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { createEventEnvelope } from "./event-envelope";
@@ -31,7 +30,7 @@ export const SecurityCountermeasureBanStrategyError = {
 export class SecurityCountermeasureBanStrategy implements SecurityCountermeasureStrategy {
   constructor(
     private readonly deps: Dependencies,
-    private readonly config: { response: { status: ContentfulStatusCode } } = { response: { status: 403 } },
+    private readonly config: { response: { status: number } } = { response: { status: 403 } },
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {

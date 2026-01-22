@@ -1,4 +1,3 @@
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
@@ -13,7 +12,7 @@ type Dependencies = { Logger: LoggerPort };
 export class SecurityCountermeasureMirageStrategy implements SecurityCountermeasureStrategy {
   constructor(
     private readonly deps: Dependencies,
-    private readonly config: { response: { status: ContentfulStatusCode } } = { response: { status: 200 } },
+    private readonly config: { response: { status: number } } = { response: { status: 200 } },
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {
