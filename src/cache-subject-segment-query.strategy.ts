@@ -3,10 +3,10 @@ import {
   CacheSubjectSegmentRequestEmpty,
   type CacheSubjectSegmentRequestStrategy,
 } from "./cache-subject-segment-request.strategy";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestQuery } from "./request-context.port";
 
 export class CacheSubjectSegmentQueryStrategy implements CacheSubjectSegmentRequestStrategy {
-  create(context: RequestContext): CacheSubjectSegmentType {
+  create(context: HasRequestQuery): CacheSubjectSegmentType {
     const query = context.request.query();
 
     const keys = Object.keys(query).toSorted();
