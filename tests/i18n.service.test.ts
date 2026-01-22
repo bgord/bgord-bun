@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
-import { FileReaderJsonBunForgivingAdapter } from "../src/file-reader-json-bun-forgiving.adapter";
+import { FileReaderJsonForgivingAdapter } from "../src/file-reader-json-forgiving.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -92,7 +92,7 @@ describe("I18n service", () => {
   test("getTranslations - error", async () => {
     spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    const i18n = new I18n({ FileReaderJson: new FileReaderJsonBunForgivingAdapter(), Logger });
+    const i18n = new I18n({ FileReaderJson: new FileReaderJsonForgivingAdapter(), Logger });
 
     expect(await i18n.getTranslations("en")).toEqual({});
   });

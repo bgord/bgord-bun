@@ -4,7 +4,7 @@ import type { HashFilePort, HashFileResult } from "./hash-file.port";
 
 type Dependencies = { HashContent: HashContentStrategy; MimeRegistry: tools.MimeRegistry };
 
-export class HashFileSha256BunAdapter implements HashFilePort {
+export class HashFileSha256Adapter implements HashFilePort {
   constructor(private readonly deps: Dependencies) {}
 
   async hash(path: tools.FilePathAbsolute | tools.FilePathRelative): Promise<HashFileResult> {

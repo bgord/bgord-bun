@@ -9,13 +9,13 @@ import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolv
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import type * as mocks from "./mocks";
 
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
 const resolver = new CacheSubjectRequestResolver(

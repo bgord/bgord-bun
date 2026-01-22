@@ -7,7 +7,7 @@ import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-pa
 import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
 import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { Hash } from "../src/hash.vo";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const fixed = new CacheSubjectSegmentFixedStrategy("response");
@@ -17,7 +17,7 @@ const headerAccept = new CacheSubjectSegmentHeaderStrategy("accept");
 const query = new CacheSubjectSegmentQueryStrategy();
 const user = new CacheSubjectSegmentUserStrategy();
 
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
 describe("CacheSubjectRequestResolver VO", () => {

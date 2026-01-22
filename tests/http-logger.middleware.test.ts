@@ -9,7 +9,7 @@ import { CacheResponse } from "../src/cache-response.middleware";
 import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { HttpLogger, UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
@@ -21,7 +21,7 @@ const Clock = new ClockSystemAdapter();
 const deps = { Logger, Clock };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const cacheResponse = new CacheResponse(
   {

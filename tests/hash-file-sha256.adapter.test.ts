@@ -1,8 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hash } from "../src/hash.vo";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
-import { HashFileSha256BunAdapter } from "../src/hash-file-sha256-bun.adapter";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { HashFileSha256Adapter } from "../src/hash-file-sha256.adapter";
 
 const jpegMime = tools.Mime.fromString("image/jpeg");
 const jpgExtension = tools.Extension.parse("jpg");
@@ -10,12 +10,12 @@ const jpegExtension = tools.Extension.parse("jpeg");
 
 const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgExtension, jpegExtension] }]);
 
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent, MimeRegistry };
 
-const adapter = new HashFileSha256BunAdapter(deps);
+const adapter = new HashFileSha256Adapter(deps);
 
-describe("HashFileSha256BunAdapter", () => {
+describe("HashFileSha256Adapter", () => {
   test("absolute path", async () => {
     const text = "hello";
     const file = {

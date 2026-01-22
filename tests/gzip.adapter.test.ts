@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { GzipBunAdapter } from "../src/gzip-bun.adapter";
+import { GzipAdapter } from "../src/gzip.adapter";
 import * as mocks from "./mocks";
 
 const input = tools.FilePathAbsolute.fromString("/var/uploads/sample.txt");
@@ -8,9 +8,9 @@ const output = tools.FilePathAbsolute.fromString("/var/uploads/sample.txt.gz");
 const file = new TextEncoder().encode("hello world").buffer;
 const gzipped = new Uint8Array([31, 139, 8, 0, 0, 0]);
 
-const adapter = new GzipBunAdapter();
+const adapter = new GzipAdapter();
 
-describe("GzipBunAdapter", () => {
+describe("GzipAdapter", () => {
   test("absolute to absolute", async () => {
     // @ts-expect-error TODO
     const bunFile = spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file });

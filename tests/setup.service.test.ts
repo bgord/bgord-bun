@@ -6,7 +6,7 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { EtagVariables } from "../src/etag-extractor.middleware";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import type { I18nConfigType } from "../src/i18n.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -34,7 +34,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
 const Clock = new ClockSystemAdapter();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.TIME_ZERO,
   tools.PackageVersion.fromString(version),

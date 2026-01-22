@@ -1,13 +1,13 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { FileCleanerBunAdapter } from "../src/file-cleaner-bun.adapter";
+import { FileCleanerAdapter } from "../src/file-cleaner.adapter";
 import * as mocks from "./mocks";
 
 const deleter = { delete: async () => ({}) };
 
-const FileCleaner = new FileCleanerBunAdapter();
+const FileCleaner = new FileCleanerAdapter();
 
-describe("FileCleanerBunAdapter", () => {
+describe("FileCleanerAdapter", () => {
   test("happy path - string", async () => {
     // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(deleter);

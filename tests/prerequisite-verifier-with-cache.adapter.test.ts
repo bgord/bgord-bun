@@ -4,7 +4,7 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectApplicationResolver } from "../src//cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src//cache-subject-segment-fixed.strategy";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
 import * as mocks from "./mocks";
@@ -16,7 +16,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const config = { id: "example", inner: pass };
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const resolver = new CacheSubjectApplicationResolver(
       [
@@ -56,7 +56,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
@@ -85,7 +85,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 

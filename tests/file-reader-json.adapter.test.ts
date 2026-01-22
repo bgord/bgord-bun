@@ -1,20 +1,20 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { FileReaderJsonBunForgivingAdapter } from "../src/file-reader-json-bun-forgiving.adapter";
+import { FileReaderJsonAdapter } from "../src/file-reader-json.adapter";
 import * as mocks from "./mocks";
 
 const content = { version: 1 };
 const json = { json: async () => content };
 
-const FileReaderJson = new FileReaderJsonBunForgivingAdapter();
+const adapter = new FileReaderJsonAdapter();
 
-describe("FileReaderJsonBunForgivingAdapter", () => {
+describe("FileReaderJsonAdapter", () => {
   test("happy path - string", async () => {
     // @ts-expect-error Partial access
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = "package.json";
 
-    expect(await FileReaderJson.read(path)).toEqual(content);
+    expect(await adapter.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path);
   });
 
@@ -23,7 +23,7 @@ describe("FileReaderJsonBunForgivingAdapter", () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = tools.FilePathRelative.fromString("users/package.json");
 
-    expect(await FileReaderJson.read(path)).toEqual(content);
+    expect(await adapter.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
@@ -32,7 +32,7 @@ describe("FileReaderJsonBunForgivingAdapter", () => {
     const bunFile = spyOn(Bun, "file").mockReturnValue(json);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(await FileReaderJson.read(path)).toEqual(content);
+    expect(await adapter.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
@@ -40,7 +40,7 @@ describe("FileReaderJsonBunForgivingAdapter", () => {
     const bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(await FileReaderJson.read(path)).toEqual({});
+    expect(async () => adapter.read(path)).toThrow(mocks.IntentionalError);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 });

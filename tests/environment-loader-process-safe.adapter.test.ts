@@ -6,7 +6,7 @@ import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strate
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const Schema = z.object({ APP_NAME: z.string() });
@@ -14,7 +14,7 @@ const Schema = z.object({ APP_NAME: z.string() });
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const deps = { CacheResolver, HashContent };
 
 describe("EnvironmentLoaderProcessSafe", () => {

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 
-export class FileRenamerFsForgivingAdapter implements FileRenamerPort {
+export class FileRenamerNodeForgivingAdapter implements FileRenamerPort {
   async rename(
     input: tools.FilePathRelative | tools.FilePathAbsolute | string,
     output: tools.FilePathRelative | tools.FilePathAbsolute | string,

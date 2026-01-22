@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { GzipPort, GzipRecipe } from "./gzip.port";
 
-export class GzipBunAdapter implements GzipPort {
+export class GzipAdapter implements GzipPort {
   async pack(recipe: GzipRecipe): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const file = await Bun.file(recipe.input.get()).arrayBuffer();
     const archive = Bun.gzipSync(file);

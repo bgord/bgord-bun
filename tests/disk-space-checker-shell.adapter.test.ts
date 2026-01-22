@@ -1,10 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 import * as tools from "@bgord/tools";
-import { DiskSpaceCheckerBunAdapter } from "../src/disk-space-checker-bun.adapter";
+import { DiskSpaceCheckerShellAdapter } from "../src/disk-space-checker-shell.adapter";
 
-describe("DiskSpaceCheckerBunAdapter", () => {
-  const adapter = new DiskSpaceCheckerBunAdapter();
+describe("DiskSpaceCheckerShellAdapter", () => {
+  const adapter = new DiskSpaceCheckerShellAdapter();
   const root = "/";
   const size = tools.Size.fromMB(100);
 

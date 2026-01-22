@@ -5,7 +5,7 @@ import { requestId } from "hono/request-id";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import type { SecurityAction } from "../src/security-countermeasure.strategy";
@@ -35,7 +35,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
 ]);
 const Sleeper = new SleeperNoopAdapter();
 const EventStore = { save: async () => {} };
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: duration });
 const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository, Sleeper };
 // =============================================

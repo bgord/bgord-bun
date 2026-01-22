@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
@@ -127,7 +127,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
@@ -159,7 +159,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
@@ -191,7 +191,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
@@ -237,7 +237,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
@@ -263,7 +263,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerErrorAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
@@ -287,7 +287,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerErrorAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
@@ -313,7 +313,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Sleeper = new SleeperNoopAdapter();
     const deps = { HashContent, CacheResolver, Sleeper };
@@ -343,7 +343,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();
@@ -369,7 +369,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256BunStrategy();
+    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const Logger = new LoggerNoopAdapter();

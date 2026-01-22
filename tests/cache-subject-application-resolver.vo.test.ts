@@ -5,7 +5,7 @@ import { CacheSubjectSegmentBuildStrategy } from "../src/cache-subject-segment-b
 import { CacheSubjectSegmentEnvStrategy } from "../src/cache-subject-segment-env.strategy";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { Hash } from "../src/hash.vo";
-import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const request = new CacheSubjectSegmentFixedStrategy("request");
@@ -15,7 +15,7 @@ const env = new CacheSubjectSegmentEnvStrategy(NodeEnvironmentEnum.production);
 const version = tools.PackageVersion.fromString("1.2.3");
 const build = new CacheSubjectSegmentBuildStrategy(version);
 
-const HashContent = new HashContentSha256BunStrategy();
+const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
 describe("CacheSubjectApplicationResolver VO", () => {

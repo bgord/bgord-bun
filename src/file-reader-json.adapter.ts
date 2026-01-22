@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileReaderJsonOutputType, FileReaderJsonPort } from "./file-reader-json.port";
 
-export class FileReaderJsonBunAdapter implements FileReaderJsonPort {
+export class FileReaderJsonAdapter implements FileReaderJsonPort {
   async read(
     path: tools.FilePathRelative | tools.FilePathAbsolute | string,
   ): Promise<FileReaderJsonOutputType> {
