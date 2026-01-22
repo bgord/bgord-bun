@@ -59,7 +59,7 @@ describe("deepCloneWith", () => {
       { allowRootReplace: true },
     );
 
-    // @ts-expect-error
+    // @ts-expect-error Changed schema assertion
     expect(result).toEqual({ replaced: true });
   });
 });

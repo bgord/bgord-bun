@@ -32,18 +32,18 @@ describe("CorrelationStorage service", () => {
   test("handle - seeding", async () => {
     const context = { get: () => mocks.correlationId };
 
-    // @ts-expect-error TODO - unify
+    // @ts-expect-error TODO
     const result = await CorrelationStorage.handle()(context, () => CorrelationStorage.get());
 
-    // @ts-expect-error TODO - unify
+    // @ts-expect-error TODO
     expect(result).toEqual(mocks.correlationId);
   });
 
   test("handle - cleanup", async () => {
     const context = { get: () => mocks.correlationId };
 
-    // @ts-expect-error TODO - unify
-    await CorrelationStorage.handle()(context, () => Promise.resolve());
+    // @ts-expect-error TODO
+    await CorrelationStorage.handle()(context, async () => {});
 
     expect(() => CorrelationStorage.get()).toThrow("correlation.storage.missing");
   });

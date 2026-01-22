@@ -26,7 +26,7 @@ describe("EnvironmentLoaderNoopAdapter", () => {
   test("failure", async () => {
     const adapter = new EnvironmentLoaderNoopAdapter(
       { type: NodeEnvironmentEnum.local, Schema },
-      // @ts-expect-error Intentional invalid schema setup
+      // @ts-expect-error Changed schema assertion
       { APP_NAME: 123 },
     );
 

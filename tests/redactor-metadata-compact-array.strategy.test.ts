@@ -9,7 +9,7 @@ describe("RedactorMetadataCompactArrayStrategy", () => {
     const redactor = new RedactorMetadataCompactArrayStrategy();
     const input = { metadata: Array.from({ length: 21 }).map(() => "user") };
 
-    // @ts-expect-error Intentional schema change
+    // @ts-expect-error Changed schema assertion
     expect(redactor.redact(input)).toEqual({ metadata: { type: "Array", length: 21 } });
   });
 
@@ -22,14 +22,14 @@ describe("RedactorMetadataCompactArrayStrategy", () => {
   test("redact - metadata array", () => {
     const input = { metadata: ["admin", "user"] };
 
-    // @ts-expect-error Intentional schema change
+    // @ts-expect-error Changed schema assertion
     expect(redactor.redact(input)).toEqual({ metadata: { type: "Array", length: 2 } });
   });
 
   test("redact - array inside metadata", () => {
     const input = { metadata: { users: ["admin", "user"] } };
 
-    // @ts-expect-error Intentional schema change
+    // @ts-expect-error Changed schema assertion
     expect(redactor.redact(input)).toEqual({ metadata: { users: { type: "Array", length: 2 } } });
   });
 

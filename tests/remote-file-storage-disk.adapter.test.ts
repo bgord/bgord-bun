@@ -25,7 +25,7 @@ const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath", async () => {
-    // @ts-expect-error
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockImplementation(() => ({}));
     const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
     const fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
@@ -54,7 +54,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
     const success = await adapter.head(key);
 
-    // @ts-expect-error
+    // @ts-expect-error Partial access
     expect(success.etag).toEqual(hash.etag);
     expect(success.exists).toEqual(true);
 
@@ -66,7 +66,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
   test("getStream", async () => {
     const stream = new ReadableStream();
-    // @ts-expect-error
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
 
     expect(await adapter.getStream(key)).toEqual(stream);

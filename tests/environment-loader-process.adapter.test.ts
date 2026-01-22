@@ -27,7 +27,7 @@ describe("EnvironmentLoaderProcess", () => {
     expect(
       async () =>
         await new EnvironmentLoaderProcessAdapter(
-          // @ts-expect-error Intentional invalid schema setup
+          // @ts-expect-error Changed schema assertion
           { type: "invalid", Schema },
           { ...process.env, APP_NAME: 123 },
         ).load(),

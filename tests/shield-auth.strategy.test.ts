@@ -14,7 +14,7 @@ type Env = { Variables: { user: typeof user | null; session: typeof session | nu
 
 describe("ShieldAuthStrategy", () => {
   test("attach", async () => {
-    // @ts-expect-error TODO - investigate
+    // @ts-expect-error TODO
     const getSessionSpy = spyOn(auth.api, "getSession").mockResolvedValue({ session, user });
     const app = new Hono<Env>()
       .use(strategy.attach)

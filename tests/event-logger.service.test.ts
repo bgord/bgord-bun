@@ -34,7 +34,7 @@ describe("EventLogger service", () => {
   test("does not log commands with symbol names", () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    // @ts-expect-error Intentional symbol insertion
+    // @ts-expect-error Symbol usage
     eventLogger.handle("emit", "debug:name", Symbol(eventName), { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();

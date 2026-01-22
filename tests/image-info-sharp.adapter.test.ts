@@ -26,7 +26,7 @@ describe("ImageInfoSharpAdapter", () => {
       format: "jpeg",
     });
     const destroy = spyOn(instance, "destroy");
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     const bunFile = spyOn(Bun, "file").mockReturnValue(size);
 
     const info = await adapter.inspect(input);
@@ -45,7 +45,7 @@ describe("ImageInfoSharpAdapter", () => {
     spyOn(_sharp, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({ width: 64, height: 64, format: "jpg" });
     const destroy = spyOn(instance, "destroy");
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     const bunFile = spyOn(Bun, "file").mockReturnValue(size);
 
     const info = await adapter.inspect(input);
@@ -61,7 +61,7 @@ describe("ImageInfoSharpAdapter", () => {
     // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 
@@ -73,7 +73,7 @@ describe("ImageInfoSharpAdapter", () => {
     // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
     spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" });
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 
@@ -85,7 +85,7 @@ describe("ImageInfoSharpAdapter", () => {
     // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => instance);
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "png" });
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 

@@ -12,20 +12,20 @@ describe("RedactorMetadataCompactObjectStrategy", () => {
       metadata: Object.fromEntries(Array.from({ length: 21 }).map((_, index) => [`user_${index}`, true])),
     });
 
-    // @ts-expect-error Intentional schema change
+    // @ts-expect-error Changed schema assertion
     expect(result).toEqual({ metadata: { type: "Object", keys: 21 } });
   });
 
   test("redact", () => {
     expect(redactor.redact({ metadata: { admins: 1, users: 2 } })).toEqual({
-      // @ts-expect-error Intentional schema change
+      // @ts-expect-error Changed schema assertion
       metadata: { type: "Object", keys: 2 },
     });
   });
 
   test("redact - nested", () => {
     expect(redactor.redact({ metadata: { users: { admins: 1, users: 2 } } })).toEqual({
-      // @ts-expect-error Intentional schema change
+      // @ts-expect-error Changed schema assertion
       metadata: { users: { type: "Object", keys: 2 } },
     });
   });

@@ -15,7 +15,7 @@ describe("DiskSpaceCheckerBunAdapter", () => {
 
   test("happy path", async () => {
     const bunShell = spyOn(bun, "$").mockImplementation(() => ({
-      // @ts-expect-error
+      // @ts-expect-error Partial access
       text: () => [output.header, output.data].join("\n"),
     }));
 
@@ -27,7 +27,7 @@ describe("DiskSpaceCheckerBunAdapter", () => {
 
   test("trim - handles leading newlines", async () => {
     spyOn(bun, "$").mockImplementation(() => ({
-      // @ts-expect-error
+      // @ts-expect-error Partial access
       text: () => `\n${output.header}\n${output.data}`,
     }));
 
@@ -37,7 +37,7 @@ describe("DiskSpaceCheckerBunAdapter", () => {
   });
 
   test("optional chaining - handles missing data line", async () => {
-    // @ts-expect-error
+    // @ts-expect-error Partial access
     spyOn(bun, "$").mockImplementation(() => ({ text: () => output.header }));
 
     expect(adapter.get(root)).rejects.toThrow("size.bytes.invalid");

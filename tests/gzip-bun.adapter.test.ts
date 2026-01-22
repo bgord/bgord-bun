@@ -12,7 +12,7 @@ const adapter = new GzipBunAdapter();
 
 describe("GzipBunAdapter", () => {
   test("absolute to absolute", async () => {
-    // @ts-expect-error Partial access
+    // @ts-expect-error TODO
     const bunFile = spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file });
     const bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
@@ -28,7 +28,7 @@ describe("GzipBunAdapter", () => {
   test("relative to relative", async () => {
     const input = tools.FilePathRelative.fromString("fixtures/sample.txt");
     const output = tools.FilePathRelative.fromString("fixtures/sample.txt.gz");
-    // @ts-expect-error Partial access
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file });
     spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
@@ -40,7 +40,7 @@ describe("GzipBunAdapter", () => {
   });
 
   test("read error propagation", async () => {
-    // @ts-expect-error Partial access
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: mocks.throwIntentionalErrorAsync });
     const bunGzipSync = spyOn(Bun, "gzipSync");
     const bunWrite = spyOn(Bun, "write");
@@ -51,7 +51,7 @@ describe("GzipBunAdapter", () => {
   });
 
   test("write error propagation", async () => {
-    // @ts-expect-error Partial access
+    // @ts-expect-error TODO
     spyOn(Bun, "file").mockReturnValue({ arrayBuffer: async () => file });
     spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
     spyOn(Bun, "write").mockRejectedValue(mocks.IntentionalError);

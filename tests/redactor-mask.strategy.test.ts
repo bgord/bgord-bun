@@ -21,7 +21,7 @@ describe("RedactorMaskStrategy", () => {
   test("redact - nested", () => {
     const input = { password: { nested: "x" }, authorization: 123, ok: true };
 
-    // @ts-expect-error Intentional schema change
+    // @ts-expect-error Changed schema assertion
     expect(redactor.redact(input)).toEqual({ password: "***", authorization: "***", ok: true });
   });
 

@@ -48,13 +48,13 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(rotate).toHaveBeenCalledTimes(1);
     expect(flatten).toHaveBeenCalledWith({ background: "#FFFFFF" });
 
-    // @ts-expect-error
+    // @ts-expect-error Partial access
     const [options] = resize.mock.calls[0];
 
     expect(resize).toHaveBeenCalledTimes(1);
     expect(options).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
 
-    // @ts-expect-error
+    // @ts-expect-error Partial access
     const [format, opts] = toFormat.mock.calls[0];
 
     expect(format).toEqual("webp");

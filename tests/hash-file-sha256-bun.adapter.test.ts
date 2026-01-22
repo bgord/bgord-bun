@@ -23,7 +23,7 @@ describe("HashFileSha256BunAdapter", () => {
       text: async () => text,
       lastModified: 0,
     };
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     const bunFile = spyOn(Bun, "file").mockImplementation(() => file);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
 
@@ -51,7 +51,7 @@ describe("HashFileSha256BunAdapter", () => {
       text: async () => text,
       lastModified: 0,
     };
-    // @ts-expect-error TODO - file system port
+    // @ts-expect-error TODO
     const bunFile = spyOn(Bun, "file").mockImplementation(() => file);
     const input = tools.FilePathRelative.fromString("images/payload.jpeg");
 
