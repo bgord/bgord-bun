@@ -22,7 +22,7 @@ const adapter = new ImageCompressorSharpAdapter(deps);
 
 describe("ImageCompressorSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -44,7 +44,7 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
@@ -67,7 +67,7 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
@@ -83,7 +83,7 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.jpeg");

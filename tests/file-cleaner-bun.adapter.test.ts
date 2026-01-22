@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { FileCleanerBunAdapter } from "../src/file-cleaner-bun.adapter";
 import * as mocks from "./mocks";
 
-const deleter = { delete: async () => ({}) } as any;
+const deleter = { delete: async () => ({}) };
 
 const FileCleaner = new FileCleanerBunAdapter();
 

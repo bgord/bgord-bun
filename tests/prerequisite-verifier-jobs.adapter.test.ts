@@ -4,14 +4,14 @@ import { PrerequisiteVerifierJobsAdapter } from "../src/prerequisite-verifier-jo
 
 describe("PrerequisiteVerifierJobsAdapter", () => {
   test("success", async () => {
-    const Jobs = { a: { isRunning: () => true } as any };
+    const Jobs = { a: { isRunning: () => true } };
     const prerequisite = new PrerequisiteVerifierJobsAdapter({ Jobs });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - one job not running", async () => {
-    const Jobs = { a: { isRunning: () => false } as any, b: { isRunning: () => true } as any };
+    const Jobs = { a: { isRunning: () => false }, b: { isRunning: () => true } };
     const prerequisite = new PrerequisiteVerifierJobsAdapter({ Jobs });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure());

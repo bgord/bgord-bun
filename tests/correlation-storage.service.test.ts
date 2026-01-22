@@ -30,16 +30,15 @@ describe("CorrelationStorage service", () => {
   });
 
   test("handle - seeding", async () => {
-    const context = { get: () => mocks.correlationId } as any;
+    const context = { get: () => mocks.correlationId };
 
-    const result = await CorrelationStorage.handle()(context, () => CorrelationStorage.get() as any);
+    const result = await CorrelationStorage.handle()(context, () => CorrelationStorage.get());
 
-    // @ts-expect-error
     expect(result).toEqual(mocks.correlationId);
   });
 
   test("handle - cleanup", async () => {
-    const context = { get: () => mocks.correlationId } as any;
+    const context = { get: () => mocks.correlationId };
 
     await CorrelationStorage.handle()(context, () => Promise.resolve());
 

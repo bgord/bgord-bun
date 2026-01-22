@@ -33,7 +33,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
         case "pl":
           return { dog: "pies", cat: "kot", cow: "krowa" };
         default:
-          return {} as any;
+          return {};
       }
     });
 
@@ -48,7 +48,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
         case "pl":
           throw mocks.throwIntentionalErrorAsync;
         default:
-          return {} as any;
+          return {};
       }
     });
 
@@ -65,7 +65,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
         case "pl":
           throw mocks.throwIntentionalErrorAsync;
         default:
-          return {} as any;
+          return {};
       }
     });
 
@@ -82,7 +82,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
         case "pl":
           return { dog: "pies", cat: "kot" };
         default:
-          return {} as any;
+          return {};
       }
     });
 
@@ -99,7 +99,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
         case "pl":
           return {};
         default:
-          return {} as any;
+          return {};
       }
     });
 
@@ -119,7 +119,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
         case "pl":
           return { dog: "pies", cat: "kot", sheep: "owca" };
         default:
-          return {} as any;
+          return {};
       }
     });
 

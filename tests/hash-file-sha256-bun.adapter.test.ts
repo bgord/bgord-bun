@@ -22,7 +22,7 @@ describe("HashFileSha256BunAdapter", () => {
       arrayBuffer: async () => new TextEncoder().encode(text).buffer,
       text: async () => text,
       lastModified: 0,
-    } as any;
+    };
     const bunFile = spyOn(Bun, "file").mockImplementation(() => file);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
 
@@ -49,7 +49,7 @@ describe("HashFileSha256BunAdapter", () => {
       arrayBuffer: async () => new TextEncoder().encode(text).buffer,
       text: async () => text,
       lastModified: 0,
-    } as any;
+    };
     const bunFile = spyOn(Bun, "file").mockImplementation(() => file);
     const input = tools.FilePathRelative.fromString("images/payload.jpeg");
 
