@@ -64,7 +64,7 @@ describe("HttpLogger middleware", () => {
       message: "request",
       method: "GET",
       url: "http://localhost/ping?page=1",
-      client: { ip: "127.0.0.1", ua: "abc" },
+      client: { ip: mocks.ip, ua: "abc" },
       metadata: { headers: { keep: "abc" }, body: {}, params: {}, query: { page: "1" } },
     });
     expect(loggerHttp).toHaveBeenNthCalledWith(2, {
@@ -78,7 +78,7 @@ describe("HttpLogger middleware", () => {
       url: "http://localhost/ping?page=1",
       status: 200,
       durationMs: expect.any(Number),
-      client: { ip: "127.0.0.1", ua: "abc" },
+      client: { ip: mocks.ip, ua: "abc" },
       cacheHit: false,
       metadata: { response: { message: "OK" } },
     });
@@ -100,7 +100,7 @@ describe("HttpLogger middleware", () => {
       message: "request",
       method: "GET",
       url: "http://localhost/pong",
-      client: { ip: "127.0.0.1" },
+      client: { ip: mocks.ip },
       metadata: { headers: {}, body: {}, params: {}, query: {} },
     });
     expect(loggerHttp).toHaveBeenNthCalledWith(2, {
@@ -114,7 +114,7 @@ describe("HttpLogger middleware", () => {
       url: "http://localhost/pong",
       status: 500,
       durationMs: expect.any(Number),
-      client: { ip: "127.0.0.1" },
+      client: { ip: mocks.ip },
       cacheHit: false,
       metadata: { response: { message: "general.unknown" } },
     });
