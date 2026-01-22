@@ -35,7 +35,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
       try {
         const translations = await i18n.getTranslations(language);
         dictionary[language] = Object.keys(translations);
-      } catch (error) {
+      } catch {
         return PrerequisiteVerification.failure(`${language} translations not available`);
       }
     }
