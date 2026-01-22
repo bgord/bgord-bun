@@ -20,6 +20,7 @@ const adapter = new ImageResizerSharpAdapter(deps);
 
 describe("ImageResizerSharpAdapter", () => {
   test("in_place", async () => {
+    // @ts-expect-error Partial access
     const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const resize = spyOn(pipeline, "resize");
@@ -48,6 +49,7 @@ describe("ImageResizerSharpAdapter", () => {
   });
 
   test("output_path", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const resize = spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
@@ -73,6 +75,7 @@ describe("ImageResizerSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
@@ -93,6 +96,7 @@ describe("ImageResizerSharpAdapter", () => {
   });
 
   test("output_path - jpg to jpeg", async () => {
+    // @ts-expect-error Partial access
     spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
