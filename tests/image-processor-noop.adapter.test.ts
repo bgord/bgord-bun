@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
 import { ImageProcessorNoopAdapter } from "../src/image-processor-noop.adapter";
 

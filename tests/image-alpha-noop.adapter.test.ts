@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import type { ImageAlphaStrategy } from "../src/image-alpha.port";
 import { ImageAlphaNoopAdapter } from "../src/image-alpha-noop.adapter";
 

@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import type { ImageFormatterStrategy } from "../src/image-formatter.port";
 import { ImageFormatterNoopAdapter } from "../src/image-formatter-noop.adapter";
 

@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import { ImageInfoNoopAdapter } from "../src/image-info-noop.adapter";
 
 const input = tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg");

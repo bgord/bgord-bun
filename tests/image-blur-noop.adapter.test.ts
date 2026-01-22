@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import type { ImageBlurStrategy } from "../src/image-blur.port";
 import { ImageBlurNoopAdapter } from "../src/image-blur-noop.adapter";
 
