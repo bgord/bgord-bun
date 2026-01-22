@@ -43,7 +43,9 @@ export const IntentionalErrorNormalized = {
   stack: expect.any(String),
 };
 
-export const connInfo = { server: { requestIP: () => ({ address: "127.0.0.1" }) } };
+export const ip = "127.0.0.1";
+export const ua = "firefox";
+export const connInfo = { server: { requestIP: () => ({ address: ip }) } };
 
 // Tue Nov 14 2023 22:13:20 GMT+0000
 export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
