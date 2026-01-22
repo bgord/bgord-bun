@@ -1,7 +1,6 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
-import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const field = "reference";

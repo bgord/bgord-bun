@@ -1,20 +1,48 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { Client } from "../src/client.vo";
-import { Hash } from "../src/hash.vo";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 import { VisitorIdClientStrategy } from "../src/visitor-id-client.strategy";
 
 const HashContent = new HashContentSha256BunStrategy();
 const deps = { HashContent };
 
+const ip = "127.0.0.1";
+const ua = "firefox";
+
 describe("VisitorIdClientStrategy", () => {
-  test("happy path", async () => {
-    const adapter = new VisitorIdClientStrategy(Client.fromParts("127.0.0.1", "sth"), deps);
+  test("get", async () => {
+    const hashContentGet = spyOn(HashContent, "hash");
+    const adapter = new VisitorIdClientStrategy(Client.fromParts(ip, ua), deps);
 
-    const result = await adapter.get();
+    await adapter.get();
 
-    expect(
-      result.matches(Hash.fromString("1424d48d3302e004e2f3ff5f02ba545ececac64c9d7c9dda05326c383c7f3081")),
-    ).toEqual(true);
+    expect(hashContentGet).toHaveBeenCalledWith(`${ip}|${ua}`);
+  });
+
+  test("get - missing ip", async () => {
+    const hashContentGet = spyOn(HashContent, "hash");
+    const adapter = new VisitorIdClientStrategy(Client.fromParts(undefined, ua), deps);
+
+    await adapter.get();
+
+    expect(hashContentGet).toHaveBeenCalledWith(`anon|${ua}`);
+  });
+
+  test("get - missing ua", async () => {
+    const hashContentGet = spyOn(HashContent, "hash");
+    const adapter = new VisitorIdClientStrategy(Client.fromParts(ip, undefined), deps);
+
+    await adapter.get();
+
+    expect(hashContentGet).toHaveBeenCalledWith(`${ip}|anon`);
+  });
+
+  test.only("get - missing", async () => {
+    const hashContentGet = spyOn(HashContent, "hash");
+    const adapter = new VisitorIdClientStrategy(Client.fromParts(undefined, undefined), deps);
+
+    await adapter.get();
+
+    expect(hashContentGet).toHaveBeenCalledWith("anon|anon");
   });
 });

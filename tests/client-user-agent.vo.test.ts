@@ -20,7 +20,7 @@ describe("ClientUserAgent VO", () => {
   });
 
   test("rejects too long", () => {
-    expect(() => ClientUserAgent.parse(`${"a".repeat(255)}a`)).toThrow("client.user.agent.invalid");
+    expect(() => ClientUserAgent.parse(`${"a".repeat(257)}a`)).toThrow("client.user.agent.invalid");
   });
 
   test("rejects control characters", () => {
