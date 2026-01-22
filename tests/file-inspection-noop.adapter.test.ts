@@ -22,4 +22,58 @@ describe("FileInspectionNoopAdapter", () => {
 
     expect(await adapter.exists(path)).toEqual(true);
   });
+
+  test("canRead - string", async () => {
+    const path = "package.json";
+
+    expect(await adapter.canRead(path)).toEqual(true);
+  });
+
+  test("canRead - relative", async () => {
+    const path = tools.FilePathRelative.fromString("users/package.json");
+
+    expect(await adapter.canRead(path)).toEqual(true);
+  });
+
+  test("canRead - absolute", async () => {
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(await adapter.canRead(path)).toEqual(true);
+  });
+
+  test("canWrite - string", async () => {
+    const path = "package.json";
+
+    expect(await adapter.canWrite(path)).toEqual(true);
+  });
+
+  test("canWrite - relative", async () => {
+    const path = tools.FilePathRelative.fromString("users/package.json");
+
+    expect(await adapter.canWrite(path)).toEqual(true);
+  });
+
+  test("canWrite - absolute", async () => {
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(await adapter.canWrite(path)).toEqual(true);
+  });
+
+  test("canExecute - string", async () => {
+    const path = "package.json";
+
+    expect(await adapter.canExecute(path)).toEqual(true);
+  });
+
+  test("canExecute - relative", async () => {
+    const path = tools.FilePathRelative.fromString("users/package.json");
+
+    expect(await adapter.canExecute(path)).toEqual(true);
+  });
+
+  test("canExecute - absolute", async () => {
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(await adapter.canExecute(path)).toEqual(true);
+  });
 });
