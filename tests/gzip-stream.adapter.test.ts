@@ -19,8 +19,11 @@ describe("GzipStreamAdapter", () => {
     const sink = new PassThrough();
     const chunks: Uint8Array[] = [];
     sink.on("data", (c) => chunks.push(c));
+    // @ts-expect-error Partial access
     const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source);
+    // @ts-expect-error Partial access
     const zlibCreateGzip = spyOn(zlib, "createGzip").mockReturnValue(gzip);
+    // @ts-expect-error Partial access
     const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink);
     source.end(payload);
 
@@ -39,8 +42,11 @@ describe("GzipStreamAdapter", () => {
     const source = new PassThrough();
     const gzip = new PassThrough();
     const sink = new PassThrough();
+    // @ts-expect-error Partial access
     const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source);
+    // @ts-expect-error Partial access
     const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink);
+    // @ts-expect-error Partial access
     spyOn(zlib, "createGzip").mockReturnValue(gzip);
     source.end(payload);
 
