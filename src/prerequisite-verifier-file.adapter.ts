@@ -1,10 +1,13 @@
 import { access, constants } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
+import type { FileInspectionPort } from "./file-inspection.port";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
+
+type Dependencies = { FileInspection: FileInspectionPort };
 
 export type PrerequisiteFilePermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
@@ -14,13 +17,14 @@ export class PrerequisiteVerifierFileAdapter implements PrerequisiteVerifierPort
       file: tools.FilePathAbsolute | tools.FilePathRelative;
       permissions?: PrerequisiteFilePermissionsType;
     },
+    private readonly deps: Dependencies,
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const path = this.config.file.get();
 
-      const exists = await Bun.file(path).exists();
+      const exists = await this.deps.FileInspection.exists(path);
 
       if (!exists) return PrerequisiteVerification.failure("File does not exist");
 
