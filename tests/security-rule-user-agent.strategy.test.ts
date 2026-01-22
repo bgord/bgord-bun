@@ -3,7 +3,7 @@ import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const valid = "anon";
+const valid = "valid";
 const invalid = "unknown";
 
 describe("SecurityRuleUserAgentStrategy", () => {
