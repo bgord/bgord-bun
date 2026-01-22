@@ -4,7 +4,7 @@ import * as tools from "@bgord/tools";
 import { FileRenamerFsAdapter } from "../src/file-renamer-fs.adapter";
 import * as mocks from "./mocks";
 
-const renamer = { delete: async () => ({}) } as any;
+const renamer = { delete: async () => ({}) };
 
 const adapter = new FileRenamerFsAdapter();
 

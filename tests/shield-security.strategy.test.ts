@@ -184,7 +184,7 @@ describe("ShieldSecurityStrategy", () => {
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "delay", duration },
-    } as any);
+    });
     const shield = new ShieldSecurityStrategy(
       [new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)],
       deps,

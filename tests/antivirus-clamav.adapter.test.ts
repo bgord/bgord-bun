@@ -8,7 +8,8 @@ const adapter = new AntivirusClamavAdapter();
 
 describe("AntivirusClamavAdapter", () => {
   test("clean - true", async () => {
-    const bunSpawn = spyOn(Bun, "spawn").mockImplementation((): any => ({
+    const bunSpawn = spyOn(Bun, "spawn").mockImplementation(() => ({
+      // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },
       exitCode: 0,
     }));
@@ -36,7 +37,8 @@ describe("AntivirusClamavAdapter", () => {
   });
 
   test("ScanFailed", async () => {
-    spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }) as any);
+    // @ts-expect-error Partial access
+    spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }));
 
     expect(async () => adapter.scanBytes(virus)).toThrow("antivirus.scan.failed");
   });

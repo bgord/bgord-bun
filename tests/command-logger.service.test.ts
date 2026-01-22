@@ -32,7 +32,7 @@ describe("CommandLogger service", () => {
   test("does not log commands with symbol names", () => {
     const loggerInfo = spyOn(Logger, "info");
 
-    commandLogger.handle("emit", "debug:name", Symbol("user.created") as any, { userId: 123 });
+    commandLogger.handle("emit", "debug:name", Symbol("user.created"), { userId: 123 });
 
     expect(loggerInfo).not.toHaveBeenCalled();
   });

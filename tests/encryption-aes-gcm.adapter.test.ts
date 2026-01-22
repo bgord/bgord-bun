@@ -21,7 +21,7 @@ describe("EncryptionAesGcmAdapter", () => {
 
   test("encrypt", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
-    spyOn(Bun, "file").mockReturnValue({ exists: () => true, arrayBuffer: () => plaintext.buffer } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: () => true, arrayBuffer: () => plaintext.buffer });
     spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
@@ -32,7 +32,7 @@ describe("EncryptionAesGcmAdapter", () => {
 
   test("encrypt - missing file", async () => {
     spyOn(EncryptionIV, "generate").mockReturnValue(iv);
-    spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: () => false, arrayBuffer: () => plaintext.buffer });
 
     expect(async () => adapter.encrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
@@ -41,7 +41,7 @@ describe("EncryptionAesGcmAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({
       exists: () => true,
       arrayBuffer: () => encryptedFileContent.buffer,
-    } as any);
+    });
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
 
@@ -54,13 +54,13 @@ describe("EncryptionAesGcmAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({
       exists: () => true,
       arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
-    } as any);
+    });
 
     expect(async () => adapter.decrypt(recipe)).toThrow("aes.gcm.crypto.invalid.payload");
   });
 
   test("decrypt - failure - missing file", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: () => false });
 
     expect(async () => adapter.decrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });
@@ -69,7 +69,7 @@ describe("EncryptionAesGcmAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({
       exists: () => true,
       arrayBuffer: () => encryptedFileContent.buffer,
-    } as any);
+    });
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
 
     expect(await adapter.view(recipe.input)).toEqual(plaintext.buffer);
@@ -79,13 +79,13 @@ describe("EncryptionAesGcmAdapter", () => {
     spyOn(Bun, "file").mockReturnValue({
       exists: () => true,
       arrayBuffer: () => new Uint8Array(EncryptionIV.LENGTH).buffer,
-    } as any);
+    });
 
     expect(async () => adapter.view(recipe.input)).toThrow("aes.gcm.crypto.invalid.payload");
   });
 
   test("view - failure - missing file", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: () => false } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: () => false });
 
     expect(async () => adapter.view(recipe.input)).toThrow("encryption.aes.gcm.adapter.missing.file");
   });

@@ -4,7 +4,7 @@ import * as tools from "@bgord/tools";
 import { FileRenamerFsForgivingAdapter } from "../src/file-renamer-fs-forgiving.adapter";
 import * as mocks from "./mocks";
 
-const renamer = {} as any;
+const renamer = {};
 
 const adapter = new FileRenamerFsForgivingAdapter();
 

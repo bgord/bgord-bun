@@ -20,7 +20,7 @@ const adapter = new ImageFormatterSharpAdapter(deps);
 
 describe("ImageFormatterSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
@@ -44,7 +44,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - same extension", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
@@ -59,7 +59,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
@@ -80,7 +80,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/img/in.webp");
@@ -97,7 +97,7 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFile = spyOn(pipeline, "toFile");
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");

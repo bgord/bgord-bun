@@ -19,9 +19,9 @@ describe("GzipStreamAdapter", () => {
     const sink = new PassThrough();
     const chunks: Uint8Array[] = [];
     sink.on("data", (c) => chunks.push(c));
-    const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source as any);
-    const zlibCreateGzip = spyOn(zlib, "createGzip").mockReturnValue(gzip as any);
-    const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink as any);
+    const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source);
+    const zlibCreateGzip = spyOn(zlib, "createGzip").mockReturnValue(gzip);
+    const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink);
     source.end(payload);
 
     const result = await adapter.pack({ input, output });
@@ -39,9 +39,9 @@ describe("GzipStreamAdapter", () => {
     const source = new PassThrough();
     const gzip = new PassThrough();
     const sink = new PassThrough();
-    const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source as any);
-    const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink as any);
-    spyOn(zlib, "createGzip").mockReturnValue(gzip as any);
+    const fsCreateReadStream = spyOn(fs, "createReadStream").mockReturnValue(source);
+    const fsCreateWriteStream = spyOn(fs, "createWriteStream").mockReturnValue(sink);
+    spyOn(zlib, "createGzip").mockReturnValue(gzip);
     source.end(payload);
 
     const result = await adapter.pack({ input: input, output: output });
