@@ -8,7 +8,7 @@ import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter"
 import { FileReaderJsonWithCacheAdapter } from "../src/file-reader-json-with-cache.adapter";
 import { HashContentSha256BunStrategy } from "../src/hash-content-sha256-bun.strategy";
 
-const content = {};
+const content = { version: 1 };
 const inner = new FileReaderJsonNoopAdapter(content);
 
 const path = "package.json";
