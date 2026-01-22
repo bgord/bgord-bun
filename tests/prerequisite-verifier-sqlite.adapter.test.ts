@@ -6,6 +6,7 @@ import * as mocks from "./mocks";
 describe("PrerequisiteVerifierSQLiteAdapter", () => {
   test("success", async () => {
     const sqlite = { query: () => ({ get: () => ({ integrity_check: "ok" }) }) };
+    // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
@@ -13,6 +14,7 @@ describe("PrerequisiteVerifierSQLiteAdapter", () => {
 
   test("failure - integrity_check is not ok", async () => {
     const sqlite = { query: () => ({ get: () => ({ integrity_check: "not ok" }) }) };
+    // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Integrity check failed"));
@@ -20,6 +22,7 @@ describe("PrerequisiteVerifierSQLiteAdapter", () => {
 
   test("failure - integrity_check is missing", async () => {
     const sqlite = { query: () => ({ get: () => undefined }) };
+    // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Integrity check failed"));
@@ -27,6 +30,7 @@ describe("PrerequisiteVerifierSQLiteAdapter", () => {
 
   test("failure - error", async () => {
     const sqlite = { query: () => ({ get: mocks.throwIntentionalError }) };
+    // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
     expect(await prerequisite.verify()).toMatchObject(
@@ -36,6 +40,7 @@ describe("PrerequisiteVerifierSQLiteAdapter", () => {
 
   test("kind", () => {
     const sqlite = { query: () => ({ get: () => ({ integrity_check: "ok" }) }) };
+    // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
     expect(prerequisite.kind).toEqual("sqlite");
