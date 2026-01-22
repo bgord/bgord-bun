@@ -1,5 +1,6 @@
 import { expect } from "bun:test";
 import * as tools from "@bgord/tools";
+import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
@@ -45,6 +46,9 @@ export const IntentionalErrorNormalized = {
 
 export const ip = "127.0.0.1";
 export const ua = "firefox";
+export const client = Client.fromParts(ip, ua);
+export const clientEmpty = Client.fromParts(undefined, undefined);
+
 export const connInfo = { server: { requestIP: () => ({ address: ip }) } };
 
 // Tue Nov 14 2023 22:13:20 GMT+0000

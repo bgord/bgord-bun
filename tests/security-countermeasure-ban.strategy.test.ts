@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { Client } from "../src/client.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -23,16 +22,11 @@ const deps = { Logger, IdProvider, Clock, EventStore };
 
 const rule = new SecurityRulePassStrategy();
 const countermeasure = new SecurityCountermeasureBanStrategy(deps);
-const context = new SecurityContext(
-  rule.name,
-  countermeasure.name,
-  Client.fromParts("127.0.0.1", "firefox"),
-  undefined,
-);
+const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 const contextWithoutClient = new SecurityContext(
   rule.name,
   countermeasure.name,
-  Client.fromParts(undefined, undefined),
+  mocks.clientEmpty,
   undefined,
 );
 

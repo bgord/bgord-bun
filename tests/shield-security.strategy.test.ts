@@ -98,7 +98,7 @@ describe("ShieldSecurityStrategy", () => {
 
     const result = await app.request(
       "/.env",
-      { method: "POST", headers: { "x-correlation-id": mocks.correlationId, "user-agent": "firefox" } },
+      { method: "POST", headers: { "x-correlation-id": mocks.correlationId, "user-agent": mocks.ua } },
       mocks.connInfo,
     );
 
