@@ -13,8 +13,7 @@ import { ShieldRateLimitError, ShieldRateLimitStrategy } from "../src/shield-rat
 import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
-const config = { type: "finite", ttl } as const;
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256BunStrategy();

@@ -14,8 +14,7 @@ import * as mocks from "./mocks";
 const version = "1.2.3";
 
 const Clock = new ClockSystemAdapter();
-const config = { type: "infinite" } as const;
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();
 const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(

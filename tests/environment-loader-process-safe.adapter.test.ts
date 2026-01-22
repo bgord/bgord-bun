@@ -11,8 +11,7 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
 const Schema = z.object({ APP_NAME: z.string() });
 
-const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256BunStrategy();

@@ -8,7 +8,7 @@ export enum SupportedLanguages {
   en = "en",
   pl = "pl",
 }
-export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl] as const;
+export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl];
 
 class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQueryPort {
   async get(_userId: tools.LanguageType): Promise<tools.LanguageType | null> {

@@ -10,7 +10,7 @@ export enum SupportedLanguages {
   pl = "pl",
 }
 
-export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl] as const;
+export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl];
 
 const supportedLanguagesSet = new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES);
 

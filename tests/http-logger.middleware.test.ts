@@ -20,8 +20,7 @@ const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const deps = { Logger, Clock };
 
-const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 const HashContent = new HashContentSha256BunStrategy();
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const cacheResponse = new CacheResponse(
