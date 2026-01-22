@@ -12,6 +12,6 @@ export interface RequestContext {
   readonly identity: {
     userId(): UUIDType | undefined;
     ip(): string | undefined;
-    userAgent(): string | undefined;
+    ua(): string | undefined;
   };
 }

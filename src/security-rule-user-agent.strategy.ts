@@ -8,7 +8,7 @@ export class SecurityRuleUserAgentStrategy implements SecurityRuleStrategy {
   constructor(private readonly blacklist: string[] = ALL_BOTS) {}
 
   async isViolated(context: RequestContext): Promise<boolean> {
-    const client = Client.fromParts(context.identity.ip(), context.identity.userAgent());
+    const client = Client.fromParts(context.identity.ip(), context.identity.ua());
 
     return this.blacklist.some((bot) => client.hasSameUa(Client.fromParts(undefined, bot)));
   }

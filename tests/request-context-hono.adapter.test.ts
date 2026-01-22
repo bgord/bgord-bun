@@ -112,13 +112,13 @@ describe("RequestContextAdapterHono", () => {
     expect(await response.json()).toEqual({ ip: "127.0.0.1" });
   });
 
-  test("userAgent", async () => {
+  test("ua", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ userAgent: new RequestContextAdapterHono(context).identity.userAgent() }),
+      context.json({ ua: new RequestContextAdapterHono(context).identity.ua() }),
     );
 
     const response = await app.request("/test", { headers: { "user-agent": "test-agent" } });
 
-    expect(await response.json()).toEqual({ userAgent: "test-agent" });
+    expect(await response.json()).toEqual({ ua: "test-agent" });
   });
 });

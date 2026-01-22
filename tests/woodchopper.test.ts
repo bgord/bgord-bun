@@ -34,7 +34,7 @@ const entryHttp = {
   operation: "test",
   method: "GET",
   url: "http://localhost:3000",
-  client: { userAgent: "mozilla", ip: "1.1.1.1" },
+  client: { ua: "mozilla", ip: "1.1.1.1" },
 } as const;
 const entryWithErrorInstance = { ...entry, error: new Error(mocks.IntentionalError) };
 const entryWithErrorString = { ...entry, error: mocks.IntentionalError };
