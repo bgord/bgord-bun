@@ -28,7 +28,7 @@ const context = new SecurityContext(
 
 describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    const loggerWarn = spyOn(Logger, "warn");
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -41,7 +41,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerInfo).toHaveBeenCalledWith({
+    expect(loggerWarn).toHaveBeenCalledWith({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
@@ -52,7 +52,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - custom config", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    const loggerWarn = spyOn(Logger, "warn");
     const eventStoreSave = spyOn(deps.EventStore, "save");
     const config = { response: { status: 404 as ContentfulStatusCode } };
     const countermeasure = new SecurityCountermeasureBanStrategy(deps, config);
@@ -67,7 +67,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerInfo).toHaveBeenCalledWith({
+    expect(loggerWarn).toHaveBeenCalledWith({
       message: "Security countermeasure ban",
       component: "security",
       operation: "security_countermeasure_ban",
