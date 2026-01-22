@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { FileReaderJsonBunAdapter } from "../src/file-reader-json-bun.adapter";
 import * as mocks from "./mocks";
 
-const json = { json: async () => ({}) } as any;
+const json = { json: async () => ({}) };
 const content = {};
 
 const adapter = new FileReaderJsonBunAdapter();

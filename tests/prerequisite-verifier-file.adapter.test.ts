@@ -10,7 +10,7 @@ const path = tools.FilePathAbsolute.fromString("/tmp/test-file.txt");
 
 describe("PrerequisiteVerifierFileAdapter", () => {
   test("success - all", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({
       file: path,
@@ -21,7 +21,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - read", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { read: true } });
 
@@ -31,7 +31,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - write", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { write: true } });
 
@@ -41,7 +41,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("success - execute", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path, permissions: { execute: true } });
 
@@ -51,14 +51,14 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - file does not exist", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => false } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => false });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File does not exist"));
   });
 
   test("failure - file does not exist error", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: mocks.throwIntentionalErrorAsync });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path });
 
     expect(await prerequisite.verify()).toMatchObject(
@@ -67,7 +67,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - read", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockImplementation(async (_, mode) => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
@@ -78,7 +78,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - write", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
       return undefined;
@@ -92,7 +92,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("failure - execute", async () => {
-    spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
       return undefined;
@@ -106,7 +106,7 @@ describe("PrerequisiteVerifierFileAdapter", () => {
   });
 
   test("integration - BUILD_INFO_REPOSITORY_FILE_PATH", async () => {
-    const bunFile = spyOn(Bun, "file").mockReturnValue({ exists: async () => true } as any);
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ exists: async () => true });
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: BUILD_INFO_REPOSITORY_FILE_PATH });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);

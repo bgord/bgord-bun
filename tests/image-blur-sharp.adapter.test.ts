@@ -20,7 +20,7 @@ const adapter = new ImageBlurSharpAdapter(deps);
 
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
-    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -44,7 +44,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    const sharp = spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -67,7 +67,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
@@ -86,7 +86,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => pipeline);
+    spyOn(_sharp, "default").mockImplementation(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");

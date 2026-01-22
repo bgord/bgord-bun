@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import * as _sharp from "sharp";
 import { ImageInfoSharpAdapter } from "../src/image-info-sharp.adapter";
 
-const size = { size: 1000 } as any;
+const size = { size: 1000 };
 const instance = { metadata: async () => ({}), destroy: () => {} };
 const input = tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg");
 
@@ -18,7 +18,7 @@ const adapter = new ImageInfoSharpAdapter(deps);
 
 describe("ImageInfoSharpAdapter", () => {
   test("absolute path", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 120,
       height: 80,
@@ -39,7 +39,7 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("relative path", async () => {
-    spyOn(_sharp as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp, "default").mockImplementation(() => instance);
     const metadata = spyOn(instance, "metadata").mockResolvedValue({ width: 64, height: 64, format: "jpg" });
     const destroy = spyOn(instance, "destroy");
     const bunFile = spyOn(Bun, "file").mockReturnValue(size);
@@ -55,7 +55,7 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("error - extension empty", async () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" });
-    spyOn(_sharp as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 
@@ -65,7 +65,7 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("error - width", async () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" });
-    spyOn(_sharp as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 
@@ -75,7 +75,7 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("error - mime not found", async () => {
     spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "png" });
-    spyOn(_sharp as any, "default").mockImplementation(() => instance);
+    spyOn(_sharp, "default").mockImplementation(() => instance);
     spyOn(Bun, "file").mockReturnValue(size);
     const destroy = spyOn(instance, "destroy");
 

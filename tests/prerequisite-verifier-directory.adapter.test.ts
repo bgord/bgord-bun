@@ -9,7 +9,7 @@ const directory = tools.DirectoryPathAbsoluteSchema.parse("/var/app/uploads");
 
 describe("PrerequisiteVerifierDirectoryAdapter", () => {
   test("success - all", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
       directory,
@@ -20,7 +20,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
   });
 
   test("success - read", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory, permissions: { read: true } });
 
@@ -30,7 +30,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
   });
 
   test("success - write", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
       directory,
@@ -43,7 +43,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
   });
 
   test("success - execute", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     const fsAccess = spyOn(fs, "access").mockResolvedValue(undefined);
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({
       directory,
@@ -63,14 +63,14 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
   });
 
   test("failure - not a directory", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => false } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => false });
     const prerequisite = new PrerequisiteVerifierDirectoryAdapter({ directory });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Not a directory"));
   });
 
   test("failure - read", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.R_OK) throw new Error(mocks.IntentionalError);
       return undefined;
@@ -83,7 +83,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
   });
 
   test("failure - write", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.W_OK) throw new Error(mocks.IntentionalError);
       return undefined;
@@ -99,7 +99,7 @@ describe("PrerequisiteVerifierDirectoryAdapter", () => {
   });
 
   test("failure - execute", async () => {
-    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true } as any);
+    spyOn(fs, "stat").mockResolvedValue({ isDirectory: () => true });
     spyOn(fs, "access").mockImplementation(async (_path, mode) => {
       if (mode === fs.constants.X_OK) throw new Error(mocks.IntentionalError);
       return undefined;
