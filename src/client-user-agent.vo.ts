@@ -6,13 +6,13 @@ export const ClientUserAgentError = {
 };
 
 // ASCII printable characters
-const CHARS_WHITELIST = /^[\x20-\x7E]{1,256}$/;
+const CHARS_BLACKLIST = /^[\x20-\x7E]{1,256}$/;
 
 // Stryker disable all
 export const ClientUserAgent = z
   // Stryker restore all
   .string(ClientUserAgentError.Type)
-  .regex(CHARS_WHITELIST, ClientUserAgentError.Invalid)
+  .regex(CHARS_BLACKLIST, ClientUserAgentError.Invalid)
   .brand("ClientUserAgent");
 
 export type ClientUserAgentType = z.infer<typeof ClientUserAgent>;

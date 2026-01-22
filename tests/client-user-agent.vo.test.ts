@@ -28,7 +28,7 @@ describe("ClientUserAgent VO", () => {
     expect(() => ClientUserAgent.parse("\u0000")).toThrow("client.user.agent.invalid");
   });
 
-  test("rejects unicode emoji", () => {
+  test("rejects emoji", () => {
     expect(() => ClientUserAgent.parse("🔥")).toThrow("client.user.agent.invalid");
   });
 });
