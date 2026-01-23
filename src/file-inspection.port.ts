@@ -8,4 +8,6 @@ export interface FileInspectionPort {
   canRead(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean>;
   canWrite(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean>;
   canExecute(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean>;
+
+  size(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size>;
 }
