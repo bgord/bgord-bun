@@ -1,7 +1,8 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
+import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
@@ -19,29 +20,27 @@ const key = tools.ObjectKey.parse("users/1/avatar.webp");
 const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
-const deps = { HashFile, FileCleaner, FileRenamer };
+const FileCopier = new FileCopierNoopAdapter();
+const deps = { HashFile, FileCleaner, FileRenamer, FileCopier };
 
 const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath", async () => {
-    // @ts-expect-error TODO
-    spyOn(Bun, "file").mockImplementation(() => ({}));
-    const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fileCopierCopy = spyOn(FileCopier, "copy");
     const fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
     const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const fileRenamerRename = spyOn(FileRenamer, "rename");
+
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
     const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
+    const final = tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp");
 
     const output = await adapter.putFromPath({ key, path: input });
 
     expect(fsMkdir).toHaveBeenCalledWith("/root/users/1", { recursive: true });
-    expect(bunWrite).toHaveBeenCalledWith(temporary.get(), expect.anything());
-    expect(fileRenamerRename).toHaveBeenCalledWith(
-      temporary,
-      tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
-    );
+    expect(fileCopierCopy).toHaveBeenCalledWith(input, temporary);
+    expect(fileRenamerRename).toHaveBeenCalledWith(temporary, final);
     expect(fileHashHash).toHaveBeenCalledTimes(1);
     expect(output.etag).toEqual(hash.etag);
     expect(output.size.toBytes()).toEqual(tools.SizeBytes.parse(42));
@@ -88,6 +87,12 @@ describe("RemoteFileStorageDiskAdapter", () => {
     expect(fileCleanerDelete).toHaveBeenCalledWith(
       tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
     );
+  });
+
+  test("delete - cleaner failure", async () => {
+    spyOn(FileCleaner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(async () => await adapter.delete(key)).toThrow(mocks.IntentionalError);
   });
 
   test("get root", () => {
