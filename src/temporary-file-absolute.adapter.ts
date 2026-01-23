@@ -1,9 +1,14 @@
 import * as tools from "@bgord/tools";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
+import type { FileWriterPort } from "./file-writer.port";
 import type { TemporaryFilePort } from "./temporary-file.port";
 
-type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
+type Dependencies = {
+  FileCleaner: FileCleanerPort;
+  FileRenamer: FileRenamerPort;
+  FileWriter: FileWriterPort;
+};
 
 export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
   constructor(
@@ -15,7 +20,7 @@ export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
     const temporary = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename.withSuffix("-part"));
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
-    await Bun.write(temporary.get(), content);
+    await this.deps.FileWriter.write(temporary.get(), content);
     await this.deps.FileRenamer.rename(temporary, final);
 
     return final;

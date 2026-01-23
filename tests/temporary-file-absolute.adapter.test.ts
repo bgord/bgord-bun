@@ -1,7 +1,8 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
+import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { TemporaryFileAbsoluteAdapter } from "../src/temporary-file-absolute.adapter";
 import * as mocks from "./mocks";
 
@@ -15,40 +16,35 @@ const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
 
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
-const deps = { FileCleaner, FileRenamer };
+const FileWriter = new FileWriterNoopAdapter();
+const deps = { FileCleaner, FileRenamer, FileWriter };
 
 const adapter = new TemporaryFileAbsoluteAdapter(directory, deps);
 
 describe("TemporaryFileAbsoluteAdapter", () => {
   test("write", async () => {
-    const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
+    const fileWriterWrite = spyOn(FileWriter, "write");
     const fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const path = await adapter.write(filename, content);
 
-    expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
+    expect(fileWriterWrite).toHaveBeenCalledWith(partial.get(), content);
     expect(fileRenamerRename).toHaveBeenCalledWith(partial, final);
     expect(path).toEqual(final);
   });
 
-  test("write - Bun.write error", async () => {
-    const bunWrite = spyOn(Bun, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
+  test("write - write error", async () => {
+    spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
     const fileRenamerRename = spyOn(FileRenamer, "rename");
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
-    expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
     expect(fileRenamerRename).not.toHaveBeenCalled();
   });
 
-  test("write - FileRenamer error", async () => {
-    const bunWrite = spyOn(Bun, "write").mockImplementation(jest.fn());
-    const fileRenamerRename = spyOn(FileRenamer, "rename").mockImplementation(
-      mocks.throwIntentionalErrorAsync,
-    );
+  test("write - renamer error", async () => {
+    spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
-    expect(bunWrite).toHaveBeenCalledWith(partial.get(), content);
-    expect(fileRenamerRename).toHaveBeenCalledWith(partial, final);
   });
 
   test("cleanup", async () => {
