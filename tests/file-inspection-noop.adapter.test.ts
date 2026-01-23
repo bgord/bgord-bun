@@ -88,4 +88,22 @@ describe("FileInspectionNoopAdapter", () => {
 
     expect(await adapter.isDirectory(path)).toEqual(true);
   });
+
+  test("size - absolute", async () => {
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(await adapter.size(path)).toEqual(tools.Size.fromMB(1));
+  });
+
+  test("size - relative", async () => {
+    const path = tools.DirectoryPathRelativeSchema.parse("users");
+
+    expect(await adapter.size(path)).toEqual(tools.Size.fromMB(1));
+  });
+
+  test("size - absolute", async () => {
+    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+
+    expect(await adapter.size(path)).toEqual(tools.Size.fromMB(1));
+  });
 });
