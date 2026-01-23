@@ -204,4 +204,56 @@ describe("FileInspectionAdapter", () => {
     expect(await adapter.canExecute(path)).toEqual(false);
     expect(fsAccess).toHaveBeenCalledWith("/users/package.json", 1);
   });
+
+  test("isDirectory - true - relative", async () => {
+    // @ts-expect-error Partial access
+    const fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => true }));
+    const path = tools.DirectoryPathRelativeSchema.parse("users");
+
+    expect(await adapter.isDirectory(path)).toEqual(true);
+    expect(fsStat).toHaveBeenCalledWith("users");
+  });
+
+  test("isDirectory - true - absolute", async () => {
+    // @ts-expect-error Partial access
+    const fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => true }));
+    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+
+    expect(await adapter.isDirectory(path)).toEqual(true);
+    expect(fsStat).toHaveBeenCalledWith("/users");
+  });
+
+  test("isDirectory - false - error - relative", async () => {
+    const fsStat = spyOn(fs, "stat").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const path = tools.DirectoryPathRelativeSchema.parse("users");
+
+    expect(await adapter.isDirectory(path)).toEqual(false);
+    expect(fsStat).toHaveBeenCalledWith("users");
+  });
+
+  test("isDirectory - false - error - absolute", async () => {
+    const fsStat = spyOn(fs, "stat").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+
+    expect(await adapter.isDirectory(path)).toEqual(false);
+    expect(fsStat).toHaveBeenCalledWith("/users");
+  });
+
+  test("isDirectory - false - not a directory - relative", async () => {
+    // @ts-expect-error Partial access
+    const fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => false }));
+    const path = tools.DirectoryPathRelativeSchema.parse("users");
+
+    expect(await adapter.isDirectory(path)).toEqual(false);
+    expect(fsStat).toHaveBeenCalledWith("users");
+  });
+
+  test("isDirectory - false - not a directory - absolute", async () => {
+    // @ts-expect-error Partial access
+    const fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => false }));
+    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+
+    expect(await adapter.isDirectory(path)).toEqual(false);
+    expect(fsStat).toHaveBeenCalledWith("/users");
+  });
 });
