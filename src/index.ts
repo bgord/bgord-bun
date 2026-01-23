@@ -106,6 +106,7 @@ export * from "./file-reader-raw.adapter";
 export * from "./file-reader-raw.port";
 export * from "./file-reader-raw-forgiving.adapter";
 export * from "./file-reader-raw-noop.adapter";
+export * from "./file-reader-raw-with-cache.adapter";
 export * from "./file-reader-text.adapter";
 export * from "./file-reader-text.port";
 export * from "./file-reader-text-forgiving.adapter";
