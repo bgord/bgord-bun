@@ -131,7 +131,6 @@ export * from "./graceful-shutdown.service";
 export * from "./gzip.adapter";
 export * from "./gzip.port";
 export * from "./gzip-noop.adapter";
-export * from "./gzip-stream.adapter";
 export * from "./hash.vo";
 export * from "./hash-content.strategy";
 export * from "./hash-content-noop.strategy";
