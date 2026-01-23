@@ -54,4 +54,12 @@ export class FileInspectionAdapter implements FileInspectionPort {
 
     return tools.Size.fromBytes(file.size);
   }
+
+  async lastModified(
+    path: tools.FilePathRelative | tools.FilePathAbsolute | string,
+  ): Promise<tools.Timestamp> {
+    const file = Bun.file(typeof path === "string" ? path : path.get());
+
+    return tools.Timestamp.fromNumber(file.lastModified);
+  }
 }

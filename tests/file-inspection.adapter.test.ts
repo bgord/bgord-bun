@@ -299,4 +299,67 @@ describe("FileInspectionAdapter", () => {
 
     expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
   });
+
+  test("lastModified - string", async () => {
+    // @ts-expect-error Partial access
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ lastModified: mocks.TIME_ZERO.ms });
+
+    expect(await adapter.lastModified(string)).toEqual(mocks.TIME_ZERO);
+    expect(bunFile).toHaveBeenCalledWith("package.json");
+  });
+
+  test("lastModified - relative", async () => {
+    // @ts-expect-error Partial access
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ lastModified: mocks.TIME_ZERO.ms });
+
+    expect(await adapter.lastModified(relative)).toEqual(mocks.TIME_ZERO);
+    expect(bunFile).toHaveBeenCalledWith("users/package.json");
+  });
+
+  test("lastModified - absolute", async () => {
+    // @ts-expect-error Partial access
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ lastModified: mocks.TIME_ZERO.ms });
+
+    expect(await adapter.lastModified(absolute)).toEqual(mocks.TIME_ZERO);
+    expect(bunFile).toHaveBeenCalledWith("/users/package.json");
+  });
+
+  test("lastModified - error - string", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+
+    expect(async () => adapter.lastModified(string)).toThrow(mocks.IntentionalError);
+  });
+
+  test("lastModified - error - relative", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+
+    expect(async () => adapter.lastModified(relative)).toThrow(mocks.IntentionalError);
+  });
+
+  test("lastModified - error - absolute", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+
+    expect(async () => adapter.lastModified(absolute)).toThrow(mocks.IntentionalError);
+  });
+
+  test("lastModified - invalid value - string", async () => {
+    // @ts-expect-error Partial access
+    spyOn(Bun, "file").mockReturnValue({ lastModified: "invalid" });
+
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
+  });
+
+  test("lastModified - invalid value - relative", async () => {
+    // @ts-expect-error Partial access
+    spyOn(Bun, "file").mockReturnValue({ lastModified: "invalid" });
+
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
+  });
+
+  test("lastModified - invalid value - absolute", async () => {
+    // @ts-expect-error Partial access
+    spyOn(Bun, "file").mockReturnValue({ lastModified: "invalid" });
+
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
+  });
 });
