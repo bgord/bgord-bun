@@ -24,8 +24,10 @@ describe("AntivirusClamavAdapter", () => {
   });
 
   test("clean - false", async () => {
-    spyOn(Bun, "spawn").mockImplementation((): any => ({
+    spyOn(Bun, "spawn").mockImplementation(() => ({
+      // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },
+      // @ts-expect-error Partial access
       stdout: mocks.stringToStream("stream: Eicar-Test-Signature FOUND\n"),
       exitCode: 1,
     }));

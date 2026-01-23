@@ -31,6 +31,6 @@ describe("isPlainObject", () => {
   test("false - primitives", () => {
     expect(isPlainObject("x")).toEqual(false);
     expect(isPlainObject(123)).toEqual(false);
-    expect(isPlainObject(true)).toBe(false);
+    expect(isPlainObject(true)).toEqual(false);
   });
 });

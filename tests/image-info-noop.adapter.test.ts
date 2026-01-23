@@ -13,8 +13,8 @@ describe("ImageInfoNoopAdapter", () => {
 
     expect(info.width).toEqual(tools.ImageWidth.parse(400));
     expect(info.height).toEqual(tools.ImageHeight.parse(400));
-    expect(info.mime).toBeInstanceOf(tools.Mime);
-    expect(info.size).toBeInstanceOf(tools.Size);
+    expect(info.mime).toEqual(tools.Mimes.jpg.mime);
+    expect(info.size).toEqual(tools.Size.fromBytes(0));
   });
 
   test("relative path", async () => {

@@ -5,6 +5,6 @@ const provider = new ClockSystemAdapter();
 
 describe("ClockSystemAdapter", () => {
   test("now", () => {
-    expect(provider.now()).toBeDefined();
+    expect(typeof provider.now().ms).toEqual("number");
   });
 });

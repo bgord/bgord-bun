@@ -13,7 +13,6 @@ describe("BasicAuth service", () => {
   });
 
   test("toHeader", () => {
-    expect(BasicAuth.toHeader(config)).toBeInstanceOf(Headers);
     expect(BasicAuth.toHeader(config).toJSON()).toEqual(result);
   });
 });
