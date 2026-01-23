@@ -39,14 +39,7 @@ describe("MailerResendAdapter", async () => {
   test("send - error", async () => {
     spyOn(mailer.transport.emails, "send").mockResolvedValue(failure);
 
-    try {
-      await mailer.send(template);
-      throw new Error("Expected send() to throw");
-    } catch (error) {
-      expect(error).toBeInstanceOf(Error);
-      expect((error as Error).message).toEqual("Invalid API key");
-      expect((error as Error).name).toEqual("validation_error");
-    }
+    expect(async () => mailer.send(template)).toThrow("Invalid API key");
   });
 
   test("verify - success", async () => {

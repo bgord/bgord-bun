@@ -1,9 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { TimekeeperGoogleAdapter } from "../src/timekeeper-google.adapter";
 import * as mocks from "./mocks";
-
-const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 const adapter = new TimekeeperGoogleAdapter();
 
@@ -13,7 +10,7 @@ describe("TimekeeperGoogleAdapter", () => {
       new Response(null, { headers: { date: mocks.TIME_ZERO_DATE_UTC } }),
     );
 
-    expect(await adapter.get()).toEqual(Clock.now());
+    expect(await adapter.get()).toEqual(mocks.TIME_ZERO);
   });
 
   test("response not ok", async () => {
@@ -35,7 +32,7 @@ describe("TimekeeperGoogleAdapter", () => {
   });
 
   test("error", async () => {
-    spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     expect(await adapter.get()).toEqual(null);
   });

@@ -62,7 +62,7 @@ describe("HCaptchaService", () => {
   });
 
   test("verify - failure - network error", async () => {
-    spyOn(globalThis, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(globalThis, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     expect(async () => service.verify(SECRET_KEY, VALID_TOKEN)).toThrow(mocks.IntentionalError);
   });

@@ -19,7 +19,7 @@ describe("PrerequisiteVerifierExternalApiAdapter", () => {
   });
 
   test("failure - response error", async () => {
-    spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),

@@ -123,7 +123,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - fetch throws", async () => {
-    spyOn(global, "fetch").mockRejectedValue(new Error(mocks.IntentionalError));
+    spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     const response = await app.request("http://localhost/", {
       method: "POST",
