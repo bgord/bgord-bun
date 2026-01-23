@@ -4,16 +4,16 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
 import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
-import { FileReaderJsonWithCacheAdapter } from "../src/file-reader-json-with-cache.adapter";
+import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
+import { FileReaderTextWithCacheAdapter } from "../src/file-reader-text-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 
-const content = { version: 1 };
-const inner = new FileReaderJsonNoopAdapter(content);
+const content = "hello";
+const inner = new FileReaderTextNoopAdapter(content);
 
-const path = "package.json";
-const relative = tools.FilePathRelative.fromString("project/package.json");
-const absolute = tools.FilePathAbsolute.fromString("/project/package.json");
+const path = "package.txt";
+const relative = tools.FilePathRelative.fromString("project/package.txt");
+const absolute = tools.FilePathAbsolute.fromString("/project/package.txt");
 
 const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
@@ -21,17 +21,17 @@ const HashContent = new HashContentSha256Strategy();
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const deps = { CacheResolver, HashContent };
 
-const adapter = new FileReaderJsonWithCacheAdapter({ id: "json", inner }, deps);
+const adapter = new FileReaderTextWithCacheAdapter({ id: "text", inner }, deps);
 
-describe("FileReaderJsonWithCacheAdapter", () => {
+describe("FileReaderTextWithCacheAdapter", () => {
   test("happy path", async () => {
     jest.useFakeTimers();
     const innerRead = spyOn(inner, "read");
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_json"),
-        new CacheSubjectSegmentFixedStrategy("json"),
+        new CacheSubjectSegmentFixedStrategy("file_reader_text"),
+        new CacheSubjectSegmentFixedStrategy("text"),
         new CacheSubjectSegmentFixedStrategy(path),
       ],
       deps,
@@ -61,8 +61,8 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_json"),
-        new CacheSubjectSegmentFixedStrategy("json"),
+        new CacheSubjectSegmentFixedStrategy("file_reader_text"),
+        new CacheSubjectSegmentFixedStrategy("text"),
         new CacheSubjectSegmentFixedStrategy(relative.get()),
       ],
       deps,
@@ -92,8 +92,8 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     const cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_json"),
-        new CacheSubjectSegmentFixedStrategy("json"),
+        new CacheSubjectSegmentFixedStrategy("file_reader_text"),
+        new CacheSubjectSegmentFixedStrategy("text"),
         new CacheSubjectSegmentFixedStrategy(absolute.get()),
       ],
       deps,

@@ -106,6 +106,7 @@ export * from "./file-reader-text.adapter";
 export * from "./file-reader-text.port";
 export * from "./file-reader-text-forgiving.adapter";
 export * from "./file-reader-text-noop.adapter";
+export * from "./file-reader-text-with-cache.adapter";
 export * from "./file-renamer.port";
 export * from "./file-renamer.port";
 export * from "./file-renamer-node.adapter";
