@@ -10,4 +10,5 @@ export interface FileInspectionPort {
   canExecute(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean>;
 
   size(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size>;
+  lastModified(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Timestamp>;
 }
