@@ -6,6 +6,7 @@ type FileInspectionNoopAdapterConfigType = {
   isDirectory?: boolean;
   permissions?: { read?: boolean; write?: boolean; execute?: boolean };
   size?: tools.Size;
+  lastModified?: tools.Timestamp;
 };
 
 export class FileInspectionNoopAdapter implements FileInspectionPort {
@@ -33,5 +34,11 @@ export class FileInspectionNoopAdapter implements FileInspectionPort {
 
   async size(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size> {
     return this.config.size ?? tools.Size.fromMB(1);
+  }
+
+  async lastModified(
+    _path: tools.FilePathRelative | tools.FilePathAbsolute | string,
+  ): Promise<tools.Timestamp> {
+    return this.config.lastModified ?? tools.Timestamp.fromNumber(0);
   }
 }

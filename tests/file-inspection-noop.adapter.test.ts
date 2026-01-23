@@ -2,108 +2,94 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 
+const string = "package.json";
+const relative = tools.FilePathRelative.fromString("users/package.json");
+const absolute = tools.FilePathAbsolute.fromString("/users/package.json");
+
 const adapter = new FileInspectionNoopAdapter({ exists: true });
 
 describe("FileInspectionNoopAdapter", () => {
   test("exists - string", async () => {
-    const path = "package.json";
-
-    expect(await adapter.exists(path)).toEqual(true);
+    expect(await adapter.exists(string)).toEqual(true);
   });
 
   test("exist - relative", async () => {
-    const path = tools.FilePathRelative.fromString("users/package.json");
-
-    expect(await adapter.exists(path)).toEqual(true);
+    expect(await adapter.exists(relative)).toEqual(true);
   });
 
   test("exist - absolute", async () => {
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
-
-    expect(await adapter.exists(path)).toEqual(true);
+    expect(await adapter.exists(absolute)).toEqual(true);
   });
 
   test("canRead - string", async () => {
-    const path = "package.json";
-
-    expect(await adapter.canRead(path)).toEqual(true);
+    expect(await adapter.canRead(string)).toEqual(true);
   });
 
   test("canRead - relative", async () => {
-    const path = tools.FilePathRelative.fromString("users/package.json");
-
-    expect(await adapter.canRead(path)).toEqual(true);
+    expect(await adapter.canRead(relative)).toEqual(true);
   });
 
   test("canRead - absolute", async () => {
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
-
-    expect(await adapter.canRead(path)).toEqual(true);
+    expect(await adapter.canRead(absolute)).toEqual(true);
   });
 
   test("canWrite - string", async () => {
-    const path = "package.json";
-
-    expect(await adapter.canWrite(path)).toEqual(true);
+    expect(await adapter.canWrite(string)).toEqual(true);
   });
 
   test("canWrite - relative", async () => {
-    const path = tools.FilePathRelative.fromString("users/package.json");
-
-    expect(await adapter.canWrite(path)).toEqual(true);
+    expect(await adapter.canWrite(relative)).toEqual(true);
   });
 
   test("canWrite - absolute", async () => {
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
-
-    expect(await adapter.canWrite(path)).toEqual(true);
+    expect(await adapter.canWrite(absolute)).toEqual(true);
   });
 
   test("canExecute - string", async () => {
-    const path = "package.json";
-
-    expect(await adapter.canExecute(path)).toEqual(true);
+    expect(await adapter.canExecute(string)).toEqual(true);
   });
 
   test("canExecute - relative", async () => {
-    const path = tools.FilePathRelative.fromString("users/package.json");
-
-    expect(await adapter.canExecute(path)).toEqual(true);
+    expect(await adapter.canExecute(relative)).toEqual(true);
   });
 
   test("canExecute - absolute", async () => {
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
-
-    expect(await adapter.canExecute(path)).toEqual(true);
+    expect(await adapter.canExecute(absolute)).toEqual(true);
   });
 
   test("isDirectory - relative", async () => {
-    const path = tools.DirectoryPathRelativeSchema.parse("users");
+    const relative = tools.DirectoryPathRelativeSchema.parse("users");
 
-    expect(await adapter.isDirectory(path)).toEqual(true);
+    expect(await adapter.isDirectory(relative)).toEqual(true);
   });
 
   test("isDirectory - absolute", async () => {
-    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+    const absolute = tools.DirectoryPathAbsoluteSchema.parse("/users");
 
-    expect(await adapter.isDirectory(path)).toEqual(true);
+    expect(await adapter.isDirectory(absolute)).toEqual(true);
   });
 
-  test("size - absolute", async () => {
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
-
-    expect(await adapter.size(path)).toEqual(tools.Size.fromMB(1));
+  test("size - string", async () => {
+    expect(await adapter.size(string)).toEqual(tools.Size.fromMB(1));
   });
 
   test("size - relative", async () => {
-    const path = tools.DirectoryPathRelativeSchema.parse("users");
-
-    expect(await adapter.size(path)).toEqual(tools.Size.fromMB(1));
+    expect(await adapter.size(relative)).toEqual(tools.Size.fromMB(1));
   });
 
   test("size - absolute", async () => {
-    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+    expect(await adapter.size(absolute)).toEqual(tools.Size.fromMB(1));
+  });
 
-    expect(await adapter.size(path)).toEqual(tools.Size.fromMB(1));
+  test("lastModified - string", async () => {
+    expect(await adapter.lastModified(string)).toEqual(tools.Timestamp.fromNumber(0));
+  });
+
+  test("lastModified - relative", async () => {
+    expect(await adapter.lastModified(relative)).toEqual(tools.Timestamp.fromNumber(0));
+  });
+
+  test("lastModified - absolute", async () => {
+    expect(await adapter.lastModified(absolute)).toEqual(tools.Timestamp.fromNumber(0));
   });
 });
