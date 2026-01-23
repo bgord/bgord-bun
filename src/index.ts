@@ -103,6 +103,7 @@ export * from "./file-reader-json-forgiving.adapter";
 export * from "./file-reader-json-noop.adapter";
 export * from "./file-reader-json-with-cache.adapter";
 export * from "./file-reader-text.port";
+export * from "./file-reader-text-noop.adapter";
 export * from "./file-renamer.port";
 export * from "./file-renamer.port";
 export * from "./file-renamer-node.adapter";
