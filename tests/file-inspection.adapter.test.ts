@@ -256,4 +256,52 @@ describe("FileInspectionAdapter", () => {
     expect(await adapter.isDirectory(path)).toEqual(false);
     expect(fsStat).toHaveBeenCalledWith("/users");
   });
+
+  test("size - string", async () => {
+    // @ts-expect-error Partial access
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ size: 1 });
+    const path = "package.json";
+
+    expect(await adapter.size(path)).toEqual(tools.Size.fromBytes(1));
+    expect(bunFile).toHaveBeenCalledWith("package.json");
+  });
+
+  test("size - relative", async () => {
+    // @ts-expect-error Partial access
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ size: 1 });
+    const path = tools.FilePathRelative.fromString("users/package.json");
+
+    expect(await adapter.size(path)).toEqual(tools.Size.fromBytes(1));
+    expect(bunFile).toHaveBeenCalledWith("users/package.json");
+  });
+
+  test("size - absolute", async () => {
+    // @ts-expect-error Partial access
+    const bunFile = spyOn(Bun, "file").mockReturnValue({ size: 1 });
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(await adapter.size(path)).toEqual(tools.Size.fromBytes(1));
+    expect(bunFile).toHaveBeenCalledWith("/users/package.json");
+  });
+
+  test("size - error - string", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    const path = "package.json";
+
+    expect(async () => adapter.size(path)).toThrow(mocks.IntentionalError);
+  });
+
+  test("size - error - relative", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    const path = tools.FilePathRelative.fromString("users/package.json");
+
+    expect(async () => adapter.size(path)).toThrow(mocks.IntentionalError);
+  });
+
+  test("size - error - absolute", async () => {
+    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(async () => adapter.size(path)).toThrow(mocks.IntentionalError);
+  });
 });

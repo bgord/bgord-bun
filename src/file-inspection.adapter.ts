@@ -1,5 +1,5 @@
 import { access, constants, stat } from "node:fs/promises";
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 import type { FileInspectionPort } from "./file-inspection.port";
 
 export class FileInspectionAdapter implements FileInspectionPort {
@@ -47,5 +47,11 @@ export class FileInspectionAdapter implements FileInspectionPort {
     } catch {
       return false;
     }
+  }
+
+  async size(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size> {
+    const file = Bun.file(typeof path === "string" ? path : path.get());
+
+    return tools.Size.fromBytes(file.size);
   }
 }
