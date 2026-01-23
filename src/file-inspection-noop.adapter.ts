@@ -3,6 +3,7 @@ import type { FileInspectionPort } from "./file-inspection.port";
 
 type FileInspectionNoopAdapterConfigType = {
   exists: boolean;
+  isDirectory?: boolean;
   permissions?: { read?: boolean; write?: boolean; execute?: boolean };
 };
 
@@ -11,6 +12,12 @@ export class FileInspectionNoopAdapter implements FileInspectionPort {
 
   async exists(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean> {
     return this.config.exists;
+  }
+
+  async isDirectory(
+    _path: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType,
+  ): Promise<boolean> {
+    return this.config.isDirectory ?? true;
   }
 
   async canRead(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean> {

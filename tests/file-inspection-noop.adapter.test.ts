@@ -76,4 +76,16 @@ describe("FileInspectionNoopAdapter", () => {
 
     expect(await adapter.canExecute(path)).toEqual(true);
   });
+
+  test("isDirectory - relative", async () => {
+    const path = tools.DirectoryPathRelativeSchema.parse("users");
+
+    expect(await adapter.isDirectory(path)).toEqual(true);
+  });
+
+  test("isDirectory - absolute", async () => {
+    const path = tools.DirectoryPathAbsoluteSchema.parse("/users");
+
+    expect(await adapter.isDirectory(path)).toEqual(true);
+  });
 });
