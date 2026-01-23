@@ -16,21 +16,14 @@ export class HashFileSha256Adapter implements HashFilePort {
 
   async hash(path: tools.FilePathAbsolute | tools.FilePathRelative): Promise<HashFileResult> {
     const extension = path.getFilename().getExtension();
-
     const mime = this.deps.MimeRegistry.fromExtension(extension);
 
     if (!mime) throw new Error(tools.MimeRegistryError.MimeNotFound);
 
-    const file = Bun.file(path.get());
-
     const size = await this.deps.FileInspection.size(path);
+    const lastModified = await this.deps.FileInspection.lastModified(path);
     const text = await this.deps.FileReaderText.read(path);
 
-    return {
-      etag: await this.deps.HashContent.hash(text),
-      size,
-      lastModified: tools.Timestamp.fromNumber(file.lastModified),
-      mime,
-    };
+    return { etag: await this.deps.HashContent.hash(text), size, lastModified, mime };
   }
 }

@@ -12,7 +12,8 @@ const jpgExtension = tools.Extension.parse("jpg");
 const jpegExtension = tools.Extension.parse("jpeg");
 
 const size = tools.Size.fromKb(1);
-const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
+const lastModified = mocks.TIME_ZERO;
+const FileInspection = new FileInspectionNoopAdapter({ exists: true, size, lastModified });
 const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgExtension, jpegExtension] }]);
 
 const HashContent = new HashContentSha256Strategy();
@@ -22,19 +23,16 @@ describe("HashFileSha256Adapter", () => {
   test("absolute path", async () => {
     const text = "hello";
     const FileReaderText = new FileReaderTextNoopAdapter(text);
-    // @ts-expect-error TODO
-    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({ lastModified: 0 }));
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
     const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
 
     const result = await adapter.hash(input);
 
-    expect(bunFile).toHaveBeenCalledWith("/var/data/hello.jpg");
     expect(result.etag).toEqual(
       Hash.fromString("2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"),
     );
     expect(result.size).toEqual(size);
-    expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(0));
+    expect(result.lastModified).toEqual(lastModified);
     expect(result.mime.toString()).toEqual("image/jpeg");
   });
 
@@ -49,9 +47,17 @@ describe("HashFileSha256Adapter", () => {
   test("absolute path - size error", async () => {
     const FileReaderText = new FileReaderTextNoopAdapter();
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
-    // @ts-expect-error TODO
-    spyOn(Bun, "file").mockImplementation(() => ({ lastModified: 0 }));
     spyOn(FileInspection, "size").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
+    const adapter = new HashFileSha256Adapter({ ...deps, FileReaderText, FileInspection });
+
+    expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
+  });
+
+  test("absolute path - last modified error", async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter();
+    const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
+    spyOn(FileInspection, "lastModified").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
     const adapter = new HashFileSha256Adapter({ ...deps, FileReaderText, FileInspection });
 
@@ -63,8 +69,6 @@ describe("HashFileSha256Adapter", () => {
     const FileReaderText = new FileReaderTextNoopAdapter();
     const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
     spyOn(FileReaderText, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
-    // @ts-expect-error TODO
-    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({ lastModified: 0 }));
 
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
@@ -72,19 +76,16 @@ describe("HashFileSha256Adapter", () => {
   test("relative path", async () => {
     const text = "abc";
     const FileReaderText = new FileReaderTextNoopAdapter(text);
-    // @ts-expect-error TODO
-    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({ lastModified: 0 }));
     const input = tools.FilePathRelative.fromString("images/payload.jpeg");
     const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
 
     const result = await adapter.hash(input);
 
-    expect(bunFile).toHaveBeenCalledWith("images/payload.jpeg");
     expect(result.etag).toEqual(
       Hash.fromString("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"),
     );
     expect(result.size).toEqual(size);
-    expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(0));
+    expect(result.lastModified).toEqual(lastModified);
     expect(result.mime.toString()).toEqual("image/jpeg");
   });
 
@@ -99,9 +100,17 @@ describe("HashFileSha256Adapter", () => {
   test("relative path - size error", async () => {
     const FileReaderText = new FileReaderTextNoopAdapter();
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
-    // @ts-expect-error TODO
-    spyOn(Bun, "file").mockImplementation(() => ({ lastModified: 0 }));
     spyOn(FileInspection, "size").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const input = tools.FilePathRelative.fromString("images/payload.jpg");
+    const adapter = new HashFileSha256Adapter({ ...deps, FileReaderText, FileInspection });
+
+    expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
+  });
+
+  test("relative path - size error", async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter();
+    const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
+    spyOn(FileInspection, "lastModified").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathRelative.fromString("images/payload.jpg");
     const adapter = new HashFileSha256Adapter({ ...deps, FileReaderText, FileInspection });
 
@@ -113,8 +122,6 @@ describe("HashFileSha256Adapter", () => {
     const FileReaderText = new FileReaderTextNoopAdapter();
     const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
     spyOn(FileReaderText, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
-    // @ts-expect-error TODO
-    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({ lastModified: 0 }));
 
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
