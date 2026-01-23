@@ -329,6 +329,7 @@ export * from "./woodchopper";
 export * from "./woodchopper-diagnostics.strategy";
 export * from "./woodchopper-diagnostics-collecting.strategy";
 export * from "./woodchopper-diagnostics-console-error.strategy";
+export * from "./woodchopper-diagnostics-noop.strategy";
 export * from "./woodchopper-dispatcher.strategy";
 export * from "./woodchopper-dispatcher-async.strategy";
 export * from "./woodchopper-dispatcher-noop.strategy";

@@ -5,6 +5,7 @@ import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
+import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -47,7 +48,7 @@ describe("WoodchopperDispatcherSync", () => {
   });
 
   test("close", () => {
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
 
     expect(() => dispatcher.close()).not.toThrow();

@@ -18,6 +18,7 @@ import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
+import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -573,7 +574,7 @@ describe("Woodchopper", async () => {
   });
 
   test("getStats", () => {
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -593,7 +594,7 @@ describe("Woodchopper", async () => {
   test("pipeline - normalization - diagnostics", () => {
     spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
@@ -614,7 +615,7 @@ describe("Woodchopper", async () => {
 
   test("pipeline - normalization - no diagnostics", () => {
     spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -632,7 +633,7 @@ describe("Woodchopper", async () => {
   test("pipeline - clock - diagnostics", () => {
     spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
@@ -653,7 +654,7 @@ describe("Woodchopper", async () => {
 
   test("pipeline - clock - no diagnostics", () => {
     spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -672,7 +673,7 @@ describe("Woodchopper", async () => {
     const redactor = new RedactorNoopStrategy();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor, diagnostics }, deps);
@@ -694,7 +695,7 @@ describe("Woodchopper", async () => {
   test("pipeline - redaction - no diagnostics", () => {
     const redactor = new RedactorNoopStrategy();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);

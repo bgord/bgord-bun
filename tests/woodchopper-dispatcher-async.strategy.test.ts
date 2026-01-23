@@ -6,6 +6,7 @@ import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
+import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -111,7 +112,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("close - idempotency", async () => {
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
@@ -126,7 +127,7 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("close - buffered entries", async () => {
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkCollecting();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
