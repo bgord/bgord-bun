@@ -1,8 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { HashFileSha256Adapter } from "../src/hash-file-sha256.adapter";
+import * as mocks from "./mocks";
 
 const jpegMime = tools.Mime.fromString("image/jpeg");
 const jpgExtension = tools.Extension.parse("jpg");
@@ -13,19 +15,17 @@ const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgE
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent, MimeRegistry };
 
-const adapter = new HashFileSha256Adapter(deps);
-
 describe("HashFileSha256Adapter", () => {
   test("absolute path", async () => {
     const text = "hello";
-    const file = {
-      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
-      text: async () => text,
-      lastModified: 0,
-    };
+    const FileReaderText = new FileReaderTextNoopAdapter(text);
     // @ts-expect-error TODO
-    const bunFile = spyOn(Bun, "file").mockImplementation(() => file);
+    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({
+      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
+      lastModified: 0,
+    }));
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
+    const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
 
     const result = await adapter.hash(input);
 
@@ -40,20 +40,37 @@ describe("HashFileSha256Adapter", () => {
 
   test("absolute path - mime not found", async () => {
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.pdf");
+    const FileReaderText = new FileReaderTextNoopAdapter();
+    const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
 
     expect(async () => adapter.hash(input)).toThrow(tools.MimeRegistryError.MimeNotFound);
   });
 
+  test("absolute path - read error", async () => {
+    const text = "hello";
+    const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
+    const FileReaderText = new FileReaderTextNoopAdapter();
+    const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
+    spyOn(FileReaderText, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error TODO
+    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({
+      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
+      lastModified: 0,
+    }));
+
+    expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
+  });
+
   test("relative path", async () => {
     const text = "abc";
-    const file = {
-      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
-      text: async () => text,
-      lastModified: 0,
-    };
+    const FileReaderText = new FileReaderTextNoopAdapter(text);
     // @ts-expect-error TODO
-    const bunFile = spyOn(Bun, "file").mockImplementation(() => file);
+    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({
+      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
+      lastModified: 0,
+    }));
     const input = tools.FilePathRelative.fromString("images/payload.jpeg");
+    const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
 
     const result = await adapter.hash(input);
 
@@ -68,7 +85,24 @@ describe("HashFileSha256Adapter", () => {
 
   test("relative path - mime not found", async () => {
     const input = tools.FilePathRelative.fromString("images/payload.pdf");
+    const FileReaderText = new FileReaderTextNoopAdapter();
+    const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
 
     expect(async () => adapter.hash(input)).toThrow(tools.MimeRegistryError.MimeNotFound);
+  });
+
+  test("relative path - read error", async () => {
+    const text = "hello";
+    const input = tools.FilePathRelative.fromString("images/payload.jpeg");
+    const FileReaderText = new FileReaderTextNoopAdapter();
+    const adapter = new HashFileSha256Adapter({ FileReaderText, ...deps });
+    spyOn(FileReaderText, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error TODO
+    const bunFile = spyOn(Bun, "file").mockImplementation(() => ({
+      arrayBuffer: async () => new TextEncoder().encode(text).buffer,
+      lastModified: 0,
+    }));
+
+    expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
 });
