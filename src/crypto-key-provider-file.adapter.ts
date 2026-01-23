@@ -2,12 +2,13 @@ import type * as tools from "@bgord/tools";
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import { EncryptionKey } from "./encryption-key.vo";
 import type { FileInspectionPort } from "./file-inspection.port";
+import type { FileReaderTextPort } from "./file-reader-text.port";
 
 export const CryptoKeyProviderFileAdapterError = {
   MissingFile: "crypto.key.provider.file.adapter.missing.file",
 };
 
-type Dependencies = { FileInspection: FileInspectionPort };
+type Dependencies = { FileInspection: FileInspectionPort; FileReaderText: FileReaderTextPort };
 
 export class CryptoKeyProviderFileAdapter implements CryptoKeyProviderPort {
   constructor(
@@ -20,7 +21,8 @@ export class CryptoKeyProviderFileAdapter implements CryptoKeyProviderPort {
 
     if (!exists) throw new Error(CryptoKeyProviderFileAdapterError.MissingFile);
 
-    const content = await Bun.file(this.path.get()).text();
+    const content = await this.deps.FileReaderText.read(this.path);
+
     const encryptionKey = EncryptionKey.fromString(content.trim());
 
     return crypto.subtle.importKey(
