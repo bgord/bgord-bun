@@ -336,6 +336,7 @@ export * from "./woodchopper-dispatcher-sync.strategy";
 export * from "./woodchopper-sink.strategy";
 export * from "./woodchopper-sink-collecting.strategy";
 export * from "./woodchopper-sink-error.strategy";
+export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink-stderr.strategy";
 export * from "./woodchopper-sink-stderr-raw.strategy";
 export * from "./woodchopper-sink-stdout.strategy";
