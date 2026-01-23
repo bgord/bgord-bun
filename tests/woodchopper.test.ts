@@ -13,11 +13,11 @@ import { RedactorMetadataCompactArrayStrategy } from "../src/redactor-metadata-c
 import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
 import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
 import { Woodchopper } from "../src/woodchopper";
-import { WoodchopperDiagnosticsNoop } from "../src/woodchopper-diagnostics-noop.strategy";
+import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
+import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
-import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -41,7 +41,7 @@ const entryWithErrorString = { ...entry, error: mocks.IntentionalError };
 
 describe("Woodchopper", async () => {
   test("error - no error", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -52,7 +52,7 @@ describe("Woodchopper", async () => {
   });
 
   test("error - error instance", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -68,7 +68,7 @@ describe("Woodchopper", async () => {
   });
 
   test("error - string", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -84,7 +84,7 @@ describe("Woodchopper", async () => {
   });
 
   test("warn - no error", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -95,7 +95,7 @@ describe("Woodchopper", async () => {
   });
 
   test("warn - error instance", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -111,7 +111,7 @@ describe("Woodchopper", async () => {
   });
 
   test("warn - string", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -127,7 +127,7 @@ describe("Woodchopper", async () => {
   });
 
   test("info", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -138,7 +138,7 @@ describe("Woodchopper", async () => {
   });
 
   test("http", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.http, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -149,7 +149,7 @@ describe("Woodchopper", async () => {
   });
 
   test("verbose", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.verbose, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -160,7 +160,7 @@ describe("Woodchopper", async () => {
   });
 
   test("debug", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.debug, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -171,7 +171,7 @@ describe("Woodchopper", async () => {
   });
 
   test("silly", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.silly, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -182,7 +182,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - error", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -205,7 +205,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - warn", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.warn, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -228,7 +228,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - info", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -251,7 +251,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - http", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.http, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -274,7 +274,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - verbose", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.verbose, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -297,7 +297,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - debug", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.debug, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -320,7 +320,7 @@ describe("Woodchopper", async () => {
   });
 
   test("level threshold - silly", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.silly, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -343,7 +343,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - noop", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorNoopStrategy();
     const config = { app, level: LogLevelEnum.info, environment };
@@ -355,7 +355,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - mask", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorMaskStrategy();
     const config = { app, level: LogLevelEnum.info, environment };
@@ -372,7 +372,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - metadata compact array", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) });
     const config = { app, level: LogLevelEnum.info, environment };
@@ -389,7 +389,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - metadata compact object", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
     const config = { app, level: LogLevelEnum.info, environment };
@@ -406,7 +406,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - error stack hide", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorErrorStackHideStrategy();
     const config = { app, level: LogLevelEnum.error, environment };
@@ -422,7 +422,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - error cause depth limit", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1));
     const config = { app, level: LogLevelEnum.error, environment };
@@ -448,7 +448,7 @@ describe("Woodchopper", async () => {
   });
 
   test("redactor - composite", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const redactor = new RedactorCompositeStrategy([
       new RedactorNoopStrategy(),
@@ -491,7 +491,7 @@ describe("Woodchopper", async () => {
   });
 
   test("close - idempotency - dispatcher sync", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -524,8 +524,8 @@ describe("Woodchopper", async () => {
   });
 
   test("close - idempotency - dispatcher async", async () => {
-    const diagnostics = new WoodchopperDiagnosticsNoop();
-    const sink = new WoodchopperSinkNoop();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
     const config = { app, level: LogLevelEnum.info, environment };
@@ -562,7 +562,7 @@ describe("Woodchopper", async () => {
   });
 
   test("Object.freeze", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -573,7 +573,7 @@ describe("Woodchopper", async () => {
   });
 
   test("getStats", () => {
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -592,8 +592,8 @@ describe("Woodchopper", async () => {
 
   test("pipeline - normalization - diagnostics", () => {
     spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
-    const diagnostics = new WoodchopperDiagnosticsNoop();
-    const sink = new WoodchopperSinkNoop();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
@@ -614,7 +614,7 @@ describe("Woodchopper", async () => {
 
   test("pipeline - normalization - no diagnostics", () => {
     spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -631,8 +631,8 @@ describe("Woodchopper", async () => {
 
   test("pipeline - clock - diagnostics", () => {
     spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
-    const diagnostics = new WoodchopperDiagnosticsNoop();
-    const sink = new WoodchopperSinkNoop();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
@@ -653,7 +653,7 @@ describe("Woodchopper", async () => {
 
   test("pipeline - clock - no diagnostics", () => {
     spyOn(Clock, "now").mockImplementationOnce(mocks.throwIntentionalError);
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
@@ -671,8 +671,8 @@ describe("Woodchopper", async () => {
   test("pipeline - redaction - diagnostics", () => {
     const redactor = new RedactorNoopStrategy();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
-    const diagnostics = new WoodchopperDiagnosticsNoop();
-    const sink = new WoodchopperSinkNoop();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor, diagnostics }, deps);
@@ -694,7 +694,7 @@ describe("Woodchopper", async () => {
   test("pipeline - redaction - no diagnostics", () => {
     const redactor = new RedactorNoopStrategy();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
@@ -710,7 +710,7 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - sink - dispatcher sync - diagnostics", () => {
-    const diagnostics = new WoodchopperDiagnosticsNoop();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
@@ -747,7 +747,7 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - sink - dispatcher async - diagnostics", async () => {
-    const diagnostics = new WoodchopperDiagnosticsNoop();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkError();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     const config = { app, level: LogLevelEnum.info, environment };

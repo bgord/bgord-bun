@@ -4,7 +4,7 @@ import type {
   WoodchopperDiagnosticType,
 } from "./woodchopper-diagnostics.strategy";
 
-export class WoodchopperDiagnosticsNoop implements WoodchopperDiagnosticsStrategy {
+export class WoodchopperDiagnosticsCollecting implements WoodchopperDiagnosticsStrategy {
   readonly entries: WoodchopperDiagnosticType[] = [];
 
   handle(diagnostic: WoodchopperDiagnosticType): void {
