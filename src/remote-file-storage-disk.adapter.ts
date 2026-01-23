@@ -1,5 +1,5 @@
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import type { DirectoryEnsurerPort } from "./directory-ensurer.port";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileCopierPort } from "./file-copier.port";
 import type { FileRenamerPort } from "./file-renamer.port";
@@ -18,6 +18,7 @@ type Dependencies = {
   FileCleaner: FileCleanerPort;
   FileRenamer: FileRenamerPort;
   FileCopier: FileCopierPort;
+  DirectoryEnsurer: DirectoryEnsurerPort;
 };
 
 export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
@@ -39,8 +40,7 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     const final = this.resolveKeyToAbsoluteFilePath(input.key);
     const temporary = final.withFilename(final.getFilename().withSuffix("-part"));
 
-    await fs.mkdir(final.getDirectory(), { recursive: true });
-
+    await this.deps.DirectoryEnsurer.ensure(final.getDirectory());
     await this.deps.FileCopier.copy(input.path, temporary);
     await this.deps.FileRenamer.rename(temporary, final);
 

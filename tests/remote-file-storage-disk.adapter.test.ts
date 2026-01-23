@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import { DirectoryEnsurerNoopAdapter } from "../src/directory-ensurer-noop.adapter";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
@@ -21,7 +21,8 @@ const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileCopier = new FileCopierNoopAdapter();
-const deps = { HashFile, FileCleaner, FileRenamer, FileCopier };
+const DirectoryEnsurer = new DirectoryEnsurerNoopAdapter();
+const deps = { HashFile, FileCleaner, FileRenamer, FileCopier, DirectoryEnsurer };
 
 const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
@@ -29,7 +30,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath", async () => {
     const fileCopierCopy = spyOn(FileCopier, "copy");
     const fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
-    const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
+    const directoryEnsurerEnsure = spyOn(DirectoryEnsurer, "ensure");
     const fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
@@ -38,7 +39,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
     const output = await adapter.putFromPath({ key, path: input });
 
-    expect(fsMkdir).toHaveBeenCalledWith("/root/users/1", { recursive: true });
+    expect(directoryEnsurerEnsure).toHaveBeenCalledWith("/root/users/1");
     expect(fileCopierCopy).toHaveBeenCalledWith(input, temporary);
     expect(fileRenamerRename).toHaveBeenCalledWith(temporary, final);
     expect(fileHashHash).toHaveBeenCalledTimes(1);
@@ -49,7 +50,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test("head", async () => {
     const fileHashHash = spyOn(HashFile, "hash")
       .mockResolvedValueOnce(hash)
-      .mockRejectedValueOnce(new Error("missing"));
+      .mockRejectedValueOnce(mocks.IntentionalError);
 
     const success = await adapter.head(key);
 
