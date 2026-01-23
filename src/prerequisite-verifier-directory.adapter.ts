@@ -1,4 +1,3 @@
-import { stat } from "node:fs/promises";
 import type * as tools from "@bgord/tools";
 import type { FileInspectionPort } from "../src/file-inspection.port";
 import {
@@ -21,15 +20,11 @@ export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifie
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
-    try {
-      const node = await stat(this.config.directory);
-
-      if (!node.isDirectory()) return PrerequisiteVerification.failure("Not a directory");
-    } catch {
-      return PrerequisiteVerification.failure("Directory does not exist");
-    }
-
     const permissions = this.config.permissions ?? {};
+
+    if (!(await this.deps.FileInspection.isDirectory(this.config.directory))) {
+      return PrerequisiteVerification.failure("Not a directory");
+    }
 
     if (permissions.read && !(await this.deps.FileInspection.canRead(this.config.directory))) {
       return PrerequisiteVerification.failure("Directory is not readable");
