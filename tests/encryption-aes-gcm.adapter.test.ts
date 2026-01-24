@@ -9,11 +9,13 @@ import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import * as mocks from "./mocks";
 
 const iv = new Uint8Array(Array.from({ length: 12 }, (_, i) => i + 1));
+
 const plaintext = new Uint8Array([10, 20, 30, 40, 50]);
 const ciphertext = new Uint8Array([201, 202, 203, 204, 205, 206]);
-const encryptedFileContent = new Uint8Array(iv.length + ciphertext.length);
-encryptedFileContent.set(iv, 0);
-encryptedFileContent.set(ciphertext, iv.length);
+
+const encryptedFileBytes = new Uint8Array(iv.length + ciphertext.length);
+encryptedFileBytes.set(iv, 0);
+encryptedFileBytes.set(ciphertext, iv.length);
 
 const recipe = {
   input: tools.FilePathAbsolute.fromString("/tmp/in.bin"),
@@ -35,7 +37,7 @@ describe("EncryptionAesGcmAdapter", () => {
     const fileWriterWrite = spyOn(FileWriter, "write");
 
     expect(await adapter.encrypt(recipe)).toEqual(recipe.output);
-    expect(fileWriterWrite.mock.calls[0]?.[1]).toEqual(encryptedFileContent);
+    expect(fileWriterWrite.mock.calls[0]?.[1]).toEqual(encryptedFileBytes);
   });
 
   test("encrypt - failure - missing file", async () => {
@@ -74,7 +76,7 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("decrypt", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileContent.buffer);
+    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const fileWriterWrite = spyOn(FileWriter, "write");
 
@@ -128,7 +130,7 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("decrypt - failure - write error", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileContent.buffer);
+    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
     spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
 
@@ -143,7 +145,7 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("view", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileContent.buffer);
+    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
     const adapter = new EncryptionAesGcmAdapter({
       CryptoKeyProvider,
       FileInspection,
