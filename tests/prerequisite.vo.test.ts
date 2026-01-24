@@ -12,7 +12,7 @@ import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponentia
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
-import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
+import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
 describe("Prerequisite VO", () => {
@@ -110,16 +110,16 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
-
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
     });
     const verifier = prerequisite.build();
+    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
   });
 
   test("with cache - success", async () => {
@@ -265,9 +265,8 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
-
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
@@ -275,9 +274,10 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
+    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
-    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
 
     await CacheRepository.flush();
   });
@@ -289,9 +289,8 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
-
     const passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -300,9 +299,10 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
+    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
-    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
+    expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     await CacheRepository.flush();
@@ -391,39 +391,36 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x fail-safe - timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { TimeoutRunner };
-
     const pass = new mocks.PrerequisiteVerifierPass();
-
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withFailSafe(
           (result) =>
             result.outcome === PrerequisiteVerificationOutcome.failure &&
-            result?.error?.message === "timeout.exceeded",
+            result?.error?.message === mocks.IntentionalError,
         ),
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
       ],
     });
     const verifier = prerequisite.build();
+    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("retry x timeout x fail-safe - timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const Sleeper = new SleeperNoopAdapter();
     const deps = { TimeoutRunner, Sleeper };
-
     const fail = new mocks.PrerequisiteVerifierFail();
-
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withFailSafe(
           (result) =>
             result.outcome === PrerequisiteVerificationOutcome.failure &&
-            result?.error?.message === "timeout.exceeded",
+            result?.error?.message === mocks.IntentionalError,
         ),
         PrerequisiteDecorator.withRetry(
           { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },
@@ -433,8 +430,8 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-
     const failVerify = spyOn(fail, "verify");
+    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
     expect(failVerify).toHaveBeenCalledTimes(3);

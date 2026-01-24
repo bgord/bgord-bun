@@ -1,8 +1,7 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithTimeoutAdapter } from "../src/prerequisite-verifier-with-timeout.adapter";
-import { TimeoutRunnerErrorAdapter } from "../src/timeout-runner-error.adapter";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -28,11 +27,14 @@ describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
   });
 
   test("timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerErrorAdapter();
+    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { TimeoutRunner };
     const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner: pass, timeout }, deps);
+    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await prerequisite.verify()).toMatchObject(PrerequisiteVerification.failure("timeout.exceeded"));
+    expect(await prerequisite.verify()).toMatchObject(
+      PrerequisiteVerification.failure(mocks.IntentionalError),
+    );
   });
 
   test("preserves kind", () => {

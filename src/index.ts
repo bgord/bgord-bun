@@ -315,7 +315,6 @@ export * from "./timeout-cancellable-runner-bare.adapter";
 export * from "./timeout-cancellable-runner-noop.adapter";
 export * from "./timeout-runner.port";
 export * from "./timeout-runner-bare.adapter";
-export * from "./timeout-runner-error.adapter";
 export * from "./timeout-runner-monitor.adapter";
 export * from "./timeout-runner-noop.adapter";
 export * from "./to-event-map.types";
