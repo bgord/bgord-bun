@@ -1,4 +1,4 @@
-import type { Readable } from "node:stream";
+import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
 import { ZipFile } from "yazl";
 import { FileDraft } from "./file-draft.service";
@@ -18,7 +18,10 @@ export class FileDraftZip extends FileDraft {
     const chunks: Buffer[] = [];
 
     for (const part of this.parts) {
-      zip.addReadStream((await part.create()) as Readable, part.filename.get());
+      const body = await part.create();
+      const bytes = new Uint8Array(await new Response(body).arrayBuffer());
+
+      zip.addReadStream(Readable.from([bytes]), part.filename.get());
     }
     zip.end();
 

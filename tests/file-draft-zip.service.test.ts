@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
 import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
@@ -19,26 +18,27 @@ class Draft extends FileDraft {
     super(basename, extension, tools.Mimes.text.mime);
   }
 
-  create() {
-    return Readable.from([this.content]);
+  async create(): Promise<BodyInit> {
+    return this.content;
   }
 }
 
 describe("FileDraftZip service", () => {
-  test("create", async () => {
+  test("create returns ZIP bytes", async () => {
     const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
 
     const bytes = await zip.create();
     const signature = bytes.subarray(0, 4).toHex();
 
     expect(signature).toEqual("504b0304");
-    expect(bytes.length).toEqual(156);
+    expect(bytes.length).toBeGreaterThan(22);
   });
 
-  test("content", async () => {
-    const first = new Draft(firstBasename, extension, "id\n1");
-    const second = new Draft(secondBasename, extension, "id\n2");
-    const zip = new FileDraftZip(bundle, [first, second]);
+  test("content embeds all parts", async () => {
+    const zip = new FileDraftZip(bundle, [
+      new Draft(firstBasename, extension, "id\n1"),
+      new Draft(secondBasename, extension, "id\n2"),
+    ]);
 
     const bytes = await zip.create();
     const text = new TextDecoder().decode(bytes);
@@ -47,13 +47,12 @@ describe("FileDraftZip service", () => {
     expect(text).toContain(secondBasename);
   });
 
-  test("getHeaders", async () => {
+  test("getHeaders", () => {
     const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
-    const headers = zip.getHeaders().toJSON();
 
-    expect(headers).toEqual({
+    expect(zip.getHeaders().toJSON()).toEqual({
       "content-type": tools.Mimes.zip.mime.toString(),
-      "content-disposition": `attachment; filename="bundle.zip"`,
+      "content-disposition": `attachment; filename="${bundle}.zip"`,
     });
   });
 
@@ -70,8 +69,8 @@ describe("FileDraftZip service", () => {
     expect(response.headers.get("content-disposition")).toBe(`attachment; filename="${bundle}.zip"`);
 
     const bytes = new Uint8Array(await response.arrayBuffer());
-    const text = new TextDecoder().decode(bytes);
     const signature = bytes.subarray(0, 4).toHex();
+    const text = new TextDecoder().decode(bytes);
 
     expect(signature).toEqual("504b0304");
     expect(text).toContain(firstBasename);

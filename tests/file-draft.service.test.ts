@@ -13,7 +13,7 @@ class AlphabetFile extends FileDraft {
     super(basename, extension, mime);
   }
 
-  create() {
+  async create() {
     return "abc";
   }
 }
