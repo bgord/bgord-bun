@@ -27,7 +27,8 @@ describe("FileDraftZip service", () => {
   test("create returns ZIP bytes", async () => {
     const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
 
-    const bytes = await zip.create();
+    const body = await zip.create();
+    const bytes = new Uint8Array(await new Response(body).arrayBuffer());
     const signature = bytes.subarray(0, 4).toHex();
 
     expect(signature).toEqual("504b0304");
@@ -40,7 +41,8 @@ describe("FileDraftZip service", () => {
       new Draft(secondBasename, extension, "id\n2"),
     ]);
 
-    const bytes = await zip.create();
+    const body = await zip.create();
+    const bytes = new Uint8Array(await new Response(body).arrayBuffer());
     const text = new TextDecoder().decode(bytes);
 
     expect(text).toContain(firstBasename);
@@ -64,7 +66,7 @@ describe("FileDraftZip service", () => {
 
     const response = await zip.toResponse();
 
-    expect(response.status).toBe(200);
+    expect(response.status).toEqual(200);
     expect(response.headers.get("content-type")).toBe("application/zip");
     expect(response.headers.get("content-disposition")).toBe(`attachment; filename="${bundle}.zip"`);
 

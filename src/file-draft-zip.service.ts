@@ -12,8 +12,7 @@ export class FileDraftZip extends FileDraft {
     this.parts = parts;
   }
 
-  // @ts-expect-error
-  async create(): Promise<Uint8Array> {
+  async create(): Promise<BodyInit> {
     const zip = new ZipFile();
     const chunks: Buffer[] = [];
 
@@ -23,11 +22,10 @@ export class FileDraftZip extends FileDraft {
 
       zip.addReadStream(Readable.from([bytes]), part.filename.get());
     }
+    zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
     zip.end();
 
-    zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
-
-    return new Promise<Uint8Array>((resolve, reject) => {
+    return new Promise<BodyInit>((resolve, reject) => {
       zip.outputStream.on("end", () => resolve(Uint8Array.from(Buffer.concat(chunks))));
       zip.outputStream.on("error", reject);
     });
