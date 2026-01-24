@@ -207,6 +207,7 @@ export * from "./nonce-provider-noop.adapter";
 export * from "./nonce-value.vo";
 export * from "./pdf-generator.port";
 export * from "./pdf-generator-noop.adapter";
+export * from "./pdf-generator-with-logger.adapter";
 export * from "./ping.service";
 export * from "./port.vo";
 export * from "./prerequisite.vo";
