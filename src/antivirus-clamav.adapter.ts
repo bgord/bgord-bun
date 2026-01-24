@@ -2,9 +2,9 @@ import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from
 
 // Stryker disable all
 export class AntivirusClamavAdapter implements AntivirusPort {
-  async scanBytes(bytes: Uint8Array): Promise<AntivirusScanResult> {
-    const SIGNATURE_REGEX = /:\s+(?<signature>.+)\s+FOUND\s*$/m;
+  private readonly signature = /:\s+(?<signature>.+)\s+FOUND\s*$/m;
 
+  async scanBytes(bytes: Uint8Array): Promise<AntivirusScanResult> {
     const antivirus = Bun.spawn({
       cmd: ["clamscan", "--infected", "--no-summary", "--stdout", "-"],
       stdin: "pipe",
@@ -17,13 +17,15 @@ export class AntivirusClamavAdapter implements AntivirusPort {
     await antivirus.stdin.end();
     await antivirus.exited;
 
-    const stdout = await new Response(antivirus.stdout).text();
-    const stderr = await new Response(antivirus.stderr).text();
+    const [stdout, stderr] = await Promise.all([
+      new Response(antivirus.stdout).text(),
+      new Response(antivirus.stderr).text(),
+    ]);
 
     if (antivirus.exitCode === 0) return { clean: true };
 
     if (antivirus.exitCode === 1) {
-      const signature = stdout.match(SIGNATURE_REGEX) ?? stderr.match(SIGNATURE_REGEX);
+      const signature = stdout.match(this.signature) ?? stderr.match(this.signature);
 
       return { clean: false, signature: signature?.groups?.signature?.trim() ?? "unknown" };
     }
