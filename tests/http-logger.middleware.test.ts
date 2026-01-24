@@ -23,15 +23,10 @@ const deps = { Logger, Clock };
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 const HashContent = new HashContentSha256Strategy();
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-const cacheResponse = new CacheResponse(
-  {
-    enabled: true,
-    resolver: new CacheSubjectRequestResolver([new CacheSubjectSegmentFixedStrategy("ping")], {
-      HashContent,
-    }),
-  },
-  { CacheResolver },
-);
+const resolver = new CacheSubjectRequestResolver([new CacheSubjectSegmentFixedStrategy("ping")], {
+  HashContent,
+});
+const cacheResponse = new CacheResponse({ enabled: true, resolver }, { CacheResolver });
 
 const app = new Hono()
   .use(requestId())
