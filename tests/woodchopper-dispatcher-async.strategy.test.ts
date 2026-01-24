@@ -1,11 +1,10 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
-import { WoodchopperSinkError } from "../src/woodchopper-sink-error.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
 
@@ -64,9 +63,10 @@ describe("WoodchopperDispatcherAsync", () => {
 
   test("dispatch - error - with diagnostics", async () => {
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkError();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
+    spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(diagnostics.entries.length).toEqual(0);
@@ -76,13 +76,14 @@ describe("WoodchopperDispatcherAsync", () => {
 
     expect(diagnostics.entries[0]).toMatchObject({
       kind: "sink",
-      error: { message: "woodchopper.sink.error" },
+      error: { message: mocks.IntentionalError },
     });
   });
 
   test("dispatch - error - without diagnostics", async () => {
-    const sink = new WoodchopperSinkError();
+    const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
+    spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(dispatcher.dispatch(entry)).toEqual(false);
