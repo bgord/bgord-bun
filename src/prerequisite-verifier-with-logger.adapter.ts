@@ -14,7 +14,7 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
   private readonly base = (duration: tools.Duration) => ({
     component: "infra",
     operation: "prerequisite_verify",
-    metadata: { duration },
+    metadata: duration,
   });
 
   constructor(

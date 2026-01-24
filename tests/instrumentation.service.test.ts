@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { Instrumentation } from "../src/instrumentation.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
@@ -21,7 +22,7 @@ describe("Instrumentation", () => {
         message: `${label} measurement`,
         component: "infra",
         operation: "instrumentation_measure",
-        metadata: { durationMs: expect.any(Number) },
+        metadata: expect.any(tools.Duration),
       },
     ]);
   });
@@ -46,7 +47,7 @@ describe("Instrumentation", () => {
         message: `${label} measurement`,
         component: "infra",
         operation: "instrumentation_measure",
-        metadata: { durationMs: expect.any(Number) },
+        metadata: expect.any(tools.Duration),
       },
     ]);
   });

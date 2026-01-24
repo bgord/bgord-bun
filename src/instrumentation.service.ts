@@ -16,7 +16,7 @@ export class Instrumentation {
       message: `${label} measurement`,
       component: "infra",
       operation: "instrumentation_measure",
-      metadata: { durationMs: stopwatch.stop().ms },
+      metadata: stopwatch.stop(),
     });
 
     return result;
@@ -31,7 +31,7 @@ export class Instrumentation {
       message: `${label} measurement`,
       component: "infra",
       operation: "instrumentation_measure",
-      metadata: { durationMs: stopwatch.stop().ms },
+      metadata: stopwatch.stop(),
     });
 
     return result;

@@ -32,7 +32,7 @@ describe("Prerequisite VO", () => {
         component: "infra",
         message: `Success - ${pass.kind}`,
         operation: "prerequisite_verify",
-        metadata: { duration: expect.any(tools.Duration) },
+        metadata: expect.any(tools.Duration),
       },
     ]);
   });
@@ -52,7 +52,7 @@ describe("Prerequisite VO", () => {
         message: `Failure - ${fail.kind}`,
         operation: "prerequisite_verify",
         error: { message: mocks.IntentionalError },
-        metadata: { duration: expect.any(tools.Duration) },
+        metadata: expect.any(tools.Duration),
       },
     ]);
   });
@@ -71,7 +71,7 @@ describe("Prerequisite VO", () => {
         component: "infra",
         message: `Undetermined - ${undetermined.kind}`,
         operation: "prerequisite_verify",
-        metadata: { duration: expect.any(tools.Duration) },
+        metadata: expect.any(tools.Duration),
       },
     ]);
   });
@@ -215,7 +215,7 @@ describe("Prerequisite VO", () => {
         component: "infra",
         message: `Success - ${pass.kind}`,
         operation: "prerequisite_verify",
-        metadata: { duration: expect.any(tools.Duration) },
+        metadata: expect.any(tools.Duration),
       },
     ]);
     expect(passVerify).toHaveBeenCalledTimes(1);
