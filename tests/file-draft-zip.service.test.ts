@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
+import * as mocks from "./mocks";
 
 const bundle = tools.Basename.parse("bundle");
 
@@ -23,8 +24,18 @@ class Draft extends FileDraft {
   }
 }
 
+class FailingDraft extends FileDraft {
+  constructor() {
+    super(tools.Basename.parse("fail"), tools.Extension.parse("txt"), tools.Mimes.text.mime);
+  }
+
+  async create(): Promise<BodyInit> {
+    throw new Error(mocks.IntentionalError);
+  }
+}
+
 describe("FileDraftZip service", () => {
-  test("create returns ZIP bytes", async () => {
+  test("create", async () => {
     const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
 
     const body = await zip.create();
@@ -35,7 +46,7 @@ describe("FileDraftZip service", () => {
     expect(bytes.length).toBeGreaterThan(22);
   });
 
-  test("content embeds all parts", async () => {
+  test("create - parts inspection", async () => {
     const zip = new FileDraftZip(bundle, [
       new Draft(firstBasename, extension, "id\n1"),
       new Draft(secondBasename, extension, "id\n2"),
@@ -47,6 +58,12 @@ describe("FileDraftZip service", () => {
 
     expect(text).toContain(firstBasename);
     expect(text).toContain(secondBasename);
+  });
+
+  test("create - failure", async () => {
+    const zip = new FileDraftZip(bundle, [new FailingDraft()]);
+
+    expect(async () => zip.create()).toThrow(mocks.IntentionalError);
   });
 
   test("getHeaders", () => {
