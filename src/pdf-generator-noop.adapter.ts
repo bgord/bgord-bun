@@ -11,13 +11,13 @@ export class PdfGeneratorNoopAdapter implements PdfGeneratorPort {
 
   constructor(private readonly deps: Dependencies) {}
 
-  async request(template: PdfGeneratorTemplateType, data: Record<string, unknown>): Promise<Buffer> {
+  async request(template: PdfGeneratorTemplateType, data: Record<string, unknown>): Promise<ArrayBuffer> {
     this.deps.Logger.info({
       message: "[NOOP] PDF generator adapter",
       metadata: { template, data },
       ...this.base,
     });
 
-    return Buffer.from(PLACEHOLDER_PDF_BASE64, "base64");
+    return Uint8Array.fromBase64(PLACEHOLDER_PDF_BASE64).buffer;
   }
 }

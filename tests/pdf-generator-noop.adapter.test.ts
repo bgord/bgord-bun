@@ -10,7 +10,9 @@ describe("PdfGeneratorNoopAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new PdfGeneratorNoopAdapter({ Logger });
 
-    expect(await adapter.request("welcome", {})).toEqual(Buffer.from(PLACEHOLDER_PDF_BASE64, "base64"));
+    expect(await adapter.request("welcome", {})).toEqual(
+      Uint8Array.fromBase64(PLACEHOLDER_PDF_BASE64).buffer,
+    );
     expect(Logger.entries).toEqual([
       {
         component: "infra",
