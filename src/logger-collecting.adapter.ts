@@ -1,7 +1,20 @@
-import type { LogErrorType, LoggerEntryBare, LoggerPort } from "./logger.port";
+import type {
+  AdapterInjectedFields,
+  LogCoreType,
+  LogErrorType,
+  LoggerPort,
+  LogHttpType,
+  LogWarnType,
+} from "./logger.port";
 
 export class LoggerCollectingAdapter implements LoggerPort {
-  readonly entries: (LoggerEntryBare | LogErrorType)[] = [];
+  readonly entries: (
+    | Omit<LogErrorType, AdapterInjectedFields>
+    | Omit<LogWarnType, AdapterInjectedFields>
+    | Omit<LogCoreType, AdapterInjectedFields>
+    | Omit<LogHttpType, AdapterInjectedFields>
+    | Omit<LogCoreType, AdapterInjectedFields>
+  )[] = [];
 
   warn: LoggerPort["warn"] = (log): void => {
     this.entries.push(log);
