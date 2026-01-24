@@ -1,5 +1,5 @@
 export class EncryptionIV {
-  static LENGTH = 12;
+  static readonly LENGTH = 12;
 
   static generate(): Uint8Array {
     const iv = new Uint8Array(EncryptionIV.LENGTH);
