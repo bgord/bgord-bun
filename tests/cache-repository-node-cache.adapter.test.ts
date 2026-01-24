@@ -10,11 +10,10 @@ const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 
 const HashContent = new HashContentSha256Strategy();
 
-const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], {
-  HashContent,
-});
-
 describe("CacheRepositoryNodeCacheAdapter", async () => {
+  const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], {
+    HashContent,
+  });
   const subject = await resolver.resolve();
 
   test("get - null", async () => {
@@ -24,8 +23,8 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test("get - value", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
     const value = "secret";
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
     await adapter.set(subject.hex, value);
 

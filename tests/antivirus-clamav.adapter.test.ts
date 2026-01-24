@@ -4,6 +4,7 @@ import * as mocks from "./mocks";
 
 const clean = new Uint8Array([1, 2, 3]);
 const virus = new Uint8Array([0x45]);
+
 const adapter = new AntivirusClamavAdapter();
 
 describe("AntivirusClamavAdapter", () => {

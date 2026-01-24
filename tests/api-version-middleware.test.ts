@@ -24,6 +24,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   tools.Size.fromBytes(0),
 );
 const deps = { Clock, CacheResolver, HashContent, BuildInfoRepository };
+
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 
 describe("ApiVersion middleware", async () => {
@@ -35,20 +36,20 @@ describe("ApiVersion middleware", async () => {
 
   test("happy path", async () => {
     const buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract");
-    const getSpy = spyOn(CacheRepository, "get");
+    const cacheRepositorygetSpy = spyOn(CacheRepository, "get");
 
     const first = await app.request("/ping", { method: "GET" });
 
     expect(first.status).toEqual(200);
     expect(first.headers.get(ApiVersion.HEADER_NAME)).toEqual(version);
-    expect(getSpy).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositorygetSpy).toHaveBeenCalledWith(subject.hex);
 
     const second = await app.request("/ping", { method: "GET" });
 
     expect(second.status).toEqual(200);
     expect(second.headers.get(ApiVersion.HEADER_NAME)).toEqual(version);
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
-    expect(getSpy).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositorygetSpy).toHaveBeenCalledWith(subject.hex);
 
     await CacheRepository.flush();
   });

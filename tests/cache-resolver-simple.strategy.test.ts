@@ -15,9 +15,8 @@ const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
-const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], deps);
-
 describe("CacheResolverSimpleStrategy", async () => {
+  const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], deps);
   const subject = await resolver.resolve();
 
   test("success - hit", async () => {

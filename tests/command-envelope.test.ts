@@ -14,7 +14,6 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
 ]);
-
 const deps = { Clock, IdProvider };
 
 describe("CommandEnvelope", () => {

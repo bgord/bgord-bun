@@ -16,6 +16,7 @@ describe("BuildInfoRepositoryFileStrategy", () => {
       size: size.toBytes(),
     });
     const repository = new BuildInfoRepositoryFileStrategy({ FileReaderJson });
+
     const result = await repository.extract();
 
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
@@ -32,6 +33,7 @@ describe("BuildInfoRepositoryFileStrategy", () => {
       size: size.toBytes(),
     });
     const repository = new BuildInfoRepositoryFileStrategy({ FileReaderJson });
+
     const fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );

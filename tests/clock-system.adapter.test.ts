@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 
-const provider = new ClockSystemAdapter();
+const adapter = new ClockSystemAdapter();
 
 describe("ClockSystemAdapter", () => {
   test("now", () => {
-    expect(typeof provider.now().ms).toEqual("number");
+    expect(typeof adapter.now().ms).toEqual("number");
   });
 });

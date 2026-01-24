@@ -142,13 +142,13 @@ describe("CacheResponse middleware", () => {
   });
 
   test("disabled", async () => {
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const app = new Hono<mocks.Config>()
       .use((context, next) => {
         context.set("user", { id: context.req.header("id") });
         return next();
       })
       .get("/ping", cacheResponseDisabled.handle, (c) => c.json({ message: "ping" }));
+    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     const response = await app.request("/ping");
     const json = await response.json();
