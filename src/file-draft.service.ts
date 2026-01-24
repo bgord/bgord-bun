@@ -1,8 +1,5 @@
-import type { ReadableStream } from "node:stream/web";
 import * as tools from "@bgord/tools";
 import type { MailerTemplateAttachmentType } from "./mailer-template.vo";
-
-export type DraftBody = BodyInit | NodeJS.ReadableStream | ReadableStream;
 
 export abstract class FileDraft {
   readonly filename: tools.Filename;
@@ -22,12 +19,12 @@ export abstract class FileDraft {
     });
   }
 
-  abstract create(): DraftBody | Promise<DraftBody>;
+  abstract create(): Promise<BodyInit>;
 
   async toResponse(): Promise<Response> {
     const body = await this.create();
 
-    return new Response(body as BodyInit, { headers: this.getHeaders() });
+    return new Response(body, { headers: this.getHeaders() });
   }
 
   async toAttachment(): Promise<MailerTemplateAttachmentType> {
