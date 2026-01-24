@@ -3,7 +3,7 @@ import { EncryptionKeyValue, type EncryptionKeyValueType } from "./encryption-ke
 export const EncryptionKeyError = { InvalidBuffer: "encryption.key.invalid.buffer" };
 
 export class EncryptionKey {
-  private constructor(private readonly value: EncryptionKeyValueType) {}
+  private constructor(private readonly key: EncryptionKeyValueType) {}
 
   static fromStringSafe(value: EncryptionKeyValueType): EncryptionKey {
     return new EncryptionKey(value);
@@ -13,18 +13,18 @@ export class EncryptionKey {
     return new EncryptionKey(EncryptionKeyValue.parse(candidate));
   }
 
-  static fromBuffer(buffer: Uint8Array): EncryptionKey {
+  static fromBytes(buffer: Uint8Array): EncryptionKey {
     if (buffer.length !== 32) throw new Error(EncryptionKeyError.InvalidBuffer);
 
     return EncryptionKey.fromString(buffer.toHex());
   }
 
   equals(another: EncryptionKey): boolean {
-    return this.value === another.value;
+    return this.key === another.key;
   }
 
   toBytes(): Uint8Array {
-    return Uint8Array.from(Buffer.from(this.value, "hex"));
+    return Uint8Array.fromHex(this.key);
   }
 
   toString(): string {
