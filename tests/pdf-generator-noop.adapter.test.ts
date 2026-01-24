@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { PdfGeneratorNoopAdapter } from "../src/pdf-generator-noop.adapter";
 
 const PLACEHOLDER_PDF_BASE64 =
@@ -7,19 +6,10 @@ const PLACEHOLDER_PDF_BASE64 =
 
 describe("PdfGeneratorNoopAdapter", () => {
   test("success", async () => {
-    const Logger = new LoggerCollectingAdapter();
-    const adapter = new PdfGeneratorNoopAdapter({ Logger });
+    const adapter = new PdfGeneratorNoopAdapter();
 
     expect(await adapter.request("welcome", {})).toEqual(
       Uint8Array.fromBase64(PLACEHOLDER_PDF_BASE64).buffer,
     );
-    expect(Logger.entries).toEqual([
-      {
-        component: "infra",
-        operation: "pdf_generator",
-        metadata: { data: {}, template: "welcome" },
-        message: "[NOOP] PDF generator adapter",
-      },
-    ]);
   });
 });
