@@ -1,7 +1,7 @@
-import type { LoggerEntryBare, LoggerPort } from "./logger.port";
+import type { LogErrorType, LoggerEntryBare, LoggerPort } from "./logger.port";
 
 export class LoggerCollectingAdapter implements LoggerPort {
-  readonly entries: LoggerEntryBare[] = [];
+  readonly entries: (LoggerEntryBare | LogErrorType)[] = [];
 
   warn: LoggerPort["warn"] = (log): void => {
     this.entries.push(log);
