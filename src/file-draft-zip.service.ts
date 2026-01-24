@@ -9,7 +9,6 @@ export class FileDraftZip extends FileDraft {
     private readonly parts: FileDraft[],
   ) {
     super(basename, tools.Extension.parse("zip"), tools.Mimes.zip.mime);
-    this.parts = parts;
   }
 
   async create(): Promise<BodyInit> {
