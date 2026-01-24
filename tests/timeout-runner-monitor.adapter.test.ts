@@ -1,41 +1,44 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { TimeoutRunnerMonitorAdapter } from "../src/timeout-runner-monitor.adapter";
 
-const immediate = async () => 2;
 const timeout = tools.Duration.MIN;
+
 const over = timeout.times(tools.MultiplicationFactor.parse(10)).ms;
-const Logger = new LoggerNoopAdapter();
-const deps = { Logger };
-const adapter = new TimeoutRunnerMonitorAdapter(deps);
 
-describe("TimeoutRunnerWithLoggerAdapter", () => {
+describe("TimeoutRunnerMonitorAdapter", () => {
   test("monitor - under timeout", async () => {
-    const loggerWarn = spyOn(Logger, "warn");
+    const Logger = new LoggerCollectingAdapter();
+    const adapter = new TimeoutRunnerMonitorAdapter({ Logger });
+    const action = async () => 2;
 
-    const result = await adapter.run(immediate(), timeout);
+    const result = await adapter.run(action(), timeout);
 
     expect(result).toEqual(2);
-    expect(loggerWarn).not.toHaveBeenCalled();
+    expect(Logger.entries.length).toEqual(0);
   });
 
   test("monitor - over timeout", async () => {
     jest.useFakeTimers();
-    const loggerWarn = spyOn(Logger, "warn");
     const globalClearTimeout = spyOn(global, "clearTimeout");
+
+    const Logger = new LoggerCollectingAdapter();
+    const adapter = new TimeoutRunnerMonitorAdapter({ Logger });
     const action = () => new Promise((resolve) => setTimeout(resolve, over));
 
     const runner = adapter.run(action(), timeout);
     jest.runAllTimers();
     await runner;
 
-    expect(loggerWarn).toHaveBeenCalledWith({
-      message: "Timeout",
-      component: "infra",
-      operation: "timeout_monitor",
-      metadata: { timeoutMs: timeout.ms },
-    });
+    expect(Logger.entries).toEqual([
+      {
+        message: "Timeout",
+        component: "infra",
+        operation: "timeout_monitor",
+        metadata: { timeoutMs: timeout.ms },
+      },
+    ]);
     expect(globalClearTimeout).toHaveBeenCalled();
 
     jest.useRealTimers();
