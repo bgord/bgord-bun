@@ -16,11 +16,7 @@ export class EncryptionKey {
   static fromBuffer(buffer: Uint8Array): EncryptionKey {
     if (buffer.length !== 32) throw new Error(EncryptionKeyError.InvalidBuffer);
 
-    const hex = Array.from(buffer)
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-
-    return EncryptionKey.fromString(hex);
+    return EncryptionKey.fromString(buffer.toHex());
   }
 
   equals(another: EncryptionKey): boolean {
