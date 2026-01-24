@@ -9,29 +9,19 @@ import { SecurityCountermeasureName } from "../src/security-countermeasure-name.
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
 
-const Logger = new LoggerCollectingAdapter();
-const IdProvider = new IdProviderDeterministicAdapter([
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-]);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const EventStore = { save: async () => {} };
-const deps = { Logger, IdProvider, Clock, EventStore };
+const deps = { Clock, EventStore };
 
 const rule = new SecurityRulePassStrategy();
-const countermeasure = new SecurityCountermeasureBanStrategy(deps);
-const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
-const contextWithoutClient = new SecurityContext(
-  rule.name,
-  countermeasure.name,
-  mocks.clientEmpty,
-  undefined,
-);
 
 describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    const Logger = new LoggerCollectingAdapter();
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
+    const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
+
     const eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -44,19 +34,29 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerInfo).toHaveBeenCalledWith({
-      message: "Security countermeasure ban",
-      component: "security",
-      operation: "security_countermeasure_ban",
-      correlationId: mocks.correlationId,
-      metadata: context,
-    });
+    expect(Logger.entries).toEqual([
+      {
+        message: "Security countermeasure ban",
+        component: "security",
+        operation: "security_countermeasure_ban",
+        correlationId: mocks.correlationId,
+        metadata: context,
+      },
+    ]);
     expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
   });
 
   test("happy path - without client", async () => {
-    const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
+    const Logger = new LoggerCollectingAdapter();
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
+    const contextWithoutClient = new SecurityContext(
+      rule.name,
+      countermeasure.name,
+      mocks.clientEmpty,
+      undefined,
+    );
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(contextWithoutClient);
@@ -68,23 +68,27 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerInfo).toHaveBeenCalledWith({
-      message: "Security countermeasure ban",
-      component: "security",
-      operation: "security_countermeasure_ban",
-      correlationId: mocks.correlationId,
-      metadata: contextWithoutClient,
-    });
+    expect(Logger.entries).toEqual([
+      {
+        message: "Security countermeasure ban",
+        component: "security",
+        operation: "security_countermeasure_ban",
+        correlationId: mocks.correlationId,
+        metadata: contextWithoutClient,
+      },
+    ]);
     expect(eventStoreSave).toHaveBeenCalledWith([
       mocks.GenericSecurityViolationDetectedBanDenyWithoutContextEvent,
     ]);
   });
 
   test("happy path - custom config", async () => {
-    const loggerInfo = spyOn(Logger, "info");
     const eventStoreSave = spyOn(deps.EventStore, "save");
+    const Logger = new LoggerCollectingAdapter();
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const config = { response: { status: 404 } };
-    const countermeasure = new SecurityCountermeasureBanStrategy(deps, config);
+    const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider }, config);
+    const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
@@ -96,17 +100,23 @@ describe("SecurityCountermeasureBanStrategy", () => {
       });
     });
 
-    expect(loggerInfo).toHaveBeenCalledWith({
-      message: "Security countermeasure ban",
-      component: "security",
-      operation: "security_countermeasure_ban",
-      correlationId: mocks.correlationId,
-      metadata: context,
-    });
+    expect(Logger.entries).toEqual([
+      {
+        message: "Security countermeasure ban",
+        component: "security",
+        operation: "security_countermeasure_ban",
+        correlationId: mocks.correlationId,
+        metadata: context,
+      },
+    ]);
     expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
   });
 
   test("name", () => {
+    const Logger = new LoggerCollectingAdapter();
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
+
     expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("ban"));
   });
 });
