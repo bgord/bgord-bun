@@ -47,6 +47,16 @@ describe("FileDraftZip service", () => {
     expect(text).toContain(secondBasename);
   });
 
+  test("getHeaders", async () => {
+    const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
+    const headers = zip.getHeaders().toJSON();
+
+    expect(headers).toEqual({
+      "content-type": tools.Mimes.zip.mime.toString(),
+      "content-disposition": `attachment; filename="bundle.zip"`,
+    });
+  });
+
   test("toResponse", async () => {
     const zip = new FileDraftZip(bundle, [
       new Draft(firstBasename, extension, "alpha"),
