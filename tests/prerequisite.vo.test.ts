@@ -4,7 +4,7 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteDecorator } from "../src/prerequisite-verifier.decorator";
 import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
@@ -15,74 +15,65 @@ import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
 describe("Prerequisite VO", () => {
   test("with logger - success", async () => {
+    const Logger = new LoggerCollectingAdapter();
     const pass = new mocks.PrerequisiteVerifierPass();
-
-    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-    const Logger = new LoggerNoopAdapter();
-    const deps = { Clock, Logger };
-
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withLogger(deps)],
+      decorators: [PrerequisiteDecorator.withLogger({ Clock, Logger })],
     });
     const verifier = prerequisite.build();
 
-    const loggerInfo = spyOn(Logger, "info");
-
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
-    expect(loggerInfo).toHaveBeenCalledWith({
-      component: "infra",
-      message: `Success - ${pass.kind}`,
-      operation: "prerequisite_verify",
-      durationMs: expect.any(Number),
-    });
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        message: `Success - ${pass.kind}`,
+        operation: "prerequisite_verify",
+        metadata: { duration: expect.any(tools.Duration) },
+      },
+    ]);
   });
 
   test("with logger - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
     const fail = new mocks.PrerequisiteVerifierFail();
-
-    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-    const Logger = new LoggerNoopAdapter();
-    const deps = { Clock, Logger };
-
     const prerequisite = new Prerequisite("example", fail, {
-      decorators: [PrerequisiteDecorator.withLogger(deps)],
+      decorators: [PrerequisiteDecorator.withLogger({ Clock, Logger })],
     });
     const verifier = prerequisite.build();
 
-    const loggerError = spyOn(Logger, "error");
-
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
-    expect(loggerError).toHaveBeenCalledWith({
-      component: "infra",
-      message: `Failure - ${fail.kind}`,
-      operation: "prerequisite_verify",
-      durationMs: expect.any(Number),
-      error: { message: mocks.IntentionalError },
-    });
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        message: `Failure - ${fail.kind}`,
+        operation: "prerequisite_verify",
+        error: { message: mocks.IntentionalError },
+        metadata: { duration: expect.any(tools.Duration) },
+      },
+    ]);
   });
 
   test("with logger - undetermined", async () => {
+    const Logger = new LoggerCollectingAdapter();
     const undetermined = new mocks.PrerequisiteVerifierUndetermined();
-    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-    const Logger = new LoggerNoopAdapter();
-    const deps = { Clock, Logger };
-
     const prerequisite = new Prerequisite("example", undetermined, {
-      decorators: [PrerequisiteDecorator.withLogger(deps)],
+      decorators: [PrerequisiteDecorator.withLogger({ Clock, Logger })],
     });
     const verifier = prerequisite.build();
 
-    const loggerInfo = spyOn(Logger, "info");
-
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
-    expect(loggerInfo).toHaveBeenCalledWith({
-      component: "infra",
-      message: `Undetermined - ${undetermined.kind}`,
-      operation: "prerequisite_verify",
-      durationMs: expect.any(Number),
-    });
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        message: `Undetermined - ${undetermined.kind}`,
+        operation: "prerequisite_verify",
+        metadata: { duration: expect.any(tools.Duration) },
+      },
+    ]);
   });
 
   test("with timeout - success", async () => {
@@ -193,14 +184,11 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-    const Logger = new LoggerNoopAdapter();
+    const Logger = new LoggerCollectingAdapter();
     const Sleeper = new SleeperNoopAdapter();
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper, TimeoutRunner };
 
-    const passVerify = spyOn(pass, "verify");
-    const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
@@ -219,14 +207,17 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
+    const passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
-    expect(loggerInfo).toHaveBeenCalledWith({
-      component: "infra",
-      message: `Success - ${pass.kind}`,
-      operation: "prerequisite_verify",
-      durationMs: expect.any(Number),
-    });
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        message: `Success - ${pass.kind}`,
+        operation: "prerequisite_verify",
+        metadata: { duration: expect.any(tools.Duration) },
+      },
+    ]);
     expect(passVerify).toHaveBeenCalledTimes(1);
 
     await CacheRepository.flush();
@@ -345,21 +336,19 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-    const Logger = new LoggerNoopAdapter();
+    const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
 
-    const passVerify = spyOn(pass, "verify");
-    const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withCache("example", deps), PrerequisiteDecorator.withLogger(deps)],
     });
     const verifier = prerequisite.build();
+    const passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
-    expect(loggerInfo).toHaveBeenCalledTimes(1);
+    expect(Logger.entries.length).toEqual(1);
 
     await CacheRepository.flush();
   });
@@ -371,12 +360,10 @@ describe("Prerequisite VO", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-    const Logger = new LoggerNoopAdapter();
+    const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
 
     const passVerify = spyOn(pass, "verify");
-    const loggerInfo = spyOn(Logger, "info");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withLogger(deps), PrerequisiteDecorator.withCache("example", deps)],
     });
@@ -385,7 +372,7 @@ describe("Prerequisite VO", () => {
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
-    expect(loggerInfo).toHaveBeenCalledTimes(2);
+    expect(Logger.entries.length).toEqual(2);
 
     await CacheRepository.flush();
   });
