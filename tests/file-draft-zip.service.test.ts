@@ -5,10 +5,12 @@ import { FileDraftZip } from "../src/file-draft-zip.service";
 import * as mocks from "./mocks";
 
 const bundle = tools.Basename.parse("bundle");
-
 const extension = tools.Extension.parse("csv");
-const firstBasename = tools.Basename.parse("first.csv");
-const secondBasename = tools.Basename.parse("second.csv");
+
+const first = tools.Basename.parse("first.csv");
+const second = tools.Basename.parse("second.csv");
+
+const content = "content";
 
 class Draft extends FileDraft {
   constructor(
@@ -36,28 +38,30 @@ class FailingDraft extends FileDraft {
 
 describe("FileDraftZip service", () => {
   test("create", async () => {
-    const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
-
-    const body = await zip.create();
-    const bytes = new Uint8Array(await new Response(body).arrayBuffer());
-    const signature = bytes.subarray(0, 4).toHex();
-
-    expect(signature).toEqual("504b0304");
-    expect(bytes.length).toBeGreaterThan(22);
-  });
-
-  test("create - parts inspection", async () => {
     const zip = new FileDraftZip(bundle, [
-      new Draft(firstBasename, extension, "id\n1"),
-      new Draft(secondBasename, extension, "id\n2"),
+      new Draft(first, extension, content),
+      new Draft(second, extension, content),
     ]);
 
     const body = await zip.create();
     const bytes = new Uint8Array(await new Response(body).arrayBuffer());
+    const signature = bytes.subarray(0, 4).toHex();
     const text = new TextDecoder().decode(bytes);
 
-    expect(text).toContain(firstBasename);
-    expect(text).toContain(secondBasename);
+    expect(signature).toEqual("504b0304");
+    expect(text).toContain(first);
+    expect(text).toContain(second);
+    expect(bytes.length).toEqual(296);
+  });
+
+  test("create - empty", async () => {
+    const zip = new FileDraftZip(bundle, []);
+
+    const body = await zip.create();
+    const bytes = new Uint8Array(await new Response(body).arrayBuffer());
+
+    expect(bytes.subarray(0, 4).toHex()).toEqual("504b0506");
+    expect(bytes.length).toEqual(22);
   });
 
   test("create - failure", async () => {
@@ -67,7 +71,7 @@ describe("FileDraftZip service", () => {
   });
 
   test("getHeaders", () => {
-    const zip = new FileDraftZip(bundle, [new Draft(firstBasename, extension, "alpha")]);
+    const zip = new FileDraftZip(bundle, [new Draft(first, extension, content)]);
 
     expect(zip.getHeaders().toJSON()).toEqual({
       "content-type": tools.Mimes.zip.mime.toString(),
@@ -77,22 +81,22 @@ describe("FileDraftZip service", () => {
 
   test("toResponse", async () => {
     const zip = new FileDraftZip(bundle, [
-      new Draft(firstBasename, extension, "alpha"),
-      new Draft(secondBasename, extension, "beta"),
+      new Draft(first, extension, content),
+      new Draft(second, extension, content),
     ]);
 
     const response = await zip.toResponse();
 
     expect(response.status).toEqual(200);
-    expect(response.headers.get("content-type")).toBe("application/zip");
-    expect(response.headers.get("content-disposition")).toBe(`attachment; filename="${bundle}.zip"`);
+    expect(response.headers.get("content-type")).toEqual("application/zip");
+    expect(response.headers.get("content-disposition")).toEqual(`attachment; filename="${bundle}.zip"`);
 
     const bytes = new Uint8Array(await response.arrayBuffer());
     const signature = bytes.subarray(0, 4).toHex();
     const text = new TextDecoder().decode(bytes);
 
     expect(signature).toEqual("504b0304");
-    expect(text).toContain(firstBasename);
-    expect(text).toContain(secondBasename);
+    expect(text).toContain(first);
+    expect(text).toContain(second);
   });
 });
