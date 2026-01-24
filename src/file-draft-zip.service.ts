@@ -15,18 +15,22 @@ export class FileDraftZip extends FileDraft {
     const zip = new ZipFile();
     const chunks: Buffer[] = [];
 
+    zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
+
+    const output = new Promise<BodyInit>((resolve, reject) => {
+      zip.outputStream.on("end", () => resolve(Uint8Array.from(Buffer.concat(chunks))));
+      zip.outputStream.on("error", reject);
+    });
+
     for (const part of this.parts) {
       const body = await part.create();
       const bytes = new Uint8Array(await new Response(body).arrayBuffer());
 
       zip.addReadStream(Readable.from([bytes]), part.filename.get());
     }
-    zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
+
     zip.end();
 
-    return new Promise<BodyInit>((resolve, reject) => {
-      zip.outputStream.on("end", () => resolve(Uint8Array.from(Buffer.concat(chunks))));
-      zip.outputStream.on("error", reject);
-    });
+    return output;
   }
 }
