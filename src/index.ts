@@ -182,6 +182,7 @@ export * from "./job-handler-noop.strategy";
 export * from "./job-handler-with-logger.strategy";
 export * from "./jobs.service";
 export * from "./logger.port";
+export * from "./logger-collecting.adapter";
 export * from "./logger-noop.adapter";
 export * from "./logger-stats-provider.port";
 export * from "./logger-stats-provider-noop.adapter";
