@@ -1,29 +1,31 @@
+import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
+import { Stopwatch } from "./stopwatch.service";
 
-type Dependencies = { inner: MailerPort; Logger: LoggerPort };
+type Dependencies = { inner: MailerPort; Logger: LoggerPort; Clock: ClockPort };
 
 export class MailerWithLoggerAdapter implements MailerPort {
   private readonly base = { component: "infra", operation: "mailer" };
 
   constructor(private readonly deps: Dependencies) {}
 
-  async send(template: MailerTemplate): Promise<unknown> {
+  async send(template: MailerTemplate): Promise<void> {
+    const stopwatch = new Stopwatch(this.deps);
+
     try {
       this.deps.Logger.info({ message: "Mailer attempt", metadata: template.toJSON(), ...this.base });
 
-      const result = await this.deps.inner.send(template);
+      await this.deps.inner.send(template);
 
       this.deps.Logger.info({
         message: "Mailer success",
-        metadata: { template: template.toJSON(), result },
+        metadata: { template: template.toJSON(), duration: stopwatch.stop() },
         ...this.base,
       });
-
-      return result;
     } catch (error) {
-      this.deps.Logger.error({ message: "Mailer error", error, ...this.base });
+      this.deps.Logger.error({ message: "Mailer error", error, metadata: stopwatch.stop(), ...this.base });
 
       throw error;
     }

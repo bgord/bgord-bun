@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
@@ -22,6 +23,8 @@ const message = {
 };
 const template = new MailerTemplate(config, message);
 
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+
 describe("MailerWithLoggerAdapter", async () => {
   const inner = await MailerSmtpAdapter.build({
     SMTP_HOST: SmtpHost.parse("smtp.example.com"),
@@ -33,7 +36,7 @@ describe("MailerWithLoggerAdapter", async () => {
   test("send - success", async () => {
     const sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
-    const adapter = new MailerWithLoggerAdapter({ Logger, inner });
+    const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
     await adapter.send(template);
 
@@ -43,7 +46,7 @@ describe("MailerWithLoggerAdapter", async () => {
       {
         component: "infra",
         message: "Mailer success",
-        metadata: { template: template.toJSON() },
+        metadata: { template: template.toJSON(), duration: expect.any(tools.Duration) },
         operation: "mailer",
       },
     ]);
@@ -52,7 +55,7 @@ describe("MailerWithLoggerAdapter", async () => {
   test("failure", async () => {
     const sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
     const Logger = new LoggerCollectingAdapter();
-    const adapter = new MailerWithLoggerAdapter({ Logger, inner });
+    const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
     expect(async () => adapter.send(template)).toThrow(mocks.IntentionalError);
     expect(sendMail).toHaveBeenCalledWith(template);
@@ -63,6 +66,7 @@ describe("MailerWithLoggerAdapter", async () => {
         message: "Mailer error",
         operation: "mailer",
         error: new Error(mocks.IntentionalError),
+        metadata: expect.any(tools.Duration),
       },
     ]);
   });
@@ -70,7 +74,7 @@ describe("MailerWithLoggerAdapter", async () => {
   test("verfiy", async () => {
     const mailerSmtpVerify = spyOn(inner, "verify").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
-    const adapter = new MailerWithLoggerAdapter({ Logger, inner });
+    const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
     await adapter.verify();
 
