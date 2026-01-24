@@ -11,10 +11,10 @@ import { Stopwatch } from "./stopwatch.service";
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifierPort {
-  private readonly base = (durationMs: tools.DurationMsType) => ({
+  private readonly base = (duration: tools.Duration) => ({
     component: "infra",
     operation: "prerequisite_verify",
-    durationMs,
+    metadata: { duration },
   });
 
   constructor(
@@ -25,23 +25,23 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
   async verify(): Promise<PrerequisiteVerificationResult> {
     const stopwatch = new Stopwatch(this.deps);
     const result = await this.config.inner.verify();
-    const durationMs = stopwatch.stop().ms;
+    const duration = stopwatch.stop();
 
     switch (result.outcome) {
       case PrerequisiteVerificationOutcome.success: {
-        this.deps.Logger.info({ message: `Success - ${this.kind}`, ...this.base(durationMs) });
+        this.deps.Logger.info({ message: `Success - ${this.kind}`, ...this.base(duration) });
         break;
       }
       case PrerequisiteVerificationOutcome.failure: {
         this.deps.Logger.error({
           message: `Failure - ${this.kind}`,
           error: result.error,
-          ...this.base(durationMs),
+          ...this.base(duration),
         });
         break;
       }
       case PrerequisiteVerificationOutcome.undetermined: {
-        this.deps.Logger.info({ message: `Undetermined - ${this.kind}`, ...this.base(durationMs) });
+        this.deps.Logger.info({ message: `Undetermined - ${this.kind}`, ...this.base(duration) });
         break;
       }
     }
