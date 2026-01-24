@@ -13,7 +13,7 @@ export class FileDraftZip extends FileDraft {
   }
 
   // @ts-expect-error
-  async create(): Promise<Buffer> {
+  async create(): Promise<Uint8Array> {
     const zip = new ZipFile();
     const chunks: Buffer[] = [];
 
@@ -22,13 +22,11 @@ export class FileDraftZip extends FileDraft {
     }
     zip.end();
 
-    // Stryker disable all
     zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
 
-    return new Promise<Buffer>((resolve, reject) => {
-      zip.outputStream.on("end", () => resolve(Buffer.concat(chunks)));
+    return new Promise<Uint8Array>((resolve, reject) => {
+      zip.outputStream.on("end", () => resolve(Uint8Array.from(Buffer.concat(chunks))));
       zip.outputStream.on("error", reject);
     });
-    // Stryker restore all
   }
 }

@@ -1,9 +1,9 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { PdfGeneratorNoopAdapter } from "../src/pdf-generator-noop.adapter";
 import { PdfGeneratorWithLoggerAdapter } from "../src/pdf-generator-with-logger.adapter";
-import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import * as mocks from "./mocks";
 
 const PLACEHOLDER_PDF_BASE64 =
