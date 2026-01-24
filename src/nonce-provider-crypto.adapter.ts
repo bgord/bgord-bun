@@ -4,15 +4,8 @@ import { NonceValue, type NonceValueType } from "./nonce-value.vo";
 export class NonceProviderCryptoAdapter implements NonceProviderPort {
   generate(): NonceValueType {
     const buffer = new Uint8Array(8);
-
     crypto.getRandomValues(buffer);
 
-    // Stryker disable all
-    const nonce = Array.from(buffer)
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      // Stryker restore all
-      .join("");
-
-    return NonceValue.parse(nonce);
+    return NonceValue.parse(buffer.toHex());
   }
 }
