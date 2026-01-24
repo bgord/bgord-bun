@@ -2,14 +2,14 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { SecurityContext } from "../src/security-context.vo";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import * as mocks from "./mocks";
 
-const Logger = new LoggerNoopAdapter();
+const Logger = new LoggerCollectingAdapter();
 const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
