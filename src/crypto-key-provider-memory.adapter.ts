@@ -8,7 +8,7 @@ export class CryptoKeyProviderMemoryAdapter implements CryptoKeyProviderPort {
   async get(): Promise<CryptoKey> {
     return crypto.subtle.importKey(
       "raw",
-      EncryptionKey.fromString(this.ENCRYPTION_KEY_VALUE).toBuffer() as BufferSource,
+      EncryptionKey.fromString(this.ENCRYPTION_KEY_VALUE).toBytes() as BufferSource,
       { name: "AES-GCM" },
       false,
       ["encrypt", "decrypt"],

@@ -32,13 +32,13 @@ describe("EncryptionKey VO", () => {
     expect(() => EncryptionKey.fromBuffer(new Uint8Array(31))).toThrow("encryption.key.invalid.buffer");
   });
 
-  test("toBuffer", () => {
-    expect(EncryptionKey.fromStringSafe(HEX).toBuffer()).toEqual(BUFFER);
+  test("toBytes", () => {
+    expect(EncryptionKey.fromStringSafe(HEX).toBytes()).toEqual(BUFFER);
   });
 
   test("back and forth", () => {
     const key = EncryptionKey.fromStringSafe(HEX);
-    const buffer = key.toBuffer();
+    const buffer = key.toBytes();
 
     expect(key.equals(EncryptionKey.fromBuffer(buffer))).toEqual(true);
   });

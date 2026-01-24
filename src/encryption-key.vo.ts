@@ -23,7 +23,7 @@ export class EncryptionKey {
     return this.value === another.value;
   }
 
-  toBuffer(): Uint8Array {
+  toBytes(): Uint8Array {
     return Uint8Array.from(Buffer.from(this.value, "hex"));
   }
 

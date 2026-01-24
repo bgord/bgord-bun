@@ -27,7 +27,7 @@ export class CryptoKeyProviderFileAdapter implements CryptoKeyProviderPort {
 
     return crypto.subtle.importKey(
       "raw",
-      encryptionKey.toBuffer() as BufferSource,
+      encryptionKey.toBytes() as BufferSource,
       { name: "AES-GCM" },
       false,
       ["encrypt", "decrypt"],
