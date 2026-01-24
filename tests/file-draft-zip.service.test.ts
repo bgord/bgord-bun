@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { Hono } from "hono";
 import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
 import * as mocks from "./mocks";
@@ -98,5 +99,28 @@ describe("FileDraftZip service", () => {
     expect(signature).toEqual("504b0304");
     expect(text).toContain(first);
     expect(text).toContain(second);
+  });
+
+  test("toResponse - endpoint", async () => {
+    const app = new Hono().get("/export", async () => {
+      return new FileDraftZip(bundle, [
+        new Draft(tools.Basename.parse("first.csv"), extension, "a"),
+        new Draft(tools.Basename.parse("second.csv"), extension, "b"),
+      ]).toResponse();
+    });
+
+    const response = await app.request("/export");
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get("content-type")).toEqual("application/zip");
+    expect(response.headers.get("content-disposition")).toEqual(`attachment; filename="${bundle}.zip"`);
+
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    const signature = bytes.subarray(0, 4).toHex();
+    const text = new TextDecoder().decode(bytes);
+
+    expect(signature).toEqual("504b0304");
+    expect(text).toContain("first.csv");
+    expect(text).toContain("second.csv");
   });
 });
