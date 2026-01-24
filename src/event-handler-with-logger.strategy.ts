@@ -12,7 +12,7 @@ export class EventHandlerWithLoggerStrategy implements EventHandlerStrategy {
 
   handle<T extends { name: z.infer<GenericEventSchema["shape"]["name"]> }>(fn: (event: T) => Promise<void>) {
     return async (event: T) => {
-      const stopwatch = new Stopwatch(this.deps);
+      const duration = new Stopwatch(this.deps);
 
       try {
         await fn(event);
@@ -21,7 +21,7 @@ export class EventHandlerWithLoggerStrategy implements EventHandlerStrategy {
           message: `Unknown ${event.name} event handler error`,
           component: "infra",
           operation: "event_handler",
-          metadata: { name: event.name, duration: stopwatch.stop() },
+          metadata: { name: event.name, duration: duration.stop() },
           error,
         });
       }

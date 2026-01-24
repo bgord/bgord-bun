@@ -16,7 +16,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
     const correlationId = this.deps.IdProvider.generate();
 
     return async () => {
-      const stopwatch = new Stopwatch(this.deps);
+      const duration = new Stopwatch(this.deps);
 
       try {
         this.deps.Logger.info({ message: `${uow.label} start`, correlationId, ...this.base });
@@ -26,7 +26,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
         this.deps.Logger.info({
           message: `${uow.label} success`,
           correlationId,
-          metadata: stopwatch.stop(),
+          metadata: duration.stop(),
           ...this.base,
         });
       } catch (error) {
@@ -34,7 +34,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
           message: `${uow.label} error`,
           correlationId,
           error,
-          metadata: stopwatch.stop(),
+          metadata: duration.stop(),
           ...this.base,
         });
       }

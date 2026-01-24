@@ -12,7 +12,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
   constructor(private readonly deps: Dependencies) {}
 
   async send(template: MailerTemplate): Promise<void> {
-    const stopwatch = new Stopwatch(this.deps);
+    const duration = new Stopwatch(this.deps);
 
     try {
       this.deps.Logger.info({ message: "Mailer attempt", metadata: template.toJSON(), ...this.base });
@@ -21,11 +21,11 @@ export class MailerWithLoggerAdapter implements MailerPort {
 
       this.deps.Logger.info({
         message: "Mailer success",
-        metadata: { template: template.toJSON(), duration: stopwatch.stop() },
+        metadata: { template: template.toJSON(), duration: duration.stop() },
         ...this.base,
       });
     } catch (error) {
-      this.deps.Logger.error({ message: "Mailer error", error, metadata: stopwatch.stop(), ...this.base });
+      this.deps.Logger.error({ message: "Mailer error", error, metadata: duration.stop(), ...this.base });
 
       throw error;
     }
