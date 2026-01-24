@@ -14,13 +14,12 @@ export class SealerAesGcmAdapter implements SealerPort {
 
   async seal(value: unknown): Promise<string> {
     const key = await this.deps.CryptoKeyProvider.get();
-
     const iv = EncryptionIV.generate();
+
     const plaintext = new TextEncoder().encode(JSON.stringify(value));
+    const encrypted = await CryptoAesGcm.encrypt(key, plaintext.buffer, iv);
 
-    const payload = await CryptoAesGcm.encrypt(key, plaintext.buffer, iv);
-
-    return SealerAesGcmAdapter.PREFIX + Buffer.from(payload).toString("base64");
+    return SealerAesGcmAdapter.PREFIX + encrypted.toBase64();
   }
 
   async unseal(value: string): Promise<unknown> {
@@ -31,8 +30,8 @@ export class SealerAesGcmAdapter implements SealerPort {
     const key = await this.deps.CryptoKeyProvider.get();
 
     const encrypted = Uint8Array.fromBase64(value.slice(SealerAesGcmAdapter.PREFIX.length));
-    const decrypted = await CryptoAesGcm.decrypt(key, encrypted);
+    const plaintext = await CryptoAesGcm.decrypt(key, encrypted);
 
-    return JSON.parse(new TextDecoder().decode(decrypted));
+    return JSON.parse(new TextDecoder().decode(plaintext));
   }
 }
