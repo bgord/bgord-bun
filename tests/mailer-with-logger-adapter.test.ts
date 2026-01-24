@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 import { MailerSubject } from "../src/mailer-subject.vo";
@@ -22,8 +22,6 @@ const message = {
 };
 const template = new MailerTemplate(config, message);
 
-const Logger = new LoggerNoopAdapter();
-
 describe("MailerWithLoggerAdapter", async () => {
   const inner = await MailerSmtpAdapter.build({
     SMTP_HOST: SmtpHost.parse("smtp.example.com"),
@@ -31,49 +29,50 @@ describe("MailerWithLoggerAdapter", async () => {
     SMTP_USER: SmtpUser.parse("user@example.com"),
     SMTP_PASS: SmtpPass.parse("password"),
   });
-  const deps = { Logger, inner };
-
-  const mailer = new MailerWithLoggerAdapter(deps);
 
   test("send - success", async () => {
     const sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
-    const loggerInfo = spyOn(Logger, "info");
+    const Logger = new LoggerCollectingAdapter();
+    const adapter = new MailerWithLoggerAdapter({ Logger, inner });
 
-    await mailer.send(template);
+    await adapter.send(template);
 
     expect(sendMail).toHaveBeenCalledWith(template);
-    expect(loggerInfo).toHaveBeenNthCalledWith(1, {
-      component: "infra",
-      message: "Mailer attempt",
-      metadata: template.toJSON(),
-      operation: "mailer",
-    });
-    expect(loggerInfo).toHaveBeenNthCalledWith(2, {
-      component: "infra",
-      message: "Mailer success",
-      metadata: { template: template.toJSON() },
-      operation: "mailer",
-    });
+    expect(Logger.entries).toEqual([
+      { component: "infra", message: "Mailer attempt", metadata: template.toJSON(), operation: "mailer" },
+      {
+        component: "infra",
+        message: "Mailer success",
+        metadata: { template: template.toJSON() },
+        operation: "mailer",
+      },
+    ]);
   });
 
   test("failure", async () => {
     const sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
-    const loggerError = spyOn(Logger, "error");
+    const Logger = new LoggerCollectingAdapter();
+    const adapter = new MailerWithLoggerAdapter({ Logger, inner });
 
-    expect(async () => mailer.send(template)).toThrow(mocks.IntentionalError);
+    expect(async () => adapter.send(template)).toThrow(mocks.IntentionalError);
     expect(sendMail).toHaveBeenCalledWith(template);
-    expect(loggerError).toHaveBeenCalledWith({
-      component: "infra",
-      message: "Mailer error",
-      operation: "mailer",
-      error: new Error(mocks.IntentionalError),
-    });
+    expect(Logger.entries).toEqual([
+      { component: "infra", message: "Mailer attempt", metadata: template.toJSON(), operation: "mailer" },
+      {
+        component: "infra",
+        message: "Mailer error",
+        operation: "mailer",
+        error: new Error(mocks.IntentionalError),
+      },
+    ]);
   });
 
   test("verfiy", async () => {
     const mailerSmtpVerify = spyOn(inner, "verify").mockImplementation(jest.fn());
+    const Logger = new LoggerCollectingAdapter();
+    const adapter = new MailerWithLoggerAdapter({ Logger, inner });
 
-    await mailer.verify();
+    await adapter.verify();
 
     expect(mailerSmtpVerify).toHaveBeenCalled();
   });
