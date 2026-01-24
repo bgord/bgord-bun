@@ -4,8 +4,8 @@ import type { HashContentStrategy } from "./hash-content.strategy";
 export class HashContentSha256Strategy implements HashContentStrategy {
   async hash(content: string): Promise<Hash> {
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(content));
-    const etag = Buffer.from(digest).toString("hex");
+    const hex = new Uint8Array(digest).toHex();
 
-    return Hash.fromString(etag);
+    return Hash.fromString(hex);
   }
 }
