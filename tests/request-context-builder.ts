@@ -16,6 +16,11 @@ export class RequestContextBuilder {
     return this;
   }
 
+  withMethod(method: string) {
+    this.method = method;
+    return this;
+  }
+
   withHeader(name: string, value: string) {
     this.headers.set(name, value);
     return this;
