@@ -17,7 +17,7 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
 
     const sharp = await this.load();
 
-    const pipeline = sharp(path);
+    const pipeline = sharp(path.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     const metadata = await pipeline.metadata();
