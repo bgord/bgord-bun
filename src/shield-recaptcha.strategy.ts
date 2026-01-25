@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import type { ShieldStrategy } from "./shield.strategy";
 
 export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
@@ -16,18 +17,18 @@ export class ShieldRecaptchaStrategy implements ShieldStrategy {
 
   constructor(private readonly config: RecaptchaVerifierConfigType) {}
 
-  verify = createMiddleware(async (context, next) => {
+  verify = createMiddleware(async (c, next) => {
     try {
-      const header = context.req.header("x-recaptcha-token");
-      const query = context.req.query("recaptchaToken");
-      const form = (await context.req.formData()).get("g-recaptcha-response")?.toString();
+      const context = new RequestContextAdapterHono(c);
+
+      const header = context.request.header("x-recaptcha-token");
+      const query = context.request.query().recaptchaToken;
+      const form = (await c.req.formData()).get("g-recaptcha-response")?.toString();
+      const remoteip = context.request.header("x-forwarded-for") ?? "";
 
       const token = header ?? query ?? form;
 
       if (!token) throw ShieldRecaptchaError;
-
-      // cSpell:ignore remoteip
-      const remoteip = context.req.header("x-forwarded-for") ?? "";
 
       const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
 
