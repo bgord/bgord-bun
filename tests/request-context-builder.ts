@@ -2,6 +2,7 @@ import type { RequestContext } from "../src/request-context.port";
 
 export class RequestContextBuilder {
   private path = "/";
+  private method = "";
   private headers = new Headers();
   private query: Record<string, string> = {};
   private cookies: Record<string, string> = {};
@@ -59,6 +60,7 @@ export class RequestContextBuilder {
     return {
       request: {
         path: this.path,
+        method: this.method,
         header: (name) => this.headers.get(name) ?? undefined,
         headers: () => this.headers,
         query: () => this.query,

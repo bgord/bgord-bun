@@ -10,6 +10,7 @@ export class RequestContextAdapterHono implements RequestContext {
   constructor(context: Context) {
     this.request = {
       path: context.req.path,
+      method: context.req.method,
       header: (name) => context.req.header(name),
       headers: () => context.req.raw.headers,
       query: () => context.req.query(),

@@ -3,6 +3,7 @@ import type { UUIDType } from "./uuid.vo";
 export interface RequestContext {
   readonly request: {
     readonly path: string;
+    readonly method: string;
     header(name: string): string | undefined;
     query(): Record<string, string>;
     cookie(name: string): string | undefined;
@@ -19,6 +20,10 @@ export interface RequestContext {
 
 export interface HasRequestPath {
   readonly request: { readonly path: string };
+}
+
+export interface HasRequestMethod {
+  readonly request: { readonly method: string };
 }
 
 export interface HasRequestHeader {
