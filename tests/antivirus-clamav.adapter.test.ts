@@ -8,14 +8,14 @@ const virus = new Uint8Array([0x45]);
 const adapter = new AntivirusClamavAdapter();
 
 describe("AntivirusClamavAdapter", () => {
-  test("clean - true", async () => {
+  test("scan - clean - true", async () => {
     const bunSpawn = spyOn(Bun, "spawn").mockImplementation(() => ({
       // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },
       exitCode: 0,
     }));
 
-    expect(await adapter.scanBytes(clean)).toEqual({ clean: true });
+    expect(await adapter.scan(clean)).toEqual({ clean: true });
     expect(bunSpawn).toHaveBeenCalledWith({
       cmd: ["clamscan", "--infected", "--no-summary", "--stdout", "-"],
       stderr: "pipe",
@@ -24,7 +24,7 @@ describe("AntivirusClamavAdapter", () => {
     });
   });
 
-  test("clean - false", async () => {
+  test("scan - clean - false", async () => {
     spyOn(Bun, "spawn").mockImplementation(() => ({
       // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },
@@ -33,16 +33,26 @@ describe("AntivirusClamavAdapter", () => {
       exitCode: 1,
     }));
 
-    expect(await adapter.scanBytes(virus)).toEqual({
+    expect(await adapter.scan(virus)).toEqual({
       clean: false,
       signature: "Eicar-Test-Signature",
     });
   });
 
-  test("ScanFailed", async () => {
+  test("scan - failure - missing stdin", async () => {
     // @ts-expect-error Partial access
-    spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }));
+    spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 0 }));
 
-    expect(async () => adapter.scanBytes(virus)).toThrow("antivirus.scan.failed");
+    expect(async () => adapter.scan(virus)).toThrow("antivirus.scan.failed");
+  });
+
+  test("scan - failure - exit code", async () => {
+    spyOn(Bun, "spawn").mockImplementation(() => ({
+      exitCode: 2,
+      // @ts-expect-error Partial access
+      stdin: { write: () => {}, end: () => {} },
+    }));
+
+    expect(async () => adapter.scan(virus)).toThrow("antivirus.scan.failed");
   });
 });
