@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { BetterAuthLogger } from "../src/better-auth-logger.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
@@ -22,12 +22,14 @@ describe("BetterAuthLogger", () => {
   test("warn", () => {
     const Logger = new LoggerCollectingAdapter();
     const service = new BetterAuthLogger({ Logger }).attach();
+    const loggerWarn = spyOn(Logger, "warn");
 
     service.log("warn", "User unavailable");
 
     expect(Logger.entries).toEqual([
       { component: "infra", message: "User unavailable", metadata: { args: [] }, operation: "better-auth" },
     ]);
+    expect(loggerWarn).toHaveBeenCalled();
   });
 
   test("error", () => {
