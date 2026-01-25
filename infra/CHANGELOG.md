@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-25 16:31 v1.10.0
+- 2026-01-25 16:31 86988e84 **1.10.0**
 - 2026-01-25 16:17 a62464f2 **step: update packages**
 - 2026-01-25 16:13 d062edef **fix: mutants in prereq veri translations**
 - 2026-01-25 16:12 dfa17950 **fix: mutants in graceful shutdown**
@@ -11,7 +13,9 @@
 - 2026-01-25 15:51 fb28fd5f **fix: mutants in user language**
 - 2026-01-25 15:49 83255f41 **fix: mutants in bots vo**
 - 2026-01-25 15:49 1799cfa0 **fix: mutants in request context hono**
+- 2026-01-25 15:17 f885ebae **docs: generate readme**
 - 2026-01-25 15:17 c104994f **step: update packages**
+- 2026-01-25 15:17 18ecebe7 **docs: generate CHANGELOG**
 - 2026-01-25 14:57 a5d64a5f **refactor: use request context in middlewares**
 - 2026-01-25 14:53 d511814a **refactor: use auth session reader in shield recaptcha**
 - 2026-01-25 14:52 c6b2222a **step: add with method to request context builder**
