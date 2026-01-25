@@ -38,9 +38,7 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
 
-    expect(async () => UserLanguageOHQ.get(userId)).toThrow(
-      Preferences.Ports.UserLanguagePreferenceError.Missing,
-    );
+    expect(async () => UserLanguageOHQ.get(userId)).toThrow("user.language.preference.missing");
   });
 
   test("UserLanguageResolverSystemDefaultFallback", async () => {
