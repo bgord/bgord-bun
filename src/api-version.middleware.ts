@@ -15,7 +15,7 @@ export class ApiVersion {
   static readonly HEADER_NAME = "api-version";
 
   static build = (deps: Dependencies) =>
-    createMiddleware(async (context, next) => {
+    createMiddleware(async (c, next) => {
       const resolver = new CacheSubjectApplicationResolver(
         [new CacheSubjectSegmentFixedStrategy("api-version")],
         deps,
@@ -25,7 +25,7 @@ export class ApiVersion {
       const build = await deps.CacheResolver.resolve(subject.hex, async () =>
         deps.BuildInfoRepository.extract(),
       );
-      context.res.headers.set(ApiVersion.HEADER_NAME, build.version.toString());
+      c.res.headers.set(ApiVersion.HEADER_NAME, build.version.toString());
       await next();
     });
 }

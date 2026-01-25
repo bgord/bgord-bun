@@ -1,16 +1,18 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 
 export type EtagVariables = { ETag: tools.ETag | null; WeakETag: tools.WeakETag | null };
 
 export class ETagExtractor {
-  static attach = createMiddleware<{ Variables: EtagVariables }>(async (context, next) => {
+  static attach = createMiddleware<{ Variables: EtagVariables }>(async (c, next) => {
     try {
-      const header = context.req.header(tools.ETag.IF_MATCH_HEADER_NAME);
+      const context = new RequestContextAdapterHono(c);
+      const header = context.request.header(tools.ETag.IF_MATCH_HEADER_NAME);
 
-      context.set("ETag", tools.ETag.fromHeader(header));
+      c.set("ETag", tools.ETag.fromHeader(header));
     } catch {
-      context.set("ETag", null);
+      c.set("ETag", null);
     }
 
     await next();

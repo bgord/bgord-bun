@@ -26,6 +26,5 @@ export class CorrelationStorage {
     return store.correlationId;
   }
 
-  static handle = () =>
-    createMiddleware(async (context, next) => CorrelationStorage.run(context.get("requestId"), next));
+  static handle = () => createMiddleware(async (c, next) => CorrelationStorage.run(c.get("requestId"), next));
 }

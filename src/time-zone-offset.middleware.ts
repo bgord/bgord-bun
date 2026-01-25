@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 
 export type TimeZoneOffsetVariables = { timeZoneOffset: tools.Duration };
 
@@ -8,12 +9,14 @@ export class TimeZoneOffset {
 
   static readonly DEFAULT = tools.Duration.Minutes(0);
 
-  static attach = createMiddleware(async (context, next) => {
-    const header = context.req.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME);
+  static attach = createMiddleware(async (c, next) => {
+    const context = new RequestContextAdapterHono(c);
+
+    const header = context.request.header(TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME);
     const offset = tools.TimeZoneOffsetValue.safeParse(header);
 
-    if (offset.success) context.set("timeZoneOffset", tools.Duration.Minutes(offset.data));
-    else context.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
+    if (offset.success) c.set("timeZoneOffset", tools.Duration.Minutes(offset.data));
+    else c.set("timeZoneOffset", TimeZoneOffset.DEFAULT);
 
     await next();
   });

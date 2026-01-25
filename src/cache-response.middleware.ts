@@ -22,15 +22,16 @@ export class CacheResponse {
     private readonly deps: Dependencies,
   ) {}
 
-  handle = createMiddleware(async (context, next) => {
+  handle = createMiddleware(async (c, next) => {
     if (!this.config.enabled) return next();
 
-    const subject = await this.config.resolver.resolve(new RequestContextAdapterHono(context));
+    const context = new RequestContextAdapterHono(c);
+    const subject = await this.config.resolver.resolve(context);
 
     const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject.hex, async () => {
       await next();
 
-      const response = context.res.clone();
+      const response = c.res.clone();
 
       return {
         body: await response.text(),
@@ -39,9 +40,9 @@ export class CacheResponse {
       };
     });
 
-    context.header(CacheResponse.CACHE_HIT_HEADER, result.source);
+    c.header(CacheResponse.CACHE_HIT_HEADER, result.source);
 
-    return context.newResponse(result.value.body, result.value.status, result.value.headers);
+    return c.newResponse(result.value.body, result.value.status, result.value.headers);
   });
 
   clear = createMiddleware(async (_, next) => {

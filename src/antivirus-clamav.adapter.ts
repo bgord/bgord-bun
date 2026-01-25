@@ -1,6 +1,5 @@
 import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from "./antivirus.port";
 
-// Stryker disable all
 export class AntivirusClamavAdapter implements AntivirusPort {
   private readonly signature = /:\s+(?<signature>.+)\s+FOUND\s*$/m;
 
@@ -33,4 +32,3 @@ export class AntivirusClamavAdapter implements AntivirusPort {
     throw new Error(AntivirusPortError.ScanFailed);
   }
 }
-// Stryker restore all
