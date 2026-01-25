@@ -1,5 +1,5 @@
 export function isPlainObject(value: unknown): value is Record<string | symbol, unknown> {
-  if (!value || typeof value !== "object") return false;
+  if (!value) return false;
 
   const prototype = Object.getPrototypeOf(value);
 
