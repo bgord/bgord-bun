@@ -1,9 +1,9 @@
-import type stream from "node:stream";
+import { text } from "node:stream/consumers";
 import { stringify } from "csv";
 import type { CsvColumnType, CsvRowType, CsvStringifierPort } from "./csv-stringifier.port";
 
 export class CsvStringifierAdapter implements CsvStringifierPort {
-  process(columns: CsvColumnType[], data: CsvRowType[]): stream.Transform {
-    return stringify(data, { header: true, columns });
+  async process(columns: CsvColumnType[], data: CsvRowType[]): Promise<string> {
+    return text(stringify(data, { header: true, columns }));
   }
 }

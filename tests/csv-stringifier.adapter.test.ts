@@ -1,9 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { text } from "node:stream/consumers";
 import { CsvStringifierAdapter } from "../src/csv-stringifier.adapter";
 
 describe("CsvStringifierAdapter", async () => {
-  test("happy path", async () => {
+  test("process", async () => {
     const columns = ["id", "name"];
     const data = [
       { id: 1, name: "Anne" },
@@ -11,11 +10,17 @@ describe("CsvStringifierAdapter", async () => {
     ];
     const strigifier = new CsvStringifierAdapter();
 
-    const result = await text(strigifier.process(columns, data));
-
-    expect(result).toEqualIgnoringWhitespace(`
+    expect(await strigifier.process(columns, data)).toEqualIgnoringWhitespace(`
       id, name
       1,Anne
       2, Bart`);
+  });
+
+  test("process - empty", async () => {
+    const columns = [];
+    const data = [];
+    const strigifier = new CsvStringifierAdapter();
+
+    expect(await strigifier.process(columns, data)).toEqualIgnoringWhitespace("");
   });
 });
