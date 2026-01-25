@@ -1,7 +1,9 @@
 # Changelog
+- 2026-01-25 19:07 4661e0cb **fix: path.get in image info sharp**
 ## 2026-01-25 18:18 v1.10.1
 - 2026-01-25 18:18 84ce0302 **1.10.1**
 - 2026-01-25 18:15 204b6617 **refactor: change csv stringier to return string**
+- 2026-01-25 17:18 f32efc4b **docs: generate CHANGELOG**
 - 2026-01-25 17:17 615b8fd0 **docs: generate CHANGELOG**
 ## 2026-01-25 16:31 v1.10.0
 - 2026-01-25 16:31 86988e84 **1.10.0**
