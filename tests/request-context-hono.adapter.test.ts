@@ -14,6 +14,16 @@ describe("RequestContextAdapterHono", () => {
     expect(await response.json()).toEqual({ path: "/test" });
   });
 
+  test("method", async () => {
+    const app = new Hono().get("/test", (context) =>
+      context.json({ method: new RequestContextAdapterHono(context).request.method }),
+    );
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ method: "GET" });
+  });
+
   test("header", async () => {
     const app = new Hono().get("/test", (context) =>
       context.json({ header: new RequestContextAdapterHono(context).request.header("accept") }),
@@ -22,6 +32,16 @@ describe("RequestContextAdapterHono", () => {
     const response = await app.request("/test", { headers: { accept: "application/json" } });
 
     expect(await response.json()).toEqual({ header: "application/json" });
+  });
+
+  test("headers", async () => {
+    const app = new Hono().get("/test", (context) =>
+      context.json({ headers: new RequestContextAdapterHono(context).request.headers() }),
+    );
+
+    const response = await app.request("/test", { headers: { accept: "application/json" } });
+
+    expect(await response.json()).toEqual({ headers: new Headers({ accept: "application/json" }).toJSON() });
   });
 
   test("query", async () => {
