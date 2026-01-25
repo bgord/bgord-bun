@@ -1,7 +1,149 @@
 # Changelog
+- 2026-01-25 16:17 a62464f2 **step: update packages**
+- 2026-01-25 16:13 d062edef **fix: mutants in prereq veri translations**
+- 2026-01-25 16:12 dfa17950 **fix: mutants in graceful shutdown**
+- 2026-01-25 16:11 ead6696a **fix: mutants in file draft zip**
+- 2026-01-25 16:09 9f42d918 **fix: mutants in better auth logger**
+- 2026-01-25 16:07 2ce253f8 **refactor: simplify is-plain-object**
+- 2026-01-25 16:05 cb66273b **fix: mutants in file file copier**
+- 2026-01-25 16:03 a656a615 **fix: mutants in file reader text noop**
+- 2026-01-25 15:56 e5b385f2 **refactor: improve antivirus clamav tests**
+- 2026-01-25 15:51 fb28fd5f **fix: mutants in user language**
+- 2026-01-25 15:49 83255f41 **fix: mutants in bots vo**
+- 2026-01-25 15:49 1799cfa0 **fix: mutants in request context hono**
+- 2026-01-25 15:17 c104994f **step: update packages**
+- 2026-01-25 14:57 a5d64a5f **refactor: use request context in middlewares**
+- 2026-01-25 14:53 d511814a **refactor: use auth session reader in shield recaptcha**
+- 2026-01-25 14:52 c6b2222a **step: add with method to request context builder**
+- 2026-01-25 14:42 4d96f187 **refactor: use auth session reader in shield rate limit**
+- 2026-01-25 14:41 730e76a3 **step: use request context in shield csrf**
+- 2026-01-25 14:38 26657594 **step: add method in request context**
+- 2026-01-25 14:35 ae4d3356 **step: use request context in shield api key**
+- 2026-01-25 13:43 6982c43d **step: make better-auth optional**
+- 2026-01-25 13:37 cdf85667 **step: define auth session reader better auth adapter**
+- 2026-01-25 13:28 2842db57 **refactor: simplify shield auth**
+- 2026-01-25 13:28 1e8c06a9 **refactor: improve types**
+- 2026-01-25 13:18 dc38d650 **step: define auth session reader noop**
+- 2026-01-25 13:09 9c68deae **refactor: adjust shield auth tests**
+- 2026-01-25 13:01 fad6d243 **refactor: use auth session reader in shield auth**
+- 2026-01-25 12:57 53fd9f71 **step: define auth session reader port**
+- 2026-01-25 12:53 e2e9219e **step: define has request headers capability**
+- 2026-01-25 00:04 45780de6 **step: to response in endpoint**
+- 2026-01-24 23:59 ee4d65fb **step: improve tests**
+- 2026-01-24 23:46 cfa208c1 **step: add create - failure zip draft test**
+- 2026-01-24 23:34 66f56c09 **refactor: cleanup fle draaft zip**
+- 2026-01-24 23:30 b4cec066 **refactor: remove duplication**
+- 2026-01-24 23:24 0bc7ceb9 **refactor: tighten file draft zip types**
+- 2026-01-24 23:10 ffecf497 **refactor: adjust zip to match readable**
+- 2026-01-24 23:02 2502d9e2 **refactor: simplify draft body**
+- 2026-01-24 22:24 c2427a1f **step: add get headers**
+- 2026-01-24 22:22 92d56349 **step: add toResponse test**
+- 2026-01-24 22:09 44e3d017 **refactor: use uint8array in file draft zip**
+- 2026-01-24 21:40 0a0cd2e1 **refactor: unify with logger durations**
+- 2026-01-24 21:37 6cbc3a20 **refactor: improve mailer port**
+- 2026-01-24 20:55 fbf08b9d **step: define pdf generator with logger adapter**
+- 2026-01-24 20:53 26746f6a **refactor: improve noop pdf generator**
+- 2026-01-24 20:50 cb219889 **refactor: adjust pdf generator port**
+- 2026-01-24 20:46 c157bccd **refactor: improve clamav**
+- 2026-01-24 20:26 4110dece **refactor: use to hex in nonce provider crypto**
+- 2026-01-24 20:23 4329f93b **refactor: use uint8array in sealer**
+- 2026-01-24 20:09 20e25110 **refactor: improve tests**
+- 2026-01-24 20:06 851e353d **refactor: remove buffer.from usage**
+- 2026-01-24 19:48 5726582b **refactor: add readonly to encryption iv length**
+- 2026-01-24 19:39 e9a017e5 **refactor: rename from bytes**
+- 2026-01-24 19:37 22d51c45 **refactor: rename to bytes in encryption key vo**
+- 2026-01-24 19:33 5fcca242 **refactor: simplify encryption key from buffer**
+- 2026-01-24 19:28 6483a1af **refactor: use uint8array in hash content**
+- 2026-01-24 12:49 77adb168 **refactor: unfiy duration in log metadata**
+- 2026-01-24 12:45 fce0d01e **refactor: job handler with logger**
+- 2026-01-24 12:33 a14e663b **refactor: instrumentation**
+- 2026-01-24 12:30 51d82ae7 **refactor: security countermeasure ban**
+- 2026-01-24 12:22 d8dc3e49 **refactor: mailer with logger**
+- 2026-01-24 12:14 03a6f50d **refactor: security countermeasure tarpit**
+- 2026-01-24 12:12 61df6d3d **refactor: security countermeasure report**
+- 2026-01-24 12:11 92f62a58 **refactor: security countermeasure mirage**
+- 2026-01-24 12:07 f6e2571c **refactor: pdf generator noop**
+- 2026-01-24 12:06 3307b7d4 **refactor: remote file storage noop**
+- 2026-01-24 12:03 7d356531 **refactor: adjust prereq vo**
+- 2026-01-24 11:54 b1b82869 **refactor: use collecting logger in prereq with logger**
+- 2026-01-24 11:53 c014edcd **refactor: adjust logger collecting types**
+- 2026-01-24 11:23 d3df5747 **refactor: use collecting logger in preqreq startup runner**
+- 2026-01-24 11:17 73444f4d **refactor: use collecting logger in timeout runner with logger**
+- 2026-01-24 10:30 01410c4e **refactor: use collecting logger in event logger**
+- 2026-01-24 10:28 baa64fb5 **refactor: use collecting logger in event handler with logger**
+- 2026-01-24 10:26 b72f08cf **refactor: use collecting logger in command logger**
+- 2026-01-24 10:25 7f58b770 **refactor: use collecting logger in better auth logger**
+- 2026-01-24 10:17 a321f5a2 **step: add collecting logger**
+- 2026-01-24 10:10 62e86218 **refactor: improve tests**
+- 2026-01-24 09:55 351112c5 **refactor: remove timeout runner error adapter**
+- 2026-01-24 09:53 10bc085f **refactor: remove woodchopper sink error strategy**
+- 2026-01-23 20:46 4fb0ad69 **step: add woodchopper diagnostics noop**
+- 2026-01-23 20:44 1739f3ec **step: add woodchopper sink noop**
+- 2026-01-23 20:43 6a2bc2ef **refactor: rename noop woodchoper strategies to collecting**
+- 2026-01-23 20:27 09b8d9d1 **refactor: remove gzip stream adapter**
+- 2026-01-23 20:05 643d348a **refactor: improve to be instanceof**
+- 2026-01-23 20:04 19048f3e **refactor: improve new error in tests**
+- 2026-01-23 19:53 c64349b3 **step: add directory ensurer**
+- 2026-01-23 19:40 68bd1e7d **step: use file copier in remote file storage disk**
+- 2026-01-23 19:26 2532206e **step: add file copier**
+- 2026-01-23 18:55 61447969 **refactor: adjust temporary file absolute adapter**
+- 2026-01-23 18:45 169799c1 **refactor: adjust encryption aes gcm adapter**
+- 2026-01-23 18:37 50362db9 **refactor: adjust gzip adapter**
+- 2026-01-23 18:31 d5c574e2 **step: add file writer**
+- 2026-01-23 16:45 560422d8 **refactor: use file reader raw in encryption aes gcm**
+- 2026-01-23 16:30 f5b3eee3 **refactor: use file reader raw in gzip adapter**
+- 2026-01-23 16:19 1eb32858 **step: add file reader raw with cache**
+- 2026-01-23 16:15 d66db472 **step: add file reader raw forgiving**
+- 2026-01-23 16:09 087d2ab8 **step: add file reader raw adapter**
+- 2026-01-23 16:08 ba3c1a7f **step: add file reader raw noop**
+- 2026-01-23 16:04 1431d809 **step: add file reader raw port**
+- 2026-01-23 14:47 1a51548f **refactor: use last modified in hash file sha256**
+- 2026-01-23 14:40 6a0d9cc0 **step: add last modifiex to file inspection adapter**
+- 2026-01-23 14:38 eb5b90a5 **refactor: cleanup file inspection adapter tests**
+- 2026-01-23 14:31 c80fcf05 **step: add last modifiex to file inspection noop**
+- 2026-01-23 14:24 95203164 **step: add last modified to file inspection port**
+- 2026-01-23 13:48 37795bc0 **step: use file inspection in hash file sha 256**
+- 2026-01-23 13:37 1975da9d **step: use file inspection in image info sharp**
+- 2026-01-23 13:33 5c5b5196 **step: add size to file inspection adapter**
+- 2026-01-23 13:23 690d283f **step: add size to file inspection noop**
+- 2026-01-23 13:20 f8c1e285 **step: add size to file inspection**
+- 2026-01-23 12:46 96312cfc **refactor: use fle reader text in hash file sha 256**
+- 2026-01-23 12:33 41325079 **refactor: use fle reader text in crypt key provider file**
+- 2026-01-23 12:23 2d71b6cf **step: add file reader text with cache**
+- 2026-01-23 12:20 11fa677d **step: add file reader text forgiving**
+- 2026-01-23 12:15 b5abe82c **step: add file reader text**
+- 2026-01-23 12:13 27c2e629 **step: ad noop text**
+- 2026-01-23 12:10 318de97d **step: add file reader text port**
+- 2026-01-23 12:02 2dfa2536 **refactor: adjust tests**
+- 2026-01-23 11:58 865c00a8 **step: use is directory in prereq veri dir**
+- 2026-01-23 11:46 f6966dc4 **step: add is directory to adapter**
+- 2026-01-23 11:43 460c385b **step: add is directory to noop**
+- 2026-01-23 11:41 7d2b21f5 **step: add is directory to port**
+- 2026-01-22 22:32 32cf934f **step: use can methods in prereq veri dir**
+- 2026-01-22 22:00 0be7477a **step: use can methods in prereq veri file**
+- 2026-01-22 21:43 0719348e **step: add access methods**
+- 2026-01-22 21:27 5553b08c **refactor: use file inspection port in encryption aes gcm**
+- 2026-01-22 21:21 74878a83 **refactor: use file inspection port in prereq veri file**
+- 2026-01-22 21:14 fc3b1ac5 **refactor: use file inspection port in crypto key provider file**
+- 2026-01-22 21:10 a298f726 **step: add file inspection adapter**
+- 2026-01-22 21:04 e767687d **step: add noop file inspection adapter**
+- 2026-01-22 21:00 09044039 **step: add file inspection port**
+- 2026-01-22 20:57 a2e28f37 **refactor: rename adapters naming**
+- 2026-01-22 19:34 95b280cc **refactor: describe ts-expect-error usages**
+- 2026-01-22 19:31 23481828 **refactor: remove unused type casting in tests**
+- 2026-01-22 19:22 9c24e09f **refactor: remove unused type casting in src**
+- 2026-01-22 19:10 1af803f6 **refactor: remove unused constructors**
+- 2026-01-22 19:09 93f2f7fb **refactor: simplify sqlite integrity check**
+- 2026-01-22 19:08 c231aeec **refactor: remove non null assertion**
+- 2026-01-22 19:07 b57dfa44 **refactor: remove unused constructors**
+- 2026-01-22 19:07 2236c3dc **refactor: remove unused catch errors**
+- 2026-01-22 19:05 2a3c9a84 **refactor: remove unused imports**
+- 2026-01-22 18:58 255ebcac **refactor: update duration handling**
+- 2026-01-22 18:55 6e7b7a1b **step: update packages**
 - 2026-01-22 15:04 69c5310c **refactor: remove hono import wherever possible**
 - 2026-01-22 15:02 8c88c85f **refactor: use capabilities**
 - 2026-01-22 14:50 48535b3b **step: add capabilities**
+- 2026-01-22 14:22 952ee944 **docs: generate CHANGELOG**
 - 2026-01-22 13:39 7f3b89f7 **refactor: simplify tests**
 - 2026-01-22 13:31 4fcf5386 **refactor: simplify request.query**
 - 2026-01-22 13:31 462e8349 **fix: chars in client ua**
