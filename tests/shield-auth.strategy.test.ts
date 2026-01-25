@@ -16,7 +16,7 @@ type Env = {
 
 describe("ShieldAuthStrategy", () => {
   test("attach", async () => {
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter(user, session);
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.attach)
@@ -31,7 +31,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("attach - missing session", async () => {
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter(null, null);
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.attach)
@@ -46,7 +46,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("verify - authenticated user", async () => {
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter(user, session);
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
@@ -63,7 +63,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("verify - guest user", async () => {
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter(null, null);
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
@@ -82,7 +82,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("reverse - guest user", async () => {
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter(null, null);
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
@@ -99,7 +99,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("reverse - authenticated user", async () => {
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter(user, session);
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {

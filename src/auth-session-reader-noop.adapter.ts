@@ -8,11 +8,12 @@ export class AuthSessionReaderNoopAdapter
   implements AuthSessionReaderPort<AuthSessionReaderNoopUserType, AuthSessionReaderNoopSessionType>
 {
   constructor(
-    private readonly user: AuthSessionReaderNoopUserType | null,
-    private readonly session: AuthSessionReaderNoopSessionType | null,
+    private readonly auth:
+      | { user: AuthSessionReaderNoopUserType; session: AuthSessionReaderNoopSessionType }
+      | { user: null; session: null },
   ) {}
 
   async getSession(_context: HasRequestHeaders) {
-    return { user: this.user, session: this.session };
+    return this.auth;
   }
 }

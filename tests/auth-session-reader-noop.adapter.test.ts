@@ -9,13 +9,13 @@ describe("AuthSessionReaderNoop", () => {
     const user = { id: "user-123", email: "test@example.com" };
     const session = { id: "session-123" };
 
-    const adapter = new AuthSessionReaderNoopAdapter(user, session);
+    const adapter = new AuthSessionReaderNoopAdapter({ user, session });
 
     expect(await adapter.getSession(context)).toEqual({ user, session });
   });
 
   test("get session - signed out", async () => {
-    const adapter = new AuthSessionReaderNoopAdapter(null, null);
+    const adapter = new AuthSessionReaderNoopAdapter({ user: null, session: null });
 
     expect(await adapter.getSession(context)).toEqual({ user: null, session: null });
   });
