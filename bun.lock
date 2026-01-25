@@ -24,7 +24,7 @@
         "cspell": "9.6.0",
         "knip": "5.82.1",
         "lefthook": "2.0.15",
-        "lockfile-lint": "4.14.1",
+        "lockfile-lint": "5.0.0",
         "nodemailer": "7.0.12",
         "only-allow": "1.2.2",
         "resend": "6.8.0",
@@ -1027,7 +1027,7 @@
 
     "locate-path": ["locate-path@7.2.0", "", { "dependencies": { "p-locate": "^6.0.0" } }, "sha512-gvVijfZvn7R+2qyPX8mAuKcFGDf6Nc61GdvGafQsHL0sBIxfKzA+usWn4GFC/bk+QdwPUD4kWFJLhElipq+0VA=="],
 
-    "lockfile-lint": ["lockfile-lint@4.14.1", "", { "dependencies": { "cosmiconfig": "^9.0.0", "debug": "^4.3.4", "fast-glob": "^3.3.2", "lockfile-lint-api": "^5.9.2", "yargs": "^17.7.2" }, "bin": { "lockfile-lint": "bin/lockfile-lint.js" } }, "sha512-NW0Tk1qfldhbhJWQENYQWANdmlanXKxvTJYRYKn56INYjaP2M07Ua2SJYkUMS+ZbYwxDzul/C6pDsV/NEXrl+A=="],
+    "lockfile-lint": ["lockfile-lint@5.0.0", "", { "dependencies": { "cosmiconfig": "^9.0.0", "debug": "^4.3.4", "fast-glob": "^3.3.2", "lockfile-lint-api": "^5.9.2", "yargs": "^17.7.2" }, "bin": { "lockfile-lint": "bin/lockfile-lint.js" } }, "sha512-QcVIVITLZAhWYHU2wbNSOMgwc6EN4Y2sy6mjgS5aikYyRzgDIfotXUsCrm38En+3fZpc58Yu7DF9dNeT/goi1A=="],
 
     "lockfile-lint-api": ["lockfile-lint-api@5.9.2", "", { "dependencies": { "@yarnpkg/parsers": "^3.0.0-rc.48.1", "debug": "^4.3.4", "object-hash": "^3.0.0" } }, "sha512-3QhxWxl3jT9GcMxuCnTsU8Tz5U6U1lKBlKBu2zOYOz/x3ONUoojEtky3uzoaaDgExcLqIX0Aqv2I7TZXE383CQ=="],
 

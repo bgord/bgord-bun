@@ -31,7 +31,7 @@
     "cspell": "9.6.0",
     "knip": "5.82.1",
     "lefthook": "2.0.15",
-    "lockfile-lint": "4.14.1",
+    "lockfile-lint": "5.0.0",
     "nodemailer": "7.0.12",
     "only-allow": "1.2.2",
     "sharp": "0.34.5",
