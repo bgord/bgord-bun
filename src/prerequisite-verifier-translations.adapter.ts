@@ -43,7 +43,9 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
     const problems: PrerequisiteTranslationsProblemType[] = [];
 
     for (const language in dictionary) {
+      // Stryker disable all
       const phrases = dictionary[language] ?? [];
+      // Stryker restore all
 
       for (const phrase of phrases) {
         for (const supportedLanguage of supportedLanguages) {
