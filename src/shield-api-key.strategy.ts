@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import type { ShieldStrategy } from "./shield.strategy";
 
 type ApiKeyShieldConfigType = { API_KEY: tools.ApiKeyType };
@@ -12,9 +13,10 @@ export class ShieldApiKeyStrategy implements ShieldStrategy {
 
   constructor(private readonly config: ApiKeyShieldConfigType) {}
 
-  verify = createMiddleware(async (context, next) => {
-    if (context.req.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY) return next();
+  verify = createMiddleware(async (c, next) => {
+    const context = new RequestContextAdapterHono(c);
 
+    if (context.request.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY) return next();
     throw ShieldApiKeyError;
   });
 }
