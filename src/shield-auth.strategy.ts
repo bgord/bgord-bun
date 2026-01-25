@@ -15,12 +15,6 @@ export class ShieldAuthStrategy<User, Session> {
     const context = new RequestContextAdapterHono(c);
     const auth = await this.deps.AuthSessionReader.getSession(context);
 
-    if (!auth) {
-      c.set("user", null);
-      c.set("session", null);
-      return next();
-    }
-
     c.set("user", auth.user);
     c.set("session", auth.session);
     return next();
