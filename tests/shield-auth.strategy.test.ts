@@ -1,32 +1,23 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import type { AuthSessionReaderPort } from "../src/auth-session-reader.port";
-import type { HasRequestHeaders } from "../src/request-context.port";
+import {
+  AuthSessionReaderNoopAdapter,
+  type AuthSessionReaderNoopSessionType,
+  type AuthSessionReaderNoopUserType,
+} from "../src/auth-session-reader-noop.adapter";
 import { ShieldAuthStrategy } from "../src/shield-auth.strategy";
-
-type User = { id: string; email: string };
-type Session = { id: string };
-
-class AuthSessionReaderNoop implements AuthSessionReaderPort<User, Session> {
-  async getSession(_context: HasRequestHeaders) {
-    return { user: null, session: null };
-  }
-}
 
 const user = { id: "user-123", email: "test@example.com" };
 const session = { id: "session-123" };
 
-class AuthSessionReader implements AuthSessionReaderPort<User, Session> {
-  async getSession(_context: HasRequestHeaders) {
-    return { user, session };
-  }
-}
-
-type Env = { Variables: { user: User | null; session: Session | null } };
+type Env = {
+  Variables: { user: AuthSessionReaderNoopUserType | null; session: AuthSessionReaderNoopSessionType | null };
+};
 
 describe("ShieldAuthStrategy", () => {
   test("attach", async () => {
-    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReader() });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter(user, session);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.attach)
       .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
@@ -40,7 +31,8 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("attach - missing session", async () => {
-    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReaderNoop() });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter(null, null);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.attach)
       .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
@@ -54,7 +46,8 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("verify - authenticated user", async () => {
-    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReader() });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter(user, session);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", user);
@@ -70,7 +63,8 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("verify - guest user", async () => {
-    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReaderNoop() });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter(null, null);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", null);
@@ -88,7 +82,8 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("reverse - guest user", async () => {
-    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReaderNoop() });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter(null, null);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", null);
@@ -104,7 +99,8 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("reverse - authenticated user", async () => {
-    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReader() });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter(user, session);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", user);

@@ -3,6 +3,7 @@ export * from "./antivirus-clamav.adapter";
 export * from "./antivirus-noop.adapter";
 export * from "./api-version.middleware";
 export * from "./auth-session-reader.port";
+export * from "./auth-session-reader-noop.adapter";
 export * from "./basic-auth.service";
 export * from "./basic-auth-password.vo";
 export * from "./basic-auth-username.vo";
