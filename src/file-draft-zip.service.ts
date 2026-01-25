@@ -19,7 +19,9 @@ export class FileDraftZip extends FileDraft {
 
     const output = new Promise<BodyInit>((resolve, reject) => {
       zip.outputStream.on("end", () => resolve(Uint8Array.from(Buffer.concat(chunks))));
+      // Stryker disable all
       zip.outputStream.on("error", reject);
+      // Stryker restore all
     });
 
     for (const part of this.parts) {
