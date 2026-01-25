@@ -26,7 +26,7 @@ export interface HasRequestHeader {
 }
 
 export interface HasRequestHeaders {
-  readonly request: { headers: Headers };
+  readonly request: { headers: () => Headers };
 }
 
 export interface HasRequestQuery {

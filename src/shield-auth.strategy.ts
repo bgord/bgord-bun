@@ -1,24 +1,28 @@
-import type { betterAuth } from "better-auth";
 import type hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
+import type { AuthSessionReaderPort } from "./auth-session-reader.port";
+import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+
+type Dependencies<User, Session> = { AuthSessionReader: AuthSessionReaderPort<User, Session> };
 
 export const ShieldAuthError = new HTTPException(403, { message: "shield.auth" });
 
-export class ShieldAuthStrategy {
-  constructor(private readonly Auth: ReturnType<typeof betterAuth>) {}
+export class ShieldAuthStrategy<User, Session> {
+  constructor(private readonly deps: Dependencies<User, Session>) {}
 
   attach = createMiddleware(async (c: hono.Context, next: hono.Next) => {
-    const session = await this.Auth.api.getSession({ headers: c.req.raw.headers });
+    const context = new RequestContextAdapterHono(c);
+    const auth = await this.deps.AuthSessionReader.getSession(context);
 
-    if (!session) {
+    if (!auth) {
       c.set("user", null);
       c.set("session", null);
       return next();
     }
 
-    c.set("user", session.user);
-    c.set("session", session.session);
+    c.set("user", auth.user);
+    c.set("session", auth.session);
     return next();
   });
 
