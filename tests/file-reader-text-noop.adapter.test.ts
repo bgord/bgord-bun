@@ -23,4 +23,11 @@ describe("FileReaderTextNoopAdapter", () => {
 
     expect(await adapter.read(path)).toEqual(content);
   });
+
+  test("default text", async () => {
+    const path = "package.txt";
+    const adapter = new FileReaderTextNoopAdapter();
+
+    expect(await adapter.read(path)).toEqual("");
+  });
 });
