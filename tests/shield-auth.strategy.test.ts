@@ -1,21 +1,32 @@
-import { describe, expect, spyOn, test } from "bun:test";
-import type { betterAuth } from "better-auth";
+import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
+import type { AuthSessionReaderPort } from "../src/auth-session-reader.port";
+import type { HasRequestHeaders } from "../src/request-context.port";
 import { ShieldAuthStrategy } from "../src/shield-auth.strategy";
 
-const session = { id: "session-123" };
+type User = { id: string; email: string };
+type Session = { id: string };
+
+class AuthSessionReaderNoop implements AuthSessionReaderPort<User, Session> {
+  async getSession(_context: HasRequestHeaders) {
+    return { user: null, session: null };
+  }
+}
+
 const user = { id: "user-123", email: "test@example.com" };
+const session = { id: "session-123" };
 
-const auth = { api: { getSession: () => Promise.resolve(null) } } as unknown as ReturnType<typeof betterAuth>;
+class AuthSessionReader implements AuthSessionReaderPort<User, Session> {
+  async getSession(_context: HasRequestHeaders) {
+    return { user, session };
+  }
+}
 
-const strategy = new ShieldAuthStrategy(auth);
-
-type Env = { Variables: { user: typeof user | null; session: typeof session | null } };
+type Env = { Variables: { user: User | null; session: Session | null } };
 
 describe("ShieldAuthStrategy", () => {
   test("attach", async () => {
-    // @ts-expect-error TODO
-    const getSessionSpy = spyOn(auth.api, "getSession").mockResolvedValue({ session, user });
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReader() });
     const app = new Hono<Env>()
       .use(strategy.attach)
       .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
@@ -26,11 +37,10 @@ describe("ShieldAuthStrategy", () => {
     expect(response.status).toEqual(200);
     expect(json.user).toEqual(user);
     expect(json.session).toEqual(session);
-    expect(getSessionSpy).toHaveBeenCalledWith({ headers: expect.any(Headers) });
   });
 
   test("attach - missing session", async () => {
-    spyOn(auth.api, "getSession").mockResolvedValue(null);
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReaderNoop() });
     const app = new Hono<Env>()
       .use(strategy.attach)
       .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
@@ -44,6 +54,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("verify - authenticated user", async () => {
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReader() });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", user);
@@ -59,6 +70,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("verify - guest user", async () => {
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReaderNoop() });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", null);
@@ -76,6 +88,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("reverse - guest user", async () => {
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReaderNoop() });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", null);
@@ -91,6 +104,7 @@ describe("ShieldAuthStrategy", () => {
   });
 
   test("reverse - authenticated user", async () => {
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader: new AuthSessionReader() });
     const app = new Hono<Env>()
       .use(async (context, next) => {
         context.set("user", user);
