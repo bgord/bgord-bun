@@ -23,10 +23,11 @@ export class ShieldRateLimitStrategy implements ShieldStrategy {
     private readonly deps: Dependencies,
   ) {}
 
-  verify = createMiddleware(async (context, next) => {
+  verify = createMiddleware(async (c, next) => {
     if (!this.options.enabled) return next();
 
-    const subject = await this.options.resolver.resolve(new RequestContextAdapterHono(context));
+    const context = new RequestContextAdapterHono(c);
+    const subject = await this.options.resolver.resolve(context);
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject.hex,
