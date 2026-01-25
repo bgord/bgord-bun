@@ -7,6 +7,7 @@ export interface RequestContext {
     query(): Record<string, string>;
     cookie(name: string): string | undefined;
     json(): Promise<Record<string, unknown>>;
+    headers: () => Headers;
   };
 
   readonly identity: {
@@ -22,6 +23,10 @@ export interface HasRequestPath {
 
 export interface HasRequestHeader {
   readonly request: { header(name: string): string | undefined };
+}
+
+export interface HasRequestHeaders {
+  readonly request: { headers: Headers };
 }
 
 export interface HasRequestQuery {

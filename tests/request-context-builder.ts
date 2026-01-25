@@ -20,6 +20,11 @@ export class RequestContextBuilder {
     return this;
   }
 
+  withHeaders(headers: { name: string; value: string }[]) {
+    headers.forEach((candidate) => this.headers.append(candidate.name, candidate.value));
+    return this;
+  }
+
   withJson(json: Record<string, unknown>) {
     this.json = json;
     return this;
@@ -55,6 +60,7 @@ export class RequestContextBuilder {
       request: {
         path: this.path,
         header: (name) => this.headers.get(name) ?? undefined,
+        headers: () => this.headers,
         query: () => this.query,
         cookie: (name) => this.cookies[name],
         json: async () => this.json,

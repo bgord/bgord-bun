@@ -11,6 +11,7 @@ export class RequestContextAdapterHono implements RequestContext {
     this.request = {
       path: context.req.path,
       header: (name) => context.req.header(name),
+      headers: () => context.req.raw.headers,
       query: () => context.req.query(),
       cookie: (name) => getCookie(context)[name],
       json: async () => {
