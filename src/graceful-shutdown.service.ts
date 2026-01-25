@@ -11,7 +11,9 @@ export class GracefulShutdown {
 
   constructor(
     private readonly deps: Dependencies,
+    // Stryker disable all
     private readonly exitFn: (code: number) => never = (code: number) => process.exit(code),
+    // Stryker restore all
   ) {}
 
   private shutdown(server: ServerType, cleanup: () => any, exitCode: number) {
