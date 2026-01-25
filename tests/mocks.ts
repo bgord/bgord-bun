@@ -190,3 +190,24 @@ export const GenericSecurityViolationDetectedBanDenyWithoutContextEvent = {
 export async function tick() {
   await Promise.resolve();
 }
+
+export const user = {
+  id: "user-1",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  email: "a@b.c",
+  emailVerified: true,
+  name: "User",
+  image: null,
+};
+
+export const session = {
+  id: "session-1",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  userId: "user-1",
+  expiresAt: new Date(),
+  token: "token",
+  ipAddress: null,
+  userAgent: null,
+};
