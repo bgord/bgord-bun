@@ -35,6 +35,7 @@ const app = new Hono()
   .get("/ping", (c) => c.json({ message: "OK" }))
   .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
+  .get("/pang", (c) => c.json({ message: "general.unknown" }, 400))
   .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
 describe("HttpLogger middleware", () => {
@@ -78,13 +79,52 @@ describe("HttpLogger middleware", () => {
     });
   });
 
+  test("400", async () => {
+    const loggerHttp = spyOn(Logger, "http");
+    const loggerError = spyOn(Logger, "error");
+
+    const result = await app.request("/pang", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(400);
+    expect(loggerHttp).toHaveBeenCalledTimes(1);
+    expect(loggerHttp).toHaveBeenNthCalledWith(1, {
+      operation: "http_request_before",
+      component: "http",
+      correlationId: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+      message: "request",
+      method: "GET",
+      url: "http://localhost/pang",
+      client: { ip: mocks.ip },
+      metadata: { headers: {}, body: {}, params: {}, query: {} },
+    });
+    expect(loggerError).toHaveBeenCalledTimes(1);
+    expect(loggerError).toHaveBeenNthCalledWith(1, {
+      operation: "http_request_after",
+      component: "http",
+      correlationId: expect.stringMatching(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+      ),
+      message: "response",
+      method: "GET",
+      url: "http://localhost/pang",
+      status: 400,
+      durationMs: expect.any(Number),
+      client: { ip: mocks.ip },
+      cacheHit: false,
+      metadata: { response: { message: "general.unknown" } },
+    });
+  });
+
   test("500", async () => {
     const loggerHttp = spyOn(Logger, "http");
+    const loggerError = spyOn(Logger, "error");
 
     const result = await app.request("/pong", { method: "GET" }, mocks.connInfo);
 
     expect(result.status).toEqual(500);
-    expect(loggerHttp).toHaveBeenCalledTimes(2);
+    expect(loggerHttp).toHaveBeenCalledTimes(1);
     expect(loggerHttp).toHaveBeenNthCalledWith(1, {
       operation: "http_request_before",
       component: "http",
@@ -97,7 +137,8 @@ describe("HttpLogger middleware", () => {
       client: { ip: mocks.ip },
       metadata: { headers: {}, body: {}, params: {}, query: {} },
     });
-    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+    expect(loggerError).toHaveBeenCalledTimes(1);
+    expect(loggerError).toHaveBeenNthCalledWith(1, {
       operation: "http_request_after",
       component: "http",
       correlationId: expect.stringMatching(

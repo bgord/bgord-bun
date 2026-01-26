@@ -2,7 +2,7 @@ import { createMiddleware } from "hono/factory";
 import { CacheSourceEnum } from "./cache-resolver.strategy";
 import { CacheResponse } from "./cache-response.middleware";
 import type { ClockPort } from "./clock.port";
-import type { LoggerPort } from "./logger.port";
+import { type LoggerPort, LogLevelEnum } from "./logger.port";
 import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import { Stopwatch } from "./stopwatch.service";
 
@@ -76,7 +76,9 @@ export class HttpLogger {
 
       const response = c.res.clone();
 
-      deps.Logger.http({
+      const level = response.status >= 400 ? LogLevelEnum.error : LogLevelEnum.http;
+
+      deps.Logger[level]({
         component: "http",
         operation: "http_request_after",
         correlationId,
