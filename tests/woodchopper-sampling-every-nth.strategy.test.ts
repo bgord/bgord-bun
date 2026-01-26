@@ -15,11 +15,9 @@ const entryInfo = {
   timestamp: mocks.TIME_ZERO_ISO,
 };
 
-const everyTwo = tools.IntegerPositive.parse(2);
-
 describe("WoodchopperSamplingEveryNth", () => {
   test("decide - every n-th", () => {
-    const sampling = new WoodchopperSamplingEveryNth(everyTwo);
+    const sampling = new WoodchopperSamplingEveryNth({ n: tools.IntegerPositive.parse(2) });
 
     expect(sampling.decide(entryInfo)).toEqual(false);
     expect(sampling.decide(entryInfo)).toEqual(true);

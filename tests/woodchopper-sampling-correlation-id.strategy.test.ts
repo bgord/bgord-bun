@@ -26,11 +26,11 @@ const entryWithoutCorrelation = {
   correlationId: undefined,
 };
 
-const everyTwo = tools.IntegerPositive.parse(2);
+const two = tools.IntegerPositive.parse(2);
 
 describe("WoodchoperSamplingCorrelationId", () => {
   test("decide - determinism", () => {
-    const strategy = new WoodchoperSamplingCorrelationId(everyTwo);
+    const strategy = new WoodchoperSamplingCorrelationId({ everyNth: two });
 
     const first = strategy.decide(entryWithCorrelation);
     const second = strategy.decide(entryWithCorrelation);
@@ -41,7 +41,7 @@ describe("WoodchoperSamplingCorrelationId", () => {
   });
 
   test("decide - different entries", () => {
-    const strategy = new WoodchoperSamplingCorrelationId(everyTwo);
+    const strategy = new WoodchoperSamplingCorrelationId({ everyNth: two });
 
     const first = strategy.decide(entryWithCorrelation);
     const second = strategy.decide(entryWithDifferentCorrelation);
@@ -51,7 +51,7 @@ describe("WoodchoperSamplingCorrelationId", () => {
   });
 
   test("decide - false - no correlation id", () => {
-    const strategy = new WoodchoperSamplingCorrelationId(everyTwo);
+    const strategy = new WoodchoperSamplingCorrelationId({ everyNth: two });
 
     expect(strategy.decide(entryWithoutCorrelation)).toEqual(false);
   });
