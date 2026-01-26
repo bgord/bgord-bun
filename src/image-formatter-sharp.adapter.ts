@@ -3,19 +3,38 @@ import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
 
+export const ImageFormatterSharpAdapterError = {
+  MissingDependency: "image.formatter.sharp.adapter.error.missing.dependency",
+};
+
 type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
+type SharpConstructor = typeof import("sharp");
 
 export class ImageFormatterSharpAdapter implements ImageFormatterPort {
-  constructor(private readonly deps: Dependencies) {}
+  constructor(
+    private readonly sharp: SharpConstructor,
+    private readonly deps: Dependencies,
+  ) {}
 
-  private async load() {
+  static async build(deps: Dependencies): Promise<ImageFormatterSharpAdapter> {
+    return new ImageFormatterSharpAdapter(await ImageFormatterSharpAdapter.resolve(), deps);
+  }
+
+  private static async resolve(): Promise<SharpConstructor> {
+    try {
+      return await ImageFormatterSharpAdapter.import();
+    } catch {
+      throw new Error(ImageFormatterSharpAdapterError.MissingDependency);
+    }
+  }
+
+  static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return (await import(name)).default;
+
+    return import(name) as Promise<SharpConstructor>;
   }
 
   async format(recipe: ImageFormatterStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
-    const sharp = await this.load();
-
     const final =
       recipe.strategy === "output_path"
         ? recipe.output
@@ -26,7 +45,7 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     const extension = final.getFilename().getExtension();
     const encoder = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
-    const pipeline = sharp(recipe.input.get());
+    const pipeline = this.sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.toFormat(encoder).toFile(temporary.get());
