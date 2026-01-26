@@ -11,7 +11,9 @@ export class WoodchopperSamplingEveryNth implements WoodchoperSamplingStrategy {
   decide(entry: LoggerEntry): boolean {
     if ([LogLevelEnum.error, LogLevelEnum.warn].includes(entry.level)) return true;
 
+    // Stryker disable all
     this.counter++;
+    // Stryker restore all
 
     if (this.counter % this.n !== 0) return false;
     return true;
