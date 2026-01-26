@@ -1,4 +1,4 @@
-import type nodemailer from "nodemailer";
+import type * as Nodemailer from "nodemailer";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 import type { SmtpHostType } from "./smtp-host.vo";
@@ -18,7 +18,7 @@ type MailerConfigType = {
 };
 
 export class MailerSmtpAdapter implements MailerPort {
-  private constructor(readonly transport: nodemailer.Transporter) {}
+  private constructor(readonly transport: Nodemailer.Transporter) {}
 
   static async build(config: MailerConfigType): Promise<MailerSmtpAdapter> {
     const library = await MailerSmtpAdapter.resolve();
@@ -44,7 +44,8 @@ export class MailerSmtpAdapter implements MailerPort {
 
   static async import() {
     const name = "nodem" + "ailer"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name);
+
+    return import(name) as Promise<typeof Nodemailer>;
   }
 
   async send(template: MailerTemplate): Promise<void> {
