@@ -10,6 +10,8 @@ export const ImageProcessorSharpAdapterError = {
 
 type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
 type SharpConstructor = typeof import("sharp");
+type SharpCallable = typeof sharp;
+type SharpModule = { default: SharpCallable };
 
 export class ImageProcessorSharpAdapter implements ImageProcessorPort {
   private static readonly DEFAULT_QUALITY = 85;

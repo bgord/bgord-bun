@@ -9,6 +9,8 @@ export const ImageCompressorSharpAdapterError = {
 
 type Dependencies = { FileRenamer: FileRenamerPort };
 type SharpConstructor = typeof import("sharp");
+type SharpCallable = typeof sharp;
+type SharpModule = { default: SharpCallable };
 
 export class ImageCompressorSharpAdapter implements ImageCompressorPort {
   private static readonly DEFAULT_QUALITY = 85;

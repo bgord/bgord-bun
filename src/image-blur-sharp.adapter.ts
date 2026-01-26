@@ -9,6 +9,8 @@ export const ImageBlurSharpAdapterError = {
 
 type Dependencies = { FileRenamer: FileRenamerPort };
 type SharpConstructor = typeof import("sharp");
+type SharpCallable = typeof sharp;
+type SharpModule = { default: SharpCallable };
 
 export class ImageBlurSharpAdapter implements ImageBlurPort {
   private constructor(
