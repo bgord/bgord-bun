@@ -20,7 +20,7 @@ const deps = { FileRenamer };
 describe("ImageResizerSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const rotate = spyOn(pipeline, "rotate");
     const resize = spyOn(pipeline, "resize");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -49,7 +49,7 @@ describe("ImageResizerSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const resize = spyOn(pipeline, "resize").mockReturnValue(pipeline);
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
@@ -76,7 +76,7 @@ describe("ImageResizerSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const rename = spyOn(FileRenamer, "rename");
@@ -98,7 +98,7 @@ describe("ImageResizerSharpAdapter", () => {
 
   test("output_path - jpg to jpeg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/a/in.jpeg");

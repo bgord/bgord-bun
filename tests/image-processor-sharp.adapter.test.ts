@@ -22,7 +22,7 @@ const deps = { FileCleaner, FileRenamer };
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const resize = spyOn(pipeline, "resize");
@@ -71,7 +71,7 @@ describe("ImageProcessorSharpAdapter", () => {
 
   test("in_place - same extension", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
 
@@ -94,7 +94,7 @@ describe("ImageProcessorSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const resize = spyOn(pipeline, "resize");

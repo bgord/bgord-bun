@@ -19,7 +19,7 @@ const deps = { FileRenamer };
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const rotate = spyOn(pipeline, "rotate");
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -44,7 +44,7 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -68,7 +68,7 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
@@ -89,7 +89,7 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
