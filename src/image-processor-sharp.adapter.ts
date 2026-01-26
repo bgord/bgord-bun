@@ -9,7 +9,6 @@ export const ImageProcessorSharpAdapterError = {
 };
 
 type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
-type SharpConstructor = typeof import("sharp");
 type SharpCallable = typeof sharp;
 type SharpModule = { default: SharpCallable };
 
