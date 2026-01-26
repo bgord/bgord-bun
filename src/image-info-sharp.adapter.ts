@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import type sharp from "sharp";
 import type { FileInspectionPort } from "./file-inspection.port";
 import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
 
@@ -7,11 +8,12 @@ export const ImageInfoSharpAdapterError = {
 };
 
 type Dependencies = { FileInspection: FileInspectionPort; MimeRegistry: tools.MimeRegistry };
-type SharpConstructor = typeof import("sharp");
+type SharpCallable = typeof sharp;
+type SharpModule = { default: SharpCallable };
 
 export class ImageInfoSharpAdapter implements ImageInfoPort {
   private constructor(
-    private readonly sharp: SharpConstructor,
+    private readonly sharp: SharpCallable,
     private readonly deps: Dependencies,
   ) {}
 
@@ -19,19 +21,19 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
     return new ImageInfoSharpAdapter(await ImageInfoSharpAdapter.resolve(), deps);
   }
 
-  private static async resolve(): Promise<SharpConstructor> {
+  private static async resolve(): Promise<SharpCallable> {
     try {
-      return await ImageInfoSharpAdapter.import();
+      const module = await ImageInfoSharpAdapter.import();
+      return module.default;
     } catch {
       throw new Error(ImageInfoSharpAdapterError.MissingDependency);
     }
   }
 
   // Stryker disable all
-  static async import(): Promise<SharpConstructor> {
+  static async import(): Promise<SharpModule> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<SharpConstructor>;
+    return import(name) as Promise<SharpModule>;
   }
   // Stryker restore all
 
