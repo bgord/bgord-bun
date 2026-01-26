@@ -1,18 +1,41 @@
 import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
-import { ZipFile } from "yazl";
 import { FileDraft } from "./file-draft.service";
 
+export const FileDraftZipError = {
+  MissingDependency: "file.draft.zip.error.missing.dependency",
+};
+
+type YazlLibrary = typeof import("yazl");
+
 export class FileDraftZip extends FileDraft {
-  constructor(
+  private constructor(
     basename: tools.BasenameType,
     private readonly parts: FileDraft[],
+    private readonly yazl: YazlLibrary,
   ) {
     super(basename, tools.Extension.parse("zip"), tools.Mimes.zip.mime);
   }
 
+  static async build(basename: tools.BasenameType, parts: FileDraft[]): Promise<FileDraftZip> {
+    return new FileDraftZip(basename, parts, await FileDraftZip.resolve());
+  }
+
+  private static async resolve(): Promise<YazlLibrary> {
+    try {
+      return await FileDraftZip.import();
+    } catch {
+      throw new Error(FileDraftZipError.MissingDependency);
+    }
+  }
+
+  static async import(): Promise<YazlLibrary> {
+    const name = "ya" + "zl"; // Bun does not resolve dynamic imports with a dynamic name
+    return import(name) as Promise<YazlLibrary>;
+  }
+
   async create(): Promise<BodyInit> {
-    const zip = new ZipFile();
+    const zip = new this.yazl.ZipFile();
     const chunks: Buffer[] = [];
 
     zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));

@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageBlurStrategy } from "../src/image-blur.port";
 import { ImageBlurSharpAdapter } from "../src/image-blur-sharp.adapter";
+import * as mocks from "./mocks";
 
 const pipeline = {
   rotate: () => pipeline,
@@ -101,5 +102,13 @@ describe("ImageBlurSharpAdapter", () => {
 
     expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(rename).toHaveBeenCalledWith(temporary, output);
+  });
+
+  test("missing dependency", async () => {
+    spyOn(ImageBlurSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(async () => ImageBlurSharpAdapter.build(deps)).toThrow(
+      "image.blur.sharp.adapter.error.missing.dependency",
+    );
   });
 });

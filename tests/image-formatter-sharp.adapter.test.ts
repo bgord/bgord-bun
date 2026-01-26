@@ -125,7 +125,7 @@ describe("ImageFormatterSharpAdapter", () => {
   test("missing dependency", async () => {
     spyOn(ImageFormatterSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(ImageFormatterSharpAdapter.build(deps)).rejects.toThrow(
+    expect(async () => ImageFormatterSharpAdapter.build(deps)).toThrow(
       "image.formatter.sharp.adapter.error.missing.dependency",
     );
   });

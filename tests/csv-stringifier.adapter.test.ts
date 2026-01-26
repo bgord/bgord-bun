@@ -28,6 +28,8 @@ describe("CsvStringifierAdapter", async () => {
   test("missing dependency", async () => {
     spyOn(CsvStringifierAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(CsvStringifierAdapter.build()).rejects.toThrow("csv.stringifier.adapter.error.missing.dependency");
+    expect(async () => CsvStringifierAdapter.build()).toThrow(
+      "csv.stringifier.adapter.error.missing.dependency",
+    );
   });
 });

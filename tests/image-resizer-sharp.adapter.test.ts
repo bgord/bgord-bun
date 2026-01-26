@@ -121,7 +121,7 @@ describe("ImageResizerSharpAdapter", () => {
   test("missing dependency", async () => {
     spyOn(ImageResizerSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(ImageResizerSharpAdapter.build(deps)).rejects.toThrow(
+    expect(async () => ImageResizerSharpAdapter.build(deps)).toThrow(
       "image.resizer.sharp.adapter.error.missing.dependency",
     );
   });

@@ -39,14 +39,14 @@
     "sharp": "0.34.5",
     "shellcheck": "4.1.0",
     "typescript": "5.9.3",
+    "yazl": "3.3.1",
     "zod": "4.3.6"
   },
   "dependencies": {
     "@bgord/tools": "1.3.10",
     "croner": "9.1.0",
     "hono": "4.11.5",
-    "node-cache": "5.1.2",
-    "yazl": "3.3.1"
+    "node-cache": "5.1.2"
   },
   "peerDependencies": {
     "better-auth": "1.4.17",
@@ -54,22 +54,26 @@
     "nodemailer": "7.0.12",
     "resend": "6.8.0",
     "sharp": "0.34.5",
+    "yazl": "3.3.1",
     "zod": "4.3.6"
   },
   "peerDependenciesMeta": {
-    "sharp": {
+    "better-auth": {
       "optional": true
     },
-    "resend": {
+    "csv": {
       "optional": true
     },
     "nodemailer": {
       "optional": true
     },
-    "better-auth": {
+    "resend": {
       "optional": true
     },
-    "csv": {
+    "sharp": {
+      "optional": true
+    },
+    "yazl": {
       "optional": true
     }
   }

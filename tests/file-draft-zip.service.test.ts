@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { FileDraft } from "../src/file-draft.service";
@@ -39,7 +39,7 @@ class FailingDraft extends FileDraft {
 
 describe("FileDraftZip service", () => {
   test("create", async () => {
-    const zip = new FileDraftZip(bundle, [
+    const zip = await FileDraftZip.build(bundle, [
       new Draft(first, extension, content),
       new Draft(second, extension, content),
     ]);
@@ -56,7 +56,7 @@ describe("FileDraftZip service", () => {
   });
 
   test("create - empty", async () => {
-    const zip = new FileDraftZip(bundle, []);
+    const zip = await FileDraftZip.build(bundle, []);
 
     const body = await zip.create();
     const bytes = new Uint8Array(await new Response(body).arrayBuffer());
@@ -66,13 +66,13 @@ describe("FileDraftZip service", () => {
   });
 
   test("create - failure", async () => {
-    const zip = new FileDraftZip(bundle, [new FailingDraft()]);
+    const zip = await FileDraftZip.build(bundle, [new FailingDraft()]);
 
     expect(async () => zip.create()).toThrow(mocks.IntentionalError);
   });
 
-  test("getHeaders", () => {
-    const zip = new FileDraftZip(bundle, [new Draft(first, extension, content)]);
+  test("getHeaders", async () => {
+    const zip = await FileDraftZip.build(bundle, [new Draft(first, extension, content)]);
 
     expect(zip.getHeaders().toJSON()).toEqual({
       "content-type": tools.Mimes.zip.mime.toString(),
@@ -81,7 +81,7 @@ describe("FileDraftZip service", () => {
   });
 
   test("toResponse", async () => {
-    const zip = new FileDraftZip(bundle, [
+    const zip = await FileDraftZip.build(bundle, [
       new Draft(first, extension, content),
       new Draft(second, extension, content),
     ]);
@@ -103,10 +103,12 @@ describe("FileDraftZip service", () => {
 
   test("toResponse - endpoint", async () => {
     const app = new Hono().get("/export", async () => {
-      return new FileDraftZip(bundle, [
+      const zip = await FileDraftZip.build(bundle, [
         new Draft(tools.Basename.parse("first.csv"), extension, "a"),
         new Draft(tools.Basename.parse("second.csv"), extension, "b"),
-      ]).toResponse();
+      ]);
+
+      return zip.toResponse();
     });
 
     const response = await app.request("/export");
@@ -122,5 +124,16 @@ describe("FileDraftZip service", () => {
     expect(signature).toEqual("504b0304");
     expect(text).toContain("first.csv");
     expect(text).toContain("second.csv");
+  });
+
+  test("missing dependency", async () => {
+    spyOn(FileDraftZip, "import").mockRejectedValue(mocks.IntentionalError);
+
+    expect(
+      FileDraftZip.build(bundle, [
+        new Draft(first, extension, content),
+        new Draft(second, extension, content),
+      ]),
+    ).rejects.toThrow("file.draft.zip.error.missing.dependency");
   });
 });

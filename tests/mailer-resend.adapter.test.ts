@@ -49,6 +49,8 @@ describe("MailerResendAdapter", async () => {
   test("missing dependency", async () => {
     spyOn(MailerResendAdapter, "import").mockRejectedValue(mocks.IntentionalError);
 
-    expect(MailerResendAdapter.build(smtp)).rejects.toThrow("mailer.resend.adapter.error.missing.dependency");
+    expect(async () => MailerResendAdapter.build(smtp)).toThrow(
+      "mailer.resend.adapter.error.missing.dependency",
+    );
   });
 });

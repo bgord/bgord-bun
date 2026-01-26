@@ -93,7 +93,7 @@ describe("ImageExifClearSharpAdapter", () => {
   test("missing dependency", async () => {
     spyOn(ImageExifClearSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(ImageExifClearSharpAdapter.build(deps)).rejects.toThrow(
+    expect(async () => ImageExifClearSharpAdapter.build(deps)).toThrow(
       "image.exif.clear.sharp.adapter.error.missing.dependency",
     );
   });
