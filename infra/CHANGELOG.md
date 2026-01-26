@@ -1,4 +1,13 @@
 # Changelog
+- 2026-01-26 14:17 300ae978 **refactor: adjust tests**
+- 2026-01-26 14:16 a89d941e **refactor: improve image adapter constructors**
+- 2026-01-26 14:13 5ce2d189 **step: add new sharp types**
+- 2026-01-26 14:13 57604b80 **refactor: remove unused sharp constructor type**
+- 2026-01-26 14:12 cc777d6e **step: add type sharp import**
+- 2026-01-26 14:11 5c7dcc60 **fix: image alpha sharp**
+- 2026-01-26 14:08 2047792e **fix: image info sharp**
+- 2026-01-26 13:58 3e90b78e **step: update packages**
+- 2026-01-26 13:55 e91c5304 **refactor: improve prereq veri port error message**
 ## 2026-01-26 12:57 v1.10.3
 - 2026-01-26 12:57 84ec7a52 **1.10.3**
 - 2026-01-26 12:56 c14ab14b **step: update packages**
@@ -10,6 +19,7 @@
 - 2026-01-26 12:11 1c231157 **refactor: unify image info**
 - 2026-01-26 12:07 99166306 **refactor: unify image resizer**
 - 2026-01-26 12:04 c479abb7 **refactor: constructors private**
+- 2026-01-26 11:57 c33f0f8e **docs: generate CHANGELOG**
 - 2026-01-26 11:56 b190f081 **docs: generate CHANGELOG**
 - 2026-01-26 11:49 447156db **refactor: unify image formatter**
 - 2026-01-26 11:43 7a119abe **refactor: unify image exif clear**
