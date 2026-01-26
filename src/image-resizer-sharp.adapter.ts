@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import type sharp from "sharp";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
