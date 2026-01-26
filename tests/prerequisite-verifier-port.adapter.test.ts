@@ -15,7 +15,7 @@ describe("PrerequisiteVerifierPortAdapter", () => {
   test("failure", async () => {
     const occupied = Bun.listen({ hostname: "::", port, socket: { data() {} } });
 
-    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure());
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(`${port} port occupied`));
 
     occupied.stop();
   });

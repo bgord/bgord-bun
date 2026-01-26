@@ -13,7 +13,9 @@ export class PrerequisiteVerifierPortAdapter implements PrerequisiteVerifierPort
     return new Promise((resolve) => {
       const server = net.createServer();
       server.listen(this.config.port, () => server.close(() => resolve(PrerequisiteVerification.success)));
-      server.on("error", () => resolve(PrerequisiteVerification.failure()));
+      server.on("error", () =>
+        resolve(PrerequisiteVerification.failure(`${this.config.port} port occupied`)),
+      );
     });
   }
 
