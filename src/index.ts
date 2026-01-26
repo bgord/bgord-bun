@@ -130,6 +130,7 @@ export * from "./file-uploader.middleware";
 export * from "./file-writer.adapter";
 export * from "./file-writer.port";
 export * from "./file-writer-noop.adapter";
+export * from "./fnv1a32.service";
 export * from "./graceful-shutdown.service";
 export * from "./gzip.adapter";
 export * from "./gzip.port";
