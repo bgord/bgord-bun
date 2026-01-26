@@ -2,19 +2,38 @@ import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
 
+export const ImageBlurSharpAdapterError = {
+  MissingDependency: "image.blur.sharp.adapter.error.missing.dependency",
+};
+
 type Dependencies = { FileRenamer: FileRenamerPort };
+type SharpConstructor = typeof import("sharp");
 
 export class ImageBlurSharpAdapter implements ImageBlurPort {
-  constructor(private readonly deps: Dependencies) {}
+  constructor(
+    private readonly sharp: SharpConstructor,
+    private readonly deps: Dependencies,
+  ) {}
 
-  private async load() {
+  static async build(deps: Dependencies): Promise<ImageBlurSharpAdapter> {
+    return new ImageBlurSharpAdapter(await ImageBlurSharpAdapter.resolve(), deps);
+  }
+
+  private static async resolve(): Promise<SharpConstructor> {
+    try {
+      return await ImageBlurSharpAdapter.import();
+    } catch {
+      throw new Error(ImageBlurSharpAdapterError.MissingDependency);
+    }
+  }
+
+  static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return (await import(name)).default;
+
+    return import(name) as Promise<SharpConstructor>;
   }
 
   async blur(recipe: ImageBlurStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
-    const sharp = await this.load();
-
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
     const filename = final.getFilename();
@@ -23,7 +42,7 @@ export class ImageBlurSharpAdapter implements ImageBlurPort {
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
-    const pipeline = sharp(recipe.input.get());
+    const pipeline = this.sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.rotate().blur(recipe.sigma).toFormat(format).toFile(temporary.get());

@@ -16,12 +16,10 @@ const pipeline = {
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileRenamer };
 
-const adapter = new ImageBlurSharpAdapter(deps);
-
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -30,6 +28,7 @@ describe("ImageBlurSharpAdapter", () => {
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageBlurStrategy = { strategy: "in_place", input };
+    const adapter = await ImageBlurSharpAdapter.build(deps);
 
     const result = await adapter.blur(recipe);
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-blurred.jpg");
@@ -40,13 +39,13 @@ describe("ImageBlurSharpAdapter", () => {
     expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
-    expect(sharp).toHaveBeenCalledWith(input.get());
+    expect(sharp).toHaveBeenCalledWith();
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    const sharp = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -55,6 +54,7 @@ describe("ImageBlurSharpAdapter", () => {
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 2.5 };
+    const adapter = await ImageBlurSharpAdapter.build(deps);
 
     const result = await adapter.blur(recipe);
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-blurred.webp");
@@ -64,19 +64,20 @@ describe("ImageBlurSharpAdapter", () => {
     expect(toFormat).toHaveBeenCalledWith("webp");
     expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
-    expect(sharp).toHaveBeenCalledWith(input.get());
+    expect(sharp).toHaveBeenCalledWith();
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
     const destroy = spyOn(pipeline, "destroy");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageBlurStrategy = { strategy: "in_place", input, sigma: 1 };
+    const adapter = await ImageBlurSharpAdapter.build(deps);
 
     const result = await adapter.blur(recipe);
     const temporary = tools.FilePathRelative.fromString("images/pic-blurred.png");
@@ -90,12 +91,13 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 0.7 };
+    const adapter = await ImageBlurSharpAdapter.build(deps);
 
     await adapter.blur(recipe);
     const temporary = tools.FilePathAbsolute.fromString("/x/out/photo-blurred.jpg");
