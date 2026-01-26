@@ -31,6 +31,7 @@ describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
     const sendMail = spyOn({ sendMail: async () => {} }, "sendMail");
     const createTransport = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
+      // @ts-expect-error Partial access
       createTransport: () => ({ sendMail }),
     });
     const mailer = await MailerSmtpAdapter.build(smtp);
@@ -43,6 +44,7 @@ describe("MailerSmtpAdapter", () => {
 
   test("verify - success", async () => {
     const verify = spyOn({ verify: async () => true }, "verify");
+    // @ts-expect-error Partial access
     spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport: () => ({ verify }) });
     const mailer = await MailerSmtpAdapter.build(smtp);
 
@@ -56,6 +58,7 @@ describe("MailerSmtpAdapter", () => {
       { createTransport: () => ({ sendMail: async () => {} }) },
       "createTransport",
     );
+    // @ts-expect-error Partial access
     spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport });
 
     await MailerSmtpAdapter.build(smtp);

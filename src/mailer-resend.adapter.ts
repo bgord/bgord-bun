@@ -33,7 +33,8 @@ export class MailerResendAdapter implements MailerPort {
 
   static async import() {
     const name = "res" + "end"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name);
+
+    return import(name) as Promise<typeof import("resend")>;
   }
 
   async send(template: MailerTemplate): Promise<void> {

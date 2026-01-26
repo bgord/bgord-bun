@@ -17,8 +17,8 @@ describe("CsvStringifierAdapter", async () => {
   });
 
   test("process - empty", async () => {
-    const columns = [];
-    const data = [];
+    const columns = [] as string[];
+    const data = [] as Record<string, any>[];
     const strigifier = new CsvStringifierAdapter();
 
     expect(await strigifier.process(columns, data)).toEqualIgnoringWhitespace("");

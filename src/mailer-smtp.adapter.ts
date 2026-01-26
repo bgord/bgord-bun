@@ -34,9 +34,7 @@ export class MailerSmtpAdapter implements MailerPort {
 
   private static async resolve() {
     try {
-      const library = await MailerSmtpAdapter.import();
-
-      return library;
+      return await MailerSmtpAdapter.import();
     } catch {
       throw new Error(MailerSmtpAdapterError.MissingDependency);
     }
