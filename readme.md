@@ -417,7 +417,8 @@ src/
 ├── woodchopper-sampling-composite.strategy.ts
 ├── woodchopper-sampling-correlation-id.strategy.ts
 ├── woodchopper-sampling-every-nth.strategy.ts
-├── woodchopper-sampling-passthrough.strategy.ts
+├── woodchopper-sampling-pass-component.strategy.ts
+├── woodchopper-sampling-pass-level.strategy.ts
 ├── woodchopper-sampling.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
