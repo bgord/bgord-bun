@@ -337,7 +337,6 @@ src/
 ├── retry-backoff-noop.strategy.ts
 ├── retry-backoff.strategy.ts
 ├── retry.service.ts
-├── safe-parse-body.service.ts
 ├── sealer-aes-gcm.adapter.ts
 ├── sealer-noop.adapter.ts
 ├── sealer.port.ts
