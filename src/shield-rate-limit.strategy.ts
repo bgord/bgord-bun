@@ -7,11 +7,7 @@ import type { ClockPort } from "./clock.port";
 import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 import type { ShieldStrategy } from "./shield.strategy";
 
-type ShieldRateLimitOptionsType = {
-  enabled: boolean;
-  resolver: CacheSubjectRequestResolver;
-  window: tools.Duration;
-};
+type ShieldRateLimitOptionsType = { resolver: CacheSubjectRequestResolver; window: tools.Duration };
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
@@ -24,8 +20,6 @@ export class ShieldRateLimitStrategy implements ShieldStrategy {
   ) {}
 
   verify = createMiddleware(async (c, next) => {
-    if (!this.options.enabled) return next();
-
     const context = new RequestContextAdapterHono(c);
     const subject = await this.options.resolver.resolve(context);
 

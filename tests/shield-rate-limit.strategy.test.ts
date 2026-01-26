@@ -28,7 +28,7 @@ const resolver = new CacheSubjectRequestResolver(
   deps,
 );
 
-const shieldRateLimit = new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps);
+const shieldRateLimit = new ShieldRateLimitStrategy({ resolver, window: ttl }, deps);
 
 const app = new Hono()
   .get("/ping", shieldRateLimit.verify, (c) => c.text("pong"))
@@ -87,7 +87,7 @@ describe("ShieldRateLimitStrategy", () => {
         context.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
+      new ShieldRateLimitStrategy({ resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -104,7 +104,7 @@ describe("ShieldRateLimitStrategy", () => {
         context.set("user", { id: "abc" });
         return next();
       },
-      new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
+      new ShieldRateLimitStrategy({ resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -124,7 +124,7 @@ describe("ShieldRateLimitStrategy", () => {
         context.set("user", { id: context.req.header("id") });
         return next();
       },
-      new ShieldRateLimitStrategy({ enabled: true, resolver, window: ttl }, deps).verify,
+      new ShieldRateLimitStrategy({ resolver, window: ttl }, deps).verify,
       (c) => c.text("pong"),
     );
 
@@ -144,19 +144,6 @@ describe("ShieldRateLimitStrategy", () => {
     const firstUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
 
     expect(firstUserSecondRequest.status).toEqual(200);
-
-    await CacheResolver.flush();
-  });
-
-  test("disabled", async () => {
-    const app = new Hono().get(
-      "/ping",
-      new ShieldRateLimitStrategy({ enabled: false, resolver, window: ttl }, deps).verify,
-      (c) => c.text("pong"),
-    );
-
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
     await CacheResolver.flush();
   });
