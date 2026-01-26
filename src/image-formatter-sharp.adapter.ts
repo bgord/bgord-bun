@@ -11,7 +11,7 @@ type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort
 type SharpConstructor = typeof import("sharp");
 
 export class ImageFormatterSharpAdapter implements ImageFormatterPort {
-  constructor(
+  private constructor(
     private readonly sharp: SharpConstructor,
     private readonly deps: Dependencies,
   ) {}

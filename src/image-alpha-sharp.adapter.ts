@@ -10,7 +10,7 @@ type Dependencies = { FileRenamer: FileRenamerPort };
 type SharpConstructor = typeof import("sharp");
 
 export class ImageAlphaSharpAdapter implements ImageAlphaPort {
-  constructor(
+  private constructor(
     private readonly sharp: SharpConstructor,
     private readonly deps: Dependencies,
   ) {}

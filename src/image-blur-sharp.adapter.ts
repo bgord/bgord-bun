@@ -10,7 +10,7 @@ type Dependencies = { FileRenamer: FileRenamerPort };
 type SharpConstructor = typeof import("sharp");
 
 export class ImageBlurSharpAdapter implements ImageBlurPort {
-  constructor(
+  private constructor(
     private readonly sharp: SharpConstructor,
     private readonly deps: Dependencies,
   ) {}
