@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-26 17:58 v1.10.8
+- 2026-01-26 17:58 db818a1f **1.10.8**
 - 2026-01-26 17:57 3c9ac65e **refactor: remove enabled flag from shield rate limit**
 ## 2026-01-26 17:53 v1.10.7
 - 2026-01-26 17:53 6a6a09d6 **1.10.7**
@@ -8,6 +10,7 @@
 - 2026-01-26 17:24 29cb2ff7 **fix: add missin correlation id sampling export**
 ## 2026-01-26 17:17 v1.10.5
 - 2026-01-26 17:17 877f783d **1.10.5**
+- 2026-01-26 16:58 2bdc9bc7 **docs: generate CHANGELOG**
 - 2026-01-26 16:57 5f810d4a **refactor: remove safe parse body**
 - 2026-01-26 16:53 2967d340 **docs: generate CHANGELOG**
 - 2026-01-26 16:52 b37c5441 **docs: generate CHANGELOG**
