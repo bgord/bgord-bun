@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageBlurStrategy } from "../src/image-blur.port";
 import { ImageBlurSharpAdapter } from "../src/image-blur-sharp.adapter";

@@ -2,22 +2,41 @@ import * as tools from "@bgord/tools";
 import type { FileInspectionPort } from "./file-inspection.port";
 import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
 
+export const ImageInfoSharpAdapterError = {
+  MissingDependency: "image.info.sharp.adapter.error.missing.dependency",
+};
+
 type Dependencies = { FileInspection: FileInspectionPort; MimeRegistry: tools.MimeRegistry };
+type SharpConstructor = typeof import("sharp");
 
 export class ImageInfoSharpAdapter implements ImageInfoPort {
-  constructor(private readonly deps: Dependencies) {}
+  private constructor(
+    private readonly sharp: SharpConstructor,
+    private readonly deps: Dependencies,
+  ) {}
 
-  private async load() {
+  static async build(deps: Dependencies): Promise<ImageInfoSharpAdapter> {
+    return new ImageInfoSharpAdapter(await ImageInfoSharpAdapter.resolve(), deps);
+  }
+
+  private static async resolve(): Promise<SharpConstructor> {
+    try {
+      return await ImageInfoSharpAdapter.import();
+    } catch {
+      throw new Error(ImageInfoSharpAdapterError.MissingDependency);
+    }
+  }
+
+  static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return (await import(name)).default;
+
+    return import(name) as Promise<SharpConstructor>;
   }
 
   async inspect(path: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
     const size = await this.deps.FileInspection.size(path);
 
-    const sharp = await this.load();
-
-    const pipeline = sharp(path.get());
+    const pipeline = this.sharp(path.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     const metadata = await pipeline.metadata();

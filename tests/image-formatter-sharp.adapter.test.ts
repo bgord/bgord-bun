@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageFormatterStrategy } from "../src/image-formatter.port";
