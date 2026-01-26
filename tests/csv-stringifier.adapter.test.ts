@@ -1,5 +1,6 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { CsvStringifierAdapter } from "../src/csv-stringifier.adapter";
+import * as mocks from "./mocks";
 
 describe("CsvStringifierAdapter", async () => {
   test("process", async () => {
@@ -8,7 +9,7 @@ describe("CsvStringifierAdapter", async () => {
       { id: 1, name: "Anne" },
       { id: 2, name: "Bart" },
     ];
-    const strigifier = new CsvStringifierAdapter();
+    const strigifier = await CsvStringifierAdapter.build();
 
     expect(await strigifier.process(columns, data)).toEqualIgnoringWhitespace(`
       id, name
@@ -19,8 +20,14 @@ describe("CsvStringifierAdapter", async () => {
   test("process - empty", async () => {
     const columns = [] as string[];
     const data = [] as Record<string, any>[];
-    const strigifier = new CsvStringifierAdapter();
+    const strigifier = await CsvStringifierAdapter.build();
 
     expect(await strigifier.process(columns, data)).toEqualIgnoringWhitespace("");
+  });
+
+  test("missing dependency", async () => {
+    spyOn(CsvStringifierAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(CsvStringifierAdapter.build()).rejects.toThrow("csv.stringifier.adapter.error.missing.dependency");
   });
 });
