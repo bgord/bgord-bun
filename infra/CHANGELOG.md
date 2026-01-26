@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-26 12:57 v1.10.3
+- 2026-01-26 12:57 84ec7a52 **1.10.3**
 - 2026-01-26 12:56 c14ab14b **step: update packages**
 - 2026-01-26 12:53 d8b16bf3 **step: suppress some mutations**
 - 2026-01-26 12:35 99c28532 **refactor: remove croner dependency**
@@ -8,6 +10,7 @@
 - 2026-01-26 12:11 1c231157 **refactor: unify image info**
 - 2026-01-26 12:07 99166306 **refactor: unify image resizer**
 - 2026-01-26 12:04 c479abb7 **refactor: constructors private**
+- 2026-01-26 11:56 b190f081 **docs: generate CHANGELOG**
 - 2026-01-26 11:49 447156db **refactor: unify image formatter**
 - 2026-01-26 11:43 7a119abe **refactor: unify image exif clear**
 - 2026-01-26 11:40 d4224fbe **refactor: unify image blur**
