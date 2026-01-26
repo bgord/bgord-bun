@@ -1,6 +1,10 @@
 # Changelog
+## 2026-01-26 17:17 v1.10.5
+- 2026-01-26 17:17 877f783d **1.10.5**
 - 2026-01-26 16:57 5f810d4a **refactor: remove safe parse body**
 - 2026-01-26 16:45 27391c7a **step: update packages**
+- 2026-01-26 16:16 89df2b0e **docs: generate readme**
+- 2026-01-26 16:16 28dcf22f **docs: generate CHANGELOG**
 - 2026-01-26 15:56 a4b7ffa8 **step: add correlation id sampling**
 - 2026-01-26 15:50 9239a5f4 **step: add fnv1a32 hashing algorithm**
 - 2026-01-26 15:46 d378a3b5 **docs: generate readme**
