@@ -342,6 +342,7 @@ export * from "./woodchopper-dispatcher-sync.strategy";
 export * from "./woodchopper-sampling.strategy";
 export * from "./woodchopper-sampling-composite.strategy";
 export * from "./woodchopper-sampling-correlation-id.strategy";
+export * from "./woodchopper-sampling-correlation-id.strategy";
 export * from "./woodchopper-sampling-every-nth.strategy";
 export * from "./woodchopper-sampling-passthrough.strategy";
 export * from "./woodchopper-sink.strategy";
