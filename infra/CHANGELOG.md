@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-26 14:20 v1.10.4
+- 2026-01-26 14:20 f2d19266 **1.10.4**
 - 2026-01-26 14:17 300ae978 **refactor: adjust tests**
 - 2026-01-26 14:16 a89d941e **refactor: improve image adapter constructors**
 - 2026-01-26 14:13 5ce2d189 **step: add new sharp types**
@@ -8,6 +10,7 @@
 - 2026-01-26 14:08 2047792e **fix: image info sharp**
 - 2026-01-26 13:58 3e90b78e **step: update packages**
 - 2026-01-26 13:55 e91c5304 **refactor: improve prereq veri port error message**
+- 2026-01-26 13:20 1ca0a731 **docs: generate CHANGELOG**
 ## 2026-01-26 12:57 v1.10.3
 - 2026-01-26 12:57 84ec7a52 **1.10.3**
 - 2026-01-26 12:56 c14ab14b **step: update packages**
