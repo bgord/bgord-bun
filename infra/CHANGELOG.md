@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-26 18:39 v1.10.9
+- 2026-01-26 18:39 b1df56ac **1.10.9**
 - 2026-01-26 18:37 636ccba0 **step: add sampling pass component strategy**
 - 2026-01-26 18:33 772c8015 **refactor: rename pass level**
 - 2026-01-26 18:31 14f6a55f **refactor: simplify redactor naming**
@@ -8,6 +10,8 @@
 - 2026-01-26 17:57 3c9ac65e **refactor: remove enabled flag from shield rate limit**
 ## 2026-01-26 17:53 v1.10.7
 - 2026-01-26 17:53 6a6a09d6 **1.10.7**
+- 2026-01-26 17:38 cd735147 **docs: generate readme**
+- 2026-01-26 17:38 b2b7f946 **docs: generate CHANGELOG**
 - 2026-01-26 17:35 14a1ccc7 **refactor: improve sampling configs**
 ## 2026-01-26 17:25 v1.10.6
 - 2026-01-26 17:25 73c9755a **1.10.6**
