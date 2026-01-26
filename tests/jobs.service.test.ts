@@ -1,5 +1,4 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { Cron } from "croner";
 import { Jobs } from "../src/jobs.service";
 
 describe("Jobs service", () => {
@@ -9,7 +8,7 @@ describe("Jobs service", () => {
   });
 
   test("stopAll", () => {
-    const job = new Cron(Jobs.SCHEDULES.EVERY_MINUTE);
+    const job = { stop: () => {}, isRunning: () => true };
     const jobStop = spyOn(job, "stop");
 
     Jobs.stopAll({ PassageOfTime: job });
@@ -18,7 +17,9 @@ describe("Jobs service", () => {
   });
 
   test("areAllRunning", () => {
-    const job = new Cron(Jobs.SCHEDULES.EVERY_MINUTE, {}, () => {});
+    let running = true;
+    // biome-ignore lint: lint/suspicious/noAssignInExpressions
+    const job = { stop: () => (running = false), isRunning: () => running };
 
     expect(Jobs.areAllRunning({ PassageOfTime: job })).toEqual(true);
 
