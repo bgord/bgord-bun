@@ -1,4 +1,6 @@
 # Changelog
+## 2026-01-26 17:53 v1.10.7
+- 2026-01-26 17:53 6a6a09d6 **1.10.7**
 - 2026-01-26 17:35 14a1ccc7 **refactor: improve sampling configs**
 ## 2026-01-26 17:25 v1.10.6
 - 2026-01-26 17:25 73c9755a **1.10.6**
@@ -6,6 +8,7 @@
 ## 2026-01-26 17:17 v1.10.5
 - 2026-01-26 17:17 877f783d **1.10.5**
 - 2026-01-26 16:57 5f810d4a **refactor: remove safe parse body**
+- 2026-01-26 16:52 b37c5441 **docs: generate CHANGELOG**
 - 2026-01-26 16:45 27391c7a **step: update packages**
 - 2026-01-26 16:25 a8544b90 **docs: generate CHANGELOG**
 - 2026-01-26 16:25 3b664f26 **docs: generate CHANGELOG**
