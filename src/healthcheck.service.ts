@@ -20,6 +20,18 @@ import type { RedactorStrategy } from "./redactor.strategy";
 import { Stopwatch } from "./stopwatch.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
+type HealthcheckConfigType = {
+  Env: NodeEnvironmentEnum;
+  prerequisites: Prerequisite[];
+  redactor?: RedactorStrategy;
+};
+
+type Dependencies = {
+  Clock: ClockPort;
+  BuildInfoRepository: BuildInfoRepositoryStrategy;
+  LoggerStatsProvider?: LoggerStatsProviderPort;
+};
+
 const handler = createFactory();
 const self = new Prerequisite("self", new PrerequisiteVerifierSelfAdapter());
 
@@ -60,17 +72,6 @@ type HealthcheckResultType = {
   logger?: LoggerStatsSnapshot;
   durationMs: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
-};
-
-type HealthcheckConfigType = {
-  Env: NodeEnvironmentEnum;
-  prerequisites: Prerequisite[];
-  redactor?: RedactorStrategy;
-};
-type Dependencies = {
-  Clock: ClockPort;
-  BuildInfoRepository: BuildInfoRepositoryStrategy;
-  LoggerStatsProvider?: LoggerStatsProviderPort;
 };
 
 export class Healthcheck {

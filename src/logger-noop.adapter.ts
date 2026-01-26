@@ -1,4 +1,5 @@
 import type { LoggerPort } from "./logger.port";
+import { LoggerState, type LoggerStatsSnapshot } from "./logger-stats-provider.port";
 
 export class LoggerNoopAdapter implements LoggerPort {
   warn: LoggerPort["warn"] = (_log): void => {};
@@ -10,4 +11,8 @@ export class LoggerNoopAdapter implements LoggerPort {
   silly: LoggerPort["silly"] = (_log): void => {};
 
   close() {}
+
+  getStats(): LoggerStatsSnapshot {
+    return { written: 0, dropped: 0, deliveryFailures: 0, state: LoggerState.open };
+  }
 }
