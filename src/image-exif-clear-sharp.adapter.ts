@@ -13,7 +13,7 @@ type SharpModule = { default: SharpCallable };
 
 export class ImageExifClearSharpAdapter implements ImageExifClearPort {
   private constructor(
-    private readonly sharp: SharpConstructor,
+    private readonly sharp: SharpCallable,
     private readonly deps: Dependencies,
   ) {}
 
@@ -21,19 +21,19 @@ export class ImageExifClearSharpAdapter implements ImageExifClearPort {
     return new ImageExifClearSharpAdapter(await ImageExifClearSharpAdapter.resolve(), deps);
   }
 
-  private static async resolve(): Promise<SharpConstructor> {
+  private static async resolve(): Promise<SharpCallable> {
     try {
-      return await ImageExifClearSharpAdapter.import();
+      const module = await ImageExifClearSharpAdapter.import();
+      return module.default;
     } catch {
       throw new Error(ImageExifClearSharpAdapterError.MissingDependency);
     }
   }
 
   // Stryker disable all
-  static async import(): Promise<SharpConstructor> {
+  static async import(): Promise<SharpModule> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<SharpConstructor>;
+    return import(name) as Promise<SharpModule>;
   }
   // Stryker restore all
 

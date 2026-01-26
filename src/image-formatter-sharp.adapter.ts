@@ -14,7 +14,7 @@ type SharpModule = { default: SharpCallable };
 
 export class ImageFormatterSharpAdapter implements ImageFormatterPort {
   private constructor(
-    private readonly sharp: SharpConstructor,
+    private readonly sharp: SharpCallable,
     private readonly deps: Dependencies,
   ) {}
 
@@ -22,19 +22,19 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     return new ImageFormatterSharpAdapter(await ImageFormatterSharpAdapter.resolve(), deps);
   }
 
-  private static async resolve(): Promise<SharpConstructor> {
+  private static async resolve(): Promise<SharpCallable> {
     try {
-      return await ImageFormatterSharpAdapter.import();
+      const module = await ImageFormatterSharpAdapter.import();
+      return module.default;
     } catch {
       throw new Error(ImageFormatterSharpAdapterError.MissingDependency);
     }
   }
 
   // Stryker disable all
-  static async import(): Promise<SharpConstructor> {
+  static async import(): Promise<SharpModule> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<SharpConstructor>;
+    return import(name) as Promise<SharpModule>;
   }
   // Stryker restore all
 

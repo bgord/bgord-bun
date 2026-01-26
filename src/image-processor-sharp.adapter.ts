@@ -16,7 +16,7 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
   private static readonly DEFAULT_QUALITY = 85;
 
   private constructor(
-    private readonly sharp: SharpConstructor,
+    private readonly sharp: SharpCallable,
     private readonly deps: Dependencies,
   ) {}
 
@@ -24,19 +24,19 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
     return new ImageProcessorSharpAdapter(await ImageProcessorSharpAdapter.resolve(), deps);
   }
 
-  private static async resolve(): Promise<SharpConstructor> {
+  private static async resolve(): Promise<SharpCallable> {
     try {
-      return await ImageProcessorSharpAdapter.import();
+      const module = await ImageProcessorSharpAdapter.import();
+      return module.default;
     } catch {
       throw new Error(ImageProcessorSharpAdapterError.MissingDependency);
     }
   }
 
   // Stryker disable all
-  static async import(): Promise<SharpConstructor> {
+  static async import(): Promise<SharpModule> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<SharpConstructor>;
+    return import(name) as Promise<SharpModule>;
   }
   // Stryker restore all
 
