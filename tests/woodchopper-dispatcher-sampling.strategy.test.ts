@@ -7,7 +7,7 @@ import { WoodchopperDispatcherSampling } from "../src/woodchopper-dispatcher-sam
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperSamplingComposite } from "../src/woodchopper-sampling-composite.strategy";
 import { WoodchopperSamplingEveryNth } from "../src/woodchopper-sampling-every-nth.strategy";
-import { WoodchopperSamplingPasstrough } from "../src/woodchopper-sampling-passthrough.strategy";
+import { WoodchopperSamplingPassLevel } from "../src/woodchopper-sampling-pass-level.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
 import * as mocks from "./mocks";
@@ -28,7 +28,7 @@ const two = tools.IntegerPositive.parse(2);
 
 describe("WoodchopperDispatcherSampling", () => {
   test("dispatch - every n-th", () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
     const sink = new WoodchopperSinkCollecting();
@@ -44,7 +44,7 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("dispatch - error and warn", () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
     const sink = new WoodchopperSinkCollecting();
@@ -60,7 +60,7 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("dispatch - mixed", () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
     const sink = new WoodchopperSinkCollecting();
@@ -77,7 +77,7 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("dispatch - error - with diagnostics", async () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
@@ -99,7 +99,7 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("dispatch - error - without diagnostics", async () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
     const sink = new WoodchopperSinkNoop();
@@ -112,7 +112,7 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("close", () => {
-    const sampling = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const sampling = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const sink = new WoodchopperSinkNoop();
     const inner = new WoodchopperDispatcherSync(sink);
     const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);

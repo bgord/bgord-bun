@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { WoodchopperSamplingPasstrough } from "../src/woodchopper-sampling-passthrough.strategy";
+import { WoodchopperSamplingPassLevel } from "../src/woodchopper-sampling-pass-level.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -13,9 +13,9 @@ const entry = {
   timestamp: mocks.TIME_ZERO_ISO,
 };
 
-const sampling = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+const sampling = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
 
-describe("WoodchopperSamplingPasstrough", () => {
+describe("WoodchopperSamplingPassLevel", () => {
   test("decide", () => {
     expect(sampling.decide({ ...entry, level: LogLevelEnum.error })).toEqual(true);
     expect(sampling.decide({ ...entry, level: LogLevelEnum.warn })).toEqual(true);

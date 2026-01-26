@@ -4,7 +4,7 @@ import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperSamplingComposite } from "../src/woodchopper-sampling-composite.strategy";
 import { WoodchopperSamplingEveryNth } from "../src/woodchopper-sampling-every-nth.strategy";
-import { WoodchopperSamplingPasstrough } from "../src/woodchopper-sampling-passthrough.strategy";
+import { WoodchopperSamplingPassLevel } from "../src/woodchopper-sampling-pass-level.strategy";
 import * as mocks from "./mocks";
 
 const entryInfo = {
@@ -23,7 +23,7 @@ const two = tools.IntegerPositive.parse(2);
 
 describe("WoodchopperSamplingComposite", () => {
   test("decide - every n-th", () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
 
@@ -34,7 +34,7 @@ describe("WoodchopperSamplingComposite", () => {
   });
 
   test("decide - error and warn", () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
 
@@ -45,7 +45,7 @@ describe("WoodchopperSamplingComposite", () => {
   });
 
   test("decide - mixed", () => {
-    const passthrough = new WoodchopperSamplingPasstrough([LogLevelEnum.error, LogLevelEnum.warn]);
+    const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
 
