@@ -1,4 +1,11 @@
 # Changelog
+- 2026-01-26 16:45 27391c7a **step: update packages**
+- 2026-01-26 15:56 a4b7ffa8 **step: add correlation id sampling**
+- 2026-01-26 15:50 9239a5f4 **step: add fnv1a32 hashing algorithm**
+- 2026-01-26 15:33 6ee838ad **refactor: adjust woodchopper dispatcher sampling**
+- 2026-01-26 15:31 078b64ff **step: add sampling composite**
+- 2026-01-26 15:29 54a295c4 **refactor: simplify every-nth**
+- 2026-01-26 15:26 f51893dc **step: add passthrough sampling**
 - 2026-01-26 15:16 dcdc8143 **step: test every nth strategy**
 - 2026-01-26 15:13 7b5fad97 **refactor: adjust sampling dispatcher to accept the strategy**
 - 2026-01-26 15:12 56d90af0 **step: add sampling every nth**
@@ -7,6 +14,8 @@
 - 2026-01-26 14:39 ae3a34b3 **step: add get stats to logger noop**
 ## 2026-01-26 14:20 v1.10.4
 - 2026-01-26 14:20 f2d19266 **1.10.4**
+- 2026-01-26 14:20 68a79956 **docs: generate readme**
+- 2026-01-26 14:20 4925146c **docs: generate CHANGELOG**
 - 2026-01-26 14:17 300ae978 **refactor: adjust tests**
 - 2026-01-26 14:16 a89d941e **refactor: improve image adapter constructors**
 - 2026-01-26 14:13 5ce2d189 **step: add new sharp types**
