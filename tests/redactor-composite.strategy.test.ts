@@ -1,23 +1,23 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
-import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
-import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
-import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
-import { RedactorMetadataCompactArrayStrategy } from "../src/redactor-metadata-compact-array.strategy";
-import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
-import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
+import { RedactorComposite } from "../src/redactor-composite.strategy";
+import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
+import { RedactorMask } from "../src/redactor-mask.strategy";
+import { RedactorMetadataCompactArray } from "../src/redactor-metadata-compact-array.strategy";
+import { RedactorMetadataCompactObject } from "../src/redactor-metadata-compact-object.strategy";
+import { RedactorNoop } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
 
-describe("RedactorCompositeStrategy", () => {
+describe("RedactorComposite", () => {
   test("redact", () => {
-    const redactor = new RedactorCompositeStrategy([
-      new RedactorNoopStrategy(),
-      new RedactorMaskStrategy(),
-      new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) }),
-      new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
-      new RedactorErrorStackHideStrategy(),
-      new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1)),
+    const redactor = new RedactorComposite([
+      new RedactorNoop(),
+      new RedactorMask(),
+      new RedactorMetadataCompactArray({ maxItems: tools.IntegerPositive.parse(2) }),
+      new RedactorMetadataCompactObject({ maxKeys: tools.IntegerPositive.parse(3) }),
+      new RedactorErrorStackHide(),
+      new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
     ]);
 
     const error = new Error(mocks.IntentionalError);

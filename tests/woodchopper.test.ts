@@ -5,13 +5,13 @@ import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerState } from "../src/logger-stats-provider.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
-import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
-import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
-import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
-import { RedactorMetadataCompactArrayStrategy } from "../src/redactor-metadata-compact-array.strategy";
-import { RedactorMetadataCompactObjectStrategy } from "../src/redactor-metadata-compact-object.strategy";
-import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
+import { RedactorComposite } from "../src/redactor-composite.strategy";
+import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
+import { RedactorMask } from "../src/redactor-mask.strategy";
+import { RedactorMetadataCompactArray } from "../src/redactor-metadata-compact-array.strategy";
+import { RedactorMetadataCompactObject } from "../src/redactor-metadata-compact-object.strategy";
+import { RedactorNoop } from "../src/redactor-noop.strategy";
 import { Woodchopper } from "../src/woodchopper";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
@@ -345,7 +345,7 @@ describe("Woodchopper", async () => {
   test("redactor - noop", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorNoopStrategy();
+    const redactor = new RedactorNoop();
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -357,7 +357,7 @@ describe("Woodchopper", async () => {
   test("redactor - mask", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorMaskStrategy();
+    const redactor = new RedactorMask();
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -374,7 +374,7 @@ describe("Woodchopper", async () => {
   test("redactor - metadata compact array", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) });
+    const redactor = new RedactorMetadataCompactArray({ maxItems: tools.IntegerPositive.parse(2) });
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -391,7 +391,7 @@ describe("Woodchopper", async () => {
   test("redactor - metadata compact object", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(2) });
+    const redactor = new RedactorMetadataCompactObject({ maxKeys: tools.IntegerPositive.parse(2) });
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -408,7 +408,7 @@ describe("Woodchopper", async () => {
   test("redactor - error stack hide", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorErrorStackHideStrategy();
+    const redactor = new RedactorErrorStackHide();
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
     woodchopper.error({ ...entryWithErrorInstance });
@@ -424,7 +424,7 @@ describe("Woodchopper", async () => {
   test("redactor - error cause depth limit", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1));
+    const redactor = new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1));
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -450,13 +450,13 @@ describe("Woodchopper", async () => {
   test("redactor - composite", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorCompositeStrategy([
-      new RedactorNoopStrategy(),
-      new RedactorMaskStrategy(),
-      new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(2) }),
-      new RedactorMetadataCompactObjectStrategy({ maxKeys: tools.IntegerPositive.parse(3) }),
-      new RedactorErrorStackHideStrategy(),
-      new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1)),
+    const redactor = new RedactorComposite([
+      new RedactorNoop(),
+      new RedactorMask(),
+      new RedactorMetadataCompactArray({ maxItems: tools.IntegerPositive.parse(2) }),
+      new RedactorMetadataCompactObject({ maxKeys: tools.IntegerPositive.parse(3) }),
+      new RedactorErrorStackHide(),
+      new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
     ]);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
@@ -669,7 +669,7 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - redaction - diagnostics", () => {
-    const redactor = new RedactorNoopStrategy();
+    const redactor = new RedactorNoop();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkNoop();
@@ -692,7 +692,7 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - redaction - no diagnostics", () => {
-    const redactor = new RedactorNoopStrategy();
+    const redactor = new RedactorNoop();
     spyOn(redactor, "redact").mockImplementationOnce(mocks.throwIntentionalError);
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);

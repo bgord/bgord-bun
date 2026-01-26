@@ -3,7 +3,7 @@ import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.servic
 import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorErrorCauseDepthLimitStrategy implements RedactorStrategy {
+export class RedactorErrorCauseDepthLimit implements RedactorStrategy {
   constructor(private readonly max: tools.IntegerNonNegativeType) {}
 
   redact<T>(input: T): T {

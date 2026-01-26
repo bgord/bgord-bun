@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorMaskStrategy } from "../src/redactor-mask.strategy";
+import { RedactorMask } from "../src/redactor-mask.strategy";
 
-const redactor = new RedactorMaskStrategy(["password", "authorization", "x-api-key", "refreshToken"]);
+const redactor = new RedactorMask(["password", "authorization", "x-api-key", "refreshToken"]);
 
-describe("RedactorMaskStrategy", () => {
+describe("RedactorMask", () => {
   test("redact", () => {
     const input = {
       meta: { headers: { Authorization: "Bearer abc.def.ghi", "x-api-key": "XYZ-123" } },
@@ -45,7 +45,7 @@ describe("RedactorMaskStrategy", () => {
       code: "a",
     };
 
-    expect(new RedactorMaskStrategy().redact(input)).toEqual({
+    expect(new RedactorMask().redact(input)).toEqual({
       authorization: "***",
       cookie: "***",
       "set-cookie": "***",

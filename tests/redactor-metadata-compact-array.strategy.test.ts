@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { RedactorMetadataCompactArrayStrategy } from "../src/redactor-metadata-compact-array.strategy";
+import { RedactorMetadataCompactArray } from "../src/redactor-metadata-compact-array.strategy";
 
-const redactor = new RedactorMetadataCompactArrayStrategy({ maxItems: tools.IntegerPositive.parse(1) });
+const redactor = new RedactorMetadataCompactArray({ maxItems: tools.IntegerPositive.parse(1) });
 
-describe("RedactorMetadataCompactArrayStrategy", () => {
+describe("RedactorMetadataCompactArray", () => {
   test("redact - default max items", () => {
-    const redactor = new RedactorMetadataCompactArrayStrategy();
+    const redactor = new RedactorMetadataCompactArray();
     const input = { metadata: Array.from({ length: 21 }).map(() => "user") };
 
     // @ts-expect-error Changed schema assertion

@@ -1,7 +1,7 @@
 import { deepCloneWith } from "./deep-clone-with";
 import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorMaskStrategy implements RedactorStrategy {
+export class RedactorMask implements RedactorStrategy {
   static readonly DEFAULT_KEYS: readonly string[] = [
     "authorization",
     "cookie",
@@ -24,9 +24,7 @@ export class RedactorMaskStrategy implements RedactorStrategy {
   private readonly keys: Set<string>;
 
   constructor(keys?: readonly string[]) {
-    this.keys = new Set(
-      (keys?.length ? keys : RedactorMaskStrategy.DEFAULT_KEYS).map((key) => key.toLowerCase()),
-    );
+    this.keys = new Set((keys?.length ? keys : RedactorMask.DEFAULT_KEYS).map((key) => key.toLowerCase()));
   }
 
   redact<T>(input: T): T {

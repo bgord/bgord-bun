@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { ErrorNormalizer } from "../src/error-normalizer.service";
-import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
+import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
 import * as mocks from "./mocks";
 
-const redactor = new RedactorErrorStackHideStrategy();
+const redactor = new RedactorErrorStackHide();
 
-describe("RedactorErrorStackHideStrategy", () => {
+describe("RedactorErrorStackHide", () => {
   test("redact", () => {
     const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
 

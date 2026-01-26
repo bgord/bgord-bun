@@ -17,9 +17,9 @@ import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
-import { RedactorCompositeStrategy } from "../src/redactor-composite.strategy";
-import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
-import { RedactorErrorStackHideStrategy } from "../src/redactor-error-stack-hide.strategy";
+import { RedactorComposite } from "../src/redactor-composite.strategy";
+import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
@@ -190,9 +190,9 @@ describe("Healthcheck service", () => {
         {
           Env: NodeEnvironmentEnum.production,
           prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
-          redactor: new RedactorCompositeStrategy([
-            new RedactorErrorStackHideStrategy(),
-            new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1)),
+          redactor: new RedactorComposite([
+            new RedactorErrorStackHide(),
+            new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
           ]),
         },
         deps,

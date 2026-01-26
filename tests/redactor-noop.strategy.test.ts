@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { RedactorNoopStrategy } from "../src/redactor-noop.strategy";
+import { RedactorNoop } from "../src/redactor-noop.strategy";
 
-const redactor = new RedactorNoopStrategy();
+const redactor = new RedactorNoop();
 
-describe("RedactorNoopStrategy", () => {
+describe("RedactorNoop", () => {
   test("happy path", async () => {
     const input = {
       meta: { headers: { Authorization: "Bearer abc.def.ghi", "x-api-key": "XYZ-123" } },

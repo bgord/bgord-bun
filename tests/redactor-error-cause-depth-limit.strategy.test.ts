@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ErrorNormalizer } from "../src/error-normalizer.service";
-import { RedactorErrorCauseDepthLimitStrategy } from "../src/redactor-error-cause-depth-limit.strategy";
+import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import * as mocks from "./mocks";
 
-const redactor = new RedactorErrorCauseDepthLimitStrategy(tools.IntegerNonNegative.parse(1));
+const redactor = new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1));
 
-describe("RedactorLimitErrorCauseDepthStrategy", () => {
+describe("RedactorLimitErrorCauseDepth", () => {
   test("redact - above limit", () => {
     const cause = ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
     const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));

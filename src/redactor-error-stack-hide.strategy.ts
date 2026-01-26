@@ -2,7 +2,7 @@ import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.servic
 import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorErrorStackHideStrategy implements RedactorStrategy {
+export class RedactorErrorStackHide implements RedactorStrategy {
   redact<T>(input: T): T {
     // Stryker disable all
     if (!isPlainObject(input)) return input;

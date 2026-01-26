@@ -5,13 +5,13 @@ import type { RedactorStrategy } from "./redactor.strategy";
 
 type RedactorMetadataCompactArrayOptions = { maxItems?: tools.IntegerPositiveType };
 
-export class RedactorMetadataCompactArrayStrategy implements RedactorStrategy {
+export class RedactorMetadataCompactArray implements RedactorStrategy {
   private static readonly DEFAULT_MAX_ITEMS = tools.IntegerPositive.parse(20);
 
   private readonly maxItems: tools.IntegerPositiveType;
 
   constructor(options: RedactorMetadataCompactArrayOptions = {}) {
-    this.maxItems = options.maxItems ?? RedactorMetadataCompactArrayStrategy.DEFAULT_MAX_ITEMS;
+    this.maxItems = options.maxItems ?? RedactorMetadataCompactArray.DEFAULT_MAX_ITEMS;
   }
 
   redact<T>(input: T): T {

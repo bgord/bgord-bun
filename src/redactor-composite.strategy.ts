@@ -1,6 +1,6 @@
 import type { RedactorStrategy } from "./redactor.strategy";
 
-export class RedactorCompositeStrategy implements RedactorStrategy {
+export class RedactorComposite implements RedactorStrategy {
   constructor(private readonly pipeline: readonly RedactorStrategy[]) {}
 
   redact<T>(input: T): T {
