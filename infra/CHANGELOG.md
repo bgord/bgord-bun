@@ -1,4 +1,10 @@
 # Changelog
+- 2026-01-26 15:16 dcdc8143 **step: test every nth strategy**
+- 2026-01-26 15:13 7b5fad97 **refactor: adjust sampling dispatcher to accept the strategy**
+- 2026-01-26 15:12 56d90af0 **step: add sampling every nth**
+- 2026-01-26 15:11 ef00d15c **step: add woodchoper sampling strategy**
+- 2026-01-26 14:48 03be2e2b **step: add woodchopper dispatcher sampling**
+- 2026-01-26 14:39 ae3a34b3 **step: add get stats to logger noop**
 ## 2026-01-26 14:20 v1.10.4
 - 2026-01-26 14:20 f2d19266 **1.10.4**
 - 2026-01-26 14:17 300ae978 **refactor: adjust tests**
@@ -10,6 +16,7 @@
 - 2026-01-26 14:08 2047792e **fix: image info sharp**
 - 2026-01-26 13:58 3e90b78e **step: update packages**
 - 2026-01-26 13:55 e91c5304 **refactor: improve prereq veri port error message**
+- 2026-01-26 13:20 2b54352e **docs: generate CHANGELOG**
 - 2026-01-26 13:20 1ca0a731 **docs: generate CHANGELOG**
 ## 2026-01-26 12:57 v1.10.3
 - 2026-01-26 12:57 84ec7a52 **1.10.3**
