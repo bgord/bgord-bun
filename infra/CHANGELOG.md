@@ -1,7 +1,10 @@
 # Changelog
+- 2026-01-26 16:57 5f810d4a **refactor: remove safe parse body**
 - 2026-01-26 16:45 27391c7a **step: update packages**
 - 2026-01-26 15:56 a4b7ffa8 **step: add correlation id sampling**
 - 2026-01-26 15:50 9239a5f4 **step: add fnv1a32 hashing algorithm**
+- 2026-01-26 15:46 d378a3b5 **docs: generate readme**
+- 2026-01-26 15:46 0c0808c1 **docs: generate CHANGELOG**
 - 2026-01-26 15:33 6ee838ad **refactor: adjust woodchopper dispatcher sampling**
 - 2026-01-26 15:31 078b64ff **step: add sampling composite**
 - 2026-01-26 15:29 54a295c4 **refactor: simplify every-nth**
