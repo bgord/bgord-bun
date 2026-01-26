@@ -411,8 +411,11 @@ src/
 ├── woodchopper-diagnostics.strategy.ts
 ├── woodchopper-dispatcher-async.strategy.ts
 ├── woodchopper-dispatcher-noop.strategy.ts
+├── woodchopper-dispatcher-sampling.strategy.ts
 ├── woodchopper-dispatcher-sync.strategy.ts
 ├── woodchopper-dispatcher.strategy.ts
+├── woodchopper-sampling-every-nth.strategy.ts
+├── woodchopper-sampling.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
 ├── woodchopper-sink-stderr-raw.strategy.ts
