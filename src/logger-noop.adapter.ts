@@ -2,8 +2,8 @@ import type { LoggerPort } from "./logger.port";
 import { LoggerState, type LoggerStatsSnapshot } from "./logger-stats-provider.port";
 
 export class LoggerNoopAdapter implements LoggerPort {
-  warn: LoggerPort["warn"] = (_log): void => {};
   error: LoggerPort["error"] = (_log): void => {};
+  warn: LoggerPort["warn"] = (_log): void => {};
   info: LoggerPort["info"] = (_log): void => {};
   http: LoggerPort["http"] = (_log): void => {};
   verbose: LoggerPort["verbose"] = (_log): void => {};

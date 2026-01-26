@@ -1,6 +1,5 @@
 import type * as tools from "@bgord/tools";
 import type { LoggerEntry } from "./logger.port";
-import { LogLevelEnum } from "./logger.port";
 import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
 export class WoodchopperSamplingEveryNth implements WoodchoperSamplingStrategy {
@@ -8,9 +7,7 @@ export class WoodchopperSamplingEveryNth implements WoodchoperSamplingStrategy {
 
   private counter = 0;
 
-  decide(entry: LoggerEntry): boolean {
-    if ([LogLevelEnum.error, LogLevelEnum.warn].includes(entry.level)) return true;
-
+  decide(_entry: LoggerEntry): boolean {
     // Stryker disable all
     this.counter++;
     // Stryker restore all
