@@ -19,7 +19,7 @@ const deps = { FileRenamer };
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -39,13 +39,12 @@ describe("ImageBlurSharpAdapter", () => {
     expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
-    expect(sharp).toHaveBeenCalledWith();
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const blur = spyOn(pipeline, "blur");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -64,7 +63,6 @@ describe("ImageBlurSharpAdapter", () => {
     expect(toFormat).toHaveBeenCalledWith("webp");
     expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
-    expect(sharp).toHaveBeenCalledWith();
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 

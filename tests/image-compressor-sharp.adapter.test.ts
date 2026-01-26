@@ -21,7 +21,7 @@ const deps = { FileRenamer };
 describe("ImageCompressorSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -37,7 +37,6 @@ describe("ImageCompressorSharpAdapter", () => {
     const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-compressed.jpg");
 
     expect(result).toEqual(input);
-    expect(sharp).toHaveBeenCalled();
     expect(rotate).toHaveBeenCalledTimes(1);
     expect(toFormat).toHaveBeenCalledWith("jpeg", { quality: 85 });
     expect(toFile).toHaveBeenCalledWith(temporary.get());

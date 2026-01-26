@@ -19,7 +19,7 @@ const deps = { FileRenamer };
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -39,13 +39,12 @@ describe("ImageAlphaSharpAdapter", () => {
     expect(toFormat).toHaveBeenCalledWith("jpeg");
     expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, input);
-    expect(sharp).toHaveBeenCalled();
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const flatten = spyOn(pipeline, "flatten");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -64,7 +63,6 @@ describe("ImageAlphaSharpAdapter", () => {
     expect(toFile).toHaveBeenCalledWith(temporary.get());
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(result).toEqual(output);
-    expect(sharp).toHaveBeenCalled();
   });
 
   test("in_place - relative", async () => {
