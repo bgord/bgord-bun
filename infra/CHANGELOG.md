@@ -1,10 +1,28 @@
 # Changelog
+- 2026-01-26 12:56 c14ab14b **step: update packages**
+- 2026-01-26 12:53 d8b16bf3 **step: suppress some mutations**
+- 2026-01-26 12:35 99c28532 **refactor: remove croner dependency**
+- 2026-01-26 12:29 29d86ef2 **refactor: make yazl package optional**
+- 2026-01-26 12:20 4e79136d **refactor: make csv package optional**
+- 2026-01-26 12:14 df572219 **refactor: unify image processor**
+- 2026-01-26 12:11 1c231157 **refactor: unify image info**
+- 2026-01-26 12:07 99166306 **refactor: unify image resizer**
+- 2026-01-26 12:04 c479abb7 **refactor: constructors private**
+- 2026-01-26 11:49 447156db **refactor: unify image formatter**
+- 2026-01-26 11:43 7a119abe **refactor: unify image exif clear**
+- 2026-01-26 11:40 d4224fbe **refactor: unify image blur**
+- 2026-01-26 11:37 14abf55b **refactor: unify image alpha**
+- 2026-01-26 11:26 4271bfc9 **refactor: unify image compressor**
+- 2026-01-26 11:01 683f4756 **fix: implicit any in mailer resend**
+- 2026-01-26 11:00 13f819c4 **fix: implicit any in mailer smtp**
+- 2026-01-26 10:50 589d551f **refactor: remove lru cache rcs**
 ## 2026-01-25 19:10 v1.10.2
 - 2026-01-25 19:10 eea68515 **1.10.2**
 - 2026-01-25 19:07 4661e0cb **fix: path.get in image info sharp**
 ## 2026-01-25 18:18 v1.10.1
 - 2026-01-25 18:18 84ce0302 **1.10.1**
 - 2026-01-25 18:15 204b6617 **refactor: change csv stringier to return string**
+- 2026-01-25 18:10 6ef345f1 **docs: generate CHANGELOG**
 - 2026-01-25 18:09 a6eaf842 **docs: generate CHANGELOG**
 - 2026-01-25 17:18 f32efc4b **docs: generate CHANGELOG**
 - 2026-01-25 17:17 615b8fd0 **docs: generate CHANGELOG**
