@@ -28,11 +28,13 @@ export class ImageFormatterSharpAdapter implements ImageFormatterPort {
     }
   }
 
+  // Stryker disable all
   static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
 
     return import(name) as Promise<SharpConstructor>;
   }
+  // Stryker restore all
 
   async format(recipe: ImageFormatterStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final =

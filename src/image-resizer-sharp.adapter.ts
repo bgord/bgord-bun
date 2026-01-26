@@ -27,11 +27,13 @@ export class ImageResizerSharpAdapter implements ImageResizerPort {
     }
   }
 
+  // Stryker disable all
   static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
 
     return import(name) as Promise<SharpConstructor>;
   }
+  // Stryker restore all
 
   async resize(recipe: ImageResizerStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

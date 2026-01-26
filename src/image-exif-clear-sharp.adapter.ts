@@ -27,11 +27,13 @@ export class ImageExifClearSharpAdapter implements ImageExifClearPort {
     }
   }
 
+  // Stryker disable all
   static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
 
     return import(name) as Promise<SharpConstructor>;
   }
+  // Stryker restore all
 
   async clear(recipe: ImageExifClearStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;

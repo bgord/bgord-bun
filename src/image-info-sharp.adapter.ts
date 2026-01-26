@@ -27,11 +27,13 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
     }
   }
 
+  // Stryker disable all
   static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
 
     return import(name) as Promise<SharpConstructor>;
   }
+  // Stryker restore all
 
   async inspect(path: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
     const size = await this.deps.FileInspection.size(path);

@@ -29,11 +29,13 @@ export class ImageCompressorSharpAdapter implements ImageCompressorPort {
     }
   }
 
+  // Stryker disable all
   static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
 
     return import(name) as Promise<SharpConstructor>;
   }
+  // Stryker restore all
 
   async compress(recipe: ImageCompressorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const quality = recipe.quality ?? ImageCompressorSharpAdapter.DEFAULT_QUALITY;
