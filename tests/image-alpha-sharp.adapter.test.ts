@@ -19,7 +19,7 @@ const deps = { FileRenamer };
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const toFormat = spyOn(pipeline, "toFormat");
@@ -44,7 +44,7 @@ describe("ImageAlphaSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const flatten = spyOn(pipeline, "flatten");
     const toFormat = spyOn(pipeline, "toFormat");
     const toFile = spyOn(pipeline, "toFile");
@@ -67,7 +67,7 @@ describe("ImageAlphaSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     const rename = spyOn(FileRenamer, "rename");
@@ -85,7 +85,7 @@ describe("ImageAlphaSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue(() => pipeline);
+    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
     const toFormat = spyOn(pipeline, "toFormat");
     const rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");

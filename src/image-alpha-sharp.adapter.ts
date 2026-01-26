@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import type sharp from "sharp";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 
@@ -7,11 +8,12 @@ export const ImageAlphaSharpAdapterError = {
 };
 
 type Dependencies = { FileRenamer: FileRenamerPort };
-type SharpConstructor = typeof import("sharp");
+type SharpCallable = typeof sharp;
+type SharpModule = { default: SharpCallable };
 
 export class ImageAlphaSharpAdapter implements ImageAlphaPort {
   private constructor(
-    private readonly sharp: SharpConstructor,
+    private readonly sharp: SharpCallable,
     private readonly deps: Dependencies,
   ) {}
 
@@ -19,19 +21,19 @@ export class ImageAlphaSharpAdapter implements ImageAlphaPort {
     return new ImageAlphaSharpAdapter(await ImageAlphaSharpAdapter.resolve(), deps);
   }
 
-  private static async resolve(): Promise<SharpConstructor> {
+  private static async resolve(): Promise<SharpCallable> {
     try {
-      return await ImageAlphaSharpAdapter.import();
+      const module = await ImageAlphaSharpAdapter.import();
+      return module.default;
     } catch {
       throw new Error(ImageAlphaSharpAdapterError.MissingDependency);
     }
   }
 
   // Stryker disable all
-  static async import(): Promise<SharpConstructor> {
+  static async import(): Promise<SharpModule> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<SharpConstructor>;
+    return import(name) as Promise<SharpModule>;
   }
   // Stryker restore all
 
