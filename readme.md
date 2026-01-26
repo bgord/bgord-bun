@@ -159,6 +159,7 @@ src/
 ├── file-writer-noop.adapter.ts
 ├── file-writer.adapter.ts
 ├── file-writer.port.ts
+├── fnv1a32.service.ts
 ├── graceful-shutdown.service.ts
 ├── gzip-noop.adapter.ts
 ├── gzip.adapter.ts
@@ -414,7 +415,10 @@ src/
 ├── woodchopper-dispatcher-sampling.strategy.ts
 ├── woodchopper-dispatcher-sync.strategy.ts
 ├── woodchopper-dispatcher.strategy.ts
+├── woodchopper-sampling-composite.strategy.ts
+├── woodchopper-sampling-correlation-id.strategy.ts
 ├── woodchopper-sampling-every-nth.strategy.ts
+├── woodchopper-sampling-passthrough.strategy.ts
 ├── woodchopper-sampling.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
