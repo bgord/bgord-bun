@@ -337,6 +337,7 @@ export * from "./woodchopper-diagnostics-noop.strategy";
 export * from "./woodchopper-dispatcher.strategy";
 export * from "./woodchopper-dispatcher-async.strategy";
 export * from "./woodchopper-dispatcher-noop.strategy";
+export * from "./woodchopper-dispatcher-sampling.strategy";
 export * from "./woodchopper-dispatcher-sync.strategy";
 export * from "./woodchopper-sink.strategy";
 export * from "./woodchopper-sink-collecting.strategy";
