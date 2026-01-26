@@ -261,7 +261,6 @@ export * from "./retry-backoff-exponential.strategy";
 export * from "./retry-backoff-fibonacci.strategy";
 export * from "./retry-backoff-linear.strategy";
 export * from "./retry-backoff-noop.strategy";
-export * from "./safe-parse-body.service";
 export * from "./sealer.port";
 export * from "./sealer-aes-gcm.adapter";
 export * from "./sealer-noop.adapter";

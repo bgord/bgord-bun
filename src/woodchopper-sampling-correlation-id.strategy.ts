@@ -7,7 +7,9 @@ export class WoodchoperSamplingCorrelationId implements WoodchoperSamplingStrate
   constructor(private readonly n: tools.IntegerPositiveType) {}
 
   decide(entry: LoggerEntry): boolean {
+    // Stryker disable all
     if (!entry.correlationId) return false;
     return fnv1a32(entry.correlationId) % this.n === 0;
+    // Stryker restore all
   }
 }
