@@ -2,21 +2,40 @@ import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
+export const ImageCompressorSharpAdapterError = {
+  MissingDependency: "image.compressor.sharp.adapter.error.missing.dependency",
+};
+
 type Dependencies = { FileRenamer: FileRenamerPort };
+type SharpConstructor = typeof import("sharp");
 
 export class ImageCompressorSharpAdapter implements ImageCompressorPort {
-  constructor(private readonly deps: Dependencies) {}
-
-  private async load() {
-    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return (await import(name)).default;
-  }
-
   private static readonly DEFAULT_QUALITY = 85;
 
-  async compress(recipe: ImageCompressorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
-    const sharp = await this.load();
+  private constructor(
+    private readonly sharp: SharpConstructor,
+    private readonly deps: Dependencies,
+  ) {}
 
+  static async build(deps: Dependencies): Promise<ImageCompressorSharpAdapter> {
+    return new ImageCompressorSharpAdapter(await ImageCompressorSharpAdapter.resolve(), deps);
+  }
+
+  private static async resolve(): Promise<SharpConstructor> {
+    try {
+      return await ImageCompressorSharpAdapter.import();
+    } catch {
+      throw new Error(ImageCompressorSharpAdapterError.MissingDependency);
+    }
+  }
+
+  static async import(): Promise<SharpConstructor> {
+    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
+
+    return import(name) as Promise<SharpConstructor>;
+  }
+
+  async compress(recipe: ImageCompressorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const quality = recipe.quality ?? ImageCompressorSharpAdapter.DEFAULT_QUALITY;
 
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
@@ -26,7 +45,7 @@ export class ImageCompressorSharpAdapter implements ImageCompressorPort {
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as keyof import("sharp").FormatEnum;
 
-    const pipeline = sharp(recipe.input.get());
+    const pipeline = this.sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     await pipeline.rotate().toFormat(format, { quality }).toFile(temporary.get());
