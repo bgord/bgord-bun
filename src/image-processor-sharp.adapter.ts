@@ -3,21 +3,40 @@ import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
 
+export const ImageProcessorSharpAdapterError = {
+  MissingDependency: "image.processor.sharp.adapter.error.missing.dependency",
+};
+
 type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
+type SharpConstructor = typeof import("sharp");
 
 export class ImageProcessorSharpAdapter implements ImageProcessorPort {
   private static readonly DEFAULT_QUALITY = 85;
 
-  constructor(private readonly deps: Dependencies) {}
+  private constructor(
+    private readonly sharp: SharpConstructor,
+    private readonly deps: Dependencies,
+  ) {}
 
-  private async load() {
+  static async build(deps: Dependencies): Promise<ImageProcessorSharpAdapter> {
+    return new ImageProcessorSharpAdapter(await ImageProcessorSharpAdapter.resolve(), deps);
+  }
+
+  private static async resolve(): Promise<SharpConstructor> {
+    try {
+      return await ImageProcessorSharpAdapter.import();
+    } catch {
+      throw new Error(ImageProcessorSharpAdapterError.MissingDependency);
+    }
+  }
+
+  static async import(): Promise<SharpConstructor> {
     const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return (await import(name)).default;
+
+    return import(name) as Promise<SharpConstructor>;
   }
 
   async process(recipe: ImageProcessorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
-    const sharp = await this.load();
-
     const final =
       recipe.strategy === "output_path"
         ? recipe.output
@@ -30,7 +49,7 @@ export class ImageProcessorSharpAdapter implements ImageProcessorPort {
 
     const quality = recipe.quality ?? ImageProcessorSharpAdapter.DEFAULT_QUALITY;
 
-    const pipeline = sharp(recipe.input.get());
+    const pipeline = this.sharp(recipe.input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     let processor = pipeline.rotate();

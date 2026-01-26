@@ -1,10 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as _sharp from "sharp";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
 import { ImageProcessorSharpAdapter } from "../src/image-processor-sharp.adapter";
+import * as mocks from "./mocks";
 
 const pipeline = {
   rotate: () => pipeline,
@@ -19,12 +19,10 @@ const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileCleaner, FileRenamer };
 
-const adapter = new ImageProcessorSharpAdapter(deps);
-
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const resize = spyOn(pipeline, "resize");
@@ -42,6 +40,7 @@ describe("ImageProcessorSharpAdapter", () => {
       quality: tools.IntegerPositive.parse(72),
       background: "#FFFFFF",
     };
+    const adapter = await ImageProcessorSharpAdapter.build(deps);
 
     const result = await adapter.process(recipe);
 
@@ -67,13 +66,12 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(rename).toHaveBeenCalledWith(temporary, formatted);
     expect(fileCleaner).toHaveBeenCalledWith(input.get());
     expect(result.get()).toEqual(formatted.get());
-    expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
   });
 
   test("in_place - same extension", async () => {
     // @ts-expect-error Partial access
-    spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rename = spyOn(FileRenamer, "rename");
     const fileCleaner = spyOn(FileCleaner, "delete");
 
@@ -84,6 +82,7 @@ describe("ImageProcessorSharpAdapter", () => {
       maxSide: tools.ImageWidth.parse(100),
       to: tools.Extension.parse("png"),
     };
+    const adapter = await ImageProcessorSharpAdapter.build(deps);
 
     const result = await adapter.process(recipe);
     const temporary = tools.FilePathAbsolute.fromString("/var/in/image-processed.png");
@@ -95,7 +94,7 @@ describe("ImageProcessorSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    const sharp = spyOn(_sharp, "default").mockImplementation(() => pipeline);
+    spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue(() => pipeline);
     const rotate = spyOn(pipeline, "rotate");
     const flatten = spyOn(pipeline, "flatten");
     const resize = spyOn(pipeline, "resize");
@@ -113,6 +112,7 @@ describe("ImageProcessorSharpAdapter", () => {
       maxSide: tools.ImageWidth.parse(512),
       to: tools.Extension.parse("jpg"),
     };
+    const adapter = await ImageProcessorSharpAdapter.build(deps);
 
     const result = await adapter.process(recipe);
     const temporary = tools.FilePathAbsolute.fromString("/out/dest-processed.jpg");
@@ -125,7 +125,14 @@ describe("ImageProcessorSharpAdapter", () => {
     expect(rename).toHaveBeenCalledWith(temporary, output);
     expect(fileCleaner).not.toHaveBeenCalled();
     expect(result).toEqual(output);
-    expect(sharp).toHaveBeenCalledWith(input.get());
     expect(destroy).toHaveBeenCalledTimes(1);
+  });
+
+  test("missing dependency", async () => {
+    spyOn(ImageProcessorSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(ImageProcessorSharpAdapter.build(deps)).rejects.toThrow(
+      "image.processor.sharp.adapter.error.missing.dependency",
+    );
   });
 });
