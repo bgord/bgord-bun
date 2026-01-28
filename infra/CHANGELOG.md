@@ -1,4 +1,5 @@
 # Changelog
+- 2026-01-28 12:57 1702bed2 **step: update packages**
 ## 2026-01-26 18:39 v1.10.9
 - 2026-01-26 18:39 b1df56ac **1.10.9**
 - 2026-01-26 18:37 636ccba0 **step: add sampling pass component strategy**
@@ -10,6 +11,7 @@
 - 2026-01-26 17:57 3c9ac65e **refactor: remove enabled flag from shield rate limit**
 ## 2026-01-26 17:53 v1.10.7
 - 2026-01-26 17:53 6a6a09d6 **1.10.7**
+- 2026-01-26 17:39 8a68c424 **docs: generate CHANGELOG**
 - 2026-01-26 17:38 cd735147 **docs: generate readme**
 - 2026-01-26 17:38 b2b7f946 **docs: generate CHANGELOG**
 - 2026-01-26 17:35 14a1ccc7 **refactor: improve sampling configs**
