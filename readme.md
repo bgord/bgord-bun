@@ -230,6 +230,9 @@ src/
 ├── mailer-with-logger.adapter.ts
 ├── mailer.port.ts
 ├── maintenance-mode.middleware.ts
+├── markdown-generator-noop.adapter.ts
+├── markdown-generator.adapter.ts
+├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
 ├── modules
 │   ├── history
