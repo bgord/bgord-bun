@@ -200,6 +200,7 @@ export * from "./mailer-template.vo";
 export * from "./mailer-with-logger.adapter";
 export * from "./maintenance-mode.middleware";
 export * from "./markdown-generator.port";
+export * from "./markdown-generator-noop.adapter";
 export * from "./memory-consumption.service";
 export * as History from "./modules/history";
 export * as Preferences from "./modules/preferences";
