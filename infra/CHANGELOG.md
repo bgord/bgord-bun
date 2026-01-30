@@ -1,8 +1,13 @@
 # Changelog
+- 2026-01-30 10:30 a9286ffc **step: add markdown generator bun adapter**
+- 2026-01-30 10:24 ce1b3ea9 **step: add markdown generator noop adapter**
+- 2026-01-30 10:22 4fbd8dbe **step: add markdown generator port**
+- 2026-01-30 10:21 51ad9f27 **step: update packages**
 ## 2026-01-29 16:13 v1.10.11
 - 2026-01-29 16:13 a4ba2365 **1.10.11**
 - 2026-01-29 16:11 7e6af399 **step: bump bgord/scripts**
 - 2026-01-29 16:11 07ba338a **step: update packages**
+- 2026-01-29 15:13 cd46aae6 **docs: generate CHANGELOG**
 - 2026-01-29 15:12 f84b8b44 **docs: generate CHANGELOG**
 ## 2026-01-28 12:58 v1.10.10
 - 2026-01-28 12:58 26e9dce6 **1.10.10**
