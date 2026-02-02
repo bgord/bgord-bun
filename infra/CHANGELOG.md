@@ -1,10 +1,12 @@
 # Changelog
+- 2026-02-02 13:37 828b1482 **step: update packages**
 ## 2026-01-30 10:31 v1.10.12
 - 2026-01-30 10:31 182d669b **1.10.12**
 - 2026-01-30 10:30 a9286ffc **step: add markdown generator bun adapter**
 - 2026-01-30 10:24 ce1b3ea9 **step: add markdown generator noop adapter**
 - 2026-01-30 10:22 4fbd8dbe **step: add markdown generator port**
 - 2026-01-30 10:21 51ad9f27 **step: update packages**
+- 2026-01-30 09:31 c41552a4 **docs: generate CHANGELOG**
 - 2026-01-30 09:30 896d42a8 **docs: generate readme**
 - 2026-01-30 09:30 6dead1bd **docs: generate CHANGELOG**
 ## 2026-01-29 16:13 v1.10.11
