@@ -1,6 +1,9 @@
 # Changelog
+## 2026-02-06 17:54 v1.10.13
+- 2026-02-06 17:54 3340900e **1.10.13**
 - 2026-02-06 17:53 d03460d3 **step: update nodemailer**
 - 2026-02-06 17:52 3acfc187 **step: update packages**
+- 2026-02-06 16:53 4233e519 **docs: generate CHANGELOG**
 - 2026-02-02 13:37 828b1482 **step: update packages**
 - 2026-02-02 12:38 81f737c2 **docs: generate CHANGELOG**
 ## 2026-01-30 10:31 v1.10.12
