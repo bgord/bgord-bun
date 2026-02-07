@@ -26,7 +26,7 @@ export class RequestContextBuilder {
     return this;
   }
 
-  withHeaders(headers: { name: string; value: string }[]) {
+  withHeaders(headers: ReadonlyArray<{ name: string; value: string }>) {
     headers.forEach((candidate) => this.headers.append(candidate.name, candidate.value));
     return this;
   }

@@ -13,7 +13,7 @@ const tick = () => new Promise((r) => setTimeout(r, 0));
 
 function setup() {
   const server = { stop: jest.fn() } as unknown as ServerType;
-  const exitCalls: number[] = [];
+  const exitCalls: Array<number> = [];
   const exitFn = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
   const gs = new GracefulShutdown(deps, exitFn);
 

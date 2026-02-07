@@ -22,7 +22,7 @@ import { Uptime, type UptimeResultType } from "./uptime.service";
 
 type HealthcheckConfigType = {
   Env: NodeEnvironmentEnum;
-  prerequisites: Prerequisite[];
+  prerequisites: ReadonlyArray<Prerequisite>;
   redactor?: RedactorStrategy;
 };
 
@@ -64,11 +64,11 @@ type HealthcheckResultType = {
     };
     inFlight: tools.IntegerType;
   };
-  details: {
+  details: ReadonlyArray<{
     label: PrerequisiteLabelType;
     outcome: PrerequisiteVerificationResult;
     durationMs: tools.DurationMsType;
-  }[];
+  }>;
   logger?: LoggerStatsSnapshot;
   durationMs: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
@@ -83,7 +83,7 @@ export class Healthcheck {
         .filter((prerequisite) => prerequisite.enabled)
         .filter((prerequisite) => prerequisite.kind !== "port");
 
-      const details: HealthcheckResultType["details"][number][] = await Promise.all(
+      const details = await Promise.all(
         prerequisites.map(async (prerequisite) => {
           const stopwatch = new Stopwatch(deps);
 

@@ -29,7 +29,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
     const supportedLanguages = Object.keys(this.config.supportedLanguages);
     const i18n = new I18n(this.deps);
 
-    const dictionary: Partial<Record<tools.LanguageType, types.TranslationsKeyType[]>> = {};
+    const dictionary: Partial<Record<tools.LanguageType, ReadonlyArray<types.TranslationsKeyType>>> = {};
 
     for (const language of supportedLanguages) {
       try {
@@ -40,7 +40,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
       }
     }
 
-    const problems: PrerequisiteTranslationsProblemType[] = [];
+    const problems: Array<PrerequisiteTranslationsProblemType> = [];
 
     for (const language in dictionary) {
       // Stryker disable all

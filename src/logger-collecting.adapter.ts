@@ -8,13 +8,13 @@ import type {
 } from "./logger.port";
 
 export class LoggerCollectingAdapter implements LoggerPort {
-  readonly entries: (
+  readonly entries: Array<
     | Omit<LogErrorType, AdapterInjectedFields>
     | Omit<LogWarnType, AdapterInjectedFields>
     | Omit<LogCoreType, AdapterInjectedFields>
     | Omit<LogHttpType, AdapterInjectedFields>
     | Omit<LogCoreType, AdapterInjectedFields>
-  )[] = [];
+  > = [];
 
   warn: LoggerPort["warn"] = (log): void => {
     this.entries.push(log);

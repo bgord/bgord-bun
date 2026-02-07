@@ -13,7 +13,7 @@ export class PrerequisiteRunnerStartup {
 
   constructor(private readonly deps: Dependencies) {}
 
-  async check(prerequisites: Prerequisite[]) {
+  async check(prerequisites: ReadonlyArray<Prerequisite>) {
     const result = await Promise.all(
       prerequisites
         .filter((prerequisite) => prerequisite.enabled)

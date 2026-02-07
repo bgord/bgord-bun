@@ -11,13 +11,13 @@ type YazlLibrary = typeof import("yazl");
 export class FileDraftZip extends FileDraft {
   private constructor(
     basename: tools.BasenameType,
-    private readonly parts: FileDraft[],
+    private readonly parts: ReadonlyArray<FileDraft>,
     private readonly yazl: YazlLibrary,
   ) {
     super(basename, tools.Extension.parse("zip"), tools.Mimes.zip.mime);
   }
 
-  static async build(basename: tools.BasenameType, parts: FileDraft[]): Promise<FileDraftZip> {
+  static async build(basename: tools.BasenameType, parts: ReadonlyArray<FileDraft>): Promise<FileDraftZip> {
     return new FileDraftZip(basename, parts, await FileDraftZip.resolve());
   }
 
@@ -36,7 +36,7 @@ export class FileDraftZip extends FileDraft {
 
   async create(): Promise<BodyInit> {
     const zip = new this.yazl.ZipFile();
-    const chunks: Buffer[] = [];
+    const chunks: Array<Buffer> = [];
 
     zip.outputStream.on("data", (buffer: Buffer) => chunks.push(buffer));
 

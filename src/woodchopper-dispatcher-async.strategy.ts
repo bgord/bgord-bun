@@ -16,7 +16,7 @@ export const WoodchopperDispatcherAsyncError = {
 export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   onError?: (error: unknown) => void;
 
-  private readonly buffer: LoggerEntry[] = [];
+  private readonly buffer: Array<LoggerEntry> = [];
   private state = WoodchopperDispatcherAsyncState.running;
 
   private wake?: () => void;

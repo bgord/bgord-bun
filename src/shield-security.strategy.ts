@@ -17,7 +17,7 @@ export const ShieldSecurityAdapterError = {
 
 export class ShieldSecurityStrategy implements ShieldStrategy {
   constructor(
-    private readonly policies: SecurityPolicy[],
+    private readonly policies: ReadonlyArray<SecurityPolicy>,
     private readonly deps: Dependencies,
   ) {
     if (policies.length === 0) throw new Error(ShieldSecurityAdapterError.MissingPolicies);

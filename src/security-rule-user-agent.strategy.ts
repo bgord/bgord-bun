@@ -5,7 +5,7 @@ import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleUserAgentStrategy implements SecurityRuleStrategy {
-  constructor(private readonly blacklist: string[] = ALL_BOTS) {}
+  constructor(private readonly blacklist: ReadonlyArray<string> = ALL_BOTS) {}
 
   async isViolated(context: RequestContext): Promise<boolean> {
     const client = Client.fromParts(context.identity.ip(), context.identity.ua());

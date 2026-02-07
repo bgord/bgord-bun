@@ -14,14 +14,14 @@ export class CacheSubjectApplicationResolver {
   private readonly SEPARATOR = "|";
 
   constructor(
-    private readonly segments: CacheSubjectSegmentApplicationStrategy[],
+    private readonly segments: ReadonlyArray<CacheSubjectSegmentApplicationStrategy>,
     private readonly deps: Dependencies,
   ) {
     if (this.segments.length === 0) throw new Error(CacheSubjectApplicationResolverError.NoSegments);
     if (this.segments.length > 10) throw new Error(CacheSubjectApplicationResolverError.TooManySegments);
   }
 
-  async resolve(): Promise<{ hex: Hash; raw: CacheSubjectSegmentType[] }> {
+  async resolve(): Promise<{ hex: Hash; raw: ReadonlyArray<CacheSubjectSegmentType> }> {
     const segments = this.segments.map((segment) =>
       segment.create().replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
     );

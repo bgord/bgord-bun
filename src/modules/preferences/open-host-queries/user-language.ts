@@ -3,11 +3,11 @@ import type { UUIDType } from "../../../uuid.vo";
 import type * as Ports from "../ports";
 import type * as VO from "../value-objects";
 
-export interface UserLanguagePort<L extends readonly tools.LanguageType[]> {
+export interface UserLanguagePort<L extends ReadonlyArray<tools.LanguageType>> {
   get(userId: UUIDType): Promise<L[number]>;
 }
 
-export class UserLanguageAdapter<L extends readonly tools.LanguageType[]> implements UserLanguagePort<L> {
+export class UserLanguageAdapter<L extends ReadonlyArray<tools.LanguageType>> implements UserLanguagePort<L> {
   constructor(
     private readonly query: Ports.UserLanguageQueryPort,
     private readonly validator: VO.SupportedLanguagesSet<L>,

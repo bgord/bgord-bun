@@ -5,7 +5,7 @@ import type { ShieldStrategy } from "./shield.strategy";
 
 const STATE_CHANGING_METHODS = ["POST", "PUT", "PATCH", "DELETE"];
 
-export type ShieldCsrfConfigType = { origin: string[] };
+export type ShieldCsrfConfigType = { origin: ReadonlyArray<string> };
 
 export const ShieldCsrfError = new HTTPException(403, { message: "shield.csrf" });
 

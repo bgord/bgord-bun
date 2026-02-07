@@ -25,7 +25,9 @@ import * as mocks from "./mocks";
 
 const version = "1.2.3";
 const hostname = "macbook";
-const cpus: os.CpuInfo[] = [{ model: "cpu", speed: 1, times: { user: 0, nice: 0, sys: 0, idle: 0, irq: 0 } }];
+const cpus: Array<os.CpuInfo> = [
+  { model: "cpu", speed: 1, times: { user: 0, nice: 0, sys: 0, idle: 0, irq: 0 } },
+];
 const memory = {
   total: tools.Size.fromMB(3),
   heap: { used: tools.Size.fromMB(1), total: tools.Size.fromMB(2) },

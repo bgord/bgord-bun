@@ -11,7 +11,7 @@ export class BetterAuthLogger {
     return {
       disabled: false,
       level: "debug",
-      log: (lvl: LogLevel | undefined, message: string, ...args: unknown[]) => {
+      log: (lvl: LogLevel | undefined, message: string, ...args: ReadonlyArray<unknown>) => {
         const level = this.mapLevel(lvl);
         const base = { component: "infra", operation: "better-auth", message, metadata: { args } } as const;
 

@@ -6,7 +6,7 @@ import {
 } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierOsAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { accepted: string[] }) {}
+  constructor(private readonly config: { accepted: ReadonlyArray<string> }) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     const type = os.type().toLowerCase();

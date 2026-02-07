@@ -19,7 +19,7 @@ type Dependencies = {
 type AcceptedEvent = Events.UserLanguageSetEventType;
 
 export const handleSetUserLanguageCommand =
-  <L extends readonly tools.LanguageType[]>(supported: VO.SupportedLanguagesSet<L>, deps: Dependencies) =>
+  <L extends ReadonlyArray<tools.LanguageType>>(supported: VO.SupportedLanguagesSet<L>, deps: Dependencies) =>
   async (command: Commands.SetUserLanguageCommandType) => {
     const candidate = supported.ensure(command.payload.language);
     const current = await deps.UserLanguageQuery.get(command.payload.userId);

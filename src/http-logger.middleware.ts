@@ -30,7 +30,7 @@ export const UNINFORMATIVE_HEADERS = [
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
-export type HttpLoggerOptions = { skip?: readonly string[] };
+export type HttpLoggerOptions = { skip?: ReadonlyArray<string> };
 
 export class HttpLogger {
   static build = (deps: Dependencies, options?: HttpLoggerOptions) =>

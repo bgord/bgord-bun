@@ -3,7 +3,7 @@ import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleBaitRoutesStrategy implements SecurityRuleStrategy {
-  constructor(private readonly routes: string[]) {}
+  constructor(private readonly routes: ReadonlyArray<string>) {}
 
   async isViolated(context: HasRequestPath): Promise<boolean> {
     return this.routes.includes(context.request.path);

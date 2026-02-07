@@ -2,7 +2,7 @@ import type { LoggerEntry } from "./logger.port";
 import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
 export class WoodchopperSamplingComposite implements WoodchoperSamplingStrategy {
-  constructor(private readonly strategies: readonly WoodchoperSamplingStrategy[]) {}
+  constructor(private readonly strategies: ReadonlyArray<WoodchoperSamplingStrategy>) {}
 
   decide(entry: LoggerEntry): boolean {
     for (const strategy of this.strategies) {

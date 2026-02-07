@@ -6,9 +6,9 @@ export const NonceProviderDeterministicAdapterError = {
 };
 
 export class NonceProviderDeterministicAdapter implements NonceProviderPort {
-  private readonly queue: NonceValueType[];
+  private readonly queue: Array<NonceValueType>;
 
-  constructor(sequence: NonceValueType[]) {
+  constructor(sequence: ReadonlyArray<NonceValueType>) {
     this.queue = [...sequence];
   }
 

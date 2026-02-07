@@ -11,7 +11,10 @@ export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends
 
   constructor(
     config: {
-      finder: (stream: EventStreamType, names: string[]) => Promise<z.infer<GenericEventSchema>[]>;
+      finder: (
+        stream: EventStreamType,
+        names: ReadonlyArray<string>,
+      ) => Promise<z.infer<GenericEventSchema>[]>;
       inserter: (events: z.infer<GenericParsedEventSchema>[]) => Promise<z.infer<GenericParsedEventSchema>[]>;
     },
     private readonly publisher: EventPublisher<ToEventMap<z.infer<AllEvents>>>,

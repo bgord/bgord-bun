@@ -18,7 +18,7 @@ export class MailerTemplate {
   constructor(
     readonly config: MailerTemplateConfig,
     readonly message: MailerTemplateMessage,
-    readonly attachments?: MailerTemplateAttachmentType[],
+    readonly attachments?: Array<MailerTemplateAttachmentType>,
   ) {}
 
   toJSON() {

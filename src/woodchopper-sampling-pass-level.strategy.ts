@@ -2,7 +2,7 @@ import type { LoggerEntry, LogLevelEnum } from "./logger.port";
 import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
 export class WoodchopperSamplingPassLevel implements WoodchoperSamplingStrategy {
-  constructor(private readonly levels: LogLevelEnum[]) {}
+  constructor(private readonly levels: ReadonlyArray<LogLevelEnum>) {}
 
   decide(entry: LoggerEntry): boolean {
     return this.levels.includes(entry.level);

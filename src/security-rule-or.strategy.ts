@@ -8,7 +8,7 @@ export const SecurityRuleOrStrategyError = {
 };
 
 export class SecurityRuleOrStrategy implements SecurityRuleStrategy {
-  constructor(private readonly rules: SecurityRuleStrategy[]) {
+  constructor(private readonly rules: ReadonlyArray<SecurityRuleStrategy>) {
     if (rules.length === 0) throw new Error(SecurityRuleOrStrategyError.MissingRules);
     if (rules.length > 5) throw new Error(SecurityRuleOrStrategyError.MaxRules);
   }

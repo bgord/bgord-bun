@@ -2,7 +2,7 @@ import type * as tools from "@bgord/tools";
 
 export const SupportedLanguagesSetError = { Missing: "supported.languages.set.error.missing" };
 
-export class SupportedLanguagesSet<L extends readonly tools.LanguageType[]> {
+export class SupportedLanguagesSet<L extends ReadonlyArray<tools.LanguageType>> {
   private readonly index: Set<tools.LanguageType>;
 
   constructor(allowed: L) {
