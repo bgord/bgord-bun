@@ -7,12 +7,12 @@ export type EventNameType = z.infer<GenericEventSchema["shape"]["name"]>;
 
 type FindEventsHandler = (
   stream: EventStreamType,
-  acceptedEventsNames: EventNameType[],
-) => Promise<z.infer<GenericEventSchema>[]>;
+  acceptedEventsNames: ReadonlyArray<EventNameType>,
+) => Promise<ReadonlyArray<z.infer<GenericEventSchema>>>;
 
 type InserterEventsHandler = (
-  events: z.infer<GenericParsedEventSchema>[],
-) => Promise<z.infer<GenericParsedEventSchema>[]>;
+  events: ReadonlyArray<z.infer<GenericParsedEventSchema>>,
+) => Promise<ReadonlyArray<z.infer<GenericParsedEventSchema>>>;
 
 type EventStoreConfigType = { finder: FindEventsHandler; inserter: InserterEventsHandler };
 
@@ -21,10 +21,10 @@ export class EventStore<AllEvents extends GenericEventSchema> {
 
   static EMPTY_STREAM_REVISION = -1;
 
-  async find<AcceptedEvents extends readonly AllEvents[]>(
+  async find<AcceptedEvents extends ReadonlyArray<AllEvents>>(
     acceptedEvents: AcceptedEvents,
     stream: EventStreamType,
-  ): Promise<z.infer<AcceptedEvents[number]>[]> {
+  ): Promise<ReadonlyArray<z.infer<AcceptedEvents[number]>>> {
     const acceptedEventsNames = acceptedEvents.map((event) => event.shape.name.value);
 
     const rows = await this.config.finder(stream, acceptedEventsNames);
@@ -35,7 +35,7 @@ export class EventStore<AllEvents extends GenericEventSchema> {
       .filter((event): event is z.infer<AcceptedEvents[number]> => event !== undefined);
   }
 
-  async save(events: z.infer<AllEvents>[]): Promise<z.infer<AllEvents>[]> {
+  async save(events: ReadonlyArray<z.infer<AllEvents>>): Promise<ReadonlyArray<z.infer<AllEvents>>> {
     if (!events[0]) return [];
 
     const stream = events[0].stream;
@@ -51,7 +51,7 @@ export class EventStore<AllEvents extends GenericEventSchema> {
     return processed.map((event) => ({
       ...event,
       payload: JSON.parse(event.payload),
-    })) as z.infer<AllEvents>[];
+    })) as Array<z.infer<AllEvents>>;
   }
 }
 

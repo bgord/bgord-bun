@@ -1,3 +1,3 @@
 export type EventStoreLike<E extends { name: string }> = {
-  save(events: E[]): Promise<unknown>;
+  save(events: ReadonlyArray<E>): Promise<unknown>;
 };
