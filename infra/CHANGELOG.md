@@ -1,8 +1,14 @@
 # Changelog
+- 2026-02-08 11:58 2a5f3fa1 **step: update packages**
+- 2026-02-07 22:51 49e41d38 **step: bump bgord/scripts**
+- 2026-02-07 22:50 d97bf8b5 **refactor: use readonly array in events**
+- 2026-02-07 22:38 aa440d58 **refactor: use readonly array instead of []**
+- 2026-02-07 22:25 978a14f2 **step: bump bgord/scripts**
 ## 2026-02-06 17:54 v1.10.13
 - 2026-02-06 17:54 3340900e **1.10.13**
 - 2026-02-06 17:53 d03460d3 **step: update nodemailer**
 - 2026-02-06 17:52 3acfc187 **step: update packages**
+- 2026-02-06 16:54 89d2da51 **docs: generate CHANGELOG**
 - 2026-02-06 16:53 4233e519 **docs: generate CHANGELOG**
 - 2026-02-02 13:37 828b1482 **step: update packages**
 - 2026-02-02 12:38 81f737c2 **docs: generate CHANGELOG**
