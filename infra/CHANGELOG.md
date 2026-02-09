@@ -1,8 +1,10 @@
 # Changelog
+- 2026-02-09 12:43 136b52ec **step: update packages**
 ## 2026-02-08 11:59 v1.10.14
 - 2026-02-08 11:59 e36c419e **1.10.14**
 - 2026-02-08 11:58 2a5f3fa1 **step: update packages**
 - 2026-02-08 10:59 fc2704df **docs: generate CHANGELOG**
+- 2026-02-08 10:59 5f71e2bc **docs: generate CHANGELOG**
 - 2026-02-07 22:51 49e41d38 **step: bump bgord/scripts**
 - 2026-02-07 22:50 d97bf8b5 **refactor: use readonly array in events**
 - 2026-02-07 22:38 aa440d58 **refactor: use readonly array instead of []**
