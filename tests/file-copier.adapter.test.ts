@@ -9,11 +9,11 @@ const FileCopier = new FileCopierAdapter();
 
 describe("FileCopierAdapter", () => {
   test("happy path - string", async () => {
+    const input = "package.json";
+    const output = "package.json.gz";
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue(content);
     using bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
-    const input = "package.json";
-    const output = "package.json.gz";
 
     await FileCopier.copy(input, output);
 
@@ -21,11 +21,11 @@ describe("FileCopierAdapter", () => {
   });
 
   test("happy path - relative", async () => {
+    const input = tools.FilePathRelative.fromString("users/package.json");
+    const output = tools.FilePathRelative.fromString("users/package.json.gz");
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue(content);
     using bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
-    const input = tools.FilePathRelative.fromString("users/package.json");
-    const output = tools.FilePathRelative.fromString("users/package.json.gz");
 
     await FileCopier.copy(input, output);
 
@@ -33,11 +33,11 @@ describe("FileCopierAdapter", () => {
   });
 
   test("happy path - absolute", async () => {
+    const input = tools.FilePathAbsolute.fromString("/users/package.json");
+    const output = tools.FilePathAbsolute.fromString("/users/package.json.gz");
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue(content);
     using bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
-    const input = tools.FilePathAbsolute.fromString("/users/package.json");
-    const output = tools.FilePathAbsolute.fromString("/users/package.json.gz");
 
     await FileCopier.copy(input, output);
 
@@ -45,9 +45,9 @@ describe("FileCopierAdapter", () => {
   });
 
   test("throw an error", () => {
-    using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const input = tools.FilePathAbsolute.fromString("/users/package.json");
     const output = tools.FilePathAbsolute.fromString("/users/package.json");
+    using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
     expect(async () => FileCopier.copy(input, output)).toThrow();
   });

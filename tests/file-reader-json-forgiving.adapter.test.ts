@@ -10,35 +10,35 @@ const FileReaderJson = new FileReaderJsonForgivingAdapter();
 
 describe("FileReaderJsonForgivingAdapter", () => {
   test("happy path - string", async () => {
+    const path = "package.json";
     // @ts-expect-error Partial access
     using bunFile = spyOn(Bun, "file").mockReturnValue(json);
-    const path = "package.json";
 
     expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path);
   });
 
   test("happy path - relative", async () => {
+    const path = tools.FilePathRelative.fromString("users/package.json");
     // @ts-expect-error Partial access
     using bunFile = spyOn(Bun, "file").mockReturnValue(json);
-    const path = tools.FilePathRelative.fromString("users/package.json");
 
     expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
   test("happy path - absolute", async () => {
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
     // @ts-expect-error Partial access
     using bunFile = spyOn(Bun, "file").mockReturnValue(json);
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
     expect(await FileReaderJson.read(path)).toEqual(content);
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
 
   test("happy path - error", async () => {
-    using bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
+    using bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
     expect(await FileReaderJson.read(path)).toEqual({});
     expect(bunFile).toHaveBeenCalledWith(path.get());

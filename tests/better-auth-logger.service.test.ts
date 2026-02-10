@@ -33,10 +33,10 @@ describe("BetterAuthLogger", () => {
   });
 
   test("error", () => {
+    const message = "User does not exist";
     const Logger = new LoggerCollectingAdapter();
     const service = new BetterAuthLogger({ Logger }).attach();
 
-    const message = "User does not exist";
     service.log("error", message, { error: new Error(mocks.IntentionalError) });
 
     expect(Logger.entries).toEqual([

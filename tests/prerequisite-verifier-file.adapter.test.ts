@@ -70,8 +70,8 @@ describe("PrerequisiteVerifierFileAdapter", () => {
 
   test("failure - file does not exist error", async () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: false });
-    using _ = spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync);
     const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path }, { FileInspection });
+    using _ = spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),

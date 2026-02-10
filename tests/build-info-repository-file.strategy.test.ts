@@ -7,16 +7,17 @@ import * as mocks from "./mocks";
 const version = "1.2.3";
 const size = tools.Size.fromBytes(0);
 
+const FileReaderJson = new FileReaderJsonNoopAdapter({
+  version,
+  timestamp: mocks.TIME_ZERO.ms,
+  sha: mocks.SHA.toString(),
+  size: size.toBytes(),
+});
+
+const repository = new BuildInfoRepositoryFileStrategy({ FileReaderJson });
+
 describe("BuildInfoRepositoryFileStrategy", () => {
   test("happy path", async () => {
-    const FileReaderJson = new FileReaderJsonNoopAdapter({
-      version,
-      timestamp: mocks.TIME_ZERO.ms,
-      sha: mocks.SHA.toString(),
-      size: size.toBytes(),
-    });
-    const repository = new BuildInfoRepositoryFileStrategy({ FileReaderJson });
-
     const result = await repository.extract();
 
     expect(result.timestamp.equals(mocks.TIME_ZERO)).toEqual(true);
@@ -26,14 +27,6 @@ describe("BuildInfoRepositoryFileStrategy", () => {
   });
 
   test("failure - file read", async () => {
-    const FileReaderJson = new FileReaderJsonNoopAdapter({
-      version,
-      timestamp: mocks.TIME_ZERO.ms,
-      sha: mocks.SHA.toString(),
-      size: size.toBytes(),
-    });
-    const repository = new BuildInfoRepositoryFileStrategy({ FileReaderJson });
-
     using fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );

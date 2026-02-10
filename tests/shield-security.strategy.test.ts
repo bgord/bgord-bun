@@ -86,6 +86,7 @@ const app = new Hono()
 describe("ShieldSecurityStrategy", () => {
   test("happy path", async () => {
     using loggerInfo = spyOn(Logger, "info");
+
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
     expect(result.status).toEqual(200);

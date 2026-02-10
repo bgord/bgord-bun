@@ -42,8 +42,9 @@ describe("GzipAdapter", () => {
   });
 
   test("write error propagation", async () => {
-    using _ = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
-    using __ = spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError);
+    using spies = new DisposableStack();
+    spies.use(spyOn(Bun, "gzipSync").mockReturnValue(gzipped));
+    spies.use(spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError));
 
     expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
   });

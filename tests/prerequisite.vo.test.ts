@@ -232,8 +232,6 @@ describe("Prerequisite VO", () => {
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
-
-    using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
@@ -241,6 +239,7 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
+    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);

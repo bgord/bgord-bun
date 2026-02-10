@@ -26,8 +26,6 @@ const adapter = new FileReaderRawWithCacheAdapter({ id: "raw", inner }, deps);
 describe("FileReaderRawWithCacheAdapter", () => {
   test("happy path", async () => {
     jest.useFakeTimers();
-    using innerRead = spyOn(inner, "read");
-    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
@@ -37,6 +35,8 @@ describe("FileReaderRawWithCacheAdapter", () => {
       deps,
     );
     const subject = await resolver.resolve();
+    using innerRead = spyOn(inner, "read");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
@@ -57,8 +57,6 @@ describe("FileReaderRawWithCacheAdapter", () => {
 
   test("happy path - relative path", async () => {
     jest.useFakeTimers();
-    using innerRead = spyOn(inner, "read");
-    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
@@ -68,6 +66,8 @@ describe("FileReaderRawWithCacheAdapter", () => {
       deps,
     );
     const subject = await resolver.resolve();
+    using innerRead = spyOn(inner, "read");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
@@ -88,8 +88,6 @@ describe("FileReaderRawWithCacheAdapter", () => {
 
   test("happy path - absolute path", async () => {
     jest.useFakeTimers();
-    using innerRead = spyOn(inner, "read");
-    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
@@ -99,6 +97,8 @@ describe("FileReaderRawWithCacheAdapter", () => {
       deps,
     );
     const subject = await resolver.resolve();
+    using innerRead = spyOn(inner, "read");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     expect(await adapter.read(absolute)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
