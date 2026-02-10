@@ -17,17 +17,16 @@ const pass = new mocks.PrerequisiteVerifierPass();
 const fail = new mocks.PrerequisiteVerifierFail();
 const failThenPass = new mocks.PrerequisiteVerifierFailThenPass();
 
+const Sleeper = new SleeperNoopAdapter();
+
 describe("PrerequisiteVerifierWithRetryAdapter", () => {
   test("success", async () => {
-    const Sleeper = new SleeperNoopAdapter();
-
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter({ inner: pass, retry }, { Sleeper });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
-    const Sleeper = new SleeperNoopAdapter();
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter({ inner: fail, retry }, { Sleeper });
     using failVerify = spyOn(fail, "verify");
     using sleeperWait = spyOn(Sleeper, "wait");
@@ -38,7 +37,6 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
   });
 
   test("failure then success", async () => {
-    const Sleeper = new SleeperNoopAdapter();
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter(
       { inner: failThenPass, retry },
       { Sleeper },
@@ -53,7 +51,6 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
 
   test("exponential backoff", async () => {
     const fail = new mocks.PrerequisiteVerifierFail();
-    const Sleeper = new SleeperNoopAdapter();
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter(
       { inner: fail, retry: { max: tools.IntegerPositive.parse(5), backoff: exponential } },
       { Sleeper },
@@ -70,7 +67,6 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
   });
 
   test("preserves kind", () => {
-    const Sleeper = new SleeperNoopAdapter();
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter({ inner: pass, retry }, { Sleeper });
 
     expect(prerequisite.kind).toEqual(pass.kind);

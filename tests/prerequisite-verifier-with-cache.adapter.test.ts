@@ -9,6 +9,8 @@ import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
 import * as mocks from "./mocks";
 
+const HashContent = new HashContentSha256Strategy();
+
 describe("PrerequisiteVerifierWithCacheAdapter", () => {
   test("success", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
@@ -16,7 +18,6 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const config = { id: "example", inner: pass };
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const resolver = new CacheSubjectApplicationResolver(
       [
@@ -56,7 +57,6 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
@@ -85,7 +85,6 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 

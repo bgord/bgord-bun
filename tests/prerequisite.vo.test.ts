@@ -11,11 +11,13 @@ import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../sr
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
-import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+const Sleeper = new SleeperNoopAdapter();
+const TimeoutRunner = new TimeoutRunnerNoopAdapter();
+const HashContent = new HashContentSha256Strategy();
 
 describe("Prerequisite VO", () => {
   test("with logger - success", async () => {
@@ -77,11 +79,9 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - success", async () => {
-    const TimeoutRunner = new TimeoutRunnerBareAdapter();
-    const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner })],
     });
     const verifier = prerequisite.build();
 
@@ -89,11 +89,9 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - failure", async () => {
-    const TimeoutRunner = new TimeoutRunnerBareAdapter();
-    const deps = { TimeoutRunner };
     const fail = new mocks.PrerequisiteVerifierFail();
     const prerequisite = new Prerequisite("example", fail, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner })],
     });
     const verifier = prerequisite.build();
 
@@ -101,11 +99,9 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
-    const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
-      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
+      decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner })],
     });
     const verifier = prerequisite.build();
     using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
@@ -118,7 +114,6 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
@@ -150,7 +145,6 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
 
@@ -182,11 +176,8 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
-    const Sleeper = new SleeperNoopAdapter();
-    const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper, TimeoutRunner };
 
     const prerequisite = new Prerequisite("example", pass, {
@@ -228,9 +219,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -253,9 +242,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -277,9 +264,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
     using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
@@ -303,9 +288,7 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const Sleeper = new SleeperNoopAdapter();
     const deps = { HashContent, CacheResolver, Sleeper };
 
     using failVerify = spyOn(fail, "verify");
@@ -333,7 +316,6 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
@@ -357,7 +339,6 @@ describe("Prerequisite VO", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const HashContent = new HashContentSha256Strategy();
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
@@ -377,8 +358,6 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x fail-safe - timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
-    const deps = { TimeoutRunner };
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -387,7 +366,7 @@ describe("Prerequisite VO", () => {
             result.outcome === PrerequisiteVerificationOutcome.failure &&
             result?.error?.message === mocks.IntentionalError,
         ),
-        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner }),
       ],
     });
     const verifier = prerequisite.build();
@@ -397,9 +376,6 @@ describe("Prerequisite VO", () => {
   });
 
   test("retry x timeout x fail-safe - timeout", async () => {
-    const TimeoutRunner = new TimeoutRunnerNoopAdapter();
-    const Sleeper = new SleeperNoopAdapter();
-    const deps = { TimeoutRunner, Sleeper };
     const fail = new mocks.PrerequisiteVerifierFail();
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
@@ -410,9 +386,9 @@ describe("Prerequisite VO", () => {
         ),
         PrerequisiteDecorator.withRetry(
           { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },
-          deps,
+          { Sleeper },
         ),
-        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
+        PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner }),
       ],
     });
     const verifier = prerequisite.build();
