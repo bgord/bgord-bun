@@ -22,72 +22,72 @@ describe("CacheResolverSimpleStrategy", async () => {
   test("success - hit", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
+    using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
 
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
 
     expect(result).toEqual(cached);
-    expect(getSpy).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
   });
 
   test("success - miss", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const setSpy = spyOn(CacheRepository, "set");
+    using cacheRepositorySet = spyOn(CacheRepository, "set");
 
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
 
     expect(result).toEqual(fresh);
-    expect(setSpy).toHaveBeenCalledWith(subject.hex, fresh);
+    expect(cacheRepositorySet).toHaveBeenCalledWith(subject.hex, fresh);
   });
 
   test("failure - error propagation", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const setSpy = spyOn(CacheRepository, "set");
+    using cacheRepositorySet = spyOn(CacheRepository, "set");
 
     expect(async () => CacheResolver.resolve(subject.hex, mocks.throwIntentionalErrorAsync)).toThrow(
       mocks.IntentionalError,
     );
-    expect(setSpy).not.toHaveBeenCalled();
+    expect(cacheRepositorySet).not.toHaveBeenCalled();
   });
 
   test("resolveWithContext - hit", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const getSpy = spyOn(CacheRepository, "get").mockResolvedValue(cached);
+    using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
 
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
     expect(result).toEqual({ value: cached, source: CacheSourceEnum.hit });
-    expect(getSpy).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
   });
 
   test("resolveWithContext - miss", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const setSpy = spyOn(CacheRepository, "set");
+    using cacheRepositorySet = spyOn(CacheRepository, "set");
 
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
     expect(result).toEqual({ value: fresh, source: CacheSourceEnum.miss });
-    expect(setSpy).toHaveBeenCalledWith(subject.hex, fresh);
+    expect(cacheRepositorySet).toHaveBeenCalledWith(subject.hex, fresh);
   });
 
   test("flush", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-    const setSpy = spyOn(CacheRepository, "set");
-    const flushSpy = spyOn(CacheRepository, "flush");
+    using cacheRepositorySet = spyOn(CacheRepository, "set");
+    using cacheRepositoryFlush = spyOn(CacheRepository, "flush");
 
     const first = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
     expect(first).toEqual({ value: fresh, source: CacheSourceEnum.miss });
-    expect(setSpy).toHaveBeenCalled();
+    expect(cacheRepositorySet).toHaveBeenCalled();
 
     await CacheResolver.flush();
 
-    expect(flushSpy).toHaveBeenCalled();
+    expect(cacheRepositoryFlush).toHaveBeenCalled();
   });
 
   test("ttl - infinite", async () => {

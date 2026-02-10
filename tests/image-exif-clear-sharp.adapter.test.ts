@@ -20,11 +20,11 @@ const deps = { FileRenamer };
 describe("ImageExifClearSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const rotate = spyOn(pipeline, "rotate");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using rotate = spyOn(pipeline, "rotate");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpeg");
     const recipe: ImageExifClearInPlaceStrategy = { strategy: "in_place", input };
     const adapter = await ImageExifClearSharpAdapter.build(deps);
@@ -41,9 +41,9 @@ describe("ImageExifClearSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/source.jpeg");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.jpeg");
     const recipe: ImageExifClearOutputPathStrategy = { strategy: "output_path", input, output };
@@ -59,9 +59,9 @@ describe("ImageExifClearSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageExifClearInPlaceStrategy = { strategy: "in_place", input };
     const adapter = await ImageExifClearSharpAdapter.build(deps);
@@ -75,9 +75,9 @@ describe("ImageExifClearSharpAdapter", () => {
 
   test("output_path - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("in/source.jpeg");
     const output = tools.FilePathRelative.fromString("out/dest.jpeg");
     const recipe: ImageExifClearOutputPathStrategy = { strategy: "output_path", input, output };
@@ -91,7 +91,9 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(ImageExifClearSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageExifClearSharpAdapter.build(deps)).toThrow(
       "image.exif.clear.sharp.adapter.error.missing.dependency",

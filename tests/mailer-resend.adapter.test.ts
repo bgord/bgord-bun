@@ -29,7 +29,7 @@ describe("MailerResendAdapter", async () => {
   const mailer = await MailerResendAdapter.build(smtp);
 
   test("send - success", async () => {
-    const resendEmailsSend = spyOn(mailer.transport.emails, "send").mockResolvedValue(success);
+    using resendEmailsSend = spyOn(mailer.transport.emails, "send").mockResolvedValue(success);
 
     await mailer.send(template);
 
@@ -37,7 +37,7 @@ describe("MailerResendAdapter", async () => {
   });
 
   test("send - error", async () => {
-    spyOn(mailer.transport.emails, "send").mockResolvedValue(failure);
+    using _ = spyOn(mailer.transport.emails, "send").mockResolvedValue(failure);
 
     expect(async () => mailer.send(template)).toThrow("Invalid API key");
   });
@@ -47,7 +47,7 @@ describe("MailerResendAdapter", async () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(MailerResendAdapter, "import").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(MailerResendAdapter, "import").mockRejectedValue(mocks.IntentionalError);
 
     expect(async () => MailerResendAdapter.build(smtp)).toThrow(
       "mailer.resend.adapter.error.missing.dependency",

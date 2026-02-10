@@ -8,7 +8,7 @@ const adapter = new DirectoryEnsurerAdapter();
 
 describe("DirectoryEnsurerAdapter", () => {
   test("happy path - relative", async () => {
-    const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
+    using fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const path = tools.DirectoryPathRelativeSchema.parse("users/uploads");
 
     await adapter.ensure(path);
@@ -17,7 +17,7 @@ describe("DirectoryEnsurerAdapter", () => {
   });
 
   test("happy path - absolute", async () => {
-    const fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
+    using fsMkdir = spyOn(fs, "mkdir").mockResolvedValue(undefined);
     const path = tools.DirectoryPathAbsoluteSchema.parse("/users/uploads");
 
     await adapter.ensure(path);
@@ -26,7 +26,7 @@ describe("DirectoryEnsurerAdapter", () => {
   });
 
   test("throw an error", () => {
-    spyOn(fs, "mkdir").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(fs, "mkdir").mockImplementation(mocks.throwIntentionalError);
     const path = tools.DirectoryPathAbsoluteSchema.parse("/users/uploads");
 
     expect(async () => adapter.ensure(path)).toThrow(mocks.IntentionalError);

@@ -16,7 +16,7 @@ const memoryUsage = {
 
 describe("MemoryConsumption service", () => {
   test("get", () => {
-    spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
+    using _ = spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
 
     const result = MemoryConsumption.get();
 
@@ -25,7 +25,7 @@ describe("MemoryConsumption service", () => {
   });
 
   test("snapshot", () => {
-    spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
+    using _ = spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
 
     const result = MemoryConsumption.snapshot();
 

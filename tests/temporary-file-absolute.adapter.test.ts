@@ -23,8 +23,8 @@ const adapter = new TemporaryFileAbsoluteAdapter(directory, deps);
 
 describe("TemporaryFileAbsoluteAdapter", () => {
   test("write", async () => {
-    const fileWriterWrite = spyOn(FileWriter, "write");
-    const fileRenamerRename = spyOn(FileRenamer, "rename");
+    using fileWriterWrite = spyOn(FileWriter, "write");
+    using fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const path = await adapter.write(filename, content);
 
@@ -34,21 +34,21 @@ describe("TemporaryFileAbsoluteAdapter", () => {
   });
 
   test("write - write error", async () => {
-    spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const fileRenamerRename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using fileRenamerRename = spyOn(FileRenamer, "rename");
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
     expect(fileRenamerRename).not.toHaveBeenCalled();
   });
 
   test("write - renamer error", async () => {
-    spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
   });
 
   test("cleanup", async () => {
-    const fileCleanerDelete = spyOn(FileCleaner, "delete");
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
     await adapter.cleanup(filename);
 

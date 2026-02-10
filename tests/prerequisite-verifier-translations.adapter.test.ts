@@ -26,7 +26,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("success - two languages", async () => {
-    spyOn(I18n.prototype, "getTranslations").mockImplementation(
+    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
       async (language: string): Promise<TranslationsType> => {
         switch (language) {
           case "en":
@@ -43,7 +43,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one language translations not available", async () => {
-    spyOn(I18n.prototype, "getTranslations").mockImplementation(
+    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
       async (language: string): Promise<TranslationsType> => {
         switch (language) {
           case "en":
@@ -62,7 +62,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - both language translations not available", async () => {
-    spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
+    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
       switch (language) {
         case "en":
           throw mocks.throwIntentionalErrorAsync;
@@ -79,7 +79,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one difference", async () => {
-    spyOn(I18n.prototype, "getTranslations").mockImplementation(
+    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
       async (language: string): Promise<TranslationsType> => {
         switch (language) {
           case "en":
@@ -98,7 +98,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one empty", async () => {
-    spyOn(I18n.prototype, "getTranslations").mockImplementation(
+    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
       async (language: string): Promise<TranslationsType> => {
         switch (language) {
           case "en":
@@ -120,7 +120,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - both different", async () => {
-    spyOn(I18n.prototype, "getTranslations").mockImplementation(
+    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
       async (language: string): Promise<TranslationsType> => {
         switch (language) {
           case "en":

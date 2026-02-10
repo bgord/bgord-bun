@@ -11,7 +11,7 @@ const handler = new JobHandlerBareStrategy(deps);
 describe("JobHandlerBareStrategy", () => {
   test("happy path", async () => {
     const uow = { label: "PassageOfTime", process: async () => {} };
-    const uowProcess = spyOn(uow, "process");
+    using uowProcess = spyOn(uow, "process");
 
     expect(async () => handler.handle(uow)()).not.toThrow();
     expect(uowProcess).toHaveBeenCalled();

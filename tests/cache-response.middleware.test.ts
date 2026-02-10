@@ -148,7 +148,7 @@ describe("CacheResponse middleware", () => {
         return next();
       })
       .get("/ping", cacheResponseDisabled.handle, (c) => c.json({ message: "ping" }));
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     const response = await app.request("/ping");
     const json = await response.json();

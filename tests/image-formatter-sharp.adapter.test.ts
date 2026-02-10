@@ -19,12 +19,12 @@ const deps = { FileCleaner, FileRenamer };
 describe("ImageFormatterSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
-    const fileCleaner = spyOn(FileCleaner, "delete");
+    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
+    using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
     const to = tools.Extension.parse("webp");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
@@ -44,9 +44,9 @@ describe("ImageFormatterSharpAdapter", () => {
 
   test("in_place - same extension", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const rename = spyOn(FileRenamer, "rename");
-    const fileCleaner = spyOn(FileCleaner, "delete");
+    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using rename = spyOn(FileRenamer, "rename");
+    using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to: tools.Extension.parse("png") };
     const adapter = await ImageFormatterSharpAdapter.build(deps);
@@ -61,11 +61,11 @@ describe("ImageFormatterSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
-    const fileCleaner = spyOn(FileCleaner, "delete");
+    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
+    using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/source.jpeg");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.webp");
     const recipe: ImageFormatterStrategy = { strategy: "output_path", input, output };
@@ -84,9 +84,9 @@ describe("ImageFormatterSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/img/in.webp");
     const output = tools.FilePathAbsolute.fromString("/img/out/photo.jpg");
     const recipe: ImageFormatterStrategy = { strategy: "output_path", input, output };
@@ -103,10 +103,10 @@ describe("ImageFormatterSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
-    const fileCleaner = spyOn(FileCleaner, "delete");
+    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
+    using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const to = tools.Extension.parse("jpeg");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
@@ -123,7 +123,9 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(ImageFormatterSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageFormatterSharpAdapter.build(deps)).toThrow(
       "image.formatter.sharp.adapter.error.missing.dependency",

@@ -29,7 +29,7 @@ describe("PrerequisiteVerifierSpaceAdapter", () => {
   });
 
   test("failure - error", async () => {
-    spyOn(DiskSpaceCheckerFailure, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(DiskSpaceCheckerFailure, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
     const prerequisite = new PrerequisiteVerifierSpaceAdapter({ minimum }, depsFailure);
 
     expect(await prerequisite.verify()).toMatchObject(

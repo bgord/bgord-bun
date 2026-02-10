@@ -19,7 +19,7 @@ const deps = { Clock, IdProvider, EventStore };
 describe("PassageOfTimeMinute", async () => {
   test("correct path", async () => {
     const service = new PassageOfTimeMinute(deps);
-    const eventStoreSave = spyOn(deps.EventStore, "save");
+    using eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => service.process());
 
@@ -29,7 +29,7 @@ describe("PassageOfTimeMinute", async () => {
   test("job handler", async () => {
     const JobHandler = new JobHandlerBareStrategy(deps);
     const service = new PassageOfTimeMinute(deps);
-    const eventStoreSave = spyOn(deps.EventStore, "save");
+    using eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => JobHandler.handle(service)());
 

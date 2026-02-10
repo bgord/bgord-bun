@@ -28,10 +28,10 @@ const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
   test("putFromPath", async () => {
-    const fileCopierCopy = spyOn(FileCopier, "copy");
-    const fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
-    const directoryEnsurerEnsure = spyOn(DirectoryEnsurer, "ensure");
-    const fileRenamerRename = spyOn(FileRenamer, "rename");
+    using fileCopierCopy = spyOn(FileCopier, "copy");
+    using fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
+    using directoryEnsurerEnsure = spyOn(DirectoryEnsurer, "ensure");
+    using fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
     const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
@@ -48,7 +48,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   });
 
   test("head", async () => {
-    const fileHashHash = spyOn(HashFile, "hash")
+    using fileHashHash = spyOn(HashFile, "hash")
       .mockResolvedValueOnce(hash)
       .mockRejectedValueOnce(mocks.IntentionalError);
 
@@ -67,13 +67,13 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test("getStream", async () => {
     const stream = new ReadableStream();
     // @ts-expect-error TODO
-    spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
+    using _ = spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
 
     expect(await adapter.getStream(key)).toEqual(stream);
   });
 
   test("getStream - null", async () => {
-    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
     const result = await adapter.getStream(key);
 
@@ -81,7 +81,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   });
 
   test("delete", async () => {
-    const fileCleanerDelete = spyOn(FileCleaner, "delete");
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
     await adapter.delete(key);
 
@@ -91,7 +91,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   });
 
   test("delete - cleaner failure", async () => {
-    spyOn(FileCleaner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(FileCleaner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => await adapter.delete(key)).toThrow(mocks.IntentionalError);
   });

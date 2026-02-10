@@ -7,19 +7,19 @@ const prerequisite = new PrerequisiteVerifierExternalApiAdapter({ request: () =>
 
 describe("PrerequisiteVerifierExternalApiAdapter", () => {
   test("success", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response());
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response());
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - response not ok", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 400 }));
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 400 }));
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("HTTP 400"));
   });
 
   test("failure - response error", async () => {
-    spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),

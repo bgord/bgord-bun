@@ -21,7 +21,7 @@ describe("TimeoutRunnerMonitorAdapter", () => {
 
   test("monitor - over timeout", async () => {
     jest.useFakeTimers();
-    const globalClearTimeout = spyOn(global, "clearTimeout");
+    using globalClearTimeout = spyOn(global, "clearTimeout");
 
     const Logger = new LoggerCollectingAdapter();
     const adapter = new TimeoutRunnerMonitorAdapter({ Logger });

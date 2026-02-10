@@ -34,7 +34,7 @@ describe("MailerWithLoggerAdapter", async () => {
   });
 
   test("send - success", async () => {
-    const sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
+    using sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
@@ -53,7 +53,7 @@ describe("MailerWithLoggerAdapter", async () => {
   });
 
   test("failure", async () => {
-    const sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
+    using sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
@@ -72,7 +72,7 @@ describe("MailerWithLoggerAdapter", async () => {
   });
 
   test("verfiy", async () => {
-    const mailerSmtpVerify = spyOn(inner, "verify").mockImplementation(jest.fn());
+    using mailerSmtpVerify = spyOn(inner, "verify").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 

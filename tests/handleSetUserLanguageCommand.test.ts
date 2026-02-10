@@ -21,7 +21,7 @@ const deps = { Clock, IdProvider };
 describe("handleSetUserLanguageCommand", async () => {
   test("happy path", async () => {
     const EventStore = { save: async () => {} };
-    const eventStoreSave = spyOn(EventStore, "save");
+    using eventStoreSave = spyOn(EventStore, "save");
 
     class UserLanguageQuery implements Preferences.Ports.UserLanguageQueryPort {
       async get() {
@@ -62,7 +62,7 @@ describe("handleSetUserLanguageCommand", async () => {
 
   test("UserLanguageHasChanged", async () => {
     const EventStore = { save: async () => {} };
-    const eventStoreSave = spyOn(EventStore, "save");
+    using eventStoreSave = spyOn(EventStore, "save");
 
     class UserLanguageQuery implements Preferences.Ports.UserLanguageQueryPort {
       async get() {

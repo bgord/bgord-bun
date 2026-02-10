@@ -19,7 +19,7 @@ const adapter = new GzipAdapter(deps);
 
 describe("GzipAdapter", () => {
   test("absolute to absolute", async () => {
-    const bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
+    using bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
 
     expect(await adapter.pack({ input, output })).toEqual(output);
     expect(bunGzipSync).toHaveBeenCalledWith(content);
@@ -28,22 +28,22 @@ describe("GzipAdapter", () => {
   test("relative to relative", async () => {
     const input = tools.FilePathRelative.fromString("fixtures/sample.txt");
     const output = tools.FilePathRelative.fromString("fixtures/sample.txt.gz");
-    spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
+    using _ = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
 
     expect(await adapter.pack({ input, output })).toEqual(output);
   });
 
   test("read error propagation", async () => {
-    spyOn(FileReaderRaw, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const bunGzipSync = spyOn(Bun, "gzipSync");
+    using _ = spyOn(FileReaderRaw, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using bunGzipSync = spyOn(Bun, "gzipSync");
 
     expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
     expect(bunGzipSync).not.toHaveBeenCalled();
   });
 
   test("write error propagation", async () => {
-    spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
-    spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
+    using __ = spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError);
 
     expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
   });

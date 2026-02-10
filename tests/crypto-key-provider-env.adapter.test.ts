@@ -8,7 +8,7 @@ const adapter = new CryptoKeyProviderMemoryAdapter(HEX);
 
 describe("CryptoKeyProviderMemoryAdapter", () => {
   test("get", async () => {
-    const importKey = spyOn(crypto.subtle, "importKey");
+    using importKey = spyOn(crypto.subtle, "importKey");
 
     await adapter.get();
 

@@ -127,7 +127,7 @@ describe("Setup service", () => {
   });
 
   test("bodyLimit", async () => {
-    spyOn(process.stderr, "write").mockImplementation(jest.fn());
+    using _ = spyOn(process.stderr, "write").mockImplementation(jest.fn());
     const boundary = "----bun-test-boundary";
     const content = [
       `--${boundary}`,

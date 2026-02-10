@@ -35,21 +35,21 @@ describe("ApiVersion middleware", async () => {
   const subject = await resolver.resolve();
 
   test("happy path", async () => {
-    const buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract");
-    const cacheRepositorygetSpy = spyOn(CacheRepository, "get");
+    using buildInfoRepositoryExtract = spyOn(deps.BuildInfoRepository, "extract");
+    using cacheRepositoryget = spyOn(CacheRepository, "get");
 
     const first = await app.request("/ping", { method: "GET" });
 
     expect(first.status).toEqual(200);
     expect(first.headers.get(ApiVersion.HEADER_NAME)).toEqual(version);
-    expect(cacheRepositorygetSpy).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryget).toHaveBeenCalledWith(subject.hex);
 
     const second = await app.request("/ping", { method: "GET" });
 
     expect(second.status).toEqual(200);
     expect(second.headers.get(ApiVersion.HEADER_NAME)).toEqual(version);
     expect(buildInfoRepositoryExtract).toBeCalledTimes(1);
-    expect(cacheRepositorygetSpy).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryget).toHaveBeenCalledWith(subject.hex);
 
     await CacheRepository.flush();
   });

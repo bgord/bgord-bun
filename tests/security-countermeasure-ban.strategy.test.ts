@@ -22,7 +22,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
-    const eventStoreSave = spyOn(deps.EventStore, "save");
+    using eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
@@ -47,7 +47,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - without client", async () => {
-    const eventStoreSave = spyOn(deps.EventStore, "save");
+    using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
@@ -83,7 +83,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - custom config", async () => {
-    const eventStoreSave = spyOn(deps.EventStore, "save");
+    using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const config = { response: { status: 404 } };

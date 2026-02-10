@@ -21,12 +21,12 @@ const deps = { FileRenamer };
 describe("ImageCompressorSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const rotate = spyOn(pipeline, "rotate");
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using rotate = spyOn(pipeline, "rotate");
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
 
     const adapter = await ImageCompressorSharpAdapter.build(deps);
 
@@ -46,10 +46,10 @@ describe("ImageCompressorSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/var/out/dest.webp");
     const recipe: ImageCompressorOutputPathStrategy = {
@@ -71,10 +71,10 @@ describe("ImageCompressorSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };
     const adapter = await ImageCompressorSharpAdapter.build(deps);
@@ -89,9 +89,9 @@ describe("ImageCompressorSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.jpeg");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
     const recipe: ImageCompressorOutputPathStrategy = { strategy: "output_path", input, output };
@@ -105,7 +105,9 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(ImageCompressorSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageCompressorSharpAdapter.build(deps)).toThrow(
       "image.compressor.sharp.adapter.error.missing.dependency",

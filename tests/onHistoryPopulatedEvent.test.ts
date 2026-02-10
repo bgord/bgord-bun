@@ -12,7 +12,7 @@ describe("History.EventHandlers.onHistoryPopulatedEvent", () => {
   test("happy path", async () => {
     const projection = new HistoryProjection();
     const handler = History.EventHandlers.onHistoryPopulatedEvent(projection);
-    const projectionAppend = spyOn(projection, "append");
+    using projectionAppend = spyOn(projection, "append");
     const event = History.Events.HistoryPopulatedEvent.parse({
       id: mocks.correlationId,
       correlationId: mocks.correlationId,

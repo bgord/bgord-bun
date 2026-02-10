@@ -10,7 +10,7 @@ const deps = { Sleeper };
 
 describe("Slower middleware", () => {
   test("happy path", async () => {
-    const sleeperWait = spyOn(Sleeper, "wait");
+    using sleeperWait = spyOn(Sleeper, "wait");
     const app = new Hono().get("/slower", Slower.handle(duration, deps), (c) => c.text("OK"));
 
     const response = await app.request("/slower");

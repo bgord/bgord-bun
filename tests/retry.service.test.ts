@@ -19,7 +19,7 @@ describe("Retry service", () => {
   });
 
   test("success", async () => {
-    const action = spyOn({ run: async () => "ok" }, "run");
+    using action = spyOn({ run: async () => "ok" }, "run");
 
     const result = await retry.run(action, { max: tools.IntegerPositive.parse(1), backoff });
 
@@ -29,7 +29,7 @@ describe("Retry service", () => {
 
   test("retry then success", async () => {
     let calls = 0;
-    const action = spyOn(
+    using action = spyOn(
       {
         run: async () => {
           calls++;
@@ -40,7 +40,7 @@ describe("Retry service", () => {
       },
       "run",
     );
-    const sleeperWait = spyOn(Sleeper, "wait");
+    using sleeperWait = spyOn(Sleeper, "wait");
 
     const result = await retry.run(action, { max, backoff });
 
@@ -50,14 +50,14 @@ describe("Retry service", () => {
   });
 
   test("fail after max", async () => {
-    const action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
+    using action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
 
     expect(async () => retry.run(action, { max, backoff })).toThrow(mocks.IntentionalError);
     expect(action).toHaveBeenCalledTimes(3);
   });
 
   test("retryWhen false", async () => {
-    const action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
+    using action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
 
     expect(async () =>
       retry.run(action, { max: tools.IntegerPositive.parse(5), backoff: backoff, when: () => false }),

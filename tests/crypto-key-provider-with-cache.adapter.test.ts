@@ -21,8 +21,8 @@ const adapter = new CryptoKeyProviderWithCacheAdapter({ id: "crypto-key", inner 
 describe("CryptoKeyProviderWithCacheAdapter", () => {
   test("happy path", async () => {
     jest.useFakeTimers();
-    const innerRead = spyOn(inner, "get");
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using innerRead = spyOn(inner, "get");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("crypto_key_provider"),

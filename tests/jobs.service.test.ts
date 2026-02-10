@@ -9,7 +9,7 @@ describe("Jobs service", () => {
 
   test("stopAll", () => {
     const job = { stop: () => {}, isRunning: () => true };
-    const jobStop = spyOn(job, "stop");
+    using jobStop = spyOn(job, "stop");
 
     Jobs.stopAll({ PassageOfTime: job });
 

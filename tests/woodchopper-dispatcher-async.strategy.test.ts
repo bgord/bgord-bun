@@ -66,7 +66,7 @@ describe("WoodchopperDispatcherAsync", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
-    spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(diagnostics.entries.length).toEqual(0);
@@ -83,7 +83,7 @@ describe("WoodchopperDispatcherAsync", () => {
   test("dispatch - error - without diagnostics", async () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink, capacity);
-    spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entry)).toEqual(true);
     expect(dispatcher.dispatch(entry)).toEqual(false);

@@ -59,7 +59,7 @@ describe("PrerequisiteRunnerStartup service", () => {
     const PrerequisiteDisabled = new Prerequisite("undetermined", new mocks.PrerequisiteVerifierPass(), {
       enabled: false,
     });
-    const prerequisiteDisabledBuild = spyOn(PrerequisiteDisabled, "build");
+    using prerequisiteDisabledBuild = spyOn(PrerequisiteDisabled, "build");
 
     await runner.check([mocks.PrerequisiteOk, PrerequisiteDisabled]);
 

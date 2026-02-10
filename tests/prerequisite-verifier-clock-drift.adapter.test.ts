@@ -20,13 +20,13 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
   });
 
   test("failure - missing timestamp", async () => {
-    spyOn(Timekeeper, "get").mockResolvedValue(null);
+    using _ = spyOn(Timekeeper, "get").mockResolvedValue(null);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("failure - timekeeper", async () => {
-    spyOn(Timekeeper, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(Timekeeper, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     const result = await prerequisite.verify();
 
@@ -35,7 +35,7 @@ describe("PrerequisiteVerifierClockDriftAdapter", () => {
 
   test("failure - skew", async () => {
     const duration = tools.Duration.Minutes(1);
-    spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
+    using _ = spyOn(Timekeeper, "get").mockResolvedValue(mocks.TIME_ZERO.add(duration));
 
     expect(await prerequisite.verify()).toEqual(
       PrerequisiteVerification.failure(`Difference: ${duration.seconds}s`),

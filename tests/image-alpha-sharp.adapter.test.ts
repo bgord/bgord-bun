@@ -19,13 +19,13 @@ const deps = { FileRenamer };
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const rotate = spyOn(pipeline, "rotate");
-    const flatten = spyOn(pipeline, "flatten");
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using rotate = spyOn(pipeline, "rotate");
+    using flatten = spyOn(pipeline, "flatten");
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageAlphaStrategy = { strategy: "in_place", input, background: "#F8FAFC" };
     const adapter = await ImageAlphaSharpAdapter.build(deps);
@@ -44,11 +44,11 @@ describe("ImageAlphaSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const flatten = spyOn(pipeline, "flatten");
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using flatten = spyOn(pipeline, "flatten");
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
     const background = { r: 248, g: 250, b: 252, alpha: 1 };
@@ -67,10 +67,10 @@ describe("ImageAlphaSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
-    const toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
+    using toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageAlphaStrategy = { strategy: "in_place", input, background: "#000" };
     const adapter = await ImageAlphaSharpAdapter.build(deps);
@@ -85,9 +85,9 @@ describe("ImageAlphaSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
     const recipe: ImageAlphaStrategy = { strategy: "output_path", input, output, background: "#fff" };
@@ -101,7 +101,7 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(ImageAlphaSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => ImageAlphaSharpAdapter.build(deps)).toThrow(
       "image.alpha.sharp.adapter.error.missing.dependency",

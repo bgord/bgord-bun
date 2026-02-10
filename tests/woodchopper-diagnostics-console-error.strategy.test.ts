@@ -8,7 +8,7 @@ import * as mocks from "./mocks";
 
 describe("WoodchopperDiagnosticsConsoleError", () => {
   test("handle", () => {
-    const consoleError = spyOn(console, "error").mockImplementation(jest.fn());
+    using consoleError = spyOn(console, "error").mockImplementation(jest.fn());
     const diagnostics = new WoodchopperDiagnosticsConsoleError();
 
     diagnostics.handle({ kind: "sink", error: new Error(mocks.IntentionalError) });
@@ -17,7 +17,7 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
   });
 
   test("handle - redactor", () => {
-    const consoleError = spyOn(console, "error").mockImplementation(jest.fn());
+    using consoleError = spyOn(console, "error").mockImplementation(jest.fn());
     const redactor = new RedactorComposite([
       new RedactorErrorStackHide(),
       new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),

@@ -11,13 +11,13 @@ const prerequisite = new PrerequisiteVerifierDnsAdapter({ hostname });
 
 describe("PrerequisiteVerifierDnsAdapter", () => {
   test("success", async () => {
-    spyOn(dns, "lookup").mockResolvedValue(result);
+    using _ = spyOn(dns, "lookup").mockResolvedValue(result);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
-    spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(dns, "lookup").mockRejectedValue(mocks.IntentionalError);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
   });

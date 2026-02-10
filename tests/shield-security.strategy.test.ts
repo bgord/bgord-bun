@@ -85,7 +85,7 @@ const app = new Hono()
 
 describe("ShieldSecurityStrategy", () => {
   test("happy path", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    using loggerInfo = spyOn(Logger, "info");
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
     expect(result.status).toEqual(200);
@@ -93,8 +93,8 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("denied - BaitRoutes - ban", async () => {
-    const loggerInfo = spyOn(Logger, "info");
-    const eventStoreSave = spyOn(EventStore, "save");
+    using loggerInfo = spyOn(Logger, "info");
+    using eventStoreSave = spyOn(EventStore, "save");
 
     const result = await app.request(
       "/.env",
@@ -108,8 +108,8 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("denied - HoneyPotField - tarpit - allow", async () => {
-    const sleeperWait = spyOn(Sleeper, "wait");
-    const loggerInfo = spyOn(Logger, "info");
+    using sleeperWait = spyOn(Sleeper, "wait");
+    using loggerInfo = spyOn(Logger, "info");
 
     const result = await app.request(
       "/ping",
@@ -123,7 +123,7 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("denied - UserAgent - mirage", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    using loggerInfo = spyOn(Logger, "info");
 
     const result = await app.request(
       "/ping",
@@ -136,7 +136,7 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("denied - Fail - mirage", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    using loggerInfo = spyOn(Logger, "info");
     const shield = new ShieldSecurityStrategy([mirageFail], deps);
     const app = new Hono()
       .use(CorrelationStorage.handle())
@@ -150,7 +150,7 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
-    const loggerInfo = spyOn(Logger, "info");
+    using loggerInfo = spyOn(Logger, "info");
     const rule = new SecurityRuleViolationThresholdStrategy(
       baitRoutes,
       { threshold: tools.IntegerPositive.parse(3) },
@@ -180,8 +180,8 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("unhandled security error", async () => {
-    const loggerInfo = spyOn(Logger, "info");
-    const sleeperWait = spyOn(Sleeper, "wait");
+    using loggerInfo = spyOn(Logger, "info");
+    using sleeperWait = spyOn(Sleeper, "wait");
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "delay", duration } as SecurityAction,

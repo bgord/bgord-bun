@@ -20,7 +20,7 @@ const UserLanguageQueryAdapter = new UserLanguageQueryAdapterNoop();
 
 describe("preferences - ohq - UserLanguageOHQ", () => {
   test("happy path", async () => {
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(SupportedLanguages.pl);
+    using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(SupportedLanguages.pl);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
@@ -31,7 +31,7 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
   });
 
   test("UserLanguageResolverThrowIfMissing", async () => {
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
+    using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),
@@ -42,7 +42,7 @@ describe("preferences - ohq - UserLanguageOHQ", () => {
   });
 
   test("UserLanguageResolverSystemDefaultFallback", async () => {
-    spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
+    using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
       UserLanguageQueryAdapter,
       new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES),

@@ -10,19 +10,19 @@ const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
 
 describe("PrerequisiteVerifierBinaryAdapter", () => {
   test("success", async () => {
-    spyOn(Bun, "which").mockReturnValue(binary);
+    using _ = spyOn(Bun, "which").mockReturnValue(binary);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - binary not found", async () => {
-    spyOn(Bun, "which").mockReturnValue(null);
+    using _ = spyOn(Bun, "which").mockReturnValue(null);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure());
   });
 
   test("failure - error", async () => {
-    spyOn(Bun, "which").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(Bun, "which").mockImplementation(mocks.throwIntentionalError);
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),

@@ -108,7 +108,7 @@ describe("Prerequisite VO", () => {
       decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps)],
     });
     const verifier = prerequisite.build();
-    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
   });
@@ -128,7 +128,7 @@ describe("Prerequisite VO", () => {
     const verifier = prerequisite.build();
 
     jest.useFakeTimers();
-    const passVerify = spyOn(pass, "verify");
+    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
@@ -160,7 +160,7 @@ describe("Prerequisite VO", () => {
     const verifier = prerequisite.build();
 
     jest.useFakeTimers();
-    const failVerify = spyOn(fail, "verify");
+    using failVerify = spyOn(fail, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
@@ -207,7 +207,7 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    const passVerify = spyOn(pass, "verify");
+    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(Logger.entries).toEqual([
@@ -233,7 +233,7 @@ describe("Prerequisite VO", () => {
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
 
-    const passVerify = spyOn(pass, "verify");
+    using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
@@ -265,7 +265,7 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
@@ -282,7 +282,7 @@ describe("Prerequisite VO", () => {
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { HashContent, CacheResolver, TimeoutRunner };
-    const passVerify = spyOn(pass, "verify");
+    using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
@@ -290,7 +290,7 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
@@ -309,8 +309,8 @@ describe("Prerequisite VO", () => {
     const Sleeper = new SleeperNoopAdapter();
     const deps = { HashContent, CacheResolver, Sleeper };
 
-    const failVerify = spyOn(fail, "verify");
-    const cacheRepositorySet = spyOn(CacheRepository, "set");
+    using failVerify = spyOn(fail, "verify");
+    using cacheRepositorySet = spyOn(CacheRepository, "set");
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
@@ -343,7 +343,7 @@ describe("Prerequisite VO", () => {
       decorators: [PrerequisiteDecorator.withCache("example", deps), PrerequisiteDecorator.withLogger(deps)],
     });
     const verifier = prerequisite.build();
-    const passVerify = spyOn(pass, "verify");
+    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
@@ -363,7 +363,7 @@ describe("Prerequisite VO", () => {
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
 
-    const passVerify = spyOn(pass, "verify");
+    using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withLogger(deps), PrerequisiteDecorator.withCache("example", deps)],
     });
@@ -392,7 +392,7 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
@@ -417,8 +417,8 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    const failVerify = spyOn(fail, "verify");
-    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
+    using failVerify = spyOn(fail, "verify");
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
     expect(failVerify).toHaveBeenCalledTimes(3);

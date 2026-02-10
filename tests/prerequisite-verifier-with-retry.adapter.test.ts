@@ -28,8 +28,8 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
 
   test("failure", async () => {
     const Sleeper = new SleeperNoopAdapter();
-    const failVerify = spyOn(fail, "verify");
-    const sleeperWait = spyOn(Sleeper, "wait");
+    using failVerify = spyOn(fail, "verify");
+    using sleeperWait = spyOn(Sleeper, "wait");
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter({ inner: fail, retry }, { Sleeper });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
@@ -39,8 +39,8 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
 
   test("failure then success", async () => {
     const Sleeper = new SleeperNoopAdapter();
-    const failThenPassVerify = spyOn(failThenPass, "verify");
-    const sleeperWait = spyOn(Sleeper, "wait");
+    using failThenPassVerify = spyOn(failThenPass, "verify");
+    using sleeperWait = spyOn(Sleeper, "wait");
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter(
       { inner: failThenPass, retry },
       { Sleeper },
@@ -54,8 +54,8 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
   test("exponential backoff", async () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     const Sleeper = new SleeperNoopAdapter();
-    const failVerify = spyOn(fail, "verify");
-    const sleeperWait = spyOn(Sleeper, "wait");
+    using failVerify = spyOn(fail, "verify");
+    using sleeperWait = spyOn(Sleeper, "wait");
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter(
       { inner: fail, retry: { max: tools.IntegerPositive.parse(5), backoff: exponential } },
       { Sleeper },

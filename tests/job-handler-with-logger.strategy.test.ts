@@ -31,7 +31,7 @@ describe("JobHandlerWithLoggerStrategy", () => {
     const IdProvider = new IdProviderDeterministicAdapter([correlationId]);
     const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
     const uow = new ClockWork({ Clock });
-    const uowProcess = spyOn(uow, "process");
+    using uowProcess = spyOn(uow, "process");
 
     await handler.handle(uow)();
 
@@ -54,8 +54,8 @@ describe("JobHandlerWithLoggerStrategy", () => {
     const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
 
     const uow = new ClockWork({ Clock });
-    const loggerError = spyOn(Logger, "error");
-    const uowProcess = spyOn(uow, "process");
+    using loggerError = spyOn(Logger, "error");
+    using uowProcess = spyOn(uow, "process");
 
     await handler.handle(uow)();
 

@@ -7,7 +7,7 @@ const adapter = new SleeperSystemAdapter();
 
 describe("SleeperSystemAdapter", () => {
   test("wait", async () => {
-    const bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
+    using bunSleep = spyOn(Bun, "sleep").mockImplementation(jest.fn());
 
     await adapter.wait(duration);
 

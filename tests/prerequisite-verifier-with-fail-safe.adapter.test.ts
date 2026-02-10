@@ -36,7 +36,7 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
 
   test("failure - specific failure - no downgrade", async () => {
     const OtherError = "other.error";
-    spyOn(fail, "verify").mockResolvedValue(PrerequisiteVerification.failure(OtherError));
+    using _ = spyOn(fail, "verify").mockResolvedValue(PrerequisiteVerification.failure(OtherError));
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: fail, when: specificError });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(OtherError));

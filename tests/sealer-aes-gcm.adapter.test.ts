@@ -22,8 +22,8 @@ const sealedValue = "sealed:gcm:" + Buffer.from(encrypted).toString("base64");
 
 describe("SealerAesGcmAdapter", () => {
   test("seal", async () => {
-    const encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
-    const cryptoAesGcmEncrypt = spyOn(CryptoAesGcm, "encrypt").mockResolvedValue(encrypted);
+    using encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    using cryptoAesGcmEncrypt = spyOn(CryptoAesGcm, "encrypt").mockResolvedValue(encrypted);
 
     const result = await adapter.seal(input);
 
@@ -33,7 +33,7 @@ describe("SealerAesGcmAdapter", () => {
   });
 
   test("unseal", async () => {
-    const cryptoAesGcmDecrypt = spyOn(CryptoAesGcm, "decrypt").mockResolvedValue(plaintext.buffer);
+    using cryptoAesGcmDecrypt = spyOn(CryptoAesGcm, "decrypt").mockResolvedValue(plaintext.buffer);
 
     const result = await adapter.unseal(sealedValue);
 

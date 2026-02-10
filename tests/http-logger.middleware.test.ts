@@ -40,7 +40,7 @@ const app = new Hono()
 
 describe("HttpLogger middleware", () => {
   test("200", async () => {
-    const loggerHttp = spyOn(Logger, "http");
+    using loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request(
       "/ping?page=1",
@@ -80,8 +80,8 @@ describe("HttpLogger middleware", () => {
   });
 
   test("400", async () => {
-    const loggerHttp = spyOn(Logger, "http");
-    const loggerError = spyOn(Logger, "error");
+    using loggerHttp = spyOn(Logger, "http");
+    using loggerError = spyOn(Logger, "error");
 
     const result = await app.request("/pang", { method: "GET" }, mocks.connInfo);
 
@@ -118,8 +118,8 @@ describe("HttpLogger middleware", () => {
   });
 
   test("500", async () => {
-    const loggerHttp = spyOn(Logger, "http");
-    const loggerError = spyOn(Logger, "error");
+    using loggerHttp = spyOn(Logger, "http");
+    using loggerError = spyOn(Logger, "error");
 
     const result = await app.request("/pong", { method: "GET" }, mocks.connInfo);
 
@@ -166,7 +166,7 @@ describe("HttpLogger middleware", () => {
   });
 
   test("skip", async () => {
-    const loggerHttp = spyOn(Logger, "http");
+    using loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.connInfo);
 
@@ -175,7 +175,7 @@ describe("HttpLogger middleware", () => {
   });
 
   test("cache-hit", async () => {
-    const loggerHttp = spyOn(Logger, "http");
+    using loggerHttp = spyOn(Logger, "http");
 
     const first = await app.request("/ping-cached", {}, mocks.connInfo);
 

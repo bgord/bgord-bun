@@ -32,8 +32,8 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter(config, deps);
 
     jest.useFakeTimers();
-    const passVerify = spyOn(pass, "verify");
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using passVerify = spyOn(pass, "verify");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
@@ -63,7 +63,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "example", inner: fail }, deps);
 
     jest.useFakeTimers();
-    const failVerify = spyOn(fail, "verify");
+    using failVerify = spyOn(fail, "verify");
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);

@@ -85,7 +85,7 @@ describe("WoodchopperDispatcherSampling", () => {
     const inner = new WoodchopperDispatcherSync(sink);
     const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
-    spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entryInfo)).toEqual(false);
     expect(diagnostics.entries.length).toEqual(0);
@@ -105,7 +105,7 @@ describe("WoodchopperDispatcherSampling", () => {
     const sink = new WoodchopperSinkNoop();
     const inner = new WoodchopperDispatcherSync(sink);
     const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
-    spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entryInfo)).toEqual(false);
     expect(dispatcher.dispatch(entryInfo)).toEqual(false);
@@ -116,7 +116,7 @@ describe("WoodchopperDispatcherSampling", () => {
     const sink = new WoodchopperSinkNoop();
     const inner = new WoodchopperDispatcherSync(sink);
     const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
-    const innerDispatcherClose = spyOn(inner, "close");
+    using innerDispatcherClose = spyOn(inner, "close");
 
     dispatcher.close();
 

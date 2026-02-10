@@ -9,7 +9,7 @@ const adapter = new AntivirusClamavAdapter();
 
 describe("AntivirusClamavAdapter", () => {
   test("scan - clean - true", async () => {
-    const bunSpawn = spyOn(Bun, "spawn").mockImplementation(() => ({
+    using bunSpawn = spyOn(Bun, "spawn").mockImplementation(() => ({
       // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },
       exitCode: 0,
@@ -25,7 +25,7 @@ describe("AntivirusClamavAdapter", () => {
   });
 
   test("scan - clean - false", async () => {
-    spyOn(Bun, "spawn").mockImplementation(() => ({
+    using _ = spyOn(Bun, "spawn").mockImplementation(() => ({
       // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },
       // @ts-expect-error Partial access
@@ -41,13 +41,13 @@ describe("AntivirusClamavAdapter", () => {
 
   test("scan - failure - missing stdin", async () => {
     // @ts-expect-error Partial access
-    spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 0 }));
+    using _ = spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 0 }));
 
     expect(async () => adapter.scan(virus)).toThrow("antivirus.scan.failed");
   });
 
   test("scan - failure - exit code", async () => {
-    spyOn(Bun, "spawn").mockImplementation(() => ({
+    using _ = spyOn(Bun, "spawn").mockImplementation(() => ({
       exitCode: 2,
       // @ts-expect-error Partial access
       stdin: { write: () => {}, end: () => {} },

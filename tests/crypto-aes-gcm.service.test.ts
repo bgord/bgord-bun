@@ -15,7 +15,7 @@ encryptedBytes.set(ciphertext, iv.length);
 
 describe("AesGcmCrypto", () => {
   test("encrypt", async () => {
-    const cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
+    using cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
 
     const result = await CryptoAesGcm.encrypt(cryptoKey, plaintext.buffer, iv);
 
@@ -28,7 +28,7 @@ describe("AesGcmCrypto", () => {
   });
 
   test("decrypt", async () => {
-    const cryptoSubtleDecrypt = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
+    using cryptoSubtleDecrypt = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
 
     const result = await CryptoAesGcm.decrypt(cryptoKey, encryptedBytes);
 
@@ -47,7 +47,7 @@ describe("AesGcmCrypto", () => {
   });
 
   test("decrypt - minimum valid payload", async () => {
-    spyOn(crypto.subtle, "decrypt").mockResolvedValue(new ArrayBuffer(1));
+    using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(new ArrayBuffer(1));
 
     expect(async () =>
       CryptoAesGcm.decrypt(cryptoKey, new Uint8Array(EncryptionIV.LENGTH + 1)),

@@ -34,7 +34,7 @@ describe("BuildInfoRepositoryFileStrategy", () => {
     });
     const repository = new BuildInfoRepositoryFileStrategy({ FileReaderJson });
 
-    const fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
+    using fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 

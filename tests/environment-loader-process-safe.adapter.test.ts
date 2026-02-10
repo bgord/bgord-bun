@@ -30,7 +30,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
       { type: NodeEnvironmentEnum.local, Schema },
       deps,
     );
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     const result = await adapter.load();
 

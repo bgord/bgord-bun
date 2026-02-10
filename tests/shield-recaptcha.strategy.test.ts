@@ -22,7 +22,7 @@ const app = new Hono()
 
 describe("ShieldRecaptchaStrategy", () => {
   test("happy path", async () => {
-    const globalFetch = spyOn(global, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
 
@@ -43,7 +43,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("happy path - remote ip fallback", async () => {
-    const globalFetch = spyOn(global, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
 
@@ -61,7 +61,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("happy path - boundary score", async () => {
-    const globalFetch = spyOn(global, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.5 })),
     );
 
@@ -82,7 +82,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - missing token", async () => {
-    const globalFetch = spyOn(global, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
 
@@ -99,7 +99,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - upstream api rejection", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: false })));
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: false })));
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -111,7 +111,9 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - low score", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: true, score: 0.4 })));
+    using _ = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.4 })),
+    );
 
     const response = await app.request("http://localhost/", {
       method: "POST",
@@ -123,7 +125,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - fetch throws", async () => {
-    spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     const response = await app.request("http://localhost/", {
       method: "POST",

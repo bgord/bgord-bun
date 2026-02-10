@@ -19,13 +19,13 @@ const deps = { FileRenamer };
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const rotate = spyOn(pipeline, "rotate");
-    const blur = spyOn(pipeline, "blur");
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using rotate = spyOn(pipeline, "rotate");
+    using blur = spyOn(pipeline, "blur");
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageBlurStrategy = { strategy: "in_place", input };
     const adapter = await ImageBlurSharpAdapter.build(deps);
@@ -44,12 +44,12 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const blur = spyOn(pipeline, "blur");
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using blur = spyOn(pipeline, "blur");
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 2.5 };
@@ -68,11 +68,11 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const toFile = spyOn(pipeline, "toFile");
-    const destroy = spyOn(pipeline, "destroy");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using toFile = spyOn(pipeline, "toFile");
+    using destroy = spyOn(pipeline, "destroy");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageBlurStrategy = { strategy: "in_place", input, sigma: 1 };
     const adapter = await ImageBlurSharpAdapter.build(deps);
@@ -89,9 +89,9 @@ describe("ImageBlurSharpAdapter", () => {
 
   test("output_path - jpeg to jpg", async () => {
     // @ts-expect-error Partial access
-    spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
-    const toFormat = spyOn(pipeline, "toFormat");
-    const rename = spyOn(FileRenamer, "rename");
+    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using toFormat = spyOn(pipeline, "toFormat");
+    using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
     const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 0.7 };
@@ -105,7 +105,7 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(ImageBlurSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(ImageBlurSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => ImageBlurSharpAdapter.build(deps)).toThrow(
       "image.blur.sharp.adapter.error.missing.dependency",

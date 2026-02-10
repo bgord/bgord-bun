@@ -26,8 +26,8 @@ const adapter = new FileReaderTextWithCacheAdapter({ id: "text", inner }, deps);
 describe("FileReaderTextWithCacheAdapter", () => {
   test("happy path", async () => {
     jest.useFakeTimers();
-    const innerRead = spyOn(inner, "read");
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using innerRead = spyOn(inner, "read");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_text"),
@@ -57,8 +57,8 @@ describe("FileReaderTextWithCacheAdapter", () => {
 
   test("happy path - relative path", async () => {
     jest.useFakeTimers();
-    const innerRead = spyOn(inner, "read");
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using innerRead = spyOn(inner, "read");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_text"),
@@ -88,8 +88,8 @@ describe("FileReaderTextWithCacheAdapter", () => {
 
   test("happy path - absolute path", async () => {
     jest.useFakeTimers();
-    const innerRead = spyOn(inner, "read");
-    const cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    using innerRead = spyOn(inner, "read");
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("file_reader_text"),

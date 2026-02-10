@@ -6,7 +6,7 @@ const adapter = new TimekeeperGoogleAdapter();
 
 describe("TimekeeperGoogleAdapter", () => {
   test("happy path", async () => {
-    spyOn(global, "fetch").mockResolvedValue(
+    using _ = spyOn(global, "fetch").mockResolvedValue(
       new Response(null, { headers: { date: mocks.TIME_ZERO_DATE_UTC } }),
     );
 
@@ -14,25 +14,25 @@ describe("TimekeeperGoogleAdapter", () => {
   });
 
   test("response not ok", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 500 }));
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 500 }));
 
     expect(await adapter.get()).toEqual(null);
   });
 
   test("missing date header", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(null));
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(null));
 
     expect(await adapter.get()).toEqual(null);
   });
 
   test("invalid date header", async () => {
-    spyOn(global, "fetch").mockResolvedValue(new Response(null, { headers: { date: "xxx" } }));
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(null, { headers: { date: "xxx" } }));
 
     expect(await adapter.get()).toEqual(null);
   });
 
   test("error", async () => {
-    spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     expect(await adapter.get()).toEqual(null);
   });

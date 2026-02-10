@@ -40,7 +40,7 @@ describe("PdfGeneratorWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new PdfGeneratorNoopAdapter();
     const adapter = new PdfGeneratorWithLoggerAdapter({ Logger, Clock, inner });
-    spyOn(inner, "request").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _ = spyOn(inner, "request").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.request("welcome", {})).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([

@@ -25,7 +25,7 @@ describe("BuildInfoRepositoryPackageJsonStrategy", () => {
   });
 
   test("failure - package.json read", async () => {
-    const fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
+    using fileReaderJsonRead = spyOn(FileReaderJson, "read").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 

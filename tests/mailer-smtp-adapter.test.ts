@@ -29,8 +29,8 @@ const template = new MailerTemplate(config, message);
 
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
-    const sendMail = spyOn({ sendMail: async () => {} }, "sendMail");
-    const createTransport = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
+    using sendMail = spyOn({ sendMail: async () => {} }, "sendMail");
+    using createTransport = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
       // @ts-expect-error Partial access
       createTransport: () => ({ sendMail }),
     });
@@ -43,9 +43,9 @@ describe("MailerSmtpAdapter", () => {
   });
 
   test("verify - success", async () => {
-    const verify = spyOn({ verify: async () => true }, "verify");
+    using verify = spyOn({ verify: async () => true }, "verify");
     // @ts-expect-error Partial access
-    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport: () => ({ verify }) });
+    using _ = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport: () => ({ verify }) });
     const mailer = await MailerSmtpAdapter.build(smtp);
 
     await mailer.verify();
@@ -54,12 +54,12 @@ describe("MailerSmtpAdapter", () => {
   });
 
   test("build", async () => {
-    const createTransport = spyOn(
+    using createTransport = spyOn(
       { createTransport: () => ({ sendMail: async () => {} }) },
       "createTransport",
     );
     // @ts-expect-error Partial access
-    spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport });
+    using _ = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport });
 
     await MailerSmtpAdapter.build(smtp);
 
@@ -71,7 +71,7 @@ describe("MailerSmtpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    spyOn(MailerSmtpAdapter, "import").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(MailerSmtpAdapter, "import").mockRejectedValue(mocks.IntentionalError);
 
     expect(async () => MailerSmtpAdapter.build(smtp)).toThrow("mailer.smtp.adapter.error.missing.dependency");
   });

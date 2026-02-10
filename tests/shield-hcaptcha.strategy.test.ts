@@ -15,7 +15,7 @@ const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.te
 
 describe("ShieldHcaptchaStrategy", () => {
   test("happy path", async () => {
-    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
     const form = new FormData();
     form.set("h-captcha-response", VALID_TOKEN);
 
@@ -27,7 +27,7 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - known error", async () => {
-    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
     const form = new FormData();
     form.set("h-captcha-response", INVALID_TOKEN);
 
@@ -39,7 +39,7 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - missing token", async () => {
-    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
@@ -49,7 +49,7 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - unknown error", async () => {
-    const hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockImplementation(
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockImplementation(
       mocks.throwIntentionalError,
     );
     const form = new FormData();

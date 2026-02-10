@@ -8,14 +8,14 @@ const userInfo = { username, uid: 0, gid: 0, shell: "", homedir: "" };
 
 describe("PrerequisiteVerifierRunningUserAdapter", () => {
   test("success", async () => {
-    spyOn(os, "userInfo").mockReturnValue(userInfo);
+    using _ = spyOn(os, "userInfo").mockReturnValue(userInfo);
     const prerequisite = new PrerequisiteVerifierRunningUserAdapter({ username });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
-    spyOn(os, "userInfo").mockReturnValue(userInfo);
+    using _ = spyOn(os, "userInfo").mockReturnValue(userInfo);
     const prerequisite = new PrerequisiteVerifierRunningUserAdapter({ username: "root" });
 
     expect(await prerequisite.verify()).toEqual(

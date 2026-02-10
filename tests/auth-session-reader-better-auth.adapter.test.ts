@@ -12,19 +12,19 @@ describe("AuthSessionReaderBetterAuthAdapter", () => {
     const context = new RequestContextBuilder().withHeader("cookie", "session=abc").build();
     const auth = { api: { getSession: async () => signedIn } } as ReturnType<typeof betterAuth>;
     const adapter = new AuthSessionReaderBetterAuthAdapter(auth);
-    const getSessionSpy = spyOn(auth.api, "getSession");
+    using getSession = spyOn(auth.api, "getSession");
 
     expect(await adapter.getSession(context)).toEqual(signedIn);
-    expect(getSessionSpy).toHaveBeenCalledWith({ headers: new Headers({ cookie: "session=abc" }) });
+    expect(getSession).toHaveBeenCalledWith({ headers: new Headers({ cookie: "session=abc" }) });
   });
 
   test("signed out", async () => {
     const context = new RequestContextBuilder().build();
     const auth = { api: { getSession: async () => signedOut } } as ReturnType<typeof betterAuth>;
     const adapter = new AuthSessionReaderBetterAuthAdapter(auth);
-    const getSessionSpy = spyOn(auth.api, "getSession");
+    using getSession = spyOn(auth.api, "getSession");
 
     expect(await adapter.getSession(context)).toEqual({ user: null, session: null });
-    expect(getSessionSpy).toHaveBeenCalledWith({ headers: new Headers() });
+    expect(getSession).toHaveBeenCalledWith({ headers: new Headers() });
   });
 });

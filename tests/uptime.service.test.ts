@@ -9,7 +9,7 @@ const Clock = new ClockSystemAdapter();
 
 describe("Uptime service", () => {
   test("happy path", () => {
-    spyOn(process, "uptime").mockImplementation(() => duration.seconds);
+    using _ = spyOn(process, "uptime").mockImplementation(() => duration.seconds);
 
     expect(Uptime.get(Clock)).toEqual({ duration, formatted: "10 minutes ago" });
   });

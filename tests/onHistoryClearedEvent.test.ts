@@ -12,7 +12,7 @@ describe("History.EventHandlers.onHistoryClearedEvent", () => {
   test("happy path", async () => {
     const projection = new HistoryProjection();
     const handler = History.EventHandlers.onHistoryClearedEvent(projection);
-    const projectionClear = spyOn(projection, "clear");
+    using projectionClear = spyOn(projection, "clear");
     const event = History.Events.HistoryClearedEvent.parse({
       id: mocks.correlationId,
       correlationId: mocks.correlationId,

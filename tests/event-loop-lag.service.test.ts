@@ -15,7 +15,7 @@ const histogram = {
 
 describe("EventLoopLag service", () => {
   test("start - idempotency", () => {
-    const monitorEventLoopDelay = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
+    using monitorEventLoopDelay = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
     EventLoopLag._resetForTest();
 
     EventLoopLag.start();
@@ -26,7 +26,7 @@ describe("EventLoopLag service", () => {
   });
 
   test("start - custom resolution", () => {
-    const monitorEventLoopDelay = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
+    using monitorEventLoopDelay = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
     EventLoopLag._resetForTest();
 
     EventLoopLag.start(tools.Duration.Ms(40));
@@ -35,7 +35,7 @@ describe("EventLoopLag service", () => {
   });
 
   test("snapshot", () => {
-    spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
+    using _ = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
     EventLoopLag._resetForTest();
     EventLoopLag.start();
 

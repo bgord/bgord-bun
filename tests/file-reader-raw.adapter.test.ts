@@ -11,7 +11,7 @@ const adapter = new FileReaderRawAdapter();
 describe("FileReaderRawAdapter", () => {
   test("happy path - string", async () => {
     // @ts-expect-error Partial access
-    const bunFile = spyOn(Bun, "file").mockReturnValue(arrayBuffer);
+    using bunFile = spyOn(Bun, "file").mockReturnValue(arrayBuffer);
     const path = "package.txt";
 
     expect(await adapter.read(path)).toEqual(content);
@@ -20,7 +20,7 @@ describe("FileReaderRawAdapter", () => {
 
   test("happy path - relative", async () => {
     // @ts-expect-error Partial access
-    const bunFile = spyOn(Bun, "file").mockReturnValue(arrayBuffer);
+    using bunFile = spyOn(Bun, "file").mockReturnValue(arrayBuffer);
     const path = tools.FilePathRelative.fromString("users/package.txt");
 
     expect(await adapter.read(path)).toEqual(content);
@@ -29,7 +29,7 @@ describe("FileReaderRawAdapter", () => {
 
   test("happy path - absolute", async () => {
     // @ts-expect-error Partial access
-    const bunFile = spyOn(Bun, "file").mockReturnValue(arrayBuffer);
+    using bunFile = spyOn(Bun, "file").mockReturnValue(arrayBuffer);
     const path = tools.FilePathAbsolute.fromString("/users/package.txt");
 
     expect(await adapter.read(path)).toEqual(content);
@@ -37,7 +37,7 @@ describe("FileReaderRawAdapter", () => {
   });
 
   test("happy path - error", async () => {
-    const bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    using bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const path = tools.FilePathAbsolute.fromString("/users/package.txt");
 
     expect(async () => adapter.read(path)).toThrow(mocks.IntentionalError);

@@ -30,7 +30,7 @@ describe("PrerequisiteVerifierWithTimeoutAdapter", () => {
     const TimeoutRunner = new TimeoutRunnerNoopAdapter();
     const deps = { TimeoutRunner };
     const prerequisite = new PrerequisiteVerifierWithTimeoutAdapter({ inner: pass, timeout }, deps);
-    spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),

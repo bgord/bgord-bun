@@ -7,7 +7,7 @@ const FileWriter = new FileWriterAdapter();
 
 describe("FileWriterAdapter", () => {
   test("happy path - string", async () => {
-    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
+    using bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
     const path = "package.json";
     const content = "data";
 
@@ -16,7 +16,7 @@ describe("FileWriterAdapter", () => {
   });
 
   test("happy path - relative", async () => {
-    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
+    using bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
     const path = tools.FilePathRelative.fromString("users/package.json");
     const content = new Uint8Array([1, 2, 3]);
 
@@ -25,7 +25,7 @@ describe("FileWriterAdapter", () => {
   });
 
   test("happy path - absolute", async () => {
-    const bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
+    using bunWrite = spyOn(Bun, "write").mockResolvedValue(0);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
     const content = new ArrayBuffer(4);
 
@@ -34,7 +34,7 @@ describe("FileWriterAdapter", () => {
   });
 
   test("throw an error", () => {
-    spyOn(Bun, "write").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(Bun, "write").mockImplementation(mocks.throwIntentionalError);
     const path = tools.FilePathAbsolute.fromString("/users/package.json");
     const content = "data";
 

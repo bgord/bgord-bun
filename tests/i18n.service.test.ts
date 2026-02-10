@@ -75,7 +75,7 @@ describe("I18n service", () => {
 
   test("useTranslations - passthrough", () => {
     const key = "nonexistent";
-    const loggerWarn = spyOn(Logger, "warn");
+    using loggerWarn = spyOn(Logger, "warn");
 
     expect(t(key)).toEqual(key);
     expect(loggerWarn).toHaveBeenCalledWith({
@@ -90,7 +90,7 @@ describe("I18n service", () => {
   });
 
   test("getTranslations - error", async () => {
-    spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
     const i18n = new I18n({ FileReaderJson: new FileReaderJsonForgivingAdapter(), Logger });
 

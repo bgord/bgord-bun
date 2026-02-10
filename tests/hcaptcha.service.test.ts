@@ -11,7 +11,7 @@ const service = new HCaptchaService();
 
 describe("HCaptchaService", () => {
   test("verify - happy path", async () => {
-    const globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true }), { status: 200 }),
     );
 
@@ -26,7 +26,7 @@ describe("HCaptchaService", () => {
   });
 
   test("verify - failure - hcaptcha rejected token", async () => {
-    const globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: false }), { status: 200 }),
     );
 
@@ -41,7 +41,7 @@ describe("HCaptchaService", () => {
   });
 
   test("verify - failure - missing token", async () => {
-    const globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
+    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: false }), { status: 200 }),
     );
 
@@ -56,13 +56,13 @@ describe("HCaptchaService", () => {
   });
 
   test("verify - failure - http error", async () => {
-    spyOn(globalThis, "fetch").mockResolvedValue(new Response("error", { status: 500 }));
+    using _ = spyOn(globalThis, "fetch").mockResolvedValue(new Response("error", { status: 500 }));
 
     expect(async () => service.verify(SECRET_KEY, VALID_TOKEN)).toThrow("hcaptcha.service.error");
   });
 
   test("verify - failure - network error", async () => {
-    spyOn(globalThis, "fetch").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(globalThis, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     expect(async () => service.verify(SECRET_KEY, VALID_TOKEN)).toThrow(mocks.IntentionalError);
   });
