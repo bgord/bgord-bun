@@ -1,5 +1,13 @@
 # Changelog
+- 2026-02-11 12:26 a269c5c5 **refactor: cleanup tests**
+- 2026-02-11 11:46 8c897a62 **step: update packages**
+- 2026-02-11 00:05 9069e6c8 **refactor: simplify tests**
+- 2026-02-10 23:33 69e2ddd2 **refactor: remove __ syntax**
+- 2026-02-10 20:44 f9c3d3fe **refactor: use using**
+- 2026-02-10 20:43 8432faf3 **step: remove setup script**
+- 2026-02-10 20:40 06075a0f **step: update packages**
 - 2026-02-09 12:43 136b52ec **step: update packages**
+- 2026-02-09 11:44 c63de4e8 **docs: generate CHANGELOG**
 ## 2026-02-08 11:59 v1.10.14
 - 2026-02-08 11:59 e36c419e **1.10.14**
 - 2026-02-08 11:58 2a5f3fa1 **step: update packages**
