@@ -1,6 +1,9 @@
 # Changelog
+## 2026-02-11 12:27 v1.10.15
+- 2026-02-11 12:27 e3389b6c **1.10.15**
 - 2026-02-11 12:26 a269c5c5 **refactor: cleanup tests**
 - 2026-02-11 11:46 8c897a62 **step: update packages**
+- 2026-02-11 11:27 405e95fc **docs: generate CHANGELOG**
 - 2026-02-11 00:05 9069e6c8 **refactor: simplify tests**
 - 2026-02-10 23:33 69e2ddd2 **refactor: remove __ syntax**
 - 2026-02-10 20:44 f9c3d3fe **refactor: use using**
