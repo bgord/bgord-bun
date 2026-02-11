@@ -99,31 +99,28 @@ describe("Prerequisite VO", () => {
   });
 
   test("with timeout - timeout", async () => {
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner })],
     });
     const verifier = prerequisite.build();
-    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
   });
 
   test("with cache - success", async () => {
+    jest.useFakeTimers();
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
-
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withCache("example", deps)],
     });
     const verifier = prerequisite.build();
-
-    jest.useFakeTimers();
-    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
@@ -141,20 +138,17 @@ describe("Prerequisite VO", () => {
   });
 
   test("with cache - failure", async () => {
+    jest.useFakeTimers();
     const fail = new mocks.PrerequisiteVerifierFail();
-
+    using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
-
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [PrerequisiteDecorator.withCache("example", deps)],
     });
     const verifier = prerequisite.build();
-
-    jest.useFakeTimers();
-    using failVerify = spyOn(fail, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);
@@ -173,13 +167,12 @@ describe("Prerequisite VO", () => {
 
   test("with everything", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper, TimeoutRunner };
-
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, deps),
@@ -198,7 +191,6 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(Logger.entries).toEqual([
@@ -216,7 +208,7 @@ describe("Prerequisite VO", () => {
 
   test("timeout x cache - success", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
@@ -228,7 +220,6 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
@@ -238,8 +229,8 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x cache - timeout not cached", async () => {
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
     const pass = new mocks.PrerequisiteVerifierPass();
-
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
@@ -251,7 +242,6 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
@@ -260,13 +250,13 @@ describe("Prerequisite VO", () => {
   });
 
   test("cache x timeout - timeout cached", async () => {
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver, TimeoutRunner };
-    using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
@@ -274,7 +264,6 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(await verifier.verify()).toMatchObject(PrerequisiteVerification.failure(mocks.IntentionalError));
@@ -285,14 +274,12 @@ describe("Prerequisite VO", () => {
 
   test("cache x retry", async () => {
     const fail = new mocks.PrerequisiteVerifierFail();
-
+    using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+    using cacheRepositorySet = spyOn(CacheRepository, "set");
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver, Sleeper };
-
-    using failVerify = spyOn(fail, "verify");
-    using cacheRepositorySet = spyOn(CacheRepository, "set");
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
@@ -313,18 +300,16 @@ describe("Prerequisite VO", () => {
 
   test("cache x logger - logs once", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
-
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withCache("example", deps), PrerequisiteDecorator.withLogger(deps)],
     });
     const verifier = prerequisite.build();
-    using passVerify = spyOn(pass, "verify");
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.success);
@@ -336,14 +321,12 @@ describe("Prerequisite VO", () => {
 
   test("logger x cache - logs twice", async () => {
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
-
-    using passVerify = spyOn(pass, "verify");
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withLogger(deps), PrerequisiteDecorator.withCache("example", deps)],
     });
@@ -358,6 +341,7 @@ describe("Prerequisite VO", () => {
   });
 
   test("timeout x fail-safe - timeout", async () => {
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
     const pass = new mocks.PrerequisiteVerifierPass();
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -370,13 +354,14 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
   });
 
   test("retry x timeout x fail-safe - timeout", async () => {
+    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
     const fail = new mocks.PrerequisiteVerifierFail();
+    using failVerify = spyOn(fail, "verify");
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withFailSafe(
@@ -392,8 +377,6 @@ describe("Prerequisite VO", () => {
       ],
     });
     const verifier = prerequisite.build();
-    using failVerify = spyOn(fail, "verify");
-    using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
 
     expect(await verifier.verify()).toEqual(PrerequisiteVerification.undetermined);
     expect(failVerify).toHaveBeenCalledTimes(3);

@@ -60,8 +60,8 @@ describe("CryptoKeyProviderFileAdapter", () => {
 
   test("read error", async () => {
     const FileReaderText = new FileReaderTextNoopAdapter(HEX);
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
     using _ = spyOn(FileReaderText, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
 
     expect(async () => adapter.get()).toThrow(mocks.IntentionalError);
   });

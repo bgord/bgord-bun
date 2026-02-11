@@ -70,8 +70,8 @@ describe("PrerequisiteVerifierFileAdapter", () => {
 
   test("failure - file does not exist error", async () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: false });
-    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path }, { FileInspection });
     using _ = spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const prerequisite = new PrerequisiteVerifierFileAdapter({ file: path }, { FileInspection });
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),
@@ -119,11 +119,11 @@ describe("PrerequisiteVerifierFileAdapter", () => {
 
   test("integration - BUILD_INFO_REPOSITORY_FILE_PATH", async () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true });
+    using fileInspectionExists = spyOn(FileInspection, "exists");
     const prerequisite = new PrerequisiteVerifierFileAdapter(
       { file: BUILD_INFO_REPOSITORY_FILE_PATH },
       { FileInspection },
     );
-    using fileInspectionExists = spyOn(FileInspection, "exists");
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(fileInspectionExists).toHaveBeenCalledWith(BUILD_INFO_REPOSITORY_FILE_PATH);

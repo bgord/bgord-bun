@@ -22,8 +22,8 @@ function setup() {
 
 describe("GracefulShutdown service", () => {
   test("handles SIGTERM correctly", async () => {
-    const { server, gs, exitCalls } = setup();
     using loggerInfo = spyOn(Logger, "info");
+    const { server, gs, exitCalls } = setup();
 
     gs.applyTo(server);
     process.emit("SIGTERM");
@@ -44,8 +44,8 @@ describe("GracefulShutdown service", () => {
   });
 
   test("handles SIGINT correctly", async () => {
-    const { server, gs, exitCalls } = setup();
     using loggerInfo = spyOn(Logger, "info");
+    const { server, gs, exitCalls } = setup();
 
     gs.applyTo(server);
     process.emit("SIGINT");
@@ -66,8 +66,8 @@ describe("GracefulShutdown service", () => {
   });
 
   test("handles unhandledRejection", async () => {
-    const { server, gs, exitCalls } = setup();
     using loggerError = spyOn(Logger, "error");
+    const { server, gs, exitCalls } = setup();
     gs.applyTo(server);
 
     process.emit("unhandledRejection", new Error(mocks.IntentionalError), {});
@@ -83,8 +83,8 @@ describe("GracefulShutdown service", () => {
   });
 
   test("handles uncaughtException", async () => {
-    const { server, gs, exitCalls } = setup();
     using loggerError = spyOn(Logger, "error");
+    const { server, gs, exitCalls } = setup();
     gs.applyTo(server);
 
     process.emit("uncaughtException", new Error(mocks.IntentionalError));
@@ -100,9 +100,9 @@ describe("GracefulShutdown service", () => {
   });
 
   test("cleanup failure", async () => {
+    using loggerError = spyOn(Logger, "error");
     const { server, gs, exitCalls } = setup();
     const cleanup = jest.fn().mockRejectedValue(new Error(mocks.IntentionalError));
-    using loggerError = spyOn(Logger, "error");
     gs.applyTo(server, cleanup);
 
     process.emit("SIGTERM");
@@ -121,8 +121,8 @@ describe("GracefulShutdown service", () => {
 
   test("idempotency", async () => {
     const { server, gs, exitCalls } = setup();
-    using loggerInfo = spyOn(Logger, "info");
     using _ = spyOn(server, "stop").mockImplementation(mocks.throwIntentionalError);
+    using loggerInfo = spyOn(Logger, "info");
     gs.applyTo(server);
 
     process.emit("SIGTERM");

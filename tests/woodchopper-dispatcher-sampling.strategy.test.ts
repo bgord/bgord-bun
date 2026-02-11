@@ -77,15 +77,15 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("dispatch - error - with diagnostics", async () => {
+    const sink = new WoodchopperSinkNoop();
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkNoop();
     const inner = new WoodchopperDispatcherSync(sink);
     const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entryInfo)).toEqual(false);
     expect(diagnostics.entries.length).toEqual(0);
@@ -99,24 +99,24 @@ describe("WoodchopperDispatcherSampling", () => {
   });
 
   test("dispatch - error - without diagnostics", async () => {
+    const sink = new WoodchopperSinkNoop();
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     const passthrough = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const everyNth = new WoodchopperSamplingEveryNth({ n: two });
     const sampling = new WoodchopperSamplingComposite([passthrough, everyNth]);
-    const sink = new WoodchopperSinkNoop();
     const inner = new WoodchopperDispatcherSync(sink);
     const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     expect(dispatcher.dispatch(entryInfo)).toEqual(false);
     expect(dispatcher.dispatch(entryInfo)).toEqual(false);
   });
 
   test("close", () => {
-    const sampling = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
     const sink = new WoodchopperSinkNoop();
     const inner = new WoodchopperDispatcherSync(sink);
-    const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
     using innerDispatcherClose = spyOn(inner, "close");
+    const sampling = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);
+    const dispatcher = new WoodchopperDispatcherSampling(inner, sampling);
 
     dispatcher.close();
 

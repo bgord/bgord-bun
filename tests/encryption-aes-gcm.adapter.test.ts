@@ -32,9 +32,8 @@ const adapter = new EncryptionAesGcmAdapter(deps);
 
 describe("EncryptionAesGcmAdapter", () => {
   test("encrypt", async () => {
-    using spies = new DisposableStack();
-    spies.use(spyOn(EncryptionIV, "generate").mockReturnValue(iv));
-    spies.use(spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer));
+    using _encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    using _cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
     using fileWriterWrite = spyOn(FileWriter, "write");
 
     expect(await adapter.encrypt(recipe)).toEqual(recipe.output);
@@ -55,32 +54,32 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("encrypt - failure - read file", async () => {
+    using _ = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     const FileInspection = new FileInspectionNoopAdapter({ exists: true });
+    using _fileInspectionExists = spyOn(FileInspection, "exists").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
     const adapter = new EncryptionAesGcmAdapter({
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
       FileWriter,
     });
-    using spies = new DisposableStack();
-    spies.use(spyOn(EncryptionIV, "generate").mockReturnValue(iv));
-    spies.use(spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync));
 
     expect(async () => adapter.encrypt(recipe)).toThrow(mocks.IntentionalError);
   });
 
   test("encrypt - failure - write error", async () => {
-    using spies = new DisposableStack();
-    spies.use(spyOn(EncryptionIV, "generate").mockReturnValue(iv));
-    spies.use(spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer));
-    spies.use(spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync));
+    using _encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    using _cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
+    using _fileWriterWrite = spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.encrypt(recipe)).toThrow(mocks.IntentionalError);
   });
 
   test("decrypt", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
     using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
+    const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
     using fileWriterWrite = spyOn(FileWriter, "write");
 
     const adapter = new EncryptionAesGcmAdapter({
@@ -133,10 +132,9 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("decrypt - failure - write error", async () => {
+    using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
-    using spies = new DisposableStack();
-    spies.use(spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer));
-    spies.use(spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync));
+    using _fileWriterWrite = spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     const adapter = new EncryptionAesGcmAdapter({
       CryptoKeyProvider,
@@ -149,6 +147,7 @@ describe("EncryptionAesGcmAdapter", () => {
   });
 
   test("view", async () => {
+    using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
     const adapter = new EncryptionAesGcmAdapter({
       CryptoKeyProvider,
@@ -156,7 +155,6 @@ describe("EncryptionAesGcmAdapter", () => {
       FileReaderRaw,
       FileWriter,
     });
-    using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
 
     expect(await adapter.view(recipe.input)).toEqual(plaintext.buffer);
   });

@@ -8,25 +8,26 @@ class HistoryProjection implements History.Ports.HistoryProjectionPort {
   async clear(_subject: History.VO.HistoryParsedType["subject"]): Promise<void> {}
 }
 
+const event = History.Events.HistoryPopulatedEvent.parse({
+  id: mocks.correlationId,
+  correlationId: mocks.correlationId,
+  name: "HISTORY_POPULATED_EVENT",
+  payload: {
+    id: mocks.correlationId,
+    operation: "add",
+    subject: "order",
+    payload: { id: mocks.correlationId },
+  },
+  createdAt: mocks.TIME_ZERO.ms,
+  stream: "history_order",
+  version: 1,
+});
+
 describe("History.EventHandlers.onHistoryPopulatedEvent", () => {
   test("happy path", async () => {
     const projection = new HistoryProjection();
-    const handler = History.EventHandlers.onHistoryPopulatedEvent(projection);
-    const event = History.Events.HistoryPopulatedEvent.parse({
-      id: mocks.correlationId,
-      correlationId: mocks.correlationId,
-      name: "HISTORY_POPULATED_EVENT",
-      payload: {
-        id: mocks.correlationId,
-        operation: "add",
-        subject: "order",
-        payload: { id: mocks.correlationId },
-      },
-      createdAt: mocks.TIME_ZERO.ms,
-      stream: "history_order",
-      version: 1,
-    });
     using projectionAppend = spyOn(projection, "append");
+    const handler = History.EventHandlers.onHistoryPopulatedEvent(projection);
 
     await handler(event);
 

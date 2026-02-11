@@ -52,13 +52,14 @@ const deps = { Clock, BuildInfoRepository };
 
 describe("Healthcheck service", () => {
   test("200", async () => {
-    using spies = new DisposableStack();
-    spies.use(spyOn(os, "cpus").mockReturnValue(cpus));
-    spies.use(spyOn(os, "hostname").mockReturnValue(hostname));
-    spies.use(spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory));
-    spies.use(spyOn(Uptime, "get").mockReturnValue(uptime));
-    spies.use(spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram));
-    spies.use(spyOn(EventLoopUtilization, "snapshot").mockReturnValue(utilization));
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
+    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
+    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
+    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
+    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
+      utilization,
+    );
 
     const app = new Hono().get(
       "/health",
@@ -118,13 +119,14 @@ describe("Healthcheck service", () => {
   });
 
   test("200 - ignores port prerequisite", async () => {
-    using spies = new DisposableStack();
-    spies.use(spyOn(os, "cpus").mockReturnValue(cpus));
-    spies.use(spyOn(os, "hostname").mockReturnValue(hostname));
-    spies.use(spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory));
-    spies.use(spyOn(Uptime, "get").mockReturnValue(uptime));
-    spies.use(spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram));
-    spies.use(spyOn(EventLoopUtilization, "snapshot").mockReturnValue(utilization));
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
+    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
+    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
+    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
+    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
+      utilization,
+    );
 
     const app = new Hono().get(
       "/health",
@@ -183,13 +185,14 @@ describe("Healthcheck service", () => {
   });
 
   test("424", async () => {
-    using spies = new DisposableStack();
-    spies.use(spyOn(os, "cpus").mockReturnValue(cpus));
-    spies.use(spyOn(os, "hostname").mockReturnValue(hostname));
-    spies.use(spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory));
-    spies.use(spyOn(Uptime, "get").mockReturnValue(uptime));
-    spies.use(spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram));
-    spies.use(spyOn(EventLoopUtilization, "snapshot").mockReturnValue(utilization));
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
+    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
+    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
+    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
+    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
+      utilization,
+    );
     const app = new Hono().get(
       "/health",
       ...Healthcheck.build(

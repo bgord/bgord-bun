@@ -17,11 +17,11 @@ const rule = new SecurityRulePassStrategy();
 
 describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path", async () => {
+    using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
-    using eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);
@@ -46,6 +46,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - without client", async () => {
+    using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
@@ -55,7 +56,6 @@ describe("SecurityCountermeasureBanStrategy", () => {
       mocks.clientEmpty,
       undefined,
     );
-    using eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(contextWithoutClient);
@@ -82,12 +82,12 @@ describe("SecurityCountermeasureBanStrategy", () => {
   });
 
   test("happy path - custom config", async () => {
+    using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const config = { response: { status: 404 } };
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider }, config);
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
-    using eventStoreSave = spyOn(deps.EventStore, "save");
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       const action = await countermeasure.execute(context);

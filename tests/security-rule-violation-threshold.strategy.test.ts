@@ -59,8 +59,8 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
   });
 
   test("isViolated - cache failure", async () => {
-    const context = new RequestContextBuilder().withPath(forbidden).build();
     using _ = spyOn(CacheRepository, "get").mockImplementation(mocks.throwIntentionalError);
+    const context = new RequestContextBuilder().withPath(forbidden).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);

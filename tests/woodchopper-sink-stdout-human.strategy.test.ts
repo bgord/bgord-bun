@@ -17,9 +17,8 @@ const entry = {
 describe("WoodchopperSinkStdoutHuman", () => {
   test("write", () => {
     using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
-    const sink = new WoodchopperSinkStdoutHuman();
 
-    sink.write(entry);
+    new WoodchopperSinkStdoutHuman().write(entry);
 
     expect(processStdoutWrite).toHaveBeenCalledWith(JSON.stringify(entry, null, 2) + "\n");
   });

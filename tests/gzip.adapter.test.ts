@@ -26,9 +26,9 @@ describe("GzipAdapter", () => {
   });
 
   test("relative to relative", async () => {
+    using _ = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
     const input = tools.FilePathRelative.fromString("fixtures/sample.txt");
     const output = tools.FilePathRelative.fromString("fixtures/sample.txt.gz");
-    using _ = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
 
     expect(await adapter.pack({ input, output })).toEqual(output);
   });
@@ -42,9 +42,8 @@ describe("GzipAdapter", () => {
   });
 
   test("write error propagation", async () => {
-    using spies = new DisposableStack();
-    spies.use(spyOn(Bun, "gzipSync").mockReturnValue(gzipped));
-    spies.use(spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError));
+    using _bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
+    using _fileWriterWrite = spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError);
 
     expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
   });

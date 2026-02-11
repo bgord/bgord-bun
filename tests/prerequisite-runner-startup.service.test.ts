@@ -54,12 +54,12 @@ describe("PrerequisiteRunnerStartup service", () => {
   });
 
   test("skips disabled", async () => {
-    const Logger = new LoggerCollectingAdapter();
-    const runner = new PrerequisiteRunnerStartup({ Logger, Clock });
     const PrerequisiteDisabled = new Prerequisite("undetermined", new mocks.PrerequisiteVerifierPass(), {
       enabled: false,
     });
     using prerequisiteDisabledBuild = spyOn(PrerequisiteDisabled, "build");
+    const Logger = new LoggerCollectingAdapter();
+    const runner = new PrerequisiteRunnerStartup({ Logger, Clock });
 
     await runner.check([mocks.PrerequisiteOk, PrerequisiteDisabled]);
 

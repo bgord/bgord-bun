@@ -21,8 +21,8 @@ describe("BetterAuthLogger", () => {
 
   test("warn", () => {
     const Logger = new LoggerCollectingAdapter();
-    const service = new BetterAuthLogger({ Logger }).attach();
     using loggerWarn = spyOn(Logger, "warn");
+    const service = new BetterAuthLogger({ Logger }).attach();
 
     service.log("warn", "User unavailable");
 

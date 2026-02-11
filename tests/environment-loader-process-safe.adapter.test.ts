@@ -24,13 +24,13 @@ describe("EnvironmentLoaderProcessSafe", () => {
     const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("env")], {
       HashContent,
     });
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const subject = await resolver.resolve();
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
       { ...process.env, APP_NAME: "MyApp" },
       { type: NodeEnvironmentEnum.local, Schema },
       deps,
     );
-    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     const result = await adapter.load();
 

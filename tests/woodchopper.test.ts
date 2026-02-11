@@ -493,9 +493,9 @@ describe("Woodchopper", async () => {
   test("close - idempotency - dispatcher sync", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
+    using dispatcherClose = spyOn(dispatcher, "close");
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-    using dispatcherClose = spyOn(dispatcher, "close");
 
     woodchopper.info(entry);
 
@@ -524,13 +524,13 @@ describe("Woodchopper", async () => {
   });
 
   test("close - idempotency - dispatcher async", async () => {
-    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkCollecting();
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
+    using dispatcherClose = spyOn(dispatcher, "close");
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-    using dispatcherClose = spyOn(dispatcher, "close");
 
     woodchopper.info(entry);
 
@@ -710,12 +710,12 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - sink - dispatcher sync - diagnostics", () => {
-    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkNoop();
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     const dispatcher = new WoodchopperDispatcherSync(sink);
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     woodchopper.info(entry);
 
@@ -733,10 +733,10 @@ describe("Woodchopper", async () => {
 
   test("pipeline - sink - dispatcher sync - no diagnostics", () => {
     const sink = new WoodchopperSinkNoop();
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     woodchopper.info(entry);
 
@@ -749,12 +749,12 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - sink - dispatcher async - diagnostics", async () => {
-    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkNoop();
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     const dispatcher = new WoodchopperDispatcherAsync(sink);
+    const diagnostics = new WoodchopperDiagnosticsCollecting();
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     woodchopper.info(entry);
 
@@ -774,10 +774,10 @@ describe("Woodchopper", async () => {
 
   test("pipeline - sink - dispatcher async - no diagnostics", async () => {
     const sink = new WoodchopperSinkNoop();
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
 
     woodchopper.info(entry);
 

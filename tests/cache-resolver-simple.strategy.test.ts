@@ -21,8 +21,8 @@ describe("CacheResolverSimpleStrategy", async () => {
 
   test("success - hit", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
 
@@ -32,8 +32,8 @@ describe("CacheResolverSimpleStrategy", async () => {
 
   test("success - miss", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     const result = await CacheResolver.resolve(subject.hex, async () => fresh);
 
@@ -43,8 +43,8 @@ describe("CacheResolverSimpleStrategy", async () => {
 
   test("failure - error propagation", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     expect(async () => CacheResolver.resolve(subject.hex, mocks.throwIntentionalErrorAsync)).toThrow(
       mocks.IntentionalError,
@@ -54,8 +54,8 @@ describe("CacheResolverSimpleStrategy", async () => {
 
   test("resolveWithContext - hit", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
@@ -65,8 +65,8 @@ describe("CacheResolverSimpleStrategy", async () => {
 
   test("resolveWithContext - miss", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 
@@ -76,9 +76,9 @@ describe("CacheResolverSimpleStrategy", async () => {
 
   test("flush", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     using cacheRepositoryFlush = spyOn(CacheRepository, "flush");
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
     const first = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
 

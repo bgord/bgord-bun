@@ -13,12 +13,14 @@ const HashContent = new HashContentSha256Strategy();
 
 describe("PrerequisiteVerifierWithCacheAdapter", () => {
   test("success", async () => {
+    jest.useFakeTimers();
     const pass = new mocks.PrerequisiteVerifierPass();
-
+    using passVerify = spyOn(pass, "verify");
     const config = { id: "example", inner: pass };
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new CacheSubjectApplicationResolver(
       [
         new CacheSubjectSegmentFixedStrategy("prerequisite_verifier"),
@@ -29,12 +31,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     );
     const subject = await resolver.resolve();
     const deps = { CacheResolver, HashContent };
-
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter(config, deps);
-
-    jest.useFakeTimers();
-    using passVerify = spyOn(pass, "verify");
-    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
@@ -53,17 +50,14 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
   });
 
   test("failure", async () => {
+    jest.useFakeTimers();
     const fail = new mocks.PrerequisiteVerifierFail();
-
+    using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
-
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "example", inner: fail }, deps);
-
-    jest.useFakeTimers();
-    using failVerify = spyOn(fail, "verify");
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(1);

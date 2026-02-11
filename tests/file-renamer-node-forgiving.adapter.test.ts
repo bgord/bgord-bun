@@ -10,36 +10,36 @@ const adapter = new FileRenamerNodeForgivingAdapter();
 
 describe("FileRenamerNodeForgivingAdapter", () => {
   test("happy path - string", async () => {
+    using fsRename = spyOn(fs, "rename").mockImplementation(renamer);
     const input = "package.json";
     const output = "package-lock.json";
-    using fsRename = spyOn(fs, "rename").mockImplementation(renamer);
 
     expect(async () => adapter.rename(input, output)).not.toThrow();
     expect(fsRename).toHaveBeenCalledWith(input, output);
   });
 
   test("happy path - relative", async () => {
+    using fsRename = spyOn(fs, "rename").mockImplementation(renamer);
     const input = tools.FilePathRelative.fromString("users/package.json");
     const output = tools.FilePathRelative.fromString("users/package-lock.json");
-    using fsRename = spyOn(fs, "rename").mockImplementation(renamer);
 
     expect(async () => adapter.rename(input, output)).not.toThrow();
     expect(fsRename).toHaveBeenCalledWith(input.get(), output.get());
   });
 
   test("happy path - absolute", async () => {
+    using fsRename = spyOn(fs, "rename").mockImplementation(renamer);
     const input = tools.FilePathAbsolute.fromString("/users/package.json");
     const output = tools.FilePathAbsolute.fromString("/users/package-lock.json");
-    using fsRename = spyOn(fs, "rename").mockImplementation(renamer);
 
     expect(async () => adapter.rename(input, output)).not.toThrow();
     expect(fsRename).toHaveBeenCalledWith(input.get(), output.get());
   });
 
   test("throw an error", () => {
+    using _fsRename = spyOn(fs, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathAbsolute.fromString("/users/package.json");
     const output = tools.FilePathAbsolute.fromString("/users/package-lock.json");
-    using _fsRename = spyOn(fs, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.rename(input, output)).not.toThrow();
   });

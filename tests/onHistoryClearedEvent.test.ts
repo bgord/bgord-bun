@@ -8,20 +8,21 @@ class HistoryProjection implements History.Ports.HistoryProjectionPort {
   async clear(_subject: History.VO.HistoryParsedType["subject"]): Promise<void> {}
 }
 
+const event = History.Events.HistoryClearedEvent.parse({
+  id: mocks.correlationId,
+  correlationId: mocks.correlationId,
+  name: "HISTORY_CLEARED_EVENT",
+  payload: { subject: "order" },
+  createdAt: mocks.TIME_ZERO.ms,
+  stream: "history_order",
+  version: 1,
+});
+
 describe("History.EventHandlers.onHistoryClearedEvent", () => {
   test("happy path", async () => {
     const projection = new HistoryProjection();
-    const handler = History.EventHandlers.onHistoryClearedEvent(projection);
-    const event = History.Events.HistoryClearedEvent.parse({
-      id: mocks.correlationId,
-      correlationId: mocks.correlationId,
-      name: "HISTORY_CLEARED_EVENT",
-      payload: { subject: "order" },
-      createdAt: mocks.TIME_ZERO.ms,
-      stream: "history_order",
-      version: 1,
-    });
     using projectionClear = spyOn(projection, "clear");
+    const handler = History.EventHandlers.onHistoryClearedEvent(projection);
 
     await handler(event);
 

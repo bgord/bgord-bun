@@ -57,17 +57,20 @@ describe("ImageInfoSharpAdapter", () => {
 
   test("error - extension empty", async () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
-    const adapter = await ImageInfoSharpAdapter.build({ MimeRegistry, FileInspection });
     using _ = spyOn(FileInspection, "size").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const adapter = await ImageInfoSharpAdapter.build({ MimeRegistry, FileInspection });
 
     expect(async () => adapter.inspect(input)).toThrow(mocks.IntentionalError);
   });
 
   test("error - extension empty", async () => {
-    using spies = new DisposableStack();
     // @ts-expect-error Partial access
-    spies.use(spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance }));
-    spies.use(spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "" }));
+    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    using _instanceMetadata = spyOn(instance, "metadata").mockResolvedValue({
+      width: 10,
+      height: 10,
+      format: "",
+    });
     using destroy = spyOn(instance, "destroy");
     const adapter = await ImageInfoSharpAdapter.build(deps);
 
@@ -76,12 +79,13 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - width", async () => {
-    using spies = new DisposableStack();
     // @ts-expect-error Partial access
-    spies.use(spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance }));
-    spies.use(
-      spyOn(instance, "metadata").mockResolvedValue({ width: undefined, height: 10, format: "jpeg" }),
-    );
+    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    using _instanceMetadata = spyOn(instance, "metadata").mockResolvedValue({
+      width: undefined,
+      height: 10,
+      format: "jpeg",
+    });
     using destroy = spyOn(instance, "destroy");
     const adapter = await ImageInfoSharpAdapter.build(deps);
 
@@ -90,10 +94,13 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - mime not found", async () => {
-    using spies = new DisposableStack();
     // @ts-expect-error Partial access
-    spies.use(spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance }));
-    spies.use(spyOn(instance, "metadata").mockResolvedValue({ width: 10, height: 10, format: "png" }));
+    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    using _instanceMetadata = spyOn(instance, "metadata").mockResolvedValue({
+      width: 10,
+      height: 10,
+      format: "png",
+    });
     using destroy = spyOn(instance, "destroy");
     const adapter = await ImageInfoSharpAdapter.build(deps);
 

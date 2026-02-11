@@ -50,11 +50,10 @@ describe("JobHandlerWithLoggerStrategy", () => {
 
   test("this binding guardrails", async () => {
     const Logger = new LoggerCollectingAdapter();
+    using loggerError = spyOn(Logger, "error");
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
     const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
-
     const uow = new ClockWork({ Clock });
-    using loggerError = spyOn(Logger, "error");
     using uowProcess = spyOn(uow, "process");
 
     await handler.handle(uow)();
