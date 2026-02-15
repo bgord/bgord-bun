@@ -74,8 +74,8 @@ describe("I18n service", () => {
   });
 
   test("useTranslations - passthrough", () => {
-    const key = "nonexistent";
     using loggerWarn = spyOn(Logger, "warn");
+    const key = "nonexistent";
 
     expect(t(key)).toEqual(key);
     expect(loggerWarn).toHaveBeenCalledWith({
