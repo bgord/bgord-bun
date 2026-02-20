@@ -21,11 +21,9 @@ export class EnvironmentLoaderEncryptedAdapter<Schema extends z.ZodObject<any>>
 
   async load(): Promise<Readonly<EnvironmentResultType<Schema>>> {
     const file = await this.deps.Encryption.view(this.config.path);
-    const content = new TextDecoder().decode(file);
+    const plaintext = new TextDecoder().decode(file);
+    const env = EnvironmentFileParser.parse(plaintext);
 
-    return Object.freeze({
-      ...this.config.Schema.parse(EnvironmentFileParser.parse(content)),
-      type: this.config.type,
-    });
+    return Object.freeze({ ...this.config.Schema.parse(env), type: this.config.type });
   }
 }
