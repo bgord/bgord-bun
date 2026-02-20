@@ -1,7 +1,10 @@
 # Changelog
+## 2026-02-20 16:15 v1.10.16
+- 2026-02-20 16:15 e1a2f49b **1.10.16**
 - 2026-02-20 16:15 b0cea831 **step: update packages**
 - 2026-02-20 16:10 cd229b97 **step: bump bgord/scripts**
 - 2026-02-20 16:09 16c71ab1 **step: update packages**
+- 2026-02-20 15:15 5be2411f **docs: generate CHANGELOG**
 - 2026-02-20 14:11 7252e644 **refactor: simplify env loader encrypted**
 - 2026-02-15 11:31 29b78c66 **step: update packages**
 ## 2026-02-11 12:27 v1.10.15
