@@ -1,8 +1,14 @@
 # Changelog
+- 2026-02-20 16:15 b0cea831 **step: update packages**
+- 2026-02-20 16:10 cd229b97 **step: bump bgord/scripts**
+- 2026-02-20 16:09 16c71ab1 **step: update packages**
+- 2026-02-20 14:11 7252e644 **refactor: simplify env loader encrypted**
+- 2026-02-15 11:31 29b78c66 **step: update packages**
 ## 2026-02-11 12:27 v1.10.15
 - 2026-02-11 12:27 e3389b6c **1.10.15**
 - 2026-02-11 12:26 a269c5c5 **refactor: cleanup tests**
 - 2026-02-11 11:46 8c897a62 **step: update packages**
+- 2026-02-11 11:27 e86c3762 **docs: generate CHANGELOG**
 - 2026-02-11 11:27 405e95fc **docs: generate CHANGELOG**
 - 2026-02-11 00:05 9069e6c8 **refactor: simplify tests**
 - 2026-02-10 23:33 69e2ddd2 **refactor: remove __ syntax**
