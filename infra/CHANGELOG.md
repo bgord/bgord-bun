@@ -1,8 +1,10 @@
 # Changelog
+- 2026-02-26 22:04 abbfc249 **refactor: unify default hash noop values**
 ## 2026-02-26 21:29 v1.10.18
 - 2026-02-26 21:29 1cbbedb2 **1.10.18**
 - 2026-02-26 20:50 64d2dd06 **step: update packages**
 - 2026-02-26 20:49 990e96ff **step: add Hash.fromBuffer**
+- 2026-02-26 20:29 c8fc30bb **docs: generate CHANGELOG**
 - 2026-02-26 19:50 78b89354 **docs: generate CHANGELOG**
 - 2026-02-26 19:50 489124f7 **docs: generate readme**
 - 2026-02-26 15:55 95d555c2 **step: add secure key generator**
