@@ -5,7 +5,7 @@ import type { HashFilePort, HashFileResult } from "./hash-file.port";
 export class HashFileNoopAdapter implements HashFilePort {
   async hash(_path: tools.FilePathAbsolute | tools.FilePathRelative): Promise<HashFileResult> {
     return {
-      etag: Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
+      etag: Hash.fromString("0".repeat(64)),
       size: tools.Size.fromBytes(10),
       lastModified: tools.Timestamp.fromNumber(1000),
       mime: tools.Mimes.text.mime,

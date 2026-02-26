@@ -7,7 +7,7 @@ describe("SecureKeyGeneratorNoopAdapter", () => {
 
     const result = adapter.generate();
 
-    expect(result.length).toEqual(4);
-    expect(result.toHex()).toEqual(new TextEncoder().encode("noop").toHex());
+    expect(result.length).toEqual(32);
+    expect(result.toHex()).toEqual(new TextEncoder().encode("0".repeat(32)).toHex());
   });
 });
