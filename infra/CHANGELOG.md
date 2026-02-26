@@ -1,7 +1,11 @@
 # Changelog
+- 2026-02-26 20:50 64d2dd06 **step: update packages**
+- 2026-02-26 20:49 990e96ff **step: add Hash.fromBuffer**
+- 2026-02-26 15:55 95d555c2 **step: add secure key generator**
 ## 2026-02-24 11:11 v1.10.17
 - 2026-02-24 11:11 5783c3bc **1.10.17**
 - 2026-02-24 11:09 57a13575 **step: update packages**
+- 2026-02-24 10:11 06c72a1a **docs: generate CHANGELOG**
 - 2026-02-24 10:10 06b6defa **docs: generate CHANGELOG**
 ## 2026-02-20 16:15 v1.10.16
 - 2026-02-20 16:15 e1a2f49b **1.10.16**
