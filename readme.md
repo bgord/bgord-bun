@@ -343,6 +343,9 @@ src/
 ├── sealer-aes-gcm.adapter.ts
 ├── sealer-noop.adapter.ts
 ├── sealer.port.ts
+├── secure-key-generator-crypto.adapter.ts
+├── secure-key-generator-noop.adapter.ts
+├── secure-key-generator.port.ts
 ├── security-context.vo.ts
 ├── security-countermeasure-ban.strategy.ts
 ├── security-countermeasure-mirage.strategy.ts
