@@ -1,8 +1,19 @@
 import { describe, expect, test } from "bun:test";
 import { Hash } from "../src/hash.vo";
+import { SecureKeyGeneratorNoopAdapter } from "../src/secure-key-generator-noop.adapter";
 import * as mocks from "./mocks";
 
 describe("Hash VO", () => {
+  test("fromBuffer", () => {
+    const key = "00000000000000000000000000000000";
+    const generator = new SecureKeyGeneratorNoopAdapter(new TextEncoder().encode(key));
+    const buffer = generator.generate();
+
+    const hash = Hash.fromBuffer(buffer);
+
+    expect(Buffer.from(hash.get(), "hex").toString("utf-8")).toEqual(key);
+  });
+
   test("fromValue", () => {
     expect(Hash.fromValue(mocks.hashValue).get()).toEqual(mocks.hashValue);
     expect(Hash.fromValue(mocks.hashValue).get()).toEqual(mocks.hashValue);
