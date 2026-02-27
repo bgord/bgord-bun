@@ -5,6 +5,7 @@ import { languageDetector } from "hono/language";
 import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
+import { trimTrailingSlash } from "hono/trailing-slash";
 import { ApiVersion } from "./api-version.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
@@ -46,6 +47,7 @@ export class Setup {
 
     return [
       MaintenanceMode.build(config.maintenanceMode),
+      trimTrailingSlash({ alwaysRedirect: true }),
       requestId({
         limitLength: 36,
         headerName: "x-correlation-id",

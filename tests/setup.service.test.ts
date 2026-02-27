@@ -217,4 +217,13 @@ describe("Setup service", () => {
     expect(response.status).toEqual(200);
     expect(response.headers.get("access-control-allow-origin")).toEqual(origin);
   });
+
+  test("trailing slash trim", async () => {
+    const app = new Hono().use(...Setup.essentials({ csrf }, deps)).get("/data", (c) => c.text("ok"));
+
+    const response = await app.request("/data/", { redirect: "follow" }, ip);
+
+    expect(response.status).toEqual(301);
+    expect(response.headers.get("location")).toEqual("http://localhost/data");
+  });
 });
