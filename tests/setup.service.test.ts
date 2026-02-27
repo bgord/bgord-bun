@@ -128,17 +128,10 @@ describe("Setup service", () => {
 
   test("bodyLimit", async () => {
     using _ = spyOn(process.stderr, "write").mockImplementation(jest.fn());
-    const boundary = "----bun-test-boundary";
-    const content = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="file"; filename="too-big.txt"',
-      "Content-Type: text/plain",
-      "",
-      "this content is larger than 10 bytes",
-      `--${boundary}--`,
-      "",
-    ].join("\r\n");
-    const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
+
+    const txt = new File([], "data.txt");
+    const form = new FormData();
+    form.append("file", txt);
 
     const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>({})
       .use(...Setup.essentials({ csrf, BODY_LIMIT_MAX_SIZE: tools.Size.fromBytes(2) }, deps))
@@ -148,11 +141,7 @@ describe("Setup service", () => {
         return c.text("OK");
       });
 
-    const response = await app.request(
-      "/upload",
-      { method: "POST", body: new TextEncoder().encode(content), headers },
-      ip,
-    );
+    const response = await app.request("/upload", { method: "POST", body: form }, ip);
 
     expect(response.status).toEqual(413);
   });

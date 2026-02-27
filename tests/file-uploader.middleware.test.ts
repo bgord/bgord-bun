@@ -5,8 +5,9 @@ import { FileUploader } from "../src/file-uploader.middleware";
 
 const MimeRegistry = new tools.MimeRegistry([tools.Mimes.png, tools.Mimes.csv]);
 
-const boundary = "----bun-test-boundary";
-const headers = { "Content-Type": `multipart/form-data; boundary=${boundary}` };
+const png = new File([], "image.png");
+const pdf = new File([], "image.pdf");
+const empty = new File([], "image.pdf");
 
 const app = new Hono()
   .use(...FileUploader.validate({ MimeRegistry, maxFilesSize: tools.Size.fromKb(10) }))
@@ -14,21 +15,10 @@ const app = new Hono()
 
 describe("FileUploader middleware", () => {
   test("happy path", async () => {
-    const content = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="file"; filename="image.png"',
-      "Content-Type: image/png",
-      "",
-      "dummy-content",
-      `--${boundary}--`,
-      "",
-    ].join("\r\n");
+    const form = new FormData();
+    form.append("file", png);
 
-    const response = await app.request("/uploader", {
-      method: "POST",
-      body: new TextEncoder().encode(content),
-      headers,
-    });
+    const response = await app.request("/uploader", { method: "POST", body: form });
     const text = await response.text();
 
     expect(response.status).toEqual(200);
@@ -36,21 +26,10 @@ describe("FileUploader middleware", () => {
   });
 
   test("rejects invalid MIME type", async () => {
-    const content = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="file"; filename="document.pdf"',
-      "Content-Type: application/pdf",
-      "",
-      "pdf-content",
-      `--${boundary}--`,
-      "",
-    ].join("\r\n");
+    const form = new FormData();
+    form.append("file", pdf);
 
-    const response = await app.request("/uploader", {
-      method: "POST",
-      body: new TextEncoder().encode(content),
-      headers,
-    });
+    const response = await app.request("/uploader", { method: "POST", body: form });
     const result = await response.text();
 
     expect(response.status).toEqual(400);
@@ -58,15 +37,9 @@ describe("FileUploader middleware", () => {
   });
 
   test("rejects file too big", async () => {
-    const content = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="file"; filename="too-big.txt"',
-      "Content-Type: text/plain",
-      "",
-      "this content is larger than 10 bytes",
-      `--${boundary}--`,
-      "",
-    ].join("\r\n");
+    const form = new FormData();
+    form.append("file", png);
+
     const app = new Hono()
       .use(
         ...FileUploader.validate({
@@ -76,11 +49,7 @@ describe("FileUploader middleware", () => {
       )
       .post("/uploader", (c) => c.text("uploaded"));
 
-    const response = await app.request("/uploader", {
-      method: "POST",
-      body: new TextEncoder().encode(content),
-      headers,
-    });
+    const response = await app.request("/uploader", { method: "POST", body: form });
     const result = await response.text();
 
     expect(response.status).toEqual(400);
@@ -88,14 +57,9 @@ describe("FileUploader middleware", () => {
   });
 
   test("rejects no file", async () => {
-    const content = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="file"',
-      "",
-      "invalid",
-      `--${boundary}--`,
-      "",
-    ].join("\r\n");
+    const form = new FormData();
+    form.append("file", empty);
+
     const app = new Hono()
       .use(
         ...FileUploader.validate({
@@ -105,11 +69,7 @@ describe("FileUploader middleware", () => {
       )
       .post("/uploader", (c) => c.text("uploaded"));
 
-    const response = await app.request("/uploader", {
-      method: "POST",
-      body: new TextEncoder().encode(content),
-      headers,
-    });
+    const response = await app.request("/uploader", { method: "POST", body: form });
 
     expect(response.status).toEqual(400);
     expect(await response.text()).toEqual("file.uploader.invalid.mime");
