@@ -1,8 +1,8 @@
+import util from "node:util";
 import type * as tools from "@bgord/tools";
 import type * as z from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 import type { EncryptionPort } from "./encryption.port";
-import { EnvironmentFileParser } from "./environment-file-parser.service";
 import type { EnvironmentLoaderPort, EnvironmentResultType } from "./environment-loader.port";
 
 type Dependencies = { Encryption: EncryptionPort };
@@ -22,7 +22,7 @@ export class EnvironmentLoaderEncryptedAdapter<Schema extends z.ZodObject<any>>
   async load(): Promise<Readonly<EnvironmentResultType<Schema>>> {
     const file = await this.deps.Encryption.view(this.config.path);
     const plaintext = new TextDecoder().decode(file);
-    const env = EnvironmentFileParser.parse(plaintext);
+    const env = util.parseEnv(plaintext);
 
     return Object.freeze({ ...this.config.Schema.parse(env), type: this.config.type });
   }

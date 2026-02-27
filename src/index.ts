@@ -73,7 +73,6 @@ export * from "./encryption-aes-gcm.adapter";
 export * from "./encryption-key.vo";
 export * from "./encryption-key-value.vo";
 export * from "./encryption-noop.adapter";
-export * from "./environment-file-parser.service";
 export * from "./environment-loader.port";
 export * from "./environment-loader-encrypted.adapter";
 export * from "./environment-loader-noop.adapter";
