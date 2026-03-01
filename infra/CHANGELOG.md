@@ -1,9 +1,14 @@
 # Changelog
+- 2026-03-01 09:15 cd2d88ad **step: update packages**
+- 2026-02-27 22:59 eafce8f2 **refactor: simplify file upload tests**
+- 2026-02-27 12:46 6bf7440c **step: add trailing slash trim middleware**
+- 2026-02-27 12:33 6dd26726 **refactor: remove environment file parses in favor or util.parseEnv**
 ## 2026-02-26 22:05 v1.10.19
 - 2026-02-26 22:05 c08b84b4 **1.10.19**
 - 2026-02-26 22:04 abbfc249 **refactor: unify default hash noop values**
 ## 2026-02-26 21:29 v1.10.18
 - 2026-02-26 21:29 1cbbedb2 **1.10.18**
+- 2026-02-26 21:06 8f8bbb91 **docs: generate CHANGELOG**
 - 2026-02-26 21:05 620d9120 **docs: generate CHANGELOG**
 - 2026-02-26 20:50 64d2dd06 **step: update packages**
 - 2026-02-26 20:49 990e96ff **step: add Hash.fromBuffer**
