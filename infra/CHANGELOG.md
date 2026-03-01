@@ -1,4 +1,6 @@
 # Changelog
+## 2026-03-01 09:51 v1.10.22
+- 2026-03-01 09:51 fd0cdb60 **1.10.22**
 - 2026-03-01 09:48 36366bfc **fix: do not rely on better auth instance types**
 ## 2026-03-01 09:41 v1.10.21
 - 2026-03-01 09:41 e966fffc **1.10.21**
@@ -6,6 +8,7 @@
 ## 2026-03-01 09:16 v1.10.20
 - 2026-03-01 09:16 9d637ae3 **1.10.20**
 - 2026-03-01 09:15 cd2d88ad **step: update packages**
+- 2026-03-01 08:51 81a2aabc **docs: generate CHANGELOG**
 - 2026-03-01 08:48 c35bd305 **docs: generate CHANGELOG**
 - 2026-03-01 08:42 e6f3520a **docs: generate CHANGELOG**
 - 2026-03-01 08:41 b1e81754 **docs: generate CHANGELOG**
