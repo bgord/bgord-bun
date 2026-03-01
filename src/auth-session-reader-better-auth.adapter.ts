@@ -1,15 +1,11 @@
-import type { Auth, BetterAuthOptions } from "better-auth";
+import type { Auth } from "better-auth";
 import type { AuthSessionReaderPort } from "./auth-session-reader.port";
 import type { HasRequestHeaders } from "./request-context.port";
 
-export class AuthSessionReaderBetterAuthAdapter<TOptions extends BetterAuthOptions>
-  implements
-    AuthSessionReaderPort<
-      Auth<TOptions>["$Infer"]["Session"]["user"],
-      Auth<TOptions>["$Infer"]["Session"]["session"]
-    >
+export class AuthSessionReaderBetterAuthAdapter<TAuth extends Auth<any>>
+  implements AuthSessionReaderPort<TAuth["$Infer"]["Session"]["user"], TAuth["$Infer"]["Session"]["session"]>
 {
-  constructor(private readonly auth: Auth<TOptions>) {}
+  constructor(private readonly auth: TAuth) {}
 
   async getSession(context: HasRequestHeaders) {
     const result = await this.auth.api.getSession({ headers: context.request.headers() });
