@@ -1,5 +1,9 @@
 # Changelog
+## 2026-03-01 09:16 v1.10.20
+- 2026-03-01 09:16 9d637ae3 **1.10.20**
 - 2026-03-01 09:15 cd2d88ad **step: update packages**
+- 2026-03-01 08:16 d3035f88 **docs: generate readme**
+- 2026-03-01 08:16 369c3424 **docs: generate CHANGELOG**
 - 2026-02-27 22:59 eafce8f2 **refactor: simplify file upload tests**
 - 2026-02-27 12:46 6bf7440c **step: add trailing slash trim middleware**
 - 2026-02-27 12:33 6dd26726 **refactor: remove environment file parses in favor or util.parseEnv**
