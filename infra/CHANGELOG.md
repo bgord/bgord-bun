@@ -1,7 +1,9 @@
 # Changelog
+- 2026-03-01 09:41 7b5ff6d6 **fix: better auth types in auth session reader adapter**
 ## 2026-03-01 09:16 v1.10.20
 - 2026-03-01 09:16 9d637ae3 **1.10.20**
 - 2026-03-01 09:15 cd2d88ad **step: update packages**
+- 2026-03-01 08:17 a43e95c8 **docs: generate CHANGELOG**
 - 2026-03-01 08:16 d3035f88 **docs: generate readme**
 - 2026-03-01 08:16 369c3424 **docs: generate CHANGELOG**
 - 2026-02-27 22:59 eafce8f2 **refactor: simplify file upload tests**
