@@ -11,6 +11,16 @@ describe("AbVariants", () => {
     expect(() => new AbVariants([classic, old])).not.toThrow();
   });
 
+  test("happy path - max variants", () => {
+    const first = new AbVariant({ name: "first", weight: AbVariantWeight.parse(20) });
+    const second = new AbVariant({ name: "second", weight: AbVariantWeight.parse(20) });
+    const third = new AbVariant({ name: "third", weight: AbVariantWeight.parse(20) });
+    const fourth = new AbVariant({ name: "fourth", weight: AbVariantWeight.parse(20) });
+    const fifth = new AbVariant({ name: "fifth", weight: AbVariantWeight.parse(20) });
+
+    expect(() => new AbVariants([first, second, third, fourth, fifth])).not.toThrow();
+  });
+
   test("no variants", () => {
     expect(() => new AbVariants([])).toThrow("ab.variants.min");
   });

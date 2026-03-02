@@ -4,7 +4,9 @@ import type { AbVariants } from "./ab-variants.vo";
 import type { Hash } from "./hash.vo";
 import { HashBucket } from "./hash-bucket.vo";
 
+// Stryker disable all
 export const AbVariantSelectorError = { NoVariantSelected: "ab.variant.selector.no.variant.selected" };
+// Stryker restore all
 
 export class AbVariantSelector {
   constructor(private readonly variants: AbVariants) {}

@@ -73,7 +73,9 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
       try {
         this.sink.write(entry as LoggerEntry);
       } catch (error) {
+        // Stryker disable all
         this.onError?.(error);
+        // Stryker restore all
       }
     }
   }

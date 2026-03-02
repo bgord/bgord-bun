@@ -24,6 +24,7 @@ export class FileUploader {
 
         const file = body.get("file");
 
+        // TODO
         if (!(file instanceof File)) throw FileUploaderInvalidMimeError;
 
         const mime = tools.Mime.fromString(file.type);
