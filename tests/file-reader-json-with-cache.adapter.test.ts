@@ -2,11 +2,11 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { FileReaderJsonWithCacheAdapter } from "../src/file-reader-json-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
 const content = { version: 1 };
 const inner = new FileReaderJsonNoopAdapter(content);
@@ -28,11 +28,11 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_json"),
-        new CacheSubjectSegmentFixedStrategy("json"),
-        new CacheSubjectSegmentFixedStrategy(path),
+        new SubjectSegmentFixedStrategy("file_reader_json"),
+        new SubjectSegmentFixedStrategy("json"),
+        new SubjectSegmentFixedStrategy(path),
       ],
       deps,
     );
@@ -59,11 +59,11 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_json"),
-        new CacheSubjectSegmentFixedStrategy("json"),
-        new CacheSubjectSegmentFixedStrategy(relative.get()),
+        new SubjectSegmentFixedStrategy("file_reader_json"),
+        new SubjectSegmentFixedStrategy("json"),
+        new SubjectSegmentFixedStrategy(relative.get()),
       ],
       deps,
     );
@@ -90,11 +90,11 @@ describe("FileReaderJsonWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_json"),
-        new CacheSubjectSegmentFixedStrategy("json"),
-        new CacheSubjectSegmentFixedStrategy(absolute.get()),
+        new SubjectSegmentFixedStrategy("file_reader_json"),
+        new SubjectSegmentFixedStrategy("json"),
+        new SubjectSegmentFixedStrategy(absolute.get()),
       ],
       deps,
     );

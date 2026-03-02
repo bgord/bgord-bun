@@ -3,9 +3,9 @@ import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 
 const cached = "cached-value";
@@ -16,7 +16,7 @@ const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
 describe("CacheResolverSimpleStrategy", async () => {
-  const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("key")], deps);
+  const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("key")], deps);
   const subject = await resolver.resolve();
 
   test("success - hit", async () => {

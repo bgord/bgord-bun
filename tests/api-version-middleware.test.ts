@@ -5,10 +5,10 @@ import { ApiVersion } from "../src/api-version.middleware";
 import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 
 const version = "1.2.3";
@@ -28,10 +28,7 @@ const deps = { Clock, CacheResolver, HashContent, BuildInfoRepository };
 const app = new Hono().use(ApiVersion.build(deps)).get("/ping", (c) => c.text("OK"));
 
 describe("ApiVersion middleware", async () => {
-  const resolver = new CacheSubjectApplicationResolver(
-    [new CacheSubjectSegmentFixedStrategy("api-version")],
-    deps,
-  );
+  const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("api-version")], deps);
   const subject = await resolver.resolve();
 
   test("happy path", async () => {

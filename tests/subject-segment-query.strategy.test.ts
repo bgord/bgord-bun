@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
+import { SubjectSegmentQueryStrategy } from "../src/subject-segment-query.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const segment = new CacheSubjectSegmentQueryStrategy();
+const segment = new SubjectSegmentQueryStrategy();
 
-describe("CacheSubjectSegmentQueryStrategy", () => {
+describe("SubjectSegmentQueryStrategy", () => {
   test("happy path", () => {
     const context = new RequestContextBuilder().withQuery({ aaa: "123", bbb: "234" }).build();
 

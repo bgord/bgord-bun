@@ -3,11 +3,11 @@ import * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
 const Schema = z.object({ APP_NAME: z.string() });
 
@@ -21,7 +21,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
   test("happy path", async () => {
     process.env.APP_NAME = "MyApp";
 
-    const resolver = new CacheSubjectApplicationResolver([new CacheSubjectSegmentFixedStrategy("env")], {
+    const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], {
       HashContent,
     });
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");

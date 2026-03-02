@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
+import { SubjectSegmentCookieStrategy } from "../src/subject-segment-cookie.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const segment = new CacheSubjectSegmentCookieStrategy("language");
+const segment = new SubjectSegmentCookieStrategy("language");
 
-describe("CacheSubjectSegmentCookieStrategy", () => {
+describe("SubjectSegmentCookieStrategy", () => {
   test("happy path", () => {
     const context = new RequestContextBuilder().withCookie("language", "en").build();
 

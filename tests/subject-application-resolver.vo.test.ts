@@ -1,26 +1,26 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentBuildStrategy } from "../src/cache-subject-segment-build.strategy";
-import { CacheSubjectSegmentEnvStrategy } from "../src/cache-subject-segment-env.strategy";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentBuildStrategy } from "../src/subject-segment-build.strategy";
+import { SubjectSegmentEnvStrategy } from "../src/subject-segment-env.strategy";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
-const request = new CacheSubjectSegmentFixedStrategy("request");
-const response = new CacheSubjectSegmentFixedStrategy("response");
-const env = new CacheSubjectSegmentEnvStrategy(NodeEnvironmentEnum.production);
+const request = new SubjectSegmentFixedStrategy("request");
+const response = new SubjectSegmentFixedStrategy("response");
+const env = new SubjectSegmentEnvStrategy(NodeEnvironmentEnum.production);
 
 const version = tools.PackageVersion.fromString("1.2.3");
-const build = new CacheSubjectSegmentBuildStrategy(version);
+const build = new SubjectSegmentBuildStrategy(version);
 
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
-describe("CacheSubjectApplicationResolver VO", () => {
+describe("SubjectApplicationResolver VO", () => {
   test("fixed", async () => {
-    const result = await new CacheSubjectApplicationResolver([request], deps).resolve();
+    const result = await new SubjectApplicationResolver([request], deps).resolve();
 
     expect(result.raw).toEqual(["request"]);
     expect(result.hex).toEqual(
@@ -29,7 +29,7 @@ describe("CacheSubjectApplicationResolver VO", () => {
   });
 
   test("two fixed", async () => {
-    const result = await new CacheSubjectApplicationResolver([request, response], deps).resolve();
+    const result = await new SubjectApplicationResolver([request, response], deps).resolve();
 
     expect(result.raw).toEqual(["request", "response"]);
     expect(result.hex).toEqual(
@@ -38,7 +38,7 @@ describe("CacheSubjectApplicationResolver VO", () => {
   });
 
   test("fixed, env", async () => {
-    const result = await new CacheSubjectApplicationResolver([request, env], deps).resolve();
+    const result = await new SubjectApplicationResolver([request, env], deps).resolve();
 
     expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production]);
     expect(result.hex).toEqual(
@@ -47,7 +47,7 @@ describe("CacheSubjectApplicationResolver VO", () => {
   });
 
   test("fixed, env, build", async () => {
-    const result = await new CacheSubjectApplicationResolver([request, env, build], deps).resolve();
+    const result = await new SubjectApplicationResolver([request, env, build], deps).resolve();
 
     expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production, version.toString()]);
     expect(result.hex).toEqual(
@@ -56,14 +56,14 @@ describe("CacheSubjectApplicationResolver VO", () => {
   });
 
   test("segments - empty", async () => {
-    expect(async () => new CacheSubjectApplicationResolver([], deps).resolve()).toThrow(
-      "cache.subject.application.no.segments",
+    expect(async () => new SubjectApplicationResolver([], deps).resolve()).toThrow(
+      "subject.application.no.segments",
     );
   });
 
   test("segments - too many", async () => {
     expect(async () =>
-      new CacheSubjectApplicationResolver(
+      new SubjectApplicationResolver(
         [
           response,
           response,
@@ -79,12 +79,12 @@ describe("CacheSubjectApplicationResolver VO", () => {
         ],
         deps,
       ).resolve(),
-    ).toThrow("cache.subject.application.too.many.segments");
+    ).toThrow("subject.application.too.many.segments");
   });
 
   test("segments - at the limit", async () => {
     expect(async () =>
-      new CacheSubjectApplicationResolver(
+      new SubjectApplicationResolver(
         [response, response, response, response, response, response, response, response, response, response],
         deps,
       ).resolve(),
@@ -92,9 +92,9 @@ describe("CacheSubjectApplicationResolver VO", () => {
   });
 
   test("sanitization", async () => {
-    const fixed = new CacheSubjectSegmentFixedStrategy("a|b|c|");
+    const fixed = new SubjectSegmentFixedStrategy("a|b|c|");
 
-    const result = await new CacheSubjectApplicationResolver([fixed], deps).resolve();
+    const result = await new SubjectApplicationResolver([fixed], deps).resolve();
 
     expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
     expect(result.hex).toEqual(

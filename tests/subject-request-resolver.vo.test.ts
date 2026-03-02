@@ -1,30 +1,30 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
-import { CacheSubjectSegmentCookieStrategy } from "../src/cache-subject-segment-cookie.strategy";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
-import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
-import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
-import { CacheSubjectSegmentQueryStrategy } from "../src/cache-subject-segment-query.strategy";
-import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { Hash } from "../src/hash.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
+import { SubjectSegmentCookieStrategy } from "../src/subject-segment-cookie.strategy";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import { SubjectSegmentHeaderStrategy } from "../src/subject-segment-header.strategy";
+import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
+import { SubjectSegmentQueryStrategy } from "../src/subject-segment-query.strategy";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const fixed = new CacheSubjectSegmentFixedStrategy("response");
-const path = new CacheSubjectSegmentPathStrategy();
-const cookieLanguage = new CacheSubjectSegmentCookieStrategy("language");
-const headerAccept = new CacheSubjectSegmentHeaderStrategy("accept");
-const query = new CacheSubjectSegmentQueryStrategy();
-const user = new CacheSubjectSegmentUserStrategy();
+const fixed = new SubjectSegmentFixedStrategy("response");
+const path = new SubjectSegmentPathStrategy();
+const cookieLanguage = new SubjectSegmentCookieStrategy("language");
+const headerAccept = new SubjectSegmentHeaderStrategy("accept");
+const query = new SubjectSegmentQueryStrategy();
+const user = new SubjectSegmentUserStrategy();
 
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
-describe("CacheSubjectRequestResolver VO", () => {
+describe("SubjectRequestResolver VO", () => {
   test("fixed", async () => {
     const context = new RequestContextBuilder().build();
 
-    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context);
+    const result = await new SubjectRequestResolver([fixed], deps).resolve(context);
 
     expect(result.raw).toEqual(["response"]);
     expect(result.hex).toEqual(
@@ -35,7 +35,7 @@ describe("CacheSubjectRequestResolver VO", () => {
   test("fixed, path", async () => {
     const context = new RequestContextBuilder().withPath("/about").build();
 
-    const result = await new CacheSubjectRequestResolver([fixed, path], deps).resolve(context);
+    const result = await new SubjectRequestResolver([fixed, path], deps).resolve(context);
 
     expect(result.raw).toEqual(["response", "/about"]);
     expect(result.hex).toEqual(
@@ -46,9 +46,7 @@ describe("CacheSubjectRequestResolver VO", () => {
   test("fixed, path, cookie language", async () => {
     const context = new RequestContextBuilder().withPath("/about").withCookie("language", "en").build();
 
-    const result = await new CacheSubjectRequestResolver([fixed, path, cookieLanguage], deps).resolve(
-      context,
-    );
+    const result = await new SubjectRequestResolver([fixed, path, cookieLanguage], deps).resolve(context);
 
     expect(result.raw).toEqual(["response", "/about", "en"]);
     expect(result.hex).toEqual(
@@ -63,7 +61,7 @@ describe("CacheSubjectRequestResolver VO", () => {
       .withHeader("accept", "application/json")
       .build();
 
-    const result = await new CacheSubjectRequestResolver(
+    const result = await new SubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept],
       deps,
     ).resolve(context);
@@ -82,7 +80,7 @@ describe("CacheSubjectRequestResolver VO", () => {
       .withQuery({ aaa: "123", bbb: "234" })
       .build();
 
-    const result = await new CacheSubjectRequestResolver(
+    const result = await new SubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query],
       deps,
     ).resolve(context);
@@ -102,7 +100,7 @@ describe("CacheSubjectRequestResolver VO", () => {
       .withUserId("123456789")
       .build();
 
-    const result = await new CacheSubjectRequestResolver(
+    const result = await new SubjectRequestResolver(
       [fixed, path, cookieLanguage, headerAccept, query, user],
       deps,
     ).resolve(context);
@@ -123,8 +121,8 @@ describe("CacheSubjectRequestResolver VO", () => {
   test("segments - empty", async () => {
     const context = new RequestContextBuilder().build();
 
-    expect(async () => new CacheSubjectRequestResolver([], deps).resolve(context)).toThrow(
-      "cache.subject.request.no.segments",
+    expect(async () => new SubjectRequestResolver([], deps).resolve(context)).toThrow(
+      "subject.request.no.segments",
     );
   });
 
@@ -132,18 +130,18 @@ describe("CacheSubjectRequestResolver VO", () => {
     const context = new RequestContextBuilder().build();
 
     expect(async () =>
-      new CacheSubjectRequestResolver(
+      new SubjectRequestResolver(
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
       ).resolve(context),
-    ).toThrow("cache.subject.request.too.many.segments");
+    ).toThrow("subject.request.too.many.segments");
   });
 
   test("segments - at the limit", async () => {
     const context = new RequestContextBuilder().build();
 
     expect(async () =>
-      new CacheSubjectRequestResolver(
+      new SubjectRequestResolver(
         [fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed],
         deps,
       ).resolve(context),
@@ -152,9 +150,9 @@ describe("CacheSubjectRequestResolver VO", () => {
 
   test("sanitization", async () => {
     const context = new RequestContextBuilder().build();
-    const fixed = new CacheSubjectSegmentFixedStrategy("a|b|c|");
+    const fixed = new SubjectSegmentFixedStrategy("a|b|c|");
 
-    const result = await new CacheSubjectRequestResolver([fixed], deps).resolve(context);
+    const result = await new SubjectRequestResolver([fixed], deps).resolve(context);
 
     expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
     expect(result.hex).toEqual(

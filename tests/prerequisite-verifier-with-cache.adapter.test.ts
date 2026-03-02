@@ -2,11 +2,11 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src//cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src//cache-subject-segment-fixed.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 
 const HashContent = new HashContentSha256Strategy();
@@ -21,11 +21,11 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("prerequisite_verifier"),
-        new CacheSubjectSegmentFixedStrategy(pass.kind),
-        new CacheSubjectSegmentFixedStrategy(config.id),
+        new SubjectSegmentFixedStrategy("prerequisite_verifier"),
+        new SubjectSegmentFixedStrategy(pass.kind),
+        new SubjectSegmentFixedStrategy(config.id),
       ],
       { HashContent },
     );

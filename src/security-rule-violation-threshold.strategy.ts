@@ -1,12 +1,12 @@
 import * as tools from "@bgord/tools";
 import type { CacheRepositoryPort } from "./cache-repository.port";
-import { CacheSubjectRequestResolver } from "./cache-subject-request-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
-import { CacheSubjectSegmentIpStrategy } from "./cache-subject-segment-ip.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { RequestContext } from "./request-context.port";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
+import { SubjectRequestResolver } from "./subject-request-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
+import { SubjectSegmentIpStrategy } from "./subject-segment-ip.strategy";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentStrategy };
 
@@ -19,8 +19,8 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
 
   // Best-effort increment, occasional lost increments are acceptable for concurrent requests.
   async isViolated(context: RequestContext): Promise<boolean> {
-    const resolver = new CacheSubjectRequestResolver(
-      [new CacheSubjectSegmentFixedStrategy(this.name), new CacheSubjectSegmentIpStrategy()],
+    const resolver = new SubjectRequestResolver(
+      [new SubjectSegmentFixedStrategy(this.name), new SubjectSegmentIpStrategy()],
       this.deps,
     );
     const subject = await resolver.resolve(context);

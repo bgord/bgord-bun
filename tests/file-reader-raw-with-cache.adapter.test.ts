@@ -2,11 +2,11 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { FileReaderRawNoopAdapter } from "../src/file-reader-raw-noop.adapter";
 import { FileReaderRawWithCacheAdapter } from "../src/file-reader-raw-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
 const content = new TextEncoder().encode("hello").buffer;
 const inner = new FileReaderRawNoopAdapter(content);
@@ -28,11 +28,11 @@ describe("FileReaderRawWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
-        new CacheSubjectSegmentFixedStrategy("raw"),
-        new CacheSubjectSegmentFixedStrategy(path),
+        new SubjectSegmentFixedStrategy("file_reader_raw"),
+        new SubjectSegmentFixedStrategy("raw"),
+        new SubjectSegmentFixedStrategy(path),
       ],
       deps,
     );
@@ -59,11 +59,11 @@ describe("FileReaderRawWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
-        new CacheSubjectSegmentFixedStrategy("raw"),
-        new CacheSubjectSegmentFixedStrategy(relative.get()),
+        new SubjectSegmentFixedStrategy("file_reader_raw"),
+        new SubjectSegmentFixedStrategy("raw"),
+        new SubjectSegmentFixedStrategy(relative.get()),
       ],
       deps,
     );
@@ -90,11 +90,11 @@ describe("FileReaderRawWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
-        new CacheSubjectSegmentFixedStrategy("raw"),
-        new CacheSubjectSegmentFixedStrategy(absolute.get()),
+        new SubjectSegmentFixedStrategy("file_reader_raw"),
+        new SubjectSegmentFixedStrategy("raw"),
+        new SubjectSegmentFixedStrategy(absolute.get()),
       ],
       deps,
     );

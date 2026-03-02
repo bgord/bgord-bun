@@ -1,8 +1,8 @@
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { PrerequisiteVerificationResult, PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
+import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
@@ -13,11 +13,11 @@ export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifie
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("prerequisite_verifier"),
-        new CacheSubjectSegmentFixedStrategy(this.kind),
-        new CacheSubjectSegmentFixedStrategy(this.config.id),
+        new SubjectSegmentFixedStrategy("prerequisite_verifier"),
+        new SubjectSegmentFixedStrategy(this.kind),
+        new SubjectSegmentFixedStrategy(this.config.id),
       ],
       this.deps,
     );

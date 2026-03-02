@@ -5,11 +5,11 @@ import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-ca
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponse } from "../src/cache-response.middleware";
-import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
-import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
-import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import type * as mocks from "./mocks";
 
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
@@ -18,11 +18,11 @@ const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
-const resolver = new CacheSubjectRequestResolver(
+const resolver = new SubjectRequestResolver(
   [
-    new CacheSubjectSegmentFixedStrategy("ping"),
-    new CacheSubjectSegmentPathStrategy(),
-    new CacheSubjectSegmentUserStrategy(),
+    new SubjectSegmentFixedStrategy("ping"),
+    new SubjectSegmentPathStrategy(),
+    new SubjectSegmentUserStrategy(),
   ],
   deps,
 );

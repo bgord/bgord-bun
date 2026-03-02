@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentHeaderStrategy } from "../src/cache-subject-segment-header.strategy";
+import { SubjectSegmentHeaderStrategy } from "../src/subject-segment-header.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const name = "accept";
 const value = "application/json";
-const segment = new CacheSubjectSegmentHeaderStrategy(name);
+const segment = new SubjectSegmentHeaderStrategy(name);
 
-describe("CacheSubjectSegmentHeaderStrategy", () => {
+describe("SubjectSegmentHeaderStrategy", () => {
   test("happy path", () => {
     const context = new RequestContextBuilder().withHeader(name, value).build();
 

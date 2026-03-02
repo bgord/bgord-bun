@@ -1,9 +1,9 @@
 import { createMiddleware } from "hono/factory";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
+import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = {
   CacheResolver: CacheResolverStrategy;
@@ -16,10 +16,7 @@ export class ApiVersion {
 
   static build = (deps: Dependencies) =>
     createMiddleware(async (c, next) => {
-      const resolver = new CacheSubjectApplicationResolver(
-        [new CacheSubjectSegmentFixedStrategy("api-version")],
-        deps,
-      );
+      const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("api-version")], deps);
       const subject = await resolver.resolve();
 
       const build = await deps.CacheResolver.resolve(subject.hex, async () =>

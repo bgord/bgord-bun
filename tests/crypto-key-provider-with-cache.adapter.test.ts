@@ -2,11 +2,11 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { CryptoKeyProviderWithCacheAdapter } from "../src/crypto-key-provider-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
 const inner = new CryptoKeyProviderNoopAdapter();
 
@@ -23,11 +23,8 @@ describe("CryptoKeyProviderWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "get");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
-      [
-        new CacheSubjectSegmentFixedStrategy("crypto_key_provider"),
-        new CacheSubjectSegmentFixedStrategy("crypto-key"),
-      ],
+    const resolver = new SubjectApplicationResolver(
+      [new SubjectSegmentFixedStrategy("crypto_key_provider"), new SubjectSegmentFixedStrategy("crypto-key")],
       deps,
     );
     const subject = await resolver.resolve();

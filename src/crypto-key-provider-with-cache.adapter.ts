@@ -1,8 +1,8 @@
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
+import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
@@ -13,10 +13,10 @@ export class CryptoKeyProviderWithCacheAdapter implements CryptoKeyProviderPort 
   ) {}
 
   async get(): Promise<CryptoKey> {
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("crypto_key_provider"),
-        new CacheSubjectSegmentFixedStrategy(this.config.id),
+        new SubjectSegmentFixedStrategy("crypto_key_provider"),
+        new SubjectSegmentFixedStrategy(this.config.id),
       ],
       this.deps,
     );

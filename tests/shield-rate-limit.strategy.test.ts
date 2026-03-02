@@ -3,13 +3,13 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectRequestResolver } from "../src/cache-subject-request-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
-import { CacheSubjectSegmentPathStrategy } from "../src/cache-subject-segment-path.strategy";
-import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ShieldRateLimitError, ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
+import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
@@ -19,11 +19,11 @@ const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256Strategy();
 const deps = { Clock, CacheResolver, HashContent };
 
-const resolver = new CacheSubjectRequestResolver(
+const resolver = new SubjectRequestResolver(
   [
-    new CacheSubjectSegmentFixedStrategy("ping"),
-    new CacheSubjectSegmentPathStrategy(),
-    new CacheSubjectSegmentUserStrategy(),
+    new SubjectSegmentFixedStrategy("ping"),
+    new SubjectSegmentPathStrategy(),
+    new SubjectSegmentUserStrategy(),
   ],
   deps,
 );

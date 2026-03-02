@@ -7,9 +7,9 @@ import type {
   HasRequestQuery,
 } from "./request-context.port";
 
-export const CacheSubjectSegmentRequestEmpty: CacheSubjectSegmentType = "__absent__";
+export type SubjectSegmentType = string;
 
-export type CacheSubjectSegmentType = string;
+export const SubjectSegmentRequestEmpty: SubjectSegmentType = "__absent__";
 
 type RequestContextCapabilities = HasRequestCookie &
   HasRequestHeader &
@@ -18,6 +18,6 @@ type RequestContextCapabilities = HasRequestCookie &
   HasIdentityIp &
   HasIdentityUserId;
 
-export interface CacheSubjectSegmentRequestStrategy {
-  create(context: RequestContextCapabilities): CacheSubjectSegmentType;
+export interface SubjectSegmentRequestStrategy {
+  create(context: RequestContextCapabilities): SubjectSegmentType;
 }

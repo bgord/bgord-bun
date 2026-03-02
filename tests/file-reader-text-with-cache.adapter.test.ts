@@ -2,11 +2,11 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheSubjectApplicationResolver } from "../src/cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "../src/cache-subject-segment-fixed.strategy";
 import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import { FileReaderTextWithCacheAdapter } from "../src/file-reader-text-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
 const content = "hello";
 const inner = new FileReaderTextNoopAdapter(content);
@@ -28,11 +28,11 @@ describe("FileReaderTextWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_text"),
-        new CacheSubjectSegmentFixedStrategy("text"),
-        new CacheSubjectSegmentFixedStrategy(path),
+        new SubjectSegmentFixedStrategy("file_reader_text"),
+        new SubjectSegmentFixedStrategy("text"),
+        new SubjectSegmentFixedStrategy(path),
       ],
       deps,
     );
@@ -59,11 +59,11 @@ describe("FileReaderTextWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_text"),
-        new CacheSubjectSegmentFixedStrategy("text"),
-        new CacheSubjectSegmentFixedStrategy(relative.get()),
+        new SubjectSegmentFixedStrategy("file_reader_text"),
+        new SubjectSegmentFixedStrategy("text"),
+        new SubjectSegmentFixedStrategy(relative.get()),
       ],
       deps,
     );
@@ -90,11 +90,11 @@ describe("FileReaderTextWithCacheAdapter", () => {
     jest.useFakeTimers();
     using innerRead = spyOn(inner, "read");
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_text"),
-        new CacheSubjectSegmentFixedStrategy("text"),
-        new CacheSubjectSegmentFixedStrategy(absolute.get()),
+        new SubjectSegmentFixedStrategy("file_reader_text"),
+        new SubjectSegmentFixedStrategy("text"),
+        new SubjectSegmentFixedStrategy(absolute.get()),
       ],
       deps,
     );

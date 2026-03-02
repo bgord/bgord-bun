@@ -1,9 +1,9 @@
 import type * as tools from "@bgord/tools";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { FileReaderRawPort } from "./file-reader-raw.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
+import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
@@ -14,11 +14,11 @@ export class FileReaderRawWithCacheAdapter implements FileReaderRawPort {
   ) {}
 
   async read(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<ArrayBuffer> {
-    const resolver = new CacheSubjectApplicationResolver(
+    const resolver = new SubjectApplicationResolver(
       [
-        new CacheSubjectSegmentFixedStrategy("file_reader_raw"),
-        new CacheSubjectSegmentFixedStrategy(this.config.id),
-        new CacheSubjectSegmentFixedStrategy(typeof path === "string" ? path : path.get()),
+        new SubjectSegmentFixedStrategy("file_reader_raw"),
+        new SubjectSegmentFixedStrategy(this.config.id),
+        new SubjectSegmentFixedStrategy(typeof path === "string" ? path : path.get()),
       ],
       this.deps,
     );

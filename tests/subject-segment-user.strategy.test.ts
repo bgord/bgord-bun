@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { CacheSubjectSegmentUserStrategy } from "../src/cache-subject-segment-user.strategy";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const segment = new CacheSubjectSegmentUserStrategy();
+const segment = new SubjectSegmentUserStrategy();
 
-describe("CacheSubjectSegmentUserStrategy", () => {
+describe("SubjectSegmentUserStrategy", () => {
   test("happy path", () => {
     const userId = "123456789";
     const context = new RequestContextBuilder().withUserId(userId).build();

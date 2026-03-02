@@ -1,10 +1,10 @@
 import type * as z from "zod/v4";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { CacheSubjectApplicationResolver } from "./cache-subject-application-resolver.vo";
-import { CacheSubjectSegmentFixedStrategy } from "./cache-subject-segment-fixed.strategy";
 import type { EnvironmentLoaderPort, EnvironmentResultType } from "./environment-loader.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
+import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
@@ -18,10 +18,7 @@ export class EnvironmentLoaderProcessSafeAdapter<Schema extends z.ZodObject<any>
   ) {}
 
   async load(): Promise<Readonly<EnvironmentResultType<Schema>>> {
-    const resolver = new CacheSubjectApplicationResolver(
-      [new CacheSubjectSegmentFixedStrategy("env")],
-      this.deps,
-    );
+    const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], this.deps);
     const subject = await resolver.resolve();
 
     const result = await this.deps.CacheResolver.resolve(subject.hex, async () =>
