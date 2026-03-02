@@ -1,3 +1,4 @@
+export * from "./ab-variant-weight.vo";
 export * from "./antivirus.port";
 export * from "./antivirus-clamav.adapter";
 export * from "./antivirus-noop.adapter";
