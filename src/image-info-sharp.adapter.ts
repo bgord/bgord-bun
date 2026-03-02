@@ -37,10 +37,10 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
   }
   // Stryker restore all
 
-  async inspect(path: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
-    const size = await this.deps.FileInspection.size(path);
+  async inspect(input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
+    const size = await this.deps.FileInspection.size(input);
 
-    const pipeline = this.sharp(path.get());
+    const pipeline = this.sharp(input.get());
     using _sharp_ = { [Symbol.dispose]: () => pipeline.destroy() };
 
     const metadata = await pipeline.metadata();

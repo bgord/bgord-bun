@@ -4,7 +4,7 @@ import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
 export class ImageInfoNoopAdapter implements ImageInfoPort {
   constructor(private readonly mime: tools.Mime) {}
 
-  async inspect(_filePath: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
+  async inspect(_input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
     return {
       width: tools.ImageWidth.parse(400),
       height: tools.ImageHeight.parse(400),

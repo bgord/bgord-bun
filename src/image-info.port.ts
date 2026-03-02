@@ -8,5 +8,5 @@ export type ImageInfoType = {
 };
 
 export interface ImageInfoPort {
-  inspect(filePath: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType>;
+  inspect(input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType>;
 }
