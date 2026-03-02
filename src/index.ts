@@ -195,6 +195,7 @@ export * from "./markdown-generator.adapter";
 export * from "./markdown-generator.port";
 export * from "./markdown-generator-noop.adapter";
 export * from "./memory-consumption.service";
+export * from "./middleware-hono.port";
 export * as History from "./modules/history";
 export * as Preferences from "./modules/preferences";
 export * as System from "./modules/system";
