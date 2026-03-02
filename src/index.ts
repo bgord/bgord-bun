@@ -1,4 +1,5 @@
 export * from "./ab-variant.vo";
+export * from "./ab-variant-selector.service";
 export * from "./ab-variant-weight.vo";
 export * from "./ab-variants.vo";
 export * from "./antivirus.port";
