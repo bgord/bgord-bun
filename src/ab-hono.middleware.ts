@@ -1,7 +1,8 @@
 import type { MiddlewareHandler } from "hono";
-import { type AbConfig, AbMiddleware } from "./ab.middleware";
+import { AbMiddleware } from "./ab.middleware";
+import type { AbAssignmentStrategy } from "./ab-assignment.strategy";
 import type { AbVariant } from "./ab-variant.vo";
-import { AbVariantSelector } from "./ab-variant-selector.service";
+import type { AbVariants } from "./ab-variants.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 
@@ -10,10 +11,8 @@ export type AbVariables = { abVariant: AbVariant };
 export class AbHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: AbMiddleware;
 
-  constructor(config: AbConfig) {
-    const selector = new AbVariantSelector(config.variants);
-
-    this.middleware = new AbMiddleware(selector, config);
+  constructor(variants: AbVariants, strategy: AbAssignmentStrategy) {
+    this.middleware = new AbMiddleware(variants, strategy);
   }
 
   handle(): MiddlewareHandler {
