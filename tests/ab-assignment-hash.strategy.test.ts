@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { AbMiddleware } from "../src/ab.middleware";
+import { AbAssignmentHashStrategy } from "../src/ab-assignment-hash.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
-import { AbVariantSelector } from "../src/ab-variant-selector.service";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -12,7 +11,6 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(50) });
 const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
-
 const variants = new AbVariants([control, treatment]);
 
 const subject = new SubjectRequestResolver(
@@ -20,15 +18,12 @@ const subject = new SubjectRequestResolver(
   { HashContent: new HashContentSha256Strategy() },
 );
 
-const config = { name: "test-experiment", variants, subject };
+const strategy = new AbAssignmentHashStrategy(variants, subject);
 
-const selector = new AbVariantSelector(variants);
-const middleware = new AbMiddleware(selector, config);
-
-describe("AbMiddleware", () => {
+describe("AbAssignmentHashStrategy", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
-    const variant = await middleware.evaluate(context);
+    const variant = await strategy.assign(context, variants);
 
     expect(variant).toEqual(control);
   });
@@ -36,12 +31,12 @@ describe("AbMiddleware", () => {
   test("idempotence", async () => {
     const context = new RequestContextBuilder().withUserId("user-456").build();
 
-    expect(await middleware.evaluate(context)).toEqual(await middleware.evaluate(context));
+    expect(await strategy.assign(context, variants)).toEqual(await strategy.assign(context, variants));
   });
 
   test("empty context", async () => {
     const context = new RequestContextBuilder().withUserId(undefined).build();
 
-    expect(await middleware.evaluate(context)).toEqual(control);
+    expect(await strategy.assign(context, variants)).toEqual(control);
   });
 });
