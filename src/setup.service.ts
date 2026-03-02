@@ -6,7 +6,6 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { trimTrailingSlash } from "hono/trailing-slash";
-import { ApiVersion } from "./api-version.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
@@ -19,6 +18,7 @@ import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-mode.middleware";
+import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { type ShieldCsrfConfigType, ShieldCsrfStrategy } from "./shield-csrf.strategy";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
@@ -39,6 +39,7 @@ type Dependencies = {
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
   BuildInfoRepository: BuildInfoRepositoryStrategy;
+  ApiVersionMiddleware: MiddlewareHonoPort;
 };
 
 export class Setup {
@@ -53,7 +54,7 @@ export class Setup {
         headerName: "x-correlation-id",
         generator: () => deps.IdProvider.generate(),
       }),
-      ApiVersion.build(deps),
+      deps.ApiVersionMiddleware.handle(),
       new ShieldCsrfStrategy(config.csrf).verify,
       secureHeaders({
         referrerPolicy: "no-referrer",

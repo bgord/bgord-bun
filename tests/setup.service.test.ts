@@ -1,6 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { ApiVersionHonoNoopMiddleware } from "../src/api-version-hono-noop.middleware";
 import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
@@ -41,6 +42,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
   mocks.SHA,
   tools.Size.fromBytes(0),
 );
+const ApiVersionMiddleware = new ApiVersionHonoNoopMiddleware(tools.PackageVersion.fromString(version));
 const deps = {
   Logger,
   I18n,
@@ -49,6 +51,7 @@ const deps = {
   CacheResolver,
   HashContent,
   BuildInfoRepository,
+  ApiVersionMiddleware,
 };
 
 describe("Setup service", () => {

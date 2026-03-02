@@ -12,6 +12,8 @@ export * from "./antivirus.port";
 export * from "./antivirus-clamav.adapter";
 export * from "./antivirus-noop.adapter";
 export * from "./api-version.middleware";
+export * from "./api-version-hono.middleware";
+export * from "./api-version-hono-noop.middleware";
 export * from "./auth-session-reader.port";
 export * from "./auth-session-reader-better-auth.adapter";
 export * from "./auth-session-reader-noop.adapter";

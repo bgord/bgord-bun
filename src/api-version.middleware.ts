@@ -1,4 +1,4 @@
-import { createMiddleware } from "hono/factory";
+import type * as tools from "@bgord/tools";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
@@ -11,18 +11,22 @@ type Dependencies = {
   BuildInfoRepository: BuildInfoRepositoryStrategy;
 };
 
-export class ApiVersion {
+export class ApiVersionMiddleware {
   static readonly HEADER_NAME = "api-version";
 
-  static build = (deps: Dependencies) =>
-    createMiddleware(async (c, next) => {
-      const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("api-version")], deps);
-      const subject = await resolver.resolve();
+  constructor(private readonly deps: Dependencies) {}
 
-      const build = await deps.CacheResolver.resolve(subject.hex, async () =>
-        deps.BuildInfoRepository.extract(),
-      );
-      c.res.headers.set(ApiVersion.HEADER_NAME, build.version.toString());
-      await next();
-    });
+  async evaluate(): Promise<tools.PackageVersion> {
+    const resolver = new SubjectApplicationResolver(
+      [new SubjectSegmentFixedStrategy("api-version")],
+      this.deps,
+    );
+    const subject = await resolver.resolve();
+
+    const build = await this.deps.CacheResolver.resolve(subject.hex, async () =>
+      this.deps.BuildInfoRepository.extract(),
+    );
+
+    return build.version;
+  }
 }
