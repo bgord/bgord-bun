@@ -1,5 +1,5 @@
 import type { MiddlewareHandler } from "hono";
 
-export interface HonoMiddlewarePort {
+export interface MiddlewareHonoPort {
   handle(): MiddlewareHandler;
 }
