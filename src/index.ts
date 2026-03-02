@@ -125,6 +125,7 @@ export * from "./gzip.adapter";
 export * from "./gzip.port";
 export * from "./gzip-noop.adapter";
 export * from "./hash.vo";
+export * from "./hash-bucket.vo";
 export * from "./hash-content.strategy";
 export * from "./hash-content-noop.strategy";
 export * from "./hash-content-sha256.strategy";
