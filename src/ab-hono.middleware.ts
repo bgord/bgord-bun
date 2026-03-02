@@ -6,7 +6,7 @@ import type { AbVariants } from "./ab-variants.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextAdapterHono } from "./request-context-hono.adapter";
 
-export type AbVariables = { abVariant: AbVariant };
+export type AbVariables = { abVariant: AbVariant | undefined };
 
 export class AbHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: AbMiddleware;

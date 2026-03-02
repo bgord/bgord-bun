@@ -11,6 +11,7 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(50) });
 const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
+
 const variants = new AbVariants([control, treatment]);
 
 const subject = new SubjectRequestResolver(
@@ -23,9 +24,8 @@ const strategy = new AbAssignmentHashStrategy(variants, subject);
 describe("AbAssignmentHashStrategy", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
-    const variant = await strategy.assign(context, variants);
 
-    expect(variant).toEqual(control);
+    expect(await strategy.assign(context, variants)).toEqual(control);
   });
 
   test("idempotence", async () => {

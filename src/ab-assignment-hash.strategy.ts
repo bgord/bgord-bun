@@ -9,7 +9,7 @@ export class AbAssignmentHashStrategy implements AbAssignmentStrategy {
   private readonly selector: AbVariantSelector;
 
   constructor(
-    private readonly variants: AbVariants,
+    variants: AbVariants,
     private readonly subject: SubjectRequestResolver,
   ) {
     this.selector = new AbVariantSelector(variants);

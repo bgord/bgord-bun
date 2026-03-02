@@ -1,6 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import { AbMiddleware } from "../src/ab.middleware";
+import { AbAssignmentCompositeStrategy } from "../src/ab-assignment-composite.strategy";
 import { AbAssignmentHashStrategy } from "../src/ab-assignment-hash.strategy";
+import { AbAssignmentQueryStrategy } from "../src/ab-assignment-query.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
@@ -19,26 +21,38 @@ const subject = new SubjectRequestResolver(
   { HashContent: new HashContentSha256Strategy() },
 );
 
-const assignmentStrategy = new AbAssignmentHashStrategy(variants, subject);
-const middleware = new AbMiddleware(variants, assignmentStrategy);
+const hash = new AbAssignmentHashStrategy(variants, subject);
+const query = new AbAssignmentQueryStrategy("ab-variant");
+
+const strategy = new AbAssignmentCompositeStrategy([query, hash]);
+
+const ab = new AbMiddleware(variants, strategy);
 
 describe("AbMiddleware", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
-    const variant = await middleware.evaluate(context);
 
-    expect(variant).toEqual(control);
+    expect(await ab.evaluate(context)).toEqual(control);
+  });
+
+  test("query", async () => {
+    const context = new RequestContextBuilder()
+      .withUserId("user-123")
+      .withQuery({ "ab-variant": "treatment" })
+      .build();
+
+    expect(await ab.evaluate(context)).toEqual(treatment);
   });
 
   test("idempotence", async () => {
     const context = new RequestContextBuilder().withUserId("user-456").build();
 
-    expect(await middleware.evaluate(context)).toEqual(await middleware.evaluate(context));
+    expect(await ab.evaluate(context)).toEqual(await ab.evaluate(context));
   });
 
   test("empty context", async () => {
     const context = new RequestContextBuilder().withUserId(undefined).build();
 
-    expect(await middleware.evaluate(context)).toEqual(control);
+    expect(await ab.evaluate(context)).toEqual(control);
   });
 });

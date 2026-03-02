@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { AbAssignmentCompositeStrategy } from "../src/ab-assignment-composite.strategy";
 import { AbAssignmentFixedStrategy } from "../src/ab-assignment-fixed.strategy";
 import { AbAssignmentHashStrategy } from "../src/ab-assignment-hash.strategy";
-import { AbAssignmentOverrideQueryStrategy } from "../src/ab-assignment-override-query.strategy";
+import { AbAssignmentQueryStrategy } from "../src/ab-assignment-query.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
@@ -22,7 +22,7 @@ const subject = new SubjectRequestResolver(
   { HashContent: new HashContentSha256Strategy() },
 );
 
-const query = new AbAssignmentOverrideQueryStrategy("ab-override");
+const query = new AbAssignmentQueryStrategy("ab-variant");
 const fixed = new AbAssignmentFixedStrategy(treatment);
 const hash = new AbAssignmentHashStrategy(variants, subject);
 
@@ -41,10 +41,10 @@ describe("AbAssignmentCompositeStrategy", () => {
     expect(await strategy.assign(context, variants)).toEqual(control);
   });
 
-  test("happy path - override", async () => {
+  test("happy path - query", async () => {
     const context = new RequestContextBuilder()
       .withUserId("user-123")
-      .withQuery({ "ab-override": "treatment" })
+      .withQuery({ "ab-variant": "treatment" })
       .build();
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 

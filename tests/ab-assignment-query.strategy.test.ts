@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { AbAssignmentOverrideQueryStrategy } from "../src/ab-assignment-override-query.strategy";
+import { AbAssignmentQueryStrategy } from "../src/ab-assignment-query.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
@@ -9,7 +9,7 @@ const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(5
 const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
 const variants = new AbVariants([control, treatment]);
 
-const strategy = new AbAssignmentOverrideQueryStrategy("variant");
+const strategy = new AbAssignmentQueryStrategy("ab-override");
 
 describe("AbAssignmentOverrideQueryStrategy", () => {
   test("happy path", async () => {

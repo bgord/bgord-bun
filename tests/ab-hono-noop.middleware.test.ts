@@ -10,14 +10,12 @@ const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(5
 const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
 const variants = new AbVariants([control, treatment]);
 
-const ab = new AbHonoNoopMiddleware(variants, control).handle();
+const app = new Hono<{ Variables: AbVariables }>()
+  .use(new AbHonoNoopMiddleware(variants, control).handle())
+  .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
 
 describe("AbHonoNoopMiddleware", () => {
   test("happy path", async () => {
-    const app = new Hono<{ Variables: AbVariables }>()
-      .use(ab)
-      .get("/test", (c) => c.text(c.get("abVariant").config.name));
-
     const response = await app.request("/test");
 
     expect(await response.text()).toEqual("control");
