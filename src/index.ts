@@ -1,4 +1,5 @@
 export * from "./ab.middleware";
+export * from "./ab-assignment.strategy";
 export * from "./ab-variant.vo";
 export * from "./ab-variant-selector.service";
 export * from "./ab-variant-weight.vo";
