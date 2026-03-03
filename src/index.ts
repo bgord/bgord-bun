@@ -305,6 +305,7 @@ export * from "./shield-recaptcha.strategy";
 export * from "./shield-security.strategy";
 export * from "./shield-timeout.strategy";
 export * from "./simulated-error.middleware";
+export * from "./simulated-error-hono.middleware";
 export * from "./sleeper.port";
 export * from "./sleeper-noop.adapter";
 export * from "./sleeper-system.adapter";

@@ -1,19 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { Hono } from "hono";
-import { SimulatedError } from "../src/simulated-error.middleware";
+import { SimulatedErrorMiddleware } from "../src/simulated-error.middleware";
 
-describe("SimulatedError middleware", () => {
-  test("throws simulated error", async () => {
-    const app = new Hono()
-      .onError((error, c) => {
-        if (error.message === "Simulated error") return c.text("caught", 418);
-        throw error;
-      })
-      .get("/simulated-error", SimulatedError.handle());
+describe("SimulatedErrorMiddleware", () => {
+  test("throws simulated error", () => {
+    const middleware = new SimulatedErrorMiddleware();
 
-    const response = await app.request("/simulated-error");
-
-    expect(response.status).toEqual(418);
-    expect(await response.text()).toEqual("caught");
+    expect(() => middleware.evaluate()).toThrow("Simulated error");
   });
 });
