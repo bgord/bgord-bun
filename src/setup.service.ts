@@ -22,7 +22,7 @@ import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
 import { type ShieldCsrfConfigType, ShieldCsrfStrategy } from "./shield-csrf.strategy";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
-import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
+import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
 type SetupConfigType = {
   csrf: ShieldCsrfConfigType;
@@ -95,7 +95,7 @@ export class Setup {
       }),
       TimeZoneOffset.attach,
       Context.attach,
-      WeakETagExtractor.attach,
+      new WeakETagExtractorHonoMiddleware().handle(),
       new ETagExtractorHonoMiddleware().handle(),
       HttpLogger.build(deps, config.httpLogger),
       timing(),

@@ -1,24 +1,25 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
-import { ETagExtractorHonoMiddleware } from "../src/etag-extractor-hono.middleware";
+import {
+  WeakETagExtractorHonoMiddleware,
+  type WeakETagVariables,
+} from "../src/weak-etag-extractor-hono.middleware";
 
-const middleware = new ETagExtractorHonoMiddleware();
-const app = new Hono<{ Variables: ETagVariables }>()
-  .use(middleware.handle())
-  .get("/ping", (c) => c.json(c.get("ETag")));
+const app = new Hono<{ Variables: WeakETagVariables }>()
+  .use(new WeakETagExtractorHonoMiddleware().handle())
+  .get("/ping", (c) => c.json(c.get("WeakETag")));
 
-describe("ETagExtractorHonoMiddleware", () => {
+describe("WeakETagExtractorHonoMiddleware", () => {
   test("valid header", async () => {
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "12345" }),
+      headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" }),
     });
     const json = await result.json();
 
     expect(json.revision).toEqual(12345);
-    expect(json.value).toEqual("12345");
+    expect(json.value).toEqual("W/12345");
   });
 
   test("missing header", async () => {
@@ -27,10 +28,10 @@ describe("ETagExtractorHonoMiddleware", () => {
     expect(await result.json()).toEqual(null);
   });
 
-  test("invalid header - NaN", async () => {
+  test("invalid header - format", async () => {
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid" }),
+      headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid" }),
     });
 
     expect(await result.json()).toEqual(null);
@@ -39,7 +40,7 @@ describe("ETagExtractorHonoMiddleware", () => {
   test("invalid header - undefined string", async () => {
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "undefined" }),
+      headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "undefined" }),
     });
 
     expect(await result.json()).toEqual(null);
@@ -48,7 +49,7 @@ describe("ETagExtractorHonoMiddleware", () => {
   test("invalid header - negative", async () => {
     const result = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "-1" }),
+      headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/-1" }),
     });
 
     expect(await result.json()).toEqual(null);

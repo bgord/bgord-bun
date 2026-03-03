@@ -1,19 +1,14 @@
 import * as tools from "@bgord/tools";
-import { createMiddleware } from "hono/factory";
-import type { ETagVariables } from "./etag-extractor-hono.middleware";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import type { RequestContext } from "./request-context.port";
 
-export class WeakETagExtractor {
-  static attach = createMiddleware<{ Variables: ETagVariables }>(async (c, next) => {
+export class WeakETagExtractorMiddleware {
+  evaluate(context: RequestContext): tools.WeakETag | null {
     try {
-      const context = new RequestContextAdapterHono(c);
       const header = context.request.header(tools.WeakETag.IF_MATCH_HEADER_NAME);
 
-      c.set("WeakETag", tools.WeakETag.fromHeader(header));
+      return tools.WeakETag.fromHeader(header);
     } catch {
-      c.set("WeakETag", null);
+      return null;
     }
-
-    await next();
-  });
+  }
 }
