@@ -294,7 +294,6 @@ export * from "./security-rule-pass.strategy";
 export * from "./security-rule-user-agent.strategy";
 export * from "./security-rule-violation-threshold.strategy";
 export * from "./setup.service";
-export * from "./shield.strategy";
 export * from "./shield-api-key.strategy";
 export * from "./shield-api-key-hono.strategy";
 export * from "./shield-auth.strategy";
