@@ -1,17 +1,30 @@
-import { basicAuth } from "hono/basic-auth";
-import { createMiddleware } from "hono/factory";
 import type { BasicAuthPasswordType } from "./basic-auth-password.vo";
 import type { BasicAuthUsernameType } from "./basic-auth-username.vo";
-import type { ShieldStrategy } from "./shield.strategy";
+import type { HasRequestHeader } from "./request-context.port";
 
-type ShieldBasicAuthConfigType = { username: BasicAuthUsernameType; password: BasicAuthPasswordType };
+export type ShieldBasicAuthConfig = { username: BasicAuthUsernameType; password: BasicAuthPasswordType };
 
-export class ShieldBasicAuthStrategy implements ShieldStrategy {
-  private readonly basicAuth;
+export const ShieldBasicAuthStrategyError = { Rejected: "shield.basic.auth.rejected" };
 
-  constructor(config: ShieldBasicAuthConfigType) {
-    this.basicAuth = basicAuth(config);
+export class ShieldBasicAuthStrategy {
+  constructor(private readonly config: ShieldBasicAuthConfig) {}
+
+  evaluate(context: HasRequestHeader): boolean {
+    const header = context.request.header("authorization");
+
+    if (!header) return false;
+
+    try {
+      const credentials = atob(header.replace("Basic ", ""));
+
+      const [username, password] = credentials.split(":");
+
+      if (username !== this.config.username) return false;
+      if (password !== this.config.password) return false;
+
+      return true;
+    } catch {
+      return false;
+    }
   }
-
-  verify = createMiddleware(async (context, next) => this.basicAuth(context, next));
 }
