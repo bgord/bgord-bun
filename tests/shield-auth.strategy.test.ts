@@ -1,119 +1,59 @@
 import { describe, expect, test } from "bun:test";
-import { Hono } from "hono";
-import {
-  AuthSessionReaderNoopAdapter,
-  type AuthSessionReaderNoopSessionType,
-  type AuthSessionReaderNoopUserType,
-} from "../src/auth-session-reader-noop.adapter";
+import { AuthSessionReaderNoopAdapter } from "../src/auth-session-reader-noop.adapter";
 import { ShieldAuthStrategy } from "../src/shield-auth.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const user = { id: "user-123", email: "test@example.com" };
 const session = { id: "session-123" };
-
-type Env = {
-  Variables: { user: AuthSessionReaderNoopUserType | null; session: AuthSessionReaderNoopSessionType | null };
-};
 
 describe("ShieldAuthStrategy", () => {
   test("attach", async () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
-    const app = new Hono<Env>()
-      .use(strategy.attach)
-      .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
+    const context = new RequestContextBuilder().withHeader("cookie", "session_token=123").build();
 
-    const response = await app.request("/", { headers: { cookie: "session_token=123" } });
-    const json = await response.json();
+    const result = await strategy.attach(context);
 
-    expect(response.status).toEqual(200);
-    expect(json.user).toEqual(user);
-    expect(json.session).toEqual(session);
+    expect(result.user).toEqual(user);
+    expect(result.session).toEqual(session);
   });
 
   test("attach - missing session", async () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
-    const app = new Hono<Env>()
-      .use(strategy.attach)
-      .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
+    const context = new RequestContextBuilder().build();
 
-    const response = await app.request("/");
-    const json = await response.json();
+    const result = await strategy.attach(context);
 
-    expect(response.status).toEqual(200);
-    expect(json.user).toEqual(null);
-    expect(json.session).toEqual(null);
+    expect(result.user).toEqual(null);
+    expect(result.session).toEqual(null);
   });
 
-  test("verify - authenticated user", async () => {
+  test("verify - authenticated user", () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
-    const app = new Hono<Env>()
-      .use(async (context, next) => {
-        context.set("user", user);
-        await next();
-      })
-      .use(strategy.verify)
-      .get("/", (c) => c.text("ok"));
 
-    const response = await app.request("/");
-
-    expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
+    expect(strategy.verify(user)).toEqual(true);
   });
 
-  test("verify - guest user", async () => {
+  test("verify - guest user", () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
-    const app = new Hono<Env>()
-      .use(async (context, next) => {
-        context.set("user", null);
-        await next();
-      })
-      .use(strategy.verify)
-      .get("/", (c) => c.text("ok"))
-      .onError((err, c) => c.json({ message: err.message }, 403));
 
-    const response = await app.request("/");
-    const json = await response.json();
-
-    expect(response.status).toEqual(403);
-    expect(json.message).toEqual("shield.auth");
+    expect(strategy.verify(null)).toEqual(false);
   });
 
-  test("reverse - guest user", async () => {
+  test("reverse - guest user", () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
-    const app = new Hono<Env>()
-      .use(async (context, next) => {
-        context.set("user", null);
-        await next();
-      })
-      .use(strategy.reverse)
-      .get("/", (c) => c.text("ok"));
 
-    const response = await app.request("/");
-
-    expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
+    expect(strategy.reverse(null)).toEqual(true);
   });
 
-  test("reverse - authenticated user", async () => {
+  test("reverse - authenticated user", () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
-    const app = new Hono<Env>()
-      .use(async (context, next) => {
-        context.set("user", user);
-        await next();
-      })
-      .use(strategy.reverse)
-      .get("/", (c) => c.text("ok"))
-      .onError((err, c) => c.json({ message: err.message }, 403));
 
-    const response = await app.request("/");
-    const json = await response.json();
-
-    expect(response.status).toEqual(403);
-    expect(json.message).toEqual("shield.auth");
+    expect(strategy.reverse(user)).toEqual(false);
   });
 });
