@@ -9,14 +9,14 @@ const invalid = "unknown";
 describe("SecurityRuleUserAgentStrategy", () => {
   test("isViolated - true", async () => {
     const rule = new SecurityRuleUserAgentStrategy([valid]);
-    const context = new RequestContextBuilder().withUserAgent(valid).build();
+    const context = new RequestContextBuilder().withUa(valid).build();
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
   test("isViolated - false", async () => {
     const rule = new SecurityRuleUserAgentStrategy([invalid]);
-    const context = new RequestContextBuilder().withUserAgent(valid).build();
+    const context = new RequestContextBuilder().withUa(valid).build();
 
     expect(await rule.isViolated(context)).toEqual(false);
   });

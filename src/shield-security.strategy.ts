@@ -1,81 +1,38 @@
-import { createMiddleware } from "hono/factory";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Client } from "./client.vo";
-import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
+import type { HasIdentityIp, HasIdentityUa, HasIdentityUserId, RequestContext } from "./request-context.port";
 import { SecurityContext } from "./security-context.vo";
+import type { SecurityAction } from "./security-countermeasure.strategy";
 import type { SecurityPolicy } from "./security-policy.vo";
-import type { ShieldStrategy } from "./shield.strategy";
-import type { SleeperPort } from "./sleeper.port";
 
-type Dependencies = { Sleeper: SleeperPort };
-
-export const ShieldSecurityAdapterError = {
-  Unhandled: "shield.security.adapter.error.unhandled",
-  MissingPolicies: "shield.security.adapter.error.missing.policies",
-  MaxPolicies: "shield.security.adapter.error.max.policies",
+export const ShieldSecurityStrategyError = {
+  MissingPolicies: "shield.security.strategy.error.missing.policies",
+  MaxPolicies: "shield.security.strategy.error.max.policies",
 };
 
-export class ShieldSecurityStrategy implements ShieldStrategy {
-  constructor(
-    private readonly policies: ReadonlyArray<SecurityPolicy>,
-    private readonly deps: Dependencies,
-  ) {
-    if (policies.length === 0) throw new Error(ShieldSecurityAdapterError.MissingPolicies);
-    if (policies.length > 5) throw new Error(ShieldSecurityAdapterError.MaxPolicies);
+export class ShieldSecurityStrategy {
+  constructor(private readonly policies: ReadonlyArray<SecurityPolicy>) {
+    if (policies.length === 0) throw new Error(ShieldSecurityStrategyError.MissingPolicies);
+    if (policies.length > 5) throw new Error(ShieldSecurityStrategyError.MaxPolicies);
   }
 
-  verify = createMiddleware(async (c, next) => {
+  async evaluate(
+    context: RequestContext & HasIdentityIp & HasIdentityUa & HasIdentityUserId,
+  ): Promise<SecurityAction | null> {
     for (const policy of this.policies) {
-      const request = new RequestContextHonoAdapter(c);
-
-      const violation = await policy.rule.isViolated(request);
+      const violation = await policy.rule.isViolated(context);
 
       if (!violation) continue;
 
-      const context = new SecurityContext(
+      const securityContext = new SecurityContext(
         policy.rule.name,
         policy.countermeasure.name,
-        Client.fromParts(request.identity.ip(), request.identity.ua()),
-        request.identity.userId(),
+        Client.fromParts(context.identity.ip(), context.identity.ua()),
+        context.identity.userId(),
       );
 
-      const action = await policy.countermeasure.execute(context);
-
-      // Stryker disable all
-      switch (action.kind) {
-        case "allow":
-          return next();
-
-        case "deny":
-          return c.text(action.reason, action.response.status as ContentfulStatusCode);
-
-        case "mirage":
-          return c.json({}, action.response.status as ContentfulStatusCode);
-
-        case "delay": {
-          await this.deps.Sleeper.wait(action.duration);
-
-          switch (action.after.kind) {
-            case "allow":
-              return next();
-
-            case "deny":
-              return c.text(action.after.reason, action.after.response.status as ContentfulStatusCode);
-
-            case "mirage":
-              return c.json({}, action.after.response.status as ContentfulStatusCode);
-
-            case "delay":
-              throw new Error(ShieldSecurityAdapterError.Unhandled);
-
-            default:
-              throw new Error(ShieldSecurityAdapterError.Unhandled);
-          }
-        }
-      }
-      // Stryker restore all
+      return await policy.countermeasure.execute(securityContext);
     }
 
-    return next();
-  });
+    return null;
+  }
 }

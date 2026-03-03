@@ -68,7 +68,7 @@ export class RequestContextBuilder {
     return this;
   }
 
-  withUserAgent(ua: string | undefined) {
+  withUa(ua: string | undefined) {
     this.ua = ua;
     return this;
   }
