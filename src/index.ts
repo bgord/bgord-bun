@@ -309,6 +309,7 @@ export * from "./shield-rate-limit.strategy";
 export * from "./shield-recaptcha.strategy";
 export * from "./shield-security.strategy";
 export * from "./shield-timeout.strategy";
+export * from "./shield-timeout-hono.strategy";
 export * from "./simulated-error.middleware";
 export * from "./simulated-error-hono.middleware";
 export * from "./sleeper.port";
