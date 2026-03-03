@@ -21,12 +21,13 @@ import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
-import { type ShieldCsrfConfigType, ShieldCsrfStrategy } from "./shield-csrf.strategy";
+import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
+import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
 import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
 type SetupConfigType = {
-  csrf: ShieldCsrfConfigType;
+  csrf: ShieldCsrfConfig;
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerConfig;
   maintenanceMode?: MaintenanceModeConfigType;
@@ -56,7 +57,7 @@ export class Setup {
         generator: () => deps.IdProvider.generate(),
       }),
       new ApiVersionHonoMiddleware(deps).handle(),
-      new ShieldCsrfStrategy(config.csrf).verify,
+      new ShieldCsrfHonoStrategy(config.csrf).handle(),
       secureHeaders({
         referrerPolicy: "no-referrer",
         xContentTypeOptions: "nosniff",

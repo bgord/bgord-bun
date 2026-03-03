@@ -300,6 +300,7 @@ export * from "./shield-api-key-hono.strategy";
 export * from "./shield-auth.strategy";
 export * from "./shield-basic-auth.strategy";
 export * from "./shield-csrf.strategy";
+export * from "./shield-csrf-hono.strategy";
 export * from "./shield-hcaptcha.strategy";
 export * from "./shield-hcaptcha-local.strategy";
 export * from "./shield-noop.strategy";
