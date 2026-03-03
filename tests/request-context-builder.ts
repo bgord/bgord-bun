@@ -80,6 +80,15 @@ export class RequestContextBuilder {
         method: this.method,
         url: () => this.url,
         header: (name) => this.headers.get(name) ?? undefined,
+        headersObject: () => {
+          const headers: Record<string, string> = {};
+
+          this.headers.forEach((value, key) => {
+            headers[key] = value;
+          });
+
+          return headers;
+        },
         headers: () => this.headers,
         query: () => this.query,
         params: () => this.params,

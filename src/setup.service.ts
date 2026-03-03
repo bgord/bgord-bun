@@ -14,7 +14,8 @@ import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
-import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
+import type { HttpLoggerConfig } from "./http-logger.middleware";
+import { HttpLoggerHonoMiddleware } from "./http-logger-hono.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
@@ -27,7 +28,7 @@ import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.midd
 type SetupConfigType = {
   csrf: ShieldCsrfConfigType;
   cors?: Parameters<typeof cors>[0];
-  httpLogger?: HttpLoggerOptions;
+  httpLogger?: HttpLoggerConfig;
   maintenanceMode?: MaintenanceModeConfigType;
   BODY_LIMIT_MAX_SIZE?: tools.Size;
 };
@@ -97,7 +98,7 @@ export class Setup {
       Context.attach,
       new WeakETagExtractorHonoMiddleware().handle(),
       new ETagExtractorHonoMiddleware().handle(),
-      HttpLogger.build(deps, config.httpLogger),
+      new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),
       timing(),
       CorrelationStorage.handle(),
     ];
