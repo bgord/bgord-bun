@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
 import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
@@ -9,13 +8,13 @@ import {
   EventLoopUtilization,
   type EventLoopUtilizationSnapshot,
 } from "../src/event-loop-utilization.service";
-import { Healthcheck } from "../src/healthcheck.service";
+import { HealthcheckHandler } from "../src/healthcheck.handler";
 import { LoggerStatsProviderNoopAdapter } from "../src/logger-stats-provider-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
-import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
+import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import { RedactorComposite } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
@@ -50,7 +49,7 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
 const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
 const deps = { Clock, BuildInfoRepository };
 
-describe("Healthcheck service", () => {
+describe("HealthcheckHandler", () => {
   test("200", async () => {
     using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
     using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
@@ -61,25 +60,18 @@ describe("Healthcheck service", () => {
       utilization,
     );
 
-    const app = new Hono().get(
-      "/health",
-      ...Healthcheck.build(
-        {
-          Env: NodeEnvironmentEnum.production,
-          prerequisites: [
-            mocks.PrerequisiteOk,
-            new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
-          ],
-        },
-        { ...deps, LoggerStatsProvider },
-      ),
+    const handler = new HealthcheckHandler(
+      {
+        Env: NodeEnvironmentEnum.production,
+        prerequisites: [
+          mocks.PrerequisiteOk,
+          new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
+        ],
+      },
+      { ...deps, LoggerStatsProvider },
     );
 
-    const response = await app.request("/health");
-    const data = await response.json();
-
-    expect(response.status).toEqual(200);
-    expect(data).toEqual({
+    expect(await handler.check()).toEqual({
       ok: true,
       deployment: {
         version,
@@ -92,7 +84,7 @@ describe("Healthcheck service", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: 1,
+        cpus: tools.IntegerNonNegative.parse(1),
         startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -106,7 +98,7 @@ describe("Healthcheck service", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: 0,
+        inFlight: tools.Integer.parse(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
@@ -128,25 +120,18 @@ describe("Healthcheck service", () => {
       utilization,
     );
 
-    const app = new Hono().get(
-      "/health",
-      ...Healthcheck.build(
-        {
-          Env: NodeEnvironmentEnum.production,
-          prerequisites: [
-            new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
-            mocks.PrerequisiteOk,
-          ],
-        },
-        deps,
-      ),
+    const handler = new HealthcheckHandler(
+      {
+        Env: NodeEnvironmentEnum.production,
+        prerequisites: [
+          new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
+          mocks.PrerequisiteOk,
+        ],
+      },
+      deps,
     );
 
-    const response = await app.request("/health");
-    const data = await response.json();
-
-    expect(response.status).toEqual(200);
-    expect(data).toEqual({
+    expect(await handler.check()).toEqual({
       ok: true,
       deployment: {
         version,
@@ -159,7 +144,7 @@ describe("Healthcheck service", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: 1,
+        cpus: tools.IntegerNonNegative.parse(1),
         startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -173,7 +158,7 @@ describe("Healthcheck service", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: 0,
+        inFlight: tools.Integer.parse(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
@@ -193,26 +178,20 @@ describe("Healthcheck service", () => {
     using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
       utilization,
     );
-    const app = new Hono().get(
-      "/health",
-      ...Healthcheck.build(
-        {
-          Env: NodeEnvironmentEnum.production,
-          prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
-          redactor: new RedactorComposite([
-            new RedactorErrorStackHide(),
-            new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
-          ]),
-        },
-        deps,
-      ),
+
+    const handler = new HealthcheckHandler(
+      {
+        Env: NodeEnvironmentEnum.production,
+        prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
+        redactor: new RedactorComposite([
+          new RedactorErrorStackHide(),
+          new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
+        ]),
+      },
+      deps,
     );
 
-    const response = await app.request("/health");
-    const data = await response.json();
-
-    expect(response.status).toEqual(424);
-    expect(data).toEqual({
+    expect(await handler.check()).toEqual({
       ok: false,
       deployment: {
         version,
@@ -225,7 +204,7 @@ describe("Healthcheck service", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: 1,
+        cpus: tools.IntegerNonNegative.parse(1),
         startup: expect.any(Number),
         uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -239,14 +218,17 @@ describe("Healthcheck service", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: 0,
+        inFlight: tools.Integer.parse(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
         {
           label: "fail-with-stack",
-          outcome: { outcome: "failure", error: { message: mocks.IntentionalError, name: "Error" } },
+          outcome: {
+            outcome: PrerequisiteVerificationOutcome.failure,
+            error: { message: mocks.IntentionalError, name: "Error" },
+          },
           durationMs: expect.any(Number),
         },
       ],
