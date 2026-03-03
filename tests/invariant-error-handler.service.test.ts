@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { type ErrorHandler as ErrorHandlerType, Hono } from "hono";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Invariant, InvariantFailureKind } from "../src/invariant.service";
 import { InvariantErrorHandler } from "../src/invariant-error-handler.service";
 
@@ -19,7 +20,9 @@ export class ErrorHandler {
     const invariantError = InvariantErrorHandler.detect([SampleInvariant], error);
 
     if (invariantError) {
-      return c.json(...InvariantErrorHandler.respond(invariantError));
+      const [message, code] = InvariantErrorHandler.respond(invariantError);
+
+      return c.json(message, code as ContentfulStatusCode);
     }
 
     return c.json({ message: "general.unknown" }, 500);
@@ -29,7 +32,7 @@ export class ErrorHandler {
 const SampleInvariant = new SampleInvariantFactory();
 
 describe("InvariantErrorHandler service", () => {
-  test("happy path", async () => {
+  test("hono", async () => {
     const app = new Hono()
       .post("/ping", async (c) => {
         SampleInvariant.enforce({ threshold: 15 });
