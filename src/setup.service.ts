@@ -21,7 +21,7 @@ import type { LoggerPort } from "./logger.port";
 import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
 import { type ShieldCsrfConfigType, ShieldCsrfStrategy } from "./shield-csrf.strategy";
-import { TimeZoneOffset } from "./time-zone-offset.middleware";
+import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
 import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
 type SetupConfigType = {
@@ -93,7 +93,7 @@ export class Setup {
         caches: false,
         // Stryker restore all
       }),
-      TimeZoneOffset.attach,
+      new TimeZoneOffsetHonoMiddleware().handle(),
       Context.attach,
       new WeakETagExtractorHonoMiddleware().handle(),
       new ETagExtractorHonoMiddleware().handle(),

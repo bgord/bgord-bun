@@ -11,7 +11,7 @@ import type { I18nConfigType } from "../src/i18n.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { Setup } from "../src/setup.service";
-import type { TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
+import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
 import * as mocks from "./mocks";
 
 const ip = { server: { requestIP: () => ({ address: "127.0.0.1", family: "foo", port: "123" }) } };

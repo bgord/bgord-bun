@@ -1,93 +1,62 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
-import { TimeZoneOffset, type TimeZoneOffsetVariables } from "../src/time-zone-offset.middleware";
+import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const app = new Hono<{ Variables: TimeZoneOffsetVariables }>()
-  .use(TimeZoneOffset.attach)
-  .get("/ping", (c) => c.json(c.get("timeZoneOffset")));
+const middleware = new TimeZoneOffsetMiddleware();
 
-describe("TimeZoneOffset middleware", () => {
-  test("valid header - positive", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "120" }),
-    });
-    const duration = await result.json();
+describe("TimeZoneOffsetMiddleware", () => {
+  test("valid header - positive", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "120")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(120));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(120));
   });
 
-  test("valid header - negative", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "-120" }),
-    });
-    const duration = await result.json();
+  test("valid header - negative", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "-120")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(-120));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(-120));
   });
 
-  test("missing header", async () => {
-    const result = await app.request("/ping", { method: "GET" });
-    const duration = await result.json();
+  test("missing header", () => {
+    const context = new RequestContextBuilder().build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("empty header", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "" }),
-    });
-    const duration = await result.json();
+  test("empty header", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid heaeder - format", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "invalid-offset" }),
-    });
-    const duration = await result.json();
+  test("invalid header - format", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "invalid-offset")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid header - below min", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "-841" }),
-    });
-    const duration = await result.json();
+  test("invalid header - below min", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "-841")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(0));
   });
 
-  test("invalid header - above max", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [TimeZoneOffset.TIME_ZONE_OFFSET_HEADER_NAME]: "721" }),
-    });
-    const duration = await result.json();
+  test("invalid header - above max", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "721")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(tools.Duration.Ms(duration)).toEqual(tools.Duration.Minutes(0));
-  });
-
-  test("adjustDate", () => {
-    const timestamp = tools.Timestamp.fromNumber(1_000_000);
-    const offset = tools.Duration.Ms(100_000);
-
-    expect(TimeZoneOffset.adjustDate(timestamp, offset)).toEqual(
-      new Date(tools.Timestamp.fromNumber(900_000).ms),
-    );
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(0));
   });
 });

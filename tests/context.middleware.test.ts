@@ -2,13 +2,13 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { Context, type ContextVariables } from "../src/context.middleware";
-import { TimeZoneOffset } from "../src/time-zone-offset.middleware";
+import { TimeZoneOffsetHonoMiddleware } from "../src/time-zone-offset-hono.middleware";
 
 describe("Context middleware", () => {
-  test("applyTo", async () => {
+  test("happy path", async () => {
     const app = new Hono<{ Variables: ContextVariables }>()
       .use(requestId())
-      .use(TimeZoneOffset.attach)
+      .use(new TimeZoneOffsetHonoMiddleware().handle())
       .use(Context.attach)
       .get("/ping", (c) => c.json(c.get("context")));
 
