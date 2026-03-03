@@ -1,16 +1,15 @@
 import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheResponse } from "../src/cache-response.middleware";
+import { CacheResponseMiddleware } from "../src/cache-response.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
-import type * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
@@ -27,18 +26,10 @@ const resolver = new SubjectRequestResolver(
   deps,
 );
 
-const cacheResponse = new CacheResponse({ enabled: true, resolver }, { CacheResolver });
-const cacheResponseDisabled = new CacheResponse({ enabled: false, resolver }, { CacheResolver });
+const cacheResponse = new CacheResponseMiddleware({ enabled: true, resolver }, { CacheResolver });
+const cacheResponseDisabled = new CacheResponseMiddleware({ enabled: false, resolver }, { CacheResolver });
 
-const app = new Hono<mocks.Config>()
-  .use((context, next) => {
-    context.set("user", { id: context.req.header("id") });
-    return next();
-  })
-  .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }))
-  .post("/clear", cacheResponse.clear, (c) => c.json({ message: "cleared" }));
-
-describe("CacheResponse middleware", () => {
+describe("CacheResponseMiddleware", () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(async () => {
     jest.useRealTimers();
@@ -46,133 +37,162 @@ describe("CacheResponse middleware", () => {
   });
 
   test("miss - uncached request", async () => {
-    const response = await app.request("/ping-cached");
-    const json = await response.json();
+    const context = new RequestContextBuilder().withPath("/ping-cached").build();
 
-    expect(response.status).toEqual(200);
-    expect(response.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(json.message).toEqual("ping");
+    const result = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(result?.source).toEqual(CacheSourceEnum.miss);
+    expect(result?.response.body).toEqual(JSON.stringify({ message: "ping" }));
+    expect(result?.response.status).toEqual(200);
   });
 
   test("hit - request is cached", async () => {
-    const firstResponse = await app.request("/ping-cached");
-    const firstJson = await firstResponse.json();
+    const context = new RequestContextBuilder().withPath("/ping-cached").build();
 
-    expect(firstResponse.status).toEqual(200);
-    expect(firstResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(firstJson.message).toEqual("ping");
+    const first = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    const secondResponse = await app.request("/ping-cached");
-    const secondJson = await secondResponse.json();
+    expect(first?.source).toEqual(CacheSourceEnum.miss);
 
-    expect(secondResponse.status).toEqual(200);
-    expect(secondResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.hit);
-    expect(secondJson.message).toEqual("ping");
+    const second = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(second?.source).toEqual(CacheSourceEnum.hit);
+    expect(second?.response.body).toEqual(JSON.stringify({ message: "ping" }));
   });
 
   test("miss - cache has expired", async () => {
-    const firstResponse = await app.request("/ping-cached");
-    const firstJson = await firstResponse.json();
+    const context = new RequestContextBuilder().withPath("/ping-cached").build();
 
-    expect(firstResponse.status).toEqual(200);
-    expect(firstResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(firstJson.message).toEqual("ping");
+    const first = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    const secondResponse = await app.request("/ping-cached");
-    const secondJson = await secondResponse.json();
+    expect(first?.source).toEqual(CacheSourceEnum.miss);
 
-    expect(secondResponse.status).toEqual(200);
-    expect(secondResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.hit);
-    expect(secondJson.message).toEqual("ping");
+    const second = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(second?.source).toEqual(CacheSourceEnum.hit);
 
     jest.advanceTimersByTime(tools.Duration.Hours(2).ms);
-    const thirdResponse = await app.request("/ping-cached");
-    const thirdJson = await thirdResponse.json();
 
-    expect(thirdResponse.status).toEqual(200);
-    expect(thirdResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(thirdJson.message).toEqual("ping");
+    const third = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(third?.source).toEqual(CacheSourceEnum.miss);
   });
 
   test("miss - clearing the cache", async () => {
-    const firstResponse = await app.request("/ping-cached");
-    const firstJson = await firstResponse.json();
+    const context = new RequestContextBuilder().withPath("/ping-cached").build();
 
-    expect(firstResponse.status).toEqual(200);
-    expect(firstResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(firstJson.message).toEqual("ping");
+    const first = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    const secondResponse = await app.request("/ping-cached");
-    const secondJson = await secondResponse.json();
+    expect(first?.source).toEqual(CacheSourceEnum.miss);
 
-    expect(secondResponse.status).toEqual(200);
-    expect(secondResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.hit);
-    expect(secondJson.message).toEqual("ping");
+    const second = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    await CacheResolver.flush();
-    const fourthResponse = await app.request("/ping-cached");
-    const fourthJson = await fourthResponse.json();
+    expect(second?.source).toEqual(CacheSourceEnum.hit);
 
-    expect(fourthResponse.status).toEqual(200);
-    expect(fourthResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(fourthJson.message).toEqual("ping");
+    await cacheResponse.clear();
+
+    const third = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(third?.source).toEqual(CacheSourceEnum.miss);
   });
 
   test("hit for one user, miss for another", async () => {
-    const firstResponseAdam = await app.request("/ping-cached", { headers: { id: "Adam" } });
-    const firstJsonAdam = await firstResponseAdam.json();
+    const contextAdam = new RequestContextBuilder().withPath("/ping-cached").withUserId("Adam").build();
+    const contextEve = new RequestContextBuilder().withPath("/ping-cached").withUserId("Eve").build();
 
-    expect(firstResponseAdam.status).toEqual(200);
-    expect(firstResponseAdam.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(firstJsonAdam.message).toEqual("ping");
+    const firstAdam = await cacheResponse.evaluate(contextAdam, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    const secondResponseAdam = await app.request("/ping-cached", { headers: { id: "Adam" } });
-    const secondJsonAdam = await secondResponseAdam.json();
+    expect(firstAdam?.source).toEqual(CacheSourceEnum.miss);
 
-    expect(secondResponseAdam.status).toEqual(200);
-    expect(secondResponseAdam.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.hit);
-    expect(secondJsonAdam.message).toEqual("ping");
+    const secondAdam = await cacheResponse.evaluate(contextAdam, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    const responseEve = await app.request("/ping-cached", { headers: { id: "Eve" } });
-    const jsonEve = await responseEve.json();
+    expect(secondAdam?.source).toEqual(CacheSourceEnum.hit);
 
-    expect(responseEve.status).toEqual(200);
-    expect(responseEve.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(jsonEve.message).toEqual("ping");
+    const firstEve = await cacheResponse.evaluate(contextEve, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(firstEve?.source).toEqual(CacheSourceEnum.miss);
   });
 
   test("disabled", async () => {
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
-    const app = new Hono<mocks.Config>()
-      .use((context, next) => {
-        context.set("user", { id: context.req.header("id") });
-        return next();
-      })
-      .get("/ping", cacheResponseDisabled.handle, (c) => c.json({ message: "ping" }));
+    const context = new RequestContextBuilder().withPath("/ping").build();
 
-    const response = await app.request("/ping");
-    const json = await response.json();
+    const result = await cacheResponseDisabled.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    expect(response.status).toEqual(200);
-    expect(response.headers.get("Cache-Hit")).toEqual(null);
-    expect(json.message).toEqual("ping");
+    expect(result).toEqual(null);
     expect(cacheResolverResolve).not.toHaveBeenCalled();
   });
 
   test("clear", async () => {
-    const firstResponse = await app.request("/ping-cached");
-    const firstJson = await firstResponse.json();
+    const context = new RequestContextBuilder().withPath("/ping-cached").build();
 
-    expect(firstResponse.status).toEqual(200);
-    expect(firstResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(firstJson.message).toEqual("ping");
+    const first = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
 
-    await app.request("/clear", { method: "POST" });
-    const secondResponse = await app.request("/ping-cached");
-    const secondJson = await secondResponse.json();
+    expect(first?.source).toEqual(CacheSourceEnum.miss);
 
-    expect(secondResponse.status).toEqual(200);
-    expect(secondResponse.headers.get("Cache-Hit")).toEqual(CacheSourceEnum.miss);
-    expect(secondJson.message).toEqual("ping");
+    await cacheResponse.clear();
+
+    const second = await cacheResponse.evaluate(context, async () => ({
+      body: JSON.stringify({ message: "ping" }),
+      headers: {},
+      status: 200,
+    }));
+
+    expect(second?.source).toEqual(CacheSourceEnum.miss);
   });
 });

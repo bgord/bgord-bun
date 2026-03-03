@@ -1,6 +1,6 @@
 import type { MiddlewareHandler } from "hono";
 import { CacheSourceEnum } from "./cache-resolver.strategy";
-import { CacheResponse } from "./cache-response.middleware";
+import { CacheResponseMiddleware } from "./cache-response.middleware";
 import type { ClockPort } from "./clock.port";
 import { type HttpLoggerConfig, HttpLoggerMiddleware } from "./http-logger.middleware";
 import type { LoggerPort } from "./logger.port";
@@ -36,7 +36,7 @@ export class HttpLoggerHonoMiddleware implements MiddlewareHonoPort {
       this.middleware.after(context, correlationId, {
         stopwatch,
         status: response.status,
-        cacheHit: response.headers.get(CacheResponse.CACHE_HIT_HEADER) === CacheSourceEnum.hit,
+        cacheHit: response.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER) === CacheSourceEnum.hit,
         responseBody,
       });
     };

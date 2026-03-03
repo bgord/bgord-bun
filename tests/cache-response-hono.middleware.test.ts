@@ -1,0 +1,190 @@
+import { afterEach, beforeEach, describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import { Hono } from "hono";
+import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheSourceEnum } from "../src/cache-resolver.strategy";
+import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResponseMiddleware } from "../src/cache-response.middleware";
+import { CacheResponseHonoMiddleware } from "../src/cache-response-hono.middleware";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
+import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import type * as mocks from "./mocks";
+
+const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
+const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const HashContent = new HashContentSha256Strategy();
+const deps = { HashContent };
+
+const resolver = new SubjectRequestResolver(
+  [
+    new SubjectSegmentFixedStrategy("ping"),
+    new SubjectSegmentPathStrategy(),
+    new SubjectSegmentUserStrategy(),
+  ],
+  deps,
+);
+
+const cacheResponse = new CacheResponseHonoMiddleware({ enabled: true, resolver }, { CacheResolver });
+const cacheResponseDisabled = new CacheResponseHonoMiddleware(
+  { enabled: false, resolver },
+  { CacheResolver },
+);
+
+const app = new Hono<mocks.Config>()
+  .use((context, next) => {
+    context.set("user", { id: context.req.header("id") });
+    return next();
+  })
+  .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
+  .post("/clear", cacheResponse.clear(), (c) => c.json({ message: "cleared" }));
+
+describe("CacheResponseHonoMiddleware", () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(async () => {
+    jest.useRealTimers();
+    await CacheResolver.flush();
+  });
+
+  test("miss - uncached request", async () => {
+    const response = await app.request("/ping-cached");
+    const json = await response.json();
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(json.message).toEqual("ping");
+  });
+
+  test("hit - request is cached", async () => {
+    const firstResponse = await app.request("/ping-cached");
+    const firstJson = await firstResponse.json();
+
+    expect(firstResponse.status).toEqual(200);
+    expect(firstResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(firstJson.message).toEqual("ping");
+
+    const secondResponse = await app.request("/ping-cached");
+    const secondJson = await secondResponse.json();
+
+    expect(secondResponse.status).toEqual(200);
+    expect(secondResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.hit);
+    expect(secondJson.message).toEqual("ping");
+  });
+
+  test("miss - cache has expired", async () => {
+    const firstResponse = await app.request("/ping-cached");
+    const firstJson = await firstResponse.json();
+
+    expect(firstResponse.status).toEqual(200);
+    expect(firstResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(firstJson.message).toEqual("ping");
+
+    const secondResponse = await app.request("/ping-cached");
+    const secondJson = await secondResponse.json();
+
+    expect(secondResponse.status).toEqual(200);
+    expect(secondResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.hit);
+    expect(secondJson.message).toEqual("ping");
+
+    jest.advanceTimersByTime(tools.Duration.Hours(2).ms);
+    const thirdResponse = await app.request("/ping-cached");
+    const thirdJson = await thirdResponse.json();
+
+    expect(thirdResponse.status).toEqual(200);
+    expect(thirdResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(thirdJson.message).toEqual("ping");
+  });
+
+  test("miss - clearing the cache", async () => {
+    const firstResponse = await app.request("/ping-cached");
+    const firstJson = await firstResponse.json();
+
+    expect(firstResponse.status).toEqual(200);
+    expect(firstResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(firstJson.message).toEqual("ping");
+
+    const secondResponse = await app.request("/ping-cached");
+    const secondJson = await secondResponse.json();
+
+    expect(secondResponse.status).toEqual(200);
+    expect(secondResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.hit);
+    expect(secondJson.message).toEqual("ping");
+
+    await CacheResolver.flush();
+    const fourthResponse = await app.request("/ping-cached");
+    const fourthJson = await fourthResponse.json();
+
+    expect(fourthResponse.status).toEqual(200);
+    expect(fourthResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(
+      CacheSourceEnum.miss,
+    );
+    expect(fourthJson.message).toEqual("ping");
+  });
+
+  test("hit for one user, miss for another", async () => {
+    const firstResponseAdam = await app.request("/ping-cached", { headers: { id: "Adam" } });
+    const firstJsonAdam = await firstResponseAdam.json();
+
+    expect(firstResponseAdam.status).toEqual(200);
+    expect(firstResponseAdam.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(
+      CacheSourceEnum.miss,
+    );
+    expect(firstJsonAdam.message).toEqual("ping");
+
+    const secondResponseAdam = await app.request("/ping-cached", { headers: { id: "Adam" } });
+    const secondJsonAdam = await secondResponseAdam.json();
+
+    expect(secondResponseAdam.status).toEqual(200);
+    expect(secondResponseAdam.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(
+      CacheSourceEnum.hit,
+    );
+    expect(secondJsonAdam.message).toEqual("ping");
+
+    const responseEve = await app.request("/ping-cached", { headers: { id: "Eve" } });
+    const jsonEve = await responseEve.json();
+
+    expect(responseEve.status).toEqual(200);
+    expect(responseEve.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(jsonEve.message).toEqual("ping");
+  });
+
+  test("disabled", async () => {
+    using cacheResolverResolve = spyOn(CacheResolver, "resolve");
+    const app = new Hono<mocks.Config>()
+      .use((context, next) => {
+        context.set("user", { id: context.req.header("id") });
+        return next();
+      })
+      .get("/ping", cacheResponseDisabled.handle(), (c) => c.json({ message: "ping" }));
+
+    const response = await app.request("/ping");
+    const json = await response.json();
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(null);
+    expect(json.message).toEqual("ping");
+    expect(cacheResolverResolve).not.toHaveBeenCalled();
+  });
+
+  test("clear", async () => {
+    const firstResponse = await app.request("/ping-cached");
+    const firstJson = await firstResponse.json();
+
+    expect(firstResponse.status).toEqual(200);
+    expect(firstResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(CacheSourceEnum.miss);
+    expect(firstJson.message).toEqual("ping");
+
+    await app.request("/clear", { method: "POST" });
+    const secondResponse = await app.request("/ping-cached");
+    const secondJson = await secondResponse.json();
+
+    expect(secondResponse.status).toEqual(200);
+    expect(secondResponse.headers.get(CacheResponseMiddleware.CACHE_HIT_HEADER)).toEqual(
+      CacheSourceEnum.miss,
+    );
+    expect(secondJson.message).toEqual("ping");
+  });
+});

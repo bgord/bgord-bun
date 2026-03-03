@@ -5,7 +5,7 @@ import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { CacheResponse } from "../src/cache-response.middleware";
+import { CacheResponseHonoMiddleware } from "../src/cache-response-hono.middleware";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
@@ -27,14 +27,14 @@ const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const resolver = new SubjectRequestResolver([new SubjectSegmentFixedStrategy("ping")], {
   HashContent,
 });
-const cacheResponse = new CacheResponse({ enabled: true, resolver }, { CacheResolver });
+const cacheResponse = new CacheResponseHonoMiddleware({ enabled: true, resolver }, { CacheResolver });
 
 const app = new Hono()
   .use(requestId())
   .use(new HttpLoggerHonoMiddleware(deps, { skip: ["/i18n/", "/other"] }).handle())
   .use(timing())
   .get("/ping", (c) => c.json({ message: "OK" }))
-  .get("/ping-cached", cacheResponse.handle, (c) => c.json({ message: "ping" }))
+  .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
   .get("/pang", (c) => c.json({ message: "general.unknown" }, 400))
   .get("/i18n/en.json", (c) => c.json({ hello: "world" }));

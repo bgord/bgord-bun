@@ -1,53 +1,50 @@
-import { createMiddleware } from "hono/factory";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
-import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
+import type { CacheResolverStrategy, CacheSourceEnum } from "./cache-resolver.strategy";
+import type { RequestContext } from "./request-context.port";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy };
 
-type CacheResponseOptions = { enabled: boolean; resolver: SubjectRequestResolver };
+export type CacheResponseConfig = { enabled: boolean; resolver: SubjectRequestResolver };
 
-type CachedResponse = {
-  body: string;
+export type CachedResponse<T = string> = {
+  body: T;
   headers: Record<string, string>;
-  status: ContentfulStatusCode;
+  status: number;
 };
 
-export class CacheResponse {
+export type CacheResponseResult<T = string> = {
+  response: CachedResponse<T>;
+  source: CacheSourceEnum;
+};
+
+export class CacheResponseMiddleware {
   static readonly CACHE_HIT_HEADER = "Cache-Hit";
 
   constructor(
-    private readonly config: CacheResponseOptions,
+    private readonly config: CacheResponseConfig,
     private readonly deps: Dependencies,
   ) {}
 
-  handle = createMiddleware(async (c, next) => {
-    if (!this.config.enabled) return next();
+  async evaluate<T = string>(
+    context: RequestContext,
+    generateResponse: () => Promise<CachedResponse<T>>,
+  ): Promise<CacheResponseResult<T> | null> {
+    if (!this.config.enabled) return null;
 
-    const context = new RequestContextHonoAdapter(c);
     const subject = await this.config.resolver.resolve(context);
 
-    const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject.hex, async () => {
-      await next();
+    const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse<T>>(
+      subject.hex,
+      generateResponse,
+    );
 
-      const response = c.res.clone();
+    return {
+      response: result.value,
+      source: result.source,
+    };
+  }
 
-      return {
-        body: await response.text(),
-        headers: response.headers.toJSON(),
-        status: response.status as ContentfulStatusCode,
-      };
-    });
-
-    c.header(CacheResponse.CACHE_HIT_HEADER, result.source);
-
-    return c.newResponse(result.value.body, result.value.status, result.value.headers);
-  });
-
-  clear = createMiddleware(async (_, next) => {
+  async clear(): Promise<void> {
     await this.deps.CacheResolver.flush();
-
-    return next();
-  });
+  }
 }

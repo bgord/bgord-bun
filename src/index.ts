@@ -34,6 +34,7 @@ export * from "./cache-repository-noop.adapter";
 export * from "./cache-resolver.strategy";
 export * from "./cache-resolver-simple.strategy";
 export * from "./cache-response.middleware";
+export * from "./cache-response-hono.middleware";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
 export * from "./certificate-inspector-tls.adapter";
