@@ -1,15 +1,11 @@
-import { createMiddleware } from "hono/factory";
 import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
 
-export class InFlightRequests {
-  static handle = () =>
-    createMiddleware(async (_, next) => {
-      InFlightRequestsTracker.increment();
+export class InFlightRequestsMiddleware {
+  async evaluate(): Promise<void> {
+    InFlightRequestsTracker.increment();
+  }
 
-      try {
-        await next();
-      } finally {
-        InFlightRequestsTracker.decrement();
-      }
-    });
+  cleanup(): void {
+    InFlightRequestsTracker.decrement();
+  }
 }
