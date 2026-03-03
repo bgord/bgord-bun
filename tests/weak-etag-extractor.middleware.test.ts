@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import type { EtagVariables } from "../src/etag-extractor.middleware";
+import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { WeakETagExtractor } from "../src/weak-etag-extractor.middleware";
 
-const app = new Hono<{ Variables: EtagVariables }>()
+const app = new Hono<{ Variables: ETagVariables }>()
   .use(WeakETagExtractor.attach)
   .get("/ping", (c) => c.json(c.get("WeakETag")));
 

@@ -1,63 +1,45 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
-import { ETagExtractor, type EtagVariables } from "../src/etag-extractor.middleware";
+import { ETagExtractorMiddleware } from "../src/etag-extractor.middleware";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const app = new Hono<{ Variables: EtagVariables }>()
-  .use(ETagExtractor.attach)
-  .get("/ping", (c) => c.json(c.get("ETag")));
+const middleware = new ETagExtractorMiddleware();
 
-describe("ETagExtractor middleware", () => {
-  test("extracts ETag from valid header", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "12345" }),
-    });
-    const json = await result.json();
+describe("ETagExtractorMiddleware", () => {
+  test("extracts ETag from valid header", () => {
+    const context = new RequestContextBuilder().withHeader(tools.ETag.IF_MATCH_HEADER_NAME, "12345").build();
 
-    expect(result.status).toEqual(200);
-    expect(json.revision).toEqual(12345);
-    expect(json.value).toEqual("12345");
+    const result = middleware.evaluate(context);
+
+    expect(result?.revision).toEqual(12345);
+    expect(result?.value).toEqual("12345");
   });
 
-  test("missing ETag header", async () => {
-    const result = await app.request("/ping", { method: "GET" });
-    const json = await result.json();
+  test("missing ETag header", () => {
+    const context = new RequestContextBuilder().build();
 
-    expect(result.status).toEqual(200);
-    expect(json).toEqual(null);
+    expect(middleware.evaluate(context)).toEqual(null);
   });
 
-  test("invalid ETag header - NaN", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "invalid" }),
-    });
-    const json = await result.json();
+  test("invalid ETag header - NaN", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(tools.ETag.IF_MATCH_HEADER_NAME, "invalid")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(json).toEqual(null);
+    expect(middleware.evaluate(context)).toEqual(null);
   });
 
-  test("invalid ETag header - undefined string", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "undefined" }),
-    });
-    const json = await result.json();
+  test("invalid ETag header - undefined string", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(tools.ETag.IF_MATCH_HEADER_NAME, "undefined")
+      .build();
 
-    expect(result.status).toEqual(200);
-    expect(json).toEqual(null);
+    expect(middleware.evaluate(context)).toEqual(null);
   });
 
-  test("invalid ETag header - negative", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "-1" }),
-    });
-    const json = await result.json();
+  test("invalid ETag header - negative", () => {
+    const context = new RequestContextBuilder().withHeader(tools.ETag.IF_MATCH_HEADER_NAME, "-1").build();
 
-    expect(result.status).toEqual(200);
-    expect(json).toEqual(null);
+    expect(middleware.evaluate(context)).toEqual(null);
   });
 });

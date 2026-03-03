@@ -12,7 +12,7 @@ import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { Context } from "./context.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
-import { ETagExtractor } from "./etag-extractor.middleware";
+import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
@@ -96,7 +96,7 @@ export class Setup {
       TimeZoneOffset.attach,
       Context.attach,
       WeakETagExtractor.attach,
-      ETagExtractor.attach,
+      new ETagExtractorHonoMiddleware().handle(),
       HttpLogger.build(deps, config.httpLogger),
       timing(),
       CorrelationStorage.handle(),

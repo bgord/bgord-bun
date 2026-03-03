@@ -5,7 +5,7 @@ import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-no
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
-import type { EtagVariables } from "../src/etag-extractor.middleware";
+import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import type { I18nConfigType } from "../src/i18n.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -53,7 +53,7 @@ const deps = {
 
 describe("Setup service", () => {
   test("happy path", async () => {
-    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & ETagVariables }>()
       .use(...Setup.essentials({ csrf }, deps))
       .get("/ping", (c) =>
         c.json({
@@ -90,7 +90,7 @@ describe("Setup service", () => {
   });
 
   test("x-correlation-id forwarding", async () => {
-    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & ETagVariables }>()
       .use(...Setup.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
@@ -108,7 +108,7 @@ describe("Setup service", () => {
   });
 
   test("maintenance mode", async () => {
-    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>()
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & ETagVariables }>()
       .use(...Setup.essentials({ csrf, maintenanceMode: { enabled: true } }, deps))
       .get("/ping", (c) => c.text("OK"));
 
@@ -133,7 +133,7 @@ describe("Setup service", () => {
     const form = new FormData();
     form.append("file", txt);
 
-    const app = new Hono<{ Variables: TimeZoneOffsetVariables & EtagVariables }>({})
+    const app = new Hono<{ Variables: TimeZoneOffsetVariables & ETagVariables }>({})
       .use(...Setup.essentials({ csrf, BODY_LIMIT_MAX_SIZE: tools.Size.fromBytes(2) }, deps))
       .post("/upload", async (c) => {
         await c.req.parseBody();
