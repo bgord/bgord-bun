@@ -1,22 +1,16 @@
 import type * as tools from "@bgord/tools";
-import { createMiddleware } from "hono/factory";
-import { HTTPException } from "hono/http-exception";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
-import type { ShieldStrategy } from "./shield.strategy";
+import type { HasRequestHeader } from "./request-context.port";
 
-type ApiKeyShieldConfigType = { API_KEY: tools.ApiKeyType };
+export type ApiKeyShieldConfig = { API_KEY: tools.ApiKeyType };
 
-export const ShieldApiKeyError = new HTTPException(403, { message: "shield.api.key" });
+export const ShieldApiKeyStrategyError = { Rejected: "shield.api.key.rejected" };
 
-export class ShieldApiKeyStrategy implements ShieldStrategy {
+export class ShieldApiKeyStrategy {
   static readonly HEADER_NAME = "bgord-api-key";
 
-  constructor(private readonly config: ApiKeyShieldConfigType) {}
+  constructor(private readonly config: ApiKeyShieldConfig) {}
 
-  verify = createMiddleware(async (c, next) => {
-    const context = new RequestContextAdapterHono(c);
-
-    if (context.request.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY) return next();
-    throw ShieldApiKeyError;
-  });
+  evaluate(context: HasRequestHeader): boolean {
+    return context.request.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY;
+  }
 }

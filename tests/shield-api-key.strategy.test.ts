@@ -1,52 +1,33 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
-import { ShieldApiKeyError, ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
+import { ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const shield = new ShieldApiKeyStrategy({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
-
-const app = new Hono()
-  .use(shield.verify)
-  .get("/ping", (c) => c.text("OK"))
-  .onError((error, c) => {
-    if (error.message === ShieldApiKeyError.message) {
-      return c.json({ message: ShieldApiKeyError.message, _known: true }, ShieldApiKeyError.status);
-    }
-    return c.json({}, 500);
-  });
+const strategy = new ShieldApiKeyStrategy({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
 
 describe("ShieldApiKeyStrategy", () => {
-  test("happy path", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [ShieldApiKeyStrategy.HEADER_NAME]: VALID_API_KEY }),
-    });
+  test("happy path", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(ShieldApiKeyStrategy.HEADER_NAME, VALID_API_KEY)
+      .build();
 
-    expect(result.status).toEqual(200);
+    expect(strategy.evaluate(context)).toEqual(true);
   });
 
-  test("denied - no api key", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [ShieldApiKeyStrategy.HEADER_NAME]: "" }),
-    });
-    const json = await result.json();
+  test("denied - no api key", () => {
+    const context = new RequestContextBuilder().withHeader(ShieldApiKeyStrategy.HEADER_NAME, "").build();
 
-    expect(result.status).toEqual(403);
-    expect(json.message).toEqual("shield.api.key");
+    expect(strategy.evaluate(context)).toEqual(false);
   });
 
-  test("denied - invalid api key", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ [ShieldApiKeyStrategy.HEADER_NAME]: INVALID_API_KEY }),
-    });
-    const json = await result.json();
+  test("denied - invalid api key", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(ShieldApiKeyStrategy.HEADER_NAME, INVALID_API_KEY)
+      .build();
 
-    expect(result.status).toEqual(403);
-    expect(json.message).toEqual("shield.api.key");
+    expect(strategy.evaluate(context)).toEqual(false);
   });
 });
