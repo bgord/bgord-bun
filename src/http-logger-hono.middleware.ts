@@ -5,7 +5,7 @@ import type { ClockPort } from "./clock.port";
 import { type HttpLoggerConfig, HttpLoggerMiddleware } from "./http-logger.middleware";
 import type { LoggerPort } from "./logger.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
@@ -18,7 +18,7 @@ export class HttpLoggerHonoMiddleware implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (c, next) => {
-      const context = new RequestContextAdapterHono(c);
+      const context = new RequestContextHonoAdapter(c);
 
       if (this.middleware.shouldSkip(context)) return await next();
 

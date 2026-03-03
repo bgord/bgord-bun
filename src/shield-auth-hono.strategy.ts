@@ -2,7 +2,7 @@ import type hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { AuthSessionReaderPort } from "./auth-session-reader.port";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import { ShieldAuthStrategy, ShieldAuthStrategyError } from "./shield-auth.strategy";
 
 type Dependencies<User, Session> = { AuthSessionReader: AuthSessionReaderPort<User, Session> };
@@ -17,7 +17,7 @@ export class ShieldAuthHonoStrategy<User, Session> {
   }
 
   attach = createMiddleware(async (c: hono.Context, next: hono.Next) => {
-    const context = new RequestContextAdapterHono(c);
+    const context = new RequestContextHonoAdapter(c);
     const auth = await this.strategy.attach(context);
 
     c.set("user", auth.user);

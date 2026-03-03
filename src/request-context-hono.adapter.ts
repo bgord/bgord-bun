@@ -3,7 +3,7 @@ import { getConnInfo } from "hono/bun";
 import { getCookie } from "hono/cookie";
 import type { RequestContext } from "./request-context.port";
 
-export class RequestContextAdapterHono implements RequestContext {
+export class RequestContextHonoAdapter implements RequestContext {
   readonly request: RequestContext["request"];
   readonly identity: RequestContext["identity"];
 

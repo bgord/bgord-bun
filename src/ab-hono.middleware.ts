@@ -4,7 +4,7 @@ import type { AbAssignmentStrategy } from "./ab-assignment.strategy";
 import type { AbVariant } from "./ab-variant.vo";
 import type { AbVariants } from "./ab-variants.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 
 export type AbVariables = { abVariant: AbVariant | undefined };
 
@@ -17,7 +17,7 @@ export class AbHonoMiddleware implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (c, next) => {
-      const context = new RequestContextAdapterHono(c);
+      const context = new RequestContextHonoAdapter(c);
       const variant = await this.middleware.evaluate(context);
 
       c.set("abVariant", variant);

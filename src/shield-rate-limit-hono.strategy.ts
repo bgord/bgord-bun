@@ -3,7 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import {
   type ShieldRateLimitConfig,
   ShieldRateLimitStrategy,
@@ -25,7 +25,7 @@ export class ShieldRateLimitHonoStrategy implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (c, next) => {
-      const context = new RequestContextAdapterHono(c);
+      const context = new RequestContextHonoAdapter(c);
 
       if (await this.strategy.evaluate(context)) return next();
       throw ShieldRateLimitError;

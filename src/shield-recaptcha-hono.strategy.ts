@@ -1,7 +1,7 @@
 import type { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import {
   type ShieldRecaptchaConfig,
   ShieldRecaptchaStrategy,
@@ -21,7 +21,7 @@ export class ShieldRecaptchaHonoStrategy implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (c, next) => {
-      const context = new RequestContextAdapterHono(c);
+      const context = new RequestContextHonoAdapter(c);
       const token = (await c.req.formData()).get("g-recaptcha-response")?.toString() ?? null;
 
       if (await this.strategy.evaluate(context, token)) return next();

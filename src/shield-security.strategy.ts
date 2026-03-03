@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Client } from "./client.vo";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import { SecurityContext } from "./security-context.vo";
 import type { SecurityPolicy } from "./security-policy.vo";
 import type { ShieldStrategy } from "./shield.strategy";
@@ -26,7 +26,7 @@ export class ShieldSecurityStrategy implements ShieldStrategy {
 
   verify = createMiddleware(async (c, next) => {
     for (const policy of this.policies) {
-      const request = new RequestContextAdapterHono(c);
+      const request = new RequestContextHonoAdapter(c);
 
       const violation = await policy.rule.isViolated(request);
 

@@ -1,7 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy };
@@ -25,7 +25,7 @@ export class CacheResponse {
   handle = createMiddleware(async (c, next) => {
     if (!this.config.enabled) return next();
 
-    const context = new RequestContextAdapterHono(c);
+    const context = new RequestContextHonoAdapter(c);
     const subject = await this.config.resolver.resolve(context);
 
     const result = await this.deps.CacheResolver.resolveWithContext<CachedResponse>(subject.hex, async () => {
