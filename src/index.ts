@@ -306,7 +306,6 @@ export * from "./shield-csrf-hono.strategy";
 export * from "./shield-hcaptcha.strategy";
 export * from "./shield-hcaptcha-hono.strategy";
 export * from "./shield-hcaptcha-hono-local.strategy";
-export * from "./shield-noop.strategy";
 export * from "./shield-rate-limit.strategy";
 export * from "./shield-rate-limit-hono.strategy";
 export * from "./shield-recaptcha.strategy";

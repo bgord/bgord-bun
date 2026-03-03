@@ -1,11 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { ShieldNoopStrategy } from "../src/shield-noop.strategy";
+import { MiddlewareHonoNoopAdapter } from "../src/middleware-hono-noop.adapter";
 
-describe("ShieldNoopStrategy", () => {
+describe("MiddlewareHonoNoopAdapter", () => {
   test("happy path", async () => {
-    const shield = new ShieldNoopStrategy();
-    const app = new Hono().use("/secure", shield.verify).post("/secure", (c) => c.text("OK"));
+    const shield = new MiddlewareHonoNoopAdapter();
+    const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 
