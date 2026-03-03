@@ -6,6 +6,7 @@ export class RequestContextBuilder {
   private url = "/";
   private headers = new Headers();
   private query: Record<string, string> = {};
+  private params: Record<string, string> = {};
   private cookies: Record<string, string> = {};
   private json: Record<string, unknown> = {};
   private userId: string | undefined = undefined;
@@ -47,6 +48,11 @@ export class RequestContextBuilder {
     return this;
   }
 
+  withParams(params: Record<string, string>) {
+    this.params = params;
+    return this;
+  }
+
   withCookie(name: string, value: string) {
     this.cookies[name] = value;
     return this;
@@ -76,6 +82,7 @@ export class RequestContextBuilder {
         header: (name) => this.headers.get(name) ?? undefined,
         headers: () => this.headers,
         query: () => this.query,
+        params: () => this.params,
         cookie: (name) => this.cookies[name],
         json: async () => this.json,
       },
