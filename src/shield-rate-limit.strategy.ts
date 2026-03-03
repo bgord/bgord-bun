@@ -1,37 +1,29 @@
 import * as tools from "@bgord/tools";
-import { createMiddleware } from "hono/factory";
-import { HTTPException } from "hono/http-exception";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
-import type { ShieldStrategy } from "./shield.strategy";
+import type { RequestContext } from "./request-context.port";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
-type ShieldRateLimitOptionsType = { resolver: SubjectRequestResolver; window: tools.Duration };
+export type ShieldRateLimitConfig = { resolver: SubjectRequestResolver; window: tools.Duration };
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
-export const ShieldRateLimitError = new HTTPException(429, { message: "shield.rate.limit" });
+export const ShieldRateLimitStrategyError = { Rejected: "shield.rate.limit.rejected" };
 
-export class ShieldRateLimitStrategy implements ShieldStrategy {
+export class ShieldRateLimitStrategy {
   constructor(
-    private readonly options: ShieldRateLimitOptionsType,
+    private readonly config: ShieldRateLimitConfig,
     private readonly deps: Dependencies,
   ) {}
 
-  verify = createMiddleware(async (c, next) => {
-    const context = new RequestContextAdapterHono(c);
-    const subject = await this.options.resolver.resolve(context);
+  async evaluate(context: RequestContext): Promise<boolean> {
+    const subject = await this.config.resolver.resolve(context);
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject.hex,
-      async () => new tools.RateLimiter(this.options.window),
+      async () => new tools.RateLimiter(this.config.window),
     );
 
-    const result = limiter.verify(this.deps.Clock.now());
-
-    if (!result.allowed) throw ShieldRateLimitError;
-
-    return next();
-  });
+    return limiter.verify(this.deps.Clock.now()).allowed;
+  }
 }

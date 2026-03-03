@@ -306,6 +306,7 @@ export * from "./shield-hcaptcha.strategy";
 export * from "./shield-hcaptcha-local.strategy";
 export * from "./shield-noop.strategy";
 export * from "./shield-rate-limit.strategy";
+export * from "./shield-rate-limit-hono.strategy";
 export * from "./shield-recaptcha.strategy";
 export * from "./shield-security.strategy";
 export * from "./shield-timeout.strategy";

@@ -1,16 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { ShieldRateLimitError, ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
+import { ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
-import type * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
 const ttl = tools.Duration.Seconds(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
@@ -28,122 +27,97 @@ const resolver = new SubjectRequestResolver(
   deps,
 );
 
-const shieldRateLimit = new ShieldRateLimitStrategy({ resolver, window: ttl }, deps);
-
-const app = new Hono()
-  .get("/ping", shieldRateLimit.verify, (c) => c.text("pong"))
-  .onError((error, c) => {
-    if (error.message === ShieldRateLimitError.message) {
-      return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
-    }
-    return c.json({}, 500);
-  });
+const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
 
 describe("ShieldRateLimitStrategy", () => {
   test("anon - happy path - within rate limit", async () => {
-    const result = await app.request("/ping", { method: "GET" });
+    const context = new RequestContextBuilder().withPath("/ping").build();
 
-    expect(result.status).toEqual(200);
-    expect(await result.text()).toEqual("pong");
+    const result = await strategy.evaluate(context);
+
+    expect(result).toEqual(true);
 
     await CacheResolver.flush();
   });
 
   test("anon - failure - TooManyRequestsError", async () => {
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
+    const context = new RequestContextBuilder().withPath("/ping").build();
 
-    const failure = await app.request("/ping", { method: "GET" });
-    const json = await failure.json();
+    expect(await strategy.evaluate(context)).toEqual(true);
 
-    expect(failure.status).toEqual(429);
-    expect(json.message).toEqual("shield.rate.limit");
+    const failure = await strategy.evaluate(context);
+
+    expect(failure).toEqual(false);
 
     await CacheResolver.flush();
   });
 
   test("anon - happy path - after rate limit", async () => {
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
+    const context = new RequestContextBuilder().withPath("/ping").build();
+
+    expect(await strategy.evaluate(context)).toEqual(true);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
 
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
+    expect(await strategy.evaluate(context)).toEqual(true);
 
     await CacheResolver.flush();
   });
 
   test("user - happy path - within rate limit", async () => {
-    const result = await app.request("/ping", { method: "GET" });
+    const context = new RequestContextBuilder().withPath("/ping").build();
 
-    expect(result.status).toEqual(200);
-    expect(await result.text()).toEqual("pong");
+    const result = await strategy.evaluate(context);
+
+    expect(result).toEqual(true);
 
     await CacheResolver.flush();
   });
 
   test("user - failure - TooManyRequestsError", async () => {
-    const app = new Hono<mocks.Config>().get(
-      "/ping",
-      (context, next) => {
-        context.set("user", { id: "abc" });
-        return next();
-      },
-      new ShieldRateLimitStrategy({ resolver, window: ttl }, deps).verify,
-      (c) => c.text("pong"),
-    );
+    const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
 
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
+    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(false);
 
     await CacheResolver.flush();
   });
 
   test("user - happy path - after rate limit", async () => {
-    const app = new Hono<mocks.Config>().get(
-      "/ping",
-      (context, next) => {
-        context.set("user", { id: "abc" });
-        return next();
-      },
-      new ShieldRateLimitStrategy({ resolver, window: ttl }, deps).verify,
-      (c) => c.text("pong"),
-    );
+    const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
 
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
+    expect(await strategy.evaluate(context)).toEqual(true);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
 
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
+    expect(await strategy.evaluate(context)).toEqual(true);
 
     await CacheResolver.flush();
   });
 
   test("user - does not impact other users", async () => {
-    const app = new Hono<mocks.Config>().get(
-      "/ping",
-      (context, next) => {
-        context.set("user", { id: context.req.header("id") });
-        return next();
-      },
-      new ShieldRateLimitStrategy({ resolver, window: ttl }, deps).verify,
-      (c) => c.text("pong"),
-    );
+    const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const firstUserContext = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
+    const secondUserContext = new RequestContextBuilder().withPath("/ping").withUserId("def").build();
 
-    const firstUserFirstRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
+    const firstUserFirstRequest = await strategy.evaluate(firstUserContext);
 
-    expect(firstUserFirstRequest.status).toEqual(200);
+    expect(firstUserFirstRequest).toEqual(true);
 
-    const secondUserFirstRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
+    const secondUserFirstRequest = await strategy.evaluate(secondUserContext);
 
-    expect(secondUserFirstRequest.status).toEqual(200);
+    expect(secondUserFirstRequest).toEqual(true);
 
-    const secondUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
+    const secondUserSecondRequest = await strategy.evaluate(secondUserContext);
 
-    expect(secondUserSecondRequest.status).toEqual(429);
+    expect(secondUserSecondRequest).toEqual(false);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
-    const firstUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
+    const firstUserSecondRequest = await strategy.evaluate(firstUserContext);
 
-    expect(firstUserSecondRequest.status).toEqual(200);
+    expect(firstUserSecondRequest).toEqual(true);
 
     await CacheResolver.flush();
   });
