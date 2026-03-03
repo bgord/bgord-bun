@@ -6,6 +6,7 @@ import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { trimTrailingSlash } from "hono/trailing-slash";
+import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
@@ -17,8 +18,8 @@ import { HttpLogger, type HttpLoggerOptions } from "./http-logger.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
-import { MaintenanceMode, type MaintenanceModeConfigType } from "./maintenance-mode.middleware";
-import type { MiddlewareHonoPort } from "./middleware-hono.port";
+import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
+import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
 import { type ShieldCsrfConfigType, ShieldCsrfStrategy } from "./shield-csrf.strategy";
 import { TimeZoneOffset } from "./time-zone-offset.middleware";
 import { WeakETagExtractor } from "./weak-etag-extractor.middleware";
@@ -39,7 +40,6 @@ type Dependencies = {
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
   BuildInfoRepository: BuildInfoRepositoryStrategy;
-  ApiVersionMiddleware: MiddlewareHonoPort;
 };
 
 export class Setup {
@@ -47,14 +47,14 @@ export class Setup {
     const BODY_LIMIT_MAX_SIZE = config.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
 
     return [
-      MaintenanceMode.build(config.maintenanceMode),
+      new MaintenanceModeHonoMiddleware(config.maintenanceMode).handle(),
       trimTrailingSlash({ alwaysRedirect: true }),
       requestId({
         limitLength: 36,
         headerName: "x-correlation-id",
         generator: () => deps.IdProvider.generate(),
       }),
-      deps.ApiVersionMiddleware.handle(),
+      new ApiVersionHonoMiddleware(deps).handle(),
       new ShieldCsrfStrategy(config.csrf).verify,
       secureHeaders({
         referrerPolicy: "no-referrer",

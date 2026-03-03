@@ -1,15 +1,17 @@
 import * as tools from "@bgord/tools";
-import { createMiddleware } from "hono/factory";
 
 export type MaintenanceModeConfigType = { enabled: boolean; RetryAfter?: tools.Duration };
 
-export class MaintenanceMode {
-  static build = (config?: MaintenanceModeConfigType) =>
-    createMiddleware(async (context, next) => {
-      const enabled = config?.enabled ?? false;
-      const RetryAfter = config?.RetryAfter ?? tools.Duration.Hours(1);
+export class MaintenanceModeMiddleware {
+  private readonly enabled: boolean;
+  private readonly RetryAfter: tools.Duration;
 
-      if (!enabled) return next();
-      return context.json({ reason: "maintenance" }, 503, { "Retry-After": RetryAfter.seconds.toString() });
-    });
+  constructor(config?: MaintenanceModeConfigType) {
+    this.enabled = config?.enabled ?? false;
+    this.RetryAfter = config?.RetryAfter ?? tools.Duration.Hours(1);
+  }
+
+  evaluate(): { enabled: boolean; RetryAfter: tools.Duration } {
+    return { enabled: this.enabled, RetryAfter: this.RetryAfter };
+  }
 }

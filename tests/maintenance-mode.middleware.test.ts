@@ -1,45 +1,39 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
-import { MaintenanceMode } from "../src/maintenance-mode.middleware";
+import { MaintenanceModeMiddleware } from "../src/maintenance-mode.middleware";
 
-describe("MaintenanceMode middleware", () => {
-  test("enabled", async () => {
-    const app = new Hono().use(MaintenanceMode.build({ enabled: true })).get("/ping", (c) => c.text("OK"));
+describe("MaintenanceModeMiddleware", () => {
+  test("enabled - default retry after", () => {
+    const middleware = new MaintenanceModeMiddleware({ enabled: true });
 
-    const result = await app.request("/ping", { method: "GET" });
-    const json = await result.json();
-    const header = result.headers.get("Retry-After");
+    const result = middleware.evaluate();
 
-    expect(result.status).toEqual(503);
-    expect(json).toEqual({ reason: "maintenance" });
-    expect(header).toEqual(tools.Duration.Hours(1).seconds.toString());
+    expect(result.enabled).toEqual(true);
+    expect(result.RetryAfter.seconds).toEqual(tools.Duration.Hours(1).seconds);
   });
 
-  test("enabled - custom retry after", async () => {
+  test("enabled - custom retry after", () => {
     const RetryAfter = tools.Duration.Hours(2);
-    const app = new Hono()
-      .use(MaintenanceMode.build({ enabled: true, RetryAfter }))
-      .get("/ping", (c) => c.text("OK"));
+    const middleware = new MaintenanceModeMiddleware({ enabled: true, RetryAfter });
 
-    const result = await app.request("/ping", { method: "GET" });
-    const json = await result.json();
-    const header = result.headers.get("Retry-After");
+    const result = middleware.evaluate();
 
-    expect(result.status).toEqual(503);
-    expect(json).toEqual({ reason: "maintenance" });
-    expect(header).toEqual(RetryAfter.seconds.toString());
+    expect(result.enabled).toEqual(true);
+    expect(result.RetryAfter.seconds).toEqual(RetryAfter.seconds);
   });
 
-  test("disabled", async () => {
-    const app = new Hono().use(MaintenanceMode.build()).get("/ping", (c) => c.text("OK"));
+  test("disabled", () => {
+    const middleware = new MaintenanceModeMiddleware({ enabled: false });
 
-    const result = await app.request("/ping", { method: "GET" });
-    const text = await result.text();
-    const header = result.headers.get("Retry-After");
+    const result = middleware.evaluate();
 
-    expect(result.status).toEqual(200);
-    expect(text).toEqual("OK");
-    expect(header).toEqual(null);
+    expect(result.enabled).toEqual(false);
+    expect(result.RetryAfter.seconds).toEqual(tools.Duration.Hours(1).seconds);
+  });
+
+  test("no config - disabled by default", () => {
+    const middleware = new MaintenanceModeMiddleware();
+
+    expect(middleware.evaluate().enabled).toEqual(false);
   });
 });
