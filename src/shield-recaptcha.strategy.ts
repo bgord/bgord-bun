@@ -1,34 +1,28 @@
 import * as tools from "@bgord/tools";
-import { createMiddleware } from "hono/factory";
-import { HTTPException } from "hono/http-exception";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import { RequestContextAdapterHono } from "./request-context-hono.adapter";
-import type { ShieldStrategy } from "./shield.strategy";
+import type { HasRequestHeader, HasRequestQuery } from "./request-context.port";
 
-export type RecaptchaVerifierConfigType = { secretKey: RecaptchaSecretKeyType };
-export type RecaptchaResultType = { success: boolean; score: number };
+export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType };
+export type RecaptchaResult = { success: boolean; score: number };
 
-export const ShieldRecaptchaError = new HTTPException(403, { message: "shield.recaptcha" });
+export const ShieldRecaptchaStrategyError = { Rejected: "shield.recaptcha.rejected" };
 
-export class ShieldRecaptchaStrategy implements ShieldStrategy {
+export class ShieldRecaptchaStrategy {
   private static readonly URL = tools.UrlWithoutSlash.parse(
     "https://www.google.com/recaptcha/api/siteverify",
   );
 
-  constructor(private readonly config: RecaptchaVerifierConfigType) {}
+  constructor(private readonly config: ShieldRecaptchaConfig) {}
 
-  verify = createMiddleware(async (c, next) => {
+  async evaluate(context: HasRequestHeader & HasRequestQuery, formToken: string | null): Promise<boolean> {
     try {
-      const context = new RequestContextAdapterHono(c);
-
       const header = context.request.header("x-recaptcha-token");
       const query = context.request.query().recaptchaToken;
-      const form = (await c.req.formData()).get("g-recaptcha-response")?.toString();
       const remoteip = context.request.header("x-forwarded-for") ?? "";
 
-      const token = header ?? query ?? form;
+      const token = header ?? query ?? formToken;
 
-      if (!token) throw ShieldRecaptchaError;
+      if (!token) return false;
 
       const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
 
@@ -38,13 +32,13 @@ export class ShieldRecaptchaStrategy implements ShieldStrategy {
         body: params,
       });
 
-      const result: RecaptchaResultType = await response.json();
+      const result: RecaptchaResult = await response.json();
 
-      if (!result.success || result.score < 0.5) throw ShieldRecaptchaError;
+      if (!result.success || result.score < 0.5) return false;
 
-      await next();
+      return true;
     } catch {
-      throw ShieldRecaptchaError;
+      return false;
     }
-  });
+  }
 }
