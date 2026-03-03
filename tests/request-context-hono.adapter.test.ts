@@ -24,6 +24,16 @@ describe("RequestContextAdapterHono", () => {
     expect(await response.json()).toEqual({ method: "GET" });
   });
 
+  test("url", async () => {
+    const app = new Hono().get("/test", (context) =>
+      context.json({ url: new RequestContextAdapterHono(context).request.url() }),
+    );
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ url: "http://localhost/test" });
+  });
+
   test("header", async () => {
     const app = new Hono().get("/test", (context) =>
       context.json({ header: new RequestContextAdapterHono(context).request.header("accept") }),

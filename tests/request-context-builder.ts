@@ -3,6 +3,7 @@ import type { RequestContext } from "../src/request-context.port";
 export class RequestContextBuilder {
   private path = "/";
   private method = "";
+  private url = "/";
   private headers = new Headers();
   private query: Record<string, string> = {};
   private cookies: Record<string, string> = {};
@@ -13,6 +14,11 @@ export class RequestContextBuilder {
 
   withPath(path: string) {
     this.path = path;
+    return this;
+  }
+
+  withUrl(url: string) {
+    this.url = url;
     return this;
   }
 
@@ -66,6 +72,7 @@ export class RequestContextBuilder {
       request: {
         path: this.path,
         method: this.method,
+        url: () => this.url,
         header: (name) => this.headers.get(name) ?? undefined,
         headers: () => this.headers,
         query: () => this.query,

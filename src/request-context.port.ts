@@ -4,6 +4,7 @@ export interface RequestContext {
   readonly request: {
     readonly path: string;
     readonly method: string;
+    url(): string;
     header(name: string): string | undefined;
     query(): Record<string, string>;
     cookie(name: string): string | undefined;
@@ -16,6 +17,10 @@ export interface RequestContext {
     ip(): string | undefined;
     ua(): string | undefined;
   };
+}
+
+export interface HasRequestUrl {
+  readonly request: { url(): string };
 }
 
 export interface HasRequestPath {
