@@ -309,6 +309,7 @@ export * from "./sleeper.port";
 export * from "./sleeper-noop.adapter";
 export * from "./sleeper-system.adapter";
 export * from "./slower.middleware";
+export * from "./slower-hono.middleware";
 export * from "./smtp-host.vo";
 export * from "./smtp-pass.vo";
 export * from "./smtp-port.vo";
