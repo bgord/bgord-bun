@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import { Translations } from "../src/translations.service";
+import { TranslationsHonoHandler } from "../src/translations-hono.handler";
 
 enum SupportedLanguages {
   en = "en",
@@ -21,9 +21,9 @@ const app = new Hono()
       fallbackLanguage: SupportedLanguages.en,
     }),
   )
-  .get("/get-translations", ...Translations.build(SupportedLanguages, deps));
+  .get("/get-translations", ...new TranslationsHonoHandler(SupportedLanguages, deps).handle());
 
-describe("Translations service", () => {
+describe("TranslationsHonoHandler", () => {
   test("happy path - no language specified", async () => {
     const response = await app.request("/get-translations", { method: "GET" });
     const json = await response.json();
