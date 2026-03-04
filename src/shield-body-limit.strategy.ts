@@ -1,11 +1,11 @@
 import * as tools from "@bgord/tools";
 
-export type BodyLimitConfig = { maxSize: tools.Size };
+export type ShieldBodyLimitConfig = { maxSize: tools.Size };
 
-export const BodyLimitError = { TooBig: "body.limit.rejected" };
+export const ShieldBodyLimitError = { TooBig: "shield.body.limit.rejected" };
 
-export class BodyLimitMiddleware {
-  constructor(private readonly config: BodyLimitConfig) {}
+export class ShieldBodyLimitStrategy {
+  constructor(private readonly config: ShieldBodyLimitConfig) {}
 
   evaluate(contentLength: tools.IntegerNonNegativeType | undefined): boolean {
     if (contentLength === undefined) return true;

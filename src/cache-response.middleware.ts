@@ -38,10 +38,7 @@ export class CacheResponseMiddleware {
       generateResponse,
     );
 
-    return {
-      response: result.value,
-      source: result.source,
-    };
+    return { response: result.value, source: result.source };
   }
 
   async clear(): Promise<void> {

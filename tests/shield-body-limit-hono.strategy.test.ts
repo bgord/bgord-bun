@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { BodyLimitHonoMiddleware } from "../src/body-limit-hono.middleware";
+import { ShieldBodyLimitHonoStrategy } from "../src/shield-body-limit-hono.strategy";
 
 const maxSize = tools.Size.fromKb(100);
-const middleware = new BodyLimitHonoMiddleware({ maxSize });
+const shield = new ShieldBodyLimitHonoStrategy({ maxSize });
 
-const app = new Hono().use(middleware.handle()).post("/upload", (c) => c.text("ok"));
+const app = new Hono().use(shield.handle()).post("/upload", (c) => c.text("ok"));
 
-describe("BodyLimitHonoMiddleware", () => {
+describe("ShieldBodyLimitHonoStrategy", () => {
   test("happy path - no header", async () => {
     const response = await app.request("/upload", { method: "POST" });
 
@@ -53,7 +53,7 @@ describe("BodyLimitHonoMiddleware", () => {
     });
 
     expect(response.status).toEqual(413);
-    expect(await response.text()).toEqual("body.limit.rejected");
+    expect(await response.text()).toEqual("shield.body.limit.rejected");
   });
 
   test("invalid header", async () => {

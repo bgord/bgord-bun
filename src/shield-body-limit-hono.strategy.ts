@@ -1,17 +1,21 @@
 import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
-import { type BodyLimitConfig, BodyLimitError, BodyLimitMiddleware } from "./body-limit.middleware";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
+import {
+  type ShieldBodyLimitConfig,
+  ShieldBodyLimitError,
+  ShieldBodyLimitStrategy,
+} from "./shield-body-limit.strategy";
 
-export const BodyLimitTooBigError = new HTTPException(413, { message: BodyLimitError.TooBig });
+export const ShieldBodyLimitTooBigError = new HTTPException(413, { message: ShieldBodyLimitError.TooBig });
 
-export class BodyLimitHonoMiddleware implements MiddlewareHonoPort {
-  private readonly middleware: BodyLimitMiddleware;
+export class ShieldBodyLimitHonoStrategy implements MiddlewareHonoPort {
+  private readonly strategy: ShieldBodyLimitStrategy;
 
-  constructor(config: BodyLimitConfig) {
-    this.middleware = new BodyLimitMiddleware(config);
+  constructor(config: ShieldBodyLimitConfig) {
+    this.strategy = new ShieldBodyLimitStrategy(config);
   }
 
   handle() {
@@ -27,9 +31,9 @@ export class BodyLimitHonoMiddleware implements MiddlewareHonoPort {
         contentLength = parsed.success ? parsed.data : undefined;
       }
 
-      const result = this.middleware.evaluate(contentLength);
+      const result = this.strategy.evaluate(contentLength);
 
-      if (!result) throw BodyLimitTooBigError;
+      if (!result) throw ShieldBodyLimitTooBigError;
       return next();
     });
   }
