@@ -1,39 +1,34 @@
 import * as tools from "@bgord/tools";
-import { bodyLimit } from "hono/body-limit";
-import { createMiddleware } from "hono/factory";
-import { HTTPException } from "hono/http-exception";
 
-type FileUploaderConfigType = { MimeRegistry: tools.MimeRegistry; maxFilesSize: tools.Size };
+export type FileUploaderConfig = { MimeRegistry: tools.MimeRegistry; maxSize: tools.Size };
 
-export const FileUploaderInvalidMimeError = new HTTPException(400, { message: "file.uploader.invalid.mime" });
+export const FileUploaderError = {
+  MissingFile: "file.uploader.missing.file",
+  EmptyFile: "file.uploader.empty.file",
+  InvalidMime: "file.uploader.invalid.mime",
+  SizeLimit: "file.uploader.size.limit",
+} as const;
 
-export const FileUploaderTooBigError = new HTTPException(400, { message: "file.uploader.too.big" });
+export type FileValidationError = (typeof FileUploaderError)[keyof typeof FileUploaderError];
 
-export class FileUploader {
-  static validate(config: FileUploaderConfigType) {
-    return [
-      bodyLimit({
-        maxSize: config.maxFilesSize.toBytes(),
-        onError: () => {
-          throw FileUploaderTooBigError;
-        },
-      }),
+export type FileValidationResult = { valid: true } | { valid: false; error: FileValidationError };
 
-      createMiddleware(async (context, next) => {
-        const body = await context.req.raw.clone().formData();
+export class FileUploaderMiddleware {
+  constructor(private readonly config: FileUploaderConfig) {}
 
-        const file = body.get("file");
+  validate(file: File | null): FileValidationResult {
+    if (!file) return { valid: false, error: FileUploaderError.MissingFile };
+    if (file.size === 0) return { valid: false, error: FileUploaderError.EmptyFile };
 
-        // TODO
-        if (!(file instanceof File)) throw FileUploaderInvalidMimeError;
+    const size = tools.Size.fromBytes(file.size);
 
-        const mime = tools.Mime.fromString(file.type);
+    if (size.isGreaterThan(this.config.maxSize)) return { valid: false, error: FileUploaderError.SizeLimit };
 
-        const accepted = config.MimeRegistry.hasMime(mime);
+    const mime = tools.Mime.fromString(file.type);
 
-        if (!accepted) throw FileUploaderInvalidMimeError;
-        return next();
-      }),
-    ];
+    if (!this.config.MimeRegistry.hasMime(mime)) {
+      return { valid: false, error: FileUploaderError.InvalidMime };
+    }
+    return { valid: true };
   }
 }

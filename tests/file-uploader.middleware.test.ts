@@ -1,77 +1,40 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
-import { FileUploader } from "../src/file-uploader.middleware";
+import { FileUploaderMiddleware } from "../src/file-uploader.middleware";
 
 const MimeRegistry = new tools.MimeRegistry([tools.Mimes.png, tools.Mimes.csv]);
 
-const png = new File([], "image.png");
-const pdf = new File([], "image.pdf");
-const empty = new File([], "image.pdf");
+const png = new File(["image"], "image.png", { type: "image/png" });
+const csv = new File(["csv"], "data.csv", { type: "text/csv" });
+const empty = new File([], "data.csv", { type: "text/csv" });
+const invalid = new File(["document"], "document.pdf", { type: "application/pdf" });
 
-const app = new Hono()
-  .use(...FileUploader.validate({ MimeRegistry, maxFilesSize: tools.Size.fromKb(10) }))
-  .post("/uploader", (c) => c.text("uploaded"));
+const middleware = new FileUploaderMiddleware({ MimeRegistry, maxSize: tools.Size.fromKb(10) });
 
-describe("FileUploader middleware", () => {
-  test("happy path", async () => {
-    const form = new FormData();
-    form.append("file", png);
-
-    const response = await app.request("/uploader", { method: "POST", body: form });
-    const text = await response.text();
-
-    expect(response.status).toEqual(200);
-    expect(text).toEqual("uploaded");
+describe("FileUploaderMiddleware", () => {
+  test("happy path - png", () => {
+    expect(middleware.validate(png)).toEqual({ valid: true });
   });
 
-  test("rejects invalid MIME type", async () => {
-    const form = new FormData();
-    form.append("file", pdf);
-
-    const response = await app.request("/uploader", { method: "POST", body: form });
-    const result = await response.text();
-
-    expect(response.status).toEqual(400);
-    expect(result).toEqual("file.uploader.invalid.mime");
+  test("happy path - csv", () => {
+    expect(middleware.validate(csv)).toEqual({ valid: true });
   });
 
-  test("rejects file too big", async () => {
-    const form = new FormData();
-    form.append("file", png);
-
-    const app = new Hono()
-      .use(
-        ...FileUploader.validate({
-          MimeRegistry: new tools.MimeRegistry([tools.Mimes.text]),
-          maxFilesSize: tools.Size.fromBytes(1),
-        }),
-      )
-      .post("/uploader", (c) => c.text("uploaded"));
-
-    const response = await app.request("/uploader", { method: "POST", body: form });
-    const result = await response.text();
-
-    expect(response.status).toEqual(400);
-    expect(result).toEqual("file.uploader.too.big");
+  test("missing file", () => {
+    expect(middleware.validate(null)).toEqual({ valid: false, error: "file.uploader.missing.file" });
   });
 
-  test("rejects no file", async () => {
-    const form = new FormData();
-    form.append("file", empty);
+  test("empty file", () => {
+    expect(middleware.validate(empty)).toEqual({ valid: false, error: "file.uploader.empty.file" });
+  });
 
-    const app = new Hono()
-      .use(
-        ...FileUploader.validate({
-          MimeRegistry: new tools.MimeRegistry([tools.Mimes.text]),
-          maxFilesSize: tools.Size.fromKb(10),
-        }),
-      )
-      .post("/uploader", (c) => c.text("uploaded"));
+  test("size limit", () => {
+    const middleware = new FileUploaderMiddleware({ MimeRegistry, maxSize: tools.Size.fromBytes(0) });
 
-    const response = await app.request("/uploader", { method: "POST", body: form });
+    expect(middleware.validate(png)).toEqual({ valid: false, error: "file.uploader.size.limit" });
+  });
 
-    expect(response.status).toEqual(400);
-    expect(await response.text()).toEqual("file.uploader.invalid.mime");
+  test("invalid mime", () => {
+    expect(middleware.validate(invalid)).toEqual({ valid: false, error: "file.uploader.invalid.mime" });
   });
 });

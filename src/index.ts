@@ -126,6 +126,7 @@ export * from "./file-renamer-node.adapter";
 export * from "./file-renamer-node-forgiving.adapter";
 export * from "./file-renamer-noop.adapter";
 export * from "./file-uploader.middleware";
+export * from "./file-uploader-hono.middleware";
 export * from "./file-writer.adapter";
 export * from "./file-writer.port";
 export * from "./file-writer-noop.adapter";
