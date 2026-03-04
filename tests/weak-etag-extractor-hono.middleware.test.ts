@@ -6,7 +6,9 @@ import {
   type WeakETagVariables,
 } from "../src/weak-etag-extractor-hono.middleware";
 
-const app = new Hono<{ Variables: WeakETagVariables }>()
+type Config = { Variables: WeakETagVariables };
+
+const app = new Hono<Config>()
   .use(new WeakETagExtractorHonoMiddleware().handle())
   .get("/ping", (c) => c.json(c.get("WeakETag")));
 

@@ -4,10 +4,10 @@ import { Hono } from "hono";
 import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { ETagExtractorHonoMiddleware } from "../src/etag-extractor-hono.middleware";
 
+type Config = { Variables: ETagVariables };
+
 const middleware = new ETagExtractorHonoMiddleware();
-const app = new Hono<{ Variables: ETagVariables }>()
-  .use(middleware.handle())
-  .get("/ping", (c) => c.json(c.get("ETag")));
+const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => c.json(c.get("ETag")));
 
 describe("ETagExtractorHonoMiddleware", () => {
   test("valid header", async () => {

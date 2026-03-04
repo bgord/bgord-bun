@@ -6,13 +6,15 @@ import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic
 import { RequestIdMiddleware } from "../src/request-id.middleware";
 import * as mocks from "./mocks";
 
+type Config = { Variables: CorrelationVariables };
+
 const valid = "550e8400-e29b-41d4-a716-446655440000";
 const invalid = "not-a-valid-uuid";
 
 describe("CorrelationHonoMiddleware", () => {
   test("no incoming", async () => {
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
-    const app = new Hono<{ Variables: CorrelationVariables }>()
+    const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({ requestId: c.get("requestId"), storage: CorrelationStorage.get() }));
 
@@ -24,7 +26,7 @@ describe("CorrelationHonoMiddleware", () => {
 
   test("incoming - correct", async () => {
     const IdProvider = new IdProviderDeterministicAdapter([]);
-    const app = new Hono<{ Variables: CorrelationVariables }>()
+    const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({ requestId: c.get("requestId"), storage: CorrelationStorage.get() }));
 
@@ -36,7 +38,7 @@ describe("CorrelationHonoMiddleware", () => {
 
   test("incoming - incorrect", async () => {
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
-    const app = new Hono<{ Variables: CorrelationVariables }>()
+    const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({ requestId: c.get("requestId"), storage: CorrelationStorage.get() }));
 
@@ -48,7 +50,7 @@ describe("CorrelationHonoMiddleware", () => {
 
   test("cleanup", async () => {
     const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
-    const app = new Hono<{ Variables: CorrelationVariables }>()
+    const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({}));
 

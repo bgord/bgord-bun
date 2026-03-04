@@ -5,6 +5,7 @@ import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-no
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import type { CorrelationVariables } from "../src/correlation-hono.middleware";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -16,7 +17,7 @@ import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
 import * as mocks from "./mocks";
 
-type Config = { Variables: TimeZoneOffsetVariables & ETagVariables };
+type Config = { Variables: TimeZoneOffsetVariables & ETagVariables & CorrelationVariables };
 
 const I18n = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "pl" } as const;
 

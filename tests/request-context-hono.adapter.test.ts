@@ -3,6 +3,8 @@ import { Hono } from "hono";
 import { RequestContextHonoAdapter } from "../src/request-context-hono.adapter";
 import * as mocks from "./mocks";
 
+type Config = { Variables: { user: { id: number } } };
+
 describe("RequestContextAdapterHono", () => {
   test("path", async () => {
     const app = new Hono().get("/test", (context) =>
@@ -118,7 +120,7 @@ describe("RequestContextAdapterHono", () => {
   });
 
   test("userId", async () => {
-    const app = new Hono<{ Variables: { user: { id: number } } }>().get(
+    const app = new Hono<Config>().get(
       "/test",
       async (context, next) => {
         context.set("user", { id: 123 });

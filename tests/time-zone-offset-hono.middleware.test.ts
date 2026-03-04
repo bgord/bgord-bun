@@ -5,10 +5,10 @@ import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
 import { TimeZoneOffsetHonoMiddleware } from "../src/time-zone-offset-hono.middleware";
 
+type Config = { Variables: TimeZoneOffsetVariables };
+
 const middleware = new TimeZoneOffsetHonoMiddleware();
-const app = new Hono<{ Variables: TimeZoneOffsetVariables }>()
-  .use(middleware.handle())
-  .get("/ping", (c) => c.json(c.get("timeZoneOffset")));
+const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => c.json(c.get("timeZoneOffset")));
 
 describe("TimeZoneOffsetHonoMiddleware", () => {
   test("valid header - positive", async () => {
