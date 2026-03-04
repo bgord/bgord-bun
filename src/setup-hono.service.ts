@@ -41,7 +41,7 @@ type Dependencies = {
   BuildInfoRepository: BuildInfoRepositoryStrategy;
 };
 
-export class Setup {
+export class SetupHono {
   // Configure body size limit at the framework level
   // - Bun: maxRequestBodySize in Bun.serve()
   // - Express: limit in express.json()

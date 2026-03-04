@@ -12,7 +12,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import { Setup } from "../src/setup.service";
+import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
 import * as mocks from "./mocks";
@@ -72,10 +72,10 @@ const deps = {
   BuildInfoRepository,
 };
 
-describe("Setup service", () => {
+describe("SetupHono service", () => {
   test("maintenance", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf, maintenanceMode: { enabled: true } }, deps))
+      .use(...SetupHono.essentials({ csrf, maintenanceMode: { enabled: true } }, deps))
       .get("/ping", (c) => c.text("OK"));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -88,7 +88,7 @@ describe("Setup service", () => {
   });
 
   test("trailing slash trim", async () => {
-    const app = new Hono().use(...Setup.essentials({ csrf }, deps)).get("/data", (c) => c.text("ok"));
+    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/data", (c) => c.text("ok"));
 
     const response = await app.request("/data/", {}, mocks.connInfo);
 
@@ -98,7 +98,7 @@ describe("Setup service", () => {
 
   test("correlation - forwarding", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request(
@@ -112,7 +112,7 @@ describe("Setup service", () => {
 
   test("correlation - generation", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -122,7 +122,7 @@ describe("Setup service", () => {
 
   test("api-version", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -132,7 +132,7 @@ describe("Setup service", () => {
 
   test("csrf", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf: { origin: [APP_ORIGIN] } }, deps))
+      .use(...SetupHono.essentials({ csrf: { origin: [APP_ORIGIN] } }, deps))
       .post("/action", (c) => c.text("ok"));
 
     const response = await app.request("/action", { method: "POST", headers: { Origin: EVIL_ORIGIN } });
@@ -142,7 +142,7 @@ describe("Setup service", () => {
   });
 
   test("secure headers", async () => {
-    const app = new Hono<Config>().use(...Setup.essentials({ csrf }, deps)).get("/ping", (c) =>
+    const app = new Hono<Config>().use(...SetupHono.essentials({ csrf }, deps)).get("/ping", (c) =>
       c.json({
         requestId: c.get("requestId"),
         timeZoneOffset: c.get("timeZoneOffset"),
@@ -176,7 +176,7 @@ describe("Setup service", () => {
   });
 
   test("cors - server-to-server allowed", async () => {
-    const app = new Hono().use(...Setup.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", {}, mocks.connInfo);
 
@@ -185,7 +185,7 @@ describe("Setup service", () => {
   });
 
   test("cors - same-origin fetch allowed", async () => {
-    const app = new Hono().use(...Setup.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: "http://localhost" } }, mocks.connInfo);
 
@@ -194,7 +194,7 @@ describe("Setup service", () => {
   });
 
   test("cors - cross-origin fetch blocked", async () => {
-    const app = new Hono().use(...Setup.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
 
     const response = await app.request(
       "/cors",
@@ -207,7 +207,7 @@ describe("Setup service", () => {
   });
 
   test("cors - cross-origin preflight blocked", async () => {
-    const app = new Hono().use(...Setup.essentials({ csrf }, deps)).options("/cors", (c) => c.text("ok"));
+    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).options("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", {
       method: "OPTIONS",
@@ -221,7 +221,7 @@ describe("Setup service", () => {
     const origin = "https://some.example";
 
     const app = new Hono()
-      .use(...Setup.essentials({ csrf, cors: { origin } }, deps))
+      .use(...SetupHono.essentials({ csrf, cors: { origin } }, deps))
       .get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: origin } }, mocks.connInfo);
@@ -232,7 +232,7 @@ describe("Setup service", () => {
 
   test("languageDetector - default", async () => {
     const app = new Hono()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request(
@@ -246,7 +246,7 @@ describe("Setup service", () => {
 
   test("languageDetector - en", async () => {
     const app = new Hono()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request(
@@ -260,7 +260,7 @@ describe("Setup service", () => {
 
   test("languageDetector - fallback", async () => {
     const app = new Hono()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request(
@@ -275,7 +275,7 @@ describe("Setup service", () => {
 
   test("time zone offset", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ timeZoneOffset: c.get("timeZoneOffset") }));
 
     const response = await app.request(
@@ -292,7 +292,7 @@ describe("Setup service", () => {
 
   test("context", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) =>
         c.json({ requestId: c.get("requestId"), timeZoneOffset: c.get("timeZoneOffset") }),
       );
@@ -304,7 +304,7 @@ describe("Setup service", () => {
 
   test("weak etag extractor", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const response = await app.request(
@@ -318,7 +318,7 @@ describe("Setup service", () => {
 
   test("etag extractor", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json(c.get("ETag")));
 
     const response = await app.request(
@@ -334,7 +334,7 @@ describe("Setup service", () => {
     using loggerHttp = spyOn(Logger, "http");
 
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ message: "OK" }));
 
     const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [header]: "abc" }), {});
@@ -373,7 +373,9 @@ describe("Setup service", () => {
   });
 
   test("timing", async () => {
-    const app = new Hono<Config>().use(...Setup.essentials({ csrf }, deps)).get("/ping", (c) => c.json({}));
+    const app = new Hono<Config>()
+      .use(...SetupHono.essentials({ csrf }, deps))
+      .get("/ping", (c) => c.json({}));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -382,7 +384,7 @@ describe("Setup service", () => {
 
   test("correlation storage - seeding", async () => {
     const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, deps))
       .get("/ping", (c) => c.text(CorrelationStorage.get()));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -392,7 +394,9 @@ describe("Setup service", () => {
   });
 
   test("correlation storage - cleanup", async () => {
-    const app = new Hono<Config>().use(...Setup.essentials({ csrf }, deps)).get("/ping", (c) => c.json({}));
+    const app = new Hono<Config>()
+      .use(...SetupHono.essentials({ csrf }, deps))
+      .get("/ping", (c) => c.json({}));
 
     await app.request("/ping", { method: "GET" }, mocks.connInfo);
 

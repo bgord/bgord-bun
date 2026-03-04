@@ -13,9 +13,9 @@ export class AbVariants {
     if (variants.length <= 1) throw new Error(AbVariantsError.Min);
     if (variants.length > 5) throw new Error(AbVariantsError.Max);
 
-    const uniqueNames = new Set(variants.map((variant) => variant.config.name));
+    const names = new Set(variants.map((variant) => variant.config.name));
 
-    if (uniqueNames.size !== variants.length) throw new Error(AbVariantsError.UniqueNames);
+    if (names.size !== variants.length) throw new Error(AbVariantsError.UniqueNames);
 
     const sum = tools.Sum.of(variants.map((variant) => variant.config.weight));
 

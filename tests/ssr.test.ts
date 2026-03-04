@@ -43,7 +43,7 @@ describe("SSR", async () => {
     expect(response.headers.get("content-security-policy")).toContain(`'nonce-${zeros}'`);
   });
 
-  test("different once per request", async () => {
+  test("different nonce per request", async () => {
     const NonceProvider = new NonceProviderDeterministicAdapter([zeros, ones]);
     const deps = { NonceProvider };
     const handler = async (_: Request, nonce: NonceValueType): Promise<Response> => new Response(nonce);
