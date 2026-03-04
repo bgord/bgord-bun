@@ -40,6 +40,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
+  mocks.correlationId,
 ]);
 const Sleeper = new SleeperNoopAdapter();
 const EventStore = { save: async () => {} };
@@ -91,7 +92,7 @@ const app = new Hono()
   .use(compositeShield.handle())
   .post("/ping", (c) => c.text("OK"));
 
-describe("ShieldSecurityStrategy", () => {
+describe("ShieldSecurityHonoStrategy", () => {
   test("happy path", async () => {
     using loggerInfo = spyOn(Logger, "info");
 

@@ -102,11 +102,11 @@ describe("Setup service", () => {
 
     const response = await app.request(
       "/ping",
-      { method: "GET", headers: new Headers({ "x-correlation-id": mocks.correlationId }) },
+      { method: "GET", headers: new Headers({ "correlation-id": mocks.correlationId }) },
       mocks.connInfo,
     );
 
-    expect(response.headers.get("x-correlation-id")).toEqual(mocks.correlationId);
+    expect(response.headers.get("correlation-id")).toEqual(mocks.correlationId);
   });
 
   test("correlation - generation", async () => {
@@ -116,7 +116,7 @@ describe("Setup service", () => {
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
-    expect(response.headers.get("x-correlation-id")).toEqual(mocks.correlationId);
+    expect(response.headers.get("correlation-id")).toEqual(mocks.correlationId);
   });
 
   test("api-version", async () => {
@@ -169,7 +169,7 @@ describe("Setup service", () => {
       "x-xss-protection": "0",
       "api-version": version,
       vary: "Origin",
-      "x-correlation-id": mocks.correlationId,
+      "correlation-id": mocks.correlationId,
       "x-download-options": "noopen",
     });
   });

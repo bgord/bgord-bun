@@ -5,7 +5,7 @@ import { UUID, type UUIDType } from "./uuid.vo";
 type Dependencies = { IdProvider: IdProviderPort };
 
 export class RequestIdMiddleware {
-  static readonly HEADER_NAME = "x-correlation-id";
+  static readonly HEADER_NAME = "correlation-id";
 
   constructor(private readonly deps: Dependencies) {}
 
