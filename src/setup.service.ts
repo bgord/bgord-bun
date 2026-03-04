@@ -2,7 +2,6 @@ import * as tools from "@bgord/tools";
 import { cors } from "hono/cors";
 import { languageDetector } from "hono/language";
 import { secureHeaders } from "hono/secure-headers";
-import { timing } from "hono/timing";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
@@ -21,6 +20,7 @@ import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
 import type { ShieldMaintenanceConfigType } from "./shield-maintenance.strategy";
 import { ShieldMaintenanceHonoStrategy } from "./shield-maintenance-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
+import { TimingHonoMiddleware } from "./timing-hono.middleware";
 import { TrailingSlashHonoMiddleware } from "./trailing-slash-hono.middleware";
 import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
@@ -93,7 +93,7 @@ export class Setup {
       new WeakETagExtractorHonoMiddleware().handle(),
       new ETagExtractorHonoMiddleware().handle(),
       new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),
-      timing(),
+      new TimingHonoMiddleware(deps).handle(),
     ];
   }
 }

@@ -363,6 +363,8 @@ export * from "./timeout-runner.port";
 export * from "./timeout-runner-bare.adapter";
 export * from "./timeout-runner-monitor.adapter";
 export * from "./timeout-runner-noop.adapter";
+export * from "./timing.middleware";
+export * from "./timing-hono.middleware";
 export * from "./to-event-map.types";
 export * from "./trailing-slash.middleware";
 export * from "./trailing-slash.middleware";

@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { timing } from "hono/timing";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponseHonoMiddleware } from "../src/cache-response-hono.middleware";
@@ -14,6 +13,7 @@ import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import { TimingHonoMiddleware } from "../src/timing-hono.middleware";
 import * as mocks from "./mocks";
 
 const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [header]: "abc" }), {});
@@ -42,7 +42,7 @@ const cacheResponse = new CacheResponseHonoMiddleware({ enabled: true, resolver 
 const app = new Hono()
   .use(new CorrelationHonoMiddleware(deps).handle())
   .use(new HttpLoggerHonoMiddleware(deps, { skip: ["/i18n/", "/other"] }).handle())
-  .use(timing())
+  .use(new TimingHonoMiddleware(deps).handle())
   .get("/ping", (c) => c.json({ message: "OK" }))
   .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
