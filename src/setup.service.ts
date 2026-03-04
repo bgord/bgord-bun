@@ -11,7 +11,7 @@ import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strate
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { ContextHonoMiddleware } from "./context-hono.middleware";
-import { CorrelationStorage } from "./correlation-storage.service";
+import { CorrelationStorageHonoMiddleware } from "./correlation-storage-hono.middleware";
 import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HttpLoggerConfig } from "./http-logger.middleware";
@@ -101,7 +101,7 @@ export class Setup {
       new ETagExtractorHonoMiddleware().handle(),
       new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),
       timing(),
-      CorrelationStorage.handle(),
+      new CorrelationStorageHonoMiddleware().handle(),
     ];
   }
 }

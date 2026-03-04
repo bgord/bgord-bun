@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { CorrelationStorage } from "../src/correlation-storage.service";
+import { CorrelationStorageHonoMiddleware } from "../src/correlation-storage-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -79,7 +79,7 @@ const app = new Hono()
       generator: () => deps.IdProvider.generate(),
     }),
   )
-  .use(CorrelationStorage.handle())
+  .use(new CorrelationStorageHonoMiddleware().handle())
   .use(compositeShield.handle())
   .post("/ping", (c) => c.text("OK"));
 
@@ -140,7 +140,7 @@ describe("ShieldSecurityStrategy", () => {
     using loggerInfo = spyOn(Logger, "info");
     const shield = new ShieldSecurityHonoStrategy([mirageFail], deps);
     const app = new Hono()
-      .use(CorrelationStorage.handle())
+      .use(new CorrelationStorageHonoMiddleware().handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"));
 
@@ -159,7 +159,7 @@ describe("ShieldSecurityStrategy", () => {
     );
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(rule, mirage)], deps);
     const app = new Hono()
-      .use(CorrelationStorage.handle())
+      .use(new CorrelationStorageHonoMiddleware().handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));
@@ -192,7 +192,7 @@ describe("ShieldSecurityStrategy", () => {
       deps,
     );
     const app = new Hono()
-      .use(CorrelationStorage.handle())
+      .use(new CorrelationStorageHonoMiddleware().handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));

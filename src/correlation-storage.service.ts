@@ -1,5 +1,4 @@
 import { AsyncLocalStorage } from "node:async_hooks";
-import { createMiddleware } from "hono/factory";
 import type { CorrelationIdType } from "./correlation-id.vo";
 
 type CorrelationContext = { correlationId: CorrelationIdType };
@@ -25,6 +24,4 @@ export class CorrelationStorage {
     if (!store) throw new Error(CorrelationStorageError.Missing);
     return store.correlationId;
   }
-
-  static handle = () => createMiddleware(async (c, next) => CorrelationStorage.run(c.get("requestId"), next));
 }

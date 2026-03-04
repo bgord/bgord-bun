@@ -54,6 +54,7 @@ export * from "./commit-sha-value.vo";
 export * from "./context-hono.middleware";
 export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
+export * from "./correlation-storage-hono.middleware";
 export * from "./crypto-key-provider.port";
 export * from "./crypto-key-provider-file.adapter";
 export * from "./crypto-key-provider-memory.adapter";
