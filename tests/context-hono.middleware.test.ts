@@ -1,14 +1,20 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { requestId } from "hono/request-id";
 import { ContextHonoMiddleware, type ContextVariables } from "../src/context-hono.middleware";
+import { CorrelationHonoMiddleware } from "../src/correlation-hono.middleware";
+import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { TimeZoneOffsetHonoMiddleware } from "../src/time-zone-offset-hono.middleware";
+import * as mocks from "./mocks";
+
+type Config = { Variables: ContextVariables };
+const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+const deps = { IdProvider };
 
 describe("ContextHonoMiddleware", () => {
   test("happy path", async () => {
     const context = new ContextHonoMiddleware();
-    const app = new Hono<{ Variables: ContextVariables }>()
-      .use(requestId())
+    const app = new Hono<Config>()
+      .use(new CorrelationHonoMiddleware(deps).handle())
       .use(new TimeZoneOffsetHonoMiddleware().handle())
       .use(context.handle())
       .get("/ping", (c) => c.json(c.get("context")));

@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { requestId } from "hono/request-id";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationHonoMiddleware } from "../src/correlation-hono.middleware";
@@ -81,13 +80,6 @@ const compositeShield = new ShieldSecurityHonoStrategy(
 // =============================================
 
 const app = new Hono()
-  .use(
-    requestId({
-      limitLength: 36,
-      headerName: "x-correlation-id",
-      generator: () => deps.IdProvider.generate(),
-    }),
-  )
   .use(new CorrelationHonoMiddleware(deps).handle())
   .use(compositeShield.handle())
   .post("/ping", (c) => c.text("OK"));

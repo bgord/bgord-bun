@@ -1,15 +1,16 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { requestId } from "hono/request-id";
 import { timing } from "hono/timing";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { CacheResponseHonoMiddleware } from "../src/cache-response-hono.middleware";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { CorrelationHonoMiddleware } from "../src/correlation-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { HttpLoggerHonoMiddleware } from "../src/http-logger-hono.middleware";
+import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
@@ -19,7 +20,16 @@ const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const deps = { Logger, Clock };
+const IdProvider = new IdProviderDeterministicAdapter([
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+]);
+const deps = { Logger, Clock, IdProvider };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 const HashContent = new HashContentSha256Strategy();
@@ -30,7 +40,7 @@ const resolver = new SubjectRequestResolver([new SubjectSegmentFixedStrategy("pi
 const cacheResponse = new CacheResponseHonoMiddleware({ enabled: true, resolver }, { CacheResolver });
 
 const app = new Hono()
-  .use(requestId())
+  .use(new CorrelationHonoMiddleware(deps).handle())
   .use(new HttpLoggerHonoMiddleware(deps, { skip: ["/i18n/", "/other"] }).handle())
   .use(timing())
   .get("/ping", (c) => c.json({ message: "OK" }))
@@ -39,7 +49,7 @@ const app = new Hono()
   .get("/pang", (c) => c.json({ message: "general.unknown" }, 400))
   .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
-describe("HttpLogger middleware", () => {
+describe("HttpLoggerHonoMiddleware", () => {
   test("200", async () => {
     using loggerHttp = spyOn(Logger, "http");
 
@@ -54,9 +64,7 @@ describe("HttpLogger middleware", () => {
     expect(loggerHttp).toHaveBeenNthCalledWith(1, {
       component: "http",
       operation: "http_request_before",
-      correlationId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      ),
+      correlationId: mocks.correlationId,
       message: "request",
       method: "GET",
       url: "http://localhost/ping?page=1",
@@ -66,9 +74,7 @@ describe("HttpLogger middleware", () => {
     expect(loggerHttp).toHaveBeenNthCalledWith(2, {
       component: "http",
       operation: "http_request_after",
-      correlationId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      ),
+      correlationId: mocks.correlationId,
       message: "response",
       method: "GET",
       url: "http://localhost/ping?page=1",
@@ -91,9 +97,7 @@ describe("HttpLogger middleware", () => {
     expect(loggerHttp).toHaveBeenNthCalledWith(1, {
       operation: "http_request_before",
       component: "http",
-      correlationId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      ),
+      correlationId: mocks.correlationId,
       message: "request",
       method: "GET",
       url: "http://localhost/pang",
@@ -104,9 +108,7 @@ describe("HttpLogger middleware", () => {
     expect(loggerError).toHaveBeenNthCalledWith(1, {
       operation: "http_request_after",
       component: "http",
-      correlationId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      ),
+      correlationId: mocks.correlationId,
       message: "response",
       method: "GET",
       url: "http://localhost/pang",
@@ -129,9 +131,7 @@ describe("HttpLogger middleware", () => {
     expect(loggerHttp).toHaveBeenNthCalledWith(1, {
       operation: "http_request_before",
       component: "http",
-      correlationId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      ),
+      correlationId: mocks.correlationId,
       message: "request",
       method: "GET",
       url: "http://localhost/pong",
@@ -142,9 +142,7 @@ describe("HttpLogger middleware", () => {
     expect(loggerError).toHaveBeenNthCalledWith(1, {
       operation: "http_request_after",
       component: "http",
-      correlationId: expect.stringMatching(
-        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-      ),
+      correlationId: mocks.correlationId,
       message: "response",
       method: "GET",
       url: "http://localhost/pong",
