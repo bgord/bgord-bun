@@ -16,10 +16,10 @@ import { HttpLoggerHonoMiddleware } from "./http-logger-hono.middleware";
 import type { I18nConfigType } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
-import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
-import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
+import type { ShieldMaintenanceConfigType } from "./shield-maintenance.strategy";
+import { ShieldMaintenanceHonoStrategy } from "./shield-maintenance-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
 import { TrailingSlashHonoMiddleware } from "./trailing-slash-hono.middleware";
 import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
@@ -28,7 +28,7 @@ type SetupConfigType = {
   csrf: ShieldCsrfConfig;
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerConfig;
-  maintenanceMode?: MaintenanceModeConfigType;
+  maintenanceMode?: ShieldMaintenanceConfigType;
 };
 
 type Dependencies = {
@@ -47,7 +47,7 @@ export class Setup {
   // - Express: limit in express.json()
   static essentials(config: SetupConfigType, deps: Dependencies) {
     return [
-      new MaintenanceModeHonoMiddleware(config.maintenanceMode).handle(),
+      new ShieldMaintenanceHonoStrategy(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
       new CorrelationHonoMiddleware(deps).handle(),
       new ApiVersionHonoMiddleware(deps).handle(),

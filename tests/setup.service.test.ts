@@ -73,7 +73,7 @@ const deps = {
 };
 
 describe("Setup service", () => {
-  test("maintenance mode", async () => {
+  test("maintenance", async () => {
     const app = new Hono<Config>()
       .use(...Setup.essentials({ csrf, maintenanceMode: { enabled: true } }, deps))
       .get("/ping", (c) => c.text("OK"));
