@@ -2,7 +2,6 @@ import * as tools from "@bgord/tools";
 import { bodyLimit } from "hono/body-limit";
 import { cors } from "hono/cors";
 import { languageDetector } from "hono/language";
-import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
@@ -20,6 +19,7 @@ import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
+import { RequestIdHonoMiddleware } from "./request-id-hono.middleware";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
@@ -51,11 +51,7 @@ export class Setup {
     return [
       new MaintenanceModeHonoMiddleware(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
-      requestId({
-        limitLength: 36,
-        headerName: "x-correlation-id",
-        generator: () => deps.IdProvider.generate(),
-      }),
+      new RequestIdHonoMiddleware(deps).handle(),
       new ApiVersionHonoMiddleware(deps).handle(),
       new ShieldCsrfHonoStrategy(config.csrf).handle(),
       secureHeaders({

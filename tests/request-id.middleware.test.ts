@@ -1,58 +1,31 @@
 import { describe, expect, test } from "bun:test";
-import { Hono } from "hono";
-import { requestId } from "hono/request-id";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
+import { RequestIdMiddleware } from "../src/request-id.middleware";
+import * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const app = (IdProvider: IdProviderDeterministicAdapter) =>
-  new Hono()
-    .use(
-      requestId({
-        limitLength: 36,
-        headerName: "x-correlation-id",
-        generator: () => IdProvider.generate(),
-      }),
-    )
-    .get("/ping", async (c) => c.json({ requestId: c.get("requestId") }));
+const valid = "550e8400-e29b-41d4-a716-446655440000";
+const invalid = "not-a-valid-uuid";
 
-describe("RequestId middleware", () => {
-  test("happy path", async () => {
-    const predefinedRequestId = "18b33a92-afbf-4a0c-8d2d-49716921d0af";
-    const IdProvider = new IdProviderDeterministicAdapter([predefinedRequestId]);
+const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+const middleware = new RequestIdMiddleware({ IdProvider });
 
-    const result = await app(IdProvider).request("/ping", {
-      headers: new Headers({ "x-correlation-id": predefinedRequestId }),
-    });
-    const json = await result.json();
+describe("RequestIdMiddleware", () => {
+  test("no incoming", () => {
+    const context = new RequestContextBuilder().build();
 
-    expect(result.status).toEqual(200);
-    expect(json).toEqual({ requestId: predefinedRequestId });
-    expect(result.headers.get("x-correlation-id")).toEqual(predefinedRequestId);
+    expect(middleware.evaluate(context)).toEqual(mocks.correlationId);
   });
 
-  test("missing header", async () => {
-    const fresh = "fresh";
-    const IdProvider = new IdProviderDeterministicAdapter([fresh]);
+  test("incoming - correct", () => {
+    const context = new RequestContextBuilder().withHeader(RequestIdMiddleware.HEADER_NAME, valid).build();
 
-    const result = await app(IdProvider).request("/ping");
-    const json = await result.json();
-
-    expect(result.status).toEqual(200);
-    expect(json).toEqual({ requestId: fresh });
-    expect(result.headers.get("x-correlation-id")).toEqual(fresh);
+    expect(middleware.evaluate(context)).toEqual(valid);
   });
 
-  test("invalid header", async () => {
-    const predefinedRequestId = "x".repeat(37);
-    const fresh = "fresh";
-    const IdProvider = new IdProviderDeterministicAdapter([fresh]);
+  test("incoming - incorrect", () => {
+    const context = new RequestContextBuilder().withHeader(RequestIdMiddleware.HEADER_NAME, invalid).build();
 
-    const result = await app(IdProvider).request("/ping", {
-      headers: new Headers({ "x-correlation-id": predefinedRequestId }),
-    });
-    const json = await result.json();
-
-    expect(result.status).toEqual(200);
-    expect(json).toEqual({ requestId: fresh });
-    expect(result.headers.get("x-correlation-id")).toEqual(fresh);
+    expect(middleware.evaluate(context)).toEqual(mocks.correlationId);
   });
 });

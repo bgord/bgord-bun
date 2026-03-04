@@ -267,6 +267,8 @@ export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
 export * from "./request-context.port";
 export * from "./request-context-hono.adapter";
+export * from "./request-id.middleware";
+export * from "./request-id-hono.middleware";
 export * from "./retry.service";
 export * from "./retry-backoff.strategy";
 export * from "./retry-backoff-exponential.strategy";
