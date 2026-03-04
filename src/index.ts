@@ -51,7 +51,7 @@ export * from "./command-envelope";
 export * from "./command-logger.service";
 export * from "./commit-sha.vo";
 export * from "./commit-sha-value.vo";
-export * from "./context.middleware";
+export * from "./context-hono.middleware";
 export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
 export * from "./crypto-key-provider.port";
