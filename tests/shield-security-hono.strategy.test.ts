@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import { requestId } from "hono/request-id";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { CorrelationStorageHonoMiddleware } from "../src/correlation-storage-hono.middleware";
+import { CorrelationHonoMiddleware } from "../src/correlation-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
@@ -28,6 +28,14 @@ const duration = tools.Duration.Seconds(5);
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const IdProvider = new IdProviderDeterministicAdapter([
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
+  mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
@@ -79,7 +87,7 @@ const app = new Hono()
       generator: () => deps.IdProvider.generate(),
     }),
   )
-  .use(new CorrelationStorageHonoMiddleware().handle())
+  .use(new CorrelationHonoMiddleware(deps).handle())
   .use(compositeShield.handle())
   .post("/ping", (c) => c.text("OK"));
 
@@ -140,7 +148,7 @@ describe("ShieldSecurityStrategy", () => {
     using loggerInfo = spyOn(Logger, "info");
     const shield = new ShieldSecurityHonoStrategy([mirageFail], deps);
     const app = new Hono()
-      .use(new CorrelationStorageHonoMiddleware().handle())
+      .use(new CorrelationHonoMiddleware(deps).handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"));
 
@@ -159,7 +167,7 @@ describe("ShieldSecurityStrategy", () => {
     );
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(rule, mirage)], deps);
     const app = new Hono()
-      .use(new CorrelationStorageHonoMiddleware().handle())
+      .use(new CorrelationHonoMiddleware(deps).handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));
@@ -192,7 +200,7 @@ describe("ShieldSecurityStrategy", () => {
       deps,
     );
     const app = new Hono()
-      .use(new CorrelationStorageHonoMiddleware().handle())
+      .use(new CorrelationHonoMiddleware(deps).handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));

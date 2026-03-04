@@ -95,7 +95,7 @@ describe("Setup service", () => {
     expect(response.headers.get("location")).toEqual("http://localhost/data");
   });
 
-  test("requestId - forwarding", async () => {
+  test("correlation - forwarding", async () => {
     const app = new Hono<Config>()
       .use(...Setup.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
@@ -109,7 +109,7 @@ describe("Setup service", () => {
     expect(response.headers.get("x-correlation-id")).toEqual(mocks.correlationId);
   });
 
-  test("requestId - generation", async () => {
+  test("correlation - generation", async () => {
     const app = new Hono<Config>()
       .use(...Setup.essentials({ csrf }, deps))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));

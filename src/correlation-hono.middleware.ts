@@ -1,4 +1,5 @@
 import { createMiddleware } from "hono/factory";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
@@ -7,25 +8,25 @@ import type { UUIDType } from "./uuid.vo";
 
 type Dependencies = { IdProvider: IdProviderPort };
 
-export type RequestIdVariables = { requestId: UUIDType };
+export type CorrelationVariables = { requestId: UUIDType };
 
-export class RequestIdHonoMiddleware implements MiddlewareHonoPort {
-  private readonly middleware: RequestIdMiddleware;
+export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
+  private readonly requestId: RequestIdMiddleware;
 
   constructor(deps: Dependencies) {
-    this.middleware = new RequestIdMiddleware(deps);
+    this.requestId = new RequestIdMiddleware(deps);
   }
 
   handle() {
     return createMiddleware(async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
 
-      const requestId = this.middleware.evaluate(context);
+      const result = this.requestId.evaluate(context);
 
-      c.set("requestId", requestId);
-      c.header(RequestIdMiddleware.HEADER_NAME, requestId);
+      c.set("requestId", result);
+      c.header(RequestIdMiddleware.HEADER_NAME, result);
 
-      await next();
+      return CorrelationStorage.run(result, next);
     });
   }
 }

@@ -9,7 +9,7 @@ import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strate
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { ContextHonoMiddleware } from "./context-hono.middleware";
-import { CorrelationStorageHonoMiddleware } from "./correlation-storage-hono.middleware";
+import { CorrelationHonoMiddleware } from "./correlation-hono.middleware";
 import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HttpLoggerConfig } from "./http-logger.middleware";
@@ -19,7 +19,6 @@ import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import type { MaintenanceModeConfigType } from "./maintenance-mode.middleware";
 import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middleware";
-import { RequestIdHonoMiddleware } from "./request-id-hono.middleware";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
@@ -51,7 +50,7 @@ export class Setup {
     return [
       new MaintenanceModeHonoMiddleware(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
-      new RequestIdHonoMiddleware(deps).handle(),
+      new CorrelationHonoMiddleware(deps).handle(),
       new ApiVersionHonoMiddleware(deps).handle(),
       new ShieldCsrfHonoStrategy(config.csrf).handle(),
       secureHeaders({
@@ -97,7 +96,6 @@ export class Setup {
       new ETagExtractorHonoMiddleware().handle(),
       new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),
       timing(),
-      new CorrelationStorageHonoMiddleware().handle(),
     ];
   }
 }
