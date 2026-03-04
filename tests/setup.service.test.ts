@@ -174,24 +174,6 @@ describe("Setup service", () => {
     });
   });
 
-  test("bodyLimit", async () => {
-    const txt = new File([], "data.txt");
-    const form = new FormData();
-    form.append("file", txt);
-
-    const app = new Hono<Config>()
-      .use(...Setup.essentials({ csrf, BODY_LIMIT_MAX_SIZE: tools.Size.fromBytes(2) }, deps))
-      .post("/upload", async (c) => {
-        await c.req.parseBody();
-
-        return c.text("OK");
-      });
-
-    const response = await app.request("/upload", { method: "POST", body: form }, mocks.connInfo);
-
-    expect(response.status).toEqual(413);
-  });
-
   test("cors - server-to-server allowed", async () => {
     const app = new Hono().use(...Setup.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
 

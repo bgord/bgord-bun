@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import { bodyLimit } from "hono/body-limit";
 import { cors } from "hono/cors";
 import { languageDetector } from "hono/language";
 import { secureHeaders } from "hono/secure-headers";
@@ -30,7 +29,6 @@ type SetupConfigType = {
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerConfig;
   maintenanceMode?: MaintenanceModeConfigType;
-  BODY_LIMIT_MAX_SIZE?: tools.Size;
 };
 
 type Dependencies = {
@@ -44,9 +42,10 @@ type Dependencies = {
 };
 
 export class Setup {
+  // Configure body size limit at the framework level
+  // - Bun: maxRequestBodySize in Bun.serve()
+  // - Express: limit in express.json()
   static essentials(config: SetupConfigType, deps: Dependencies) {
-    const BODY_LIMIT_MAX_SIZE = config.BODY_LIMIT_MAX_SIZE ?? tools.Size.fromKb(128);
-
     return [
       new MaintenanceModeHonoMiddleware(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
@@ -65,7 +64,6 @@ export class Setup {
         originAgentCluster: false,
         xFrameOptions: false,
       }),
-      bodyLimit({ maxSize: BODY_LIMIT_MAX_SIZE.toBytes() }),
       cors({
         // Stryker disable all
         origin: (origin, c) => {
