@@ -21,6 +21,8 @@ export * from "./basic-auth-password.vo";
 export * from "./basic-auth-username.vo";
 export * from "./better-auth-logger.service";
 export * from "./binary.vo";
+export * from "./body-limit.middleware";
+export * from "./body-limit-hono.middleware";
 export * from "./bots.vo";
 export * from "./build-info-repository.strategy";
 export * from "./build-info-repository-file.strategy";
