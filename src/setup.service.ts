@@ -5,7 +5,6 @@ import { languageDetector } from "hono/language";
 import { requestId } from "hono/request-id";
 import { secureHeaders } from "hono/secure-headers";
 import { timing } from "hono/timing";
-import { trimTrailingSlash } from "hono/trailing-slash";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
@@ -24,6 +23,7 @@ import { MaintenanceModeHonoMiddleware } from "./maintenance-mode-hono.middlewar
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
+import { TrailingSlashHonoMiddleware } from "./trailing-slash-hono.middleware";
 import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
 type SetupConfigType = {
@@ -50,7 +50,7 @@ export class Setup {
 
     return [
       new MaintenanceModeHonoMiddleware(config.maintenanceMode).handle(),
-      trimTrailingSlash({ alwaysRedirect: true }),
+      new TrailingSlashHonoMiddleware().handle(),
       requestId({
         limitLength: 36,
         headerName: "x-correlation-id",
