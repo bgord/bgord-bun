@@ -6,7 +6,7 @@ export type ApiKeyShieldConfig = { API_KEY: tools.ApiKeyType };
 export const ShieldApiKeyStrategyError = { Rejected: "shield.api.key.rejected" };
 
 export class ShieldApiKeyStrategy {
-  static readonly HEADER_NAME = "bgord-api-key";
+  static readonly HEADER_NAME = "api-key";
 
   constructor(private readonly config: ApiKeyShieldConfig) {}
 
