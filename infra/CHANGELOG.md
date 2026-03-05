@@ -1,10 +1,13 @@
 # Changelog
+## 2026-03-05 15:47 v1.11.0
+- 2026-03-05 15:47 700c4a26 **1.11.0**
 - 2026-03-05 15:45 d55a642e **fix: exclude tests from tsconfig**
 - 2026-03-05 15:41 11b3fdbd **refactor: cleanup imports**
 - 2026-03-05 15:25 9f8210fa **refactor: unify config variables**
 - 2026-03-05 15:18 0a2ddcd1 **refactor: unify test descriptions**
 - 2026-03-05 15:04 5b09ae54 **refactor: simplify parse json in http logger hono**
 - 2026-03-05 15:00 84bbef04 **refactor: rename request id to correlation id**
+- 2026-03-05 14:46 85dc3b65 **docs: generate CHANGELOG**
 - 2026-03-05 14:44 e02675d3 **docs: generate CHANGELOG**
 - 2026-03-05 14:44 c276c4aa **docs: generate readme**
 - 2026-03-05 14:43 799886d1 **refactor: simplfy tests**
