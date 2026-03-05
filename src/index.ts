@@ -333,7 +333,7 @@ export * from "./smtp-port.vo";
 export * from "./smtp-user.vo";
 export * from "./ssr.service";
 export * from "./ssr-bun.service";
-export * from "./static-files.service";
+export * from "./static-files-hono.service";
 export * from "./stopwatch.service";
 export * from "./subject-application-resolver.vo";
 export * from "./subject-request-resolver.vo";

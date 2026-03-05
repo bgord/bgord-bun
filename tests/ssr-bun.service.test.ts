@@ -6,7 +6,7 @@ import { SSRBun } from "../src/ssr-bun.service";
 const zeros = NonceValue.parse("0000000000000000");
 const ones = NonceValue.parse("1111111111111111");
 
-describe("SSR", async () => {
+describe("SSRBun", async () => {
   test("happy path", async () => {
     const NonceProvider = new NonceProviderDeterministicAdapter([zeros]);
 

@@ -3,16 +3,16 @@ import * as tools from "@bgord/tools";
 import {
   StaticFileStrategyMustRevalidate,
   StaticFileStrategyNoop,
-  StaticFiles,
-} from "../src/static-files.service";
+  StaticFilesHono,
+} from "../src/static-files-hono.service";
 
 const FIXTURES_ROOT = "tests/fixtures";
 const CSS = "http://localhost/public/main.css";
 const HTML = "http://localhost/public/login.html";
 
-const routes = StaticFiles.handle("/public/*", StaticFileStrategyNoop, { root: FIXTURES_ROOT });
+const routes = StaticFilesHono.handle("/public/*", StaticFileStrategyNoop, { root: FIXTURES_ROOT });
 
-describe("StaticFiles service", () => {
+describe("StaticFilesHono", () => {
   test("static assets - transport and no csp", async () => {
     const response = await routes["/public/*"]?.(new Request(CSS));
 
@@ -58,7 +58,7 @@ describe("StaticFiles service", () => {
   test("strategy - must-revalidate", async () => {
     const duration = tools.Duration.Minutes(5);
 
-    const routes = StaticFiles.handle("/public/*", StaticFileStrategyMustRevalidate(duration), {
+    const routes = StaticFilesHono.handle("/public/*", StaticFileStrategyMustRevalidate(duration), {
       root: FIXTURES_ROOT,
     });
 
@@ -83,7 +83,7 @@ describe("StaticFiles service", () => {
   });
 
   test("default root", async () => {
-    const routes = StaticFiles.handle("/public/*", StaticFileStrategyNoop);
+    const routes = StaticFilesHono.handle("/public/*", StaticFileStrategyNoop);
 
     const response = await routes["/public/*"]?.(
       new Request("http://localhost/tests/fixtures/public/main.css"),

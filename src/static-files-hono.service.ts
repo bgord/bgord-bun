@@ -58,7 +58,7 @@ const staticDocumentHeaders = secureHeaders({
 
 type StaticFilesOptions = { root?: string };
 
-export class StaticFiles {
+export class StaticFilesHono {
   static handle(path: string, strategy: StaticFilesStrategy, options?: StaticFilesOptions) {
     // Stryker disable all
     const root = options?.root ?? "./";
