@@ -23,7 +23,7 @@ export class HttpLoggerHonoMiddleware implements MiddlewareHonoPort {
       if (this.middleware.shouldSkip(context)) return await next();
 
       const request = c.req.raw.clone();
-      const correlationId = c.get("requestId");
+      const correlationId = c.get("correlationId");
       const body = await HttpLoggerHonoMiddleware.parseJSON(request);
 
       const { stopwatch } = this.middleware.before(context, correlationId, body);

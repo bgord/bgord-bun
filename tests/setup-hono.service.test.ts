@@ -80,7 +80,7 @@ describe("SetupHono service", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
+      .get("/ping", (c) => c.json({ correlationId: c.get("correlationId") }));
 
     const response = await app.request(
       "/ping",
@@ -95,7 +95,7 @@ describe("SetupHono service", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
+      .get("/ping", (c) => c.json({ correlationId: c.get("correlationId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -106,7 +106,7 @@ describe("SetupHono service", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
+      .get("/ping", (c) => c.json({ correlationId: c.get("correlationId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -131,7 +131,7 @@ describe("SetupHono service", () => {
       .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) =>
         c.json({
-          requestId: c.get("requestId"),
+          correlationId: c.get("correlationId"),
           timeZoneOffset: c.get("timeZoneOffset"),
           language: c.get("language"),
           etag: c.get("ETag"),
@@ -142,7 +142,7 @@ describe("SetupHono service", () => {
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
     expect(await response.json()).toEqual({
-      requestId: mocks.correlationId,
+      correlationId: mocks.correlationId,
       timeZoneOffset: 0,
       language: I18n.defaultLanguage,
       etag: null,
