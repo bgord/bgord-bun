@@ -7,15 +7,29 @@ const valid = "valid";
 const invalid = "unknown";
 
 describe("SecurityRuleUserAgentStrategy", () => {
-  test("isViolated - true", async () => {
+  test("isViolated - true - single", async () => {
     const rule = new SecurityRuleUserAgentStrategy([valid]);
     const context = new RequestContextBuilder().withUa(valid).build();
 
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
-  test("isViolated - false", async () => {
+  test("isViolated - false - single", async () => {
     const rule = new SecurityRuleUserAgentStrategy([invalid]);
+    const context = new RequestContextBuilder().withUa(valid).build();
+
+    expect(await rule.isViolated(context)).toEqual(false);
+  });
+
+  test("isViolated - true - multiple - first", async () => {
+    const rule = new SecurityRuleUserAgentStrategy(["google", "bing"]);
+    const context = new RequestContextBuilder().withUa("google").build();
+
+    expect(await rule.isViolated(context)).toEqual(true);
+  });
+
+  test("isViolated - false - multiple - none", async () => {
+    const rule = new SecurityRuleUserAgentStrategy(["google", "bing"]);
     const context = new RequestContextBuilder().withUa(valid).build();
 
     expect(await rule.isViolated(context)).toEqual(false);

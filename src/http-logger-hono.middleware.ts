@@ -45,8 +45,6 @@ export class HttpLoggerHonoMiddleware implements MiddlewareHonoPort {
   private static async parseJSON(resource: Request | Response): Promise<any> {
     try {
       return await resource.json();
-    } catch {
-      return undefined;
-    }
+    } catch {}
   }
 }
