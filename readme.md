@@ -79,6 +79,7 @@ src/
 ├── commit-sha-value.vo.ts
 ├── commit-sha.vo.ts
 ├── correlation-hono.middleware.ts
+├── correlation-id.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
 ├── crypto-aes-gcm.service.ts
@@ -343,7 +344,6 @@ src/
 ├── remote-file-storage.port.ts
 ├── request-context-hono.adapter.ts
 ├── request-context.port.ts
-├── request-id.middleware.ts
 ├── retry-backoff-exponential.strategy.ts
 ├── retry-backoff-fibonacci.strategy.ts
 ├── retry-backoff-linear.strategy.ts
