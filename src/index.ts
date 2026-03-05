@@ -85,6 +85,7 @@ export * from "./error-normalizer.service";
 export * from "./etag-extractor.middleware";
 export * from "./event.types";
 export * from "./event-bus.port";
+export * from "./event-bus-collecting.adapter";
 export * from "./event-bus-noop.adapter";
 export * from "./event-envelope";
 export * from "./event-handler.strategy";
