@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { NonceValue, type NonceValueType } from "../src/nonce-value.vo";
-import { SSR } from "../src/ssr";
+import { SSRBun } from "../src/ssr-bun.service";
 
 const zeros = NonceValue.parse("0000000000000000");
 const ones = NonceValue.parse("1111111111111111");
@@ -12,7 +12,7 @@ describe("SSR", async () => {
 
     const handler = async (): Promise<Response> => new Response("ok");
 
-    const fetch = SSR.essentials(handler, { NonceProvider });
+    const fetch = SSRBun.essentials(handler, { NonceProvider });
 
     const response = await fetch(new Request("http://localhost/"));
 
@@ -35,7 +35,10 @@ describe("SSR", async () => {
   test("failure", async () => {
     const NonceProvider = new NonceProviderDeterministicAdapter([zeros]);
     const deps = { NonceProvider };
-    const fetch = SSR.essentials(async (): Promise<Response> => new Response("fail", { status: 500 }), deps);
+    const fetch = SSRBun.essentials(
+      async (): Promise<Response> => new Response("fail", { status: 500 }),
+      deps,
+    );
 
     const response = await fetch(new Request("http://localhost/"));
 
@@ -47,7 +50,7 @@ describe("SSR", async () => {
     const NonceProvider = new NonceProviderDeterministicAdapter([zeros, ones]);
     const deps = { NonceProvider };
     const handler = async (_: Request, nonce: NonceValueType): Promise<Response> => new Response(nonce);
-    const fetch = SSR.essentials(handler, deps);
+    const fetch = SSRBun.essentials(handler, deps);
 
     const first = await fetch(new Request("http://localhost/1"));
     const second = await fetch(new Request("http://localhost/2"));
