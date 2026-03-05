@@ -90,6 +90,7 @@ export * from "./event-bus.port";
 export * from "./event-bus-collecting.adapter";
 export * from "./event-bus-emittery-v1.adapter";
 export * from "./event-bus-noop.adapter";
+export * from "./event-bus-with-logging.adapter";
 export * from "./event-envelope";
 export * from "./event-handler.strategy";
 export * from "./event-handler-bare.strategy";
