@@ -12,8 +12,6 @@ export class RequestIdMiddleware {
   evaluate(context: HasRequestHeader): UUIDType {
     const incoming = context.request.header(RequestIdMiddleware.HEADER_NAME);
 
-    if (!incoming) return this.deps.IdProvider.generate();
-
     const existing = UUID.safeParse(incoming);
 
     if (existing.success) return existing.data;
