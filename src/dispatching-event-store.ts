@@ -1,7 +1,7 @@
 // Stryker disable all
 import type * as z from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
-import type { EventPublisher } from "./event-publisher.types";
+import type { EventBusPort } from "./event-bus.port";
 import { EventStore as BaseStore } from "./event-store";
 import type { EventStreamType } from "./event-stream.vo";
 import type { ToEventMap } from "./to-event-map.types";
@@ -19,7 +19,7 @@ export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends
         events: ReadonlyArray<z.infer<GenericParsedEventSchema>>,
       ) => Promise<ReadonlyArray<z.infer<GenericParsedEventSchema>>>;
     },
-    private readonly publisher: EventPublisher<ToEventMap<z.infer<AllEvents>>>,
+    private readonly publisher: EventBusPort<z.infer<AllEvents>>,
   ) {
     super(config);
   }
