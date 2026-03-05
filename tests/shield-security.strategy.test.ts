@@ -1,76 +1,61 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
-import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureMirageStrategy } from "../src/security-countermeasure-mirage.strategy";
+import { SecurityCountermeasureNoopStrategy } from "../src/security-countermeasure-noop.strategy";
 import { SecurityCountermeasureTarpitStrategy } from "../src/security-countermeasure-tarpit.strategy";
 import { SecurityPolicy } from "../src/security-policy.vo";
-import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
-import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
-import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
-import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
+import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import { ShieldSecurityStrategy } from "../src/shield-security.strategy";
-import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const duration = tools.Duration.Seconds(5);
-
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
-const Sleeper = new SleeperNoopAdapter();
 const EventStore = { save: async () => {} };
-const HashContent = new HashContentSha256Strategy();
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: duration });
-const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository, Sleeper };
+const deps = { Logger, Clock, EventStore };
 
-const mirage = new SecurityCountermeasureMirageStrategy(deps);
-const ban = new SecurityCountermeasureBanStrategy(deps);
-const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
-  duration,
-  after: { kind: "allow" } as const,
-});
-
-const baitRoutes = new SecurityRuleBaitRoutesStrategy(["/.env"]);
-const field = "reference";
-const honeyPotField = new SecurityRuleHoneyPotFieldStrategy(field);
-const userAgent = new SecurityRuleUserAgentStrategy();
+const pass = new SecurityRulePassStrategy();
 const fail = new SecurityRuleFailStrategy();
 
-const banBaitRoutes = new SecurityPolicy(baitRoutes, ban);
-const tarpitHoneyPotField = new SecurityPolicy(honeyPotField, tarpit);
-const mirageUserAgent = new SecurityPolicy(userAgent, mirage);
-const mirageFail = new SecurityPolicy(fail, mirage);
+const noop = new SecurityCountermeasureNoopStrategy();
 
-const compositeStrategy = new ShieldSecurityStrategy([banBaitRoutes, tarpitHoneyPotField, mirageUserAgent]);
+const context = new RequestContextBuilder().withPath("/ping").build();
+
+const duration = tools.Duration.Seconds(5);
 
 describe("ShieldSecurityStrategy", () => {
-  test("happy path", async () => {
+  test("no violation", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const context = new RequestContextBuilder().withPath("/ping").build();
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(pass, noop)]);
 
-    const action = await compositeStrategy.evaluate(context);
-
-    expect(action).toEqual(null);
+    expect(await strategy.evaluate(context)).toEqual(null);
     expect(loggerInfo).not.toHaveBeenCalled();
   });
 
-  test("denied - BaitRoutes - ban", async () => {
+  test("allow", async () => {
+    using loggerInfo = spyOn(Logger, "info");
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, noop)]);
+
+    expect(await strategy.evaluate(context)).toEqual({ kind: "allow" });
+    expect(loggerInfo).not.toHaveBeenCalled();
+  });
+
+  test("deny", async () => {
     using loggerInfo = spyOn(Logger, "info");
     using eventStoreSave = spyOn(EventStore, "save");
-    const context = new RequestContextBuilder().withPath("/.env").withIp(mocks.ip).withUa(mocks.ua).build();
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const ban = new SecurityCountermeasureBanStrategy({ ...deps, IdProvider });
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, ban)]);
+    const context = new RequestContextBuilder().withIp(mocks.ip).withUa(mocks.ua).build();
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      const action = await compositeStrategy.evaluate(context);
-
-      expect(action).toEqual({
+      expect(await strategy.evaluate(context)).toEqual({
         kind: "deny",
         reason: "security.countermeasure.ban.strategy.executed",
         response: { status: 403 },
@@ -80,67 +65,78 @@ describe("ShieldSecurityStrategy", () => {
     });
   });
 
-  test("denied - HoneyPotField - tarpit - allow", async () => {
+  test("mirage", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const context = new RequestContextBuilder()
-      .withPath("/ping")
-      .withJson({ [field]: "here" })
-      .build();
+    const mirage = new SecurityCountermeasureMirageStrategy(deps);
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, mirage)]);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      const action = await compositeStrategy.evaluate(context);
-
-      expect(action).toEqual({ kind: "delay", duration, after: { kind: "allow" } });
+      expect(await strategy.evaluate(context)).toEqual({ kind: "mirage", response: { status: 200 } });
       expect(loggerInfo).toHaveBeenCalled();
     });
   });
 
-  test("denied - UserAgent - mirage", async () => {
+  test("delay - allow", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const context = new RequestContextBuilder().withPath("/ping").withUa("AI2Bot-DeepResearchEval").build();
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, { duration, after: { kind: "allow" } });
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, tarpit)]);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      const action = await compositeStrategy.evaluate(context);
-
-      expect(action).toEqual({ kind: "mirage", response: { status: 200 } });
+      expect(await strategy.evaluate(context)).toEqual({ kind: "delay", duration, after: { kind: "allow" } });
       expect(loggerInfo).toHaveBeenCalled();
     });
   });
 
-  test("denied - Fail - mirage", async () => {
+  test("delay - deny", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const strategy = new ShieldSecurityStrategy([mirageFail]);
-    const context = new RequestContextBuilder().withPath("/ping").build();
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
+      duration,
+      after: { kind: "deny", reason: "rejected", response: { status: 403 } },
+    });
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, tarpit)]);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      const action = await strategy.evaluate(context);
-
-      expect(action).toEqual({ kind: "mirage", response: { status: 200 } });
+      expect(await strategy.evaluate(context)).toEqual({
+        kind: "delay",
+        duration,
+        after: { kind: "deny", reason: "rejected", response: { status: 403 } },
+      });
       expect(loggerInfo).toHaveBeenCalled();
     });
   });
 
-  test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
+  test("delay - mirage", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const rule = new SecurityRuleViolationThresholdStrategy(
-      baitRoutes,
-      { threshold: tools.IntegerPositive.parse(3) },
-      deps,
-    );
-    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(rule, mirage)]);
-    const context = new RequestContextBuilder().withPath("/.env").build();
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
+      duration,
+      after: { kind: "mirage", response: { status: 200 } },
+    });
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, tarpit)]);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      const first = await strategy.evaluate(context);
-      expect(first).toEqual(null);
-      expect(loggerInfo).not.toHaveBeenCalled();
+      expect(await strategy.evaluate(context)).toEqual({
+        kind: "delay",
+        duration,
+        after: { kind: "mirage", response: { status: 200 } },
+      });
+      expect(loggerInfo).toHaveBeenCalled();
+    });
+  });
 
-      const second = await strategy.evaluate(context);
-      expect(second).toEqual(null);
-      expect(loggerInfo).not.toHaveBeenCalled();
+  test("delay - delay", async () => {
+    using loggerInfo = spyOn(Logger, "info");
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
+      duration,
+      after: { kind: "delay", duration, after: { kind: "allow" } },
+    });
+    const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, tarpit)]);
 
-      const third = await strategy.evaluate(context);
-      expect(third).toEqual({ kind: "mirage", response: { status: 200 } });
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      expect(await strategy.evaluate(context)).toEqual({
+        kind: "delay",
+        duration,
+        after: { kind: "delay", duration, after: { kind: "allow" } },
+      });
       expect(loggerInfo).toHaveBeenCalled();
     });
   });
@@ -150,15 +146,16 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("just enough policies", () => {
-    expect(
-      () => new ShieldSecurityStrategy([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail]),
-    ).not.toThrow();
+    const policy = new SecurityPolicy(pass, noop);
+
+    expect(() => new ShieldSecurityStrategy([policy, policy, policy, policy, policy])).not.toThrow();
   });
 
   test("max policies", () => {
-    expect(
-      () =>
-        new ShieldSecurityStrategy([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail]),
-    ).toThrow("shield.security.strategy.error.max.policies");
+    const policy = new SecurityPolicy(pass, noop);
+
+    expect(() => new ShieldSecurityStrategy([policy, policy, policy, policy, policy, policy])).toThrow(
+      "shield.security.strategy.error.max.policies",
+    );
   });
 });

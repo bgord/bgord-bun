@@ -1,92 +1,44 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationHonoMiddleware } from "../src/correlation-hono.middleware";
-import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import type { SecurityAction } from "../src/security-countermeasure.strategy";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureMirageStrategy } from "../src/security-countermeasure-mirage.strategy";
+import { SecurityCountermeasureNoopStrategy } from "../src/security-countermeasure-noop.strategy";
 import { SecurityCountermeasureTarpitStrategy } from "../src/security-countermeasure-tarpit.strategy";
 import { SecurityPolicy } from "../src/security-policy.vo";
-import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
-import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
-import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
-import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
+import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
 import { ShieldSecurityHonoStrategy } from "../src/shield-security-hono.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
-const duration = tools.Duration.Seconds(5);
-
-// Dependencies ================================
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const IdProvider = new IdProviderDeterministicAdapter([
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-]);
 const Sleeper = new SleeperNoopAdapter();
 const EventStore = { save: async () => {} };
-const HashContent = new HashContentSha256Strategy();
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: duration });
-const deps = { Logger, Clock, IdProvider, EventStore, HashContent, CacheRepository, Sleeper };
-// =============================================
+const deps = { Logger, Clock, EventStore, Sleeper };
 
-// Countermeasures =============================
-const mirage = new SecurityCountermeasureMirageStrategy(deps);
-const ban = new SecurityCountermeasureBanStrategy(deps);
-const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
-  duration,
-  after: { kind: "allow" } as const,
-});
-// =============================================
-
-// Rules =======================================
-const baitRoutes = new SecurityRuleBaitRoutesStrategy(["/.env"]);
-const field = "reference";
-const honeyPotField = new SecurityRuleHoneyPotFieldStrategy(field);
-const userAgent = new SecurityRuleUserAgentStrategy();
+const pass = new SecurityRulePassStrategy();
 const fail = new SecurityRuleFailStrategy();
-// =============================================
 
-// Policies ====================================
-const banBaitRoutes = new SecurityPolicy(baitRoutes, ban);
-const tarpitHoneyPotField = new SecurityPolicy(honeyPotField, tarpit);
-const mirageUserAgent = new SecurityPolicy(userAgent, mirage);
-const mirageFail = new SecurityPolicy(fail, mirage);
-// =============================================
+const noop = new SecurityCountermeasureNoopStrategy();
 
-// Shields =====================================
-const compositeShield = new ShieldSecurityHonoStrategy(
-  [banBaitRoutes, tarpitHoneyPotField, mirageUserAgent],
-  deps,
-);
-// =============================================
-
-const app = new Hono()
-  .use(new CorrelationHonoMiddleware(deps).handle())
-  .use(compositeShield.handle())
-  .post("/ping", (c) => c.text("OK"));
+const duration = tools.Duration.Seconds(5);
 
 describe("ShieldSecurityHonoStrategy", () => {
-  test("happy path", async () => {
+  test("no violation", async () => {
     using loggerInfo = spyOn(Logger, "info");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(pass, noop)], deps);
+
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .use(shield.handle())
+      .post("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -94,54 +46,48 @@ describe("ShieldSecurityHonoStrategy", () => {
     expect(loggerInfo).not.toHaveBeenCalled();
   });
 
-  test("denied - BaitRoutes - ban", async () => {
+  test("allow", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    using eventStoreSave = spyOn(EventStore, "save");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, noop)], deps);
 
-    const result = await app.request(
-      "/.env",
-      { method: "POST", headers: { "x-correlation-id": mocks.correlationId, "user-agent": mocks.ua } },
-      mocks.connInfo,
-    );
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .use(shield.handle())
+      .post("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerInfo).not.toHaveBeenCalled();
+  });
+
+  test("deny", async () => {
+    using loggerInfo = spyOn(Logger, "info");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const ban = new SecurityCountermeasureBanStrategy({ ...deps, IdProvider });
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, ban)], deps);
+
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .use(shield.handle())
+      .post("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
     expect(result.status).toEqual(403);
-    expect(loggerInfo).toHaveBeenCalled();
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
-  });
-
-  test("denied - HoneyPotField - tarpit - allow", async () => {
-    using sleeperWait = spyOn(Sleeper, "wait");
-    using loggerInfo = spyOn(Logger, "info");
-
-    const result = await app.request(
-      "/ping",
-      { method: "POST", body: JSON.stringify({ [field]: "here" }) },
-      mocks.connInfo,
-    );
-
-    expect(result.status).toEqual(200);
-    expect(loggerInfo).toHaveBeenCalled();
-    expect(sleeperWait).toHaveBeenCalledWith(duration);
-  });
-
-  test("denied - UserAgent - mirage", async () => {
-    using loggerInfo = spyOn(Logger, "info");
-
-    const result = await app.request(
-      "/ping",
-      { method: "POST", headers: { "user-agent": "AI2Bot-DeepResearchEval" } },
-      mocks.connInfo,
-    );
-
-    expect(result.status).toEqual(200);
+    expect(await result.text()).toEqual("security.countermeasure.ban.strategy.executed");
     expect(loggerInfo).toHaveBeenCalled();
   });
 
-  test("denied - Fail - mirage", async () => {
+  test("mirage", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const shield = new ShieldSecurityHonoStrategy([mirageFail], deps);
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const mirage = new SecurityCountermeasureMirageStrategy(deps);
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, mirage)], deps);
+
     const app = new Hono()
-      .use(new CorrelationHonoMiddleware(deps).handle())
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"));
 
@@ -151,60 +97,92 @@ describe("ShieldSecurityHonoStrategy", () => {
     expect(loggerInfo).toHaveBeenCalled();
   });
 
-  test("denied - Violation Threshold - BaitRoutes - mirage", async () => {
-    using loggerInfo = spyOn(Logger, "info");
-    const rule = new SecurityRuleViolationThresholdStrategy(
-      baitRoutes,
-      { threshold: tools.IntegerPositive.parse(3) },
-      deps,
-    );
-    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(rule, mirage)], deps);
-    const app = new Hono()
-      .use(new CorrelationHonoMiddleware(deps).handle())
-      .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"))
-      .onError((error, c) => c.text(error.message, 500));
-
-    const first = await app.request("/.env", { method: "POST" }, mocks.connInfo);
-
-    expect(first.status).toEqual(404);
-    expect(loggerInfo).not.toHaveBeenCalled();
-
-    const second = await app.request("/.env", { method: "POST" }, mocks.connInfo);
-
-    expect(second.status).toEqual(404);
-    expect(loggerInfo).not.toHaveBeenCalled();
-
-    const third = await app.request("/.env", { method: "POST" }, mocks.connInfo);
-
-    expect(third.status).toEqual(200);
-    expect(loggerInfo).toHaveBeenCalled();
-  });
-
-  test("unhandled security error", async () => {
+  test("delay - allow", async () => {
     using loggerInfo = spyOn(Logger, "info");
     using sleeperWait = spyOn(Sleeper, "wait");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, { duration, after: { kind: "allow" } });
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, tarpit)], deps);
+
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .use(shield.handle())
+      .post("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerInfo).toHaveBeenCalled();
+    expect(sleeperWait).toHaveBeenCalledWith(duration);
+  });
+
+  test("delay - deny", async () => {
+    using loggerInfo = spyOn(Logger, "info");
+    using sleeperWait = spyOn(Sleeper, "wait");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
-      after: { kind: "delay", duration } as SecurityAction,
+      after: { kind: "deny", reason: "rejected", response: { status: 403 } },
     });
-    const shield = new ShieldSecurityHonoStrategy(
-      [new SecurityPolicy(new SecurityRuleFailStrategy(), tarpit)],
-      deps,
-    );
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, tarpit)], deps);
+
     const app = new Hono()
-      .use(new CorrelationHonoMiddleware(deps).handle())
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .use(shield.handle())
+      .post("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
+
+    expect(result.status).toEqual(403);
+    expect(await result.text()).toEqual("rejected");
+    expect(loggerInfo).toHaveBeenCalled();
+    expect(sleeperWait).toHaveBeenCalledWith(duration);
+  });
+
+  test("delay - mirage", async () => {
+    using loggerInfo = spyOn(Logger, "info");
+    using sleeperWait = spyOn(Sleeper, "wait");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
+      duration,
+      after: { kind: "mirage", response: { status: 200 } },
+    });
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, tarpit)], deps);
+
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .use(shield.handle())
+      .post("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerInfo).toHaveBeenCalled();
+    expect(sleeperWait).toHaveBeenCalledWith(duration);
+  });
+
+  test("delay - delay", async () => {
+    using loggerInfo = spyOn(Logger, "info");
+    using sleeperWait = spyOn(Sleeper, "wait");
+    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
+      duration,
+      after: { kind: "delay", duration, after: { kind: "allow" } },
+    });
+    const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, tarpit)], deps);
+
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
       .post("/ping", (c) => c.text("OK"))
       .onError((error, c) => c.text(error.message, 500));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
-    const text = await result.text();
 
     expect(result.status).toEqual(500);
-    expect(text).toEqual("shield.security.hono.strategy.error.unhandled");
+    expect(await result.text()).toEqual("shield.security.hono.strategy.error.unhandled");
     expect(loggerInfo).toHaveBeenCalled();
-    expect(sleeperWait).toHaveBeenCalled();
+    expect(sleeperWait).toHaveBeenCalledWith(duration);
   });
 
   test("missing policies", () => {
@@ -214,19 +192,18 @@ describe("ShieldSecurityHonoStrategy", () => {
   });
 
   test("just enough policies", () => {
+    const policy = new SecurityPolicy(pass, noop);
+
     expect(
-      () =>
-        new ShieldSecurityHonoStrategy([mirageFail, mirageFail, mirageFail, mirageFail, mirageFail], deps),
+      () => new ShieldSecurityHonoStrategy([policy, policy, policy, policy, policy], deps),
     ).not.toThrow();
   });
 
   test("max policies", () => {
+    const policy = new SecurityPolicy(pass, noop);
+
     expect(
-      () =>
-        new ShieldSecurityHonoStrategy(
-          [mirageFail, mirageFail, mirageFail, mirageFail, mirageFail, mirageFail],
-          deps,
-        ),
+      () => new ShieldSecurityHonoStrategy([policy, policy, policy, policy, policy, policy], deps),
     ).toThrow("shield.security.strategy.error.max.policies");
   });
 });
