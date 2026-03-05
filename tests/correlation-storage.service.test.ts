@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import * as mocks from "./mocks";
 
-describe("CorrelationStorage service", () => {
+describe("CorrelationStorage", () => {
   test("run - sync", () => {
     CorrelationStorage.run(mocks.correlationId, () =>
       expect(CorrelationStorage.get()).toEqual(mocks.correlationId),

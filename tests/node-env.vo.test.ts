@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { NodeEnvironment, NodeEnvironmentEnum } from "../src/node-env.vo";
 
-describe("NodeEnvironment VO", () => {
+describe("NodeEnvironment", () => {
   test("happy path", () => {
     expect(NodeEnvironment.safeParse(NodeEnvironmentEnum.local).success).toEqual(true);
     expect(NodeEnvironment.safeParse(NodeEnvironmentEnum.test).success).toEqual(true);

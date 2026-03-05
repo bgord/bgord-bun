@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
-describe("SecurityCountermeasureName VO", () => {
+describe("SecurityCountermeasureName", () => {
   test("happy path", () => {
     expect(SecurityCountermeasureName.safeParse("a".repeat(64)).success).toEqual(true);
     expect(SecurityCountermeasureName.safeParse("A".repeat(64)).success).toEqual(true);

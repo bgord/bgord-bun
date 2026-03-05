@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { HashValue } from "../src/hash-value.vo";
 
-describe("HashValue VO", () => {
+describe("HashValue", () => {
   test("happy path", () => {
     expect(HashValue.safeParse("f".repeat(64)).success).toEqual(true);
   });

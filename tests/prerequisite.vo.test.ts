@@ -19,7 +19,7 @@ const Sleeper = new SleeperNoopAdapter();
 const TimeoutRunner = new TimeoutRunnerNoopAdapter();
 const HashContent = new HashContentSha256Strategy();
 
-describe("Prerequisite VO", () => {
+describe("Prerequisite", () => {
   test("with logger - success", async () => {
     const Logger = new LoggerCollectingAdapter();
     const pass = new mocks.PrerequisiteVerifierPass();

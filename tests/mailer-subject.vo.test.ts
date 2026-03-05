@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { MailerSubject } from "../src/mailer-subject.vo";
 
-describe("MailerSubject VO", () => {
+describe("MailerSubject", () => {
   test("happy path", () => {
     expect(MailerSubject.safeParse("a".repeat(128)).success).toEqual(true);
     expect(MailerSubject.safeParse("A".repeat(128)).success).toEqual(true);

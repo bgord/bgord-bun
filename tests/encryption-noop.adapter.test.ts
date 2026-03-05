@@ -12,7 +12,7 @@ const recipe = {
 
 const adapter = new EncryptionNoopAdapter();
 
-describe("EncryptionBunAdapter", () => {
+describe("EncryptionNoopAdapter", () => {
   test("encrypt", async () => {
     expect(await adapter.encrypt(recipe)).toEqual(recipe.output);
   });

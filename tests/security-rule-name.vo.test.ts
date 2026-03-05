@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 
-describe("SecurityRuleName VO", () => {
+describe("SecurityRuleName", () => {
   test("happy path", () => {
     expect(SecurityRuleName.safeParse("a".repeat(512)).success).toEqual(true);
     expect(SecurityRuleName.safeParse("A".repeat(512)).success).toEqual(true);

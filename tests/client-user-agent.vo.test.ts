@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 
-describe("ClientUserAgent VO", () => {
+describe("ClientUserAgent", () => {
   test("happy path", () => {
     expect(ClientUserAgent.safeParse("a".repeat(256)).success).toEqual(true);
     expect(ClientUserAgent.safeParse("A".repeat(256)).success).toEqual(true);

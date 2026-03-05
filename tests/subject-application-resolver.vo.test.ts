@@ -18,7 +18,7 @@ const build = new SubjectSegmentBuildStrategy(version);
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
-describe("SubjectApplicationResolver VO", () => {
+describe("SubjectApplicationResolver", () => {
   test("fixed", async () => {
     const result = await new SubjectApplicationResolver([request], deps).resolve();
 

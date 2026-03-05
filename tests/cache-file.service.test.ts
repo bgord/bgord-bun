@@ -10,7 +10,7 @@ const meta = {
   mime: tools.Mimes.text.mime,
 };
 
-describe("CacheFileMustRevalidate service", () => {
+describe("CacheFileMustRevalidate", () => {
   test("notModified", async () => {
     const response = CacheFileMustRevalidate.notModified(meta);
 

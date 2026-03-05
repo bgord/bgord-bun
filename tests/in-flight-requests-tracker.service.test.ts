@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { InFlightRequestsTracker } from "../src/in-flight-requests-tracker.service";
 
-describe("InFlightRequestsTracker service", () => {
+describe("InFlightRequestsTracker", () => {
   test("happy path", () => {
     InFlightRequestsTracker._resetForTest();
 

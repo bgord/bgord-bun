@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
 
-describe("MailerContentHtml VO", () => {
+describe("MailerContentHtml", () => {
   test("happy path", () => {
     expect(MailerContentHtml.safeParse("a".repeat(10_000)).success).toEqual(true);
     expect(MailerContentHtml.safeParse("A".repeat(10_000)).success).toEqual(true);

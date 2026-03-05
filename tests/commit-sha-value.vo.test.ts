@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { CommitShaValue } from "../src/commit-sha-value.vo";
 
-describe("CommitShaValue VO", () => {
+describe("CommitShaValue", () => {
   test("happy path", () => {
     expect(CommitShaValue.safeParse("f".repeat(40)).success).toEqual(true);
   });

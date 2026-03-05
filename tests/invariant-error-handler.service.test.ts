@@ -31,7 +31,7 @@ export class ErrorHandler {
 
 const SampleInvariant = new SampleInvariantFactory();
 
-describe("InvariantErrorHandler service", () => {
+describe("InvariantErrorHandler", () => {
   test("hono", async () => {
     const app = new Hono()
       .post("/ping", async (c) => {

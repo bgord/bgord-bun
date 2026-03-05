@@ -5,7 +5,7 @@ import * as mocks from "./mocks";
 
 type Config = { Variables: { user: { id: number } } };
 
-describe("RequestContextAdapterHono", () => {
+describe("RequestContextHonoAdapter", () => {
   test("path", async () => {
     const app = new Hono().get("/test", (context) =>
       context.json({ path: new RequestContextHonoAdapter(context).request.path }),

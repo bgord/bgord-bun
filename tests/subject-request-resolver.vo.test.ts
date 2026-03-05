@@ -20,7 +20,7 @@ const user = new SubjectSegmentUserStrategy();
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
 
-describe("SubjectRequestResolver VO", () => {
+describe("SubjectRequestResolver", () => {
   test("fixed", async () => {
     const context = new RequestContextBuilder().build();
 

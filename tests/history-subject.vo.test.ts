@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as History from "../src/modules/history";
 
-describe("History.VO.HistorySubject", () => {
+describe("HistorySubject", () => {
   test("happy path", () => {
     expect(History.VO.HistorySubject.safeParse("a".repeat(128)).success).toEqual(true);
     expect(History.VO.HistorySubject.safeParse("A".repeat(128)).success).toEqual(true);

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { ClientIp } from "../src/client-ip.vo";
 
-describe("ClientIp VO", () => {
+describe("ClientIp", () => {
   test("happy path", () => {
     expect(ClientIp.safeParse("127.0.0.1").success).toEqual(true);
   });

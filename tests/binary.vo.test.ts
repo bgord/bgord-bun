@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Binary } from "../src/binary.vo";
 
-describe("Binary VO", () => {
+describe("Binary", () => {
   test("happy path", () => {
     expect(Binary.safeParse("a".repeat(64)).success).toEqual(true);
     expect(Binary.safeParse("A".repeat(64)).success).toEqual(true);

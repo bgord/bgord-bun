@@ -18,7 +18,7 @@ class AlphabetFile extends FileDraft {
   }
 }
 
-describe("FileDraft service", () => {
+describe("FileDraft", () => {
   test("getters", () => {
     const file = new AlphabetFile();
 

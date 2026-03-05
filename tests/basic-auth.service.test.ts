@@ -7,7 +7,7 @@ import { BasicAuthUsername } from "../src/basic-auth-username.vo";
 const result = { authorization: "Basic YWRtaW46cGFzc3dvcmQ=" };
 const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
 
-describe("BasicAuth service", () => {
+describe("BasicAuth", () => {
   test("toHeaderValue", () => {
     expect(BasicAuth.toHeaderValue(config)).toEqual(result);
   });

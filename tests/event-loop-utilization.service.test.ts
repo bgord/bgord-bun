@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { performance } from "node:perf_hooks";
 import { EventLoopUtilization } from "../src/event-loop-utilization.service";
 
-describe("EventLoopUtilization service", () => {
+describe("EventLoopUtilization", () => {
   test("snapshot - no history", () => {
     using _ = spyOn(performance, "eventLoopUtilization").mockReturnValue({
       utilization: 0.4,

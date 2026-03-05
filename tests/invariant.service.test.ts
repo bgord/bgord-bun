@@ -14,7 +14,7 @@ class SampleInvariant extends Invariant<{ threshold: number }> {
 
 const invariant = new SampleInvariant();
 
-describe("Invariant service", () => {
+describe("Invariant", () => {
   test("passes", async () => {
     expect(invariant.passes({ threshold: 15 })).toEqual(false);
     expect(invariant.passes({ threshold: 10 })).toEqual(true);

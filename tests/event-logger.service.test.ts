@@ -4,7 +4,7 @@ import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 
 const eventName = "user.created";
 
-describe("EventLogger service", () => {
+describe("EventLogger", () => {
   test("happy path", () => {
     const Logger = new LoggerCollectingAdapter();
     const eventLogger = new EventLogger({ Logger });

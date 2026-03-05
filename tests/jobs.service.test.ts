@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Jobs } from "../src/jobs.service";
 
-describe("Jobs service", () => {
+describe("Jobs", () => {
   test("SCHEDULES", async () => {
     expect(Jobs.SCHEDULES.EVERY_MINUTE).toEqual("* * * * *");
     expect(Jobs.SCHEDULES.EVERY_HOUR).toEqual("0 * * * *");

@@ -18,7 +18,7 @@ const event = History.Events.HistoryClearedEvent.parse({
   version: 1,
 });
 
-describe("History.EventHandlers.onHistoryClearedEvent", () => {
+describe("onHistoryClearedEvent", () => {
   test("happy path", async () => {
     const projection = new HistoryProjection();
     using projectionClear = spyOn(projection, "clear");

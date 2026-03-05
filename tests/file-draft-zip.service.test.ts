@@ -37,7 +37,7 @@ class FailingDraft extends FileDraft {
   }
 }
 
-describe("FileDraftZip service", () => {
+describe("FileDraftZip", () => {
   test("create", async () => {
     const zip = await FileDraftZip.build(bundle, [
       new Draft(first, extension, content),

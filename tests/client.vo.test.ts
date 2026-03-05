@@ -10,7 +10,7 @@ const invalidIp = "invalid";
 const uaVO = ClientUserAgent.parse(mocks.ua);
 const invalidUa = "a".repeat(257);
 
-describe("Client VO", () => {
+describe("Client", () => {
   test("fromParts", () => {
     expect(Client.fromParts(mocks.ip, mocks.ua).toJSON()).toEqual({ ip: ipVO, ua: uaVO });
   });

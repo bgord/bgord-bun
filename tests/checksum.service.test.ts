@@ -12,7 +12,7 @@ const base: HashFileResult = {
   mime: tools.Mimes.text.mime,
 };
 
-describe("Checksum service", () => {
+describe("Checksum", () => {
   test("returns true when files are identical", () => {
     expect(Checksum.compare(base, base)).toEqual(true);
   });

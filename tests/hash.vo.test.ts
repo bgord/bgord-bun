@@ -3,7 +3,7 @@ import { Hash } from "../src/hash.vo";
 import { SecureKeyGeneratorNoopAdapter } from "../src/secure-key-generator-noop.adapter";
 import * as mocks from "./mocks";
 
-describe("Hash VO", () => {
+describe("Hash", () => {
   test("fromBuffer", () => {
     const key = "00000000000000000000000000000000";
     const generator = new SecureKeyGeneratorNoopAdapter(new TextEncoder().encode(key));

@@ -12,7 +12,7 @@ import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
-describe("PrerequisiteRunnerStartup service", () => {
+describe("PrerequisiteRunnerStartup", () => {
   test("happy path", async () => {
     const Logger = new LoggerCollectingAdapter();
     const runner = new PrerequisiteRunnerStartup({ Logger, Clock });

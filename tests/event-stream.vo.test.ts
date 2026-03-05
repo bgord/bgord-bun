@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { EventStream } from "../src/event-stream.vo";
 
-describe("EventStream VO", () => {
+describe("EventStream", () => {
   test("happy path", () => {
     expect(EventStream.safeParse("a".repeat(256)).success).toEqual(true);
     expect(EventStream.safeParse("A".repeat(256)).success).toEqual(true);

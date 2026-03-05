@@ -20,7 +20,7 @@ function setup() {
   return { server, gs, exitCalls };
 }
 
-describe("GracefulShutdown service", () => {
+describe("GracefulShutdown", () => {
   test("handles SIGTERM correctly", async () => {
     using loggerInfo = spyOn(Logger, "info");
     const { server, gs, exitCalls } = setup();

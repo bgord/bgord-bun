@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 
-describe("EncryptionKey VO", () => {
+describe("EncryptionKeyValue", () => {
   test("happy path", () => {
     expect(EncryptionKeyValue.safeParse("f".repeat(64)).success).toEqual(true);
   });

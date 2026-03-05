@@ -31,7 +31,7 @@ const app = new Hono()
   )
   .get("/", (c) => c.json({ language: c.get("language") }));
 
-describe("I18n service", () => {
+describe("I18n", () => {
   test("middleware - happy path", async () => {
     const response = await app.request("/", { headers: { cookie: "language=pl" } });
     const json = await response.json();

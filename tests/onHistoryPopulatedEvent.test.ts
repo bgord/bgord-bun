@@ -23,7 +23,7 @@ const event = History.Events.HistoryPopulatedEvent.parse({
   version: 1,
 });
 
-describe("History.EventHandlers.onHistoryPopulatedEvent", () => {
+describe("onHistoryPopulatedEvent", () => {
   test("happy path", async () => {
     const projection = new HistoryProjection();
     using projectionAppend = spyOn(projection, "append");

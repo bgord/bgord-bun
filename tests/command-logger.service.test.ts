@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { CommandLogger } from "../src/command-logger.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 
-describe("CommandLogger service", () => {
+describe("CommandLogger", () => {
   test("logs emitted command with metadata", () => {
     const Logger = new LoggerCollectingAdapter();
     const commandLogger = new CommandLogger({ Logger });

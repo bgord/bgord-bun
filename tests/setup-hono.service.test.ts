@@ -48,7 +48,7 @@ const deps = {
   BuildInfoRepository,
 };
 
-describe("SetupHono service", () => {
+describe("SetupHono", () => {
   test("maintenance", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()

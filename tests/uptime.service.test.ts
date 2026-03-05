@@ -7,7 +7,7 @@ const duration = tools.Duration.Minutes(10);
 
 const Clock = new ClockSystemAdapter();
 
-describe("Uptime service", () => {
+describe("Uptime", () => {
   test("happy path", () => {
     using _ = spyOn(process, "uptime").mockImplementation(() => duration.seconds);
 

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { SmtpPass } from "../src/smtp-pass.vo";
 
-describe("SmtpPass VO", () => {
+describe("SmtpPass", () => {
   test("happy path", () => {
     expect(SmtpPass.safeParse("a".repeat(128)).success).toEqual(true);
     expect(SmtpPass.safeParse("A".repeat(128)).success).toEqual(true);

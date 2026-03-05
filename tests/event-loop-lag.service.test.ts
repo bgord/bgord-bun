@@ -13,7 +13,7 @@ const histogram = {
   },
 } as perf_hooks.IntervalHistogram;
 
-describe("EventLoopLag service", () => {
+describe("EventLoopLag", () => {
   test("start - idempotency", () => {
     using monitorEventLoopDelay = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
     EventLoopLag._resetForTest();

@@ -11,7 +11,7 @@ const bytes = new Uint8Array([
   24, 41, 58, 75, 92, 109, 126, 143, 144,
 ]);
 
-describe("EncryptionKey VO", () => {
+describe("EncryptionKey", () => {
   test("fromStringSafe", () => {
     expect(() => EncryptionKey.fromStringSafe(hex)).not.toThrow();
   });

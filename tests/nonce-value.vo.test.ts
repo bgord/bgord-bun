@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { NonceValue } from "../src/nonce-value.vo";
 
-describe("NonceValue VO", () => {
+describe("NonceValue", () => {
   test("happy path", () => {
     expect(NonceValue.safeParse("f".repeat(16)).success).toEqual(true);
   });

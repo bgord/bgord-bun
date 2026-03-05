@@ -14,7 +14,7 @@ const memoryUsage = {
   arrayBuffers: 0,
 };
 
-describe("MemoryConsumption service", () => {
+describe("MemoryConsumption", () => {
   test("get", () => {
     using _ = spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
 
