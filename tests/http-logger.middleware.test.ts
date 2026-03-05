@@ -139,7 +139,7 @@ describe("HttpLoggerMiddleware", () => {
   });
 
   test("skip - no config", () => {
-    const middleware = new HttpLoggerMiddleware(deps);
+    const middleware = new HttpLoggerMiddleware(deps, { skip: undefined });
     const context = new RequestContextBuilder().withPath("/anything").build();
 
     expect(middleware.shouldSkip(context)).toEqual(false);
