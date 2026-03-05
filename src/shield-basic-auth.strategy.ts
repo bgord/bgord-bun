@@ -12,10 +12,8 @@ export class ShieldBasicAuthStrategy {
   evaluate(context: HasRequestHeader): boolean {
     const header = context.request.header("authorization");
 
-    if (!header) return false;
-
     try {
-      const credentials = atob(header.replace("Basic ", ""));
+      const credentials = atob(String(header).replace("Basic ", ""));
 
       const [username, password] = credentials.split(":");
 
