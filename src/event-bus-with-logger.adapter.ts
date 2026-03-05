@@ -26,6 +26,6 @@ export class EventBusWithLoggerAdapter<E extends { name: string }> implements Ev
     name: K,
     handler: (event: ToEventMap<E>[K]) => void | Promise<void>,
   ): void {
-    return this.inner.on(name, handler);
+    this.inner.on(name, handler);
   }
 }
