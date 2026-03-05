@@ -15,9 +15,12 @@ import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
+import type { WeakETagVariables } from "../src/weak-etag-extractor-hono.middleware";
 import * as mocks from "./mocks";
 
-type Config = { Variables: TimeZoneOffsetVariables & ETagVariables & CorrelationVariables };
+type Config = {
+  Variables: TimeZoneOffsetVariables & ETagVariables & WeakETagVariables & CorrelationVariables;
+};
 
 const I18n = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "pl" } as const;
 
