@@ -28,6 +28,7 @@ const IdProvider = new IdProviderDeterministicAdapter([
   mocks.correlationId,
   mocks.correlationId,
   mocks.correlationId,
+  mocks.correlationId,
 ]);
 const deps = { Logger, Clock, IdProvider };
 
@@ -47,6 +48,7 @@ const app = new Hono()
   .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
   .get("/pang", (c) => c.json({ message: "general.unknown" }, 400))
+  .get("/html", (c) => c.html("<h1>Hello</h1>"))
   .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
 describe("HttpLoggerHonoMiddleware", () => {
@@ -151,6 +153,27 @@ describe("HttpLoggerHonoMiddleware", () => {
       client: { ip: mocks.ip },
       cacheHit: false,
       metadata: { response: { message: "general.unknown" } },
+    });
+  });
+
+  test("response parsing error", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request("/html", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+      operation: "http_request_after",
+      component: "http",
+      correlationId: mocks.correlationId,
+      message: "response",
+      method: "GET",
+      url: "http://localhost/html",
+      status: 200,
+      durationMs: expect.any(Number),
+      client: { ip: mocks.ip },
+      cacheHit: false,
+      metadata: { response: undefined },
     });
   });
 
