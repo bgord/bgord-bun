@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { EventBusCollectingAdapter } from "../src/event-bus-collecting.adapter";
-import { EventBusWithLoggerAdapter } from "../src/event-bus-with-logging.adapter";
+import { EventBusWithLoggerAdapter } from "../src/event-bus-with-logger.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 
 type EventType = { name: "TEST_EVENT"; payload: { value: number } };
