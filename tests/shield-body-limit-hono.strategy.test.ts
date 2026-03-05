@@ -9,13 +9,6 @@ const shield = new ShieldBodyLimitHonoStrategy({ maxSize });
 const app = new Hono().use(shield.handle()).post("/upload", (c) => c.text("ok"));
 
 describe("ShieldBodyLimitHonoStrategy", () => {
-  test("happy path - no header", async () => {
-    const response = await app.request("/upload", { method: "POST" });
-
-    expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
-  });
-
   test("happy path - below limit", async () => {
     const response = await app.request("/upload", {
       method: "POST",
@@ -44,6 +37,13 @@ describe("ShieldBodyLimitHonoStrategy", () => {
 
     expect(response.status).toEqual(413);
     expect(await response.text()).toEqual("shield.body.limit.rejected");
+  });
+
+  test("no header", async () => {
+    const response = await app.request("/upload", { method: "POST" });
+
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("ok");
   });
 
   test("invalid header", async () => {

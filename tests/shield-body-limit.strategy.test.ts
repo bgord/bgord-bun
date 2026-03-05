@@ -7,12 +7,6 @@ const maxSize = tools.Size.fromKb(100);
 const shield = new ShieldBodyLimitStrategy({ maxSize });
 
 describe("ShieldBodyLimitStrategy", () => {
-  test("happy path - no header", () => {
-    const context = new RequestContextBuilder().build();
-
-    expect(shield.evaluate(context)).toEqual(true);
-  });
-
   test("happy path - below limit", () => {
     const context = new RequestContextBuilder()
       .withHeader("content-length", tools.Size.fromKb(50).toBytes().toString())
@@ -35,6 +29,12 @@ describe("ShieldBodyLimitStrategy", () => {
       .build();
 
     expect(shield.evaluate(context)).toEqual(false);
+  });
+
+  test("no header", () => {
+    const context = new RequestContextBuilder().build();
+
+    expect(shield.evaluate(context)).toEqual(true);
   });
 
   test("invalid header", () => {

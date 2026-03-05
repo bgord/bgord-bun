@@ -11,9 +11,7 @@ export class ShieldBodyLimitStrategy {
   evaluate(context: HasRequestHeader): boolean {
     const header = context.request.header("content-length");
 
-    if (!header) return true;
-
-    const contentLength = tools.SizeBytes.safeParse(Number.parseInt(header, 10));
+    const contentLength = tools.SizeBytes.safeParse(Number(header));
 
     if (!contentLength.success) return true;
 
