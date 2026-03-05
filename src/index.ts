@@ -49,6 +49,7 @@ export * from "./clock-offset.adapter";
 export * from "./clock-system.adapter";
 export * from "./command.types";
 export * from "./command-bus.port";
+export * from "./command-bus-collecting.adapter";
 export * from "./command-bus-noop.adapter";
 export * from "./command-envelope";
 export * from "./commit-sha.vo";
