@@ -5,8 +5,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { Jobs: MultipleJobsType };
+
 export class PrerequisiteVerifierJobsAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { Jobs: MultipleJobsType }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     if (Jobs.areAllRunning(this.config.Jobs)) return PrerequisiteVerification.success;

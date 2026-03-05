@@ -6,7 +6,7 @@ export const MailerResendAdapterError = {
   MissingDependency: "mailer.resend.adapter.error.missing.dependency",
 };
 
-type MailerConfigType = { key: string };
+type Config = { key: string };
 
 export class MailerResendAdapter implements MailerPort {
   readonly transport: Resend;
@@ -15,7 +15,7 @@ export class MailerResendAdapter implements MailerPort {
     this.transport = mailer;
   }
 
-  static async build(config: MailerConfigType): Promise<MailerResendAdapter> {
+  static async build(config: Config): Promise<MailerResendAdapter> {
     const library = await MailerResendAdapter.resolve();
 
     return new MailerResendAdapter(new library(config.key));

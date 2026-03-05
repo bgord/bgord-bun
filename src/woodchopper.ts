@@ -20,7 +20,7 @@ import type { WoodchopperDiagnosticsStrategy } from "./woodchopper-diagnostics.s
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import { WoodchopperStats } from "./woodchopper-stats.service";
 
-export type WoodchopperConfigType = {
+export type WoodchopperConfig = {
   app: LoggerAppType;
   level: LogLevelEnum;
   environment: NodeEnvironmentEnum;
@@ -46,7 +46,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
   private readonly stats = new WoodchopperStats();
 
   constructor(
-    private readonly config: WoodchopperConfigType,
+    private readonly config: WoodchopperConfig,
     private readonly deps: Dependencies,
   ) {
     this.state = LoggerState.open;

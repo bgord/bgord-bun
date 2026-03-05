@@ -6,8 +6,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { maximum: tools.Size };
+
 export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { maximum: tools.Size }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     const memoryConsumption = MemoryConsumption.get();

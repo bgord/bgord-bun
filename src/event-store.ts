@@ -14,10 +14,10 @@ type InserterEventsHandler = (
   events: ReadonlyArray<z.infer<GenericParsedEventSchema>>,
 ) => Promise<ReadonlyArray<z.infer<GenericParsedEventSchema>>>;
 
-type EventStoreConfigType = { finder: FindEventsHandler; inserter: InserterEventsHandler };
+type Config = { finder: FindEventsHandler; inserter: InserterEventsHandler };
 
 export class EventStore<AllEvents extends GenericEventSchema> {
-  constructor(private readonly config: EventStoreConfigType) {}
+  constructor(private readonly config: Config) {}
 
   static EMPTY_STREAM_REVISION = -1;
 

@@ -5,10 +5,11 @@ import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
+type Config = { id: string; inner: PrerequisiteVerifierPort };
 
 export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { id: string; inner: PrerequisiteVerifierPort },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

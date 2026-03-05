@@ -1,12 +1,12 @@
 import * as tools from "@bgord/tools";
 
-export type ShieldMaintenanceConfigType = { enabled: boolean; RetryAfter?: tools.Duration };
+export type ShieldMaintenanceConfig = { enabled: boolean; RetryAfter?: tools.Duration };
 
 export class ShieldMaintenanceStrategy {
   private readonly enabled: boolean;
   private readonly RetryAfter: tools.Duration;
 
-  constructor(config?: ShieldMaintenanceConfigType) {
+  constructor(config?: ShieldMaintenanceConfig) {
     this.enabled = config?.enabled ?? false;
     this.RetryAfter = config?.RetryAfter ?? tools.Duration.Hours(1);
   }

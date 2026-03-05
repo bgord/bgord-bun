@@ -11,7 +11,7 @@ export type TranslationVariableType = Record<TranslationPlaceholderType, Transla
 
 export type TranslationsSupportedLanguagesType = Record<string, string>;
 
-export type I18nConfigType = {
+export type I18nConfig = {
   supportedLanguages: TranslationsSupportedLanguagesType;
   translationsPath?: tools.DirectoryPathRelativeType;
   defaultLanguage?: string;

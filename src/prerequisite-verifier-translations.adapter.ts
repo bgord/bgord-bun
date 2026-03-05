@@ -16,8 +16,7 @@ type PrerequisiteTranslationsProblemType = {
 };
 
 type Dependencies = { Logger: LoggerPort; FileReaderJson: FileReaderJsonPort };
-
-type Config = { supportedLanguages: types.I18nConfigType["supportedLanguages"] };
+type Config = { supportedLanguages: types.I18nConfig["supportedLanguages"] };
 
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
   constructor(

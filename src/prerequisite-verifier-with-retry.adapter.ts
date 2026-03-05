@@ -4,14 +4,15 @@ import {
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
-import { Retry, type RetryConfigType } from "./retry.service";
+import { Retry, type RetryConfig } from "./retry.service";
 import type { SleeperPort } from "./sleeper.port";
 
 type Dependencies = { Sleeper: SleeperPort };
+type Config = { inner: PrerequisiteVerifierPort; retry: RetryConfig };
 
 export class PrerequisiteVerifierWithRetryAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { inner: PrerequisiteVerifierPort; retry: RetryConfigType },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

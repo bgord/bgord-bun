@@ -9,11 +9,12 @@ import {
 } from "./security-countermeasure-name.vo";
 
 type Dependencies = { Logger: LoggerPort };
+type Config = { duration: tools.Duration; after: SecurityAction };
 
 export class SecurityCountermeasureTarpitStrategy implements SecurityCountermeasureStrategy {
   constructor(
     private readonly deps: Dependencies,
-    private readonly config: { duration: tools.Duration; after: SecurityAction },
+    private readonly config: Config,
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {

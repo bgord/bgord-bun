@@ -5,8 +5,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { username: string };
+
 export class PrerequisiteVerifierRunningUserAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { username: string }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     const current = os.userInfo().username;

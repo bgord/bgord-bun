@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import type { FileInspectionPort } from "./file-inspection.port";
 
-type FileInspectionNoopAdapterConfigType = {
+type Config = {
   exists: boolean;
   isDirectory?: boolean;
   permissions?: { read?: boolean; write?: boolean; execute?: boolean };
@@ -10,7 +10,7 @@ type FileInspectionNoopAdapterConfigType = {
 };
 
 export class FileInspectionNoopAdapter implements FileInspectionPort {
-  constructor(private readonly config: FileInspectionNoopAdapterConfigType) {}
+  constructor(private readonly config: Config) {}
 
   async exists(_path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean> {
     return this.config.exists;

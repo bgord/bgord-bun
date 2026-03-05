@@ -7,12 +7,12 @@ import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "./prerequisite-verifier-with-cache.adapter";
 import {
   PrerequisiteVerifierWithFailSafeAdapter,
-  type PrerequisiteVerifierWithFailSafeAdapterConfigType,
+  type PrerequisiteVerifierWithFailSafeAdapterConfig,
 } from "./prerequisite-verifier-with-fail-safe.adapter";
 import { PrerequisiteVerifierWithLoggerAdapter } from "./prerequisite-verifier-with-logger.adapter";
 import { PrerequisiteVerifierWithRetryAdapter } from "./prerequisite-verifier-with-retry.adapter";
 import { PrerequisiteVerifierWithTimeoutAdapter } from "./prerequisite-verifier-with-timeout.adapter";
-import type { RetryConfigType } from "./retry.service";
+import type { RetryConfig } from "./retry.service";
 import type { SleeperPort } from "./sleeper.port";
 import type { TimeoutRunnerPort } from "./timeout-runner.port";
 
@@ -37,12 +37,12 @@ const withLogger =
     new PrerequisiteVerifierWithLoggerAdapter({ inner }, deps);
 
 const withRetry =
-  (retry: RetryConfigType, deps: { Sleeper: SleeperPort }): PrerequisiteVerifierDecorator =>
+  (retry: RetryConfig, deps: { Sleeper: SleeperPort }): PrerequisiteVerifierDecorator =>
   (inner) =>
     new PrerequisiteVerifierWithRetryAdapter({ inner, retry }, deps);
 
 const withFailSafe =
-  (when: PrerequisiteVerifierWithFailSafeAdapterConfigType): PrerequisiteVerifierDecorator =>
+  (when: PrerequisiteVerifierWithFailSafeAdapterConfig): PrerequisiteVerifierDecorator =>
   (inner) =>
     new PrerequisiteVerifierWithFailSafeAdapter({ inner, when });
 

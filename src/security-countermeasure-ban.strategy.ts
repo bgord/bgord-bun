@@ -16,6 +16,10 @@ import {
   type SecurityCountermeasureNameType,
 } from "./security-countermeasure-name.vo";
 
+export const SecurityCountermeasureBanStrategyError = {
+  Executed: "security.countermeasure.ban.strategy.executed",
+};
+
 type Dependencies = {
   IdProvider: IdProviderPort;
   Clock: ClockPort;
@@ -23,14 +27,12 @@ type Dependencies = {
   EventStore: EventStoreLike<SecurityViolationDetectedEventType>;
 };
 
-export const SecurityCountermeasureBanStrategyError = {
-  Executed: "security.countermeasure.ban.strategy.executed",
-};
+type Config = { response: { status: number } };
 
 export class SecurityCountermeasureBanStrategy implements SecurityCountermeasureStrategy {
   constructor(
     private readonly deps: Dependencies,
-    private readonly config: { response: { status: number } } = { response: { status: 403 } },
+    private readonly config: Config = { response: { status: 403 } },
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {

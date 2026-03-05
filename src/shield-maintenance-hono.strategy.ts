@@ -1,11 +1,11 @@
 import type { MiddlewareHandler } from "hono";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import { type ShieldMaintenanceConfigType, ShieldMaintenanceStrategy } from "./shield-maintenance.strategy";
+import { type ShieldMaintenanceConfig, ShieldMaintenanceStrategy } from "./shield-maintenance.strategy";
 
 export class ShieldMaintenanceHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldMaintenanceStrategy;
 
-  constructor(config?: ShieldMaintenanceConfigType) {
+  constructor(config?: ShieldMaintenanceConfig) {
     this.strategy = new ShieldMaintenanceStrategy(config);
   }
 

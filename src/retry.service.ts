@@ -2,20 +2,20 @@ import * as tools from "@bgord/tools";
 import type { RetryBackoffStrategy } from "./retry-backoff.strategy";
 import type { SleeperPort } from "./sleeper.port";
 
+export const RetryError = { InvalidMax: "retry.invalid.max" };
+
 type Dependencies = { Sleeper: SleeperPort };
 
-export type RetryConfigType = {
+export type RetryConfig = {
   max: tools.IntegerPositiveType;
   backoff: RetryBackoffStrategy;
   when?: (error: unknown) => boolean;
 };
 
-export const RetryError = { InvalidMax: "retry.invalid.max" };
-
 export class Retry {
   constructor(private readonly deps: Dependencies) {}
 
-  async run<T>(action: () => Promise<T>, config: RetryConfigType): Promise<T> {
+  async run<T>(action: () => Promise<T>, config: RetryConfig): Promise<T> {
     if (config.max < 1) throw new Error(RetryError.InvalidMax);
 
     let lastError: unknown;

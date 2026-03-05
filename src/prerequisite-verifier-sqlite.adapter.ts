@@ -5,8 +5,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { sqlite: Database };
+
 export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { sqlite: Database }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {

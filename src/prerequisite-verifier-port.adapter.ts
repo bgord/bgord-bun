@@ -6,8 +6,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { port: PortType };
+
 export class PrerequisiteVerifierPortAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { port: PortType }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     return new Promise((resolve) => {

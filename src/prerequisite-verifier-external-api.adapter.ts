@@ -4,8 +4,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { request: () => Promise<Response> };
+
 export class PrerequisiteVerifierExternalApiAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { request: () => Promise<Response> }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {

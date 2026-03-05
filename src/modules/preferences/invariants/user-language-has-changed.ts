@@ -1,6 +1,8 @@
 import type * as tools from "@bgord/tools";
 import { Invariant, InvariantFailureKind } from "../../../invariant.service";
 
+type Config = { current?: tools.LanguageType | null; candidate: tools.LanguageType };
+
 class UserLanguageHasChangedError extends Error {
   constructor() {
     super();
@@ -8,13 +10,8 @@ class UserLanguageHasChangedError extends Error {
   }
 }
 
-type UserLanguageHasChangedConfigType = {
-  current?: tools.LanguageType | null;
-  candidate: tools.LanguageType;
-};
-
-class UserLanguageHasChangedFactory extends Invariant<UserLanguageHasChangedConfigType> {
-  passes(config: UserLanguageHasChangedConfigType) {
+class UserLanguageHasChangedFactory extends Invariant<Config> {
+  passes(config: Config) {
     return config.current !== config.candidate;
   }
 

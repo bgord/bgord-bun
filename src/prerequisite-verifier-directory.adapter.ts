@@ -8,14 +8,16 @@ import {
 
 type Dependencies = { FileInspection: FileInspectionPort };
 
+type Config = {
+  directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
+  permissions?: PrerequisiteDirectoryPermissionsType;
+};
+
 export type PrerequisiteDirectoryPermissionsType = { read?: boolean; write?: boolean; execute?: boolean };
 
 export class PrerequisiteVerifierDirectoryAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: {
-      directory: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
-      permissions?: PrerequisiteDirectoryPermissionsType;
-    },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

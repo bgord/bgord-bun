@@ -6,8 +6,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { minimum: tools.Size };
+
 export class PrerequisiteVerifierRamAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { minimum: tools.Size }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     const freeRAM = tools.Size.fromBytes(os.freemem());

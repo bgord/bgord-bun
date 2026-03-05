@@ -7,10 +7,11 @@ import {
 import type { TimeoutRunnerPort } from "./timeout-runner.port";
 
 type Dependencies = { TimeoutRunner: TimeoutRunnerPort };
+type Config = { inner: PrerequisiteVerifierPort; timeout: tools.Duration };
 
 export class PrerequisiteVerifierWithTimeoutAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { inner: PrerequisiteVerifierPort; timeout: tools.Duration },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

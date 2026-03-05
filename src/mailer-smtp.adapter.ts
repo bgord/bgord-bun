@@ -10,7 +10,7 @@ export const MailerSmtpAdapterError = {
   MissingDependency: "mailer.smtp.adapter.error.missing.dependency",
 };
 
-type MailerConfigType = {
+type Config = {
   SMTP_HOST: SmtpHostType;
   SMTP_PORT: SmtpPortType;
   SMTP_USER: SmtpUserType;
@@ -20,7 +20,7 @@ type MailerConfigType = {
 export class MailerSmtpAdapter implements MailerPort {
   private constructor(readonly transport: Nodemailer.Transporter) {}
 
-  static async build(config: MailerConfigType): Promise<MailerSmtpAdapter> {
+  static async build(config: Config): Promise<MailerSmtpAdapter> {
     const library = await MailerSmtpAdapter.resolve();
 
     return new MailerSmtpAdapter(

@@ -5,8 +5,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { version: tools.PackageVersion; current: string };
+
 export class PrerequisiteVerifierBunAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { version: tools.PackageVersion; current: string }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {

@@ -5,20 +5,20 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
-export type PrerequisiteVerifierWithFailSafeAdapterConfigType = (
+export type PrerequisiteVerifierWithFailSafeAdapterConfig = (
   result: PrerequisiteVerificationResult,
 ) => boolean;
 
-const AnyErrorFailSafe: PrerequisiteVerifierWithFailSafeAdapterConfigType = (result) =>
+const AnyErrorFailSafe: PrerequisiteVerifierWithFailSafeAdapterConfig = (result) =>
   result.outcome === PrerequisiteVerificationOutcome.failure;
 
 export class PrerequisiteVerifierWithFailSafeAdapter implements PrerequisiteVerifierPort {
-  private readonly when: PrerequisiteVerifierWithFailSafeAdapterConfigType;
+  private readonly when: PrerequisiteVerifierWithFailSafeAdapterConfig;
 
   constructor(
     private readonly config: {
       inner: PrerequisiteVerifierPort;
-      when?: PrerequisiteVerifierWithFailSafeAdapterConfigType;
+      when?: PrerequisiteVerifierWithFailSafeAdapterConfig;
     },
   ) {
     this.when = config.when ?? AnyErrorFailSafe;

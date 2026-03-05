@@ -8,9 +8,11 @@ import {
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
+type Config = { hostname: string; minimum: tools.Duration };
+
 export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { hostname: string; minimum: tools.Duration },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

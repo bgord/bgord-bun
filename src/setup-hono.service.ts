@@ -11,40 +11,40 @@ import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HttpLoggerConfig } from "./http-logger.middleware";
 import { HttpLoggerHonoMiddleware } from "./http-logger-hono.middleware";
-import type { I18nConfigType } from "./i18n.service";
+import type { I18nConfig } from "./i18n.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
-import type { ShieldMaintenanceConfigType } from "./shield-maintenance.strategy";
+import type { ShieldMaintenanceConfig } from "./shield-maintenance.strategy";
 import { ShieldMaintenanceHonoStrategy } from "./shield-maintenance-hono.strategy";
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
 import { TimingHonoMiddleware } from "./timing-hono.middleware";
 import { TrailingSlashHonoMiddleware } from "./trailing-slash-hono.middleware";
 import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
-type SetupConfigType = {
-  csrf: ShieldCsrfConfig;
-  cors?: Parameters<typeof cors>[0];
-  httpLogger?: HttpLoggerConfig;
-  maintenanceMode?: ShieldMaintenanceConfigType;
-};
-
 type Dependencies = {
   Logger: LoggerPort;
   IdProvider: IdProviderPort;
-  I18n: I18nConfigType;
+  I18n: I18nConfig;
   Clock: ClockPort;
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
   BuildInfoRepository: BuildInfoRepositoryStrategy;
 };
 
+type Config = {
+  csrf: ShieldCsrfConfig;
+  cors?: Parameters<typeof cors>[0];
+  httpLogger?: HttpLoggerConfig;
+  maintenanceMode?: ShieldMaintenanceConfig;
+};
+
 export class SetupHono {
   // Configure body size limit at the framework level
   // - Bun: maxRequestBodySize in Bun.serve()
   // - Express: limit in express.json()
-  static essentials(config: SetupConfigType, deps: Dependencies) {
+  static essentials(config: Config, deps: Dependencies) {
     return [
       new ShieldMaintenanceHonoStrategy(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),

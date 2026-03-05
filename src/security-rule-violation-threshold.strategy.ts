@@ -9,11 +9,12 @@ import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 import { SubjectSegmentIpStrategy } from "./subject-segment-ip.strategy";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentStrategy };
+type Config = { threshold: tools.IntegerPositiveType };
 
 export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrategy {
   constructor(
     private readonly rule: SecurityRuleStrategy,
-    private readonly config: { threshold: tools.IntegerPositiveType },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

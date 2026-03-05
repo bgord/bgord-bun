@@ -6,10 +6,11 @@ import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
+type Config = { id: string; inner: FileReaderJsonPort };
 
 export class FileReaderJsonWithCacheAdapter implements FileReaderJsonPort {
   constructor(
-    private readonly config: { id: string; inner: FileReaderJsonPort },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

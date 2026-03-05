@@ -6,10 +6,11 @@ import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
+type Config = { id: string; inner: FileReaderRawPort };
 
 export class FileReaderRawWithCacheAdapter implements FileReaderRawPort {
   constructor(
-    private readonly config: { id: string; inner: FileReaderRawPort },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

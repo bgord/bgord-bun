@@ -5,8 +5,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { hostname: string };
+
 export class PrerequisiteVerifierDnsAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { hostname: string }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {

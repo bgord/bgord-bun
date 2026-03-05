@@ -3,10 +3,10 @@ import { fnv1a32 } from "./fnv1a32.service";
 import type { LoggerEntry } from "./logger.port";
 import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
-type WoodchoperSamplingCorrelationIdConfigType = { everyNth: tools.IntegerPositiveType };
+type Config = { everyNth: tools.IntegerPositiveType };
 
 export class WoodchoperSamplingCorrelationId implements WoodchoperSamplingStrategy {
-  constructor(private readonly config: WoodchoperSamplingCorrelationIdConfigType) {}
+  constructor(private readonly config: Config) {}
 
   decide(entry: LoggerEntry): boolean {
     // Stryker disable all

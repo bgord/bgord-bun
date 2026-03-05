@@ -8,10 +8,11 @@ import {
 import type { TimekeeperPort } from "./timekeeper.port";
 
 type Dependencies = { Clock: ClockPort; Timekeeper: TimekeeperPort };
+type Config = { skew: tools.Duration };
 
 export class PrerequisiteVerifierClockDriftAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { skew: tools.Duration },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

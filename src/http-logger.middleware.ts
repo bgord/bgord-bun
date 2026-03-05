@@ -28,6 +28,7 @@ export const UNINFORMATIVE_HEADERS = [
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 export type HttpLoggerConfig = { skip?: ReadonlyArray<string> };
+
 export type HttpLoggerBeforeResult = { stopwatch: Stopwatch };
 export type HttpLoggerAfterInput = {
   stopwatch: Stopwatch;

@@ -1,6 +1,6 @@
 import type { Constructor } from "@bgord/tools";
 
-type BaseInvariantConfig = Record<string, unknown>;
+type Config = Record<string, unknown>;
 
 export enum InvariantFailureKind {
   forbidden = "forbidden",
@@ -8,7 +8,7 @@ export enum InvariantFailureKind {
   not_found = "not_found",
 }
 
-export abstract class Invariant<T extends BaseInvariantConfig> {
+export abstract class Invariant<T extends Config> {
   abstract passes(config: T): boolean;
 
   abstract error: Constructor<Error>;

@@ -11,8 +11,6 @@ import type {
   RemotePutFromPathResult,
 } from "./remote-file-storage.port";
 
-type RemoteFileStorageDiskConfig = { root: tools.DirectoryPathAbsoluteType };
-
 type Dependencies = {
   HashFile: HashFilePort;
   FileCleaner: FileCleanerPort;
@@ -21,9 +19,11 @@ type Dependencies = {
   DirectoryEnsurer: DirectoryEnsurerPort;
 };
 
+type Config = { root: tools.DirectoryPathAbsoluteType };
+
 export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
   constructor(
-    private readonly config: RemoteFileStorageDiskConfig,
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

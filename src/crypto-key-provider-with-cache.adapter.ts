@@ -6,9 +6,11 @@ import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
+type Config = { id: string; inner: CryptoKeyProviderPort };
+
 export class CryptoKeyProviderWithCacheAdapter implements CryptoKeyProviderPort {
   constructor(
-    private readonly config: { id: string; inner: CryptoKeyProviderPort },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

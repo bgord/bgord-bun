@@ -19,16 +19,16 @@ import type { RedactorStrategy } from "./redactor.strategy";
 import { Stopwatch } from "./stopwatch.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
-export type HealthcheckConfig = {
-  Env: NodeEnvironmentEnum;
-  prerequisites: ReadonlyArray<Prerequisite>;
-  redactor?: RedactorStrategy;
-};
-
 type Dependencies = {
   Clock: ClockPort;
   BuildInfoRepository: BuildInfoRepositoryStrategy;
   LoggerStatsProvider?: LoggerStatsProviderPort;
+};
+
+export type HealthcheckConfig = {
+  Env: NodeEnvironmentEnum;
+  prerequisites: ReadonlyArray<Prerequisite>;
+  redactor?: RedactorStrategy;
 };
 
 const self = new Prerequisite("self", new PrerequisiteVerifierSelfAdapter());

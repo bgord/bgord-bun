@@ -8,10 +8,11 @@ import {
 } from "./prerequisite-verifier.port";
 
 type Dependencies = { DiskSpaceChecker: DiskSpaceCheckerPort };
+type Config = { minimum: tools.Size };
 
 export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: { minimum: tools.Size },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

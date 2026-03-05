@@ -5,8 +5,10 @@ import {
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
+type Config = { binary: BinaryType };
+
 export class PrerequisiteVerifierBinaryAdapter implements PrerequisiteVerifierPort {
-  constructor(private readonly config: { binary: BinaryType }) {}
+  constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {

@@ -8,11 +8,12 @@ import {
 } from "./security-countermeasure-name.vo";
 
 type Dependencies = { Logger: LoggerPort };
+type Config = { response: { status: number } };
 
 export class SecurityCountermeasureMirageStrategy implements SecurityCountermeasureStrategy {
   constructor(
     private readonly deps: Dependencies,
-    private readonly config: { response: { status: number } } = { response: { status: 200 } },
+    private readonly config: Config = { response: { status: 200 } },
   ) {}
 
   async execute(context: SecurityContext): Promise<SecurityAction> {

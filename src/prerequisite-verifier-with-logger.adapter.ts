@@ -10,6 +10,8 @@ import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
+type Config = { inner: PrerequisiteVerifierPort };
+
 export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifierPort {
   private readonly base = (duration: tools.Duration) => ({
     component: "infra",
@@ -18,7 +20,7 @@ export class PrerequisiteVerifierWithLoggerAdapter implements PrerequisiteVerifi
   });
 
   constructor(
-    private readonly config: { inner: PrerequisiteVerifierPort },
+    private readonly config: Config,
     private readonly deps: Dependencies,
   ) {}
 

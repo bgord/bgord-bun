@@ -3,10 +3,7 @@ import type { PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
 
 export type PrerequisiteLabelType = string;
 
-type PrerequisiteConfigType = {
-  decorators?: ReadonlyArray<PrerequisiteVerifierDecorator>;
-  enabled?: boolean;
-};
+type Config = { decorators?: ReadonlyArray<PrerequisiteVerifierDecorator>; enabled?: boolean };
 
 export class Prerequisite {
   private readonly decorators: ReadonlyArray<PrerequisiteVerifierDecorator>;
@@ -15,7 +12,7 @@ export class Prerequisite {
   constructor(
     readonly label: PrerequisiteLabelType,
     private readonly verifier: PrerequisiteVerifierPort,
-    config?: PrerequisiteConfigType,
+    config?: Config,
   ) {
     this.decorators = config?.decorators ?? [];
     this.enabled = config?.enabled ?? true;
