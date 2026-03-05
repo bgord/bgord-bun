@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -14,7 +15,7 @@ export const SUPPORTED_LANGUAGES = [SupportedLanguages.en, SupportedLanguages.pl
 
 const supportedLanguagesSet = new Preferences.VO.SupportedLanguagesSet(SUPPORTED_LANGUAGES);
 
-const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock, IdProvider };
 

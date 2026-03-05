@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { CorrelationHonoMiddleware, type CorrelationVariables } from "../src/correlation-hono.middleware";
 import { CorrelationStorage } from "../src/correlation-storage.service";
@@ -13,7 +14,7 @@ const invalid = "not-a-valid-uuid";
 
 describe("CorrelationHonoMiddleware", () => {
   test("no incoming", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({ requestId: c.get("requestId"), storage: CorrelationStorage.get() }));
@@ -25,7 +26,7 @@ describe("CorrelationHonoMiddleware", () => {
   });
 
   test("incoming - correct", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter([]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 0));
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({ requestId: c.get("requestId"), storage: CorrelationStorage.get() }));
@@ -37,7 +38,7 @@ describe("CorrelationHonoMiddleware", () => {
   });
 
   test("incoming - incorrect", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({ requestId: c.get("requestId"), storage: CorrelationStorage.get() }));
@@ -49,7 +50,7 @@ describe("CorrelationHonoMiddleware", () => {
   });
 
   test("cleanup", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) => c.json({}));

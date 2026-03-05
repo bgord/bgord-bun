@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -19,7 +20,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path", async () => {
     using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
@@ -48,7 +49,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path - without client", async () => {
     using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
     const contextWithoutClient = new SecurityContext(
       rule.name,
@@ -84,7 +85,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
   test("happy path - custom config", async () => {
     using eventStoreSave = spyOn(deps.EventStore, "save");
     const Logger = new LoggerCollectingAdapter();
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const config = { response: { status: 404 } };
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider }, config);
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
@@ -113,7 +114,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
 
   test("name", () => {
     const Logger = new LoggerCollectingAdapter();
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const countermeasure = new SecurityCountermeasureBanStrategy({ ...deps, Logger, IdProvider });
 
     expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("ban"));

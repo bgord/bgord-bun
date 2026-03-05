@@ -32,7 +32,7 @@ const duration = tools.Duration.Seconds(5);
 describe("ShieldSecurityHonoStrategy", () => {
   test("no violation", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(pass, noop)], deps);
 
     const app = new Hono()
@@ -48,7 +48,7 @@ describe("ShieldSecurityHonoStrategy", () => {
 
   test("allow", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, noop)], deps);
 
     const app = new Hono()
@@ -64,7 +64,7 @@ describe("ShieldSecurityHonoStrategy", () => {
 
   test("deny", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const ban = new SecurityCountermeasureBanStrategy({ ...deps, IdProvider });
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, ban)], deps);
 
@@ -82,7 +82,7 @@ describe("ShieldSecurityHonoStrategy", () => {
 
   test("mirage", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const mirage = new SecurityCountermeasureMirageStrategy(deps);
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, mirage)], deps);
 
@@ -100,7 +100,7 @@ describe("ShieldSecurityHonoStrategy", () => {
   test("delay - allow", async () => {
     using loggerInfo = spyOn(Logger, "info");
     using sleeperWait = spyOn(Sleeper, "wait");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, { duration, after: { kind: "allow" } });
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, tarpit)], deps);
 
@@ -119,7 +119,7 @@ describe("ShieldSecurityHonoStrategy", () => {
   test("delay - deny", async () => {
     using loggerInfo = spyOn(Logger, "info");
     using sleeperWait = spyOn(Sleeper, "wait");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "deny", reason: "rejected", response: { status: 403 } },
@@ -142,7 +142,7 @@ describe("ShieldSecurityHonoStrategy", () => {
   test("delay - mirage", async () => {
     using loggerInfo = spyOn(Logger, "info");
     using sleeperWait = spyOn(Sleeper, "wait");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "mirage", response: { status: 200 } },
@@ -164,7 +164,7 @@ describe("ShieldSecurityHonoStrategy", () => {
   test("delay - delay", async () => {
     using loggerInfo = spyOn(Logger, "info");
     using sleeperWait = spyOn(Sleeper, "wait");
-    const IdProvider = new IdProviderDeterministicAdapter([mocks.correlationId, mocks.correlationId]);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
       after: { kind: "delay", duration, after: { kind: "allow" } },

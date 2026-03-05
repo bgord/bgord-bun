@@ -20,16 +20,7 @@ const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const IdProvider = new IdProviderDeterministicAdapter([
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-]);
+const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 8));
 const deps = { Logger, Clock, IdProvider };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });

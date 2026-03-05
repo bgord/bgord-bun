@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -8,18 +9,13 @@ import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const EventStore = { save: async () => {} };
-const IdProvider = new IdProviderDeterministicAdapter([
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-]);
-const deps = { Clock, IdProvider, EventStore };
+const deps = { Clock, EventStore };
 
 describe("PassageOfTimeHourly", async () => {
   test("correct path", async () => {
     using eventStoreSave = spyOn(deps.EventStore, "save");
-    const service = new PassageOfTimeHourly(deps);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const service = new PassageOfTimeHourly({ ...deps, IdProvider });
 
     await CorrelationStorage.run(mocks.correlationId, async () => service.process());
 
@@ -28,8 +24,9 @@ describe("PassageOfTimeHourly", async () => {
 
   test("job handler", async () => {
     using eventStoreSave = spyOn(deps.EventStore, "save");
-    const JobHandler = new JobHandlerBareStrategy(deps);
-    const service = new PassageOfTimeHourly(deps);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
+    const JobHandler = new JobHandlerBareStrategy({ ...deps, IdProvider });
+    const service = new PassageOfTimeHourly({ ...deps, IdProvider });
 
     await CorrelationStorage.run(mocks.correlationId, async () => JobHandler.handle(service)());
 
@@ -37,7 +34,8 @@ describe("PassageOfTimeHourly", async () => {
   });
 
   test("label", () => {
-    const service = new PassageOfTimeHourly(deps);
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const service = new PassageOfTimeHourly({ ...deps, IdProvider });
 
     expect(service.label).toEqual("PassageOfTime");
   });

@@ -27,29 +27,6 @@ const csrf = { origin: [] };
 
 const version = "1.2.3";
 
-const IdProvider = new IdProviderDeterministicAdapter([
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-  mocks.correlationId,
-]);
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
@@ -65,7 +42,6 @@ const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
 const deps = {
   Logger,
   I18n,
-  IdProvider,
   Clock,
   CacheResolver,
   HashContent,
@@ -74,8 +50,9 @@ const deps = {
 
 describe("SetupHono service", () => {
   test("maintenance", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf, maintenanceMode: { enabled: true } }, deps))
+      .use(...SetupHono.essentials({ csrf, maintenanceMode: { enabled: true } }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.text("OK"));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -88,7 +65,10 @@ describe("SetupHono service", () => {
   });
 
   test("trailing slash trim", async () => {
-    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/data", (c) => c.text("ok"));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono()
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
+      .get("/data", (c) => c.text("ok"));
 
     const response = await app.request("/data/", {}, mocks.connInfo);
 
@@ -97,8 +77,9 @@ describe("SetupHono service", () => {
   });
 
   test("correlation - forwarding", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request(
@@ -111,8 +92,9 @@ describe("SetupHono service", () => {
   });
 
   test("correlation - generation", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -121,8 +103,9 @@ describe("SetupHono service", () => {
   });
 
   test("api-version", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({ requestId: c.get("requestId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -131,8 +114,9 @@ describe("SetupHono service", () => {
   });
 
   test("csrf", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf: { origin: [APP_ORIGIN] } }, deps))
+      .use(...SetupHono.essentials({ csrf: { origin: [APP_ORIGIN] } }, { ...deps, IdProvider }))
       .post("/action", (c) => c.text("ok"));
 
     const response = await app.request("/action", { method: "POST", headers: { Origin: EVIL_ORIGIN } });
@@ -142,15 +126,18 @@ describe("SetupHono service", () => {
   });
 
   test("secure headers", async () => {
-    const app = new Hono<Config>().use(...SetupHono.essentials({ csrf }, deps)).get("/ping", (c) =>
-      c.json({
-        requestId: c.get("requestId"),
-        timeZoneOffset: c.get("timeZoneOffset"),
-        language: c.get("language"),
-        etag: c.get("ETag"),
-        weakEtag: c.get("WeakETag"),
-      }),
-    );
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono<Config>()
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
+      .get("/ping", (c) =>
+        c.json({
+          requestId: c.get("requestId"),
+          timeZoneOffset: c.get("timeZoneOffset"),
+          language: c.get("language"),
+          etag: c.get("ETag"),
+          weakEtag: c.get("WeakETag"),
+        }),
+      );
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -176,7 +163,10 @@ describe("SetupHono service", () => {
   });
 
   test("cors - server-to-server allowed", async () => {
-    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono()
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
+      .get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", {}, mocks.connInfo);
 
@@ -185,7 +175,10 @@ describe("SetupHono service", () => {
   });
 
   test("cors - same-origin fetch allowed", async () => {
-    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono()
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
+      .get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: "http://localhost" } }, mocks.connInfo);
 
@@ -194,7 +187,10 @@ describe("SetupHono service", () => {
   });
 
   test("cors - cross-origin fetch blocked", async () => {
-    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).get("/cors", (c) => c.text("ok"));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono()
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
+      .get("/cors", (c) => c.text("ok"));
 
     const response = await app.request(
       "/cors",
@@ -207,7 +203,10 @@ describe("SetupHono service", () => {
   });
 
   test("cors - cross-origin preflight blocked", async () => {
-    const app = new Hono().use(...SetupHono.essentials({ csrf }, deps)).options("/cors", (c) => c.text("ok"));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono()
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
+      .options("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", {
       method: "OPTIONS",
@@ -220,8 +219,9 @@ describe("SetupHono service", () => {
   test("cors - overrides", async () => {
     const origin = "https://some.example";
 
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
-      .use(...SetupHono.essentials({ csrf, cors: { origin } }, deps))
+      .use(...SetupHono.essentials({ csrf, cors: { origin } }, { ...deps, IdProvider }))
       .get("/cors", (c) => c.text("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: origin } }, mocks.connInfo);
@@ -231,8 +231,9 @@ describe("SetupHono service", () => {
   });
 
   test("languageDetector - default", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request(
@@ -245,8 +246,9 @@ describe("SetupHono service", () => {
   });
 
   test("languageDetector - en", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request(
@@ -259,8 +261,9 @@ describe("SetupHono service", () => {
   });
 
   test("languageDetector - fallback", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/lang", (c) => c.text(c.get("language")));
 
     const response = await app.request(
@@ -274,8 +277,9 @@ describe("SetupHono service", () => {
   });
 
   test("time zone offset", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({ timeZoneOffset: c.get("timeZoneOffset") }));
 
     const response = await app.request(
@@ -291,8 +295,9 @@ describe("SetupHono service", () => {
   });
 
   test("weak etag extractor", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json(c.get("WeakETag")));
 
     const response = await app.request(
@@ -305,8 +310,9 @@ describe("SetupHono service", () => {
   });
 
   test("etag extractor", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json(c.get("ETag")));
 
     const response = await app.request(
@@ -321,8 +327,9 @@ describe("SetupHono service", () => {
   test("http logger", async () => {
     using loggerHttp = spyOn(Logger, "http");
 
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({ message: "OK" }));
 
     const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [header]: "abc" }), {});
@@ -361,8 +368,9 @@ describe("SetupHono service", () => {
   });
 
   test("timing", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({}));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -371,8 +379,9 @@ describe("SetupHono service", () => {
   });
 
   test("correlation storage - seeding", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.text(CorrelationStorage.get()));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
@@ -382,8 +391,9 @@ describe("SetupHono service", () => {
   });
 
   test("correlation storage - cleanup", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
+      .use(...SetupHono.essentials({ csrf }, { ...deps, IdProvider }))
       .get("/ping", (c) => c.json({}));
 
     await app.request("/ping", { method: "GET" }, mocks.connInfo);
