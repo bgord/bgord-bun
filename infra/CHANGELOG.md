@@ -1,8 +1,24 @@
 # Changelog
+- 2026-03-05 15:41 11b3fdbd **refactor: cleanup imports**
+- 2026-03-05 15:25 9f8210fa **refactor: unify config variables**
+- 2026-03-05 15:18 0a2ddcd1 **refactor: unify test descriptions**
+- 2026-03-05 15:04 5b09ae54 **refactor: simplify parse json in http logger hono**
+- 2026-03-05 15:00 84bbef04 **refactor: rename request id to correlation id**
+- 2026-03-05 14:43 799886d1 **refactor: simplfy tests**
+- 2026-03-05 14:35 55dcc971 **step: update packages**
+- 2026-03-05 12:53 71bd68a6 **refactor: shield security**
+- 2026-03-05 12:00 99704543 **refactor: mutations - http logger hono**
+- 2026-03-05 11:55 cd379919 **refactor: mutations - http logger**
+- 2026-03-05 11:50 37e67c6c **refactor: mutations - shield basic auth**
+- 2026-03-05 11:46 ab50bd2a **refactor: mutations - request id**
+- 2026-03-05 11:45 1d02fe19 **refactor: mutations - shield body limit**
+- 2026-03-05 10:31 e92182bc **step: update packages**
 - 2026-03-05 10:06 8892cf54 **refactor: static files**
 - 2026-03-05 10:00 b4d0a0e3 **refactor: ssr**
 - 2026-03-05 09:46 b12ebf47 **refactor: remove context hono middleware**
 - 2026-03-05 09:40 a919072f **refactor: improve shield body limit**
+- 2026-03-05 09:21 baff6ead **docs: generate CHANGELOG**
+- 2026-03-05 09:21 2a67847f **docs: generate readme**
 - 2026-03-04 23:38 6c14a9eb **refactor: rename setup hono**
 - 2026-03-04 23:34 ac39b9f3 **step: timing middleware**
 - 2026-03-04 22:50 6fab6960 **refactor: shieldify maintenance mode**
