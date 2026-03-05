@@ -1,4 +1,3 @@
-import * as tools from "@bgord/tools";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
@@ -21,17 +20,8 @@ export class ShieldBodyLimitHonoStrategy implements MiddlewareHonoPort {
   handle() {
     return createMiddleware(async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
-      const header = context.request.header("content-length");
 
-      let contentLength: tools.IntegerNonNegativeType | undefined;
-
-      if (header) {
-        const parsed = tools.IntegerNonNegative.safeParse(Number.parseInt(header, 10));
-
-        contentLength = parsed.success ? parsed.data : undefined;
-      }
-
-      const result = this.strategy.evaluate(contentLength);
+      const result = this.strategy.evaluate(context);
 
       if (!result) throw ShieldBodyLimitTooBigError;
       return next();

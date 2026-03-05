@@ -16,16 +16,6 @@ describe("ShieldBodyLimitHonoStrategy", () => {
     expect(await response.text()).toEqual("ok");
   });
 
-  test("allows request - within limit", async () => {
-    const response = await app.request("/upload", {
-      method: "POST",
-      headers: { "content-length": tools.Size.fromKb(0).toBytes().toString() },
-    });
-
-    expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
-  });
-
   test("happy path - below limit", async () => {
     const response = await app.request("/upload", {
       method: "POST",
