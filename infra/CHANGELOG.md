@@ -1,5 +1,81 @@
 # Changelog
+- 2026-03-05 10:06 8892cf54 **refactor: static files**
+- 2026-03-05 10:00 b4d0a0e3 **refactor: ssr**
+- 2026-03-05 09:46 b12ebf47 **refactor: remove context hono middleware**
+- 2026-03-05 09:40 a919072f **refactor: improve shield body limit**
+- 2026-03-04 23:38 6c14a9eb **refactor: rename setup hono**
+- 2026-03-04 23:34 ac39b9f3 **step: timing middleware**
+- 2026-03-04 22:50 6fab6960 **refactor: shieldify maintenance mode**
+- 2026-03-04 22:38 facc1c11 **refactor: unify hono config variables**
+- 2026-03-04 22:35 bb264379 **refactor: remove requestId middleware**
+- 2026-03-04 22:25 e5f16baf **refactor: x-correlation-id to correlation-id header**
+- 2026-03-04 22:25 e43214ef **refactor: bgord-api-key to api-key header**
+- 2026-03-04 22:08 64c25748 **refactor: rename body limit to shield**
+- 2026-03-04 17:58 41eff3e1 **step: body limit**
+- 2026-03-04 17:41 90d9ce70 **step: remove body limit from setup**
+- 2026-03-04 17:27 ed36fa9d **refactor: combine request id and correlation storage middlewares**
+- 2026-03-04 17:11 8c65bcb8 **refactor: request id**
+- 2026-03-04 16:03 559e3dbd **step: trailing slash**
+- 2026-03-04 15:07 4a6aff3b **refactor: improve setup tests**
+- 2026-03-04 12:42 9879feae **step: remove api version hono noop**
+- 2026-03-04 12:39 a17ba052 **refactor: correlation storage middleware**
+- 2026-03-04 11:53 cbeba500 **refactor: file uploader middleware**
+- 2026-03-04 09:14 915142d4 **step: update packages**
+- 2026-03-04 09:14 773b0b81 **refactor: context middleware**
+- 2026-03-03 21:04 152882f9 **refactor: invariant error handler service**
+- 2026-03-03 21:00 1d6cc546 **refactor: cache response service**
+- 2026-03-03 20:50 ed4bc106 **refactor: translations service**
+- 2026-03-03 20:31 690d8cdb **refactor: ping service**
+- 2026-03-03 20:20 c948f19b **refactor: healthcheck service**
+- 2026-03-03 20:13 ff7f531a **step: define handler hono port**
+- 2026-03-03 19:51 b7967d55 **step: update packages**
+- 2026-03-03 19:46 97b4accc **refactor: remove shield strategy**
+- 2026-03-03 19:44 35b0a7b6 **refactor: shield security refactor**
+- 2026-03-03 15:49 9fa51c9a **refactor: remove shield noop**
+- 2026-03-03 15:46 a535b09f **refactor: shield hcaptcha refactor**
+- 2026-03-03 15:36 04ac9fae **refactor: rename request context hono adapter**
+- 2026-03-03 15:34 188451d6 **refactor: shield recaptcha refactor**
+- 2026-03-03 15:22 37b80e89 **refactor: shield rate auth refactor**
+- 2026-03-03 15:08 e8f23484 **refactor: shield rate limit refactor**
+- 2026-03-03 15:02 b59e3af3 **refactor: shield timeout refactor**
+- 2026-03-03 14:56 8babf0d2 **refactor: shield basic auth middleware**
+- 2026-03-03 13:03 b8cc6bc0 **refactor: shield csrf middleware**
+- 2026-03-03 12:58 56c53a5d **refactor: shield api key middleware**
+- 2026-03-03 12:24 40204be5 **refactor: http logger middleware**
+- 2026-03-03 11:23 7423eae7 **step: add params to request context**
+- 2026-03-03 11:19 4f5a6a4c **step: add url to request context**
+- 2026-03-03 11:10 1e12f06a **refactor: in flight requests middleware**
+- 2026-03-03 11:04 942174f8 **refactor: simulated error middleware**
+- 2026-03-03 11:00 6c3ae78b **refactor: slower middleware**
+- 2026-03-03 10:50 09138eb0 **refactor: time zone offset middleware**
+- 2026-03-03 09:53 43d650fe **refactor: weak etag extractor middleware**
+- 2026-03-03 09:48 f308982f **refactor: etag extractor middleware**
+- 2026-03-03 09:25 3bd24999 **refactor: maintenance middleware**
+- 2026-03-03 00:12 d2b3057d **refactor: api-version middleware**
+- 2026-03-02 23:11 d614bd02 **refactor: improve tests**
+- 2026-03-02 22:53 39f7c09b **step: add ab assignment composite**
+- 2026-03-02 22:44 56ae87af **step: add ab assignment override**
+- 2026-03-02 22:41 fd69f3d3 **refactor: loosen ab assignment strategy return type**
+- 2026-03-02 22:32 adb6869b **refactor: update ab hono noop middleware**
+- 2026-03-02 22:30 b7649147 **refactor: update ab hono middleware**
+- 2026-03-02 22:25 70b573eb **refactor: update ab middleware**
+- 2026-03-02 22:24 21de574d **step: add ab assignment fixed**
+- 2026-03-02 22:20 01fc1547 **step: define ab assignment hash strategy**
+- 2026-03-02 22:18 cd24ac88 **step: define ab assignment strategy**
+- 2026-03-02 21:45 8108a101 **step: improve tests**
+- 2026-03-02 18:01 653182fe **step: add ab hono noop middleware**
+- 2026-03-02 17:52 3be581c6 **step: define middleware hono port**
+- 2026-03-02 17:47 41198a4b **step: add ab middleware**
+- 2026-03-02 17:24 e25ed0a6 **step: add ab variant selector**
+- 2026-03-02 17:14 e39d0fd3 **step: add hash bucket vo**
+- 2026-03-02 17:00 54a52605 **step: ab variant and ab variants vos**
+- 2026-03-02 16:43 947d0ba7 **step: add ab variant weight vo**
+- 2026-03-02 16:31 699bf264 **refactor: generalize subject segments**
+- 2026-03-02 14:35 87a88d9b **refactor: unify image info args**
+## 2026-03-02 11:23 v1.10.23
+- 2026-03-02 11:23 e152aff1 **1.10.23**
 - 2026-03-02 11:21 b0016f03 **step: update packages**
+- 2026-03-02 10:22 5bbad6f1 **docs: generate CHANGELOG**
 ## 2026-03-01 09:51 v1.10.22
 - 2026-03-01 09:51 fd0cdb60 **1.10.22**
 - 2026-03-01 09:48 36366bfc **fix: do not rely on better auth instance types**
