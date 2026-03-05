@@ -6,7 +6,6 @@ import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
-import { ContextHonoMiddleware } from "./context-hono.middleware";
 import { CorrelationHonoMiddleware } from "./correlation-hono.middleware";
 import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
@@ -89,7 +88,6 @@ export class SetupHono {
         // Stryker restore all
       }),
       new TimeZoneOffsetHonoMiddleware().handle(),
-      new ContextHonoMiddleware().handle(),
       new WeakETagExtractorHonoMiddleware().handle(),
       new ETagExtractorHonoMiddleware().handle(),
       new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),

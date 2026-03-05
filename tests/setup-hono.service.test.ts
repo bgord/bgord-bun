@@ -290,18 +290,6 @@ describe("SetupHono service", () => {
     expect(await response.json()).toEqual({ timeZoneOffset: tools.Duration.Hours(2).ms });
   });
 
-  test("context", async () => {
-    const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf }, deps))
-      .get("/ping", (c) =>
-        c.json({ requestId: c.get("requestId"), timeZoneOffset: c.get("timeZoneOffset") }),
-      );
-
-    const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
-
-    expect(await response.json()).toEqual({ requestId: mocks.correlationId, timeZoneOffset: 0 });
-  });
-
   test("weak etag extractor", async () => {
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf }, deps))
