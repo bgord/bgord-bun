@@ -9,11 +9,11 @@ export class EventBusEmitteryV1Adapter<Event extends Message> implements EventBu
     this.emittery = new Emittery<ToMessageMap<Event>>();
   }
 
-  async emit<EventName extends keyof ToMessageMap<Event>>(
-    name: EventName,
-    event: ToMessageMap<Event>[EventName],
-  ): Promise<void> {
-    await this.emittery.emit(name, event);
+  async emit<E extends Event>(event: E): Promise<void> {
+    await this.emittery.emit(
+      event.name as keyof ToMessageMap<Event>,
+      event as ToMessageMap<Event>[keyof ToMessageMap<Event>],
+    );
   }
 
   on<EventName extends keyof ToMessageMap<Event>>(

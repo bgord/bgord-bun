@@ -10,7 +10,7 @@ describe("EventBusCollectingAdapter", () => {
     const bus = new EventBusCollectingAdapter<EventType>();
 
     bus.on("TEST_EVENT", handler);
-    await bus.emit("TEST_EVENT", event);
+    await bus.emit(event);
 
     expect(bus.events).toEqual([event]);
     expect(handler).not.toHaveBeenCalled();

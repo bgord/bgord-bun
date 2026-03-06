@@ -10,7 +10,7 @@ describe("EventBusEmitteryV1Adapter", () => {
     const bus = new EventBusEmitteryV1Adapter<EventType>();
 
     bus.on("TEST_EVENT", handler);
-    await bus.emit("TEST_EVENT", event);
+    await bus.emit(event);
 
     expect(handler).toHaveBeenCalledWith(event);
   });

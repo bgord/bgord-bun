@@ -4,11 +4,8 @@ import type { Message, ToMessageMap } from "./message.types";
 export class EventBusCollectingAdapter<Event extends Message> implements EventBusPort<Event> {
   public events: Array<Event> = [];
 
-  async emit<EventName extends keyof ToMessageMap<Event>>(
-    _name: EventName,
-    event: ToMessageMap<Event>[EventName],
-  ): Promise<void> {
-    this.events.push(event as Event);
+  async emit<E extends Event>(event: E): Promise<void> {
+    this.events.push(event);
   }
 
   on<EventName extends keyof ToMessageMap<Event>>(

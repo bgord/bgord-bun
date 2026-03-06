@@ -2,10 +2,7 @@ import type { EventBusPort } from "./event-bus.port";
 import type { Message, ToMessageMap } from "./message.types";
 
 export class EventBusNoopAdapter<Event extends Message> implements EventBusPort<Event> {
-  async emit<EventName extends keyof ToMessageMap<Event>>(
-    _name: EventName,
-    _event: ToMessageMap<Event>[EventName],
-  ): Promise<void> {}
+  async emit<E extends Event>(_event: E): Promise<void> {}
 
   on<EventName extends keyof ToMessageMap<Event>>(
     _name: EventName,

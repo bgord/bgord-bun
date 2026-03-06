@@ -12,17 +12,14 @@ export class EventBusWithLoggerAdapter<Event extends Message> implements EventBu
     private readonly deps: Dependencies,
   ) {}
 
-  async emit<EventName extends keyof ToMessageMap<Event>>(
-    name: EventName,
-    event: ToMessageMap<Event>[EventName],
-  ): Promise<void> {
+  async emit<E extends Event>(event: E): Promise<void> {
     this.deps.Logger.info({
-      message: `${name.toString()} emitted`,
+      message: `${event.name} emitted`,
       metadata: event as LogCoreType["metadata"],
       ...this.base,
     });
 
-    return this.inner.emit(name, event);
+    return this.inner.emit(event);
   }
 
   on<EventName extends keyof ToMessageMap<Event>>(

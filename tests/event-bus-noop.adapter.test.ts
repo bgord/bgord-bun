@@ -10,7 +10,7 @@ describe("EventBusNoopAdapter", () => {
     const bus = new EventBusNoopAdapter<EventType>();
 
     bus.on("TEST_EVENT", handler);
-    await bus.emit("TEST_EVENT", event);
+    await bus.emit(event);
 
     expect(handler).not.toHaveBeenCalled();
   });

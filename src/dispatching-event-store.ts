@@ -4,7 +4,6 @@ import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types
 import type { EventBusPort } from "./event-bus.port";
 import { EventStore as BaseStore } from "./event-store";
 import type { EventStreamType } from "./event-stream.vo";
-import type { ToMessageMap } from "./message.types";
 
 export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends BaseStore<AllEvents> {
   static EMPTY_STREAM_REVISION = -1;
@@ -25,15 +24,9 @@ export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends
   }
 
   async save(_events: ReadonlyArray<z.infer<AllEvents>>): Promise<ReadonlyArray<z.infer<AllEvents>>> {
-    // We receive the events with the `revision` fields added by the inserter,
-    // so the read models can receive them.
     const events = await super.save(_events);
 
-    await Promise.all(
-      events.map((event) =>
-        this.publisher.emit(event.name as keyof ToMessageMap<z.infer<AllEvents>>, event as any),
-      ),
-    );
+    await Promise.all(events.map((event) => this.publisher.emit(event)));
 
     return events;
   }

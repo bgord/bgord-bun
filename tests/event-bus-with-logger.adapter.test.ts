@@ -15,8 +15,8 @@ describe("EventBusWithLoggerAdapter", () => {
     const bus = new EventBusWithLoggerAdapter<EventType>(inner, { Logger });
 
     bus.on("TEST_EVENT", handler);
-    await bus.emit("TEST_EVENT", event);
-    await bus.emit("TEST_EVENT", event);
+    await bus.emit(event);
+    await bus.emit(event);
 
     expect(Logger.entries).toEqual(
       tools.repeat(
