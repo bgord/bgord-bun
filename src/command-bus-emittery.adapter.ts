@@ -20,6 +20,6 @@ export class CommandBusEmitteryAdapter<Command extends Message> implements Comma
     name: CommandName,
     handler: (command: ToMessageMap<Command>[CommandName]) => void | Promise<void>,
   ): void {
-    this.emittery.on(name, handler);
+    this.emittery.on(name, ({ data }) => handler(data as ToMessageMap<Command>[CommandName]));
   }
 }

@@ -20,6 +20,6 @@ export class EventBusEmitteryAdapter<Event extends Message> implements EventBusP
     name: EventName,
     handler: (event: ToMessageMap<Event>[EventName]) => void | Promise<void>,
   ): void {
-    this.emittery.on(name, handler);
+    this.emittery.on(name, ({ data }) => handler(data as ToMessageMap<Event>[EventName]));
   }
 }
