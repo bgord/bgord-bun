@@ -327,6 +327,7 @@ export * from "./shield-body-limit.strategy";
 export * from "./shield-body-limit-express.strategy";
 export * from "./shield-body-limit-hono.strategy";
 export * from "./shield-csrf.strategy";
+export * from "./shield-csrf-express.strategy";
 export * from "./shield-csrf-hono.strategy";
 export * from "./shield-hcaptcha.strategy";
 export * from "./shield-hcaptcha-hono.strategy";
