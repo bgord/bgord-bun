@@ -1,10 +1,14 @@
 # Changelog
+## 2026-03-06 11:45 v1.12.0
+- 2026-03-06 11:45 d40e6212 **1.12.0**
 - 2026-03-06 11:43 c02affb1 **refactor: remove console.log**
 - 2026-03-06 11:42 5448bac9 **fix: delegation tests**
 - 2026-03-06 11:39 df95b3b2 **refactor: test event bus with logger handler delegation**
 - 2026-03-06 11:38 733e4ff8 **refactor: test command bus with logger handler delegation**
 - 2026-03-06 11:35 dd288e72 **refactor: unify event bus tests**
 - 2026-03-06 11:31 41a190ce **refactor: unify command bus tests**
+- 2026-03-06 10:44 32d80d0b **docs: generate readme**
+- 2026-03-06 10:44 1df8ca9a **docs: generate CHANGELOG**
 - 2026-03-06 09:54 417a5d5d **step: update packages**
 - 2026-03-06 00:20 eff925a7 **refactor: use event bus port instead of event publisher**
 - 2026-03-06 00:13 23df27f8 **step: add command bus with logger**
