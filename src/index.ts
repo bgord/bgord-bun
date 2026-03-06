@@ -323,6 +323,7 @@ export * from "./shield-api-key.strategy";
 export * from "./shield-api-key-express.strategy";
 export * from "./shield-api-key-hono.strategy";
 export * from "./shield-auth.strategy";
+export * from "./shield-auth-express.strategy";
 export * from "./shield-auth-hono.strategy";
 export * from "./shield-basic-auth.strategy";
 export * from "./shield-basic-auth-express.strategy";
