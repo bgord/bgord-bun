@@ -247,6 +247,7 @@ src/
 ├── markdown-generator.adapter.ts
 ├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
+├── message.types.ts
 ├── middleware-hono-noop.adapter.ts
 ├── middleware-hono.port.ts
 ├── modules
@@ -450,7 +451,6 @@ src/
 ├── timeout-runner.port.ts
 ├── timing-hono.middleware.ts
 ├── timing.middleware.ts
-├── to-event-map.types.ts
 ├── trailing-slash-hono.middleware.ts
 ├── trailing-slash.middleware.ts
 ├── translations-hono.handler.ts
