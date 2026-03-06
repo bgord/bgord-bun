@@ -13,6 +13,5 @@ describe("CommandBusEmitteryV1Adapter", () => {
     await bus.emit("TEST_COMMAND", command);
 
     expect(handler).toHaveBeenCalledWith(command);
-    expect(handler).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,4 +1,5 @@
 import { describe, expect, jest, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { CommandBusCollectingAdapter } from "../src/command-bus-collecting.adapter";
 import { CommandBusWithLoggerAdapter } from "../src/command-bus-with-logger.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
@@ -17,21 +18,18 @@ describe("CommandBusWithLoggerAdapter", () => {
     await bus.emit("TEST_COMMAND", command);
     await bus.emit("TEST_COMMAND", command);
 
-    expect(inner.commands).toEqual([command, command]);
-    expect(Logger.entries).toEqual([
-      {
-        message: "TEST_COMMAND emitted",
-        component: "infra",
-        operation: "command_emitted",
-        metadata: command,
-      },
-      {
-        message: "TEST_COMMAND emitted",
-        component: "infra",
-        operation: "command_emitted",
-        metadata: command,
-      },
-    ]);
+    expect(inner.commands).toEqual(tools.repeat(command, 2));
+    expect(Logger.entries).toEqual(
+      tools.repeat(
+        {
+          message: "TEST_COMMAND emitted",
+          component: "infra",
+          operation: "command_emitted",
+          metadata: command,
+        },
+        2,
+      ),
+    );
     expect(handler).not.toHaveBeenCalled();
   });
 });
