@@ -348,6 +348,7 @@ export * from "./shield-recaptcha.strategy";
 export * from "./shield-recaptcha-express.strategy";
 export * from "./shield-recaptcha-hono.strategy";
 export * from "./shield-security.strategy";
+export * from "./shield-security-express.strategy";
 export * from "./shield-security-hono.strategy";
 export * from "./shield-timeout.strategy";
 export * from "./shield-timeout-hono.strategy";
