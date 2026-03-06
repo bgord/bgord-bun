@@ -1,6 +1,9 @@
 # Changelog
+- 2026-03-06 14:27 0ad81b0f **refactor: simplify command bus emit**
+- 2026-03-06 14:23 665ba12b **refactor: simplify event bus emit**
 ## 2026-03-06 14:06 v1.12.1
 - 2026-03-06 14:06 241a7651 **1.12.1**
+- 2026-03-06 13:06 6b7f5072 **docs: generate CHANGELOG**
 - 2026-03-06 13:05 c211d05b **refactor: improve to message map**
 - 2026-03-06 12:57 d712e236 **refactor: use base message type in command and event busses**
 - 2026-03-06 12:46 025b7c13 **feature: define basde message type**
