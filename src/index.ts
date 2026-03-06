@@ -217,6 +217,7 @@ export * from "./markdown-generator.port";
 export * from "./markdown-generator-noop.adapter";
 export * from "./memory-consumption.service";
 export * from "./message.types";
+export * from "./middleware-express.port";
 export * from "./middleware-hono.port";
 export * from "./middleware-hono-noop.adapter";
 export * as History from "./modules/history";
