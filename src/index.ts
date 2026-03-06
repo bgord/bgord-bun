@@ -335,6 +335,7 @@ export * from "./shield-hcaptcha.strategy";
 export * from "./shield-hcaptcha-hono.strategy";
 export * from "./shield-hcaptcha-hono-local.strategy";
 export * from "./shield-maintenance.strategy";
+export * from "./shield-maintenance-express.strategy";
 export * from "./shield-maintenance-hono.strategy";
 export * from "./shield-rate-limit.strategy";
 export * from "./shield-rate-limit-hono.strategy";
