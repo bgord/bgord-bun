@@ -14,7 +14,7 @@ describe("EventBusWithLoggerAdapter", () => {
     const inner = new EventBusEmitteryV1Adapter<EventType>();
     const bus = new EventBusWithLoggerAdapter<EventType>(inner, { Logger });
 
-    inner.on("TEST_EVENT", handler);
+    bus.on("TEST_EVENT", handler);
     await bus.emit("TEST_EVENT", event);
     await bus.emit("TEST_EVENT", event);
 
