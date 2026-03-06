@@ -20,7 +20,7 @@ export class ShieldBasicAuthExpressStrategy implements MiddlewareExpressPort {
 
       if (this.strategy.evaluate(context)) return next();
 
-      response.status(401).send(ShieldBasicAuthStrategyError.Rejected);
+      return response.status(401).send(ShieldBasicAuthStrategyError.Rejected);
     };
   }
 }

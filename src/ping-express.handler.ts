@@ -9,7 +9,7 @@ export class PingExpressHandler implements HandlerExpressPort {
     return (_, response) => {
       const result = this.handler.execute();
 
-      response.status(200).send(result);
+      return response.status(200).send(result);
     };
   }
 }

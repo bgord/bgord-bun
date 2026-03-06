@@ -20,7 +20,7 @@ export class ShieldApiKeyExpressStrategy implements MiddlewareExpressPort {
 
       if (this.strategy.evaluate(context)) return next();
 
-      response.status(403).json({ message: ShieldApiKeyStrategyError.Rejected, _known: true });
+      return response.status(403).json({ message: ShieldApiKeyStrategyError.Rejected, _known: true });
     };
   }
 }
