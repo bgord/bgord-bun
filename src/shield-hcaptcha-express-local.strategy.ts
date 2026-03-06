@@ -1,9 +1,7 @@
 import type { RequestHandler } from "express";
 import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 import type { MiddlewareExpressPort } from "./middleware-express.port";
-import { ShieldHcaptchaStrategy } from "./shield-hcaptcha.strategy";
-
-export const ShieldHcaptchaLocalStrategyError = { Rejected: "shield.hcaptcha.local.rejected" };
+import { ShieldHcaptchaLocalStrategyError, ShieldHcaptchaStrategy } from "./shield-hcaptcha.strategy";
 
 export class ShieldHcaptchaExpressLocalStrategy implements MiddlewareExpressPort {
   private readonly strategy: ShieldHcaptchaStrategy;
