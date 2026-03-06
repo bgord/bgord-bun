@@ -337,6 +337,7 @@ export * from "./shield-security-hono.strategy";
 export * from "./shield-timeout.strategy";
 export * from "./shield-timeout-hono.strategy";
 export * from "./simulated-error.middleware";
+export * from "./simulated-error-express.middleware";
 export * from "./simulated-error-hono.middleware";
 export * from "./sleeper.port";
 export * from "./sleeper-noop.adapter";
