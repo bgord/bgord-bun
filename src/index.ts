@@ -144,6 +144,7 @@ export * from "./graceful-shutdown.service";
 export * from "./gzip.adapter";
 export * from "./gzip.port";
 export * from "./gzip-noop.adapter";
+export * from "./handler-express.port";
 export * from "./handler-hono.port";
 export * from "./hash.vo";
 export * from "./hash-bucket.vo";
