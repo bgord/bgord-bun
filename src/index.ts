@@ -324,6 +324,7 @@ export * from "./shield-basic-auth.strategy";
 export * from "./shield-basic-auth-express.strategy";
 export * from "./shield-basic-auth-hono.strategy";
 export * from "./shield-body-limit.strategy";
+export * from "./shield-body-limit-express.strategy";
 export * from "./shield-body-limit-hono.strategy";
 export * from "./shield-csrf.strategy";
 export * from "./shield-csrf-hono.strategy";
