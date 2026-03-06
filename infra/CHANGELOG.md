@@ -1,10 +1,14 @@
 # Changelog
+## 2026-03-06 16:10 v1.12.3
+- 2026-03-06 16:10 34c824ee **1.12.3**
 - 2026-03-06 16:09 afa8e72b **refactor: use new emittery listener structure**
 - 2026-03-06 15:58 3d8ae35d **refactor: remove v1 suffix on emittery adapters**
 - 2026-03-06 15:55 d765602d **step: update packages**
 - 2026-03-06 15:35 49a7a259 **refactor: unify event handler parameter**
 ## 2026-03-06 15:15 v1.12.2
 - 2026-03-06 15:15 14252662 **1.12.2**
+- 2026-03-06 15:09 a9e6f396 **docs: generate readme**
+- 2026-03-06 15:09 0076dd9c **docs: generate CHANGELOG**
 - 2026-03-06 14:27 0ad81b0f **refactor: simplify command bus emit**
 - 2026-03-06 14:23 665ba12b **refactor: simplify event bus emit**
 - 2026-03-06 14:15 be2588a3 **docs: generate CHANGELOG**
