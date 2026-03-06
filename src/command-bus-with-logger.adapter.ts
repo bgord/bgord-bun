@@ -26,7 +26,6 @@ export class CommandBusWithLoggerAdapter<C extends { name: string }> implements 
     name: K,
     handler: (command: ToEventMap<C>[K]) => void | Promise<void>,
   ): void {
-    console.log("here");
     this.inner.on(name, handler);
   }
 }
