@@ -1,8 +1,12 @@
 # Changelog
+## 2026-03-06 14:06 v1.12.1
+- 2026-03-06 14:06 241a7651 **1.12.1**
 - 2026-03-06 13:05 c211d05b **refactor: improve to message map**
 - 2026-03-06 12:57 d712e236 **refactor: use base message type in command and event busses**
 - 2026-03-06 12:46 025b7c13 **feature: define basde message type**
 - 2026-03-06 12:40 4661e016 **refactor: simplify event handler strategy schema**
+- 2026-03-06 12:17 f0ec4688 **docs: generate readme**
+- 2026-03-06 12:17 aed5c7c8 **docs: generate CHANGELOG**
 ## 2026-03-06 11:45 v1.12.0
 - 2026-03-06 11:45 d40e6212 **1.12.0**
 - 2026-03-06 11:43 c02affb1 **refactor: remove console.log**
