@@ -334,6 +334,7 @@ export * from "./shield-csrf-express.strategy";
 export * from "./shield-csrf-hono.strategy";
 export * from "./shield-hcaptcha.strategy";
 export * from "./shield-hcaptcha-express.strategy";
+export * from "./shield-hcaptcha-express-local.strategy";
 export * from "./shield-hcaptcha-hono.strategy";
 export * from "./shield-hcaptcha-hono-local.strategy";
 export * from "./shield-maintenance.strategy";
