@@ -4,11 +4,8 @@ import type { Message, ToMessageMap } from "./message.types";
 export class CommandBusCollectingAdapter<Command extends Message> implements CommandBusPort<Command> {
   public commands: Array<Command> = [];
 
-  async emit<CommandName extends keyof ToMessageMap<Command>>(
-    _name: CommandName,
-    command: ToMessageMap<Command>[CommandName],
-  ): Promise<void> {
-    this.commands.push(command as Command);
+  async emit<C extends Command>(command: C): Promise<void> {
+    this.commands.push(command);
   }
 
   on<CommandName extends keyof ToMessageMap<Command>>(

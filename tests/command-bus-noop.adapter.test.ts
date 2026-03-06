@@ -10,7 +10,7 @@ describe("CommandBusNoopAdapter", () => {
     const bus = new CommandBusNoopAdapter<CommandType>();
 
     bus.on("TEST_COMMAND", handler);
-    await bus.emit("TEST_COMMAND", command);
+    await bus.emit(command);
 
     expect(handler).not.toHaveBeenCalled();
   });

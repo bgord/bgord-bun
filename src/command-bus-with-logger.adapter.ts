@@ -12,17 +12,14 @@ export class CommandBusWithLoggerAdapter<Command extends Message> implements Com
     private readonly deps: Dependencies,
   ) {}
 
-  async emit<CommandName extends keyof ToMessageMap<Command>>(
-    name: CommandName,
-    command: ToMessageMap<Command>[CommandName],
-  ): Promise<void> {
+  async emit<C extends Command>(command: C): Promise<void> {
     this.deps.Logger.info({
-      message: `${name.toString()} emitted`,
+      message: `${command.name} emitted`,
       metadata: command as LogCoreType["metadata"],
       ...this.base,
     });
 
-    return this.inner.emit(name, command);
+    return this.inner.emit(command);
   }
 
   on<CommandName extends keyof ToMessageMap<Command>>(

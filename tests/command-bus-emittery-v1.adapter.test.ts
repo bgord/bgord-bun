@@ -10,7 +10,7 @@ describe("CommandBusEmitteryV1Adapter", () => {
     const bus = new CommandBusEmitteryV1Adapter<CommandType>();
 
     bus.on("TEST_COMMAND", handler);
-    await bus.emit("TEST_COMMAND", command);
+    await bus.emit(command);
 
     expect(handler).toHaveBeenCalledWith(command);
   });

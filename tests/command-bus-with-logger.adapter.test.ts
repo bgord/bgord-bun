@@ -15,8 +15,8 @@ describe("CommandBusWithLoggerAdapter", () => {
     const bus = new CommandBusWithLoggerAdapter<CommandType>(inner, { Logger });
 
     bus.on("TEST_COMMAND", handler);
-    await bus.emit("TEST_COMMAND", command);
-    await bus.emit("TEST_COMMAND", command);
+    await bus.emit(command);
+    await bus.emit(command);
 
     expect(Logger.entries).toEqual(
       tools.repeat(

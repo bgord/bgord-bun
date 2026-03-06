@@ -9,11 +9,11 @@ export class CommandBusEmitteryV1Adapter<Command extends Message> implements Com
     this.emittery = new Emittery<ToMessageMap<Command>>();
   }
 
-  async emit<CommandName extends keyof ToMessageMap<Command>>(
-    name: CommandName,
-    command: ToMessageMap<Command>[CommandName],
-  ): Promise<void> {
-    await this.emittery.emit(name, command);
+  async emit<C extends Command>(command: C): Promise<void> {
+    await this.emittery.emit(
+      command.name as keyof ToMessageMap<Command>,
+      command as ToMessageMap<Command>[keyof ToMessageMap<Command>],
+    );
   }
 
   on<CommandName extends keyof ToMessageMap<Command>>(

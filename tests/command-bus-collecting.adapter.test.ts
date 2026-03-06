@@ -10,7 +10,7 @@ describe("CommandBusCollectingAdapter", () => {
     const bus = new CommandBusCollectingAdapter<CommandType>();
 
     bus.on("TEST_COMMAND", handler);
-    await bus.emit("TEST_COMMAND", command);
+    await bus.emit(command);
 
     expect(bus.commands).toEqual([command]);
     expect(handler).not.toHaveBeenCalled();
