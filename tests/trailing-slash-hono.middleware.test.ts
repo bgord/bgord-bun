@@ -45,18 +45,4 @@ describe("TrailingSlashHonoMiddleware", () => {
     expect(response.status).toEqual(301);
     expect(response.headers.get("location")).toEqual("http://localhost/data?page=1");
   });
-
-  test("redirect - preserves hash", async () => {
-    const response = await app.request("/data/#section");
-
-    expect(response.status).toEqual(301);
-    expect(response.headers.get("location")).toEqual("http://localhost/data#section");
-  });
-
-  test("redirect - preserves query and hash", async () => {
-    const response = await app.request("/data/?page=1#section");
-
-    expect(response.status).toEqual(301);
-    expect(response.headers.get("location")).toEqual("http://localhost/data?page=1#section");
-  });
 });

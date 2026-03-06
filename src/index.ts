@@ -385,6 +385,7 @@ export * from "./timing-express.middleware";
 export * from "./timing-hono.middleware";
 export * from "./trailing-slash.middleware";
 export * from "./trailing-slash.middleware";
+export * from "./trailing-slash-express.middleware";
 export * from "./trailing-slash-hono.middleware";
 export * from "./translations.handler";
 export * from "./translations-hono.handler";
