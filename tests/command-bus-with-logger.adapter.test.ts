@@ -1,6 +1,6 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CommandBusCollectingAdapter } from "../src/command-bus-collecting.adapter";
+import { CommandBusEmitteryV1Adapter } from "../src/command-bus-emittery-v1.adapter";
 import { CommandBusWithLoggerAdapter } from "../src/command-bus-with-logger.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 
@@ -11,14 +11,13 @@ describe("CommandBusWithLoggerAdapter", () => {
   test("happy path", async () => {
     const handler = jest.fn();
     const Logger = new LoggerCollectingAdapter();
-    const inner = new CommandBusCollectingAdapter<CommandType>();
+    const inner = new CommandBusEmitteryV1Adapter<CommandType>();
     const bus = new CommandBusWithLoggerAdapter<CommandType>(inner, { Logger });
 
     inner.on("TEST_COMMAND", handler);
     await bus.emit("TEST_COMMAND", command);
     await bus.emit("TEST_COMMAND", command);
 
-    expect(inner.commands).toEqual(tools.repeat(command, 2));
     expect(Logger.entries).toEqual(
       tools.repeat(
         {
@@ -30,6 +29,6 @@ describe("CommandBusWithLoggerAdapter", () => {
         2,
       ),
     );
-    expect(handler).not.toHaveBeenCalled();
+    expect(handler).toHaveBeenCalledTimes(2);
   });
 });
