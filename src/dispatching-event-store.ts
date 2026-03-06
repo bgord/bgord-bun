@@ -4,7 +4,7 @@ import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types
 import type { EventBusPort } from "./event-bus.port";
 import { EventStore as BaseStore } from "./event-store";
 import type { EventStreamType } from "./event-stream.vo";
-import type { ToEventMap } from "./to-event-map.types";
+import type { ToMessageMap } from "./message.types";
 
 export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends BaseStore<AllEvents> {
   static EMPTY_STREAM_REVISION = -1;
@@ -31,7 +31,7 @@ export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends
 
     await Promise.all(
       events.map((event) =>
-        this.publisher.emit(event.name as keyof ToEventMap<z.infer<AllEvents>>, event as any),
+        this.publisher.emit(event.name as keyof ToMessageMap<z.infer<AllEvents>>, event as any),
       ),
     );
 

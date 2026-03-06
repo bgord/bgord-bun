@@ -1,14 +1,13 @@
-import type { Message } from "./message.types";
-import type { ToEventMap } from "./to-event-map.types";
+import type { Message, ToMessageMap } from "./message.types";
 
 export interface CommandBusPort<Command extends Message> {
-  emit<CommandName extends keyof ToEventMap<Command>>(
+  emit<CommandName extends keyof ToMessageMap<Command>>(
     name: CommandName,
-    command: ToEventMap<Command>[CommandName],
+    command: ToMessageMap<Command>[CommandName],
   ): Promise<void>;
 
-  on<CommandName extends keyof ToEventMap<Command>>(
+  on<CommandName extends keyof ToMessageMap<Command>>(
     name: CommandName,
-    handler: (command: ToEventMap<Command>[CommandName]) => void | Promise<void>,
+    handler: (command: ToMessageMap<Command>[CommandName]) => void | Promise<void>,
   ): void;
 }

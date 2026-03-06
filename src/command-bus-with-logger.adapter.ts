@@ -1,7 +1,6 @@
 import type { CommandBusPort } from "./command-bus.port";
 import type { LogCoreType, LoggerPort } from "./logger.port";
-import type { Message } from "./message.types";
-import type { ToEventMap } from "./to-event-map.types";
+import type { Message, ToMessageMap } from "./message.types";
 
 type Dependencies = { Logger: LoggerPort };
 
@@ -13,9 +12,9 @@ export class CommandBusWithLoggerAdapter<Command extends Message> implements Com
     private readonly deps: Dependencies,
   ) {}
 
-  async emit<CommandName extends keyof ToEventMap<Command>>(
+  async emit<CommandName extends keyof ToMessageMap<Command>>(
     name: CommandName,
-    command: ToEventMap<Command>[CommandName],
+    command: ToMessageMap<Command>[CommandName],
   ): Promise<void> {
     this.deps.Logger.info({
       message: `${name.toString()} emitted`,
@@ -26,9 +25,9 @@ export class CommandBusWithLoggerAdapter<Command extends Message> implements Com
     return this.inner.emit(name, command);
   }
 
-  on<CommandName extends keyof ToEventMap<Command>>(
+  on<CommandName extends keyof ToMessageMap<Command>>(
     name: CommandName,
-    handler: (command: ToEventMap<Command>[CommandName]) => void | Promise<void>,
+    handler: (command: ToMessageMap<Command>[CommandName]) => void | Promise<void>,
   ): void {
     this.inner.on(name, handler);
   }

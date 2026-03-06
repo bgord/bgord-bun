@@ -1,7 +1,6 @@
 import type { EventBusPort } from "./event-bus.port";
 import type { LogCoreType, LoggerPort } from "./logger.port";
-import type { Message } from "./message.types";
-import type { ToEventMap } from "./to-event-map.types";
+import type { Message, ToMessageMap } from "./message.types";
 
 type Dependencies = { Logger: LoggerPort };
 
@@ -13,9 +12,9 @@ export class EventBusWithLoggerAdapter<Event extends Message> implements EventBu
     private readonly deps: Dependencies,
   ) {}
 
-  async emit<EventName extends keyof ToEventMap<Event>>(
+  async emit<EventName extends keyof ToMessageMap<Event>>(
     name: EventName,
-    event: ToEventMap<Event>[EventName],
+    event: ToMessageMap<Event>[EventName],
   ): Promise<void> {
     this.deps.Logger.info({
       message: `${name.toString()} emitted`,
@@ -26,9 +25,9 @@ export class EventBusWithLoggerAdapter<Event extends Message> implements EventBu
     return this.inner.emit(name, event);
   }
 
-  on<EventName extends keyof ToEventMap<Event>>(
+  on<EventName extends keyof ToMessageMap<Event>>(
     name: EventName,
-    handler: (event: ToEventMap<Event>[EventName]) => void | Promise<void>,
+    handler: (event: ToMessageMap<Event>[EventName]) => void | Promise<void>,
   ): void {
     this.inner.on(name, handler);
   }

@@ -1,25 +1,24 @@
 import Emittery from "emittery";
 import type { CommandBusPort } from "./command-bus.port";
-import type { Message } from "./message.types";
-import type { ToEventMap } from "./to-event-map.types";
+import type { Message, ToMessageMap } from "./message.types";
 
 export class CommandBusEmitteryV1Adapter<Command extends Message> implements CommandBusPort<Command> {
-  private readonly emittery: Emittery<ToEventMap<Command>>;
+  private readonly emittery: Emittery<ToMessageMap<Command>>;
 
   constructor() {
-    this.emittery = new Emittery<ToEventMap<Command>>();
+    this.emittery = new Emittery<ToMessageMap<Command>>();
   }
 
-  async emit<CommandName extends keyof ToEventMap<Command>>(
+  async emit<CommandName extends keyof ToMessageMap<Command>>(
     name: CommandName,
-    command: ToEventMap<Command>[CommandName],
+    command: ToMessageMap<Command>[CommandName],
   ): Promise<void> {
     await this.emittery.emit(name, command);
   }
 
-  on<CommandName extends keyof ToEventMap<Command>>(
+  on<CommandName extends keyof ToMessageMap<Command>>(
     name: CommandName,
-    handler: (command: ToEventMap<Command>[CommandName]) => void | Promise<void>,
+    handler: (command: ToMessageMap<Command>[CommandName]) => void | Promise<void>,
   ): void {
     this.emittery.on(name, handler);
   }

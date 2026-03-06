@@ -1,15 +1,14 @@
 import type { CommandBusPort } from "./command-bus.port";
-import type { Message } from "./message.types";
-import type { ToEventMap } from "./to-event-map.types";
+import type { Message, ToMessageMap } from "./message.types";
 
 export class CommandBusNoopAdapter<Command extends Message> implements CommandBusPort<Command> {
-  async emit<CommandName extends keyof ToEventMap<Command>>(
+  async emit<CommandName extends keyof ToMessageMap<Command>>(
     _name: CommandName,
-    _command: ToEventMap<Command>[CommandName],
+    _command: ToMessageMap<Command>[CommandName],
   ): Promise<void> {}
 
-  on<CommandName extends keyof ToEventMap<Command>>(
+  on<CommandName extends keyof ToMessageMap<Command>>(
     _name: CommandName,
-    _handler: (command: ToEventMap<Command>[CommandName]) => void | Promise<void>,
+    _handler: (command: ToMessageMap<Command>[CommandName]) => void | Promise<void>,
   ): void {}
 }
