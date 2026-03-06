@@ -10,7 +10,7 @@ export class CommandBusEmitteryAdapter<Command extends Message> implements Comma
   }
 
   async emit<C extends Command>(command: C): Promise<void> {
-    await this.emittery.emit(
+    await this.emittery.emitSerial(
       command.name as keyof ToMessageMap<Command>,
       command as ToMessageMap<Command>[keyof ToMessageMap<Command>],
     );

@@ -10,7 +10,7 @@ export class EventBusEmitteryAdapter<Event extends Message> implements EventBusP
   }
 
   async emit<E extends Event>(event: E): Promise<void> {
-    await this.emittery.emit(
+    await this.emittery.emitSerial(
       event.name as keyof ToMessageMap<Event>,
       event as ToMessageMap<Event>[keyof ToMessageMap<Event>],
     );
