@@ -316,6 +316,7 @@ export * from "./security-rule-user-agent.strategy";
 export * from "./security-rule-violation-threshold.strategy";
 export * from "./setup-hono.service";
 export * from "./shield-api-key.strategy";
+export * from "./shield-api-key-express.strategy";
 export * from "./shield-api-key-hono.strategy";
 export * from "./shield-auth.strategy";
 export * from "./shield-auth-hono.strategy";
