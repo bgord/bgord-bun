@@ -59,6 +59,7 @@ export * from "./command-bus-with-logger.adapter";
 export * from "./command-envelope";
 export * from "./commit-sha.vo";
 export * from "./commit-sha-value.vo";
+export * from "./correlation-express.middleware";
 export * from "./correlation-hono.middleware";
 export * from "./correlation-id.middleware";
 export * from "./correlation-id.vo";
