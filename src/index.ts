@@ -423,3 +423,4 @@ export * from "./woodchopper-sink-stdout.strategy";
 export * from "./woodchopper-sink-stdout-human.strategy";
 export * from "./woodchopper-sink-stdout-raw.strategy";
 export * from "./woodchopper-stats.service";
+export * from "./etag-extractor-express.middleware";
