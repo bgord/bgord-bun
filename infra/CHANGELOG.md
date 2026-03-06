@@ -1,4 +1,25 @@
 # Changelog
+- 2026-03-06 11:43 c02affb1 **refactor: remove console.log**
+- 2026-03-06 11:42 5448bac9 **fix: delegation tests**
+- 2026-03-06 11:39 df95b3b2 **refactor: test event bus with logger handler delegation**
+- 2026-03-06 11:38 733e4ff8 **refactor: test command bus with logger handler delegation**
+- 2026-03-06 11:35 dd288e72 **refactor: unify event bus tests**
+- 2026-03-06 11:31 41a190ce **refactor: unify command bus tests**
+- 2026-03-06 09:54 417a5d5d **step: update packages**
+- 2026-03-06 00:20 eff925a7 **refactor: use event bus port instead of event publisher**
+- 2026-03-06 00:13 23df27f8 **step: add command bus with logger**
+- 2026-03-06 00:09 9ed35285 **step: add event bus with logger**
+- 2026-03-06 00:00 953a4a00 **step: add command bus emittery v1**
+- 2026-03-05 23:58 c5e45f0f **step: add event bus emittery v1**
+- 2026-03-05 23:53 52bf12c3 **step: add command bus collecting**
+- 2026-03-05 23:52 ad7e8c1f **step: add event bus collecting**
+- 2026-03-05 23:47 8c44d125 **step: add command bus noop**
+- 2026-03-05 23:46 4ddb0afc **step: add event bus noop**
+- 2026-03-05 23:28 9bb32454 **refactor: remove event and command logger services**
+- 2026-03-05 23:26 81929126 **step: install emittery 1.2.1**
+- 2026-03-05 23:26 618db39a **feature: define command bus port**
+- 2026-03-05 23:25 b0f78ce2 **feature: define event bus port**
+- 2026-03-05 23:24 c6212ef9 **refactor: remove event bus like**
 ## 2026-03-05 15:47 v1.11.0
 - 2026-03-05 15:47 700c4a26 **1.11.0**
 - 2026-03-05 15:45 d55a642e **fix: exclude tests from tsconfig**
@@ -7,6 +28,7 @@
 - 2026-03-05 15:18 0a2ddcd1 **refactor: unify test descriptions**
 - 2026-03-05 15:04 5b09ae54 **refactor: simplify parse json in http logger hono**
 - 2026-03-05 15:00 84bbef04 **refactor: rename request id to correlation id**
+- 2026-03-05 14:47 3c85ca71 **docs: generate CHANGELOG**
 - 2026-03-05 14:46 85dc3b65 **docs: generate CHANGELOG**
 - 2026-03-05 14:44 e02675d3 **docs: generate CHANGELOG**
 - 2026-03-05 14:44 c276c4aa **docs: generate readme**
