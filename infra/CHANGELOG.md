@@ -1,4 +1,6 @@
 # Changelog
+## 2026-03-06 16:30 v1.12.4
+- 2026-03-06 16:30 c59086dd **1.12.4**
 - 2026-03-06 16:29 faa956e7 **fix: lock in message bus error swallowing behaviour**
 ## 2026-03-06 16:10 v1.12.3
 - 2026-03-06 16:10 34c824ee **1.12.3**
@@ -6,6 +8,7 @@
 - 2026-03-06 15:58 3d8ae35d **refactor: remove v1 suffix on emittery adapters**
 - 2026-03-06 15:55 d765602d **step: update packages**
 - 2026-03-06 15:35 49a7a259 **refactor: unify event handler parameter**
+- 2026-03-06 15:30 a6471154 **docs: generate CHANGELOG**
 ## 2026-03-06 15:15 v1.12.2
 - 2026-03-06 15:15 14252662 **1.12.2**
 - 2026-03-06 15:10 0b2b3196 **docs: generate CHANGELOG**
