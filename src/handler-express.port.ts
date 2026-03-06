@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
 
 export interface HandlerExpressPort {
-  handle(): RequestHandler;
+  handle(): RequestHandler | Array<RequestHandler>;
 }
