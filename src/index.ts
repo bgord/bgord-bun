@@ -401,6 +401,7 @@ export * from "./trailing-slash.middleware";
 export * from "./trailing-slash-express.middleware";
 export * from "./trailing-slash-hono.middleware";
 export * from "./translations.handler";
+export * from "./translations-express.handler";
 export * from "./translations-hono.handler";
 export * from "./uptime.service";
 export * from "./uuid.vo";
