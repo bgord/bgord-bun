@@ -74,7 +74,7 @@ src/
 ├── clock-system.adapter.ts
 ├── clock.port.ts
 ├── command-bus-collecting.adapter.ts
-├── command-bus-emittery-v1.adapter.ts
+├── command-bus-emittery.adapter.ts
 ├── command-bus-noop.adapter.ts
 ├── command-bus-with-logger.adapter.ts
 ├── command-bus.port.ts
@@ -117,7 +117,7 @@ src/
 ├── etag-extractor-hono.middleware.ts
 ├── etag-extractor.middleware.ts
 ├── event-bus-collecting.adapter.ts
-├── event-bus-emittery-v1.adapter.ts
+├── event-bus-emittery.adapter.ts
 ├── event-bus-noop.adapter.ts
 ├── event-bus-with-logger.adapter.ts
 ├── event-bus.port.ts
