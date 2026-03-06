@@ -1,6 +1,6 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { EventBusEmitteryV1Adapter } from "../src/event-bus-emittery-v1.adapter";
+import { EventBusEmitteryAdapter } from "../src/event-bus-emittery.adapter";
 import { EventBusWithLoggerAdapter } from "../src/event-bus-with-logger.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 
@@ -11,7 +11,7 @@ describe("EventBusWithLoggerAdapter", () => {
   test("happy path", async () => {
     const handler = jest.fn();
     const Logger = new LoggerCollectingAdapter();
-    const inner = new EventBusEmitteryV1Adapter<EventType>();
+    const inner = new EventBusEmitteryAdapter<EventType>();
     const bus = new EventBusWithLoggerAdapter<EventType>(inner, { Logger });
 
     bus.on("TEST_EVENT", handler);

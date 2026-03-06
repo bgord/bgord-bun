@@ -1,13 +1,13 @@
 import { describe, expect, jest, test } from "bun:test";
-import { CommandBusEmitteryV1Adapter } from "../src/command-bus-emittery-v1.adapter";
+import { CommandBusEmitteryAdapter } from "../src/command-bus-emittery.adapter";
 
 type CommandType = { name: "TEST_COMMAND" };
 const command = { name: "TEST_COMMAND" } as const;
 
-describe("CommandBusEmitteryV1Adapter", () => {
+describe("CommandBusEmitteryAdapter", () => {
   test("happy path", async () => {
     const handler = jest.fn();
-    const bus = new CommandBusEmitteryV1Adapter<CommandType>();
+    const bus = new CommandBusEmitteryAdapter<CommandType>();
 
     bus.on("TEST_COMMAND", handler);
     await bus.emit(command);

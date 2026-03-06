@@ -2,7 +2,7 @@ import Emittery from "emittery";
 import type { EventBusPort } from "./event-bus.port";
 import type { Message, ToMessageMap } from "./message.types";
 
-export class EventBusEmitteryV1Adapter<Event extends Message> implements EventBusPort<Event> {
+export class EventBusEmitteryAdapter<Event extends Message> implements EventBusPort<Event> {
   private readonly emittery: Emittery<ToMessageMap<Event>>;
 
   constructor() {
