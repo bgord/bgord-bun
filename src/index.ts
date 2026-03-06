@@ -192,6 +192,7 @@ export * from "./image-processor-sharp.adapter";
 export * from "./image-resizer.port";
 export * from "./image-resizer-noop.adapter";
 export * from "./image-resizer-sharp.adapter";
+export * from "./in-flight-requests-express.middleware";
 export * from "./in-flight-requests-hono.middleware";
 export * from "./in-flight-requests-tracker.service";
 export * from "./instrumentation.service";
