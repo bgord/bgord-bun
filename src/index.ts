@@ -274,6 +274,7 @@ export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
 export * from "./request-context.port";
+export * from "./request-context-express.adapter";
 export * from "./request-context-hono.adapter";
 export * from "./retry.service";
 export * from "./retry-backoff.strategy";
