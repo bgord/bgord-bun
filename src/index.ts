@@ -236,6 +236,7 @@ export * from "./pdf-generator.port";
 export * from "./pdf-generator-noop.adapter";
 export * from "./pdf-generator-with-logger.adapter";
 export * from "./ping.handler";
+export * from "./ping-express.handler";
 export * from "./ping-hono.handler";
 export * from "./port.vo";
 export * from "./prerequisite.vo";
