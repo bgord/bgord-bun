@@ -1,4 +1,5 @@
 # Changelog
+- 2026-03-06 16:29 faa956e7 **fix: lock in message bus error swallowing behaviour**
 ## 2026-03-06 16:10 v1.12.3
 - 2026-03-06 16:10 34c824ee **1.12.3**
 - 2026-03-06 16:09 afa8e72b **refactor: use new emittery listener structure**
@@ -7,6 +8,7 @@
 - 2026-03-06 15:35 49a7a259 **refactor: unify event handler parameter**
 ## 2026-03-06 15:15 v1.12.2
 - 2026-03-06 15:15 14252662 **1.12.2**
+- 2026-03-06 15:10 0b2b3196 **docs: generate CHANGELOG**
 - 2026-03-06 15:09 a9e6f396 **docs: generate readme**
 - 2026-03-06 15:09 0076dd9c **docs: generate CHANGELOG**
 - 2026-03-06 14:27 0ad81b0f **refactor: simplify command bus emit**
