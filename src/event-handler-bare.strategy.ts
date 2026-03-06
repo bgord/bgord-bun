@@ -1,7 +1,8 @@
 import type { EventHandlerStrategy } from "./event-handler.strategy";
+import type { Message } from "./message.types";
 
 export class EventHandlerBareStrategy implements EventHandlerStrategy {
-  handle<T extends { name: string }>(fn: (event: T) => Promise<void>) {
-    return async (event: T) => fn(event);
+  handle<Event extends Message>(fn: (event: Event) => Promise<void>) {
+    return async (event: Event) => fn(event);
   }
 }

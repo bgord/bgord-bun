@@ -1,3 +1,5 @@
+import type { Message } from "./message.types";
+
 export interface EventHandlerStrategy {
-  handle<T extends { name: string }>(fn: (event: T) => Promise<void>): (event: T) => Promise<void>;
+  handle<Event extends Message>(fn: (event: Event) => Promise<void>): (event: Event) => Promise<void>;
 }

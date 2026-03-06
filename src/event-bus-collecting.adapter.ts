@@ -1,15 +1,19 @@
 import type { EventBusPort } from "./event-bus.port";
+import type { Message } from "./message.types";
 import type { ToEventMap } from "./to-event-map.types";
 
-export class EventBusCollectingAdapter<E extends { name: string }> implements EventBusPort<E> {
-  public events: Array<E> = [];
+export class EventBusCollectingAdapter<Event extends Message> implements EventBusPort<Event> {
+  public events: Array<Event> = [];
 
-  async emit<K extends keyof ToEventMap<E>>(_name: K, event: ToEventMap<E>[K]): Promise<void> {
-    this.events.push(event as E);
+  async emit<EventName extends keyof ToEventMap<Event>>(
+    _name: EventName,
+    event: ToEventMap<Event>[EventName],
+  ): Promise<void> {
+    this.events.push(event as Event);
   }
 
-  on<K extends keyof ToEventMap<E>>(
-    _name: K,
-    _handler: (event: ToEventMap<E>[K]) => void | Promise<void>,
+  on<EventName extends keyof ToEventMap<Event>>(
+    _name: EventName,
+    _handler: (event: ToEventMap<Event>[EventName]) => void | Promise<void>,
   ): void {}
 }

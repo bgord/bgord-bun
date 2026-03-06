@@ -1,10 +1,14 @@
+import type { Message } from "./message.types";
 import type { ToEventMap } from "./to-event-map.types";
 
-export interface EventBusPort<E extends { name: string }> {
-  emit<K extends keyof ToEventMap<E>>(name: K, event: ToEventMap<E>[K]): Promise<void>;
+export interface EventBusPort<Event extends Message> {
+  emit<EventName extends keyof ToEventMap<Event>>(
+    name: EventName,
+    event: ToEventMap<Event>[EventName],
+  ): Promise<void>;
 
-  on<K extends keyof ToEventMap<E>>(
-    name: K,
-    handler: (event: ToEventMap<E>[K]) => void | Promise<void>,
+  on<EventName extends keyof ToEventMap<Event>>(
+    name: EventName,
+    handler: (event: ToEventMap<Event>[EventName]) => void | Promise<void>,
   ): void;
 }

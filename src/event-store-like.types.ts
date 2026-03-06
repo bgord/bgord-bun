@@ -1,3 +1,5 @@
-export type EventStoreLike<E extends { name: string }> = {
-  save(events: ReadonlyArray<E>): Promise<unknown>;
+import type { Message } from "./message.types";
+
+export type EventStoreLike<Event extends Message> = {
+  save(events: ReadonlyArray<Event>): Promise<unknown>;
 };

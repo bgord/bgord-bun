@@ -1,21 +1,25 @@
 import Emittery from "emittery";
 import type { EventBusPort } from "./event-bus.port";
+import type { Message } from "./message.types";
 import type { ToEventMap } from "./to-event-map.types";
 
-export class EventBusEmitteryV1Adapter<E extends { name: string }> implements EventBusPort<E> {
-  private readonly emittery: Emittery<ToEventMap<E>>;
+export class EventBusEmitteryV1Adapter<Event extends Message> implements EventBusPort<Event> {
+  private readonly emittery: Emittery<ToEventMap<Event>>;
 
   constructor() {
-    this.emittery = new Emittery<ToEventMap<E>>();
+    this.emittery = new Emittery<ToEventMap<Event>>();
   }
 
-  async emit<K extends keyof ToEventMap<E>>(name: K, event: ToEventMap<E>[K]): Promise<void> {
+  async emit<EventName extends keyof ToEventMap<Event>>(
+    name: EventName,
+    event: ToEventMap<Event>[EventName],
+  ): Promise<void> {
     await this.emittery.emit(name, event);
   }
 
-  on<K extends keyof ToEventMap<E>>(
-    name: K,
-    handler: (event: ToEventMap<E>[K]) => void | Promise<void>,
+  on<EventName extends keyof ToEventMap<Event>>(
+    name: EventName,
+    handler: (event: ToEventMap<Event>[EventName]) => void | Promise<void>,
   ): void {
     this.emittery.on(name, handler);
   }

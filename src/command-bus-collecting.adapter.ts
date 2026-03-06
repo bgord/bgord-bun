@@ -1,15 +1,19 @@
 import type { CommandBusPort } from "./command-bus.port";
+import type { Message } from "./message.types";
 import type { ToEventMap } from "./to-event-map.types";
 
-export class CommandBusCollectingAdapter<C extends { name: string }> implements CommandBusPort<C> {
-  public commands: Array<C> = [];
+export class CommandBusCollectingAdapter<Command extends Message> implements CommandBusPort<Command> {
+  public commands: Array<Command> = [];
 
-  async emit<K extends keyof ToEventMap<C>>(_name: K, command: ToEventMap<C>[K]): Promise<void> {
-    this.commands.push(command as C);
+  async emit<CommandName extends keyof ToEventMap<Command>>(
+    _name: CommandName,
+    command: ToEventMap<Command>[CommandName],
+  ): Promise<void> {
+    this.commands.push(command as Command);
   }
 
-  on<K extends keyof ToEventMap<C>>(
-    _name: K,
-    _handler: (command: ToEventMap<C>[K]) => void | Promise<void>,
+  on<CommandName extends keyof ToEventMap<Command>>(
+    _name: CommandName,
+    _handler: (command: ToEventMap<Command>[CommandName]) => void | Promise<void>,
   ): void {}
 }

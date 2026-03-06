@@ -1,18 +1,22 @@
 import type { EventBusPort } from "./event-bus.port";
 import type { LogCoreType, LoggerPort } from "./logger.port";
+import type { Message } from "./message.types";
 import type { ToEventMap } from "./to-event-map.types";
 
 type Dependencies = { Logger: LoggerPort };
 
-export class EventBusWithLoggerAdapter<E extends { name: string }> implements EventBusPort<E> {
+export class EventBusWithLoggerAdapter<Event extends Message> implements EventBusPort<Event> {
   private readonly base = { component: "infra", operation: "event_emitted" };
 
   constructor(
-    private readonly inner: EventBusPort<E>,
+    private readonly inner: EventBusPort<Event>,
     private readonly deps: Dependencies,
   ) {}
 
-  async emit<K extends keyof ToEventMap<E>>(name: K, event: ToEventMap<E>[K]): Promise<void> {
+  async emit<EventName extends keyof ToEventMap<Event>>(
+    name: EventName,
+    event: ToEventMap<Event>[EventName],
+  ): Promise<void> {
     this.deps.Logger.info({
       message: `${name.toString()} emitted`,
       metadata: event as LogCoreType["metadata"],
@@ -22,9 +26,9 @@ export class EventBusWithLoggerAdapter<E extends { name: string }> implements Ev
     return this.inner.emit(name, event);
   }
 
-  on<K extends keyof ToEventMap<E>>(
-    name: K,
-    handler: (event: ToEventMap<E>[K]) => void | Promise<void>,
+  on<EventName extends keyof ToEventMap<Event>>(
+    name: EventName,
+    handler: (event: ToEventMap<Event>[EventName]) => void | Promise<void>,
   ): void {
     this.inner.on(name, handler);
   }
