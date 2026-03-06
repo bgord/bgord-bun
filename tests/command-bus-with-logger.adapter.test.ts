@@ -14,7 +14,7 @@ describe("CommandBusWithLoggerAdapter", () => {
     const inner = new CommandBusEmitteryV1Adapter<CommandType>();
     const bus = new CommandBusWithLoggerAdapter<CommandType>(inner, { Logger });
 
-    inner.on("TEST_COMMAND", handler);
+    bus.on("TEST_COMMAND", handler);
     await bus.emit("TEST_COMMAND", command);
     await bus.emit("TEST_COMMAND", command);
 
