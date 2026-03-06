@@ -163,6 +163,7 @@ export * from "./hcaptcha.service";
 export * from "./hcaptcha-secret-key.vo";
 export * from "./hcaptcha-site-key.vo";
 export * from "./healthcheck.handler";
+export * from "./healthcheck-express.handler";
 export * from "./healthcheck-hono.handler";
 export * from "./http-logger.middleware";
 export * from "./http-logger-hono.middleware";
