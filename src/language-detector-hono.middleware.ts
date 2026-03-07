@@ -7,6 +7,8 @@ import {
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 
+export type LanguageDetectorVariables = { language: tools.LanguageType };
+
 export class LanguageDetectorHonoMiddleware<T extends tools.LanguageType> implements MiddlewareHonoPort {
   private readonly middleware: LanguageDetectorMiddleware<T>;
 

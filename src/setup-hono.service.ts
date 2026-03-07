@@ -1,6 +1,5 @@
 import * as tools from "@bgord/tools";
 import { cors } from "hono/cors";
-import { languageDetector } from "hono/language";
 import { secureHeaders } from "hono/secure-headers";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
@@ -11,8 +10,9 @@ import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HttpLoggerConfig } from "./http-logger.middleware";
 import { HttpLoggerHonoMiddleware } from "./http-logger-hono.middleware";
-import type { I18nConfig } from "./i18n-config.vo";
 import type { IdProviderPort } from "./id-provider.port";
+import type { LanguageDetectorMiddlewareConfig } from "./language-detector.middleware";
+import { LanguageDetectorHonoMiddleware } from "./language-detector-hono.middleware";
 import type { LoggerPort } from "./logger.port";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
@@ -34,7 +34,7 @@ type Dependencies = {
 
 type Config<T extends tools.LanguageType> = {
   csrf: ShieldCsrfConfig;
-  I18n: I18nConfig<T>;
+  I18n: LanguageDetectorMiddlewareConfig<T>;
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerConfig;
   maintenanceMode?: ShieldMaintenanceConfig;
@@ -80,13 +80,7 @@ export class SetupHono {
         maxAge: tools.Duration.Minutes(10).seconds,
         ...config.cors,
       }),
-      languageDetector({
-        supportedLanguages: config.I18n.languages as unknown as Array<tools.LanguageType>,
-        fallbackLanguage: config.I18n.fallback,
-        // Stryker disable all
-        caches: false,
-        // Stryker restore all
-      }),
+      new LanguageDetectorHonoMiddleware(config.I18n).handle(),
       new TimeZoneOffsetHonoMiddleware().handle(),
       new WeakETagExtractorHonoMiddleware().handle(),
       new ETagExtractorHonoMiddleware().handle(),

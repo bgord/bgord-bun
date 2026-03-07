@@ -1,17 +1,22 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { languageDetector } from "hono/language";
 import { FileReaderJsonForgivingAdapter } from "../src/file-reader-json-forgiving.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
+import { I18nConfig } from "../src/i18n-config.vo";
+import { LanguageDetectorCookieStrategy } from "../src/language-detector-cookie.strategy";
+import {
+  LanguageDetectorHonoMiddleware,
+  type LanguageDetectorVariables,
+} from "../src/language-detector-hono.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
-enum SupportedLanguages {
-  en = "en",
-  pl = "pl",
-}
+type Config = { Variables: LanguageDetectorVariables };
+
+const SupportedLanguages = ["pl", "en"] as const;
+const config = new I18nConfig(SupportedLanguages, "en");
 
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
@@ -22,12 +27,12 @@ const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
 
 const t = i18n.useTranslations(translations);
 
-const app = new Hono()
+const app = new Hono<Config>()
   .use(
-    languageDetector({
-      supportedLanguages: [SupportedLanguages.en, SupportedLanguages.pl],
-      fallbackLanguage: SupportedLanguages.en,
-    }),
+    new LanguageDetectorHonoMiddleware({
+      i18n: config,
+      strategies: [new LanguageDetectorCookieStrategy("language")],
+    }).handle(),
   )
   .get("/", (c) => c.json({ language: c.get("language") }));
 
