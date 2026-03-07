@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import type * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
@@ -6,12 +7,8 @@ import { I18nConfig } from "../src/i18n-config.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHonoHandler } from "../src/translations-hono.handler";
 
-enum SupportedLanguages {
-  en = "en",
-  pl = "pl",
-}
-
-const i18n = new I18nConfig(SupportedLanguages, SupportedLanguages.en);
+const SupportedLanguages = ["pl", "en"] as const;
+const i18n = new I18nConfig(SupportedLanguages, "en");
 
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
@@ -20,8 +17,8 @@ const deps = { FileReaderJson, Logger };
 const app = new Hono()
   .use(
     languageDetector({
-      supportedLanguages: Object.keys(SupportedLanguages),
-      fallbackLanguage: SupportedLanguages.en,
+      supportedLanguages: i18n.languages as unknown as Array<tools.LanguageType>,
+      fallbackLanguage: i18n.fallback,
     }),
   )
   .get("/get-translations", ...new TranslationsHonoHandler(i18n, deps).handle());
@@ -35,14 +32,14 @@ describe("TranslationsHonoHandler", () => {
     expect(json).toEqual({
       translations: { hello: "Hello" },
       language: "en",
-      supportedLanguages: SupportedLanguages,
+      supportedLanguages: i18n.supported,
     });
   });
 
   test("happy path - en", async () => {
     const response = await app.request("/get-translations", {
       method: "GET",
-      headers: { cookie: `language=${SupportedLanguages.en}` },
+      headers: { cookie: `language=${i18n.supported.en}` },
     });
     const json = await response.json();
 
@@ -50,14 +47,14 @@ describe("TranslationsHonoHandler", () => {
     expect(json).toEqual({
       translations: { hello: "Hello" },
       language: "en",
-      supportedLanguages: SupportedLanguages,
+      supportedLanguages: i18n.supported,
     });
   });
 
   test("happy path - pl", async () => {
     const response = await app.request("/get-translations", {
       method: "GET",
-      headers: { cookie: `language=${SupportedLanguages.pl}` },
+      headers: { cookie: `language=${i18n.supported.pl}` },
     });
     const json = await response.json();
 
@@ -65,7 +62,7 @@ describe("TranslationsHonoHandler", () => {
     expect(json).toEqual({
       translations: { hello: "Hello" },
       language: "pl",
-      supportedLanguages: SupportedLanguages,
+      supportedLanguages: i18n.supported,
     });
   });
 
@@ -80,7 +77,7 @@ describe("TranslationsHonoHandler", () => {
     expect(json).toEqual({
       translations: { hello: "Hello" },
       language: "en",
-      supportedLanguages: SupportedLanguages,
+      supportedLanguages: i18n.supported,
     });
   });
 });

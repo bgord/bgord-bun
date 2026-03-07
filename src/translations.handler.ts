@@ -4,29 +4,27 @@ import { I18n, type TranslationsType } from "./i18n.service";
 import type { I18nConfig } from "./i18n-config.vo";
 import type { LoggerPort } from "./logger.port";
 
-export type TranslationsConfig = I18nConfig;
-
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
-export type TranslationsResult = {
+export type TranslationsResult<T extends tools.LanguageType> = {
   translations: TranslationsType;
   language: tools.LanguageType;
-  supportedLanguages: I18nConfig["supportedLanguages"];
+  supportedLanguages: I18nConfig<T>["supported"];
 };
 
-export class TranslationsHandler {
+export class TranslationsHandler<T extends tools.LanguageType> {
   constructor(
-    private readonly config: TranslationsConfig,
+    private readonly config: I18nConfig<T>,
     private readonly deps: Dependencies,
   ) {}
 
-  async execute(language: tools.LanguageType): Promise<TranslationsResult> {
+  async execute(language: tools.LanguageType): Promise<TranslationsResult<T>> {
     const translations = await new I18n(this.deps).getTranslations(language);
 
     return {
       translations,
       language,
-      supportedLanguages: this.config.supportedLanguages,
+      supportedLanguages: this.config.supported,
     };
   }
 }

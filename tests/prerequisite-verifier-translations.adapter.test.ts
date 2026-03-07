@@ -11,13 +11,15 @@ const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const deps = { Logger, FileReaderJson };
 
-const i18n = new I18nConfig({ en: "en", pl: "pl" }, "en");
+const SupportedLanguages = ["en", "pl"] as const;
+const i18n = new I18nConfig(SupportedLanguages, "en");
 
 const prerequisite = new PrerequisiteVerifierTranslationsAdapter(i18n, deps);
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success - single language", async () => {
-    const i18n = new I18nConfig({ en: "en" }, "en");
+    const SupportedLanguages = ["en"] as const;
+    const i18n = new I18nConfig(SupportedLanguages, "en");
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(i18n, deps);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
