@@ -353,6 +353,7 @@ export * from "./shield-security.strategy";
 export * from "./shield-security-express.strategy";
 export * from "./shield-security-hono.strategy";
 export * from "./shield-timeout.strategy";
+export * from "./shield-timeout-express.strategy";
 export * from "./shield-timeout-hono.strategy";
 export * from "./simulated-error.middleware";
 export * from "./simulated-error-express.middleware";
