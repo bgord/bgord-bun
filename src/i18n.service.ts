@@ -11,12 +11,6 @@ export type TranslationVariableType = Record<TranslationPlaceholderType, Transla
 
 export type TranslationsSupportedLanguagesType = Record<string, string>;
 
-export type I18nConfig = {
-  supportedLanguages: TranslationsSupportedLanguagesType;
-  translationsPath?: tools.DirectoryPathRelativeType;
-  defaultLanguage?: string;
-};
-
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class I18n {
