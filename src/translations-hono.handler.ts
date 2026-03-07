@@ -2,8 +2,8 @@ import type * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type { HandlerHonoPort } from "./handler-hono.port";
-import type { I18nConfig } from "./i18n-config.vo";
 import type { LanguageDetectorVariables } from "./language-detector-hono.middleware";
+import type { Languages } from "./languages.vo";
 import type { LoggerPort } from "./logger.port";
 import { TranslationsHandler } from "./translations.handler";
 
@@ -14,7 +14,7 @@ const factory = createFactory();
 export class TranslationsHonoHandler<T extends tools.LanguageType> implements HandlerHonoPort {
   private readonly handler: TranslationsHandler<T>;
 
-  constructor(config: I18nConfig<T>, deps: Dependencies) {
+  constructor(config: Languages<T>, deps: Dependencies) {
     this.handler = new TranslationsHandler(config, deps);
   }
 

@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 import { I18n, type TranslationsType } from "./i18n.service";
-import type { I18nConfig } from "./i18n-config.vo";
+import type { Languages } from "./languages.vo";
 import type { LoggerPort } from "./logger.port";
 
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
@@ -9,12 +9,12 @@ type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 export type TranslationsResult<T extends tools.LanguageType> = {
   translations: TranslationsType;
   language: tools.LanguageType;
-  supportedLanguages: I18nConfig<T>["supported"];
+  supportedLanguages: Languages<T>["supported"];
 };
 
 export class TranslationsHandler<T extends tools.LanguageType> {
   constructor(
-    private readonly config: I18nConfig<T>,
+    private readonly config: Languages<T>,
     private readonly deps: Dependencies,
   ) {}
 

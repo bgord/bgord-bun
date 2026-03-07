@@ -2,7 +2,7 @@ import type * as tools from "@bgord/tools";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type * as types from "./i18n.service";
 import { I18n } from "./i18n.service";
-import type { I18nConfig } from "./i18n-config.vo";
+import type { Languages } from "./languages.vo";
 import type { LoggerPort } from "./logger.port";
 import {
   PrerequisiteVerification,
@@ -22,13 +22,13 @@ export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageTyp
   implements PrerequisiteVerifierPort
 {
   constructor(
-    private readonly config: I18nConfig<T>,
+    private readonly config: Languages<T>,
     private readonly deps: Dependencies,
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     const i18n = new I18n(this.deps);
-    const languages = this.config.languages;
+    const languages = this.config.values;
 
     const dictionary: Partial<Record<tools.LanguageType, ReadonlyArray<types.TranslationsKeyType>>> = {};
 

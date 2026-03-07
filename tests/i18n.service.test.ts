@@ -4,19 +4,20 @@ import { Hono } from "hono";
 import { FileReaderJsonForgivingAdapter } from "../src/file-reader-json-forgiving.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
-import { I18nConfig } from "../src/i18n-config.vo";
 import { LanguageDetectorCookieStrategy } from "../src/language-detector-cookie.strategy";
 import {
   LanguageDetectorHonoMiddleware,
   type LanguageDetectorVariables,
 } from "../src/language-detector-hono.middleware";
+import { Languages } from "../src/languages.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
 type Config = { Variables: LanguageDetectorVariables };
 
 const SupportedLanguages = ["pl", "en"] as const;
-const config = new I18nConfig(SupportedLanguages, "en");
+const languages = new Languages(SupportedLanguages, "en");
+const cookie = new LanguageDetectorCookieStrategy("language");
 
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
@@ -28,12 +29,7 @@ const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
 const t = i18n.useTranslations(translations);
 
 const app = new Hono<Config>()
-  .use(
-    new LanguageDetectorHonoMiddleware({
-      i18n: config,
-      strategies: [new LanguageDetectorCookieStrategy("language")],
-    }).handle(),
-  )
+  .use(new LanguageDetectorHonoMiddleware({ languages, strategies: [cookie] }).handle())
   .get("/", (c) => c.json({ language: c.get("language") }));
 
 describe("I18n", () => {

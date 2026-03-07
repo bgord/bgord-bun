@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
-import { I18nConfig } from "../src/i18n-config.vo";
+import { Languages } from "../src/languages.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHandler } from "../src/translations.handler";
 
 const SupportedLanguages = ["pl", "en"] as const;
 
-const i18n = new I18nConfig(SupportedLanguages, "en");
+const i18n = new Languages(SupportedLanguages, "en");
 
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
