@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { I18nConfig } from "../src/i18n-config.vo";
 import { LanguageDetectorQueryStrategy } from "../src/language-detector-query.strategy";
+import { Languages } from "../src/languages.vo";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const SupportedLanguages = ["en", "pl"] as const;
-const i18n = new I18nConfig(SupportedLanguages, "en");
+const i18n = new Languages(SupportedLanguages, "en");
 
 const query = "language";
 const strategy = new LanguageDetectorQueryStrategy(query);

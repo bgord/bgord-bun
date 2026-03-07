@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
-import type { I18nConfig } from "./i18n-config.vo";
 import type { LanguageDetectorStrategy } from "./language-detector.strategy";
+import type { Languages } from "./languages.vo";
 import type { HasRequestCookie } from "./request-context.port";
 
 export class LanguageDetectorCookieStrategy<T extends tools.LanguageType>
@@ -8,9 +8,9 @@ export class LanguageDetectorCookieStrategy<T extends tools.LanguageType>
 {
   constructor(private readonly name: string) {}
 
-  detect(context: HasRequestCookie, config: I18nConfig<T>): T | null {
+  detect(context: HasRequestCookie, languages: Languages<T>): T | null {
     const detected = context.request.cookie(this.name);
 
-    return config.isSupported(detected) ? detected : null;
+    return languages.isSupported(detected) ? detected : null;
   }
 }

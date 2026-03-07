@@ -10,10 +10,10 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
-import { I18nConfig } from "../src/i18n-config.vo";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
 import type { LanguageDetectorVariables } from "../src/language-detector-hono.middleware";
+import { Languages } from "../src/languages.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
@@ -30,8 +30,10 @@ type Config = {
 };
 
 const SupportedLanguages = ["en", "pl"] as const;
+
+const languages = new Languages(SupportedLanguages, "pl");
 const I18n = {
-  i18n: new I18nConfig(SupportedLanguages, "pl"),
+  languages,
   strategies: [new LanguageDetectorHeaderStrategy()],
 };
 
@@ -153,7 +155,7 @@ describe("SetupHono", () => {
     expect(await response.json()).toEqual({
       correlationId: mocks.correlationId,
       timeZoneOffset: 0,
-      language: I18n.i18n.fallback,
+      language: I18n.languages.fallback,
       etag: null,
       weakEtag: null,
     });
@@ -251,7 +253,7 @@ describe("SetupHono", () => {
       mocks.connInfo,
     );
 
-    expect(await response.text()).toEqual(I18n.i18n.supported.pl);
+    expect(await response.text()).toEqual(I18n.languages.supported.pl);
   });
 
   test("languageDetector - en", async () => {
@@ -266,7 +268,7 @@ describe("SetupHono", () => {
       mocks.connInfo,
     );
 
-    expect(await response.text()).toEqual(I18n.i18n.supported.en);
+    expect(await response.text()).toEqual(I18n.languages.supported.en);
   });
 
   test("languageDetector - fallback", async () => {
@@ -282,7 +284,7 @@ describe("SetupHono", () => {
     );
     const language = await response.text();
 
-    expect(language).toEqual(I18n.i18n.fallback);
+    expect(language).toEqual(I18n.languages.fallback);
   });
 
   test("time zone offset", async () => {
