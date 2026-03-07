@@ -1,16 +1,17 @@
 import type * as tools from "@bgord/tools";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
-import { I18n, type TranslationsSupportedLanguagesType, type TranslationsType } from "./i18n.service";
+import { I18n, type TranslationsType } from "./i18n.service";
+import type { I18nConfig } from "./i18n-config.vo";
 import type { LoggerPort } from "./logger.port";
 
-export type TranslationsConfig = TranslationsSupportedLanguagesType;
+export type TranslationsConfig = I18nConfig;
 
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export type TranslationsResult = {
   translations: TranslationsType;
   language: tools.LanguageType;
-  supportedLanguages: TranslationsSupportedLanguagesType;
+  supportedLanguages: I18nConfig["supportedLanguages"];
 };
 
 export class TranslationsHandler {
@@ -19,13 +20,13 @@ export class TranslationsHandler {
     private readonly deps: Dependencies,
   ) {}
 
-  async execute(language: string): Promise<TranslationsResult> {
+  async execute(language: tools.LanguageType): Promise<TranslationsResult> {
     const translations = await new I18n(this.deps).getTranslations(language);
 
     return {
       translations,
       language,
-      supportedLanguages: this.config,
+      supportedLanguages: this.config.supportedLanguages,
     };
   }
 }

@@ -9,8 +9,6 @@ export type TranslationPlaceholderType = string;
 export type TranslationPlaceholderValueType = string | number;
 export type TranslationVariableType = Record<TranslationPlaceholderType, TranslationPlaceholderValueType>;
 
-export type TranslationsSupportedLanguagesType = Record<string, string>;
-
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class I18n {
