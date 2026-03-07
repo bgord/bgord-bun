@@ -321,6 +321,7 @@ export * from "./security-rule-or.strategy";
 export * from "./security-rule-pass.strategy";
 export * from "./security-rule-user-agent.strategy";
 export * from "./security-rule-violation-threshold.strategy";
+export * from "./setup-express.service";
 export * from "./setup-hono.service";
 export * from "./shield-api-key.strategy";
 export * from "./shield-api-key-express.strategy";
