@@ -3,6 +3,7 @@ import { createFactory } from "hono/factory";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import type { I18nConfig } from "./i18n-config.vo";
+import type { LanguageDetectorVariables } from "./language-detector-hono.middleware";
 import type { LoggerPort } from "./logger.port";
 import { TranslationsHandler } from "./translations.handler";
 
@@ -18,7 +19,7 @@ export class TranslationsHonoHandler<T extends tools.LanguageType> implements Ha
   }
 
   handle() {
-    return factory.createHandlers(async (c) => {
+    return factory.createHandlers<{}, any, { Variables: LanguageDetectorVariables }>(async (c) => {
       const language = c.get("language");
       const result = await this.handler.execute(language);
 
