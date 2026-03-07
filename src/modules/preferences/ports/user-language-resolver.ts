@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import type { Languages } from "../../../languages.vo";
 
 export interface UserLanguageResolverPort {
   resolve(input: tools.LanguageType | null): tools.LanguageType | Promise<tools.LanguageType>;
@@ -13,10 +14,12 @@ export class UserLanguageResolverThrowIfMissing implements UserLanguageResolverP
   }
 }
 
-export class UserLanguageResolverSystemDefaultFallback implements UserLanguageResolverPort {
-  constructor(private readonly systemDefaultLanguage: tools.LanguageType) {}
+export class UserLanguageResolverSystemDefaultFallback<T extends tools.LanguageType>
+  implements UserLanguageResolverPort
+{
+  constructor(private readonly languages: Languages<T>) {}
 
   resolve(stored: tools.LanguageType | null) {
-    return stored ?? this.systemDefaultLanguage;
+    return stored ?? this.languages.fallback;
   }
 }

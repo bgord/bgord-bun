@@ -3,11 +3,15 @@ import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
 import type { EventStoreLike } from "../../../event-store-like.types";
 import type { IdProviderPort } from "../../../id-provider.port";
+import type { Languages } from "../../../languages.vo";
 import type * as Commands from "../commands";
 import * as Events from "../events";
 import * as Invariants from "../invariants";
 import type * as Ports from "../ports";
-import type * as VO from "../value-objects";
+
+export const HandleSetUserLanguageCommandError = {
+  Missing: "handle.set.user.language.command.error.missing",
+};
 
 type Dependencies = {
   EventStore: EventStoreLike<AcceptedEvent>;
@@ -19,9 +23,12 @@ type Dependencies = {
 type AcceptedEvent = Events.UserLanguageSetEventType;
 
 export const handleSetUserLanguageCommand =
-  <L extends ReadonlyArray<tools.LanguageType>>(supported: VO.SupportedLanguagesSet<L>, deps: Dependencies) =>
+  <T extends tools.LanguageType>(languages: Languages<T>, deps: Dependencies) =>
   async (command: Commands.SetUserLanguageCommandType) => {
-    const candidate = supported.ensure(command.payload.language);
+    const candidate = command.payload.language;
+
+    if (!languages.isSupported(candidate)) throw new Error(HandleSetUserLanguageCommandError.Missing);
+
     const current = await deps.UserLanguageQuery.get(command.payload.userId);
 
     if (!Invariants.UserLanguageHasChanged.passes({ current, candidate: command.payload.language })) return;
