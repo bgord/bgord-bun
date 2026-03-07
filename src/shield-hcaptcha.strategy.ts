@@ -1,6 +1,8 @@
 import { HCaptchaService } from "./hcaptcha.service";
 import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 
+export const ShieldHcaptchaLocalStrategyError = { Rejected: "shield.hcaptcha.local.rejected" };
+
 export const ShieldHcaptchaStrategyError = { Rejected: "shield.hcaptcha.rejected" };
 
 export class ShieldHcaptchaStrategy {

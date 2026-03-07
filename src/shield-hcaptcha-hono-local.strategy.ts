@@ -2,9 +2,7 @@ import type { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
 import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import { ShieldHcaptchaStrategy } from "./shield-hcaptcha.strategy";
-
-export const ShieldHcaptchaLocalStrategyError = { Rejected: "shield.hcaptcha.local.rejected" };
+import { ShieldHcaptchaLocalStrategyError, ShieldHcaptchaStrategy } from "./shield-hcaptcha.strategy";
 
 export const ShieldHcaptchaLocalError = new HTTPException(403, {
   message: ShieldHcaptchaLocalStrategyError.Rejected,

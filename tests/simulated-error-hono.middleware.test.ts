@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { SimulatedErrorHonoMiddleware } from "../src/simulated-error-hono.middleware";
 
 describe("SimulatedErrorHonoMiddleware", () => {
-  test("throws simulated error in handler", async () => {
+  test("happy path", async () => {
     const app = new Hono()
       .onError((error, c) => {
         if (error.message === "Simulated error") return c.text("caught", 418);

@@ -1,4 +1,4 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { afterEach, describe, expect, jest, spyOn, test } from "bun:test";
 import { GracefulShutdown } from "../src/graceful-shutdown.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
@@ -8,17 +8,34 @@ type ServerType = ReturnType<typeof Bun.serve>;
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
-// Helper to wait for promises to settle
-const tick = () => new Promise((r) => setTimeout(r, 0));
+// Helper to wait for multiple promise cycles
+const tick = async (times = 1) => {
+  for (let i = 0; i < times; i++) {
+    await new Promise((r) => setImmediate(r));
+  }
+};
 
 function setup() {
   const server = { stop: jest.fn() } as unknown as ServerType;
   const exitCalls: Array<number> = [];
-  const exitFn = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
+  const exitFn = ((code: number) => {
+    exitCalls.push(code);
+    // Don't actually exit, but also don't throw - just return undefined
+    return undefined as never;
+  }) as (code: number) => never;
   const gs = new GracefulShutdown(deps, exitFn);
 
   return { server, gs, exitCalls };
 }
+
+// Clean up all listeners after each test
+afterEach(async () => {
+  await tick(3); // Give time for any pending promises
+  process.removeAllListeners("SIGTERM");
+  process.removeAllListeners("SIGINT");
+  process.removeAllListeners("unhandledRejection");
+  process.removeAllListeners("uncaughtException");
+});
 
 describe("GracefulShutdown", () => {
   test("handles SIGTERM correctly", async () => {
@@ -27,7 +44,7 @@ describe("GracefulShutdown", () => {
 
     gs.applyTo(server);
     process.emit("SIGTERM");
-    await tick();
+    await tick(3);
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toEqual(0);
@@ -49,7 +66,7 @@ describe("GracefulShutdown", () => {
 
     gs.applyTo(server);
     process.emit("SIGINT");
-    await tick();
+    await tick(3);
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toEqual(0);
@@ -71,7 +88,7 @@ describe("GracefulShutdown", () => {
     gs.applyTo(server);
 
     process.emit("unhandledRejection", new Error(mocks.IntentionalError), {});
-    await tick();
+    await tick(3);
 
     expect(exitCalls[0]).toEqual(1);
     expect(loggerError).toHaveBeenCalledWith({
@@ -88,7 +105,7 @@ describe("GracefulShutdown", () => {
     gs.applyTo(server);
 
     process.emit("uncaughtException", new Error(mocks.IntentionalError));
-    await tick();
+    await tick(3);
 
     expect(exitCalls[0]).toEqual(1);
     expect(loggerError).toHaveBeenCalledWith({
@@ -106,8 +123,7 @@ describe("GracefulShutdown", () => {
     gs.applyTo(server, cleanup);
 
     process.emit("SIGTERM");
-    await tick();
-    await tick(); // Extra tick for the promise chain in cleanup
+    await tick(5); // More ticks for the promise chain
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toEqual(0);
@@ -126,7 +142,7 @@ describe("GracefulShutdown", () => {
     gs.applyTo(server);
 
     process.emit("SIGTERM");
-    await tick();
+    await tick(3);
 
     expect(server.stop).toHaveBeenCalledTimes(1);
     expect(exitCalls).toHaveLength(1);
@@ -149,7 +165,7 @@ describe("GracefulShutdown", () => {
     gs.applyTo(server);
 
     process.emit("SIGTERM");
-    await tick();
+    await tick(3);
 
     expect(loggerError).toHaveBeenCalledWith({
       message: "Server stop failed",
@@ -164,7 +180,7 @@ describe("GracefulShutdown", () => {
     gs.applyTo(server);
 
     process.emit("unhandledRejection", "reason");
-    await tick();
+    await tick(3);
 
     expect(exitCalls[0]).toEqual(1);
   });

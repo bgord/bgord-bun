@@ -5,7 +5,7 @@ import { ShieldTimeoutError, ShieldTimeoutHonoStrategy } from "../src/shield-tim
 
 const duration = tools.Duration.Ms(5);
 
-describe("ShieldTimeoutStrategy", () => {
+describe("ShieldTimeoutHonoStrategy", () => {
   test("happy path", async () => {
     const app = new Hono()
       .use(new ShieldTimeoutHonoStrategy({ duration }).handle())
