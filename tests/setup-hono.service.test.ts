@@ -10,6 +10,7 @@ import { CorrelationStorage } from "../src/correlation-storage.service";
 import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
+import { I18nConfig } from "../src/i18n-config.vo";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
@@ -22,7 +23,11 @@ type Config = {
   Variables: TimeZoneOffsetVariables & ETagVariables & WeakETagVariables & CorrelationVariables;
 };
 
-const I18n = { supportedLanguages: { pl: "pl", en: "en" }, defaultLanguage: "pl" } as const;
+enum SupportedLanguages {
+  pl = "pl",
+  en = "en",
+}
+const I18n = new I18nConfig(SupportedLanguages, "pl");
 
 const APP_ORIGIN = "http://localhost:3000";
 const EVIL_ORIGIN = "https://evil.example";
@@ -147,7 +152,7 @@ describe("SetupHono", () => {
     expect(await response.json()).toEqual({
       correlationId: mocks.correlationId,
       timeZoneOffset: 0,
-      language: I18n.defaultLanguage,
+      language: I18n.fallback,
       etag: null,
       weakEtag: null,
     });
@@ -245,7 +250,7 @@ describe("SetupHono", () => {
       mocks.connInfo,
     );
 
-    expect(await response.text()).toEqual(I18n.supportedLanguages.pl);
+    expect(await response.text()).toEqual(SupportedLanguages.pl);
   });
 
   test("languageDetector - en", async () => {
@@ -260,7 +265,7 @@ describe("SetupHono", () => {
       mocks.connInfo,
     );
 
-    expect(await response.text()).toEqual(I18n.supportedLanguages.en);
+    expect(await response.text()).toEqual(SupportedLanguages.en);
   });
 
   test("languageDetector - fallback", async () => {
@@ -276,7 +281,7 @@ describe("SetupHono", () => {
     );
     const language = await response.text();
 
-    expect(language).toEqual(I18n.defaultLanguage);
+    expect(language).toEqual(I18n.fallback);
   });
 
   test("time zone offset", async () => {

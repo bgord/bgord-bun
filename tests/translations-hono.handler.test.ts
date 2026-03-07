@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { languageDetector } from "hono/language";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
+import { I18nConfig } from "../src/i18n-config.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHonoHandler } from "../src/translations-hono.handler";
 
@@ -9,6 +10,8 @@ enum SupportedLanguages {
   en = "en",
   pl = "pl",
 }
+
+const i18n = new I18nConfig(SupportedLanguages, SupportedLanguages.en);
 
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
@@ -21,7 +24,7 @@ const app = new Hono()
       fallbackLanguage: SupportedLanguages.en,
     }),
   )
-  .get("/get-translations", ...new TranslationsHonoHandler(SupportedLanguages, deps).handle());
+  .get("/get-translations", ...new TranslationsHonoHandler(i18n, deps).handle());
 
 describe("TranslationsHonoHandler", () => {
   test("happy path - no language specified", async () => {

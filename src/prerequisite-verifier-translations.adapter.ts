@@ -2,6 +2,7 @@ import type * as tools from "@bgord/tools";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type * as types from "./i18n.service";
 import { I18n } from "./i18n.service";
+import type { I18nConfig } from "./i18n-config.vo";
 import type { LoggerPort } from "./logger.port";
 import {
   PrerequisiteVerification,
@@ -16,11 +17,10 @@ type PrerequisiteTranslationsProblemType = {
 };
 
 type Dependencies = { Logger: LoggerPort; FileReaderJson: FileReaderJsonPort };
-type Config = { supportedLanguages: types.I18nConfig["supportedLanguages"] };
 
 export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
   constructor(
-    private readonly config: Config,
+    private readonly config: I18nConfig,
     private readonly deps: Dependencies,
   ) {}
 

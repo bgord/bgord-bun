@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
+import { I18nConfig } from "../src/i18n-config.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHandler } from "../src/translations.handler";
 
@@ -8,11 +9,13 @@ enum SupportedLanguages {
   pl = "pl",
 }
 
+const i18n = new I18nConfig(SupportedLanguages, SupportedLanguages.en);
+
 const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
 const deps = { FileReaderJson, Logger };
 
-const handler = new TranslationsHandler(SupportedLanguages, deps);
+const handler = new TranslationsHandler(i18n, deps);
 
 describe("TranslationsHandler", () => {
   test("happy path - no language specified", async () => {

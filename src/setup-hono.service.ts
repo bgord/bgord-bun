@@ -11,7 +11,7 @@ import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HttpLoggerConfig } from "./http-logger.middleware";
 import { HttpLoggerHonoMiddleware } from "./http-logger-hono.middleware";
-import type { I18nConfig } from "./i18n.service";
+import type { I18nConfig } from "./i18n-config.vo";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
@@ -82,7 +82,7 @@ export class SetupHono {
       }),
       languageDetector({
         supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
-        fallbackLanguage: deps.I18n.defaultLanguage,
+        fallbackLanguage: deps.I18n.fallback,
         // Stryker disable all
         caches: false,
         // Stryker restore all

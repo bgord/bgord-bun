@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n, type TranslationsType } from "../src/i18n.service";
+import { I18nConfig } from "../src/i18n-config.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierTranslationsAdapter } from "../src/prerequisite-verifier-translations.adapter";
@@ -10,17 +11,14 @@ const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const deps = { Logger, FileReaderJson };
 
-const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
-  { supportedLanguages: { en: "en", pl: "pl" } },
-  deps,
-);
+const i18n = new I18nConfig({ en: "en", pl: "pl" }, "en");
+
+const prerequisite = new PrerequisiteVerifierTranslationsAdapter(i18n, deps);
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success - single language", async () => {
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(
-      { supportedLanguages: { en: "en" } },
-      deps,
-    );
+    const i18n = new I18nConfig({ en: "en" }, "en");
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(i18n, deps);
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
