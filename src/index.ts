@@ -168,6 +168,7 @@ export * from "./healthcheck.handler";
 export * from "./healthcheck-express.handler";
 export * from "./healthcheck-hono.handler";
 export * from "./http-logger.middleware";
+export * from "./http-logger-express.middleware";
 export * from "./http-logger-hono.middleware";
 export * from "./i18n.service";
 export * from "./id-provider.port";
