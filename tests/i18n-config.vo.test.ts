@@ -19,4 +19,12 @@ describe("I18nConfig", () => {
   test("supported", () => {
     expect(new I18nConfig(SupportedLanguages, "en").supported).toEqual({ en: "en", pl: "pl" });
   });
+
+  test("isSupported", () => {
+    const i18n = new I18nConfig(SupportedLanguages, "en");
+
+    expect(i18n.isSupported("en")).toEqual(true);
+    expect(i18n.isSupported("pl")).toEqual(true);
+    expect(i18n.isSupported("es")).toEqual(false);
+  });
 });

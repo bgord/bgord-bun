@@ -20,4 +20,8 @@ export class I18nConfig<T extends tools.LanguageType> {
       {} as Record<T, T>,
     );
   }
+
+  isSupported(value: unknown): value is T {
+    return typeof value === "string" && this.languages.includes(value as T);
+  }
 }
