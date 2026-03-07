@@ -30,7 +30,7 @@ export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageTyp
     const i18n = new I18n(this.deps);
     const languages = this.config.values;
 
-    const dictionary: Partial<Record<tools.LanguageType, ReadonlyArray<types.TranslationsKeyType>>> = {};
+    const dictionary: Partial<Record<T, ReadonlyArray<types.TranslationsKeyType>>> = {};
 
     for (const language of languages) {
       try {
