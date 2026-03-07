@@ -5,14 +5,19 @@ export const I18nConfigError = {
   FallbackNotSupported: "i18n.config.fallback.not.supported",
 };
 
-export class I18nConfig {
+export class I18nConfig<T extends tools.LanguageType> {
   constructor(
-    readonly supportedLanguages: Record<tools.LanguageType, string>,
-    readonly fallback: tools.LanguageType,
+    readonly languages: ReadonlyArray<T>,
+    readonly fallback: T,
   ) {
-    const supported = Object.keys(supportedLanguages);
+    if (languages.length === 0) throw new Error(I18nConfigError.Empty);
+    if (!languages.includes(fallback)) throw new Error(I18nConfigError.FallbackNotSupported);
+  }
 
-    if (supported.length === 0) throw new Error(I18nConfigError.Empty);
-    if (!supported.includes(fallback)) throw new Error(I18nConfigError.FallbackNotSupported);
+  get supported(): Record<T, T> {
+    return this.languages.reduce(
+      (result, language) => ({ ...result, [language]: language }),
+      {} as Record<T, T>,
+    );
   }
 }

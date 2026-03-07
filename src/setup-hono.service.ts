@@ -26,15 +26,15 @@ import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.midd
 type Dependencies = {
   Logger: LoggerPort;
   IdProvider: IdProviderPort;
-  I18n: I18nConfig;
   Clock: ClockPort;
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
   BuildInfoRepository: BuildInfoRepositoryStrategy;
 };
 
-type Config = {
+type Config<T extends tools.LanguageType> = {
   csrf: ShieldCsrfConfig;
+  I18n: I18nConfig<T>;
   cors?: Parameters<typeof cors>[0];
   httpLogger?: HttpLoggerConfig;
   maintenanceMode?: ShieldMaintenanceConfig;
@@ -44,7 +44,7 @@ export class SetupHono {
   // Configure body size limit at the framework level
   // - Bun: maxRequestBodySize in Bun.serve()
   // - Express: limit in express.json()
-  static essentials(config: Config, deps: Dependencies) {
+  static essentials<T extends tools.LanguageType>(config: Config<T>, deps: Dependencies) {
     return [
       new ShieldMaintenanceHonoStrategy(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
@@ -81,8 +81,8 @@ export class SetupHono {
         ...config.cors,
       }),
       languageDetector({
-        supportedLanguages: Object.keys(deps.I18n.supportedLanguages),
-        fallbackLanguage: deps.I18n.fallback,
+        supportedLanguages: config.I18n.languages as unknown as Array<tools.LanguageType>,
+        fallbackLanguage: config.I18n.fallback,
         // Stryker disable all
         caches: false,
         // Stryker restore all

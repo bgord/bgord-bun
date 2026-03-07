@@ -18,19 +18,21 @@ type PrerequisiteTranslationsProblemType = {
 
 type Dependencies = { Logger: LoggerPort; FileReaderJson: FileReaderJsonPort };
 
-export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVerifierPort {
+export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageType>
+  implements PrerequisiteVerifierPort
+{
   constructor(
-    private readonly config: I18nConfig,
+    private readonly config: I18nConfig<T>,
     private readonly deps: Dependencies,
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
-    const supportedLanguages = Object.keys(this.config.supportedLanguages);
     const i18n = new I18n(this.deps);
+    const languages = this.config.languages;
 
     const dictionary: Partial<Record<tools.LanguageType, ReadonlyArray<types.TranslationsKeyType>>> = {};
 
-    for (const language of supportedLanguages) {
+    for (const language of languages) {
       try {
         const translations = await i18n.getTranslations(language);
         dictionary[language] = Object.keys(translations);
@@ -47,7 +49,7 @@ export class PrerequisiteVerifierTranslationsAdapter implements PrerequisiteVeri
       // Stryker restore all
 
       for (const phrase of phrases) {
-        for (const supportedLanguage of supportedLanguages) {
+        for (const supportedLanguage of languages) {
           const phraseExists = new Set(dictionary[supportedLanguage]).has(phrase);
 
           if (!phraseExists) problems.push({ key: phrase, existsIn: language, missingIn: supportedLanguage });
