@@ -12,6 +12,8 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { I18nConfig } from "../src/i18n-config.vo";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
+import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
+import type { LanguageDetectorVariables } from "../src/language-detector-hono.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
@@ -20,11 +22,18 @@ import type { WeakETagVariables } from "../src/weak-etag-extractor-hono.middlewa
 import * as mocks from "./mocks";
 
 type Config = {
-  Variables: TimeZoneOffsetVariables & ETagVariables & WeakETagVariables & CorrelationVariables;
+  Variables: TimeZoneOffsetVariables &
+    ETagVariables &
+    WeakETagVariables &
+    CorrelationVariables &
+    LanguageDetectorVariables;
 };
 
 const SupportedLanguages = ["en", "pl"] as const;
-const I18n = new I18nConfig(SupportedLanguages, "pl");
+const I18n = {
+  i18n: new I18nConfig(SupportedLanguages, "pl"),
+  strategies: [new LanguageDetectorHeaderStrategy()],
+};
 
 const APP_ORIGIN = "http://localhost:3000";
 const EVIL_ORIGIN = "https://evil.example";
@@ -144,7 +153,7 @@ describe("SetupHono", () => {
     expect(await response.json()).toEqual({
       correlationId: mocks.correlationId,
       timeZoneOffset: 0,
-      language: I18n.fallback,
+      language: I18n.i18n.fallback,
       etag: null,
       weakEtag: null,
     });
@@ -232,7 +241,7 @@ describe("SetupHono", () => {
 
   test("languageDetector - default", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const app = new Hono()
+    const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
       .get("/lang", (c) => c.text(c.get("language")));
 
@@ -242,12 +251,12 @@ describe("SetupHono", () => {
       mocks.connInfo,
     );
 
-    expect(await response.text()).toEqual(I18n.supported.pl);
+    expect(await response.text()).toEqual(I18n.i18n.supported.pl);
   });
 
   test("languageDetector - en", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const app = new Hono()
+    const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
       .get("/lang", (c) => c.text(c.get("language")));
 
@@ -257,12 +266,12 @@ describe("SetupHono", () => {
       mocks.connInfo,
     );
 
-    expect(await response.text()).toEqual(I18n.supported.en);
+    expect(await response.text()).toEqual(I18n.i18n.supported.en);
   });
 
   test("languageDetector - fallback", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const app = new Hono()
+    const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
       .get("/lang", (c) => c.text(c.get("language")));
 
@@ -273,7 +282,7 @@ describe("SetupHono", () => {
     );
     const language = await response.text();
 
-    expect(language).toEqual(I18n.fallback);
+    expect(language).toEqual(I18n.i18n.fallback);
   });
 
   test("time zone offset", async () => {

@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import type * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { languageDetector } from "hono/language";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18nConfig } from "../src/i18n-config.vo";
+import { LanguageDetectorCookieStrategy } from "../src/language-detector-cookie.strategy";
+import { LanguageDetectorHonoMiddleware } from "../src/language-detector-hono.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHonoHandler } from "../src/translations-hono.handler";
 
@@ -16,10 +16,10 @@ const deps = { FileReaderJson, Logger };
 
 const app = new Hono()
   .use(
-    languageDetector({
-      supportedLanguages: i18n.languages as unknown as Array<tools.LanguageType>,
-      fallbackLanguage: i18n.fallback,
-    }),
+    new LanguageDetectorHonoMiddleware({
+      i18n,
+      strategies: [new LanguageDetectorCookieStrategy("language")],
+    }).handle(),
   )
   .get("/get-translations", ...new TranslationsHonoHandler(i18n, deps).handle());
 
