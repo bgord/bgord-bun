@@ -1,4 +1,5 @@
 import type { CommandBusPort } from "./command-bus.port";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { LogCoreType, LoggerPort } from "./logger.port";
 import type { Message, ToMessageMap } from "./message.types";
 
@@ -16,6 +17,7 @@ export class CommandBusWithLoggerAdapter<Command extends Message> implements Com
     this.deps.Logger.info({
       message: `${command.name} emitted`,
       metadata: command as LogCoreType["metadata"],
+      correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 

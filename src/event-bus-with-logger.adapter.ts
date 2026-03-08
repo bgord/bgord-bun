@@ -1,3 +1,4 @@
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { EventBusPort } from "./event-bus.port";
 import type { LogCoreType, LoggerPort } from "./logger.port";
 import type { Message, ToMessageMap } from "./message.types";
@@ -16,6 +17,7 @@ export class EventBusWithLoggerAdapter<Event extends Message> implements EventBu
     this.deps.Logger.info({
       message: `${event.name} emitted`,
       metadata: event as LogCoreType["metadata"],
+      correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
