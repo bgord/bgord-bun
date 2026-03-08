@@ -31,9 +31,10 @@ export class I18n {
 
       if (!translation) {
         that.deps.Logger.warn({
-          message: `Missing translation for key ${key}`,
+          message: "Missing translation key",
           component: "infra",
           operation: "translations",
+          metadata: { key },
         });
 
         return key;

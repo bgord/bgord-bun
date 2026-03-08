@@ -81,9 +81,10 @@ describe("I18n", () => {
 
     expect(t(key)).toEqual(key);
     expect(loggerWarn).toHaveBeenCalledWith({
-      message: `Missing translation for key ${key}`,
+      message: "Missing translation key",
       component: "infra",
       operation: "translations",
+      metadata: { key },
     });
   });
 
