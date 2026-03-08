@@ -8,7 +8,7 @@ const duration = tools.Duration.Ms(5);
 describe("ShieldTimeoutStrategy", () => {
   test("happy path", async () => {
     const app = new Hono()
-      .use(new ShieldTimeoutHonoStrategy({ duration }).handle())
+      .use(new ShieldTimeoutHonoStrategy(duration).handle())
       .get("/ping", async (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET" });
@@ -20,7 +20,7 @@ describe("ShieldTimeoutStrategy", () => {
     jest.useFakeTimers();
 
     const app = new Hono()
-      .use(new ShieldTimeoutHonoStrategy({ duration }).handle())
+      .use(new ShieldTimeoutHonoStrategy(duration).handle())
       .get("/ping", async (c) => {
         jest.advanceTimersByTime(duration.times(tools.MultiplicationFactor.parse(2)).ms);
         return c.text("OK");
