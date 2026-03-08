@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import type { MiddlewareHandler } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
@@ -44,7 +45,10 @@ export class SetupHono {
   // Configure body size limit at the framework level
   // - Bun: maxRequestBodySize in Bun.serve()
   // - Express: limit in express.json()
-  static essentials<T extends tools.LanguageType>(config: Config<T>, deps: Dependencies) {
+  static essentials<T extends tools.LanguageType>(
+    config: Config<T>,
+    deps: Dependencies,
+  ): Array<MiddlewareHandler> {
     return [
       new ShieldMaintenanceHonoStrategy(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
