@@ -8,6 +8,7 @@ export class LanguageDetectorHeaderStrategy<T extends tools.LanguageType>
 {
   detect(context: HasRequestHeaders, languages: Languages<T>): T | null {
     const header = context.request.headers().get("Accept-Language");
+
     if (!header) return null;
 
     const incoming = header

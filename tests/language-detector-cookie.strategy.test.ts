@@ -15,7 +15,6 @@ describe("LanguageDetectorCookieStrategy", () => {
     const pl = new RequestContextBuilder().withCookie(cookie, i18n.supported.pl).build();
 
     expect(strategy.detect(en, i18n)).toEqual(i18n.supported.en);
-
     expect(strategy.detect(pl, i18n)).toEqual(i18n.supported.pl);
   });
 
