@@ -31,7 +31,7 @@ export const handleSetUserLanguageCommand =
 
     const current = await deps.UserLanguageQuery.get(command.payload.userId);
 
-    if (!Invariants.UserLanguageHasChanged.passes({ current, candidate: command.payload.language })) return;
+    if (!Invariants.UserLanguageHasChanged.passes({ current, candidate })) return;
 
     const event = Events.UserLanguageSetEvent.parse({
       ...createEventEnvelope(`preferences_${command.payload.userId}`, deps),
