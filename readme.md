@@ -230,6 +230,13 @@ src/
 ├── job-handler-with-logger.strategy.ts
 ├── job-handler.strategy.ts
 ├── jobs.service.ts
+├── language-detector-cookie.strategy.ts
+├── language-detector-header.strategy.ts
+├── language-detector-hono.middleware.ts
+├── language-detector-query.strategy.ts
+├── language-detector.middleware.ts
+├── language-detector.strategy.ts
+├── languages.vo.ts
 ├── logger-collecting.adapter.ts
 ├── logger-noop.adapter.ts
 ├── logger-stats-provider-noop.adapter.ts
@@ -280,11 +287,9 @@ src/
 │   │   │   └── user-language-has-changed.ts
 │   │   ├── open-host-queries
 │   │   │   └── user-language.ts
-│   │   ├── ports
-│   │   │   ├── user-language-query.ts
-│   │   │   └── user-language-resolver.ts
-│   │   └── value-objects
-│   │       └── supported-languages-set.ts
+│   │   └── ports
+│   │       ├── user-language-query.ts
+│   │       └── user-language-resolver.ts
 │   └── system
 │       ├── events
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
