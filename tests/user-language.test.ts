@@ -47,4 +47,15 @@ describe("UserLanguageOHQ", () => {
 
     expect(await UserLanguageOHQ.get(userId)).toEqual(mocks.languages.supported.en);
   });
+
+  test("unsupported", async () => {
+    using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue("es");
+    const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
+      mocks.languages,
+      UserLanguageQueryAdapter,
+      new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(mocks.languages),
+    );
+
+    expect(async () => UserLanguageOHQ.get(userId)).toThrow("user.language.ohq.error.missing");
+  });
 });

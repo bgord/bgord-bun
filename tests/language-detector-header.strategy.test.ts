@@ -35,6 +35,24 @@ describe("LanguageDetectorHeaderStrategy", () => {
     expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.pl);
   });
 
+  test("whitespace", () => {
+    const context = new RequestContextBuilder().withHeader(header, " en-US , pl ; q=0.8 ").build();
+
+    expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.en);
+  });
+
+  test("empty segments", () => {
+    const context = new RequestContextBuilder().withHeader(header, ";q=0.9,pl").build();
+
+    expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.pl);
+  });
+
+  test("malformed", () => {
+    const context = new RequestContextBuilder().withHeader(header, "de,,pl").build();
+
+    expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.pl);
+  });
+
   test("missing", () => {
     const context = new RequestContextBuilder().build();
 

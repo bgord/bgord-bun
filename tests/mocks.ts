@@ -7,6 +7,7 @@ import { CommitSha } from "../src/commit-sha.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import { Languages } from "../src/languages.vo";
+import type * as Preferences from "../src/modules/preferences";
 import type * as System from "../src/modules/system";
 import { Prerequisite } from "../src/prerequisite.vo";
 import {
@@ -190,6 +191,16 @@ export const GenericSecurityViolationDetectedBanDenyWithoutContextEvent = {
     action: "deny",
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;
+
+export const GenericUserLanguageSetEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: `preferences_${correlationId}`,
+  version: 1,
+  name: "USER_LANGUAGE_SET_EVENT",
+  payload: { userId: correlationId, language: languages.supported.pl },
+} satisfies Preferences.Events.UserLanguageSetEventType;
 
 export async function tick() {
   await Promise.resolve();
