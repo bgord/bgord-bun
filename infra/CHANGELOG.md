@@ -1,7 +1,9 @@
 # Changelog
+- 2026-03-08 13:44 d9b0ecf2 **fix: missing correlation id in with logger bus decorator**
 ## 2026-03-08 11:49 v1.12.5
 - 2026-03-08 11:49 277f732e **1.12.5**
 - 2026-03-08 10:56 b847a8ec **step: kill mutants**
+- 2026-03-08 10:49 84fc50a6 **docs: generate CHANGELOG**
 - 2026-03-08 10:30 e2f29e80 **docs: generate CHANGELOG**
 - 2026-03-08 10:30 9416aab4 **docs: generate readme**
 - 2026-03-08 09:55 aadd1da1 **step: add setup.essentials return type**
