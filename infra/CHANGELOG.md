@@ -1,4 +1,28 @@
 # Changelog
+- 2026-03-08 10:56 b847a8ec **step: kill mutants**
+- 2026-03-08 09:55 aadd1da1 **step: add setup.essentials return type**
+- 2026-03-08 09:46 a0c71381 **step: max language detector strategies validator**
+- 2026-03-08 09:24 98186bc8 **refactor: extract languages to mocks**
+- 2026-03-08 09:15 087e19e1 **refactor: improve tests**
+- 2026-03-08 09:12 4f988fe9 **refactor: restore tsconfig**
+- 2026-03-08 09:09 cf4981d0 **step: update packages**
+- 2026-03-07 23:30 0f9e3bf3 **fix: types**
+- 2026-03-07 23:24 7c186d91 **refactor: simplfy preferences bc**
+- 2026-03-07 22:47 6fae79ed **step: rename i18n config to languages**
+- 2026-03-07 22:33 b35521af **fix: translations hono handler types**
+- 2026-03-07 22:11 9300934c **step: test hono middleware**
+- 2026-03-07 22:07 f2bb2986 **step: test header detector**
+- 2026-03-07 22:07 cca43fdf **step: test cookie detector**
+- 2026-03-07 22:07 2f7276a8 **step: test core middleware**
+- 2026-03-07 21:52 d7cf2e90 **step: test query detector**
+- 2026-03-07 21:33 a3474c79 **refactor: use new language detector**
+- 2026-03-07 21:30 77ff8edc **feature: add language detector**
+- 2026-03-07 21:08 3ed28024 **step: add is supported guard**
+- 2026-03-07 20:13 2dc94a67 **refactor: make config type safe and flat**
+- 2026-03-07 19:52 91f31fbe **refactor: use new i18n config**
+- 2026-03-07 19:38 096066c0 **step: define i18n config vo**
+- 2026-03-07 19:38 0054b3de **refactor: remove legacy i18n config type**
+- 2026-03-07 18:43 7e17ff78 **step: update packages**
 ## 2026-03-06 16:30 v1.12.4
 - 2026-03-06 16:30 c59086dd **1.12.4**
 - 2026-03-06 16:29 faa956e7 **fix: lock in message bus error swallowing behaviour**
@@ -8,6 +32,7 @@
 - 2026-03-06 15:58 3d8ae35d **refactor: remove v1 suffix on emittery adapters**
 - 2026-03-06 15:55 d765602d **step: update packages**
 - 2026-03-06 15:35 49a7a259 **refactor: unify event handler parameter**
+- 2026-03-06 15:31 096e1bcb **docs: generate CHANGELOG**
 - 2026-03-06 15:30 a6471154 **docs: generate CHANGELOG**
 ## 2026-03-06 15:15 v1.12.2
 - 2026-03-06 15:15 14252662 **1.12.2**
