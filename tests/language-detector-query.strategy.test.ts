@@ -15,7 +15,6 @@ describe("LanguageDetectorQueryStrategy", () => {
     const pl = new RequestContextBuilder().withQuery({ [query]: i18n.supported.pl }).build();
 
     expect(strategy.detect(en, i18n)).toEqual(i18n.supported.en);
-
     expect(strategy.detect(pl, i18n)).toEqual(i18n.supported.pl);
   });
 
