@@ -73,11 +73,6 @@ src/
 ├── clock-offset.adapter.ts
 ├── clock-system.adapter.ts
 ├── clock.port.ts
-├── command-bus-collecting.adapter.ts
-├── command-bus-emittery.adapter.ts
-├── command-bus-noop.adapter.ts
-├── command-bus-with-logger.adapter.ts
-├── command-bus.port.ts
 ├── command-envelope.ts
 ├── command.types.ts
 ├── commit-sha-value.vo.ts
@@ -116,11 +111,6 @@ src/
 ├── error-normalizer.service.ts
 ├── etag-extractor-hono.middleware.ts
 ├── etag-extractor.middleware.ts
-├── event-bus-collecting.adapter.ts
-├── event-bus-emittery.adapter.ts
-├── event-bus-noop.adapter.ts
-├── event-bus-with-logger.adapter.ts
-├── event-bus.port.ts
 ├── event-envelope.ts
 ├── event-handler-bare.strategy.ts
 ├── event-handler-noop.strategy.ts
@@ -254,6 +244,11 @@ src/
 ├── markdown-generator.adapter.ts
 ├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
+├── message-bus-collecting.adapter.ts
+├── message-bus-emittery.adapter.ts
+├── message-bus-noop.adapter.ts
+├── message-bus-with-logger.adapter.ts
+├── message-bus.port.ts
 ├── message.types.ts
 ├── middleware-hono-noop.adapter.ts
 ├── middleware-hono.port.ts
