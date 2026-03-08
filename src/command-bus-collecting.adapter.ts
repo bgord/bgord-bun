@@ -1,5 +1,5 @@
-import type { CommandBusPort } from "./command-bus.port";
 import type { Message, ToMessageMap } from "./message.types";
+import type { CommandBusPort } from "./message-bus.port";
 
 export class CommandBusCollectingAdapter<Command extends Message> implements CommandBusPort<Command> {
   public commands: Array<Command> = [];

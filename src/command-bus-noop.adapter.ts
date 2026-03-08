@@ -1,5 +1,5 @@
-import type { CommandBusPort } from "./command-bus.port";
 import type { Message, ToMessageMap } from "./message.types";
+import type { CommandBusPort } from "./message-bus.port";
 
 export class CommandBusNoopAdapter<Command extends Message> implements CommandBusPort<Command> {
   async emit<C extends Command>(_command: C): Promise<void> {}

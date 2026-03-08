@@ -1,9 +1,9 @@
 // Stryker disable all
 import type * as z from "zod/v4";
 import type { GenericEventSchema, GenericParsedEventSchema } from "./event.types";
-import type { EventBusPort } from "./event-bus.port";
 import { EventStore as BaseStore } from "./event-store";
 import type { EventStreamType } from "./event-stream.vo";
+import type { EventBusPort } from "./message-bus.port";
 
 export class DispatchingEventStore<AllEvents extends GenericEventSchema> extends BaseStore<AllEvents> {
   static EMPTY_STREAM_REVISION = -1;

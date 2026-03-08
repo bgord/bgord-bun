@@ -1,6 +1,6 @@
 import Emittery from "emittery";
-import type { CommandBusPort } from "./command-bus.port";
 import type { Message, ToMessageMap } from "./message.types";
+import type { CommandBusPort } from "./message-bus.port";
 
 export class CommandBusEmitteryAdapter<Command extends Message> implements CommandBusPort<Command> {
   private readonly emittery: Emittery<ToMessageMap<Command>>;

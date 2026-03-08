@@ -1,5 +1,5 @@
-import type { EventBusPort } from "./event-bus.port";
 import type { Message, ToMessageMap } from "./message.types";
+import type { EventBusPort } from "./message-bus.port";
 
 export class EventBusCollectingAdapter<Event extends Message> implements EventBusPort<Event> {
   public events: Array<Event> = [];

@@ -1,7 +1,7 @@
-import type { CommandBusPort } from "./command-bus.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LogCoreType, LoggerPort } from "./logger.port";
 import type { Message, ToMessageMap } from "./message.types";
+import type { CommandBusPort } from "./message-bus.port";
 
 type Dependencies = { Logger: LoggerPort };
 
