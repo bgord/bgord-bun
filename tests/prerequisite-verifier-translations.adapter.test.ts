@@ -11,10 +11,7 @@ const Logger = new LoggerNoopAdapter();
 const FileReaderJson = new FileReaderJsonNoopAdapter({});
 const deps = { Logger, FileReaderJson };
 
-const SupportedLanguages = ["en", "pl"] as const;
-const i18n = new Languages(SupportedLanguages, "en");
-
-const prerequisite = new PrerequisiteVerifierTranslationsAdapter(i18n, deps);
+const prerequisite = new PrerequisiteVerifierTranslationsAdapter(mocks.languages, deps);
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success - single language", async () => {

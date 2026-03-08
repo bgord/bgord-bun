@@ -9,14 +9,11 @@ import {
   LanguageDetectorHonoMiddleware,
   type LanguageDetectorVariables,
 } from "../src/language-detector-hono.middleware";
-import { Languages } from "../src/languages.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
 type Config = { Variables: LanguageDetectorVariables };
 
-const SupportedLanguages = ["pl", "en"] as const;
-const languages = new Languages(SupportedLanguages, "en");
 const cookie = new LanguageDetectorCookieStrategy("language");
 
 const Logger = new LoggerNoopAdapter();
@@ -29,41 +26,45 @@ const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
 const t = i18n.useTranslations(translations);
 
 const app = new Hono<Config>()
-  .use(new LanguageDetectorHonoMiddleware({ languages, strategies: [cookie] }).handle())
+  .use(new LanguageDetectorHonoMiddleware({ languages: mocks.languages, strategies: [cookie] }).handle())
   .get("/", (c) => c.json({ language: c.get("language") }));
 
 describe("I18n", () => {
   test("middleware - happy path", async () => {
-    const response = await app.request("/", { headers: { cookie: "language=pl" } });
+    const response = await app.request("/", {
+      headers: { cookie: `language=${mocks.languages.supported.pl}` },
+    });
     const json = await response.json();
 
-    expect(json.language).toEqual("pl");
+    expect(json.language).toEqual(mocks.languages.supported.pl);
   });
 
   test("middleware - missing cookie", async () => {
     const response = await app.request("/");
     const json = await response.json();
 
-    expect(json.language).toEqual("en");
+    expect(json.language).toEqual(mocks.languages.supported.en);
   });
 
   test("middleware - unsupported language", async () => {
     const response = await app.request("/", { headers: { cookie: "language=fr" } });
     const json = await response.json();
 
-    expect(json.language).toEqual("en");
+    expect(json.language).toEqual(mocks.languages.supported.en);
   });
 
   test("getTranslationPathForLanguage", () => {
-    expect(i18n.getTranslationPathForLanguage("en").get()).toEqual("infra/translations/en.json");
+    expect(i18n.getTranslationPathForLanguage(mocks.languages.supported.en).get()).toEqual(
+      `infra/translations/${mocks.languages.supported.en}.json`,
+    );
   });
 
   test("getTranslationPathForLanguage - custom path", () => {
     expect(
       new I18n(deps, tools.DirectoryPathRelativeSchema.parse("custom/path"))
-        .getTranslationPathForLanguage("pl")
+        .getTranslationPathForLanguage(mocks.languages.supported.pl)
         .get(),
-    ).toEqual("custom/path/pl.json");
+    ).toEqual(`custom/path/${mocks.languages.supported.pl}.json`);
   });
 
   test("useTranslations", () => {
@@ -87,7 +88,7 @@ describe("I18n", () => {
   });
 
   test("getTranslations", async () => {
-    expect(await i18n.getTranslations("en")).toEqual({ hello: "Hello" });
+    expect(await i18n.getTranslations(mocks.languages.supported.en)).toEqual({ hello: "Hello" });
   });
 
   test("getTranslations - error", async () => {
@@ -95,6 +96,6 @@ describe("I18n", () => {
 
     const i18n = new I18n({ FileReaderJson: new FileReaderJsonForgivingAdapter(), Logger });
 
-    expect(await i18n.getTranslations("en")).toEqual({});
+    expect(await i18n.getTranslations(mocks.languages.supported.en)).toEqual({});
   });
 });

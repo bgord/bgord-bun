@@ -13,7 +13,6 @@ import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
 import type { LanguageDetectorVariables } from "../src/language-detector-hono.middleware";
-import { Languages } from "../src/languages.vo";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
@@ -29,13 +28,7 @@ type Config = {
     LanguageDetectorVariables;
 };
 
-const SupportedLanguages = ["en", "pl"] as const;
-
-const languages = new Languages(SupportedLanguages, "pl");
-const I18n = {
-  languages,
-  strategies: [new LanguageDetectorHeaderStrategy()],
-};
+const I18n = { languages: mocks.languages, strategies: [new LanguageDetectorHeaderStrategy()] };
 
 const APP_ORIGIN = "http://localhost:3000";
 const EVIL_ORIGIN = "https://evil.example";
