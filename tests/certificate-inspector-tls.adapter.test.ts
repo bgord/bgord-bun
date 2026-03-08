@@ -10,10 +10,12 @@ const deps = { Clock };
 
 const adapter = new CertificateInspectorTLSAdapter(deps);
 
+const host = "example.com";
+
 describe("CertificateInspectorTLSAdapter", () => {
   test("success - remaining 30 days", async () => {
     const valid_to = new Date(Clock.now().add(tools.Duration.Days(30)).ms).toUTCString();
-    using _ = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
+    using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
           return this;
@@ -28,15 +30,19 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect("example.com")).toEqual({
+    expect(await adapter.inspect(host)).toEqual({
       success: true,
       remaining: tools.Duration.Days(30),
     });
+    expect(tlsConnect).toHaveBeenCalledWith(
+      { host, port: 443, rejectUnauthorized: false, servername: host },
+      expect.any(Function),
+    );
   });
 
   test("success - expired 2 days ago", async () => {
     const valid_to = new Date(Clock.now().add(tools.Duration.Days(-2)).ms).toUTCString();
-    using _ = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
+    using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
           return this;
@@ -51,14 +57,18 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect("expired.example")).toEqual({
+    expect(await adapter.inspect(host)).toEqual({
       success: true,
       remaining: tools.Duration.Days(-2),
     });
+    expect(tlsConnect).toHaveBeenCalledWith(
+      { host, port: 443, rejectUnauthorized: false, servername: host },
+      expect.any(Function),
+    );
   });
 
   test("failre - connection error", async () => {
-    using _ = spyOn(tls, "connect").mockImplementation((_opts: any, _onSecure: any) => {
+    using tlsConnect = spyOn(tls, "connect").mockImplementation((_opts: any, _onSecure: any) => {
       let onError: any;
       const socket: any = {
         once(_event: string, handler: any) {
@@ -75,11 +85,15 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect("nope.invalid")).toEqual({ success: false });
+    expect(await adapter.inspect(host)).toEqual({ success: false });
+    expect(tlsConnect).toHaveBeenCalledWith(
+      { host, port: 443, rejectUnauthorized: false, servername: host },
+      expect.any(Function),
+    );
   });
 
   test("failure - missing certificate", async () => {
-    using _ = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
+    using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
           return this;
@@ -94,6 +108,10 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect("nocert.example")).toEqual({ success: false });
+    expect(await adapter.inspect(host)).toEqual({ success: false });
+    expect(tlsConnect).toHaveBeenCalledWith(
+      { host, port: 443, rejectUnauthorized: false, servername: host },
+      expect.any(Function),
+    );
   });
 });
