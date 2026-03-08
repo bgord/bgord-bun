@@ -1,7 +1,12 @@
 # Changelog
+- 2026-03-08 20:37 649e97f1 **refactor: collapse event and command bus into message bus**
+- 2026-03-08 20:17 20900e36 **refactor: extract common message bus port**
+- 2026-03-08 19:22 055b21c4 **refactor: simplify timeout middleware**
+- 2026-03-08 15:25 2f0b3794 **step: bump bgord/scripts**
 ## 2026-03-08 13:45 v1.12.6
 - 2026-03-08 13:45 2db2ab3d **1.12.6**
 - 2026-03-08 13:44 d9b0ecf2 **fix: missing correlation id in with logger bus decorator**
+- 2026-03-08 12:45 89450ace **docs: generate CHANGELOG**
 - 2026-03-08 12:44 de3156b3 **docs: generate CHANGELOG**
 ## 2026-03-08 11:49 v1.12.5
 - 2026-03-08 11:49 277f732e **1.12.5**
