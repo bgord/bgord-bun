@@ -1,5 +1,9 @@
 # Changelog
+## 2026-03-08 11:49 v1.12.5
+- 2026-03-08 11:49 277f732e **1.12.5**
 - 2026-03-08 10:56 b847a8ec **step: kill mutants**
+- 2026-03-08 10:30 e2f29e80 **docs: generate CHANGELOG**
+- 2026-03-08 10:30 9416aab4 **docs: generate readme**
 - 2026-03-08 09:55 aadd1da1 **step: add setup.essentials return type**
 - 2026-03-08 09:46 a0c71381 **step: max language detector strategies validator**
 - 2026-03-08 09:24 98186bc8 **refactor: extract languages to mocks**
