@@ -5,10 +5,9 @@ export interface MessageBusPort<Messages extends Message> {
 
   on<MessageName extends keyof ToMessageMap<Messages>>(
     name: MessageName,
-    handler: (event: ToMessageMap<Messages>[MessageName]) => void | Promise<void>,
+    handler: (message: ToMessageMap<Messages>[MessageName]) => void | Promise<void>,
   ): void;
 }
 
 export type EventBusPort<Event extends Message> = MessageBusPort<Event>;
-
 export type CommandBusPort<Command extends Message> = MessageBusPort<Command>;
