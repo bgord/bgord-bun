@@ -1,5 +1,8 @@
 # Changelog
+## 2026-03-08 13:45 v1.12.6
+- 2026-03-08 13:45 2db2ab3d **1.12.6**
 - 2026-03-08 13:44 d9b0ecf2 **fix: missing correlation id in with logger bus decorator**
+- 2026-03-08 12:44 de3156b3 **docs: generate CHANGELOG**
 ## 2026-03-08 11:49 v1.12.5
 - 2026-03-08 11:49 277f732e **1.12.5**
 - 2026-03-08 10:56 b847a8ec **step: kill mutants**
