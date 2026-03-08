@@ -1,17 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import type * as tools from "@bgord/tools";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { Languages } from "../src/languages.vo";
 import * as Preferences from "../src/modules/preferences";
-
-const SupportedLanguages = ["en", "pl"] as const;
-const languages = new Languages(SupportedLanguages, "en");
+import * as mocks from "./mocks";
 
 const userId = new IdProviderCryptoAdapter().generate();
 
 class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQueryPort {
   async get(_userId: tools.LanguageType): Promise<tools.LanguageType | null> {
-    return languages.supported.en;
+    return mocks.languages.supported.en;
   }
 }
 
@@ -19,20 +16,20 @@ const UserLanguageQueryAdapter = new UserLanguageQueryAdapterNoop();
 
 describe("UserLanguageOHQ", () => {
   test("happy path", async () => {
-    using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(languages.supported.pl);
+    using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(mocks.languages.supported.pl);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
-      languages,
+      mocks.languages,
       UserLanguageQueryAdapter,
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
 
-    expect(await UserLanguageOHQ.get(userId)).toEqual(languages.supported.pl);
+    expect(await UserLanguageOHQ.get(userId)).toEqual(mocks.languages.supported.pl);
   });
 
   test("UserLanguageResolverThrowIfMissing", async () => {
     using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
-      languages,
+      mocks.languages,
       UserLanguageQueryAdapter,
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
@@ -43,11 +40,11 @@ describe("UserLanguageOHQ", () => {
   test("UserLanguageResolverSystemDefaultFallback", async () => {
     using _ = spyOn(UserLanguageQueryAdapter, "get").mockResolvedValue(null);
     const UserLanguageOHQ = new Preferences.OHQ.UserLanguageAdapter(
-      languages,
+      mocks.languages,
       UserLanguageQueryAdapter,
-      new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(languages),
+      new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(mocks.languages),
     );
 
-    expect(await UserLanguageOHQ.get(userId)).toEqual(languages.supported.en);
+    expect(await UserLanguageOHQ.get(userId)).toEqual(mocks.languages.supported.en);
   });
 });

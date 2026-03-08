@@ -1,11 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import { Languages } from "../src/languages.vo";
-
-const SupportedLanguages = ["en", "pl"] as const;
+import * as mocks from "./mocks";
 
 describe("Languages", () => {
   test("happy path", () => {
-    expect(() => new Languages(SupportedLanguages, "en")).not.toThrow();
+    expect(() => new Languages(mocks.SupportedLanguages, "en")).not.toThrow();
   });
 
   test("supported - empty", () => {
@@ -13,15 +12,15 @@ describe("Languages", () => {
   });
 
   test("fallback not supported", () => {
-    expect(() => new Languages(SupportedLanguages, "es")).toThrow("languages.fallback.not.supported");
+    expect(() => new Languages(mocks.SupportedLanguages, "es")).toThrow("languages.fallback.not.supported");
   });
 
   test("supported", () => {
-    expect(new Languages(SupportedLanguages, "en").supported).toEqual({ en: "en", pl: "pl" });
+    expect(new Languages(mocks.SupportedLanguages, "en").supported).toEqual({ en: "en", pl: "pl" });
   });
 
   test("isSupported", () => {
-    const i18n = new Languages(SupportedLanguages, "en");
+    const i18n = new Languages(mocks.SupportedLanguages, "en");
 
     expect(i18n.isSupported("en")).toEqual(true);
     expect(i18n.isSupported("pl")).toEqual(true);
