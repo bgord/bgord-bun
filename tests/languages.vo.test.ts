@@ -25,5 +25,6 @@ describe("Languages", () => {
     expect(i18n.isSupported("en")).toEqual(true);
     expect(i18n.isSupported("pl")).toEqual(true);
     expect(i18n.isSupported("es")).toEqual(false);
+    expect(i18n.isSupported(12)).toEqual(false);
   });
 });

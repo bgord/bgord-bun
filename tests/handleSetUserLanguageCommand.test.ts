@@ -10,22 +10,26 @@ const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correla
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock, IdProvider };
 
+const EventStore = { save: async () => {} };
+
+class UserLanguageQueryNoopAdapter implements Preferences.Ports.UserLanguageQueryPort {
+  async get(): Promise<tools.LanguageType | null> {
+    return null;
+  }
+}
+
+const UserLanguageQuery = new UserLanguageQueryNoopAdapter();
+
+const handler = Preferences.CommandHandlers.handleSetUserLanguageCommand(mocks.languages, {
+  ...deps,
+  UserLanguageQuery,
+  EventStore,
+});
+
 describe("handleSetUserLanguageCommand", async () => {
   test("happy path", async () => {
-    const EventStore = { save: async () => {} };
     using eventStoreSave = spyOn(EventStore, "save");
-
-    class UserLanguageQuery implements Preferences.Ports.UserLanguageQueryPort {
-      async get() {
-        return null;
-      }
-    }
-
-    const handler = Preferences.CommandHandlers.handleSetUserLanguageCommand(mocks.languages, {
-      ...deps,
-      UserLanguageQuery: new UserLanguageQuery(),
-      EventStore,
-    });
+    using _ = spyOn(UserLanguageQuery, "get").mockResolvedValue(null);
 
     const command = Preferences.Commands.SetUserLanguageCommand.parse({
       name: "SET_USER_LANGUAGE_COMMAND",
@@ -37,36 +41,13 @@ describe("handleSetUserLanguageCommand", async () => {
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       await handler(command);
-
-      expect(eventStoreSave).toHaveBeenCalledWith([
-        {
-          name: "USER_LANGUAGE_SET_EVENT",
-          correlationId: mocks.correlationId,
-          id: mocks.correlationId,
-          createdAt: mocks.TIME_ZERO.ms,
-          payload: { userId: mocks.correlationId, language: mocks.languages.supported.pl },
-          stream: `preferences_${mocks.correlationId}`,
-          version: 1,
-        },
-      ]);
+      expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericUserLanguageSetEvent]);
     });
   });
 
   test("UserLanguageHasChanged", async () => {
-    const EventStore = { save: async () => {} };
     using eventStoreSave = spyOn(EventStore, "save");
-
-    class UserLanguageQuery implements Preferences.Ports.UserLanguageQueryPort {
-      async get() {
-        return mocks.languages.supported.pl;
-      }
-    }
-
-    const handler = Preferences.CommandHandlers.handleSetUserLanguageCommand(mocks.languages, {
-      ...deps,
-      UserLanguageQuery: new UserLanguageQuery(),
-      EventStore,
-    });
+    using _ = spyOn(UserLanguageQuery, "get").mockResolvedValue(mocks.languages.supported.pl);
 
     const command = Preferences.Commands.SetUserLanguageCommand.parse({
       name: "SET_USER_LANGUAGE_COMMAND",
@@ -78,7 +59,24 @@ describe("handleSetUserLanguageCommand", async () => {
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       await handler(command);
+      expect(eventStoreSave).not.toHaveBeenCalled();
+    });
+  });
 
+  test("unsupported", async () => {
+    using eventStoreSave = spyOn(EventStore, "save");
+    using _ = spyOn(UserLanguageQuery, "get").mockResolvedValue(mocks.languages.supported.pl);
+
+    const command = Preferences.Commands.SetUserLanguageCommand.parse({
+      name: "SET_USER_LANGUAGE_COMMAND",
+      correlationId: mocks.correlationId,
+      id: mocks.correlationId,
+      createdAt: mocks.TIME_ZERO.ms,
+      payload: { userId: mocks.correlationId, language: "es" },
+    } satisfies Preferences.Commands.SetUserLanguageCommandType);
+
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      expect(async () => handler(command)).toThrow("handle.set.user.language.command.error.missing");
       expect(eventStoreSave).not.toHaveBeenCalled();
     });
   });

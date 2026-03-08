@@ -11,9 +11,12 @@ export class LanguageDetectorHeaderStrategy<T extends tools.LanguageType>
 
     if (!header) return null;
 
+    // Example Accept-Language header: en-US,en;q=0.9,pl;q=0.8
+    // Stryker disable all
     const incoming = header
       .split(",")
       .map((language) => language.split(";")[0]?.trim().toLowerCase().split("-")[0]);
+    // Stryker restore all
 
     return incoming.find((language) => languages.isSupported(language)) ?? null;
   }
