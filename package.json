@@ -43,7 +43,7 @@
     "zod": "4.3.6"
   },
   "dependencies": {
-    "@bgord/tools": "1.3.22",
+    "@bgord/tools": "1.3.24",
     "emittery": "2.0.0",
     "hono": "4.12.5",
     "node-cache": "5.1.2"
