@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { LanguageDetectorMiddleware } from "../src/language-detector.middleware";
 import { LanguageDetectorCookieStrategy } from "../src/language-detector-cookie.strategy";
 import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
@@ -96,5 +97,25 @@ describe("LanguageDetectorMiddleware", () => {
     const context = new RequestContextBuilder().build();
 
     expect(middleware.evaluate(context)).toEqual(mocks.languages.supported.en);
+  });
+
+  test("just enough strategies", () => {
+    expect(
+      () =>
+        new LanguageDetectorMiddleware({
+          languages: mocks.languages,
+          strategies: tools.repeat(header, 5),
+        }),
+    ).not.toThrow();
+  });
+
+  test("max strategies", () => {
+    expect(
+      () =>
+        new LanguageDetectorMiddleware({
+          languages: mocks.languages,
+          strategies: tools.repeat(header, 6),
+        }),
+    ).toThrow("language.detector.middleware.max.strategies");
   });
 });
