@@ -1,6 +1,10 @@
 # Changelog
+## 2026-03-08 20:41 v1.12.7
+- 2026-03-08 20:41 0805e880 **1.12.7**
 - 2026-03-08 20:37 649e97f1 **refactor: collapse event and command bus into message bus**
 - 2026-03-08 20:17 20900e36 **refactor: extract common message bus port**
+- 2026-03-08 19:40 eba0ac1e **docs: generate CHANGELOG**
+- 2026-03-08 19:40 c692fe1c **docs: generate readme**
 - 2026-03-08 19:22 055b21c4 **refactor: simplify timeout middleware**
 - 2026-03-08 15:25 2f0b3794 **step: bump bgord/scripts**
 ## 2026-03-08 13:45 v1.12.6
