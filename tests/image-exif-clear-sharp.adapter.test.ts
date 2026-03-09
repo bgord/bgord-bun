@@ -19,8 +19,11 @@ const deps = { FileRenamer };
 
 describe("ImageExifClearSharpAdapter", () => {
   test("in_place", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageExifClearSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using toFile = spyOn(pipeline, "toFile");
     using destroy = spyOn(pipeline, "destroy");
@@ -40,8 +43,11 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageExifClearSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/var/img/source.jpeg");
@@ -58,8 +64,11 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageExifClearSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("images/pic.png");
@@ -74,8 +83,11 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageExifClearSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathRelative.fromString("in/source.jpeg");
@@ -91,7 +103,8 @@ describe("ImageExifClearSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageExifClearSharpAdapter, "import").mockImplementation(
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageExifClearSharpAdapter["importer"], "import").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 
