@@ -18,8 +18,11 @@ const deps = { MimeRegistry, FileInspection };
 
 describe("ImageInfoSharpAdapter", () => {
   test("absolute path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageInfoSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => instance,
+    });
     using metadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 120,
       height: 80,
@@ -39,8 +42,11 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("relative path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageInfoSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => instance,
+    });
     using metadata = spyOn(instance, "metadata").mockResolvedValue({ width: 64, height: 64, format: "jpg" });
     using destroy = spyOn(instance, "destroy");
     const adapter = await ImageInfoSharpAdapter.build(deps);
@@ -64,8 +70,11 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - extension empty", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageInfoSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => instance,
+    });
     using _instanceMetadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 10,
       height: 10,
@@ -79,8 +88,11 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - width", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageInfoSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => instance,
+    });
     using _instanceMetadata = spyOn(instance, "metadata").mockResolvedValue({
       width: undefined,
       height: 10,
@@ -94,8 +106,11 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("error - mime not found", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageInfoSharpAdapter, "import").mockResolvedValue({ default: () => instance });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageInfoSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => instance,
+    });
     using _instanceMetadata = spyOn(instance, "metadata").mockResolvedValue({
       width: 10,
       height: 10,
@@ -109,7 +124,10 @@ describe("ImageInfoSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageInfoSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageInfoSharpAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageInfoSharpAdapter.build(deps)).toThrow(
       "image.info.sharp.adapter.error.missing.dependency",
