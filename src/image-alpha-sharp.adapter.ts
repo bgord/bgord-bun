@@ -9,16 +9,16 @@ export const ImageAlphaSharpAdapterError = {
 };
 
 type Dependencies = { FileRenamer: FileRenamerPort };
-type SharpCallable = typeof sharp;
+type Sharp = typeof sharp;
 
 export class ImageAlphaSharpAdapter implements ImageAlphaPort {
-  private static readonly importer = DynamicImport.for<{ default: SharpCallable }>(
+  private static readonly importer = DynamicImport.for<{ default: Sharp }>(
     "sharp",
     ImageAlphaSharpAdapterError.MissingDependency,
   );
 
   private constructor(
-    private readonly sharp: SharpCallable,
+    private readonly sharp: Sharp,
     private readonly deps: Dependencies,
   ) {}
 

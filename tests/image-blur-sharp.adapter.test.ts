@@ -18,8 +18,11 @@ const deps = { FileRenamer };
 
 describe("ImageBlurSharpAdapter", () => {
   test("in_place", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageBlurSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using blur = spyOn(pipeline, "blur");
     using toFormat = spyOn(pipeline, "toFormat");
@@ -43,8 +46,11 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageBlurSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using blur = spyOn(pipeline, "blur");
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
@@ -67,8 +73,11 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageBlurSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
     using destroy = spyOn(pipeline, "destroy");
@@ -88,8 +97,11 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageBlurSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageBlurSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
@@ -105,7 +117,10 @@ describe("ImageBlurSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageBlurSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error Private property
+    using _ = spyOn(ImageBlurSharpAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageBlurSharpAdapter.build(deps)).toThrow(
       "image.blur.sharp.adapter.error.missing.dependency",
