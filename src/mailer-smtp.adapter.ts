@@ -1,4 +1,5 @@
 import type * as Nodemailer from "nodemailer";
+import { DynamicImport } from "./dynamic-import.service";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 import type { SmtpHostType } from "./smtp-host.vo";
@@ -17,11 +18,18 @@ type Config = {
   SMTP_PASS: SmtpPassType;
 };
 
+type NodemailerLibrary = typeof Nodemailer;
+
 export class MailerSmtpAdapter implements MailerPort {
+  private static readonly importer = DynamicImport.for<NodemailerLibrary>(
+    "nodemailer",
+    MailerSmtpAdapterError.MissingDependency,
+  );
+
   private constructor(readonly transport: Nodemailer.Transporter) {}
 
   static async build(config: Config): Promise<MailerSmtpAdapter> {
-    const library = await MailerSmtpAdapter.resolve();
+    const library = await MailerSmtpAdapter.importer.resolve();
 
     return new MailerSmtpAdapter(
       library.createTransport({
@@ -30,20 +38,6 @@ export class MailerSmtpAdapter implements MailerPort {
         auth: { user: config.SMTP_USER, pass: config.SMTP_PASS },
       }),
     );
-  }
-
-  private static async resolve() {
-    try {
-      return await MailerSmtpAdapter.import();
-    } catch {
-      throw new Error(MailerSmtpAdapterError.MissingDependency);
-    }
-  }
-
-  static async import() {
-    const name = "nodem" + "ailer"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<typeof Nodemailer>;
   }
 
   async send(template: MailerTemplate): Promise<void> {

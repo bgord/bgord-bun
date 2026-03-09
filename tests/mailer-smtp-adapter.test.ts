@@ -30,7 +30,8 @@ const template = new MailerTemplate(config, message);
 describe("MailerSmtpAdapter", () => {
   test("send - success", async () => {
     using sendMail = spyOn({ sendMail: async () => {} }, "sendMail");
-    using createTransport = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({
+    // @ts-expect-error Private method
+    using createTransport = spyOn(MailerSmtpAdapter["importer"], "import").mockResolvedValue({
       // @ts-expect-error Partial access
       createTransport: () => ({ sendMail }),
     });
@@ -44,8 +45,11 @@ describe("MailerSmtpAdapter", () => {
 
   test("verify - success", async () => {
     using verify = spyOn({ verify: async () => true }, "verify");
-    // @ts-expect-error Partial access
-    using _ = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport: () => ({ verify }) });
+    // @ts-expect-error Private method
+    using _ = spyOn(MailerSmtpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      createTransport: () => ({ verify }),
+    });
     const mailer = await MailerSmtpAdapter.build(smtp);
 
     await mailer.verify();
@@ -58,8 +62,11 @@ describe("MailerSmtpAdapter", () => {
       { createTransport: () => ({ sendMail: async () => {} }) },
       "createTransport",
     );
-    // @ts-expect-error Partial access
-    using _ = spyOn(MailerSmtpAdapter, "import").mockResolvedValue({ createTransport });
+    // @ts-expect-error Private method
+    using _ = spyOn(MailerSmtpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      createTransport,
+    });
 
     await MailerSmtpAdapter.build(smtp);
 
@@ -71,7 +78,10 @@ describe("MailerSmtpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(MailerSmtpAdapter, "import").mockRejectedValue(mocks.IntentionalError);
+    // @ts-expect-error Private method
+    using _ = spyOn(MailerSmtpAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => MailerSmtpAdapter.build(smtp)).toThrow("mailer.smtp.adapter.error.missing.dependency");
   });
