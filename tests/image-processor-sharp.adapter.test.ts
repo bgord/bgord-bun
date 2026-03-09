@@ -21,8 +21,11 @@ const deps = { FileCleaner, FileRenamer };
 
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageProcessorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using flatten = spyOn(pipeline, "flatten");
     using resize = spyOn(pipeline, "resize");
@@ -70,8 +73,11 @@ describe("ImageProcessorSharpAdapter", () => {
   });
 
   test("in_place - same extension", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageProcessorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
 
@@ -93,8 +99,11 @@ describe("ImageProcessorSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageProcessorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageProcessorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using flatten = spyOn(pipeline, "flatten");
     using resize = spyOn(pipeline, "resize");
@@ -129,7 +138,8 @@ describe("ImageProcessorSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageProcessorSharpAdapter, "import").mockImplementation(
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageProcessorSharpAdapter["importer"], "import").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 

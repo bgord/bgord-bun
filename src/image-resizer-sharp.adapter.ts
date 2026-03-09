@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type sharp from "sharp";
+import { DynamicImport } from "./dynamic-import.service";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
@@ -8,34 +9,24 @@ export const ImageResizerSharpAdapterError = {
 };
 
 type Dependencies = { FileRenamer: FileRenamerPort };
-type SharpCallable = typeof sharp;
-type SharpModule = { default: SharpCallable };
+type Sharp = typeof sharp;
 
 export class ImageResizerSharpAdapter implements ImageResizerPort {
+  private static readonly importer = DynamicImport.for<{ default: Sharp }>(
+    "sharp",
+    ImageResizerSharpAdapterError.MissingDependency,
+  );
+
   private constructor(
-    private readonly sharp: SharpCallable,
+    private readonly sharp: Sharp,
     private readonly deps: Dependencies,
   ) {}
 
   static async build(deps: Dependencies): Promise<ImageResizerSharpAdapter> {
-    return new ImageResizerSharpAdapter(await ImageResizerSharpAdapter.resolve(), deps);
-  }
+    const library = await ImageResizerSharpAdapter.importer.resolve();
 
-  private static async resolve(): Promise<SharpCallable> {
-    try {
-      const module = await ImageResizerSharpAdapter.import();
-      return module.default;
-    } catch {
-      throw new Error(ImageResizerSharpAdapterError.MissingDependency);
-    }
+    return new ImageResizerSharpAdapter(library.default, deps);
   }
-
-  // Stryker disable all
-  static async import(): Promise<SharpModule> {
-    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name) as Promise<SharpModule>;
-  }
-  // Stryker restore all
 
   async resize(recipe: ImageResizerStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
