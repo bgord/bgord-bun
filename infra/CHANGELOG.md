@@ -1,5 +1,18 @@
 # Changelog
+- 2026-03-09 14:20 c772e971 **refactor: adjust file draft zip**
+- 2026-03-09 14:16 148e2026 **refactor: adjust image resizer sharp**
+- 2026-03-09 14:14 86ee9f3f **refactor: adjust image info sharp**
+- 2026-03-09 14:10 d0d9b53a **refactor: adjust image formatter sharp**
+- 2026-03-09 14:08 f8f9d295 **refactor: adjust image exif clear sharp**
+- 2026-03-09 14:06 ab699c6b **refactor: adjust image compressor sharp**
+- 2026-03-09 14:04 3158f9be **refactor: adjust image blur sharp**
+- 2026-03-09 14:01 481757a9 **refactor: adjust image alpha sharp**
+- 2026-03-09 13:55 01bd6bb5 **refactor: adjust mailer resend**
+- 2026-03-09 13:52 cf06c774 **refactor: adjust mailer smtp**
+- 2026-03-09 13:46 e0e35918 **refactor: adjust csv stringifier**
+- 2026-03-09 13:41 8a8b7447 **feature: add dynamic import service**
 - 2026-03-09 13:24 3d14724f **step: update packages**
+- 2026-03-09 12:25 636208c1 **docs: generate CHANGELOG**
 - 2026-03-08 22:48 15f11564 **refactor: improve certificate inspector tls**
 - 2026-03-08 22:33 a7210dbf **refactor: improve i18n log**
 ## 2026-03-08 20:41 v1.12.7
