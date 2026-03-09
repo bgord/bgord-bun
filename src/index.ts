@@ -69,6 +69,7 @@ export * from "./disk-space-checker.port";
 export * from "./disk-space-checker-noop.adapter";
 export * from "./disk-space-checker-shell.adapter";
 export * from "./dispatching-event-store";
+export * from "./dynamic-import.service";
 export * from "./encryption.port";
 export * from "./encryption-aes-gcm.adapter";
 export * from "./encryption-key.vo";
