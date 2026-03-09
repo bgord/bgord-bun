@@ -18,8 +18,11 @@ const deps = { FileRenamer };
 
 describe("ImageAlphaSharpAdapter", () => {
   test("in_place", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageAlphaSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using flatten = spyOn(pipeline, "flatten");
     using toFormat = spyOn(pipeline, "toFormat");
@@ -43,8 +46,11 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageAlphaSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using flatten = spyOn(pipeline, "flatten");
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
@@ -66,8 +72,11 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageAlphaSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     using toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     using rename = spyOn(FileRenamer, "rename");
@@ -84,8 +93,11 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageAlphaSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
@@ -101,7 +113,10 @@ describe("ImageAlphaSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageAlphaSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageAlphaSharpAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageAlphaSharpAdapter.build(deps)).toThrow(
       "image.alpha.sharp.adapter.error.missing.dependency",

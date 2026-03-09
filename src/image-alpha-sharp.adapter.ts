@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type sharp from "sharp";
+import { DynamicImport } from "./dynamic-import.service";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageAlphaPort, ImageAlphaStrategy } from "./image-alpha.port";
 
@@ -9,33 +10,23 @@ export const ImageAlphaSharpAdapterError = {
 
 type Dependencies = { FileRenamer: FileRenamerPort };
 type SharpCallable = typeof sharp;
-type SharpModule = { default: SharpCallable };
 
 export class ImageAlphaSharpAdapter implements ImageAlphaPort {
+  private static readonly importer = DynamicImport.for<{ default: SharpCallable }>(
+    "sharp",
+    ImageAlphaSharpAdapterError.MissingDependency,
+  );
+
   private constructor(
     private readonly sharp: SharpCallable,
     private readonly deps: Dependencies,
   ) {}
 
   static async build(deps: Dependencies): Promise<ImageAlphaSharpAdapter> {
-    return new ImageAlphaSharpAdapter(await ImageAlphaSharpAdapter.resolve(), deps);
-  }
+    const library = await ImageAlphaSharpAdapter.importer.resolve();
 
-  private static async resolve(): Promise<SharpCallable> {
-    try {
-      const module = await ImageAlphaSharpAdapter.import();
-      return module.default;
-    } catch {
-      throw new Error(ImageAlphaSharpAdapterError.MissingDependency);
-    }
+    return new ImageAlphaSharpAdapter(library.default, deps);
   }
-
-  // Stryker disable all
-  static async import(): Promise<SharpModule> {
-    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name) as Promise<SharpModule>;
-  }
-  // Stryker restore all
 
   async flatten(recipe: ImageAlphaStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
