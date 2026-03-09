@@ -18,8 +18,11 @@ const deps = { FileCleaner, FileRenamer };
 
 describe("ImageFormatterSharpAdapter", () => {
   test("in_place", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageFormatterSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
     using destroy = spyOn(pipeline, "destroy");
@@ -43,8 +46,11 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - same extension", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageFormatterSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
@@ -60,8 +66,11 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageFormatterSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
@@ -83,8 +92,11 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageFormatterSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/img/in.webp");
@@ -102,8 +114,11 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageFormatterSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
@@ -123,7 +138,8 @@ describe("ImageFormatterSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageFormatterSharpAdapter, "import").mockImplementation(
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageFormatterSharpAdapter["importer"], "import").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 
