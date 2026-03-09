@@ -20,8 +20,11 @@ const deps = { FileRenamer };
 
 describe("ImageCompressorSharpAdapter", () => {
   test("in_place", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageCompressorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
@@ -45,8 +48,11 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageCompressorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
@@ -70,8 +76,11 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageCompressorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using toFile = spyOn(pipeline, "toFile");
     using rename = spyOn(FileRenamer, "rename");
@@ -88,8 +97,11 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("output_path - jpeg to jpg", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageCompressorSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/x/in.jpeg");
@@ -105,7 +117,8 @@ describe("ImageCompressorSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageCompressorSharpAdapter, "import").mockImplementation(
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageCompressorSharpAdapter["importer"], "import").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 
