@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type sharp from "sharp";
+import { DynamicImport } from "./dynamic-import.service";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
@@ -9,36 +10,25 @@ export const ImageProcessorSharpAdapterError = {
 };
 
 type Dependencies = { FileCleaner: FileCleanerPort; FileRenamer: FileRenamerPort };
-type SharpCallable = typeof sharp;
-type SharpModule = { default: SharpCallable };
+type Sharp = typeof sharp;
 
 export class ImageProcessorSharpAdapter implements ImageProcessorPort {
   private static readonly DEFAULT_QUALITY = 85;
+  private static readonly importer = DynamicImport.for<{ default: Sharp }>(
+    "sharp",
+    ImageProcessorSharpAdapterError.MissingDependency,
+  );
 
   private constructor(
-    private readonly sharp: SharpCallable,
+    private readonly sharp: Sharp,
     private readonly deps: Dependencies,
   ) {}
 
   static async build(deps: Dependencies): Promise<ImageProcessorSharpAdapter> {
-    return new ImageProcessorSharpAdapter(await ImageProcessorSharpAdapter.resolve(), deps);
-  }
+    const library = await ImageProcessorSharpAdapter.importer.resolve();
 
-  private static async resolve(): Promise<SharpCallable> {
-    try {
-      const module = await ImageProcessorSharpAdapter.import();
-      return module.default;
-    } catch {
-      throw new Error(ImageProcessorSharpAdapterError.MissingDependency);
-    }
+    return new ImageProcessorSharpAdapter(library.default, deps);
   }
-
-  // Stryker disable all
-  static async import(): Promise<SharpModule> {
-    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name) as Promise<SharpModule>;
-  }
-  // Stryker restore all
 
   async process(recipe: ImageProcessorStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final =

@@ -19,7 +19,10 @@ const deps = { FileRenamer };
 describe("ImageResizerSharpAdapter", () => {
   test("in_place", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using _ = spyOn(ImageResizerSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using rotate = spyOn(pipeline, "rotate");
     using resize = spyOn(pipeline, "resize");
     using toFormat = spyOn(pipeline, "toFormat");
@@ -48,7 +51,10 @@ describe("ImageResizerSharpAdapter", () => {
 
   test("output_path", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using _ = spyOn(ImageResizerSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using resize = spyOn(pipeline, "resize").mockReturnValue(pipeline);
     using toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     using toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
@@ -75,7 +81,10 @@ describe("ImageResizerSharpAdapter", () => {
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using _ = spyOn(ImageResizerSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat").mockReturnValue(pipeline);
     using toFile = spyOn(pipeline, "toFile").mockResolvedValue(undefined);
     using rename = spyOn(FileRenamer, "rename");
@@ -97,7 +106,10 @@ describe("ImageResizerSharpAdapter", () => {
 
   test("output_path - jpg to jpeg", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(ImageResizerSharpAdapter, "import").mockResolvedValue({ default: () => pipeline });
+    using _ = spyOn(ImageResizerSharpAdapter["importer"], "import").mockResolvedValue({
+      // @ts-expect-error Partial access
+      default: () => pipeline,
+    });
     using toFormat = spyOn(pipeline, "toFormat");
     using rename = spyOn(FileRenamer, "rename");
     const input = tools.FilePathAbsolute.fromString("/a/in.jpeg");
@@ -118,7 +130,10 @@ describe("ImageResizerSharpAdapter", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(ImageResizerSharpAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error Private method
+    using _ = spyOn(ImageResizerSharpAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => ImageResizerSharpAdapter.build(deps)).toThrow(
       "image.resizer.sharp.adapter.error.missing.dependency",
