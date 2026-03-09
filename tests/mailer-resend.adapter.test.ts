@@ -47,7 +47,10 @@ describe("MailerResendAdapter", async () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(MailerResendAdapter, "import").mockRejectedValue(mocks.IntentionalError);
+    // @ts-expect-error Private method
+    using _ = spyOn(MailerResendAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => MailerResendAdapter.build(smtp)).toThrow(
       "mailer.resend.adapter.error.missing.dependency",
