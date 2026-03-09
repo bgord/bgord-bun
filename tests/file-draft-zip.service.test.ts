@@ -127,7 +127,8 @@ describe("FileDraftZip", () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(FileDraftZip, "import").mockRejectedValue(mocks.IntentionalError);
+    // @ts-expect-error Private method
+    using _ = spyOn(FileDraftZip["importer"], "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(
       FileDraftZip.build(bundle, [

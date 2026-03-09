@@ -1,5 +1,6 @@
 import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
+import { DynamicImport } from "./dynamic-import.service";
 import { FileDraft } from "./file-draft.service";
 
 export const FileDraftZipError = {
@@ -9,6 +10,11 @@ export const FileDraftZipError = {
 type YazlLibrary = typeof import("yazl");
 
 export class FileDraftZip extends FileDraft {
+  private static readonly importer = DynamicImport.for<YazlLibrary>(
+    "yazl",
+    FileDraftZipError.MissingDependency,
+  );
+
   private constructor(
     basename: tools.BasenameType,
     private readonly parts: ReadonlyArray<FileDraft>,
@@ -18,20 +24,8 @@ export class FileDraftZip extends FileDraft {
   }
 
   static async build(basename: tools.BasenameType, parts: ReadonlyArray<FileDraft>): Promise<FileDraftZip> {
-    return new FileDraftZip(basename, parts, await FileDraftZip.resolve());
-  }
-
-  private static async resolve(): Promise<YazlLibrary> {
-    try {
-      return await FileDraftZip.import();
-    } catch {
-      throw new Error(FileDraftZipError.MissingDependency);
-    }
-  }
-
-  static async import(): Promise<YazlLibrary> {
-    const name = "ya" + "zl"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name) as Promise<YazlLibrary>;
+    const library = await FileDraftZip.importer.resolve();
+    return new FileDraftZip(basename, parts, library);
   }
 
   async create(): Promise<BodyInit> {

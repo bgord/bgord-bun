@@ -34,7 +34,7 @@ describe("DynamicImport", () => {
     expect(async () => importer.resolve()).toThrow(mocks.IntentionalError);
   });
 
-  test("obfuscate - splits package name correctly", () => {
+  test("obfuscate", () => {
     const importer = DynamicImport.for("sharp", mocks.IntentionalError);
 
     // @ts-expect-error Private method
