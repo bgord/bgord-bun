@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import type sharp from "sharp";
+import { DynamicImport } from "./dynamic-import.service";
 import type { FileInspectionPort } from "./file-inspection.port";
 import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
 
@@ -8,34 +9,24 @@ export const ImageInfoSharpAdapterError = {
 };
 
 type Dependencies = { FileInspection: FileInspectionPort; MimeRegistry: tools.MimeRegistry };
-type SharpCallable = typeof sharp;
-type SharpModule = { default: SharpCallable };
+type Sharp = typeof sharp;
 
 export class ImageInfoSharpAdapter implements ImageInfoPort {
+  private static readonly importer = DynamicImport.for<{ default: Sharp }>(
+    "sharp",
+    ImageInfoSharpAdapterError.MissingDependency,
+  );
+
   private constructor(
-    private readonly sharp: SharpCallable,
+    private readonly sharp: Sharp,
     private readonly deps: Dependencies,
   ) {}
 
   static async build(deps: Dependencies): Promise<ImageInfoSharpAdapter> {
-    return new ImageInfoSharpAdapter(await ImageInfoSharpAdapter.resolve(), deps);
-  }
+    const library = await ImageInfoSharpAdapter.importer.resolve();
 
-  private static async resolve(): Promise<SharpCallable> {
-    try {
-      const module = await ImageInfoSharpAdapter.import();
-      return module.default;
-    } catch {
-      throw new Error(ImageInfoSharpAdapterError.MissingDependency);
-    }
+    return new ImageInfoSharpAdapter(library.default, deps);
   }
-
-  // Stryker disable all
-  static async import(): Promise<SharpModule> {
-    const name = "sha" + "rp"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name) as Promise<SharpModule>;
-  }
-  // Stryker restore all
 
   async inspect(input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
     const size = await this.deps.FileInspection.size(input);
