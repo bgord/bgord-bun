@@ -1,5 +1,6 @@
 import { text } from "node:stream/consumers";
 import type { CsvColumnType, CsvRowType, CsvStringifierPort } from "./csv-stringifier.port";
+import { DynamicImport } from "./dynamic-import.service";
 
 export const CsvStringifierAdapterError = {
   MissingDependency: "csv.stringifier.adapter.error.missing.dependency",
@@ -8,23 +9,17 @@ export const CsvStringifierAdapterError = {
 type CsvLibrary = typeof import("csv");
 
 export class CsvStringifierAdapter implements CsvStringifierPort {
+  private static readonly importer = DynamicImport.for<CsvLibrary>(
+    "csv",
+    CsvStringifierAdapterError.MissingDependency,
+  );
+
   private constructor(private readonly csv: CsvLibrary) {}
 
   static async build(): Promise<CsvStringifierAdapter> {
-    return new CsvStringifierAdapter(await CsvStringifierAdapter.resolve());
-  }
+    const dependency = await CsvStringifierAdapter.importer.resolve();
 
-  private static async resolve(): Promise<CsvLibrary> {
-    try {
-      return await CsvStringifierAdapter.import();
-    } catch {
-      throw new Error(CsvStringifierAdapterError.MissingDependency);
-    }
-  }
-
-  static async import(): Promise<CsvLibrary> {
-    const name = "c" + "sv"; // Bun does not resolve dynamic imports with a dynamic name
-    return import(name) as Promise<CsvLibrary>;
+    return new CsvStringifierAdapter(dependency);
   }
 
   async process(columns: ReadonlyArray<CsvColumnType>, data: Array<CsvRowType>): Promise<string> {

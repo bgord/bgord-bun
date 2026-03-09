@@ -26,7 +26,10 @@ describe("CsvStringifierAdapter", async () => {
   });
 
   test("missing dependency", async () => {
-    using _ = spyOn(CsvStringifierAdapter, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
+    // @ts-expect-error Private method
+    using _ = spyOn(CsvStringifierAdapter["importer"], "import").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => CsvStringifierAdapter.build()).toThrow(
       "csv.stringifier.adapter.error.missing.dependency",
