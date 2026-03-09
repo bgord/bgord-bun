@@ -1,4 +1,5 @@
 import type { Resend } from "resend";
+import { DynamicImport } from "./dynamic-import.service";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 
@@ -7,34 +8,20 @@ export const MailerResendAdapterError = {
 };
 
 type Config = { key: string };
+type ResendLibrary = typeof import("resend");
 
 export class MailerResendAdapter implements MailerPort {
-  readonly transport: Resend;
+  private static readonly importer = DynamicImport.for<ResendLibrary>(
+    "resend",
+    MailerResendAdapterError.MissingDependency,
+  );
 
-  private constructor(mailer: Resend) {
-    this.transport = mailer;
-  }
+  private constructor(readonly transport: Resend) {}
 
   static async build(config: Config): Promise<MailerResendAdapter> {
-    const library = await MailerResendAdapter.resolve();
+    const library = await MailerResendAdapter.importer.resolve();
 
-    return new MailerResendAdapter(new library(config.key));
-  }
-
-  private static async resolve() {
-    try {
-      const library = await MailerResendAdapter.import();
-
-      return library.Resend;
-    } catch {
-      throw new Error(MailerResendAdapterError.MissingDependency);
-    }
-  }
-
-  static async import() {
-    const name = "res" + "end"; // Bun does not resolve dynamic imports with a dynamic name
-
-    return import(name) as Promise<typeof import("resend")>;
+    return new MailerResendAdapter(new library.Resend(config.key));
   }
 
   async send(template: MailerTemplate): Promise<void> {
