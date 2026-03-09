@@ -130,11 +130,20 @@ describe("FileDraftZip", () => {
     // @ts-expect-error Private method
     using _ = spyOn(FileDraftZip["importer"], "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(
+    expect(() =>
       FileDraftZip.build(bundle, [
         new Draft(first, extension, content),
         new Draft(second, extension, content),
       ]),
-    ).rejects.toThrow("file.draft.zip.error.missing.dependency");
+    ).toThrow("file.draft.zip.error.missing.dependency");
+  });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(FileDraftZip["importer"], "obfuscate");
+
+    await FileDraftZip.build(bundle, []);
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("yazl");
   });
 });

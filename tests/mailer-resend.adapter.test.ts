@@ -56,4 +56,13 @@ describe("MailerResendAdapter", async () => {
       "mailer.resend.adapter.error.missing.dependency",
     );
   });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(MailerResendAdapter["importer"], "obfuscate");
+
+    await MailerResendAdapter.build(smtp);
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("resend");
+  });
 });

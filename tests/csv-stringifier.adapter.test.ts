@@ -35,4 +35,13 @@ describe("CsvStringifierAdapter", async () => {
       "csv.stringifier.adapter.error.missing.dependency",
     );
   });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(CsvStringifierAdapter["importer"], "obfuscate");
+
+    await CsvStringifierAdapter.build();
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("csv");
+  });
 });

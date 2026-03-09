@@ -147,4 +147,13 @@ describe("ImageProcessorSharpAdapter", () => {
       "image.processor.sharp.adapter.error.missing.dependency",
     );
   });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(ImageProcessorSharpAdapter["importer"], "obfuscate");
+
+    await ImageProcessorSharpAdapter.build(deps);
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("sharp");
+  });
 });

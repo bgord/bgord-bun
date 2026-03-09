@@ -85,4 +85,13 @@ describe("MailerSmtpAdapter", () => {
 
     expect(async () => MailerSmtpAdapter.build(smtp)).toThrow("mailer.smtp.adapter.error.missing.dependency");
   });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(MailerSmtpAdapter["importer"], "obfuscate");
+
+    await MailerSmtpAdapter.build(smtp);
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("nodemailer");
+  });
 });

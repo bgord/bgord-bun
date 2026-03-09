@@ -126,4 +126,13 @@ describe("ImageBlurSharpAdapter", () => {
       "image.blur.sharp.adapter.error.missing.dependency",
     );
   });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(ImageBlurSharpAdapter["importer"], "obfuscate");
+
+    await ImageBlurSharpAdapter.build(deps);
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("sharp");
+  });
 });

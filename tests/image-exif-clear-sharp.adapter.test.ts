@@ -112,4 +112,13 @@ describe("ImageExifClearSharpAdapter", () => {
       "image.exif.clear.sharp.adapter.error.missing.dependency",
     );
   });
+
+  test("import", async () => {
+    // @ts-expect-error Private method
+    using obfuscateSpy = spyOn(ImageExifClearSharpAdapter["importer"], "obfuscate");
+
+    await ImageExifClearSharpAdapter.build(deps);
+
+    expect(obfuscateSpy).toHaveBeenCalledWith("sharp");
+  });
 });
