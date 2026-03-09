@@ -1,8 +1,12 @@
 # Changelog
+- 2026-03-09 13:24 3d14724f **step: update packages**
+- 2026-03-08 22:48 15f11564 **refactor: improve certificate inspector tls**
+- 2026-03-08 22:33 a7210dbf **refactor: improve i18n log**
 ## 2026-03-08 20:41 v1.12.7
 - 2026-03-08 20:41 0805e880 **1.12.7**
 - 2026-03-08 20:37 649e97f1 **refactor: collapse event and command bus into message bus**
 - 2026-03-08 20:17 20900e36 **refactor: extract common message bus port**
+- 2026-03-08 19:42 620fdb8b **docs: generate CHANGELOG**
 - 2026-03-08 19:40 eba0ac1e **docs: generate CHANGELOG**
 - 2026-03-08 19:40 c692fe1c **docs: generate readme**
 - 2026-03-08 19:22 055b21c4 **refactor: simplify timeout middleware**
