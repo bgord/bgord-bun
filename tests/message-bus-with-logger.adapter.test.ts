@@ -14,7 +14,7 @@ describe("MessageBusWithLoggerAdapter", () => {
     const handler = jest.fn();
     const Logger = new LoggerCollectingAdapter();
     const inner = new MessageBusEmitteryAdapter<MessageType>();
-    const bus = new MessageBusWithLoggerAdapter<MessageType>(inner, { Logger });
+    const bus = new MessageBusWithLoggerAdapter<MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       bus.on("TEST_MESSAGE", handler);
