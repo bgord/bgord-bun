@@ -1,7 +1,11 @@
 # Changelog
+## 2026-03-10 17:10 v1.12.9
+- 2026-03-10 17:10 29327e45 **1.12.9**
 - 2026-03-10 17:06 e465a1e4 **step: kill mutants**
 - 2026-03-10 16:59 80a0805e **refactor: extract messages to mocks**
 - 2026-03-10 16:41 93c5ae15 **step: kill mutants**
+- 2026-03-10 16:09 3f483e1e **docs: generate readme**
+- 2026-03-10 16:09 1419d769 **docs: generate CHANGELOG**
 - 2026-03-10 15:31 fb59aa41 **step: add sse connection hono handler**
 - 2026-03-10 15:18 8b20d01e **step: add keepalive testcase**
 - 2026-03-10 15:08 feda3b4e **refactor: remove on close from sse connection hono**
