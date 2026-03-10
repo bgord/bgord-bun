@@ -36,7 +36,7 @@ describe("handleSetUserLanguageCommand", async () => {
       correlationId: mocks.correlationId,
       id: mocks.correlationId,
       createdAt: mocks.TIME_ZERO.ms,
-      payload: { userId: mocks.correlationId, language: mocks.languages.supported.pl },
+      payload: { userId: mocks.userId, language: mocks.languages.supported.pl },
     } satisfies Preferences.Commands.SetUserLanguageCommandType);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -54,7 +54,7 @@ describe("handleSetUserLanguageCommand", async () => {
       correlationId: mocks.correlationId,
       id: mocks.correlationId,
       createdAt: mocks.TIME_ZERO.ms,
-      payload: { userId: mocks.correlationId, language: mocks.languages.supported.pl },
+      payload: { userId: mocks.userId, language: mocks.languages.supported.pl },
     } satisfies Preferences.Commands.SetUserLanguageCommandType);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -72,7 +72,7 @@ describe("handleSetUserLanguageCommand", async () => {
       correlationId: mocks.correlationId,
       id: mocks.correlationId,
       createdAt: mocks.TIME_ZERO.ms,
-      payload: { userId: mocks.correlationId, language: "es" },
+      payload: { userId: mocks.userId, language: "es" },
     } satisfies Preferences.Commands.SetUserLanguageCommandType);
 
     await CorrelationStorage.run(mocks.correlationId, async () => {

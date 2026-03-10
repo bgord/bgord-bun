@@ -1,10 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import type * as tools from "@bgord/tools";
-import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
 import * as Preferences from "../src/modules/preferences";
 import * as mocks from "./mocks";
-
-const userId = new IdProviderCryptoAdapter().generate();
 
 class UserLanguageQueryAdapterNoop implements Preferences.Ports.UserLanguageQueryPort {
   async get(_userId: tools.LanguageType): Promise<tools.LanguageType | null> {
@@ -23,7 +20,7 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
 
-    expect(await UserLanguageOHQ.get(userId)).toEqual(mocks.languages.supported.pl);
+    expect(await UserLanguageOHQ.get(mocks.userId)).toEqual(mocks.languages.supported.pl);
   });
 
   test("UserLanguageResolverThrowIfMissing", async () => {
@@ -34,7 +31,7 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverThrowIfMissing(),
     );
 
-    expect(async () => UserLanguageOHQ.get(userId)).toThrow("user.language.preference.missing");
+    expect(async () => UserLanguageOHQ.get(mocks.userId)).toThrow("user.language.preference.missing");
   });
 
   test("UserLanguageResolverSystemDefaultFallback", async () => {
@@ -45,7 +42,7 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(mocks.languages),
     );
 
-    expect(await UserLanguageOHQ.get(userId)).toEqual(mocks.languages.supported.en);
+    expect(await UserLanguageOHQ.get(mocks.userId)).toEqual(mocks.languages.supported.en);
   });
 
   test("unsupported", async () => {
@@ -56,6 +53,6 @@ describe("UserLanguageOHQ", () => {
       new Preferences.Ports.UserLanguageResolverSystemDefaultFallback(mocks.languages),
     );
 
-    expect(async () => UserLanguageOHQ.get(userId)).toThrow("user.language.ohq.error.missing");
+    expect(async () => UserLanguageOHQ.get(mocks.userId)).toThrow("user.language.ohq.error.missing");
   });
 });
