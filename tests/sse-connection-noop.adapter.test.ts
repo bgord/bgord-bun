@@ -5,6 +5,7 @@ type MessageType = { name: "TEST_MESSAGE" };
 const message = { name: "TEST_MESSAGE" } as const;
 
 const connection = new SseConnectionNoopAdapter<MessageType>();
+const callback = () => {};
 
 describe("SseConnectionNoopAdapter", async () => {
   test("send", async () => {
@@ -12,12 +13,6 @@ describe("SseConnectionNoopAdapter", async () => {
   });
 
   test("close", async () => {
-    expect(async () => connection.close()).not.toThrow();
-  });
-
-  test("onClose", async () => {
-    const connection = new SseConnectionNoopAdapter<MessageType>();
-
-    expect(() => connection.onClose(() => expect.unreachable())).not.toThrow();
+    expect(async () => connection.close(callback)).not.toThrow();
   });
 });
