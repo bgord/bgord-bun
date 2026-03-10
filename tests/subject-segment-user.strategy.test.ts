@@ -1,15 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const segment = new SubjectSegmentUserStrategy();
 
 describe("SubjectSegmentUserStrategy", () => {
   test("happy path", () => {
-    const userId = "123456789";
-    const context = new RequestContextBuilder().withUserId(userId).build();
+    const context = new RequestContextBuilder().withUserId(mocks.userId).build();
 
-    expect(segment.create(context)).toEqual(userId);
+    expect(segment.create(context)).toEqual(mocks.userId);
   });
 
   test("empty", () => {

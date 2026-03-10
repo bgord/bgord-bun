@@ -123,7 +123,7 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono<Config>().get(
       "/test",
       async (context, next) => {
-        context.set("user", { id: 123 });
+        context.set("user", { id: mocks.userId });
         await next();
       },
       (context) => context.json({ userId: new RequestContextHonoAdapter(context).identity.userId() }),
@@ -131,7 +131,7 @@ describe("RequestContextHonoAdapter", () => {
 
     const response = await app.request("/test");
 
-    expect(await response.json()).toEqual({ userId: 123 });
+    expect(await response.json()).toEqual({ userId: mocks.userId });
   });
 
   test("ip - x-real-ip", async () => {

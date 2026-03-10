@@ -19,7 +19,7 @@ import { SecurityCountermeasureName } from "../src/security-countermeasure-name.
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
 
-export const userId = "11111111-1111-1111-1111-111111111111";
+export const userId = "00000000-0000-0000-0000-000000000000";
 export const anotherUserId = "22222222-2222-2222-2222-222222222222";
 
 export const SupportedLanguages = ["en", "pl"] as const;
@@ -202,7 +202,7 @@ export const GenericUserLanguageSetEvent = {
   stream: `preferences_${correlationId}`,
   version: 1,
   name: "USER_LANGUAGE_SET_EVENT",
-  payload: { userId: correlationId, language: languages.supported.pl },
+  payload: { userId, language: languages.supported.pl },
 } satisfies Preferences.Events.UserLanguageSetEventType;
 
 export async function tick() {
