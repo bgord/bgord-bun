@@ -14,6 +14,8 @@ export class TimingHonoMiddleware implements MiddlewareHonoPort {
 
   handle() {
     return createMiddleware(async (c, next) => {
+      if (c.req.header("accept") === "text/event-stream") return next();
+
       const result = await this.middleware.measure(() => next());
 
       c.header(TimingMiddleware.HEADER_NAME, result);
