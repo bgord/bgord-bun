@@ -1,6 +1,7 @@
 import { createMiddleware } from "hono/factory";
 import type { ClockPort } from "./clock.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import { TimingMiddleware } from "./timing.middleware";
 
 type Dependencies = { Clock: ClockPort };
@@ -14,11 +15,13 @@ export class TimingHonoMiddleware implements MiddlewareHonoPort {
 
   handle() {
     return createMiddleware(async (c, next) => {
-      if (c.req.header("accept") === "text/event-stream") return next();
+      const context = new RequestContextHonoAdapter(c);
 
-      const result = await this.middleware.measure(() => next());
+      const timing = await this.middleware.measure(context, () => next());
 
-      c.header(TimingMiddleware.HEADER_NAME, result);
+      if (!timing) return next();
+
+      c.header(TimingMiddleware.HEADER_NAME, timing);
     });
   }
 }
