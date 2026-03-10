@@ -345,6 +345,7 @@ export * from "./smtp-pass.vo";
 export * from "./smtp-port.vo";
 export * from "./smtp-user.vo";
 export * from "./sse-connection.port";
+export * from "./sse-connection-hono.adapter";
 export * from "./sse-connection-with-logger.adapter";
 export * from "./sse-registry.adapter";
 export * from "./sse-registry.port";
