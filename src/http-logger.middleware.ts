@@ -1,6 +1,6 @@
 import type { ClockPort } from "./clock.port";
 import { type LoggerPort, LogLevelEnum } from "./logger.port";
-import type { HasRequestPath, RequestContext } from "./request-context.port";
+import type { HasRequestHeader, HasRequestPath, RequestContext } from "./request-context.port";
 import { Stopwatch } from "./stopwatch.service";
 
 export const UNINFORMATIVE_HEADERS = [
@@ -43,8 +43,10 @@ export class HttpLoggerMiddleware {
     private readonly config?: HttpLoggerConfig,
   ) {}
 
-  shouldSkip(context: HasRequestPath): boolean {
-    return this.config?.skip?.some((prefix) => context.request.path.startsWith(prefix)) ?? false;
+  shouldSkip(context: HasRequestPath & HasRequestHeader): boolean {
+    if (this.config?.skip?.some((prefix) => context.request.path.startsWith(prefix))) return true;
+    if (context.request.header("accept") === "text/event-stream") return true;
+    return false;
   }
 
   before(context: RequestContext, correlationId: string, body: any = {}): HttpLoggerBeforeResult {

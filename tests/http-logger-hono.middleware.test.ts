@@ -20,7 +20,7 @@ const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 8));
+const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 9));
 const deps = { Logger, Clock, IdProvider };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
@@ -178,10 +178,23 @@ describe("HttpLoggerHonoMiddleware", () => {
     expect(result.status).toEqual(200);
   });
 
-  test("skip", async () => {
+  test("skip - path", async () => {
     using loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).not.toHaveBeenCalled();
+  });
+
+  test("skip - path", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request(
+      "/i18n/en.json",
+      { method: "GET", headers: { accept: "text/event-stream" } },
+      mocks.connInfo,
+    );
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).not.toHaveBeenCalled();

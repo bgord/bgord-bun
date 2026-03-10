@@ -127,7 +127,7 @@ describe("HttpLoggerMiddleware", () => {
     });
   });
 
-  test("skip", () => {
+  test("skip - path", () => {
     const middleware = new HttpLoggerMiddleware(deps, { skip: ["/i18n/", "/api/"] });
     const i18n = new RequestContextBuilder().withPath("/i18n/en.json").build();
     const api = new RequestContextBuilder().withPath("/api/users").build();
@@ -136,6 +136,13 @@ describe("HttpLoggerMiddleware", () => {
     expect(middleware.shouldSkip(i18n)).toEqual(true);
     expect(middleware.shouldSkip(api)).toEqual(true);
     expect(middleware.shouldSkip(ping)).toEqual(false);
+  });
+
+  test("skip - SSE", () => {
+    const middleware = new HttpLoggerMiddleware(deps, { skip: undefined });
+    const context = new RequestContextBuilder().withHeader("accept", "text/event-stream").build();
+
+    expect(middleware.shouldSkip(context)).toEqual(true);
   });
 
   test("skip - no config", () => {

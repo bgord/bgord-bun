@@ -16,7 +16,7 @@ describe("TimingMiddleware", () => {
     expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual("total;dur=100");
   });
 
-  test("sync - streaming", async () => {
+  test("sync - SSE", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const middleware = new TimingMiddleware({ Clock });
     const context = new RequestContextBuilder().withHeader("accept", "text/event-stream").build();
@@ -31,7 +31,7 @@ describe("TimingMiddleware", () => {
     expect(await middleware.measure(context, async () => Clock.advanceBy(duration))).toEqual("total;dur=100");
   });
 
-  test("async - streaming", async () => {
+  test("async - SSE", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const middleware = new TimingMiddleware({ Clock });
     const context = new RequestContextBuilder().withHeader("accept", "text/event-stream").build();
