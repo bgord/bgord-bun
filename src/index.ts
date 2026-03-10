@@ -82,6 +82,7 @@ export * from "./environment-loader-process.adapter";
 export * from "./environment-loader-process-safe.adapter";
 export * from "./error-normalizer.service";
 export * from "./etag-extractor.middleware";
+export * from "./etag-extractor-hono.middleware";
 export * from "./event.types";
 export * from "./event-envelope";
 export * from "./event-handler.strategy";
