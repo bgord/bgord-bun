@@ -9,10 +9,11 @@ type MessageType = { name: "TEST_MESSAGE" };
 const message = { name: "TEST_MESSAGE" } as const;
 
 const inner = new SseConnectionNoopAdapter<MessageType>();
+const callback = () => {};
 
 describe("SseConnectionWithLoggerAdapter", () => {
   test("send", async () => {
-    using send = spyOn(inner, "send");
+    using innerSend = spyOn(inner, "send");
     const Logger = new LoggerCollectingAdapter();
     const connection = new SseConnectionWithLoggerAdapter<MessageType>({ inner, Logger });
 
@@ -27,36 +28,25 @@ describe("SseConnectionWithLoggerAdapter", () => {
         operation: "sse_connection",
       },
     ]);
-    expect(send).toHaveBeenCalledWith(message);
+    expect(innerSend).toHaveBeenCalledWith(message);
   });
 
   test("close", async () => {
-    using close = spyOn(inner, "close");
+    using innerClose = spyOn(inner, "close");
     const Logger = new LoggerCollectingAdapter();
     const connection = new SseConnectionWithLoggerAdapter<MessageType>({ inner, Logger });
 
-    await CorrelationStorage.run(mocks.correlationId, () => connection.close());
+    await CorrelationStorage.run(mocks.correlationId, () => connection.close(callback));
 
     expect(Logger.entries).toEqual([
       {
-        message: "sse_connection_closed",
+        message: "SSE connection closed",
         metadata: {},
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_connection",
       },
     ]);
-    expect(close).toHaveBeenCalled();
-  });
-
-  test("onClose", async () => {
-    using onClose = spyOn(inner, "onClose");
-    const Logger = new LoggerCollectingAdapter();
-    const connection = new SseConnectionWithLoggerAdapter<MessageType>({ inner, Logger });
-
-    await CorrelationStorage.run(mocks.correlationId, () => connection.onClose(() => {}));
-
-    expect(Logger.entries).toEqual([]);
-    expect(onClose).toHaveBeenCalled();
+    expect(innerClose).toHaveBeenCalledWith(callback);
   });
 });
