@@ -3,14 +3,11 @@ import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import * as mocks from "./mocks";
 
-type MessageType = { name: "TEST_MESSAGE" };
-const message = { name: "TEST_MESSAGE" } as const;
-
-const connection = new SseConnectionNoopAdapter<MessageType>();
+const connection = new SseConnectionNoopAdapter<mocks.MessageType>();
 
 describe("SseRegistryAdapter", () => {
   test("register", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     registry.register(mocks.userId, connection);
 
@@ -19,7 +16,7 @@ describe("SseRegistryAdapter", () => {
   });
 
   test("unregister", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     registry.register(mocks.userId, connection);
 
@@ -33,51 +30,51 @@ describe("SseRegistryAdapter", () => {
   });
 
   test("unregister - unknown userId", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     expect(() => registry.unregister(mocks.userId, connection)).not.toThrow();
   });
 
   test("emit", async () => {
     using send = spyOn(connection, "send");
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     registry.register(mocks.userId, connection);
-    await registry.emit(mocks.userId, message);
+    await registry.emit(mocks.userId, mocks.message);
 
-    expect(send).toHaveBeenCalledWith(message);
+    expect(send).toHaveBeenCalledWith(mocks.message);
   });
 
   test("emit - no connection", async () => {
     using send = spyOn(connection, "send");
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    await registry.emit(mocks.userId, message);
+    await registry.emit(mocks.userId, mocks.message);
 
     expect(send).not.toHaveBeenCalled();
   });
 
   test("emits - multiple connections", async () => {
-    const first = new SseConnectionNoopAdapter<MessageType>();
-    const second = new SseConnectionNoopAdapter<MessageType>();
+    const first = new SseConnectionNoopAdapter<mocks.MessageType>();
+    const second = new SseConnectionNoopAdapter<mocks.MessageType>();
     using sendFirst = spyOn(first, "send");
     using sendSecond = spyOn(second, "send");
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     registry.register(mocks.userId, first);
     registry.register(mocks.userId, second);
-    await registry.emit(mocks.userId, message);
+    await registry.emit(mocks.userId, mocks.message);
 
-    expect(sendFirst).toHaveBeenCalledWith(message);
-    expect(sendSecond).toHaveBeenCalledWith(message);
+    expect(sendFirst).toHaveBeenCalledWith(mocks.message);
+    expect(sendSecond).toHaveBeenCalledWith(mocks.message);
   });
 
   test("emits - no intersection", async () => {
     using send = spyOn(connection, "send");
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     registry.register(mocks.anotherUserId, connection);
-    await registry.emit(mocks.userId, message);
+    await registry.emit(mocks.userId, mocks.message);
 
     expect(send).not.toHaveBeenCalled();
   });

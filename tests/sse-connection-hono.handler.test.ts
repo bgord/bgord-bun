@@ -7,16 +7,14 @@ import { SseConnectionHonoHandler } from "../src/sse-connection-hono.handler";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import * as mocks from "./mocks";
 
-type MessageType = { name: "TEST_MESSAGE" };
-const message = { name: "TEST_MESSAGE" } as const;
 const keepalive = tools.Duration.Seconds(30);
 
 describe("SseConnectionHonoHandler", () => {
   test("register", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseConnectionHonoHandler<MessageType>(registry, { keepalive });
+    const handler = new SseConnectionHonoHandler<mocks.MessageType>(registry, { keepalive });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     await app.request("/sse");
@@ -26,21 +24,23 @@ describe("SseConnectionHonoHandler", () => {
   });
 
   test("send", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseConnectionHonoHandler<MessageType>(registry, { keepalive });
+    const handler = new SseConnectionHonoHandler<mocks.MessageType>(registry, { keepalive });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     const response = await app.request("/sse");
     const reader = response.body!.getReader();
     const decoder = new TextDecoder();
 
-    await registry.emit(mocks.user.id, message);
+    await registry.emit(mocks.user.id, mocks.message);
 
     const { value } = await reader.read();
     const text = decoder.decode(value);
 
-    expect(text).toEqualIgnoringWhitespace(`event: ${message.name} data: ${JSON.stringify(message)}`);
+    expect(text).toEqualIgnoringWhitespace(
+      `event: ${mocks.message.name} data: ${JSON.stringify(mocks.message)}`,
+    );
   });
 });

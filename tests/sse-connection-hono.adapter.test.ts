@@ -5,15 +5,13 @@ import { SseConnectionHonoAdapter } from "../src/sse-connection-hono.adapter";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import * as mocks from "./mocks";
 
-type MessageType = { name: "TEST_MESSAGE" };
-const message = { name: "TEST_MESSAGE" } as const;
 const config = { keepalive: tools.Duration.Seconds(30) };
 const callback = () => {};
 
 describe("SseConnectionHonoAdapter", () => {
   test("attach - register", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
-    const adapter = new SseConnectionHonoAdapter<MessageType>(registry, mocks.userId, config);
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const adapter = new SseConnectionHonoAdapter<mocks.MessageType>(registry, mocks.userId, config);
     const app = new Hono().get("/sse", (c) => adapter.attach(c));
 
     await app.request("/sse");
@@ -23,8 +21,8 @@ describe("SseConnectionHonoAdapter", () => {
   });
 
   test("attach - unregister", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
-    const adapter = new SseConnectionHonoAdapter<MessageType>(registry, mocks.userId, config);
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const adapter = new SseConnectionHonoAdapter<mocks.MessageType>(registry, mocks.userId, config);
     const app = new Hono().get("/sse", (c) => adapter.attach(c));
 
     await app.request("/sse");
@@ -35,27 +33,27 @@ describe("SseConnectionHonoAdapter", () => {
   });
 
   test("send", async () => {
-    const registry = new SseRegistryAdapter<MessageType>();
-    const adapter = new SseConnectionHonoAdapter<MessageType>(registry, mocks.userId, config);
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const adapter = new SseConnectionHonoAdapter<mocks.MessageType>(registry, mocks.userId, config);
     const app = new Hono().get("/sse", (c) => adapter.attach(c));
 
     const response = await app.request("/sse");
     const reader = response.body!.getReader();
     const decoder = new TextDecoder();
 
-    await registry.emit(mocks.userId, message);
+    await registry.emit(mocks.userId, mocks.message);
 
     const { value } = await reader.read();
     const text = decoder.decode(value);
 
-    expect(text).toContain(`event: ${message.name}`);
-    expect(text).toContain(`data: ${JSON.stringify(message)}`);
+    expect(text).toContain(`event: ${mocks.message.name}`);
+    expect(text).toContain(`data: ${JSON.stringify(mocks.message)}`);
   });
 
   test("close", async () => {
     const callback = jest.fn();
-    const registry = new SseRegistryAdapter<MessageType>();
-    const adapter = new SseConnectionHonoAdapter<MessageType>(registry, mocks.userId, config);
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const adapter = new SseConnectionHonoAdapter<mocks.MessageType>(registry, mocks.userId, config);
     const app = new Hono().get("/sse", (c) => adapter.attach(c));
 
     const response = await app.request("/sse");
@@ -69,8 +67,8 @@ describe("SseConnectionHonoAdapter", () => {
   test("keepalive", async () => {
     jest.useFakeTimers();
 
-    const registry = new SseRegistryAdapter<MessageType>();
-    const adapter = new SseConnectionHonoAdapter<MessageType>(registry, mocks.userId, config);
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const adapter = new SseConnectionHonoAdapter<mocks.MessageType>(registry, mocks.userId, config);
     const app = new Hono().get("/sse", (c) => adapter.attach(c));
 
     const response = await app.request("/sse");

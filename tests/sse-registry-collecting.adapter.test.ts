@@ -3,11 +3,8 @@ import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
 import { SseRegistryCollectingAdapter } from "../src/sse-registry-collecting.adapter";
 import * as mocks from "./mocks";
 
-type MessageType = { name: "TEST_MESSAGE" };
-const message = { name: "TEST_MESSAGE" } as const;
-
-const registry = new SseRegistryCollectingAdapter<MessageType>();
-const connection = new SseConnectionNoopAdapter<MessageType>();
+const registry = new SseRegistryCollectingAdapter<mocks.MessageType>();
+const connection = new SseConnectionNoopAdapter<mocks.MessageType>();
 
 describe("SseRegistryCollectingAdapter", () => {
   test("register", async () => {
@@ -19,8 +16,8 @@ describe("SseRegistryCollectingAdapter", () => {
   });
 
   test("emit", async () => {
-    await registry.emit(mocks.userId, message);
+    await registry.emit(mocks.userId, mocks.message);
 
-    expect(registry.emitted).toEqual([{ userId: mocks.userId, message }]);
+    expect(registry.emitted).toEqual([{ userId: mocks.userId, message: mocks.message }]);
   });
 });
