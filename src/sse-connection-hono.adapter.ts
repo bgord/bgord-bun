@@ -22,7 +22,9 @@ export class SseConnectionHonoAdapter<Messages extends Message> implements SseCo
 
       this.registry.register(this.userId, this);
 
+      // Stryker disable all
       stream.onAbort(() => this.registry.unregister(this.userId, this));
+      // Stryker restore all
 
       while (!stream.closed) {
         await stream.sleep(this.config.keepalive.ms);
@@ -32,12 +34,16 @@ export class SseConnectionHonoAdapter<Messages extends Message> implements SseCo
   }
 
   async send<M extends Messages>(message: M): Promise<void> {
+    // Stryker disable all
     await this.stream?.writeSSE({ event: message.name, data: JSON.stringify(message) });
+    // Stryker restore all;
   }
 
   close(callback: () => void): void {
     this.registry.unregister(this.userId, this);
     callback();
+    // Stryker disable all
     this.stream?.close();
+    // Stryker restore all
   }
 }

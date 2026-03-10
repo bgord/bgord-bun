@@ -348,6 +348,7 @@ export * from "./sse-connection.port";
 export * from "./sse-connection-hono.adapter";
 export * from "./sse-connection-hono.handler";
 export * from "./sse-connection-hono.handler";
+export * from "./sse-connection-noop.adapter";
 export * from "./sse-connection-with-logger.adapter";
 export * from "./sse-registry.adapter";
 export * from "./sse-registry.port";

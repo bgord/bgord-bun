@@ -85,6 +85,8 @@ describe("SseConnectionHonoAdapter", () => {
     expect(text).toContain("event: ping");
     expect(text).toContain("data: ");
 
+    expect(text).toEqualIgnoringWhitespace("event:ping data:");
+
     jest.useRealTimers();
   });
 });

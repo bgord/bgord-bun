@@ -11,13 +11,10 @@ type MessageType = { name: "TEST_MESSAGE" };
 const message = { name: "TEST_MESSAGE" } as const;
 const keepalive = tools.Duration.Seconds(30);
 
-const user = mocks.user;
-const session = { id: "session-123" };
-
 describe("SseConnectionHonoHandler", () => {
   test("register", async () => {
     const registry = new SseRegistryAdapter<MessageType>();
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
     const handler = new SseConnectionHonoHandler<MessageType>(registry, { keepalive });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
@@ -30,7 +27,7 @@ describe("SseConnectionHonoHandler", () => {
 
   test("send", async () => {
     const registry = new SseRegistryAdapter<MessageType>();
-    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
     const handler = new SseConnectionHonoHandler<MessageType>(registry, { keepalive });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
@@ -44,7 +41,6 @@ describe("SseConnectionHonoHandler", () => {
     const { value } = await reader.read();
     const text = decoder.decode(value);
 
-    expect(text).toContain(`event: ${message.name}`);
-    expect(text).toContain(`data: ${JSON.stringify(message)}`);
+    expect(text).toEqualIgnoringWhitespace(`event: ${message.name} data: ${JSON.stringify(message)}`);
   });
 });
