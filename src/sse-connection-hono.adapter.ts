@@ -5,7 +5,7 @@ import type { Message } from "./message.types";
 import type { SseConnectionPort } from "./sse-connection.port";
 import type { SseRegistryPort } from "./sse-registry.port";
 
-type SseConnectionHonoAdapterConfig = { keepalive: tools.Duration };
+export type SseConnectionHonoAdapterConfig = { keepalive: tools.Duration };
 
 export class SseConnectionHonoAdapter<Messages extends Message> implements SseConnectionPort<Messages> {
   private stream: Awaited<Parameters<Parameters<typeof streamSSE>[1]>[0]> | null = null;
