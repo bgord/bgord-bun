@@ -349,6 +349,7 @@ export * from "./sse-registry.adapter";
 export * from "./sse-registry.port";
 export * from "./sse-registry-collecting.adapter";
 export * from "./sse-registry-noop.adapter";
+export * from "./sse-registry-with-logger.adapter";
 export * from "./ssr.service";
 export * from "./ssr-bun.service";
 export * from "./static-files-hono.service";
