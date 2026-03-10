@@ -18,6 +18,7 @@ import {
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
+export const anotherCorrelationId = "11111111-1111-1111-1111-111111111111";
 
 export const SupportedLanguages = ["en", "pl"] as const;
 export const languages = new Languages(SupportedLanguages, "en");
