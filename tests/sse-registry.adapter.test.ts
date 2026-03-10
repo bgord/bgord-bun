@@ -32,6 +32,12 @@ describe("SseRegistryAdapter", () => {
     expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set()));
   });
 
+  test("unregister - unknown userId", async () => {
+    const registry = new SseRegistryAdapter<MessageType>();
+
+    expect(() => registry.unregister(mocks.userId, connection)).not.toThrow();
+  });
+
   test("emit", async () => {
     using send = spyOn(connection, "send");
     const registry = new SseRegistryAdapter<MessageType>();
