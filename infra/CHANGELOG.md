@@ -1,8 +1,34 @@
 # Changelog
+- 2026-03-10 17:06 e465a1e4 **step: kill mutants**
+- 2026-03-10 16:59 80a0805e **refactor: extract messages to mocks**
+- 2026-03-10 16:41 93c5ae15 **step: kill mutants**
+- 2026-03-10 15:31 fb59aa41 **step: add sse connection hono handler**
+- 2026-03-10 15:18 8b20d01e **step: add keepalive testcase**
+- 2026-03-10 15:08 feda3b4e **refactor: remove on close from sse connection hono**
+- 2026-03-10 15:05 8db3e3ec **refactor: remove on close from sse connection with logger**
+- 2026-03-10 15:01 2f3fe16c **refactor: remove on close from sse connection noop**
+- 2026-03-10 15:01 22ac3180 **refactor: remove on close from sse connection port**
+- 2026-03-10 14:34 ba3607ad **step: add sse connection hono**
+- 2026-03-10 14:03 f8f28d0f **step: add sse connection with logger adapter**
+- 2026-03-10 13:31 fcd77354 **step: update packages**
+- 2026-03-10 13:31 3918481d **refactor: unify deps in message bus with logger**
+- 2026-03-10 13:29 fbb1464f **refactor: use mock user id in tests**
+- 2026-03-10 13:25 bc2cf76d **refactor: extract user id mock**
+- 2026-03-10 13:18 40511e43 **step: add sse registry with logger**
+- 2026-03-10 13:02 610c8fc6 **step: add sse registry**
+- 2026-03-10 12:24 beed5697 **refactor: make sse registry collecting type safe**
+- 2026-03-10 12:22 e1f9772b **refactor: make sse registry noop type safe**
+- 2026-03-10 12:17 05a857b6 **step: add sse connection noop adapter**
+- 2026-03-10 12:16 5f6a1346 **step: improve sse connection port type safety**
+- 2026-03-10 12:06 bda4c30b **step: add sse registry collecting**
+- 2026-03-10 12:02 1041939d **step: add sse registry noop**
+- 2026-03-10 12:00 157184ad **step: add sse registry port**
+- 2026-03-10 11:56 58e6954a **step: add sse connection port**
 ## 2026-03-10 11:18 v1.12.8
 - 2026-03-10 11:18 472f826a **1.12.8**
 - 2026-03-10 11:17 6943047f **refactor: improve tests**
 - 2026-03-10 11:14 65124663 **step: update packages**
+- 2026-03-10 10:19 12bcb384 **docs: generate CHANGELOG**
 - 2026-03-10 10:17 ff22dc6a **docs: generate CHANGELOG**
 - 2026-03-09 22:57 78076e81 **refactor: test imports**
 - 2026-03-09 14:20 c772e971 **refactor: adjust file draft zip**
