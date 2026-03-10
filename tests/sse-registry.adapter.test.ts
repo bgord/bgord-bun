@@ -1,11 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
+import * as mocks from "./mocks";
 
 type MessageType = { name: "TEST_MESSAGE" };
 const message = { name: "TEST_MESSAGE" } as const;
-const userId = "user-1";
-const anotherUserId = "user-2";
 
 const connection = new SseConnectionNoopAdapter<MessageType>();
 
@@ -13,32 +12,32 @@ describe("SseRegistryAdapter", () => {
   test("register", async () => {
     const registry = new SseRegistryAdapter<MessageType>();
 
-    registry.register(userId, connection);
+    registry.register(mocks.userId, connection);
 
     // @ts-expect-error Private property
-    expect(registry.connections).toEqual(new Map().set(userId, new Set().add(connection)));
+    expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set().add(connection)));
   });
 
   test("unregister", async () => {
     const registry = new SseRegistryAdapter<MessageType>();
 
-    registry.register(userId, connection);
+    registry.register(mocks.userId, connection);
 
     // @ts-expect-error Private property
-    expect(registry.connections).toEqual(new Map().set(userId, new Set().add(connection)));
+    expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set().add(connection)));
 
-    registry.unregister(userId, connection);
+    registry.unregister(mocks.userId, connection);
 
     // @ts-expect-error Private property
-    expect(registry.connections).toEqual(new Map().set(userId, new Set()));
+    expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set()));
   });
 
   test("emit", async () => {
     using send = spyOn(connection, "send");
     const registry = new SseRegistryAdapter<MessageType>();
 
-    registry.register(userId, connection);
-    await registry.emit(userId, message);
+    registry.register(mocks.userId, connection);
+    await registry.emit(mocks.userId, message);
 
     expect(send).toHaveBeenCalledWith(message);
   });
@@ -47,7 +46,7 @@ describe("SseRegistryAdapter", () => {
     using send = spyOn(connection, "send");
     const registry = new SseRegistryAdapter<MessageType>();
 
-    await registry.emit(userId, message);
+    await registry.emit(mocks.userId, message);
 
     expect(send).not.toHaveBeenCalled();
   });
@@ -59,9 +58,9 @@ describe("SseRegistryAdapter", () => {
     using sendSecond = spyOn(second, "send");
     const registry = new SseRegistryAdapter<MessageType>();
 
-    registry.register(userId, first);
-    registry.register(userId, second);
-    await registry.emit(userId, message);
+    registry.register(mocks.userId, first);
+    registry.register(mocks.userId, second);
+    await registry.emit(mocks.userId, message);
 
     expect(sendFirst).toHaveBeenCalledWith(message);
     expect(sendSecond).toHaveBeenCalledWith(message);
@@ -71,8 +70,8 @@ describe("SseRegistryAdapter", () => {
     using send = spyOn(connection, "send");
     const registry = new SseRegistryAdapter<MessageType>();
 
-    registry.register(anotherUserId, connection);
-    await registry.emit(userId, message);
+    registry.register(mocks.anotherUserId, connection);
+    await registry.emit(mocks.userId, message);
 
     expect(send).not.toHaveBeenCalled();
   });

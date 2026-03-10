@@ -8,7 +8,6 @@ import * as mocks from "./mocks";
 
 type MessageType = { name: "TEST_MESSAGE" };
 const message = { name: "TEST_MESSAGE" } as const;
-const userId = "user-1";
 
 const connection = new SseConnectionNoopAdapter<MessageType>();
 const inner = new SseRegistryAdapter<MessageType>();
@@ -20,19 +19,19 @@ describe("SseRegistryWithLoggerAdapter", () => {
     const registry = new SseRegistryWithLoggerAdapter<MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.register(userId, connection);
+      registry.register(mocks.userId, connection);
     });
 
     expect(Logger.entries).toEqual([
       {
         message: "SSE connection registered",
-        metadata: { userId },
+        metadata: { userId: mocks.userId },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(register).toHaveBeenCalledWith(userId, connection);
+    expect(register).toHaveBeenCalledWith(mocks.userId, connection);
   });
 
   test("unregister", async () => {
@@ -41,19 +40,19 @@ describe("SseRegistryWithLoggerAdapter", () => {
     const registry = new SseRegistryWithLoggerAdapter<MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.unregister(userId, connection);
+      registry.unregister(mocks.userId, connection);
     });
 
     expect(Logger.entries).toEqual([
       {
         message: "SSE connection unregistered",
-        metadata: { userId },
+        metadata: { userId: mocks.userId },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(unregister).toHaveBeenCalledWith(userId, connection);
+    expect(unregister).toHaveBeenCalledWith(mocks.userId, connection);
   });
 
   test("emit", async () => {
@@ -62,18 +61,18 @@ describe("SseRegistryWithLoggerAdapter", () => {
     const registry = new SseRegistryWithLoggerAdapter<MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      await registry.emit(userId, message);
+      await registry.emit(mocks.userId, message);
     });
 
     expect(Logger.entries).toEqual([
       {
         message: "TEST_MESSAGE emitted",
-        metadata: { userId, message },
+        metadata: { userId: mocks.userId, message },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(emit).toHaveBeenCalledWith(userId, message);
+    expect(emit).toHaveBeenCalledWith(mocks.userId, message);
   });
 });
