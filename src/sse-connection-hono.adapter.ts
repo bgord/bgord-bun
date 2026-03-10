@@ -35,11 +35,9 @@ export class SseConnectionHonoAdapter<Messages extends Message> implements SseCo
     await this.stream?.writeSSE({ event: message.name, data: JSON.stringify(message) });
   }
 
-  close(): void {
+  close(callback: () => void): void {
+    this.registry.unregister(this.userId, this);
+    callback();
     this.stream?.close();
-  }
-
-  onClose(callback: () => void): void {
-    this.stream?.onAbort(callback);
   }
 }
