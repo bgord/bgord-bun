@@ -344,6 +344,7 @@ export * from "./smtp-host.vo";
 export * from "./smtp-pass.vo";
 export * from "./smtp-port.vo";
 export * from "./smtp-user.vo";
+export * from "./sse-connection.port";
 export * from "./ssr.service";
 export * from "./ssr-bun.service";
 export * from "./static-files-hono.service";
