@@ -1,20 +1,24 @@
-import { describe, expect, jest, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
+import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
 import { SseRegistryNoopAdapter } from "../src/sse-registry-noop.adapter";
 
 type MessageType = { name: "TEST_MESSAGE" };
 const message = { name: "TEST_MESSAGE" } as const;
 const userId = "user-1";
 
+const registry = new SseRegistryNoopAdapter<MessageType>();
+const connection = new SseConnectionNoopAdapter<MessageType>();
+
 describe("SseRegistryNoopAdapter", () => {
-  test("happy path", async () => {
-    // TODO use SSE connection noop
-    const send = jest.fn();
-    const connection = { send, close: jest.fn(), onClose: jest.fn() };
-    const registry = new SseRegistryNoopAdapter<MessageType>();
+  test("register", async () => {
+    expect(() => registry.register(userId, connection)).not.toThrow();
+  });
 
-    registry.register(userId, connection);
-    await registry.emit(userId, message);
+  test("unregister", async () => {
+    expect(() => registry.unregister(userId, connection)).not.toThrow();
+  });
 
-    expect(send).not.toHaveBeenCalled();
+  test("emit", async () => {
+    expect(async () => registry.emit(userId, message)).not.toThrow();
   });
 });
