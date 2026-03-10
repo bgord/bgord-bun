@@ -1,5 +1,8 @@
 # Changelog
+## 2026-03-10 23:16 v1.12.10
+- 2026-03-10 23:16 eecd5cdc **1.12.10**
 - 2026-03-10 23:13 5c79623d **fix: timing for streaming**
+- 2026-03-10 22:14 950ad406 **docs: generate CHANGELOG**
 - 2026-03-10 18:00 7956db7b **fix: skip timing hono for streams**
 ## 2026-03-10 17:10 v1.12.9
 - 2026-03-10 17:10 29327e45 **1.12.9**
