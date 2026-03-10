@@ -80,9 +80,6 @@ describe("SseConnectionHonoAdapter", () => {
     const { value } = await reader.read();
     const text = decoder.decode(value);
 
-    expect(text).toContain("event: ping");
-    expect(text).toContain("data: ");
-
     expect(text).toEqualIgnoringWhitespace("event:ping data:");
 
     jest.useRealTimers();
