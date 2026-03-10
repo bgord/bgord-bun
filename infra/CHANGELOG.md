@@ -1,6 +1,9 @@
 # Changelog
+## 2026-03-10 11:18 v1.12.8
+- 2026-03-10 11:18 472f826a **1.12.8**
 - 2026-03-10 11:17 6943047f **refactor: improve tests**
 - 2026-03-10 11:14 65124663 **step: update packages**
+- 2026-03-10 10:17 ff22dc6a **docs: generate CHANGELOG**
 - 2026-03-09 22:57 78076e81 **refactor: test imports**
 - 2026-03-09 14:20 c772e971 **refactor: adjust file draft zip**
 - 2026-03-09 14:16 148e2026 **refactor: adjust image resizer sharp**
