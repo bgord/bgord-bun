@@ -6,20 +6,17 @@ import { MessageBusEmitteryAdapter } from "../src/message-bus-emittery.adapter";
 import { MessageBusWithLoggerAdapter } from "../src/message-bus-with-logger.adapter";
 import * as mocks from "./mocks";
 
-type MessageType = { name: "TEST_MESSAGE" };
-const message = { name: "TEST_MESSAGE" } as const;
-
 describe("MessageBusWithLoggerAdapter", () => {
   test("happy path", async () => {
     const handler = jest.fn();
     const Logger = new LoggerCollectingAdapter();
-    const inner = new MessageBusEmitteryAdapter<MessageType>();
-    const bus = new MessageBusWithLoggerAdapter<MessageType>({ inner, Logger });
+    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const bus = new MessageBusWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
       bus.on("TEST_MESSAGE", handler);
-      await bus.emit(message);
-      await bus.emit(message);
+      await bus.emit(mocks.message);
+      await bus.emit(mocks.message);
     });
 
     expect(Logger.entries).toEqual(
@@ -29,7 +26,7 @@ describe("MessageBusWithLoggerAdapter", () => {
           correlationId: mocks.correlationId,
           component: "infra",
           operation: "message_bus_emit",
-          metadata: message,
+          metadata: mocks.message,
         },
         2,
       ),

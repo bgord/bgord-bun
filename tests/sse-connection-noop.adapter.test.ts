@@ -1,15 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
+import * as mocks from "./mocks";
 
-type MessageType = { name: "TEST_MESSAGE" };
-const message = { name: "TEST_MESSAGE" } as const;
-
-const connection = new SseConnectionNoopAdapter<MessageType>();
+const connection = new SseConnectionNoopAdapter<mocks.MessageType>();
 const callback = () => {};
 
 describe("SseConnectionNoopAdapter", async () => {
   test("send", async () => {
-    expect(async () => connection.send(message)).not.toThrow();
+    expect(async () => connection.send(mocks.message)).not.toThrow();
   });
 
   test("close", async () => {

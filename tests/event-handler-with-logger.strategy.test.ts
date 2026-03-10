@@ -5,17 +5,15 @@ import { EventHandlerWithLoggerStrategy } from "../src/event-handler-with-logger
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
 
-const event = { name: "user.created" };
-
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("EventHandlerWithLoggerStrategy", () => {
   test("happy path", async () => {
     const Logger = new LoggerCollectingAdapter();
     const handler = new EventHandlerWithLoggerStrategy({ Clock, Logger });
-    const fn = async (_event: typeof event) => {};
+    const fn = async (_event: mocks.MessageType) => {};
 
-    await handler.handle(fn)(event);
+    await handler.handle(fn)(mocks.message);
 
     expect(Logger.entries.length).toEqual(0);
   });
@@ -24,14 +22,14 @@ describe("EventHandlerWithLoggerStrategy", () => {
     const Logger = new LoggerCollectingAdapter();
     const handler = new EventHandlerWithLoggerStrategy({ Clock, Logger });
 
-    await handler.handle(mocks.throwIntentionalErrorAsync)(event);
+    await handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message);
 
     expect(Logger.entries).toEqual([
       {
-        message: "Unknown user.created event handler error",
+        message: `Unknown ${mocks.message.name} event handler error`,
         component: "infra",
         operation: "event_handler",
-        metadata: { ...event, duration: expect.any(tools.Duration) },
+        metadata: { ...mocks.message, duration: expect.any(tools.Duration) },
         error: new Error(mocks.IntentionalError),
       },
     ]);

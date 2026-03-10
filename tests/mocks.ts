@@ -229,3 +229,6 @@ export const session = {
   ipAddress: null,
   userAgent: null,
 };
+
+export type MessageType = { name: "TEST_MESSAGE" };
+export const message = { name: "TEST_MESSAGE" } as const;
