@@ -21,9 +21,6 @@ export class DynamicImport<T> {
   }
 
   private obfuscate(name: string): string {
-    // Bun does not resolve dynamic imports with a dynamic name
-    const middle = Math.floor(name.length / 2);
-
-    return name.slice(0, middle) + name.slice(middle);
+    return name;
   }
 }
