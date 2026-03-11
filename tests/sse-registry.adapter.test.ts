@@ -22,7 +22,7 @@ describe("SseRegistryAdapter", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(subject.hex, sender);
+    registry.register(subject.hex.get(), sender);
 
     // @ts-expect-error Private property
     expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
@@ -32,12 +32,12 @@ describe("SseRegistryAdapter", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(subject.hex, sender);
+    registry.register(subject.hex.get(), sender);
 
     // @ts-expect-error Private property
     expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
 
-    registry.unregister(subject.hex, sender);
+    registry.unregister(subject.hex.get(), sender);
 
     // @ts-expect-error Private property
     expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set()));
@@ -47,15 +47,15 @@ describe("SseRegistryAdapter", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    expect(() => registry.unregister(subject.hex, sender)).not.toThrow();
+    expect(() => registry.unregister(subject.hex.get(), sender)).not.toThrow();
   });
 
   test("emit", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(subject.hex, sender);
-    await registry.emit(subject.hex, mocks.message);
+    registry.register(subject.hex.get(), sender);
+    await registry.emit(subject.hex.get(), mocks.message);
 
     expect(sender).toHaveBeenCalledWith(mocks.message);
   });
@@ -64,7 +64,7 @@ describe("SseRegistryAdapter", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    await registry.emit(subject.hex, mocks.message);
+    await registry.emit(subject.hex.get(), mocks.message);
 
     expect(sender).not.toHaveBeenCalled();
   });
@@ -74,9 +74,9 @@ describe("SseRegistryAdapter", async () => {
     const second = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(subject.hex, first);
-    registry.register(subject.hex, second);
-    await registry.emit(subject.hex, mocks.message);
+    registry.register(subject.hex.get(), first);
+    registry.register(subject.hex.get(), second);
+    await registry.emit(subject.hex.get(), mocks.message);
 
     expect(first).toHaveBeenCalledWith(mocks.message);
     expect(second).toHaveBeenCalledWith(mocks.message);
@@ -86,8 +86,8 @@ describe("SseRegistryAdapter", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(anotherSubject.hex, sender);
-    await registry.emit(subject.hex, mocks.message);
+    registry.register(anotherSubject.hex.get(), sender);
+    await registry.emit(subject.hex.get(), mocks.message);
 
     expect(sender).not.toHaveBeenCalled();
   });

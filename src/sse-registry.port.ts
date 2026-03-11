@@ -1,12 +1,12 @@
-import type { Hash } from "./hash.vo";
+import type { HashValueType } from "./hash-value.vo";
 import type { Message } from "./message.types";
 
 export type SseSenderType<Messages extends Message> = <M extends Messages>(message: M) => Promise<void>;
 
 export interface SseRegistryPort<Messages extends Message> {
-  register(identity: Hash, sender: SseSenderType<Messages>): void;
+  register(identity: HashValueType, sender: SseSenderType<Messages>): void;
 
-  unregister(identity: Hash, sender: SseSenderType<Messages>): void;
+  unregister(identity: HashValueType, sender: SseSenderType<Messages>): void;
 
-  emit<M extends Messages>(identity: Hash, message: M): Promise<void>;
+  emit<M extends Messages>(identity: HashValueType, message: M): Promise<void>;
 }

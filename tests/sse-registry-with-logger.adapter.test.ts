@@ -26,19 +26,19 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.register(subject.hex, sender);
+      registry.register(subject.hex.get(), sender);
     });
 
     expect(Logger.entries).toEqual([
       {
         message: "SSE sender registered",
-        metadata: { identity: subject.hex },
+        metadata: { identity: subject.hex.get() },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(register).toHaveBeenCalledWith(subject.hex, sender);
+    expect(register).toHaveBeenCalledWith(subject.hex.get(), sender);
   });
 
   test("unregister", async () => {
@@ -47,19 +47,19 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.unregister(subject.hex, sender);
+      registry.unregister(subject.hex.get(), sender);
     });
 
     expect(Logger.entries).toEqual([
       {
         message: "SSE sender unregistered",
-        metadata: { identity: subject.hex },
+        metadata: { identity: subject.hex.get() },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(unregister).toHaveBeenCalledWith(subject.hex, sender);
+    expect(unregister).toHaveBeenCalledWith(subject.hex.get(), sender);
   });
 
   test("emit", async () => {
@@ -68,18 +68,18 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      await registry.emit(subject.hex, mocks.message);
+      await registry.emit(subject.hex.get(), mocks.message);
     });
 
     expect(Logger.entries).toEqual([
       {
         message: "TEST_MESSAGE emitted",
-        metadata: { identity: subject.hex, message: mocks.message },
+        metadata: { identity: subject.hex.get(), message: mocks.message },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(emit).toHaveBeenCalledWith(subject.hex, mocks.message);
+    expect(emit).toHaveBeenCalledWith(subject.hex.get(), mocks.message);
   });
 });

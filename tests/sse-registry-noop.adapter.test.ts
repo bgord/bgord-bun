@@ -18,14 +18,14 @@ describe("SseRegistryNoopAdapter", async () => {
   const subject = await resolver.resolve(context);
 
   test("register", async () => {
-    expect(() => registry.register(subject.hex, sender)).not.toThrow();
+    expect(() => registry.register(subject.hex.get(), sender)).not.toThrow();
   });
 
   test("unregister", async () => {
-    expect(() => registry.unregister(subject.hex, sender)).not.toThrow();
+    expect(() => registry.unregister(subject.hex.get(), sender)).not.toThrow();
   });
 
   test("emit", async () => {
-    expect(async () => registry.emit(subject.hex, mocks.message)).not.toThrow();
+    expect(async () => registry.emit(subject.hex.get(), mocks.message)).not.toThrow();
   });
 });

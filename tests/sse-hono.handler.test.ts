@@ -45,7 +45,7 @@ describe("SseHonoHandler", async () => {
     const reader = response.body!.getReader();
     const decoder = new TextDecoder();
 
-    await registry.emit(subject.hex, mocks.message);
+    await registry.emit(subject.hex.get(), mocks.message);
 
     const { value } = await reader.read();
     const text = decoder.decode(value);
