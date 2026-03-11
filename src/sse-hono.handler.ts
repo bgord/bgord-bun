@@ -1,22 +1,42 @@
+import type * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
+import { streamSSE } from "hono/streaming";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import type { Message } from "./message.types";
-import { SseConnectionHonoAdapter, type SseConnectionHonoAdapterConfig } from "./sse-connection-hono.adapter";
 import type { SseRegistryPort } from "./sse-registry.port";
+
+export type SseHonoAdapterConfig = { keepalive: tools.Duration };
 
 const factory = createFactory();
 
 export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort {
   constructor(
     private readonly registry: SseRegistryPort<Messages>,
-    private readonly config: SseConnectionHonoAdapterConfig,
+    private readonly config: SseHonoAdapterConfig,
   ) {}
 
   handle() {
     return factory.createHandlers<{}, any, { Variables: { user: { id: string } } }>((c) => {
       const userId = c.get("user").id;
-      const adapter = new SseConnectionHonoAdapter<Messages>(this.registry, userId, this.config);
-      return adapter.attach(c);
+
+      return streamSSE(c, async (stream) => {
+        const connection = {
+          send: async <M extends Messages>(message: M) => {
+            await stream.writeSSE({ event: message.name, data: JSON.stringify(message) });
+          },
+        };
+
+        this.registry.register(userId, connection);
+
+        // Stryker disable all
+        stream.onAbort(() => this.registry.unregister(userId, connection));
+        // Stryker restore all
+
+        while (!stream.closed) {
+          await stream.sleep(this.config.keepalive.ms);
+          await stream.writeSSE({ event: "ping", data: "" });
+        }
+      });
     });
   }
 }
