@@ -4,7 +4,6 @@ import { streamSSE } from "hono/streaming";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import type { Message } from "./message.types";
 import type { SseRegistryPort } from "./sse-registry.port";
-import { type SseSendDecorator, SseSenderBare } from "./sse-sender.strategy";
 
 export type SseHonoHandlerConfig = { keepalive: tools.Duration };
 
@@ -14,7 +13,6 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
   constructor(
     private readonly registry: SseRegistryPort<Messages>,
     private readonly config: SseHonoHandlerConfig,
-    private readonly decorator: SseSendDecorator<Messages> = SseSenderBare<Messages>(),
   ) {}
 
   handle() {
@@ -22,11 +20,9 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
       const userId = c.get("user").id;
 
       return streamSSE(c, async (stream) => {
-        const raw = async <M extends Messages>(message: M) => {
+        const send = async <M extends Messages>(message: M) => {
           await stream.writeSSE({ event: message.name, data: JSON.stringify(message) });
         };
-
-        const send = this.decorator(raw);
 
         this.registry.register(userId, send);
 
