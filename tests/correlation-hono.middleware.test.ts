@@ -9,7 +9,6 @@ import * as mocks from "./mocks";
 
 type Config = { Variables: CorrelationVariables };
 
-const valid = "550e8400-e29b-41d4-a716-446655440000";
 const invalid = "not-a-valid-uuid";
 
 describe("CorrelationHonoMiddleware", () => {
@@ -39,11 +38,14 @@ describe("CorrelationHonoMiddleware", () => {
       );
 
     const response = await app.request("/ping", {
-      headers: { [CorrelationIdMiddleware.HEADER_NAME]: valid },
+      headers: { [CorrelationIdMiddleware.HEADER_NAME]: mocks.correlationId },
     });
 
-    expect(response.headers.get(CorrelationIdMiddleware.HEADER_NAME)).toEqual(valid);
-    expect(await response.json()).toEqual({ correlationId: valid, storage: valid });
+    expect(response.headers.get(CorrelationIdMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
+    expect(await response.json()).toEqual({
+      correlationId: mocks.correlationId,
+      storage: mocks.correlationId,
+    });
   });
 
   test("incoming - incorrect", async () => {
