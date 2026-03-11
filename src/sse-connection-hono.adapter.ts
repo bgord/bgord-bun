@@ -38,12 +38,4 @@ export class SseConnectionHonoAdapter<Messages extends Message> implements SseCo
     await this.stream?.writeSSE({ event: message.name, data: JSON.stringify(message) });
     // Stryker restore all;
   }
-
-  close(callback: () => void): void {
-    this.registry.unregister(this.userId, this);
-    callback();
-    // Stryker disable all
-    this.stream?.close();
-    // Stryker restore all
-  }
 }

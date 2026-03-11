@@ -3,6 +3,4 @@ import type { SseConnectionPort } from "./sse-connection.port";
 
 export class SseConnectionNoopAdapter<Messages extends Message> implements SseConnectionPort<Messages> {
   async send<M extends Messages>(_message: M) {}
-
-  close(_callback: () => void): void {}
 }

@@ -20,15 +20,4 @@ export class SseConnectionWithLoggerAdapter<Messages extends Message> implements
 
     await this.deps.inner.send(message);
   }
-
-  close(callback: () => void): void {
-    this.deps.Logger.debug({
-      message: "SSE connection closed",
-      metadata: {},
-      correlationId: CorrelationStorage.get(),
-      ...this.base,
-    });
-
-    this.deps.inner.close(callback);
-  }
 }
