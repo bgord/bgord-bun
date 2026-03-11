@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { AuthSessionReaderNoopAdapter } from "../src/auth-session-reader-noop.adapter";
@@ -53,5 +53,28 @@ describe("SseHonoHandler", async () => {
     expect(text).toEqualIgnoringWhitespace(
       `event: ${mocks.message.name} data: ${JSON.stringify(mocks.message)}`,
     );
+  });
+
+  test("keepalive", async () => {
+    jest.useFakeTimers();
+
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
+    const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
+    const handler = new SseHonoHandler<mocks.MessageType>(config, { registry, HashContent });
+    const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
+
+    const response = await app.request("/sse");
+    const reader = response.body!.getReader();
+    const decoder = new TextDecoder();
+
+    jest.advanceTimersByTime(config.keepalive.ms);
+
+    const { value } = await reader.read();
+    const text = decoder.decode(value);
+
+    jest.useRealTimers();
+
+    expect(text).toEqualIgnoringWhitespace("event: ping data:");
   });
 });
