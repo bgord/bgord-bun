@@ -1,12 +1,11 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
-import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import { SseRegistryWithLoggerAdapter } from "../src/sse-registry-with-logger.adapter";
 import * as mocks from "./mocks";
 
-const connection = new SseConnectionNoopAdapter<mocks.MessageType>();
+const sender = jest.fn();
 const inner = new SseRegistryAdapter<mocks.MessageType>();
 
 describe("SseRegistryWithLoggerAdapter", () => {
@@ -16,19 +15,19 @@ describe("SseRegistryWithLoggerAdapter", () => {
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.register(mocks.userId, connection);
+      registry.register(mocks.userId, sender);
     });
 
     expect(Logger.entries).toEqual([
       {
-        message: "SSE connection registered",
+        message: "SSE sender registered",
         metadata: { userId: mocks.userId },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(register).toHaveBeenCalledWith(mocks.userId, connection);
+    expect(register).toHaveBeenCalledWith(mocks.userId, sender);
   });
 
   test("unregister", async () => {
@@ -37,19 +36,19 @@ describe("SseRegistryWithLoggerAdapter", () => {
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.unregister(mocks.userId, connection);
+      registry.unregister(mocks.userId, sender);
     });
 
     expect(Logger.entries).toEqual([
       {
-        message: "SSE connection unregistered",
+        message: "SSE sender unregistered",
         metadata: { userId: mocks.userId },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
-    expect(unregister).toHaveBeenCalledWith(mocks.userId, connection);
+    expect(unregister).toHaveBeenCalledWith(mocks.userId, sender);
   });
 
   test("emit", async () => {

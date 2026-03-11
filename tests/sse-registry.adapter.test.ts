@@ -1,81 +1,79 @@
-import { describe, expect, spyOn, test } from "bun:test";
-import { SseConnectionNoopAdapter } from "../src/sse-connection-noop.adapter";
+import { describe, expect, jest, test } from "bun:test";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import * as mocks from "./mocks";
 
-const connection = new SseConnectionNoopAdapter<mocks.MessageType>();
-
 describe("SseRegistryAdapter", () => {
   test("register", async () => {
+    const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, connection);
+    registry.register(mocks.userId, sender);
 
     // @ts-expect-error Private property
-    expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set().add(connection)));
+    expect(registry.senders).toEqual(new Map().set(mocks.userId, new Set().add(sender)));
   });
 
   test("unregister", async () => {
+    const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, connection);
+    registry.register(mocks.userId, sender);
 
     // @ts-expect-error Private property
-    expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set().add(connection)));
+    expect(registry.senders).toEqual(new Map().set(mocks.userId, new Set().add(sender)));
 
-    registry.unregister(mocks.userId, connection);
+    registry.unregister(mocks.userId, sender);
 
     // @ts-expect-error Private property
-    expect(registry.connections).toEqual(new Map().set(mocks.userId, new Set()));
+    expect(registry.senders).toEqual(new Map().set(mocks.userId, new Set()));
   });
 
   test("unregister - unknown userId", async () => {
+    const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    expect(() => registry.unregister(mocks.userId, connection)).not.toThrow();
+    expect(() => registry.unregister(mocks.userId, sender)).not.toThrow();
   });
 
   test("emit", async () => {
-    using send = spyOn(connection, "send");
+    const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, connection);
+    registry.register(mocks.userId, sender);
     await registry.emit(mocks.userId, mocks.message);
 
-    expect(send).toHaveBeenCalledWith(mocks.message);
+    expect(sender).toHaveBeenCalledWith(mocks.message);
   });
 
-  test("emit - no connection", async () => {
-    using send = spyOn(connection, "send");
+  test("emit - no sender", async () => {
+    const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     await registry.emit(mocks.userId, mocks.message);
 
-    expect(send).not.toHaveBeenCalled();
+    expect(sender).not.toHaveBeenCalled();
   });
 
-  test("emits - multiple connections", async () => {
-    const first = new SseConnectionNoopAdapter<mocks.MessageType>();
-    const second = new SseConnectionNoopAdapter<mocks.MessageType>();
-    using sendFirst = spyOn(first, "send");
-    using sendSecond = spyOn(second, "send");
+  test("emits - multiple senders", async () => {
+    const first = jest.fn();
+    const second = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
     registry.register(mocks.userId, first);
     registry.register(mocks.userId, second);
     await registry.emit(mocks.userId, mocks.message);
 
-    expect(sendFirst).toHaveBeenCalledWith(mocks.message);
-    expect(sendSecond).toHaveBeenCalledWith(mocks.message);
+    expect(first).toHaveBeenCalledWith(mocks.message);
+    expect(second).toHaveBeenCalledWith(mocks.message);
   });
 
   test("emits - no intersection", async () => {
-    using send = spyOn(connection, "send");
+    const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.anotherUserId, connection);
+    registry.register(mocks.anotherUserId, sender);
     await registry.emit(mocks.userId, mocks.message);
 
-    expect(send).not.toHaveBeenCalled();
+    expect(sender).not.toHaveBeenCalled();
   });
 });

@@ -8,10 +8,6 @@ export type SseSendDecorator<Messages extends Message> = (
   send: SseSenderStrategy<Messages>,
 ) => SseSenderStrategy<Messages>;
 
-export function SseSendNoop<Messages extends Message>(): SseSendDecorator<Messages> {
-  return (send) => send;
-}
-
 export function SseSendWithLogger<Messages extends Message>(deps: {
   Logger: LoggerPort;
 }): SseSendDecorator<Messages> {
