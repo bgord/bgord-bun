@@ -1,21 +1,23 @@
+import type { Hash } from "./hash.vo";
+import type { HashValueType } from "./hash-value.vo";
 import type { Message } from "./message.types";
 import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
 
 export class SseRegistryAdapter<Messages extends Message> implements SseRegistryPort<Messages> {
-  private readonly senders = new Map<string, Set<SseSenderType<Messages>>>();
+  private readonly senders = new Map<HashValueType, Set<SseSenderType<Messages>>>();
 
-  register(userId: string, connection: SseSenderType<Messages>): void {
-    if (!this.senders.has(userId)) this.senders.set(userId, new Set());
+  register(identity: Hash, connection: SseSenderType<Messages>): void {
+    if (!this.senders.has(identity.get())) this.senders.set(identity.get(), new Set());
 
-    this.senders.get(userId)!.add(connection);
+    this.senders.get(identity.get())!.add(connection);
   }
 
-  unregister(userId: string, connection: SseSenderType<Messages>): void {
-    this.senders.get(userId)?.delete(connection);
+  unregister(identity: Hash, connection: SseSenderType<Messages>): void {
+    this.senders.get(identity.get())?.delete(connection);
   }
 
-  async emit<M extends Messages>(userId: string, message: M): Promise<void> {
-    for (const sender of this.senders.get(userId) ?? []) {
+  async emit<M extends Messages>(identity: Hash, message: M): Promise<void> {
+    for (const sender of this.senders.get(identity.get()) ?? []) {
       await sender(message);
     }
   }

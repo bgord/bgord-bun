@@ -1,4 +1,5 @@
 import { CorrelationStorage } from "./correlation-storage.service";
+import type { Hash } from "./hash.vo";
 import type { LoggerPort } from "./logger.port";
 import type { Message } from "./message.types";
 import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
@@ -10,36 +11,36 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
   constructor(private readonly deps: Dependencies<Messages>) {}
 
-  register(userId: string, sender: SseSenderType<Messages>): void {
+  register(identity: Hash, sender: SseSenderType<Messages>): void {
     this.deps.Logger.info({
       message: "SSE sender registered",
-      metadata: { userId },
+      metadata: { identity },
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
-    this.deps.inner.register(userId, sender);
+    this.deps.inner.register(identity, sender);
   }
 
-  unregister(userId: string, sender: SseSenderType<Messages>): void {
+  unregister(identity: Hash, sender: SseSenderType<Messages>): void {
     this.deps.Logger.info({
       message: "SSE sender unregistered",
-      metadata: { userId },
+      metadata: { identity },
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
-    this.deps.inner.unregister(userId, sender);
+    this.deps.inner.unregister(identity, sender);
   }
 
-  async emit<M extends Messages>(userId: string, message: M): Promise<void> {
+  async emit<M extends Messages>(identity: Hash, message: M): Promise<void> {
     this.deps.Logger.info({
       message: `${message.name} emitted`,
-      metadata: { userId, message },
+      metadata: { identity, message },
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
-    return this.deps.inner.emit(userId, message);
+    return this.deps.inner.emit(identity, message);
   }
 }

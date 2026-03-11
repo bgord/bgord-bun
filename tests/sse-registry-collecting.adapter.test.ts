@@ -1,22 +1,33 @@
 import { describe, expect, jest, test } from "bun:test";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SseRegistryCollectingAdapter } from "../src/sse-registry-collecting.adapter";
+import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
+const HashContent = new HashContentSha256Strategy();
+const deps = { HashContent };
+
+const resolver = new SubjectRequestResolver([new SubjectSegmentUserStrategy()], deps);
 const registry = new SseRegistryCollectingAdapter<mocks.MessageType>();
 const sender = jest.fn();
 
-describe("SseRegistryCollectingAdapter", () => {
+describe("SseRegistryCollectingAdapter", async () => {
+  const context = new RequestContextBuilder().withUserId(mocks.userId).build();
+  const subject = await resolver.resolve(context);
+
   test("register", async () => {
-    expect(() => registry.register(mocks.userId, sender)).not.toThrow();
+    expect(() => registry.register(subject.hex, sender)).not.toThrow();
   });
 
   test("unregister", async () => {
-    expect(() => registry.unregister(mocks.userId, sender)).not.toThrow();
+    expect(() => registry.unregister(subject.hex, sender)).not.toThrow();
   });
 
   test("emit", async () => {
-    await registry.emit(mocks.userId, mocks.message);
+    await registry.emit(subject.hex, mocks.message);
 
-    expect(registry.emitted).toEqual([{ userId: mocks.userId, message: mocks.message }]);
+    expect(registry.emitted).toEqual([{ identity: subject.hex, message: mocks.message }]);
   });
 });

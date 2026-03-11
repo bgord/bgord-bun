@@ -1,46 +1,61 @@
 import { describe, expect, jest, test } from "bun:test";
+import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
+import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
+import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import * as mocks from "./mocks";
+import { RequestContextBuilder } from "./request-context-builder";
 
-describe("SseRegistryAdapter", () => {
+const HashContent = new HashContentSha256Strategy();
+const deps = { HashContent };
+
+const resolver = new SubjectRequestResolver([new SubjectSegmentUserStrategy()], deps);
+
+describe("SseRegistryAdapter", async () => {
+  const context = new RequestContextBuilder().withUserId(mocks.userId).build();
+  const subject = await resolver.resolve(context);
+  const anotherSubject = await resolver.resolve(
+    new RequestContextBuilder().withUserId(mocks.anotherUserId).build(),
+  );
+
   test("register", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, sender);
+    registry.register(subject.hex, sender);
 
     // @ts-expect-error Private property
-    expect(registry.senders).toEqual(new Map().set(mocks.userId, new Set().add(sender)));
+    expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
   });
 
   test("unregister", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, sender);
+    registry.register(subject.hex, sender);
 
     // @ts-expect-error Private property
-    expect(registry.senders).toEqual(new Map().set(mocks.userId, new Set().add(sender)));
+    expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
 
-    registry.unregister(mocks.userId, sender);
+    registry.unregister(subject.hex, sender);
 
     // @ts-expect-error Private property
-    expect(registry.senders).toEqual(new Map().set(mocks.userId, new Set()));
+    expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set()));
   });
 
   test("unregister - unknown userId", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    expect(() => registry.unregister(mocks.userId, sender)).not.toThrow();
+    expect(() => registry.unregister(subject.hex, sender)).not.toThrow();
   });
 
   test("emit", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, sender);
-    await registry.emit(mocks.userId, mocks.message);
+    registry.register(subject.hex, sender);
+    await registry.emit(subject.hex, mocks.message);
 
     expect(sender).toHaveBeenCalledWith(mocks.message);
   });
@@ -49,7 +64,7 @@ describe("SseRegistryAdapter", () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    await registry.emit(mocks.userId, mocks.message);
+    await registry.emit(subject.hex, mocks.message);
 
     expect(sender).not.toHaveBeenCalled();
   });
@@ -59,9 +74,9 @@ describe("SseRegistryAdapter", () => {
     const second = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.userId, first);
-    registry.register(mocks.userId, second);
-    await registry.emit(mocks.userId, mocks.message);
+    registry.register(subject.hex, first);
+    registry.register(subject.hex, second);
+    await registry.emit(subject.hex, mocks.message);
 
     expect(first).toHaveBeenCalledWith(mocks.message);
     expect(second).toHaveBeenCalledWith(mocks.message);
@@ -71,8 +86,8 @@ describe("SseRegistryAdapter", () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(mocks.anotherUserId, sender);
-    await registry.emit(mocks.userId, mocks.message);
+    registry.register(anotherSubject.hex, sender);
+    await registry.emit(subject.hex, mocks.message);
 
     expect(sender).not.toHaveBeenCalled();
   });

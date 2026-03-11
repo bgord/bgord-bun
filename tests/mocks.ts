@@ -210,7 +210,7 @@ export async function tick() {
 }
 
 export const user = {
-  id: "user-1",
+  id: userId,
   createdAt: new Date(),
   updatedAt: new Date(),
   email: "a@b.c",
