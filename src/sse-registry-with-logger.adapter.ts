@@ -1,8 +1,7 @@
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { Message } from "./message.types";
-import type { SseRegistryPort } from "./sse-registry.port";
-import type { SseSenderStrategy } from "./sse-sender.strategy";
+import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
 
 type Dependencies<Messages extends Message> = { inner: SseRegistryPort<Messages>; Logger: LoggerPort };
 
@@ -11,7 +10,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
   constructor(private readonly deps: Dependencies<Messages>) {}
 
-  register(userId: string, sender: SseSenderStrategy<Messages>): void {
+  register(userId: string, sender: SseSenderType<Messages>): void {
     this.deps.Logger.info({
       message: "SSE sender registered",
       metadata: { userId },
@@ -22,7 +21,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
     this.deps.inner.register(userId, sender);
   }
 
-  unregister(userId: string, sender: SseSenderStrategy<Messages>): void {
+  unregister(userId: string, sender: SseSenderType<Messages>): void {
     this.deps.Logger.info({
       message: "SSE sender unregistered",
       metadata: { userId },

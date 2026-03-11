@@ -1,17 +1,16 @@
 import type { Message } from "./message.types";
-import type { SseRegistryPort } from "./sse-registry.port";
-import type { SseSenderStrategy } from "./sse-sender.strategy";
+import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
 
 export class SseRegistryAdapter<Messages extends Message> implements SseRegistryPort<Messages> {
-  private readonly senders = new Map<string, Set<SseSenderStrategy<Messages>>>();
+  private readonly senders = new Map<string, Set<SseSenderType<Messages>>>();
 
-  register(userId: string, connection: SseSenderStrategy<Messages>): void {
+  register(userId: string, connection: SseSenderType<Messages>): void {
     if (!this.senders.has(userId)) this.senders.set(userId, new Set());
 
     this.senders.get(userId)!.add(connection);
   }
 
-  unregister(userId: string, connection: SseSenderStrategy<Messages>): void {
+  unregister(userId: string, connection: SseSenderType<Messages>): void {
     this.senders.get(userId)?.delete(connection);
   }
 
