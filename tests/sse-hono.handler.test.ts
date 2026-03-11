@@ -3,18 +3,18 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { AuthSessionReaderNoopAdapter } from "../src/auth-session-reader-noop.adapter";
 import { ShieldAuthHonoStrategy } from "../src/shield-auth-hono.strategy";
-import { SseConnectionHonoHandler } from "../src/sse-connection-hono.handler";
+import { SseHonoHandler } from "../src/sse-hono.handler";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import * as mocks from "./mocks";
 
 const keepalive = tools.Duration.Seconds(30);
 
-describe("SseConnectionHonoHandler", () => {
+describe("SseHonoHandler", () => {
   test("register", async () => {
     const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseConnectionHonoHandler<mocks.MessageType>(registry, { keepalive });
+    const handler = new SseHonoHandler<mocks.MessageType>(registry, { keepalive });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     await app.request("/sse");
@@ -27,7 +27,7 @@ describe("SseConnectionHonoHandler", () => {
     const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseConnectionHonoHandler<mocks.MessageType>(registry, { keepalive });
+    const handler = new SseHonoHandler<mocks.MessageType>(registry, { keepalive });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     const response = await app.request("/sse");

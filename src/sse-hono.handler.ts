@@ -6,7 +6,7 @@ import type { SseRegistryPort } from "./sse-registry.port";
 
 const factory = createFactory();
 
-export class SseConnectionHonoHandler<Messages extends Message> implements HandlerHonoPort {
+export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort {
   constructor(
     private readonly registry: SseRegistryPort<Messages>,
     private readonly config: SseConnectionHonoAdapterConfig,
