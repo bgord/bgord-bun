@@ -3,6 +3,7 @@ import { createFactory } from "hono/factory";
 import { streamSSE } from "hono/streaming";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import type { Message } from "./message.types";
+import type { SseConnectionPort } from "./sse-connection.port";
 import type { SseRegistryPort } from "./sse-registry.port";
 
 export type SseHonoAdapterConfig = { keepalive: tools.Duration };
@@ -20,7 +21,7 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
       const userId = c.get("user").id;
 
       return streamSSE(c, async (stream) => {
-        const connection = {
+        const connection: SseConnectionPort<Messages> = {
           send: async <M extends Messages>(message: M) => {
             await stream.writeSSE({ event: message.name, data: JSON.stringify(message) });
           },
