@@ -8,7 +8,11 @@ export type SseSendDecorator<Messages extends Message> = (
   send: SseSenderStrategy<Messages>,
 ) => SseSenderStrategy<Messages>;
 
-export function SseSendWithLogger<Messages extends Message>(deps: {
+export function SseSenderBare<Messages extends Message>(): SseSendDecorator<Messages> {
+  return (send) => send;
+}
+
+export function SseSenderWithLogger<Messages extends Message>(deps: {
   Logger: LoggerPort;
 }): SseSendDecorator<Messages> {
   const base = { component: "infra", operation: "sse_send" };

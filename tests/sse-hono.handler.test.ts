@@ -20,7 +20,7 @@ describe("SseHonoHandler", () => {
     await app.request("/sse");
 
     // @ts-expect-error Private property
-    expect(registry.connections.get(mocks.user.id)?.size).toEqual(1);
+    expect(registry.senders.get(mocks.user.id)?.size).toEqual(1);
   });
 
   test("send", async () => {
