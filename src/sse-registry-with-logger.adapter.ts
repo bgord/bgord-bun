@@ -1,8 +1,8 @@
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { Message } from "./message.types";
-import type { SseConnectionPort } from "./sse-connection.port";
 import type { SseRegistryPort } from "./sse-registry.port";
+import type { SseSenderStrategy } from "./sse-sender.strategy";
 
 type Dependencies<Messages extends Message> = { inner: SseRegistryPort<Messages>; Logger: LoggerPort };
 
@@ -11,26 +11,26 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
   constructor(private readonly deps: Dependencies<Messages>) {}
 
-  register(userId: string, connection: SseConnectionPort<Messages>): void {
+  register(userId: string, sender: SseSenderStrategy<Messages>): void {
     this.deps.Logger.info({
-      message: "SSE connection registered",
+      message: "SSE sender registered",
       metadata: { userId },
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
-    this.deps.inner.register(userId, connection);
+    this.deps.inner.register(userId, sender);
   }
 
-  unregister(userId: string, connection: SseConnectionPort<Messages>): void {
+  unregister(userId: string, sender: SseSenderStrategy<Messages>): void {
     this.deps.Logger.info({
-      message: "SSE connection unregistered",
+      message: "SSE sender unregistered",
       metadata: { userId },
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
-    this.deps.inner.unregister(userId, connection);
+    this.deps.inner.unregister(userId, sender);
   }
 
   async emit<M extends Messages>(userId: string, message: M): Promise<void> {

@@ -3,17 +3,18 @@ import { createFactory } from "hono/factory";
 import { streamSSE } from "hono/streaming";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import type { Message } from "./message.types";
-import type { SseConnectionPort } from "./sse-connection.port";
 import type { SseRegistryPort } from "./sse-registry.port";
+import type { SseSendDecorator } from "./sse-sender.strategy";
 
-export type SseHonoAdapterConfig = { keepalive: tools.Duration };
+export type SseHonoHandlerConfig = { keepalive: tools.Duration };
 
 const factory = createFactory();
 
 export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort {
   constructor(
     private readonly registry: SseRegistryPort<Messages>,
-    private readonly config: SseHonoAdapterConfig,
+    private readonly config: SseHonoHandlerConfig,
+    private readonly decorator: SseSendDecorator<Messages>,
   ) {}
 
   handle() {
@@ -21,16 +22,16 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
       const userId = c.get("user").id;
 
       return streamSSE(c, async (stream) => {
-        const connection: SseConnectionPort<Messages> = {
-          send: async <M extends Messages>(message: M) => {
-            await stream.writeSSE({ event: message.name, data: JSON.stringify(message) });
-          },
+        const raw = async <M extends Messages>(message: M) => {
+          await stream.writeSSE({ event: message.name, data: JSON.stringify(message) });
         };
 
-        this.registry.register(userId, connection);
+        const send = this.decorator(raw);
+
+        this.registry.register(userId, send);
 
         // Stryker disable all
-        stream.onAbort(() => this.registry.unregister(userId, connection));
+        stream.onAbort(() => this.registry.unregister(userId, send));
         // Stryker restore all
 
         while (!stream.closed) {
