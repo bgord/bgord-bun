@@ -1,4 +1,19 @@
 # Changelog
+- 2026-03-12 16:20 0d3a5e1d **step: update packages**
+- 2026-03-11 21:19 777fbb7f **step: update packages**
+- 2026-03-11 21:18 fdb237eb **step: add keepalive testcase**
+- 2026-03-11 21:08 d6008f45 **refactor: use hash value instead of full hash vo**
+- 2026-03-11 20:26 dcc1c112 **refactor: improve correlation hono tests**
+- 2026-03-11 19:10 d0cf4221 **refactor: use subject request resolver**
+- 2026-03-11 16:53 88a4c2ed **refactor: move sse sender strategy to registry port**
+- 2026-03-11 16:51 d5f17cd2 **refactor: remove decorators**
+- 2026-03-11 16:34 5815ec9e **step: enable decorators**
+- 2026-03-11 16:07 08b447af **refactor: adjust tests**
+- 2026-03-11 15:56 28ddfac6 **refactor: use sse sender strategy**
+- 2026-03-11 13:44 7dbab22c **step: tighten connection in sse hono handler**
+- 2026-03-11 11:04 eba48956 **refactor: merge sse hono handler and sse connection hono adapter**
+- 2026-03-11 10:52 5d2f6607 **refactor: rename sse hono handler**
+- 2026-03-11 10:49 753ce9df **refactor: remove close from sse connection port**
 ## 2026-03-10 23:56 v1.12.11
 - 2026-03-10 23:56 da42e592 **1.12.11**
 - 2026-03-10 23:53 67a367c6 **fix: skip http logger for SSE**
@@ -6,6 +21,7 @@
 ## 2026-03-10 23:16 v1.12.10
 - 2026-03-10 23:16 eecd5cdc **1.12.10**
 - 2026-03-10 23:13 5c79623d **fix: timing for streaming**
+- 2026-03-10 22:56 b052db46 **docs: generate CHANGELOG**
 - 2026-03-10 22:54 5b244098 **docs: generate CHANGELOG**
 - 2026-03-10 22:16 dcd4624b **docs: generate CHANGELOG**
 - 2026-03-10 22:14 950ad406 **docs: generate CHANGELOG**
