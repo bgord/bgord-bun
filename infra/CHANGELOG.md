@@ -1,6 +1,9 @@
 # Changelog
+## 2026-03-12 16:48 v1.13.0
+- 2026-03-12 16:48 0a315cf2 **1.13.0**
 - 2026-03-12 16:47 e6bb20ad **refactor: exclude tests from tsconfig**
 - 2026-03-12 16:20 0d3a5e1d **step: update packages**
+- 2026-03-12 15:48 088ca086 **docs: generate CHANGELOG**
 - 2026-03-12 15:40 995d3e42 **docs: generate CHANGELOG**
 - 2026-03-12 15:40 7aeafe18 **docs: generate readme**
 - 2026-03-11 21:19 777fbb7f **step: update packages**
