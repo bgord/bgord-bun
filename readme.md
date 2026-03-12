@@ -418,11 +418,7 @@ src/
 ├── smtp-pass.vo.ts
 ├── smtp-port.vo.ts
 ├── smtp-user.vo.ts
-├── sse-connection-hono.adapter.ts
-├── sse-connection-hono.handler.ts
-├── sse-connection-noop.adapter.ts
-├── sse-connection-with-logger.adapter.ts
-├── sse-connection.port.ts
+├── sse-hono.handler.ts
 ├── sse-registry-collecting.adapter.ts
 ├── sse-registry-noop.adapter.ts
 ├── sse-registry-with-logger.adapter.ts
