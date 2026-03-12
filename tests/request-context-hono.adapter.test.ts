@@ -123,7 +123,8 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono<Config>().get(
       "/test",
       async (context, next) => {
-        context.set("user", { id: mocks.userId });
+        // @ts-expect-error
+        context.set("user", { id: mocks.user.id });
         await next();
       },
       (context) => context.json({ userId: new RequestContextHonoAdapter(context).identity.userId() }),
