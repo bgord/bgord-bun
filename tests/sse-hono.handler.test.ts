@@ -75,6 +75,6 @@ describe("SseHonoHandler", async () => {
 
     jest.useRealTimers();
 
-    expect(text).toEqualIgnoringWhitespace("event: ping data:");
+    expect(text).toEqualIgnoringWhitespace(`event: ping data: ${JSON.stringify({ keepalive: true })}`);
   });
 });

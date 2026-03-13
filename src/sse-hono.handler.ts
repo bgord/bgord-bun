@@ -44,7 +44,7 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
 
         while (!stream.closed) {
           await stream.sleep(this.config.keepalive.ms);
-          await stream.writeSSE({ event: "ping", data: "" });
+          await stream.writeSSE({ event: "ping", data: JSON.stringify({ keepalive: true }) });
         }
       });
     });
