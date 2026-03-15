@@ -85,6 +85,7 @@ export * from "./etag-extractor.middleware";
 export * from "./etag-extractor-hono.middleware";
 export * from "./event.types";
 export * from "./event-envelope";
+export * from "./event-finder.port";
 export * from "./event-handler.strategy";
 export * from "./event-handler-bare.strategy";
 export * from "./event-handler-noop.strategy";
