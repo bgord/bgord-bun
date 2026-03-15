@@ -1,4 +1,4 @@
-import type { GenericEvent, GenericParsedEvent } from "./event.types";
+import type { GenericEvent, GenericEventSerialized } from "./event.types";
 import type { EventSerializerPort } from "./event-serializer.port";
 import type { EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
@@ -7,11 +7,11 @@ import type { EventValidatorRegistryPort } from "./event-validator-registry.port
 type FindEventsHandler = (
   stream: EventStreamType,
   names: ReadonlyArray<GenericEvent["name"]>,
-) => Promise<ReadonlyArray<GenericParsedEvent>>;
+) => Promise<ReadonlyArray<GenericEventSerialized>>;
 
 type InserterEventsHandler = (
-  events: ReadonlyArray<GenericParsedEvent>,
-) => Promise<ReadonlyArray<GenericParsedEvent>>;
+  events: ReadonlyArray<GenericEventSerialized>,
+) => Promise<ReadonlyArray<GenericEventSerialized>>;
 
 type Config<TEvent extends GenericEvent> = {
   finder: FindEventsHandler;
