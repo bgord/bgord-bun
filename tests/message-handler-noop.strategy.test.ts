@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
-import { EventHandlerNoopStrategy } from "../src/event-handler-noop.strategy";
+import { MessageHandlerNoopStrategy } from "../src/message-handler-noop.strategy";
 import * as mocks from "./mocks";
 
-const handler = new EventHandlerNoopStrategy();
+const handler = new MessageHandlerNoopStrategy();
 
-describe("EventHandlerNoopStrategy", () => {
+describe("MessageHandlerNoopStrategy", () => {
   test("happy path", async () => {
-    const fn = async (_event: mocks.MessageType) => {};
+    const fn = async (_: mocks.MessageType) => {};
 
     expect(async () => handler.handle(fn)(mocks.message)).not.toThrow();
   });
