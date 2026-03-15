@@ -15,6 +15,7 @@ export class EventStoreCollectingAdapter<TEvent extends GenericEvent> implements
 
   async save(events: ReadonlyArray<TEvent>): Promise<ReadonlyArray<TEvent>> {
     this.saved.push(...events);
+
     return [...events];
   }
 }
