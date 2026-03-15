@@ -94,6 +94,7 @@ export * from "./event-inserter.port";
 export * from "./event-inserter-noop.adapter";
 export * from "./event-loop-lag.service";
 export * from "./event-loop-utilization.service";
+export * from "./event-revision-assigner.port";
 export * from "./event-serializer.port";
 export * from "./event-serializer-json.adapter";
 export * from "./event-serializer-json.adapter";
