@@ -1,5 +1,21 @@
-import type { GenericEvent, GenericEventSchema } from "./event.types";
+import type * as z from "zod/v4";
+import type { GenericEvent } from "./event.types";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
+
+export type GenericEventSchema = z.ZodObject<{
+  id: z.ZodType<string>;
+  correlationId: z.ZodType<string>;
+  createdAt: z.ZodType<number>;
+  stream: z.ZodString;
+  revision: z.ZodOptional<z.ZodType<number>>;
+  name: z.ZodLiteral<string>;
+  version: z.ZodLiteral<number>;
+  payload: z.ZodType<any>;
+}>;
+
+export type GenericParsedEventSchema = z.ZodObject<
+  Omit<GenericEventSchema["shape"], "payload"> & { payload: z.ZodString }
+>;
 
 const EventValidatorRegistryZodAdapterError = {
   MissingName: "event.validator.registry.zod.adapter.error.missing.name",
