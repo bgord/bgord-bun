@@ -1,8 +1,11 @@
 # Changelog
+- 2026-03-15 15:12 de862b11 **refactor: remove bunfig toml**
 - 2026-03-15 15:08 306b1210 **refactor: improve tests**
 - 2026-03-15 14:57 10df9492 **step: add missing exports**
 - 2026-03-15 14:56 a9710b8a **step: update packages**
 - 2026-03-15 14:55 7a29144b **refactor: exclude tests from tsconfig**
+- 2026-03-15 14:11 d5680f07 **docs: generate CHANGELOG**
+- 2026-03-15 14:11 4b90a81e **docs: generate readme**
 - 2026-03-15 14:09 d6c29e80 **refactor: unify message handler**
 - 2026-03-15 13:58 9bed41ed **refactor: remove empty stream revision**
 - 2026-03-15 13:37 5e63cbd6 **refactor: use event store adapters in tests**
