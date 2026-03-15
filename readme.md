@@ -126,6 +126,7 @@ src/
 ├── event-store-collecting.adapter.ts
 ├── event-store-dispatching.adapter.ts
 ├── event-store-noop.adapter.ts
+├── event-store-with-logger.adapter.ts
 ├── event-store.adapter.ts
 ├── event-store.port.ts
 ├── event-stream.vo.ts
