@@ -4,13 +4,13 @@ import { UUID, type UUIDType } from "./uuid.vo";
 
 type Dependencies = { IdProvider: IdProviderPort };
 
-export class CorrelationIdMiddleware {
+export class CorrelationMiddleware {
   static readonly HEADER_NAME = "correlation-id";
 
   constructor(private readonly deps: Dependencies) {}
 
   evaluate(context: HasRequestHeader): UUIDType {
-    const incoming = context.request.header(CorrelationIdMiddleware.HEADER_NAME);
+    const incoming = context.request.header(CorrelationMiddleware.HEADER_NAME);
 
     const existing = UUID.safeParse(incoming);
 

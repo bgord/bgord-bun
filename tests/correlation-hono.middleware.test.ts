@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { CorrelationMiddleware } from "../src/correlation.middleware";
 import { CorrelationHonoMiddleware, type CorrelationVariables } from "../src/correlation-hono.middleware";
-import { CorrelationIdMiddleware } from "../src/correlation-id.middleware";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import * as mocks from "./mocks";
@@ -22,7 +22,7 @@ describe("CorrelationHonoMiddleware", () => {
 
     const response = await app.request("/ping");
 
-    expect(response.headers.get(CorrelationIdMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
+    expect(response.headers.get(CorrelationMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
     expect(await response.json()).toEqual({
       correlationId: mocks.correlationId,
       storage: mocks.correlationId,
@@ -38,10 +38,10 @@ describe("CorrelationHonoMiddleware", () => {
       );
 
     const response = await app.request("/ping", {
-      headers: { [CorrelationIdMiddleware.HEADER_NAME]: mocks.correlationId },
+      headers: { [CorrelationMiddleware.HEADER_NAME]: mocks.correlationId },
     });
 
-    expect(response.headers.get(CorrelationIdMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
+    expect(response.headers.get(CorrelationMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
     expect(await response.json()).toEqual({
       correlationId: mocks.correlationId,
       storage: mocks.correlationId,
@@ -57,10 +57,10 @@ describe("CorrelationHonoMiddleware", () => {
       );
 
     const response = await app.request("/ping", {
-      headers: { [CorrelationIdMiddleware.HEADER_NAME]: invalid },
+      headers: { [CorrelationMiddleware.HEADER_NAME]: invalid },
     });
 
-    expect(response.headers.get(CorrelationIdMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
+    expect(response.headers.get(CorrelationMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
     expect(await response.json()).toEqual({
       correlationId: mocks.correlationId,
       storage: mocks.correlationId,

@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import { CorrelationIdMiddleware } from "./correlation-id.middleware";
+import { CorrelationMiddleware } from "./correlation.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
@@ -11,10 +11,10 @@ type Dependencies = { IdProvider: IdProviderPort };
 export type CorrelationVariables = { correlationId: UUIDType };
 
 export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
-  private readonly correlationId: CorrelationIdMiddleware;
+  private readonly correlationId: CorrelationMiddleware;
 
   constructor(deps: Dependencies) {
-    this.correlationId = new CorrelationIdMiddleware(deps);
+    this.correlationId = new CorrelationMiddleware(deps);
   }
 
   handle() {
@@ -24,7 +24,7 @@ export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
       const result = this.correlationId.evaluate(context);
 
       c.set("correlationId", result);
-      c.header(CorrelationIdMiddleware.HEADER_NAME, result);
+      c.header(CorrelationMiddleware.HEADER_NAME, result);
 
       return CorrelationStorage.run(result, next);
     });
