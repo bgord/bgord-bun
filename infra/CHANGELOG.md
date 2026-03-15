@@ -1,8 +1,12 @@
 # Changelog
+## 2026-03-15 22:29 v1.14.3
+- 2026-03-15 22:29 5940a960 **1.14.3**
 - 2026-03-15 22:22 0934327d **step: add event store with logger**
 - 2026-03-15 22:17 f1222b43 **step: add event store with logger**
 - 2026-03-15 22:11 9f343656 **refactor: absorb empty current max case in the event revision assigner**
 - 2026-03-15 22:06 2ac792a0 **refactor: event types**
+- 2026-03-15 21:26 a5324469 **docs: generate readme**
+- 2026-03-15 21:26 50ebda61 **docs: generate CHANGELOG**
 ## 2026-03-15 20:36 v1.14.2
 - 2026-03-15 20:36 812a26a0 **1.14.2**
 - 2026-03-15 20:34 73b31d6c **refactor: make event store save generic**
