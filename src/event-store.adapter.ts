@@ -17,8 +17,6 @@ const EventStoreAdapterError = { UniqueStream: "event.store.adapter.error.unique
 export class EventStoreAdapter<Event extends GenericEvent> implements EventStorePort<Event> {
   constructor(private readonly config: Config) {}
 
-  static EMPTY_STREAM_REVISION = -1;
-
   async find<FoundEvent extends Event>(
     registry: EventValidatorRegistryPort<FoundEvent>,
     stream: EventStreamType,
