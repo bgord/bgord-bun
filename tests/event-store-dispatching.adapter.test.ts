@@ -27,19 +27,19 @@ const serialized = (event: PassageOfTimeEvent) => ({
 describe("EventStoreDispatchingAdapter", () => {
   test("find", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const inner = new EventStoreAdapter({ finder, inserter, registry, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
-    const store = new EventStoreDispatchingAdapter({ inner, EventBus });
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
-    expect(await store.find("passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
+    expect(await store.find(registry, "passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
     expect(EventBus.messages).toEqual([]);
   });
 
   test("save - one event", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter({ finder, inserter, registry, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
-    const store = new EventStoreDispatchingAdapter({ inner, EventBus });
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
     expect(await store.save([mocks.GenericHourHasPassedEvent])).toEqual([mocks.GenericHourHasPassedEvent]);
     expect(EventBus.messages).toEqual([mocks.GenericHourHasPassedEvent]);
@@ -47,9 +47,9 @@ describe("EventStoreDispatchingAdapter", () => {
 
   test("save - multiple events", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter({ finder, inserter, registry, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
-    const store = new EventStoreDispatchingAdapter({ inner, EventBus });
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
     expect(await store.save([mocks.GenericHourHasPassedEvent, mocks.GenericMinuteHasPassedEvent])).toEqual([
       mocks.GenericHourHasPassedEvent,

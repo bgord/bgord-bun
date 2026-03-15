@@ -6,29 +6,31 @@ import type { EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 
-type Config<TEvent extends GenericEvent> = {
+type Config = {
   finder: EventFinderPort;
   inserter: EventInserterPort;
-  registry: EventValidatorRegistryPort<TEvent>;
   serializer: EventSerializerPort;
 };
 
 const EventStoreAdapterError = { UniqueStream: "event.store.adapter.error.unique.stream" };
 
-export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStorePort<TEvent> {
-  constructor(private readonly config: Config<TEvent>) {}
+export class EventStoreAdapter<Event extends GenericEvent> implements EventStorePort<Event> {
+  constructor(private readonly config: Config) {}
 
   static EMPTY_STREAM_REVISION = -1;
 
-  async find(stream: EventStreamType): Promise<ReadonlyArray<TEvent>> {
-    const events = await this.config.finder.find(stream, this.config.registry.names);
+  async find<FoundEvent extends Event>(
+    registry: EventValidatorRegistryPort<FoundEvent>,
+    stream: EventStreamType,
+  ): Promise<ReadonlyArray<FoundEvent>> {
+    const events = await this.config.finder.find(stream, registry.names);
 
     return events
       .map((event) => ({ ...event, payload: this.config.serializer.deserialize(event.payload) }))
-      .map((event) => this.config.registry.validate(event));
+      .map((event) => registry.validate(event));
   }
 
-  async save(events: ReadonlyArray<TEvent>): Promise<ReadonlyArray<TEvent>> {
+  async save(events: ReadonlyArray<Event>): Promise<ReadonlyArray<Event>> {
     if (!events[0]) return [];
 
     const stream = events[0].stream;
@@ -44,6 +46,6 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
     return serialized.map((event) => ({
       ...event,
       payload: this.config.serializer.deserialize(event.payload),
-    })) as Array<TEvent>;
+    })) as Array<Event>;
   }
 }

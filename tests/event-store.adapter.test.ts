@@ -25,18 +25,18 @@ const serialized = (event: GenericEvent): GenericEventSerialized => ({
 const finder = new EventFinderNoopAdapter([]);
 const inserter = new EventInserterNoopAdapter();
 
-const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
+const store = new EventStoreAdapter({ finder, inserter, serializer });
 
 describe("EventStoreAdapter", () => {
   test("find - no events", async () => {
-    expect(await store.find("passage_of_time")).toEqual([]);
+    expect(await store.find(registry, "passage_of_time")).toEqual([]);
   });
 
   test("find - one event", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
+    const store = new EventStoreAdapter({ finder, inserter, serializer });
 
-    expect(await store.find("passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
+    expect(await store.find(registry, "passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
   });
 
   test("find - multiple events", async () => {
@@ -44,9 +44,9 @@ describe("EventStoreAdapter", () => {
       serialized(mocks.GenericHourHasPassedEvent),
       serialized(mocks.GenericMinuteHasPassedEvent),
     ]);
-    const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
+    const store = new EventStoreAdapter({ finder, inserter, serializer });
 
-    expect(await store.find("passage_of_time")).toEqual([
+    expect(await store.find(registry, "passage_of_time")).toEqual([
       mocks.GenericHourHasPassedEvent,
       mocks.GenericMinuteHasPassedEvent,
     ]);
@@ -69,7 +69,7 @@ describe("EventStoreAdapter", () => {
 
   test("save - serialization", async () => {
     const serializer = new EventSerializerCollectingAdapter();
-    const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
+    const store = new EventStoreAdapter({ finder, inserter, serializer });
 
     await store.save([mocks.GenericHourHasPassedEvent]);
 
