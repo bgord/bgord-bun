@@ -94,6 +94,7 @@ export * from "./event-loop-utilization.service";
 export * from "./event-store";
 export * from "./event-store-like.types";
 export * from "./event-stream.vo";
+export * from "./event-validator-registry.port";
 export * from "./file-cleaner.adapter";
 export * from "./file-cleaner.port";
 export * from "./file-cleaner-forgiving.adapter";
