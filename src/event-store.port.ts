@@ -8,5 +8,5 @@ export interface EventStorePort<Event extends GenericEvent> {
     stream: EventStreamType,
   ): Promise<ReadonlyArray<FoundEvent>>;
 
-  save(events: ReadonlyArray<Event>): Promise<ReadonlyArray<Event>>;
+  save<SavedEvent extends Event>(events: ReadonlyArray<SavedEvent>): Promise<ReadonlyArray<SavedEvent>>;
 }

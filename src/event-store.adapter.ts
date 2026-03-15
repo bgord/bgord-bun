@@ -28,7 +28,9 @@ export class EventStoreAdapter<Event extends GenericEvent> implements EventStore
       .map((event) => registry.validate(event));
   }
 
-  async save(events: ReadonlyArray<Event>): Promise<ReadonlyArray<Event>> {
+  async save<SavedEvent extends Event>(
+    events: ReadonlyArray<SavedEvent>,
+  ): Promise<ReadonlyArray<SavedEvent>> {
     if (!events[0]) return [];
 
     const stream = events[0].stream;
@@ -44,6 +46,6 @@ export class EventStoreAdapter<Event extends GenericEvent> implements EventStore
     return serialized.map((event) => ({
       ...event,
       payload: this.config.serializer.deserialize(event.payload),
-    })) as Array<Event>;
+    })) as Array<SavedEvent>;
   }
 }

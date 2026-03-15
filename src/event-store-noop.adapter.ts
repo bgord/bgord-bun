@@ -11,7 +11,9 @@ export class EventStoreNoopAdapter<Event extends GenericEvent> implements EventS
     return [];
   }
 
-  async save(_events: ReadonlyArray<Event>): Promise<ReadonlyArray<Event>> {
+  async save<SavedEvent extends Event>(
+    _events: ReadonlyArray<SavedEvent>,
+  ): Promise<ReadonlyArray<SavedEvent>> {
     return [];
   }
 }

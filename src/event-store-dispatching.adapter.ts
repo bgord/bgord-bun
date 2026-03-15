@@ -19,7 +19,9 @@ export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements
     return this.deps.inner.find(registry, stream);
   }
 
-  async save(events: ReadonlyArray<Event>): Promise<ReadonlyArray<Event>> {
+  async save<SavedEvent extends Event>(
+    events: ReadonlyArray<SavedEvent>,
+  ): Promise<ReadonlyArray<SavedEvent>> {
     const saved = await this.deps.inner.save(events);
 
     await Promise.all(saved.map((event) => this.deps.EventBus.emit(event)));
