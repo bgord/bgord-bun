@@ -2,8 +2,10 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import type { SecurityViolationDetectedEventType } from "../src/modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureMirageStrategy } from "../src/security-countermeasure-mirage.strategy";
 import { SecurityCountermeasureNoopStrategy } from "../src/security-countermeasure-noop.strategy";
@@ -17,8 +19,7 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const EventStore = { save: async () => {} };
-const deps = { Logger, Clock, EventStore };
+const deps = { Logger, Clock };
 
 const pass = new SecurityRulePassStrategy();
 const fail = new SecurityRuleFailStrategy();
@@ -48,9 +49,9 @@ describe("ShieldSecurityStrategy", () => {
 
   test("deny", async () => {
     using loggerInfo = spyOn(Logger, "info");
-    using eventStoreSave = spyOn(EventStore, "save");
+    const EventStore = new EventStoreCollectingAdapter<SecurityViolationDetectedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const ban = new SecurityCountermeasureBanStrategy({ ...deps, IdProvider });
+    const ban = new SecurityCountermeasureBanStrategy({ ...deps, EventStore, IdProvider });
     const strategy = new ShieldSecurityStrategy([new SecurityPolicy(fail, ban)]);
     const context = new RequestContextBuilder().withIp(mocks.ip).withUa(mocks.ua).build();
 
@@ -61,7 +62,7 @@ describe("ShieldSecurityStrategy", () => {
         response: { status: 403 },
       });
       expect(loggerInfo).toHaveBeenCalled();
-      expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
+      expect(EventStore.saved).toEqual([mocks.GenericSecurityViolationDetectedBanDenyEvent]);
     });
   });
 
