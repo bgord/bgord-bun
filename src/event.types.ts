@@ -1,10 +1,13 @@
-// TODO: use proper VO types.
+import type * as tools from "@bgord/tools";
+import type { EventStreamType } from "./event-stream.vo";
+import type { UUIDType } from "./uuid.vo";
+
 export type GenericEvent = {
-  id: string;
-  correlationId: string;
-  createdAt: number;
-  stream: string;
-  revision?: number;
+  id: UUIDType;
+  correlationId: UUIDType;
+  createdAt: tools.TimestampValueType;
+  stream: EventStreamType;
+  revision?: tools.RevisionValueType;
   name: string;
   version: number;
   payload: unknown;

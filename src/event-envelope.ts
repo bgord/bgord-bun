@@ -2,7 +2,7 @@ import * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
-import type { EventStreamType } from "./event-stream.vo";
+import { EventStream, type EventStreamType } from "./event-stream.vo";
 import type { IdProviderPort } from "./id-provider.port";
 import { UUID } from "./uuid.vo";
 
@@ -12,7 +12,7 @@ export const EventEnvelopeSchema = {
   id: UUID,
   correlationId: UUID,
   createdAt: tools.TimestampValue,
-  stream: z.string().min(1),
+  stream: EventStream,
   version: z.literal(1),
   revision: tools.RevisionValue.optional(),
 };
