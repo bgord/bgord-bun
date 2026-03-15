@@ -1,4 +1,5 @@
 # Changelog
+- 2026-03-15 15:20 8d021e1c **fix: message handler exports**
 ## 2026-03-15 15:16 v1.14.0
 - 2026-03-15 15:16 51734fda **1.14.0**
 - 2026-03-15 15:12 de862b11 **refactor: remove bunfig toml**
@@ -6,6 +7,7 @@
 - 2026-03-15 14:57 10df9492 **step: add missing exports**
 - 2026-03-15 14:56 a9710b8a **step: update packages**
 - 2026-03-15 14:55 7a29144b **refactor: exclude tests from tsconfig**
+- 2026-03-15 14:16 ac6594cb **docs: generate CHANGELOG**
 - 2026-03-15 14:13 0869734b **docs: generate CHANGELOG**
 - 2026-03-15 14:11 d5680f07 **docs: generate CHANGELOG**
 - 2026-03-15 14:11 4b90a81e **docs: generate readme**
