@@ -1,6 +1,6 @@
 import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
-import type { EventStoreLike } from "../../../event-store-like.types";
+import type { EventStorePort } from "../../../event-store.port";
 import type { IdProviderPort } from "../../../id-provider.port";
 import type { UnitOfWork } from "../../../job-handler.strategy";
 import { Jobs } from "../../../jobs.service";
@@ -11,7 +11,7 @@ import {
 } from "../events/HOUR_HAS_PASSED_EVENT";
 
 type Dependencies = {
-  EventStore: EventStoreLike<HourHasPassedEventType>;
+  EventStore: EventStorePort<HourHasPassedEventType>;
   Clock: ClockPort;
   IdProvider: IdProviderPort;
 };

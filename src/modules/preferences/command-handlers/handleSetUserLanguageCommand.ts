@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
-import type { EventStoreLike } from "../../../event-store-like.types";
+import type { EventStorePort } from "../../../event-store.port";
 import type { IdProviderPort } from "../../../id-provider.port";
 import type { Languages } from "../../../languages.vo";
 import type * as Commands from "../commands";
@@ -14,7 +14,7 @@ export const HandleSetUserLanguageCommandError = {
 };
 
 type Dependencies = {
-  EventStore: EventStoreLike<AcceptedEvent>;
+  EventStore: EventStorePort<AcceptedEvent>;
   IdProvider: IdProviderPort;
   Clock: ClockPort;
   UserLanguageQuery: Ports.UserLanguageQueryPort;
