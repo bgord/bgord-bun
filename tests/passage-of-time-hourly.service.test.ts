@@ -1,41 +1,42 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { JobHandlerBareStrategy } from "../src/job-handler-bare.strategy";
+import type { HourHasPassedEventType } from "../src/modules/system/events/HOUR_HAS_PASSED_EVENT";
 import { PassageOfTimeHourly } from "../src/modules/system/services/passage-of-time-hourly.service";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const EventStore = { save: async () => {} };
-const deps = { Clock, EventStore };
 
 describe("PassageOfTimeHourly", async () => {
   test("correct path", async () => {
-    using eventStoreSave = spyOn(deps.EventStore, "save");
+    const EventStore = new EventStoreCollectingAdapter<HourHasPassedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const service = new PassageOfTimeHourly({ ...deps, IdProvider });
+    const service = new PassageOfTimeHourly({ Clock, EventStore, IdProvider });
 
     await CorrelationStorage.run(mocks.correlationId, async () => service.process());
 
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericHourHasPassedEvent]);
+    expect(EventStore.saved).toEqual([mocks.GenericHourHasPassedEvent]);
   });
 
   test("job handler", async () => {
-    using eventStoreSave = spyOn(deps.EventStore, "save");
+    const EventStore = new EventStoreCollectingAdapter<HourHasPassedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
-    const JobHandler = new JobHandlerBareStrategy({ ...deps, IdProvider });
-    const service = new PassageOfTimeHourly({ ...deps, IdProvider });
+    const JobHandler = new JobHandlerBareStrategy({ IdProvider });
+    const service = new PassageOfTimeHourly({ Clock, EventStore, IdProvider });
 
     await CorrelationStorage.run(mocks.correlationId, async () => JobHandler.handle(service)());
 
-    expect(eventStoreSave).toHaveBeenCalledWith([mocks.GenericHourHasPassedEvent]);
+    expect(EventStore.saved).toEqual([mocks.GenericHourHasPassedEvent]);
   });
 
   test("label", () => {
+    const EventStore = new EventStoreCollectingAdapter<HourHasPassedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const service = new PassageOfTimeHourly({ ...deps, IdProvider });
+    const service = new PassageOfTimeHourly({ Clock, EventStore, IdProvider });
 
     expect(service.label).toEqual("PassageOfTime");
   });
