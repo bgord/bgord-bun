@@ -1,4 +1,6 @@
 # Changelog
+## 2026-03-15 22:40 v1.14.5
+- 2026-03-15 22:40 13989350 **1.14.5**
 - 2026-03-15 22:39 1fdba28e **refactor: downgrade type of generic event created at**
 ## 2026-03-15 22:34 v1.14.4
 - 2026-03-15 22:34 343da383 **1.14.4**
@@ -9,6 +11,7 @@
 - 2026-03-15 22:17 f1222b43 **step: add event store with logger**
 - 2026-03-15 22:11 9f343656 **refactor: absorb empty current max case in the event revision assigner**
 - 2026-03-15 22:06 2ac792a0 **refactor: event types**
+- 2026-03-15 21:40 53ee4bcd **docs: generate CHANGELOG**
 - 2026-03-15 21:34 7a1a43a9 **docs: generate CHANGELOG**
 - 2026-03-15 21:32 763b072d **docs: generate CHANGELOG**
 - 2026-03-15 21:29 a84e528e **docs: generate CHANGELOG**
