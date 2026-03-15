@@ -1,5 +1,5 @@
-import type * as z from "zod/v4";
-import type { GenericEvent, GenericParsedEventSchema } from "./event.types";
+import type { GenericEvent, GenericParsedEvent } from "./event.types";
+import type { EventSerializerPort } from "./event-serializer.port";
 import type { EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
@@ -7,16 +7,17 @@ import type { EventValidatorRegistryPort } from "./event-validator-registry.port
 type FindEventsHandler = (
   stream: EventStreamType,
   names: ReadonlyArray<GenericEvent["name"]>,
-) => Promise<ReadonlyArray<GenericEvent>>;
+) => Promise<ReadonlyArray<GenericParsedEvent>>;
 
 type InserterEventsHandler = (
-  events: ReadonlyArray<z.infer<GenericParsedEventSchema>>,
-) => Promise<ReadonlyArray<z.infer<GenericParsedEventSchema>>>;
+  events: ReadonlyArray<GenericParsedEvent>,
+) => Promise<ReadonlyArray<GenericParsedEvent>>;
 
 type Config<TEvent extends GenericEvent> = {
   finder: FindEventsHandler;
   inserter: InserterEventsHandler;
   registry: EventValidatorRegistryPort<TEvent>;
+  serializer: EventSerializerPort;
 };
 
 const EventStoreAdapterError = { UniqueStream: "event.store.adapter.error.unique.stream" };
@@ -30,7 +31,7 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
     const rows = await this.config.finder(stream, this.config.registry.names);
 
     return rows
-      .map((row) => ({ ...row, payload: JSON.parse(row.payload as string) }))
+      .map((row) => ({ ...row, payload: this.config.serializer.deserialize(row.payload) }))
       .map((row) => this.config.registry.validate(row));
   }
 
@@ -44,9 +45,12 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
     }
 
     const processed = await this.config.inserter(
-      events.map((event) => ({ ...event, payload: JSON.stringify(event.payload) })),
+      events.map((event) => ({ ...event, payload: this.config.serializer.serialize(event.payload) })),
     );
 
-    return processed.map((event) => ({ ...event, payload: JSON.parse(event.payload) })) as Array<TEvent>;
+    return processed.map((event) => ({
+      ...event,
+      payload: this.config.serializer.deserialize(event.payload),
+    })) as Array<TEvent>;
   }
 }
