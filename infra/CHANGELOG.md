@@ -1,4 +1,5 @@
 # Changelog
+- 2026-03-15 20:34 73b31d6c **refactor: make event store save generic**
 ## 2026-03-15 15:20 v1.14.1
 - 2026-03-15 15:20 a6aa99c0 **1.14.1**
 - 2026-03-15 15:20 8d021e1c **fix: message handler exports**
@@ -9,6 +10,7 @@
 - 2026-03-15 14:57 10df9492 **step: add missing exports**
 - 2026-03-15 14:56 a9710b8a **step: update packages**
 - 2026-03-15 14:55 7a29144b **refactor: exclude tests from tsconfig**
+- 2026-03-15 14:21 38c81e28 **docs: generate CHANGELOG**
 - 2026-03-15 14:20 2dc347d6 **docs: generate CHANGELOG**
 - 2026-03-15 14:16 ac6594cb **docs: generate CHANGELOG**
 - 2026-03-15 14:13 0869734b **docs: generate CHANGELOG**
