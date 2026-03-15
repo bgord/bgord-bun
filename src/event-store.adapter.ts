@@ -1,21 +1,14 @@
-import type { GenericEvent, GenericEventSerialized } from "./event.types";
+import type { GenericEvent } from "./event.types";
+import type { EventFinderPort } from "./event-finder.port";
+import type { EventInserterPort } from "./event-inserter.port";
 import type { EventSerializerPort } from "./event-serializer.port";
 import type { EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 
-type FindEventsHandler = (
-  stream: EventStreamType,
-  names: ReadonlyArray<GenericEvent["name"]>,
-) => Promise<ReadonlyArray<GenericEventSerialized>>;
-
-type InserterEventsHandler = (
-  events: ReadonlyArray<GenericEventSerialized>,
-) => Promise<ReadonlyArray<GenericEventSerialized>>;
-
 type Config<TEvent extends GenericEvent> = {
-  finder: FindEventsHandler;
-  inserter: InserterEventsHandler;
+  finder: EventFinderPort;
+  inserter: EventInserterPort;
   registry: EventValidatorRegistryPort<TEvent>;
   serializer: EventSerializerPort;
 };
@@ -28,7 +21,7 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
   static EMPTY_STREAM_REVISION = -1;
 
   async find(stream: EventStreamType): Promise<ReadonlyArray<TEvent>> {
-    const events = await this.config.finder(stream, this.config.registry.names);
+    const events = await this.config.finder.find(stream, this.config.registry.names);
 
     return events
       .map((event) => ({ ...event, payload: this.config.serializer.deserialize(event.payload) }))
@@ -44,7 +37,7 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
       throw new Error(EventStoreAdapterError.UniqueStream);
     }
 
-    const serialized = await this.config.inserter(
+    const serialized = await this.config.inserter.insert(
       events.map((event) => ({ ...event, payload: this.config.serializer.serialize(event.payload) })),
     );
 
