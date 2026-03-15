@@ -19,13 +19,11 @@ const another = serialized(mocks.GenericMinuteHasPassedEvent);
 
 describe("EventRevisionAssignerAdapter", () => {
   test("empty stream", () => {
-    const result = assigner.assign([event], EventRevisionAssignerAdapter.EMPTY_STREAM_REVISION);
-
-    expect(result[0]?.revision).toEqual(0);
+    expect(assigner.assign([event])[0]?.revision).toEqual(0);
   });
 
   test("empty stream - multiple events", () => {
-    const result = assigner.assign([event, another], EventRevisionAssignerAdapter.EMPTY_STREAM_REVISION);
+    const result = assigner.assign([event, another]);
 
     expect(result[0]?.revision).toEqual(0);
     expect(result[1]?.revision).toEqual(1);
@@ -45,6 +43,6 @@ describe("EventRevisionAssignerAdapter", () => {
   });
 
   test("no events", () => {
-    expect(assigner.assign([], EventRevisionAssignerAdapter.EMPTY_STREAM_REVISION)).toEqual([]);
+    expect(assigner.assign([])).toEqual([]);
   });
 });

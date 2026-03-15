@@ -6,8 +6,8 @@ export class EventRevisionAssignerAdapter implements EventRevisionAssignerPort {
 
   assign(
     events: ReadonlyArray<GenericEventSerialized>,
-    currentMax: number,
+    max: number = EventRevisionAssignerAdapter.EMPTY_STREAM_REVISION,
   ): ReadonlyArray<GenericEventSerialized> {
-    return events.map((event, index) => ({ ...event, revision: currentMax + index + 1 }));
+    return events.map((event, index) => ({ ...event, revision: max + index + 1 }));
   }
 }
