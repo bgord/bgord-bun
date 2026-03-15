@@ -1,4 +1,35 @@
 # Changelog
+- 2026-03-15 15:08 306b1210 **refactor: improve tests**
+- 2026-03-15 14:57 10df9492 **step: add missing exports**
+- 2026-03-15 14:56 a9710b8a **step: update packages**
+- 2026-03-15 14:55 7a29144b **refactor: exclude tests from tsconfig**
+- 2026-03-15 14:09 d6c29e80 **refactor: unify message handler**
+- 2026-03-15 13:58 9bed41ed **refactor: remove empty stream revision**
+- 2026-03-15 13:37 5e63cbd6 **refactor: use event store adapters in tests**
+- 2026-03-15 13:30 0b95bbe7 **step: add event store noop and collecting adapters**
+- 2026-03-15 13:21 47d0e1d9 **refactor: remove redundant event store like**
+- 2026-03-15 13:19 8ea99952 **step: add event revision assigner**
+- 2026-03-15 13:03 0b39f890 **step: add event revision assigner port**
+- 2026-03-15 12:41 af3831fd **refactor: move registry to event store find**
+- 2026-03-15 12:04 94c3f85f **step: rewrite event store dispatching**
+- 2026-03-15 11:48 2d319ae9 **refactor: use finder and inserter in event store**
+- 2026-03-15 11:37 c94dd1bc **step: add event finder noop adapter**
+- 2026-03-15 11:34 cfdd96e6 **step: add event inserter noop adapter**
+- 2026-03-15 11:27 7aeb6f06 **step: define event inserter port**
+- 2026-03-15 11:25 d216294f **refactor: rename generic event serialized**
+- 2026-03-15 11:23 5d281edb **step: define event finder port**
+- 2026-03-15 11:21 24e88ca0 **refactor: extract zod event types to event validator registry zod**
+- 2026-03-15 11:13 cdbfe159 **step: use event serializer in event store adapter**
+- 2026-03-15 11:04 cfc0c51b **step: add event serializer**
+- 2026-03-15 10:48 0af42d11 **step: add event serializer port**
+- 2026-03-15 10:39 c1da63bd **step: add event store adapter tests**
+- 2026-03-15 09:59 e3ca7972 **refactor: use validator registry in event store adapter**
+- 2026-03-15 09:49 21a8adaa **step: define event store port**
+- 2026-03-15 09:39 c4315fff **step: test event validator registry zod**
+- 2026-03-15 09:26 40e3d384 **step: add event validator registry zod adapter**
+- 2026-03-15 09:12 3cf328c2 **step: add event validator registry port**
+- 2026-03-15 09:11 10d5da65 **step: add generic event types**
+- 2026-03-15 08:11 5086af21 **docs: generate CHANGELOG**
 - 2026-03-14 12:18 b8a11097 **step: update packages**
 - 2026-03-13 13:51 01bfd762 **step: make sse keepalive non-empty**
 ## 2026-03-12 16:48 v1.13.0
