@@ -28,11 +28,11 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
   static EMPTY_STREAM_REVISION = -1;
 
   async find(stream: EventStreamType): Promise<ReadonlyArray<TEvent>> {
-    const rows = await this.config.finder(stream, this.config.registry.names);
+    const events = await this.config.finder(stream, this.config.registry.names);
 
-    return rows
-      .map((row) => ({ ...row, payload: this.config.serializer.deserialize(row.payload) }))
-      .map((row) => this.config.registry.validate(row));
+    return events
+      .map((event) => ({ ...event, payload: this.config.serializer.deserialize(event.payload) }))
+      .map((event) => this.config.registry.validate(event));
   }
 
   async save(events: ReadonlyArray<TEvent>): Promise<ReadonlyArray<TEvent>> {
@@ -44,11 +44,11 @@ export class EventStoreAdapter<TEvent extends GenericEvent> implements EventStor
       throw new Error(EventStoreAdapterError.UniqueStream);
     }
 
-    const processed = await this.config.inserter(
+    const serialized = await this.config.inserter(
       events.map((event) => ({ ...event, payload: this.config.serializer.serialize(event.payload) })),
     );
 
-    return processed.map((event) => ({
+    return serialized.map((event) => ({
       ...event,
       payload: this.config.serializer.deserialize(event.payload),
     })) as Array<TEvent>;
