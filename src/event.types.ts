@@ -10,4 +10,4 @@ export type GenericEvent = {
   payload: unknown;
 };
 
-export type GenericParsedEvent = Omit<GenericEvent, "payload"> & { payload: string };
+export type GenericEventSerialized = Omit<GenericEvent, "payload"> & { payload: string };
