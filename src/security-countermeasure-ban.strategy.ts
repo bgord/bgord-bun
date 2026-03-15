@@ -1,7 +1,7 @@
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { createEventEnvelope } from "./event-envelope";
-import type { EventStoreLike } from "./event-store-like.types";
+import type { EventStorePort } from "./event-store.port";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import {
@@ -24,7 +24,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
   Clock: ClockPort;
   Logger: LoggerPort;
-  EventStore: EventStoreLike<SecurityViolationDetectedEventType>;
+  EventStore: EventStorePort<SecurityViolationDetectedEventType>;
 };
 
 type Config = { response: { status: number } };

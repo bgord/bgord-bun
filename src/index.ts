@@ -102,7 +102,6 @@ export * from "./event-serializer-json.adapter";
 export * from "./event-store.adapter";
 export * from "./event-store.port";
 export * from "./event-store-dispatching.adapter";
-export * from "./event-store-like.types";
 export * from "./event-stream.vo";
 export * from "./event-validator-registry.port";
 export * from "./file-cleaner.adapter";
