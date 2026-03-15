@@ -7,5 +7,5 @@ export class MessageHandlerNoopStrategy implements MessageHandlerStrategy {
   }
 }
 
-export type EventHandlerNoopStrategy = MessageHandlerNoopStrategy;
-export type CommandHandlerNoopStrategy = MessageHandlerNoopStrategy;
+export const EventHandlerNoopStrategy = MessageHandlerNoopStrategy;
+export const CommandHandlerNoopStrategy = MessageHandlerNoopStrategy;

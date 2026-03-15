@@ -28,5 +28,5 @@ export class MessageHandlerWithLoggerStrategy implements MessageHandlerStrategy 
   }
 }
 
-export type EventHandlerWithLoggerStrategy = MessageHandlerWithLoggerStrategy;
-export type CommandHandlerWithLoggerStrategy = MessageHandlerWithLoggerStrategy;
+export const EventHandlerWithLoggerStrategy = MessageHandlerWithLoggerStrategy;
+export const CommandHandlerWithLoggerStrategy = MessageHandlerWithLoggerStrategy;

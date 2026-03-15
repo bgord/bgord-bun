@@ -7,5 +7,5 @@ export class MessageHandlerBareStrategy implements MessageHandlerStrategy {
   }
 }
 
-export type EventHandlerBareStrategy = MessageHandlerBareStrategy;
-export type CommandHandlerBareStrategy = MessageHandlerBareStrategy;
+export const EventHandlerBareStrategy = MessageHandlerBareStrategy;
+export const CommandHandlerBareStrategy = MessageHandlerBareStrategy;
