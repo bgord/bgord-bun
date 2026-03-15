@@ -1,5 +1,8 @@
 # Changelog
+## 2026-03-15 20:36 v1.14.2
+- 2026-03-15 20:36 812a26a0 **1.14.2**
 - 2026-03-15 20:34 73b31d6c **refactor: make event store save generic**
+- 2026-03-15 19:35 5bd004dd **docs: generate CHANGELOG**
 ## 2026-03-15 15:20 v1.14.1
 - 2026-03-15 15:20 a6aa99c0 **1.14.1**
 - 2026-03-15 15:20 8d021e1c **fix: message handler exports**
