@@ -4,9 +4,9 @@ import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 import type { EventBusPort } from "./message-bus.port";
 
-type Dependencies<TEvent extends GenericEvent> = {
-  inner: EventStorePort<TEvent>;
-  EventBus: EventBusPort<TEvent>;
+type Dependencies<Event extends GenericEvent> = {
+  inner: EventStorePort<Event>;
+  EventBus: EventBusPort<Event>;
 };
 
 export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements EventStorePort<Event> {

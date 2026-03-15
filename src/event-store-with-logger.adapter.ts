@@ -5,8 +5,8 @@ import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 import type { LoggerPort } from "./logger.port";
 
-type Dependencies<TEvent extends GenericEvent> = {
-  inner: EventStorePort<TEvent>;
+type Dependencies<Event extends GenericEvent> = {
+  inner: EventStorePort<Event>;
   Logger: LoggerPort;
 };
 

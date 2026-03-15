@@ -22,7 +22,7 @@ const EventValidatorRegistryZodAdapterError = {
   UnknownEvent: "event.validator.registry.zod.adapter.error.unknown.event",
 };
 
-export class EventValidatorRegistryZodAdapter<TEvent> implements EventValidatorRegistryPort<TEvent> {
+export class EventValidatorRegistryZodAdapter<Event> implements EventValidatorRegistryPort<Event> {
   private readonly map: Map<GenericEvent["name"], GenericEventSchema>;
   readonly names: ReadonlyArray<GenericEvent["name"]>;
 
@@ -35,13 +35,13 @@ export class EventValidatorRegistryZodAdapter<TEvent> implements EventValidatorR
     return this.map.has(name);
   }
 
-  validate(raw: unknown): TEvent {
+  validate(raw: unknown): Event {
     const name = (raw as { name?: GenericEvent["name"] }).name;
     if (!name) throw new Error(EventValidatorRegistryZodAdapterError.MissingName);
 
     const schema = this.map.get(name);
     if (!schema) throw new Error(EventValidatorRegistryZodAdapterError.UnknownEvent);
 
-    return schema.parse(raw) as TEvent;
+    return schema.parse(raw) as Event;
   }
 }
