@@ -91,6 +91,7 @@ export * from "./event-handler-bare.strategy";
 export * from "./event-handler-noop.strategy";
 export * from "./event-handler-with-logger.strategy";
 export * from "./event-inserter.port";
+export * from "./event-inserter-noop.adapter";
 export * from "./event-loop-lag.service";
 export * from "./event-loop-utilization.service";
 export * from "./event-serializer.port";
