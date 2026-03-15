@@ -1,5 +1,7 @@
 import { describe, expect, test } from "bun:test";
-import type { GenericEvent, GenericParsedEvent } from "../src/event.types";
+import type { GenericEvent, GenericEventSerialized } from "../src/event.types";
+import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
+import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventSerializerCollectingAdapter } from "../src/event-serializer-collecting.adapter";
 import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
@@ -15,19 +17,13 @@ const registry = new EventValidatorRegistryZodAdapter<PassageOfTimeEvent>([
 ]);
 const serializer = new EventSerializerJsonAdapter();
 
-const serialized = (event: GenericEvent): GenericParsedEvent => ({
+const serialized = (event: GenericEvent): GenericEventSerialized => ({
   ...event,
   payload: JSON.stringify(event.payload),
 });
 
-const finder = async (
-  _stream: string,
-  _names: ReadonlyArray<GenericEvent["name"]>,
-): Promise<ReadonlyArray<GenericParsedEvent>> => [];
-
-const inserter = async (
-  events: ReadonlyArray<GenericParsedEvent>,
-): Promise<ReadonlyArray<GenericParsedEvent>> => events;
+const finder = new EventFinderNoopAdapter([]);
+const inserter = new EventInserterNoopAdapter();
 
 const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
 
@@ -37,17 +33,17 @@ describe("EventStoreAdapter", () => {
   });
 
   test("find - one event", async () => {
-    const finder = async () => [serialized(mocks.GenericHourHasPassedEvent)];
+    const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
     const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
 
     expect(await store.find("passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
   });
 
   test("find - multiple events", async () => {
-    const finder = async () => [
+    const finder = new EventFinderNoopAdapter([
       serialized(mocks.GenericHourHasPassedEvent),
       serialized(mocks.GenericMinuteHasPassedEvent),
-    ];
+    ]);
     const store = new EventStoreAdapter({ finder, inserter, registry, serializer });
 
     expect(await store.find("passage_of_time")).toEqual([
