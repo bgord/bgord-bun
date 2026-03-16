@@ -12,8 +12,8 @@ const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknow
 describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
     const adapter = new EnvironmentLoaderProcessAdapter(
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
       { ...process.env, APP_NAME: "MyApp" },
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
     );
 
     const result = await adapter.load();
@@ -31,9 +31,9 @@ describe("EnvironmentLoaderProcess", () => {
     expect(
       async () =>
         await new EnvironmentLoaderProcessAdapter(
-          { type: NodeEnvironmentEnum.local, EnvironmentSchema },
           // @ts-expect-error Changed schema assertion
           { ...process.env, APP_NAME: 123 },
+          { type: NodeEnvironmentEnum.local, EnvironmentSchema },
         ).load(),
     ).toThrow("app.name.invalid");
   });

@@ -6,8 +6,8 @@ import type {
 
 export class EnvironmentLoaderProcessAdapter<T extends object> implements EnvironmentLoaderPort<T> {
   constructor(
-    private readonly config: EnvironmentLoaderConfig<T>,
     private env: NodeJS.ProcessEnv,
+    private readonly config: EnvironmentLoaderConfig<T>,
   ) {}
 
   async load(): Promise<Readonly<EnvironmentResultType<T>>> {
