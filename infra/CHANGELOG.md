@@ -1,4 +1,5 @@
 # Changelog
+- 2026-03-16 13:19 0d76542a **refactor: simplify duration ms in logs to ms**
 ## 2026-03-16 11:59 v1.14.7
 - 2026-03-16 11:59 4b56a4ce **1.14.7**
 - 2026-03-16 11:58 ccaaf53a **refactor: adjust constructor parameters order in env loader process**
@@ -9,6 +10,7 @@
 - 2026-03-16 11:29 4b589d07 **step: make environment depend on environment schema**
 - 2026-03-16 11:27 89f2c6e3 **step: add environment schema port**
 - 2026-03-16 11:11 36fc7938 **refactor: decouple zod from prereq timezone utc**
+- 2026-03-16 11:00 a4fccfcc **docs: generate CHANGELOG**
 - 2026-03-16 10:59 02ca9755 **docs: generate CHANGELOG**
 - 2026-03-16 10:52 e030d746 **step: add sse registry with limit decorator**
 - 2026-03-16 10:49 8bcca86f **docs: generate CHANGELOG**
