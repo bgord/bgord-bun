@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
 import type { HasRequestHeader, HasRequestQuery } from "./request-context.port";
 
@@ -8,7 +9,8 @@ export type RecaptchaResult = { success: boolean; score: number };
 export const ShieldRecaptchaStrategyError = { Rejected: "shield.recaptcha.rejected" };
 
 export class ShieldRecaptchaStrategy {
-  private static readonly URL = tools.UrlWithoutSlash.parse(
+  private static readonly URL = v.parse(
+    tools.UrlWithoutSlash,
     "https://www.google.com/recaptcha/api/siteverify",
   );
 

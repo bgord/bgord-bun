@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import type sharp from "sharp";
+import * as v from "valibot";
 import { DynamicImport } from "./dynamic-import.service";
 import type { FileInspectionPort } from "./file-inspection.port";
 import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
@@ -36,9 +37,9 @@ export class ImageInfoSharpAdapter implements ImageInfoPort {
 
     const metadata = await pipeline.metadata();
 
-    const width = tools.ImageWidth.parse(metadata.width);
-    const height = tools.ImageHeight.parse(metadata.height);
-    const extension = tools.Extension.parse(metadata.format);
+    const width = v.parse(tools.ImageWidth, metadata.width);
+    const height = v.parse(tools.ImageHeight, metadata.height);
+    const extension = v.parse(tools.Extension, metadata.format);
     const mime = this.deps.MimeRegistry.fromExtension(extension);
 
     if (!mime) throw new Error(tools.MimeRegistryError.MimeNotFound);

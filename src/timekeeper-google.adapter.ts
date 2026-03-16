@@ -1,8 +1,9 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { TimekeeperPort } from "./timekeeper.port";
 
 export class TimekeeperGoogleAdapter implements TimekeeperPort {
-  static URL = tools.UrlWithoutSlash.parse("https://www.google.com/generate_204");
+  static URL = v.parse(tools.UrlWithoutSlash, "https://www.google.com/generate_204");
 
   async get(): Promise<tools.Timestamp | null> {
     try {
