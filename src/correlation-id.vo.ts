@@ -1,6 +1,6 @@
-import type * as z from "zod/v4";
+import type * as v from "valibot";
 import { UUID } from "./uuid.vo";
 
 export const CorrelationId = UUID;
 
-export type CorrelationIdType = z.infer<typeof CorrelationId>;
+export type CorrelationIdType = v.InferOutput<typeof CorrelationId>;

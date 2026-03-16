@@ -22,6 +22,6 @@
     "emitDecoratorMetadata": false,
     "stripInternal": true
   },
-  "include": ["src", "tests"],
+  "include": ["src"],
   "exclude": ["bgord-scripts"]
 }
