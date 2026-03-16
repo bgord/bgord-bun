@@ -1,16 +1,16 @@
-import type * as z from "zod/v4";
-import type { NodeEnvironmentEnum } from "../src/node-env.vo";
-import type { EnvironmentLoaderPort, EnvironmentResultType } from "./environment-loader.port";
+import type {
+  EnvironmentLoaderConfig,
+  EnvironmentLoaderPort,
+  EnvironmentResultType,
+} from "./environment-loader.port";
 
-export class EnvironmentLoaderProcessAdapter<Schema extends z.ZodObject<any>>
-  implements EnvironmentLoaderPort<Schema>
-{
+export class EnvironmentLoaderProcessAdapter<T extends object> implements EnvironmentLoaderPort<T> {
   constructor(
-    private readonly config: { type: NodeEnvironmentEnum; Schema: Schema },
+    private readonly config: EnvironmentLoaderConfig<T>,
     private env: NodeJS.ProcessEnv,
   ) {}
 
-  async load(): Promise<Readonly<EnvironmentResultType<Schema>>> {
-    return Object.freeze({ ...this.config.Schema.parse(this.env), type: this.config.type });
+  async load(): Promise<Readonly<EnvironmentResultType<T>>> {
+    return Object.freeze({ ...this.config.EnvironmentSchema.parse(this.env), type: this.config.type });
   }
 }
