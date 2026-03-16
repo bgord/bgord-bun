@@ -1,29 +1,28 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { Port } from "../src/port.vo";
 
 describe("Port", () => {
   test("happy path", () => {
-    expect(Port.safeParse(0).success).toEqual(true);
-    expect(Port.safeParse("80").success).toEqual(true);
-    expect(Port.safeParse(443).success).toEqual(true);
-    expect(Port.safeParse("99999").success).toEqual(true);
+    expect(v.safeParse(Port, 0).success).toEqual(true);
+    expect(v.safeParse(Port, "80").success).toEqual(true);
+    expect(v.safeParse(Port, 443).success).toEqual(true);
+    expect(v.safeParse(Port, "99999").success).toEqual(true);
   });
 
   test("transforms null to 0", () => {
-    // @ts-expect-error Coercion
-    expect(Port.safeParse(null)).toEqual({ success: true, data: 0 });
+    expect(v.safeParse(Port, null)).toMatchObject({ success: true, output: 0 });
   });
 
   test("transforms string to int", () => {
-    // @ts-expect-error Coercion
-    expect(Port.safeParse("123")).toEqual({ success: true, data: 123 });
+    expect(v.safeParse(Port, "123")).toMatchObject({ success: true, output: 123 });
   });
 
-  test("transforms negative numbers to 1", () => {
-    expect(() => Port.parse(-2)).toThrow("port.invalid");
+  test("rejects negative numbers", () => {
+    expect(() => v.parse(Port, -2)).toThrow("port.invalid");
   });
 
   test("rejects fractions", () => {
-    expect(() => Port.parse(1.5)).toThrow("port.type");
+    expect(() => v.parse(Port, 1.5)).toThrow("port.type");
   });
 });
