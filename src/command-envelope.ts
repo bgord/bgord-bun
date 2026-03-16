@@ -1,4 +1,4 @@
-import * as tools from "@bgord/tools";
+import * as z from "zod/v4";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
@@ -6,7 +6,8 @@ import { UUID } from "./uuid.vo";
 
 type Dependencies = { IdProvider: IdProviderPort; Clock: ClockPort };
 
-export const CommandEnvelopeSchema = { id: UUID, correlationId: UUID, createdAt: tools.TimestampValue };
+// TODO
+export const CommandEnvelopeSchema = { id: UUID, correlationId: UUID, createdAt: z.number() };
 
 export const createCommandEnvelope = (deps: Dependencies) =>
   ({
