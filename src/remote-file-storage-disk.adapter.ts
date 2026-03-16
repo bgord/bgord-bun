@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { DirectoryEnsurerPort } from "./directory-ensurer.port";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileCopierPort } from "./file-copier.port";
@@ -31,7 +32,7 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     const parts = key.split("/");
     const filename = tools.Filename.fromString(parts.pop() as string);
 
-    const directory = tools.DirectoryPathAbsoluteSchema.parse(`${this.config.root}/${parts.join("/")}`);
+    const directory = v.parse(tools.DirectoryPathAbsoluteSchema, `${this.config.root}/${parts.join("/")}`);
 
     return tools.FilePathAbsolute.fromPartsSafe(directory, filename);
   }

@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { FileReaderJsonPort } from "../src/file-reader-json.port";
 import type { LoggerPort } from "../src/logger.port";
 
@@ -12,7 +13,7 @@ export type TranslationVariableType = Record<TranslationPlaceholderType, Transla
 type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
 
 export class I18n {
-  static DEFAULT_TRANSLATIONS_PATH = tools.DirectoryPathRelativeSchema.parse("infra/translations");
+  static DEFAULT_TRANSLATIONS_PATH = v.parse(tools.DirectoryPathRelativeSchema, "infra/translations");
 
   constructor(
     private readonly deps: Dependencies,

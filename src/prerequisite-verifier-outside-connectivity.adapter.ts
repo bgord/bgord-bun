@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
@@ -6,7 +7,7 @@ import {
 } from "./prerequisite-verifier.port";
 
 export class PrerequisiteVerifierOutsideConnectivityAdapter implements PrerequisiteVerifierPort {
-  private static readonly URL = tools.UrlWithoutSlash.parse("https://google.com");
+  private static readonly URL = v.parse(tools.UrlWithoutSlash, "https://google.com");
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {

@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { CacheRepositoryPort } from "./cache-repository.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { RequestContext } from "./request-context.port";
@@ -35,7 +36,7 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
 
       await this.deps.CacheRepository.set<tools.IntegerNonNegativeType>(
         subject.hex,
-        tools.IntegerNonNegative.parse(count + 1),
+        v.parse(tools.IntegerNonNegative, count + 1),
       );
 
       if (count + 1 >= this.config.threshold) return true;

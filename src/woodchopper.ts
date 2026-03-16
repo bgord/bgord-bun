@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { ClockPort } from "./clock.port";
 import { ErrorNormalizer } from "./error-normalizer.service";
 import {
@@ -32,13 +33,13 @@ export type WoodchopperConfig = {
 type Dependencies = { Clock: ClockPort };
 
 const LOG_LEVEL_PRIORITY: Record<LogLevelEnum, tools.IntegerNonNegativeType> = {
-  [LogLevelEnum.error]: tools.IntegerNonNegative.parse(0),
-  [LogLevelEnum.warn]: tools.IntegerNonNegative.parse(1),
-  [LogLevelEnum.info]: tools.IntegerNonNegative.parse(2),
-  [LogLevelEnum.http]: tools.IntegerNonNegative.parse(3),
-  [LogLevelEnum.verbose]: tools.IntegerNonNegative.parse(4),
-  [LogLevelEnum.debug]: tools.IntegerNonNegative.parse(5),
-  [LogLevelEnum.silly]: tools.IntegerNonNegative.parse(6),
+  [LogLevelEnum.error]: v.parse(tools.IntegerNonNegative, 0),
+  [LogLevelEnum.warn]: v.parse(tools.IntegerNonNegative, 1),
+  [LogLevelEnum.info]: v.parse(tools.IntegerNonNegative, 2),
+  [LogLevelEnum.http]: v.parse(tools.IntegerNonNegative, 3),
+  [LogLevelEnum.verbose]: v.parse(tools.IntegerNonNegative, 4),
+  [LogLevelEnum.debug]: v.parse(tools.IntegerNonNegative, 5),
+  [LogLevelEnum.silly]: v.parse(tools.IntegerNonNegative, 6),
 };
 
 export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {

@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { RetryBackoffStrategy } from "./retry-backoff.strategy";
 import type { SleeperPort } from "./sleeper.port";
 
@@ -28,7 +29,7 @@ export class Retry {
 
         if (attempt === config.max || (config.when && !config.when(error))) break;
 
-        await this.deps.Sleeper.wait(config.backoff.next(tools.IntegerPositive.parse(attempt)));
+        await this.deps.Sleeper.wait(config.backoff.next(v.parse(tools.IntegerPositive, attempt)));
       }
     }
 

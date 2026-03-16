@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.service";
 import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
@@ -12,11 +13,11 @@ export class RedactorErrorCauseDepthLimit implements RedactorStrategy {
     // Stryker restore all
     if (!ErrorNormalizer.isNormalizedError(input.error)) return input;
 
-    return { ...input, error: this.limit(input.error, tools.IntegerNonNegative.parse(0)) };
+    return { ...input, error: this.limit(input.error, v.parse(tools.IntegerNonNegative, 0)) };
   }
 
   private limit(error: NormalizedError, depth: tools.IntegerNonNegativeType): NormalizedError {
     if (!error.cause || depth >= this.max) return { ...error, cause: undefined };
-    return { ...error, cause: this.limit(error.cause, tools.IntegerNonNegative.parse(depth + 1)) };
+    return { ...error, cause: this.limit(error.cause, v.parse(tools.IntegerNonNegative, depth + 1)) };
   }
 }

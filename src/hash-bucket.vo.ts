@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { Hash } from "./hash.vo";
 
 export class HashBucket {
@@ -10,7 +11,7 @@ export class HashBucket {
 
     const bucket = integer % 100;
 
-    return new HashBucket(tools.IntegerNonNegative.parse(bucket));
+    return new HashBucket(v.parse(tools.IntegerNonNegative, bucket));
   }
 
   isLessThan(threshold: tools.IntegerNonNegativeType): boolean {

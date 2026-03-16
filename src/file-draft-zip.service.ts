@@ -1,5 +1,6 @@
 import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { DynamicImport } from "./dynamic-import.service";
 import { FileDraft } from "./file-draft.service";
 
@@ -20,7 +21,7 @@ export class FileDraftZip extends FileDraft {
     private readonly parts: ReadonlyArray<FileDraft>,
     private readonly yazl: YazlLibrary,
   ) {
-    super(basename, tools.Extension.parse("zip"), tools.Mimes.zip.mime);
+    super(basename, v.parse(tools.Extension, "zip"), tools.Mimes.zip.mime);
   }
 
   static async build(basename: tools.BasenameType, parts: ReadonlyArray<FileDraft>): Promise<FileDraftZip> {

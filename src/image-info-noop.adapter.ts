@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { ImageInfoPort, ImageInfoType } from "./image-info.port";
 
 export class ImageInfoNoopAdapter implements ImageInfoPort {
@@ -6,8 +7,8 @@ export class ImageInfoNoopAdapter implements ImageInfoPort {
 
   async inspect(_input: tools.FilePathRelative | tools.FilePathAbsolute): Promise<ImageInfoType> {
     return {
-      width: tools.ImageWidth.parse(400),
-      height: tools.ImageHeight.parse(400),
+      width: v.parse(tools.ImageWidth, 400),
+      height: v.parse(tools.ImageHeight, 400),
       mime: this.mime,
       size: tools.Size.fromBytes(0),
     };
