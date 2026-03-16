@@ -74,13 +74,12 @@ src/
 ├── clock-system.adapter.ts
 ├── clock.port.ts
 ├── command-envelope.ts
-├── command.types.ts
 ├── commit-sha-value.vo.ts
 ├── commit-sha.vo.ts
 ├── correlation-hono.middleware.ts
-├── correlation-id.middleware.ts
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
+├── correlation.middleware.ts
 ├── crypto-aes-gcm.service.ts
 ├── crypto-key-provider-file.adapter.ts
 ├── crypto-key-provider-memory.adapter.ts
@@ -108,6 +107,7 @@ src/
 ├── environment-loader-process-safe.adapter.ts
 ├── environment-loader-process.adapter.ts
 ├── environment-loader.port.ts
+├── environment-schema.port.ts
 ├── error-normalizer.service.ts
 ├── etag-extractor-hono.middleware.ts
 ├── etag-extractor.middleware.ts
@@ -435,6 +435,7 @@ src/
 ├── sse-hono.handler.ts
 ├── sse-registry-collecting.adapter.ts
 ├── sse-registry-noop.adapter.ts
+├── sse-registry-with-limit.adapter.ts
 ├── sse-registry-with-logger.adapter.ts
 ├── sse-registry.adapter.ts
 ├── sse-registry.port.ts
