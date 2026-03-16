@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const HistoryOperationError = {
   Type: "history.operation.type",
@@ -6,7 +6,8 @@ export const HistoryOperationError = {
   TooLong: "history.operation.too.long",
 };
 
-export const HistoryOperation = z
-  .string(HistoryOperationError.Type)
-  .min(1, HistoryOperationError.Empty)
-  .max(128, HistoryOperationError.TooLong);
+export const HistoryOperation = v.pipe(
+  v.string(HistoryOperationError.Type),
+  v.minLength(1, HistoryOperationError.Empty),
+  v.maxLength(128, HistoryOperationError.TooLong),
+);
