@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const HistorySubjectError = {
   Type: "history.subject.type",
@@ -6,9 +6,10 @@ export const HistorySubjectError = {
   TooLong: "history.subject.too.long",
 };
 
-export const HistorySubject = z
-  .string(HistorySubjectError.Type)
-  .min(1, HistorySubjectError.Empty)
-  .max(128, HistorySubjectError.TooLong);
+export const HistorySubject = v.pipe(
+  v.string(HistorySubjectError.Type),
+  v.minLength(1, HistorySubjectError.Empty),
+  v.maxLength(128, HistorySubjectError.TooLong),
+);
 
-export type HistorySubjectType = z.infer<typeof HistorySubject>;
+export type HistorySubjectType = v.InferOutput<typeof HistorySubject>;
