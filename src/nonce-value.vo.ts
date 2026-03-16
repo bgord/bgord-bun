@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const NonceValueError = {
   Type: "nonce.value.type",
@@ -6,13 +6,14 @@ export const NonceValueError = {
 };
 
 // 16 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]{16}$/;
+const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
 
-// Stryker disable all
-export const NonceValue = z
-  // Stryker restore all
-  .string(NonceValueError.Type)
-  .regex(CHARS_WHITELIST, NonceValueError.InvalidHex)
-  .brand("NonceValue");
+export const NonceValue = v.pipe(
+  v.string(NonceValueError.Type),
+  v.length(16, NonceValueError.InvalidHex),
+  v.regex(CHARS_WHITELIST, NonceValueError.InvalidHex),
+  // Stryker disable next-line StringLiteral
+  v.brand("NonceValue"),
+);
 
-export type NonceValueType = z.infer<typeof NonceValue>;
+export type NonceValueType = v.InferOutput<typeof NonceValue>;
