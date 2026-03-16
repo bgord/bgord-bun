@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
+import * as v from "valibot";
 import type { AbVariables } from "../src/ab-hono.middleware";
 import { AbHonoNoopMiddleware } from "../src/ab-hono-noop.middleware";
 import { AbVariant } from "../src/ab-variant.vo";
@@ -8,8 +9,8 @@ import { AbVariants } from "../src/ab-variants.vo";
 
 type Config = { Variables: AbVariables };
 
-const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(50) });
-const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
+const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
+const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
 const variants = new AbVariants([control, treatment]);
 
 const app = new Hono<Config>()

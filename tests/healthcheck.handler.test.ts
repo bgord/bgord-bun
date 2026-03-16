@@ -125,7 +125,7 @@ describe("HealthcheckHandler", () => {
       {
         Env: NodeEnvironmentEnum.production,
         prerequisites: [
-          new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: Port.parse(8000) })),
+          new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: v.parse(Port, 8000) })),
           mocks.PrerequisiteOk,
         ],
       },

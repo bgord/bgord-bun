@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
@@ -113,6 +114,6 @@ describe("SecurityCountermeasureBanStrategy", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const countermeasure = new SecurityCountermeasureBanStrategy({ EventStore, Clock, Logger, IdProvider });
 
-    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("ban"));
+    expect(countermeasure.name).toEqual(v.parse(SecurityCountermeasureName, "ban"));
   });
 });

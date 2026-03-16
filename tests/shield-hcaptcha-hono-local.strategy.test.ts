@@ -1,11 +1,12 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaLocalHonoStrategy } from "../src/shield-hcaptcha-hono-local.strategy";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = HCaptchaSecretKey.parse("00000000000000000000000000000000000");
+const SECRET_KEY = v.parse(HCaptchaSecretKey, "00000000000000000000000000000000000");
 const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
 
 const shield = new ShieldHcaptchaLocalHonoStrategy(SECRET_KEY);

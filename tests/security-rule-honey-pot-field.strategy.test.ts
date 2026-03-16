@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { SecurityRuleHoneyPotFieldStrategy } from "../src/security-rule-honey-pot-field.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { RequestContextBuilder } from "./request-context-builder";
@@ -38,6 +39,6 @@ describe("SecurityRuleHoneyPotFieldStrategy", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual(SecurityRuleName.parse("honey_pot_field"));
+    expect(rule.name).toEqual(v.parse(SecurityRuleName, "honey_pot_field"));
   });
 });

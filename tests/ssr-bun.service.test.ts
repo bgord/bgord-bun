@@ -1,10 +1,11 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { NonceValue, type NonceValueType } from "../src/nonce-value.vo";
 import { SSRBun } from "../src/ssr-bun.service";
 
-const zeros = NonceValue.parse("0000000000000000");
-const ones = NonceValue.parse("1111111111111111");
+const zeros = v.parse(NonceValue, "0000000000000000");
+const ones = v.parse(NonceValue, "1111111111111111");
 
 describe("SSRBun", async () => {
   test("happy path", async () => {

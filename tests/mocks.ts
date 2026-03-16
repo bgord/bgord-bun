@@ -1,5 +1,6 @@
 import { expect } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
@@ -136,7 +137,10 @@ export const PrerequisiteFailWithStack = new Prerequisite(
   new PrerequisiteVerifierFailWithStack(),
 );
 
-export const hashValue = HashValue.parse("0000000000000000000000000000000000000000000000000000000000000000");
+export const hashValue = v.parse(
+  HashValue,
+  "0000000000000000000000000000000000000000000000000000000000000000",
+);
 export const hash = Hash.fromValue(hashValue);
 
 export const expectAnyId = expect.stringMatching(
@@ -172,9 +176,9 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
   payload: {
     rule: expect.any(String),
-    client: { ip: ClientIp.parse(ip), ua: ClientUserAgent.parse(ua) },
+    client: { ip: v.parse(ClientIp, ip), ua: v.parse(ClientUserAgent, ua) },
     userId: undefined,
-    countermeasure: SecurityCountermeasureName.parse("ban"),
+    countermeasure: v.parse(SecurityCountermeasureName, "ban"),
     action: "deny",
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;
@@ -190,7 +194,7 @@ export const GenericSecurityViolationDetectedBanDenyWithoutContextEvent = {
     rule: expect.any(String),
     client: { ip: undefined, ua: undefined },
     userId: undefined,
-    countermeasure: SecurityCountermeasureName.parse("ban"),
+    countermeasure: v.parse(SecurityCountermeasureName, "ban"),
     action: "deny",
   },
 } satisfies System.Events.SecurityViolationDetectedEventType;

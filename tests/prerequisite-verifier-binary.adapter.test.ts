@@ -1,10 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as v from "valibot";
 import { Binary } from "../src/binary.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierBinaryAdapter } from "../src/prerequisite-verifier-binary.adapter";
 import * as mocks from "./mocks";
 
-const binary = Binary.parse("node");
+const binary = v.parse(Binary, "node");
 
 const prerequisite = new PrerequisiteVerifierBinaryAdapter({ binary });
 

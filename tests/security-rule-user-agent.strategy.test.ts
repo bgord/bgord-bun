@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleUserAgentStrategy } from "../src/security-rule-user-agent.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
@@ -38,6 +39,6 @@ describe("SecurityRuleUserAgentStrategy", () => {
   test("name", () => {
     const rule = new SecurityRuleUserAgentStrategy(["other"]);
 
-    expect(rule.name).toEqual(SecurityRuleName.parse("user_agent"));
+    expect(rule.name).toEqual(v.parse(SecurityRuleName, "user_agent"));
   });
 });

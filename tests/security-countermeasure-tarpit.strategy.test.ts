@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { SecurityContext } from "../src/security-context.vo";
@@ -36,6 +37,6 @@ describe("SecurityCountermeasureTarpitStrategy", () => {
     const Logger = new LoggerCollectingAdapter();
     const countermeasure = new SecurityCountermeasureTarpitStrategy({ Logger }, config);
 
-    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("tarpit"));
+    expect(countermeasure.name).toEqual(v.parse(SecurityCountermeasureName, "tarpit"));
   });
 });

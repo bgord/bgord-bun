@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { AbMiddleware } from "../src/ab.middleware";
 import { AbAssignmentCompositeStrategy } from "../src/ab-assignment-composite.strategy";
 import { AbAssignmentHashStrategy } from "../src/ab-assignment-hash.strategy";
@@ -12,8 +13,8 @@ import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strate
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(50) });
-const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
+const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
+const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
 const variants = new AbVariants([control, treatment]);
 
 const subject = new SubjectRequestResolver(

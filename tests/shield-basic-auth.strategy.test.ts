@@ -1,17 +1,21 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { BasicAuth } from "../src/basic-auth.service";
 import { BasicAuthPassword } from "../src/basic-auth-password.vo";
 import { BasicAuthUsername } from "../src/basic-auth-username.vo";
 import { ShieldBasicAuthStrategy } from "../src/shield-basic-auth.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
+const config = {
+  username: v.parse(BasicAuthUsername, "admin"),
+  password: v.parse(BasicAuthPassword, "password"),
+};
 
 const header = BasicAuth.toHeader(config).get("authorization")!;
-const username = BasicAuth.toHeader({ ...config, username: BasicAuthUsername.parse("wrong") }).get(
+const username = BasicAuth.toHeader({ ...config, username: v.parse(BasicAuthUsername, "wrong") }).get(
   "authorization",
 )!;
-const password = BasicAuth.toHeader({ ...config, password: BasicAuthPassword.parse("wrong") }).get(
+const password = BasicAuth.toHeader({ ...config, password: v.parse(BasicAuthPassword, "wrong") }).get(
   "authorization",
 )!;
 

@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
 import { ShieldRecaptchaHonoStrategy } from "../src/shield-recaptcha-hono.strategy";
 import * as mocks from "./mocks";
@@ -8,7 +9,7 @@ const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
 const remoteip = "1.2.3.4";
 
-const shield = new ShieldRecaptchaHonoStrategy({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
+const shield = new ShieldRecaptchaHonoStrategy({ secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY) });
 
 const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 const SAFE_BODY = "dummy=1";

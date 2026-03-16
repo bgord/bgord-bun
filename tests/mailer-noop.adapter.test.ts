@@ -15,8 +15,8 @@ describe("MailerNoopAdapter", () => {
       to: v.parse(tools.Email, "recipient@example.com"),
     };
     const message = {
-      subject: MailerSubject.parse("Test Email"),
-      html: MailerContentHtml.parse("This is a test email."),
+      subject: v.parse(MailerSubject, "Test Email"),
+      html: v.parse(MailerContentHtml, "This is a test email."),
     };
     const template = new MailerTemplate(config, message);
 

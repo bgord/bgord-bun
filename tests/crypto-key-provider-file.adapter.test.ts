@@ -1,12 +1,13 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CryptoKeyProviderFileAdapter } from "../src/crypto-key-provider-file.adapter";
 import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import * as mocks from "./mocks";
 
-const HEX = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
+const HEX = v.parse(EncryptionKeyValue, "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
 const path = tools.FilePathAbsolute.fromString("/run/secret.key");
 
 const FileInspection = new FileInspectionNoopAdapter({ exists: true });

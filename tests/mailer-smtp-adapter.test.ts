@@ -12,10 +12,10 @@ import { SmtpUser } from "../src/smtp-user.vo";
 import * as mocks from "./mocks";
 
 const smtp = {
-  SMTP_HOST: SmtpHost.parse("smtp.example.com"),
-  SMTP_PORT: SmtpPort.parse(587),
-  SMTP_USER: SmtpUser.parse("user@example.com"),
-  SMTP_PASS: SmtpPass.parse("password"),
+  SMTP_HOST: v.parse(SmtpHost, "smtp.example.com"),
+  SMTP_PORT: v.parse(SmtpPort, 587),
+  SMTP_USER: v.parse(SmtpUser, "user@example.com"),
+  SMTP_PASS: v.parse(SmtpPass, "password"),
 };
 
 const config = {
@@ -23,8 +23,8 @@ const config = {
   to: v.parse(tools.Email, "recipient@example.com"),
 };
 const message = {
-  subject: MailerSubject.parse("Test Email"),
-  html: MailerContentHtml.parse("This is a test email."),
+  subject: v.parse(MailerSubject, "Test Email"),
+  html: v.parse(MailerContentHtml, "This is a test email."),
 };
 const template = new MailerTemplate(config, message);
 

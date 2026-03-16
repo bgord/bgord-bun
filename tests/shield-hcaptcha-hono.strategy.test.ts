@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaHonoStrategy } from "../src/shield-hcaptcha-hono.strategy";
@@ -9,7 +10,7 @@ const SECRET_KEY = "11111111111111111111111111111111111";
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
-const shield = new ShieldHcaptchaHonoStrategy(HCaptchaSecretKey.parse(SECRET_KEY));
+const shield = new ShieldHcaptchaHonoStrategy(v.parse(HCaptchaSecretKey, SECRET_KEY));
 
 const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
 

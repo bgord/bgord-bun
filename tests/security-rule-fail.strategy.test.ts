@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { SecurityRuleFailStrategy } from "../src/security-rule-fail.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 
@@ -10,6 +11,6 @@ describe("SecurityRuleFailStrategy", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual(SecurityRuleName.parse("fail"));
+    expect(rule.name).toEqual(v.parse(SecurityRuleName, "fail"));
   });
 });
