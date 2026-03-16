@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { createEventEnvelope } from "./event-envelope";
@@ -62,6 +63,6 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
   }
 
   get name(): SecurityCountermeasureNameType {
-    return SecurityCountermeasureName.parse("ban");
+    return v.parse(SecurityCountermeasureName, "ban");
   }
 }

@@ -1,10 +1,11 @@
+import * as v from "valibot";
 import { CommitShaValue, type CommitShaValueType } from "./commit-sha-value.vo";
 
 export class CommitSha {
   private constructor(private readonly value: CommitShaValueType) {}
 
   static fromString(candidate: string): CommitSha {
-    return new CommitSha(CommitShaValue.parse(candidate));
+    return new CommitSha(v.parse(CommitShaValue, candidate));
   }
 
   static fromStringSafe(value: CommitShaValueType): CommitSha {

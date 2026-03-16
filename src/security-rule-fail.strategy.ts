@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
@@ -7,6 +8,6 @@ export class SecurityRuleFailStrategy implements SecurityRuleStrategy {
   }
 
   get name(): SecurityRuleNameType {
-    return SecurityRuleName.parse("fail");
+    return v.parse(SecurityRuleName, "fail");
   }
 }

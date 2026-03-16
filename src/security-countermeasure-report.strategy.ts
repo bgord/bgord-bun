@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
@@ -25,6 +26,6 @@ export class SecurityCountermeasureReportStrategy implements SecurityCountermeas
   }
 
   get name(): SecurityCountermeasureNameType {
-    return SecurityCountermeasureName.parse("report");
+    return v.parse(SecurityCountermeasureName, "report");
   }
 }

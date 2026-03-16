@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { RequestContext } from "./request-context.port";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
@@ -20,6 +21,6 @@ export class SecurityRuleOrStrategy implements SecurityRuleStrategy {
   }
 
   get name(): SecurityRuleNameType {
-    return SecurityRuleName.parse(`or_${this.rules.map((rule) => rule.name).join("_")}`);
+    return v.parse(SecurityRuleName, `or_${this.rules.map((rule) => rule.name).join("_")}`);
   }
 }

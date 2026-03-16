@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SecurityContext } from "./security-context.vo";
@@ -30,6 +31,6 @@ export class SecurityCountermeasureTarpitStrategy implements SecurityCountermeas
   }
 
   get name(): SecurityCountermeasureNameType {
-    return SecurityCountermeasureName.parse("tarpit");
+    return v.parse(SecurityCountermeasureName, "tarpit");
   }
 }

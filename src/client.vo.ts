@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import { ClientIp, type ClientIpType } from "./client-ip.vo";
 import { ClientUserAgent, type ClientUserAgentType } from "./client-user-agent.vo";
 
@@ -8,10 +9,10 @@ export class Client {
   ) {}
 
   static fromParts(ip: string | undefined, ua: string | undefined): Client {
-    const parsedIp = ClientIp.safeParse(ip);
-    const parsedUa = ClientUserAgent.safeParse(ua);
+    const parsedIp = v.parse(ClientIp, ip);
+    const parsedUa = v.parse(ClientUserAgent, ua);
 
-    return new Client(parsedIp.data, parsedUa.data);
+    return new Client(parsedIp, parsedUa);
   }
 
   static fromSafeParts(ip: ClientIpType | undefined, ua: ClientUserAgentType | undefined): Client {

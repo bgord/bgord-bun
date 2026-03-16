@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import { HashValue, type HashValueType } from "./hash-value.vo";
 
 export class Hash {
@@ -12,7 +13,7 @@ export class Hash {
   }
 
   static fromString(candidate: string): Hash {
-    return new Hash(HashValue.parse(candidate));
+    return new Hash(v.parse(HashValue, candidate));
   }
 
   get(): HashValueType {
