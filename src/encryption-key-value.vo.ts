@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const EncryptionKeyValueError = {
   Type: "encryption.key.value.type",
@@ -6,13 +6,14 @@ export const EncryptionKeyValueError = {
 };
 
 // 64 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]{64}$/;
+const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
 
-// Stryker disable all
-export const EncryptionKeyValue = z
-  // Stryker restore all
-  .string(EncryptionKeyValueError.Type)
-  .regex(CHARS_WHITELIST, EncryptionKeyValueError.InvalidHex)
-  .brand("EncryptionKeyValue");
+export const EncryptionKeyValue = v.pipe(
+  v.string(EncryptionKeyValueError.Type),
+  v.length(64, EncryptionKeyValueError.InvalidHex),
+  v.regex(CHARS_WHITELIST, EncryptionKeyValueError.InvalidHex),
+  // Stryker disable next-line StringLiteral
+  v.brand("EncryptionKeyValue"),
+);
 
-export type EncryptionKeyValueType = z.infer<typeof EncryptionKeyValue>;
+export type EncryptionKeyValueType = v.InferOutput<typeof EncryptionKeyValue>;
