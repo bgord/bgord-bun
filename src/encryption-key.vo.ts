@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import { EncryptionKeyValue, type EncryptionKeyValueType } from "./encryption-key-value.vo";
 
 export const EncryptionKeyError = { InvalidBuffer: "encryption.key.invalid.buffer" };
@@ -10,7 +11,7 @@ export class EncryptionKey {
   }
 
   static fromString(candidate: string): EncryptionKey {
-    return new EncryptionKey(EncryptionKeyValue.parse(candidate));
+    return new EncryptionKey(v.parse(EncryptionKeyValue, candidate));
   }
 
   static fromBytes(buffer: Uint8Array): EncryptionKey {

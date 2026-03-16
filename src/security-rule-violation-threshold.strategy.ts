@@ -47,6 +47,6 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
   }
 
   get name(): SecurityRuleNameType {
-    return SecurityRuleName.parse(`violation_threshold_${this.config.threshold}_${this.rule.name}`);
+    return v.parse(SecurityRuleName, `violation_threshold_${this.config.threshold}_${this.rule.name}`);
   }
 }

@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import {
   SecurityCountermeasureName,
@@ -10,6 +11,6 @@ export class SecurityCountermeasureNoopStrategy implements SecurityCountermeasur
   }
 
   get name(): SecurityCountermeasureNameType {
-    return SecurityCountermeasureName.parse("noop");
+    return v.parse(SecurityCountermeasureName, "noop");
   }
 }

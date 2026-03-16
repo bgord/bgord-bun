@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import { ALL_BOTS } from "./bots.vo";
 import { Client } from "./client.vo";
 import type { RequestContext } from "./request-context.port";
@@ -14,6 +15,6 @@ export class SecurityRuleUserAgentStrategy implements SecurityRuleStrategy {
   }
 
   get name(): SecurityRuleNameType {
-    return SecurityRuleName.parse("user_agent");
+    return v.parse(SecurityRuleName, "user_agent");
   }
 }
