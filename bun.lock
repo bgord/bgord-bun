@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.3.24",
+        "@bgord/tools": "1.4.1",
         "emittery": "2.0.0",
         "hono": "4.12.8",
         "node-cache": "5.1.2",
@@ -135,7 +135,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.21", "", {}, "sha512-/ImESw0sskqlVR94jB+5+Pxjf+xBwDZF/N5+y2/q4EqD7IARUTSpPfIo8uf39SYpCxyOCtbyYpUrZ3F/k0zT4A=="],
 
-    "@bgord/tools": ["@bgord/tools@1.3.24", "", { "dependencies": { "date-fns": "4.1.0" }, "peerDependencies": { "zod": "4.3.6" } }, "sha512-zbQvqfNsuCqVFWQ/jO4TSHa8rORNFp4kzUyQLjcwWPxyw0kDV7tOJLiyw9uTjfpB+x7xbpV0irgzPX2InodT0Q=="],
+    "@bgord/tools": ["@bgord/tools@1.4.1", "", { "dependencies": { "date-fns": "4.1.0", "valibot": "1.2.0" } }, "sha512-bB2aZYqeSTwS0IMcyRZKDXwyU0lyebrfNq6JqJqE6K3103GyjEbtCBphMNCDGsAM6F2kLSCDuG+5fWEddLVOmQ=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.4.7", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.4.7", "@biomejs/cli-darwin-x64": "2.4.7", "@biomejs/cli-linux-arm64": "2.4.7", "@biomejs/cli-linux-arm64-musl": "2.4.7", "@biomejs/cli-linux-x64": "2.4.7", "@biomejs/cli-linux-x64-musl": "2.4.7", "@biomejs/cli-win32-arm64": "2.4.7", "@biomejs/cli-win32-x64": "2.4.7" }, "bin": { "biome": "bin/biome" } }, "sha512-vXrgcmNGZ4lpdwZSpMf1hWw1aWS6B+SyeSYKTLrNsiUsAdSRN0J4d/7mF3ogJFbIwFFSOL3wT92Zzxia/d5/ng=="],
 
@@ -1168,6 +1168,8 @@
     "util-deprecate": ["util-deprecate@1.0.2", "", {}, "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="],
 
     "uuid": ["uuid@10.0.0", "", { "bin": { "uuid": "dist/bin/uuid" } }, "sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ=="],
+
+    "valibot": ["valibot@1.2.0", "", { "peerDependencies": { "typescript": ">=5" }, "optionalPeers": ["typescript"] }, "sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg=="],
 
     "vscode-languageserver-textdocument": ["vscode-languageserver-textdocument@1.0.12", "", {}, "sha512-cxWNPesCnQCcMPeenjKKsOCKQZ/L6Tv19DTRIGuLWe32lyzWhihGVJ/rcckZXJxfdKCFvRLS3fpBIsV/ZGX4zA=="],
 
