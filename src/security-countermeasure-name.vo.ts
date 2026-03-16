@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const SecurityCountermeasureNameError = {
   Type: "security.countermeasure.name.type",
@@ -8,15 +8,15 @@ export const SecurityCountermeasureNameError = {
 };
 
 // One to sixty four letters, digits, or underscores
-const CHARS_WHITELIST = /^[a-zA-Z0-9_]{1,64}$/;
+const CHARS_WHITELIST = /^[a-zA-Z0-9_]+$/;
 
-// Stryker disable all
-export const SecurityCountermeasureName = z
-  // Stryker restore all
-  .string(SecurityCountermeasureNameError.Type)
-  .min(1, SecurityCountermeasureNameError.Empty)
-  .max(64, SecurityCountermeasureNameError.TooLong)
-  .regex(CHARS_WHITELIST, SecurityCountermeasureNameError.BadChars)
-  .brand("SecurityCountermeasureName");
+export const SecurityCountermeasureName = v.pipe(
+  v.string(SecurityCountermeasureNameError.Type),
+  v.minLength(1, SecurityCountermeasureNameError.Empty),
+  v.maxLength(64, SecurityCountermeasureNameError.TooLong),
+  v.regex(CHARS_WHITELIST, SecurityCountermeasureNameError.BadChars),
+  // Stryker disable next-line StringLiteral
+  v.brand("SecurityCountermeasureName"),
+);
 
-export type SecurityCountermeasureNameType = z.infer<typeof SecurityCountermeasureName>;
+export type SecurityCountermeasureNameType = v.InferOutput<typeof SecurityCountermeasureName>;
