@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const SecurityRuleNameError = {
   Type: "security.rule.name.type",
@@ -7,16 +7,16 @@ export const SecurityRuleNameError = {
   BadChars: "security.rule.name.bad.chars",
 };
 
-// One to sixty four letters, digits, or underscores
-const CHARS_WHITELIST = /^[a-zA-Z0-9_]{1,512}$/;
+// One to five hundred twelve letters, digits, or underscores
+const CHARS_WHITELIST = /^[a-zA-Z0-9_]+$/;
 
-// Stryker disable all
-export const SecurityRuleName = z
-  // Stryker restore all
-  .string(SecurityRuleNameError.Type)
-  .min(1, SecurityRuleNameError.Empty)
-  .max(512, SecurityRuleNameError.TooLong)
-  .regex(CHARS_WHITELIST, SecurityRuleNameError.BadChars)
-  .brand("SecurityRuleName");
+export const SecurityRuleName = v.pipe(
+  v.string(SecurityRuleNameError.Type),
+  v.minLength(1, SecurityRuleNameError.Empty),
+  v.maxLength(512, SecurityRuleNameError.TooLong),
+  v.regex(CHARS_WHITELIST, SecurityRuleNameError.BadChars),
+  // Stryker disable next-line StringLiteral
+  v.brand("SecurityRuleName"),
+);
 
-export type SecurityRuleNameType = z.infer<typeof SecurityRuleName>;
+export type SecurityRuleNameType = v.InferOutput<typeof SecurityRuleName>;
