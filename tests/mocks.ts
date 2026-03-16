@@ -236,3 +236,11 @@ export const session = {
 
 export type MessageType = { name: "TEST_MESSAGE" };
 export const message = { name: "TEST_MESSAGE" } as const;
+
+export const asyncSchema = {
+  "~standard": {
+    version: 1 as const,
+    vendor: "test",
+    validate: () => Promise.resolve({ value: { APP_NAME: "MyApp" } }),
+  },
+};

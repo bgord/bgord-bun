@@ -1,13 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { EnvironmentLoaderProcessAdapter } from "../src/environment-loader-process.adapter";
-import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import * as mocks from "./mocks";
 
-const Env = v.object({ APP_NAME: v.string("app.name.invalid") });
-type EnvType = v.InferOutput<typeof Env>;
-
-const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => v.parse(Env, data) };
+const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") });
 
 describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
@@ -36,5 +33,14 @@ describe("EnvironmentLoaderProcess", () => {
           { type: NodeEnvironmentEnum.local, EnvironmentSchema },
         ).load(),
     ).toThrow("app.name.invalid");
+  });
+
+  test("failure - async schema", async () => {
+    const adapter = new EnvironmentLoaderProcessAdapter(
+      { ...process.env, APP_NAME: "MyApp" },
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+    );
+
+    expect(async () => adapter.load()).toThrow("environment.loader.no.async.schema");
   });
 });

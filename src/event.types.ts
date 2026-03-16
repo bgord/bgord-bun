@@ -5,7 +5,7 @@ import type { UUIDType } from "./uuid.vo";
 export type GenericEvent = {
   id: UUIDType;
   correlationId: UUIDType;
-  createdAt: number;
+  createdAt: tools.TimestampValueType;
   stream: EventStreamType;
   revision?: tools.RevisionValueType;
   name: string;

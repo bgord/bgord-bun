@@ -1,7 +1,8 @@
-import type {
-  EnvironmentLoaderConfig,
-  EnvironmentLoaderPort,
-  EnvironmentResultType,
+import {
+  type EnvironmentLoaderConfig,
+  EnvironmentLoaderError,
+  type EnvironmentLoaderPort,
+  type EnvironmentResultType,
 } from "./environment-loader.port";
 
 export class EnvironmentLoaderProcessAdapter<T extends object> implements EnvironmentLoaderPort<T> {
@@ -11,6 +12,10 @@ export class EnvironmentLoaderProcessAdapter<T extends object> implements Enviro
   ) {}
 
   async load(): Promise<Readonly<EnvironmentResultType<T>>> {
-    return Object.freeze({ ...this.config.EnvironmentSchema.parse(this.env), type: this.config.type });
+    const result = this.config.EnvironmentSchema["~standard"].validate(this.env);
+    if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
+    // Stryker disable next-line OptionalChaining
+    if (result.issues) throw new Error(result.issues[0]?.message);
+    return Object.freeze({ ...result.value, type: this.config.type });
   }
 }

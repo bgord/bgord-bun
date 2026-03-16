@@ -44,4 +44,23 @@ describe("EventValidatorRegistryAdapter", () => {
       registry.validate({ ...mocks.GenericHourHasPassedEvent, payload: { timestamp: "not-a-number" } }),
     ).toThrow("timestamp.invalid");
   });
+
+  test("validate - async schema", () => {
+    const asyncSchema = {
+      "~standard": {
+        version: 1 as const,
+        vendor: "test",
+        validate: () => Promise.resolve({ value: mocks.GenericHourHasPassedEvent }),
+      },
+    };
+
+    const registry = new EventValidatorRegistryAdapter<AcceptedEvent>({
+      [System.Events.HOUR_HAS_PASSED_EVENT]: asyncSchema,
+      [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
+    });
+
+    expect(() => registry.validate(mocks.GenericHourHasPassedEvent)).toThrow(
+      "event.validator.registry.no.async.schema",
+    );
+  });
 });

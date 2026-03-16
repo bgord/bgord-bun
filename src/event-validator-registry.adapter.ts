@@ -1,6 +1,9 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import type { GenericEvent } from "./event.types";
-import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
+import {
+  EventValidatorRegistryError,
+  type EventValidatorRegistryPort,
+} from "./event-validator-registry.port";
 
 export type GenericEventSchemaRegistry<Event> = Readonly<
   Record<GenericEvent["name"], StandardSchemaV1<unknown, Event>>
@@ -33,10 +36,8 @@ export class EventValidatorRegistryAdapter<Event> implements EventValidatorRegis
 
     const result = schema["~standard"].validate(raw);
 
-    if (result instanceof Promise) {
-      throw new Error("Async schemas are not supported");
-    }
-
+    if (result instanceof Promise) throw new Error(EventValidatorRegistryError.NoAsyncSchema);
+    // Stryker disable next-line OptionalChaining
     if (result.issues) throw new Error(result.issues[0]?.message);
     return result.value;
   }

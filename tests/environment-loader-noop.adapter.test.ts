@@ -1,13 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { EnvironmentLoaderNoopAdapter } from "../src/environment-loader-noop.adapter";
-import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import * as mocks from "./mocks";
 
-const Env = v.object({ APP_NAME: v.string() });
-type EnvType = v.InferOutput<typeof Env>;
-
-const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => v.parse(Env, data) };
+const EnvironmentSchema = v.object({ APP_NAME: v.string() });
 
 describe("EnvironmentLoaderNoopAdapter", () => {
   test("happy path", async () => {
@@ -35,5 +32,14 @@ describe("EnvironmentLoaderNoopAdapter", () => {
     );
 
     expect(async () => adapter.load()).toThrow();
+  });
+
+  test("failure - async schema", async () => {
+    const adapter = new EnvironmentLoaderNoopAdapter(
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+      { APP_NAME: "MyApp" },
+    );
+
+    expect(async () => adapter.load()).toThrow("environment.loader.no.async.schema");
   });
 });

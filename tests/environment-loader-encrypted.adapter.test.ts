@@ -3,13 +3,10 @@ import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 import { EnvironmentLoaderEncryptedAdapter } from "../src/environment-loader-encrypted.adapter";
-import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import * as mocks from "./mocks";
 
-const Env = v.object({ APP_NAME: v.string("app.name.invalid") }, "env.empty");
-type EnvType = v.InferOutput<typeof Env>;
-
-const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => v.parse(Env, data) };
+const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") }, "env.empty");
 
 const config = { type: NodeEnvironmentEnum.local, EnvironmentSchema };
 
@@ -33,5 +30,15 @@ describe("EnvironmentLoaderProcess", () => {
           Encryption: new EncryptionNoopAdapter(),
         }).load(),
     ).toThrow("env.empty");
+  });
+
+  test("failure - async schema", async () => {
+    const adapter = new EnvironmentLoaderEncryptedAdapter(
+      path,
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+      { Encryption: new EncryptionNoopAdapter(env) },
+    );
+
+    expect(async () => adapter.load()).toThrow("environment.loader.no.async.schema");
   });
 });
