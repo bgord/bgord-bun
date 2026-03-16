@@ -1,4 +1,15 @@
 # Changelog
+- 2026-03-16 11:34 8a9134dc **refactor: update environment tests**
+- 2026-03-16 11:30 fc5a7680 **refactor: update adapters to use environment schema**
+- 2026-03-16 11:29 4b589d07 **step: make environment depend on environment schema**
+- 2026-03-16 11:27 89f2c6e3 **step: add environment schema port**
+- 2026-03-16 11:11 36fc7938 **refactor: decouple zod from prereq timezone utc**
+- 2026-03-16 10:52 e030d746 **step: add sse registry with limit decorator**
+- 2026-03-16 10:36 30738485 **step: add sse registry count**
+- 2026-03-15 23:02 730ad52d **refactor: improve event store types**
+- 2026-03-15 22:56 2d8b15d9 **refactor: rename correlation middleware**
+- 2026-03-15 22:53 646af187 **fix: event revision assigner**
+- 2026-03-15 22:53 5c374175 **refactor: remove command types**
 ## 2026-03-15 22:40 v1.14.5
 - 2026-03-15 22:40 13989350 **1.14.5**
 - 2026-03-15 22:39 1fdba28e **refactor: downgrade type of generic event created at**
@@ -11,6 +22,7 @@
 - 2026-03-15 22:17 f1222b43 **step: add event store with logger**
 - 2026-03-15 22:11 9f343656 **refactor: absorb empty current max case in the event revision assigner**
 - 2026-03-15 22:06 2ac792a0 **refactor: event types**
+- 2026-03-15 21:40 cd23faac **docs: generate CHANGELOG**
 - 2026-03-15 21:40 53ee4bcd **docs: generate CHANGELOG**
 - 2026-03-15 21:34 7a1a43a9 **docs: generate CHANGELOG**
 - 2026-03-15 21:32 763b072d **docs: generate CHANGELOG**
