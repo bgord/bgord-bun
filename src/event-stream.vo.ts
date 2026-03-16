@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const EventStreamError = {
   Type: "event.store.type",
@@ -6,9 +6,10 @@ export const EventStreamError = {
   TooLong: "event.stream.too.long",
 };
 
-export const EventStream = z
-  .string(EventStreamError.Type)
-  .min(1, EventStreamError.Empty)
-  .max(256, EventStreamError.TooLong);
+export const EventStream = v.pipe(
+  v.string(EventStreamError.Type),
+  v.minLength(1, EventStreamError.Empty),
+  v.maxLength(256, EventStreamError.TooLong),
+);
 
-export type EventStreamType = z.infer<typeof EventStream>;
+export type EventStreamType = v.InferOutput<typeof EventStream>;
