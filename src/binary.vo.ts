@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const BinaryError = {
   Type: "binary.type",
@@ -8,15 +8,15 @@ export const BinaryError = {
 };
 
 // One to sixty four letters, digits, hyphens, or underscores
-const CHARS_WHITELIST = /^[a-zA-Z0-9-_]{1,64}$/;
+const CHARS_WHITELIST = /^[a-zA-Z0-9_-]+$/;
 
-// Stryker disable all
-export const Binary = z
-  // Stryker restore all
-  .string(BinaryError.Type)
-  .min(1, BinaryError.Empty)
-  .max(64, BinaryError.TooLong)
-  .regex(CHARS_WHITELIST, BinaryError.BadChars)
-  .brand("Binary");
+export const Binary = v.pipe(
+  v.string(BinaryError.Type),
+  v.minLength(1, BinaryError.Empty),
+  v.maxLength(64, BinaryError.TooLong),
+  v.regex(CHARS_WHITELIST, BinaryError.BadChars),
+  // Stryker disable next-line StringLiteral
+  v.brand("Binary"),
+);
 
-export type BinaryType = z.infer<typeof Binary>;
+export type BinaryType = v.InferOutput<typeof Binary>;
