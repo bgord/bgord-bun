@@ -1,4 +1,3 @@
-import * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
@@ -11,10 +10,12 @@ type Dependencies = { IdProvider: IdProviderPort; Clock: ClockPort };
 export const EventEnvelopeSchema = {
   id: UUID,
   correlationId: UUID,
-  createdAt: tools.TimestampValue,
+  // TODO
+  createdAt: z.number(),
   stream: EventStream,
   version: z.literal(1),
-  revision: tools.RevisionValue.optional(),
+  // TODO
+  revision: z.number().optional(),
 };
 
 export const createEventEnvelope = (stream: EventStreamType, deps: Dependencies) =>
