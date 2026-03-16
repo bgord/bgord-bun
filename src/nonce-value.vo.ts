@@ -6,11 +6,10 @@ export const NonceValueError = {
 };
 
 // 16 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
+const CHARS_WHITELIST = /^[a-fA-F0-9]{16}$/;
 
 export const NonceValue = v.pipe(
   v.string(NonceValueError.Type),
-  v.length(16, NonceValueError.InvalidHex),
   v.regex(CHARS_WHITELIST, NonceValueError.InvalidHex),
   // Stryker disable next-line StringLiteral
   v.brand("NonceValue"),

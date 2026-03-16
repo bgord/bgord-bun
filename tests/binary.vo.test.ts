@@ -24,7 +24,7 @@ describe("Binary", () => {
   });
 
   test("rejects empty", () => {
-    expect(() => v.parse(Binary, ""));
+    expect(() => v.parse(Binary, "")).toThrow("binary.empty");
   });
 
   test("rejects too long", () => {

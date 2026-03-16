@@ -6,13 +6,13 @@ export const HistoryPayloadParsedError = {
   NotSerializable: "history.payload.parsed.not.serializable",
 };
 
+// Stryker disable BlockStatement
 export const HistoryPayloadParsed = v.pipe(
   HistoryPayload,
   v.check((value) => {
     try {
       JSON.stringify(value);
       return true;
-      // Stryker disable next-line BlockStatement
     } catch {
       return false;
     }

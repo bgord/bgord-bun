@@ -6,11 +6,10 @@ export const EncryptionKeyValueError = {
 };
 
 // 64 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
+const CHARS_WHITELIST = /^[a-fA-F0-9]{64}$/;
 
 export const EncryptionKeyValue = v.pipe(
   v.string(EncryptionKeyValueError.Type),
-  v.length(64, EncryptionKeyValueError.InvalidHex),
   v.regex(CHARS_WHITELIST, EncryptionKeyValueError.InvalidHex),
   // Stryker disable next-line StringLiteral
   v.brand("EncryptionKeyValue"),
