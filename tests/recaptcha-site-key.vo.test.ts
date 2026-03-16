@@ -1,25 +1,26 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { RecaptchaSiteKey } from "../src/recaptcha-site-key.vo";
 
 describe("RecaptchaSiteKey", () => {
   test("happy path", () => {
-    expect(RecaptchaSiteKey.safeParse("a".repeat(40)).success).toEqual(true);
-    expect(RecaptchaSiteKey.safeParse("A".repeat(40)).success).toEqual(true);
+    expect(v.safeParse(RecaptchaSiteKey, "a".repeat(40)).success).toEqual(true);
+    expect(v.safeParse(RecaptchaSiteKey, "A".repeat(40)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
-    expect(() => RecaptchaSiteKey.parse(null)).toThrow("recaptcha.site.key.type");
+    expect(() => v.parse(RecaptchaSiteKey, null)).toThrow("recaptcha.site.key.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => RecaptchaSiteKey.parse(123)).toThrow("recaptcha.site.key.type");
+    expect(() => v.parse(RecaptchaSiteKey, 123)).toThrow("recaptcha.site.key.type");
   });
 
   test("rejects empty", () => {
-    expect(() => RecaptchaSiteKey.parse("")).toThrow("recaptcha.site.key.length");
+    expect(() => v.parse(RecaptchaSiteKey, "")).toThrow("recaptcha.site.key.length");
   });
 
   test("rejects too long", () => {
-    expect(() => RecaptchaSiteKey.parse(`${"a".repeat(40)}a`)).toThrow("recaptcha.site.key.length");
+    expect(() => v.parse(RecaptchaSiteKey, `${"a".repeat(40)}a`)).toThrow("recaptcha.site.key.length");
   });
 });
