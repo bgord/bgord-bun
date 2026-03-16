@@ -1,9 +1,12 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const ClientIpError = { Invalid: "client.ip.invalid" };
 
-// Stryker disable all
-export const ClientIp = z.ipv4(ClientIpError.Invalid).brand("ClientIp");
-// Stryker restore all
+export const ClientIp = v.pipe(
+  v.string(ClientIpError.Invalid),
+  v.ipv4(ClientIpError.Invalid),
+  // Stryker disable next-line StringLiteral
+  v.brand("ClientIp"),
+);
 
-export type ClientIpType = z.infer<typeof ClientIp>;
+export type ClientIpType = v.InferOutput<typeof ClientIp>;
