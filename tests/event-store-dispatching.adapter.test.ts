@@ -4,17 +4,17 @@ import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventStoreDispatchingAdapter } from "../src/event-store-dispatching.adapter";
-import { EventValidatorRegistryZodAdapter } from "../src/event-validator-registry-zod.adapter";
+import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
 import * as System from "../src/modules/system";
 import * as mocks from "./mocks";
 
 type PassageOfTimeEvent = System.Events.HourHasPassedEventType | System.Events.MinuteHasPassedEventType;
 
-const registry = new EventValidatorRegistryZodAdapter<PassageOfTimeEvent>([
-  System.Events.HourHasPassedEvent,
-  System.Events.MinuteHasPassedEvent,
-]);
+const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
+  [System.Events.HOUR_HAS_PASSED_EVENT]: System.Events.HourHasPassedEvent,
+  [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
+});
 
 const inserter = new EventInserterNoopAdapter();
 const serializer = new EventSerializerJsonAdapter();

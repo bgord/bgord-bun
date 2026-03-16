@@ -1,15 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import { EventStoreNoopAdapter } from "../src/event-store-noop.adapter";
-import { EventValidatorRegistryZodAdapter } from "../src/event-validator-registry-zod.adapter";
+import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import * as System from "../src/modules/system";
 import * as mocks from "./mocks";
 
 type PassageOfTimeEvent = System.Events.HourHasPassedEventType | System.Events.MinuteHasPassedEventType;
 
-const registry = new EventValidatorRegistryZodAdapter<PassageOfTimeEvent>([
-  System.Events.HourHasPassedEvent,
-  System.Events.MinuteHasPassedEvent,
-]);
+const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
+  [System.Events.HOUR_HAS_PASSED_EVENT]: System.Events.HourHasPassedEvent,
+  [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
+});
 
 const store = new EventStoreNoopAdapter<PassageOfTimeEvent>();
 
