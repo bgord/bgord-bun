@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const SmtpHostError = {
   Type: "smtp.host.type",
@@ -6,12 +6,12 @@ export const SmtpHostError = {
   TooLong: "smtp.host.too.long",
 };
 
-// Stryker disable all
-export const SmtpHost = z
-  // Stryker restore all
-  .string(SmtpHostError.Type)
-  .min(1, SmtpHostError.Empty)
-  .max(128, SmtpHostError.TooLong)
-  .brand("SmtpHost");
+export const SmtpHost = v.pipe(
+  v.string(SmtpHostError.Type),
+  v.minLength(1, SmtpHostError.Empty),
+  v.maxLength(128, SmtpHostError.TooLong),
+  // Stryker disable next-line StringLiteral
+  v.brand("SmtpHost"),
+);
 
-export type SmtpHostType = z.infer<typeof SmtpHost>;
+export type SmtpHostType = v.InferOutput<typeof SmtpHost>;
