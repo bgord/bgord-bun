@@ -4,12 +4,16 @@ import * as z from "zod/v4";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
+import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 
-const Schema = z.object({ APP_NAME: z.string() });
+const Env = z.object({ APP_NAME: z.string("app.name.invalid") });
+type EnvType = z.infer<typeof Env>;
+
+const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => Env.parse(data) };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 
@@ -28,7 +32,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
     const subject = await resolver.resolve();
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
       { ...process.env, APP_NAME: "MyApp" },
-      { type: NodeEnvironmentEnum.local, Schema },
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
       deps,
     );
 
@@ -53,11 +57,11 @@ describe("EnvironmentLoaderProcessSafe", () => {
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
       // @ts-expect-error Changed schema assertion
       { ...process.env, APP_NAME: 123 },
-      { type: "invalid", Schema },
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
       deps,
     );
 
-    expect(async () => adapter.load()).toThrow();
+    expect(async () => adapter.load()).toThrow("app.name.invalid");
 
     await CacheResolver.flush();
   });

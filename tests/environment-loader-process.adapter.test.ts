@@ -1,14 +1,18 @@
 import { describe, expect, test } from "bun:test";
 import * as z from "zod/v4";
 import { EnvironmentLoaderProcessAdapter } from "../src/environment-loader-process.adapter";
+import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
-const Schema = z.object({ APP_NAME: z.string() });
+const Env = z.object({ APP_NAME: z.string("app.name.invalid") });
+type EnvType = z.infer<typeof Env>;
+
+const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => Env.parse(data) };
 
 describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
     const adapter = new EnvironmentLoaderProcessAdapter(
-      { type: NodeEnvironmentEnum.local, Schema },
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
       { ...process.env, APP_NAME: "MyApp" },
     );
 
@@ -27,10 +31,10 @@ describe("EnvironmentLoaderProcess", () => {
     expect(
       async () =>
         await new EnvironmentLoaderProcessAdapter(
+          { type: NodeEnvironmentEnum.local, EnvironmentSchema },
           // @ts-expect-error Changed schema assertion
-          { type: "invalid", Schema },
           { ...process.env, APP_NAME: 123 },
         ).load(),
-    ).toThrow();
+    ).toThrow("app.name.invalid");
   });
 });

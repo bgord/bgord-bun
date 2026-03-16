@@ -3,21 +3,22 @@ import * as tools from "@bgord/tools";
 import * as z from "zod/v4";
 import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 import { EnvironmentLoaderEncryptedAdapter } from "../src/environment-loader-encrypted.adapter";
+import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+
+const Env = z.object({ APP_NAME: z.string("app.name.invalid") });
+type EnvType = z.infer<typeof Env>;
+
+const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => Env.parse(data) };
+
+const config = { type: NodeEnvironmentEnum.local, EnvironmentSchema };
 
 const path = tools.FilePathAbsolute.fromString("/config/secrets.txt");
 const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
-const SchemaError = { InvalidAppName: "schema.app.name.invalid" };
-
-const config = {
-  type: NodeEnvironmentEnum.local,
-  Schema: z.object({ APP_NAME: z.string(SchemaError.InvalidAppName) }),
-  path,
-};
 
 describe("EnvironmentLoaderProcess", () => {
   test("happy path", async () => {
-    const result = await new EnvironmentLoaderEncryptedAdapter(config, {
+    const result = await new EnvironmentLoaderEncryptedAdapter(path, config, {
       Encryption: new EncryptionNoopAdapter(env),
     }).load();
 
@@ -28,9 +29,9 @@ describe("EnvironmentLoaderProcess", () => {
   test("failure", () => {
     expect(
       async () =>
-        await new EnvironmentLoaderEncryptedAdapter(config, {
+        await new EnvironmentLoaderEncryptedAdapter(path, config, {
           Encryption: new EncryptionNoopAdapter(),
         }).load(),
-    ).toThrow(SchemaError.InvalidAppName);
+    ).toThrow("app.name.invalid");
   });
 });
