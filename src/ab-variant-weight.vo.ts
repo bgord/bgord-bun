@@ -1,13 +1,14 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const AbVariantWeightErrors = { MinMax: "ab.variant.weight.min.max" };
 
-// Stryker disable all
-export const AbVariantWeight = z
-  // Stryker restore all
-  .int(AbVariantWeightErrors.MinMax)
-  .gte(1, AbVariantWeightErrors.MinMax)
-  .lte(99, AbVariantWeightErrors.MinMax)
-  .brand("AbVariantWeight");
+export const AbVariantWeight = v.pipe(
+  v.number(AbVariantWeightErrors.MinMax),
+  v.integer(AbVariantWeightErrors.MinMax),
+  v.minValue(1, AbVariantWeightErrors.MinMax),
+  v.maxValue(99, AbVariantWeightErrors.MinMax),
+  // Stryker disable next-line StringLiteral
+  v.brand("AbVariantWeight"),
+);
 
-export type AbVariantWeightType = z.infer<typeof AbVariantWeight>;
+export type AbVariantWeightType = v.InferOutput<typeof AbVariantWeight>;
