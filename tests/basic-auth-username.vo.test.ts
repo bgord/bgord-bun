@@ -1,25 +1,26 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { BasicAuthUsername } from "../src/basic-auth-username.vo";
 
 describe("BasicAuthUsername", () => {
   test("happy path", () => {
-    expect(BasicAuthUsername.safeParse("a".repeat(128)).success).toEqual(true);
-    expect(BasicAuthUsername.safeParse("A".repeat(128)).success).toEqual(true);
+    expect(v.safeParse(BasicAuthUsername, "a".repeat(128)).success).toEqual(true);
+    expect(v.safeParse(BasicAuthUsername, "A".repeat(128)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
-    expect(() => BasicAuthUsername.parse(null)).toThrow("basic.auth.username.type");
+    expect(() => v.parse(BasicAuthUsername, null)).toThrow("basic.auth.username.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => BasicAuthUsername.parse(123)).toThrow("basic.auth.username.type");
+    expect(() => v.parse(BasicAuthUsername, 123)).toThrow("basic.auth.username.type");
   });
 
   test("rejects empty", () => {
-    expect(() => BasicAuthUsername.parse("")).toThrow("basic.auth.username.empty");
+    expect(() => v.parse(BasicAuthUsername, "")).toThrow("basic.auth.username.empty");
   });
 
   test("rejects too long", () => {
-    expect(() => BasicAuthUsername.parse(`${"a".repeat(128)}a`)).toThrow("basic.auth.username.too.long");
+    expect(() => v.parse(BasicAuthUsername, `${"a".repeat(128)}a`)).toThrow("basic.auth.username.too.long");
   });
 });
