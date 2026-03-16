@@ -1,5 +1,4 @@
 import type * as tools from "@bgord/tools";
-import * as z from "zod/v4";
 import type { CorrelationIdType } from "./correlation-id.vo";
 import type { NormalizedError } from "./error-normalizer.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -15,7 +14,6 @@ export enum LogLevelEnum {
   debug = "debug",
   silly = "silly",
 }
-export const LogLevel = z.enum(LogLevelEnum);
 
 export type LogCoreType = {
   timestamp: string;
