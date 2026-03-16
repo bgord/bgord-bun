@@ -1,15 +1,16 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { FileDraft } from "../src/file-draft.service";
 import { FileDraftZip } from "../src/file-draft-zip.service";
 import * as mocks from "./mocks";
 
-const bundle = tools.Basename.parse("bundle");
-const extension = tools.Extension.parse("csv");
+const bundle = v.parse(tools.Basename, "bundle");
+const extension = v.parse(tools.Extension, "csv");
 
-const first = tools.Basename.parse("first.csv");
-const second = tools.Basename.parse("second.csv");
+const first = v.parse(tools.Basename, "first.csv");
+const second = v.parse(tools.Basename, "second.csv");
 
 const content = "content";
 
@@ -29,7 +30,7 @@ class Draft extends FileDraft {
 
 class FailingDraft extends FileDraft {
   constructor() {
-    super(tools.Basename.parse("fail"), tools.Extension.parse("txt"), tools.Mimes.text.mime);
+    super(v.parse(tools.Basename, "fail"), v.parse(tools.Extension, "txt"), tools.Mimes.text.mime);
   }
 
   async create(): Promise<BodyInit> {
@@ -104,8 +105,8 @@ describe("FileDraftZip", () => {
   test("toResponse - endpoint", async () => {
     const app = new Hono().get("/export", async () => {
       const zip = await FileDraftZip.build(bundle, [
-        new Draft(tools.Basename.parse("first.csv"), extension, "a"),
-        new Draft(tools.Basename.parse("second.csv"), extension, "b"),
+        new Draft(v.parse(tools.Basename, "first.csv"), extension, "a"),
+        new Draft(v.parse(tools.Basename, "second.csv"), extension, "b"),
       ]);
 
       return zip.toResponse();

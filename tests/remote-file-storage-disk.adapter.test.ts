@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { DirectoryEnsurerNoopAdapter } from "../src/directory-ensurer-noop.adapter";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
@@ -14,8 +15,8 @@ const hash = {
   lastModified: tools.Timestamp.fromNumber(1000),
   mime: tools.Mimes.text.mime,
 };
-const root = tools.DirectoryPathAbsoluteSchema.parse("/root");
-const key = tools.ObjectKey.parse("users/1/avatar.webp");
+const root = v.parse(tools.DirectoryPathAbsoluteSchema, "/root");
+const key = v.parse(tools.ObjectKey, "users/1/avatar.webp");
 
 const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
@@ -44,7 +45,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
     expect(fileRenamerRename).toHaveBeenCalledWith(temporary, final);
     expect(fileHashHash).toHaveBeenCalledTimes(1);
     expect(output.etag).toEqual(hash.etag);
-    expect(output.size.toBytes()).toEqual(tools.SizeBytes.parse(42));
+    expect(output.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 42));
   });
 
   test("head", async () => {

@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
@@ -14,8 +15,8 @@ import { SmtpUser } from "../src/smtp-user.vo";
 import * as mocks from "./mocks";
 
 const config = {
-  from: tools.Email.parse("sender@example.com"),
-  to: tools.Email.parse("recipient@example.com"),
+  from: v.parse(tools.Email, "sender@example.com"),
+  to: v.parse(tools.Email, "recipient@example.com"),
 };
 const message = {
   subject: MailerSubject.parse("Test Email"),

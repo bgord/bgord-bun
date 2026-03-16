@@ -1,6 +1,7 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { ShieldTimeoutError, ShieldTimeoutHonoStrategy } from "../src/shield-timeout-hono.strategy";
 
 const duration = tools.Duration.Ms(5);
@@ -22,7 +23,7 @@ describe("ShieldTimeoutStrategy", () => {
     const app = new Hono()
       .use(new ShieldTimeoutHonoStrategy(duration).handle())
       .get("/ping", async (c) => {
-        jest.advanceTimersByTime(duration.times(tools.MultiplicationFactor.parse(2)).ms);
+        jest.advanceTimersByTime(duration.times(v.parse(tools.MultiplicationFactor, 2)).ms);
         return c.text("OK");
       })
       .onError((error, c) => {

@@ -1,10 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierDirectoryAdapter } from "../src/prerequisite-verifier-directory.adapter";
 
-const directory = tools.DirectoryPathAbsoluteSchema.parse("/var/app/uploads");
+const directory = v.parse(tools.DirectoryPathAbsoluteSchema, "/var/app/uploads");
 
 describe("PrerequisiteVerifierDirectoryAdapter", () => {
   test("success - all", async () => {

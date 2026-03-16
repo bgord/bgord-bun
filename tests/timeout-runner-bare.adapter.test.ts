@@ -1,11 +1,12 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import * as mocks from "./mocks";
 
 const immediate = async () => 2;
 const timeout = tools.Duration.MIN;
-const over = timeout.times(tools.MultiplicationFactor.parse(10)).ms;
+const over = timeout.times(v.parse(tools.MultiplicationFactor, 10)).ms;
 const adapter = new TimeoutRunnerBareAdapter();
 
 describe("TimeoutRunnerBareAdapter", () => {

@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageFormatterStrategy } from "../src/image-formatter.port";
@@ -29,7 +30,7 @@ describe("ImageFormatterSharpAdapter", () => {
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
-    const to = tools.Extension.parse("webp");
+    const to = v.parse(tools.Extension, "webp");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
     const adapter = await ImageFormatterSharpAdapter.build(deps);
 
@@ -54,7 +55,11 @@ describe("ImageFormatterSharpAdapter", () => {
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathAbsolute.fromString("/var/in/img.png");
-    const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to: tools.Extension.parse("png") };
+    const recipe: ImageFormatterStrategy = {
+      strategy: "in_place",
+      input,
+      to: v.parse(tools.Extension, "png"),
+    };
     const adapter = await ImageFormatterSharpAdapter.build(deps);
 
     const result = await adapter.format(recipe);
@@ -123,7 +128,7 @@ describe("ImageFormatterSharpAdapter", () => {
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
     const input = tools.FilePathRelative.fromString("images/pic.png");
-    const to = tools.Extension.parse("jpeg");
+    const to = v.parse(tools.Extension, "jpeg");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
     const adapter = await ImageFormatterSharpAdapter.build(deps);
 

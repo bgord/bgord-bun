@@ -1,8 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { TemporaryFileNoopAdapter } from "../src/temporary-file-noop.adapter";
 
-const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
+const directory = v.parse(tools.DirectoryPathAbsoluteSchema, "/tmp/bgord-tests");
 const filename = tools.Filename.fromString("avatar.webp");
 const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
 

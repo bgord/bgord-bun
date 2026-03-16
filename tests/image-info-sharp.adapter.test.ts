@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { ImageInfoSharpAdapter } from "../src/image-info-sharp.adapter";
 import * as mocks from "./mocks";
@@ -9,8 +10,8 @@ const instance = { metadata: async () => ({}), destroy: () => {} };
 const input = tools.FilePathAbsolute.fromString("/var/uploads/avatar.jpeg");
 
 const jpegMime = tools.Mime.fromString("image/jpeg");
-const jpgExtension = tools.Extension.parse("jpg");
-const jpegExtension = tools.Extension.parse("jpeg");
+const jpgExtension = v.parse(tools.Extension, "jpg");
+const jpegExtension = v.parse(tools.Extension, "jpeg");
 
 const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
 const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgExtension, jpegExtension] }]);
@@ -33,8 +34,8 @@ describe("ImageInfoSharpAdapter", () => {
 
     const info = await adapter.inspect(input);
 
-    expect(info.width).toEqual(tools.ImageWidth.parse(120));
-    expect(info.height).toEqual(tools.ImageHeight.parse(80));
+    expect(info.width).toEqual(v.parse(tools.ImageWidth, 120));
+    expect(info.height).toEqual(v.parse(tools.ImageHeight, 80));
     expect(info.mime).toEqual(tools.Mimes.jpg.mime);
     expect(info.size).toEqual(size);
     expect(metadata).toHaveBeenCalledTimes(1);
@@ -53,8 +54,8 @@ describe("ImageInfoSharpAdapter", () => {
 
     const info = await adapter.inspect(input);
 
-    expect(info.width).toEqual(tools.ImageWidth.parse(64));
-    expect(info.height).toEqual(tools.ImageHeight.parse(64));
+    expect(info.width).toEqual(v.parse(tools.ImageWidth, 64));
+    expect(info.height).toEqual(v.parse(tools.ImageHeight, 64));
     expect(info.mime).toEqual(tools.Mimes.jpg.mime);
     expect(info.size).toEqual(size);
     expect(metadata).toHaveBeenCalledTimes(1);

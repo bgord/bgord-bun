@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileInspectionAdapter } from "../src/file-inspection.adapter";
 import * as mocks from "./mocks";
 
@@ -188,7 +189,7 @@ describe("FileInspectionAdapter", () => {
   test("isDirectory - true - relative", async () => {
     // @ts-expect-error Partial access
     using fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => true }));
-    const relative = tools.DirectoryPathRelativeSchema.parse("users");
+    const relative = v.parse(tools.DirectoryPathRelativeSchema, "users");
 
     expect(await adapter.isDirectory(relative)).toEqual(true);
     expect(fsStat).toHaveBeenCalledWith("users");
@@ -197,7 +198,7 @@ describe("FileInspectionAdapter", () => {
   test("isDirectory - true - absolute", async () => {
     // @ts-expect-error Partial access
     using fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => true }));
-    const absolute = tools.DirectoryPathAbsoluteSchema.parse("/users");
+    const absolute = v.parse(tools.DirectoryPathAbsoluteSchema, "/users");
 
     expect(await adapter.isDirectory(absolute)).toEqual(true);
     expect(fsStat).toHaveBeenCalledWith("/users");
@@ -205,7 +206,7 @@ describe("FileInspectionAdapter", () => {
 
   test("isDirectory - false - error - relative", async () => {
     using fsStat = spyOn(fs, "stat").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const relative = tools.DirectoryPathRelativeSchema.parse("users");
+    const relative = v.parse(tools.DirectoryPathRelativeSchema, "users");
 
     expect(await adapter.isDirectory(relative)).toEqual(false);
     expect(fsStat).toHaveBeenCalledWith("users");
@@ -213,7 +214,7 @@ describe("FileInspectionAdapter", () => {
 
   test("isDirectory - false - error - absolute", async () => {
     using fsStat = spyOn(fs, "stat").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const absolute = tools.DirectoryPathAbsoluteSchema.parse("/users");
+    const absolute = v.parse(tools.DirectoryPathAbsoluteSchema, "/users");
 
     expect(await adapter.isDirectory(absolute)).toEqual(false);
     expect(fsStat).toHaveBeenCalledWith("/users");
@@ -222,7 +223,7 @@ describe("FileInspectionAdapter", () => {
   test("isDirectory - false - not a directory - relative", async () => {
     // @ts-expect-error Partial access
     using fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => false }));
-    const relative = tools.DirectoryPathRelativeSchema.parse("users");
+    const relative = v.parse(tools.DirectoryPathRelativeSchema, "users");
 
     expect(await adapter.isDirectory(relative)).toEqual(false);
     expect(fsStat).toHaveBeenCalledWith("users");
@@ -231,7 +232,7 @@ describe("FileInspectionAdapter", () => {
   test("isDirectory - false - not a directory - absolute", async () => {
     // @ts-expect-error Partial access
     using fsStat = spyOn(fs, "stat").mockImplementation(async () => ({ isDirectory: () => false }));
-    const absolute = tools.DirectoryPathAbsoluteSchema.parse("/users");
+    const absolute = v.parse(tools.DirectoryPathAbsoluteSchema, "/users");
 
     expect(await adapter.isDirectory(absolute)).toEqual(false);
     expect(fsStat).toHaveBeenCalledWith("/users");

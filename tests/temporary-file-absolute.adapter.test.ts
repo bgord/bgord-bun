@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
@@ -9,7 +10,7 @@ import * as mocks from "./mocks";
 const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
   type: "application/octet-stream",
 });
-const directory = tools.DirectoryPathAbsoluteSchema.parse("/tmp/bgord-tests");
+const directory = v.parse(tools.DirectoryPathAbsoluteSchema, "/tmp/bgord-tests");
 const filename = tools.Filename.fromString("avatar.webp");
 const partial = tools.FilePathAbsolute.fromPartsSafe(directory, filename.withSuffix("-part"));
 const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);

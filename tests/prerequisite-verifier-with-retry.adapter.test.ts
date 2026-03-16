@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithRetryAdapter } from "../src/prerequisite-verifier-with-retry.adapter";
 import { RetryBackoffExponentialStrategy } from "../src/retry-backoff-exponential.strategy";
@@ -7,7 +8,7 @@ import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
-const max = tools.IntegerPositive.parse(3);
+const max = v.parse(tools.IntegerPositive, 3);
 const backoff = new RetryBackoffNoopStrategy();
 const base = tools.Duration.MIN;
 const exponential = new RetryBackoffExponentialStrategy(base);
@@ -54,16 +55,16 @@ describe("PrerequisiteVerifierWithRetryAdapter", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     using failVerify = spyOn(fail, "verify");
     const prerequisite = new PrerequisiteVerifierWithRetryAdapter(
-      { inner: fail, retry: { max: tools.IntegerPositive.parse(5), backoff: exponential } },
+      { inner: fail, retry: { max: v.parse(tools.IntegerPositive, 5), backoff: exponential } },
       { Sleeper },
     );
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(mocks.IntentionalError));
     expect(failVerify).toHaveBeenCalledTimes(5);
-    expect(sleeperWait).toHaveBeenNthCalledWith(1, base.times(tools.MultiplicationFactor.parse(1)));
-    expect(sleeperWait).toHaveBeenNthCalledWith(2, base.times(tools.MultiplicationFactor.parse(2)));
-    expect(sleeperWait).toHaveBeenNthCalledWith(3, base.times(tools.MultiplicationFactor.parse(4)));
-    expect(sleeperWait).toHaveBeenNthCalledWith(4, base.times(tools.MultiplicationFactor.parse(8)));
+    expect(sleeperWait).toHaveBeenNthCalledWith(1, base.times(v.parse(tools.MultiplicationFactor, 1)));
+    expect(sleeperWait).toHaveBeenNthCalledWith(2, base.times(v.parse(tools.MultiplicationFactor, 2)));
+    expect(sleeperWait).toHaveBeenNthCalledWith(3, base.times(v.parse(tools.MultiplicationFactor, 4)));
+    expect(sleeperWait).toHaveBeenNthCalledWith(4, base.times(v.parse(tools.MultiplicationFactor, 8)));
   });
 
   test("preserves kind", () => {

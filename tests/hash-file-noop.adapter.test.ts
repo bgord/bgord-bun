@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { Hash } from "../src/hash.vo";
 import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
 
@@ -14,7 +15,7 @@ describe("HashContentNoopAdapter", () => {
     expect(result.etag).toEqual(
       Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
     );
-    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(10));
+    expect(result.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 10));
     expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(1000));
     expect(result.mime.toString()).toEqual("text/plain");
   });
@@ -27,7 +28,7 @@ describe("HashContentNoopAdapter", () => {
     expect(result.etag).toEqual(
       Hash.fromString("0000000000000000000000000000000000000000000000000000000000000000"),
     );
-    expect(result.size.toBytes()).toEqual(tools.SizeBytes.parse(10));
+    expect(result.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 10));
     expect(result.lastModified).toEqual(tools.Timestamp.fromNumber(1000));
     expect(result.mime.toString()).toEqual("text/plain");
   });

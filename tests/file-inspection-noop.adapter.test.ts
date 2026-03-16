@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 
 const string = "package.json";
@@ -58,13 +59,13 @@ describe("FileInspectionNoopAdapter", () => {
   });
 
   test("isDirectory - relative", async () => {
-    const relative = tools.DirectoryPathRelativeSchema.parse("users");
+    const relative = v.parse(tools.DirectoryPathRelativeSchema, "users");
 
     expect(await adapter.isDirectory(relative)).toEqual(true);
   });
 
   test("isDirectory - absolute", async () => {
-    const absolute = tools.DirectoryPathAbsoluteSchema.parse("/users");
+    const absolute = v.parse(tools.DirectoryPathAbsoluteSchema, "/users");
 
     expect(await adapter.isDirectory(absolute)).toEqual(true);
   });

@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
@@ -18,6 +19,8 @@ const pipeline = {
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const deps = { FileCleaner, FileRenamer };
+
+const maxSide = v.parse(tools.ImageWidth, 512);
 
 describe("ImageProcessorSharpAdapter", () => {
   test("in_place", async () => {
@@ -38,9 +41,9 @@ describe("ImageProcessorSharpAdapter", () => {
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
-      maxSide: tools.ImageWidth.parse(256),
-      to: tools.Extension.parse("webp"),
-      quality: tools.IntegerPositive.parse(72),
+      maxSide,
+      to: v.parse(tools.Extension, "webp"),
+      quality: v.parse(tools.IntegerPositive, 72),
       background: "#FFFFFF",
     };
     const adapter = await ImageProcessorSharpAdapter.build(deps);
@@ -54,7 +57,7 @@ describe("ImageProcessorSharpAdapter", () => {
     const [options] = resize.mock.calls[0];
 
     expect(resize).toHaveBeenCalledTimes(1);
-    expect(options).toMatchObject({ width: 256, height: 256, fit: "inside", withoutEnlargement: true });
+    expect(options).toMatchObject({ width: 512, height: 512, fit: "inside", withoutEnlargement: true });
 
     // @ts-expect-error Partial access
     const [format, opts] = toFormat.mock.calls[0];
@@ -85,8 +88,8 @@ describe("ImageProcessorSharpAdapter", () => {
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
-      maxSide: tools.ImageWidth.parse(100),
-      to: tools.Extension.parse("png"),
+      maxSide,
+      to: v.parse(tools.Extension, "png"),
     };
     const adapter = await ImageProcessorSharpAdapter.build(deps);
 
@@ -118,8 +121,8 @@ describe("ImageProcessorSharpAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      maxSide: tools.ImageWidth.parse(512),
-      to: tools.Extension.parse("jpg"),
+      maxSide,
+      to: v.parse(tools.Extension, "jpg"),
     };
     const adapter = await ImageProcessorSharpAdapter.build(deps);
 
