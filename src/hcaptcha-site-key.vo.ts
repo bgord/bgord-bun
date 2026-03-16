@@ -1,12 +1,12 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const HCaptchaSiteKeyError = { Type: "hcaptcha.site.key.type", Length: "hcaptcha.site.key.length" };
 
-// Stryker disable all
-export const HCaptchaSiteKey = z
-  // Stryker restore all
-  .string(HCaptchaSiteKeyError.Type)
-  .length(36, HCaptchaSiteKeyError.Length)
-  .brand("HCaptchaSiteKey");
+export const HCaptchaSiteKey = v.pipe(
+  v.string(HCaptchaSiteKeyError.Type),
+  v.length(36, HCaptchaSiteKeyError.Length),
+  // Stryker disable next-line StringLiteral
+  v.brand("HCaptchaSiteKey"),
+);
 
-export type HCaptchaSiteKeyType = z.infer<typeof HCaptchaSiteKey>;
+export type HCaptchaSiteKeyType = v.InferOutput<typeof HCaptchaSiteKey>;
