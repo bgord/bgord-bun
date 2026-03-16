@@ -1,11 +1,12 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { TimeoutRunnerMonitorAdapter } from "../src/timeout-runner-monitor.adapter";
 
 const timeout = tools.Duration.MIN;
 
-const over = timeout.times(tools.MultiplicationFactor.parse(10)).ms;
+const over = timeout.times(v.parse(tools.MultiplicationFactor, 10)).ms;
 
 describe("TimeoutRunnerMonitorAdapter", () => {
   test("monitor - under timeout", async () => {

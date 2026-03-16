@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
@@ -84,7 +85,7 @@ describe("HealthcheckHandler", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: tools.IntegerNonNegative.parse(1),
+        cpus: v.parse(tools.IntegerNonNegative, 1),
         startup: expect.any(Number),
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -98,7 +99,7 @@ describe("HealthcheckHandler", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: tools.Integer.parse(0),
+        inFlight: v.parse(tools.Integer, 0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
@@ -144,7 +145,7 @@ describe("HealthcheckHandler", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: tools.IntegerNonNegative.parse(1),
+        cpus: v.parse(tools.IntegerNonNegative, 1),
         startup: expect.any(Number),
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -158,7 +159,7 @@ describe("HealthcheckHandler", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: tools.Integer.parse(0),
+        inFlight: v.parse(tools.Integer, 0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
@@ -185,7 +186,7 @@ describe("HealthcheckHandler", () => {
         prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
         redactor: new RedactorComposite([
           new RedactorErrorStackHide(),
-          new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
+          new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
         ]),
       },
       deps,
@@ -204,7 +205,7 @@ describe("HealthcheckHandler", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: tools.IntegerNonNegative.parse(1),
+        cpus: v.parse(tools.IntegerNonNegative, 1),
         startup: expect.any(Number),
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -218,7 +219,7 @@ describe("HealthcheckHandler", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: tools.Integer.parse(0),
+        inFlight: v.parse(tools.Integer, 0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },

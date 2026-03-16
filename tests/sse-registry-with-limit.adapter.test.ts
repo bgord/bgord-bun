@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
 import { SseRegistryWithLimitAdapter } from "../src/sse-registry-with-limit.adapter";
@@ -13,7 +14,7 @@ const deps = { HashContent };
 
 const resolver = new SubjectRequestResolver([new SubjectSegmentUserStrategy()], deps);
 
-const limit = tools.IntegerPositive.parse(2);
+const limit = v.parse(tools.IntegerPositive, 2);
 
 describe("SseRegistryWithLimitAdapter", async () => {
   const context = new RequestContextBuilder().withUserId(mocks.userId).build();

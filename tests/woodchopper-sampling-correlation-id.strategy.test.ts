@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchoperSamplingCorrelationId } from "../src/woodchopper-sampling-correlation-id.strategy";
@@ -26,7 +27,7 @@ const entryWithoutCorrelation = {
   correlationId: undefined,
 };
 
-const two = tools.IntegerPositive.parse(2);
+const two = v.parse(tools.IntegerPositive, 2);
 
 describe("WoodchoperSamplingCorrelationId", () => {
   test("decide - determinism", () => {

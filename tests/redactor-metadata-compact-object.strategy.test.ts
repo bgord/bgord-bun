@@ -1,12 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { RedactorMetadataCompactObject } from "../src/redactor-metadata-compact-object.strategy";
 
-const redactor = new RedactorMetadataCompactObject({ maxKeys: tools.IntegerPositive.parse(1) });
+const redactor = new RedactorMetadataCompactObject({ maxKeys: v.parse(tools.IntegerPositive, 1) });
 
 describe("RedactorMetadataCompactObject", () => {
   test("redact - default max keys", () => {
-    const redactor = new RedactorMetadataCompactObject({ maxKeys: tools.IntegerPositive.parse(1) });
+    const redactor = new RedactorMetadataCompactObject({ maxKeys: v.parse(tools.IntegerPositive, 1) });
 
     const result = redactor.redact({
       metadata: Object.fromEntries(Array.from({ length: 21 }).map((_, index) => [`user_${index}`, true])),

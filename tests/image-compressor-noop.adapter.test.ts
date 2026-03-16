@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type {
   ImageCompressorInPlaceStrategy,
   ImageCompressorOutputPathStrategy,
@@ -25,7 +26,7 @@ describe("ImageCompressorSharpAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      quality: tools.IntegerPositive.parse(73),
+      quality: v.parse(tools.IntegerPositive, 73),
     };
 
     const result = await adapter.compress(recipe);

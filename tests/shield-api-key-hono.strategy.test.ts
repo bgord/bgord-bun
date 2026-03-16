@@ -1,13 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
 import { ShieldApiKeyError, ShieldApiKeyHonoStrategy } from "../src/shield-api-key-hono.strategy";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const shield = new ShieldApiKeyHonoStrategy({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
+const shield = new ShieldApiKeyHonoStrategy({ API_KEY: v.parse(tools.ApiKey, VALID_API_KEY) });
 
 const app = new Hono()
   .use(shield.handle())

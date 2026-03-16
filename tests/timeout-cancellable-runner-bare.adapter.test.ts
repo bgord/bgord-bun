@@ -1,10 +1,11 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { TimeoutCancellableRunnerBare } from "../src/timeout-cancellable-runner-bare.adapter";
 import * as mocks from "./mocks";
 
 const timeout = tools.Duration.MIN;
-const over = timeout.times(tools.MultiplicationFactor.parse(10)).ms;
+const over = timeout.times(v.parse(tools.MultiplicationFactor, 10)).ms;
 const adapter = new TimeoutCancellableRunnerBare();
 
 describe("TimeoutCancellableRunnerBare", () => {

@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { FileReaderJsonForgivingAdapter } from "../src/file-reader-json-forgiving.adapter";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n } from "../src/i18n.service";
@@ -61,7 +62,7 @@ describe("I18n", () => {
 
   test("getTranslationPathForLanguage - custom path", () => {
     expect(
-      new I18n(deps, tools.DirectoryPathRelativeSchema.parse("custom/path"))
+      new I18n(deps, v.parse(tools.DirectoryPathRelativeSchema, "custom/path"))
         .getTranslationPathForLanguage(mocks.languages.supported.pl)
         .get(),
     ).toEqual(`custom/path/${mocks.languages.supported.pl}.json`);

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { InFlightRequestsMiddleware } from "../src/in-flight-requests.middleware";
 import { InFlightRequestsTracker } from "../src/in-flight-requests-tracker.service";
 
@@ -10,7 +11,7 @@ describe("InFlightRequestsMiddleware", () => {
 
     await middleware.evaluate();
 
-    expect(InFlightRequestsTracker.get()).toEqual(tools.Integer.parse(1));
+    expect(InFlightRequestsTracker.get()).toEqual(v.parse(tools.Integer, 1));
   });
 
   test("decrement", () => {
@@ -20,6 +21,6 @@ describe("InFlightRequestsMiddleware", () => {
     InFlightRequestsTracker.increment();
     middleware.cleanup();
 
-    expect(InFlightRequestsTracker.get()).toEqual(tools.Integer.parse(0));
+    expect(InFlightRequestsTracker.get()).toEqual(v.parse(tools.Integer, 0));
   });
 });

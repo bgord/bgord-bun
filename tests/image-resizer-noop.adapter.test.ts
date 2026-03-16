@@ -1,18 +1,16 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { ImageResizerInPlaceStrategy, ImageResizerOutputPathStrategy } from "../src/image-resizer.port";
 import { ImageResizerNoopAdapter } from "../src/image-resizer-noop.adapter";
 
+const maxSide = v.parse(tools.ImageWidth, 512);
 const adapter = new ImageResizerNoopAdapter();
 
 describe("ImageResizerSharpAdapter", () => {
   test("in_place", async () => {
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
-    const recipe: ImageResizerInPlaceStrategy = {
-      strategy: "in_place",
-      input,
-      maxSide: tools.ImageWidth.parse(512),
-    };
+    const recipe: ImageResizerInPlaceStrategy = { strategy: "in_place", input, maxSide };
 
     expect(await adapter.resize(recipe)).toEqual(input);
   });
@@ -20,23 +18,14 @@ describe("ImageResizerSharpAdapter", () => {
   test("output_path", async () => {
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
-    const recipe: ImageResizerOutputPathStrategy = {
-      strategy: "output_path",
-      input,
-      output,
-      maxSide: tools.ImageWidth.parse(256),
-    };
+    const recipe: ImageResizerOutputPathStrategy = { strategy: "output_path", input, output, maxSide };
 
     expect(await adapter.resize(recipe)).toEqual(output);
   });
 
   test("in_place - relative", async () => {
     const input = tools.FilePathRelative.fromString("images/pic.png");
-    const recipe: ImageResizerInPlaceStrategy = {
-      strategy: "in_place",
-      input,
-      maxSide: tools.ImageWidth.parse(128),
-    };
+    const recipe: ImageResizerInPlaceStrategy = { strategy: "in_place", input, maxSide };
 
     expect(await adapter.resize(recipe)).toEqual(input);
   });

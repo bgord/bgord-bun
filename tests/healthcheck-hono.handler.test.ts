@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
@@ -201,7 +202,7 @@ describe("HealthcheckHonoHandler", () => {
           prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
           redactor: new RedactorComposite([
             new RedactorErrorStackHide(),
-            new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
+            new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
           ]),
         },
         deps,

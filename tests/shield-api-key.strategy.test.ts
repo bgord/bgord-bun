@@ -1,12 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
 
-const strategy = new ShieldApiKeyStrategy({ API_KEY: tools.ApiKey.parse(VALID_API_KEY) });
+const strategy = new ShieldApiKeyStrategy({ API_KEY: v.parse(tools.ApiKey, VALID_API_KEY) });
 
 describe("ShieldApiKeyStrategy", () => {
   test("happy path", () => {

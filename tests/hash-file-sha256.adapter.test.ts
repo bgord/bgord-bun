@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import { Hash } from "../src/hash.vo";
@@ -8,8 +9,8 @@ import { HashFileSha256Adapter } from "../src/hash-file-sha256.adapter";
 import * as mocks from "./mocks";
 
 const jpegMime = tools.Mime.fromString("image/jpeg");
-const jpgExtension = tools.Extension.parse("jpg");
-const jpegExtension = tools.Extension.parse("jpeg");
+const jpgExtension = v.parse(tools.Extension, "jpg");
+const jpegExtension = v.parse(tools.Extension, "jpeg");
 
 const size = tools.Size.fromKb(1);
 const lastModified = mocks.TIME_ZERO;

@@ -1,8 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
 import { ImageProcessorNoopAdapter } from "../src/image-processor-noop.adapter";
 
+const maxSide = v.parse(tools.ImageWidth, 256);
 const adapter = new ImageProcessorNoopAdapter();
 
 describe("ImageProcessorNoopAdapter", () => {
@@ -11,9 +13,9 @@ describe("ImageProcessorNoopAdapter", () => {
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
-      maxSide: tools.ImageWidth.parse(256),
-      to: tools.Extension.parse("webp"),
-      quality: tools.IntegerPositive.parse(72),
+      maxSide,
+      to: v.parse(tools.Extension, "webp"),
+      quality: v.parse(tools.IntegerPositive, 72),
       background: "#FFFFFF",
     };
 
@@ -27,8 +29,8 @@ describe("ImageProcessorNoopAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      maxSide: tools.ImageWidth.parse(512),
-      to: tools.Extension.parse("jpg"),
+      maxSide,
+      to: v.parse(tools.Extension, "jpg"),
     };
 
     const result = await adapter.process(recipe);

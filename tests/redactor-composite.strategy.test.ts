@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { RedactorComposite } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
@@ -14,10 +15,10 @@ describe("RedactorComposite", () => {
     const redactor = new RedactorComposite([
       new RedactorNoop(),
       new RedactorMask(),
-      new RedactorMetadataCompactArray({ maxItems: tools.IntegerPositive.parse(2) }),
-      new RedactorMetadataCompactObject({ maxKeys: tools.IntegerPositive.parse(3) }),
+      new RedactorMetadataCompactArray({ maxItems: v.parse(tools.IntegerPositive, 2) }),
+      new RedactorMetadataCompactObject({ maxKeys: v.parse(tools.IntegerPositive, 3) }),
       new RedactorErrorStackHide(),
-      new RedactorErrorCauseDepthLimit(tools.IntegerNonNegative.parse(1)),
+      new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
     ]);
 
     const error = new Error(mocks.IntentionalError);

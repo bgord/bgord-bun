@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
@@ -18,6 +19,8 @@ const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Sleeper = new SleeperNoopAdapter();
 const TimeoutRunner = new TimeoutRunnerNoopAdapter();
 const HashContent = new HashContentSha256Strategy();
+
+const max = v.parse(tools.IntegerPositive, 3);
 
 describe("Prerequisite", () => {
   test("with logger - success", async () => {
@@ -179,10 +182,7 @@ describe("Prerequisite", () => {
         PrerequisiteDecorator.withCache("example", deps),
         PrerequisiteDecorator.withLogger(deps),
         PrerequisiteDecorator.withRetry(
-          {
-            max: tools.IntegerPositive.parse(3),
-            backoff: new RetryBackoffExponentialStrategy(tools.Duration.MIN),
-          },
+          { max, backoff: new RetryBackoffExponentialStrategy(tools.Duration.MIN) },
           deps,
         ),
         PrerequisiteDecorator.withFailSafe(
@@ -283,10 +283,7 @@ describe("Prerequisite", () => {
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
         PrerequisiteDecorator.withCache("example", deps),
-        PrerequisiteDecorator.withRetry(
-          { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },
-          deps,
-        ),
+        PrerequisiteDecorator.withRetry({ max, backoff: new RetryBackoffNoopStrategy() }, deps),
       ],
     });
     const verifier = prerequisite.build();
@@ -369,10 +366,7 @@ describe("Prerequisite", () => {
             result.outcome === PrerequisiteVerificationOutcome.failure &&
             result?.error?.message === mocks.IntentionalError,
         ),
-        PrerequisiteDecorator.withRetry(
-          { max: tools.IntegerPositive.parse(3), backoff: new RetryBackoffNoopStrategy() },
-          { Sleeper },
-        ),
+        PrerequisiteDecorator.withRetry({ max, backoff: new RetryBackoffNoopStrategy() }, { Sleeper }),
         PrerequisiteDecorator.withTimeout(tools.Duration.MIN, { TimeoutRunner }),
       ],
     });

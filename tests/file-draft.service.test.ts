@@ -1,10 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { FileDraft } from "../src/file-draft.service";
 
-const basename = tools.Basename.parse("alphabet");
-const extension = tools.Extension.parse("txt");
+const basename = v.parse(tools.Basename, "alphabet");
+const extension = v.parse(tools.Extension, "txt");
 const mime = tools.Mimes.text.mime;
 const filename = tools.Filename.fromPartsSafe(basename, extension);
 
