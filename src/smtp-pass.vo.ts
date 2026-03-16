@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const SmtpPassError = {
   Type: "smtp.pass.type",
@@ -6,12 +6,12 @@ export const SmtpPassError = {
   TooLong: "smtp.pass.too.long",
 };
 
-// Stryker disable all
-export const SmtpPass = z
-  // Stryker restore all
-  .string(SmtpPassError.Type)
-  .min(1, SmtpPassError.Empty)
-  .max(128, SmtpPassError.TooLong)
-  .brand("SmtpPass");
+export const SmtpPass = v.pipe(
+  v.string(SmtpPassError.Type),
+  v.minLength(1, SmtpPassError.Empty),
+  v.maxLength(128, SmtpPassError.TooLong),
+  // Stryker disable next-line StringLiteral
+  v.brand("SmtpPass"),
+);
 
-export type SmtpPassType = z.infer<typeof SmtpPass>;
+export type SmtpPassType = v.InferOutput<typeof SmtpPass>;
