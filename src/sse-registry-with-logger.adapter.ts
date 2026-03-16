@@ -43,4 +43,8 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
     return this.deps.inner.emit(identity, message);
   }
+
+  count(identity: HashValueType): number {
+    return this.deps.inner.count(identity);
+  }
 }

@@ -91,4 +91,17 @@ describe("SseRegistryAdapter", async () => {
 
     expect(sender).not.toHaveBeenCalled();
   });
+
+  test("count", async () => {
+    const sender = jest.fn();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+
+    registry.register(subject.hex.get(), sender);
+
+    expect(registry.count(subject.hex.get())).toEqual(1);
+
+    registry.unregister(subject.hex.get(), sender);
+
+    expect(registry.count(subject.hex.get())).toEqual(0);
+  });
 });

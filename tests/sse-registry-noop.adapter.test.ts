@@ -28,4 +28,8 @@ describe("SseRegistryNoopAdapter", async () => {
   test("emit", async () => {
     expect(async () => registry.emit(subject.hex.get(), mocks.message)).not.toThrow();
   });
+
+  test("count", () => {
+    expect(registry.count(subject.hex.get())).toEqual(0);
+  });
 });

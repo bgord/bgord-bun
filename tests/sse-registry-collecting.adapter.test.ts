@@ -30,4 +30,8 @@ describe("SseRegistryCollectingAdapter", async () => {
 
     expect(registry.emitted).toEqual([{ identity: subject.hex.get(), message: mocks.message }]);
   });
+
+  test("count", () => {
+    expect(registry.count(subject.hex.get())).toEqual(0);
+  });
 });

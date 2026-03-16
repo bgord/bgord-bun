@@ -9,4 +9,6 @@ export interface SseRegistryPort<Messages extends Message> {
   unregister(identity: HashValueType, sender: SseSenderType<Messages>): void;
 
   emit<M extends Messages>(identity: HashValueType, message: M): Promise<void>;
+
+  count(identity: HashValueType): number;
 }

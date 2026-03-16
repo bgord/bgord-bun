@@ -82,4 +82,21 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     ]);
     expect(emit).toHaveBeenCalledWith(subject.hex.get(), mocks.message);
   });
+
+  test("count", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
+
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.register(subject.hex.get(), sender),
+    );
+
+    expect(registry.count(subject.hex.get())).toEqual(1);
+
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.unregister(subject.hex.get(), sender),
+    );
+
+    expect(registry.count(subject.hex.get())).toEqual(0);
+  });
 });

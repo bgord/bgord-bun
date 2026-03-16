@@ -8,4 +8,8 @@ export class SseRegistryNoopAdapter<Messages extends Message> implements SseRegi
   unregister(_identity: HashValueType, _sender: SseSenderType<Messages>): void {}
 
   async emit<M extends Messages>(_identity: HashValueType, _message: M): Promise<void> {}
+
+  count(_identity: HashValueType): number {
+    return 0;
+  }
 }

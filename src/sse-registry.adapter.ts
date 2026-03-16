@@ -20,4 +20,8 @@ export class SseRegistryAdapter<Messages extends Message> implements SseRegistry
       await sender(message);
     }
   }
+
+  count(identity: HashValueType): number {
+    return this.senders.get(identity)?.size ?? 0;
+  }
 }

@@ -12,4 +12,8 @@ export class SseRegistryCollectingAdapter<Messages extends Message> implements S
   async emit<M extends Messages>(identity: HashValueType, message: M): Promise<void> {
     this.emitted.push({ identity, message });
   }
+
+  count(_identity: HashValueType): number {
+    return 0;
+  }
 }
