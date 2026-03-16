@@ -1,11 +1,11 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 import { HistoryCreatedAt } from "./history-created-at";
 import { HistoryId } from "./history-id";
 import { HistoryOperation } from "./history-operation";
 import { HistoryPayload, HistoryPayloadParsed } from "./history-payload";
 import { HistorySubject } from "./history-subject";
 
-export const History = z.object({
+export const History = v.object({
   id: HistoryId,
   operation: HistoryOperation,
   payload: HistoryPayload,
@@ -13,9 +13,9 @@ export const History = z.object({
   createdAt: HistoryCreatedAt,
 });
 
-export type HistoryType = z.infer<typeof History>;
+export type HistoryType = v.InferOutput<typeof History>;
 
-export const HistoryParsed = z.object({
+export const HistoryParsed = v.object({
   id: HistoryId,
   operation: HistoryOperation,
   payload: HistoryPayloadParsed,
@@ -23,4 +23,4 @@ export const HistoryParsed = z.object({
   createdAt: HistoryCreatedAt,
 });
 
-export type HistoryParsedType = z.infer<typeof HistoryParsed>;
+export type HistoryParsedType = v.InferOutput<typeof HistoryParsed>;
