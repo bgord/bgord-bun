@@ -6,11 +6,10 @@ export const CommitShaValueError = {
 };
 
 // 40 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
+const CHARS_WHITELIST = /^[a-fA-F0-9]{40}$/;
 
 export const CommitShaValue = v.pipe(
   v.string(CommitShaValueError.Type),
-  v.length(40, CommitShaValueError.InvalidHex),
   v.regex(CHARS_WHITELIST, CommitShaValueError.InvalidHex),
   // Stryker disable next-line StringLiteral
   v.brand("CommitShaValue"),
