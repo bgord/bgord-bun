@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const ClientUserAgentError = {
   Type: "client.user.agent.type",
@@ -6,13 +6,15 @@ export const ClientUserAgentError = {
 };
 
 // ASCII printable characters
-const CHARS_BLACKLIST = /^[\x20-\x7E]{1,256}$/;
+const CHARS_BLACKLIST = /^[\x20-\x7E]+$/;
 
-// Stryker disable all
-export const ClientUserAgent = z
-  // Stryker restore all
-  .string(ClientUserAgentError.Type)
-  .regex(CHARS_BLACKLIST, ClientUserAgentError.Invalid)
-  .brand("ClientUserAgent");
+export const ClientUserAgent = v.pipe(
+  v.string(ClientUserAgentError.Type),
+  v.minLength(1, ClientUserAgentError.Invalid),
+  v.maxLength(256, ClientUserAgentError.Invalid),
+  v.regex(CHARS_BLACKLIST, ClientUserAgentError.Invalid),
+  // Stryker disable next-line StringLiteral
+  v.brand("ClientUserAgent"),
+);
 
-export type ClientUserAgentType = z.infer<typeof ClientUserAgent>;
+export type ClientUserAgentType = v.InferOutput<typeof ClientUserAgent>;
