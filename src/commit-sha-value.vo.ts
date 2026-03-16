@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const CommitShaValueError = {
   Type: "commit.sha.value.type",
@@ -6,13 +6,14 @@ export const CommitShaValueError = {
 };
 
 // 40 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]{40}$/;
+const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
 
-// Stryker disable all
-export const CommitShaValue = z
-  // Stryker restore all
-  .string(CommitShaValueError.Type)
-  .regex(CHARS_WHITELIST, CommitShaValueError.InvalidHex)
-  .brand("CommitShaValue");
+export const CommitShaValue = v.pipe(
+  v.string(CommitShaValueError.Type),
+  v.length(40, CommitShaValueError.InvalidHex),
+  v.regex(CHARS_WHITELIST, CommitShaValueError.InvalidHex),
+  // Stryker disable next-line StringLiteral
+  v.brand("CommitShaValue"),
+);
 
-export type CommitShaValueType = z.infer<typeof CommitShaValue>;
+export type CommitShaValueType = v.InferOutput<typeof CommitShaValue>;
