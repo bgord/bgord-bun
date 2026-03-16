@@ -1,10 +1,13 @@
+import type { StandardSchemaV1 } from "@standard-schema/spec";
 import type { NodeEnvironmentEnum } from "../src/node-env.vo";
-import type { EnvironmentSchemaPort } from "./environment-schema.port";
+
+export const EnvironmentLoaderError = { NoAsyncSchema: "environment.loader.no.async.schema" };
 
 export type EnvironmentLoaderConfig<T extends object> = {
   type: NodeEnvironmentEnum;
-  EnvironmentSchema: EnvironmentSchemaPort<T>;
+  EnvironmentSchema: StandardSchemaV1<unknown, T>;
 };
+
 export type EnvironmentResultType<T extends object> = T & { type: NodeEnvironmentEnum };
 
 export interface EnvironmentLoaderPort<T extends object> {

@@ -4,16 +4,13 @@ import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
-import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import * as mocks from "./mocks";
 
-const Env = v.object({ APP_NAME: v.string("app.name.invalid") });
-type EnvType = v.InferOutput<typeof Env>;
-
-const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => v.parse(Env, data) };
+const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") });
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 
@@ -64,5 +61,15 @@ describe("EnvironmentLoaderProcessSafe", () => {
     expect(async () => adapter.load()).toThrow("app.name.invalid");
 
     await CacheResolver.flush();
+  });
+
+  test("failure - async schema", async () => {
+    const adapter = new EnvironmentLoaderProcessSafeAdapter(
+      { ...process.env, APP_NAME: "MyApp" },
+      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+      deps,
+    );
+
+    expect(async () => adapter.load()).toThrow("environment.loader.no.async.schema");
   });
 });
