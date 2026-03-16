@@ -48,7 +48,7 @@ export type HealthcheckResult = {
     hostname: ReturnType<typeof os.hostname>;
     cpus: tools.IntegerNonNegativeType;
     startup: tools.TimestampValueType;
-    uptime: Omit<UptimeResultType, "duration"> & { durationMs: tools.DurationMsType };
+    uptime: Omit<UptimeResultType, "duration"> & { ms: tools.DurationMsType };
     memory: {
       total: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
       heap: {
@@ -65,10 +65,10 @@ export type HealthcheckResult = {
   details: ReadonlyArray<{
     label: PrerequisiteLabelType;
     outcome: PrerequisiteVerificationResult;
-    durationMs: tools.DurationMsType;
+    ms: tools.DurationMsType;
   }>;
   logger?: LoggerStatsSnapshot;
-  durationMs: tools.Duration["ms"];
+  ms: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
 };
 
@@ -94,7 +94,7 @@ export class HealthcheckHandler {
         return {
           label: prerequisite.label,
           outcome: this.config.redactor ? this.config.redactor.redact(outcome) : outcome,
-          durationMs: stopwatch.stop().ms,
+          ms: stopwatch.stop().ms,
         };
       }),
     );
@@ -122,7 +122,7 @@ export class HealthcheckHandler {
         hostname: os.hostname(),
         cpus: tools.IntegerNonNegative.parse(os.cpus().length),
         startup: this.deps.Clock.now().subtract(uptime.duration).ms,
-        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           total: { bytes: memory.total.toBytes(), formatted: memory.total.format(tools.Size.unit.MB) },
           heap: {
@@ -143,7 +143,7 @@ export class HealthcheckHandler {
         inFlight: InFlightRequestsTracker.get(),
       },
       logger: this.deps.LoggerStatsProvider?.getStats(),
-      durationMs: stopwatch.stop().ms,
+      ms: stopwatch.stop().ms,
       timestamp: this.deps.Clock.now().ms,
     };
   }

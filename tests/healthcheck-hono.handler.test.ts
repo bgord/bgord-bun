@@ -94,7 +94,7 @@ describe("HealthcheckHonoHandler", () => {
         hostname,
         cpus: 1,
         startup: expect.any(Number),
-        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
           heap: {
@@ -109,11 +109,11 @@ describe("HealthcheckHonoHandler", () => {
         inFlight: 0,
       },
       details: [
-        { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
-        { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
+        { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
+        { label: "ok", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
       ],
       logger: LoggerStatsProvider.getStats(),
-      durationMs: expect.any(Number),
+      ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
     });
   });
@@ -161,7 +161,7 @@ describe("HealthcheckHonoHandler", () => {
         hostname,
         cpus: 1,
         startup: expect.any(Number),
-        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
           heap: {
@@ -176,10 +176,10 @@ describe("HealthcheckHonoHandler", () => {
         inFlight: 0,
       },
       details: [
-        { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
-        { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
+        { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
+        { label: "ok", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
       ],
-      durationMs: expect.any(Number),
+      ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
     });
   });
@@ -227,7 +227,7 @@ describe("HealthcheckHonoHandler", () => {
         hostname,
         cpus: 1,
         startup: expect.any(Number),
-        uptime: { durationMs: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
           total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
           heap: {
@@ -242,15 +242,15 @@ describe("HealthcheckHonoHandler", () => {
         inFlight: 0,
       },
       details: [
-        { label: "self", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
-        { label: "ok", outcome: PrerequisiteVerification.success, durationMs: expect.any(Number) },
+        { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
+        { label: "ok", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
         {
           label: "fail-with-stack",
           outcome: { outcome: "failure", error: { message: mocks.IntentionalError, name: "Error" } },
-          durationMs: expect.any(Number),
+          ms: expect.any(Number),
         },
       ],
-      durationMs: expect.any(Number),
+      ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
     });
   });

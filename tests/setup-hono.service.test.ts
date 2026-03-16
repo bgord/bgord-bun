@@ -364,7 +364,7 @@ describe("SetupHono", () => {
       method: "GET",
       url: "http://localhost/ping?page=1",
       status: 200,
-      durationMs: expect.any(Number),
+      ms: expect.any(Number),
       client: { ip: mocks.ip, ua: "abc" },
       cacheHit: false,
       metadata: { response: { message: "OK" } },

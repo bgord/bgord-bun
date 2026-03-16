@@ -90,7 +90,7 @@ export class HttpLoggerMiddleware {
       method: context.request.method,
       url: context.request.url(),
       status: input.status,
-      durationMs: duration.ms,
+      ms: duration.ms,
       client,
       cacheHit: input.cacheHit,
       metadata: { response: input.responseBody },
