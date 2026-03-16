@@ -1,4 +1,5 @@
 # Changelog
+- 2026-03-16 11:58 ccaaf53a **refactor: adjust constructor parameters order in env loader process**
 ## 2026-03-16 11:49 v1.14.6
 - 2026-03-16 11:49 290d20ad **1.14.6**
 - 2026-03-16 11:34 8a9134dc **refactor: update environment tests**
@@ -7,6 +8,7 @@
 - 2026-03-16 11:27 89f2c6e3 **step: add environment schema port**
 - 2026-03-16 11:11 36fc7938 **refactor: decouple zod from prereq timezone utc**
 - 2026-03-16 10:52 e030d746 **step: add sse registry with limit decorator**
+- 2026-03-16 10:49 8bcca86f **docs: generate CHANGELOG**
 - 2026-03-16 10:45 ec5bd0ab **docs: generate CHANGELOG**
 - 2026-03-16 10:45 bc0230a1 **docs: generate readme**
 - 2026-03-16 10:36 30738485 **step: add sse registry count**
