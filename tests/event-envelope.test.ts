@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import * as z from "zod/v4";
+import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { createEventEnvelope, EventEnvelopeSchema } from "../src/event-envelope";
@@ -15,7 +15,7 @@ const deps = { Clock, IdProvider };
 
 describe("EventEnvelope", () => {
   test("schema", () => {
-    const result = z.object(EventEnvelopeSchema).safeParse({
+    const result = v.safeParse(v.object(EventEnvelopeSchema), {
       createdAt: Clock.now().ms,
       id: IdProvider.generate(),
       correlationId: IdProvider.generate(),

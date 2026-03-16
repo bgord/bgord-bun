@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
 import type { EventStorePort } from "../../../event-store.port";
@@ -33,7 +34,7 @@ export const handleSetUserLanguageCommand =
 
     if (!Invariants.UserLanguageHasChanged.passes({ current, candidate })) return;
 
-    const event = Events.UserLanguageSetEvent.parse({
+    const event = v.parse(Events.UserLanguageSetEvent, {
       ...createEventEnvelope(`preferences_${command.payload.userId}`, deps),
       name: Events.USER_LANGUAGE_SET_EVENT,
       payload: { userId: command.payload.userId, language: candidate },

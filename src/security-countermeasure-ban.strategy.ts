@@ -51,7 +51,7 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
       metadata: context,
     });
 
-    const event = SecurityViolationDetectedEvent.parse({
+    const event = v.parse(SecurityViolationDetectedEvent, {
       ...createEventEnvelope("security", this.deps),
       name: SECURITY_VIOLATION_DETECTED_EVENT,
       payload: { action: action.kind, ...context },

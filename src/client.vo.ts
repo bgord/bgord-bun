@@ -9,10 +9,13 @@ export class Client {
   ) {}
 
   static fromParts(ip: string | undefined, ua: string | undefined): Client {
-    const parsedIp = v.parse(ClientIp, ip);
-    const parsedUa = v.parse(ClientUserAgent, ua);
+    const parsedIp = v.safeParse(ClientIp, ip);
+    const parsedUa = v.safeParse(ClientUserAgent, ua);
 
-    return new Client(parsedIp, parsedUa);
+    if (parsedIp.success && parsedUa.success) return new Client(parsedIp.output, parsedUa.output);
+    if (parsedIp.success && !parsedUa.success) return new Client(parsedIp.output, undefined);
+    if (!parsedIp.success && parsedUa.success) return new Client(undefined, parsedUa.output);
+    return new Client(undefined, undefined);
   }
 
   static fromSafeParts(ip: ClientIpType | undefined, ua: ClientUserAgentType | undefined): Client {

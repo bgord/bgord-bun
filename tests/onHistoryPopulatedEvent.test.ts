@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as v from "valibot";
 import * as History from "../src/modules/history";
 import * as mocks from "./mocks";
 
@@ -8,7 +9,7 @@ class HistoryProjection implements History.Ports.HistoryProjectionPort {
   async clear(_subject: History.VO.HistoryParsedType["subject"]): Promise<void> {}
 }
 
-const event = History.Events.HistoryPopulatedEvent.parse({
+const event = v.parse(History.Events.HistoryPopulatedEvent, {
   id: mocks.correlationId,
   correlationId: mocks.correlationId,
   name: "HISTORY_POPULATED_EVENT",

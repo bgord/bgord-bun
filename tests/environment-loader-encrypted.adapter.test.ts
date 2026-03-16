@@ -1,15 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as z from "zod/v4";
+import * as v from "valibot";
 import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 import { EnvironmentLoaderEncryptedAdapter } from "../src/environment-loader-encrypted.adapter";
 import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
-const Env = z.object({ APP_NAME: z.string("app.name.invalid") });
-type EnvType = z.infer<typeof Env>;
+const Env = v.object({ APP_NAME: v.string("app.name.invalid") }, "env.empty");
+type EnvType = v.InferOutput<typeof Env>;
 
-const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => Env.parse(data) };
+const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => v.parse(Env, data) };
 
 const config = { type: NodeEnvironmentEnum.local, EnvironmentSchema };
 
@@ -32,6 +32,6 @@ describe("EnvironmentLoaderProcess", () => {
         await new EnvironmentLoaderEncryptedAdapter(path, config, {
           Encryption: new EncryptionNoopAdapter(),
         }).load(),
-    ).toThrow("app.name.invalid");
+    ).toThrow("env.empty");
   });
 });

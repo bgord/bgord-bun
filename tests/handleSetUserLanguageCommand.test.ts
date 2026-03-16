@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
@@ -29,7 +30,7 @@ describe("handleSetUserLanguageCommand", async () => {
       EventStore,
     });
 
-    const command = Preferences.Commands.SetUserLanguageCommand.parse({
+    const command = v.parse(Preferences.Commands.SetUserLanguageCommand, {
       name: "SET_USER_LANGUAGE_COMMAND",
       correlationId: mocks.correlationId,
       id: mocks.correlationId,
@@ -52,7 +53,7 @@ describe("handleSetUserLanguageCommand", async () => {
       EventStore,
     });
 
-    const command = Preferences.Commands.SetUserLanguageCommand.parse({
+    const command = v.parse(Preferences.Commands.SetUserLanguageCommand, {
       name: "SET_USER_LANGUAGE_COMMAND",
       correlationId: mocks.correlationId,
       id: mocks.correlationId,
@@ -75,7 +76,7 @@ describe("handleSetUserLanguageCommand", async () => {
       EventStore,
     });
 
-    const command = Preferences.Commands.SetUserLanguageCommand.parse({
+    const command = v.parse(Preferences.Commands.SetUserLanguageCommand, {
       name: "SET_USER_LANGUAGE_COMMAND",
       correlationId: mocks.correlationId,
       id: mocks.correlationId,

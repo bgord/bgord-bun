@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import * as z from "zod/v4";
+import * as v from "valibot";
 import { EnvironmentLoaderNoopAdapter } from "../src/environment-loader-noop.adapter";
 import type { EnvironmentSchemaPort } from "../src/environment-schema.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 
-const Env = z.object({ APP_NAME: z.string() });
-type EnvType = z.infer<typeof Env>;
+const Env = v.object({ APP_NAME: v.string() });
+type EnvType = v.InferOutput<typeof Env>;
 
-const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => Env.parse(data) };
+const EnvironmentSchema: EnvironmentSchemaPort<EnvType> = { parse: (data: unknown) => v.parse(Env, data) };
 
 describe("EnvironmentLoaderNoopAdapter", () => {
   test("happy path", async () => {
