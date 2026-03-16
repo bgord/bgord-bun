@@ -1,9 +1,10 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { NonceValue } from "../src/nonce-value.vo";
 import { SSRService } from "../src/ssr.service";
 
-const zeros = NonceValue.parse("0000000000000000");
+const zeros = v.parse(NonceValue, "0000000000000000");
 
 describe("SSRService", () => {
   test("secure", () => {

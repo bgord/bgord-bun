@@ -1,12 +1,13 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { AbVariant } from "../src/ab-variant.vo";
 import { AbVariantSelector } from "../src/ab-variant-selector.service";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
 import { Hash } from "../src/hash.vo";
 
-const control = new AbVariant({ name: "control", weight: AbVariantWeight.parse(50) });
-const treatment = new AbVariant({ name: "treatment", weight: AbVariantWeight.parse(50) });
+const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
+const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
 
 const variants = new AbVariants([control, treatment]);
 
@@ -31,8 +32,8 @@ describe("AbVariantSelector", () => {
   });
 
   test("uneven split", () => {
-    const majority = new AbVariant({ name: "majority", weight: AbVariantWeight.parse(90) });
-    const minority = new AbVariant({ name: "minority", weight: AbVariantWeight.parse(10) });
+    const majority = new AbVariant({ name: "majority", weight: v.parse(AbVariantWeight, 90) });
+    const minority = new AbVariant({ name: "minority", weight: v.parse(AbVariantWeight, 10) });
     const selector = new AbVariantSelector(new AbVariants([majority, minority]));
 
     expect(selector.select(zeros)).toEqual(majority);
@@ -48,9 +49,9 @@ describe("AbVariantSelector", () => {
   });
 
   test("three variants", () => {
-    const variantA = new AbVariant({ name: "a", weight: AbVariantWeight.parse(33) });
-    const variantB = new AbVariant({ name: "b", weight: AbVariantWeight.parse(33) });
-    const variantC = new AbVariant({ name: "c", weight: AbVariantWeight.parse(34) });
+    const variantA = new AbVariant({ name: "a", weight: v.parse(AbVariantWeight, 33) });
+    const variantB = new AbVariant({ name: "b", weight: v.parse(AbVariantWeight, 33) });
+    const variantC = new AbVariant({ name: "c", weight: v.parse(AbVariantWeight, 34) });
     const selector = new AbVariantSelector(new AbVariants([variantA, variantB, variantC]));
 
     const selected = selector.select(a);

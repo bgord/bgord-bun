@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaStrategy } from "../src/shield-hcaptcha.strategy";
@@ -8,7 +9,7 @@ const SECRET_KEY = "11111111111111111111111111111111111";
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
-const strategy = new ShieldHcaptchaStrategy(HCaptchaSecretKey.parse(SECRET_KEY));
+const strategy = new ShieldHcaptchaStrategy(v.parse(HCaptchaSecretKey, SECRET_KEY));
 
 describe("ShieldHcaptchaStrategy", () => {
   test("happy path", async () => {

@@ -1,13 +1,17 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
+import * as v from "valibot";
 import { BasicAuth } from "../src/basic-auth.service";
 import { BasicAuthPassword } from "../src/basic-auth-password.vo";
 import { BasicAuthUsername } from "../src/basic-auth-username.vo";
 import { ShieldBasicAuthHonoStrategy } from "../src/shield-basic-auth-hono.strategy";
 
-const config = { username: BasicAuthUsername.parse("admin"), password: BasicAuthPassword.parse("password") };
-const username = { ...config, username: BasicAuthUsername.parse("wrong") };
-const password = { ...config, password: BasicAuthPassword.parse("wrong") };
+const config = {
+  username: v.parse(BasicAuthUsername, "admin"),
+  password: v.parse(BasicAuthPassword, "password"),
+};
+const username = { ...config, username: v.parse(BasicAuthUsername, "wrong") };
+const password = { ...config, password: v.parse(BasicAuthPassword, "wrong") };
 
 const shield = new ShieldBasicAuthHonoStrategy(config);
 

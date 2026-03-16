@@ -1,9 +1,14 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { EncryptionKey } from "../src/encryption-key.vo";
 import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 
-const hex = EncryptionKeyValue.parse("a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
-const anotherHex = EncryptionKeyValue.parse(
+const hex = v.parse(
+  EncryptionKeyValue,
+  "a1b2c3d4e5f60718293a4b5c6d7e8f90a" + "1b2c3d4e5f60718293a4b5c6d7e8f90",
+);
+const anotherHex = v.parse(
+  EncryptionKeyValue,
   "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f91",
 );
 const bytes = new Uint8Array([

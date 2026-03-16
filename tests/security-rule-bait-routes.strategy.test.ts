@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { RequestContextBuilder } from "./request-context-builder";
@@ -21,6 +22,6 @@ describe("SecurityRuleBaitRoutesStrategy", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual(SecurityRuleName.parse("bait_routes"));
+    expect(rule.name).toEqual(v.parse(SecurityRuleName, "bait_routes"));
   });
 });

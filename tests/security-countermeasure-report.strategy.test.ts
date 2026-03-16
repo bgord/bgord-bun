@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { SecurityContext } from "../src/security-context.vo";
@@ -33,6 +34,6 @@ describe("SecurityCountermeasureReportStrategy", () => {
     const Logger = new LoggerCollectingAdapter();
     const countermeasure = new SecurityCountermeasureReportStrategy({ Logger });
 
-    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("report"));
+    expect(countermeasure.name).toEqual(v.parse(SecurityCountermeasureName, "report"));
   });
 });

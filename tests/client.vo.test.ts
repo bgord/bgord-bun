@@ -1,13 +1,14 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import * as mocks from "./mocks";
 
-const ipVO = ClientIp.parse(mocks.ip);
+const ipVO = v.parse(ClientIp, mocks.ip);
 const invalidIp = "invalid";
 
-const uaVO = ClientUserAgent.parse(mocks.ua);
+const uaVO = v.parse(ClientUserAgent, mocks.ua);
 const invalidUa = "a".repeat(257);
 
 describe("Client", () => {

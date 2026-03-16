@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as v from "valibot";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
 import { ShieldRecaptchaStrategy } from "../src/shield-recaptcha.strategy";
 import * as mocks from "./mocks";
@@ -8,7 +9,7 @@ const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
 const remoteip = "1.2.3.4";
 
-const strategy = new ShieldRecaptchaStrategy({ secretKey: RecaptchaSecretKey.parse(VALID_SECRET_KEY) });
+const strategy = new ShieldRecaptchaStrategy({ secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY) });
 
 const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 

@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityCountermeasureNoopStrategy } from "../src/security-countermeasure-noop.strategy";
 
@@ -12,6 +13,6 @@ describe("SecurityCountermeasureNoopStrategy", () => {
   });
 
   test("name", () => {
-    expect(countermeasure.name).toEqual(SecurityCountermeasureName.parse("noop"));
+    expect(countermeasure.name).toEqual(v.parse(SecurityCountermeasureName, "noop"));
   });
 });

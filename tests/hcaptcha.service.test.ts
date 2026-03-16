@@ -1,9 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
 import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = HCaptchaSecretKey.parse("00000000000000000000000000000000000");
+const SECRET_KEY = v.parse(HCaptchaSecretKey, "00000000000000000000000000000000000");
 const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 

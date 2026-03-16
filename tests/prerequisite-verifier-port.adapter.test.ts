@@ -1,9 +1,10 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { Port } from "../src/port.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 
-const port = Port.parse(43210);
+const port = v.parse(Port, 43210);
 
 const prerequisite = new PrerequisiteVerifierPortAdapter({ port });
 

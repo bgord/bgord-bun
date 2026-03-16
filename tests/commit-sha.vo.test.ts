@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { CommitSha } from "../src/commit-sha.vo";
 import { CommitShaValue } from "../src/commit-sha-value.vo";
 
@@ -9,11 +10,11 @@ const another = "b".repeat(40);
 
 describe("CommitSha", () => {
   test("fromString", () => {
-    expect(sha.toJSON()).toEqual(CommitShaValue.parse(value));
+    expect(sha.toJSON()).toEqual(v.parse(CommitShaValue, value));
   });
 
   test("fromStringSafe", () => {
-    expect(CommitSha.fromStringSafe(CommitShaValue.parse(value)).toJSON()).toEqual(value);
+    expect(CommitSha.fromStringSafe(v.parse(CommitShaValue, value)).toJSON()).toEqual(value);
   });
 
   test("equals - true", () => {
@@ -25,7 +26,7 @@ describe("CommitSha", () => {
   });
 
   test("toString", () => {
-    expect(sha.toString()).toEqual(CommitShaValue.parse(value));
+    expect(sha.toString()).toEqual(v.parse(CommitShaValue, value));
   });
 
   test("toShortString", () => {

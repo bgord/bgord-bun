@@ -12,8 +12,8 @@ describe("MailerTemplate", () => {
       to: v.parse(tools.Email, "to@example.com"),
     };
     const message = {
-      subject: MailerSubject.parse("Test Email"),
-      html: MailerContentHtml.parse("This is a test email."),
+      subject: v.parse(MailerSubject, "Test Email"),
+      html: v.parse(MailerContentHtml, "This is a test email."),
     };
 
     const result = new MailerTemplate(config, message, []).toJSON();

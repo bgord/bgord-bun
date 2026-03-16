@@ -71,6 +71,6 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
   });
 
   test("name", () => {
-    expect(rule.name).toEqual(SecurityRuleName.parse("violation_threshold_3_bait_routes"));
+    expect(rule.name).toEqual(v.parse(SecurityRuleName, "violation_threshold_3_bait_routes"));
   });
 });
