@@ -1,3 +1,4 @@
+import * as v from "valibot";
 import type { ClockPort } from "../../../clock.port";
 import { createEventEnvelope } from "../../../event-envelope";
 import type { EventStorePort } from "../../../event-store.port";
@@ -24,7 +25,7 @@ export class PassageOfTimeHourly implements UnitOfWork {
   label = "PassageOfTime";
 
   async process() {
-    const event = HourHasPassedEvent.parse({
+    const event = v.parse(HourHasPassedEvent, {
       ...createEventEnvelope("passage_of_time", this.deps),
       name: HOUR_HAS_PASSED_EVENT,
       payload: { timestamp: this.deps.Clock.now().ms },

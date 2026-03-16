@@ -1,5 +1,5 @@
-import * as v from "valibot";
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
 import { AbAssignmentHashStrategy } from "../src/ab-assignment-hash.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";

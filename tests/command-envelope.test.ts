@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as z from "zod/v4";
+import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CommandEnvelopeSchema, createCommandEnvelope } from "../src/command-envelope";
 import { CorrelationStorage } from "../src/correlation-storage.service";
@@ -14,14 +14,14 @@ describe("CommandEnvelope", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
 
     await CorrelationStorage.run(mocks.correlationId, () => {
-      const result = z.object(CommandEnvelopeSchema).safeParse({
+      const result = v.safeParse(v.object(CommandEnvelopeSchema), {
         createdAt: Clock.now().ms,
         id: IdProvider.generate(),
         correlationId: IdProvider.generate(),
       });
 
       expect(result.success).toEqual(true);
-      expect(result.data).toEqual({
+      expect(result.output).toEqual({
         id: mocks.correlationId,
         correlationId: mocks.correlationId,
         createdAt: mocks.TIME_ZERO.ms,

@@ -1,13 +1,13 @@
-import * as z from "zod/v4";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { EventEnvelopeSchema } from "../../../event-envelope";
 
 export const MINUTE_HAS_PASSED_EVENT = "MINUTE_HAS_PASSED_EVENT";
 
-export const MinuteHasPassedEvent = z.object({
+export const MinuteHasPassedEvent = v.object({
   ...EventEnvelopeSchema,
-  name: z.literal(MINUTE_HAS_PASSED_EVENT),
-  // TODO
-  payload: z.object({ timestamp: z.number() }),
+  name: v.literal(MINUTE_HAS_PASSED_EVENT),
+  payload: v.object({ timestamp: tools.TimestampValue }),
 });
 
-export type MinuteHasPassedEventType = z.infer<typeof MinuteHasPassedEvent>;
+export type MinuteHasPassedEventType = v.InferOutput<typeof MinuteHasPassedEvent>;
