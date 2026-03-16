@@ -1,4 +1,4 @@
-import * as z from "zod/v4";
+import * as v from "valibot";
 
 export const BasicAuthUsernameError = {
   Type: "basic.auth.username.type",
@@ -6,12 +6,12 @@ export const BasicAuthUsernameError = {
   TooLong: "basic.auth.username.too.long",
 };
 
-// Stryker disable all
-export const BasicAuthUsername = z
-  // Stryker restore all
-  .string(BasicAuthUsernameError.Type)
-  .min(1, BasicAuthUsernameError.Empty)
-  .max(128, BasicAuthUsernameError.TooLong)
-  .brand("BasicAuthUsername");
+export const BasicAuthUsername = v.pipe(
+  v.string(BasicAuthUsernameError.Type),
+  v.minLength(1, BasicAuthUsernameError.Empty),
+  v.maxLength(128, BasicAuthUsernameError.TooLong),
+  // Stryker disable next-line StringLiteral
+  v.brand("BasicAuthUsername"),
+);
 
-export type BasicAuthUsernameType = z.infer<typeof BasicAuthUsername>;
+export type BasicAuthUsernameType = v.InferOutput<typeof BasicAuthUsername>;
