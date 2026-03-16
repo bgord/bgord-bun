@@ -1,5 +1,5 @@
-import type * as z from "zod/v4";
+import type * as v from "valibot";
 import { Port } from "./port.vo";
 
 export const SmtpPort = Port;
-export type SmtpPortType = z.infer<typeof SmtpPort>;
+export type SmtpPortType = v.InferOutput<typeof SmtpPort>;
