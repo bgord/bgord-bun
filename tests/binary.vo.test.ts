@@ -24,11 +24,11 @@ describe("Binary", () => {
   });
 
   test("rejects empty", () => {
-    expect(() => v.parse(Binary, "")).toThrow("binary.empty");
+    expect(() => v.parse(Binary, "")).toThrow("binary.bad.chars");
   });
 
   test("rejects too long", () => {
-    expect(() => v.parse(Binary, `${"a".repeat(64)}abc`)).toThrow("binary.too.long");
+    expect(() => v.parse(Binary, `${"a".repeat(64)}abc`)).toThrow("binary.bad.chars");
   });
 
   test("rejects bad chars", () => {
