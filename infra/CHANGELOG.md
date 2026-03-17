@@ -1,10 +1,16 @@
 # Changelog
+- 2026-03-17 21:26 abd979b9 **step: bump bgord/scripts**
+- 2026-03-17 21:14 51c13b78 **step: update packages**
+- 2026-03-17 21:12 befbac5c **refactor: improve event envelope tests**
+- 2026-03-17 21:06 a32cbf82 **step: add command factory**
+- 2026-03-17 21:02 8ad56de8 **step: add event factory**
 ## 2026-03-17 17:17 v1.15.1
 - 2026-03-17 17:17 9847609d **1.15.1**
 - 2026-03-17 17:16 3465e54b **step: remove tests from tsconfig**
 - 2026-03-17 16:59 13ed1952 **refactor: use Int**
 - 2026-03-17 16:25 9487885e **refactor: use Int**
 - 2026-03-17 16:22 337be120 **step: update packages**
+- 2026-03-17 16:18 c038da4e **docs: generate CHANGELOG**
 - 2026-03-17 16:17 11b90586 **docs: generate CHANGELOG**
 - 2026-03-17 16:15 4c2528be **docs: generate CHANGELOG**
 ## 2026-03-17 11:12 v1.15.0
