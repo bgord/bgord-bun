@@ -1,7 +1,7 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import type { FileReaderJsonPort } from "../src/file-reader-json.port";
-import type { LoggerPort } from "../src/logger.port";
+import type { FileReaderJsonPort } from "./file-reader-json.port";
+import type { LoggerPort } from "./logger.port";
 
 export type TranslationsKeyType = string;
 export type TranslationsValueType = string;
