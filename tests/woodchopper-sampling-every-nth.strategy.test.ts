@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperSamplingEveryNth } from "../src/woodchopper-sampling-every-nth.strategy";
@@ -18,7 +17,7 @@ const entryInfo = {
 
 describe("WoodchopperSamplingEveryNth", () => {
   test("decide - every n-th", () => {
-    const sampling = new WoodchopperSamplingEveryNth({ n: v.parse(tools.IntegerPositive, 2) });
+    const sampling = new WoodchopperSamplingEveryNth({ n: tools.Int.positive(2) });
 
     expect(sampling.decide(entryInfo)).toEqual(false);
     expect(sampling.decide(entryInfo)).toEqual(true);

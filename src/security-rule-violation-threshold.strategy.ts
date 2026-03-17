@@ -36,7 +36,7 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
 
       await this.deps.CacheRepository.set<tools.IntegerNonNegativeType>(
         subject.hex,
-        v.parse(tools.IntegerNonNegative, count + 1),
+        tools.Int.nonNegative(count + 1),
       );
 
       if (count + 1 >= this.config.threshold) return true;

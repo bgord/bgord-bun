@@ -1,8 +1,7 @@
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 
 export class InFlightRequestsTracker {
-  private static count: tools.IntegerType = v.parse(tools.Integer, 0);
+  private static count: tools.IntegerType = tools.Int.of(0);
 
   static increment(): void {
     InFlightRequestsTracker.count++;
@@ -18,6 +17,6 @@ export class InFlightRequestsTracker {
 
   /** @internal */
   static _resetForTest(): void {
-    InFlightRequestsTracker.count = v.parse(tools.Integer, 0);
+    InFlightRequestsTracker.count = tools.Int.of(0);
   }
 }

@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { LogLevelEnum } from "../src/logger.port";
@@ -39,6 +38,8 @@ const entryHttp = {
 } as const;
 const entryWithErrorInstance = { ...entry, error: new Error(mocks.IntentionalError) };
 const entryWithErrorString = { ...entry, error: mocks.IntentionalError };
+
+const max = tools.Int.positive(2);
 
 describe("Woodchopper", async () => {
   test("error - no error", () => {
@@ -375,7 +376,7 @@ describe("Woodchopper", async () => {
   test("redactor - metadata compact array", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorMetadataCompactArray({ maxItems: v.parse(tools.IntegerPositive, 2) });
+    const redactor = new RedactorMetadataCompactArray({ maxItems: max });
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -392,7 +393,7 @@ describe("Woodchopper", async () => {
   test("redactor - metadata compact object", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorMetadataCompactObject({ maxKeys: v.parse(tools.IntegerPositive, 2) });
+    const redactor = new RedactorMetadataCompactObject({ maxKeys: max });
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -425,7 +426,7 @@ describe("Woodchopper", async () => {
   test("redactor - error cause depth limit", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
-    const redactor = new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1));
+    const redactor = new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1));
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
 
@@ -454,10 +455,10 @@ describe("Woodchopper", async () => {
     const redactor = new RedactorComposite([
       new RedactorNoop(),
       new RedactorMask(),
-      new RedactorMetadataCompactArray({ maxItems: v.parse(tools.IntegerPositive, 2) }),
-      new RedactorMetadataCompactObject({ maxKeys: v.parse(tools.IntegerPositive, 3) }),
+      new RedactorMetadataCompactArray({ maxItems: max }),
+      new RedactorMetadataCompactObject({ maxKeys: tools.Int.positive(3) }),
       new RedactorErrorStackHide(),
-      new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
+      new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1)),
     ]);
     const config = { app, level: LogLevelEnum.error, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);

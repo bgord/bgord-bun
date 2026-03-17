@@ -1,6 +1,5 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
@@ -20,7 +19,7 @@ const Sleeper = new SleeperNoopAdapter();
 const TimeoutRunner = new TimeoutRunnerNoopAdapter();
 const HashContent = new HashContentSha256Strategy();
 
-const max = v.parse(tools.IntegerPositive, 3);
+const max = tools.Int.positive(3);
 
 describe("Prerequisite", () => {
   test("with logger - success", async () => {

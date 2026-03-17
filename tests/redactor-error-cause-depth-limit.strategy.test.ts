@@ -1,11 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import * as mocks from "./mocks";
 
-const redactor = new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1));
+const redactor = new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1));
 
 describe("RedactorLimitErrorCauseDepth", () => {
   test("redact - above limit", () => {

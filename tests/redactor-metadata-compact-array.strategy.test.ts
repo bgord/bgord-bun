@@ -1,9 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { RedactorMetadataCompactArray } from "../src/redactor-metadata-compact-array.strategy";
 
-const redactor = new RedactorMetadataCompactArray({ maxItems: v.parse(tools.IntegerPositive, 1) });
+const redactor = new RedactorMetadataCompactArray({ maxItems: tools.Int.positive(1) });
 
 describe("RedactorMetadataCompactArray", () => {
   test("redact - default max items", () => {

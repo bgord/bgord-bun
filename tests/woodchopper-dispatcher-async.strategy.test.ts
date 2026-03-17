@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
@@ -19,7 +18,7 @@ const entry = {
   timestamp: mocks.TIME_ZERO_ISO,
 };
 
-const capacity = v.parse(tools.IntegerPositive, 1);
+const capacity = tools.Int.positive(1);
 
 describe("WoodchopperDispatcherAsync", () => {
   test("dispatch", async () => {

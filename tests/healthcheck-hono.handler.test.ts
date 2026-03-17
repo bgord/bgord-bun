@@ -202,7 +202,7 @@ describe("HealthcheckHonoHandler", () => {
           prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
           redactor: new RedactorComposite([
             new RedactorErrorStackHide(),
-            new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
+            new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1)),
           ]),
         },
         deps,

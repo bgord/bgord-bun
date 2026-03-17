@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import * as v from "valibot";
 import { InFlightRequestsHonoMiddleware } from "../src/in-flight-requests-hono.middleware";
 import { InFlightRequestsTracker } from "../src/in-flight-requests-tracker.service";
 import * as mocks from "./mocks";
@@ -11,7 +10,7 @@ describe("InFlightRequestsHonoMiddleware", () => {
     InFlightRequestsTracker._resetForTest();
 
     const app = new Hono().use(new InFlightRequestsHonoMiddleware().handle()).get("/ok", async () => {
-      expect(InFlightRequestsTracker.get()).toEqual(v.parse(tools.Integer, 1));
+      expect(InFlightRequestsTracker.get()).toEqual(tools.Int.of(1));
 
       return new Response("ok");
     });
@@ -19,7 +18,7 @@ describe("InFlightRequestsHonoMiddleware", () => {
     const response = await app.request("/ok");
 
     expect(response.status).toEqual(200);
-    expect(InFlightRequestsTracker.get()).toEqual(v.parse(tools.Integer, 0));
+    expect(InFlightRequestsTracker.get()).toEqual(tools.Int.of(0));
   });
 
   test("error", async () => {
@@ -28,7 +27,7 @@ describe("InFlightRequestsHonoMiddleware", () => {
     const app = new Hono()
       .use(new InFlightRequestsHonoMiddleware().handle())
       .get("/failure", async () => {
-        expect(InFlightRequestsTracker.get()).toEqual(v.parse(tools.Integer, 1));
+        expect(InFlightRequestsTracker.get()).toEqual(tools.Int.of(1));
 
         throw new Error(mocks.IntentionalError);
       })
@@ -37,6 +36,6 @@ describe("InFlightRequestsHonoMiddleware", () => {
     const response = await app.request("/failure");
 
     expect(response.status).toEqual(500);
-    expect(InFlightRequestsTracker.get()).toEqual(v.parse(tools.Integer, 0));
+    expect(InFlightRequestsTracker.get()).toEqual(tools.Int.of(0));
   });
 });

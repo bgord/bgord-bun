@@ -1,6 +1,5 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { RedactorComposite } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
@@ -21,7 +20,7 @@ describe("WoodchopperDiagnosticsConsoleError", () => {
     using consoleError = spyOn(console, "error").mockImplementation(jest.fn());
     const redactor = new RedactorComposite([
       new RedactorErrorStackHide(),
-      new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
+      new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1)),
     ]);
     const diagnostics = new WoodchopperDiagnosticsConsoleError(redactor);
 

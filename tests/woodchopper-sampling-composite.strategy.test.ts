@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperSamplingComposite } from "../src/woodchopper-sampling-composite.strategy";
@@ -20,7 +19,7 @@ const entryInfo = {
 const entryError = { ...entryInfo, level: LogLevelEnum.error };
 const entryWarn = { ...entryInfo, level: LogLevelEnum.warn };
 
-const two = v.parse(tools.IntegerPositive, 2);
+const two = tools.Int.positive(2);
 
 describe("WoodchopperSamplingComposite", () => {
   test("decide - every n-th", () => {

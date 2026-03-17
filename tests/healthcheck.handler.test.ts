@@ -85,7 +85,7 @@ describe("HealthcheckHandler", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: v.parse(tools.IntegerNonNegative, 1),
+        cpus: tools.Int.nonNegative(1),
         startup: expect.any(Number),
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -99,7 +99,7 @@ describe("HealthcheckHandler", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: v.parse(tools.Integer, 0),
+        inFlight: tools.Int.of(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
@@ -145,7 +145,7 @@ describe("HealthcheckHandler", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: v.parse(tools.IntegerNonNegative, 1),
+        cpus: tools.Int.nonNegative(1),
         startup: expect.any(Number),
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -159,7 +159,7 @@ describe("HealthcheckHandler", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: v.parse(tools.Integer, 0),
+        inFlight: tools.Int.of(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
@@ -186,7 +186,7 @@ describe("HealthcheckHandler", () => {
         prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFailWithStack],
         redactor: new RedactorComposite([
           new RedactorErrorStackHide(),
-          new RedactorErrorCauseDepthLimit(v.parse(tools.IntegerNonNegative, 1)),
+          new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1)),
         ]),
       },
       deps,
@@ -205,7 +205,7 @@ describe("HealthcheckHandler", () => {
       server: {
         pid: expect.any(Number),
         hostname,
-        cpus: v.parse(tools.IntegerNonNegative, 1),
+        cpus: tools.Int.nonNegative(1),
         startup: expect.any(Number),
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
@@ -219,7 +219,7 @@ describe("HealthcheckHandler", () => {
           lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
           utilization,
         },
-        inFlight: v.parse(tools.Integer, 0),
+        inFlight: tools.Int.of(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },

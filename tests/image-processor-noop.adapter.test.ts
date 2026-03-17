@@ -15,7 +15,7 @@ describe("ImageProcessorNoopAdapter", () => {
       input,
       maxSide,
       to: v.parse(tools.Extension, "webp"),
-      quality: v.parse(tools.IntegerPositive, 72),
+      quality: tools.Int.positive(73),
       background: "#FFFFFF",
     };
 

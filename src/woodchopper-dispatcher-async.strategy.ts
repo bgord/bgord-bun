@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import type { LoggerEntry } from "./logger.port";
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
 import type { WoodchopperSinkStrategy } from "./woodchopper-sink.strategy";
@@ -24,7 +23,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
   constructor(
     private readonly sink: WoodchopperSinkStrategy,
-    private readonly capacity: tools.IntegerPositiveType = v.parse(tools.IntegerPositive, 256),
+    private readonly capacity: tools.IntegerPositiveType = tools.Int.positive(256),
   ) {
     this.run();
   }
@@ -49,7 +48,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
     if (this.buffer.length > 0) {
       const message = WoodchopperDispatcherAsyncError.ClosedWithBufferedEntries(
-        v.parse(tools.IntegerPositive, this.buffer.length),
+        tools.Int.positive(this.buffer.length),
       );
 
       this.onError?.(new Error(message));

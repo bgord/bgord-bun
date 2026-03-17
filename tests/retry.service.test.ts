@@ -1,12 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { Retry } from "../src/retry.service";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import * as mocks from "./mocks";
 
-const max = v.parse(tools.IntegerPositive, 3);
+const max = tools.Int.positive(3);
 const backoff = new RetryBackoffNoopStrategy();
 const Sleeper = new SleeperNoopAdapter();
 const deps = { Sleeper };
@@ -22,7 +21,7 @@ describe("Retry", () => {
   test("success", async () => {
     using action = spyOn({ run: async () => "ok" }, "run");
 
-    const result = await retry.run(action, { max: v.parse(tools.IntegerPositive, 1), backoff });
+    const result = await retry.run(action, { max: tools.Int.positive(1), backoff });
 
     expect(result).toEqual("ok");
     expect(action).toHaveBeenCalledTimes(1);
@@ -61,7 +60,7 @@ describe("Retry", () => {
     using action = spyOn({ run: mocks.throwIntentionalErrorAsync }, "run");
 
     expect(async () =>
-      retry.run(action, { max: v.parse(tools.IntegerPositive, 5), backoff: backoff, when: () => false }),
+      retry.run(action, { max: tools.Int.positive(5), backoff: backoff, when: () => false }),
     ).toThrow(mocks.IntentionalError);
     expect(action).toHaveBeenCalledTimes(1);
   });

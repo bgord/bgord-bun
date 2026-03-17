@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { deepCloneWith } from "./deep-clone-with";
 import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
@@ -7,7 +6,7 @@ import type { RedactorStrategy } from "./redactor.strategy";
 type RedactorMetadataCompactArrayOptions = { maxItems?: tools.IntegerPositiveType };
 
 export class RedactorMetadataCompactArray implements RedactorStrategy {
-  private static readonly DEFAULT_MAX_ITEMS = v.parse(tools.IntegerPositive, 20);
+  private static readonly DEFAULT_MAX_ITEMS = tools.Int.positive(20);
 
   private readonly maxItems: tools.IntegerPositiveType;
 

@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import type {
   ImageCompressorInPlaceStrategy,
@@ -63,7 +62,7 @@ describe("ImageCompressorSharpAdapter", () => {
       strategy: "output_path",
       input,
       output,
-      quality: v.parse(tools.IntegerPositive, 73),
+      quality: tools.Int.positive(73),
     };
     const adapter = await ImageCompressorSharpAdapter.build(deps);
 

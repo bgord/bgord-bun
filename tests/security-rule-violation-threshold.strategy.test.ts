@@ -17,7 +17,7 @@ const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
 const HashContent = new HashContentSha256Strategy();
 const deps = { CacheRepository, HashContent };
-const config = { threshold: v.parse(tools.IntegerPositive, 3) };
+const config = { threshold: tools.Int.positive(3) };
 
 const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, config, deps);
 

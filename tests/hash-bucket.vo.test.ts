@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { Hash } from "../src/hash.vo";
 import { HashBucket } from "../src/hash-bucket.vo";
 
@@ -25,14 +24,14 @@ describe("HashBucket", () => {
   });
 
   test("isLessThan - true", () => {
-    expect(HashBucket.fromHash(a).isLessThan(v.parse(tools.IntegerNonNegative, 50))).toEqual(true);
+    expect(HashBucket.fromHash(a).isLessThan(tools.Int.nonNegative(50))).toEqual(true);
   });
 
   test("isLessThan - false", () => {
-    expect(HashBucket.fromHash(f).isLessThan(v.parse(tools.IntegerNonNegative, 10))).toBe(false);
+    expect(HashBucket.fromHash(f).isLessThan(tools.Int.nonNegative(10))).toBe(false);
   });
 
   test("all zeros", () => {
-    expect(HashBucket.fromHash(zeros).value).toEqual(v.parse(tools.IntegerNonNegative, 0));
+    expect(HashBucket.fromHash(zeros).value).toEqual(tools.Int.nonNegative(0));
   });
 });
