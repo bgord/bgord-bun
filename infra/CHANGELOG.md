@@ -1,8 +1,12 @@
 # Changelog
+## 2026-03-17 11:12 v1.15.0
+- 2026-03-17 11:12 c8a4fe3b **1.15.0**
 - 2026-03-17 11:10 129fc817 **step: update packages**
 - 2026-03-17 11:07 9c810cb3 **refactor: security countermeasure name**
 - 2026-03-17 11:03 a88ec2d7 **refactor: loosen generic event createed at type**
 - 2026-03-17 10:54 e704b497 **refactor: improve binary vo**
+- 2026-03-17 10:10 b63b03df **docs: generate CHANGELOG**
+- 2026-03-17 10:10 900b914b **docs: generate readme**
 - 2026-03-17 00:19 844fd7fa **refactor: mutation tests adjustments**
 - 2026-03-16 23:06 adcec8bf **refactor: use standard schema in environment loader**
 - 2026-03-16 22:40 294993bf **step: remove zod**
