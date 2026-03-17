@@ -36,7 +36,7 @@
     "lockfile-lint": "5.0.0",
     "nodemailer": "8.0.2",
     "only-allow": "1.2.2",
-    "resend": "6.9.3",
+    "resend": "6.9.4",
     "sharp": "0.34.5",
     "shellcheck": "4.1.0",
     "typescript": "5.9.3",
@@ -52,7 +52,7 @@
     "better-auth": "1.5.5",
     "csv": "6.4.1",
     "nodemailer": "8.0.2",
-    "resend": "6.9.3",
+    "resend": "6.9.4",
     "sharp": "0.34.5",
     "yazl": "3.3.1"
   },
