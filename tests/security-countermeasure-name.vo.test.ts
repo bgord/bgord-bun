@@ -24,12 +24,12 @@ describe("SecurityCountermeasureName", () => {
   });
 
   test("rejects empty", () => {
-    expect(() => v.parse(SecurityCountermeasureName, "")).toThrow("security.countermeasure.name.empty");
+    expect(() => v.parse(SecurityCountermeasureName, "")).toThrow("security.countermeasure.name.bad.chars");
   });
 
   test("rejects too long", () => {
     expect(() => v.parse(SecurityCountermeasureName, `${"a".repeat(64)}abc`)).toThrow(
-      "security.countermeasure.name.too.long",
+      "security.countermeasure.name.bad.chars",
     );
   });
 

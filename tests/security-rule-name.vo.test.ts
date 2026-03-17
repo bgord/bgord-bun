@@ -22,11 +22,11 @@ describe("SecurityRuleName", () => {
   });
 
   test("rejects empty", () => {
-    expect(() => v.parse(SecurityRuleName, "")).toThrow("security.rule.name.empty");
+    expect(() => v.parse(SecurityRuleName, "")).toThrow("security.rule.name.bad.chars");
   });
 
   test("rejects too long", () => {
-    expect(() => v.parse(SecurityRuleName, `${"a".repeat(512)}abc`)).toThrow("security.rule.name.too.long");
+    expect(() => v.parse(SecurityRuleName, `${"a".repeat(512)}abc`)).toThrow("security.rule.name.bad.chars");
   });
 
   test("rejects bad chars", () => {
