@@ -25,3 +25,16 @@ export const createEventEnvelope = (stream: EventStreamType, deps: Dependencies)
     stream,
     version: 1,
   }) as const;
+
+export function event<Schema extends v.ObjectSchema<any, any>>(
+  schema: Schema,
+  stream: EventStreamType,
+  payload: v.InferOutput<Schema>["payload"],
+  deps: Dependencies,
+): v.InferOutput<Schema> {
+  return v.parse(schema, {
+    ...createEventEnvelope(stream, deps),
+    name: schema.entries.name.literal,
+    payload,
+  });
+}
