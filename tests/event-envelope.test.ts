@@ -8,14 +8,12 @@ import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic
 import * as mocks from "./mocks";
 
 const stream = "stream";
-
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 7));
-
-const deps = { Clock, IdProvider };
 
 describe("EventEnvelope", () => {
   test("schema", () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
+
     const result = v.safeParse(v.object(EventEnvelopeSchema), {
       createdAt: Clock.now().ms,
       id: IdProvider.generate(),
@@ -29,18 +27,22 @@ describe("EventEnvelope", () => {
   });
 
   test("createEventEnvelope - no correlation id", () => {
-    expect(() => createEventEnvelope(stream, deps)).toThrow("correlation.storage.missing");
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+
+    expect(() => createEventEnvelope(stream, { Clock, IdProvider })).toThrow("correlation.storage.missing");
   });
 
   test("createEventEnvelope", async () => {
-    const id = IdProvider.generate();
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 
-    await CorrelationStorage.run(id, () => {
-      expect(() => createEventEnvelope(stream, deps)).not.toThrow();
+    await CorrelationStorage.run(mocks.correlationId, () => {
+      expect(() => createEventEnvelope(stream, { IdProvider, Clock })).not.toThrow();
     });
   });
 
   test("event", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+
     await CorrelationStorage.run(mocks.correlationId, () => {
       const Event = v.object({
         ...EventEnvelopeSchema,
@@ -48,7 +50,7 @@ describe("EventEnvelope", () => {
         payload: v.object({ timestamp: tools.TimestampValue }),
       });
 
-      expect(event(Event, "stream", { timestamp: mocks.TIME_ZERO.ms }, deps)).toEqual({
+      expect(event(Event, stream, { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider })).toEqual({
         correlationId: mocks.correlationId,
         id: mocks.correlationId,
         createdAt: mocks.TIME_ZERO.ms,
