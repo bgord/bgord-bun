@@ -1,8 +1,11 @@
 # Changelog
+## 2026-03-17 17:17 v1.15.1
+- 2026-03-17 17:17 9847609d **1.15.1**
 - 2026-03-17 17:16 3465e54b **step: remove tests from tsconfig**
 - 2026-03-17 16:59 13ed1952 **refactor: use Int**
 - 2026-03-17 16:25 9487885e **refactor: use Int**
 - 2026-03-17 16:22 337be120 **step: update packages**
+- 2026-03-17 16:17 11b90586 **docs: generate CHANGELOG**
 - 2026-03-17 16:15 4c2528be **docs: generate CHANGELOG**
 ## 2026-03-17 11:12 v1.15.0
 - 2026-03-17 11:12 c8a4fe3b **1.15.0**
