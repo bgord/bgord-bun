@@ -107,7 +107,6 @@ src/
 ├── environment-loader-process-safe.adapter.ts
 ├── environment-loader-process.adapter.ts
 ├── environment-loader.port.ts
-├── environment-schema.port.ts
 ├── error-normalizer.service.ts
 ├── etag-extractor-hono.middleware.ts
 ├── etag-extractor.middleware.ts
@@ -130,7 +129,7 @@ src/
 ├── event-store.adapter.ts
 ├── event-store.port.ts
 ├── event-stream.vo.ts
-├── event-validator-registry-zod.adapter.ts
+├── event-validator-registry.adapter.ts
 ├── event-validator-registry.port.ts
 ├── event.types.ts
 ├── file-cleaner-forgiving.adapter.ts
