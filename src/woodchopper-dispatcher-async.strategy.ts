@@ -80,7 +80,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
     }
   }
 
-  private async wakeConsumer() {
+  private wakeConsumer() {
     this.wake?.();
     this.wake = undefined;
   }
