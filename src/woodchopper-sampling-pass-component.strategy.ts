@@ -1,7 +1,7 @@
 import type { LoggerEntry } from "./logger.port";
-import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
+import type { WoodchopperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
-export class WoodchopperSamplingPassComponent implements WoodchoperSamplingStrategy {
+export class WoodchopperSamplingPassComponent implements WoodchopperSamplingStrategy {
   constructor(private readonly components: ReadonlyArray<LoggerEntry["component"]>) {}
 
   decide(entry: LoggerEntry): boolean {

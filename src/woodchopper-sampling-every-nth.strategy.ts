@@ -1,10 +1,10 @@
 import type * as tools from "@bgord/tools";
 import type { LoggerEntry } from "./logger.port";
-import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
+import type { WoodchopperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
 type Config = { n: tools.IntegerPositiveType };
 
-export class WoodchopperSamplingEveryNth implements WoodchoperSamplingStrategy {
+export class WoodchopperSamplingEveryNth implements WoodchopperSamplingStrategy {
   constructor(private readonly config: Config) {}
 
   private counter = 0;

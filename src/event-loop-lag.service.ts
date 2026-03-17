@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 
 export type EventLoopLagSnapshotType = { p50: tools.Duration; p95: tools.Duration; p99: tools.Duration };
 
-export const EventLoopLagErorr = { NotStarted: "event.loop.lag.not.started" };
+export const EventLoopLagError = { NotStarted: "event.loop.lag.not.started" };
 
 export class EventLoopLag {
   private static histogram: ReturnType<typeof perf_hooks.monitorEventLoopDelay> | null = null;
@@ -16,7 +16,7 @@ export class EventLoopLag {
   }
 
   static snapshot(): EventLoopLagSnapshotType {
-    if (!EventLoopLag.histogram) throw new Error(EventLoopLagErorr.NotStarted);
+    if (!EventLoopLag.histogram) throw new Error(EventLoopLagError.NotStarted);
 
     return {
       p50: tools.Duration.Ns(EventLoopLag.histogram.percentile(50)),

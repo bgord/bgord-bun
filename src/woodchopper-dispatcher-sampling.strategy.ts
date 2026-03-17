@@ -1,13 +1,13 @@
 import type { LoggerEntry } from "./logger.port";
 import type { WoodchopperDispatcher } from "./woodchopper-dispatcher.strategy";
-import type { WoodchoperSamplingStrategy } from "./woodchopper-sampling.strategy";
+import type { WoodchopperSamplingStrategy } from "./woodchopper-sampling.strategy";
 
 export class WoodchopperDispatcherSampling implements WoodchopperDispatcher {
   onError?: (error: unknown) => void;
 
   constructor(
     private readonly inner: WoodchopperDispatcher,
-    private readonly strategy: WoodchoperSamplingStrategy,
+    private readonly strategy: WoodchopperSamplingStrategy,
   ) {
     this.inner.onError = (error) => this.onError?.(error);
   }

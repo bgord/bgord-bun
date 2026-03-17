@@ -1,5 +1,5 @@
 import type { LoggerEntry } from "./logger.port";
 
-export interface WoodchoperSamplingStrategy {
+export interface WoodchopperSamplingStrategy {
   decide(entry: LoggerEntry): boolean;
 }
