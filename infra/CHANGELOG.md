@@ -1,5 +1,55 @@
 # Changelog
+- 2026-03-17 11:10 129fc817 **step: update packages**
+- 2026-03-17 11:07 9c810cb3 **refactor: security countermeasure name**
+- 2026-03-17 11:03 a88ec2d7 **refactor: loosen generic event createed at type**
+- 2026-03-17 10:54 e704b497 **refactor: improve binary vo**
+- 2026-03-17 00:19 844fd7fa **refactor: mutation tests adjustments**
+- 2026-03-16 23:06 adcec8bf **refactor: use standard schema in environment loader**
+- 2026-03-16 22:40 294993bf **step: remove zod**
+- 2026-03-16 22:25 057c7f6c **step: create generic registry**
+- 2026-03-16 22:15 b401b24f **step: install standard schema spec**
+- 2026-03-16 21:02 36285b41 **refactor: refactor events**
+- 2026-03-16 20:36 b7b8ca94 **refactor: adjust tests to new vos**
+- 2026-03-16 20:27 dbdc8d85 **refactor: adjust src to new vos**
+- 2026-03-16 20:25 f69167b9 **refactor: correlation id**
+- 2026-03-16 20:24 818db3bb **refactor: remove zod from node env**
+- 2026-03-16 20:22 535d7e6a **refactor: remove zod from logger port**
+- 2026-03-16 20:21 472c85a2 **refactor: rewrite history payload**
+- 2026-03-16 20:21 235be4e5 **refactor: rewrite history**
+- 2026-03-16 20:20 4f6ca163 **refactor: rewrite smtp port**
+- 2026-03-16 20:19 f40c9813 **refactor: rewrite port**
+- 2026-03-16 20:18 39e98a0f **refactor: rewrite history subject**
+- 2026-03-16 20:17 49d2fc99 **refactor: rewrite history operation**
+- 2026-03-16 20:16 e886acc9 **refactor: rewrite mailer subject**
+- 2026-03-16 20:15 ca72592b **refactor: rewrite nonce value**
+- 2026-03-16 20:15 a2dc3cf4 **refactor: rewrite mailer content html**
+- 2026-03-16 20:14 85379b99 **refactor: rewrite recaptcha secret key**
+- 2026-03-16 20:13 67b989b4 **refactor: rewrite recaptcha site key**
+- 2026-03-16 20:13 2f40b9a2 **refactor: rewrite security countermeasure name**
+- 2026-03-16 20:12 8eac081b **refactor: rewrite security rule name**
+- 2026-03-16 20:11 b887df9f **refactor: rewrite smtp host**
+- 2026-03-16 20:09 c3c75493 **refactor: rewrite smtp pass**
+- 2026-03-16 20:09 b9a142f5 **refactor: rewrite smtp user**
+- 2026-03-16 20:08 6360cd40 **refactor: rewrite uuid**
+- 2026-03-16 20:07 a1202a78 **refactor: rewrite hcaptcha site key**
+- 2026-03-16 20:07 5f38e9f4 **refactor: rewrite hcaptcha secret key**
+- 2026-03-16 20:06 9d65e505 **refactor: rewrite hash value**
+- 2026-03-16 20:05 0d5043fc **refactor: rewrite event stream**
+- 2026-03-16 20:04 af56bb65 **refactor: rewrite commit sha value**
+- 2026-03-16 20:04 7c729e30 **refactor: rewrite encryption key value**
+- 2026-03-16 20:03 b0e4b2fd **refactor: rewrite client user agent**
+- 2026-03-16 20:02 e77b21bd **refactor: rewrite binary**
+- 2026-03-16 20:02 512c0a2d **refactor: rewrite client ip**
+- 2026-03-16 20:01 20903393 **refactor: rewrite basic auth username**
+- 2026-03-16 20:00 d4dfafbf **refactor: rewrite basic auth password**
+- 2026-03-16 20:00 cf97c1d2 **refactor: rewrite ab variant weight**
+- 2026-03-16 19:45 e0141713 **refactor: loosen tools schemas temporarily**
+- 2026-03-16 19:14 d69fa3ff **refactor: adjust tests**
+- 2026-03-16 19:11 88683832 **step: add event envelope suppresions**
+- 2026-03-16 19:00 903e3225 **refactor: adjust tools usage**
+- 2026-03-16 18:58 500d3c76 **step: update packages**
 - 2026-03-16 13:19 0d76542a **refactor: simplify duration ms in logs to ms**
+- 2026-03-16 12:55 b393d372 **docs: generate CHANGELOG**
 ## 2026-03-16 11:59 v1.14.7
 - 2026-03-16 11:59 4b56a4ce **1.14.7**
 - 2026-03-16 11:58 ccaaf53a **refactor: adjust constructor parameters order in env loader process**
