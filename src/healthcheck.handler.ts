@@ -1,6 +1,5 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
@@ -121,7 +120,7 @@ export class HealthcheckHandler {
       server: {
         pid: process.pid,
         hostname: os.hostname(),
-        cpus: v.parse(tools.IntegerNonNegative, os.cpus().length),
+        cpus: tools.Int.nonNegative(os.cpus().length),
         startup: this.deps.Clock.now().subtract(uptime.duration).ms,
         uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
         memory: {
