@@ -1,8 +1,12 @@
 # Changelog
+## 2026-03-18 12:45 v1.15.3
+- 2026-03-18 12:45 557be479 **1.15.3**
 - 2026-03-18 12:43 dba5b088 **step: update packages**
 - 2026-03-18 12:43 43acf47b **refactor: extract mailer mocks**
 - 2026-03-18 12:27 2f28d512 **step: add mailer builder**
 - 2026-03-18 12:19 cf4a2681 **step: add mailer with retry**
+- 2026-03-18 11:44 fa3c7107 **docs: generate CHANGELOG**
+- 2026-03-18 11:44 a4ca4a5c **docs: generate readme**
 - 2026-03-18 11:37 6c5a0dc4 **step: add mailer with timeout**
 - 2026-03-17 23:17 61d29a0f **refactor: remove async wake consumer**
 - 2026-03-17 23:14 5dff22b1 **refactor: typo**
