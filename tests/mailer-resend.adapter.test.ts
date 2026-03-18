@@ -1,21 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
-import * as v from "valibot";
-import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerResendAdapter } from "../src/mailer-resend.adapter";
-import { MailerSubject } from "../src/mailer-subject.vo";
-import { MailerTemplate } from "../src/mailer-template.vo";
 import * as mocks from "./mocks";
-
-const config = {
-  from: v.parse(tools.Email, "sender@example.com"),
-  to: v.parse(tools.Email, "recipient@example.com"),
-};
-const message = {
-  subject: v.parse(MailerSubject, "Test Email"),
-  html: v.parse(MailerContentHtml, "This is a test email."),
-};
-const template = new MailerTemplate(config, message);
 
 const smtp = { key: "RESEND_API_KEY" };
 
@@ -32,15 +17,15 @@ describe("MailerResendAdapter", async () => {
   test("send - success", async () => {
     using resendEmailsSend = spyOn(mailer.transport.emails, "send").mockResolvedValue(success);
 
-    await mailer.send(template);
+    await mailer.send(mocks.template);
 
-    expect(resendEmailsSend).toHaveBeenCalledWith({ ...config, ...message });
+    expect(resendEmailsSend).toHaveBeenCalledWith({ ...mocks.mailer.config, ...mocks.mailer.message });
   });
 
   test("send - error", async () => {
     using _ = spyOn(mailer.transport.emails, "send").mockResolvedValue(failure);
 
-    expect(async () => mailer.send(template)).toThrow("Invalid API key");
+    expect(async () => mailer.send(mocks.template)).toThrow("Invalid API key");
   });
 
   test("verify - success", async () => {

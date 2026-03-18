@@ -1,53 +1,35 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
-import { MailerContentHtml } from "../src/mailer-content-html.vo";
-import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
-import { MailerSubject } from "../src/mailer-subject.vo";
-import { MailerTemplate } from "../src/mailer-template.vo";
+import { MailerNoopAdapter } from "../src/mailer-noop.adapter";
 import { MailerWithLoggerAdapter } from "../src/mailer-with-logger.adapter";
-import { SmtpHost } from "../src/smtp-host.vo";
-import { SmtpPass } from "../src/smtp-pass.vo";
-import { SmtpPort } from "../src/smtp-port.vo";
-import { SmtpUser } from "../src/smtp-user.vo";
 import * as mocks from "./mocks";
-
-const config = {
-  from: v.parse(tools.Email, "sender@example.com"),
-  to: v.parse(tools.Email, "recipient@example.com"),
-};
-const message = {
-  subject: v.parse(MailerSubject, "Test Email"),
-  html: v.parse(MailerContentHtml, "This is a test email."),
-};
-const template = new MailerTemplate(config, message);
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
-describe("MailerWithLoggerAdapter", async () => {
-  const inner = await MailerSmtpAdapter.build({
-    SMTP_HOST: v.parse(SmtpHost, "smtp.example.com"),
-    SMTP_PORT: v.parse(SmtpPort, 587),
-    SMTP_USER: v.parse(SmtpUser, "user@example.com"),
-    SMTP_PASS: v.parse(SmtpPass, "password"),
-  });
+const inner = new MailerNoopAdapter();
 
+describe("MailerWithLoggerAdapter", async () => {
   test("send - success", async () => {
     using sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
-    await adapter.send(template);
+    await adapter.send(mocks.template);
 
-    expect(sendMail).toHaveBeenCalledWith(template);
+    expect(sendMail).toHaveBeenCalledWith(mocks.template);
     expect(Logger.entries).toEqual([
-      { component: "infra", message: "Mailer attempt", metadata: template.toJSON(), operation: "mailer" },
+      {
+        component: "infra",
+        message: "Mailer attempt",
+        metadata: mocks.template.toJSON(),
+        operation: "mailer",
+      },
       {
         component: "infra",
         message: "Mailer success",
-        metadata: { template: template.toJSON(), duration: expect.any(tools.Duration) },
+        metadata: { template: mocks.template.toJSON(), duration: expect.any(tools.Duration) },
         operation: "mailer",
       },
     ]);
@@ -58,10 +40,15 @@ describe("MailerWithLoggerAdapter", async () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
-    expect(async () => adapter.send(template)).toThrow(mocks.IntentionalError);
-    expect(sendMail).toHaveBeenCalledWith(template);
+    expect(async () => adapter.send(mocks.template)).toThrow(mocks.IntentionalError);
+    expect(sendMail).toHaveBeenCalledWith(mocks.template);
     expect(Logger.entries).toEqual([
-      { component: "infra", message: "Mailer attempt", metadata: template.toJSON(), operation: "mailer" },
+      {
+        component: "infra",
+        message: "Mailer attempt",
+        metadata: mocks.template.toJSON(),
+        operation: "mailer",
+      },
       {
         component: "infra",
         message: "Mailer error",

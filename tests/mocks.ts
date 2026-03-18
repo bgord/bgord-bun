@@ -8,6 +8,9 @@ import { CommitSha } from "../src/commit-sha.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import { Languages } from "../src/languages.vo";
+import { MailerContentHtml } from "../src/mailer-content-html.vo";
+import { MailerSubject } from "../src/mailer-subject.vo";
+import { MailerTemplate } from "../src/mailer-template.vo";
 import type * as Preferences from "../src/modules/preferences";
 import type * as System from "../src/modules/system";
 import { Prerequisite } from "../src/prerequisite.vo";
@@ -244,3 +247,16 @@ export const asyncSchema = {
     validate: () => Promise.resolve({ value: { APP_NAME: "MyApp" } }),
   },
 };
+
+export const mailer = {
+  config: {
+    from: v.parse(tools.Email, "sender@example.com"),
+    to: v.parse(tools.Email, "recipient@example.com"),
+  },
+  message: {
+    subject: v.parse(MailerSubject, "Test Email"),
+    html: v.parse(MailerContentHtml, "This is a test email."),
+  },
+};
+
+export const template = new MailerTemplate(mailer.config, mailer.message);
