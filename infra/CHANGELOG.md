@@ -1,4 +1,12 @@
 # Changelog
+- 2026-03-18 12:43 dba5b088 **step: update packages**
+- 2026-03-18 12:43 43acf47b **refactor: extract mailer mocks**
+- 2026-03-18 12:27 2f28d512 **step: add mailer builder**
+- 2026-03-18 12:19 cf4a2681 **step: add mailer with retry**
+- 2026-03-18 11:37 6c5a0dc4 **step: add mailer with timeout**
+- 2026-03-17 23:17 61d29a0f **refactor: remove async wake consumer**
+- 2026-03-17 23:14 5dff22b1 **refactor: typo**
+- 2026-03-17 23:13 b6e64490 **refactor: adjust import paths**
 ## 2026-03-17 21:29 v1.15.2
 - 2026-03-17 21:29 ab11311f **1.15.2**
 - 2026-03-17 21:26 abd979b9 **step: bump bgord/scripts**
@@ -6,6 +14,7 @@
 - 2026-03-17 21:12 befbac5c **refactor: improve event envelope tests**
 - 2026-03-17 21:06 a32cbf82 **step: add command factory**
 - 2026-03-17 21:02 8ad56de8 **step: add event factory**
+- 2026-03-17 20:29 5c659775 **docs: generate CHANGELOG**
 - 2026-03-17 20:26 c9fa145b **docs: generate CHANGELOG**
 ## 2026-03-17 17:17 v1.15.1
 - 2026-03-17 17:17 9847609d **1.15.1**
