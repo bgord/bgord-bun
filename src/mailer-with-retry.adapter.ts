@@ -3,13 +3,13 @@ import type { MailerTemplate } from "./mailer-template.vo";
 import { Retry, type RetryConfig } from "./retry.service";
 import type { SleeperPort } from "./sleeper.port";
 
-type Dependencies = { Sleeper: SleeperPort; inner: MailerPort };
-type Config = { retry: RetryConfig };
+export type MailerWithRetryAdapterDependencies = { Sleeper: SleeperPort; inner: MailerPort };
+export type MailerWithRetryAdapterConfig = { retry: RetryConfig };
 
 export class MailerWithRetryAdapter implements MailerPort {
   constructor(
-    private readonly config: Config,
-    private readonly deps: Dependencies,
+    private readonly config: MailerWithRetryAdapterConfig,
+    private readonly deps: MailerWithRetryAdapterDependencies,
   ) {}
 
   async send(template: MailerTemplate): Promise<void> {

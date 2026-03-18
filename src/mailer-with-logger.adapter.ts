@@ -4,12 +4,12 @@ import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 import { Stopwatch } from "./stopwatch.service";
 
-type Dependencies = { inner: MailerPort; Logger: LoggerPort; Clock: ClockPort };
+export type MailerWithLoggerAdapterDependencies = { inner: MailerPort; Logger: LoggerPort; Clock: ClockPort };
 
 export class MailerWithLoggerAdapter implements MailerPort {
   private readonly base = { component: "infra", operation: "mailer" };
 
-  constructor(private readonly deps: Dependencies) {}
+  constructor(private readonly deps: MailerWithLoggerAdapterDependencies) {}
 
   async send(template: MailerTemplate): Promise<void> {
     const duration = new Stopwatch(this.deps);

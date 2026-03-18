@@ -3,13 +3,13 @@ import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 import type { TimeoutRunnerPort } from "./timeout-runner.port";
 
-type Dependencies = { TimeoutRunner: TimeoutRunnerPort; inner: MailerPort };
-type Config = { timeout: tools.Duration };
+export type MailerWithTimeoutAdapterDependencies = { TimeoutRunner: TimeoutRunnerPort; inner: MailerPort };
+export type MailerWithTimeoutAdapterConfig = { timeout: tools.Duration };
 
 export class MailerWithTimeoutAdapter implements MailerPort {
   constructor(
-    private readonly config: Config,
-    private readonly deps: Dependencies,
+    private readonly config: MailerWithTimeoutAdapterConfig,
+    private readonly deps: MailerWithTimeoutAdapterDependencies,
   ) {}
 
   async send(template: MailerTemplate): Promise<void> {

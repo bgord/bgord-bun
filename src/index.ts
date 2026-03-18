@@ -213,6 +213,8 @@ export * from "./logger-collecting.adapter";
 export * from "./logger-noop.adapter";
 export * from "./logger-stats-provider.port";
 export * from "./logger-stats-provider-noop.adapter";
+export * from "./mailer.builder";
+export * from "./mailer.builder";
 export * from "./mailer.port";
 export * from "./mailer-content-html.vo";
 export * from "./mailer-noop.adapter";
