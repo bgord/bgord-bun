@@ -5,8 +5,10 @@ import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import * as mocks from "./mocks";
 
 const immediate = async () => 2;
+
 const timeout = tools.Duration.MIN;
 const over = timeout.times(v.parse(tools.MultiplicationFactor, 10)).ms;
+
 const adapter = new TimeoutRunnerBareAdapter();
 
 describe("TimeoutRunnerBareAdapter", () => {

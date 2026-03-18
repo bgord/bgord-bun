@@ -221,6 +221,7 @@ export * from "./mailer-smtp.adapter";
 export * from "./mailer-subject.vo";
 export * from "./mailer-template.vo";
 export * from "./mailer-with-logger.adapter";
+export * from "./mailer-with-timeout.adapter";
 export * from "./markdown-generator.adapter";
 export * from "./markdown-generator.port";
 export * from "./markdown-generator-noop.adapter";
