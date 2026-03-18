@@ -249,6 +249,9 @@ src/
 ├── mailer-subject.vo.ts
 ├── mailer-template.vo.ts
 ├── mailer-with-logger.adapter.ts
+├── mailer-with-retry.adapter.ts
+├── mailer-with-timeout.adapter.ts
+├── mailer.builder.ts
 ├── mailer.port.ts
 ├── markdown-generator-noop.adapter.ts
 ├── markdown-generator.adapter.ts
