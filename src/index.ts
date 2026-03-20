@@ -375,6 +375,7 @@ export * from "./slower.middleware";
 export * from "./slower-hono.middleware";
 export * from "./sms.port";
 export * from "./sms-body.vo";
+export * from "./sms-collecting.adapter";
 export * from "./sms-message.vo";
 export * from "./sms-noop.adapter";
 export * from "./smtp-host.vo";
