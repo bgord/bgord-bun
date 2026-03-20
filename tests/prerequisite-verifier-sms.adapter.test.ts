@@ -1,19 +1,19 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { MailerNoopAdapter } from "../src/mailer-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
-import { PrerequisiteVerifierMailerAdapter } from "../src/prerequisite-verifier-mailer.adapter";
+import { PrerequisiteVerifierSmsAdapter } from "../src/prerequisite-verifier-sms.adapter";
+import { SmsNoopAdapter } from "../src/sms-noop.adapter";
 import * as mocks from "./mocks";
 
-const Mailer = new MailerNoopAdapter();
-const prerequisite = new PrerequisiteVerifierMailerAdapter({ Mailer });
+const Sms = new SmsNoopAdapter();
+const prerequisite = new PrerequisiteVerifierSmsAdapter({ Sms });
 
-describe("PrerequisiteVerifierMailerAdapter", () => {
+describe("PrerequisiteVerifierSmsAdapter", () => {
   test("success", async () => {
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure", async () => {
-    using _ = spyOn(Mailer, "verify").mockRejectedValue(mocks.IntentionalError);
+    using _ = spyOn(Sms, "verify").mockRejectedValue(mocks.IntentionalError);
 
     expect(await prerequisite.verify()).toMatchObject(
       PrerequisiteVerification.failure(mocks.IntentionalError),
@@ -21,6 +21,6 @@ describe("PrerequisiteVerifierMailerAdapter", () => {
   });
 
   test("kind", () => {
-    expect(prerequisite.kind).toEqual("mailer");
+    expect(prerequisite.kind).toEqual("sms");
   });
 });
