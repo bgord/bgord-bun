@@ -20,9 +20,6 @@ import {
   type PrerequisiteVerifierPort,
 } from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
-import { SmsBody } from "../src/sms-body.vo";
-import { SmsMessage } from "../src/sms-message.vo";
-import { TelephoneNumber } from "../src/telephone-number.vo";
 
 export const correlationId = "00000000-0000-0000-0000-000000000000";
 
@@ -264,7 +261,7 @@ export const mailer = {
 
 export const template = new MailerTemplate(mailer.config, mailer.message);
 
-export const sms = new SmsMessage(
-  v.parse(TelephoneNumber, "+12125551234"),
-  v.parse(SmsBody, "Your OTP is 123456"),
+export const sms = new tools.SmsMessage(
+  v.parse(tools.TelephoneNumber, "+12125551234"),
+  v.parse(tools.SmsBody, "Your OTP is 123456"),
 );

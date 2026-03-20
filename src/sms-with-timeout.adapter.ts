@@ -1,6 +1,5 @@
 import type * as tools from "@bgord/tools";
 import type { SmsPort } from "./sms.port";
-import type { SmsMessage } from "./sms-message.vo";
 import type { TimeoutRunnerPort } from "./timeout-runner.port";
 
 export type SmsWithTimeoutAdapterDependencies = { TimeoutRunner: TimeoutRunnerPort; inner: SmsPort };
@@ -12,7 +11,7 @@ export class SmsWithTimeoutAdapter implements SmsPort {
     private readonly deps: SmsWithTimeoutAdapterDependencies,
   ) {}
 
-  async send(message: SmsMessage): Promise<void> {
+  async send(message: tools.SmsMessage): Promise<void> {
     await this.deps.TimeoutRunner.run(this.deps.inner.send(message), this.config.timeout);
   }
 

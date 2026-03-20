@@ -1,10 +1,10 @@
+import type * as tools from "@bgord/tools";
 import type { SmsPort } from "./sms.port";
-import type { SmsMessage } from "./sms-message.vo";
 
 export class SmsCollectingAdapter implements SmsPort {
-  readonly messages: Array<SmsMessage> = [];
+  readonly messages: Array<tools.SmsMessage> = [];
 
-  async send(message: SmsMessage): Promise<void> {
+  async send(message: tools.SmsMessage): Promise<void> {
     this.messages.push(message);
   }
 

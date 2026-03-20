@@ -1,6 +1,6 @@
-import type { SmsMessage } from "./sms-message.vo";
+import type * as tools from "@bgord/tools";
 
 export interface SmsPort {
-  send(message: SmsMessage): Promise<void>;
+  send(message: tools.SmsMessage): Promise<void>;
   verify(): Promise<boolean>;
 }
