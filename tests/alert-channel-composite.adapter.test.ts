@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { AlertChannelCollectingAdapter } from "../src/alert-channel-collecting.adapter";
 import { AlertChannelCompositeAdapter } from "../src/alert-channel-composite.adapter";
 import { AlertChannelNoopAdapter } from "../src/alert-channel-noop.adapter";
@@ -7,6 +8,20 @@ import * as mocks from "./mocks";
 const noop = new AlertChannelNoopAdapter();
 
 describe("AlertChannelCompositeAdapter", () => {
+  test("min channels", () => {
+    expect(() => new AlertChannelCompositeAdapter([])).toThrow("alert.channel.composite.channels.min");
+  });
+
+  test("max channels", () => {
+    expect(() => new AlertChannelCompositeAdapter(tools.repeat(noop, 6))).toThrow(
+      "alert.channel.composite.channels.max",
+    );
+  });
+
+  test("enough channels", () => {
+    expect(() => new AlertChannelCompositeAdapter(tools.repeat(noop, 5))).not.toThrow();
+  });
+
   test("send", async () => {
     const first = new AlertChannelCollectingAdapter();
     const second = new AlertChannelCollectingAdapter();
