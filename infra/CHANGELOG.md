@@ -1,10 +1,27 @@
 # Changelog
+- 2026-03-20 14:36 383d3e7c **step: update packages**
+- 2026-03-20 14:31 25641fbe **step: update packages**
+- 2026-03-20 14:29 9798be09 **refactor: remove unused export**
+- 2026-03-20 14:26 b3863808 **step: add healthcheck degraded status**
+- 2026-03-20 14:17 749473a6 **step: add readiness handler**
+- 2026-03-20 14:17 6d74213d **step: add liveness handler**
+- 2026-03-20 14:16 e082e1c6 **step: remove ping**
+- 2026-03-20 14:16 ab6f3bec **refactor: remove retry backoff fibonacci**
+- 2026-03-20 14:15 e612da97 **step: add shield ip blacklist**
+- 2026-03-20 14:15 345b8573 **step: add randomness strategy**
+- 2026-03-20 14:15 07470a09 **step: add shield ip whitelist**
+- 2026-03-20 14:14 9808f64b **step: update packages**
+- 2026-03-20 14:14 8176978e **step: add image grayscale port**
+- 2026-03-20 14:14 2de4a083 **step: add retry backoff jitter**
+- 2026-03-20 14:13 f3f80cab **step: update scripts**
+- 2026-03-20 14:13 69540154 **step: add cache repository redis adapter**
 ## 2026-03-18 12:45 v1.15.3
 - 2026-03-18 12:45 557be479 **1.15.3**
 - 2026-03-18 12:43 dba5b088 **step: update packages**
 - 2026-03-18 12:43 43acf47b **refactor: extract mailer mocks**
 - 2026-03-18 12:27 2f28d512 **step: add mailer builder**
 - 2026-03-18 12:19 cf4a2681 **step: add mailer with retry**
+- 2026-03-18 11:45 ff9b7a93 **docs: generate CHANGELOG**
 - 2026-03-18 11:44 fa3c7107 **docs: generate CHANGELOG**
 - 2026-03-18 11:44 a4ca4a5c **docs: generate readme**
 - 2026-03-18 11:37 6c5a0dc4 **step: add mailer with timeout**
