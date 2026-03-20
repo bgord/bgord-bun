@@ -401,6 +401,7 @@ export * from "./subject-segment-path.strategy";
 export * from "./subject-segment-query.strategy";
 export * from "./subject-segment-request.strategy";
 export * from "./subject-segment-user.strategy";
+export * from "./telephone-number.vo";
 export * from "./temporary-file.port";
 export * from "./temporary-file-absolute.adapter";
 export * from "./temporary-file-noop.adapter";
