@@ -34,7 +34,7 @@
     "knip": "5.88.0",
     "lefthook": "2.1.4",
     "lockfile-lint": "5.0.0",
-    "nodemailer": "8.0.2",
+    "nodemailer": "8.0.3",
     "only-allow": "1.2.2",
     "resend": "6.9.4",
     "sharp": "0.34.5",
@@ -51,7 +51,7 @@
   "peerDependencies": {
     "better-auth": "1.5.5",
     "csv": "6.5.0",
-    "nodemailer": "8.0.2",
+    "nodemailer": "8.0.3",
     "resend": "6.9.4",
     "sharp": "0.34.5",
     "yazl": "3.3.1"
