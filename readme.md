@@ -57,6 +57,7 @@ src/
 ├── cache-file.service.ts
 ├── cache-repository-node-cache.adapter.ts
 ├── cache-repository-noop.adapter.ts
+├── cache-repository-redis.adapter.ts
 ├── cache-repository.port.ts
 ├── cache-resolver-simple.strategy.ts
 ├── cache-resolver.strategy.ts
@@ -209,6 +210,9 @@ src/
 ├── image-formatter-noop.adapter.ts
 ├── image-formatter-sharp.adapter.ts
 ├── image-formatter.port.ts
+├── image-grayscale-noop.adapter.ts
+├── image-grayscale-sharp.adapter.ts
+├── image-grayscale.port.ts
 ├── image-info-noop.adapter.ts
 ├── image-info-sharp.adapter.ts
 ├── image-info.port.ts
@@ -237,6 +241,8 @@ src/
 ├── language-detector.middleware.ts
 ├── language-detector.strategy.ts
 ├── languages.vo.ts
+├── liveness-hono.handler.ts
+├── liveness.handler.ts
 ├── logger-collecting.adapter.ts
 ├── logger-noop.adapter.ts
 ├── logger-stats-provider-noop.adapter.ts
@@ -319,8 +325,6 @@ src/
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator-with-logger.adapter.ts
 ├── pdf-generator.port.ts
-├── ping-hono.handler.ts
-├── ping.handler.ts
 ├── port.vo.ts
 ├── prerequisite-runner-startup.service.ts
 ├── prerequisite-verifier-binary.adapter.ts
@@ -353,6 +357,12 @@ src/
 ├── prerequisite-verifier.decorator.ts
 ├── prerequisite-verifier.port.ts
 ├── prerequisite.vo.ts
+├── randomness-crypto.strategy.ts
+├── randomness-math.strategy.ts
+├── randomness-noop.strategy.ts
+├── randomness.strategy.ts
+├── readiness-hono.handler.ts
+├── readiness.handler.ts
 ├── recaptcha-secret-key.vo.ts
 ├── recaptcha-site-key.vo.ts
 ├── redactor-composite.strategy.ts
@@ -369,7 +379,7 @@ src/
 ├── request-context-hono.adapter.ts
 ├── request-context.port.ts
 ├── retry-backoff-exponential.strategy.ts
-├── retry-backoff-fibonacci.strategy.ts
+├── retry-backoff-jitter.strategy.ts
 ├── retry-backoff-linear.strategy.ts
 ├── retry-backoff-noop.strategy.ts
 ├── retry-backoff.strategy.ts
@@ -413,6 +423,10 @@ src/
 ├── shield-hcaptcha-hono-local.strategy.ts
 ├── shield-hcaptcha-hono.strategy.ts
 ├── shield-hcaptcha.strategy.ts
+├── shield-ip-blacklist-hono.strategy.ts
+├── shield-ip-blacklist.strategy.ts
+├── shield-ip-whitelist-hono.strategy.ts
+├── shield-ip-whitelist.strategy.ts
 ├── shield-maintenance-hono.strategy.ts
 ├── shield-maintenance.strategy.ts
 ├── shield-rate-limit-hono.strategy.ts
