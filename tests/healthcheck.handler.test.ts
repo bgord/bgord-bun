@@ -9,7 +9,7 @@ import {
   EventLoopUtilization,
   type EventLoopUtilizationSnapshot,
 } from "../src/event-loop-utilization.service";
-import { HealthcheckHandler } from "../src/healthcheck.handler";
+import { HealthcheckHandler, HealthcheckStatusEnum } from "../src/healthcheck.handler";
 import { LoggerStatsProviderNoopAdapter } from "../src/logger-stats-provider-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -73,7 +73,8 @@ describe("HealthcheckHandler", () => {
     );
 
     expect(await handler.check()).toEqual({
-      ok: true,
+      status: HealthcheckStatusEnum.healthy,
+      code: 200,
       deployment: {
         version,
         timestamp: mocks.TIME_ZERO.ms,
@@ -133,7 +134,8 @@ describe("HealthcheckHandler", () => {
     );
 
     expect(await handler.check()).toEqual({
-      ok: true,
+      status: HealthcheckStatusEnum.healthy,
+      code: 200,
       deployment: {
         version,
         timestamp: mocks.TIME_ZERO.ms,
@@ -170,6 +172,29 @@ describe("HealthcheckHandler", () => {
     });
   });
 
+  test("207", async () => {
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
+    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
+    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
+    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
+    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
+      utilization,
+    );
+
+    const handler = new HealthcheckHandler(
+      {
+        Env: NodeEnvironmentEnum.production,
+        prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteUndetermined],
+      },
+      deps,
+    );
+
+    const result = await handler.check();
+
+    expect(result.status).toEqual(HealthcheckStatusEnum.degraded);
+  });
+
   test("424", async () => {
     using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
     using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
@@ -193,7 +218,8 @@ describe("HealthcheckHandler", () => {
     );
 
     expect(await handler.check()).toEqual({
-      ok: false,
+      status: HealthcheckStatusEnum.unhealthy,
+      code: 424,
       deployment: {
         version,
         timestamp: mocks.TIME_ZERO.ms,
