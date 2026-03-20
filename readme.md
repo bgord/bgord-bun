@@ -36,6 +36,17 @@ src/
 ├── ab-variant.vo.ts
 ├── ab-variants.vo.ts
 ├── ab.middleware.ts
+├── alert-channel-collecting.adapter.ts
+├── alert-channel-composite.adapter.ts
+├── alert-channel-mailer.adapter.ts
+├── alert-channel-noop.adapter.ts
+├── alert-channel-sms.adapter.ts
+├── alert-channel-with-logger.adapter.ts
+├── alert-channel-with-retry.adapter.ts
+├── alert-channel-with-timeout.adapter.ts
+├── alert-channel.builder.ts
+├── alert-channel.port.ts
+├── alert-message.vo.ts
 ├── antivirus-clamav.adapter.ts
 ├── antivirus-noop.adapter.ts
 ├── antivirus.port.ts
@@ -248,6 +259,7 @@ src/
 ├── logger-stats-provider-noop.adapter.ts
 ├── logger-stats-provider.port.ts
 ├── logger.port.ts
+├── mailer-collecting.adapter.ts
 ├── mailer-content-html.vo.ts
 ├── mailer-noop.adapter.ts
 ├── mailer-resend.adapter.ts
@@ -344,6 +356,7 @@ src/
 ├── prerequisite-verifier-ram.adapter.ts
 ├── prerequisite-verifier-running-user.adapter.ts
 ├── prerequisite-verifier-self.adapter.ts
+├── prerequisite-verifier-sms.adapter.ts
 ├── prerequisite-verifier-space.adapter.ts
 ├── prerequisite-verifier-sqlite.adapter.ts
 ├── prerequisite-verifier-ssl-certificate-expiry.adapter.ts
