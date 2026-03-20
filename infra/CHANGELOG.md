@@ -1,4 +1,22 @@
 # Changelog
+- 2026-03-20 19:29 4b494ac0 **refactor: simplify tests**
+- 2026-03-20 19:28 94494620 **step: update packages**
+- 2026-03-20 19:28 7cab22b4 **refactor: simplify tests**
+- 2026-03-20 19:25 fbc418fc **refactor: kill mutants**
+- 2026-03-20 18:51 c75b23a8 **step: add prereq sms**
+- 2026-03-20 18:45 72e94f02 **step: add channels min max**
+- 2026-03-20 18:41 e13c157f **step: add alert channel builder**
+- 2026-03-20 18:39 a7314353 **step: add alert channel with timeout**
+- 2026-03-20 18:38 30cfeb1b **step: add alert channel with retry**
+- 2026-03-20 18:36 5cf10b63 **step: add alert channel composite**
+- 2026-03-20 18:29 7200fc19 **step: add alert channel with logger**
+- 2026-03-20 18:22 1e225479 **step: add alert channel sms**
+- 2026-03-20 18:21 e76ff74f **step: add alert channel mailer**
+- 2026-03-20 18:19 8b0246be **step: add mailer collecting**
+- 2026-03-20 18:14 69fd0aed **step: add alert channel collecting**
+- 2026-03-20 18:13 1ad02043 **step: add alert channel noop**
+- 2026-03-20 18:11 eeca6faa **step: add alert channel port**
+- 2026-03-20 18:10 84a1b8c0 **step: add alert message vo**
 - 2026-03-20 17:34 15bece33 **refactor: use vos from tools**
 - 2026-03-20 17:32 0810976c **step: update packages**
 - 2026-03-20 17:31 1f9797d3 **refactor: extract vos to bgord tools**
@@ -13,6 +31,8 @@
 - 2026-03-20 17:05 781f6034 **step: add sms port**
 - 2026-03-20 16:59 577944ea **step: add sms body vo**
 - 2026-03-20 16:55 62f14160 **step: add telephone number vo**
+- 2026-03-20 16:36 e195ef0f **docs: generate readme**
+- 2026-03-20 16:36 6d28b1bb **docs: generate CHANGELOG**
 ## 2026-03-20 14:43 v1.15.4
 - 2026-03-20 14:43 37ffade4 **1.15.4**
 - 2026-03-20 14:36 383d3e7c **step: update packages**
