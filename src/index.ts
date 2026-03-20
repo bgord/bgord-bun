@@ -293,6 +293,7 @@ export * from "./prerequisite-verifier-port.adapter";
 export * from "./prerequisite-verifier-ram.adapter";
 export * from "./prerequisite-verifier-running-user.adapter";
 export * from "./prerequisite-verifier-self.adapter";
+export * from "./prerequisite-verifier-sms.adapter";
 export * from "./prerequisite-verifier-space.adapter";
 export * from "./prerequisite-verifier-sqlite.adapter";
 export * from "./prerequisite-verifier-ssl-certificate-expiry.adapter";
