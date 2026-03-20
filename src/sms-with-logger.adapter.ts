@@ -1,7 +1,7 @@
+import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
 import type { SmsPort } from "./sms.port";
-import type { SmsMessage } from "./sms-message.vo";
 import { Stopwatch } from "./stopwatch.service";
 
 export type SmsWithLoggerAdapterDependencies = { inner: SmsPort; Logger: LoggerPort; Clock: ClockPort };
@@ -11,7 +11,7 @@ export class SmsWithLoggerAdapter implements SmsPort {
 
   constructor(private readonly deps: SmsWithLoggerAdapterDependencies) {}
 
-  async send(message: SmsMessage): Promise<void> {
+  async send(message: tools.SmsMessage): Promise<void> {
     const duration = new Stopwatch(this.deps);
 
     try {
