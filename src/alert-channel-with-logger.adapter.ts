@@ -19,18 +19,18 @@ export class AlertChannelWithLoggerAdapter implements AlertChannelPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({ message: "AlertChannel attempt", metadata: alert.toJSON(), ...this.base });
+      this.deps.Logger.info({ message: "Alert channel attempt", metadata: alert.toJSON(), ...this.base });
 
       await this.deps.inner.send(alert);
 
       this.deps.Logger.info({
-        message: "AlertChannel success",
+        message: "Alert channel success",
         metadata: { alert: alert.toJSON(), duration: duration.stop() },
         ...this.base,
       });
     } catch (error) {
       this.deps.Logger.error({
-        message: "AlertChannel error",
+        message: "Alert channel error",
         error,
         metadata: duration.stop(),
         ...this.base,
