@@ -378,6 +378,7 @@ export * from "./sms-body.vo";
 export * from "./sms-collecting.adapter";
 export * from "./sms-message.vo";
 export * from "./sms-noop.adapter";
+export * from "./sms-with-logger.adapter";
 export * from "./smtp-host.vo";
 export * from "./smtp-pass.vo";
 export * from "./smtp-port.vo";
