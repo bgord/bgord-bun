@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import * as v from "valibot";
 import { ClientIp } from "../src/client-ip.vo";
-import { ShieldIpWhitelistStrategyError } from "../src/shield-ip-whitelist.strategy";
 import {
   ShieldIpWhitelistError,
   ShieldIpWhitelistHonoStrategy,
@@ -42,7 +41,7 @@ describe("ShieldIpWhitelistHonoStrategy", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(403);
-    expect(json.message).toEqual(ShieldIpWhitelistStrategyError.Rejected);
+    expect(json.message).toEqual("shield.ip.whitelist.rejected");
   });
 
   test("denied - invalid ip", async () => {
@@ -53,6 +52,6 @@ describe("ShieldIpWhitelistHonoStrategy", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(403);
-    expect(json.message).toEqual(ShieldIpWhitelistStrategyError.Rejected);
+    expect(json.message).toEqual("shield.ip.whitelist.rejected");
   });
 });
