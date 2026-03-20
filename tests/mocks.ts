@@ -1,6 +1,7 @@
 import { expect } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { AlertMessage } from "../src/alert-message.vo";
 import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
@@ -265,3 +266,6 @@ export const sms = new tools.SmsMessage(
   v.parse(tools.TelephoneNumber, "+12125551234"),
   v.parse(tools.SmsBody, "Your OTP is 123456"),
 );
+
+export const alert = new AlertMessage("Payment failed");
+export const alertWithError = new AlertMessage("Payment failed");
