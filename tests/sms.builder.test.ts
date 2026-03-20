@@ -1,15 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
 import { SmsBuilder } from "../src/sms.builder";
-import { SmsBody } from "../src/sms-body.vo";
-import { SmsMessage } from "../src/sms-message.vo";
 import { SmsNoopAdapter } from "../src/sms-noop.adapter";
-import { TelephoneNumber } from "../src/telephone-number.vo";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
@@ -23,10 +19,6 @@ const max = tools.Int.positive(3);
 const backoff = new RetryBackoffNoopStrategy();
 const retry = { max, backoff };
 
-const to = v.parse(TelephoneNumber, "+12125551234");
-const body = v.parse(SmsBody, "Your OTP is 123456");
-const message = new SmsMessage(to, body);
-
 const inner = new SmsNoopAdapter();
 
 describe("SmsBuilder", () => {
@@ -34,7 +26,7 @@ describe("SmsBuilder", () => {
     using innerSend = spyOn(inner, "send");
     const sms = SmsBuilder.of(inner).build();
 
-    await sms.send(message);
+    await sms.send(mocks.sms);
 
     expect(innerSend).toHaveBeenCalledTimes(1);
   });
@@ -43,7 +35,7 @@ describe("SmsBuilder", () => {
     const Logger = new LoggerCollectingAdapter();
     const sms = SmsBuilder.of(inner).withLogger({ Logger, Clock }).build();
 
-    await sms.send(message);
+    await sms.send(mocks.sms);
 
     expect(Logger.entries.length).toEqual(2);
   });
@@ -53,7 +45,7 @@ describe("SmsBuilder", () => {
     using _ = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
     const sms = SmsBuilder.of(inner).withRetry({ retry }, { Sleeper }).build();
 
-    expect(async () => sms.send(message)).toThrow(mocks.IntentionalError);
+    expect(async () => sms.send(mocks.sms)).toThrow(mocks.IntentionalError);
     expect(sleeperWait).toHaveBeenCalledTimes(2);
   });
 
@@ -61,7 +53,7 @@ describe("SmsBuilder", () => {
     using runnerRun = spyOn(TimeoutRunner, "run");
     const sms = SmsBuilder.of(inner).withTimeout({ timeout }, { TimeoutRunner }).build();
 
-    await sms.send(message);
+    await sms.send(mocks.sms);
 
     expect(runnerRun).toHaveBeenCalledTimes(1);
   });
