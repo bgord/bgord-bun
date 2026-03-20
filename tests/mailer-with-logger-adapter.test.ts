@@ -1,4 +1,4 @@
-import { describe, expect, jest, spyOn, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
@@ -12,13 +12,13 @@ const inner = new MailerNoopAdapter();
 
 describe("MailerWithLoggerAdapter", async () => {
   test("send - success", async () => {
-    using sendMail = spyOn(inner, "send").mockImplementation(jest.fn());
+    using innerSend = spyOn(inner, "send");
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
     await adapter.send(mocks.template);
 
-    expect(sendMail).toHaveBeenCalledWith(mocks.template);
+    expect(innerSend).toHaveBeenCalledWith(mocks.template);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -36,12 +36,12 @@ describe("MailerWithLoggerAdapter", async () => {
   });
 
   test("failure", async () => {
-    using sendMail = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
+    using innerSend = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
     expect(async () => adapter.send(mocks.template)).toThrow(mocks.IntentionalError);
-    expect(sendMail).toHaveBeenCalledWith(mocks.template);
+    expect(innerSend).toHaveBeenCalledWith(mocks.template);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -60,12 +60,12 @@ describe("MailerWithLoggerAdapter", async () => {
   });
 
   test("verfiy", async () => {
-    using mailerSmtpVerify = spyOn(inner, "verify").mockImplementation(jest.fn());
+    using innerVerify = spyOn(inner, "verify");
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });
 
     await adapter.verify();
 
-    expect(mailerSmtpVerify).toHaveBeenCalled();
+    expect(innerVerify).toHaveBeenCalled();
   });
 });
