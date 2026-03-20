@@ -19,6 +19,12 @@ import type { RedactorStrategy } from "./redactor.strategy";
 import { Stopwatch } from "./stopwatch.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
 
+export enum HealthcheckStatusEnum {
+  healthy = "healthy",
+  degraded = "degraded",
+  unhealthy = "unhealthy",
+}
+
 type Dependencies = {
   Clock: ClockPort;
   BuildInfoRepository: BuildInfoRepositoryStrategy;
@@ -33,8 +39,15 @@ export type HealthcheckConfig = {
 
 const self = new Prerequisite("self", new PrerequisiteVerifierSelfAdapter());
 
+export const HealthcheckStatusCode = {
+  [HealthcheckStatusEnum.healthy]: 200,
+  [HealthcheckStatusEnum.degraded]: 207,
+  [HealthcheckStatusEnum.unhealthy]: 424,
+} as const;
+
 export type HealthcheckResult = {
-  ok: boolean;
+  status: HealthcheckStatusEnum;
+  code: (typeof HealthcheckStatusCode)[keyof typeof HealthcheckStatusCode];
   deployment: {
     version: string;
     timestamp: tools.TimestampValueType;
@@ -99,7 +112,18 @@ export class HealthcheckHandler {
       }),
     );
 
-    const ok = details.every((result) => result.outcome.outcome !== PrerequisiteVerificationOutcome.failure);
+    const hasFailure = details.some(
+      (result) => result.outcome.outcome === PrerequisiteVerificationOutcome.failure,
+    );
+    const hasUndetermined = details.some(
+      (result) => result.outcome.outcome === PrerequisiteVerificationOutcome.undetermined,
+    );
+
+    const status = hasFailure
+      ? HealthcheckStatusEnum.unhealthy
+      : hasUndetermined
+        ? HealthcheckStatusEnum.degraded
+        : HealthcheckStatusEnum.healthy;
 
     const build = await this.deps.BuildInfoRepository.extract();
     const uptime = Uptime.get(this.deps.Clock);
@@ -107,7 +131,8 @@ export class HealthcheckHandler {
     const memory = MemoryConsumption.snapshot();
 
     return {
-      ok,
+      status,
+      code: HealthcheckStatusCode[status],
       details,
       deployment: {
         version: build.version.toString(),
