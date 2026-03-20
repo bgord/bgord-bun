@@ -268,4 +268,4 @@ export const sms = new tools.SmsMessage(
 );
 
 export const alert = new AlertMessage("Payment failed");
-export const alertWithError = new AlertMessage("Payment failed");
+export const alertWithError = new AlertMessage("Payment failed", new Error(IntentionalError));
