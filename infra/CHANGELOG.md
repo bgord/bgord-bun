@@ -1,4 +1,6 @@
 # Changelog
+## 2026-03-20 14:43 v1.15.4
+- 2026-03-20 14:43 37ffade4 **1.15.4**
 - 2026-03-20 14:36 383d3e7c **step: update packages**
 - 2026-03-20 14:31 25641fbe **step: update packages**
 - 2026-03-20 14:29 9798be09 **refactor: remove unused export**
@@ -15,6 +17,8 @@
 - 2026-03-20 14:14 2de4a083 **step: add retry backoff jitter**
 - 2026-03-20 14:13 f3f80cab **step: update scripts**
 - 2026-03-20 14:13 69540154 **step: add cache repository redis adapter**
+- 2026-03-20 13:42 97b05403 **docs: generate CHANGELOG**
+- 2026-03-20 13:42 1db7e2f1 **docs: generate readme**
 ## 2026-03-18 12:45 v1.15.3
 - 2026-03-18 12:45 557be479 **1.15.3**
 - 2026-03-18 12:43 dba5b088 **step: update packages**
