@@ -25,7 +25,7 @@
         "knip": "5.88.0",
         "lefthook": "2.1.4",
         "lockfile-lint": "5.0.0",
-        "nodemailer": "8.0.2",
+        "nodemailer": "8.0.3",
         "only-allow": "1.2.2",
         "resend": "6.9.4",
         "sharp": "0.34.5",
@@ -36,7 +36,7 @@
       "peerDependencies": {
         "better-auth": "1.5.5",
         "csv": "6.5.0",
-        "nodemailer": "8.0.2",
+        "nodemailer": "8.0.3",
         "resend": "6.9.4",
         "sharp": "0.34.5",
         "yazl": "3.3.1",
@@ -976,7 +976,7 @@
 
     "node-releases": ["node-releases@2.0.36", "", {}, "sha512-TdC8FSgHz8Mwtw9g5L4gR/Sh9XhSP/0DEkQxfEFXOpiul5IiHgHan2VhYYb6agDSfp4KuvltmGApc8HMgUrIkA=="],
 
-    "nodemailer": ["nodemailer@8.0.2", "", {}, "sha512-zbj002pZAIkWQFxyAaqoxvn+zoIwRnS40hgjqTXudKOOJkiFFgBeNqjgD3/YCR12sZnrghWYBY+yP1ZucdDRpw=="],
+    "nodemailer": ["nodemailer@8.0.3", "", {}, "sha512-JQNBqvK+bj3NMhUFR3wmCl3SYcOeMotDiwDBvIoCuQdF0PvlIY0BH+FJ2CG7u4cXKPChplE78oowlH/Otsc4ZQ=="],
 
     "npm-run-path": ["npm-run-path@6.0.0", "", { "dependencies": { "path-key": "^4.0.0", "unicorn-magic": "^0.3.0" } }, "sha512-9qny7Z9DsQU8Ou39ERsPU4OZQlSTP47ShQzuKZ6PRXpYLtIFgl/DEBYEXKlvcEa+9tHVcK8CF81Y2V72qaZhWA=="],
 
