@@ -21,13 +21,13 @@ describe("AlertChannelWithLoggerAdapter", () => {
       {
         component: "infra",
         operation: "alert_channel",
-        message: "AlertChannel attempt",
+        message: "Alert channel attempt",
         metadata: mocks.alert.toJSON(),
       },
       {
         component: "infra",
         operation: "alert_channel",
-        message: "AlertChannel success",
+        message: "Alert channel success",
         metadata: { alert: mocks.alert.toJSON(), duration: expect.any(tools.Duration) },
       },
     ]);
@@ -43,13 +43,13 @@ describe("AlertChannelWithLoggerAdapter", () => {
     expect(Logger.entries[0]).toEqual({
       component: "infra",
       operation: "alert_channel",
-      message: "AlertChannel attempt",
+      message: "Alert channel attempt",
       metadata: mocks.alert.toJSON(),
     });
     expect(Logger.entries[1]).toEqual({
       component: "infra",
       operation: "alert_channel",
-      message: "AlertChannel error",
+      message: "Alert channel error",
       error: new Error(mocks.IntentionalError),
       metadata: expect.any(tools.Duration),
     });
