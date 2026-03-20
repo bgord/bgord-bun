@@ -4,16 +4,11 @@ import {
   type PrerequisiteVerificationResult,
 } from "./prerequisite-verifier.port";
 
-export type ReadinessConfig = {
-  prerequisites: ReadonlyArray<Prerequisite>;
-};
+export type ReadinessConfig = { prerequisites: ReadonlyArray<Prerequisite> };
 
-export type ReadinessResult = {
+type ReadinessResult = {
   ok: boolean;
-  details: ReadonlyArray<{
-    label: PrerequisiteLabelType;
-    outcome: PrerequisiteVerificationResult;
-  }>;
+  details: ReadonlyArray<{ label: PrerequisiteLabelType; outcome: PrerequisiteVerificationResult }>;
 };
 
 export class ReadinessHandler {
