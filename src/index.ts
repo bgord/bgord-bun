@@ -373,6 +373,7 @@ export * from "./sleeper-noop.adapter";
 export * from "./sleeper-system.adapter";
 export * from "./slower.middleware";
 export * from "./slower-hono.middleware";
+export * from "./sms.builder";
 export * from "./sms.port";
 export * from "./sms-body.vo";
 export * from "./sms-collecting.adapter";
