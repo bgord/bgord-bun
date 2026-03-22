@@ -1,5 +1,8 @@
 # Changelog
+## 2026-03-22 20:49 v1.15.5
+- 2026-03-22 20:49 d19ee52f **1.15.5**
 - 2026-03-22 20:47 88b883d2 **step: update packages**
+- 2026-03-22 19:48 749ef4d6 **docs: generate CHANGELOG**
 - 2026-03-22 18:44 0ec47db2 **step: update packages**
 - 2026-03-22 17:45 0a65d5bc **docs: generate CHANGELOG**
 - 2026-03-20 19:34 ebc2311a **refactor: remove unused fixture**
