@@ -1,5 +1,7 @@
 # Changelog
+- 2026-03-22 20:47 88b883d2 **step: update packages**
 - 2026-03-22 18:44 0ec47db2 **step: update packages**
+- 2026-03-22 17:45 0a65d5bc **docs: generate CHANGELOG**
 - 2026-03-20 19:34 ebc2311a **refactor: remove unused fixture**
 - 2026-03-20 19:29 4b494ac0 **refactor: simplify tests**
 - 2026-03-20 19:28 94494620 **step: update packages**
