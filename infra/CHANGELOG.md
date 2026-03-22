@@ -1,4 +1,6 @@
 # Changelog
+- 2026-03-22 18:44 0ec47db2 **step: update packages**
+- 2026-03-20 19:34 ebc2311a **refactor: remove unused fixture**
 - 2026-03-20 19:29 4b494ac0 **refactor: simplify tests**
 - 2026-03-20 19:28 94494620 **step: update packages**
 - 2026-03-20 19:28 7cab22b4 **refactor: simplify tests**
@@ -9,6 +11,8 @@
 - 2026-03-20 18:39 a7314353 **step: add alert channel with timeout**
 - 2026-03-20 18:38 30cfeb1b **step: add alert channel with retry**
 - 2026-03-20 18:36 5cf10b63 **step: add alert channel composite**
+- 2026-03-20 18:32 58ddfef7 **docs: generate readme**
+- 2026-03-20 18:31 51489828 **docs: generate CHANGELOG**
 - 2026-03-20 18:29 7200fc19 **step: add alert channel with logger**
 - 2026-03-20 18:22 1e225479 **step: add alert channel sms**
 - 2026-03-20 18:21 e76ff74f **step: add alert channel mailer**
