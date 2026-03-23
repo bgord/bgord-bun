@@ -2,29 +2,19 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import { ApiVersionMiddleware } from "../src/api-version.middleware";
 import { ApiVersionHonoMiddleware } from "../src/api-version-hono.middleware";
-import { BUILD_INFO_FILE_PATH, BuildInfoSchema } from "../src/build-info-repository.strategy";
+import { BuildInfoSchema } from "../src/build-info-repository.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { ReactiveConfigFileJsonAdapter } from "../src/reactive-config-file-json.adapter";
+import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 
-const version = "v1.2.3";
-
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
-const BuildInfoConfig = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
-  FileReaderJson: new FileReaderJsonNoopAdapter({
-    version,
-    timestamp: mocks.TIME_ZERO.ms,
-    sha: mocks.SHA.toString(),
-    size: 0,
-  }),
-});
+const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfoSchema, mocks.buildInfo);
 const deps = { CacheResolver, HashContent, BuildInfoConfig };
 
 const middleware = new ApiVersionHonoMiddleware(deps);
@@ -41,13 +31,13 @@ describe("ApiVersionHonoMiddleware", async () => {
     const first = await app.request("/ping", { method: "GET" });
 
     expect(first.status).toEqual(200);
-    expect(first.headers.get(ApiVersionMiddleware.HEADER_NAME)).toEqual(version);
+    expect(first.headers.get(ApiVersionMiddleware.HEADER_NAME)).toEqual(mocks.version);
     expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
 
     const second = await app.request("/ping", { method: "GET" });
 
     expect(second.status).toEqual(200);
-    expect(second.headers.get(ApiVersionMiddleware.HEADER_NAME)).toEqual(version);
+    expect(second.headers.get(ApiVersionMiddleware.HEADER_NAME)).toEqual(mocks.version);
     expect(buildInfoRepositoryGet).toBeCalledTimes(1);
     expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
 

@@ -1,21 +1,20 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { BUILD_INFO_FILE_PATH, BuildInfoSchema } from "../src/build-info-repository.strategy";
+import { BuildInfoSchema } from "../src/build-info-repository.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { CorrelationVariables } from "../src/correlation-hono.middleware";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
 import type { LanguageDetectorVariables } from "../src/language-detector-hono.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
-import { ReactiveConfigFileJsonAdapter } from "../src/reactive-config-file-json.adapter";
+import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
@@ -36,21 +35,12 @@ const APP_ORIGIN = "http://localhost:3000";
 const EVIL_ORIGIN = "https://evil.example";
 const csrf = { origin: [] };
 
-const version = "v1.2.3";
-
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
-const BuildInfoConfig = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
-  FileReaderJson: new FileReaderJsonNoopAdapter({
-    version,
-    timestamp: mocks.TIME_ZERO.ms,
-    sha: mocks.SHA.toString(),
-    size: 0,
-  }),
-});
+const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfoSchema, mocks.buildInfo);
 
 const deps = { Logger, Clock, CacheResolver, HashContent, BuildInfoConfig };
 
@@ -118,7 +108,7 @@ describe("SetupHono", () => {
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
-    expect(response.headers.get("api-version")).toEqual(version);
+    expect(response.headers.get("api-version")).toEqual(mocks.version);
   });
 
   test("csrf", async () => {
@@ -163,7 +153,7 @@ describe("SetupHono", () => {
       "strict-transport-security": "max-age=15552000; includeSubDomains",
       "x-content-type-options": "nosniff",
       "x-xss-protection": "0",
-      "api-version": version,
+      "api-version": mocks.version,
       vary: "Origin",
       "correlation-id": mocks.correlationId,
       "x-download-options": "noopen",

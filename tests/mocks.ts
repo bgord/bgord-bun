@@ -269,3 +269,11 @@ export const sms = new tools.SmsMessage(
 
 export const alert = new AlertMessage("Payment failed");
 export const alertWithError = new AlertMessage("Payment failed", new Error(IntentionalError));
+
+export const version = "v1.2.3";
+export const buildInfo = {
+  version: v.parse(tools.PackageVersionSchema, version),
+  timestamp: TIME_ZERO.ms,
+  sha: SHA.toString(),
+  size: tools.Size.fromBytes(0).toBytes(),
+};
