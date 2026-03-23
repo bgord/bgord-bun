@@ -1,27 +1,21 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": ["esnext", "DOM"],
-    "outDir": "dist",
+    "module": "preserve",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "noUncheckedIndexedAccess": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "skipLibCheck": true,
     "incremental": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": false,
-    "stripInternal": true
+    "stripInternal": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["bun"]
   },
-  "include": ["src"],
-  "exclude": ["tests", "bgord-scripts"]
+  "include": ["src"]
 }

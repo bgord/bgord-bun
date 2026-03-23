@@ -7,9 +7,8 @@ export class RedactorErrorStackHide implements RedactorStrategy {
     // Stryker disable all
     if (!isPlainObject(input)) return input;
     // Stryker restore all
-    if (!ErrorNormalizer.isNormalizedError(input.error)) return input;
-
-    return { ...input, error: this.hide(input.error) };
+    if (!ErrorNormalizer.isNormalizedError(input["error"])) return input;
+    return { ...input, error: this.hide(input["error"]) };
   }
 
   private hide(error: NormalizedError): NormalizedError {
