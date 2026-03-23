@@ -16,7 +16,7 @@ const version = "v1.2.3";
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
-const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
+const BuildInfoConfig = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
   FileReaderJson: new FileReaderJsonNoopAdapter({
     version,
     timestamp: mocks.TIME_ZERO.ms,
@@ -24,7 +24,7 @@ const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PA
     size: 0,
   }),
 });
-const deps = { CacheResolver, HashContent, BuildInfoRepository };
+const deps = { CacheResolver, HashContent, BuildInfoConfig };
 
 const middleware = new ApiVersionMiddleware(deps);
 
@@ -33,7 +33,7 @@ describe("ApiVersionMiddleware", async () => {
   const subject = await resolver.resolve();
 
   test("happy path", async () => {
-    using buildInfoRepositoryGet = spyOn(deps.BuildInfoRepository, "get");
+    using buildInfoRepositoryGet = spyOn(deps.BuildInfoConfig, "get");
     using cacheRepositoryget = spyOn(CacheRepository, "get");
 
     expect(await middleware.evaluate()).toEqual(v.parse(BuildInfoSchema.entries.version, version));

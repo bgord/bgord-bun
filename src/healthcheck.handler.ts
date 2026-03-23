@@ -28,7 +28,7 @@ export enum HealthcheckStatusEnum {
 
 type Dependencies = {
   Clock: ClockPort;
-  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
+  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
   LoggerStatsProvider?: LoggerStatsProviderPort;
 };
 
@@ -126,7 +126,7 @@ export class HealthcheckHandler {
         ? HealthcheckStatusEnum.degraded
         : HealthcheckStatusEnum.healthy;
 
-    const build = await this.deps.BuildInfoRepository.get();
+    const build = await this.deps.BuildInfoConfig.get();
     const uptime = Uptime.get(this.deps.Clock);
     const histogram = EventLoopLag.snapshot();
     const memory = MemoryConsumption.snapshot();

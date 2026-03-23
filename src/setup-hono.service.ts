@@ -31,7 +31,7 @@ type Dependencies = {
   Clock: ClockPort;
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
-  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
+  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
 };
 
 type Config<T extends tools.LanguageType> = {

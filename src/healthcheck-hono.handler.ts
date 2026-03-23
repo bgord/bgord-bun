@@ -8,7 +8,7 @@ import type { ReactiveConfigPort } from "./reactive-config.port";
 
 type Dependencies = {
   Clock: ClockPort;
-  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
+  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
   LoggerStatsProvider?: LoggerStatsProviderPort;
 };
 

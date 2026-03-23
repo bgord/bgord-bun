@@ -9,7 +9,7 @@ import type { ReactiveConfigPort } from "./reactive-config.port";
 type Dependencies = {
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
-  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
+  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
 };
 
 export class ApiVersionHonoMiddleware implements MiddlewareHonoPort {
