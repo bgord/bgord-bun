@@ -2,13 +2,14 @@ import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import { BuildInfoRepositoryNoopStrategy } from "../src/build-info-repository-noop.strategy";
+import { BUILD_INFO_FILE_PATH, BuildInfoSchema } from "../src/build-info-repository.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
 import {
   EventLoopUtilization,
   type EventLoopUtilizationSnapshot,
 } from "../src/event-loop-utilization.service";
+import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { HealthcheckHandler, HealthcheckStatusEnum } from "../src/healthcheck.handler";
 import { LoggerStatsProviderNoopAdapter } from "../src/logger-stats-provider-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
@@ -17,13 +18,14 @@ import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
+import { ReactiveConfigFileJsonAdapter } from "../src/reactive-config-file-json.adapter";
 import { RedactorComposite } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
 
-const version = "1.2.3";
+const version = "v1.2.3";
 const hostname = "macbook";
 const cpus: Array<os.CpuInfo> = [
   { model: "cpu", speed: 1, times: { user: 0, nice: 0, sys: 0, idle: 0, irq: 0 } },
@@ -41,12 +43,14 @@ const histogram: EventLoopLagSnapshotType = {
 const utilization: EventLoopUtilizationSnapshot = 0.5;
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoRepository = new BuildInfoRepositoryNoopStrategy(
-  mocks.TIME_ZERO,
-  tools.PackageVersion.fromString(version),
-  mocks.SHA,
-  tools.Size.fromBytes(0),
-);
+const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
+  FileReaderJson: new FileReaderJsonNoopAdapter({
+    version,
+    timestamp: mocks.TIME_ZERO.ms,
+    sha: mocks.SHA.toString(),
+    size: 0,
+  }),
+});
 const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
 const deps = { Clock, BuildInfoRepository };
 

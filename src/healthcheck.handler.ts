@@ -1,6 +1,6 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
-import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { EventLoopLag } from "./event-loop-lag.service";
@@ -15,6 +15,7 @@ import {
   type PrerequisiteVerificationResult,
 } from "./prerequisite-verifier.port";
 import { PrerequisiteVerifierSelfAdapter } from "./prerequisite-verifier-self.adapter";
+import type { ReactiveConfigPort } from "./reactive-config.port";
 import type { RedactorStrategy } from "./redactor.strategy";
 import { Stopwatch } from "./stopwatch.service";
 import { Uptime, type UptimeResultType } from "./uptime.service";
@@ -27,7 +28,7 @@ export enum HealthcheckStatusEnum {
 
 type Dependencies = {
   Clock: ClockPort;
-  BuildInfoRepository: BuildInfoRepositoryStrategy;
+  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
   LoggerStatsProvider?: LoggerStatsProviderPort;
 };
 
@@ -125,7 +126,7 @@ export class HealthcheckHandler {
         ? HealthcheckStatusEnum.degraded
         : HealthcheckStatusEnum.healthy;
 
-    const build = await this.deps.BuildInfoRepository.extract();
+    const build = await this.deps.BuildInfoRepository.get();
     const uptime = Uptime.get(this.deps.Clock);
     const histogram = EventLoopLag.snapshot();
     const memory = MemoryConsumption.snapshot();
@@ -135,11 +136,11 @@ export class HealthcheckHandler {
       code: HealthcheckStatusCode[status],
       details,
       deployment: {
-        version: build.version.toString(),
-        timestamp: build.timestamp.ms,
-        date: new Date(build.timestamp.ms).toISOString(),
-        sha: build.sha.toString(),
-        size: build.size.format(tools.Size.unit.MB),
+        version: build.version,
+        timestamp: build.timestamp,
+        date: new Date(build.timestamp).toISOString(),
+        sha: build.sha,
+        size: tools.Size.fromBytes(build.size).format(tools.Size.unit.MB),
         environment: this.config.Env,
       },
       server: {

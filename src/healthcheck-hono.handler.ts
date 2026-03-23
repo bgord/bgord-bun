@@ -1,13 +1,14 @@
 import { createFactory } from "hono/factory";
-import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info-repository.strategy";
 import type { ClockPort } from "./clock.port";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import { type HealthcheckConfig, HealthcheckHandler } from "./healthcheck.handler";
 import type { LoggerStatsProviderPort } from "./logger-stats-provider.port";
+import type { ReactiveConfigPort } from "./reactive-config.port";
 
 type Dependencies = {
   Clock: ClockPort;
-  BuildInfoRepository: BuildInfoRepositoryStrategy;
+  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
   LoggerStatsProvider?: LoggerStatsProviderPort;
 };
 

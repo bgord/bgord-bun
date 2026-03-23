@@ -3,7 +3,7 @@ import type { MiddlewareHandler } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
-import type { BuildInfoRepositoryStrategy } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info-repository.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { CorrelationHonoMiddleware } from "./correlation-hono.middleware";
@@ -15,6 +15,7 @@ import type { IdProviderPort } from "./id-provider.port";
 import type { LanguageDetectorMiddlewareConfig } from "./language-detector.middleware";
 import { LanguageDetectorHonoMiddleware } from "./language-detector-hono.middleware";
 import type { LoggerPort } from "./logger.port";
+import type { ReactiveConfigPort } from "./reactive-config.port";
 import type { ShieldCsrfConfig } from "./shield-csrf.strategy";
 import { ShieldCsrfHonoStrategy } from "./shield-csrf-hono.strategy";
 import type { ShieldMaintenanceConfig } from "./shield-maintenance.strategy";
@@ -30,7 +31,7 @@ type Dependencies = {
   Clock: ClockPort;
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
-  BuildInfoRepository: BuildInfoRepositoryStrategy;
+  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
 };
 
 type Config<T extends tools.LanguageType> = {

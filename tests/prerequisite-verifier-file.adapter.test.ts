@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { BUILD_INFO_REPOSITORY_FILE_PATH } from "../src/build-info-repository-file.strategy";
+import { BUILD_INFO_FILE_PATH } from "../src/build-info-repository.strategy";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierFileAdapter } from "../src/prerequisite-verifier-file.adapter";
@@ -117,16 +117,16 @@ describe("PrerequisiteVerifierFileAdapter", () => {
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("File is not executable"));
   });
 
-  test("integration - BUILD_INFO_REPOSITORY_FILE_PATH", async () => {
+  test("integration - BUILD_INFO_FILE_PATH", async () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true });
     using fileInspectionExists = spyOn(FileInspection, "exists");
     const prerequisite = new PrerequisiteVerifierFileAdapter(
-      { file: BUILD_INFO_REPOSITORY_FILE_PATH },
+      { file: BUILD_INFO_FILE_PATH },
       { FileInspection },
     );
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
-    expect(fileInspectionExists).toHaveBeenCalledWith(BUILD_INFO_REPOSITORY_FILE_PATH);
+    expect(fileInspectionExists).toHaveBeenCalledWith(BUILD_INFO_FILE_PATH);
   });
 
   test("kind", () => {
