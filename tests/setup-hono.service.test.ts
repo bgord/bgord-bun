@@ -43,7 +43,7 @@ const Clock = new ClockSystemAdapter();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
-const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
+const BuildInfoConfig = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
   FileReaderJson: new FileReaderJsonNoopAdapter({
     version,
     timestamp: mocks.TIME_ZERO.ms,
@@ -52,7 +52,7 @@ const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PA
   }),
 });
 
-const deps = { Logger, Clock, CacheResolver, HashContent, BuildInfoRepository };
+const deps = { Logger, Clock, CacheResolver, HashContent, BuildInfoConfig };
 
 describe("SetupHono", () => {
   test("maintenance", async () => {

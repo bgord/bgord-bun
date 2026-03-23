@@ -43,7 +43,7 @@ const histogram: EventLoopLagSnapshotType = {
 const utilization: EventLoopUtilizationSnapshot = 0.5;
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
+const BuildInfoConfig = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PATH, BuildInfoSchema, {
   FileReaderJson: new FileReaderJsonNoopAdapter({
     version,
     timestamp: mocks.TIME_ZERO.ms,
@@ -52,7 +52,7 @@ const BuildInfoRepository = new ReactiveConfigFileJsonAdapter(BUILD_INFO_FILE_PA
   }),
 });
 const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
-const deps = { Clock, BuildInfoRepository };
+const deps = { Clock, BuildInfoConfig };
 
 describe("HealthcheckHandler", () => {
   test("200", async () => {

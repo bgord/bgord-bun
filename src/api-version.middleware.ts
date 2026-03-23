@@ -9,7 +9,7 @@ import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 type Dependencies = {
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
-  BuildInfoRepository: ReactiveConfigPort<BuildInfoType>;
+  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
 };
 
 export class ApiVersionMiddleware {
@@ -25,7 +25,7 @@ export class ApiVersionMiddleware {
     const subject = await resolver.resolve();
 
     const build = await this.deps.CacheResolver.resolve(subject.hex, async () =>
-      this.deps.BuildInfoRepository.get(),
+      this.deps.BuildInfoConfig.get(),
     );
 
     return build.version;
