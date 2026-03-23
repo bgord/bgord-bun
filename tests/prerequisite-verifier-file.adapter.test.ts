@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { BUILD_INFO_FILE_PATH } from "../src/build-info-repository.strategy";
+import { BUILD_INFO_FILE_PATH } from "../src/build-info.vo";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierFileAdapter } from "../src/prerequisite-verifier-file.adapter";

@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { BuildInfoType } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info.vo";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { ReactiveConfigPort } from "./reactive-config.port";

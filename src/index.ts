@@ -35,7 +35,7 @@ export * from "./basic-auth-username.vo";
 export * from "./better-auth-logger.service";
 export * from "./binary.vo";
 export * from "./bots.vo";
-export * from "./build-info-repository.strategy";
+export * from "./build-info.vo";
 export * from "./cache-file.service";
 export * from "./cache-repository.port";
 export * from "./cache-repository-node-cache.adapter";

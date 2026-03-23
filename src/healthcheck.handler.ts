@@ -1,6 +1,6 @@
 import os from "node:os";
 import * as tools from "@bgord/tools";
-import type { BuildInfoType } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info.vo";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { EventLoopLag } from "./event-loop-lag.service";
