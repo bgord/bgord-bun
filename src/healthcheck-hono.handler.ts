@@ -1,5 +1,5 @@
 import { createFactory } from "hono/factory";
-import type { BuildInfoType } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info.vo";
 import type { ClockPort } from "./clock.port";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import { type HealthcheckConfig, HealthcheckHandler } from "./healthcheck.handler";

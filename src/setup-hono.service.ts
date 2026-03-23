@@ -3,7 +3,7 @@ import type { MiddlewareHandler } from "hono";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
 import { ApiVersionHonoMiddleware } from "./api-version-hono.middleware";
-import type { BuildInfoType } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info.vo";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { CorrelationHonoMiddleware } from "./correlation-hono.middleware";

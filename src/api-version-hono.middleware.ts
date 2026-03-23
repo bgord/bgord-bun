@@ -1,6 +1,6 @@
 import type { MiddlewareHandler } from "hono";
 import { ApiVersionMiddleware } from "./api-version.middleware";
-import type { BuildInfoType } from "./build-info-repository.strategy";
+import type { BuildInfoType } from "./build-info.vo";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";

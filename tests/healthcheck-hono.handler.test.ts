@@ -3,7 +3,7 @@ import os from "node:os";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
-import { BuildInfoSchema } from "../src/build-info-repository.strategy";
+import { BuildInfo } from "../src/build-info.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
 import {
@@ -43,7 +43,7 @@ const histogram: EventLoopLagSnapshotType = {
 const utilization: EventLoopUtilizationSnapshot = 0.5;
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfoSchema, mocks.buildInfo);
+const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
 const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
 const deps = { Clock, BuildInfoConfig };
 

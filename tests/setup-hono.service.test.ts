@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { BuildInfoSchema } from "../src/build-info-repository.strategy";
+import { BuildInfo } from "../src/build-info.vo";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
@@ -40,7 +40,7 @@ const Clock = new ClockSystemAdapter();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
-const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfoSchema, mocks.buildInfo);
+const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
 
 const deps = { Logger, Clock, CacheResolver, HashContent, BuildInfoConfig };
 
