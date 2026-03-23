@@ -20,7 +20,7 @@ export class RedactorMetadataCompactArray implements RedactorStrategy {
     return {
       ...input,
       metadata: deepCloneWith(
-        input.metadata,
+        input["metadata"],
         (value) => {
           if (!Array.isArray(value)) return undefined;
           if (value.length <= this.maxItems) return undefined;

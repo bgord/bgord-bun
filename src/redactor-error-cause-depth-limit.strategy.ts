@@ -10,9 +10,8 @@ export class RedactorErrorCauseDepthLimit implements RedactorStrategy {
     // Stryker disable all
     if (!isPlainObject(input)) return input;
     // Stryker restore all
-    if (!ErrorNormalizer.isNormalizedError(input.error)) return input;
-
-    return { ...input, error: this.limit(input.error, tools.Int.nonNegative(0)) };
+    if (!ErrorNormalizer.isNormalizedError(input["error"])) return input;
+    return { ...input, error: this.limit(input["error"], tools.Int.nonNegative(0)) };
   }
 
   private limit(error: NormalizedError, depth: tools.IntegerNonNegativeType): NormalizedError {

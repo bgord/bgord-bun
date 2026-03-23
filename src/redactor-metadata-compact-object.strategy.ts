@@ -20,7 +20,7 @@ export class RedactorMetadataCompactObject implements RedactorStrategy {
     return {
       ...input,
       metadata: deepCloneWith(
-        input.metadata,
+        input["metadata"],
         (value) => {
           if (!isPlainObject(value) || Array.isArray(value)) return undefined;
 

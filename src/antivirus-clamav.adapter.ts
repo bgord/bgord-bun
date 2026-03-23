@@ -29,7 +29,7 @@ export class AntivirusClamavAdapter implements AntivirusPort {
       const signature = stdout.match(this.signature) ?? stderr.match(this.signature);
 
       // Stryker disable all
-      return { clean: false, signature: signature?.groups?.signature?.trim() ?? "unknown" };
+      return { clean: false, signature: signature?.groups?.["signature"]?.trim() ?? "unknown" };
       // Stryker restore all
     }
 
