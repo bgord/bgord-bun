@@ -43,11 +43,9 @@ describe("ReactiveConfigWithCacheAdapter", () => {
 
   test("independence", async () => {
     using read = spyOn(FileReaderJson, "read");
-    const adapterA = new ReactiveConfigWithCacheAdapter(inner, "subject-a", deps);
-    const adapterB = new ReactiveConfigWithCacheAdapter(inner, "subject-b", deps);
 
-    await adapterA.get();
-    await adapterB.get();
+    await new ReactiveConfigWithCacheAdapter(inner, "subject-a", deps).get();
+    await new ReactiveConfigWithCacheAdapter(inner, "subject-b", deps).get();
 
     expect(read).toHaveBeenCalledTimes(2);
 
