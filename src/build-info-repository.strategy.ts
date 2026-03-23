@@ -1,13 +1,14 @@
-import type * as tools from "@bgord/tools";
-import type { CommitSha } from "./commit-sha.vo";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
+import { CommitShaValue } from "./commit-sha-value.vo";
 
-export type BuildInfoType = {
-  timestamp: tools.Timestamp;
-  version: tools.PackageVersion;
-  sha: CommitSha;
-  size: tools.Size;
-};
+export const BuildInfoSchema = v.object({
+  timestamp: tools.TimestampValue,
+  version: tools.PackageVersionSchema,
+  sha: CommitShaValue,
+  size: tools.SizeBytes,
+});
 
-export interface BuildInfoRepositoryStrategy {
-  extract(): Promise<BuildInfoType>;
-}
+export type BuildInfoType = v.InferOutput<typeof BuildInfoSchema>;
+
+export const BUILD_INFO_FILE_PATH = tools.FilePathRelative.fromString("infra/build-info.json");
