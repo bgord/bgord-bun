@@ -6,7 +6,7 @@ setup_base_config
 OUTPUT_DIRECTORY="dist"
 
 step_start "Directory clear"
-rm tsconfig.tsbuildinfo
+rm -rf tsconfig.tsbuildinfo
 rm -rf $OUTPUT_DIRECTORY
 step_end "Directory clear"
 
