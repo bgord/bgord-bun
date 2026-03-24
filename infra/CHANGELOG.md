@@ -1,9 +1,13 @@
 # Changelog
+## 2026-03-24 10:36 v1.16.0
+- 2026-03-24 10:36 4be00366 **1.16.0**
 - 2026-03-24 10:32 62816605 **refactor: simplify package.json**
 - 2026-03-24 10:28 a22225ae **step: add bun types**
 - 2026-03-24 10:00 fcfc5507 **step: package build**
 - 2026-03-24 09:57 7f4d9948 **step: update packages**
 - 2026-03-24 09:34 d1e3d87f **step: update packages**
+- 2026-03-24 09:34 ba6ceaec **docs: generate readme**
+- 2026-03-24 09:34 8e9ac208 **docs: generate CHANGELOG**
 - 2026-03-23 22:08 064d40a6 **refactor: rename build info**
 - 2026-03-23 21:54 3376468c **refactor: simplify tsconfig**
 - 2026-03-23 21:28 f4fae0a9 **step: update packages**
