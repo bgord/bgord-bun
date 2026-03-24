@@ -1,7 +1,27 @@
 # Changelog
+- 2026-03-24 10:32 62816605 **refactor: simplify package.json**
+- 2026-03-24 10:28 a22225ae **step: add bun types**
+- 2026-03-24 10:00 fcfc5507 **step: package build**
+- 2026-03-24 09:57 7f4d9948 **step: update packages**
+- 2026-03-24 09:34 d1e3d87f **step: update packages**
+- 2026-03-23 22:08 064d40a6 **refactor: rename build info**
+- 2026-03-23 21:54 3376468c **refactor: simplify tsconfig**
+- 2026-03-23 21:28 f4fae0a9 **step: update packages**
+- 2026-03-23 20:44 3de74089 **refactor: improve tests**
+- 2026-03-23 20:10 ac8fdd88 **step: update packages**
+- 2026-03-23 19:22 f0c067a9 **refactor: improve tests**
+- 2026-03-23 19:14 6d798832 **refactor: rename build info config**
+- 2026-03-23 13:49 a2f1050d **step: refactor build info**
+- 2026-03-23 13:45 ddb2b386 **refactor: remove build info repository**
+- 2026-03-23 13:17 2c291bdf **step: add reacttive config with fallback**
+- 2026-03-23 13:10 c2bf82fc **step: add reacttive config with cache**
+- 2026-03-23 13:07 f9179149 **step: add reacttive config json**
+- 2026-03-23 12:45 44c35df5 **step: add reacttive config noop**
+- 2026-03-23 12:42 b185a284 **step: add reacttive config port**
 ## 2026-03-22 20:49 v1.15.5
 - 2026-03-22 20:49 d19ee52f **1.15.5**
 - 2026-03-22 20:47 88b883d2 **step: update packages**
+- 2026-03-22 19:49 02a163aa **docs: generate CHANGELOG**
 - 2026-03-22 19:48 749ef4d6 **docs: generate CHANGELOG**
 - 2026-03-22 18:44 0ec47db2 **step: update packages**
 - 2026-03-22 17:45 0a65d5bc **docs: generate CHANGELOG**
