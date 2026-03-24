@@ -1,15 +1,16 @@
 {
   "name": "@bgord/bun",
   "version": "1.15.5",
-  "license": "MIT",
   "type": "module",
+  "license": "MIT",
   "author": "Bartosz Gordon",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "import": "./dist/index.js",
-    "types": "./dist/index.d.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "files": [
     "dist",
