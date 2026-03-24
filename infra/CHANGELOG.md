@@ -1,10 +1,12 @@
 # Changelog
+- 2026-03-24 11:37 0f6b3a5b **step: add guard**
 ## 2026-03-24 10:36 v1.16.0
 - 2026-03-24 10:36 4be00366 **1.16.0**
 - 2026-03-24 10:32 62816605 **refactor: simplify package.json**
 - 2026-03-24 10:28 a22225ae **step: add bun types**
 - 2026-03-24 10:00 fcfc5507 **step: package build**
 - 2026-03-24 09:57 7f4d9948 **step: update packages**
+- 2026-03-24 09:36 5caf2aed **docs: generate CHANGELOG**
 - 2026-03-24 09:34 d1e3d87f **step: update packages**
 - 2026-03-24 09:34 ba6ceaec **docs: generate readme**
 - 2026-03-24 09:34 8e9ac208 **docs: generate CHANGELOG**
