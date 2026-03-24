@@ -6,11 +6,12 @@ setup_base_config
 OUTPUT_DIRECTORY="dist"
 
 step_start "Directory clear"
+rm tsconfig.tsbuildinfo
 rm -rf $OUTPUT_DIRECTORY
 step_end "Directory clear"
 
 step_start "Package build"
-bunx tsc --build
+bunx tsc
 step_end "Package build"
 
 step_start "Guards"
