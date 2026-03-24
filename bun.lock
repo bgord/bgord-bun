@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.4.9",
+        "@bgord/tools": "1.4.10",
         "emittery": "2.0.0",
         "hono": "4.12.9",
         "node-cache": "5.1.2",
@@ -134,7 +134,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.21", "", {}, "sha512-/ImESw0sskqlVR94jB+5+Pxjf+xBwDZF/N5+y2/q4EqD7IARUTSpPfIo8uf39SYpCxyOCtbyYpUrZ3F/k0zT4A=="],
 
-    "@bgord/tools": ["@bgord/tools@1.4.9", "", { "dependencies": { "date-fns": "4.1.0", "valibot": "1.3.1" } }, "sha512-GugDNR0BWejzskL2qWPW35s1d8j1zO+8INUcyYMWUvN4fBMbsXgoD5kotNjg8JkRENTCk1U5iIAnUUrlgkVBzQ=="],
+    "@bgord/tools": ["@bgord/tools@1.4.10", "", { "dependencies": { "date-fns": "4.1.0", "valibot": "1.3.1" } }, "sha512-mHrssvSeKnYfm77swzprtBO2sCsKyd0Mjeo52GNJe2SNG40SoIJ0W3MzuEgsYANBU7JzWt9l/W/kX79S8GBBfw=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.4.8", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.4.8", "@biomejs/cli-darwin-x64": "2.4.8", "@biomejs/cli-linux-arm64": "2.4.8", "@biomejs/cli-linux-arm64-musl": "2.4.8", "@biomejs/cli-linux-x64": "2.4.8", "@biomejs/cli-linux-x64-musl": "2.4.8", "@biomejs/cli-win32-arm64": "2.4.8", "@biomejs/cli-win32-x64": "2.4.8" }, "bin": { "biome": "bin/biome" } }, "sha512-ponn0oKOky1oRXBV+rlSaUlixUxf1aZvWC19Z41zBfUOUesthrQqL3OtiAlSB1EjFjyWpn98Q64DHelhA6jNlA=="],
 

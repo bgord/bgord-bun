@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "module": "preserve",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -15,7 +16,7 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["@bgord/tools"]
+    "types": []
   },
   "include": ["src"]
 }
