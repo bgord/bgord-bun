@@ -61,10 +61,7 @@ src/
 ├── better-auth-logger.service.ts
 ├── binary.vo.ts
 ├── bots.vo.ts
-├── build-info-repository-file.strategy.ts
-├── build-info-repository-noop.strategy.ts
-├── build-info-repository-package-json.strategy.ts
-├── build-info-repository.strategy.ts
+├── build-info.vo.ts
 ├── cache-file.service.ts
 ├── cache-repository-node-cache.adapter.ts
 ├── cache-repository-noop.adapter.ts
@@ -374,6 +371,11 @@ src/
 ├── randomness-math.strategy.ts
 ├── randomness-noop.strategy.ts
 ├── randomness.strategy.ts
+├── reactive-config-file-json.adapter.ts
+├── reactive-config-noop.adapter.ts
+├── reactive-config-with-cache.adapter.ts
+├── reactive-config-with-fallback.adapter.ts
+├── reactive-config.port.ts
 ├── readiness-hono.handler.ts
 ├── readiness.handler.ts
 ├── recaptcha-secret-key.vo.ts
