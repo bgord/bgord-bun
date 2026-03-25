@@ -138,6 +138,10 @@ src/
 ├── event-store.adapter.ts
 ├── event-store.port.ts
 ├── event-stream.vo.ts
+├── event-upcaster-chain.adapter.ts
+├── event-upcaster-noop.adapter.ts
+├── event-upcaster-step.vo.ts
+├── event-upcaster.port.ts
 ├── event-validator-registry.adapter.ts
 ├── event-validator-registry.port.ts
 ├── event.types.ts
