@@ -13,30 +13,22 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
   private readonly upcasters: Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep<any, any>>>;
 
   constructor(config: EventUpcasterChainConfig) {
-    this.upcasters = {};
+    this.upcasters = Object.fromEntries(
+      Object.entries(config).map(([name, chain]) => [
+        name,
+        [...chain].sort((a, b) => a.config.fromVersion - b.config.fromVersion),
+      ]),
+    );
 
-    for (const [name, chain] of Object.entries(config)) {
-      const steps = [...chain].sort((a, b) => a.config.fromVersion - b.config.fromVersion);
+    for (const chain of Object.values(this.upcasters)) {
+      const versions = chain.map((step) => step.config.fromVersion);
 
-      this.upcasters[name] = steps;
+      if (new Set(versions).size !== versions.length) {
+        throw new Error(EventUpcasterChainAdapterError.DuplicateStep);
+      }
 
-      const seen = new Set<number>();
-
-      for (let i = 0; i < steps.length; i++) {
-        const current = steps[i] as EventUpcasterStep;
-
-        if (seen.has(current.config.fromVersion)) {
-          throw new Error(EventUpcasterChainAdapterError.DuplicateStep);
-        }
-        seen.add(current.config.fromVersion);
-
-        if (i > 0) {
-          const previous = steps[i - 1] as EventUpcasterStep;
-
-          if (current.config.fromVersion !== previous.config.toVersion) {
-            throw new Error(EventUpcasterChainAdapterError.GapInChain);
-          }
-        }
+      if (chain.some((step, i) => i > 0 && step.config.fromVersion !== chain[i - 1]!.config.toVersion)) {
+        throw new Error(EventUpcasterChainAdapterError.GapInChain);
       }
     }
   }
