@@ -5,6 +5,7 @@ import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventSerializerCollectingAdapter } from "../src/event-serializer-collecting.adapter";
 import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
+import { EventUpcasterRegistryNoopAdapter } from "../src/event-upcaster-registry-noop.adapter";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import * as System from "../src/modules/system";
 import * as mocks from "./mocks";
@@ -24,8 +25,9 @@ const serialized = (event: GenericEvent): GenericEventSerialized => ({
 
 const finder = new EventFinderNoopAdapter([]);
 const inserter = new EventInserterNoopAdapter();
+const upcaster = new EventUpcasterRegistryNoopAdapter();
 
-const store = new EventStoreAdapter({ finder, inserter, serializer });
+const store = new EventStoreAdapter({ finder, inserter, serializer, upcaster });
 
 describe("EventStoreAdapter", () => {
   test("find - no events", async () => {
@@ -34,7 +36,7 @@ describe("EventStoreAdapter", () => {
 
   test("find - one event", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const store = new EventStoreAdapter({ finder, inserter, serializer });
+    const store = new EventStoreAdapter({ finder, inserter, serializer, upcaster });
 
     expect(await store.find(registry, "passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
   });
@@ -44,7 +46,7 @@ describe("EventStoreAdapter", () => {
       serialized(mocks.GenericHourHasPassedEvent),
       serialized(mocks.GenericMinuteHasPassedEvent),
     ]);
-    const store = new EventStoreAdapter({ finder, inserter, serializer });
+    const store = new EventStoreAdapter({ finder, inserter, serializer, upcaster });
 
     expect(await store.find(registry, "passage_of_time")).toEqual([
       mocks.GenericHourHasPassedEvent,
@@ -69,7 +71,7 @@ describe("EventStoreAdapter", () => {
 
   test("save - serialization", async () => {
     const serializer = new EventSerializerCollectingAdapter();
-    const store = new EventStoreAdapter({ finder, inserter, serializer });
+    const store = new EventStoreAdapter({ finder, inserter, serializer, upcaster });
 
     await store.save([mocks.GenericHourHasPassedEvent]);
 

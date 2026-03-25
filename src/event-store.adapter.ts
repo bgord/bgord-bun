@@ -4,12 +4,14 @@ import type { EventInserterPort } from "./event-inserter.port";
 import type { EventSerializerPort } from "./event-serializer.port";
 import type { EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
+import type { EventUpcasterRegistryPort } from "./event-upcaster-registry.port";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 
 type Config = {
   finder: EventFinderPort;
   inserter: EventInserterPort;
   serializer: EventSerializerPort;
+  upcaster: EventUpcasterRegistryPort;
 };
 
 const EventStoreAdapterError = { UniqueStream: "event.store.adapter.error.unique.stream" };
@@ -25,6 +27,7 @@ export class EventStoreAdapter<Event extends GenericEvent> implements EventStore
 
     return events
       .map((event) => ({ ...event, payload: this.config.serializer.deserialize(event.payload) }))
+      .map((event) => this.config.upcaster.upcast(event))
       .map((event) => registry.validate(event));
   }
 

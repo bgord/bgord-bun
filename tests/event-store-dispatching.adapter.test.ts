@@ -4,6 +4,7 @@ import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventStoreDispatchingAdapter } from "../src/event-store-dispatching.adapter";
+import { EventUpcasterRegistryNoopAdapter } from "../src/event-upcaster-registry-noop.adapter";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
 import * as System from "../src/modules/system";
@@ -18,6 +19,7 @@ const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
 
 const inserter = new EventInserterNoopAdapter();
 const serializer = new EventSerializerJsonAdapter();
+const upcaster = new EventUpcasterRegistryNoopAdapter();
 
 const serialized = (event: PassageOfTimeEvent) => ({
   ...event,
@@ -27,7 +29,7 @@ const serialized = (event: PassageOfTimeEvent) => ({
 describe("EventStoreDispatchingAdapter", () => {
   test("find", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer, upcaster });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
@@ -37,7 +39,7 @@ describe("EventStoreDispatchingAdapter", () => {
 
   test("save - one event", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer, upcaster });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
@@ -47,7 +49,7 @@ describe("EventStoreDispatchingAdapter", () => {
 
   test("save - multiple events", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer, upcaster });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 

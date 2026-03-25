@@ -16,7 +16,7 @@ describe("HistoryPayloadParsed", () => {
 
   test("HistoryPayloadParsed - rejects circular references", () => {
     const circular: Record<string, any> = { name: "loop" };
-    circular.self = circular;
+    circular["self"] = circular;
     expect(() => v.parse(History.VO.HistoryPayloadParsed, circular)).toThrow(
       "history.payload.parsed.not.serializable",
     );

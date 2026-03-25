@@ -20,7 +20,7 @@ const deps = { CacheResolver, HashContent };
 
 describe("EnvironmentLoaderProcessSafe", () => {
   test("happy path", async () => {
-    process.env.APP_NAME = "MyApp";
+    process.env["APP_NAME"] = "MyApp";
 
     const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], {
       HashContent,

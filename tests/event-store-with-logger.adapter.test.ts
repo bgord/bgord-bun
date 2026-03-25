@@ -5,6 +5,7 @@ import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventStoreWithLoggerAdapter } from "../src/event-store-with-logger.adapter";
+import { EventUpcasterRegistryNoopAdapter } from "../src/event-upcaster-registry-noop.adapter";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as System from "../src/modules/system";
@@ -19,6 +20,7 @@ const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
 
 const serializer = new EventSerializerJsonAdapter();
 const inserter = new EventInserterNoopAdapter();
+const upcaster = new EventUpcasterRegistryNoopAdapter();
 
 const serialized = (event: PassageOfTimeEvent) => ({
   ...event,
@@ -28,7 +30,7 @@ const serialized = (event: PassageOfTimeEvent) => ({
 describe("EventStoreWithLoggerAdapter", () => {
   test("find", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer, upcaster });
     const Logger = new LoggerCollectingAdapter();
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 
@@ -53,7 +55,7 @@ describe("EventStoreWithLoggerAdapter", () => {
 
   test("save", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer, upcaster });
     const Logger = new LoggerCollectingAdapter();
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 

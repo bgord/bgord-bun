@@ -10,7 +10,7 @@ export type GenericEvent = {
   revision?: tools.RevisionValueType;
   name: string;
   version: number;
-  payload: unknown;
+  payload: Record<string, unknown>;
 };
 
 export type GenericEventSerialized = Omit<GenericEvent, "payload"> & { payload: string };
