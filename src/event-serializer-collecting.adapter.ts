@@ -1,17 +1,18 @@
+import type { GenericEvent, GenericEventSerialized } from "./event.types";
 import type { EventSerializerPort } from "./event-serializer.port";
 
 export class EventSerializerCollectingAdapter implements EventSerializerPort {
-  readonly serialized: Array<unknown> = [];
+  readonly serialized: Array<GenericEvent["payload"]> = [];
 
-  readonly deserialized: Array<string> = [];
+  readonly deserialized: Array<GenericEventSerialized["payload"]> = [];
 
-  serialize(payload: unknown): string {
+  serialize(payload: GenericEvent["payload"]): GenericEventSerialized["payload"] {
     this.serialized.push(payload);
 
     return JSON.stringify(payload);
   }
 
-  deserialize(raw: string): unknown {
+  deserialize(raw: GenericEventSerialized["payload"]): GenericEvent["payload"] {
     this.deserialized.push(raw);
 
     return JSON.parse(raw);
