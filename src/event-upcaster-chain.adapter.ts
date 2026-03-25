@@ -7,16 +7,19 @@ const EventUpcasterChainAdapterError = {
   GapInChain: "event.upcaster.chain.gap",
 };
 
-type EventUpcasterChainConfig = Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep>>;
+type EventUpcasterChainConfig = Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep<any, any>>>;
 
 export class EventUpcasterChainAdapter implements EventUpcasterPort {
-  private readonly upcasters: Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep>>;
+  private readonly upcasters: Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep<any, any>>>;
 
   constructor(config: EventUpcasterChainConfig) {
     this.upcasters = {};
 
     for (const [name, chain] of Object.entries(config)) {
       const steps = [...chain].sort((a, b) => a.config.fromVersion - b.config.fromVersion);
+
+      this.upcasters[name] = steps;
+
       const seen = new Set<number>();
 
       for (let i = 0; i < steps.length; i++) {
@@ -35,8 +38,6 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
           }
         }
       }
-
-      this.upcasters[name] = steps;
     }
   }
 
