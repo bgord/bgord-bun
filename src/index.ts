@@ -112,6 +112,7 @@ export * from "./event-store-noop.adapter";
 export * from "./event-store-with-logger.adapter";
 export * from "./event-stream.vo";
 export * from "./event-upcaster.port";
+export * from "./event-upcaster-chain.adapter";
 export * from "./event-upcaster-noop.adapter";
 export * from "./event-upcaster-step.vo";
 export * from "./event-validator-registry.adapter";
