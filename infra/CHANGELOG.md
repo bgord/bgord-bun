@@ -1,5 +1,19 @@
 # Changelog
+- 2026-03-25 15:24 f56ce9ac **step: add event store upcaster test**
+- 2026-03-25 14:15 dbc08205 **refactor: simplify version handling in event envelope**
+- 2026-03-25 14:06 34ca47d2 **step: add optional upcaster to event store**
+- 2026-03-25 13:15 2c38cd8b **refactor: update chain config**
+- 2026-03-25 13:10 f83ff5e8 **refactor: adjust tests**
+- 2026-03-25 13:10 c4719002 **refactor: remove name from event upcaster step**
+- 2026-03-25 13:07 95db1e75 **refactor: update chain**
+- 2026-03-25 12:56 4afc5854 **step: add event upcaster chain adapter**
+- 2026-03-25 12:26 bdddc5ec **step: add event upcaster noop**
+- 2026-03-25 12:25 80216a47 **step: add event upcaster port**
+- 2026-03-25 12:00 5612d98f **refactor: simplify event upcaster step vo generics**
+- 2026-03-25 11:52 f2f2a832 **step: add event upcaster step vo**
+- 2026-03-25 11:22 f01664c0 **refactor: improve generic event payload types**
 - 2026-03-24 11:37 0f6b3a5b **step: add guard**
+- 2026-03-24 10:37 07164c5e **docs: generate CHANGELOG**
 ## 2026-03-24 10:36 v1.16.0
 - 2026-03-24 10:36 4be00366 **1.16.0**
 - 2026-03-24 10:32 62816605 **refactor: simplify package.json**
