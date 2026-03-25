@@ -1,10 +1,15 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { GenericEvent, GenericEventSerialized } from "../src/event.types";
+import { EventEnvelopeSchema } from "../src/event-envelope";
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventSerializerCollectingAdapter } from "../src/event-serializer-collecting.adapter";
 import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
+import { EventUpcasterChainAdapter } from "../src/event-upcaster-chain.adapter";
+import { EventUpcasterStep } from "../src/event-upcaster-step.vo";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import * as System from "../src/modules/system";
 import * as mocks from "./mocks";
@@ -49,6 +54,41 @@ describe("EventStoreAdapter", () => {
     expect(await store.find(registry, "passage_of_time")).toEqual([
       mocks.GenericHourHasPassedEvent,
       mocks.GenericMinuteHasPassedEvent,
+    ]);
+  });
+
+  test("find - with upcaster", async () => {
+    const HourHasPassedEventV2 = v.object({
+      ...EventEnvelopeSchema,
+      version: v.literal(2),
+      name: v.literal(System.Events.HOUR_HAS_PASSED_EVENT),
+      payload: v.object({ timestamp: tools.TimestampValue, source: v.string() }),
+    });
+
+    type HourHasPassedEventV2Type = v.InferOutput<typeof HourHasPassedEventV2>;
+
+    const registry = new EventValidatorRegistryAdapter<HourHasPassedEventV2Type>({
+      [System.Events.HOUR_HAS_PASSED_EVENT]: HourHasPassedEventV2,
+    });
+
+    const upcaster = new EventUpcasterChainAdapter({
+      HOUR_HAS_PASSED_EVENT: [
+        new EventUpcasterStep<System.Events.HourHasPassedEventType, HourHasPassedEventV2Type>({
+          fromVersion: 1,
+          toVersion: 2,
+          upcast: (payload) => ({ ...payload, source: "system" }),
+        }),
+      ],
+    });
+    const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
+    const store = new EventStoreAdapter({ finder, inserter, serializer, upcaster });
+
+    expect(await store.find(registry, "passage_of_time")).toEqual([
+      {
+        ...mocks.GenericHourHasPassedEvent,
+        version: 2,
+        payload: { ...mocks.GenericHourHasPassedEvent.payload, source: "system" },
+      },
     ]);
   });
 
