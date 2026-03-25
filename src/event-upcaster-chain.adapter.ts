@@ -7,31 +7,28 @@ const EventUpcasterChainAdapterError = {
   GapInChain: "event.upcaster.chain.gap",
 };
 
+type EventUpcasterChainConfig = Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep>>;
+
 export class EventUpcasterChainAdapter implements EventUpcasterPort {
-  private readonly chains: Map<GenericEvent["name"], ReadonlyArray<EventUpcasterStep>>;
+  private readonly upcasters: Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep>>;
 
-  constructor(steps: ReadonlyArray<EventUpcasterStep>) {
-    const grouped = new Map<GenericEvent["name"], Array<EventUpcasterStep>>();
+  constructor(config: EventUpcasterChainConfig) {
+    this.upcasters = {};
 
-    for (const step of steps) {
-      const chain = grouped.get(step.config.name) ?? [];
+    for (const [name, chain] of Object.entries(config)) {
+      const steps = [...chain].sort((a, b) => a.config.fromVersion - b.config.fromVersion);
+      const seen = new Set<number>();
 
-      chain.push(step);
-      grouped.set(step.config.name, chain);
-    }
+      for (let i = 0; i < steps.length; i++) {
+        const current = steps[i] as EventUpcasterStep;
 
-    for (const [name, chain] of grouped) {
-      chain.sort((a, b) => a.config.fromVersion - b.config.fromVersion);
-
-      for (let i = 0; i < chain.length; i++) {
-        const current = chain[i] as EventUpcasterStep;
-
-        if (chain.findIndex((s) => s.config.fromVersion === current.config.fromVersion) !== i) {
+        if (seen.has(current.config.fromVersion)) {
           throw new Error(EventUpcasterChainAdapterError.DuplicateStep);
         }
+        seen.add(current.config.fromVersion);
 
         if (i > 0) {
-          const previous = chain[i - 1] as EventUpcasterStep;
+          const previous = steps[i - 1] as EventUpcasterStep;
 
           if (current.config.fromVersion !== previous.config.toVersion) {
             throw new Error(EventUpcasterChainAdapterError.GapInChain);
@@ -39,14 +36,12 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
         }
       }
 
-      grouped.set(name, chain);
+      this.upcasters[name] = steps;
     }
-
-    this.chains = grouped;
   }
 
   upcast(event: GenericEvent): GenericEvent {
-    const chain = this.chains.get(event.name);
+    const chain = this.upcasters[event.name];
 
     if (!chain) return event;
 
