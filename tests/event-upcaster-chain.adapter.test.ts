@@ -4,14 +4,12 @@ import { EventUpcasterStep } from "../src/event-upcaster-step.vo";
 import * as mocks from "./mocks";
 
 const v1v2 = new EventUpcasterStep({
-  name: "HOUR_HAS_PASSED_EVENT",
   fromVersion: 1,
   toVersion: 2,
   upcast: (payload) => ({ ...payload, source: "system" }),
 });
 
-const v2ToV3 = new EventUpcasterStep({
-  name: "HOUR_HAS_PASSED_EVENT",
+const v2v3 = new EventUpcasterStep({
   fromVersion: 2,
   toVersion: 3,
   upcast: (payload) => ({ ...payload, region: "utc" }),
@@ -19,19 +17,19 @@ const v2ToV3 = new EventUpcasterStep({
 
 describe("EventUpcasterChainAdapter", () => {
   test("no steps", () => {
-    const upcaster = new EventUpcasterChainAdapter([]);
+    const upcaster = new EventUpcasterChainAdapter({});
 
     expect(upcaster.upcast(mocks.GenericHourHasPassedEvent)).toEqual(mocks.GenericHourHasPassedEvent);
   });
 
   test("unknown event - passthrough", () => {
-    const upcaster = new EventUpcasterChainAdapter([v1v2]);
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2] });
 
     expect(upcaster.upcast(mocks.GenericMinuteHasPassedEvent)).toEqual(mocks.GenericMinuteHasPassedEvent);
   });
 
   test("single step", () => {
-    const upcaster = new EventUpcasterChainAdapter([v1v2]);
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2] });
     const result = upcaster.upcast(mocks.GenericHourHasPassedEvent);
 
     expect(result.version).toEqual(2);
@@ -39,7 +37,7 @@ describe("EventUpcasterChainAdapter", () => {
   });
 
   test("multi-step chain", () => {
-    const upcaster = new EventUpcasterChainAdapter([v1v2, v2ToV3]);
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2, v2v3] });
     const result = upcaster.upcast(mocks.GenericHourHasPassedEvent);
 
     expect(result.version).toEqual(3);
@@ -51,7 +49,7 @@ describe("EventUpcasterChainAdapter", () => {
   });
 
   test("skips steps below event version", () => {
-    const upcaster = new EventUpcasterChainAdapter([v1v2, v2ToV3]);
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2, v2v3] });
     const v2Event = {
       ...mocks.GenericHourHasPassedEvent,
       version: 2,
@@ -64,7 +62,7 @@ describe("EventUpcasterChainAdapter", () => {
   });
 
   test("event already at latest version", () => {
-    const upcaster = new EventUpcasterChainAdapter([v1v2]);
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2] });
     const v2Event = {
       ...mocks.GenericHourHasPassedEvent,
       version: 2,
@@ -75,14 +73,16 @@ describe("EventUpcasterChainAdapter", () => {
   });
 
   test("steps for different event names", () => {
-    const minuteStep = new EventUpcasterStep({
-      name: "MINUTE_HAS_PASSED_EVENT",
+    const minuteV1v2 = new EventUpcasterStep({
       fromVersion: 1,
       toVersion: 2,
       upcast: (payload) => ({ ...payload, precision: "ms" }),
     });
 
-    const upcaster = new EventUpcasterChainAdapter([v1v2, minuteStep]);
+    const upcaster = new EventUpcasterChainAdapter({
+      HOUR_HAS_PASSED_EVENT: [v1v2],
+      MINUTE_HAS_PASSED_EVENT: [minuteV1v2],
+    });
 
     const hourResult = upcaster.upcast(mocks.GenericHourHasPassedEvent);
     expect(hourResult.version).toEqual(2);
@@ -94,7 +94,7 @@ describe("EventUpcasterChainAdapter", () => {
   });
 
   test("steps passed out of order", () => {
-    const upcaster = new EventUpcasterChainAdapter([v2ToV3, v1v2]);
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v2v3, v1v2] });
     const result = upcaster.upcast(mocks.GenericHourHasPassedEvent);
 
     expect(result.version).toEqual(3);
@@ -106,17 +106,16 @@ describe("EventUpcasterChainAdapter", () => {
   });
 
   test("duplicate step", () => {
-    expect(() => new EventUpcasterChainAdapter([v1v2, v1v2])).toThrow("event.upcaster.chain.duplicate.step");
+    expect(() => new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2, v1v2] })).toThrow(
+      "event.upcaster.chain.duplicate.step",
+    );
   });
 
   test("gap in chain", () => {
-    const v3ToV4 = new EventUpcasterStep({
-      name: "HOUR_HAS_PASSED_EVENT",
-      fromVersion: 3,
-      toVersion: 4,
-      upcast: (payload) => payload,
-    });
+    const v3v4 = new EventUpcasterStep({ fromVersion: 3, toVersion: 4, upcast: (payload) => payload });
 
-    expect(() => new EventUpcasterChainAdapter([v1v2, v3ToV4])).toThrow("event.upcaster.chain.gap");
+    expect(() => new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2, v3v4] })).toThrow(
+      "event.upcaster.chain.gap",
+    );
   });
 });

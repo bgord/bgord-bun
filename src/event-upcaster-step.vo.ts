@@ -4,7 +4,6 @@ export type EventUpcasterStepConfig<
   From extends GenericEvent = GenericEvent,
   To extends GenericEvent = GenericEvent,
 > = {
-  name: GenericEvent["name"];
   fromVersion: GenericEvent["version"];
   toVersion: GenericEvent["version"];
   upcast: (payload: From["payload"]) => To["payload"];

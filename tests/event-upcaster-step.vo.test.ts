@@ -12,20 +12,17 @@ type HourHasPassedV2 = Omit<HourHasPassedV1, "version" | "payload"> & {
 describe("EventUpcasterStep", () => {
   test("valid step", () => {
     const step = new EventUpcasterStep<HourHasPassedV1, HourHasPassedV2>({
-      name: "HOUR_HAS_PASSED_EVENT",
       fromVersion: 1,
       toVersion: 2,
       upcast: (payload) => ({ ...payload, source: "system" }),
     });
 
-    expect(step.config.name).toEqual("HOUR_HAS_PASSED_EVENT");
     expect(step.config.fromVersion).toEqual(1);
     expect(step.config.toVersion).toEqual(2);
   });
 
   test("upcast", () => {
     const step = new EventUpcasterStep<HourHasPassedV1, HourHasPassedV2>({
-      name: "HOUR_HAS_PASSED_EVENT",
       fromVersion: 1,
       toVersion: 2,
       upcast: (payload) => ({ ...payload, source: "system" }),
@@ -39,37 +36,19 @@ describe("EventUpcasterStep", () => {
 
   test("validation - 1 to 3", () => {
     expect(
-      () =>
-        new EventUpcasterStep({
-          name: "HOUR_HAS_PASSED_EVENT",
-          fromVersion: 1,
-          toVersion: 3,
-          upcast: (payload) => payload,
-        }),
+      () => new EventUpcasterStep({ fromVersion: 1, toVersion: 3, upcast: (payload) => payload }),
     ).toThrow("event.upcaster.step.version.increment");
   });
 
   test("validation - 1 to 1", () => {
     expect(
-      () =>
-        new EventUpcasterStep({
-          name: "HOUR_HAS_PASSED_EVENT",
-          fromVersion: 1,
-          toVersion: 1,
-          upcast: (payload) => payload,
-        }),
+      () => new EventUpcasterStep({ fromVersion: 1, toVersion: 1, upcast: (payload) => payload }),
     ).toThrow("event.upcaster.step.version.increment");
   });
 
   test("validation - 2 to 1", () => {
     expect(
-      () =>
-        new EventUpcasterStep({
-          name: "HOUR_HAS_PASSED_EVENT",
-          fromVersion: 2,
-          toVersion: 1,
-          upcast: (payload) => payload,
-        }),
+      () => new EventUpcasterStep({ fromVersion: 2, toVersion: 1, upcast: (payload) => payload }),
     ).toThrow("event.upcaster.step.version.increment");
   });
 });
