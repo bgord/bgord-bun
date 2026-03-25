@@ -1,5 +1,11 @@
 # Changelog
+- 2026-03-25 16:14 f0c649f0 **step: update packages**
+- 2026-03-25 16:13 adf8a09a **refactor: improve event upcaster chain constructor**
+- 2026-03-25 16:07 bf3602b1 **refactor: improve event upcaster chain upcast**
+- 2026-03-25 15:55 90359f9c **fix: mutation tests**
 - 2026-03-25 15:24 f56ce9ac **step: add event store upcaster test**
+- 2026-03-25 14:52 aeddcae6 **docs: generate readme**
+- 2026-03-25 14:52 25031a80 **docs: generate CHANGELOG**
 - 2026-03-25 14:15 dbc08205 **refactor: simplify version handling in event envelope**
 - 2026-03-25 14:06 34ca47d2 **step: add optional upcaster to event store**
 - 2026-03-25 13:15 2c38cd8b **refactor: update chain config**
