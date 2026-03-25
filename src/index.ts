@@ -111,6 +111,7 @@ export * from "./event-store-dispatching.adapter";
 export * from "./event-store-noop.adapter";
 export * from "./event-store-with-logger.adapter";
 export * from "./event-stream.vo";
+export * from "./event-upcaster-step.vo";
 export * from "./event-validator-registry.adapter";
 export * from "./event-validator-registry.port";
 export * from "./file-cleaner.adapter";
