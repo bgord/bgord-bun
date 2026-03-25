@@ -1,12 +1,11 @@
 import * as v from "valibot";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
-import { createEventEnvelope } from "./event-envelope";
+import { event } from "./event-envelope";
 import type { EventStorePort } from "./event-store.port";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import {
-  SECURITY_VIOLATION_DETECTED_EVENT,
   SecurityViolationDetectedEvent,
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
@@ -51,13 +50,9 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
       metadata: context,
     });
 
-    const event = v.parse(SecurityViolationDetectedEvent, {
-      ...createEventEnvelope("security", this.deps),
-      name: SECURITY_VIOLATION_DETECTED_EVENT,
-      payload: { action: action.kind, ...context },
-    } satisfies SecurityViolationDetectedEventType);
-
-    await this.deps.EventStore.save([event]);
+    await this.deps.EventStore.save([
+      event(SecurityViolationDetectedEvent, "security", { action: action.kind, ...context }, this.deps),
+    ]);
 
     return action;
   }

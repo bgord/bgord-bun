@@ -17,13 +17,12 @@ export const EventEnvelopeSchema = {
   revision: v.optional(tools.RevisionValue),
 };
 
-export const createEventEnvelope = (stream: EventStreamType, deps: Dependencies) =>
+const createEventEnvelope = (stream: EventStreamType, deps: Dependencies) =>
   ({
     id: deps.IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
     createdAt: deps.Clock.now().ms,
     stream,
-    version: 1,
   }) as const;
 
 export function event<Schema extends v.ObjectSchema<any, any>>(
@@ -35,6 +34,7 @@ export function event<Schema extends v.ObjectSchema<any, any>>(
   return v.parse(schema, {
     ...createEventEnvelope(stream, deps),
     name: schema.entries.name.literal,
+    version: schema.entries.version.literal,
     payload,
   });
 }

@@ -1,15 +1,10 @@
-import * as v from "valibot";
 import type { ClockPort } from "../../../clock.port";
-import { createEventEnvelope } from "../../../event-envelope";
+import { event } from "../../../event-envelope";
 import type { EventStorePort } from "../../../event-store.port";
 import type { IdProviderPort } from "../../../id-provider.port";
 import type { UnitOfWork } from "../../../job-handler.strategy";
 import { Jobs } from "../../../jobs.service";
-import {
-  MINUTE_HAS_PASSED_EVENT,
-  MinuteHasPassedEvent,
-  type MinuteHasPassedEventType,
-} from "../events/MINUTE_HAS_PASSED_EVENT";
+import { MinuteHasPassedEvent, type MinuteHasPassedEventType } from "../events/MINUTE_HAS_PASSED_EVENT";
 
 type Dependencies = {
   EventStore: EventStorePort<MinuteHasPassedEventType>;
@@ -25,12 +20,8 @@ export class PassageOfTimeMinute implements UnitOfWork {
   label = "PassageOfTime";
 
   async process() {
-    const event = v.parse(MinuteHasPassedEvent, {
-      ...createEventEnvelope("passage_of_time", this.deps),
-      name: MINUTE_HAS_PASSED_EVENT,
-      payload: { timestamp: this.deps.Clock.now().ms },
-    } satisfies MinuteHasPassedEventType);
-
-    await this.deps.EventStore.save([event]);
+    await this.deps.EventStore.save([
+      event(MinuteHasPassedEvent, "passage_of_time", { timestamp: this.deps.Clock.now().ms }, this.deps),
+    ]);
   }
 }
