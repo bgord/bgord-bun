@@ -46,14 +46,12 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
 
     if (!chain) return event;
 
-    let result = { ...event };
-
-    for (const step of chain) {
-      if (result.version === step.config.fromVersion) {
-        result = { ...result, version: step.config.toVersion, payload: step.config.upcast(result.payload) };
-      }
-    }
-
-    return result;
+    return chain.reduce(
+      (result, step) =>
+        result.version === step.config.fromVersion
+          ? { ...result, version: step.config.toVersion, payload: step.config.upcast(result.payload) }
+          : result,
+      event,
+    );
   }
 }
