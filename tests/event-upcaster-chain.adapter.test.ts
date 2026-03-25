@@ -80,6 +80,13 @@ describe("EventUpcasterChainAdapter", () => {
     expect(upcaster.upcast(mocks.GenericHourHasPassedEvent)).toEqual(v3);
   });
 
+  test("version above chain", () => {
+    const upcaster = new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2] });
+    const v3 = { ...mocks.GenericHourHasPassedEvent, version: 3 };
+
+    expect(upcaster.upcast(v3)).toEqual(v3);
+  });
+
   test("duplicate step", () => {
     expect(() => new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v1v2, v1v2] })).toThrow(
       "event.upcaster.chain.duplicate.step",

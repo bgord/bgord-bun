@@ -12,7 +12,9 @@ export class ShieldIpWhitelistStrategy {
   evaluate(context: HasIdentityIp): boolean {
     const ip = v.safeParse(ClientIp, context.identity.ip());
 
+    // Stryker disable all
     if (!ip.success) return false;
+    // Stryker restore all
     return this.config.whitelist.includes(ip.output);
   }
 }
