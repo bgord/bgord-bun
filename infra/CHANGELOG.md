@@ -3,6 +3,8 @@
 - 2026-03-26 15:21 5ae59c29 **refactor: restore stryker suppressions**
 - 2026-03-26 14:59 ea2bed5d **refactor: remove stryker suppressions**
 - 2026-03-26 14:56 ed1d06b5 **step: bump bgord/scripts**
+- 2026-03-26 14:48 911eb5f6 **docs: generate CHANGELOG**
+- 2026-03-26 14:48 4f140ec6 **docs: generate CHANGELOG**
 - 2026-03-26 14:03 faca1a9d **refactor: migrate tools services**
 - 2026-03-26 14:03 b3960564 **refactor: migrate tools services**
 - 2026-03-26 14:03 76af2a05 **step: update packages**
