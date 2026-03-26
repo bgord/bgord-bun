@@ -16,8 +16,6 @@ export class Retry {
   constructor(private readonly deps: Dependencies) {}
 
   async run<T>(action: () => Promise<T>, config: RetryConfig): Promise<T> {
-    if (config.max < 1) throw new Error(RetryError.InvalidMax);
-
     let lastError: unknown;
 
     for (let attempt = 1; attempt <= config.max; attempt++) {

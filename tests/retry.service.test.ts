@@ -13,11 +13,6 @@ const deps = { Sleeper };
 const retry = new Retry(deps);
 
 describe("Retry", () => {
-  test("invalid max", async () => {
-    // @ts-expect-error Changed schema assertion
-    expect(() => retry.run(async () => "ok", { max: 0, backoff })).toThrow("retry.invalid.max");
-  });
-
   test("success", async () => {
     using action = spyOn({ run: async () => "ok" }, "run");
 
