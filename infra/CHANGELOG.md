@@ -1,4 +1,7 @@
 # Changelog
+## 2026-03-26 17:16 v1.16.2
+- 2026-03-26 17:16 b79aa060 **1.16.2**
+- 2026-03-26 16:16 d07d8b48 **docs: generate CHANGELOG**
 - 2026-03-26 15:24 1ab04c1d **refactor: simplify cors**
 - 2026-03-26 15:21 5ae59c29 **refactor: restore stryker suppressions**
 - 2026-03-26 14:59 ea2bed5d **refactor: remove stryker suppressions**
