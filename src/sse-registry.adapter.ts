@@ -8,7 +8,7 @@ export class SseRegistryAdapter<Messages extends Message> implements SseRegistry
   register(identity: HashValueType, connection: SseSenderType<Messages>): void {
     if (!this.senders.has(identity)) this.senders.set(identity, new Set());
 
-    this.senders.get(identity)!.add(connection);
+    this.senders.get(identity)?.add(connection);
   }
 
   unregister(identity: HashValueType, connection: SseSenderType<Messages>): void {

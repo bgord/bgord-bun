@@ -19,7 +19,7 @@ export class TranslationsHonoHandler<T extends tools.LanguageType> implements Ha
   }
 
   handle() {
-    return factory.createHandlers<{}, any, { Variables: LanguageDetectorVariables }>(async (c) => {
+    return factory.createHandlers<any, any, { Variables: LanguageDetectorVariables }>(async (c) => {
       const language = c.get("language");
       const result = await this.handler.execute(language);
 
