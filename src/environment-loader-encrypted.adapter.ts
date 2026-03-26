@@ -24,7 +24,6 @@ export class EnvironmentLoaderEncryptedAdapter<T extends object> implements Envi
 
     const result = this.config.EnvironmentSchema["~standard"].validate(env);
     if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
-    // Stryker disable next-line OptionalChaining
     if (result.issues) throw new Error(result.issues[0]?.message);
     return Object.freeze({ ...result.value, type: this.config.type });
   }

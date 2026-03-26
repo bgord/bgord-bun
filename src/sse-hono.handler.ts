@@ -38,9 +38,7 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
 
         this.deps.registry.register(subject.hex.get(), send);
 
-        // Stryker disable all
         stream.onAbort(() => this.deps.registry.unregister(subject.hex.get(), send));
-        // Stryker restore all
 
         while (!stream.closed) {
           await stream.sleep(this.config.keepalive.ms);

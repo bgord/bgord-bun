@@ -5,9 +5,7 @@ export class RedactorErrorCauseDepthLimit implements RedactorStrategy {
   constructor(private readonly max: tools.IntegerNonNegativeType) {}
 
   redact<T>(input: T): T {
-    // Stryker disable all
     if (!tools.isPlainObject(input)) return input;
-    // Stryker restore all
     if (!tools.ErrorNormalizer.isNormalizedError(input["error"])) return input;
     return { ...input, error: this.limit(input["error"], tools.Int.nonNegative(0)) };
   }

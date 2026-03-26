@@ -9,9 +9,7 @@ export class WoodchoperSamplingCorrelationId implements WoodchopperSamplingStrat
   constructor(private readonly config: Config) {}
 
   decide(entry: LoggerEntry): boolean {
-    // Stryker disable all
     if (!entry.correlationId) return false;
     return fnv1a32(entry.correlationId) % this.config.everyNth === 0;
-    // Stryker restore all
   }
 }

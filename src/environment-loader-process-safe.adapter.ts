@@ -25,7 +25,6 @@ export class EnvironmentLoaderProcessSafeAdapter<T extends object> implements En
     const parsed = await this.deps.CacheResolver.resolve(subject.hex, async () => {
       const result = this.config.EnvironmentSchema["~standard"].validate(this.env);
       if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
-      // Stryker disable next-line OptionalChaining
       if (result.issues) throw new Error(result.issues[0]?.message);
       return result.value;
     });

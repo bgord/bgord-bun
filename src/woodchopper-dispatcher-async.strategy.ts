@@ -40,9 +40,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   }
 
   close(): void {
-    // Stryker disable all
     if (this.state === WoodchopperDispatcherAsyncState.closed) return;
-    // Stryker restore all
 
     this.state = WoodchopperDispatcherAsyncState.closed;
 
@@ -73,9 +71,7 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
       try {
         this.sink.write(entry as LoggerEntry);
       } catch (error) {
-        // Stryker disable all
         this.onError?.(error);
-        // Stryker restore all
       }
     }
   }

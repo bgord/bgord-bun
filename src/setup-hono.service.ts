@@ -69,7 +69,6 @@ export class SetupHono {
         xFrameOptions: false,
       }),
       cors({
-        // Stryker disable all
         origin: (origin, c) => {
           // server-to-server, curl, same-origin navigation
           if (!origin) return undefined;
@@ -80,7 +79,6 @@ export class SetupHono {
           // deny cross-origin
           return null;
         },
-        // Stryker restore all
         credentials: false,
         maxAge: tools.Duration.Minutes(10).seconds,
         ...config.cors,

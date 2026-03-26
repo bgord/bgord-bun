@@ -14,7 +14,6 @@ export class EnvironmentLoaderProcessAdapter<T extends object> implements Enviro
   async load(): Promise<Readonly<EnvironmentResultType<T>>> {
     const result = this.config.EnvironmentSchema["~standard"].validate(this.env);
     if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
-    // Stryker disable next-line OptionalChaining
     if (result.issues) throw new Error(result.issues[0]?.message);
     return Object.freeze({ ...result.value, type: this.config.type });
   }

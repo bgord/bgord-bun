@@ -40,7 +40,6 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
       component: "infra",
       operation: "event_store_save",
       correlationId: CorrelationStorage.get(),
-      // Stryker disable next-line OptionalChaining
       metadata: { stream: events[0]?.stream, names: events.map((event) => event.name), count: events.length },
     });
 

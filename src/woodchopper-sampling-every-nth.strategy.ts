@@ -10,9 +10,7 @@ export class WoodchopperSamplingEveryNth implements WoodchopperSamplingStrategy 
   private counter = 0;
 
   decide(_entry: LoggerEntry): boolean {
-    // Stryker disable all
     this.counter++;
-    // Stryker restore all
 
     if (this.counter % this.config.n !== 0) return false;
     return true;

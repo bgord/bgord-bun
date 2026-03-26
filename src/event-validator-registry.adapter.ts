@@ -37,7 +37,6 @@ export class EventValidatorRegistryAdapter<Event> implements EventValidatorRegis
     const result = schema["~standard"].validate(raw);
 
     if (result instanceof Promise) throw new Error(EventValidatorRegistryError.NoAsyncSchema);
-    // Stryker disable next-line OptionalChaining
     if (result.issues) throw new Error(result.issues[0]?.message);
     return result.value;
   }

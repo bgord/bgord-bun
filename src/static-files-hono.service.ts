@@ -60,9 +60,7 @@ type StaticFilesOptions = { root?: string };
 
 export class StaticFilesHono {
   static handle(path: string, strategy: StaticFilesStrategy, options?: StaticFilesOptions) {
-    // Stryker disable all
     const root = options?.root ?? "./";
-    // Stryker restore all
 
     return {
       [path]: new Hono().use(
@@ -72,9 +70,7 @@ export class StaticFilesHono {
 
           const contentType = context.res.headers.get("Content-Type");
 
-          // Stryker disable all
           if (contentType?.startsWith("text/html")) staticDocumentHeaders(context, noop);
-          // Stryker restore all
           else staticAssetHeaders(context, noop);
         },
         etag(),
