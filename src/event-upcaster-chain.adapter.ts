@@ -27,7 +27,7 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
         throw new Error(EventUpcasterChainAdapterError.DuplicateStep);
       }
 
-      if (chain.some((step, i) => i > 0 && step.config.fromVersion !== chain[i - 1]!.config.toVersion)) {
+      if (chain.some((step, i) => i > 0 && step.config.fromVersion !== chain[i - 1]?.config.toVersion)) {
         throw new Error(EventUpcasterChainAdapterError.GapInChain);
       }
     }

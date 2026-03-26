@@ -1,4 +1,4 @@
-import perf_hooks from "perf_hooks";
+import perf_hooks from "node:perf_hooks";
 import * as tools from "@bgord/tools";
 
 export type EventLoopLagSnapshotType = { p50: tools.Duration; p95: tools.Duration; p99: tools.Duration };

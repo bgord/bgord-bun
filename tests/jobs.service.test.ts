@@ -18,7 +18,6 @@ describe("Jobs", () => {
 
   test("areAllRunning", () => {
     let running = true;
-    // biome-ignore lint: lint/suspicious/noAssignInExpressions
     const job = { stop: () => (running = false), isRunning: () => running };
 
     expect(Jobs.areAllRunning({ PassageOfTime: job })).toEqual(true);

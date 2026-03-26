@@ -42,13 +42,13 @@ describe("SseHonoHandler", async () => {
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     const response = await app.request("/sse");
-    const reader = response.body!.getReader();
+    const reader = response.body?.getReader();
     const decoder = new TextDecoder();
 
     await registry.emit(subject.hex.get(), mocks.message);
 
-    const { value } = await reader.read();
-    const text = decoder.decode(value);
+    const result = await reader?.read();
+    const text = decoder.decode(result?.value);
 
     expect(text).toEqualIgnoringWhitespace(
       `event: ${mocks.message.name} data: ${JSON.stringify(mocks.message)}`,
@@ -65,13 +65,13 @@ describe("SseHonoHandler", async () => {
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     const response = await app.request("/sse");
-    const reader = response.body!.getReader();
+    const reader = response.body?.getReader();
     const decoder = new TextDecoder();
 
     jest.advanceTimersByTime(config.keepalive.ms);
 
-    const { value } = await reader.read();
-    const text = decoder.decode(value);
+    const result = await reader?.read();
+    const text = decoder.decode(result?.value);
 
     jest.useRealTimers();
 

@@ -20,6 +20,6 @@ describe("WoodchopperSinkStdoutHuman", () => {
 
     new WoodchopperSinkStdoutHuman().write(entry);
 
-    expect(processStdoutWrite).toHaveBeenCalledWith(JSON.stringify(entry, null, 2) + "\n");
+    expect(processStdoutWrite).toHaveBeenCalledWith(`${JSON.stringify(entry, null, 2)}\n`);
   });
 });

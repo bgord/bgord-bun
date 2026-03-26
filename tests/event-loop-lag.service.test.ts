@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import perf_hooks from "perf_hooks";
+import perf_hooks from "node:perf_hooks";
 import * as tools from "@bgord/tools";
 import { EventLoopLag } from "../src/event-loop-lag.service";
 

@@ -18,7 +18,7 @@ const encrypted = new Uint8Array(iv.length + ciphertext.length);
 encrypted.set(iv, 0);
 encrypted.set(ciphertext, iv.length);
 
-const sealedValue = "sealed:gcm:" + Buffer.from(encrypted).toString("base64");
+const sealedValue = `sealed:gcm:${Buffer.from(encrypted).toString("base64")}`;
 
 describe("SealerAesGcmAdapter", () => {
   test("seal", async () => {

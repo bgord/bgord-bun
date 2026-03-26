@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import dns from "dns/promises";
+import dns from "node:dns/promises";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
 import * as mocks from "./mocks";

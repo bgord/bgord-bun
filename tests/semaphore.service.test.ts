@@ -47,7 +47,7 @@ describe("Semaphore", () => {
   });
 
   test("preserves ordering", async () => {
-    const order: number[] = [];
+    const order: Array<number> = [];
     const action = (id: number) => async () => order.push(id);
     const semaphore = new Semaphore({ limit });
 

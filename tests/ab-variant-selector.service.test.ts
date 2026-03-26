@@ -41,8 +41,8 @@ describe("AbVariantSelector", () => {
   });
 
   test("middle boundary", () => {
-    const hash49 = Hash.fromString("00000031" + "0".repeat(56));
-    const hash50 = Hash.fromString("00000032" + "0".repeat(56));
+    const hash49 = Hash.fromString(`00000031${"0".repeat(56)}`);
+    const hash50 = Hash.fromString(`00000032${"0".repeat(56)}`);
 
     expect(selector.select(hash49)).toEqual(control);
     expect(selector.select(hash50)).toEqual(treatment);
