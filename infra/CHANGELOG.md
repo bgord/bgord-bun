@@ -1,7 +1,12 @@
 # Changelog
+- 2026-03-26 15:24 1ab04c1d **refactor: simplify cors**
+- 2026-03-26 15:21 5ae59c29 **refactor: restore stryker suppressions**
+- 2026-03-26 14:59 ea2bed5d **refactor: remove stryker suppressions**
+- 2026-03-26 14:56 ed1d06b5 **step: bump bgord/scripts**
 - 2026-03-26 14:03 faca1a9d **refactor: migrate tools services**
 - 2026-03-26 14:03 b3960564 **refactor: migrate tools services**
 - 2026-03-26 14:03 76af2a05 **step: update packages**
+- 2026-03-26 13:56 cd172c02 **docs: generate CHANGELOG**
 - 2026-03-26 13:26 f7169d8b **step: add image adapters with semaphore**
 - 2026-03-26 13:15 abfae21d **step: add image alpha with semaphore**
 - 2026-03-26 13:11 719a694a **step: add antivirus with semaphore**
