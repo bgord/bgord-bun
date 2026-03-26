@@ -70,6 +70,7 @@ export * from "./crypto-key-provider-noop.adapter";
 export * from "./crypto-key-provider-with-cache.adapter";
 export * from "./csv-stringifier.adapter";
 export * from "./csv-stringifier.port";
+export * from "./csv-stringifier-noop.adapter";
 export * from "./directory-ensurer.adapter";
 export * from "./directory-ensurer.port";
 export * from "./directory-ensurer-noop.adapter";
