@@ -1,5 +1,21 @@
 # Changelog
+- 2026-03-26 14:03 b3960564 **refactor: migrate tools services**
+- 2026-03-26 14:03 76af2a05 **step: update packages**
+- 2026-03-26 13:26 f7169d8b **step: add image adapters with semaphore**
+- 2026-03-26 13:15 abfae21d **step: add image alpha with semaphore**
+- 2026-03-26 13:11 719a694a **step: add antivirus with semaphore**
+- 2026-03-26 12:51 ba517a2a **step: bump bgord/scripts**
+- 2026-03-26 12:41 54210f2b **fix: biome checks**
+- 2026-03-26 12:39 07c5cc6f **feature: semaphore service**
+- 2026-03-26 12:38 a39ff3f4 **step: bump bgord/scripts**
+- 2026-03-26 12:29 b7605a63 **refactor: simplify retry service**
+- 2026-03-26 12:04 f8eb6bbb **step: add antivirus with logger adapter**
+- 2026-03-26 11:56 9ce77702 **step: add remote file storage with logger adapter**
+- 2026-03-26 11:55 2b52413b **refactor: cleanup remote file storage noop adapter**
+- 2026-03-26 11:47 f3a84db0 **step: add csv stringifier noop**
+- 2026-03-26 11:41 22bb2fad **step: add file writer forgiving adapter**
 - 2026-03-26 10:57 731ebeb6 **step: update packages**
+- 2026-03-26 09:57 d5b216e8 **docs: generate CHANGELOG**
 ## 2026-03-25 16:53 v1.16.1
 - 2026-03-25 16:53 281aff04 **1.16.1**
 - 2026-03-25 16:14 f0c649f0 **step: update packages**
