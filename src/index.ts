@@ -187,6 +187,7 @@ export * from "./id-provider-deterministic.adapter";
 export * from "./image-alpha.port";
 export * from "./image-alpha-noop.adapter";
 export * from "./image-alpha-sharp.adapter";
+export * from "./image-alpha-with-semaphore.adapter";
 export * from "./image-blur.port";
 export * from "./image-blur-noop.adapter";
 export * from "./image-blur-sharp.adapter";
