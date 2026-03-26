@@ -153,6 +153,7 @@ export * from "./file-uploader.middleware";
 export * from "./file-uploader-hono.middleware";
 export * from "./file-writer.adapter";
 export * from "./file-writer.port";
+export * from "./file-writer-forgiving.adapter";
 export * from "./file-writer-noop.adapter";
 export * from "./fnv1a32.service";
 export * from "./graceful-shutdown.service";
