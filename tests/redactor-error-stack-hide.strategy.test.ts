@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { ErrorNormalizer } from "../src/error-normalizer.service";
+import * as tools from "@bgord/tools";
 import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
 import * as mocks from "./mocks";
 
@@ -7,7 +7,7 @@ const redactor = new RedactorErrorStackHide();
 
 describe("RedactorErrorStackHide", () => {
   test("redact", () => {
-    const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
+    const error = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
 
     expect(redactor.redact({ error })).toEqual({
       error: { ...mocks.IntentionalErrorNormalized, stack: undefined },
@@ -15,8 +15,8 @@ describe("RedactorErrorStackHide", () => {
   });
 
   test("redact - cause", () => {
-    const cause = ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
-    const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
+    const cause = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
+    const error = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
     error.cause = cause;
 
     expect(redactor.redact({ error })).toEqual({

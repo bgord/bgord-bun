@@ -1,4 +1,4 @@
-import { ErrorNormalizer } from "./error-normalizer.service";
+import * as tools from "@bgord/tools";
 import type {
   WoodchopperDiagnosticsStrategy,
   WoodchopperDiagnosticType,
@@ -8,6 +8,6 @@ export class WoodchopperDiagnosticsCollecting implements WoodchopperDiagnosticsS
   readonly entries: Array<WoodchopperDiagnosticType> = [];
 
   handle(diagnostic: WoodchopperDiagnosticType): void {
-    this.entries.push({ ...diagnostic, error: ErrorNormalizer.normalize(diagnostic.error) });
+    this.entries.push({ ...diagnostic, error: tools.ErrorNormalizer.normalize(diagnostic.error) });
   }
 }

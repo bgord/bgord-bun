@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import * as mocks from "./mocks";
 
@@ -8,8 +7,8 @@ const redactor = new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1));
 
 describe("RedactorLimitErrorCauseDepth", () => {
   test("redact - above limit", () => {
-    const cause = ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
-    const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
+    const cause = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
+    const error = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
     error.cause = cause;
 
     expect(redactor.redact({ error })).toEqual({
@@ -21,8 +20,8 @@ describe("RedactorLimitErrorCauseDepth", () => {
   });
 
   test("redact - at the limit", () => {
-    const cause = ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
-    const error = ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
+    const cause = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
+    const error = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
     error.cause = cause;
 
     expect(redactor.redact({ error })).toEqual({ error });

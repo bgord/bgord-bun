@@ -1,6 +1,5 @@
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
-import { ErrorNormalizer } from "./error-normalizer.service";
 import {
   type LoggerAppType,
   type LoggerEntry,
@@ -64,7 +63,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
     let withNormalization: LoggerEntryBare | LoggerEntryBareWithError;
     try {
       withNormalization =
-        "error" in entry ? { ...entry, error: ErrorNormalizer.normalize(entry.error) } : entry;
+        "error" in entry ? { ...entry, error: tools.ErrorNormalizer.normalize(entry.error) } : entry;
     } catch (error) {
       this.stats.recordDropped();
       this.config.diagnostics?.handle({ kind: "normalization", error });

@@ -1,4 +1,4 @@
-import { deepCloneWith } from "./deep-clone-with";
+import * as tools from "@bgord/tools";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorMask implements RedactorStrategy {
@@ -28,7 +28,7 @@ export class RedactorMask implements RedactorStrategy {
   }
 
   redact<T>(input: T): T {
-    return deepCloneWith(input, (_value, key) =>
+    return tools.deepCloneWith(input, (_value, key) =>
       typeof key === "string" && this.keys.has(key.toLowerCase()) ? "***" : undefined,
     );
   }

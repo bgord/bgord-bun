@@ -1,6 +1,5 @@
 import type * as tools from "@bgord/tools";
 import type { CorrelationIdType } from "./correlation-id.vo";
-import type { NormalizedError } from "./error-normalizer.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type LoggerAppType = string;
@@ -50,7 +49,7 @@ export type LoggerEntryBare = Omit<
   AdapterInjectedFields
 >;
 
-export type LoggerEntryBareWithError = Omit<LoggerEntryBare, "error"> & { error: NormalizedError };
+export type LoggerEntryBareWithError = Omit<LoggerEntryBare, "error"> & { error: tools.NormalizedError };
 
 export type LoggerEntry = LogCoreType | LogHttpType | LogWarnType | LogErrorType;
 

@@ -1,4 +1,4 @@
-import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.service";
+import * as tools from "@bgord/tools";
 
 export enum PrerequisiteVerificationOutcome {
   success = "success",
@@ -9,7 +9,7 @@ export enum PrerequisiteVerificationOutcome {
 export type PrerequisiteVerificationSuccess = { outcome: PrerequisiteVerificationOutcome.success };
 export type PrerequisiteVerificationFailure = {
   outcome: PrerequisiteVerificationOutcome.failure;
-  error?: NormalizedError;
+  error?: tools.NormalizedError;
 };
 export type PrerequisiteVerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 export type PrerequisiteVerificationResult =
@@ -23,7 +23,7 @@ export class PrerequisiteVerification {
   static failure(meta?: unknown): PrerequisiteVerificationFailure {
     return {
       outcome: PrerequisiteVerificationOutcome.failure,
-      error: meta ? ErrorNormalizer.normalize(meta) : undefined,
+      error: meta ? tools.ErrorNormalizer.normalize(meta) : undefined,
     };
   }
 

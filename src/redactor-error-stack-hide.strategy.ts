@@ -1,17 +1,16 @@
-import { ErrorNormalizer, type NormalizedError } from "./error-normalizer.service";
-import { isPlainObject } from "./is-plain-object";
+import * as tools from "@bgord/tools";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 export class RedactorErrorStackHide implements RedactorStrategy {
   redact<T>(input: T): T {
     // Stryker disable all
-    if (!isPlainObject(input)) return input;
+    if (!tools.isPlainObject(input)) return input;
     // Stryker restore all
-    if (!ErrorNormalizer.isNormalizedError(input["error"])) return input;
+    if (!tools.ErrorNormalizer.isNormalizedError(input["error"])) return input;
     return { ...input, error: this.hide(input["error"]) };
   }
 
-  private hide(error: NormalizedError): NormalizedError {
+  private hide(error: tools.NormalizedError): tools.NormalizedError {
     return {
       ...error,
       stack: undefined,

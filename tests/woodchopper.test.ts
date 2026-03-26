@@ -1,7 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { ErrorNormalizer } from "../src/error-normalizer.service";
 import { LogLevelEnum } from "../src/logger.port";
 import { LoggerState } from "../src/logger-stats-provider.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -593,7 +592,7 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - normalization - diagnostics", () => {
-    using _ = spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
+    using _ = spyOn(tools.ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
     const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
@@ -615,7 +614,7 @@ describe("Woodchopper", async () => {
   });
 
   test("pipeline - normalization - no diagnostics", () => {
-    using _ = spyOn(ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
+    using _ = spyOn(tools.ErrorNormalizer, "normalize").mockImplementationOnce(mocks.throwIntentionalError);
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.error, environment };

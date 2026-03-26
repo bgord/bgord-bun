@@ -1,6 +1,4 @@
 import * as tools from "@bgord/tools";
-import { deepCloneWith } from "./deep-clone-with";
-import { isPlainObject } from "./is-plain-object";
 import type { RedactorStrategy } from "./redactor.strategy";
 
 type RedactorMetadataCompactArrayOptions = { maxItems?: tools.IntegerPositiveType };
@@ -15,11 +13,11 @@ export class RedactorMetadataCompactArray implements RedactorStrategy {
   }
 
   redact<T>(input: T): T {
-    if (!isPlainObject(input)) return input;
+    if (!tools.isPlainObject(input)) return input;
 
     return {
       ...input,
-      metadata: deepCloneWith(
+      metadata: tools.deepCloneWith(
         input["metadata"],
         (value) => {
           if (!Array.isArray(value)) return undefined;
