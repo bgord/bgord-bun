@@ -69,16 +69,7 @@ export class SetupHono {
         xFrameOptions: false,
       }),
       cors({
-        origin: (origin, c) => {
-          // server-to-server, curl, same-origin navigation
-          if (!origin) return undefined;
-
-          // same-origin fetch
-          if (origin === new URL(c.req.url).origin) return origin;
-
-          // deny cross-origin
-          return null;
-        },
+        origin: (origin, c) => (origin === new URL(c.req.url).origin ? origin : null),
         credentials: false,
         maxAge: tools.Duration.Minutes(10).seconds,
         ...config.cors,
