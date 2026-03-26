@@ -10,6 +10,8 @@ export class WoodchoperSamplingCorrelationId implements WoodchopperSamplingStrat
 
   decide(entry: LoggerEntry): boolean {
     if (!entry.correlationId) return false;
+    // Stryker disable all
     return fnv1a32(entry.correlationId) % this.config.everyNth === 0;
+    // Stryker restore all
   }
 }

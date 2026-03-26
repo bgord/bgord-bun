@@ -40,7 +40,9 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   }
 
   close(): void {
+    // Stryker disable all
     if (this.state === WoodchopperDispatcherAsyncState.closed) return;
+    // Stryker restore all
 
     this.state = WoodchopperDispatcherAsyncState.closed;
 

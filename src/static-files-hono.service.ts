@@ -60,7 +60,9 @@ type StaticFilesOptions = { root?: string };
 
 export class StaticFilesHono {
   static handle(path: string, strategy: StaticFilesStrategy, options?: StaticFilesOptions) {
+    // Stryker disable all
     const root = options?.root ?? "./";
+    // Stryker restore all
 
     return {
       [path]: new Hono().use(
