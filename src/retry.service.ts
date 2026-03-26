@@ -2,8 +2,6 @@ import * as tools from "@bgord/tools";
 import type { RetryBackoffStrategy } from "./retry-backoff.strategy";
 import type { SleeperPort } from "./sleeper.port";
 
-export const RetryError = { InvalidMax: "retry.invalid.max" };
-
 type Dependencies = { Sleeper: SleeperPort };
 
 export type RetryConfig = {
