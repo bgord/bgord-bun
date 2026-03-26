@@ -326,6 +326,7 @@ export * from "./redactor-noop.strategy";
 export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
+export * from "./remote-file-storage-with-logger.adapter";
 export * from "./request-context.port";
 export * from "./request-context-hono.adapter";
 export * from "./retry.service";
