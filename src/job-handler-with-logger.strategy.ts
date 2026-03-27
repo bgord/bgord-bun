@@ -23,7 +23,7 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
         try {
           this.deps.Logger.info({ message: `${task.label} start`, correlationId, ...this.base });
 
-          await CorrelationStorage.run(correlationId, async () => task.handler());
+          await CorrelationStorage.run(correlationId, task.handler);
 
           this.deps.Logger.info({
             message: `${task.label} success`,

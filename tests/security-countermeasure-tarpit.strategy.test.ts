@@ -19,9 +19,9 @@ describe("SecurityCountermeasureTarpitStrategy", () => {
     const countermeasure = new SecurityCountermeasureTarpitStrategy({ Logger }, config);
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await countermeasure.execute(context)).toEqual({ kind: "delay", ...config });
-    });
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      expect(await countermeasure.execute(context)).toEqual({ kind: "delay", ...config }),
+    );
     expect(Logger.entries).toEqual([
       {
         message: "Security countermeasure tarpit",
