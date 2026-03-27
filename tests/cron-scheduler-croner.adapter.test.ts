@@ -1,8 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import {
-  CronSchedulerCronerAdapter,
-  CronSchedulerCronerAdapterError,
-} from "../src/cron-scheduler-croner.adapter";
+import { CronSchedulerCronerAdapter } from "../src/cron-scheduler-croner.adapter";
 import * as mocks from "./mocks";
 
 describe("CronSchedulerCronerAdapter", () => {
@@ -20,8 +17,20 @@ describe("CronSchedulerCronerAdapter", () => {
     expect(await scheduler.verify()).toEqual(true);
   });
 
-  test("verify - false", async () => {
+  test("verify - false - empty", async () => {
     const scheduler = await CronSchedulerCronerAdapter.build();
+
+    expect(await scheduler.verify()).toEqual(false);
+  });
+
+  test("verify - false - one not running", async () => {
+    const scheduler = await CronSchedulerCronerAdapter.build();
+
+    scheduler.schedule(mocks.task);
+    scheduler.schedule(mocks.task);
+
+    // @ts-expect-error Private field
+    scheduler["tasks"][1].stop();
 
     expect(await scheduler.verify()).toEqual(false);
   });
@@ -33,7 +42,7 @@ describe("CronSchedulerCronerAdapter", () => {
     );
 
     expect(async () => CronSchedulerCronerAdapter.build()).toThrow(
-      CronSchedulerCronerAdapterError.MissingDependency,
+      "cron.scheduler.croner.adapter.error.missing.dependency",
     );
   });
 

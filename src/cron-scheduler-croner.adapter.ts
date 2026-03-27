@@ -14,7 +14,7 @@ export class CronSchedulerCronerAdapter implements CronSchedulerPort {
     CronSchedulerCronerAdapterError.MissingDependency,
   );
 
-  private readonly tasks: Array<{ isRunning: () => boolean }> = [];
+  private readonly tasks: Array<InstanceType<CronerLibrary["Cron"]>> = [];
 
   private constructor(private readonly croner: CronerLibrary) {}
 
