@@ -6,6 +6,7 @@ import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
+import { CronExpressionSchedules } from "../src/cron-expression.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import { Languages } from "../src/languages.vo";
@@ -277,3 +278,5 @@ export const buildInfo = {
   sha: SHA.toString(),
   size: tools.Size.fromBytes(0).toBytes(),
 };
+
+export const task = { label: "cron", cron: CronExpressionSchedules.EVERY_HOUR, handler: async () => {} };

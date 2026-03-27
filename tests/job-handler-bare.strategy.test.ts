@@ -10,16 +10,15 @@ const handler = new JobHandlerBareStrategy(deps);
 
 describe("JobHandlerBareStrategy", () => {
   test("happy path", async () => {
-    const uow = { label: "PassageOfTime", process: async () => {} };
-    using uowProcess = spyOn(uow, "process");
+    using task = spyOn(mocks.task, "handler");
 
-    expect(async () => handler.handle(uow)()).not.toThrow();
-    expect(uowProcess).toHaveBeenCalled();
+    expect(async () => handler.handle(mocks.task).handler()).not.toThrow();
+    expect(task).toHaveBeenCalled();
   });
 
   test("failure", async () => {
-    const uow = { label: "Test Job", process: mocks.throwIntentionalErrorAsync };
+    using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(async () => handler.handle(uow)()).toThrow(mocks.IntentionalError);
+    expect(async () => handler.handle(mocks.task).handler()).toThrow(mocks.IntentionalError);
   });
 });

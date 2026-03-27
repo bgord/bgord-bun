@@ -1,7 +1,8 @@
-import type { JobHandlerStrategy, UnitOfWork } from "./job-handler.strategy";
+import type { CronTask } from "./cron-task.vo";
+import type { JobHandlerStrategy } from "./job-handler.strategy";
 
 export class JobHandlerNoopStrategy implements JobHandlerStrategy {
-  handle(_uow: UnitOfWork): () => Promise<void> {
-    return async () => {};
+  handle(task: CronTask): CronTask {
+    return { ...task, handler: async () => {} };
   }
 }
