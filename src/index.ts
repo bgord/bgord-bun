@@ -65,6 +65,7 @@ export * from "./correlation.middleware";
 export * from "./correlation-hono.middleware";
 export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
+export * from "./cron-expression.vo";
 export * from "./crypto-key-provider.port";
 export * from "./crypto-key-provider-file.adapter";
 export * from "./crypto-key-provider-memory.adapter";
