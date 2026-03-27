@@ -6,16 +6,15 @@ const handler = new JobHandlerNoopStrategy();
 
 describe("JobHandlerNoopStrategy", () => {
   test("happy path", async () => {
-    const uow = { label: "PassageOfTime", process: async () => {} };
-    using uowProcess = spyOn(uow, "process");
+    using task = spyOn(mocks.task, "handler");
 
-    expect(async () => handler.handle(uow)()).not.toThrow();
-    expect(uowProcess).not.toHaveBeenCalled();
+    expect(async () => handler.handle(mocks.task).handler()).not.toThrow();
+    expect(task).not.toHaveBeenCalled();
   });
 
   test("failure", async () => {
-    const uow = { label: "Test Job", process: mocks.throwIntentionalErrorAsync };
+    using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(async () => handler.handle(uow)()).not.toThrow(mocks.IntentionalError);
+    expect(async () => handler.handle(mocks.task).handler()).not.toThrow(mocks.IntentionalError);
   });
 });

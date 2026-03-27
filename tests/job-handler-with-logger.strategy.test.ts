@@ -1,87 +1,72 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import type { ClockPort } from "../src/clock.port";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
-import type { UnitOfWork } from "../src/job-handler.strategy";
 import { JobHandlerWithLoggerStrategy } from "../src/job-handler-with-logger.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
-
-type Dependencies = { Clock: ClockPort };
-
-class ClockWork implements UnitOfWork {
-  constructor(private readonly deps: Dependencies) {}
-
-  static cron = "";
-
-  label = "PassageOfTime";
-
-  async process() {
-    this.deps.Clock.now();
-  }
-}
 
 const Clock = new ClockSystemAdapter();
 
 describe("JobHandlerWithLoggerStrategy", () => {
   test("happy path", async () => {
-    const correlationId = mocks.correlationId;
+    using task = spyOn(mocks.task, "handler");
     const Logger = new LoggerCollectingAdapter();
-    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(correlationId, 1));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
-    const uow = new ClockWork({ Clock });
-    using uowProcess = spyOn(uow, "process");
 
-    await handler.handle(uow)();
+    await handler.handle(mocks.task).handler();
 
     expect(Logger.entries).toEqual([
-      { message: `${uow.label} start`, component: "infra", operation: "job_handler", correlationId },
       {
-        message: `${uow.label} success`,
+        message: `${mocks.task.label} start`,
         component: "infra",
-        correlationId,
+        operation: "job_handler",
+        correlationId: mocks.correlationId,
+      },
+      {
+        message: `${mocks.task.label} success`,
+        component: "infra",
+        correlationId: mocks.correlationId,
         metadata: expect.any(tools.Duration),
         operation: "job_handler",
       },
     ]);
-    expect(uowProcess).toHaveBeenCalled();
+    expect(task).toHaveBeenCalled();
   });
 
   test("this binding guardrails", async () => {
+    using task = spyOn(mocks.task, "handler");
     const Logger = new LoggerCollectingAdapter();
     using loggerError = spyOn(Logger, "error");
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
-    const uow = new ClockWork({ Clock });
-    using uowProcess = spyOn(uow, "process");
 
-    await handler.handle(uow)();
+    await handler.handle(mocks.task).handler();
 
     expect(loggerError).not.toHaveBeenCalled();
-    expect(uowProcess).toHaveBeenCalled();
+    expect(task).toHaveBeenCalled();
   });
 
   test("failure", async () => {
-    const correlationId = mocks.correlationId;
+    using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
     const Logger = new LoggerCollectingAdapter();
-    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(correlationId, 1));
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
-    const uow = { label: "Test Job", process: mocks.throwIntentionalErrorAsync };
 
-    await handler.handle(uow)();
+    await handler.handle(mocks.task).handler();
 
     expect(Logger.entries).toEqual([
       {
-        message: "Test Job start",
+        message: "cron start",
         component: "infra",
         operation: "job_handler",
-        correlationId,
+        correlationId: mocks.correlationId,
       },
       {
-        message: "Test Job error",
+        message: "cron error",
         component: "infra",
-        correlationId,
+        correlationId: mocks.correlationId,
         operation: "job_handler",
         error: new Error(mocks.IntentionalError),
         metadata: expect.any(tools.Duration),

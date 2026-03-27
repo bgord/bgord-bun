@@ -1,7 +1,8 @@
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
+import type { CronTask } from "./cron-task.vo";
 import type { IdProviderPort } from "./id-provider.port";
-import type { JobHandlerStrategy, UnitOfWork } from "./job-handler.strategy";
+import type { JobHandlerStrategy } from "./job-handler.strategy";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
 
@@ -12,32 +13,34 @@ export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
 
   constructor(private readonly deps: Dependencies) {}
 
-  handle(uow: UnitOfWork): () => Promise<void> {
-    const correlationId = this.deps.IdProvider.generate();
+  handle(task: CronTask): CronTask {
+    return {
+      ...task,
+      handler: async () => {
+        const correlationId = this.deps.IdProvider.generate();
+        const duration = new Stopwatch(this.deps);
 
-    return async () => {
-      const duration = new Stopwatch(this.deps);
+        try {
+          this.deps.Logger.info({ message: `${task.label} start`, correlationId, ...this.base });
 
-      try {
-        this.deps.Logger.info({ message: `${uow.label} start`, correlationId, ...this.base });
+          await CorrelationStorage.run(correlationId, async () => task.handler());
 
-        await CorrelationStorage.run(correlationId, async () => uow.process());
-
-        this.deps.Logger.info({
-          message: `${uow.label} success`,
-          correlationId,
-          metadata: duration.stop(),
-          ...this.base,
-        });
-      } catch (error) {
-        this.deps.Logger.error({
-          message: `${uow.label} error`,
-          correlationId,
-          error,
-          metadata: duration.stop(),
-          ...this.base,
-        });
-      }
+          this.deps.Logger.info({
+            message: `${task.label} success`,
+            correlationId,
+            metadata: duration.stop(),
+            ...this.base,
+          });
+        } catch (error) {
+          this.deps.Logger.error({
+            message: `${task.label} error`,
+            correlationId,
+            error,
+            metadata: duration.stop(),
+            ...this.base,
+          });
+        }
+      },
     };
   }
 }
