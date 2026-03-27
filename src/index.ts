@@ -67,6 +67,7 @@ export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
 export * from "./cron-expression.vo";
 export * from "./cron-scheduler.port";
+export * from "./cron-scheduler-noop.adapter";
 export * from "./cron-task.vo";
 export * from "./crypto-key-provider.port";
 export * from "./crypto-key-provider-file.adapter";
