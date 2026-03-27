@@ -9,7 +9,7 @@ import { Stopwatch } from "./stopwatch.service";
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
 export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrategy {
-  private readonly base = { component: "infra", operation: "job_handler" };
+  private readonly base = { component: "infra", operation: "cron_task_handler" };
 
   constructor(private readonly deps: Dependencies) {}
 
