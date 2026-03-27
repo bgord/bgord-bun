@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "incremental": true,
     "stripInternal": true,
-    "rootDir": ".",
+    "rootDir": "src",
     "outDir": "dist",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
@@ -18,5 +18,5 @@
     "noUnusedParameters": true,
     "types": ["bun"]
   },
-  "include": ["src", "tests"]
+  "include": ["src"]
 }
