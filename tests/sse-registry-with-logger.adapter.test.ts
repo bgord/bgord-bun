@@ -25,9 +25,9 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.register(subject.hex.get(), sender);
-    });
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.register(subject.hex.get(), sender),
+    );
 
     expect(Logger.entries).toEqual([
       {
@@ -46,9 +46,9 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
-      registry.unregister(subject.hex.get(), sender);
-    });
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.unregister(subject.hex.get(), sender),
+    );
 
     expect(Logger.entries).toEqual([
       {
@@ -67,9 +67,9 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
-      await registry.emit(subject.hex.get(), mocks.message);
-    });
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.emit(subject.hex.get(), mocks.message),
+    );
 
     expect(Logger.entries).toEqual([
       {

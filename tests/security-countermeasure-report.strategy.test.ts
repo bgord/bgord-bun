@@ -16,9 +16,9 @@ describe("SecurityCountermeasureReportStrategy", () => {
     const countermeasure = new SecurityCountermeasureReportStrategy({ Logger });
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await countermeasure.execute(context)).toEqual({ kind: "allow" });
-    });
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      expect(await countermeasure.execute(context)).toEqual({ kind: "allow" }),
+    );
     expect(Logger.entries).toEqual([
       {
         message: "Security countermeasure report",

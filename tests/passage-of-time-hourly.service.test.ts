@@ -15,9 +15,9 @@ describe("PassageOfTimeHourly", async () => {
   test("correct path", async () => {
     const EventStore = new EventStoreCollectingAdapter<HourHasPassedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const service = new PassageOfTimeHourly({ Clock, EventStore, IdProvider });
+    const service = PassageOfTimeHourly({ Clock, EventStore, IdProvider });
 
-    await CorrelationStorage.run(mocks.correlationId, async () => service.process());
+    await CorrelationStorage.run(mocks.correlationId, service.handler);
 
     expect(EventStore.saved).toEqual([mocks.GenericHourHasPassedEvent]);
   });
@@ -26,9 +26,9 @@ describe("PassageOfTimeHourly", async () => {
     const EventStore = new EventStoreCollectingAdapter<HourHasPassedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const JobHandler = new JobHandlerBareStrategy({ IdProvider });
-    const service = new PassageOfTimeHourly({ Clock, EventStore, IdProvider });
+    const service = PassageOfTimeHourly({ Clock, EventStore, IdProvider });
 
-    await CorrelationStorage.run(mocks.correlationId, async () => JobHandler.handle(service)());
+    await CorrelationStorage.run(mocks.correlationId, JobHandler.handle(service).handler);
 
     expect(EventStore.saved).toEqual([mocks.GenericHourHasPassedEvent]);
   });
@@ -36,8 +36,8 @@ describe("PassageOfTimeHourly", async () => {
   test("label", () => {
     const EventStore = new EventStoreCollectingAdapter<HourHasPassedEventType>();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const service = new PassageOfTimeHourly({ Clock, EventStore, IdProvider });
+    const service = PassageOfTimeHourly({ Clock, EventStore, IdProvider });
 
-    expect(service.label).toEqual("PassageOfTime");
+    expect(service.label).toEqual("PassageOfTimeHourly");
   });
 });

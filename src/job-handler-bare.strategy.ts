@@ -12,9 +12,7 @@ export class JobHandlerBareStrategy implements JobHandlerStrategy {
     return {
       ...task,
       handler: async () => {
-        const correlationId = this.deps.IdProvider.generate();
-
-        CorrelationStorage.run(correlationId, async () => task.handler());
+        await CorrelationStorage.run(this.deps.IdProvider.generate(), task.handler);
       },
     };
   }
