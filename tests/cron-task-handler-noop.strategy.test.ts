@@ -1,10 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { JobHandlerNoopStrategy } from "../src/job-handler-noop.strategy";
+import { CronTaskHandlerNoopStrategy } from "../src/cron-task-handler-noop.strategy";
 import * as mocks from "./mocks";
 
-const handler = new JobHandlerNoopStrategy();
+const handler = new CronTaskHandlerNoopStrategy();
 
-describe("JobHandlerNoopStrategy", () => {
+describe("CronTaskHandlerNoopStrategy", () => {
   test("happy path", async () => {
     using task = spyOn(mocks.task, "handler");
 

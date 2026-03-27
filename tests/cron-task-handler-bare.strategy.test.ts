@@ -1,14 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import { CronTaskHandlerBareStrategy } from "../src/cron-task-handler-bare.strategy";
 import { IdProviderCryptoAdapter } from "../src/id-provider-crypto.adapter";
-import { JobHandlerBareStrategy } from "../src/job-handler-bare.strategy";
 import * as mocks from "./mocks";
 
 const IdProvider = new IdProviderCryptoAdapter();
 const deps = { IdProvider };
 
-const handler = new JobHandlerBareStrategy(deps);
+const handler = new CronTaskHandlerBareStrategy(deps);
 
-describe("JobHandlerBareStrategy", () => {
+describe("CronTaskHandlerBareStrategy", () => {
   test("happy path", async () => {
     using task = spyOn(mocks.task, "handler");
 

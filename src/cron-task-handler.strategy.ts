@@ -1,5 +1,5 @@
 import type { CronTask } from "./cron-task.vo";
 
-export interface JobHandlerStrategy {
+export interface CronTaskHandlerStrategy {
   handle(task: CronTask): CronTask;
 }
