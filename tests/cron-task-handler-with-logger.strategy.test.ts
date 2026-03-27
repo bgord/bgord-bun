@@ -21,7 +21,7 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
       {
         message: `${mocks.task.label} start`,
         component: "infra",
-        operation: "job_handler",
+        operation: "cron_task_handler",
         correlationId: mocks.correlationId,
       },
       {
@@ -29,7 +29,7 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
         component: "infra",
         correlationId: mocks.correlationId,
         metadata: expect.any(tools.Duration),
-        operation: "job_handler",
+        operation: "cron_task_handler",
       },
     ]);
     expect(task).toHaveBeenCalled();
@@ -60,14 +60,14 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
       {
         message: "cron start",
         component: "infra",
-        operation: "job_handler",
+        operation: "cron_task_handler",
         correlationId: mocks.correlationId,
       },
       {
         message: "cron error",
         component: "infra",
         correlationId: mocks.correlationId,
-        operation: "job_handler",
+        operation: "cron_task_handler",
         error: new Error(mocks.IntentionalError),
         metadata: expect.any(tools.Duration),
       },
