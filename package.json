@@ -33,6 +33,7 @@
     "better-auth": "1.5.6",
     "cspell": "9.7.0",
     "csv": "6.5.1",
+    "croner": "10.0.1",
     "knip": "6.0.6",
     "lefthook": "2.1.4",
     "lockfile-lint": "5.0.0",
@@ -53,6 +54,7 @@
   "peerDependencies": {
     "better-auth": "1.5.6",
     "csv": "6.5.1",
+    "croner": "10.0.1",
     "nodemailer": "8.0.4",
     "resend": "6.9.4",
     "sharp": "0.34.5",
@@ -63,6 +65,9 @@
       "optional": true
     },
     "csv": {
+      "optional": true
+    },
+    "croner": {
       "optional": true
     },
     "nodemailer": {
