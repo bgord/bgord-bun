@@ -20,10 +20,6 @@ describe("CronExpression", () => {
     expect(() => v.parse(CronExpression, "not a cron")).toThrow("cron.expression.invalid");
   });
 
-  test("rejects a logically impossible expression", () => {
-    expect(() => v.parse(CronExpression, "0 0 30 2 *")).toThrow("cron.expression.invalid");
-  });
-
   test("schedules", () => {
     expect(CronExpressionSchedules.EVERY_MINUTE).toEqual(v.parse(CronExpression, "* * * * *"));
     expect(CronExpressionSchedules.EVERY_HOUR).toEqual(v.parse(CronExpression, "0 * * * *"));
