@@ -1,14 +1,14 @@
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { CronTask } from "./cron-task.vo";
+import type { CronTaskHandlerStrategy } from "./cron-task-handler.strategy";
 import type { IdProviderPort } from "./id-provider.port";
-import type { JobHandlerStrategy } from "./job-handler.strategy";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
 
 type Dependencies = { Logger: LoggerPort; IdProvider: IdProviderPort; Clock: ClockPort };
 
-export class JobHandlerWithLoggerStrategy implements JobHandlerStrategy {
+export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrategy {
   private readonly base = { component: "infra", operation: "job_handler" };
 
   constructor(private readonly deps: Dependencies) {}

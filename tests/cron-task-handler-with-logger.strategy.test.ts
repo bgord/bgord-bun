@@ -1,19 +1,19 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { CronTaskHandlerWithLoggerStrategy } from "../src/cron-task-handler-with-logger.strategy";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
-import { JobHandlerWithLoggerStrategy } from "../src/job-handler-with-logger.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockSystemAdapter();
 
-describe("JobHandlerWithLoggerStrategy", () => {
+describe("CronTaskHandlerWithLoggerStrategy", () => {
   test("happy path", async () => {
     using task = spyOn(mocks.task, "handler");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
+    const handler = new CronTaskHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
 
     await handler.handle(mocks.task).handler();
 
@@ -40,7 +40,7 @@ describe("JobHandlerWithLoggerStrategy", () => {
     const Logger = new LoggerCollectingAdapter();
     using loggerError = spyOn(Logger, "error");
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
+    const handler = new CronTaskHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
 
     await handler.handle(mocks.task).handler();
 
@@ -52,7 +52,7 @@ describe("JobHandlerWithLoggerStrategy", () => {
     using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const handler = new JobHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
+    const handler = new CronTaskHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
 
     await handler.handle(mocks.task).handler();
 
