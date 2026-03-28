@@ -1,8 +1,11 @@
 # Changelog
+## 2026-03-28 10:35 v1.16.4
+- 2026-03-28 10:35 d7cf351c **1.16.4**
 - 2026-03-28 10:34 c34356d9 **fix: empty cron scheduler verify**
 ## 2026-03-28 09:57 v1.16.3
 - 2026-03-28 09:57 c3abc468 **1.16.3**
 - 2026-03-28 09:55 08d1c356 **step: update packages**
+- 2026-03-28 09:35 5a8e2ae8 **docs: generate CHANGELOG**
 - 2026-03-28 08:57 b1ac9b20 **docs: generate CHANGELOG**
 - 2026-03-28 08:56 0dd64d42 **docs: generate CHANGELOG**
 - 2026-03-27 18:53 b8d33310 **refactor: improve tests**
