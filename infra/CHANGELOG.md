@@ -1,4 +1,6 @@
 # Changelog
+- 2026-03-28 09:55 08d1c356 **step: update packages**
+- 2026-03-27 18:53 b8d33310 **refactor: improve tests**
 - 2026-03-27 18:02 3db414b8 **refactor: rename cron task handler log**
 - 2026-03-27 17:58 3ddd291d **refactor: restore tsconfig**
 - 2026-03-27 17:58 04e92d69 **refactor: cleanup jobs service**
@@ -6,6 +8,8 @@
 - 2026-03-27 17:38 752c8e1b **step: install croner**
 - 2026-03-27 17:28 4e6d9e82 **refactor: rename cron task handler**
 - 2026-03-27 17:16 24271a0b **refactor: passage of time**
+- 2026-03-27 17:02 cfc510d2 **docs: generate readme**
+- 2026-03-27 17:02 8038c986 **docs: generate CHANGELOG**
 - 2026-03-27 16:47 4dcb7412 **refactor: rework job handler strategy**
 - 2026-03-27 16:33 73bfa362 **step: add cron scheduler noop**
 - 2026-03-27 16:30 665bf560 **step: add cron scheduler port**
