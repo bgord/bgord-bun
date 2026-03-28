@@ -29,6 +29,6 @@ export class CronSchedulerCronerAdapter implements CronSchedulerPort {
   }
 
   async verify(): Promise<boolean> {
-    return this.tasks.length > 0 && this.tasks.every((task) => task.isRunning());
+    return this.tasks.every((task) => task.isRunning());
   }
 }

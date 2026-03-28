@@ -17,10 +17,10 @@ describe("CronSchedulerCronerAdapter", () => {
     expect(await scheduler.verify()).toEqual(true);
   });
 
-  test("verify - false - empty", async () => {
+  test("verify - true - empty", async () => {
     const scheduler = await CronSchedulerCronerAdapter.build();
 
-    expect(await scheduler.verify()).toEqual(false);
+    expect(await scheduler.verify()).toEqual(true);
   });
 
   test("verify - false - one not running", async () => {
