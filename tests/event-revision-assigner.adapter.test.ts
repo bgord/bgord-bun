@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import { EventRevisionAssignerAdapter } from "../src/event-revision-assigner.adapter";
-import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import type * as System from "../src/modules/system";
+import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
 type PassageOfTimeEvent = System.Events.HourHasPassedEventType | System.Events.MinuteHasPassedEventType;
 
 const assigner = new EventRevisionAssignerAdapter();
-const serializer = new EventSerializerJsonAdapter();
+const serializer = new PayloadSerializerJsonAdapter();
 
 const serialized = (event: PassageOfTimeEvent) => ({
   ...event,

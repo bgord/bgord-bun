@@ -5,13 +5,13 @@ import type { GenericEvent, GenericEventSerialized } from "../src/event.types";
 import { EventEnvelopeSchema } from "../src/event-envelope";
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
-import { EventSerializerCollectingAdapter } from "../src/event-serializer-collecting.adapter";
-import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventUpcasterChainAdapter } from "../src/event-upcaster-chain.adapter";
 import { EventUpcasterStep } from "../src/event-upcaster-step.vo";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import * as System from "../src/modules/system";
+import { PayloadSerializerCollectingAdapter } from "../src/payload-serializer-collecting.adapter";
+import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
 type PassageOfTimeEvent = System.Events.HourHasPassedEventType | System.Events.MinuteHasPassedEventType;
@@ -20,7 +20,7 @@ const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
   [System.Events.HOUR_HAS_PASSED_EVENT]: System.Events.HourHasPassedEvent,
   [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
 });
-const serializer = new EventSerializerJsonAdapter();
+const serializer = new PayloadSerializerJsonAdapter();
 
 const serialized = (event: GenericEvent): GenericEventSerialized => ({
   ...event,
@@ -108,7 +108,7 @@ describe("EventStoreAdapter", () => {
   });
 
   test("save - serialization", async () => {
-    const serializer = new EventSerializerCollectingAdapter();
+    const serializer = new PayloadSerializerCollectingAdapter();
     const store = new EventStoreAdapter({ finder, inserter, serializer });
 
     await store.save([mocks.GenericHourHasPassedEvent]);

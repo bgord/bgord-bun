@@ -67,7 +67,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
   test("getStream", async () => {
     const stream = new ReadableStream();
-    // @ts-expect-error TODO
+    // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
 
     expect(await adapter.getStream(key)).toEqual(stream);

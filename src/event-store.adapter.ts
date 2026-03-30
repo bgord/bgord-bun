@@ -1,16 +1,16 @@
 import type { GenericEvent } from "./event.types";
 import type { EventFinderPort } from "./event-finder.port";
 import type { EventInserterPort } from "./event-inserter.port";
-import type { EventSerializerPort } from "./event-serializer.port";
 import type { EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventUpcasterPort } from "./event-upcaster.port";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
+import type { PayloadSerializerPort } from "./payload-serializer.port";
 
 type Config = {
   finder: EventFinderPort;
   inserter: EventInserterPort;
-  serializer: EventSerializerPort;
+  serializer: PayloadSerializerPort;
   upcaster?: EventUpcasterPort;
 };
 

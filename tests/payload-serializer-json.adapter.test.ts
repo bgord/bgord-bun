@@ -1,13 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
+import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
 const payload = { timestamp: mocks.TIME_ZERO.ms };
 const serialized = JSON.stringify(payload);
 
-const serializer = new EventSerializerJsonAdapter();
+const serializer = new PayloadSerializerJsonAdapter();
 
-describe("EventSerializerJsonAdapter", () => {
+describe("PayloadSerializerJsonAdapter", () => {
   test("serialize", () => {
     expect(serializer.serialize(payload)).toEqual(serialized);
   });
