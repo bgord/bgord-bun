@@ -244,6 +244,7 @@ export * from "./job-failer.port";
 export * from "./job-failer-collecting.adapter";
 export * from "./job-failer-noop.adapter";
 export * from "./job-retry-policy.strategy";
+export * from "./job-retry-policy-backoff.strategy";
 export * from "./job-retry-policy-limit.strategy";
 export * from "./job-validator-registry.port";
 export * from "./language-detector.middleware";
