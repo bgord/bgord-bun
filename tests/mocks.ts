@@ -280,3 +280,12 @@ export const buildInfo = {
 };
 
 export const task = { label: "cron", cron: CronExpressionSchedules.EVERY_HOUR, handler: async () => {} };
+
+export const GenericSendEmailJob = {
+  id: correlationId,
+  correlationId: correlationId,
+  createdAt: TIME_ZERO.ms,
+  name: "SEND_EMAIL_JOB",
+  revision: 0,
+  payload: { to: "test@example.com" },
+};
