@@ -1,12 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
-import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventStoreDispatchingAdapter } from "../src/event-store-dispatching.adapter";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
 import * as System from "../src/modules/system";
+import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
 type PassageOfTimeEvent = System.Events.HourHasPassedEventType | System.Events.MinuteHasPassedEventType;
@@ -17,7 +17,7 @@ const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
 });
 
 const inserter = new EventInserterNoopAdapter();
-const serializer = new EventSerializerJsonAdapter();
+const serializer = new PayloadSerializerJsonAdapter();
 
 const serialized = (event: PassageOfTimeEvent) => ({
   ...event,

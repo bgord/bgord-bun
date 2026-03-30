@@ -1,13 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import { JobEnqueuerNoopAdapter } from "../src/job-enqueuer-noop.adapter";
+import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
+const serializer = new PayloadSerializerJsonAdapter();
 const enqueuer = new JobEnqueuerNoopAdapter();
 
 const serialized = {
   ...mocks.GenericSendEmailJob,
-  // TODO: use a serializer
-  payload: JSON.stringify(mocks.GenericSendEmailJob.payload),
+  payload: serializer.serialize(mocks.GenericSendEmailJob.payload),
 };
 
 describe("JobEnqueuerNoopAdapter", () => {

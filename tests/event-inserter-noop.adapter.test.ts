@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
-import { EventSerializerJsonAdapter } from "../src/event-serializer-json.adapter";
+import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
-const serializer = new EventSerializerJsonAdapter();
+const serializer = new PayloadSerializerJsonAdapter();
 const inserter = new EventInserterNoopAdapter();
 
 const serialized = {
