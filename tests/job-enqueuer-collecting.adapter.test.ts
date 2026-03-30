@@ -14,8 +14,8 @@ describe("JobEnqueuerCollectingAdapter", () => {
   test("enqueue", async () => {
     const enqueuer = new JobEnqueuerCollectingAdapter();
 
-    await enqueuer.enqueue([serialized]);
-    await enqueuer.enqueue([serialized], delay);
+    await enqueuer.enqueue(serialized);
+    await enqueuer.enqueue(serialized, delay);
 
     expect(enqueuer.enqueued).toEqual([
       { job: serialized, delay: undefined },
