@@ -243,6 +243,7 @@ export * from "./job-enqueuer.port";
 export * from "./job-enqueuer-collecting.adapter";
 export * from "./job-enqueuer-noop.adapter";
 export * from "./job-envelope";
+export * from "./job-failer.port";
 export * from "./language-detector.middleware";
 export * from "./language-detector.strategy";
 export * from "./language-detector-cookie.strategy";
