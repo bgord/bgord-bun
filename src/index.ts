@@ -234,6 +234,7 @@ export * from "./instrumentation.service";
 export * from "./invariant.service";
 export * from "./invariant-error-handler.service";
 export * from "./job.types";
+export * from "./job-envelope";
 export * from "./language-detector.middleware";
 export * from "./language-detector.strategy";
 export * from "./language-detector-cookie.strategy";
