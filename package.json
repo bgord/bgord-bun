@@ -21,7 +21,7 @@
     "preinstall": "bunx only-allow bun"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.9",
+    "@biomejs/biome": "2.4.10",
     "@commitlint/cli": "20.5.0",
     "@commitlint/config-conventional": "20.5.0",
     "@standard-schema/spec": "1.1.0",
@@ -39,7 +39,7 @@
     "lockfile-lint": "5.0.0",
     "nodemailer": "8.0.4",
     "only-allow": "1.2.2",
-    "resend": "6.9.4",
+    "resend": "6.10.0",
     "sharp": "0.34.5",
     "shellcheck": "4.1.0",
     "typescript": "6.0.2",
@@ -56,7 +56,7 @@
     "csv": "6.5.1",
     "croner": "10.0.1",
     "nodemailer": "8.0.4",
-    "resend": "6.9.4",
+    "resend": "6.10.0",
     "sharp": "0.34.5",
     "yazl": "3.3.1"
   },
