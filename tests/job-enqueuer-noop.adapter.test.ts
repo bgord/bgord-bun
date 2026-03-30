@@ -12,6 +12,6 @@ const serialized = {
 
 describe("JobEnqueuerNoopAdapter", () => {
   test("enqueue", async () => {
-    expect(await enqueuer.enqueue([serialized])).toEqual([serialized]);
+    expect(await enqueuer.enqueue(serialized)).toEqual(serialized);
   });
 });
