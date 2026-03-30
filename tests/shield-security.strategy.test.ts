@@ -147,15 +147,11 @@ describe("ShieldSecurityStrategy", () => {
   });
 
   test("just enough policies", () => {
-    const policy = new SecurityPolicy(pass, noop);
-
-    expect(() => new ShieldSecurityStrategy([policy, policy, policy, policy, policy])).not.toThrow();
+    expect(() => new ShieldSecurityStrategy(tools.repeat(new SecurityPolicy(pass, noop), 5))).not.toThrow();
   });
 
   test("max policies", () => {
-    const policy = new SecurityPolicy(pass, noop);
-
-    expect(() => new ShieldSecurityStrategy([policy, policy, policy, policy, policy, policy])).toThrow(
+    expect(() => new ShieldSecurityStrategy(tools.repeat(new SecurityPolicy(pass, noop), 6))).toThrow(
       "shield.security.strategy.error.max.policies",
     );
   });

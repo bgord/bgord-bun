@@ -9,6 +9,7 @@ import { CommitSha } from "../src/commit-sha.vo";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
+import { JobEnvelopeSchema } from "../src/job-envelope";
 import { Languages } from "../src/languages.vo";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerSubject } from "../src/mailer-subject.vo";
@@ -281,11 +282,21 @@ export const buildInfo = {
 
 export const task = { label: "cron", cron: CronExpressionSchedules.EVERY_HOUR, handler: async () => {} };
 
+export const SEND_EMAIL_JOB = "GENERIC_SEND_EMAIL_JOB";
+
+export const SendEmailJobSchema = v.object({
+  ...JobEnvelopeSchema,
+  name: v.literal(SEND_EMAIL_JOB),
+  payload: v.object({ to: v.string() }),
+});
+
+export type SendEmailJobType = v.InferOutput<typeof SendEmailJobSchema>;
+
 export const GenericSendEmailJob = {
   id: correlationId,
   correlationId: correlationId,
   createdAt: TIME_ZERO.ms,
-  name: "SEND_EMAIL_JOB",
+  name: SEND_EMAIL_JOB,
   revision: 0,
   payload: { to: "test@example.com" },
-};
+} satisfies SendEmailJobType;

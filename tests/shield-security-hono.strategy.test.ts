@@ -194,18 +194,14 @@ describe("ShieldSecurityHonoStrategy", () => {
   });
 
   test("just enough policies", () => {
-    const policy = new SecurityPolicy(pass, noop);
-
     expect(
-      () => new ShieldSecurityHonoStrategy([policy, policy, policy, policy, policy], deps),
+      () => new ShieldSecurityHonoStrategy(tools.repeat(new SecurityPolicy(pass, noop), 5), deps),
     ).not.toThrow();
   });
 
   test("max policies", () => {
-    const policy = new SecurityPolicy(pass, noop);
-
     expect(
-      () => new ShieldSecurityHonoStrategy([policy, policy, policy, policy, policy, policy], deps),
+      () => new ShieldSecurityHonoStrategy(tools.repeat(new SecurityPolicy(pass, noop), 6), deps),
     ).toThrow("shield.security.strategy.error.max.policies");
   });
 });
