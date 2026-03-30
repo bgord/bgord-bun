@@ -234,6 +234,8 @@ export * from "./instrumentation.service";
 export * from "./invariant.service";
 export * from "./invariant-error-handler.service";
 export * from "./job.types";
+export * from "./job-enqueuer.port";
+export * from "./job-enqueuer-noop.adapter";
 export * from "./job-envelope";
 export * from "./language-detector.middleware";
 export * from "./language-detector.strategy";
