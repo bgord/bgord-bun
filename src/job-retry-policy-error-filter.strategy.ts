@@ -9,6 +9,6 @@ export class JobRetryPolicyErrorFilterStrategy implements JobRetryPolicyStrategy
 
   evaluate(_job: GenericJob, error: tools.NormalizedError): false | tools.Duration {
     if (!this.config.retry(error)) return false;
-    return tools.Duration.MIN;
+    return tools.Duration.Ms(0);
   }
 }
