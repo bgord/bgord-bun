@@ -300,3 +300,8 @@ export const GenericSendEmailJob = {
   revision: 0,
   payload: { to: "test@example.com" },
 } satisfies SendEmailJobType;
+
+export const GenericSendEmailJobSerialized = {
+  ...GenericSendEmailJob,
+  payload: JSON.stringify(GenericSendEmailJob.payload),
+};

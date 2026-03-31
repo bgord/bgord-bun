@@ -29,11 +29,6 @@ const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
 
 const deps = { enqueuer, claimer, completer, failer, registry, requeuer, serializer };
 
-const serialized = {
-  ...mocks.GenericSendEmailJob,
-  payload: serializer.serialize(mocks.GenericSendEmailJob.payload),
-};
-
 const base = { component: "infra", operation: "job_queue" };
 
 const revision = mocks.GenericSendEmailJob.revision + 1;
@@ -69,7 +64,7 @@ describe("JobQueueWithLoggerAdapter", () => {
   });
 
   test("claim - with jobs", async () => {
-    const claimer = new JobClaimerNoopAdapter([serialized]);
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const inner = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer });
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
