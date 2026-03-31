@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import type { GenericJob, GenericJobSerialized } from "./job.types";
 import type { JobClaimerPort } from "./job-claimer.port";
 
@@ -6,7 +7,7 @@ export class JobClaimerNoopAdapter implements JobClaimerPort {
 
   async claim(
     _names: ReadonlyArray<GenericJob["name"]>,
-    _limit?: number,
+    _limit: tools.IntegerPositiveType,
   ): Promise<ReadonlyArray<GenericJobSerialized>> {
     return this.jobs;
   }
