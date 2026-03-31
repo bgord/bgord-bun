@@ -15,33 +15,23 @@ export class JobClaimerSqliteAdapter implements JobClaimerPort {
   ): Promise<ReadonlyArray<GenericJobSerialized>> {
     const placeholders = names.map(() => "?").join(", ");
 
-    return this.deps.db.transaction(() => {
-      const jobs = this.deps.db
-        .query<
-          GenericJobSerialized,
-          [...Array<GenericJob["name"]>, tools.TimestampValueType, tools.IntegerPositiveType]
-        >(
-          `SELECT id, correlationId, createdAt, name, revision, payload
-           FROM jobs
+    return this.deps.db
+      .query<
+        GenericJobSerialized,
+        [...Array<GenericJob["name"]>, tools.TimestampValueType, tools.IntegerPositiveType]
+      >(
+        `UPDATE jobs SET status = 'claimed'
+         WHERE id IN (
+           SELECT id FROM jobs
            WHERE status = 'pending'
-            AND name IN (${placeholders})
-            AND claimableAt <= ?
-           ORDER BY createdAt
-           ASC LIMIT ?`,
-        )
-        .all(...names, this.deps.Clock.now().ms, limit);
-
-      if (jobs.length) {
-        const ids = jobs.map((row) => row.id);
-        const idPlaceholders = ids.map(() => "?").join(", ");
-
-        this.deps.db.run<Array<GenericJob["id"]>>(
-          `UPDATE jobs SET status = 'claimed' WHERE id IN (${idPlaceholders})`,
-          ids,
-        );
-      }
-
-      return jobs;
-    })();
+             AND name IN (${placeholders})
+             AND claimableAt <= ?
+           ORDER BY createdAt ASC
+           LIMIT ?
+         )
+         RETURNING id, correlationId, createdAt, name, revision, payload`,
+      )
+      .all(...names, this.deps.Clock.now().ms, limit)
+      .toSorted((a, b) => a.createdAt - b.createdAt);
   }
 }
