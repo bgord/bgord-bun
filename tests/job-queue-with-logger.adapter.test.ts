@@ -7,6 +7,7 @@ import { JobFailerNoopAdapter } from "../src/job-failer-noop.adapter";
 import { JobQueueAdapter } from "../src/job-queue.adapter";
 import { JobQueueWithLoggerAdapter } from "../src/job-queue-with-logger.adapter";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
+import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
@@ -16,12 +17,15 @@ const enqueuer = new JobEnqueuerNoopAdapter();
 const claimer = new JobClaimerNoopAdapter();
 const completer = new JobCompleterNoopAdapter();
 const failer = new JobFailerNoopAdapter();
+const requeuer = new JobRequeuerNoopAdapter();
 const serializer = new PayloadSerializerJsonAdapter();
 
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
 const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
   [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry },
 });
+
+const deps = { enqueuer, claimer, completer, failer, registry, requeuer, serializer };
 
 const serialized = {
   ...mocks.GenericSendEmailJob,
@@ -30,14 +34,10 @@ const serialized = {
 
 const base = { component: "infra", operation: "job_queue" };
 
-const inner = new JobQueueAdapter<mocks.SendEmailJobType>({
-  enqueuer,
-  claimer,
-  completer,
-  failer,
-  registry,
-  serializer,
-});
+const revision = mocks.GenericSendEmailJob.revision + 1;
+const delay = tools.Duration.MIN;
+
+const inner = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
 
 describe("JobQueueWithLoggerAdapter", () => {
   test("enqueue", async () => {
@@ -68,14 +68,7 @@ describe("JobQueueWithLoggerAdapter", () => {
 
   test("claim - with jobs", async () => {
     const claimer = new JobClaimerNoopAdapter([serialized]);
-    const inner = new JobQueueAdapter<mocks.SendEmailJobType>({
-      registry,
-      enqueuer: new JobEnqueuerNoopAdapter(),
-      claimer,
-      completer: new JobCompleterNoopAdapter(),
-      failer: new JobFailerNoopAdapter(),
-      serializer,
-    });
+    const inner = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer });
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
@@ -114,5 +107,22 @@ describe("JobQueueWithLoggerAdapter", () => {
       { message: "Job failed", metadata: { id: mocks.GenericSendEmailJob.id }, ...base },
     ]);
     expect(fail).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
+  });
+
+  test("requeue", async () => {
+    using requeue = spyOn(inner, "requeue");
+    const Logger = new LoggerCollectingAdapter();
+    const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
+
+    await queue.requeue(mocks.GenericSendEmailJob.id, revision, delay);
+
+    expect(Logger.entries).toEqual([
+      {
+        message: "Job requeued",
+        metadata: { id: mocks.GenericSendEmailJob.id, revision, delay },
+        ...base,
+      },
+    ]);
+    expect(requeue).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id, revision, delay);
   });
 });

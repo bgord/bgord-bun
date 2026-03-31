@@ -42,4 +42,14 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
     return this.deps.inner.fail(id);
   }
+
+  async requeue(
+    id: GenericJob["id"],
+    revision: GenericJob["revision"],
+    delay: tools.Duration,
+  ): Promise<void> {
+    this.deps.Logger.warn({ message: "Job requeued", metadata: { id, revision, delay }, ...this.base });
+
+    return this.deps.inner.requeue(id, revision, delay);
+  }
 }
