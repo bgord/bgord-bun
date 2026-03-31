@@ -9,4 +9,6 @@ export interface JobQueuePort<Job extends GenericJob> {
   complete(id: GenericJob["id"]): Promise<void>;
 
   fail(id: GenericJob["id"]): Promise<void>;
+
+  requeue(id: GenericJob["id"], revision: GenericJob["revision"], delay: tools.Duration): Promise<void>;
 }

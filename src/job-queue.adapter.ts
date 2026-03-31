@@ -6,6 +6,7 @@ import type { JobEnqueuerPort } from "./job-enqueuer.port";
 import type { JobFailerPort } from "./job-failer.port";
 import type { JobQueuePort } from "./job-queue.port";
 import type { JobRegistryPort } from "./job-registry.port";
+import type { JobRequeuerPort } from "./job-requeuer.port";
 import type { PayloadSerializerPort } from "./payload-serializer.port";
 
 type Config<Job extends GenericJob> = {
@@ -14,6 +15,7 @@ type Config<Job extends GenericJob> = {
   claimer: JobClaimerPort;
   completer: JobCompleterPort;
   failer: JobFailerPort;
+  requeuer: JobRequeuerPort;
   serializer: PayloadSerializerPort;
 };
 
@@ -43,5 +45,13 @@ export class JobQueueAdapter<Job extends GenericJob> implements JobQueuePort<Job
 
   async fail(id: GenericJob["id"]): Promise<void> {
     return this.config.failer.fail(id);
+  }
+
+  async requeue(
+    id: GenericJob["id"],
+    revision: GenericJob["revision"],
+    delay: tools.Duration,
+  ): Promise<void> {
+    return this.config.requeuer.requeue(id, revision, delay);
   }
 }
