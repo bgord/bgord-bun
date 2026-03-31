@@ -22,8 +22,9 @@ const serializer = new PayloadSerializerJsonAdapter();
 
 const limit = tools.Int.positive(5);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
+const handler = async (_job: mocks.SendEmailJobType) => {};
 const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry },
+  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
 });
 
 const deps = { enqueuer, claimer, completer, failer, registry, requeuer, serializer };
