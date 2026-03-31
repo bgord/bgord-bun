@@ -254,6 +254,7 @@ export * from "./job-failer-sqlite.adapter";
 export * from "./job-queue.adapter";
 export * from "./job-queue.port";
 export * from "./job-queue-sqlite-store.service";
+export * from "./job-queue-stats-provider.port";
 export * from "./job-queue-with-logger.adapter";
 export * from "./job-registry.adapter";
 export * from "./job-registry.port";
