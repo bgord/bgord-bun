@@ -77,4 +77,16 @@ describe("JobQueueAdapter", () => {
 
     expect(requeuer.requeued).toEqual([{ id: mocks.GenericSendEmailJob.id, revision: 1, delay }]);
   });
+
+  test("getRetryPolicy", async () => {
+    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+
+    expect(queue.getRetryPolicy(mocks.GenericSendEmailJob.name)).toEqual(retry);
+  });
+
+  test("getRetryPolicy - missing", async () => {
+    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+
+    expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+  });
 });

@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { GenericJob } from "./job.types";
 import type { JobQueuePort } from "./job-queue.port";
+import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 import type { LoggerPort } from "./logger.port";
 
 type Dependencies<Job extends GenericJob> = {
@@ -51,5 +52,9 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     this.deps.Logger.warn({ message: "Job requeued", metadata: { id, revision, delay }, ...this.base });
 
     return this.deps.inner.requeue(id, revision, delay);
+  }
+
+  getRetryPolicy(name: GenericJob["name"]): JobRetryPolicyStrategy {
+    return this.deps.inner.getRetryPolicy(name);
   }
 }

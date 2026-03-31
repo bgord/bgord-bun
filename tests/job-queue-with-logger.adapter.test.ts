@@ -62,9 +62,9 @@ describe("JobQueueWithLoggerAdapter", () => {
     await queue.claim(limit);
 
     expect(Logger.entries).toEqual([
-      { message: "Claimed 0 job(s)", metadata: { count: 0, limit: undefined, jobs: [] }, ...base },
+      { message: "Claimed 0 job(s)", metadata: { count: 0, limit: 5, jobs: [] }, ...base },
     ]);
-    expect(claim).toHaveBeenCalledWith(undefined);
+    expect(claim).toHaveBeenCalledWith(5);
   });
 
   test("claim - with jobs", async () => {
@@ -78,7 +78,7 @@ describe("JobQueueWithLoggerAdapter", () => {
     expect(Logger.entries).toEqual([
       {
         message: "Claimed 1 job(s)",
-        metadata: { count: 1, limit: undefined, jobs: [mocks.GenericSendEmailJob] },
+        metadata: { count: 1, limit: 5, jobs: [mocks.GenericSendEmailJob] },
         ...base,
       },
     ]);
@@ -125,5 +125,17 @@ describe("JobQueueWithLoggerAdapter", () => {
       },
     ]);
     expect(requeue).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id, revision, delay);
+  });
+
+  test("getRetryPolicy", async () => {
+    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+
+    expect(queue.getRetryPolicy(mocks.GenericSendEmailJob.name)).toEqual(retry);
+  });
+
+  test("getRetryPolicy - missing", async () => {
+    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+
+    expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
   });
 });
