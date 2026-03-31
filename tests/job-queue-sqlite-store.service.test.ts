@@ -28,6 +28,14 @@ describe("JobQueueSqliteStore", () => {
     ]);
   });
 
+  test("index", () => {
+    const indexes = store.db
+      .query("SELECT name FROM sqlite_master WHERE type = 'index' AND name = 'idx_jobs_claimable'")
+      .all();
+
+    expect(indexes).toEqual([{ name: "idx_jobs_claimable" }]);
+  });
+
   test("idempotence", () => {
     new JobQueueSqliteStore({ database: ":memory:" });
 
