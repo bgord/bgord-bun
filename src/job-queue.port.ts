@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { GenericJob } from "./job.types";
+import type { JobHandler } from "./job-registry.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 
 export interface JobQueuePort<Job extends GenericJob> {
@@ -14,4 +15,6 @@ export interface JobQueuePort<Job extends GenericJob> {
   requeue(id: GenericJob["id"], revision: GenericJob["revision"], delay: tools.Duration): Promise<void>;
 
   getRetryPolicy(name: GenericJob["name"]): JobRetryPolicyStrategy;
+
+  getHandler(name: GenericJob["name"]): JobHandler<Job>;
 }

@@ -5,7 +5,7 @@ import type { JobCompleterPort } from "./job-completer.port";
 import type { JobEnqueuerPort } from "./job-enqueuer.port";
 import type { JobFailerPort } from "./job-failer.port";
 import type { JobQueuePort } from "./job-queue.port";
-import type { JobRegistryPort } from "./job-registry.port";
+import type { JobHandler, JobRegistryPort } from "./job-registry.port";
 import type { JobRequeuerPort } from "./job-requeuer.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 import type { PayloadSerializerPort } from "./payload-serializer.port";
@@ -58,5 +58,9 @@ export class JobQueueAdapter<Job extends GenericJob> implements JobQueuePort<Job
 
   getRetryPolicy(name: GenericJob["name"]): JobRetryPolicyStrategy {
     return this.config.registry.getRetryPolicy(name);
+  }
+
+  getHandler(name: GenericJob["name"]): JobHandler<Job> {
+    return this.config.registry.getHandler(name);
   }
 }
