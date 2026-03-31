@@ -25,5 +25,7 @@ export class JobQueueSqliteStore {
       `CREATE INDEX IF NOT EXISTS idx_jobs_claimable
        ON jobs (status, name, claimableAt, createdAt)`,
     );
+
+    this.db.run("PRAGMA journal_mode = WAL");
   }
 }
