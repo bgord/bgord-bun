@@ -13,25 +13,35 @@ export class JobClaimerSqliteAdapter implements JobClaimerPort {
     names: ReadonlyArray<GenericJob["name"]>,
     limit: tools.IntegerPositiveType,
   ): Promise<ReadonlyArray<GenericJobSerialized>> {
-    const now = this.deps.Clock.now().ms;
-
     const placeholders = names.map(() => "?").join(", ");
 
     return this.deps.db.transaction(() => {
-      const found = this.deps.db
-        .query(
-          `SELECT id, correlationId, createdAt, name, revision, payload FROM jobs WHERE status = 'pending' AND name IN (${placeholders}) AND claimableAt <= ? ORDER BY createdAt ASC LIMIT ?`,
+      const jobs = this.deps.db
+        .query<
+          GenericJobSerialized,
+          [...Array<GenericJob["name"]>, tools.TimestampValueType, tools.IntegerPositiveType]
+        >(
+          `SELECT id, correlationId, createdAt, name, revision, payload
+           FROM jobs
+           WHERE status = 'pending'
+            AND name IN (${placeholders})
+            AND claimableAt <= ?
+           ORDER BY createdAt
+           ASC LIMIT ?`,
         )
-        .all(...names, now, limit) as Array<GenericJobSerialized>;
+        .all(...names, this.deps.Clock.now().ms, limit);
 
-      if (found.length > 0) {
-        const ids = found.map((row) => row.id);
+      if (jobs.length) {
+        const ids = jobs.map((row) => row.id);
         const idPlaceholders = ids.map(() => "?").join(", ");
 
-        this.deps.db.run(`UPDATE jobs SET status = 'claimed' WHERE id IN (${idPlaceholders})`, ids);
+        this.deps.db.run<Array<GenericJob["id"]>>(
+          `UPDATE jobs SET status = 'claimed' WHERE id IN (${idPlaceholders})`,
+          ids,
+        );
       }
 
-      return found;
+      return jobs;
     })();
   }
 }

@@ -14,10 +14,9 @@ export class JobRequeuerSqliteAdapter implements JobRequeuerPort {
     revision: GenericJob["revision"],
     delay: tools.Duration,
   ): Promise<void> {
-    this.deps.db.run("UPDATE jobs SET status = 'pending', revision = ?, claimableAt = ? WHERE id = ?", [
-      revision,
-      this.deps.Clock.now().add(delay).ms,
-      id,
-    ]);
+    this.deps.db.run<[GenericJob["revision"], tools.TimestampValueType, GenericJob["id"]]>(
+      "UPDATE jobs SET status = 'pending', revision = ?, claimableAt = ? WHERE id = ?",
+      [revision, this.deps.Clock.now().add(delay).ms, id],
+    );
   }
 }

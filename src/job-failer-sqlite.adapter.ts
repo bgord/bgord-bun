@@ -8,6 +8,6 @@ export class JobFailerSqliteAdapter implements JobFailerPort {
   constructor(private readonly deps: Dependencies) {}
 
   async fail(id: GenericJob["id"]): Promise<void> {
-    this.deps.db.run("UPDATE jobs SET status = 'failed' WHERE id = ?", [id]);
+    this.deps.db.run<[GenericJob["id"]]>("UPDATE jobs SET status = 'failed' WHERE id = ?", [id]);
   }
 }

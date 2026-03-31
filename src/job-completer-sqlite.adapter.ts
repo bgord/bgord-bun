@@ -8,6 +8,6 @@ export class JobCompleterSqliteAdapter implements JobCompleterPort {
   constructor(private readonly deps: Dependencies) {}
 
   async complete(id: GenericJob["id"]): Promise<void> {
-    this.deps.db.run("UPDATE jobs SET status = 'completed' WHERE id = ?", [id]);
+    this.deps.db.run<[GenericJob["id"]]>("UPDATE jobs SET status = 'completed' WHERE id = $id", [id]);
   }
 }
