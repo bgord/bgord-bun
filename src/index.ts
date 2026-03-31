@@ -237,6 +237,7 @@ export * from "./invariant-error-handler.service";
 export * from "./job.types";
 export * from "./job-claimer.port";
 export * from "./job-claimer-noop.adapter";
+export * from "./job-claimer-sqlite.adapter";
 export * from "./job-completer.port";
 export * from "./job-completer-collecting.adapter";
 export * from "./job-completer-noop.adapter";
