@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { GenericJob } from "./job.types";
 import type { JobQueuePort } from "./job-queue.port";
+import type { JobHandler } from "./job-registry.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 import type { LoggerPort } from "./logger.port";
 
@@ -56,5 +57,9 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
   getRetryPolicy(name: GenericJob["name"]): JobRetryPolicyStrategy {
     return this.deps.inner.getRetryPolicy(name);
+  }
+
+  getHandler(name: GenericJob["name"]): JobHandler<Job> {
+    return this.deps.inner.getHandler(name);
   }
 }
