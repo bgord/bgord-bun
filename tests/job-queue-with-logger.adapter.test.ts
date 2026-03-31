@@ -20,6 +20,7 @@ const failer = new JobFailerNoopAdapter();
 const requeuer = new JobRequeuerNoopAdapter();
 const serializer = new PayloadSerializerJsonAdapter();
 
+const limit = tools.Int.positive(5);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
 const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
   [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry },
@@ -58,7 +59,7 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.claim();
+    await queue.claim(limit);
 
     expect(Logger.entries).toEqual([
       { message: "Claimed 0 job(s)", metadata: { count: 0, limit: undefined, jobs: [] }, ...base },
@@ -72,7 +73,7 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.claim();
+    await queue.claim(limit);
 
     expect(Logger.entries).toEqual([
       {
