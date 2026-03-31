@@ -4,17 +4,18 @@ import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strat
 import * as mocks from "./mocks";
 
 const policy = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
-const ZERO = tools.Duration.Ms(0);
 
 describe("JobRetryPolicyLimitStrategy", () => {
   test("happy path", () => {
-    expect(policy.evaluate(mocks.GenericSendEmailJob, mocks.IntentionalErrorNormalized)).toEqual(ZERO);
+    expect(policy.evaluate(mocks.GenericSendEmailJob, mocks.IntentionalErrorNormalized)).toEqual(
+      tools.Duration.ZERO,
+    );
   });
 
   test("below limit", () => {
     const job = { ...mocks.GenericSendEmailJob, revision: 2 };
 
-    expect(policy.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(ZERO);
+    expect(policy.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(tools.Duration.ZERO);
   });
 
   test("at the limit", () => {
