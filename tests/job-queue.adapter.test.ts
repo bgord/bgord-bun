@@ -28,11 +28,6 @@ const failer = new JobFailerNoopAdapter();
 
 const deps = { registry, enqueuer, claimer, completer, failer, requeuer, serializer };
 
-const serialized = {
-  ...mocks.GenericSendEmailJob,
-  payload: serializer.serialize(mocks.GenericSendEmailJob.payload),
-};
-
 const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
 
 describe("JobQueueAdapter", () => {
@@ -45,7 +40,7 @@ describe("JobQueueAdapter", () => {
   });
 
   test("claim - with jobs", async () => {
-    const claimer = new JobClaimerNoopAdapter([serialized]);
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer });
 
     expect(await queue.claim()).toEqual([mocks.GenericSendEmailJob]);

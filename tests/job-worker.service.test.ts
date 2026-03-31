@@ -42,11 +42,6 @@ const config = { label: "SendEmailWorker", cron: CronExpressionSchedules.EVERY_M
 
 const worker = JobWorker(config, { queue });
 
-const serialized = {
-  ...mocks.GenericSendEmailJob,
-  payload: serializer.serialize(mocks.GenericSendEmailJob.payload),
-};
-
 describe("JobWorker", () => {
   test("config", () => {
     expect(worker.label).toEqual(config.label);
@@ -67,7 +62,7 @@ describe("JobWorker", () => {
 
   test("complete", async () => {
     const completer = new JobCompleterCollectingAdapter();
-    const claimer = new JobClaimerNoopAdapter([serialized]);
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
     const worker = JobWorker(config, { queue });
 
@@ -78,7 +73,7 @@ describe("JobWorker", () => {
 
   test("fail - no retry", async () => {
     const failer = new JobFailerCollectingAdapter();
-    const claimer = new JobClaimerNoopAdapter([serialized]);
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
       [mocks.SEND_EMAIL_JOB]: {
         schema: mocks.SendEmailJobSchema,
@@ -107,7 +102,7 @@ describe("JobWorker", () => {
       },
     });
     const requeuer = new JobRequeuerCollectingAdapter();
-    const claimer = new JobClaimerNoopAdapter([serialized]);
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, registry, requeuer });
     const worker = JobWorker(config, { queue });
 
@@ -118,7 +113,7 @@ describe("JobWorker", () => {
 
   test("fail - out of retries", async () => {
     const failer = new JobFailerCollectingAdapter();
-    const claimer = new JobClaimerNoopAdapter([{ ...serialized, revision: 3 }]);
+    const claimer = new JobClaimerNoopAdapter([{ ...mocks.GenericSendEmailJobSerialized, revision: 3 }]);
     const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
       [mocks.SEND_EMAIL_JOB]: {
         schema: mocks.SendEmailJobSchema,
@@ -137,8 +132,8 @@ describe("JobWorker", () => {
   test("multiple jobs", async () => {
     const completer = new JobCompleterCollectingAdapter();
     const claimer = new JobClaimerNoopAdapter([
-      { ...serialized, id: mocks.userId },
-      { ...serialized, id: mocks.anotherUserId },
+      { ...mocks.GenericSendEmailJobSerialized, id: mocks.userId },
+      { ...mocks.GenericSendEmailJobSerialized, id: mocks.anotherUserId },
     ]);
     const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
     const worker = JobWorker(config, { queue });

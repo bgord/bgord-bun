@@ -3,23 +3,18 @@ import * as tools from "@bgord/tools";
 import { JobEnqueuerCollectingAdapter } from "../src/job-enqueuer-collecting.adapter";
 import * as mocks from "./mocks";
 
-const serialized = {
-  ...mocks.GenericSendEmailJob,
-  payload: JSON.stringify(mocks.GenericSendEmailJob.payload),
-};
-
 const delay = tools.Duration.Seconds(5);
 
 describe("JobEnqueuerCollectingAdapter", () => {
   test("enqueue", async () => {
     const enqueuer = new JobEnqueuerCollectingAdapter();
 
-    await enqueuer.enqueue(serialized);
-    await enqueuer.enqueue(serialized, delay);
+    await enqueuer.enqueue(mocks.GenericSendEmailJobSerialized);
+    await enqueuer.enqueue(mocks.GenericSendEmailJobSerialized, delay);
 
     expect(enqueuer.enqueued).toEqual([
-      { job: serialized, delay: undefined },
-      { job: serialized, delay },
+      { job: mocks.GenericSendEmailJobSerialized, delay: undefined },
+      { job: mocks.GenericSendEmailJobSerialized, delay },
     ]);
   });
 });
