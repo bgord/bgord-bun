@@ -8,6 +8,8 @@ import { JobFailerCollectingAdapter } from "../src/job-failer-collecting.adapter
 import { JobFailerNoopAdapter } from "../src/job-failer-noop.adapter";
 import { JobQueueAdapter } from "../src/job-queue.adapter";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
+import { JobRequeuerCollectingAdapter } from "../src/job-requeuer-collecting.adapter";
+import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
@@ -20,9 +22,10 @@ const serializer = new PayloadSerializerJsonAdapter();
 const enqueuer = new JobEnqueuerNoopAdapter();
 const claimer = new JobClaimerNoopAdapter();
 const completer = new JobCompleterNoopAdapter();
+const requeuer = new JobRequeuerNoopAdapter();
 const failer = new JobFailerNoopAdapter();
 
-const deps = { registry, enqueuer, claimer, completer, failer, serializer };
+const deps = { registry, enqueuer, claimer, completer, failer, requeuer, serializer };
 
 const serialized = {
   ...mocks.GenericSendEmailJob,
@@ -63,5 +66,15 @@ describe("JobQueueAdapter", () => {
     await queue.fail(mocks.GenericSendEmailJob.id);
 
     expect(failer.failed).toEqual([mocks.GenericSendEmailJob.id]);
+  });
+
+  test("requeue", async () => {
+    const requeuer = new JobRequeuerCollectingAdapter();
+    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, requeuer });
+    const delay = tools.Duration.Seconds(5);
+
+    await queue.requeue(mocks.GenericSendEmailJob.id, 1, delay);
+
+    expect(requeuer.requeued).toEqual([{ id: mocks.GenericSendEmailJob.id, revision: 1, delay }]);
   });
 });
