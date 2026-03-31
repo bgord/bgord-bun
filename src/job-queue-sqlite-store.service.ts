@@ -20,5 +20,10 @@ export class JobQueueSqliteStore {
         claimableAt INTEGER NOT NULL DEFAULT 0
       )
     `);
+
+    this.db.run(
+      `CREATE INDEX IF NOT EXISTS idx_jobs_claimable
+       ON jobs (status, name, claimableAt, createdAt)`,
+    );
   }
 }
