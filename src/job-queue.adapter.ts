@@ -32,7 +32,7 @@ export class JobQueueAdapter<Job extends GenericJob> implements JobQueuePort<Job
     return { ...serialized, payload: this.config.serializer.deserialize(serialized.payload) } as EnqueuedJob;
   }
 
-  async claim(limit?: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>> {
+  async claim(limit: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>> {
     const jobs = await this.config.claimer.claim(this.config.registry.names, limit);
 
     return jobs

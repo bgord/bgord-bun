@@ -14,6 +14,7 @@ import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strat
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
+const limit = tools.Int.positive(3);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
 const handler = async (_job: mocks.SendEmailJobType) => {};
 const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
@@ -36,14 +37,14 @@ describe("JobQueueAdapter", () => {
   });
 
   test("claim - no jobs", async () => {
-    expect(await queue.claim()).toEqual([]);
+    expect(await queue.claim(limit)).toEqual([]);
   });
 
   test("claim - with jobs", async () => {
     const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer });
 
-    expect(await queue.claim()).toEqual([mocks.GenericSendEmailJob]);
+    expect(await queue.claim(limit)).toEqual([mocks.GenericSendEmailJob]);
   });
 
   test("complete", async () => {
