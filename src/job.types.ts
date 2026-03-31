@@ -11,3 +11,5 @@ export type GenericJob = {
 };
 
 export type GenericJobSerialized = Omit<GenericJob, "payload"> & { payload: string };
+
+export type ToJobMap<Job extends GenericJob> = { [J in Job as J["name"]]: J };
