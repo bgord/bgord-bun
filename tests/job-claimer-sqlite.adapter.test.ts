@@ -51,6 +51,20 @@ describe("JobClaimerSqliteAdapter", () => {
     expect(result.length).toEqual(2);
   });
 
+  test("claim - multiple job names", async () => {
+    const store = new JobQueueSqliteStore({ database: ":memory:" });
+    const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
+    const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
+    const names = [mocks.GenericSendEmailJob.name, "sms"];
+
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "a" });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "b", name: "sms" });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "c" });
+    const result = await claimer.claim(names, tools.Int.positive(2));
+
+    expect(result.length).toEqual(2);
+  });
+
   test("claim - ordering", async () => {
     const store = new JobQueueSqliteStore({ database: ":memory:" });
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
