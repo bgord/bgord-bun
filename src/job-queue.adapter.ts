@@ -7,6 +7,7 @@ import type { JobFailerPort } from "./job-failer.port";
 import type { JobQueuePort } from "./job-queue.port";
 import type { JobRegistryPort } from "./job-registry.port";
 import type { JobRequeuerPort } from "./job-requeuer.port";
+import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 import type { PayloadSerializerPort } from "./payload-serializer.port";
 
 type Config<Job extends GenericJob> = {
@@ -53,5 +54,9 @@ export class JobQueueAdapter<Job extends GenericJob> implements JobQueuePort<Job
     delay: tools.Duration,
   ): Promise<void> {
     return this.config.requeuer.requeue(id, revision, delay);
+  }
+
+  getRetryPolicy(name: GenericJob["name"]): JobRetryPolicyStrategy {
+    return this.config.registry.getRetryPolicy(name);
   }
 }
