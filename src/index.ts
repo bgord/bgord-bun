@@ -241,6 +241,7 @@ export * from "./job-claimer-sqlite.adapter";
 export * from "./job-completer.port";
 export * from "./job-completer-collecting.adapter";
 export * from "./job-completer-noop.adapter";
+export * from "./job-completer-sqlite.adapter";
 export * from "./job-enqueuer.port";
 export * from "./job-enqueuer-collecting.adapter";
 export * from "./job-enqueuer-noop.adapter";
