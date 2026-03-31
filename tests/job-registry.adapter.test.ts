@@ -6,8 +6,10 @@ import * as mocks from "./mocks";
 
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
 
+const handler = async (_job: mocks.SendEmailJobType) => {};
+
 const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry },
+  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
 });
 
 describe("JobRegistryAdapter", () => {
@@ -51,7 +53,7 @@ describe("JobRegistryAdapter", () => {
     };
 
     const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-      [mocks.SEND_EMAIL_JOB]: { schema: asyncSchema, retry },
+      [mocks.SEND_EMAIL_JOB]: { schema: asyncSchema, retry, handler: async (_job) => {} },
     });
 
     expect(() => registry.validate(mocks.GenericSendEmailJob)).toThrow("job.registry.no.async.schema");
@@ -63,5 +65,13 @@ describe("JobRegistryAdapter", () => {
 
   test("getRetryPolicy - unknown job", () => {
     expect(() => registry.getRetryPolicy("UNKNOWN_JOB")).toThrow("job.registry.adapter.error.unknown.job");
+  });
+
+  test("getHandler", () => {
+    expect(registry.getHandler(mocks.SEND_EMAIL_JOB)).toBe(handler);
+  });
+
+  test("getHandler - unknown job", () => {
+    expect(() => registry.getHandler("UNKNOWN_JOB")).toThrow("job.registry.adapter.error.unknown.job");
   });
 });
