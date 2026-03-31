@@ -6,3 +6,4 @@ export interface HandlerStrategy {
 
 export type EventHandlerStrategy = HandlerStrategy;
 export type CommandHandlerStrategy = HandlerStrategy;
+export type JobHandlerStrategy = HandlerStrategy;

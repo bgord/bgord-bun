@@ -8,3 +8,4 @@ export class HandlerNoopStrategy implements HandlerStrategy {
 
 export const EventHandlerNoopStrategy = HandlerNoopStrategy;
 export const CommandHandlerNoopStrategy = HandlerNoopStrategy;
+export const JobHandlerNoopStrategy = HandlerNoopStrategy;

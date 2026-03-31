@@ -8,3 +8,4 @@ export class HandlerBareStrategy implements HandlerStrategy {
 
 export const EventHandlerBareStrategy = HandlerBareStrategy;
 export const CommandHandlerBareStrategy = HandlerBareStrategy;
+export const JobHandlerBareStrategy = HandlerBareStrategy;
