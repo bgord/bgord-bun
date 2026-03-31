@@ -19,7 +19,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     return this.deps.inner.enqueue(job);
   }
 
-  async claim(limit?: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>> {
+  async claim(limit: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>> {
     const jobs = await this.deps.inner.claim(limit);
 
     this.deps.Logger.info({
