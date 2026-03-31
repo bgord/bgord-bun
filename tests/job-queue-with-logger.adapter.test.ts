@@ -33,7 +33,6 @@ const deps = { enqueuer, claimer, completer, failer, registry, requeuer, seriali
 const base = { component: "infra", operation: "job_queue" };
 
 const revision = mocks.GenericSendEmailJob.revision + 1;
-const delay = tools.Duration.MIN;
 
 const inner = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
 
@@ -140,18 +139,18 @@ describe("JobQueueWithLoggerAdapter", () => {
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
-      queue.requeue(mocks.GenericSendEmailJob.id, revision, delay),
+      queue.requeue(mocks.GenericSendEmailJob.id, revision, tools.Duration.ZERO),
     );
 
     expect(Logger.entries).toEqual([
       {
         message: "Job requeued",
-        metadata: { id: mocks.GenericSendEmailJob.id, revision, delay },
+        metadata: { id: mocks.GenericSendEmailJob.id, revision, delay: tools.Duration.ZERO },
         correlationId: mocks.GenericSendEmailJob.correlationId,
         ...base,
       },
     ]);
-    expect(requeue).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id, revision, delay);
+    expect(requeue).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id, revision, tools.Duration.ZERO);
   });
 
   test("getRetryPolicy", async () => {

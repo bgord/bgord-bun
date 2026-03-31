@@ -7,6 +7,6 @@ export class JobRetryPolicyLimitStrategy implements JobRetryPolicyStrategy {
 
   evaluate(job: GenericJob, _error: tools.NormalizedError): false | tools.Duration {
     if (job.revision >= this.retries) return false;
-    return tools.Duration.Ms(0);
+    return tools.Duration.ZERO;
   }
 }

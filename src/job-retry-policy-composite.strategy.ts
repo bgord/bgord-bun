@@ -14,7 +14,7 @@ export class JobRetryPolicyCompositeStrategy implements JobRetryPolicyStrategy {
   }
 
   evaluate(job: GenericJob, error: tools.NormalizedError): false | tools.Duration {
-    let delay: tools.Duration = tools.Duration.Ms(0);
+    let delay: tools.Duration = tools.Duration.ZERO;
 
     for (const policy of this.policies) {
       const result = policy.evaluate(job, error);
