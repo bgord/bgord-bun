@@ -1,10 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { MessageHandlerNoopStrategy } from "../src/message-handler-noop.strategy";
+import { HandlerBareStrategy } from "../src/handler-bare.strategy";
 import * as mocks from "./mocks";
 
-const handler = new MessageHandlerNoopStrategy();
+const handler = new HandlerBareStrategy();
 
-describe("MessageHandlerNoopStrategy", () => {
+describe("HandlerBareStrategy", () => {
   test("happy path", async () => {
     const fn = async (_: mocks.MessageType) => {};
 
@@ -12,6 +12,6 @@ describe("MessageHandlerNoopStrategy", () => {
   });
 
   test("failure", async () => {
-    expect(async () => handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message)).not.toThrow();
+    expect(async () => handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message)).toThrow();
   });
 });
