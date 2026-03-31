@@ -12,7 +12,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
 };
 
-export const PassageOfTimeMinute = (deps: Dependencies): CronTask => ({
+export const PassageOfTimeMinuteCronTask = (deps: Dependencies): CronTask => ({
   label: "PassageOfTimeMinute",
   cron: CronExpressionSchedules.EVERY_MINUTE,
   handler: async () => {
