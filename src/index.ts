@@ -260,6 +260,7 @@ export * from "./job-registry.port";
 export * from "./job-requeuer.port";
 export * from "./job-requeuer-collecting.adapter";
 export * from "./job-requeuer-noop.adapter";
+export * from "./job-requeuer-sqlite.adapter";
 export * from "./job-retry-policy.strategy";
 export * from "./job-retry-policy-backoff.strategy";
 export * from "./job-retry-policy-composite.strategy";
