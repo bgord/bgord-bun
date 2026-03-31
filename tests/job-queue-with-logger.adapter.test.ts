@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { JobClaimerNoopAdapter } from "../src/job-claimer-noop.adapter";
 import { JobCompleterNoopAdapter } from "../src/job-completer-noop.adapter";
 import { JobEnqueuerNoopAdapter } from "../src/job-enqueuer-noop.adapter";
@@ -42,10 +43,17 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.enqueue(mocks.GenericSendEmailJob);
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+      queue.enqueue(mocks.GenericSendEmailJob),
+    );
 
     expect(Logger.entries).toEqual([
-      { message: "GENERIC_SEND_EMAIL_JOB enqueued", metadata: mocks.GenericSendEmailJob, ...base },
+      {
+        message: "GENERIC_SEND_EMAIL_JOB enqueued",
+        metadata: mocks.GenericSendEmailJob,
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
     ]);
     expect(enqueue).toHaveBeenCalledWith(mocks.GenericSendEmailJob);
   });
@@ -55,10 +63,15 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.claim(limit);
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () => queue.claim(limit));
 
     expect(Logger.entries).toEqual([
-      { message: "Claimed 0 job(s)", metadata: { count: 0, limit: 5, jobs: [] }, ...base },
+      {
+        message: "Claimed 0 job(s)",
+        metadata: { count: 0, limit: 5, jobs: [] },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
     ]);
     expect(claim).toHaveBeenCalledWith(5);
   });
@@ -69,12 +82,13 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.claim(limit);
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () => queue.claim(limit));
 
     expect(Logger.entries).toEqual([
       {
         message: "Claimed 1 job(s)",
         metadata: { count: 1, limit: 5, jobs: [mocks.GenericSendEmailJob] },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
         ...base,
       },
     ]);
@@ -85,10 +99,17 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.complete(mocks.GenericSendEmailJob.id);
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+      queue.complete(mocks.GenericSendEmailJob.id),
+    );
 
     expect(Logger.entries).toEqual([
-      { message: "Job completed", metadata: { id: mocks.GenericSendEmailJob.id }, ...base },
+      {
+        message: "Job completed",
+        metadata: { id: mocks.GenericSendEmailJob.id },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
     ]);
     expect(complete).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
   });
@@ -98,10 +119,17 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.fail(mocks.GenericSendEmailJob.id);
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+      queue.fail(mocks.GenericSendEmailJob.id),
+    );
 
     expect(Logger.entries).toEqual([
-      { message: "Job failed", metadata: { id: mocks.GenericSendEmailJob.id }, ...base },
+      {
+        message: "Job failed",
+        metadata: { id: mocks.GenericSendEmailJob.id },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
     ]);
     expect(fail).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
   });
@@ -111,12 +139,15 @@ describe("JobQueueWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
-    await queue.requeue(mocks.GenericSendEmailJob.id, revision, delay);
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+      queue.requeue(mocks.GenericSendEmailJob.id, revision, delay),
+    );
 
     expect(Logger.entries).toEqual([
       {
         message: "Job requeued",
         metadata: { id: mocks.GenericSendEmailJob.id, revision, delay },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
         ...base,
       },
     ]);

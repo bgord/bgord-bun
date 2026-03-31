@@ -9,6 +9,7 @@ import { JobEnqueuerNoopAdapter } from "../src/job-enqueuer-noop.adapter";
 import { JobFailerCollectingAdapter } from "../src/job-failer-collecting.adapter";
 import { JobFailerNoopAdapter } from "../src/job-failer-noop.adapter";
 import { JobQueueAdapter } from "../src/job-queue.adapter";
+import { JobQueueWithLoggerAdapter } from "../src/job-queue-with-logger.adapter";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRequeuerCollectingAdapter } from "../src/job-requeuer-collecting.adapter";
 import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
@@ -16,6 +17,7 @@ import { JobRetryPolicyBackoffStrategy } from "../src/job-retry-policy-backoff.s
 import { JobRetryPolicyCompositeStrategy } from "../src/job-retry-policy-composite.strategy";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
 import { JobWorker } from "../src/job-worker.service";
+import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import { RetryBackoffLinearStrategy } from "../src/retry-backoff-linear.strategy";
 import * as mocks from "./mocks";
@@ -141,5 +143,34 @@ describe("JobWorker", () => {
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
     expect(completer.completed).toEqual([mocks.userId, mocks.anotherUserId]);
+  });
+
+  test("with logger", async () => {
+    const completer = new JobCompleterCollectingAdapter();
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
+    const inner = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
+    const Logger = new LoggerCollectingAdapter();
+    const queue = new JobQueueWithLoggerAdapter({ inner, Logger });
+    const worker = JobWorker(config, { queue });
+
+    await CorrelationStorage.run(mocks.correlationId, worker.handler);
+
+    expect(completer.completed).toEqual([mocks.GenericSendEmailJob.id]);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Claimed 1 job(s)",
+        component: "infra",
+        operation: "job_queue",
+        metadata: { count: 1, jobs: [mocks.GenericSendEmailJob], limit },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+      },
+      {
+        message: "Job completed",
+        component: "infra",
+        operation: "job_queue",
+        metadata: { id: mocks.GenericSendEmailJob.id },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+      },
+    ]);
   });
 });
