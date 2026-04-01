@@ -1,5 +1,5 @@
-import type { ClockPort } from "../src/clock.port";
-import type { LoggerPort } from "../src/logger.port";
+import type { ClockPort } from "./clock.port";
+import type { LoggerPort } from "./logger.port";
 import type { Prerequisite } from "./prerequisite.vo";
 import { PrerequisiteVerificationOutcome } from "./prerequisite-verifier.port";
 

@@ -15,7 +15,7 @@ const specificError = (result: PrerequisiteVerificationResult) =>
   result.outcome === PrerequisiteVerificationOutcome.failure &&
   result.error?.message === mocks.IntentionalError;
 
-describe("PrerequisiteVerifierWithLoggerAdapter", () => {
+describe("PrerequisiteVerifierWithFailSafeAdapter", () => {
   test("success", async () => {
     const prerequisite = new PrerequisiteVerifierWithFailSafeAdapter({ inner: pass });
 
