@@ -5,8 +5,15 @@ import { RedactorMetadataCompactObject } from "../src/redactor-metadata-compact-
 const redactor = new RedactorMetadataCompactObject({ maxKeys: tools.Int.positive(1) });
 
 describe("RedactorMetadataCompactObject", () => {
+  test("redact", () => {
+    expect(redactor.redact({ metadata: { admins: 1, users: 2 } })).toEqual({
+      // @ts-expect-error Changed schema assertion
+      metadata: { type: "Object", keys: 2 },
+    });
+  });
+
   test("redact - default max keys", () => {
-    const redactor = new RedactorMetadataCompactObject({ maxKeys: tools.Int.positive(1) });
+    const redactor = new RedactorMetadataCompactObject();
 
     const result = redactor.redact({
       metadata: Object.fromEntries(Array.from({ length: 21 }).map((_, index) => [`user_${index}`, true])),
@@ -14,13 +21,6 @@ describe("RedactorMetadataCompactObject", () => {
 
     // @ts-expect-error Changed schema assertion
     expect(result).toEqual({ metadata: { type: "Object", keys: 21 } });
-  });
-
-  test("redact", () => {
-    expect(redactor.redact({ metadata: { admins: 1, users: 2 } })).toEqual({
-      // @ts-expect-error Changed schema assertion
-      metadata: { type: "Object", keys: 2 },
-    });
   });
 
   test("redact - nested", () => {
