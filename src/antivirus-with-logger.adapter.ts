@@ -1,4 +1,3 @@
-import type * as tools from "@bgord/tools";
 import type { AntivirusPort, AntivirusScanResult } from "./antivirus.port";
 import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
@@ -11,21 +10,21 @@ export class AntivirusWithLoggerAdapter implements AntivirusPort {
 
   constructor(private readonly deps: Dependencies) {}
 
-  async scan(bytes: Uint8Array, filename?: tools.Filename): Promise<AntivirusScanResult> {
+  async scan(bytes: Uint8Array): Promise<AntivirusScanResult> {
     const duration = new Stopwatch(this.deps);
 
     try {
       this.deps.Logger.info({
         message: "Antivirus scan attempt",
-        metadata: { filename, size: bytes.byteLength },
+        metadata: { size: bytes.byteLength },
         ...this.base,
       });
 
-      const result = await this.deps.inner.scan(bytes, filename);
+      const result = await this.deps.inner.scan(bytes);
 
       this.deps.Logger.info({
         message: "Antivirus scan success",
-        metadata: { filename, clean: result.clean, duration: duration.stop() },
+        metadata: { clean: result.clean, duration: duration.stop() },
         ...this.base,
       });
 
