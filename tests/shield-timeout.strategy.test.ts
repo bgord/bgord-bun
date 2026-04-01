@@ -2,7 +2,8 @@ import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
-import { ShieldTimeoutError, ShieldTimeoutHonoStrategy } from "../src/shield-timeout-hono.strategy";
+import { ShieldTimeoutStrategyError } from "../src/shield-timeout.strategy";
+import { ShieldTimeoutHonoStrategy } from "../src/shield-timeout-hono.strategy";
 
 const duration = tools.Duration.Ms(5);
 
@@ -27,8 +28,8 @@ describe("ShieldTimeoutStrategy", () => {
         return c.text("OK");
       })
       .onError((error, c) => {
-        if (error.message === ShieldTimeoutError.message) {
-          return c.json({ message: ShieldTimeoutError.message, _known: true }, ShieldTimeoutError.status);
+        if (error.message === ShieldTimeoutStrategyError.Rejected) {
+          return c.json({ message: ShieldTimeoutStrategyError.Rejected, _known: true }, 408);
         }
         return c.json({}, 500);
       });

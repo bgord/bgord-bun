@@ -12,10 +12,6 @@ import {
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
-export const ShieldRateLimitError = new HTTPException(429, {
-  message: ShieldRateLimitStrategyError.Rejected,
-});
-
 export class ShieldRateLimitHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldRateLimitStrategy;
 
@@ -28,7 +24,7 @@ export class ShieldRateLimitHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (await this.strategy.evaluate(context)) return next();
-      throw ShieldRateLimitError;
+      throw new HTTPException(429, { message: ShieldRateLimitStrategyError.Rejected });
     };
   }
 }

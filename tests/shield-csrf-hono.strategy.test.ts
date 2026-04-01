@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { ShieldCsrfError, ShieldCsrfHonoStrategy } from "../src/shield-csrf-hono.strategy";
+import { ShieldCsrfStrategyError } from "../src/shield-csrf.strategy";
+import { ShieldCsrfHonoStrategy } from "../src/shield-csrf-hono.strategy";
 
 const APP_ORIGIN = "http://localhost:3000";
 const EVIL_ORIGIN = "https://evil.example";
@@ -55,27 +56,27 @@ describe("ShieldCsrfHonoStrategy", () => {
     const response = await app.request("/action", { method: "POST", headers: { Origin: EVIL_ORIGIN } });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual(ShieldCsrfError.message);
+    expect(await response.text()).toEqual(ShieldCsrfStrategyError.Rejected);
   });
 
   test("state-changing - PUT - not allowed - wrong origin", async () => {
     const response = await app.request("/action", { method: "PUT", headers: { Origin: EVIL_ORIGIN } });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual(ShieldCsrfError.message);
+    expect(await response.text()).toEqual(ShieldCsrfStrategyError.Rejected);
   });
 
   test("state-changing - PATCH - not allowed - wrong origin", async () => {
     const response = await app.request("/action", { method: "PATCH", headers: { Origin: EVIL_ORIGIN } });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual(ShieldCsrfError.message);
+    expect(await response.text()).toEqual(ShieldCsrfStrategyError.Rejected);
   });
 
   test("state-changing - DELETE - not allowed - wrong origin", async () => {
     const response = await app.request("/action", { method: "DELETE", headers: { Origin: EVIL_ORIGIN } });
 
     expect(response.status).toEqual(403);
-    expect(await response.text()).toEqual(ShieldCsrfError.message);
+    expect(await response.text()).toEqual(ShieldCsrfStrategyError.Rejected);
   });
 });

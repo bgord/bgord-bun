@@ -4,8 +4,6 @@ import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import { type ShieldCsrfConfig, ShieldCsrfStrategy, ShieldCsrfStrategyError } from "./shield-csrf.strategy";
 
-export const ShieldCsrfError = new HTTPException(403, { message: ShieldCsrfStrategyError.Rejected });
-
 export class ShieldCsrfHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldCsrfStrategy;
 
@@ -18,7 +16,7 @@ export class ShieldCsrfHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw ShieldCsrfError;
+      throw new HTTPException(403, { message: ShieldCsrfStrategyError.Rejected });
     };
   }
 }

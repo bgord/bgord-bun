@@ -2,8 +2,8 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
-import { ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
-import { ShieldApiKeyError, ShieldApiKeyHonoStrategy } from "../src/shield-api-key-hono.strategy";
+import { ShieldApiKeyStrategy, ShieldApiKeyStrategyError } from "../src/shield-api-key.strategy";
+import { ShieldApiKeyHonoStrategy } from "../src/shield-api-key-hono.strategy";
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
@@ -14,8 +14,8 @@ const app = new Hono()
   .use(shield.handle())
   .get("/ping", (c) => c.text("OK"))
   .onError((error, c) => {
-    if (error.message === ShieldApiKeyError.message) {
-      return c.json({ message: ShieldApiKeyError.message, _known: true }, ShieldApiKeyError.status);
+    if (error.message === ShieldApiKeyStrategyError.Rejected) {
+      return c.json({ message: ShieldApiKeyStrategyError.Rejected, _known: true }, 403);
     }
     return c.json({}, 500);
   });

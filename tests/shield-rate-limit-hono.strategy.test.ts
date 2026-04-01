@@ -1,11 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { ShieldRateLimitError, ShieldRateLimitHonoStrategy } from "../src/shield-rate-limit-hono.strategy";
+import { ShieldRateLimitStrategyError } from "../src/shield-rate-limit.strategy";
+import { ShieldRateLimitHonoStrategy } from "../src/shield-rate-limit-hono.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
@@ -30,15 +31,17 @@ const resolver = new SubjectRequestResolver(
 
 const shieldRateLimit = new ShieldRateLimitHonoStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
 
+const onError = (error: Error, c: Context) => {
+  if (error.message === ShieldRateLimitStrategyError.Rejected) {
+    return c.json({ message: ShieldRateLimitStrategyError.Rejected, _known: true }, 429);
+  }
+  return c.json({}, 500);
+};
+
 const app = new Hono()
   .use(shieldRateLimit.handle())
   .get("/ping", (c) => c.text("pong"))
-  .onError((error, c) => {
-    if (error.message === ShieldRateLimitError.message) {
-      return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
-    }
-    return c.json({}, 500);
-  });
+  .onError(onError);
 
 describe("ShieldRateLimitHonoStrategy", () => {
   test("anon - happy path - within rate limit", async () => {
@@ -93,12 +96,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
         shield.handle(),
         (c) => c.text("pong"),
       )
-      .onError((error, c) => {
-        if (error.message === ShieldRateLimitError.message) {
-          return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
-        }
-        return c.json({}, 500);
-      });
+      .onError(onError);
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
@@ -118,12 +116,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
         shield.handle(),
         (c) => c.text("pong"),
       )
-      .onError((error, c) => {
-        if (error.message === ShieldRateLimitError.message) {
-          return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
-        }
-        return c.json({}, 500);
-      });
+      .onError(onError);
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
@@ -146,12 +139,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
         shield.handle(),
         (c) => c.text("pong"),
       )
-      .onError((error, c) => {
-        if (error.message === ShieldRateLimitError.message) {
-          return c.json({ message: ShieldRateLimitError.message, _known: true }, ShieldRateLimitError.status);
-        }
-        return c.json({}, 500);
-      });
+      .onError(onError);
 
     const firstUserFirstRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });
 

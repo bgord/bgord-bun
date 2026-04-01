@@ -8,8 +8,6 @@ import {
   ShieldBodyLimitStrategy,
 } from "./shield-body-limit.strategy";
 
-export const ShieldBodyLimitTooBigError = new HTTPException(413, { message: ShieldBodyLimitError.TooBig });
-
 export class ShieldBodyLimitHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldBodyLimitStrategy;
 
@@ -23,7 +21,7 @@ export class ShieldBodyLimitHonoStrategy implements MiddlewareHonoPort {
 
       const result = this.strategy.evaluate(context);
 
-      if (!result) throw ShieldBodyLimitTooBigError;
+      if (!result) throw new HTTPException(413, { message: ShieldBodyLimitError.TooBig });
       return next();
     });
   }

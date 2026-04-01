@@ -8,8 +8,6 @@ import {
   ShieldApiKeyStrategyError,
 } from "./shield-api-key.strategy";
 
-export const ShieldApiKeyError = new HTTPException(403, { message: ShieldApiKeyStrategyError.Rejected });
-
 export class ShieldApiKeyHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldApiKeyStrategy;
 
@@ -22,7 +20,7 @@ export class ShieldApiKeyHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw ShieldApiKeyError;
+      throw new HTTPException(403, { message: ShieldApiKeyStrategyError.Rejected });
     };
   }
 }

@@ -6,10 +6,6 @@ import { ShieldHcaptchaStrategy } from "./shield-hcaptcha.strategy";
 
 export const ShieldHcaptchaLocalStrategyError = { Rejected: "shield.hcaptcha.local.rejected" };
 
-export const ShieldHcaptchaLocalError = new HTTPException(403, {
-  message: ShieldHcaptchaLocalStrategyError.Rejected,
-});
-
 export class ShieldHcaptchaLocalHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldHcaptchaStrategy;
 
@@ -20,7 +16,7 @@ export class ShieldHcaptchaLocalHonoStrategy implements MiddlewareHonoPort {
   handle(): MiddlewareHandler {
     return async (_c, next) => {
       if (await this.strategy.evaluate("10000000-aaaa-bbbb-cccc-000000000001")) return next();
-      throw ShieldHcaptchaLocalError;
+      throw new HTTPException(403, { message: ShieldHcaptchaLocalStrategyError.Rejected });
     };
   }
 }

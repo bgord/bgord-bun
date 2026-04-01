@@ -2,10 +2,8 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import * as v from "valibot";
 import { ClientIp } from "../src/client-ip.vo";
-import {
-  ShieldIpBlacklistError,
-  ShieldIpBlacklistHonoStrategy,
-} from "../src/shield-ip-blacklist-hono.strategy";
+import { ShieldIpBlacklistStrategyError } from "../src/shield-ip-blacklist.strategy";
+import { ShieldIpBlacklistHonoStrategy } from "../src/shield-ip-blacklist-hono.strategy";
 
 const BLOCKED_IP = v.parse(ClientIp, "10.0.0.1");
 const ALLOWED_IP = "192.168.1.1";
@@ -17,8 +15,8 @@ const app = new Hono()
   .use(shield.handle())
   .get("/ping", (c) => c.text("OK"))
   .onError((error, c) => {
-    if (error.message === ShieldIpBlacklistError.message) {
-      return c.json({ message: ShieldIpBlacklistError.message, _known: true }, ShieldIpBlacklistError.status);
+    if (error.message === ShieldIpBlacklistStrategyError.Rejected) {
+      return c.json({ message: ShieldIpBlacklistStrategyError.Rejected, _known: true }, 403);
     }
     return c.json({}, 500);
   });

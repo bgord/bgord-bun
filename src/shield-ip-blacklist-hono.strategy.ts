@@ -8,10 +8,6 @@ import {
   ShieldIpBlacklistStrategyError,
 } from "./shield-ip-blacklist.strategy";
 
-export const ShieldIpBlacklistError = new HTTPException(403, {
-  message: ShieldIpBlacklistStrategyError.Rejected,
-});
-
 export class ShieldIpBlacklistHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldIpBlacklistStrategy;
 
@@ -24,7 +20,7 @@ export class ShieldIpBlacklistHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw ShieldIpBlacklistError;
+      throw new HTTPException(403, { message: ShieldIpBlacklistStrategyError.Rejected });
     };
   }
 }
