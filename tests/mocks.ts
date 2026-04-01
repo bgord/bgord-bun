@@ -276,7 +276,7 @@ export const version = "v1.2.3";
 export const buildInfo = {
   version: v.parse(tools.PackageVersionSchema, version),
   timestamp: TIME_ZERO.ms,
-  sha: SHA.toString(),
+  sha: SHA.value,
   size: tools.Size.fromBytes(0).toBytes(),
 };
 

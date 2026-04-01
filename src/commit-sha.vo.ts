@@ -2,7 +2,7 @@ import * as v from "valibot";
 import { CommitShaValue, type CommitShaValueType } from "./commit-sha-value.vo";
 
 export class CommitSha {
-  private constructor(private readonly value: CommitShaValueType) {}
+  private constructor(private readonly inner: CommitShaValueType) {}
 
   static fromString(candidate: string): CommitSha {
     return new CommitSha(v.parse(CommitShaValue, candidate));
@@ -13,18 +13,22 @@ export class CommitSha {
   }
 
   equals(another: CommitSha): boolean {
-    return this.value === another.value;
+    return this.inner === another.inner;
   }
 
   toShortString(length = 7): string {
-    return this.value.slice(0, length);
+    return this.inner.slice(0, length);
   }
 
-  toString(): CommitShaValueType {
-    return this.value;
+  get value(): CommitShaValueType {
+    return this.inner;
+  }
+
+  toString(): string {
+    return this.inner;
   }
 
   toJSON(): string {
-    return this.value;
+    return this.inner;
   }
 }
