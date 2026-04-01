@@ -38,7 +38,7 @@ export class RequestContextHonoAdapter implements RequestContext {
     };
 
     this.identity = {
-      userId: () => context.get("user")?.id ?? undefined,
+      userId: () => context.get("user")?.id,
       ip: () =>
         context.req.header("x-real-ip") ||
         context.req.header("x-forwarded-for") ||

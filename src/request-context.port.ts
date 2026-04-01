@@ -42,7 +42,7 @@ export interface HasRequestHeaders {
 }
 
 export interface HasRequestHeadersObject {
-  readonly request: { headers: () => Record<string, string> };
+  readonly request: { headersObject: () => Record<string, string> };
 }
 
 export interface HasRequestQuery {
