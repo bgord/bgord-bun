@@ -53,7 +53,7 @@ describe("SmsWithLoggerAdapter", () => {
         message: "SMS error",
         operation: "sms",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { message: mocks.sms.toJSON(), duration: expect.any(tools.Duration) },
       },
     ]);
   });
