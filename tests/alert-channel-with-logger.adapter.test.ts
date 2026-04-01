@@ -51,7 +51,7 @@ describe("AlertChannelWithLoggerAdapter", () => {
       operation: "alert_channel",
       message: "Alert channel error",
       error: new Error(mocks.IntentionalError),
-      metadata: expect.any(tools.Duration),
+      metadata: { alert: mocks.alert, duration: expect.any(tools.Duration) },
     });
   });
 

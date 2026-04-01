@@ -59,4 +59,11 @@ describe("AlertChannelCompositeAdapter", () => {
 
     expect(await new AlertChannelCompositeAdapter([noop, failing]).verify()).toEqual(false);
   });
+
+  test("verify - throws", async () => {
+    const throwing = new AlertChannelNoopAdapter();
+    using _ = spyOn(throwing, "verify").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(await new AlertChannelCompositeAdapter([noop, throwing]).verify()).toEqual(false);
+  });
 });
