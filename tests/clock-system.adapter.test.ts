@@ -5,6 +5,6 @@ const adapter = new ClockSystemAdapter();
 
 describe("ClockSystemAdapter", () => {
   test("now", () => {
-    expect(typeof adapter.now().ms).toEqual("number");
+    expect(Number.isFinite(adapter.now().ms)).toEqual(true);
   });
 });
