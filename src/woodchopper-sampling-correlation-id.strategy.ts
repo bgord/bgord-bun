@@ -5,7 +5,7 @@ import type { WoodchopperSamplingStrategy } from "./woodchopper-sampling.strateg
 
 type Config = { everyNth: tools.IntegerPositiveType };
 
-export class WoodchoperSamplingCorrelationId implements WoodchopperSamplingStrategy {
+export class WoodchopperSamplingCorrelationId implements WoodchopperSamplingStrategy {
   constructor(private readonly config: Config) {}
 
   decide(entry: LoggerEntry): boolean {
