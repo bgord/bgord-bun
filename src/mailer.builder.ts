@@ -15,28 +15,25 @@ import {
 } from "./mailer-with-timeout.adapter";
 
 export class MailerBuilder {
-  constructor(private inner: MailerPort) {}
+  constructor(private readonly inner: MailerPort) {}
 
   static of(mailer: MailerPort): MailerBuilder {
     return new MailerBuilder(mailer);
   }
 
   withLogger(deps: Omit<MailerWithLoggerAdapterDependencies, "inner">) {
-    this.inner = new MailerWithLoggerAdapter({ ...deps, inner: this.inner });
-    return this;
+    return MailerBuilder.of(new MailerWithLoggerAdapter({ ...deps, inner: this.inner }));
   }
 
   withRetry(config: MailerWithRetryAdapterConfig, deps: Omit<MailerWithRetryAdapterDependencies, "inner">) {
-    this.inner = new MailerWithRetryAdapter(config, { ...deps, inner: this.inner });
-    return this;
+    return MailerBuilder.of(new MailerWithRetryAdapter(config, { ...deps, inner: this.inner }));
   }
 
   withTimeout(
     config: MailerWithTimeoutAdapterConfig,
     deps: Omit<MailerWithTimeoutAdapterDependencies, "inner">,
   ) {
-    this.inner = new MailerWithTimeoutAdapter(config, { ...deps, inner: this.inner });
-    return this;
+    return MailerBuilder.of(new MailerWithTimeoutAdapter(config, { ...deps, inner: this.inner }));
   }
 
   build() {
