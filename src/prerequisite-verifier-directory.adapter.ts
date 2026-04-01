@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import type { FileInspectionPort } from "../src/file-inspection.port";
+import type { FileInspectionPort } from "./file-inspection.port";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
