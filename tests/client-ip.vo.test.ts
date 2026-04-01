@@ -5,6 +5,7 @@ import { ClientIp } from "../src/client-ip.vo";
 describe("ClientIp", () => {
   test("happy path", () => {
     expect(v.safeParse(ClientIp, "127.0.0.1").success).toEqual(true);
+    expect(v.safeParse(ClientIp, "2001:0db8:85a3:0000:0000:8a2e:0370:7334").success).toEqual(true);
   });
 
   test("rejects empty", () => {

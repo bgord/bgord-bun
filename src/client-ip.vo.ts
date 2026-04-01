@@ -4,7 +4,7 @@ export const ClientIpError = { Invalid: "client.ip.invalid" };
 
 export const ClientIp = v.pipe(
   v.string(ClientIpError.Invalid),
-  v.ipv4(ClientIpError.Invalid),
+  v.ip(ClientIpError.Invalid),
   // Stryker disable next-line StringLiteral
   v.brand("ClientIp"),
 );
