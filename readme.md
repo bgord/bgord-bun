@@ -138,9 +138,6 @@ src/
 ├── event-loop-utilization.service.ts
 ├── event-revision-assigner.adapter.ts
 ├── event-revision-assigner.port.ts
-├── event-serializer-collecting.adapter.ts
-├── event-serializer-json.adapter.ts
-├── event-serializer.port.ts
 ├── event-store-collecting.adapter.ts
 ├── event-store-dispatching.adapter.ts
 ├── event-store-noop.adapter.ts
@@ -197,7 +194,11 @@ src/
 ├── gzip-noop.adapter.ts
 ├── gzip.adapter.ts
 ├── gzip.port.ts
+├── handler-bare.strategy.ts
 ├── handler-hono.port.ts
+├── handler-noop.strategy.ts
+├── handler-with-logger.strategy.ts
+├── handler.strategy.ts
 ├── hash-bucket.vo.ts
 ├── hash-content-noop.strategy.ts
 ├── hash-content-sha256.strategy.ts
@@ -260,6 +261,42 @@ src/
 ├── instrumentation.service.ts
 ├── invariant-error-handler.service.ts
 ├── invariant.service.ts
+├── job-claimer-noop.adapter.ts
+├── job-claimer-sqlite.adapter.ts
+├── job-claimer.port.ts
+├── job-completer-collecting.adapter.ts
+├── job-completer-noop.adapter.ts
+├── job-completer-sqlite.adapter.ts
+├── job-completer.port.ts
+├── job-enqueuer-collecting.adapter.ts
+├── job-enqueuer-noop.adapter.ts
+├── job-enqueuer-sqlite.adapter.ts
+├── job-enqueuer.port.ts
+├── job-envelope.ts
+├── job-failer-collecting.adapter.ts
+├── job-failer-noop.adapter.ts
+├── job-failer-sqlite.adapter.ts
+├── job-failer.port.ts
+├── job-queue-sqlite-store.service.ts
+├── job-queue-stats-provider-noop.adapter.ts
+├── job-queue-stats-provider-sqlite.adapter.ts
+├── job-queue-stats-provider.port.ts
+├── job-queue-with-logger.adapter.ts
+├── job-queue.adapter.ts
+├── job-queue.port.ts
+├── job-registry.adapter.ts
+├── job-registry.port.ts
+├── job-requeuer-collecting.adapter.ts
+├── job-requeuer-noop.adapter.ts
+├── job-requeuer-sqlite.adapter.ts
+├── job-requeuer.port.ts
+├── job-retry-policy-backoff.strategy.ts
+├── job-retry-policy-composite.strategy.ts
+├── job-retry-policy-error-filter.strategy.ts
+├── job-retry-policy-limit.strategy.ts
+├── job-retry-policy.strategy.ts
+├── job-worker.service.ts
+├── job.types.ts
 ├── language-detector-cookie.strategy.ts
 ├── language-detector-header.strategy.ts
 ├── language-detector-hono.middleware.ts
@@ -295,10 +332,6 @@ src/
 ├── message-bus-noop.adapter.ts
 ├── message-bus-with-logger.adapter.ts
 ├── message-bus.port.ts
-├── message-handler-bare.strategy.ts
-├── message-handler-noop.strategy.ts
-├── message-handler-with-logger.strategy.ts
-├── message-handler.strategy.ts
 ├── message.types.ts
 ├── middleware-hono-noop.adapter.ts
 ├── middleware-hono.port.ts
@@ -336,19 +369,22 @@ src/
 │   │       ├── user-language-query.ts
 │   │       └── user-language-resolver.ts
 │   └── system
+│       ├── cron-tasks
+│       │   ├── passage-of-time-hourly.ts
+│       │   └── passage-of-time-minute.ts
 │       ├── events
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
 │       │   ├── MINUTE_HAS_PASSED_EVENT.ts
 │       │   ├── SECURITY_VIOLATION_DETECTED_EVENT.ts
-│       └── services
-│           ├── passage-of-time-hourly.service.ts
-│           └── passage-of-time-minute.service.ts
 ├── node-env.vo.ts
 ├── nonce-provider-crypto.adapter.ts
 ├── nonce-provider-deterministic.adapter.ts
 ├── nonce-provider-noop.adapter.ts
 ├── nonce-provider.port.ts
 ├── nonce-value.vo.ts
+├── payload-serializer-collecting.adapter.ts
+├── payload-serializer-json.adapter.ts
+├── payload-serializer.port.ts
 ├── pdf-generator-noop.adapter.ts
 ├── pdf-generator-with-logger.adapter.ts
 ├── pdf-generator.port.ts
