@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
-import { AbAssignmentQueryStrategy } from "../src/ab-assignment-query.strategy";
+import { AbAssignmentCookieStrategy } from "../src/ab-assignment-cookie.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
@@ -10,22 +10,22 @@ const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight
 const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
 const variants = new AbVariants([control, treatment]);
 
-const strategy = new AbAssignmentQueryStrategy("ab-override");
+const strategy = new AbAssignmentCookieStrategy("ab-override");
 
-describe("AbAssignmentQueryStrategy", () => {
+describe("AbAssignmentCookieStrategy", () => {
   test("happy path", async () => {
-    const context = new RequestContextBuilder().withQuery({ "ab-override": "treatment" }).build();
+    const context = new RequestContextBuilder().withCookie("ab-override", "treatment").build();
 
     expect(await strategy.assign(context, variants)).toEqual(treatment);
   });
 
   test("unknown variant", async () => {
-    const context = new RequestContextBuilder().withQuery({ "ab-override": "unknown" }).build();
+    const context = new RequestContextBuilder().withCookie("ab-override", "unknown").build();
 
     expect(await strategy.assign(context, variants)).toEqual(undefined);
   });
 
-  test("no query params", async () => {
+  test("no cookie", async () => {
     const context = new RequestContextBuilder().build();
 
     expect(await strategy.assign(context, variants)).toEqual(undefined);
