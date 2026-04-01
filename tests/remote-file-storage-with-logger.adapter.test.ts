@@ -57,7 +57,7 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
         operation: "remote_file_storage",
         message: "Remote file storage put error",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { key, duration: expect.any(tools.Duration) },
       },
     ]);
   });
@@ -105,7 +105,7 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
         operation: "remote_file_storage",
         message: "Remote file storage head error",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { key, duration: expect.any(tools.Duration) },
       },
     ]);
   });
@@ -151,7 +151,7 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
         operation: "remote_file_storage",
         message: "Remote file storage get stream error",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { key, duration: expect.any(tools.Duration) },
       },
     ]);
   });
@@ -197,7 +197,7 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
         operation: "remote_file_storage",
         message: "Remote file storage delete error",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { key, duration: expect.any(tools.Duration) },
       },
     ]);
   });
