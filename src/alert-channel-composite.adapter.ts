@@ -17,8 +17,8 @@ export class AlertChannelCompositeAdapter implements AlertChannelPort {
   }
 
   async verify(): Promise<boolean> {
-    const checks = await Promise.all(this.channels.map((channel) => channel.verify()));
+    const checks = await Promise.allSettled(this.channels.map((channel) => channel.verify()));
 
-    return checks.every(Boolean);
+    return checks.every((result) => result.status === "fulfilled" && result.value === true);
   }
 }

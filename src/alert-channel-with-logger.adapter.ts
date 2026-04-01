@@ -32,7 +32,7 @@ export class AlertChannelWithLoggerAdapter implements AlertChannelPort {
       this.deps.Logger.error({
         message: "Alert channel error",
         error,
-        metadata: duration.stop(),
+        metadata: { alert: alert.toJSON(), duration: duration.stop() },
         ...this.base,
       });
 

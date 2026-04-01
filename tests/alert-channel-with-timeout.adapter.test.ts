@@ -13,17 +13,17 @@ const timeout = tools.Duration.Ms(1);
 const over = timeout.times(v.parse(tools.MultiplicationFactor, 2));
 
 const inner = new AlertChannelNoopAdapter();
-const mailer = new AlertChannelWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
+const adapter = new AlertChannelWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
 
 describe("AlertChannelWithTimeoutAdapter", () => {
   test("send - success", async () => {
-    expect(async () => mailer.send(mocks.alert)).not.toThrow();
+    expect(async () => adapter.send(mocks.alert)).not.toThrow();
   });
 
   test("send - failure", async () => {
     using _ = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
 
-    expect(async () => mailer.send(mocks.alert)).toThrow(mocks.IntentionalError);
+    expect(async () => adapter.send(mocks.alert)).toThrow(mocks.IntentionalError);
   });
 
   test("send - timeout", async () => {
@@ -43,6 +43,6 @@ describe("AlertChannelWithTimeoutAdapter", () => {
   });
 
   test("verify", async () => {
-    expect(await mailer.verify()).toEqual(true);
+    expect(await adapter.verify()).toEqual(true);
   });
 });
