@@ -25,7 +25,12 @@ export class SmsWithLoggerAdapter implements SmsPort {
         ...this.base,
       });
     } catch (error) {
-      this.deps.Logger.error({ message: "SMS error", error, metadata: duration.stop(), ...this.base });
+      this.deps.Logger.error({
+        message: "SMS error",
+        error,
+        metadata: { message: message.toJSON(), duration: duration.stop() },
+        ...this.base,
+      });
 
       throw error;
     }
