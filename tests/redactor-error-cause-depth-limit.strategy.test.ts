@@ -5,7 +5,7 @@ import * as mocks from "./mocks";
 
 const redactor = new RedactorErrorCauseDepthLimit(tools.Int.nonNegative(1));
 
-describe("RedactorLimitErrorCauseDepth", () => {
+describe("RedactorErrorCauseDepthLimit", () => {
   test("redact - above limit", () => {
     const cause = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalCause));
     const error = tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalError));
