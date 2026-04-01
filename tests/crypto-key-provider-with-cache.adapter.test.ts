@@ -43,6 +43,6 @@ describe("CryptoKeyProviderWithCacheAdapter", () => {
     expect(innerRead).toHaveBeenCalledTimes(2);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
 
-    jest.useFakeTimers();
+    jest.useRealTimers();
   });
 });
