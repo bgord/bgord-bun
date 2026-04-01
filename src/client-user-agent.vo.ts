@@ -6,11 +6,11 @@ export const ClientUserAgentError = {
 };
 
 // ASCII printable characters
-const CHARS_BLACKLIST = /^[\x20-\x7E]{1,256}$/;
+const CHARS_WHITELIST = /^[\x20-\x7E]{1,256}$/;
 
 export const ClientUserAgent = v.pipe(
   v.string(ClientUserAgentError.Type),
-  v.regex(CHARS_BLACKLIST, ClientUserAgentError.Invalid),
+  v.regex(CHARS_WHITELIST, ClientUserAgentError.Invalid),
   // Stryker disable next-line StringLiteral
   v.brand("ClientUserAgent"),
 );
