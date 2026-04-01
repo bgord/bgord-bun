@@ -39,6 +39,8 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
             metadata: duration.stop(),
             ...this.base,
           });
+
+          throw error;
         }
       },
     };
