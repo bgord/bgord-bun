@@ -8,7 +8,7 @@ import { ImageCompressorNoopAdapter } from "../src/image-compressor-noop.adapter
 
 const adapter = new ImageCompressorNoopAdapter();
 
-describe("ImageCompressorSharpAdapter", () => {
+describe("ImageCompressorNoopAdapter", () => {
   test("in_place", async () => {
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageCompressorInPlaceStrategy = { strategy: "in_place", input };

@@ -14,7 +14,7 @@ const shield = new ShieldHcaptchaHonoStrategy(v.parse(HCaptchaSecretKey, SECRET_
 
 const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
 
-describe("ShieldHcaptchaStrategy", () => {
+describe("ShieldHcaptchaHonoStrategy", () => {
   test("happy path", async () => {
     using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
     const form = new FormData();

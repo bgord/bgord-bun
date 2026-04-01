@@ -22,6 +22,8 @@ export class HandlerWithLoggerStrategy implements HandlerStrategy {
           metadata: { name: handleable.name, duration: duration.stop() },
           error,
         });
+
+        throw error;
       }
     };
   }

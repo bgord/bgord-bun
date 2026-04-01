@@ -13,18 +13,18 @@ export type TranslationsResult<T extends tools.LanguageType> = {
 };
 
 export class TranslationsHandler<T extends tools.LanguageType> {
+  private readonly I18n: I18n;
+
   constructor(
     private readonly config: Languages<T>,
     private readonly deps: Dependencies,
-  ) {}
+  ) {
+    this.I18n = new I18n(this.deps);
+  }
 
   async execute(language: tools.LanguageType): Promise<TranslationsResult<T>> {
-    const translations = await new I18n(this.deps).getTranslations(language);
+    const translations = await this.I18n.getTranslations(language);
 
-    return {
-      translations,
-      language,
-      supportedLanguages: this.config.supported,
-    };
+    return { translations, language, supportedLanguages: this.config.supported };
   }
 }

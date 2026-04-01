@@ -22,8 +22,9 @@ describe("HandlerWithLoggerStrategy", () => {
     const Logger = new LoggerCollectingAdapter();
     const handler = new HandlerWithLoggerStrategy({ Clock, Logger });
 
-    await handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message);
-
+    expect(async () => handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message)).toThrow(
+      mocks.IntentionalError,
+    );
     expect(Logger.entries).toEqual([
       {
         message: `Unknown ${mocks.message.name} handler error`,

@@ -52,7 +52,7 @@ describe("FileReaderRawWithCacheAdapter", () => {
     expect(innerRead).toHaveBeenCalledTimes(2);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
 
-    jest.useFakeTimers();
+    jest.useRealTimers();
   });
 
   test("happy path - relative path", async () => {
@@ -83,7 +83,7 @@ describe("FileReaderRawWithCacheAdapter", () => {
     expect(innerRead).toHaveBeenCalledTimes(2);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
 
-    jest.useFakeTimers();
+    jest.useRealTimers();
   });
 
   test("happy path - absolute path", async () => {
@@ -114,6 +114,6 @@ describe("FileReaderRawWithCacheAdapter", () => {
     expect(innerRead).toHaveBeenCalledTimes(2);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
 
-    jest.useFakeTimers();
+    jest.useRealTimers();
   });
 });

@@ -9,11 +9,11 @@ describe("EventStream", () => {
   });
 
   test("rejects non-string - null", () => {
-    expect(() => v.parse(EventStream, null)).toThrow("event.store.type");
+    expect(() => v.parse(EventStream, null)).toThrow("event.stream.type");
   });
 
   test("rejects non-string - number", () => {
-    expect(() => v.parse(EventStream, 253)).toThrow("event.store.type");
+    expect(() => v.parse(EventStream, 253)).toThrow("event.stream.type");
   });
 
   test("rejects empty", () => {

@@ -25,7 +25,7 @@ describe("ImageBlurNoopAdapter", () => {
     expect(result).toEqual(output);
   });
 
-  test("in_place - relateive", async () => {
+  test("in_place - relative", async () => {
     const input = tools.FilePathRelative.fromString("images/pic.png");
     const recipe: ImageBlurStrategy = { strategy: "in_place", input, sigma: 1 };
 

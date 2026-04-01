@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 export const EventStreamError = {
-  Type: "event.store.type",
+  Type: "event.stream.type",
   Empty: "event.stream.empty",
   TooLong: "event.stream.too.long",
 };

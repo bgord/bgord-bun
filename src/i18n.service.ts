@@ -44,7 +44,7 @@ export class I18n {
       if (!variables) return translation;
 
       return Object.entries(variables).reduce(
-        (result, [placeholder, value]) => result.replace(`{{${placeholder}}}`, String(value)),
+        (result, [placeholder, value]) => result.replaceAll(`{{${placeholder}}}`, String(value)),
         translation,
       );
     };

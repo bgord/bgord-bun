@@ -191,6 +191,7 @@ describe("HealthcheckHandler", () => {
     const result = await handler.check();
 
     expect(result.status).toEqual(HealthcheckStatusEnum.degraded);
+    expect(result.code).toEqual(207);
   });
 
   test("424", async () => {

@@ -34,7 +34,7 @@ describe("ShieldHcaptchaLocalStrategy", () => {
     expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
   });
 
-  test("failure - uknown error", async () => {
+  test("failure - unknown error", async () => {
     using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
