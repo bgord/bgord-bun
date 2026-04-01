@@ -1,10 +1,73 @@
 # Changelog
+- 2026-04-01 12:20 8c4fea3a **refactor: restore tsconfig**
+- 2026-04-01 12:07 6ec19d66 **step: wire up jobs queue stats provider to healthcheck**
+- 2026-04-01 12:03 5e8d85a8 **step: add job queue stats sqlite adapter**
+- 2026-04-01 11:42 feb4e9fa **step: add job queue stats noop adapter**
+- 2026-04-01 01:00 f839c6d1 **step: add job queue stats provider**
+- 2026-04-01 00:47 e5822ac3 **step: add WAL journal mode**
+- 2026-04-01 00:33 d2f11850 **step: add job queue sqlite store index**
+- 2026-04-01 00:16 4060e183 **refactor: simplify claimer**
+- 2026-03-31 23:56 0bea2cdb **refactor: update sqlite placeholder types**
+- 2026-03-31 21:15 16af907c **refactor: rename passage of time minute**
+- 2026-03-31 17:42 5bc804fa **step: add job requeuer sqlite**
+- 2026-03-31 17:37 4587fc9e **step: add job failer sqlite**
+- 2026-03-31 17:35 6417ccbd **step: add job completer sqlite**
+- 2026-03-31 17:34 23351507 **step: add job claimer sqlite**
+- 2026-03-31 17:14 0f2b0015 **step: add job enqueuer sqlite**
+- 2026-03-31 16:12 51b0c055 **step: add job queue sqlite store service**
+- 2026-03-31 15:26 99c7b6e3 **refactor: rename passage of time cron tasks**
+- 2026-03-31 15:20 7794f41e **refactor: use duration zero in job retry policies**
+- 2026-03-31 15:18 6c84d2ae **step: update packages**
+- 2026-03-31 14:09 eb70026c **refactor: run each job in the worker in proper correlation context**
+- 2026-03-31 14:07 1d182f21 **refactor: improve formatting**
+- 2026-03-31 14:02 3bc5376b **refactor: make limit required everywhere**
+- 2026-03-31 13:45 a30eb257 **step: add missing exports**
+- 2026-03-31 13:44 cf589ac8 **refactor: simplify serialized jobs**
+- 2026-03-31 13:40 1fc1190a **step: job worker**
+- 2026-03-31 13:12 63e23542 **step: add get handler to job queue**
+- 2026-03-31 13:01 790c73f0 **step: add get handler to job registry**
+- 2026-03-31 12:54 90eac56d **step: add to job map**
+- 2026-03-31 12:37 602379db **refactor: unify handler names**
+- 2026-03-31 11:57 e378bbf1 **step: expose get retry policy in job queue port**
+- 2026-03-31 11:50 26667afe **step: make limit required**
+- 2026-03-31 09:56 1d93b184 **step: add requeuer to job queue adapters**
+- 2026-03-31 09:50 b6bab38f **step: add requeuer to job queue port**
+- 2026-03-31 09:47 7b8f0416 **step: add job requeue**
+- 2026-03-31 09:37 633fac2f **step: add job queue with logger adapter**
+- 2026-03-31 09:23 50b99a9f **step: add job queue adapter**
+- 2026-03-31 00:25 87d80306 **step: add job queue port**
+- 2026-03-31 00:18 29d50259 **step: add job registry adapter**
+- 2026-03-31 00:12 6466f3e7 **step: add job registry port**
+- 2026-03-31 00:03 caa1661a **step: add job retry policy composite strategy**
+- 2026-03-30 23:47 d70facad **step: add job retry policy error filter strategy**
+- 2026-03-30 23:43 320d17fc **step: add job retry policy backoff strategy**
+- 2026-03-30 23:38 30783992 **step: add job retry policy limit strategy**
+- 2026-03-30 23:20 297d1682 **step: add job retry policy strategy**
+- 2026-03-30 22:43 3ce0ae92 **step: add job validator registry port**
+- 2026-03-30 22:38 b51672be **refactor: unify payload serializer port**
+- 2026-03-30 22:29 8bb06deb **step: add job failer collecting adapter**
+- 2026-03-30 22:28 708232bc **step: add job failer noop adapter**
+- 2026-03-30 22:28 66505aae **step: add job failer port**
+- 2026-03-30 22:27 ba368f0d **step: add job completer collecting adapter**
+- 2026-03-30 22:26 726da87d **step: add job completer noop adapter**
+- 2026-03-30 22:25 29d66812 **step: add job completer port**
+- 2026-03-30 22:24 ed970d39 **step: add job claimer noop adapter**
+- 2026-03-30 22:21 d6f1001c **step: add job claimer port**
+- 2026-03-30 22:03 c94abb1f **refactor: switch to single job enqueuer**
+- 2026-03-30 22:00 1b3b164c **step: add job enqueuer collecting adapter**
+- 2026-03-30 21:52 9ba81916 **step: add job enqueuer port**
+- 2026-03-30 21:52 3b178307 **step: add job enqueuer noop adapter**
+- 2026-03-30 21:43 8dcd96f2 **step: update packages**
+- 2026-03-30 21:43 7656b76b **step: enable ts for tests**
+- 2026-03-30 21:42 6582f007 **step: add job envelope**
+- 2026-03-30 21:40 4839026b **step: define job types**
 ## 2026-03-28 10:35 v1.16.4
 - 2026-03-28 10:35 d7cf351c **1.16.4**
 - 2026-03-28 10:34 c34356d9 **fix: empty cron scheduler verify**
 ## 2026-03-28 09:57 v1.16.3
 - 2026-03-28 09:57 c3abc468 **1.16.3**
 - 2026-03-28 09:55 08d1c356 **step: update packages**
+- 2026-03-28 09:36 f3691899 **docs: generate CHANGELOG**
 - 2026-03-28 09:35 5a8e2ae8 **docs: generate CHANGELOG**
 - 2026-03-28 08:57 b1ac9b20 **docs: generate CHANGELOG**
 - 2026-03-28 08:56 0dd64d42 **docs: generate CHANGELOG**
