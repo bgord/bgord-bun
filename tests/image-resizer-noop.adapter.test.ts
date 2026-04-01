@@ -7,7 +7,7 @@ import { ImageResizerNoopAdapter } from "../src/image-resizer-noop.adapter";
 const maxSide = v.parse(tools.ImageWidth, 512);
 const adapter = new ImageResizerNoopAdapter();
 
-describe("ImageResizerSharpAdapter", () => {
+describe("ImageResizerNoopAdapter", () => {
   test("in_place", async () => {
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
     const recipe: ImageResizerInPlaceStrategy = { strategy: "in_place", input, maxSide };

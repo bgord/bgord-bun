@@ -42,7 +42,7 @@ describe("CommandEnvelope", () => {
     });
   });
 
-  test("event", async () => {
+  test("command", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 
     await CorrelationStorage.run(mocks.correlationId, () => {

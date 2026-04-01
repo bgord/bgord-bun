@@ -21,7 +21,7 @@ const app = new Hono()
     return c.text("internal error", 500);
   });
 
-describe("ShieldRecaptchaStrategy", () => {
+describe("ShieldRecaptchaHonoStrategy", () => {
   test("happy path", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),

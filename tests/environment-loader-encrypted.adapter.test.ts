@@ -13,7 +13,7 @@ const config = { type: NodeEnvironmentEnum.local, EnvironmentSchema };
 const path = tools.FilePathAbsolute.fromString("/config/secrets.txt");
 const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
 
-describe("EnvironmentLoaderProcess", () => {
+describe("EnvironmentLoaderEncryptedAdapter", () => {
   test("happy path", async () => {
     const result = await new EnvironmentLoaderEncryptedAdapter(path, config, {
       Encryption: new EncryptionNoopAdapter(env),

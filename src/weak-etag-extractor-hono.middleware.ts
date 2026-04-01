@@ -4,7 +4,7 @@ import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import { WeakETagExtractorMiddleware } from "./weak-etag-extractor.middleware";
 
-export type WeakETagVariables = { WeakETag: tools.ETag | null };
+export type WeakETagVariables = { WeakETag: tools.WeakETag | null };
 
 export class WeakETagExtractorHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: WeakETagExtractorMiddleware;
