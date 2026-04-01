@@ -1,7 +1,7 @@
 import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
 
 export class InFlightRequestsMiddleware {
-  async evaluate(): Promise<void> {
+  evaluate(): void {
     InFlightRequestsTracker.increment();
   }
 
