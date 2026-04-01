@@ -59,7 +59,7 @@ describe("MailerWithLoggerAdapter", async () => {
     ]);
   });
 
-  test("verfiy", async () => {
+  test("verify", async () => {
     using innerVerify = spyOn(inner, "verify");
     const Logger = new LoggerCollectingAdapter();
     const adapter = new MailerWithLoggerAdapter({ Logger, Clock, inner });

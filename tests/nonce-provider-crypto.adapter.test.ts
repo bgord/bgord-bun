@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { NonceProviderCryptoAdapter } from "../src/nonce-provider-crypto.adapter";
-import { NonceValue } from "../src//nonce-value.vo";
+import { NonceValue } from "../src/nonce-value.vo";
 
 describe("NonceProviderCryptoAdapter", () => {
   test("happy path", () => {

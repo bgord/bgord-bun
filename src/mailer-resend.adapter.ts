@@ -16,7 +16,7 @@ export class MailerResendAdapter implements MailerPort {
     MailerResendAdapterError.MissingDependency,
   );
 
-  private constructor(readonly transport: Resend) {}
+  private constructor(private readonly transport: Resend) {}
 
   static async build(config: Config): Promise<MailerResendAdapter> {
     const library = await MailerResendAdapter.importer.resolve();
