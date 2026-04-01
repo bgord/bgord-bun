@@ -67,7 +67,7 @@ describe("CertificateInspectorTLSAdapter", () => {
     );
   });
 
-  test("failre - connection error", async () => {
+  test("failure - connection error", async () => {
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_opts: any, _onSecure: any) => {
       let onError: any;
       const socket: any = {

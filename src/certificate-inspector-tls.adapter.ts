@@ -11,10 +11,7 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
   async inspect(hostname: string): Promise<CertificateInspection> {
     return new Promise((resolve) => {
       // Stryker disable all
-      const cleanup = (socket: tls.TLSSocket) => {
-        socket.end();
-        socket.destroy();
-      };
+      const cleanup = (socket: tls.TLSSocket) => socket.destroy();
       // Stryker restore all
 
       const socket = tls.connect(
