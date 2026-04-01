@@ -1,5 +1,7 @@
 import type * as tools from "@bgord/tools";
 
+export type DirectoryEnsurerConfig = tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType;
+
 export interface DirectoryEnsurerPort {
-  ensure(path: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType): Promise<void>;
+  ensure(config: DirectoryEnsurerConfig): Promise<void>;
 }

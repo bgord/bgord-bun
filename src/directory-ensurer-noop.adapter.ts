@@ -1,6 +1,5 @@
-import type * as tools from "@bgord/tools";
-import type { DirectoryEnsurerPort } from "./directory-ensurer.port";
+import type { DirectoryEnsurerConfig, DirectoryEnsurerPort } from "./directory-ensurer.port";
 
 export class DirectoryEnsurerNoopAdapter implements DirectoryEnsurerPort {
-  async ensure(_path: tools.DirectoryPathAbsoluteType | tools.DirectoryPathRelativeType): Promise<void> {}
+  async ensure(_config: DirectoryEnsurerConfig): Promise<void> {}
 }
