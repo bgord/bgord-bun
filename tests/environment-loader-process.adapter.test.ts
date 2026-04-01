@@ -17,11 +17,13 @@ describe("EnvironmentLoaderProcess", () => {
 
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    expect(Object.isFrozen(result)).toEqual(true);
 
     const second = await adapter.load();
 
     expect(second.APP_NAME).toEqual("MyApp");
     expect(second.type).toEqual(NodeEnvironmentEnum.local);
+    expect(Object.isFrozen(second)).toEqual(true);
   });
 
   test("failure", () => {

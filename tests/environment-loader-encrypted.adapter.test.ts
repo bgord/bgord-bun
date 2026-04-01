@@ -21,6 +21,7 @@ describe("EnvironmentLoaderEncryptedAdapter", () => {
 
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    expect(Object.isFrozen(result)).toEqual(true);
   });
 
   test("failure", () => {
