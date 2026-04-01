@@ -39,7 +39,7 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
       this.deps.Logger.error({
         message: "Remote file storage put error",
         error,
-        metadata: duration.stop(),
+        metadata: { key: input.key, duration: duration.stop() },
         ...this.base,
       });
 
@@ -66,7 +66,7 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
       this.deps.Logger.error({
         message: "Remote file storage head error",
         error,
-        metadata: duration.stop(),
+        metadata: { key, duration: duration.stop() },
         ...this.base,
       });
 
@@ -97,7 +97,7 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
       this.deps.Logger.error({
         message: "Remote file storage get stream error",
         error,
-        metadata: duration.stop(),
+        metadata: { key, duration: duration.stop() },
         ...this.base,
       });
 
@@ -126,7 +126,7 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
       this.deps.Logger.error({
         message: "Remote file storage delete error",
         error,
-        metadata: duration.stop(),
+        metadata: { key, duration: duration.stop() },
         ...this.base,
       });
 
