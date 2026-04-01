@@ -4,6 +4,7 @@ export * from "./ab-assignment-composite.strategy";
 export * from "./ab-assignment-cookie.strategy";
 export * from "./ab-assignment-fixed.strategy";
 export * from "./ab-assignment-hash.strategy";
+export * from "./ab-assignment-header.strategy";
 export * from "./ab-assignment-query.strategy";
 export * from "./ab-hono.middleware";
 export * from "./ab-hono-noop.middleware";
