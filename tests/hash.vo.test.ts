@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hash } from "../src/hash.vo";
 import { SecureKeyGeneratorNoopAdapter } from "../src/secure-key-generator-noop.adapter";
 import * as mocks from "./mocks";
@@ -7,7 +8,7 @@ describe("Hash", () => {
   test("fromBuffer", () => {
     const key = "00000000000000000000000000000000";
     const generator = new SecureKeyGeneratorNoopAdapter(new TextEncoder().encode(key));
-    const buffer = generator.generate();
+    const buffer = generator.generate(tools.Int.positive(1));
 
     const hash = Hash.fromBuffer(buffer);
 
