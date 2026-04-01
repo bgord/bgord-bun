@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import { WoodchoperSamplingCorrelationId } from "../src/woodchopper-sampling-correlation-id.strategy";
+import { WoodchopperSamplingCorrelationId } from "../src/woodchopper-sampling-correlation-id.strategy";
 import * as mocks from "./mocks";
 
 const entryWithCorrelation = {
@@ -30,7 +30,7 @@ const two = tools.Int.positive(2);
 
 describe("WoodchoperSamplingCorrelationId", () => {
   test("decide - determinism", () => {
-    const strategy = new WoodchoperSamplingCorrelationId({ everyNth: two });
+    const strategy = new WoodchopperSamplingCorrelationId({ everyNth: two });
 
     const first = strategy.decide(entryWithCorrelation);
     const second = strategy.decide(entryWithCorrelation);
@@ -41,7 +41,7 @@ describe("WoodchoperSamplingCorrelationId", () => {
   });
 
   test("decide - different entries", () => {
-    const strategy = new WoodchoperSamplingCorrelationId({ everyNth: two });
+    const strategy = new WoodchopperSamplingCorrelationId({ everyNth: two });
 
     const first = strategy.decide(entryWithCorrelation);
     const second = strategy.decide(entryWithDifferentCorrelation);
@@ -51,7 +51,7 @@ describe("WoodchoperSamplingCorrelationId", () => {
   });
 
   test("decide - false - no correlation id", () => {
-    const strategy = new WoodchoperSamplingCorrelationId({ everyNth: two });
+    const strategy = new WoodchopperSamplingCorrelationId({ everyNth: two });
 
     expect(strategy.decide(entryWithoutCorrelation)).toEqual(false);
   });
