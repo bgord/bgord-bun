@@ -2,7 +2,7 @@ import * as v from "valibot";
 import { ClientIp, type ClientIpType } from "./client-ip.vo";
 import type { HasIdentityIp } from "./request-context.port";
 
-export type ShieldIpWhitelistConfig = { whitelist: Array<ClientIpType> };
+export type ShieldIpWhitelistConfig = { whitelist: ReadonlyArray<ClientIpType> };
 
 export const ShieldIpWhitelistStrategyError = { Rejected: "shield.ip.whitelist.rejected" };
 

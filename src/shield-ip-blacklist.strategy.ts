@@ -2,7 +2,7 @@ import * as v from "valibot";
 import { ClientIp, type ClientIpType } from "./client-ip.vo";
 import type { HasIdentityIp } from "./request-context.port";
 
-export type ShieldIpBlacklistConfig = { blacklist: Array<ClientIpType> };
+export type ShieldIpBlacklistConfig = { blacklist: ReadonlyArray<ClientIpType> };
 
 export const ShieldIpBlacklistStrategyError = { Rejected: "shield.ip.blacklist.rejected" };
 
