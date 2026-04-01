@@ -15,14 +15,17 @@ type Dependencies = {
 export class ApiVersionMiddleware {
   static readonly HEADER_NAME = "api-version";
 
-  constructor(private readonly deps: Dependencies) {}
+  private readonly resolver: SubjectApplicationResolver;
 
-  async evaluate(): Promise<tools.PackageVersionSchemaType> {
-    const resolver = new SubjectApplicationResolver(
+  constructor(private readonly deps: Dependencies) {
+    this.resolver = new SubjectApplicationResolver(
       [new SubjectSegmentFixedStrategy("api-version")],
       this.deps,
     );
-    const subject = await resolver.resolve();
+  }
+
+  async evaluate(): Promise<tools.PackageVersionSchemaType> {
+    const subject = await this.resolver.resolve();
 
     const build = await this.deps.CacheResolver.resolve(subject.hex, async () =>
       this.deps.BuildInfoConfig.get(),
