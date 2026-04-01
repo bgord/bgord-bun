@@ -6,12 +6,13 @@ import { TemporaryFileNoopAdapter } from "../src/temporary-file-noop.adapter";
 const directory = v.parse(tools.DirectoryPathAbsoluteSchema, "/tmp/bgord-tests");
 const filename = tools.Filename.fromString("avatar.webp");
 const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
+const content = new File(["abc"], "content");
 
 const adapter = new TemporaryFileNoopAdapter(directory);
 
-describe("TemporaryFileAbsoluteAdapter", () => {
+describe("TemporaryFileNoopAdapter", () => {
   test("write", async () => {
-    expect(await adapter.write(filename)).toEqual(final);
+    expect(await adapter.write(filename, content)).toEqual(final);
   });
 
   test("cleanup", async () => {
