@@ -8,10 +8,6 @@ import {
   ShieldRecaptchaStrategyError,
 } from "./shield-recaptcha.strategy";
 
-export const ShieldRecaptchaError = new HTTPException(403, {
-  message: ShieldRecaptchaStrategyError.Rejected,
-});
-
 export class ShieldRecaptchaHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldRecaptchaStrategy;
 
@@ -25,7 +21,8 @@ export class ShieldRecaptchaHonoStrategy implements MiddlewareHonoPort {
       const token = (await c.req.formData()).get("g-recaptcha-response")?.toString() ?? null;
 
       if (await this.strategy.evaluate(context, token)) return next();
-      throw ShieldRecaptchaError;
+
+      throw new HTTPException(403, { message: ShieldRecaptchaStrategyError.Rejected });
     };
   }
 }

@@ -7,9 +7,6 @@ import { ShieldAuthStrategy, ShieldAuthStrategyError } from "./shield-auth.strat
 
 type Dependencies<User, Session> = { AuthSessionReader: AuthSessionReaderPort<User, Session> };
 
-export const ShieldAuthVerifyError = new HTTPException(401, { message: ShieldAuthStrategyError.Rejected });
-export const ShieldAuthReverseError = new HTTPException(403, { message: ShieldAuthStrategyError.Rejected });
-
 export class ShieldAuthHonoStrategy<User, Session> {
   private readonly strategy: ShieldAuthStrategy<User, Session>;
 
@@ -30,13 +27,13 @@ export class ShieldAuthHonoStrategy<User, Session> {
     const user = c.get("user");
 
     if (this.strategy.verify(user)) return next();
-    throw ShieldAuthVerifyError;
+    throw new HTTPException(401, { message: ShieldAuthStrategyError.Rejected });
   });
 
   reverse = createMiddleware(async (c: hono.Context, next: hono.Next) => {
     const user = c.get("user");
 
     if (this.strategy.reverse(user)) return next();
-    throw ShieldAuthReverseError;
+    throw new HTTPException(403, { message: ShieldAuthStrategyError.Rejected });
   });
 }

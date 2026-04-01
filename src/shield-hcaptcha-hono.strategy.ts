@@ -4,8 +4,6 @@ import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { ShieldHcaptchaStrategy, ShieldHcaptchaStrategyError } from "./shield-hcaptcha.strategy";
 
-export const ShieldHcaptchaError = new HTTPException(403, { message: ShieldHcaptchaStrategyError.Rejected });
-
 export class ShieldHcaptchaHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldHcaptchaStrategy;
 
@@ -19,7 +17,7 @@ export class ShieldHcaptchaHonoStrategy implements MiddlewareHonoPort {
       const token = form.get("h-captcha-response")?.toString();
 
       if (await this.strategy.evaluate(token)) return next();
-      throw ShieldHcaptchaError;
+      throw new HTTPException(403, { message: ShieldHcaptchaStrategyError.Rejected });
     };
   }
 }

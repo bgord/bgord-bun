@@ -7,15 +7,6 @@ import {
 } from "./file-uploader.middleware";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 
-export const FileUploaderMissingFileError = new HTTPException(400, {
-  message: FileUploaderError.MissingFile,
-});
-export const FileUploaderEmptyFileError = new HTTPException(400, { message: FileUploaderError.EmptyFile });
-export const FileUploaderSizeLimitError = new HTTPException(400, { message: FileUploaderError.SizeLimit });
-export const FileUploaderInvalidMimeError = new HTTPException(400, {
-  message: FileUploaderError.InvalidMime,
-});
-
 export class FileUploaderHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: FileUploaderMiddleware;
 
@@ -34,13 +25,13 @@ export class FileUploaderHonoMiddleware implements MiddlewareHonoPort {
 
       switch (result.error) {
         case FileUploaderError.MissingFile:
-          throw FileUploaderMissingFileError;
+          throw new HTTPException(400, { message: FileUploaderError.MissingFile });
         case FileUploaderError.EmptyFile:
-          throw FileUploaderEmptyFileError;
+          throw new HTTPException(400, { message: FileUploaderError.EmptyFile });
         case FileUploaderError.SizeLimit:
-          throw FileUploaderSizeLimitError;
+          throw new HTTPException(400, { message: FileUploaderError.SizeLimit });
         case FileUploaderError.InvalidMime:
-          throw FileUploaderInvalidMimeError;
+          throw new HTTPException(400, { message: FileUploaderError.InvalidMime });
       }
     });
   }

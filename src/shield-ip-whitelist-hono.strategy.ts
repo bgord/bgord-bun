@@ -8,10 +8,6 @@ import {
   ShieldIpWhitelistStrategyError,
 } from "./shield-ip-whitelist.strategy";
 
-export const ShieldIpWhitelistError = new HTTPException(403, {
-  message: ShieldIpWhitelistStrategyError.Rejected,
-});
-
 export class ShieldIpWhitelistHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldIpWhitelistStrategy;
 
@@ -24,7 +20,7 @@ export class ShieldIpWhitelistHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw ShieldIpWhitelistError;
+      throw new HTTPException(403, { message: ShieldIpWhitelistStrategyError.Rejected });
     };
   }
 }

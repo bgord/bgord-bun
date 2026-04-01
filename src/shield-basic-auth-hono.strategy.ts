@@ -8,10 +8,6 @@ import {
   ShieldBasicAuthStrategyError,
 } from "./shield-basic-auth.strategy";
 
-export const ShieldBasicAuthError = new HTTPException(401, {
-  message: ShieldBasicAuthStrategyError.Rejected,
-});
-
 export class ShieldBasicAuthHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldBasicAuthStrategy;
 
@@ -24,7 +20,7 @@ export class ShieldBasicAuthHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw ShieldBasicAuthError;
+      throw new HTTPException(401, { message: ShieldBasicAuthStrategyError.Rejected });
     };
   }
 }
