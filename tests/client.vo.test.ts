@@ -83,6 +83,12 @@ describe("Client", () => {
     expect(localFirefox.equals(globalChrome)).toEqual(false);
   });
 
+  test("equals - false - all undefined", () => {
+    expect(Client.fromParts(undefined, undefined).equals(Client.fromParts(undefined, undefined))).toEqual(
+      false,
+    );
+  });
+
   test("hasSameUa - true", () => {
     const localFirefox = Client.fromParts("127.0.0.1", "firefox");
 
