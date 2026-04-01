@@ -52,7 +52,7 @@ describe("EncryptionKey", () => {
     expect(EncryptionKey.fromStringSafe(hex).equals(EncryptionKey.fromStringSafe(hex))).toEqual(true);
   });
 
-  test("equals - true", () => {
+  test("equals - false", () => {
     expect(EncryptionKey.fromStringSafe(hex).equals(EncryptionKey.fromStringSafe(anotherHex))).toEqual(false);
   });
 
