@@ -15,6 +15,7 @@ describe("MailerResendAdapter", async () => {
   const mailer = await MailerResendAdapter.build(smtp);
 
   test("send - success", async () => {
+    // @ts-expect-error Private method
     using resendEmailsSend = spyOn(mailer.transport.emails, "send").mockResolvedValue(success);
 
     await mailer.send(mocks.template);
@@ -23,6 +24,7 @@ describe("MailerResendAdapter", async () => {
   });
 
   test("send - error", async () => {
+    // @ts-expect-error Private method
     using _ = spyOn(mailer.transport.emails, "send").mockResolvedValue(failure);
 
     expect(async () => mailer.send(mocks.template)).toThrow("Invalid API key");

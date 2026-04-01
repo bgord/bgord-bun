@@ -26,7 +26,7 @@ export class MailerSmtpAdapter implements MailerPort {
     MailerSmtpAdapterError.MissingDependency,
   );
 
-  private constructor(readonly transport: Nodemailer.Transporter) {}
+  private constructor(private readonly transport: Nodemailer.Transporter) {}
 
   static async build(config: Config): Promise<MailerSmtpAdapter> {
     const library = await MailerSmtpAdapter.importer.resolve();
