@@ -13,7 +13,6 @@ export class LoggerCollectingAdapter implements LoggerPort {
     | Omit<LogWarnType, AdapterInjectedFields>
     | Omit<LogCoreType, AdapterInjectedFields>
     | Omit<LogHttpType, AdapterInjectedFields>
-    | Omit<LogCoreType, AdapterInjectedFields>
   > = [];
 
   warn: LoggerPort["warn"] = (log): void => {
