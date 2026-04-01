@@ -12,6 +12,7 @@ import {
 } from "../src/event-loop-utilization.service";
 import { HealthcheckStatusEnum } from "../src/healthcheck.handler";
 import { HealthcheckHonoHandler } from "../src/healthcheck-hono.handler";
+import { JobQueueStatsProviderNoopAdapter } from "../src/job-queue-stats-provider-noop.adapter";
 import { LoggerStatsProviderNoopAdapter } from "../src/logger-stats-provider-noop.adapter";
 import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -45,6 +46,7 @@ const utilization: EventLoopUtilizationSnapshot = 0.5;
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
 const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
+const JobQueueStatsProvider = new JobQueueStatsProviderNoopAdapter();
 const deps = { Clock, BuildInfoConfig };
 
 describe("HealthcheckHonoHandler", () => {
@@ -68,7 +70,7 @@ describe("HealthcheckHonoHandler", () => {
             new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
           ],
         },
-        { ...deps, LoggerStatsProvider },
+        { ...deps, LoggerStatsProvider, JobQueueStatsProvider },
       ).handle(),
     );
 
@@ -111,6 +113,7 @@ describe("HealthcheckHonoHandler", () => {
         { label: "ok", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
       ],
       logger: LoggerStatsProvider.getStats(),
+      queue: await JobQueueStatsProvider.getStats(),
       ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
     });

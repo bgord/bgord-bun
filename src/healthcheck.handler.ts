@@ -6,6 +6,7 @@ import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { EventLoopLag } from "./event-loop-lag.service";
 import { EventLoopUtilization, type EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
 import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
+import type { JobQueueStatsProviderPort, JobQueueStatsSnapshot } from "./job-queue-stats-provider.port";
 import type { LoggerStatsProviderPort, LoggerStatsSnapshot } from "./logger-stats-provider.port";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -26,10 +27,11 @@ export enum HealthcheckStatusEnum {
   unhealthy = "unhealthy",
 }
 
-type Dependencies = {
+export type HealthcheckDependencies = {
   Clock: ClockPort;
   BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
   LoggerStatsProvider?: LoggerStatsProviderPort;
+  JobQueueStatsProvider?: JobQueueStatsProviderPort;
 };
 
 export type HealthcheckConfig = {
@@ -82,6 +84,7 @@ export type HealthcheckResult = {
     ms: tools.DurationMsType;
   }>;
   logger?: LoggerStatsSnapshot;
+  queue?: JobQueueStatsSnapshot;
   ms: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
 };
@@ -89,7 +92,7 @@ export type HealthcheckResult = {
 export class HealthcheckHandler {
   constructor(
     private readonly config: HealthcheckConfig,
-    private readonly deps: Dependencies,
+    private readonly deps: HealthcheckDependencies,
   ) {}
 
   async check(): Promise<HealthcheckResult> {
@@ -169,6 +172,7 @@ export class HealthcheckHandler {
         inFlight: InFlightRequestsTracker.get(),
       },
       logger: this.deps.LoggerStatsProvider?.getStats(),
+      queue: await this.deps.JobQueueStatsProvider?.getStats(),
       ms: stopwatch.stop().ms,
       timestamp: this.deps.Clock.now().ms,
     };
