@@ -6,7 +6,7 @@ export const CommitShaValueError = {
 };
 
 // 40 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]{40}$/;
+const CHARS_WHITELIST = /^[a-f0-9]{40}$/;
 
 export const CommitShaValue = v.pipe(
   v.string(CommitShaValueError.Type),

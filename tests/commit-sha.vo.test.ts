@@ -33,6 +33,10 @@ describe("CommitSha", () => {
     expect(sha.toShortString()).toEqual(value.slice(0, 7));
   });
 
+  test("toShortString - custom", () => {
+    expect(sha.toShortString(10)).toEqual(value.slice(0, 10));
+  });
+
   test("toJSON", () => {
     expect(sha.toJSON()).toEqual(value);
   });

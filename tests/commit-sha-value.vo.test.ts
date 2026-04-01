@@ -19,6 +19,10 @@ describe("CommitShaValue", () => {
     expect(() => v.parse(CommitShaValue, "")).toThrow("commit.sha.value.invalid.hex");
   });
 
+  test("rejects uppercased", () => {
+    expect(() => v.parse(CommitShaValue, "F".repeat(40))).toThrow("commit.sha.value.invalid.hex");
+  });
+
   test("rejects invalid hex", () => {
     expect(() => v.parse(CommitShaValue, `${"f".repeat(39)}x`)).toThrow("commit.sha.value.invalid.hex");
   });
