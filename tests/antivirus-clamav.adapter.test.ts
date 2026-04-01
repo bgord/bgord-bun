@@ -2,9 +2,6 @@ import { describe, expect, spyOn, test } from "bun:test";
 import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 import * as mocks from "./mocks";
 
-const clean = new Uint8Array([1, 2, 3]);
-const virus = new Uint8Array([0x45]);
-
 const adapter = new AntivirusClamavAdapter();
 
 describe("AntivirusClamavAdapter", () => {
@@ -15,7 +12,7 @@ describe("AntivirusClamavAdapter", () => {
       exitCode: 0,
     }));
 
-    expect(await adapter.scan(clean)).toEqual({ clean: true });
+    expect(await adapter.scan(mocks.cleanFile)).toEqual({ clean: true });
     expect(bunSpawn).toHaveBeenCalledWith({
       cmd: ["clamscan", "--infected", "--no-summary", "--stdout", "-"],
       stderr: "pipe",
@@ -33,7 +30,7 @@ describe("AntivirusClamavAdapter", () => {
       exitCode: 1,
     }));
 
-    expect(await adapter.scan(virus)).toEqual({
+    expect(await adapter.scan(mocks.virusFile)).toEqual({
       clean: false,
       signature: "Eicar-Test-Signature",
     });
@@ -43,7 +40,7 @@ describe("AntivirusClamavAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 0 }));
 
-    expect(async () => adapter.scan(virus)).toThrow("antivirus.scan.failed");
+    expect(async () => adapter.scan(mocks.virusFile)).toThrow("antivirus.scan.failed");
   });
 
   test("scan - failure - exit code", async () => {
@@ -53,6 +50,6 @@ describe("AntivirusClamavAdapter", () => {
       stdin: { write: () => {}, end: () => {} },
     }));
 
-    expect(async () => adapter.scan(virus)).toThrow("antivirus.scan.failed");
+    expect(async () => adapter.scan(mocks.virusFile)).toThrow("antivirus.scan.failed");
   });
 });

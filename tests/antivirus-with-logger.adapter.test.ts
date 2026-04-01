@@ -6,7 +6,6 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
 
-const bytes = new Uint8Array([1, 2, 3]);
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("AntivirusWithLoggerAdapter", () => {
@@ -15,7 +14,7 @@ describe("AntivirusWithLoggerAdapter", () => {
     const inner = new AntivirusNoopAdapter();
     const adapter = new AntivirusWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(await adapter.scan(bytes)).toEqual({ clean: true });
+    expect(await adapter.scan(mocks.cleanFile)).toEqual({ clean: true });
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -38,7 +37,7 @@ describe("AntivirusWithLoggerAdapter", () => {
     using _ = spyOn(inner, "scan").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new AntivirusWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.scan(bytes)).toThrow(mocks.IntentionalError);
+    expect(async () => adapter.scan(mocks.cleanFile)).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([
       {
         component: "infra",

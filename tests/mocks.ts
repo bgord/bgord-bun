@@ -305,3 +305,6 @@ export const GenericSendEmailJobSerialized = {
   ...GenericSendEmailJob,
   payload: JSON.stringify(GenericSendEmailJob.payload),
 };
+
+export const cleanFile = new Uint8Array([1, 2, 3]);
+export const virusFile = new Uint8Array([0x45]);

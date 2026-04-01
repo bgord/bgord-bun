@@ -5,7 +5,6 @@ import { AntivirusWithSemaphoreAdapter } from "../src/antivirus-with-semaphore.a
 import { Semaphore } from "../src/semaphore.service";
 import * as mocks from "./mocks";
 
-const bytes = new Uint8Array([1, 2, 3]);
 const limit = tools.Int.positive(1);
 
 const semaphore = new Semaphore({ limit });
@@ -14,19 +13,19 @@ const adapter = new AntivirusWithSemaphoreAdapter({ inner, semaphore });
 
 describe("AntivirusWithSemaphoreAdapter", () => {
   test("scan - success", async () => {
-    expect(await adapter.scan(bytes)).toEqual({ clean: true });
+    expect(await adapter.scan(mocks.cleanFile)).toEqual({ clean: true });
   });
 
   test("scan - error", async () => {
     using _ = spyOn(inner, "scan").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(async () => adapter.scan(bytes)).toThrow(mocks.IntentionalError);
+    expect(async () => adapter.scan(mocks.cleanFile)).toThrow(mocks.IntentionalError);
   });
 
   test("scan - uses semaphore", async () => {
     using semaphoreRun = spyOn(semaphore, "run");
 
-    await adapter.scan(bytes);
+    await adapter.scan(mocks.cleanFile);
 
     expect(semaphoreRun).toHaveBeenCalledTimes(1);
   });
