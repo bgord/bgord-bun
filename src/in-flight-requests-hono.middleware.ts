@@ -7,7 +7,7 @@ export class InFlightRequestsHonoMiddleware implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (_c, next) => {
-      await this.middleware.evaluate();
+      this.middleware.evaluate();
 
       try {
         await next();
