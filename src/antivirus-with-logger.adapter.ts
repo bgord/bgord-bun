@@ -3,12 +3,16 @@ import type { ClockPort } from "./clock.port";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
 
-type Dependencies = { inner: AntivirusPort; Logger: LoggerPort; Clock: ClockPort };
+export type AntivirusWithLoggerAdapterDependencies = {
+  inner: AntivirusPort;
+  Logger: LoggerPort;
+  Clock: ClockPort;
+};
 
 export class AntivirusWithLoggerAdapter implements AntivirusPort {
   private readonly base = { component: "infra", operation: "antivirus" };
 
-  constructor(private readonly deps: Dependencies) {}
+  constructor(private readonly deps: AntivirusWithLoggerAdapterDependencies) {}
 
   async scan(bytes: Uint8Array): Promise<AntivirusScanResult> {
     const duration = new Stopwatch(this.deps);

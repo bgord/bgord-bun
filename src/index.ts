@@ -23,6 +23,7 @@ export * from "./alert-channel-with-logger.adapter";
 export * from "./alert-channel-with-retry.adapter";
 export * from "./alert-channel-with-timeout.adapter";
 export * from "./alert-message.vo";
+export * from "./antivirus.builder";
 export * from "./antivirus.port";
 export * from "./antivirus-clamav.adapter";
 export * from "./antivirus-noop.adapter";

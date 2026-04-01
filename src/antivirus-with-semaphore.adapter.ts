@@ -1,10 +1,10 @@
 import type { AntivirusPort, AntivirusScanResult } from "./antivirus.port";
 import type { Semaphore } from "./semaphore.service";
 
-type Dependencies = { inner: AntivirusPort; semaphore: Semaphore };
+export type AntivirusWithSemaphoreAdapterDependencies = { inner: AntivirusPort; semaphore: Semaphore };
 
 export class AntivirusWithSemaphoreAdapter implements AntivirusPort {
-  constructor(private readonly deps: Dependencies) {}
+  constructor(private readonly deps: AntivirusWithSemaphoreAdapterDependencies) {}
 
   async scan(bytes: Uint8Array): Promise<AntivirusScanResult> {
     return this.deps.semaphore.run(() => this.deps.inner.scan(bytes));
