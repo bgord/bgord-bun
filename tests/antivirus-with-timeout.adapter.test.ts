@@ -5,6 +5,7 @@ import { AntivirusNoopAdapter } from "../src/antivirus-noop.adapter";
 import { AntivirusWithTimeoutAdapter } from "../src/antivirus-with-timeout.adapter";
 import { TimeoutRunnerBareAdapter } from "../src/timeout-runner-bare.adapter";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
+import * as mocks from "./mocks";
 
 const TimeoutRunner = new TimeoutRunnerNoopAdapter();
 
@@ -13,11 +14,10 @@ const over = timeout.times(v.parse(tools.MultiplicationFactor, 2));
 
 const inner = new AntivirusNoopAdapter();
 const antivirus = new AntivirusWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
-const bytes = new Uint8Array([1, 2, 3]);
 
 describe("AntivirusWithTimeoutAdapter", () => {
   test("scan", async () => {
-    expect(async () => antivirus.scan(bytes)).not.toThrow();
+    expect(async () => antivirus.scan(mocks.cleanFile)).not.toThrow();
   });
 
   test("scan - timeout", async () => {
@@ -28,7 +28,7 @@ describe("AntivirusWithTimeoutAdapter", () => {
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
     const antivirus = new AntivirusWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
 
-    const result = antivirus.scan(bytes);
+    const result = antivirus.scan(mocks.cleanFile);
     jest.runAllTimers();
 
     expect(result).rejects.toThrow("timeout.exceeded");
