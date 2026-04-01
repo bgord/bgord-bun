@@ -15,31 +15,28 @@ import {
 } from "./alert-channel-with-timeout.adapter";
 
 export class AlertChannelBuilder {
-  constructor(private inner: AlertChannelPort) {}
+  constructor(private readonly inner: AlertChannelPort) {}
 
   static of(channel: AlertChannelPort): AlertChannelBuilder {
     return new AlertChannelBuilder(channel);
   }
 
   withLogger(deps: Omit<AlertChannelWithLoggerAdapterDependencies, "inner">) {
-    this.inner = new AlertChannelWithLoggerAdapter({ ...deps, inner: this.inner });
-    return this;
+    return AlertChannelBuilder.of(new AlertChannelWithLoggerAdapter({ ...deps, inner: this.inner }));
   }
 
   withRetry(
     config: AlertChannelWithRetryAdapterConfig,
     deps: Omit<AlertChannelWithRetryAdapterDependencies, "inner">,
   ) {
-    this.inner = new AlertChannelWithRetryAdapter(config, { ...deps, inner: this.inner });
-    return this;
+    return AlertChannelBuilder.of(new AlertChannelWithRetryAdapter(config, { ...deps, inner: this.inner }));
   }
 
   withTimeout(
     config: AlertChannelWithTimeoutAdapterConfig,
     deps: Omit<AlertChannelWithTimeoutAdapterDependencies, "inner">,
   ) {
-    this.inner = new AlertChannelWithTimeoutAdapter(config, { ...deps, inner: this.inner });
-    return this;
+    return AlertChannelBuilder.of(new AlertChannelWithTimeoutAdapter(config, { ...deps, inner: this.inner }));
   }
 
   build(): AlertChannelPort {
