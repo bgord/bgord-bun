@@ -13,10 +13,10 @@ export class ShieldAuthStrategy<User, Session> {
   }
 
   verify(user: User | null): boolean {
-    return user !== null;
+    return user !== null && user !== undefined;
   }
 
   reverse(user: User | null): boolean {
-    return user === null;
+    return user === null || user === undefined;
   }
 }

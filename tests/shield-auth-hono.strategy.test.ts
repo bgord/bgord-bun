@@ -71,14 +71,22 @@ describe("ShieldAuthHonoStrategy", () => {
         await next();
       })
       .use(strategy.verify)
-      .get("/", (c) => c.text("ok"))
-      .onError((err, c) => c.json({ message: err.message }, 403));
+      .get("/", (c) => c.text("ok"));
 
     const response = await app.request("/");
-    const json = await response.json();
 
-    expect(response.status).toEqual(403);
-    expect(json.message).toEqual("shield.auth.rejected");
+    expect(response.status).toEqual(401);
+    expect(await response.text()).toEqual("shield.auth.rejected");
+  });
+
+  test("verify - no attach", async () => {
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
+    const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
+    const app = new Hono<Env>().use(strategy.verify).get("/", (c) => c.text("ok"));
+
+    const response = await app.request("/");
+
+    expect(response.status).toEqual(401);
   });
 
   test("reverse - guest user", async () => {
@@ -107,13 +115,11 @@ describe("ShieldAuthHonoStrategy", () => {
         await next();
       })
       .use(strategy.reverse)
-      .get("/", (c) => c.text("ok"))
-      .onError((err, c) => c.json({ message: err.message }, 403));
+      .get("/", (c) => c.text("ok"));
 
     const response = await app.request("/");
-    const json = await response.json();
 
     expect(response.status).toEqual(403);
-    expect(json.message).toEqual("shield.auth.rejected");
+    expect(await response.text()).toEqual("shield.auth.rejected");
   });
 });
