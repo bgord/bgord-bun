@@ -187,7 +187,7 @@ describe("HttpLoggerHonoMiddleware", () => {
     expect(loggerHttp).not.toHaveBeenCalled();
   });
 
-  test("skip - path", async () => {
+  test("skip - sse", async () => {
     using loggerHttp = spyOn(Logger, "http");
 
     const result = await app.request(
