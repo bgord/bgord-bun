@@ -60,6 +60,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
     const json = await failure.json();
 
     expect(failure.status).toEqual(429);
+    expect(failure.headers.get("retry-after")).toEqual("1");
     expect(json.message).toEqual("shield.rate.limit.rejected");
 
     await CacheResolver.flush();
@@ -99,7 +100,11 @@ describe("ShieldRateLimitHonoStrategy", () => {
       .onError(onError);
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
-    expect((await app.request("/ping", { method: "GET" })).status).toEqual(429);
+
+    const failure = await app.request("/ping", { method: "GET" });
+
+    expect(failure.status).toEqual(429);
+    expect(failure.headers.get("retry-after")).toEqual("1");
 
     await CacheResolver.flush();
   });
@@ -152,6 +157,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
     const secondUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "def" } });
 
     expect(secondUserSecondRequest.status).toEqual(429);
+    expect(secondUserSecondRequest.headers.get("retry-after")).toEqual("1");
 
     Clock.advanceBy(tools.Duration.Seconds(5));
     const firstUserSecondRequest = await app.request("/ping", { method: "GET", headers: { id: "abc" } });

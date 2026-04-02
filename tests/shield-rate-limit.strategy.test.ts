@@ -28,6 +28,8 @@ const resolver = new SubjectRequestResolver(
 );
 
 const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+const allowed = { allowed: true } as const;
+const rejected = { allowed: false, retryAfter: tools.Duration.Seconds(1) } as const;
 
 describe("ShieldRateLimitStrategy", () => {
   test("anon - happy path - within rate limit", async () => {
@@ -35,7 +37,7 @@ describe("ShieldRateLimitStrategy", () => {
 
     const result = await strategy.evaluate(context);
 
-    expect(result).toEqual(true);
+    expect(result).toEqual(allowed);
 
     await CacheResolver.flush();
   });
@@ -43,11 +45,11 @@ describe("ShieldRateLimitStrategy", () => {
   test("anon - failure - TooManyRequestsError", async () => {
     const context = new RequestContextBuilder().withPath("/ping").build();
 
-    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(allowed);
 
     const failure = await strategy.evaluate(context);
 
-    expect(failure).toEqual(false);
+    expect(failure).toEqual({ allowed: false, retryAfter: tools.Duration.Seconds(1) });
 
     await CacheResolver.flush();
   });
@@ -55,11 +57,11 @@ describe("ShieldRateLimitStrategy", () => {
   test("anon - happy path - after rate limit", async () => {
     const context = new RequestContextBuilder().withPath("/ping").build();
 
-    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(allowed);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
 
-    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(allowed);
 
     await CacheResolver.flush();
   });
@@ -69,7 +71,7 @@ describe("ShieldRateLimitStrategy", () => {
 
     const result = await strategy.evaluate(context);
 
-    expect(result).toEqual(true);
+    expect(result).toEqual(allowed);
 
     await CacheResolver.flush();
   });
@@ -78,8 +80,8 @@ describe("ShieldRateLimitStrategy", () => {
     const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
     const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
 
-    expect(await strategy.evaluate(context)).toEqual(true);
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual(allowed);
+    expect(await strategy.evaluate(context)).toEqual(rejected);
 
     await CacheResolver.flush();
   });
@@ -88,11 +90,11 @@ describe("ShieldRateLimitStrategy", () => {
     const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
     const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
 
-    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(allowed);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
 
-    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(allowed);
 
     await CacheResolver.flush();
   });
@@ -104,20 +106,20 @@ describe("ShieldRateLimitStrategy", () => {
 
     const firstUserFirstRequest = await strategy.evaluate(firstUserContext);
 
-    expect(firstUserFirstRequest).toEqual(true);
+    expect(firstUserFirstRequest).toEqual(allowed);
 
     const secondUserFirstRequest = await strategy.evaluate(secondUserContext);
 
-    expect(secondUserFirstRequest).toEqual(true);
+    expect(secondUserFirstRequest).toEqual(allowed);
 
     const secondUserSecondRequest = await strategy.evaluate(secondUserContext);
 
-    expect(secondUserSecondRequest).toEqual(false);
+    expect(secondUserSecondRequest).toEqual(rejected);
 
     Clock.advanceBy(tools.Duration.Seconds(5));
     const firstUserSecondRequest = await strategy.evaluate(firstUserContext);
 
-    expect(firstUserSecondRequest).toEqual(true);
+    expect(firstUserSecondRequest).toEqual(allowed);
 
     await CacheResolver.flush();
   });

@@ -23,7 +23,11 @@ export class ShieldRateLimitHonoStrategy implements MiddlewareHonoPort {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
 
-      if (await this.strategy.evaluate(context)) return next();
+      const result = await this.strategy.evaluate(context);
+
+      if (result.allowed) return next();
+
+      c.header("Retry-After", result.retryAfter.seconds.toString());
       throw new HTTPException(429, { message: ShieldRateLimitStrategyError.Rejected });
     };
   }
