@@ -85,6 +85,19 @@ describe("ShieldRecaptchaStrategy", () => {
     expect(await strategy.evaluate(context, null)).toEqual(false);
   });
 
+  test("failure - custom threshold", async () => {
+    using _ = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.1 })),
+    );
+    const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();
+    const strategy = new ShieldRecaptchaStrategy({
+      secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
+      threshold: 0.2,
+    });
+
+    expect(await strategy.evaluate(context, null)).toEqual(false);
+  });
+
   test("failure - fetch throws", async () => {
     using _ = spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
     const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();

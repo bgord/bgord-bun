@@ -3,7 +3,7 @@ import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
 import type { HasRequestHeader, HasRequestQuery } from "./request-context.port";
 
-export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType };
+export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType; threshold?: number };
 export type RecaptchaResult = { success: boolean; score: number };
 
 export const ShieldRecaptchaStrategyError = { Rejected: "shield.recaptcha.rejected" };
@@ -14,9 +14,13 @@ export class ShieldRecaptchaStrategy {
     "https://www.google.com/recaptcha/api/siteverify",
   );
 
+  private static readonly DEFAULT_THRESHOLD = 0.5;
+
   constructor(private readonly config: ShieldRecaptchaConfig) {}
 
   async evaluate(context: HasRequestHeader & HasRequestQuery, formToken: string | null): Promise<boolean> {
+    const threshold = this.config.threshold ?? ShieldRecaptchaStrategy.DEFAULT_THRESHOLD;
+
     try {
       const header = context.request.header("x-recaptcha-token");
       const query = context.request.query()["recaptchaToken"];
@@ -36,8 +40,7 @@ export class ShieldRecaptchaStrategy {
 
       const result: RecaptchaResult = await response.json();
 
-      if (!result.success || result.score < 0.5) return false;
-
+      if (!result.success || result.score < threshold) return false;
       return true;
     } catch {
       return false;
