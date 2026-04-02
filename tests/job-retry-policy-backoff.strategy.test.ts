@@ -26,6 +26,6 @@ describe("JobRetryPolicyBackoffStrategy", () => {
       mocks.IntentionalErrorNormalized,
     );
 
-    expect(first && second && second.isLongerThan(first));
+    expect(first && second && second.isLongerThan(first)).toEqual(true);
   });
 });

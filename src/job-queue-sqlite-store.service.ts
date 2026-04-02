@@ -8,6 +8,7 @@ export class JobQueueSqliteStore {
   constructor(config: Config) {
     this.db = new Database(config.database);
 
+    this.db.run("PRAGMA journal_mode = WAL");
     this.db.run(`
       CREATE TABLE IF NOT EXISTS jobs (
         id TEXT PRIMARY KEY,
@@ -20,12 +21,9 @@ export class JobQueueSqliteStore {
         claimableAt INTEGER NOT NULL DEFAULT 0
       )
     `);
-
     this.db.run(
       `CREATE INDEX IF NOT EXISTS idx_jobs_claimable
        ON jobs (status, name, claimableAt, createdAt)`,
     );
-
-    this.db.run("PRAGMA journal_mode = WAL");
   }
 }
