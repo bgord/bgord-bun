@@ -48,6 +48,18 @@ describe("RemoteFileStorageDiskAdapter", () => {
     expect(output.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 42));
   });
 
+  test("putFromPath - renamer error", async () => {
+    using _ = spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using __ = spyOn(FileCopier, "copy");
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
+
+    const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
+    const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
+
+    expect(adapter.putFromPath({ key, path: input })).rejects.toThrow(mocks.IntentionalError);
+    expect(fileCleanerDelete).toHaveBeenCalledWith(temporary);
+  });
+
   test("head", async () => {
     using fileHashHash = spyOn(HashFile, "hash")
       .mockResolvedValueOnce(hash)

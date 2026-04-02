@@ -43,7 +43,13 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
 
     await this.deps.DirectoryEnsurer.ensure(final.getDirectory());
     await this.deps.FileCopier.copy(input.path, temporary);
-    await this.deps.FileRenamer.rename(temporary, final);
+
+    try {
+      await this.deps.FileRenamer.rename(temporary, final);
+    } catch (error) {
+      await this.deps.FileCleaner.delete(temporary);
+      throw error;
+    }
 
     return this.deps.HashFile.hash(final);
   }
