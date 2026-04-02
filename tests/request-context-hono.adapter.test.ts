@@ -160,7 +160,7 @@ describe("RequestContextHonoAdapter", () => {
       context.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
     );
 
-    const response = await app.request("/test", { headers: { "x-forwarded-for": "10.0.0.1,10.0.0.2" } });
+    const response = await app.request("/test", { headers: { "x-forwarded-for": "10.0.0.1 ,10.0.0.2" } });
 
     expect(await response.json()).toEqual({ ip: "10.0.0.1" });
   });

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { JobClaimerSqliteAdapter } from "../src/job-claimer-sqlite.adapter";
 import { JobCompleterSqliteAdapter } from "../src/job-completer-sqlite.adapter";
 import { JobEnqueuerSqliteAdapter } from "../src/job-enqueuer-sqlite.adapter";
 import { JobFailerSqliteAdapter } from "../src/job-failer-sqlite.adapter";
@@ -21,7 +22,7 @@ describe("JobQueueStatsProviderSqliteAdapter", () => {
     expect(await stats.getStats()).toEqual(snapshot);
   });
 
-  test("pending jobs", async () => {
+  test("pending", async () => {
     const store = new JobQueueSqliteStore({ database: ":memory:" });
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
     const stats = new JobQueueStatsProviderSqliteAdapter({ db: store.db });
@@ -35,7 +36,19 @@ describe("JobQueueStatsProviderSqliteAdapter", () => {
     });
   });
 
-  test("completed jobs", async () => {
+  test("claimed", async () => {
+    const store = new JobQueueSqliteStore({ database: ":memory:" });
+    const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
+    const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
+    const stats = new JobQueueStatsProviderSqliteAdapter({ db: store.db });
+
+    await enqueuer.enqueue(mocks.GenericSendEmailJobSerialized);
+    await claimer.claim([mocks.GenericSendEmailJobSerialized.name], tools.Int.positive(1));
+
+    expect(await stats.getStats()).toEqual({ ...snapshot, claimed: tools.Int.nonNegative(1) });
+  });
+
+  test("completed", async () => {
     const store = new JobQueueSqliteStore({ database: ":memory:" });
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
     const completer = new JobCompleterSqliteAdapter({ db: store.db });
@@ -47,7 +60,7 @@ describe("JobQueueStatsProviderSqliteAdapter", () => {
     expect(await stats.getStats()).toEqual({ ...snapshot, completed: tools.Int.nonNegative(1) });
   });
 
-  test("failed jobs", async () => {
+  test("failed", async () => {
     const store = new JobQueueSqliteStore({ database: ":memory:" });
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
     const failer = new JobFailerSqliteAdapter({ db: store.db });
