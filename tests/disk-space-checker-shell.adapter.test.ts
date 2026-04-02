@@ -1,18 +1,19 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import bun from "bun";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { DiskSpaceCheckerShellAdapter } from "../src/disk-space-checker-shell.adapter";
 
+const root = v.parse(tools.DirectoryPathAbsoluteSchema, "/");
+const size = tools.Size.fromMB(100);
+const adapter = new DiskSpaceCheckerShellAdapter();
+
+const output = {
+  header: "Filesystem    1024-blocks    Used    Available    Capacity    Mounted on",
+  data: `/dev/disk1s5s1    999999    0    ${size.tokB()}    50%    ${root}`,
+};
+
 describe("DiskSpaceCheckerShellAdapter", () => {
-  const adapter = new DiskSpaceCheckerShellAdapter();
-  const root = "/";
-  const size = tools.Size.fromMB(100);
-
-  const output = {
-    header: "Filesystem    1024-blocks    Used    Available    Capacity    Mounted on",
-    data: `/dev/disk1s5s1    999999    0    ${size.tokB()}    50%    ${root}`,
-  };
-
   test("happy path", async () => {
     using bunShell = spyOn(bun, "$").mockImplementation(() => ({
       // @ts-expect-error Partial access
