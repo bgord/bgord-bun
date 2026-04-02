@@ -1,8 +1,69 @@
 # Changelog
+- 2026-04-02 14:09 6d4751d7 **step: update packages**
+- 2026-04-02 14:00 59dfda90 **refactor: mutants**
+- 2026-04-02 11:36 128157a2 **fix: cleanup on remot file storage renamer**
+- 2026-04-02 11:34 76838a84 **fix: cleanup on temporary file part renamer**
+- 2026-04-02 11:23 71c0374f **step: add multi x forwarded for test**
+- 2026-04-02 10:59 1e2139e2 **fix: make redis set atomic**
+- 2026-04-02 10:54 85370194 **refactor: improve redis adapter flush**
+- 2026-04-02 10:42 2c2a538d **fix: randmonmess crypto**
+- 2026-04-02 10:28 89729bc8 **refactor: make file uploader file configurable**
+- 2026-04-02 10:25 8afeea76 **step: add attachments to mailer template to json**
+- 2026-04-02 10:24 60dd4155 **step: add retry after header to shield rate limit**
+- 2026-04-02 09:59 68b919a7 **step: make disk space checker root type safe**
+- 2026-04-02 09:50 28c4cb83 **refactor: improve checksum**
+- 2026-04-02 09:44 9f80f337 **step: shield recaptcha custom threshold**
+- 2026-04-02 09:35 3d068114 **step: add cron scheduler with logger**
+- 2026-04-02 09:23 7deccff4 **step: add job retry policy noop**
+- 2026-04-02 09:14 4b7f6e7b **refactor: improve jobs**
+- 2026-04-01 23:57 eb12d2fa **step: assert object is frozen**
+- 2026-04-01 23:52 3bc37ed7 **refactor: to string should return string type**
+- 2026-04-01 23:47 328c858d **fix: allow client ip v6**
+- 2026-04-01 23:46 320c4d80 **fix: undefined client should not equal another undefined client**
+- 2026-04-01 23:31 7a5bc128 **refactor: remove http exception module level singletons**
+- 2026-04-01 23:17 95cf5d74 **refactor: improve timeout**
+- 2026-04-01 23:16 f6045b76 **refactor: improve sealer**
+- 2026-04-01 23:14 5bb84f81 **refactor: improve retry**
+- 2026-04-01 23:08 566cfed2 **refactor: improve logger adaptersl**
+- 2026-04-01 23:07 854bc2cc **refactor: improve woodchopper**
+- 2026-04-01 23:06 d67910cd **refactor: improve sleeper**
+- 2026-04-01 22:49 2520ba21 **refactor: fix conflicting headers object**
+- 2026-04-01 22:42 9515a15c **refactor: cleanup sms**
+- 2026-04-01 22:41 6bbe827d **refactor: cleanup secure key generator**
+- 2026-04-01 22:38 d9272d96 **refactor: improve temporary file**
+- 2026-04-01 22:37 8d66b7cb **refactor: improve remote file storage with logger**
+- 2026-04-01 22:31 fda80693 **refactor: make shield ip lists readonly**
+- 2026-04-01 22:08 aa424a82 **refactor: improve prereqs**
+- 2026-04-01 22:07 ffc72249 **refactor: improve redactors**
+- 2026-04-01 22:01 196855f5 **fix: pdf generator port**
+- 2026-04-01 21:30 92b5431b **refactor: make mailers transport private**
+- 2026-04-01 21:17 f7698fde **refactor: simplify in flight requests**
+- 2026-04-01 17:29 8e9c8ace **step: add antivirus builder**
+- 2026-04-01 17:22 6d47d2b6 **refactor: extract clean and virus files to mocks**
+- 2026-04-01 17:20 f09deeb0 **step: add antivirus with timeout**
+- 2026-04-01 17:15 fa94c018 **step: add ab assignment header**
+- 2026-04-01 17:13 7d2337cf **step: add ab assignment cookie**
+- 2026-04-01 16:43 5843cba2 **refactor: cleanup**
+- 2026-04-01 16:40 bed0648a **refactor: improve crypto**
+- 2026-04-01 16:36 f8e89c71 **fix: cron task handler with logger**
+- 2026-04-01 16:31 34f90b5b **refactor: simplify correlation**
+- 2026-04-01 16:27 e236a952 **refactor: simplify client**
+- 2026-04-01 16:23 12be2fe2 **refactor: simplify certificate inspector tls**
+- 2026-04-01 16:18 5ee9814f **refactor: improve cache repo noop**
+- 2026-04-01 14:30 692979e5 **refactor: improve directory ensurer**
+- 2026-04-01 14:23 53bd3ff1 **refactor: improve clock**
+- 2026-04-01 14:17 1ed74b5f **refactor: improve commit sha**
+- 2026-04-01 14:02 6949ae61 **refactor: simplify auth**
+- 2026-04-01 13:51 1ae88976 **refactor: improve api version**
+- 2026-04-01 13:46 5e304012 **refactor: improve antivirus**
+- 2026-04-01 13:32 0c824b96 **refactor: improve alert channel**
+- 2026-04-01 13:27 28fb15f5 **refactor: make builders immutable**
 - 2026-04-01 12:20 8c4fea3a **refactor: restore tsconfig**
 - 2026-04-01 12:07 6ec19d66 **step: wire up jobs queue stats provider to healthcheck**
 - 2026-04-01 12:03 5e8d85a8 **step: add job queue stats sqlite adapter**
 - 2026-04-01 11:42 feb4e9fa **step: add job queue stats noop adapter**
+- 2026-04-01 10:21 d3efca5d **docs: generate CHANGELOG**
+- 2026-04-01 10:21 57917bf7 **docs: generate readme**
 - 2026-04-01 01:00 f839c6d1 **step: add job queue stats provider**
 - 2026-04-01 00:47 e5822ac3 **step: add WAL journal mode**
 - 2026-04-01 00:33 d2f11850 **step: add job queue sqlite store index**
