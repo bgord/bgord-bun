@@ -26,6 +26,6 @@ export class CacheRepositoryRedisAdapter implements CacheRepositoryPort {
   }
 
   async flush(): Promise<void> {
-    await this.client.send("FLUSHALL", []);
+    await this.client.send("FLUSHDB", []);
   }
 }
