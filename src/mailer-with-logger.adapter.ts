@@ -1,4 +1,5 @@
 import type { ClockPort } from "./clock.port";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
@@ -15,17 +16,29 @@ export class MailerWithLoggerAdapter implements MailerPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({ message: "Mailer attempt", metadata: template.toJSON(), ...this.base });
+      this.deps.Logger.info({
+        message: "Mailer attempt",
+        correlationId: CorrelationStorage.get(),
+        metadata: template.toJSON(),
+        ...this.base,
+      });
 
       await this.deps.inner.send(template);
 
       this.deps.Logger.info({
         message: "Mailer success",
+        correlationId: CorrelationStorage.get(),
         metadata: { template: template.toJSON(), duration: duration.stop() },
         ...this.base,
       });
     } catch (error) {
-      this.deps.Logger.error({ message: "Mailer error", error, metadata: duration.stop(), ...this.base });
+      this.deps.Logger.error({
+        message: "Mailer error",
+        correlationId: CorrelationStorage.get(),
+        error,
+        metadata: duration.stop(),
+        ...this.base,
+      });
 
       throw error;
     }
