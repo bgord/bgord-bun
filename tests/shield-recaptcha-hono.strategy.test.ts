@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import * as v from "valibot";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
 import { ShieldRecaptchaHonoStrategy } from "../src/shield-recaptcha-hono.strategy";
@@ -14,12 +14,12 @@ const shield = new ShieldRecaptchaHonoStrategy({ secretKey: v.parse(RecaptchaSec
 const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 const SAFE_BODY = "dummy=1";
 
-const app = new Hono()
-  .post("/", shield.handle(), (c) => c.text("ok"))
-  .onError((err, c) => {
-    if (err instanceof Error) return c.json({ message: err.message }, 403);
-    return c.text("internal error", 500);
-  });
+const onError = (error: Error, c: Context) => {
+  if (error instanceof Error) return c.json({ message: error.message }, 403);
+  return c.text("internal error", 500);
+};
+
+const app = new Hono().post("/", shield.handle(), (c) => c.text("ok")).onError(onError);
 
 describe("ShieldRecaptchaHonoStrategy", () => {
   test("happy path", async () => {
@@ -115,6 +115,25 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.4 })),
     );
+
+    const response = await app.request("http://localhost/", {
+      method: "POST",
+      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
+      body: SAFE_BODY,
+    });
+
+    expect(response.status).toEqual(403);
+  });
+
+  test("failure - low score", async () => {
+    using _ = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.1 })),
+    );
+    const shield = new ShieldRecaptchaHonoStrategy({
+      secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
+      threshold: 0.2,
+    });
+    const app = new Hono().post("/", shield.handle(), (c) => c.text("ok")).onError(onError);
 
     const response = await app.request("http://localhost/", {
       method: "POST",
