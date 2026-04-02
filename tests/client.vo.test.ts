@@ -84,9 +84,16 @@ describe("Client", () => {
   });
 
   test("equals - false - all undefined", () => {
-    expect(Client.fromParts(undefined, undefined).equals(Client.fromParts(undefined, undefined))).toEqual(
-      false,
-    );
+    const complete = Client.fromParts("127.0.0.1", "firefox");
+    const partialIpOnly = Client.fromParts("127.0.0.1", undefined);
+    const partialUaOnly = Client.fromParts(undefined, "firefox");
+    const empty = Client.fromParts(undefined, undefined);
+
+    expect(empty.equals(empty)).toEqual(false);
+    expect(complete.equals(partialIpOnly)).toEqual(false);
+    expect(partialUaOnly.equals(complete)).toEqual(false);
+    expect(partialIpOnly.equals(partialIpOnly)).toEqual(false);
+    expect(partialUaOnly.equals(partialUaOnly)).toEqual(false);
   });
 
   test("hasSameUa - true", () => {

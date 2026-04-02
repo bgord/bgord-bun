@@ -23,14 +23,7 @@ export class Client {
   }
 
   equals(other: Client): boolean {
-    return (
-      this.ip !== undefined &&
-      this.ua !== undefined &&
-      other.ip !== undefined &&
-      other.ua !== undefined &&
-      this.ip === other.ip &&
-      this.ua === other.ua
-    );
+    return this.ip !== undefined && this.ua !== undefined && this.ip === other.ip && this.ua === other.ua;
   }
 
   hasSameUa(other: Client): boolean {

@@ -17,6 +17,6 @@ export class ShieldAuthStrategy<User, Session> {
   }
 
   reverse(user: User | null): boolean {
-    return user === null || user === undefined;
+    return !user;
   }
 }
