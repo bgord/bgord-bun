@@ -34,7 +34,7 @@
     "cspell": "9.7.0",
     "csv": "6.5.1",
     "croner": "10.0.1",
-    "knip": "6.1.1",
+    "knip": "6.2.0",
     "lefthook": "2.1.4",
     "lockfile-lint": "5.0.0",
     "nodemailer": "8.0.4",
@@ -48,7 +48,7 @@
   "dependencies": {
     "@bgord/tools": "1.4.13",
     "emittery": "2.0.0",
-    "hono": "4.12.9",
+    "hono": "4.12.10",
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
