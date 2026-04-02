@@ -25,8 +25,10 @@ Run the tests
 ```
 src/
 ├── ab-assignment-composite.strategy.ts
+├── ab-assignment-cookie.strategy.ts
 ├── ab-assignment-fixed.strategy.ts
 ├── ab-assignment-hash.strategy.ts
+├── ab-assignment-header.strategy.ts
 ├── ab-assignment-query.strategy.ts
 ├── ab-assignment.strategy.ts
 ├── ab-hono-noop.middleware.ts
@@ -51,6 +53,8 @@ src/
 ├── antivirus-noop.adapter.ts
 ├── antivirus-with-logger.adapter.ts
 ├── antivirus-with-semaphore.adapter.ts
+├── antivirus-with-timeout.adapter.ts
+├── antivirus.builder.ts
 ├── antivirus.port.ts
 ├── api-version-hono.middleware.ts
 ├── api-version.middleware.ts
@@ -94,6 +98,7 @@ src/
 ├── cron-expression.vo.ts
 ├── cron-scheduler-croner.adapter.ts
 ├── cron-scheduler-noop.adapter.ts
+├── cron-scheduler-with-logger.adapter.ts
 ├── cron-scheduler.port.ts
 ├── cron-task-handler-bare.strategy.ts
 ├── cron-task-handler-noop.strategy.ts
@@ -294,6 +299,7 @@ src/
 ├── job-retry-policy-composite.strategy.ts
 ├── job-retry-policy-error-filter.strategy.ts
 ├── job-retry-policy-limit.strategy.ts
+├── job-retry-policy-noop.strategy.ts
 ├── job-retry-policy.strategy.ts
 ├── job-worker.service.ts
 ├── job.types.ts
