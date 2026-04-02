@@ -13,25 +13,21 @@ const base: HashFileResult = {
 };
 
 describe("Checksum", () => {
-  test("returns true when files are identical", () => {
+  test("true", () => {
     expect(Checksum.compare(base, base)).toEqual(true);
   });
 
-  test("returns false when etag differs", () => {
-    const otherEtag = { ...base, etag: Hash.fromString("1".repeat(64)) };
-
-    expect(Checksum.compare(base, otherEtag)).toEqual(false);
+  test("false - etag", () => {
+    expect(Checksum.compare(base, { ...base, etag: Hash.fromString("1".repeat(64)) })).toEqual(false);
   });
 
-  test("returns false when size differs", () => {
-    const otherEtag = { ...base, size: tools.Size.fromBytes(9999) };
-
-    expect(Checksum.compare(base, otherEtag)).toEqual(false);
+  test("false - size", () => {
+    expect(Checksum.compare(base, { ...base, size: tools.Size.fromBytes(9999) })).toEqual(false);
   });
 
-  test("returns false when lastModified differs", () => {
-    const otherEtag = { ...base, lastModified: tools.Timestamp.fromNumber(2000) };
-
-    expect(Checksum.compare(base, otherEtag)).toEqual(false);
+  test("false - lastModified", () => {
+    expect(Checksum.compare(base, { ...base, lastModified: tools.Timestamp.fromNumber(2000) })).toEqual(
+      false,
+    );
   });
 });
