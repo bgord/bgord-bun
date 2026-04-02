@@ -12,6 +12,7 @@ const config: CacheRepositoryTtlType = { type: "finite", ttl: tools.Duration.Hou
 const client = {
   get: async (_key: string): Promise<string | null> => null,
   set: async (_key: string, _value: string): Promise<void> => {},
+  setex: async (_key: string, _value: string): Promise<void> => {},
   del: async (_key: string): Promise<void> => {},
   expire: async (_key: string, _seconds: number): Promise<void> => {},
   send: async (..._args: Array<unknown>): Promise<void> => {},
@@ -39,14 +40,12 @@ describe("CacheRepositoryRedisAdapter", async () => {
   });
 
   test("set - finite ttl", async () => {
-    using set = spyOn(client, "set");
-    using expire = spyOn(client, "expire");
+    using setex = spyOn(client, "setex");
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
     await adapter.set(subject.hex, "value");
 
-    expect(set).toHaveBeenCalledWith(subject.hex.get(), JSON.stringify("value"));
-    expect(expire).toHaveBeenCalledWith(subject.hex.get(), config.ttl.seconds);
+    expect(setex).toHaveBeenCalledWith(subject.hex.get(), config.ttl.seconds, JSON.stringify("value"));
   });
 
   test("set - infinite ttl", async () => {

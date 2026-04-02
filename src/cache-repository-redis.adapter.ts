@@ -15,9 +15,12 @@ export class CacheRepositoryRedisAdapter implements CacheRepositoryPort {
   }
 
   async set<T>(subject: Hash, value: T): Promise<void> {
-    await this.client.set(subject.get(), JSON.stringify(value));
+    const serialized = JSON.stringify(value);
+
     if (this.config.type === "finite") {
-      await this.client.expire(subject.get(), this.config.ttl.seconds);
+      await this.client.setex(subject.get(), this.config.ttl.seconds, serialized);
+    } else {
+      await this.client.set(subject.get(), serialized);
     }
   }
 
