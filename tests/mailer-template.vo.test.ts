@@ -18,6 +18,6 @@ describe("MailerTemplate", () => {
 
     const result = new MailerTemplate(config, message, []).toJSON();
 
-    expect(result).toEqual({ config, message });
+    expect(result).toEqual({ config, message, attachments: 0 });
   });
 });

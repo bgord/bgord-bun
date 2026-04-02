@@ -22,6 +22,6 @@ export class MailerTemplate {
   ) {}
 
   toJSON() {
-    return { config: this.config, message: this.message };
+    return { config: this.config, message: this.message, attachments: this.attachments?.length };
   }
 }
