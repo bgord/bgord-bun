@@ -10,7 +10,11 @@ const csv = new File(["csv"], "data.csv", { type: "text/csv" });
 const empty = new File([], "data.csv", { type: "text/csv" });
 const invalid = new File(["document"], "document.pdf", { type: "application/pdf" });
 
-const uploader = new FileUploaderHonoMiddleware({ MimeRegistry, maxSize: tools.Size.fromKb(10) });
+const uploader = new FileUploaderHonoMiddleware({
+  MimeRegistry,
+  maxSize: tools.Size.fromKb(10),
+  field: "file",
+});
 const app = new Hono().use(uploader.handle()).post("/uploader", (c) => c.text("uploaded"));
 
 describe("FileUploaderHonoMiddleware", () => {
@@ -54,7 +58,11 @@ describe("FileUploaderHonoMiddleware", () => {
   });
 
   test("size limit", async () => {
-    const uploader = new FileUploaderHonoMiddleware({ MimeRegistry, maxSize: tools.Size.fromBytes(0) });
+    const uploader = new FileUploaderHonoMiddleware({
+      MimeRegistry,
+      maxSize: tools.Size.fromBytes(0),
+      field: "file",
+    });
     const app = new Hono().use(uploader.handle()).post("/uploader", (c) => c.text("uploaded"));
 
     const form = new FormData();
