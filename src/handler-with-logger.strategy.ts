@@ -1,4 +1,5 @@
 import type { ClockPort } from "./clock.port";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { Handleable, HandlerStrategy } from "./handler.strategy";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
@@ -17,6 +18,7 @@ export class HandlerWithLoggerStrategy implements HandlerStrategy {
       } catch (error) {
         this.deps.Logger.error({
           message: `Unknown ${handleable.name} handler error`,
+          correlationId: CorrelationStorage.get(),
           component: "infra",
           operation: "handler",
           metadata: { name: handleable.name, duration: duration.stop() },

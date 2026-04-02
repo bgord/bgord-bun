@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { PdfGeneratorPort, PdfGeneratorTemplateType } from "./pdf-generator.port";
 import { Stopwatch } from "./stopwatch.service";
@@ -15,13 +16,19 @@ export class PdfGeneratorWithLoggerAdapter implements PdfGeneratorPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({ message: "PDF generator attempt", metadata: { template, data }, ...this.base });
+      this.deps.Logger.info({
+        message: "PDF generator attempt",
+        correlationId: CorrelationStorage.get(),
+        metadata: { template, data },
+        ...this.base,
+      });
 
       const pdf = await this.deps.inner.request(template, data);
       const size = tools.Size.fromBytes(pdf.byteLength);
 
       this.deps.Logger.info({
         message: "PDF generator success",
+        correlationId: CorrelationStorage.get(),
         metadata: { size, duration: duration.stop() },
         ...this.base,
       });
@@ -30,6 +37,7 @@ export class PdfGeneratorWithLoggerAdapter implements PdfGeneratorPort {
     } catch (error) {
       this.deps.Logger.error({
         message: "PDF generator error",
+        correlationId: CorrelationStorage.get(),
         error,
         metadata: duration.stop(),
         ...this.base,

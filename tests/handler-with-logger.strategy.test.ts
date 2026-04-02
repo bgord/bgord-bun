@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { HandlerWithLoggerStrategy } from "../src/handler-with-logger.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
@@ -22,12 +23,15 @@ describe("HandlerWithLoggerStrategy", () => {
     const Logger = new LoggerCollectingAdapter();
     const handler = new HandlerWithLoggerStrategy({ Clock, Logger });
 
-    expect(async () => handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message)).toThrow(
-      mocks.IntentionalError,
-    );
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        handler.handle(mocks.throwIntentionalErrorAsync)(mocks.message),
+      ),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([
       {
         message: `Unknown ${mocks.message.name} handler error`,
+        correlationId: mocks.correlationId,
         component: "infra",
         operation: "handler",
         metadata: { ...mocks.message, duration: expect.any(tools.Duration) },

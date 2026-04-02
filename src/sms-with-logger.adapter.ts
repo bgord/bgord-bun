@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import type { SmsPort } from "./sms.port";
 import { Stopwatch } from "./stopwatch.service";
@@ -15,18 +16,25 @@ export class SmsWithLoggerAdapter implements SmsPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({ message: "SMS attempt", metadata: message.toJSON(), ...this.base });
+      this.deps.Logger.info({
+        message: "SMS attempt",
+        correlationId: CorrelationStorage.get(),
+        metadata: message.toJSON(),
+        ...this.base,
+      });
 
       await this.deps.inner.send(message);
 
       this.deps.Logger.info({
         message: "SMS success",
+        correlationId: CorrelationStorage.get(),
         metadata: { message: message.toJSON(), duration: duration.stop() },
         ...this.base,
       });
     } catch (error) {
       this.deps.Logger.error({
         message: "SMS error",
+        correlationId: CorrelationStorage.get(),
         error,
         metadata: { message: message.toJSON(), duration: duration.stop() },
         ...this.base,

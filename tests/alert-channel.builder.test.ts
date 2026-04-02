@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { AlertChannelBuilder } from "../src/alert-channel.builder";
 import { AlertChannelNoopAdapter } from "../src/alert-channel-noop.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
@@ -35,7 +36,7 @@ describe("AlertChannelBuilder", () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = AlertChannelBuilder.of(inner).withLogger({ Logger, Clock }).build();
 
-    await adapter.send(mocks.alert);
+    await CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.alert));
 
     expect(Logger.entries.length).toEqual(2);
   });

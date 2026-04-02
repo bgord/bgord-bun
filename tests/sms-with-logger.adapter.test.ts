@@ -1,6 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { SmsNoopAdapter } from "../src/sms-noop.adapter";
 import { SmsWithLoggerAdapter } from "../src/sms-with-logger.adapter";
@@ -15,19 +16,21 @@ describe("SmsWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new SmsWithLoggerAdapter({ Logger, Clock, inner });
 
-    await adapter.send(mocks.sms);
+    await CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.sms));
 
     expect(sendSpy).toHaveBeenCalledWith(mocks.sms);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         message: "SMS attempt",
+        correlationId: mocks.correlationId,
         metadata: mocks.sms.toJSON(),
         operation: "sms",
       },
       {
         component: "infra",
         message: "SMS success",
+        correlationId: mocks.correlationId,
         metadata: { message: mocks.sms.toJSON(), duration: expect.any(tools.Duration) },
         operation: "sms",
       },
@@ -39,18 +42,22 @@ describe("SmsWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new SmsWithLoggerAdapter({ Logger, Clock, inner });
 
-    expect(async () => adapter.send(mocks.sms)).toThrow(mocks.IntentionalError);
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.sms)),
+    ).toThrow(mocks.IntentionalError);
     expect(sendSpy).toHaveBeenCalledWith(mocks.sms);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         message: "SMS attempt",
+        correlationId: mocks.correlationId,
         metadata: mocks.sms.toJSON(),
         operation: "sms",
       },
       {
         component: "infra",
         message: "SMS error",
+        correlationId: mocks.correlationId,
         operation: "sms",
         error: new Error(mocks.IntentionalError),
         metadata: { message: mocks.sms.toJSON(), duration: expect.any(tools.Duration) },

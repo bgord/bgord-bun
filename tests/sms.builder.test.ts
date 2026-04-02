@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
@@ -35,7 +36,7 @@ describe("SmsBuilder", () => {
     const Logger = new LoggerCollectingAdapter();
     const sms = SmsBuilder.of(inner).withLogger({ Logger, Clock }).build();
 
-    await sms.send(mocks.sms);
+    await CorrelationStorage.run(mocks.correlationId, async () => sms.send(mocks.sms));
 
     expect(Logger.entries.length).toEqual(2);
   });

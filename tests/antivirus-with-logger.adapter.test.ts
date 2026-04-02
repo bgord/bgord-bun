@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { AntivirusNoopAdapter } from "../src/antivirus-noop.adapter";
 import { AntivirusWithLoggerAdapter } from "../src/antivirus-with-logger.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
 
@@ -14,18 +15,22 @@ describe("AntivirusWithLoggerAdapter", () => {
     const inner = new AntivirusNoopAdapter();
     const adapter = new AntivirusWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(await adapter.scan(mocks.cleanFile)).toEqual({ clean: true });
+    expect(
+      await CorrelationStorage.run(mocks.correlationId, async () => adapter.scan(mocks.cleanFile)),
+    ).toEqual({ clean: true });
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "antivirus",
         message: "Antivirus scan attempt",
+        correlationId: mocks.correlationId,
         metadata: { size: 3 },
       },
       {
         component: "infra",
         operation: "antivirus",
         message: "Antivirus scan success",
+        correlationId: mocks.correlationId,
         metadata: { clean: true, duration: expect.any(tools.Duration) },
       },
     ]);
@@ -37,18 +42,22 @@ describe("AntivirusWithLoggerAdapter", () => {
     using _ = spyOn(inner, "scan").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new AntivirusWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.scan(mocks.cleanFile)).toThrow(mocks.IntentionalError);
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.scan(mocks.cleanFile)),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "antivirus",
         message: "Antivirus scan attempt",
+        correlationId: mocks.correlationId,
         metadata: { size: 3 },
       },
       {
         component: "infra",
         operation: "antivirus",
         message: "Antivirus scan error",
+        correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
         metadata: expect.any(tools.Duration),
       },

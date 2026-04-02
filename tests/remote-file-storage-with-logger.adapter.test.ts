@@ -2,6 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { RemoteFileStorageNoopAdapter } from "../src/remote-file-storage-noop.adapter";
 import { RemoteFileStorageWithLoggerAdapter } from "../src/remote-file-storage-with-logger.adapter";
@@ -19,23 +20,27 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    const result = await adapter.putFromPath({ key, path });
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      const result = await adapter.putFromPath({ key, path });
 
-    expect(result.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 10));
-    expect(Logger.entries).toEqual([
-      {
-        component: "infra",
-        operation: "remote_file_storage",
-        message: "Remote file storage put attempt",
-        metadata: { key },
-      },
-      {
-        component: "infra",
-        operation: "remote_file_storage",
-        message: "Remote file storage put success",
-        metadata: { key, size: result.size, duration: expect.any(tools.Duration) },
-      },
-    ]);
+      expect(result.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 10));
+      expect(Logger.entries).toEqual([
+        {
+          component: "infra",
+          operation: "remote_file_storage",
+          message: "Remote file storage put attempt",
+          correlationId: mocks.correlationId,
+          metadata: { key },
+        },
+        {
+          component: "infra",
+          operation: "remote_file_storage",
+          message: "Remote file storage put success",
+          correlationId: mocks.correlationId,
+          metadata: { key, size: result.size, duration: expect.any(tools.Duration) },
+        },
+      ]);
+    });
   });
 
   test("putFromPath - failure", async () => {
@@ -44,18 +49,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     using _ = spyOn(inner, "putFromPath").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.putFromPath({ key, path })).toThrow(mocks.IntentionalError);
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.putFromPath({ key, path })),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage put attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage put error",
+        correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
         metadata: { key, duration: expect.any(tools.Duration) },
       },
@@ -67,20 +76,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    const result = await adapter.head(key);
-
-    expect(result.exists).toEqual(false);
+    expect(await CorrelationStorage.run(mocks.correlationId, async () => adapter.head(key))).toEqual({
+      exists: false,
+    });
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage head attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage head success",
+        correlationId: mocks.correlationId,
         metadata: { key, exists: false, duration: expect.any(tools.Duration) },
       },
     ]);
@@ -92,18 +103,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     using _ = spyOn(inner, "head").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.head(key)).toThrow(mocks.IntentionalError);
+    expect(async () => CorrelationStorage.run(mocks.correlationId, async () => adapter.head(key))).toThrow(
+      mocks.IntentionalError,
+    );
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage head attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage head error",
+        correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
         metadata: { key, duration: expect.any(tools.Duration) },
       },
@@ -115,18 +130,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(await adapter.getStream(key)).toEqual(null);
+    expect(await CorrelationStorage.run(mocks.correlationId, async () => adapter.getStream(key))).toEqual(
+      null,
+    );
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage get stream attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage get stream success",
+        correlationId: mocks.correlationId,
         metadata: { key, duration: expect.any(tools.Duration) },
       },
     ]);
@@ -138,18 +157,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     using _ = spyOn(inner, "getStream").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.getStream(key)).toThrow(mocks.IntentionalError);
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.getStream(key)),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage get stream attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage get stream error",
+        correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
         metadata: { key, duration: expect.any(tools.Duration) },
       },
@@ -161,18 +184,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.delete(key)).not.toThrow();
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.delete(key)),
+    ).not.toThrow();
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage delete attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage delete success",
+        correlationId: mocks.correlationId,
         metadata: { key, duration: expect.any(tools.Duration) },
       },
     ]);
@@ -184,18 +211,22 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     using _ = spyOn(inner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.delete(key)).toThrow(mocks.IntentionalError);
+    expect(async () => CorrelationStorage.run(mocks.correlationId, async () => adapter.delete(key))).toThrow(
+      mocks.IntentionalError,
+    );
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage delete attempt",
+        correlationId: mocks.correlationId,
         metadata: { key },
       },
       {
         component: "infra",
         operation: "remote_file_storage",
         message: "Remote file storage delete error",
+        correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
         metadata: { key, duration: expect.any(tools.Duration) },
       },

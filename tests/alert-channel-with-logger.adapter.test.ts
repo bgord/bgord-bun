@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { AlertChannelNoopAdapter } from "../src/alert-channel-noop.adapter";
 import { AlertChannelWithLoggerAdapter } from "../src/alert-channel-with-logger.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
 
@@ -15,19 +16,21 @@ describe("AlertChannelWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new AlertChannelWithLoggerAdapter({ inner, Logger, Clock });
 
-    await adapter.send(mocks.alert);
+    await CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.alert));
 
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "alert_channel",
         message: "Alert channel attempt",
+        correlationId: mocks.correlationId,
         metadata: mocks.alert.toJSON(),
       },
       {
         component: "infra",
         operation: "alert_channel",
         message: "Alert channel success",
+        correlationId: mocks.correlationId,
         metadata: { alert: mocks.alert.toJSON(), duration: expect.any(tools.Duration) },
       },
     ]);
@@ -38,18 +41,22 @@ describe("AlertChannelWithLoggerAdapter", () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new AlertChannelWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => adapter.send(mocks.alert)).toThrow(mocks.IntentionalError);
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.alert)),
+    ).toThrow(mocks.IntentionalError);
 
     expect(Logger.entries[0]).toEqual({
       component: "infra",
       operation: "alert_channel",
       message: "Alert channel attempt",
+      correlationId: mocks.correlationId,
       metadata: mocks.alert.toJSON(),
     });
     expect(Logger.entries[1]).toEqual({
       component: "infra",
       operation: "alert_channel",
       message: "Alert channel error",
+      correlationId: mocks.correlationId,
       error: new Error(mocks.IntentionalError),
       metadata: { alert: mocks.alert, duration: expect.any(tools.Duration) },
     });

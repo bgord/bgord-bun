@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { AntivirusBuilder } from "../src/antivirus.builder";
 import { AntivirusNoopAdapter } from "../src/antivirus-noop.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { Semaphore } from "../src/semaphore.service";
 import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
@@ -32,7 +33,7 @@ describe("AntivirusBuilder", () => {
     const Logger = new LoggerCollectingAdapter();
     const antivirus = AntivirusBuilder.of(inner).withLogger({ Logger, Clock }).build();
 
-    await antivirus.scan(mocks.cleanFile);
+    await CorrelationStorage.run(mocks.correlationId, async () => antivirus.scan(mocks.cleanFile));
 
     expect(Logger.entries.length).toEqual(2);
   });
@@ -60,6 +61,8 @@ describe("AntivirusBuilder", () => {
       .withLogger({ Logger: new LoggerCollectingAdapter(), Clock })
       .build();
 
-    expect(await antivirus.scan(mocks.cleanFile)).toEqual({ clean: true });
+    expect(
+      await CorrelationStorage.run(mocks.correlationId, async () => antivirus.scan(mocks.cleanFile)),
+    ).toEqual({ clean: true });
   });
 });
