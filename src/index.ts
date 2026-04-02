@@ -273,6 +273,7 @@ export * from "./job-retry-policy-backoff.strategy";
 export * from "./job-retry-policy-composite.strategy";
 export * from "./job-retry-policy-error-filter.strategy";
 export * from "./job-retry-policy-limit.strategy";
+export * from "./job-retry-policy-noop.strategy";
 export * from "./job-worker.service";
 export * from "./language-detector.middleware";
 export * from "./language-detector.strategy";
