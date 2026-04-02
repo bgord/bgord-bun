@@ -21,7 +21,13 @@ export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
     await this.deps.FileWriter.write(temporary.get(), content);
-    await this.deps.FileRenamer.rename(temporary, final);
+
+    try {
+      await this.deps.FileRenamer.rename(temporary, final);
+    } catch (error) {
+      await this.deps.FileCleaner.delete(temporary);
+      throw error;
+    }
 
     return final;
   }

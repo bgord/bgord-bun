@@ -44,8 +44,10 @@ describe("TemporaryFileAbsoluteAdapter", () => {
 
   test("write - renamer error", async () => {
     using _ = spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
     expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
+    expect(fileCleanerDelete).toHaveBeenCalledWith(partial);
   });
 
   test("cleanup", async () => {
