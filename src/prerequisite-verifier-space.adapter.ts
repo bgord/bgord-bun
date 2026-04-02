@@ -1,5 +1,6 @@
 import path from "node:path";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { DiskSpaceCheckerPort } from "./disk-space-checker.port";
 import {
   PrerequisiteVerification,
@@ -18,7 +19,7 @@ export class PrerequisiteVerifierSpaceAdapter implements PrerequisiteVerifierPor
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
-      const root = path.sep;
+      const root = v.parse(tools.DirectoryPathAbsoluteSchema, path.sep);
       const freeDiskSpace = await this.deps.DiskSpaceChecker.get(root);
 
       if (freeDiskSpace.isGreaterThan(this.config.minimum)) return PrerequisiteVerification.success;
