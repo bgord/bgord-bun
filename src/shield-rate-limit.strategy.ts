@@ -5,6 +5,7 @@ import type { RequestContext } from "./request-context.port";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
 export type ShieldRateLimitConfig = { resolver: SubjectRequestResolver; window: tools.Duration };
+type ShieldRateLimitResult = { allowed: true } | { allowed: false; retryAfter: tools.Duration };
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 
@@ -16,7 +17,7 @@ export class ShieldRateLimitStrategy {
     private readonly deps: Dependencies,
   ) {}
 
-  async evaluate(context: RequestContext): Promise<boolean> {
+  async evaluate(context: RequestContext): Promise<ShieldRateLimitResult> {
     const subject = await this.config.resolver.resolve(context);
 
     const limiter = await this.deps.CacheResolver.resolve(
@@ -24,6 +25,10 @@ export class ShieldRateLimitStrategy {
       async () => new tools.RateLimiter(this.config.window),
     );
 
-    return limiter.verify(this.deps.Clock.now()).allowed;
+    const decision = limiter.verify(this.deps.Clock.now());
+
+    if (decision.allowed) return { allowed: true };
+
+    return { allowed: false, retryAfter: decision.remaining };
   }
 }
