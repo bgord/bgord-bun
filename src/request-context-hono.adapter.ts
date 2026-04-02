@@ -41,7 +41,7 @@ export class RequestContextHonoAdapter implements RequestContext {
       userId: () => context.get("user")?.id,
       ip: () =>
         context.req.header("x-real-ip") ||
-        context.req.header("x-forwarded-for") ||
+        context.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
         getConnInfo(context).remote.address,
       ua: () => context.req.header("user-agent"),
     };
