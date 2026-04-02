@@ -75,6 +75,6 @@ describe("CacheRepositoryRedisAdapter", async () => {
 
     await adapter.flush();
 
-    expect(send).toHaveBeenCalledWith("FLUSHALL", []);
+    expect(send).toHaveBeenCalledWith("FLUSHDB", []);
   });
 });
