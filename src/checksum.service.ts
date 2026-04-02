@@ -5,8 +5,7 @@ export class Checksum {
     return (
       first.etag.matches(second.etag) &&
       first.size.toBytes() === second.size.toBytes() &&
-      first.lastModified.equals(second.lastModified) &&
-      first.mime.isSatisfiedBy(second.mime)
+      first.lastModified.equals(second.lastModified)
     );
   }
 }
