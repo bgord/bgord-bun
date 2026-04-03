@@ -40,4 +40,12 @@ describe("JobQueueAdapter", () => {
   test("getRetryPolicy - missing", async () => {
     expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
   });
+
+  test("getHandler", async () => {
+    expect(queue.getHandler(mocks.GenericSendEmailJob.name)).toEqual(handler);
+  });
+
+  test("getHandler - missing", async () => {
+    expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+  });
 });

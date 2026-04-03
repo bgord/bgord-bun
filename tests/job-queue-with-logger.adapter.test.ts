@@ -1,25 +1,12 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CorrelationStorage } from "../src/correlation-storage.service";
-import { JobClaimerNoopAdapter } from "../src/job-claimer-noop.adapter";
-import { JobCompleterNoopAdapter } from "../src/job-completer-noop.adapter";
-import { JobEnqueuerNoopAdapter } from "../src/job-enqueuer-noop.adapter";
-import { JobFailerNoopAdapter } from "../src/job-failer-noop.adapter";
-import { JobQueueAdapter } from "../src/job-queue.adapter";
+import { JobQueueAdapterNoop } from "../src/job-queue-noop.adapter";
 import { JobQueueWithLoggerAdapter } from "../src/job-queue-with-logger.adapter";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
-import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
-import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
-
-const enqueuer = new JobEnqueuerNoopAdapter();
-const claimer = new JobClaimerNoopAdapter();
-const completer = new JobCompleterNoopAdapter();
-const failer = new JobFailerNoopAdapter();
-const requeuer = new JobRequeuerNoopAdapter();
-const serializer = new PayloadSerializerJsonAdapter();
 
 const limit = tools.Int.positive(5);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
@@ -28,13 +15,13 @@ const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
   [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
 });
 
-const deps = { enqueuer, claimer, completer, failer, registry, requeuer, serializer };
+const deps = { registry };
 
 const base = { component: "infra", operation: "job_queue" };
 
 const revision = mocks.GenericSendEmailJob.revision + 1;
 
-const inner = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+const inner = new JobQueueAdapterNoop<mocks.SendEmailJobType>(deps);
 
 describe("JobQueueWithLoggerAdapter", () => {
   test("enqueue", async () => {
@@ -73,24 +60,6 @@ describe("JobQueueWithLoggerAdapter", () => {
       },
     ]);
     expect(claim).toHaveBeenCalledWith(5);
-  });
-
-  test("claim - with jobs", async () => {
-    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
-    const inner = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer });
-    const Logger = new LoggerCollectingAdapter();
-    const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
-
-    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () => queue.claim(limit));
-
-    expect(Logger.entries).toEqual([
-      {
-        message: "Claimed 1 job(s)",
-        metadata: { count: 1, limit: 5, jobs: [mocks.GenericSendEmailJob] },
-        correlationId: mocks.GenericSendEmailJob.correlationId,
-        ...base,
-      },
-    ]);
   });
 
   test("complete", async () => {
@@ -154,13 +123,29 @@ describe("JobQueueWithLoggerAdapter", () => {
   });
 
   test("getRetryPolicy", async () => {
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+    const Logger = new LoggerCollectingAdapter();
+    const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
     expect(queue.getRetryPolicy(mocks.GenericSendEmailJob.name)).toEqual(retry);
   });
 
   test("getRetryPolicy - missing", async () => {
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+    const Logger = new LoggerCollectingAdapter();
+
+    const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
+    expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+  });
+
+  test("getHandler", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
+
+    expect(queue.getHandler(mocks.GenericSendEmailJob.name)).toEqual(handler);
+  });
+
+  test("getHandler - missing", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const queue = new JobQueueWithLoggerAdapter<mocks.SendEmailJobType>({ inner, Logger });
 
     expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
   });

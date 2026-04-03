@@ -76,14 +76,18 @@ describe("JobQueueAdapter", () => {
   });
 
   test("getRetryPolicy", async () => {
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
-
     expect(queue.getRetryPolicy(mocks.GenericSendEmailJob.name)).toEqual(retry);
   });
 
   test("getRetryPolicy - missing", async () => {
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+    expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+  });
 
+  test("getHandler", async () => {
+    expect(queue.getHandler(mocks.GenericSendEmailJob.name)).toEqual(handler);
+  });
+
+  test("getHandler - missing", async () => {
     expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
   });
 });
