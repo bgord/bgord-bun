@@ -28,7 +28,7 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
           this.deps.Logger.info({
             message: `${task.label} success`,
             correlationId,
-            metadata: duration.stop(),
+            metadata: { duration: duration.stop() },
             ...this.base,
           });
         } catch (error) {
@@ -36,7 +36,7 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
             message: `${task.label} error`,
             correlationId,
             error,
-            metadata: duration.stop(),
+            metadata: { duration: duration.stop() },
             ...this.base,
           });
 

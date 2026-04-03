@@ -294,7 +294,7 @@ export type SendEmailJobType = v.InferOutput<typeof SendEmailJobSchema>;
 
 export const GenericSendEmailJob = {
   id: correlationId,
-  correlationId: correlationId,
+  correlationId,
   createdAt: TIME_ZERO.ms,
   name: SEND_EMAIL_JOB,
   revision: 0,

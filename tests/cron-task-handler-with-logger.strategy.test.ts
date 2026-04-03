@@ -28,7 +28,7 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
         message: `${mocks.task.label} success`,
         component: "infra",
         correlationId: mocks.correlationId,
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
         operation: "cron_task_handler",
       },
     ]);
@@ -68,7 +68,7 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
         correlationId: mocks.correlationId,
         operation: "cron_task_handler",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });
