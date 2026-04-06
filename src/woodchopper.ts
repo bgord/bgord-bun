@@ -73,7 +73,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
     let withInjectedFields: LoggerEntry;
     try {
       withInjectedFields = {
-        timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
+        timestamp: this.deps.Clock.now().toInstant().toString(),
         level,
         app: this.config.app,
         environment: this.config.environment,
