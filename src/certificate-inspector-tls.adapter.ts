@@ -24,7 +24,7 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
             return resolve({ success: false });
           }
 
-          const remaining = tools.Timestamp.fromDateLike(certificate.valid_to).difference(
+          const remaining = tools.Timestamp.fromString(certificate.valid_to).difference(
             this.deps.Clock.now(),
           );
 

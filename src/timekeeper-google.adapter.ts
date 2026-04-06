@@ -11,7 +11,7 @@ export class TimekeeperGoogleAdapter implements TimekeeperPort {
       const date = response.headers.get("Date");
 
       if (!date) return null;
-      return tools.Timestamp.fromDateLike(date);
+      return tools.Timestamp.fromString(date);
     } catch {
       return null;
     }
