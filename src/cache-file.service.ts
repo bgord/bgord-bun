@@ -15,7 +15,7 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
       headers: new Headers({
         ETag: options.etag.get(),
         "Cache-Control": "private, max-age=0, must-revalidate",
-        "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
+        "Last-Modified": options.lastModified.toInstant().toString(),
         Vary: "Authorization, Cookie",
         ...overrides,
       }),
@@ -28,7 +28,7 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
       "Cache-Control": "private, max-age=0, must-revalidate",
       ETag: options.etag.get(),
       "Content-Length": options.size.toBytes().toString(),
-      "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
+      "Last-Modified": options.lastModified.toInstant().toString(),
       "Accept-Ranges": "bytes",
       Vary: "Authorization, Cookie",
       ...overrides,

@@ -10,7 +10,7 @@ const entry = {
   environment: NodeEnvironmentEnum.local,
   message: "message",
   operation: "test",
-  timestamp: mocks.TIME_ZERO_ISO,
+  timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
 };
 
 const sampling = new WoodchopperSamplingPassLevel([LogLevelEnum.error, LogLevelEnum.warn]);

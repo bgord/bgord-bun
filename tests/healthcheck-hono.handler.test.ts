@@ -84,7 +84,7 @@ describe("HealthcheckHonoHandler", () => {
       deployment: {
         version: mocks.version,
         timestamp: mocks.TIME_ZERO.ms,
-        date: mocks.TIME_ZERO_ISO,
+        date: mocks.TIME_ZERO_PLAIN_DATE_TIME,
         sha: mocks.SHA.toString(),
         size: "0 MB",
         environment: NodeEnvironmentEnum.production,
@@ -153,7 +153,7 @@ describe("HealthcheckHonoHandler", () => {
       deployment: {
         version: mocks.version,
         timestamp: mocks.TIME_ZERO.ms,
-        date: mocks.TIME_ZERO_ISO,
+        date: mocks.TIME_ZERO_PLAIN_DATE_TIME,
         sha: mocks.SHA.toString(),
         size: "0 MB",
         environment: NodeEnvironmentEnum.production,
@@ -248,7 +248,7 @@ describe("HealthcheckHonoHandler", () => {
       deployment: {
         version: mocks.version,
         timestamp: mocks.TIME_ZERO.ms,
-        date: mocks.TIME_ZERO_ISO,
+        date: mocks.TIME_ZERO_PLAIN_DATE_TIME,
         sha: mocks.SHA.toString(),
         size: "0 MB",
         environment: NodeEnvironmentEnum.production,

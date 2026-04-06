@@ -14,7 +14,7 @@ const entry = {
   level: LogLevelEnum.error,
   message: "message",
   operation: "test",
-  timestamp: mocks.TIME_ZERO_ISO,
+  timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
 };
 
 describe("WoodchopperDispatcherSync", () => {

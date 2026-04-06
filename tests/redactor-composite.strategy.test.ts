@@ -31,7 +31,7 @@ describe("RedactorComposite", () => {
       component: "infra",
       operation: "test",
       error,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       metadata: {
         password: "secret",
         users: ["1", "2", "3"],
@@ -42,7 +42,7 @@ describe("RedactorComposite", () => {
     // @ts-expect-error Changed schema assertion
     expect(redactor.redact(log)).toEqual({
       ...log,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error,
       metadata: { password: "***", users: { length: 3, type: "Array" }, types: { type: "Object", keys: 4 } },
     });

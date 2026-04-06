@@ -7,7 +7,7 @@ const adapter = new TimekeeperGoogleAdapter();
 describe("TimekeeperGoogleAdapter", () => {
   test("happy path", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(null, { headers: { date: mocks.TIME_ZERO_DATE_UTC } }),
+      new Response(null, { headers: { date: mocks.TIME_ZERO_PLAIN_DATE_TIME } }),
     );
 
     expect(await adapter.get()).toEqual(mocks.TIME_ZERO);

@@ -10,7 +10,7 @@ const entry = {
   level: LogLevelEnum.info,
   message: "message",
   operation: "test",
-  timestamp: mocks.TIME_ZERO_ISO,
+  timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
 };
 
 const sampling = new WoodchopperSamplingPassComponent(["infra", "security"]);

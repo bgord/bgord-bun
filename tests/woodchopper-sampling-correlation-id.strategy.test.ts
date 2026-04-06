@@ -13,7 +13,7 @@ const entryWithCorrelation = {
   message: "message",
   operation: "test",
   correlationId: "550e8400-e29b-41d4-a716-446655440000",
-  timestamp: mocks.TIME_ZERO_ISO,
+  timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
 };
 
 const entryWithDifferentCorrelation = {

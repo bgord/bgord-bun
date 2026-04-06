@@ -49,7 +49,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.error(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("error - error instance", () => {
@@ -63,7 +63,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entryWithErrorInstance,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: mocks.IntentionalErrorNormalized,
     });
   });
@@ -79,7 +79,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entryWithErrorString,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: { message: mocks.IntentionalError },
     });
   });
@@ -92,7 +92,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.warn(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("warn - error instance", () => {
@@ -106,7 +106,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...entryWithErrorInstance,
       ...config,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: mocks.IntentionalErrorNormalized,
     });
   });
@@ -122,7 +122,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...entryWithErrorString,
       ...config,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: { message: mocks.IntentionalError },
     });
   });
@@ -135,7 +135,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.info(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("http", () => {
@@ -146,7 +146,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.http(entryHttp);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entryHttp, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entryHttp, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("verbose", () => {
@@ -157,7 +157,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.verbose(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("debug", () => {
@@ -168,7 +168,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.debug(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("silly", () => {
@@ -179,7 +179,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.silly(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("level threshold - error", () => {
@@ -352,7 +352,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.info(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
   });
 
   test("redactor - mask", () => {
@@ -367,7 +367,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entry,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       metadata: { password: "***" },
     });
   });
@@ -384,7 +384,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entry,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       metadata: { users: { length: 3, type: "Array" } },
     });
   });
@@ -401,7 +401,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entry,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       metadata: { users: { type: "Object", keys: 3 } },
     });
   });
@@ -417,7 +417,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entryWithErrorInstance,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: { ...mocks.IntentionalErrorNormalized, stack: undefined },
     });
   });
@@ -440,7 +440,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entryWithErrorInstance,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: {
         ...mocks.IntentionalErrorNormalized,
         cause: { name: "Error", message: mocks.IntentionalCause, stack: expect.any(String) },
@@ -481,7 +481,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({
       ...config,
       ...entry,
-      timestamp: mocks.TIME_ZERO_ISO,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error: {
         ...mocks.IntentionalErrorNormalized,
         stack: undefined,
@@ -500,7 +500,7 @@ describe("Woodchopper", async () => {
 
     woodchopper.info(entry);
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
       written: 1,
@@ -537,7 +537,7 @@ describe("Woodchopper", async () => {
 
     await mocks.tick();
 
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_ISO });
+    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
       written: 1,

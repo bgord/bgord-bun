@@ -18,7 +18,7 @@ describe("CacheFileMustRevalidate", () => {
     expect(response.headers.get("ETag")).toEqual(meta.etag.get());
     expect(response.headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(response.headers.get("Vary")).toEqual("Authorization, Cookie");
-    expect(response.headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
+    expect(response.headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_PLAIN_DATE_TIME);
     expect(response.headers.get("Content-Type")).toEqual(null);
     expect(response.headers.get("Content-Length")).toEqual(null);
     expect(response.headers.get("Accept-Ranges")).toEqual(null);
@@ -49,7 +49,7 @@ describe("CacheFileMustRevalidate", () => {
     expect(headers.get("Cache-Control")).toEqual("private, max-age=0, must-revalidate");
     expect(headers.get("ETag")).toEqual(meta.etag.get());
     expect(headers.get("Content-Length")).toEqual(meta.size.toBytes().toString());
-    expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
+    expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_PLAIN_DATE_TIME);
     expect(headers.get("Accept-Ranges")).toEqual("bytes");
     expect(headers.get("Vary")).toEqual("Authorization, Cookie");
   });
@@ -62,6 +62,6 @@ describe("CacheFileMustRevalidate", () => {
 
     expect(headers.get("Content-Disposition")).toEqual('inline; filename="avatar.webp"');
     expect(headers.get("Vary")).toEqual("Authorization, Cookie, Accept-Language");
-    expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_DATE_UTC);
+    expect(headers.get("Last-Modified")).toEqual(mocks.TIME_ZERO_PLAIN_DATE_TIME);
   });
 });
