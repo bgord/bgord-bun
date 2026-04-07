@@ -282,6 +282,7 @@ src/
 ├── job-failer-noop.adapter.ts
 ├── job-failer-sqlite.adapter.ts
 ├── job-failer.port.ts
+├── job-queue-noop.adapter.ts
 ├── job-queue-sqlite-store.service.ts
 ├── job-queue-stats-provider-noop.adapter.ts
 ├── job-queue-stats-provider-sqlite.adapter.ts
