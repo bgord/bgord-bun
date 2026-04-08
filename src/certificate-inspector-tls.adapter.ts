@@ -23,8 +23,8 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
             cleanup(socket);
             return resolve({ success: false });
           }
-
-          const remaining = tools.Timestamp.fromString(certificate.valid_to).difference(
+          // biome-ignore lint: lint/style/noRestrictedGlobals
+          const remaining = tools.Timestamp.fromNumber(new Date(certificate.valid_to).getTime()).difference(
             this.deps.Clock.now(),
           );
 

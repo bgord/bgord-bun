@@ -12,20 +12,24 @@ const adapter = new CertificateInspectorTLSAdapter(deps);
 
 const host = "example.com";
 
+const month = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
+  .toZonedDateTimeISO("UTC")
+  .add({ days: 30 }).epochMilliseconds;
+
+const twoDaysAgo = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
+  .toZonedDateTimeISO("UTC")
+  .add({ days: -2 }).epochMilliseconds;
+
 describe("CertificateInspectorTLSAdapter", () => {
   test("success - remaining 30 days", async () => {
-    const valid_to = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
-      .toZonedDateTimeISO("UTC")
-      .add({ days: 30 })
-      .toString();
-
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
           return this;
         },
         getPeerCertificate() {
-          return { valid_to };
+          // biome-ignore lint: lint/style/noRestrictedGlobals
+          return { valid_to: new Date(month).toUTCString().replace("UTC", "GMT") };
         },
         end() {},
         destroy() {},
@@ -45,18 +49,14 @@ describe("CertificateInspectorTLSAdapter", () => {
   });
 
   test("success - expired 2 days ago", async () => {
-    const valid_to = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
-      .toZonedDateTimeISO("UTC")
-      .add({ days: -2 })
-      .toString();
-
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {
           return this;
         },
         getPeerCertificate() {
-          return { valid_to };
+          // biome-ignore lint: lint/style/noRestrictedGlobals
+          return { valid_to: new Date(twoDaysAgo).toUTCString().replace("UTC", "GMT") };
         },
         end() {},
         destroy() {},
