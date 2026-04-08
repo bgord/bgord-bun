@@ -4,11 +4,12 @@ import * as mocks from "./mocks";
 
 const adapter = new TimekeeperGoogleAdapter();
 
+// biome-ignore lint: lint/style/noRestrictedGlobals
+const date = new Date(mocks.TIME_ZERO.ms).toUTCString().replace("UTC", "GMT");
+
 describe("TimekeeperGoogleAdapter", () => {
   test("happy path", async () => {
-    using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(null, { headers: { date: mocks.TIME_ZERO_PLAIN_DATE_TIME } }),
-    );
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(null, { headers: { date } }));
 
     expect(await adapter.get()).toEqual(mocks.TIME_ZERO);
   });

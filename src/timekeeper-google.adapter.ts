@@ -11,7 +11,8 @@ export class TimekeeperGoogleAdapter implements TimekeeperPort {
       const date = response.headers.get("Date");
 
       if (!date) return null;
-      return tools.Timestamp.fromString(date);
+      // biome-ignore lint: lint/style/noRestrictedGlobals
+      return tools.Timestamp.fromNumber(new Date(date).getTime());
     } catch {
       return null;
     }
