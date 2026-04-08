@@ -11,6 +11,6 @@ describe("Uptime", () => {
   test("happy path", () => {
     using _ = spyOn(process, "uptime").mockImplementation(() => duration.seconds);
 
-    expect(Uptime.get(Clock)).toEqual({ duration, formatted: "TODO" });
+    expect(Uptime.get(Clock)).toEqual({ duration, formatted: "10 minutes ago" });
   });
 });
