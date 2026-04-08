@@ -1,6 +1,9 @@
 # Changelog
+## 2026-04-08 10:42 v1.17.0
+- 2026-04-08 10:42 1b0dd9d7 **1.17.0**
 - 2026-04-08 10:41 31b7b730 **fix: remove tests from build**
 - 2026-04-08 10:17 2cd8aeed **step: update packages**
+- 2026-04-08 08:41 fc0f11b7 **docs: generate CHANGELOG**
 - 2026-04-08 08:40 00c2f053 **docs: generate CHANGELOG**
 - 2026-04-07 06:59 e2e88b9c **step: update packages**
 - 2026-04-07 05:00 7f4dcf48 **docs: generate CHANGELOG**
