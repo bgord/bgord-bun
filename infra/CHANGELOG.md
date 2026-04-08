@@ -1,4 +1,6 @@
 # Changelog
+- 2026-04-08 13:46 f27ae6fa **step: restore formatted uptime**
+- 2026-04-08 13:43 37872f00 **step: update packages**
 ## 2026-04-08 12:42 v1.17.2
 - 2026-04-08 12:42 178cb9b8 **1.17.2**
 - 2026-04-08 12:41 2e59608e **step: update packages**
@@ -9,6 +11,7 @@
 - 2026-04-08 11:27 0359de7b **fix: biome checks**
 - 2026-04-08 11:26 8c975388 **step: bump bgord/scripts**
 ## 2026-04-08 10:42 v1.17.0
+- 2026-04-08 10:42 b46b06aa **docs: generate CHANGELOG**
 - 2026-04-08 10:42 9a51df44 **docs: generate CHANGELOG**
 - 2026-04-08 10:42 1b0dd9d7 **1.17.0**
 - 2026-04-08 10:41 31b7b730 **fix: remove tests from build**
