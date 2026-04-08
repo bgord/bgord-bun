@@ -1,4 +1,6 @@
 # Changelog
+## 2026-04-08 13:47 v1.17.3
+- 2026-04-08 13:47 fea653df **1.17.3**
 - 2026-04-08 13:46 f27ae6fa **step: restore formatted uptime**
 - 2026-04-08 13:43 37872f00 **step: update packages**
 ## 2026-04-08 12:42 v1.17.2
@@ -7,6 +9,7 @@
 ## 2026-04-08 11:53 v1.17.1
 - 2026-04-08 11:53 1f09bdc4 **1.17.1**
 - 2026-04-08 11:51 1db451f9 **fix: timekeeper google**
+- 2026-04-08 11:47 6860ff59 **docs: generate CHANGELOG**
 - 2026-04-08 11:44 ee2ba83a **fix: certificate inspector tls**
 - 2026-04-08 11:27 0359de7b **fix: biome checks**
 - 2026-04-08 11:26 8c975388 **step: bump bgord/scripts**
