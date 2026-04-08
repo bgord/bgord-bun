@@ -219,7 +219,9 @@ export async function tick() {
 
 export const user = {
   id: userId,
+  // biome-ignore lint: lint/style/noRestrictedGlobals
   createdAt: new Date(),
+  // biome-ignore lint: lint/suspicious/noRestrictedGlobals
   updatedAt: new Date(),
   email: "a@b.c",
   emailVerified: true,
@@ -229,9 +231,12 @@ export const user = {
 
 export const session = {
   id: "session-1",
+  // biome-ignore lint: lint/suspicious/noRestrictedGlobals
   createdAt: new Date(),
+  // biome-ignore lint: lint/suspicious/noRestrictedGlobals
   updatedAt: new Date(),
   userId: "user-1",
+  // biome-ignore lint: lint/suspicious/noRestrictedGlobals
   expiresAt: new Date(),
   token: "token",
   ipAddress: null,

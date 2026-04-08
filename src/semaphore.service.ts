@@ -10,7 +10,7 @@ export class Semaphore {
   }
 
   async run<T>(action: () => Promise<T>): Promise<T> {
-    const slot = this.slots.shift()!;
+    const slot = this.slots.shift();
     const { promise, resolve } = Promise.withResolvers<void>();
 
     this.slots.push(promise);

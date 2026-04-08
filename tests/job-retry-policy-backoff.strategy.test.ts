@@ -26,6 +26,7 @@ describe("JobRetryPolicyBackoffStrategy", () => {
       mocks.IntentionalErrorNormalized,
     );
 
+    // biome-ignore lint: lint/complexity/useOptionalChain
     expect(first && second && second.isLongerThan(first)).toEqual(true);
   });
 });
