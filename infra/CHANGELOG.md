@@ -1,8 +1,10 @@
 # Changelog
+- 2026-04-09 13:10 d6963d5a **refactor: rename job worker deps**
 ## 2026-04-09 12:36 v1.17.4
 - 2026-04-09 12:36 04efc4a2 **1.17.4**
 - 2026-04-09 12:35 11816b33 **step: update packages**
 - 2026-04-09 12:32 dfb41583 **step: make remote storage file return deleted key**
+- 2026-04-09 10:36 6b9ef65b **docs: generate CHANGELOG**
 - 2026-04-09 10:35 7ef1e6dd **docs: generate CHANGELOG**
 - 2026-04-08 13:49 44c78761 **step: bump bgord/scripts**
 ## 2026-04-08 13:47 v1.17.3
