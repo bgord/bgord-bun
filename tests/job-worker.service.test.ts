@@ -37,12 +37,12 @@ const failer = new JobFailerNoopAdapter();
 const requeuer = new JobRequeuerNoopAdapter();
 
 const deps = { registry, enqueuer, claimer, completer, failer, requeuer, serializer };
-const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
 
 const limit = tools.Int.positive(10);
 const config = { label: "SendEmailWorker", cron: CronExpressionSchedules.EVERY_MINUTE, limit };
 
-const worker = JobWorker(config, { queue });
+const worker = JobWorker(config, { JobQueue });
 
 describe("JobWorker", () => {
   test("config", () => {
@@ -53,8 +53,8 @@ describe("JobWorker", () => {
   test("no jobs", async () => {
     const completer = new JobCompleterCollectingAdapter();
     const failer = new JobFailerCollectingAdapter();
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, completer, failer });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, completer, failer });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
@@ -65,8 +65,8 @@ describe("JobWorker", () => {
   test("complete", async () => {
     const completer = new JobCompleterCollectingAdapter();
     const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
@@ -83,8 +83,8 @@ describe("JobWorker", () => {
         handler: mocks.throwIntentionalErrorAsync,
       },
     });
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, registry, failer });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, registry, failer });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
@@ -105,8 +105,8 @@ describe("JobWorker", () => {
     });
     const requeuer = new JobRequeuerCollectingAdapter();
     const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, registry, requeuer });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, registry, requeuer });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
@@ -123,8 +123,8 @@ describe("JobWorker", () => {
         handler: mocks.throwIntentionalErrorAsync,
       },
     });
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, registry, claimer, failer });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, registry, claimer, failer });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
@@ -137,8 +137,8 @@ describe("JobWorker", () => {
       { ...mocks.GenericSendEmailJobSerialized, id: mocks.userId },
       { ...mocks.GenericSendEmailJobSerialized, id: mocks.anotherUserId },
     ]);
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
@@ -150,8 +150,8 @@ describe("JobWorker", () => {
     const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const inner = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer, completer });
     const Logger = new LoggerCollectingAdapter();
-    const queue = new JobQueueWithLoggerAdapter({ inner, Logger });
-    const worker = JobWorker(config, { queue });
+    const JobQueue = new JobQueueWithLoggerAdapter({ inner, Logger });
+    const worker = JobWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
