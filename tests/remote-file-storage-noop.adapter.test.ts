@@ -33,7 +33,7 @@ describe("RemoteFileStorageNoopAdapter", () => {
   });
 
   test("delete", async () => {
-    expect(async () => adapter.delete(key)).not.toThrow();
+    expect(await adapter.delete(key)).toEqual(key);
   });
 
   test("get root", () => {

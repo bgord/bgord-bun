@@ -96,8 +96,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test("delete", async () => {
     using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
-    await adapter.delete(key);
-
+    expect(await adapter.delete(key)).toEqual(key);
     expect(fileCleanerDelete).toHaveBeenCalledWith(
       tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
     );

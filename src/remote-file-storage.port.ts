@@ -12,6 +12,6 @@ export interface RemoteFileStoragePort {
   putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult>;
   head(key: tools.ObjectKeyType): Promise<RemoteHeadResult>;
   getStream(key: tools.ObjectKeyType): Promise<ReadableStream | null>;
-  delete(key: tools.ObjectKeyType): Promise<void>;
+  delete(key: tools.ObjectKeyType): Promise<tools.ObjectKeyType>;
   get root(): tools.DirectoryPathAbsoluteType;
 }

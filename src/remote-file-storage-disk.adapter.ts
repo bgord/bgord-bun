@@ -74,8 +74,10 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     }
   }
 
-  async delete(key: tools.ObjectKeyType): Promise<void> {
+  async delete(key: tools.ObjectKeyType): Promise<tools.ObjectKeyType> {
     await this.deps.FileCleaner.delete(this.resolveKeyToAbsoluteFilePath(key));
+
+    return key;
   }
 
   get root(): tools.DirectoryPathAbsoluteType {

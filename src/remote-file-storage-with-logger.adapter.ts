@@ -119,7 +119,7 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
     }
   }
 
-  async delete(key: tools.ObjectKeyType): Promise<void> {
+  async delete(key: tools.ObjectKeyType): Promise<tools.ObjectKeyType> {
     const duration = new Stopwatch(this.deps);
 
     try {
@@ -130,7 +130,7 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
         ...this.base,
       });
 
-      await this.deps.inner.delete(key);
+      const result = await this.deps.inner.delete(key);
 
       this.deps.Logger.info({
         message: "Remote file storage delete success",
@@ -138,6 +138,8 @@ export class RemoteFileStorageWithLoggerAdapter implements RemoteFileStoragePort
         metadata: { key, duration: duration.stop() },
         ...this.base,
       });
+
+      return result;
     } catch (error) {
       this.deps.Logger.error({
         message: "Remote file storage delete error",

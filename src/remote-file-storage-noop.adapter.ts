@@ -35,7 +35,9 @@ export class RemoteFileStorageNoopAdapter implements RemoteFileStoragePort {
     return null;
   }
 
-  async delete(_key: tools.ObjectKeyType): Promise<void> {}
+  async delete(key: tools.ObjectKeyType): Promise<tools.ObjectKeyType> {
+    return key;
+  }
 
   get root(): tools.DirectoryPathAbsoluteType {
     return this.config.root;

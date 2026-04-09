@@ -184,9 +184,10 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () =>
-      CorrelationStorage.run(mocks.correlationId, async () => adapter.delete(key)),
-    ).not.toThrow();
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      expect(await adapter.delete(key)).toEqual(key),
+    );
+
     expect(Logger.entries).toEqual([
       {
         component: "infra",
