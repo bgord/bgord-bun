@@ -1,6 +1,10 @@
 # Changelog
+## 2026-04-10 21:48 v1.17.5
+- 2026-04-10 21:48 0e11873c **1.17.5**
 - 2026-04-10 21:46 4b3aad45 **step: add default cron scheduler adapter**
 - 2026-04-10 21:37 1a91896a **step: update packages**
+- 2026-04-10 19:47 e644d1bd **docs: generate CHANGELOG**
+- 2026-04-10 19:47 b139bbd6 **docs: generate readme**
 - 2026-04-10 13:12 4db39c1f **step: update packages**
 - 2026-04-10 13:06 5816b0b4 **step: add http logger skip basing on url pattern**
 - 2026-04-10 12:52 1c048d68 **step: skip sse earlier in http logger should skip**
