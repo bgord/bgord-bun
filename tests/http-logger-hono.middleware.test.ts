@@ -178,15 +178,6 @@ describe("HttpLoggerHonoMiddleware", () => {
     expect(result.status).toEqual(200);
   });
 
-  test("skip - path", async () => {
-    using loggerHttp = spyOn(Logger, "http");
-
-    const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.connInfo);
-
-    expect(result.status).toEqual(200);
-    expect(loggerHttp).not.toHaveBeenCalled();
-  });
-
   test("skip - sse", async () => {
     using loggerHttp = spyOn(Logger, "http");
 
@@ -195,6 +186,15 @@ describe("HttpLoggerHonoMiddleware", () => {
       { method: "GET", headers: { accept: "text/event-stream" } },
       mocks.connInfo,
     );
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).not.toHaveBeenCalled();
+  });
+
+  test("skip - path", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request("/i18n/en.json", { method: "GET" }, mocks.connInfo);
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).not.toHaveBeenCalled();
