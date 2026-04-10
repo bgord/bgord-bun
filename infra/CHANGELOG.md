@@ -1,9 +1,15 @@
 # Changelog
+- 2026-04-10 21:46 4b3aad45 **step: add default cron scheduler adapter**
+- 2026-04-10 21:37 1a91896a **step: update packages**
+- 2026-04-10 13:12 4db39c1f **step: update packages**
+- 2026-04-10 13:06 5816b0b4 **step: add http logger skip basing on url pattern**
+- 2026-04-10 12:52 1c048d68 **step: skip sse earlier in http logger should skip**
 - 2026-04-09 13:10 d6963d5a **refactor: rename job worker deps**
 ## 2026-04-09 12:36 v1.17.4
 - 2026-04-09 12:36 04efc4a2 **1.17.4**
 - 2026-04-09 12:35 11816b33 **step: update packages**
 - 2026-04-09 12:32 dfb41583 **step: make remote storage file return deleted key**
+- 2026-04-09 11:11 5cec1a8b **docs: generate CHANGELOG**
 - 2026-04-09 10:36 6b9ef65b **docs: generate CHANGELOG**
 - 2026-04-09 10:35 7ef1e6dd **docs: generate CHANGELOG**
 - 2026-04-08 13:49 44c78761 **step: bump bgord/scripts**
