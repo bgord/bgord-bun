@@ -27,7 +27,7 @@ export const UNINFORMATIVE_HEADERS = [
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
-export type HttpLoggerConfig = { skip?: ReadonlyArray<string> };
+export type HttpLoggerConfig = { skip?: ReadonlyArray<string | URLPattern> };
 
 export type HttpLoggerBeforeResult = { stopwatch: Stopwatch };
 export type HttpLoggerAfterInput = {
@@ -45,8 +45,13 @@ export class HttpLoggerMiddleware {
 
   shouldSkip(context: HasRequestPath & HasRequestHeader): boolean {
     if (context.request.header("accept") === "text/event-stream") return true;
-    if (this.config?.skip?.some((prefix) => context.request.path.startsWith(prefix))) return true;
-    return false;
+
+    return (
+      this.config?.skip?.some((rule) => {
+        if (rule instanceof URLPattern) return rule.test({ pathname: context.request.path });
+        return context.request.path.startsWith(rule);
+      }) ?? false
+    );
   }
 
   before(context: RequestContext, correlationId: string, body: any = {}): HttpLoggerBeforeResult {

@@ -145,6 +145,17 @@ describe("HttpLoggerMiddleware", () => {
     expect(middleware.shouldSkip(ping)).toEqual(false);
   });
 
+  test("skip - url pattern", () => {
+    const middleware = new HttpLoggerMiddleware(deps, {
+      skip: [new URLPattern({ pathname: "/users/:id/account" })],
+    });
+    const account = new RequestContextBuilder().withPath("/users/123/account").build();
+    const profile = new RequestContextBuilder().withPath("/users/123/profile").build();
+
+    expect(middleware.shouldSkip(account)).toEqual(true);
+    expect(middleware.shouldSkip(profile)).toEqual(false);
+  });
+
   test("skip - no config", () => {
     const middleware = new HttpLoggerMiddleware(deps, { skip: undefined });
     const context = new RequestContextBuilder().withPath("/anything").build();

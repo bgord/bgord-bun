@@ -20,7 +20,7 @@ const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 9));
+const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 11));
 const deps = { Logger, Clock, IdProvider };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
@@ -33,13 +33,19 @@ const cacheResponse = new CacheResponseHonoMiddleware({ enabled: true, resolver 
 
 const app = new Hono()
   .use(new CorrelationHonoMiddleware(deps).handle())
-  .use(new HttpLoggerHonoMiddleware(deps, { skip: ["/i18n/", "/other"] }).handle())
+  .use(
+    new HttpLoggerHonoMiddleware(deps, {
+      skip: ["/i18n/", "/other", new URLPattern({ pathname: "/users/:id/account" })],
+    }).handle(),
+  )
   .use(new TimingHonoMiddleware(deps).handle())
   .get("/ping", (c) => c.json({ message: "OK" }))
   .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
   .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
   .get("/pang", (c) => c.json({ message: "general.unknown" }, 400))
   .get("/html", (c) => c.html("<h1>Hello</h1>"))
+  .get("/users/:id/account", (c) => c.text("account"))
+  .get("/users/:id/profile", (c) => c.text("profile"))
   .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
 
 describe("HttpLoggerHonoMiddleware", () => {
@@ -198,6 +204,20 @@ describe("HttpLoggerHonoMiddleware", () => {
 
     expect(result.status).toEqual(200);
     expect(loggerHttp).not.toHaveBeenCalled();
+  });
+
+  test("skip - url pattern", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const account = await app.request("/users/123/account", { method: "GET" }, mocks.connInfo);
+
+    expect(account.status).toEqual(200);
+    expect(loggerHttp).not.toHaveBeenCalled();
+
+    const profile = await app.request("/users/123/profile", { method: "GET" }, mocks.connInfo);
+
+    expect(profile.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenCalled();
   });
 
   test("cache-hit", async () => {
