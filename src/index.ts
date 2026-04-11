@@ -447,6 +447,7 @@ export * from "./shield-security.strategy";
 export * from "./shield-security-hono.strategy";
 export * from "./shield-timeout.strategy";
 export * from "./shield-timeout-hono.strategy";
+export * from "./shield-webhook.strategy";
 export * from "./simulated-error.middleware";
 export * from "./simulated-error-hono.middleware";
 export * from "./sleeper.port";
