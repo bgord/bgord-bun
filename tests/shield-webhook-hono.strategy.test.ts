@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import * as v from "valibot";
 import { ShieldWebhookStrategyError } from "../src/shield-webhook.strategy";
 import { ShieldWebhookHonoStrategy } from "../src/shield-webhook-hono.strategy";
+import { WebhookBodyBuilderTextStrategy } from "../src/webhook-body-builder-text.strategy";
 import { WebhookSecret } from "../src/webhook-secret.vo";
 import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
 import { WebhookSignatureExtractorHeaderExactStrategy } from "../src/webhook-signature-extractor-header-exact.strategy";
@@ -19,7 +20,12 @@ const wrongSignature = WebhookSignatureCreator.create(wrongBody, secret);
 
 const WebhookVerifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
 const WebhookSignatureExtractor = new WebhookSignatureExtractorHeaderExactStrategy(header);
-const ShieldWebhook = new ShieldWebhookHonoStrategy({ WebhookSignatureExtractor, WebhookVerifier });
+const WebhookBodyBuilder = new WebhookBodyBuilderTextStrategy();
+const ShieldWebhook = new ShieldWebhookHonoStrategy({
+  WebhookBodyBuilder,
+  WebhookSignatureExtractor,
+  WebhookVerifier,
+});
 
 const app = new Hono()
   .post("/webhook", ShieldWebhook.handle(), (c) => c.text("ok"))
