@@ -2,24 +2,20 @@ import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { WebhookSecret } from "../src/webhook-secret.vo";
 import { WebhookSignature } from "../src/webhook-signature.vo";
+import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
 
-function computeDigest(body: string, secret: string): string {
-  const hasher = new Bun.CryptoHasher("sha256", secret);
-  hasher.update(body);
-  return hasher.digest("hex");
-}
-
+const creator = new WebhookSignatureCreatorSha256Strategy();
 const secret = v.parse(WebhookSecret, "test-secret");
 const wrongSecret = v.parse(WebhookSecret, "wrong-secret");
 
 const body = "test-body";
 const wrongBody = "wrong-body";
 
-const signature = v.parse(WebhookSignature, computeDigest(body, secret));
+const signature = v.parse(WebhookSignature, creator.create(body, secret));
 const wrongSignature = v.parse(WebhookSignature, "tooshort");
 
-const verifier = new WebhookVerifierSha256Strategy(secret);
+const verifier = new WebhookVerifierSha256Strategy(secret, creator);
 
 describe("WebhookVerifierSha256Strategy", () => {
   test("verify - true", () => {
@@ -27,7 +23,7 @@ describe("WebhookVerifierSha256Strategy", () => {
   });
 
   test("verify - false - secret", () => {
-    const signature = v.parse(WebhookSignature, computeDigest(body, wrongSecret));
+    const signature = v.parse(WebhookSignature, creator.create(body, wrongSecret));
 
     expect(verifier.verify(body, signature)).toEqual(false);
   });
