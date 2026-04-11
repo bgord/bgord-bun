@@ -520,10 +520,8 @@ export * from "./weak-etag-extractor.middleware";
 export * from "./weak-etag-extractor-hono.middleware";
 export * from "./webhook-secret.vo";
 export * from "./webhook-signature.vo";
+export * from "./webhook-signature-creator.strategy";
 export * from "./webhook-verifier.strategy";
-
-port;
-
 export * from "./webhook-verifier-sha256.strategy";
 export * from "./woodchopper";
 export * from "./woodchopper-diagnostics.strategy";
