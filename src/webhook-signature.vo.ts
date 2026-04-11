@@ -8,6 +8,7 @@ export const WebhookSignatureError = {
 export const WebhookSignature = v.pipe(
   v.string(WebhookSignatureError.Type),
   v.nonEmpty(WebhookSignatureError.Empty),
+  // Stryker disable next-line StringLiteral
   v.brand("WebhookSignature"),
 );
 
