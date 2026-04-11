@@ -518,6 +518,7 @@ export * from "./visitor-id.strategy";
 export * from "./visitor-id-client.strategy";
 export * from "./weak-etag-extractor.middleware";
 export * from "./weak-etag-extractor-hono.middleware";
+export * from "./webhook-secret.vo";
 export * from "./woodchopper";
 export * from "./woodchopper-diagnostics.strategy";
 export * from "./woodchopper-diagnostics-collecting.strategy";
