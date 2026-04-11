@@ -9,23 +9,20 @@ import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-
 import { WebhookSignatureExtractorHeaderExactStrategy } from "../src/webhook-signature-extractor-header-exact.strategy";
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
 
-const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy();
-
 const header = "x-signature";
 const body = "body";
 const wrongBody = "wrong-body";
-const secret = v.parse(WebhookSecret, "secret");
-const signature = WebhookSignatureCreator.create(body, secret);
-const wrongSignature = WebhookSignatureCreator.create(wrongBody, secret);
 
-const WebhookVerifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
-const WebhookSignatureExtractor = new WebhookSignatureExtractorHeaderExactStrategy(header);
-const WebhookBodyBuilder = new WebhookBodyBuilderTextStrategy();
+const secret = v.parse(WebhookSecret, "secret");
+const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy(secret);
 const ShieldWebhook = new ShieldWebhookHonoStrategy({
-  WebhookBodyBuilder,
-  WebhookSignatureExtractor,
-  WebhookVerifier,
+  WebhookBodyBuilder: new WebhookBodyBuilderTextStrategy(),
+  WebhookSignatureExtractor: new WebhookSignatureExtractorHeaderExactStrategy(header),
+  WebhookVerifier: new WebhookVerifierSha256Strategy({ WebhookSignatureCreator }),
 });
+
+const signature = WebhookSignatureCreator.create(body);
+const wrongSignature = WebhookSignatureCreator.create(wrongBody);
 
 const app = new Hono()
   .post("/webhook", ShieldWebhook.handle(), (c) => c.text("ok"))

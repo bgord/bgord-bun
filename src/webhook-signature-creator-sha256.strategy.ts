@@ -4,8 +4,10 @@ import { WebhookSignature, type WebhookSignatureType } from "./webhook-signature
 import type { WebhookSignatureCreatorStrategy } from "./webhook-signature-creator.strategy";
 
 export class WebhookSignatureCreatorSha256Strategy implements WebhookSignatureCreatorStrategy {
-  create(body: string, secret: WebhookSecretType): WebhookSignatureType {
-    const hasher = new Bun.CryptoHasher("sha256", secret);
+  constructor(private readonly secret: WebhookSecretType) {}
+
+  create(body: string): WebhookSignatureType {
+    const hasher = new Bun.CryptoHasher("sha256", this.secret);
     hasher.update(body);
 
     return v.parse(WebhookSignature, hasher.digest("hex"));

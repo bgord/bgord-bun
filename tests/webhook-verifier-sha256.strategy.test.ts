@@ -6,26 +6,19 @@ import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
 
 const secret = v.parse(WebhookSecret, "test-secret");
-const wrongSecret = v.parse(WebhookSecret, "wrong-secret");
 
 const body = "test-body";
 const wrongBody = "wrong-body";
 
-const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy();
-const signature = WebhookSignatureCreator.create(body, secret);
+const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy(secret);
+const signature = WebhookSignatureCreator.create(body);
 const wrongSignature = v.parse(WebhookSignature, "tooshort");
 
-const verifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
+const verifier = new WebhookVerifierSha256Strategy({ WebhookSignatureCreator });
 
 describe("WebhookVerifierSha256Strategy", () => {
   test("verify - true", () => {
     expect(verifier.verify(body, signature)).toEqual(true);
-  });
-
-  test("verify - false - secret", () => {
-    const signature = v.parse(WebhookSignature, WebhookSignatureCreator.create(body, wrongSecret));
-
-    expect(verifier.verify(body, signature)).toEqual(false);
   });
 
   test("verify - false - body wrong", () => {

@@ -8,16 +8,16 @@ import { WebhookSignatureExtractorHeaderExactStrategy } from "../src/webhook-sig
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy();
-
 const header = "x-signature";
 const body = "body";
 const wrongBody = "wrong-body";
 const secret = v.parse(WebhookSecret, "secret");
-const signature = WebhookSignatureCreator.create(body, secret);
-const wrongSignature = WebhookSignatureCreator.create(wrongBody, secret);
 
-const WebhookVerifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
+const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy(secret);
+const signature = WebhookSignatureCreator.create(body);
+const wrongSignature = WebhookSignatureCreator.create(wrongBody);
+
+const WebhookVerifier = new WebhookVerifierSha256Strategy({ WebhookSignatureCreator });
 const WebhookBodyBuilder = new WebhookBodyBuilderTextStrategy();
 const WebhookSignatureExtractor = new WebhookSignatureExtractorHeaderExactStrategy(header);
 
