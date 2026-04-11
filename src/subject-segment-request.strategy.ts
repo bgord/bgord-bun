@@ -3,6 +3,7 @@ import type {
   HasIdentityUserId,
   HasRequestCookie,
   HasRequestHeader,
+  HasRequestParam,
   HasRequestPath,
   HasRequestQuery,
 } from "./request-context.port";
@@ -15,6 +16,7 @@ type RequestContextCapabilities = HasRequestCookie &
   HasRequestHeader &
   HasRequestPath &
   HasRequestQuery &
+  HasRequestParam &
   HasIdentityIp &
   HasIdentityUserId;
 
