@@ -1,8 +1,13 @@
 # Changelog
+- 2026-04-11 17:52 ea7f7e4b **refactor: expose subject resolver in sse hono handler**
+- 2026-04-11 17:52 85489199 **step: update packages**
+- 2026-04-11 17:47 15d90d50 **step: add subject segment param**
+- 2026-04-11 17:38 cca0781f **step: define has request param capability**
 ## 2026-04-10 21:48 v1.17.5
 - 2026-04-10 21:48 0e11873c **1.17.5**
 - 2026-04-10 21:46 4b3aad45 **step: add default cron scheduler adapter**
 - 2026-04-10 21:37 1a91896a **step: update packages**
+- 2026-04-10 19:48 73fc73b5 **docs: generate CHANGELOG**
 - 2026-04-10 19:47 e644d1bd **docs: generate CHANGELOG**
 - 2026-04-10 19:47 b139bbd6 **docs: generate readme**
 - 2026-04-10 13:12 4db39c1f **step: update packages**
