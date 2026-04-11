@@ -521,6 +521,7 @@ export * from "./weak-etag-extractor-hono.middleware";
 export * from "./webhook-secret.vo";
 export * from "./webhook-signature.vo";
 export * from "./webhook-signature-creator.strategy";
+export * from "./webhook-signature-creator-sha256.strategy";
 export * from "./webhook-verifier.strategy";
 export * from "./webhook-verifier-sha256.strategy";
 export * from "./woodchopper";
