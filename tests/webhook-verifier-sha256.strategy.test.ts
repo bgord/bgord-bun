@@ -5,14 +5,14 @@ import { WebhookSignature } from "../src/webhook-signature.vo";
 import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
 
-const creator = new WebhookSignatureCreatorSha256Strategy();
 const secret = v.parse(WebhookSecret, "test-secret");
 const wrongSecret = v.parse(WebhookSecret, "wrong-secret");
 
 const body = "test-body";
 const wrongBody = "wrong-body";
 
-const signature = v.parse(WebhookSignature, creator.create(body, secret));
+const creator = new WebhookSignatureCreatorSha256Strategy();
+const signature = creator.create(body, secret);
 const wrongSignature = v.parse(WebhookSignature, "tooshort");
 
 const verifier = new WebhookVerifierSha256Strategy(secret, creator);

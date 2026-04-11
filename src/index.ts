@@ -524,6 +524,7 @@ export * from "./webhook-signature-creator.strategy";
 export * from "./webhook-signature-creator-noop.strategy";
 export * from "./webhook-signature-creator-sha256.strategy";
 export * from "./webhook-verifier.strategy";
+export * from "./webhook-verifier-noop.strategy";
 export * from "./webhook-verifier-sha256.strategy";
 export * from "./woodchopper";
 export * from "./woodchopper-diagnostics.strategy";
