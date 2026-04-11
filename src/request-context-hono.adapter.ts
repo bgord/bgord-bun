@@ -36,6 +36,15 @@ export class RequestContextHonoAdapter implements RequestContext {
           return {};
         }
       },
+      text: async () => {
+        try {
+          const request = context.req.raw.clone();
+
+          return await request.text();
+        } catch {
+          return "";
+        }
+      },
     };
 
     this.identity = {
