@@ -1,4 +1,25 @@
 # Changelog
+- 2026-04-11 22:17 9b672564 **refactor: simplify webhook signature creator**
+- 2026-04-11 22:00 91f516e5 **step: use builder**
+- 2026-04-11 21:49 e9f7b97e **step: add WebhookBodyBuilderTextStrategy**
+- 2026-04-11 21:47 53eae044 **step: add webhook body builder strategy**
+- 2026-04-11 21:35 ae038db4 **refactor: use signature extractor**
+- 2026-04-11 21:31 bcbd8515 **step: add webhook signature extractor header exact**
+- 2026-04-11 21:23 ca323481 **step: define webhook signature extractor**
+- 2026-04-11 21:01 14653e6e **step: add shield webhook hono strategy**
+- 2026-04-11 20:57 a6521a8d **step: add shield webhook strategy**
+- 2026-04-11 20:51 7286c489 **step: simplify webhook verifier sha256 strategy config**
+- 2026-04-11 20:33 36b16f5d **step: add has request text capability**
+- 2026-04-11 20:28 376b956d **step: add webhook verifier noop**
+- 2026-04-11 20:23 9bc7ccb0 **step: add webhook signature creator noop**
+- 2026-04-11 20:16 af1b6efa **step: add webhook signature creator sha256 strategy**
+- 2026-04-11 20:16 288a6bd9 **refactor: use creator in verifier**
+- 2026-04-11 20:11 875150c4 **step: add webhook signature creator strategy**
+- 2026-04-11 20:09 aa35fe73 **refactor: rename to strategy**
+- 2026-04-11 20:03 fbcbd46e **step: add webhook verifier sha256 adapter**
+- 2026-04-11 19:50 a6ae2773 **step: define webhook verifier**
+- 2026-04-11 19:48 305a62a8 **step: add webhook signature vo**
+- 2026-04-11 19:47 83758906 **step: add webhook secret vo**
 - 2026-04-11 18:32 90f9922d **step: roudn retry after second in shield rate limit**
 ## 2026-04-11 17:55 v1.17.6
 - 2026-04-11 17:55 c3d4423c **1.17.6**
@@ -6,6 +27,7 @@
 - 2026-04-11 17:52 85489199 **step: update packages**
 - 2026-04-11 17:47 15d90d50 **step: add subject segment param**
 - 2026-04-11 17:38 cca0781f **step: define has request param capability**
+- 2026-04-11 16:32 837b2a04 **docs: generate CHANGELOG**
 - 2026-04-11 15:55 2253e287 **docs: generate CHANGELOG**
 - 2026-04-11 15:54 6b8b2e38 **docs: generate CHANGELOG**
 - 2026-04-11 15:53 ab92ff70 **docs: generate CHANGELOG**
