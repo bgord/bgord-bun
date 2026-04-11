@@ -3,6 +3,8 @@
 - 2026-04-11 17:52 85489199 **step: update packages**
 - 2026-04-11 17:47 15d90d50 **step: add subject segment param**
 - 2026-04-11 17:38 cca0781f **step: define has request param capability**
+- 2026-04-11 15:53 ab92ff70 **docs: generate CHANGELOG**
+- 2026-04-11 15:53 56dbadd3 **docs: generate readme**
 ## 2026-04-10 21:48 v1.17.5
 - 2026-04-10 21:48 0e11873c **1.17.5**
 - 2026-04-10 21:46 4b3aad45 **step: add default cron scheduler adapter**
