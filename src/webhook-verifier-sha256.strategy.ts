@@ -1,8 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
 import type { WebhookSecretType } from "./webhook-secret.vo";
 import type { WebhookSignatureType } from "./webhook-signature.vo";
+import type { WebhookSignatureCreatorStrategy } from "./webhook-signature-creator.strategy";
 import type { WebhookVerifierStrategy } from "./webhook-verifier.strategy";
-import { WebhookSignatureCreatorStrategy } from "./webhook-signature-creator.strategy";
 
 export class WebhookVerifierSha256Strategy implements WebhookVerifierStrategy {
   constructor(
