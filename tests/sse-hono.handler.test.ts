@@ -25,7 +25,7 @@ describe("SseHonoHandler", async () => {
     const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseHonoHandler<mocks.MessageType>(config, { registry, HashContent });
+    const handler = new SseHonoHandler<mocks.MessageType>(config, { resolver, registry, HashContent });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     await app.request("/sse");
@@ -38,7 +38,7 @@ describe("SseHonoHandler", async () => {
     const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseHonoHandler<mocks.MessageType>(config, { registry, HashContent });
+    const handler = new SseHonoHandler<mocks.MessageType>(config, { resolver, registry, HashContent });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     const response = await app.request("/sse");
@@ -61,7 +61,7 @@ describe("SseHonoHandler", async () => {
     const registry = new SseRegistryAdapter<mocks.MessageType>();
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
     const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const handler = new SseHonoHandler<mocks.MessageType>(config, { registry, HashContent });
+    const handler = new SseHonoHandler<mocks.MessageType>(config, { resolver, registry, HashContent });
     const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
 
     const response = await app.request("/sse");

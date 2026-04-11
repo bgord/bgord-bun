@@ -6,13 +6,13 @@ import type { HashContentStrategy } from "./hash-content.strategy";
 import type { Message } from "./message.types";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import type { SseRegistryPort } from "./sse-registry.port";
-import { SubjectRequestResolver } from "./subject-request-resolver.vo";
-import { SubjectSegmentUserStrategy } from "./subject-segment-user.strategy";
+import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
 export type SseHonoHandlerConfig = { keepalive: tools.Duration };
 
 type Dependencies<Messages extends Message> = {
   registry: SseRegistryPort<Messages>;
+  resolver: SubjectRequestResolver;
   HashContent: HashContentStrategy;
 };
 
@@ -27,9 +27,7 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
   handle() {
     return factory.createHandlers(async (c) => {
       const context = new RequestContextHonoAdapter(c);
-      const resolver = new SubjectRequestResolver([new SubjectSegmentUserStrategy()], this.deps);
-
-      const subject = await resolver.resolve(context);
+      const subject = await this.deps.resolver.resolve(context);
 
       return streamSSE(c, async (stream) => {
         const send = async <M extends Messages>(message: M) => {
