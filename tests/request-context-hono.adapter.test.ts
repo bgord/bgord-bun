@@ -86,6 +86,16 @@ describe("RequestContextHonoAdapter", () => {
     expect(await response.json()).toEqual({ params: { id: "123", context: "234" } });
   });
 
+  test("param", async () => {
+    const app = new Hono().get("/test/:id/:context", (context) =>
+      context.json({ param: new RequestContextHonoAdapter(context).request.param("id") }),
+    );
+
+    const response = await app.request("/test/123/234");
+
+    expect(await response.json()).toEqual({ param: "123" });
+  });
+
   test("cookie", async () => {
     const app = new Hono().get("/test", (context) =>
       context.json({ language: new RequestContextHonoAdapter(context).request.cookie("language") }),

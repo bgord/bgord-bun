@@ -92,6 +92,7 @@ export class RequestContextBuilder {
         headers: () => this.headers,
         query: () => this.query,
         params: () => this.params,
+        param: (name: string) => this.query[name],
         cookie: (name) => this.cookies[name],
         json: async () => this.json,
       },
