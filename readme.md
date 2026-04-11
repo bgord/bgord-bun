@@ -516,6 +516,8 @@ src/
 ├── shield-security.strategy.ts
 ├── shield-timeout-hono.strategy.ts
 ├── shield-timeout.strategy.ts
+├── shield-webhook-hono.strategy.ts
+├── shield-webhook.strategy.ts
 ├── simulated-error-hono.middleware.ts
 ├── simulated-error.middleware.ts
 ├── sleeper-noop.adapter.ts
@@ -586,6 +588,18 @@ src/
 ├── visitor-id.strategy.ts
 ├── weak-etag-extractor-hono.middleware.ts
 ├── weak-etag-extractor.middleware.ts
+├── webhook-body-builder-text.strategy.ts
+├── webhook-body-builder.strategy.ts
+├── webhook-secret.vo.ts
+├── webhook-signature-creator-noop.strategy.ts
+├── webhook-signature-creator-sha256.strategy.ts
+├── webhook-signature-creator.strategy.ts
+├── webhook-signature-extractor-header-exact.strategy.ts
+├── webhook-signature-extractor.strategy.ts
+├── webhook-signature.vo.ts
+├── webhook-verifier-noop.strategy.ts
+├── webhook-verifier-sha256.strategy.ts
+├── webhook-verifier.strategy.ts
 ├── woodchopper-diagnostics-collecting.strategy.ts
 ├── woodchopper-diagnostics-console-error.strategy.ts
 ├── woodchopper-diagnostics-noop.strategy.ts
