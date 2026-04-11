@@ -12,6 +12,8 @@ type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
 export const ShieldRateLimitStrategyError = { Rejected: "shield.rate.limit.rejected" };
 
 export class ShieldRateLimitStrategy {
+  private readonly rounding = new tools.RoundingUpStrategy();
+
   constructor(
     private readonly config: ShieldRateLimitConfig,
     private readonly deps: Dependencies,
@@ -29,6 +31,9 @@ export class ShieldRateLimitStrategy {
 
     if (decision.allowed) return { allowed: true };
 
-    return { allowed: false, retryAfter: decision.remaining };
+    return {
+      allowed: false,
+      retryAfter: tools.Duration.Seconds(this.rounding.round(decision.remaining.seconds)),
+    };
   }
 }
