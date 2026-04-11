@@ -526,6 +526,7 @@ export * from "./webhook-signature-creator.strategy";
 export * from "./webhook-signature-creator-noop.strategy";
 export * from "./webhook-signature-creator-sha256.strategy";
 export * from "./webhook-signature-extractor.strategy";
+export * from "./webhook-signature-extractor-header-exact.strategy";
 export * from "./webhook-verifier.strategy";
 export * from "./webhook-verifier-noop.strategy";
 export * from "./webhook-verifier-sha256.strategy";
