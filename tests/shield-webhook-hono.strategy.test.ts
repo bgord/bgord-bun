@@ -5,6 +5,7 @@ import { ShieldWebhookStrategyError } from "../src/shield-webhook.strategy";
 import { ShieldWebhookHonoStrategy } from "../src/shield-webhook-hono.strategy";
 import { WebhookSecret } from "../src/webhook-secret.vo";
 import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
+import { WebhookSignatureExtractorHeaderExactStrategy } from "../src/webhook-signature-extractor-header-exact.strategy";
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
 
 const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy();
@@ -17,7 +18,8 @@ const signature = WebhookSignatureCreator.create(body, secret);
 const wrongSignature = WebhookSignatureCreator.create(wrongBody, secret);
 
 const WebhookVerifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
-const ShieldWebhook = new ShieldWebhookHonoStrategy({ header, WebhookVerifier });
+const WebhookSignatureExtractor = new WebhookSignatureExtractorHeaderExactStrategy(header);
+const ShieldWebhook = new ShieldWebhookHonoStrategy({ WebhookSignatureExtractor, WebhookVerifier });
 
 const app = new Hono()
   .post("/webhook", ShieldWebhook.handle(), (c) => c.text("ok"))
@@ -27,6 +29,7 @@ const app = new Hono()
     }
     return c.json({}, 500);
   });
+
 describe("ShieldWebhookHonoStrategy", () => {
   test("evaluate - true", async () => {
     const response = await app.request("/webhook", {
