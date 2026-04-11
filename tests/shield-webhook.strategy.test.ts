@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { ShieldWebhookStrategy } from "../src/shield-webhook.strategy";
+import { WebhookBodyBuilderTextStrategy } from "../src/webhook-body-builder-text.strategy";
 import { WebhookSecret } from "../src/webhook-secret.vo";
 import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
 import { WebhookSignatureExtractorHeaderExactStrategy } from "../src/webhook-signature-extractor-header-exact.strategy";
@@ -17,9 +18,14 @@ const signature = WebhookSignatureCreator.create(body, secret);
 const wrongSignature = WebhookSignatureCreator.create(wrongBody, secret);
 
 const WebhookVerifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
+const WebhookBodyBuilder = new WebhookBodyBuilderTextStrategy();
 const WebhookSignatureExtractor = new WebhookSignatureExtractorHeaderExactStrategy(header);
 
-const strategy = new ShieldWebhookStrategy({ WebhookSignatureExtractor, WebhookVerifier });
+const strategy = new ShieldWebhookStrategy({
+  WebhookBodyBuilder,
+  WebhookSignatureExtractor,
+  WebhookVerifier,
+});
 
 describe("ShieldWebhookStrategy", () => {
   test("evaluate - true", async () => {
