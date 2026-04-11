@@ -8,6 +8,7 @@ export const WebhookSecretError = {
 export const WebhookSecret = v.pipe(
   v.string(WebhookSecretError.Type),
   v.nonEmpty(WebhookSecretError.Empty),
+  // Stryker disable next-line StringLiteral
   v.brand("WebhookSecret"),
 );
 

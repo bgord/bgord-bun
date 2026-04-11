@@ -3,10 +3,12 @@ import type { HasRequestHeader, HasRequestText } from "./request-context.port";
 import { WebhookSignature } from "./webhook-signature.vo";
 import type { WebhookVerifierStrategy } from "./webhook-verifier.strategy";
 
-type Config = { header: string; WebhookVerifier: WebhookVerifierStrategy };
+export const ShieldWebhookStrategyError = { Rejected: "shield.webhook.rejected" };
+
+export type ShieldWebhookStrategyConfig = { header: string; WebhookVerifier: WebhookVerifierStrategy };
 
 export class ShieldWebhookStrategy {
-  constructor(private readonly config: Config) {}
+  constructor(private readonly config: ShieldWebhookStrategyConfig) {}
 
   async evaluate(context: HasRequestHeader & HasRequestText): Promise<boolean> {
     const signature = v.safeParse(WebhookSignature, context.request.header(this.config.header));

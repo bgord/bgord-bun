@@ -11,11 +11,11 @@ const wrongSecret = v.parse(WebhookSecret, "wrong-secret");
 const body = "test-body";
 const wrongBody = "wrong-body";
 
-const creator = new WebhookSignatureCreatorSha256Strategy();
-const signature = creator.create(body, secret);
+const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy();
+const signature = WebhookSignatureCreator.create(body, secret);
 const wrongSignature = v.parse(WebhookSignature, "tooshort");
 
-const verifier = new WebhookVerifierSha256Strategy(secret, creator);
+const verifier = new WebhookVerifierSha256Strategy({ secret, WebhookSignatureCreator });
 
 describe("WebhookVerifierSha256Strategy", () => {
   test("verify - true", () => {
@@ -23,7 +23,7 @@ describe("WebhookVerifierSha256Strategy", () => {
   });
 
   test("verify - false - secret", () => {
-    const signature = v.parse(WebhookSignature, creator.create(body, wrongSecret));
+    const signature = v.parse(WebhookSignature, WebhookSignatureCreator.create(body, wrongSecret));
 
     expect(verifier.verify(body, signature)).toEqual(false);
   });
