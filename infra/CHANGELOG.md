@@ -1,4 +1,6 @@
 # Changelog
+- 2026-04-12 21:48 7278d293 **step: update packages**
+- 2026-04-12 19:01 5184dbbe **fix: missing media src self for ssr**
 - 2026-04-11 22:17 9b672564 **refactor: simplify webhook signature creator**
 - 2026-04-11 22:00 91f516e5 **step: use builder**
 - 2026-04-11 21:49 e9f7b97e **step: add WebhookBodyBuilderTextStrategy**
@@ -12,6 +14,8 @@
 - 2026-04-11 20:33 36b16f5d **step: add has request text capability**
 - 2026-04-11 20:28 376b956d **step: add webhook verifier noop**
 - 2026-04-11 20:23 9bc7ccb0 **step: add webhook signature creator noop**
+- 2026-04-11 20:21 521e1e58 **docs: generate CHANGELOG**
+- 2026-04-11 20:21 462b0a3e **docs: generate readme**
 - 2026-04-11 20:16 af1b6efa **step: add webhook signature creator sha256 strategy**
 - 2026-04-11 20:16 288a6bd9 **refactor: use creator in verifier**
 - 2026-04-11 20:11 875150c4 **step: add webhook signature creator strategy**
