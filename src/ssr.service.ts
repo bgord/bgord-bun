@@ -36,6 +36,7 @@ export class SSRService {
         `style-src 'self' 'nonce-${nonce}'`,
         "style-src-attr 'unsafe-inline'",
         "img-src 'self'",
+        "media-src 'self'",
         "font-src 'self'",
         "connect-src 'self'",
         "form-action 'self'",
