@@ -1,5 +1,8 @@
 # Changelog
+## 2026-04-12 21:52 v1.17.7
+- 2026-04-12 21:52 0ea47d52 **1.17.7**
 - 2026-04-12 21:48 7278d293 **step: update packages**
+- 2026-04-12 19:51 6f15a49e **docs: generate CHANGELOG**
 - 2026-04-12 19:01 5184dbbe **fix: missing media src self for ssr**
 - 2026-04-11 22:17 9b672564 **refactor: simplify webhook signature creator**
 - 2026-04-11 22:00 91f516e5 **step: use builder**
