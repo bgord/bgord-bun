@@ -1,7 +1,10 @@
 # Changelog
+## 2026-04-14 10:12 v1.17.8
+- 2026-04-14 10:12 417c2b29 **1.17.8**
 - 2026-04-14 10:11 c26d8cd5 **fix: job dispatcher port**
 - 2026-04-14 10:11 9c3323aa **step: update packages**
 - 2026-04-14 10:09 6edc05d0 **step: add two job queues test**
+- 2026-04-14 08:11 8d83cef7 **docs: generate CHANGELOG**
 ## 2026-04-12 21:52 v1.17.7
 - 2026-04-12 21:52 0ea47d52 **1.17.7**
 - 2026-04-12 21:48 7278d293 **step: update packages**
