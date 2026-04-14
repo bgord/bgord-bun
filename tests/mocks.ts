@@ -285,6 +285,16 @@ export const buildInfo = {
 
 export const task = { label: "cron", cron: CronExpressionSchedules.EVERY_HOUR, handler: async () => {} };
 
+export const SEND_SMS_JOB = "GENERIC_SEND_SMS_JOB";
+
+export const SendSmsJobSchema = v.object({
+  ...JobEnvelopeSchema,
+  name: v.literal(SEND_SMS_JOB),
+  payload: v.object({ to: v.string() }),
+});
+
+export type SendSmsJobType = v.InferOutput<typeof SendSmsJobSchema>;
+
 export const SEND_EMAIL_JOB = "GENERIC_SEND_EMAIL_JOB";
 
 export const SendEmailJobSchema = v.object({

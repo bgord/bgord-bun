@@ -7,6 +7,7 @@ import { JobEnqueuerNoopAdapter } from "../src/job-enqueuer-noop.adapter";
 import { JobFailerCollectingAdapter } from "../src/job-failer-collecting.adapter";
 import { JobFailerNoopAdapter } from "../src/job-failer-noop.adapter";
 import { JobQueueAdapter } from "../src/job-queue.adapter";
+import type { JobQueuePort } from "../src/job-queue.port";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRequeuerCollectingAdapter } from "../src/job-requeuer-collecting.adapter";
 import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
@@ -34,6 +35,26 @@ const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
 describe("JobQueueAdapter", () => {
   test("enqueue", async () => {
     expect(await queue.enqueue(mocks.GenericSendEmailJob)).toEqual(mocks.GenericSendEmailJob);
+  });
+
+  test("enqueue - two jobs", async () => {
+    type AcceptedJob = mocks.SendEmailJobType | mocks.SendSmsJobType;
+
+    const registry = new JobRegistryAdapter<AcceptedJob>({
+      [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
+      [mocks.SEND_SMS_JOB]: {
+        schema: mocks.SendSmsJobSchema,
+        retry,
+        handler: async (_job: mocks.SendSmsJobType) => {},
+      },
+    });
+
+    const queue = new JobQueueAdapter<AcceptedJob>({ ...deps, registry });
+
+    const processor = (deps: { JobQueue: JobQueuePort<mocks.SendEmailJobType> }) =>
+      deps.JobQueue.enqueue(mocks.GenericSendEmailJob);
+
+    expect(await processor({ JobQueue: queue })).toEqual(mocks.GenericSendEmailJob);
   });
 
   test("claim - no jobs", async () => {
