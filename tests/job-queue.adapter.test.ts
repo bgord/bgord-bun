@@ -7,7 +7,7 @@ import { JobEnqueuerNoopAdapter } from "../src/job-enqueuer-noop.adapter";
 import { JobFailerCollectingAdapter } from "../src/job-failer-collecting.adapter";
 import { JobFailerNoopAdapter } from "../src/job-failer-noop.adapter";
 import { JobQueueAdapter } from "../src/job-queue.adapter";
-import type { JobQueuePort } from "../src/job-queue.port";
+import type { JobDispatcherPort } from "../src/job-queue.port";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRequeuerCollectingAdapter } from "../src/job-requeuer-collecting.adapter";
 import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
@@ -51,10 +51,10 @@ describe("JobQueueAdapter", () => {
 
     const queue = new JobQueueAdapter<AcceptedJob>({ ...deps, registry });
 
-    const processor = (deps: { JobQueue: JobQueuePort<mocks.SendEmailJobType> }) =>
-      deps.JobQueue.enqueue(mocks.GenericSendEmailJob);
+    const processor = (deps: { JobDispatcher: JobDispatcherPort<mocks.SendEmailJobType> }) =>
+      deps.JobDispatcher.enqueue(mocks.GenericSendEmailJob);
 
-    expect(await processor({ JobQueue: queue })).toEqual(mocks.GenericSendEmailJob);
+    expect(await processor({ JobDispatcher: queue })).toEqual(mocks.GenericSendEmailJob);
   });
 
   test("claim - no jobs", async () => {

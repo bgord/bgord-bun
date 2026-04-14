@@ -3,9 +3,11 @@ import type { GenericJob } from "./job.types";
 import type { JobHandler } from "./job-registry.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 
-export interface JobQueuePort<Job extends GenericJob> {
+export interface JobDispatcherPort<Job extends GenericJob> {
   enqueue<EnqueuedJob extends Job>(job: EnqueuedJob): Promise<EnqueuedJob>;
+}
 
+export interface JobQueuePort<Job extends GenericJob> extends JobDispatcherPort<Job> {
   claim(limit: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>>;
 
   complete(id: GenericJob["id"]): Promise<void>;
