@@ -103,8 +103,25 @@ describe("EventStoreWithLoggerAdapter", () => {
     ]);
   });
 
+  test("save - no events", async () => {
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const Logger = new LoggerCollectingAdapter();
+    const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
+
+    await CorrelationStorage.run(mocks.correlationId, async () => expect(await store.save([])).toEqual([]));
+
+    expect(Logger.entries).toEqual([
+      {
+        message: "Event store save",
+        component: "infra",
+        operation: "event_store_save",
+        correlationId: mocks.correlationId,
+        metadata: { stream: undefined, names: [], count: 0 },
+      },
+    ]);
+  });
+
   test("save", async () => {
-    const finder = new EventFinderNoopAdapter([]);
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const Logger = new LoggerCollectingAdapter();
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });

@@ -1,5 +1,6 @@
 import type { GenericEvent } from "./event.types";
 import type { EventFinderPort } from "./event-finder.port";
+import type { EventFinderLastPort } from "./event-finder-last.port";
 import type { EventInserterPort } from "./event-inserter.port";
 import type { EventFinderConfig, EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
@@ -9,6 +10,7 @@ import type { PayloadSerializerPort } from "./payload-serializer.port";
 
 type Config = {
   finder: EventFinderPort;
+  finderLast: EventFinderLastPort;
   inserter: EventInserterPort;
   serializer: PayloadSerializerPort;
   upcaster?: EventUpcasterPort;
@@ -30,6 +32,19 @@ export class EventStoreAdapter<Event extends GenericEvent> implements EventStore
       .map((event) => ({ ...event, payload: this.config.serializer.deserialize(event.payload) }))
       .map((event) => (this.config.upcaster ? this.config.upcaster.upcast(event) : event))
       .map((event) => registry.validate(event));
+  }
+
+  async findLast<FoundEvent extends Event>(
+    registry: EventValidatorRegistryPort<FoundEvent>,
+    stream: EventStreamType,
+  ): Promise<FoundEvent | null> {
+    const event = await this.config.finderLast.findLast(stream, registry.names);
+    if (!event) return null;
+
+    const deserialized = { ...event, payload: this.config.serializer.deserialize(event.payload) };
+    const upcasted = this.config.upcaster ? this.config.upcaster.upcast(deserialized) : deserialized;
+
+    return registry.validate(upcasted);
   }
 
   async save<SavedEvent extends Event>(
