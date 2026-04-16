@@ -14,6 +14,13 @@ export class EventStoreCollectingAdapter<Event extends GenericEvent> implements 
     return [];
   }
 
+  async findLast<FoundEvent extends Event>(
+    _registry: EventValidatorRegistryPort<FoundEvent>,
+    _stream: EventStreamType,
+  ): Promise<FoundEvent | null> {
+    return null;
+  }
+
   async save<SavedEvent extends Event>(
     events: ReadonlyArray<SavedEvent>,
   ): Promise<ReadonlyArray<SavedEvent>> {
