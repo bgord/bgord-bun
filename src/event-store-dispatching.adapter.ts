@@ -1,5 +1,5 @@
 import type { GenericEvent } from "./event.types";
-import type { EventStorePort } from "./event-store.port";
+import type { EventFinderConfig, EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 import type { EventBusPort } from "./message-bus.port";
@@ -15,8 +15,9 @@ export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements
   async find<FoundEvent extends Event>(
     registry: EventValidatorRegistryPort<FoundEvent>,
     stream: EventStreamType,
+    config?: EventFinderConfig,
   ): Promise<ReadonlyArray<FoundEvent>> {
-    return this.deps.inner.find(registry, stream);
+    return this.deps.inner.find(registry, stream, config);
   }
 
   async save<SavedEvent extends Event>(

@@ -1,7 +1,7 @@
 import type { GenericEvent } from "./event.types";
 import type { EventFinderPort } from "./event-finder.port";
 import type { EventInserterPort } from "./event-inserter.port";
-import type { EventStorePort } from "./event-store.port";
+import type { EventFinderConfig, EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventUpcasterPort } from "./event-upcaster.port";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
@@ -22,8 +22,9 @@ export class EventStoreAdapter<Event extends GenericEvent> implements EventStore
   async find<FoundEvent extends Event>(
     registry: EventValidatorRegistryPort<FoundEvent>,
     stream: EventStreamType,
+    config?: EventFinderConfig,
   ): Promise<ReadonlyArray<FoundEvent>> {
-    const events = await this.config.finder.find(stream, registry.names);
+    const events = await this.config.finder.find(stream, registry.names, config);
 
     return events
       .map((event) => ({ ...event, payload: this.config.serializer.deserialize(event.payload) }))

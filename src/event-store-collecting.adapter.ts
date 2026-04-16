@@ -1,5 +1,5 @@
 import type { GenericEvent } from "./event.types";
-import type { EventStorePort } from "./event-store.port";
+import type { EventFinderConfig, EventStorePort } from "./event-store.port";
 import type { EventStreamType } from "./event-stream.vo";
 import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
 
@@ -9,6 +9,7 @@ export class EventStoreCollectingAdapter<Event extends GenericEvent> implements 
   async find<FoundEvent extends Event>(
     _registry: EventValidatorRegistryPort<FoundEvent>,
     _stream: EventStreamType,
+    _config?: EventFinderConfig,
   ): Promise<ReadonlyArray<FoundEvent>> {
     return [];
   }
