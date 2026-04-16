@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { CorrelationStorage } from "../src/correlation-storage.service";
+import { EventFinderLastNoopAdapter } from "../src/event-finder-last-noop.adapter";
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
@@ -17,6 +18,8 @@ const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
   [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
 });
 
+const finder = new EventFinderNoopAdapter([]);
+const finderLast = new EventFinderLastNoopAdapter(null);
 const serializer = new PayloadSerializerJsonAdapter();
 const inserter = new EventInserterNoopAdapter();
 
@@ -28,7 +31,7 @@ const serialized = (event: PassageOfTimeEvent) => ({
 describe("EventStoreWithLoggerAdapter", () => {
   test("find", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const Logger = new LoggerCollectingAdapter();
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 
@@ -51,9 +54,58 @@ describe("EventStoreWithLoggerAdapter", () => {
     ]);
   });
 
+  test("findLast", async () => {
+    const finderLast = new EventFinderLastNoopAdapter(serialized(mocks.GenericHourHasPassedEvent));
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const Logger = new LoggerCollectingAdapter();
+    const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
+
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      expect(await store.findLast(registry, "passage_of_time")).toEqual(mocks.GenericHourHasPassedEvent);
+    });
+
+    expect(Logger.entries).toEqual([
+      {
+        message: "Event store find last",
+        component: "infra",
+        operation: "event_store_find_last",
+        correlationId: mocks.correlationId,
+        metadata: {
+          stream: "passage_of_time",
+          names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"],
+          found: true,
+        },
+      },
+    ]);
+  });
+
+  test("findLast - no event", async () => {
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const Logger = new LoggerCollectingAdapter();
+    const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
+
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+    });
+
+    expect(Logger.entries).toEqual([
+      {
+        message: "Event store find last",
+        component: "infra",
+        operation: "event_store_find_last",
+        correlationId: mocks.correlationId,
+        metadata: {
+          stream: "passage_of_time",
+          names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"],
+          found: false,
+        },
+      },
+    ]);
+  });
+
   test("save", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const Logger = new LoggerCollectingAdapter();
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 

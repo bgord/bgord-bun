@@ -31,6 +31,23 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
     return result;
   }
 
+  async findLast<FoundEvent extends Event>(
+    registry: EventValidatorRegistryPort<FoundEvent>,
+    stream: EventStreamType,
+  ): Promise<FoundEvent | null> {
+    const result = await this.deps.inner.findLast(registry, stream);
+
+    this.deps.Logger.info({
+      message: "Event store find last",
+      component: "infra",
+      operation: "event_store_find_last",
+      correlationId: CorrelationStorage.get(),
+      metadata: { stream, names: registry.names, found: !!result },
+    });
+
+    return result;
+  }
+
   async save<SavedEvent extends Event>(
     events: ReadonlyArray<SavedEvent>,
   ): Promise<ReadonlyArray<SavedEvent>> {
