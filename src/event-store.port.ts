@@ -12,5 +12,10 @@ export interface EventStorePort<Event extends GenericEvent> {
     config?: EventFinderConfig,
   ): Promise<ReadonlyArray<FoundEvent>>;
 
+  findLast<FoundEvent extends Event>(
+    registry: EventValidatorRegistryPort<FoundEvent>,
+    stream: EventStreamType,
+  ): Promise<FoundEvent | null>;
+
   save<SavedEvent extends Event>(events: ReadonlyArray<SavedEvent>): Promise<ReadonlyArray<SavedEvent>>;
 }
