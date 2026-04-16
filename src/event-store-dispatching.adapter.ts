@@ -20,6 +20,13 @@ export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements
     return this.deps.inner.find(registry, stream, config);
   }
 
+  async findLast<FoundEvent extends Event>(
+    registry: EventValidatorRegistryPort<FoundEvent>,
+    stream: EventStreamType,
+  ): Promise<FoundEvent | null> {
+    return this.deps.inner.findLast(registry, stream);
+  }
+
   async save<SavedEvent extends Event>(
     events: ReadonlyArray<SavedEvent>,
   ): Promise<ReadonlyArray<SavedEvent>> {

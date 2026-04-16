@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { EventFinderLastNoopAdapter } from "../src/event-finder-last-noop.adapter";
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
@@ -16,6 +17,8 @@ const registry = new EventValidatorRegistryAdapter<PassageOfTimeEvent>({
   [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
 });
 
+const finder = new EventFinderNoopAdapter([]);
+const finderLast = new EventFinderLastNoopAdapter(null);
 const inserter = new EventInserterNoopAdapter();
 const serializer = new PayloadSerializerJsonAdapter();
 
@@ -27,7 +30,7 @@ const serialized = (event: PassageOfTimeEvent) => ({
 describe("EventStoreDispatchingAdapter", () => {
   test("find", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
@@ -35,9 +38,28 @@ describe("EventStoreDispatchingAdapter", () => {
     expect(EventBus.messages).toEqual([]);
   });
 
+  test("findLast", async () => {
+    const finderLast = new EventFinderLastNoopAdapter(serialized(mocks.GenericHourHasPassedEvent));
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
+
+    expect(await store.findLast(registry, "passage_of_time")).toEqual(mocks.GenericHourHasPassedEvent);
+    expect(EventBus.messages).toEqual([]);
+  });
+
+  test("findLast - no event", async () => {
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
+
+    expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+    expect(EventBus.messages).toEqual([]);
+  });
+
   test("save - one event", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
@@ -47,7 +69,7 @@ describe("EventStoreDispatchingAdapter", () => {
 
   test("save - multiple events", async () => {
     const finder = new EventFinderNoopAdapter([]);
-    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, inserter, serializer });
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
