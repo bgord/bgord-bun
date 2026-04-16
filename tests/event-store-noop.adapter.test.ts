@@ -18,6 +18,10 @@ describe("EventStoreNoopAdapter", () => {
     expect(await store.find(registry, "passage_of_time")).toEqual([]);
   });
 
+  test("findLast", async () => {
+    expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+  });
+
   test("save", async () => {
     expect(await store.save([mocks.GenericHourHasPassedEvent])).toEqual([]);
   });

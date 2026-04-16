@@ -12,6 +12,13 @@ export class EventStoreNoopAdapter<Event extends GenericEvent> implements EventS
     return [];
   }
 
+  async findLast<FoundEvent extends Event>(
+    _registry: EventValidatorRegistryPort<FoundEvent>,
+    _stream: EventStreamType,
+  ): Promise<FoundEvent | null> {
+    return null;
+  }
+
   async save<SavedEvent extends Event>(
     _events: ReadonlyArray<SavedEvent>,
   ): Promise<ReadonlyArray<SavedEvent>> {
