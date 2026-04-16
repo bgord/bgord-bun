@@ -136,6 +136,8 @@ src/
 ├── etag-extractor-hono.middleware.ts
 ├── etag-extractor.middleware.ts
 ├── event-envelope.ts
+├── event-finder-last-noop.adapter.ts
+├── event-finder-last.port.ts
 ├── event-finder-noop.adapter.ts
 ├── event-finder.port.ts
 ├── event-inserter-noop.adapter.ts
