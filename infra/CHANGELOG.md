@@ -1,4 +1,6 @@
 # Changelog
+## 2026-04-16 15:22 v1.18.0
+- 2026-04-16 15:22 df3b8f9e **1.18.0**
 - 2026-04-16 15:21 4e9f275e **step: update packages**
 - 2026-04-16 15:18 58ea19db **fix: mutants**
 - 2026-04-16 15:05 f8ea4fac **step: update event store adapter**
@@ -9,6 +11,8 @@
 - 2026-04-16 13:56 8bcda3ca **feature: define findlast on EventStorePort**
 - 2026-04-16 13:55 50f3cb28 **step: add event finder last port**
 - 2026-04-16 13:39 930088fe **feature: add event finder config for revision filtering**
+- 2026-04-16 13:22 6115a3ff **docs: generate CHANGELOG**
+- 2026-04-16 13:22 5d307115 **docs: generate readme**
 - 2026-04-16 11:28 ae5a21aa **step: update packages**
 ## 2026-04-14 10:12 v1.17.8
 - 2026-04-14 10:12 417c2b29 **1.17.8**
