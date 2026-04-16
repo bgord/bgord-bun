@@ -110,6 +110,8 @@ export * from "./etag-extractor-hono.middleware";
 export * from "./event.types";
 export * from "./event-envelope";
 export * from "./event-finder.port";
+export * from "./event-finder-last.port";
+export * from "./event-finder-last-noop.adapter";
 export * from "./event-finder-noop.adapter";
 export * from "./event-inserter.port";
 export * from "./event-inserter-noop.adapter";
