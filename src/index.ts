@@ -181,6 +181,7 @@ export * from "./handler-bare.strategy";
 export * from "./handler-hono.port";
 export * from "./handler-noop.strategy";
 export * from "./handler-with-logger.strategy";
+export * from "./handler-with-logger-safe.strategy";
 export * from "./hash.vo";
 export * from "./hash-bucket.vo";
 export * from "./hash-content.strategy";
