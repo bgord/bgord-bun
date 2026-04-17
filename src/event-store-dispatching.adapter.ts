@@ -32,7 +32,7 @@ export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements
   ): Promise<ReadonlyArray<SavedEvent>> {
     const saved = await this.deps.inner.save(events);
 
-    await Promise.all(saved.map((event) => this.deps.EventBus.emit(event)));
+    for (const event of saved) this.deps.EventBus.emit(event);
 
     return saved;
   }
