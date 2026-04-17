@@ -205,6 +205,7 @@ src/
 ├── handler-bare.strategy.ts
 ├── handler-hono.port.ts
 ├── handler-noop.strategy.ts
+├── handler-with-logger-safe.strategy.ts
 ├── handler-with-logger.strategy.ts
 ├── handler.strategy.ts
 ├── hash-bucket.vo.ts
