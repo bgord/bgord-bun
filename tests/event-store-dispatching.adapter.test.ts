@@ -1,11 +1,17 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventFinderLastNoopAdapter } from "../src/event-finder-last-noop.adapter";
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventStoreDispatchingAdapter } from "../src/event-store-dispatching.adapter";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
+import { HandlerWithLoggerSafeStrategy } from "../src/handler-with-logger-safe.strategy";
+import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
+import { EventBusEmitteryAdapter } from "../src/message-bus-emittery.adapter";
 import * as System from "../src/modules/system";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
@@ -65,6 +71,34 @@ describe("EventStoreDispatchingAdapter", () => {
 
     expect(await store.save([mocks.GenericHourHasPassedEvent])).toEqual([mocks.GenericHourHasPassedEvent]);
     expect(EventBus.messages).toEqual([mocks.GenericHourHasPassedEvent]);
+  });
+
+  test("save - dispatching - safe handler", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const finder = new EventFinderNoopAdapter([]);
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const handler = new HandlerWithLoggerSafeStrategy({ Logger, Clock });
+    const EventBus = new EventBusEmitteryAdapter<PassageOfTimeEvent>();
+    EventBus.on(System.Events.HOUR_HAS_PASSED_EVENT, handler.handle(mocks.throwIntentionalErrorAsync));
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
+
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      expect(await store.save([mocks.GenericHourHasPassedEvent])).toEqual([mocks.GenericHourHasPassedEvent]);
+
+      await mocks.tick();
+
+      expect(Logger.entries).toEqual([
+        {
+          message: `Unknown ${mocks.GenericHourHasPassedEvent.name} handler error`,
+          correlationId: CorrelationStorage.get(),
+          component: "infra",
+          operation: "handler_safe",
+          metadata: { name: mocks.GenericHourHasPassedEvent.name, duration: expect.any(tools.Duration) },
+          error: new Error(mocks.IntentionalError),
+        },
+      ]);
+    });
   });
 
   test("save - multiple events", async () => {
