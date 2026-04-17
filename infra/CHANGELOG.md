@@ -1,4 +1,7 @@
 # Changelog
+- 2026-04-17 15:26 f98c7577 **step: update packages**
+- 2026-04-17 15:25 40817c7e **step: add handler with logger safe**
+- 2026-04-17 15:18 2911e500 **fix: dispatching event store emit command**
 ## 2026-04-16 15:22 v1.18.0
 - 2026-04-16 15:22 df3b8f9e **1.18.0**
 - 2026-04-16 15:21 4e9f275e **step: update packages**
@@ -11,6 +14,7 @@
 - 2026-04-16 13:56 8bcda3ca **feature: define findlast on EventStorePort**
 - 2026-04-16 13:55 50f3cb28 **step: add event finder last port**
 - 2026-04-16 13:39 930088fe **feature: add event finder config for revision filtering**
+- 2026-04-16 13:23 69004ede **docs: generate CHANGELOG**
 - 2026-04-16 13:22 6115a3ff **docs: generate CHANGELOG**
 - 2026-04-16 13:22 5d307115 **docs: generate readme**
 - 2026-04-16 11:28 ae5a21aa **step: update packages**
