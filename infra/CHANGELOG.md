@@ -1,9 +1,11 @@
 # Changelog
+- 2026-04-17 21:56 47ab7a83 **step: add event store save dispatching safe handler testcase**
 ## 2026-04-17 15:27 v1.18.1
 - 2026-04-17 15:27 d40d223f **1.18.1**
 - 2026-04-17 15:26 f98c7577 **step: update packages**
 - 2026-04-17 15:25 40817c7e **step: add handler with logger safe**
 - 2026-04-17 15:18 2911e500 **fix: dispatching event store emit command**
+- 2026-04-17 13:27 78a5513e **docs: generate CHANGELOG**
 - 2026-04-17 13:26 b241365f **docs: generate CHANGELOG**
 - 2026-04-17 13:26 4952040a **docs: generate readme**
 ## 2026-04-16 15:22 v1.18.0
