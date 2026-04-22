@@ -1,4 +1,6 @@
 # Changelog
+- 2026-04-22 22:22 cc596a9c **step: update packages**
+- 2026-04-19 11:20 e7a670a6 **docs: generate CHANGELOG**
 - 2026-04-17 21:56 47ab7a83 **step: add event store save dispatching safe handler testcase**
 ## 2026-04-17 15:27 v1.18.1
 - 2026-04-17 15:27 d40d223f **1.18.1**
