@@ -17,7 +17,7 @@ export class MailerFileAdapter implements MailerPort {
       `From       : ${template.config.from}`,
       `To         : ${template.config.to}`,
       `Subject    : ${template.message.subject}`,
-      `Date       :    ${timestamp.toInstant().toZonedDateTimeISO("UTC").toPlainDateTime()}`,
+      `Date       : ${timestamp.toInstant().toZonedDateTimeISO("UTC").toPlainDateTime()}`,
       `Attachments: ${template.attachments?.length ?? 0}`,
       "-".repeat(50),
       template.message.html,
