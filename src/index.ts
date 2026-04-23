@@ -523,6 +523,8 @@ export * from "./uuid.vo";
 export * from "./visitor-id.strategy";
 export * from "./visitor-id-client.strategy";
 export * from "./weak-etag-extractor.middleware";
+export * from "./weak-etag-extractor.strategy";
+export * from "./weak-etag-extractor-header.strategy";
 export * from "./weak-etag-extractor-hono.middleware";
 export * from "./webhook-body-builder.strategy";
 export * from "./webhook-body-builder-text.strategy";
