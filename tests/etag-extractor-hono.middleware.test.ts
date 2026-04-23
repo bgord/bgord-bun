@@ -1,12 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { ETagExtractorHeaderStrategy } from "../src/etag-extractor-header.strategy";
 import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { ETagExtractorHonoMiddleware } from "../src/etag-extractor-hono.middleware";
 
 type Config = { Variables: ETagVariables };
 
-const middleware = new ETagExtractorHonoMiddleware();
+const strategy = new ETagExtractorHeaderStrategy();
+const middleware = new ETagExtractorHonoMiddleware({ strategy });
 const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => c.json(c.get("ETag")));
 
 describe("ETagExtractorHonoMiddleware", () => {

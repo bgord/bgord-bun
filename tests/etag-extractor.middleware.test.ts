@@ -1,9 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ETagExtractorMiddleware } from "../src/etag-extractor.middleware";
+import { ETagExtractorHeaderStrategy } from "../src/etag-extractor-header.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const middleware = new ETagExtractorMiddleware();
+const strategy = new ETagExtractorHeaderStrategy();
+const middleware = new ETagExtractorMiddleware({ strategy });
 
 describe("ETagExtractorMiddleware", () => {
   test("valid header", () => {
