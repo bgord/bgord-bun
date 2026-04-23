@@ -133,8 +133,12 @@ src/
 ├── environment-loader-process-safe.adapter.ts
 ├── environment-loader-process.adapter.ts
 ├── environment-loader.port.ts
+├── etag-extractor-fixed.strategy.ts
+├── etag-extractor-header.strategy.ts
 ├── etag-extractor-hono.middleware.ts
+├── etag-extractor-param.strategy.ts
 ├── etag-extractor.middleware.ts
+├── etag-extractor.strategy.ts
 ├── event-envelope.ts
 ├── event-finder-last-noop.adapter.ts
 ├── event-finder-last.port.ts
@@ -590,8 +594,12 @@ src/
 ├── uuid.vo.ts
 ├── visitor-id-client.strategy.ts
 ├── visitor-id.strategy.ts
+├── weak-etag-extractor-fixed.strategy.ts
+├── weak-etag-extractor-header.strategy.ts
 ├── weak-etag-extractor-hono.middleware.ts
+├── weak-etag-extractor-param.strategy.ts
 ├── weak-etag-extractor.middleware.ts
+├── weak-etag-extractor.strategy.ts
 ├── webhook-body-builder-text.strategy.ts
 ├── webhook-body-builder.strategy.ts
 ├── webhook-secret.vo.ts
