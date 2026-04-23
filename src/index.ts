@@ -300,6 +300,7 @@ export * from "./mailer.builder";
 export * from "./mailer.port";
 export * from "./mailer-collecting.adapter";
 export * from "./mailer-content-html.vo";
+export * from "./mailer-file.adapter";
 export * from "./mailer-noop.adapter";
 export * from "./mailer-resend.adapter";
 export * from "./mailer-smtp.adapter";
