@@ -1,4 +1,6 @@
 # Changelog
+## 2026-04-23 20:19 v1.18.5
+- 2026-04-23 20:19 a5330eb8 **1.18.5**
 - 2026-04-23 20:14 a5e09a71 **step: adjust etag extractor middlewares**
 - 2026-04-23 20:11 ae0c814a **step: add etag extractor param strategy**
 - 2026-04-23 20:08 c121b903 **step: add etag extractor fixed strategy**
@@ -14,6 +16,8 @@
 - 2026-04-23 18:43 bdfe9b75 **1.18.4**
 - 2026-04-23 18:41 60bdb3dc **step: update packages**
 - 2026-04-23 18:39 e5d50617 **step: add mailer file adapteR**
+- 2026-04-23 18:16 dbc5df60 **docs: generate readme**
+- 2026-04-23 18:16 300c2a48 **docs: generate CHANGELOG**
 - 2026-04-23 16:43 e8abf47a **docs: generate readme**
 - 2026-04-23 16:43 6649b2dc **docs: generate CHANGELOG**
 ## 2026-04-23 12:09 v1.18.3
