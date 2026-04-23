@@ -106,6 +106,7 @@ export * from "./environment-loader-noop.adapter";
 export * from "./environment-loader-process.adapter";
 export * from "./environment-loader-process-safe.adapter";
 export * from "./etag-extractor.middleware";
+export * from "./etag-extractor.strategy";
 export * from "./etag-extractor-hono.middleware";
 export * from "./event.types";
 export * from "./event-envelope";
