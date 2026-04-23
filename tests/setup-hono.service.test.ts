@@ -7,7 +7,6 @@ import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strate
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { CorrelationVariables } from "../src/correlation-hono.middleware";
 import { CorrelationStorage } from "../src/correlation-storage.service";
-import type { ETagVariables } from "../src/etag-extractor-hono.middleware";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { UNINFORMATIVE_HEADERS } from "../src/http-logger.middleware";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
@@ -18,16 +17,9 @@ import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
-import type { WeakETagVariables } from "../src/weak-etag-extractor-hono.middleware";
 import * as mocks from "./mocks";
 
-type Config = {
-  Variables: TimeZoneOffsetVariables &
-    ETagVariables &
-    WeakETagVariables &
-    CorrelationVariables &
-    LanguageDetectorVariables;
-};
+type Config = { Variables: TimeZoneOffsetVariables & CorrelationVariables & LanguageDetectorVariables };
 
 const I18n = { languages: mocks.languages, strategies: [new LanguageDetectorHeaderStrategy()] };
 
@@ -132,8 +124,6 @@ describe("SetupHono", () => {
           correlationId: c.get("correlationId"),
           timeZoneOffset: c.get("timeZoneOffset"),
           language: c.get("language"),
-          etag: c.get("ETag"),
-          weakEtag: c.get("WeakETag"),
         }),
       );
 
@@ -143,8 +133,6 @@ describe("SetupHono", () => {
       correlationId: mocks.correlationId,
       timeZoneOffset: 0,
       language: I18n.languages.fallback,
-      etag: null,
-      weakEtag: null,
     });
     expect(response.headers.toJSON()).toEqual({
       "content-type": "application/json",
@@ -290,36 +278,6 @@ describe("SetupHono", () => {
     );
 
     expect(await response.json()).toEqual({ timeZoneOffset: tools.Duration.Hours(2).ms });
-  });
-
-  test("weak etag extractor", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json(c.get("WeakETag")));
-
-    const response = await app.request(
-      "/ping",
-      { method: "GET", headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" }) },
-      mocks.connInfo,
-    );
-
-    expect(await response.json()).toEqual({ revision: 12345, value: "W/12345" });
-  });
-
-  test("etag extractor", async () => {
-    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
-    const app = new Hono<Config>()
-      .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json(c.get("ETag")));
-
-    const response = await app.request(
-      "/ping",
-      { method: "GET", headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "12345" }) },
-      mocks.connInfo,
-    );
-
-    expect(await response.json()).toEqual({ revision: 12345, value: "12345" });
   });
 
   test("http logger", async () => {

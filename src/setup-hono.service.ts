@@ -7,7 +7,6 @@ import type { BuildInfoType } from "./build-info.vo";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { ClockPort } from "./clock.port";
 import { CorrelationHonoMiddleware } from "./correlation-hono.middleware";
-import { ETagExtractorHonoMiddleware } from "./etag-extractor-hono.middleware";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { HttpLoggerConfig } from "./http-logger.middleware";
 import { HttpLoggerHonoMiddleware } from "./http-logger-hono.middleware";
@@ -23,7 +22,6 @@ import { ShieldMaintenanceHonoStrategy } from "./shield-maintenance-hono.strateg
 import { TimeZoneOffsetHonoMiddleware } from "./time-zone-offset-hono.middleware";
 import { TimingHonoMiddleware } from "./timing-hono.middleware";
 import { TrailingSlashHonoMiddleware } from "./trailing-slash-hono.middleware";
-import { WeakETagExtractorHonoMiddleware } from "./weak-etag-extractor-hono.middleware";
 
 type Dependencies = {
   Logger: LoggerPort;
@@ -76,8 +74,6 @@ export class SetupHono {
       }),
       new LanguageDetectorHonoMiddleware(config.I18n).handle(),
       new TimeZoneOffsetHonoMiddleware().handle(),
-      new WeakETagExtractorHonoMiddleware().handle(),
-      new ETagExtractorHonoMiddleware().handle(),
       new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),
       new TimingHonoMiddleware(deps).handle(),
     ];
