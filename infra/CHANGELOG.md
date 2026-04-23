@@ -1,8 +1,21 @@
 # Changelog
+- 2026-04-23 20:14 a5e09a71 **step: adjust etag extractor middlewares**
+- 2026-04-23 20:11 ae0c814a **step: add etag extractor param strategy**
+- 2026-04-23 20:08 c121b903 **step: add etag extractor fixed strategy**
+- 2026-04-23 20:05 31b7a188 **step: add etag extractor header strategy**
+- 2026-04-23 20:04 053f38c3 **step: define etag extractor strategy**
+- 2026-04-23 20:02 d39c2055 **step: remove etag extractors from setup**
+- 2026-04-23 20:01 967b9370 **step: adjust weak etag middleware tests**
+- 2026-04-23 20:00 9697b97c **step: add weak etag extractor fixed strategy**
+- 2026-04-23 19:56 1b91dc4d **step: add weak etag extractor param strategy**
+- 2026-04-23 19:53 051a5323 **step: add weak etag extractor header**
+- 2026-04-23 18:49 a6388e0c **fix: date in mailer file**
 ## 2026-04-23 18:43 v1.18.4
 - 2026-04-23 18:43 bdfe9b75 **1.18.4**
 - 2026-04-23 18:41 60bdb3dc **step: update packages**
 - 2026-04-23 18:39 e5d50617 **step: add mailer file adapteR**
+- 2026-04-23 16:43 e8abf47a **docs: generate readme**
+- 2026-04-23 16:43 6649b2dc **docs: generate CHANGELOG**
 ## 2026-04-23 12:09 v1.18.3
 - 2026-04-23 12:09 bda0e886 **1.18.3**
 - 2026-04-23 12:08 b93e8c23 **step: update tools**
