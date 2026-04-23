@@ -1,14 +1,13 @@
-import * as tools from "@bgord/tools";
+import type * as tools from "@bgord/tools";
 import type { RequestContext } from "./request-context.port";
+import type { WeakETagExtractorStrategy } from "./weak-etag-extractor.strategy";
+
+export type WeakETagExtractorMiddlewareConfig = { strategy: WeakETagExtractorStrategy };
 
 export class WeakETagExtractorMiddleware {
-  evaluate(context: RequestContext): tools.WeakETag | null {
-    try {
-      const header = context.request.header(tools.WeakETag.IF_MATCH_HEADER_NAME);
+  constructor(private readonly config: WeakETagExtractorMiddlewareConfig) {}
 
-      return tools.WeakETag.fromHeader(header);
-    } catch {
-      return null;
-    }
+  evaluate(context: RequestContext): tools.WeakETag | null {
+    return this.config.strategy.detect(context);
   }
 }

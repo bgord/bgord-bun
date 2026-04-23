@@ -2,15 +2,18 @@ import type * as tools from "@bgord/tools";
 import type { MiddlewareHandler } from "hono";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-import { WeakETagExtractorMiddleware } from "./weak-etag-extractor.middleware";
+import {
+  WeakETagExtractorMiddleware,
+  type WeakETagExtractorMiddlewareConfig,
+} from "./weak-etag-extractor.middleware";
 
 export type WeakETagVariables = { WeakETag: tools.WeakETag | null };
 
 export class WeakETagExtractorHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: WeakETagExtractorMiddleware;
 
-  constructor() {
-    this.middleware = new WeakETagExtractorMiddleware();
+  constructor(config: WeakETagExtractorMiddlewareConfig) {
+    this.middleware = new WeakETagExtractorMiddleware(config);
   }
 
   handle(): MiddlewareHandler {

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { WeakETagExtractorHeaderStrategy } from "../src/weak-etag-extractor-header.strategy";
 import {
   WeakETagExtractorHonoMiddleware,
   type WeakETagVariables,
@@ -8,8 +9,10 @@ import {
 
 type Config = { Variables: WeakETagVariables };
 
+const strategy = new WeakETagExtractorHeaderStrategy();
+
 const app = new Hono<Config>()
-  .use(new WeakETagExtractorHonoMiddleware().handle())
+  .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
   .get("/ping", (c) => c.json(c.get("WeakETag")));
 
 describe("WeakETagExtractorHonoMiddleware", () => {

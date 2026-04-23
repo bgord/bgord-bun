@@ -1,9 +1,11 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { WeakETagExtractorMiddleware } from "../src/weak-etag-extractor.middleware";
+import { WeakETagExtractorHeaderStrategy } from "../src/weak-etag-extractor-header.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const middleware = new WeakETagExtractorMiddleware();
+const strategy = new WeakETagExtractorHeaderStrategy();
+const middleware = new WeakETagExtractorMiddleware({ strategy });
 
 describe("WeakETagExtractorMiddleware", () => {
   test("valid header", () => {
