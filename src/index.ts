@@ -110,6 +110,7 @@ export * from "./etag-extractor.strategy";
 export * from "./etag-extractor-fixed.strategy";
 export * from "./etag-extractor-header.strategy";
 export * from "./etag-extractor-hono.middleware";
+export * from "./etag-extractor-param.strategy";
 export * from "./event.types";
 export * from "./event-envelope";
 export * from "./event-finder.port";
