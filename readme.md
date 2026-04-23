@@ -324,6 +324,7 @@ src/
 ├── logger.port.ts
 ├── mailer-collecting.adapter.ts
 ├── mailer-content-html.vo.ts
+├── mailer-file.adapter.ts
 ├── mailer-noop.adapter.ts
 ├── mailer-resend.adapter.ts
 ├── mailer-smtp.adapter.ts
