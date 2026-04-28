@@ -1,5 +1,7 @@
 # Changelog
+- 2026-04-28 11:26 cac01ed3 **step: update packages**
 - 2026-04-28 10:02 abb6a1ed **step: update packages**
+- 2026-04-28 08:03 a223ef27 **docs: generate CHANGELOG**
 ## 2026-04-23 20:19 v1.18.5
 - 2026-04-23 20:19 a5330eb8 **1.18.5**
 - 2026-04-23 20:14 a5e09a71 **step: adjust etag extractor middlewares**
