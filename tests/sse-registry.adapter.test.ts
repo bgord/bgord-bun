@@ -24,8 +24,7 @@ describe("SseRegistryAdapter", async () => {
 
     registry.register(subject.hex.get(), sender);
 
-    // @ts-expect-error Private property
-    expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
+    expect(registry["senders"]).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
   });
 
   test("unregister", async () => {

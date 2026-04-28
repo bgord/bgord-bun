@@ -30,8 +30,7 @@ describe("SseHonoHandler", async () => {
 
     await app.request("/sse");
 
-    // @ts-expect-error Private property
-    expect(registry.senders.get(subject.hex.get())?.size).toEqual(1);
+    expect(registry["senders"].get(subject.hex.get())?.size).toEqual(1);
   });
 
   test("send", async () => {

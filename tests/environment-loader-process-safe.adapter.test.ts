@@ -38,8 +38,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
     expect(Object.isFrozen(result)).toEqual(true);
-    // @ts-expect-error Changed schema assertion
-    expect(process.env.APP_NAME).toEqual(undefined);
+    expect(process.env["APP_NAME"]).toBeUndefined();
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
 
     const second = await adapter.load();

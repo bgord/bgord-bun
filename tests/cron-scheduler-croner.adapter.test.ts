@@ -29,8 +29,7 @@ describe("CronSchedulerCronerAdapter", () => {
     scheduler.schedule(mocks.task);
     scheduler.schedule(mocks.task);
 
-    // @ts-expect-error Private field
-    scheduler["tasks"][1].stop();
+    scheduler["tasks"]?.[1]?.stop();
 
     expect(await scheduler.verify()).toEqual(false);
   });
