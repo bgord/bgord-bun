@@ -1,9 +1,13 @@
 # Changelog
+## 2026-04-29 12:46 v1.18.9
+- 2026-04-29 12:46 99086eda **1.18.9**
 - 2026-04-29 12:45 03965441 **step: update packages**
 - 2026-04-29 12:40 dd1356f0 **step: test hcaptcha ssr csp**
 - 2026-04-29 12:39 f5b7e6d1 **step: add ssr csp config**
 - 2026-04-29 12:37 863705e8 **step: add ssr bun service csp config**
 - 2026-04-29 12:36 d43a0f30 **step: add ssr service csp config**
+- 2026-04-29 10:46 cf39cbdd **docs: generate CHANGELOG**
+- 2026-04-29 10:46 a268615d **docs: generate readme**
 ## 2026-04-29 10:06 v1.18.8
 - 2026-04-29 10:06 2bb7e874 **1.18.8**
 - 2026-04-29 10:05 8f1db436 **step: update packages**
