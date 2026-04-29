@@ -2,23 +2,24 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
+import { SEND_EMAIL_JOB, SendEmailJobSchema, type SendEmailJobType } from "../src/modules/system/jobs";
 import * as mocks from "./mocks";
 
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
 
-const handler = async (_job: mocks.SendEmailJobType) => {};
+const handler = async (_job: SendEmailJobType) => {};
 
-const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
+const registry = new JobRegistryAdapter<SendEmailJobType>({
+  [SEND_EMAIL_JOB]: { schema: SendEmailJobSchema, retry, handler },
 });
 
 describe("JobRegistryAdapter", () => {
   test("names", () => {
-    expect(registry.names).toEqual([mocks.SEND_EMAIL_JOB]);
+    expect(registry.names).toEqual([SEND_EMAIL_JOB]);
   });
 
   test("accepts - true", () => {
-    expect(registry.accepts(mocks.SEND_EMAIL_JOB)).toEqual(true);
+    expect(registry.accepts(SEND_EMAIL_JOB)).toEqual(true);
   });
 
   test("accepts - false", () => {
@@ -52,15 +53,15 @@ describe("JobRegistryAdapter", () => {
       },
     };
 
-    const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-      [mocks.SEND_EMAIL_JOB]: { schema: asyncSchema, retry, handler: async (_job) => {} },
+    const registry = new JobRegistryAdapter<SendEmailJobType>({
+      [SEND_EMAIL_JOB]: { schema: asyncSchema, retry, handler: async (_job) => {} },
     });
 
     expect(() => registry.validate(mocks.GenericSendEmailJob)).toThrow("job.registry.no.async.schema");
   });
 
   test("getRetryPolicy", () => {
-    expect(registry.getRetryPolicy(mocks.SEND_EMAIL_JOB)).toEqual(retry);
+    expect(registry.getRetryPolicy(SEND_EMAIL_JOB)).toEqual(retry);
   });
 
   test("getRetryPolicy - unknown job", () => {
@@ -68,7 +69,7 @@ describe("JobRegistryAdapter", () => {
   });
 
   test("getHandler", () => {
-    expect(registry.getHandler(mocks.SEND_EMAIL_JOB)).toBe(handler);
+    expect(registry.getHandler(SEND_EMAIL_JOB)).toBe(handler);
   });
 
   test("getHandler - unknown job", () => {

@@ -3,16 +3,17 @@ import * as tools from "@bgord/tools";
 import { JobQueueAdapterNoop } from "../src/job-queue-noop.adapter";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
+import { SEND_EMAIL_JOB, SendEmailJobSchema, type SendEmailJobType } from "../src/modules/system/jobs";
 import * as mocks from "./mocks";
 
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
-const handler = async (_job: mocks.SendEmailJobType) => {};
-const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
+const handler = async (_job: SendEmailJobType) => {};
+const registry = new JobRegistryAdapter<SendEmailJobType>({
+  [SEND_EMAIL_JOB]: { schema: SendEmailJobSchema, retry, handler },
 });
 const deps = { registry };
 
-const queue = new JobQueueAdapterNoop<mocks.SendEmailJobType>(deps);
+const queue = new JobQueueAdapterNoop<SendEmailJobType>(deps);
 
 describe("JobQueueAdapter", () => {
   test("enqueue", async () => {

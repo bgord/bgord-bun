@@ -12,14 +12,15 @@ import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRequeuerCollectingAdapter } from "../src/job-requeuer-collecting.adapter";
 import { JobRequeuerNoopAdapter } from "../src/job-requeuer-noop.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
+import { SEND_EMAIL_JOB, SendEmailJobSchema, type SendEmailJobType } from "../src/modules/system/jobs";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
 const limit = tools.Int.positive(3);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
-const handler = async (_job: mocks.SendEmailJobType) => {};
-const registry = new JobRegistryAdapter<mocks.SendEmailJobType>({
-  [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
+const handler = async (_job: SendEmailJobType) => {};
+const registry = new JobRegistryAdapter<SendEmailJobType>({
+  [SEND_EMAIL_JOB]: { schema: SendEmailJobSchema, retry, handler },
 });
 const serializer = new PayloadSerializerJsonAdapter();
 const enqueuer = new JobEnqueuerNoopAdapter();
@@ -30,7 +31,7 @@ const failer = new JobFailerNoopAdapter();
 
 const deps = { registry, enqueuer, claimer, completer, failer, requeuer, serializer };
 
-const queue = new JobQueueAdapter<mocks.SendEmailJobType>(deps);
+const queue = new JobQueueAdapter<SendEmailJobType>(deps);
 
 describe("JobQueueAdapter", () => {
   test("enqueue", async () => {
@@ -38,10 +39,10 @@ describe("JobQueueAdapter", () => {
   });
 
   test("enqueue - two jobs", async () => {
-    type AcceptedJob = mocks.SendEmailJobType | mocks.SendSmsJobType;
+    type AcceptedJob = SendEmailJobType | mocks.SendSmsJobType;
 
     const registry = new JobRegistryAdapter<AcceptedJob>({
-      [mocks.SEND_EMAIL_JOB]: { schema: mocks.SendEmailJobSchema, retry, handler },
+      [SEND_EMAIL_JOB]: { schema: SendEmailJobSchema, retry, handler },
       [mocks.SEND_SMS_JOB]: {
         schema: mocks.SendSmsJobSchema,
         retry,
@@ -51,7 +52,7 @@ describe("JobQueueAdapter", () => {
 
     const queue = new JobQueueAdapter<AcceptedJob>({ ...deps, registry });
 
-    const processor = (deps: { JobDispatcher: JobDispatcherPort<mocks.SendEmailJobType> }) =>
+    const processor = (deps: { JobDispatcher: JobDispatcherPort<SendEmailJobType> }) =>
       deps.JobDispatcher.enqueue(mocks.GenericSendEmailJob);
 
     expect(await processor({ JobDispatcher: queue })).toEqual(mocks.GenericSendEmailJob);
@@ -63,14 +64,14 @@ describe("JobQueueAdapter", () => {
 
   test("claim - with jobs", async () => {
     const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, claimer });
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, claimer });
 
     expect(await queue.claim(limit)).toEqual([mocks.GenericSendEmailJob]);
   });
 
   test("complete", async () => {
     const completer = new JobCompleterCollectingAdapter();
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, completer });
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, completer });
 
     await queue.complete(mocks.GenericSendEmailJob.id);
 
@@ -79,7 +80,7 @@ describe("JobQueueAdapter", () => {
 
   test("fail", async () => {
     const failer = new JobFailerCollectingAdapter();
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, failer });
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, failer });
 
     await queue.fail(mocks.GenericSendEmailJob.id);
 
@@ -88,7 +89,7 @@ describe("JobQueueAdapter", () => {
 
   test("requeue", async () => {
     const requeuer = new JobRequeuerCollectingAdapter();
-    const queue = new JobQueueAdapter<mocks.SendEmailJobType>({ ...deps, requeuer });
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, requeuer });
     const delay = tools.Duration.Seconds(5);
 
     await queue.requeue(mocks.GenericSendEmailJob.id, 1, delay);
