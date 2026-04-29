@@ -1,6 +1,15 @@
 import type { NonceProviderPort } from "./nonce-provider.port";
 import type { NonceValueType } from "./nonce-value.vo";
 
+export type SSRConfig = {
+  csp: {
+    scriptSources?: ReadonlyArray<string>;
+    styleSources?: ReadonlyArray<string>;
+    frameSources?: ReadonlyArray<string>;
+    connectSources?: ReadonlyArray<string>;
+    imgSources?: ReadonlyArray<string>;
+  };
+};
 type Dependencies = { NonceProvider: NonceProviderPort };
 
 export type SSRSecurityHeaders = {
@@ -18,27 +27,37 @@ export type SSRSecurityHeaders = {
 };
 
 export class SSRService {
-  constructor(private readonly deps: Dependencies) {}
+  constructor(
+    private readonly deps: Dependencies,
+    private readonly config?: SSRConfig,
+  ) {}
 
   get nonce(): NonceValueType {
     return this.deps.NonceProvider.generate();
   }
 
   secure(nonce: NonceValueType): SSRSecurityHeaders {
+    const scriptSources = ["'self'", `'nonce-${nonce}'`, ...(this.config?.csp.scriptSources ?? [])].join(" ");
+    const styleSources = ["'self'", `'nonce-${nonce}'`, ...(this.config?.csp.styleSources ?? [])].join(" ");
+    const frameSources = ["'none'", ...(this.config?.csp.frameSources ?? [])].join(" ");
+    const connectSources = ["'self'", ...(this.config?.csp.connectSources ?? [])].join(" ");
+    const imgSources = ["'self'", ...(this.config?.csp.imgSources ?? [])].join(" ");
+
     return {
       "Content-Security-Policy": [
         "default-src 'none'",
         "base-uri 'none'",
         "object-src 'none'",
+        `frame-src ${frameSources}`,
         "frame-ancestors 'none'",
-        `script-src 'self' 'nonce-${nonce}'`,
-        `script-src-elem 'self' 'nonce-${nonce}'`,
-        `style-src 'self' 'nonce-${nonce}'`,
+        `script-src ${scriptSources}`,
+        `script-src-elem ${scriptSources}`,
+        `style-src ${styleSources}`,
         "style-src-attr 'unsafe-inline'",
-        "img-src 'self'",
+        `img-src ${imgSources}`,
         "media-src 'self'",
         "font-src 'self'",
-        "connect-src 'self'",
+        `connect-src ${connectSources}`,
         "form-action 'self'",
       ].join("; "),
       "Permissions-Policy": [
