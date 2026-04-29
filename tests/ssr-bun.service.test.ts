@@ -3,6 +3,7 @@ import * as v from "valibot";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { NonceValue, type NonceValueType } from "../src/nonce-value.vo";
 import { SSRBun } from "../src/ssr-bun.service";
+import { SsrCsp } from "../src/ssr-csp";
 
 const zeros = v.parse(NonceValue, "0000000000000000");
 const ones = v.parse(NonceValue, "1111111111111111");
@@ -19,6 +20,31 @@ describe("SSRBun", async () => {
 
     expect(response.headers.toJSON()).toEqual({
       "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}'; script-src-elem 'self' 'nonce-${zeros}'; style-src 'self' 'nonce-${zeros}'; style-src-attr 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'`,
+      "permissions-policy":
+        "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+      "cross-origin-opener-policy": "same-origin",
+      "cross-origin-resource-policy": "same-origin",
+      "referrer-policy": "no-referrer",
+      "strict-transport-security": "max-age=15552000; includeSubDomains",
+      "x-content-type-options": "nosniff",
+      "x-dns-prefetch-control": "off",
+      "x-download-options": "noopen",
+      "x-permitted-cross-domain-policies": "none",
+      "x-xss-protection": "0",
+    });
+  });
+
+  test("happy path - hcaptcha", async () => {
+    const NonceProvider = new NonceProviderDeterministicAdapter([zeros]);
+
+    const handler = async (): Promise<Response> => new Response("ok");
+
+    const fetch = SSRBun.essentials(handler, { NonceProvider }, { csp: SsrCsp.hcaptcha });
+
+    const response = await fetch(new Request("http://localhost/"));
+
+    expect(response.headers.toJSON()).toEqual({
+      "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none' https://newassets.hcaptcha.com; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}' https://js.hcaptcha.com; script-src-elem 'self' 'nonce-${zeros}' https://js.hcaptcha.com; style-src 'self' 'nonce-${zeros}' https://newassets.hcaptcha.com; style-src-attr 'unsafe-inline'; img-src 'self' https://imgs.hcaptcha.com; media-src 'self'; font-src 'self'; connect-src 'self' https://api.hcaptcha.com; form-action 'self'`,
       "permissions-policy":
         "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "cross-origin-opener-policy": "same-origin",
