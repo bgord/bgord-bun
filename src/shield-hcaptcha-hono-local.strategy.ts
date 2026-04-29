@@ -1,6 +1,7 @@
 import type { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
-import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
+import * as v from "valibot";
+import { HCaptchaSecretKey } from "./hcaptcha-secret-key.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { ShieldHcaptchaStrategy } from "./shield-hcaptcha.strategy";
 
@@ -9,13 +10,20 @@ export const ShieldHcaptchaLocalStrategyError = { Rejected: "shield.hcaptcha.loc
 export class ShieldHcaptchaLocalHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldHcaptchaStrategy;
 
-  constructor(secretKey: HCaptchaSecretKeyType) {
-    this.strategy = new ShieldHcaptchaStrategy(secretKey);
+  private static readonly SECRET_KEY_LOCAL = v.parse(
+    HCaptchaSecretKey,
+    "0x0000000000000000000000000000000000000000",
+  );
+
+  private static readonly TOKEN_LOCAL = "10000000-aaaa-bbbb-cccc-000000000001";
+
+  constructor() {
+    this.strategy = new ShieldHcaptchaStrategy(ShieldHcaptchaLocalHonoStrategy.SECRET_KEY_LOCAL);
   }
 
   handle(): MiddlewareHandler {
     return async (_c, next) => {
-      if (await this.strategy.evaluate("10000000-aaaa-bbbb-cccc-000000000001")) return next();
+      if (await this.strategy.evaluate(ShieldHcaptchaLocalHonoStrategy.TOKEN_LOCAL)) return next();
       throw new HTTPException(403, { message: ShieldHcaptchaLocalStrategyError.Rejected });
     };
   }

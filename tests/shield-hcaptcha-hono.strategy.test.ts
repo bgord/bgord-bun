@@ -1,16 +1,13 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
-import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaHonoStrategy } from "../src/shield-hcaptcha-hono.strategy";
+import { ShieldHcaptchaLocalHonoStrategy } from "../src/shield-hcaptcha-hono-local.strategy";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = "11111111111111111111111111111111111";
-const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
-const shield = new ShieldHcaptchaHonoStrategy(v.parse(HCaptchaSecretKey, SECRET_KEY));
+const shield = new ShieldHcaptchaHonoStrategy(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"]);
 
 const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
 
@@ -18,13 +15,16 @@ describe("ShieldHcaptchaHonoStrategy", () => {
   test("happy path", async () => {
     using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
     const form = new FormData();
-    form.set("h-captcha-response", VALID_TOKEN);
+    form.set("h-captcha-response", ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"]);
 
     const response = await app.request("/secure", { method: "POST", body: form });
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("OK");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, VALID_TOKEN);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
   });
 
   test("failure - known error", async () => {
@@ -36,7 +36,10 @@ describe("ShieldHcaptchaHonoStrategy", () => {
 
     expect(response.status).toEqual(403);
     expect(await response.text()).toEqual("shield.hcaptcha.rejected");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, INVALID_TOKEN);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      INVALID_TOKEN,
+    );
   });
 
   test("failure - missing token", async () => {
@@ -46,7 +49,10 @@ describe("ShieldHcaptchaHonoStrategy", () => {
 
     expect(response.status).toEqual(403);
     expect(await response.text()).toEqual("shield.hcaptcha.rejected");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, undefined);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      undefined,
+    );
   });
 
   test("failure - unknown error", async () => {
@@ -60,6 +66,9 @@ describe("ShieldHcaptchaHonoStrategy", () => {
 
     expect(response.status).toEqual(403);
     expect(await response.text()).toEqual("shield.hcaptcha.rejected");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, "any-token");
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      "any-token",
+    );
   });
 });

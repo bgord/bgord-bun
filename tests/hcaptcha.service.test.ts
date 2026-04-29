@@ -1,11 +1,8 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
-import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
+import { ShieldHcaptchaLocalHonoStrategy } from "../src/shield-hcaptcha-hono-local.strategy";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = v.parse(HCaptchaSecretKey, "00000000000000000000000000000000000");
-const VALID_TOKEN = "valid-token";
 const INVALID_TOKEN = "invalid-token";
 
 const service = new HCaptchaService();
@@ -16,13 +13,19 @@ describe("HCaptchaService", () => {
       new Response(JSON.stringify({ success: true }), { status: 200 }),
     );
 
-    const result = await service.verify(SECRET_KEY, VALID_TOKEN);
+    const result = await service.verify(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
 
     expect(result).toEqual({ success: true });
     expect(globalFetch).toHaveBeenCalledWith("https://hcaptcha.com/siteverify", {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret: SECRET_KEY, response: VALID_TOKEN }),
+      body: new URLSearchParams({
+        secret: ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+        response: ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+      }),
     });
   });
 
@@ -31,13 +34,16 @@ describe("HCaptchaService", () => {
       new Response(JSON.stringify({ success: false }), { status: 200 }),
     );
 
-    const result = await service.verify(SECRET_KEY, INVALID_TOKEN);
+    const result = await service.verify(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"], INVALID_TOKEN);
 
     expect(result).toEqual({ success: false });
     expect(globalFetch).toHaveBeenCalledWith("https://hcaptcha.com/siteverify", {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret: SECRET_KEY, response: INVALID_TOKEN }),
+      body: new URLSearchParams({
+        secret: ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+        response: INVALID_TOKEN,
+      }),
     });
   });
 
@@ -46,25 +52,38 @@ describe("HCaptchaService", () => {
       new Response(JSON.stringify({ success: false }), { status: 200 }),
     );
 
-    const result = await service.verify(SECRET_KEY, undefined);
+    const result = await service.verify(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"], undefined);
 
     expect(result).toEqual({ success: false });
     expect(globalFetch).toHaveBeenCalledWith("https://hcaptcha.com/siteverify", {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ secret: SECRET_KEY, response: "" }),
+      body: new URLSearchParams({
+        secret: ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+        response: "",
+      }),
     });
   });
 
   test("verify - failure - http error", async () => {
     using _ = spyOn(globalThis, "fetch").mockResolvedValue(new Response("error", { status: 500 }));
 
-    expect(async () => service.verify(SECRET_KEY, VALID_TOKEN)).toThrow("hcaptcha.service.error");
+    expect(async () =>
+      service.verify(
+        ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+        ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+      ),
+    ).toThrow("hcaptcha.service.error");
   });
 
   test("verify - failure - network error", async () => {
     using _ = spyOn(globalThis, "fetch").mockRejectedValue(mocks.IntentionalError);
 
-    expect(async () => service.verify(SECRET_KEY, VALID_TOKEN)).toThrow(mocks.IntentionalError);
+    expect(async () =>
+      service.verify(
+        ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+        ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+      ),
+    ).toThrow(mocks.IntentionalError);
   });
 });

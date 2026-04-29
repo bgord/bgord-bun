@@ -1,15 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
-import * as v from "valibot";
 import { HCaptchaService } from "../src/hcaptcha.service";
-import { HCaptchaSecretKey } from "../src/hcaptcha-secret-key.vo";
 import { ShieldHcaptchaLocalHonoStrategy } from "../src/shield-hcaptcha-hono-local.strategy";
 import * as mocks from "./mocks";
 
-const SECRET_KEY = v.parse(HCaptchaSecretKey, "00000000000000000000000000000000000");
-const LOCAL_FIXED_TOKEN = "10000000-aaaa-bbbb-cccc-000000000001";
-
-const shield = new ShieldHcaptchaLocalHonoStrategy(SECRET_KEY);
+const shield = new ShieldHcaptchaLocalHonoStrategy();
 
 const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
 
@@ -21,7 +16,10 @@ describe("ShieldHcaptchaLocalStrategy", () => {
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("OK");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
   });
 
   test("failure - known error", async () => {
@@ -31,7 +29,10 @@ describe("ShieldHcaptchaLocalStrategy", () => {
 
     expect(response.status).toEqual(403);
     expect(await response.text()).toEqual("shield.hcaptcha.local.rejected");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
   });
 
   test("failure - unknown error", async () => {
@@ -43,6 +44,9 @@ describe("ShieldHcaptchaLocalStrategy", () => {
 
     expect(response.status).toEqual(403);
     expect(await response.text()).toEqual("shield.hcaptcha.local.rejected");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(SECRET_KEY, LOCAL_FIXED_TOKEN);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
   });
 });
