@@ -1,9 +1,13 @@
 # Changelog
+## 2026-04-29 10:06 v1.18.8
+- 2026-04-29 10:06 2bb7e874 **1.18.8**
 - 2026-04-29 10:05 8f1db436 **step: update packages**
 - 2026-04-29 09:56 f1f6ad28 **step: adjust tests**
 - 2026-04-29 09:44 16581cd5 **step: test send email job handler**
 - 2026-04-29 09:34 a44da05e **step: add send email job handler**
 - 2026-04-29 09:29 284e55fe **step: add send email job**
+- 2026-04-29 08:05 a34f6089 **docs: generate CHANGELOG**
+- 2026-04-29 08:05 3dd8cbac **docs: generate readme**
 - 2026-04-29 00:22 d71d6b1d **step: remove unnecessary ts-expect-error**
 ## 2026-04-28 12:09 v1.18.7
 - 2026-04-28 12:09 97622cfb **1.18.7**
