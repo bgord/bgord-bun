@@ -1,6 +1,6 @@
 import type { NonceProviderPort } from "./nonce-provider.port";
 import type { NonceValueType } from "./nonce-value.vo";
-import { SSRService } from "./ssr.service";
+import { type SSRConfig, SSRService } from "./ssr.service";
 
 type Dependencies = { NonceProvider: NonceProviderPort };
 
@@ -8,8 +8,9 @@ export class SSRBun {
   static essentials(
     handler: (request: Request, nonce: NonceValueType) => Promise<Response>,
     deps: Dependencies,
+    config?: SSRConfig,
   ) {
-    const service = new SSRService(deps);
+    const service = new SSRService(deps, config);
 
     return async (request: Request): Promise<Response> => {
       const nonce = service.nonce;
