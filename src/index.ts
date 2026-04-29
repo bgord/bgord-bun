@@ -484,6 +484,7 @@ export * from "./sse-registry-with-limit.adapter";
 export * from "./sse-registry-with-logger.adapter";
 export * from "./ssr.service";
 export * from "./ssr-bun.service";
+export * from "./ssr-csp";
 export * from "./static-files-hono.service";
 export * from "./stopwatch.service";
 export * from "./subject-application-resolver.vo";
