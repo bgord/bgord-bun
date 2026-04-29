@@ -392,6 +392,10 @@ src/
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
 │       │   ├── MINUTE_HAS_PASSED_EVENT.ts
 │       │   ├── SECURITY_VIOLATION_DETECTED_EVENT.ts
+│       ├── job-handlers
+│       │   └── send-email-job.handler.ts
+│       └── jobs
+│           ├── SEND_EMAIL_JOB.ts
 ├── node-env.vo.ts
 ├── nonce-provider-crypto.adapter.ts
 ├── nonce-provider-deterministic.adapter.ts
