@@ -1,4 +1,7 @@
 # Changelog
+- 2026-04-29 14:29 78070f81 **step: add feature flag enabled invariant**
+- 2026-04-29 14:17 fb79492a **step: add shield feature flag**
+- 2026-04-29 14:14 de67d43a **step: update packages**
 ## 2026-04-29 13:35 v1.18.10
 - 2026-04-29 13:35 202c69b3 **1.18.10**
 - 2026-04-29 13:28 6f6b7b42 **step: hardcode local secret key**
@@ -10,6 +13,7 @@
 - 2026-04-29 12:39 f5b7e6d1 **step: add ssr csp config**
 - 2026-04-29 12:37 863705e8 **step: add ssr bun service csp config**
 - 2026-04-29 12:36 d43a0f30 **step: add ssr service csp config**
+- 2026-04-29 11:36 7f74c03c **docs: generate CHANGELOG**
 - 2026-04-29 11:35 4c74dd47 **docs: generate CHANGELOG**
 - 2026-04-29 10:47 dc5135d5 **docs: generate CHANGELOG**
 - 2026-04-29 10:46 cf39cbdd **docs: generate CHANGELOG**
