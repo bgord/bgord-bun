@@ -392,6 +392,8 @@ src/
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
 │       │   ├── MINUTE_HAS_PASSED_EVENT.ts
 │       │   ├── SECURITY_VIOLATION_DETECTED_EVENT.ts
+│       ├── invariants
+│       │   ├── feature-flag-enabled.ts
 │       ├── job-handlers
 │       │   └── send-email-job.handler.ts
 │       └── jobs
@@ -511,6 +513,8 @@ src/
 ├── shield-body-limit.strategy.ts
 ├── shield-csrf-hono.strategy.ts
 ├── shield-csrf.strategy.ts
+├── shield-feature-flag-hono.strategy.ts
+├── shield-feature-flag.strategy.ts
 ├── shield-hcaptcha-hono-local.strategy.ts
 ├── shield-hcaptcha-hono.strategy.ts
 ├── shield-hcaptcha.strategy.ts
