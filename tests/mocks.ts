@@ -16,6 +16,7 @@ import { MailerSubject } from "../src/mailer-subject.vo";
 import { MailerTemplate } from "../src/mailer-template.vo";
 import type * as Preferences from "../src/modules/preferences";
 import type * as System from "../src/modules/system";
+import { SEND_EMAIL_JOB, type SendEmailJobType } from "../src/modules/system/jobs";
 import { Prerequisite } from "../src/prerequisite.vo";
 import {
   PrerequisiteVerification,
@@ -295,23 +296,18 @@ export const SendSmsJobSchema = v.object({
 
 export type SendSmsJobType = v.InferOutput<typeof SendSmsJobSchema>;
 
-export const SEND_EMAIL_JOB = "GENERIC_SEND_EMAIL_JOB";
-
-export const SendEmailJobSchema = v.object({
-  ...JobEnvelopeSchema,
-  name: v.literal(SEND_EMAIL_JOB),
-  payload: v.object({ to: v.string() }),
-});
-
-export type SendEmailJobType = v.InferOutput<typeof SendEmailJobSchema>;
-
 export const GenericSendEmailJob = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
   name: SEND_EMAIL_JOB,
   revision: 0,
-  payload: { to: "test@example.com" },
+  payload: {
+    to: mailer.config.to,
+    from: mailer.config.from,
+    subject: mailer.message.subject,
+    html: mailer.message.html,
+  },
 } satisfies SendEmailJobType;
 
 export const GenericSendEmailJobSerialized = {
