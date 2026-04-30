@@ -1,4 +1,5 @@
 # Changelog
+- 2026-04-30 11:02 4bce58bd **step: update packages**
 ## 2026-04-29 14:36 v1.18.11
 - 2026-04-29 14:36 4f063ed6 **1.18.11**
 - 2026-04-29 14:29 78070f81 **step: add feature flag enabled invariant**
@@ -15,6 +16,7 @@
 - 2026-04-29 12:39 f5b7e6d1 **step: add ssr csp config**
 - 2026-04-29 12:37 863705e8 **step: add ssr bun service csp config**
 - 2026-04-29 12:36 d43a0f30 **step: add ssr service csp config**
+- 2026-04-29 12:36 01c5ec6e **docs: generate CHANGELOG**
 - 2026-04-29 12:32 6a09be73 **docs: generate CHANGELOG**
 - 2026-04-29 12:32 521543a3 **docs: generate readme**
 - 2026-04-29 11:36 7f74c03c **docs: generate CHANGELOG**
