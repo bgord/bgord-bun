@@ -467,6 +467,7 @@ export * from "./sitemap-changefreq.vo";
 export * from "./sitemap-entries-provider.port";
 export * from "./sitemap-entries-provider-dynamic.adapter";
 export * from "./sitemap-entries-provider-static.adapter";
+export * from "./sitemap-entries-provider-with-cache.adapter";
 export * from "./sitemap-entry.vo";
 export * from "./sitemap-hono.handler";
 export * from "./sitemap-priority.vo";
