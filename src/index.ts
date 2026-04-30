@@ -462,6 +462,7 @@ export * from "./shield-webhook-hono.strategy";
 export * from "./simulated-error.middleware";
 export * from "./simulated-error-hono.middleware";
 export * from "./sitemap-changefreq.vo";
+export * from "./sitemap-priority.vo";
 export * from "./sitemap-url.vo";
 export * from "./sleeper.port";
 export * from "./sleeper-noop.adapter";
