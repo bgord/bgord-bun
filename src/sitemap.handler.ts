@@ -1,6 +1,6 @@
 import type { Sitemap } from "./sitemap.service";
 
-type SitemapHandlerConfig = { sitemap: Sitemap };
+export type SitemapHandlerConfig = { sitemap: Sitemap };
 
 export class SitemapHandler {
   constructor(private readonly config: SitemapHandlerConfig) {}
