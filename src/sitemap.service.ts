@@ -1,9 +1,11 @@
 import type { SitemapEntriesProvider } from "./sitemap-entries-provider.port";
 
+export type SitemapXml = string;
+
 export class Sitemap {
   constructor(private readonly providers: ReadonlyArray<SitemapEntriesProvider>) {}
 
-  async toXml(): Promise<string> {
+  async toXml(): Promise<SitemapXml> {
     const resolved = await Promise.all(this.providers.map((provider) => provider.produce()));
 
     const xmls = resolved.flat().map((entry) => entry.toXml());

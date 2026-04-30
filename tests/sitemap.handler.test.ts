@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { SitemapHandler } from "../src/sitemap.handler";
 import { Sitemap } from "../src/sitemap.service";
 import { SitemapChangefreqEnum } from "../src/sitemap-changefreq.vo";
 import { SitemapEntriesProviderStaticAdapter } from "../src/sitemap-entries-provider-static.adapter";
@@ -19,12 +20,13 @@ const changefreq = SitemapChangefreqEnum.monthly;
 const first = new SitemapEntry({ loc: one });
 const second = new SitemapEntry({ loc: two, lastmod, changefreq, priority });
 
-describe("Sitemap", () => {
+describe("SitemapHandler", () => {
   test("empty", async () => {
     const provider = new SitemapEntriesProviderStaticAdapter([]);
     const sitemap = new Sitemap([provider]);
+    const handler = new SitemapHandler({ sitemap });
 
-    const xml = await sitemap.toXml();
+    const xml = await handler.generate();
 
     expect(xml).toEqualIgnoringWhitespace(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -39,8 +41,9 @@ describe("Sitemap", () => {
       new SitemapEntriesProviderStaticAdapter([first]),
       new SitemapEntriesProviderStaticAdapter([second]),
     ]);
+    const handler = new SitemapHandler({ sitemap });
 
-    const xml = await sitemap.toXml();
+    const xml = await handler.generate();
 
     expect(xml).toEqualIgnoringWhitespace(
       `<?xml version="1.0" encoding="UTF-8"?>
@@ -63,9 +66,8 @@ describe("Sitemap", () => {
   test("failure", async () => {
     const failure = new SitemapEntriesProviderStaticAdapter([first]);
     using _ = spyOn(failure, "produce").mockImplementation(mocks.throwIntentionalErrorAsync);
-
     const sitemap = new Sitemap([new SitemapEntriesProviderStaticAdapter([first]), failure]);
 
-    expect(async () => sitemap.toXml()).toThrow(mocks.IntentionalError);
+    expect(async () => new SitemapHandler({ sitemap }).generate()).toThrow(mocks.IntentionalError);
   });
 });
