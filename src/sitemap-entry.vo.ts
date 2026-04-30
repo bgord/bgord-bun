@@ -23,6 +23,6 @@ export class SitemapEntry {
 
     const loc = `<loc>${this.entry.loc}</loc>`;
 
-    return ["<url>", loc, lastmod, changefreq, priority, "</url>"].filter((part) => part !== "").join("");
+    return ["<url>", loc, lastmod, changefreq, priority, "</url>"].join("");
   }
 }
