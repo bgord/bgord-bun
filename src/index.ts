@@ -463,6 +463,7 @@ export * from "./simulated-error.middleware";
 export * from "./simulated-error-hono.middleware";
 export * from "./sitemap-changefreq.vo";
 export * from "./sitemap-entries-provider.port";
+export * from "./sitemap-entries-provider-static.adapter";
 export * from "./sitemap-entry.vo";
 export * from "./sitemap-priority.vo";
 export * from "./sitemap-url.vo";
