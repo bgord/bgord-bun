@@ -1,5 +1,9 @@
 # Changelog
+## 2026-04-30 22:51 v1.18.12
+- 2026-04-30 22:51 61b03cc9 **1.18.12**
 - 2026-04-30 22:49 6e2af235 **step: update packages**
+- 2026-04-30 20:49 641751fe **docs: generate readme**
+- 2026-04-30 20:49 3b21dddb **docs: generate CHANGELOG**
 - 2026-04-30 17:45 05363a85 **step: improve sitemap entry vo**
 - 2026-04-30 17:40 7b07d1e2 **step: add SitemapEntriesProviderWithCacheAdapter**
 - 2026-04-30 17:31 07765c30 **step: add SitemapEntriesProviderDynamicAdapter**
