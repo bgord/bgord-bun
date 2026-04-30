@@ -1,5 +1,19 @@
 # Changelog
+- 2026-04-30 22:49 6e2af235 **step: update packages**
+- 2026-04-30 17:45 05363a85 **step: improve sitemap entry vo**
+- 2026-04-30 17:40 7b07d1e2 **step: add SitemapEntriesProviderWithCacheAdapter**
+- 2026-04-30 17:31 07765c30 **step: add SitemapEntriesProviderDynamicAdapter**
+- 2026-04-30 17:10 f3b22560 **step: add sitemap hono handler**
+- 2026-04-30 17:06 43e0fa50 **step: add sitemap handler**
+- 2026-04-30 16:59 c27ce19e **step: add sitemap service**
+- 2026-04-30 16:43 db275aa9 **step: add static adapter**
+- 2026-04-30 16:28 89100e50 **step: add sitemap entries provider port**
+- 2026-04-30 15:28 c6fe449e **step: add sitemap entry vo**
+- 2026-04-30 15:23 52d7cc94 **step: add sitemap priority**
+- 2026-04-30 15:20 95cababc **step: add sitemap changefreq**
+- 2026-04-30 15:18 defeb84f **step: add sitemap url**
 - 2026-04-30 11:02 4bce58bd **step: update packages**
+- 2026-04-30 09:02 5f7304ff **docs: generate CHANGELOG**
 ## 2026-04-29 14:36 v1.18.11
 - 2026-04-29 14:36 4f063ed6 **1.18.11**
 - 2026-04-29 14:29 78070f81 **step: add feature flag enabled invariant**
