@@ -461,6 +461,7 @@ export * from "./shield-webhook.strategy";
 export * from "./shield-webhook-hono.strategy";
 export * from "./simulated-error.middleware";
 export * from "./simulated-error-hono.middleware";
+export * from "./sitemap.service";
 export * from "./sitemap-changefreq.vo";
 export * from "./sitemap-entries-provider.port";
 export * from "./sitemap-entries-provider-static.adapter";
