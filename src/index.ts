@@ -265,6 +265,7 @@ export * from "./job-failer-collecting.adapter";
 export * from "./job-failer-noop.adapter";
 export * from "./job-failer-sqlite.adapter";
 export * from "./job-pruner.port";
+export * from "./job-pruner-noop.adapter";
 export * from "./job-queue.adapter";
 export * from "./job-queue.port";
 export * from "./job-queue-noop.adapter";
