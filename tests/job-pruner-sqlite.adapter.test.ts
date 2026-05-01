@@ -6,6 +6,7 @@ import { JobEnqueuerSqliteAdapter } from "../src/job-enqueuer-sqlite.adapter";
 import { JobFailerSqliteAdapter } from "../src/job-failer-sqlite.adapter";
 import { JobPrunerSqliteAdapter } from "../src/job-pruner-sqlite.adapter";
 import { JobQueueSqliteStore } from "../src/job-queue-sqlite-store.service";
+import { JobStatusEnum } from "../src/job-status.vo";
 import * as mocks from "./mocks";
 
 const cutoff = tools.Duration.Days(1);
@@ -27,7 +28,7 @@ describe("JobPrunerSqliteAdapter", () => {
     expect(count).toEqual(tools.Int.nonNegative(0));
     expect(rows[0]).toEqual({
       ...mocks.GenericSendEmailJobSerialized,
-      status: "completed",
+      status: JobStatusEnum.completed,
       claimableAt: mocks.TIME_ZERO.ms,
     });
   });
@@ -47,7 +48,7 @@ describe("JobPrunerSqliteAdapter", () => {
     expect(count).toEqual(tools.Int.nonNegative(0));
     expect(rows[0]).toEqual({
       ...mocks.GenericSendEmailJobSerialized,
-      status: "failed",
+      status: JobStatusEnum.failed,
       claimableAt: mocks.TIME_ZERO.ms,
     });
   });
@@ -103,7 +104,7 @@ describe("JobPrunerSqliteAdapter", () => {
     expect(count).toEqual(tools.Int.nonNegative(0));
     expect(rows[0]).toEqual({
       ...mocks.GenericSendEmailJobSerialized,
-      status: "pending",
+      status: JobStatusEnum.pending,
       claimableAt: mocks.TIME_ZERO.ms,
     });
   });

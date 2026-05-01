@@ -3,6 +3,7 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { JobCompleterSqliteAdapter } from "../src/job-completer-sqlite.adapter";
 import { JobEnqueuerSqliteAdapter } from "../src/job-enqueuer-sqlite.adapter";
 import { JobQueueSqliteStore } from "../src/job-queue-sqlite-store.service";
+import { JobStatusEnum } from "../src/job-status.vo";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -20,7 +21,7 @@ describe("JobCompleterSqliteAdapter", () => {
 
     expect(rows[0]).toEqual({
       ...mocks.GenericSendEmailJobSerialized,
-      status: "completed",
+      status: JobStatusEnum.completed,
       claimableAt: mocks.TIME_ZERO.ms,
     });
   });

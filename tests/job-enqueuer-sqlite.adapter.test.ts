@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { JobEnqueuerSqliteAdapter } from "../src/job-enqueuer-sqlite.adapter";
 import { JobQueueSqliteStore } from "../src/job-queue-sqlite-store.service";
+import { JobStatusEnum } from "../src/job-status.vo";
 import * as mocks from "./mocks";
 
 const delay = tools.Duration.Seconds(5);
@@ -16,7 +17,11 @@ describe("JobEnqueuerSqliteAdapter", () => {
     await enqueuer.enqueue(mocks.GenericSendEmailJobSerialized);
 
     expect(store.db.query("SELECT * FROM jobs").all()).toEqual([
-      { ...mocks.GenericSendEmailJobSerialized, status: "pending", claimableAt: mocks.TIME_ZERO.ms },
+      {
+        ...mocks.GenericSendEmailJobSerialized,
+        status: JobStatusEnum.pending,
+        claimableAt: mocks.TIME_ZERO.ms,
+      },
     ]);
   });
 
@@ -29,7 +34,7 @@ describe("JobEnqueuerSqliteAdapter", () => {
     expect(store.db.query("SELECT * FROM jobs").all()).toEqual([
       {
         ...mocks.GenericSendEmailJobSerialized,
-        status: "pending",
+        status: JobStatusEnum.pending,
         claimableAt: mocks.TIME_ZERO.add(delay).ms,
       },
     ]);

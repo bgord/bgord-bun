@@ -5,6 +5,7 @@ import { JobClaimerSqliteAdapter } from "../src/job-claimer-sqlite.adapter";
 import { JobEnqueuerSqliteAdapter } from "../src/job-enqueuer-sqlite.adapter";
 import { JobQueueSqliteStore } from "../src/job-queue-sqlite-store.service";
 import { JobRequeuerSqliteAdapter } from "../src/job-requeuer-sqlite.adapter";
+import { JobStatusEnum } from "../src/job-status.vo";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -25,7 +26,7 @@ describe("JobRequeuerSqliteAdapter", () => {
 
     expect(rows[0]).toEqual({
       ...mocks.GenericSendEmailJobSerialized,
-      status: "pending",
+      status: JobStatusEnum.pending,
       claimableAt: mocks.TIME_ZERO.add(delay).ms,
       revision: 1,
     });
