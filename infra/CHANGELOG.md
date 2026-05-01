@@ -1,4 +1,6 @@
 # Changelog
+## 2026-05-01 10:57 v1.18.13
+- 2026-05-01 10:57 24a9814d **1.18.13**
 - 2026-05-01 10:34 3bdd9f84 **step: update packages**
 - 2026-05-01 10:25 e49d64eb **step: use job status vo in tests**
 - 2026-05-01 10:20 3838b8af **step: add job pruner service**
@@ -9,6 +11,8 @@
 - 2026-05-01 09:44 928dbdbc **step: add missing optional delay to the job dispatcher**
 - 2026-05-01 09:35 df280255 **step: use job status vo**
 - 2026-05-01 09:30 89b14c49 **step: add job status**
+- 2026-05-01 08:35 dab4de38 **docs: generate CHANGELOG**
+- 2026-05-01 08:35 a0b44b7c **docs: generate readme**
 ## 2026-04-30 22:51 v1.18.12
 - 2026-04-30 22:51 61b03cc9 **1.18.12**
 - 2026-04-30 22:49 6e2af235 **step: update packages**
