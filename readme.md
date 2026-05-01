@@ -293,14 +293,15 @@ src/
 ├── job-pruner-collecting.adapter.ts
 ├── job-pruner-noop.adapter.ts
 ├── job-pruner-sqlite.adapter.ts
+├── job-pruner-worker.service.ts
 ├── job-pruner.port.ts
-├── job-pruner.service.ts
 ├── job-queue-noop.adapter.ts
 ├── job-queue-sqlite-store.service.ts
 ├── job-queue-stats-provider-noop.adapter.ts
 ├── job-queue-stats-provider-sqlite.adapter.ts
 ├── job-queue-stats-provider.port.ts
 ├── job-queue-with-logger.adapter.ts
+├── job-queue-worker.service.ts
 ├── job-queue.adapter.ts
 ├── job-queue.port.ts
 ├── job-registry.adapter.ts
@@ -316,7 +317,6 @@ src/
 ├── job-retry-policy-noop.strategy.ts
 ├── job-retry-policy.strategy.ts
 ├── job-status.vo.ts
-├── job-worker.service.ts
 ├── job.types.ts
 ├── language-detector-cookie.strategy.ts
 ├── language-detector-header.strategy.ts
