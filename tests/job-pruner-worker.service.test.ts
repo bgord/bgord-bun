@@ -1,16 +1,16 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
-import { JobPrunerService } from "../src/job-pruner.service";
 import { JobPrunerCollectingAdapter } from "../src/job-pruner-collecting.adapter";
+import { JobPrunerWorker } from "../src/job-pruner-worker.service";
 
 const olderThan = tools.Duration.Days(30);
 const config = { label: "JobPruner", cron: CronExpressionSchedules.EVERY_MINUTE, olderThan };
 
-describe("JobPrunerService", () => {
+describe("JobPrunerWorker", () => {
   test("config", () => {
     const JobPruner = new JobPrunerCollectingAdapter();
-    const task = JobPrunerService(config, { JobPruner });
+    const task = JobPrunerWorker(config, { JobPruner });
 
     expect(task.label).toEqual(config.label);
     expect(task.cron).toEqual(config.cron);
@@ -18,7 +18,7 @@ describe("JobPrunerService", () => {
 
   test("prune", async () => {
     const JobPruner = new JobPrunerCollectingAdapter();
-    const task = JobPrunerService(config, { JobPruner });
+    const task = JobPrunerWorker(config, { JobPruner });
 
     await task.handler();
 
