@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import { JobStatusEnum } from "./job-status.vo";
 
 type Config = { database: string };
 
@@ -17,7 +18,7 @@ export class JobQueueSqliteStore {
         name TEXT NOT NULL,
         revision INTEGER NOT NULL DEFAULT 0,
         payload TEXT NOT NULL,
-        status TEXT NOT NULL DEFAULT 'pending',
+        status TEXT NOT NULL DEFAULT '${JobStatusEnum.pending}',
         claimableAt INTEGER NOT NULL DEFAULT 0
       )
     `);

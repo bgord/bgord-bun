@@ -3,6 +3,7 @@ import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { GenericJobSerialized } from "./job.types";
 import type { JobEnqueuerPort } from "./job-enqueuer.port";
+import { JobStatusEnum } from "./job-status.vo";
 
 type Dependencies = { db: Database; Clock: ClockPort };
 
@@ -24,7 +25,7 @@ export class JobEnqueuerSqliteAdapter implements JobEnqueuerPort {
       ]
     >(
       `INSERT INTO jobs (id, correlationId, createdAt, name, revision, payload, status, claimableAt)
-       VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, '${JobStatusEnum.pending}', ?)`,
       [job.id, job.correlationId, job.createdAt, job.name, job.revision, job.payload, claimableAt.ms],
     );
 

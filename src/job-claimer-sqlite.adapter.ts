@@ -3,6 +3,7 @@ import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { GenericJob, GenericJobSerialized } from "./job.types";
 import type { JobClaimerPort } from "./job-claimer.port";
+import { JobStatusEnum } from "./job-status.vo";
 
 type Dependencies = { db: Database; Clock: ClockPort };
 
@@ -20,10 +21,10 @@ export class JobClaimerSqliteAdapter implements JobClaimerPort {
         GenericJobSerialized,
         [...Array<GenericJob["name"]>, tools.TimestampValueType, tools.IntegerPositiveType]
       >(
-        `UPDATE jobs SET status = 'claimed'
+        `UPDATE jobs SET status = '${JobStatusEnum.claimed}'
          WHERE id IN (
            SELECT id FROM jobs
-           WHERE status = 'pending'
+           WHERE status = '${JobStatusEnum.pending}'
              AND name IN (${placeholders})
              AND claimableAt <= ?
            ORDER BY createdAt ASC

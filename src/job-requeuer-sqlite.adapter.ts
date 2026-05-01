@@ -3,6 +3,7 @@ import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { GenericJob } from "./job.types";
 import type { JobRequeuerPort } from "./job-requeuer.port";
+import { JobStatusEnum } from "./job-status.vo";
 
 type Dependencies = { db: Database; Clock: ClockPort };
 
@@ -15,7 +16,7 @@ export class JobRequeuerSqliteAdapter implements JobRequeuerPort {
     delay: tools.Duration,
   ): Promise<void> {
     this.deps.db.run<[GenericJob["revision"], tools.TimestampValueType, GenericJob["id"]]>(
-      "UPDATE jobs SET status = 'pending', revision = ?, claimableAt = ? WHERE id = ?",
+      `UPDATE jobs SET status = '${JobStatusEnum.pending}', revision = ?, claimableAt = ? WHERE id = ?`,
       [revision, this.deps.Clock.now().add(delay).ms, id],
     );
   }

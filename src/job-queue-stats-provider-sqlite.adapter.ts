@@ -1,6 +1,7 @@
 import type { Database } from "bun:sqlite";
 import * as tools from "@bgord/tools";
 import type { JobQueueStatsProviderPort, JobQueueStatsSnapshot } from "./job-queue-stats-provider.port";
+import { JobStatusEnum } from "./job-status.vo";
 
 type Dependencies = { db: Database };
 
@@ -14,9 +15,9 @@ export class JobQueueStatsProviderSqliteAdapter implements JobQueueStatsProvider
       )
       .all();
 
-    const oldest = this.deps.db
+    const oldestPending = this.deps.db
       .query<{ createdAt: number | null }, []>(
-        "SELECT MIN(createdAt) as createdAt FROM jobs WHERE status = 'pending'",
+        `SELECT MIN(createdAt) as createdAt FROM jobs WHERE status = '${JobStatusEnum.pending}'`,
       )
       .get();
 
@@ -27,7 +28,7 @@ export class JobQueueStatsProviderSqliteAdapter implements JobQueueStatsProvider
       claimed: tools.Int.nonNegative(counts["claimed"] ?? 0),
       completed: tools.Int.nonNegative(counts["completed"] ?? 0),
       failed: tools.Int.nonNegative(counts["failed"] ?? 0),
-      oldestPending: oldest?.createdAt ? tools.Timestamp.fromNumber(oldest.createdAt).ms : null,
+      oldestPending: oldestPending?.createdAt ? tools.Timestamp.fromNumber(oldestPending.createdAt).ms : null,
     };
   }
 }
