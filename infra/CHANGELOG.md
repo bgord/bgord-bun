@@ -1,4 +1,6 @@
 # Changelog
+## 2026-05-01 11:09 v1.18.14
+- 2026-05-01 11:09 b76f0208 **1.18.14**
 - 2026-05-01 11:08 8f8f9c95 **step: rename job worker service**
 - 2026-05-01 11:04 69cbc61f **step: rename job pruner service**
 ## 2026-05-01 10:57 v1.18.13
@@ -13,6 +15,8 @@
 - 2026-05-01 09:44 928dbdbc **step: add missing optional delay to the job dispatcher**
 - 2026-05-01 09:35 df280255 **step: use job status vo**
 - 2026-05-01 09:30 89b14c49 **step: add job status**
+- 2026-05-01 09:09 f156b2ba **docs: generate CHANGELOG**
+- 2026-05-01 09:09 b5927e75 **docs: generate readme**
 - 2026-05-01 08:57 b1dfeb7c **docs: generate CHANGELOG**
 - 2026-05-01 08:35 dab4de38 **docs: generate CHANGELOG**
 - 2026-05-01 08:35 a0b44b7c **docs: generate readme**
