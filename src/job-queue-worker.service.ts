@@ -8,7 +8,7 @@ type Config = { label: CronTask["label"]; cron: CronTask["cron"]; limit: tools.I
 
 type Dependencies<Job extends GenericJob> = { JobQueue: JobQueuePort<Job> };
 
-export function JobWorker<Job extends GenericJob>(config: Config, deps: Dependencies<Job>): CronTask {
+export function JobQueueWorker<Job extends GenericJob>(config: Config, deps: Dependencies<Job>): CronTask {
   return {
     label: config.label,
     cron: config.cron,
