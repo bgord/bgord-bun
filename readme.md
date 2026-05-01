@@ -290,6 +290,11 @@ src/
 ├── job-failer-noop.adapter.ts
 ├── job-failer-sqlite.adapter.ts
 ├── job-failer.port.ts
+├── job-pruner-collecting.adapter.ts
+├── job-pruner-noop.adapter.ts
+├── job-pruner-sqlite.adapter.ts
+├── job-pruner.port.ts
+├── job-pruner.service.ts
 ├── job-queue-noop.adapter.ts
 ├── job-queue-sqlite-store.service.ts
 ├── job-queue-stats-provider-noop.adapter.ts
@@ -310,6 +315,7 @@ src/
 ├── job-retry-policy-limit.strategy.ts
 ├── job-retry-policy-noop.strategy.ts
 ├── job-retry-policy.strategy.ts
+├── job-status.vo.ts
 ├── job-worker.service.ts
 ├── job.types.ts
 ├── language-detector-cookie.strategy.ts
