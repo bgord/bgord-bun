@@ -4,7 +4,7 @@ import type { JobHandler } from "./job-registry.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 
 export interface JobDispatcherPort<Job extends GenericJob> {
-  enqueue<EnqueuedJob extends Job>(job: EnqueuedJob): Promise<EnqueuedJob>;
+  enqueue<EnqueuedJob extends Job>(job: EnqueuedJob, delay?: tools.Duration): Promise<EnqueuedJob>;
 }
 
 export interface JobQueuePort<Job extends GenericJob> extends JobDispatcherPort<Job> {

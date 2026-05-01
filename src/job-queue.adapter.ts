@@ -23,11 +23,11 @@ type Config<Job extends GenericJob> = {
 export class JobQueueAdapter<Job extends GenericJob> implements JobQueuePort<Job> {
   constructor(private readonly config: Config<Job>) {}
 
-  async enqueue<EnqueuedJob extends Job>(job: EnqueuedJob): Promise<EnqueuedJob> {
-    const serialized = await this.config.enqueuer.enqueue({
-      ...job,
-      payload: this.config.serializer.serialize(job.payload),
-    });
+  async enqueue<EnqueuedJob extends Job>(job: EnqueuedJob, delay?: tools.Duration): Promise<EnqueuedJob> {
+    const serialized = await this.config.enqueuer.enqueue(
+      { ...job, payload: this.config.serializer.serialize(job.payload) },
+      delay,
+    );
 
     return { ...serialized, payload: this.config.serializer.deserialize(serialized.payload) } as EnqueuedJob;
   }

@@ -16,6 +16,7 @@ import { SEND_EMAIL_JOB, SendEmailJobSchema, type SendEmailJobType } from "../sr
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
 
+const delay = tools.Duration.Seconds(5);
 const limit = tools.Int.positive(3);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(3));
 const handler = async (_job: SendEmailJobType) => {};
@@ -36,6 +37,10 @@ const queue = new JobQueueAdapter<SendEmailJobType>(deps);
 describe("JobQueueAdapter", () => {
   test("enqueue", async () => {
     expect(await queue.enqueue(mocks.GenericSendEmailJob)).toEqual(mocks.GenericSendEmailJob);
+  });
+
+  test("enqueue - with delay", async () => {
+    expect(await queue.enqueue(mocks.GenericSendEmailJob, delay)).toEqual(mocks.GenericSendEmailJob);
   });
 
   test("enqueue - two jobs", async () => {
