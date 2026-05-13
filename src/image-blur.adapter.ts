@@ -10,10 +10,14 @@ export class ImageBlurAdapter implements ImageBlurPort {
 
   async blur(recipe: ImageBlurStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
-    const temporary = final.withFilename(final.getFilename().withSuffix("-blurred"));
 
-    // TODO format
-    const blurred = await Bun.file(recipe.input.get()).image().placeholder();
+    const filename = final.getFilename();
+    const temporary = final.withFilename(filename.withSuffix("-blurred"));
+
+    const extension = final.getFilename().getExtension();
+    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+
+    const blurred = await Bun.file(recipe.input.get()).image()[format]().placeholder();
     const bytes = Buffer.from(blurred.substring(blurred.indexOf(",") + 1), "base64");
 
     await this.deps.FileWriter.write(temporary.get(), bytes);
