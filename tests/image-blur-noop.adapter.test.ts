@@ -18,7 +18,7 @@ describe("ImageBlurNoopAdapter", () => {
   test("output_path", async () => {
     const input = tools.FilePathAbsolute.fromString("/in/source.png");
     const output = tools.FilePathAbsolute.fromString("/out/dest.webp");
-    const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 2.5 };
+    const recipe: ImageBlurStrategy = { strategy: "output_path", input, output };
 
     const result = await adapter.blur(recipe);
 
@@ -27,7 +27,7 @@ describe("ImageBlurNoopAdapter", () => {
 
   test("in_place - relative", async () => {
     const input = tools.FilePathRelative.fromString("images/pic.png");
-    const recipe: ImageBlurStrategy = { strategy: "in_place", input, sigma: 1 };
+    const recipe: ImageBlurStrategy = { strategy: "in_place", input };
 
     const result = await adapter.blur(recipe);
 
@@ -37,7 +37,7 @@ describe("ImageBlurNoopAdapter", () => {
   test("output_path - jpeg to jpg", async () => {
     const input = tools.FilePathAbsolute.fromString("/x/in.webp");
     const output = tools.FilePathAbsolute.fromString("/x/out/photo.jpg");
-    const recipe: ImageBlurStrategy = { strategy: "output_path", input, output, sigma: 0.7 };
+    const recipe: ImageBlurStrategy = { strategy: "output_path", input, output };
 
     expect(await adapter.blur(recipe)).toEqual(output);
   });
