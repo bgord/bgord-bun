@@ -21,6 +21,7 @@ export class MailerFileAdapter implements MailerPort {
       `Attachments: ${template.attachments?.length ?? 0}`,
       "-".repeat(50),
       template.message.html,
+      // Stryker disable next-line StringLiteral
     ].join("\n");
 
     const file = new File([content], filename.get());

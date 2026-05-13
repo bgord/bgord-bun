@@ -16,12 +16,17 @@ const deps = { FileCleaner, FileRenamer, FileWriter };
 
 const adapter = new ImageFormatterAdapter(deps);
 
+const image = {
+  rotate: () => image,
+  webp: () => ({ bytes: () => formatted }),
+  png: () => ({ bytes: () => formatted }),
+  jpeg: () => ({ bytes: () => formatted }),
+};
+
 describe("ImageFormatterAdapter", () => {
   test("in_place - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ webp: () => ({ bytes: () => formatted }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
@@ -39,29 +44,25 @@ describe("ImageFormatterAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ jpeg: () => ({ bytes: () => formatted }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathRelative.fromString("var/img/photo.png");
-    const final = tools.FilePathRelative.fromString("var/img/photo.jpeg");
-    const temporary = tools.FilePathRelative.fromString("var/img/photo-formatted.jpeg");
-    const to = v.parse(tools.Extension, "jpeg");
+    const final = tools.FilePathRelative.fromString("var/img/photo.png");
+    const temporary = tools.FilePathRelative.fromString("var/img/photo-formatted.png");
+    const to = v.parse(tools.Extension, "png");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
     expect(await adapter.format(recipe)).toEqual(final);
     expect(rename).toHaveBeenCalledWith(temporary, final);
-    expect(fileCleaner).toHaveBeenCalledWith(input.get());
+    expect(fileCleaner).not.toHaveBeenCalled();
   });
 
   test("output_path - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ webp: () => ({ bytes: () => formatted }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");
@@ -78,10 +79,8 @@ describe("ImageFormatterAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ jpeg: () => ({ bytes: () => formatted }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
     using fileCleaner = spyOn(FileCleaner, "delete");

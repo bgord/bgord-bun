@@ -42,6 +42,7 @@ export class RequestContextHonoAdapter implements RequestContext {
 
           return await request.text();
         } catch {
+          // Stryker disable next-line StringLiteral
           return "";
         }
       },

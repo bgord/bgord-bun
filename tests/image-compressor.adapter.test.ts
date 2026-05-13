@@ -17,21 +17,30 @@ const deps = { FileRenamer, FileWriter };
 
 const adapter = new ImageCompressorAdapter(deps);
 
+const image = {
+  rotate: () => image,
+  webp: () => ({ bytes: () => compressed }),
+  png: () => ({ bytes: () => compressed }),
+  jpeg: () => ({ bytes: () => compressed }),
+};
+
 describe("ImageCompressorAdapter", () => {
   test("in_place - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ jpeg: () => ({ bytes: () => compressed }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using format = spyOn(image, "jpeg");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
+    const quality = tools.Int.positive(30);
     const recipe: ImageCompressorInPlaceStrategy = {
       strategy: "in_place",
       input: testcase.images.in_place.absolute.input,
+      quality,
     };
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.in_place.absolute.input);
+    expect(format).toHaveBeenCalledWith({ quality });
     expect(write).toHaveBeenCalledWith(
       testcase.images.in_place.absolute.temporary("compressed").get(),
       compressed,
@@ -43,10 +52,9 @@ describe("ImageCompressorAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ png: () => ({ bytes: () => compressed }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using format = spyOn(image, "png");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -56,6 +64,7 @@ describe("ImageCompressorAdapter", () => {
     };
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.in_place.relative.input);
+    expect(format).toHaveBeenCalledWith({ quality: 85 });
     expect(write).toHaveBeenCalledWith(
       testcase.images.in_place.relative.temporary("compressed").get(),
       compressed,
@@ -67,10 +76,9 @@ describe("ImageCompressorAdapter", () => {
   });
 
   test("output_path - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ webp: () => ({ bytes: () => compressed }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using format = spyOn(image, "webp");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -78,10 +86,10 @@ describe("ImageCompressorAdapter", () => {
       strategy: "output_path",
       input: testcase.images.output_path.absolute.input,
       output: testcase.images.output_path.absolute.output,
-      quality: tools.Int.positive(73),
     };
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.output_path.absolute.output);
+    expect(format).toHaveBeenCalledWith({ quality: 85 });
     expect(write).toHaveBeenCalledWith(
       testcase.images.output_path.absolute.temporary("compressed").get(),
       compressed,
@@ -93,10 +101,9 @@ describe("ImageCompressorAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ png: () => ({ bytes: () => compressed }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using format = spyOn(image, "png");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -107,6 +114,7 @@ describe("ImageCompressorAdapter", () => {
     };
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.output_path.relative.output);
+    expect(format).toHaveBeenCalledWith({ quality: 85 });
     expect(write).toHaveBeenCalledWith(
       testcase.images.output_path.relative.temporary("compressed").get(),
       compressed,
@@ -118,10 +126,9 @@ describe("ImageCompressorAdapter", () => {
   });
 
   test("jpg_to_jpeg", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ jpeg: () => ({ bytes: () => compressed }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using format = spyOn(image, "jpeg");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -131,6 +138,7 @@ describe("ImageCompressorAdapter", () => {
     };
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.jpg_to_jpeg.input);
+    expect(format).toHaveBeenCalledWith({ quality: 85 });
     expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.temporary("compressed").get(), compressed);
     expect(rename).toHaveBeenCalledWith(
       testcase.images.jpg_to_jpeg.temporary("compressed"),

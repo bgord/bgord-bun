@@ -16,12 +16,19 @@ const deps = { FileRenamer, FileWriter };
 
 const adapter = new ImageResizerAdapter(deps);
 
+const image = {
+  rotate: () => image,
+  resize: () => image,
+  webp: () => ({ bytes: () => resized }),
+  png: () => ({ bytes: () => resized }),
+  jpeg: () => ({ bytes: () => resized }),
+};
+
 describe("ImageResizerAdapter", () => {
   test("in_place - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ resize: () => ({ jpeg: () => ({ bytes: () => resized }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using resize = spyOn(image, "resize");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -32,6 +39,10 @@ describe("ImageResizerAdapter", () => {
     };
 
     expect(await adapter.resize(recipe)).toEqual(testcase.images.in_place.absolute.input);
+    expect(resize).toHaveBeenCalledWith(recipe.maxSide, recipe.maxSide, {
+      fit: "inside",
+      withoutEnlargement: true,
+    });
     expect(write).toHaveBeenCalledWith(testcase.images.in_place.absolute.temporary("resized").get(), resized);
     expect(rename).toHaveBeenCalledWith(
       testcase.images.in_place.absolute.temporary("resized"),
@@ -40,10 +51,9 @@ describe("ImageResizerAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ resize: () => ({ png: () => ({ bytes: () => resized }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using resize = spyOn(image, "resize");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -54,6 +64,10 @@ describe("ImageResizerAdapter", () => {
     };
 
     expect(await adapter.resize(recipe)).toEqual(testcase.images.in_place.relative.input);
+    expect(resize).toHaveBeenCalledWith(recipe.maxSide, recipe.maxSide, {
+      fit: "inside",
+      withoutEnlargement: true,
+    });
     expect(write).toHaveBeenCalledWith(testcase.images.in_place.relative.temporary("resized").get(), resized);
     expect(rename).toHaveBeenCalledWith(
       testcase.images.in_place.relative.temporary("resized"),
@@ -62,10 +76,9 @@ describe("ImageResizerAdapter", () => {
   });
 
   test("output_path - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ resize: () => ({ webp: () => ({ bytes: () => resized }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using resize = spyOn(image, "resize");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -77,6 +90,10 @@ describe("ImageResizerAdapter", () => {
     };
 
     expect(await adapter.resize(recipe)).toEqual(testcase.images.output_path.absolute.output);
+    expect(resize).toHaveBeenCalledWith(recipe.maxSide, recipe.maxSide, {
+      fit: "inside",
+      withoutEnlargement: true,
+    });
     expect(write).toHaveBeenCalledWith(
       testcase.images.output_path.absolute.temporary("resized").get(),
       resized,
@@ -88,10 +105,9 @@ describe("ImageResizerAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ resize: () => ({ png: () => ({ bytes: () => resized }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using resize = spyOn(image, "resize");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -103,6 +119,10 @@ describe("ImageResizerAdapter", () => {
     };
 
     expect(await adapter.resize(recipe)).toEqual(testcase.images.output_path.relative.output);
+    expect(resize).toHaveBeenCalledWith(recipe.maxSide, recipe.maxSide, {
+      fit: "inside",
+      withoutEnlargement: true,
+    });
     expect(write).toHaveBeenCalledWith(
       testcase.images.output_path.relative.temporary("resized").get(),
       resized,
@@ -114,10 +134,9 @@ describe("ImageResizerAdapter", () => {
   });
 
   test("jpg_to_jpeg", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ resize: () => ({ jpeg: () => ({ bytes: () => resized }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using resize = spyOn(image, "resize");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -128,6 +147,10 @@ describe("ImageResizerAdapter", () => {
     };
 
     expect(await adapter.resize(recipe)).toEqual(testcase.images.jpg_to_jpeg.input);
+    expect(resize).toHaveBeenCalledWith(recipe.maxSide, recipe.maxSide, {
+      fit: "inside",
+      withoutEnlargement: true,
+    });
     expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.temporary("resized").get(), resized);
     expect(rename).toHaveBeenCalledWith(
       testcase.images.jpg_to_jpeg.temporary("resized"),

@@ -18,7 +18,7 @@ describe("ShieldHcaptchaLocalStrategy", () => {
     expect(await response.text()).toEqual("OK");
     expect(hcaptchaVerify).toHaveBeenCalledWith(
       ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
-      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+      "10000000-aaaa-bbbb-cccc-000000000001",
     );
   });
 
@@ -31,7 +31,7 @@ describe("ShieldHcaptchaLocalStrategy", () => {
     expect(await response.text()).toEqual("shield.hcaptcha.local.rejected");
     expect(hcaptchaVerify).toHaveBeenCalledWith(
       ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
-      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+      "10000000-aaaa-bbbb-cccc-000000000001",
     );
   });
 
@@ -46,7 +46,7 @@ describe("ShieldHcaptchaLocalStrategy", () => {
     expect(await response.text()).toEqual("shield.hcaptcha.local.rejected");
     expect(hcaptchaVerify).toHaveBeenCalledWith(
       ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
-      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+      "10000000-aaaa-bbbb-cccc-000000000001",
     );
   });
 });

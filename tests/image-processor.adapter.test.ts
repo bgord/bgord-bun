@@ -82,6 +82,7 @@ describe("ImageProcessorAdapter", () => {
     using jpeg = spyOn(image, "jpeg");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
+    using fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const output = tools.FilePathAbsolute.fromString("/var/img/result.jpg");
@@ -98,6 +99,7 @@ describe("ImageProcessorAdapter", () => {
     expect(jpeg).toHaveBeenCalledWith({ quality: 85 });
     expect(write).toHaveBeenCalledWith(temporary.get(), processed);
     expect(rename).toHaveBeenCalledWith(temporary, output);
+    expect(fileCleaner).not.toHaveBeenCalled();
   });
 
   test("output_path - relative", async () => {

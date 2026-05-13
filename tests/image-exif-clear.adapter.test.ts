@@ -16,12 +16,17 @@ const deps = { FileRenamer, FileWriter };
 
 const adapter = new ImageExifClearAdapter(deps);
 
+const image = {
+  rotate: () => image,
+  jpeg: () => ({ bytes: () => cleared }),
+  png: () => ({ bytes: () => cleared }),
+  webp: () => ({ bytes: () => cleared }),
+};
+
 describe("ImageExifClearAdapter", () => {
   test("in_place - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ jpeg: () => ({ bytes: () => cleared }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -42,10 +47,8 @@ describe("ImageExifClearAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ png: () => ({ bytes: () => cleared }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -66,10 +69,8 @@ describe("ImageExifClearAdapter", () => {
   });
 
   test("output_path - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ webp: () => ({ bytes: () => cleared }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -91,10 +92,8 @@ describe("ImageExifClearAdapter", () => {
   });
 
   test("output_path - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ png: () => ({ bytes: () => cleared }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -116,10 +115,8 @@ describe("ImageExifClearAdapter", () => {
   });
 
   test("jpg_to_jpeg", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ jpeg: () => ({ bytes: () => cleared }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 

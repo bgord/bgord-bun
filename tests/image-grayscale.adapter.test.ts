@@ -16,12 +16,19 @@ const deps = { FileRenamer, FileWriter };
 
 const adapter = new ImageGrayscaleAdapter(deps);
 
+const image = {
+  rotate: () => image,
+  modulate: () => image,
+  webp: () => ({ bytes: () => grayscaled }),
+  png: () => ({ bytes: () => grayscaled }),
+  jpeg: () => ({ bytes: () => grayscaled }),
+};
+
 describe("ImageGrayscaleAdapter", () => {
   test("in_place - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ modulate: () => ({ jpeg: () => ({ bytes: () => grayscaled }) }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using modulate = spyOn(image, "modulate");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -31,6 +38,7 @@ describe("ImageGrayscaleAdapter", () => {
     };
 
     expect(await adapter.grayscale(recipe)).toEqual(testcase.images.in_place.absolute.input);
+    expect(modulate).toHaveBeenCalledWith({ saturation: 0 });
     expect(write).toHaveBeenCalledWith(
       testcase.images.in_place.absolute.temporary("grayscale").get(),
       grayscaled,
@@ -42,10 +50,9 @@ describe("ImageGrayscaleAdapter", () => {
   });
 
   test("in_place - relative", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ modulate: () => ({ png: () => ({ bytes: () => grayscaled }) }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using modulate = spyOn(image, "modulate");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -55,6 +62,7 @@ describe("ImageGrayscaleAdapter", () => {
     };
 
     expect(await adapter.grayscale(recipe)).toEqual(testcase.images.in_place.relative.input);
+    expect(modulate).toHaveBeenCalledWith({ saturation: 0 });
     expect(write).toHaveBeenCalledWith(
       testcase.images.in_place.relative.temporary("grayscale").get(),
       grayscaled,
@@ -66,10 +74,9 @@ describe("ImageGrayscaleAdapter", () => {
   });
 
   test("output_path - absolute", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ modulate: () => ({ webp: () => ({ bytes: () => grayscaled }) }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using modulate = spyOn(image, "modulate");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -80,6 +87,7 @@ describe("ImageGrayscaleAdapter", () => {
     };
 
     expect(await adapter.grayscale(recipe)).toEqual(testcase.images.output_path.absolute.output);
+    expect(modulate).toHaveBeenCalledWith({ saturation: 0 });
     expect(write).toHaveBeenCalledWith(
       testcase.images.output_path.absolute.temporary("grayscale").get(),
       grayscaled,
@@ -91,10 +99,9 @@ describe("ImageGrayscaleAdapter", () => {
   });
 
   test("jpg_to_jpeg", async () => {
-    using _ = spyOn(Bun, "file").mockReturnValue({
-      // @ts-expect-error Partial access
-      image: () => ({ rotate: () => ({ modulate: () => ({ jpeg: () => ({ bytes: () => grayscaled }) }) }) }),
-    });
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using modulate = spyOn(image, "modulate");
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
@@ -104,6 +111,7 @@ describe("ImageGrayscaleAdapter", () => {
     };
 
     expect(await adapter.grayscale(recipe)).toEqual(testcase.images.jpg_to_jpeg.input);
+    expect(modulate).toHaveBeenCalledWith({ saturation: 0 });
     expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.temporary("grayscale").get(), grayscaled);
     expect(rename).toHaveBeenCalledWith(
       testcase.images.jpg_to_jpeg.temporary("grayscale"),
