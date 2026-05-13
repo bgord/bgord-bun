@@ -41,7 +41,6 @@
     "nodemailer": "8.0.7",
     "only-allow": "1.2.2",
     "resend": "6.12.3",
-    "sharp": "0.34.5",
     "shellcheck": "4.1.0",
     "typescript": "6.0.3",
     "yazl": "3.3.1"
@@ -58,7 +57,6 @@
     "croner": "10.0.1",
     "nodemailer": "8.0.7",
     "resend": "6.12.3",
-    "sharp": "0.34.5",
     "yazl": "3.3.1"
   },
   "peerDependenciesMeta": {
@@ -75,9 +73,6 @@
       "optional": true
     },
     "resend": {
-      "optional": true
-    },
-    "sharp": {
       "optional": true
     },
     "yazl": {
