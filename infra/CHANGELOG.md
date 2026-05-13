@@ -1,7 +1,10 @@
 # Changelog
+- 2026-05-13 12:27 ffdd72e2 **step: update packages**
+- 2026-05-13 12:27 dec52e52 **step: bump bgord/scripts**
 ## 2026-05-08 17:59 v1.18.15
 - 2026-05-08 17:59 eeda3967 **1.18.15**
 - 2026-05-08 17:58 c4092208 **step: update packages**
+- 2026-05-08 15:59 e47a2865 **docs: generate CHANGELOG**
 - 2026-05-08 15:59 58ed5daa **docs: generate CHANGELOG**
 - 2026-05-03 09:41 24dd44b5 **step: update packages**
 ## 2026-05-01 11:09 v1.18.14
