@@ -1,13 +1,9 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageBlurAdapter } from "../src/image-blur.adapter";
 import type { ImageBlurStrategy } from "../src/image-blur.port";
-
-const base64 = "bW9jay1kYXRh";
-const placeholder = `data:image/jpg;base64,${base64}`;
-const buffer = Buffer.from(base64, "base64");
+import * as testcase from "./testcases";
 
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
@@ -15,67 +11,93 @@ const deps = { FileRenamer, FileWriter };
 
 const adapter = new ImageBlurAdapter(deps);
 
-// TODO UNFIY
+const base64 = "bW9jay1kYXRh";
+const placeholder = `data:image/jpg;base64,${base64}`;
+const buffer = Buffer.from(base64, "base64");
+const image = {
+  jpeg: () => ({ placeholder: async () => placeholder }),
+  png: () => ({ placeholder: async () => placeholder }),
+  webp: () => ({ placeholder: async () => placeholder }),
+};
+
 describe("ImageBlurAdapter", () => {
-  test("in_place", async () => {
+  test("in_place - absolute", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => ({ placeholder: () => placeholder }) });
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
-    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
-    const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-blurred.jpg");
-    const recipe: ImageBlurStrategy = { strategy: "in_place", input };
+    const recipe: ImageBlurStrategy = {
+      strategy: "in_place",
+      input: testcase.images.in_place.absolute.input,
+    };
 
-    expect(await adapter.blur(recipe)).toEqual(input);
-    expect(write).toHaveBeenCalledWith(temporary.get(), buffer);
-    expect(rename).toHaveBeenCalledWith(temporary, input);
-  });
-
-  test("output_path", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => ({ placeholder: () => placeholder }) });
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
-
-    const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
-    const output = tools.FilePathAbsolute.fromString("/var/img/result.jpg");
-    const temporary = tools.FilePathAbsolute.fromString("/var/img/result-blurred.jpg");
-    const recipe: ImageBlurStrategy = { strategy: "output_path", input, output };
-
-    expect(await adapter.blur(recipe)).toEqual(output);
-    expect(write).toHaveBeenCalledWith(temporary.get(), buffer);
-    expect(rename).toHaveBeenCalledWith(temporary, output);
+    expect(await adapter.blur(recipe)).toEqual(testcase.images.in_place.absolute.input);
+    expect(write).toHaveBeenCalledWith(testcase.images.in_place.absolute.temporary("blurred").get(), buffer);
+    expect(rename).toHaveBeenCalledWith(
+      testcase.images.in_place.absolute.temporary("blurred"),
+      testcase.images.in_place.absolute.input,
+    );
   });
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => ({ placeholder: () => placeholder }) });
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
-    const input = tools.FilePathRelative.fromString("var/img/photo.jpg");
-    const temporary = tools.FilePathRelative.fromString("var/img/photo-blurred.jpg");
-    const recipe: ImageBlurStrategy = { strategy: "in_place", input };
+    const recipe: ImageBlurStrategy = {
+      strategy: "in_place",
+      input: testcase.images.in_place.relative.input,
+    };
 
-    expect(await adapter.blur(recipe)).toEqual(input);
-    expect(write).toHaveBeenCalledWith(temporary.get(), buffer);
-    expect(rename).toHaveBeenCalledWith(temporary, input);
+    expect(await adapter.blur(recipe)).toEqual(testcase.images.in_place.relative.input);
+    expect(write).toHaveBeenCalledWith(testcase.images.in_place.relative.temporary("blurred").get(), buffer);
+    expect(rename).toHaveBeenCalledWith(
+      testcase.images.in_place.relative.temporary("blurred"),
+      testcase.images.in_place.relative.input,
+    );
   });
 
-  test("output_path - relative", async () => {
+  test("output_path - absolute", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => ({ placeholder: () => placeholder }) });
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
-    const input = tools.FilePathRelative.fromString("var/img/photo.jpg");
-    const output = tools.FilePathRelative.fromString("var/img/result.jpg");
-    const temporary = tools.FilePathRelative.fromString("var/img/result-blurred.jpg");
-    const recipe: ImageBlurStrategy = { strategy: "output_path", input, output };
+    const recipe: ImageBlurStrategy = {
+      strategy: "output_path",
+      input: testcase.images.output_path.absolute.input,
+      output: testcase.images.output_path.absolute.output,
+    };
 
-    expect(await adapter.blur(recipe)).toEqual(output);
-    expect(write).toHaveBeenCalledWith(temporary.get(), buffer);
-    expect(rename).toHaveBeenCalledWith(temporary, output);
+    expect(await adapter.blur(recipe)).toEqual(testcase.images.output_path.absolute.output);
+    expect(write).toHaveBeenCalledWith(
+      testcase.images.output_path.absolute.temporary("blurred").get(),
+      buffer,
+    );
+    expect(rename).toHaveBeenCalledWith(
+      testcase.images.output_path.absolute.temporary("blurred"),
+      testcase.images.output_path.absolute.output,
+    );
+  });
+
+  test("jpg_to_jpeg", async () => {
+    // @ts-expect-error Partial access
+    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using write = spyOn(FileWriter, "write");
+    using rename = spyOn(FileRenamer, "rename");
+
+    const recipe: ImageBlurStrategy = {
+      strategy: "in_place",
+      input: testcase.images.jpg_to_jpeg.input,
+    };
+
+    expect(await adapter.blur(recipe)).toEqual(testcase.images.jpg_to_jpeg.input);
+    expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.temporary("blurred").get(), buffer);
+    expect(rename).toHaveBeenCalledWith(
+      testcase.images.jpg_to_jpeg.temporary("blurred"),
+      testcase.images.jpg_to_jpeg.input,
+    );
   });
 });
