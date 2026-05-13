@@ -15,9 +15,9 @@ export class ImageExifClearAdapter implements ImageExifClearPort {
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
 
-    const bytes = await Bun.file(recipe.input.get()).image().rotate(0)[format]().bytes();
+    const cleared = await Bun.file(recipe.input.get()).image().rotate(0)[format]().bytes();
 
-    await this.deps.FileWriter.write(temporary.get(), bytes);
+    await this.deps.FileWriter.write(temporary.get(), cleared);
     await this.deps.FileRenamer.rename(temporary, final);
 
     return final;
