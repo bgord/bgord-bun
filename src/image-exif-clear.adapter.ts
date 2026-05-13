@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageExifClearPort, ImageExifClearStrategy } from "./image-exif-clear.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort; FileWriter: FileWriterPort };
@@ -13,7 +14,7 @@ export class ImageExifClearAdapter implements ImageExifClearPort {
     const temporary = final.withFilename(final.getFilename().withSuffix("-exif-cleared"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
     const cleared = await Bun.file(recipe.input.get()).image().rotate(0)[format]().bytes();
 

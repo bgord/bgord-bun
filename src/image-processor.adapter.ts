@@ -2,6 +2,7 @@ import type * as tools from "@bgord/tools";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
 
 type Dependencies = {
@@ -23,7 +24,7 @@ export class ImageProcessorAdapter implements ImageProcessorPort {
 
     const temporary = final.withFilename(final.getFilename().withSuffix("-processed"));
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
     const quality = recipe.quality ?? ImageProcessorAdapter.DEFAULT_QUALITY;
 
     const processed = await Bun.file(recipe.input.get())
