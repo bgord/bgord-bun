@@ -1,4 +1,6 @@
 # Changelog
+- 2026-05-13 13:24 f19456b0 **step: add bunfig**
+- 2026-05-13 13:24 7ebb8959 **step: bump bgord/scripts**
 ## 2026-05-13 13:15 v1.18.16
 - 2026-05-13 13:15 6feee4a3 **1.18.16**
 - 2026-05-13 13:15 2f2ea078 **step: update workflows**
@@ -6,6 +8,7 @@
 - 2026-05-13 13:14 2ab686b0 **step: update packages**
 - 2026-05-13 12:27 ffdd72e2 **step: update packages**
 - 2026-05-13 12:27 dec52e52 **step: bump bgord/scripts**
+- 2026-05-13 11:16 f1e3a41e **docs: generate CHANGELOG**
 - 2026-05-13 11:15 a9de3f38 **docs: generate CHANGELOG**
 - 2026-05-13 10:27 fae5a46a **docs: generate CHANGELOG**
 ## 2026-05-08 17:59 v1.18.15
