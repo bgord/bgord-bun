@@ -1,4 +1,18 @@
 # Changelog
+- 2026-05-13 21:09 bc6139bb **step: define images type**
+- 2026-05-13 21:05 f6a6571e **step: adjust blur**
+- 2026-05-13 20:54 51617101 **fix: types**
+- 2026-05-13 20:53 a91b0c13 **step: remove sharp**
+- 2026-05-13 20:44 1dfa846e **step: add native processor adapter**
+- 2026-05-13 20:36 e235ca8b **step: add native grayscale adapter**
+- 2026-05-13 20:32 3c0838c9 **step: remove image alpha**
+- 2026-05-13 20:28 3ae1a8d4 **step: add native formatter adapter**
+- 2026-05-13 20:14 65095e5f **step: add native compressor adapter**
+- 2026-05-13 20:11 16d8d579 **step: add native exit clear adapter**
+- 2026-05-13 20:04 28c17f32 **step: add native resizer adapter**
+- 2026-05-13 16:23 c5885312 **step: refactor image blur**
+- 2026-05-13 15:54 6ecc134a **step: remove sigma from image blur port**
+- 2026-05-13 15:17 34c1ab8c **step: add native info adapter**
 - 2026-05-13 13:26 c96980a5 **step: update bunfig**
 - 2026-05-13 13:26 68d03e94 **step: bump bgord/scripts**
 - 2026-05-13 13:24 f19456b0 **step: add bunfig**
@@ -10,6 +24,7 @@
 - 2026-05-13 13:14 2ab686b0 **step: update packages**
 - 2026-05-13 12:27 ffdd72e2 **step: update packages**
 - 2026-05-13 12:27 dec52e52 **step: bump bgord/scripts**
+- 2026-05-13 11:26 dcd706ad **docs: generate CHANGELOG**
 - 2026-05-13 11:24 cf20bbc1 **docs: generate CHANGELOG**
 - 2026-05-13 11:16 f1e3a41e **docs: generate CHANGELOG**
 - 2026-05-13 11:15 a9de3f38 **docs: generate CHANGELOG**
