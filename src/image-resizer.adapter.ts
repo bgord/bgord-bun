@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 
 type Dependencies = { FileWriter: FileWriterPort; FileRenamer: FileRenamerPort };
@@ -14,7 +15,7 @@ export class ImageResizerAdapter implements ImageResizerPort {
     const temporary = final.withFilename(filename.withSuffix("-resized"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
     const resized = await Bun.file(recipe.input.get())
       .image()

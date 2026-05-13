@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageCompressorPort, ImageCompressorStrategy } from "./image-compressor.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort; FileWriter: FileWriterPort };
@@ -18,7 +19,7 @@ export class ImageCompressorAdapter implements ImageCompressorPort {
     const temporary = final.withFilename(filename.withSuffix("-compressed"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
     const compressed = await Bun.file(recipe.input.get()).image().rotate(0)[format]({ quality }).bytes();
 

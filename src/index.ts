@@ -206,6 +206,7 @@ export * from "./i18n.service";
 export * from "./id-provider.port";
 export * from "./id-provider-crypto.adapter";
 export * from "./id-provider-deterministic.adapter";
+export * from "./image.types";
 export * from "./image-blur.adapter";
 export * from "./image-blur.port";
 export * from "./image-blur-noop.adapter";

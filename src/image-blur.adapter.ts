@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort; FileWriter: FileWriterPort };
@@ -15,7 +16,7 @@ export class ImageBlurAdapter implements ImageBlurPort {
     const temporary = final.withFilename(filename.withSuffix("-blurred"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
     const blurred = await Bun.file(recipe.input.get()).image()[format]().placeholder();
     const bytes = Buffer.from(blurred.substring(blurred.indexOf(",") + 1), "base64");

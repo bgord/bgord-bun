@@ -2,6 +2,7 @@ import type * as tools from "@bgord/tools";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
 
 type Dependencies = {
@@ -22,7 +23,7 @@ export class ImageFormatterAdapter implements ImageFormatterPort {
     const temporary = final.withFilename(final.getFilename().withSuffix("-formatted"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
     const bytes = await Bun.file(recipe.input.get()).image().rotate(0)[format]().bytes();
 

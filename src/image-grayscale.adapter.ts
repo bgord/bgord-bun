@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
+import type { ImageSupportedType } from "./image.types";
 import type { ImageGrayscalePort, ImageGrayscaleStrategy } from "./image-grayscale.port";
 
 type Dependencies = { FileRenamer: FileRenamerPort; FileWriter: FileWriterPort };
@@ -15,7 +16,7 @@ export class ImageGrayscaleAdapter implements ImageGrayscalePort {
     const temporary = final.withFilename(filename.withSuffix("-grayscale"));
 
     const extension = final.getFilename().getExtension();
-    const format = (extension === "jpg" ? "jpeg" : extension) as "jpeg" | "png" | "webp";
+    const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
     const grayscaled = await Bun.file(recipe.input.get())
       .image()
