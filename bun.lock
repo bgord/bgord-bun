@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.5.8",
+        "@bgord/tools": "1.5.9",
         "emittery": "2.0.0",
         "hono": "4.12.18",
         "node-cache": "5.1.2",
@@ -139,7 +139,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.21", "", {}, "sha512-/ImESw0sskqlVR94jB+5+Pxjf+xBwDZF/N5+y2/q4EqD7IARUTSpPfIo8uf39SYpCxyOCtbyYpUrZ3F/k0zT4A=="],
 
-    "@bgord/tools": ["@bgord/tools@1.5.8", "", { "dependencies": { "temporal-polyfill": "0.3.2", "valibot": "1.4.0" } }, "sha512-rTskKqMkJE6KiPxN6lUTcBJhBIDBEzYvymRxmld2e0iFqrGlnf5+CjdP7unPWQcePwhB+DAAeXARU/oeE5VJQQ=="],
+    "@bgord/tools": ["@bgord/tools@1.5.9", "", { "dependencies": { "temporal-polyfill": "0.3.2", "valibot": "1.4.0" } }, "sha512-tkIlDGVGPFV5ERcldRoIPYVElZHOCS5i743R7uRCHsbTL0kXJ7W/FN+msDbMl1+dlgSphZnMgbUBOehgb2708g=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.4.15", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.4.15", "@biomejs/cli-darwin-x64": "2.4.15", "@biomejs/cli-linux-arm64": "2.4.15", "@biomejs/cli-linux-arm64-musl": "2.4.15", "@biomejs/cli-linux-x64": "2.4.15", "@biomejs/cli-linux-x64-musl": "2.4.15", "@biomejs/cli-win32-arm64": "2.4.15", "@biomejs/cli-win32-x64": "2.4.15" }, "bin": { "biome": "bin/biome" } }, "sha512-j5VH3a/h/HXTKBM50MDMxRCzkeLv9S2XJcW2WgnZT1+xyisi+0bISrXR82gCX+8S9lvK0skEvHJRN+3Ktr2hlw=="],
 
@@ -733,7 +733,7 @@
 
     "csv-stringify": ["csv-stringify@6.7.0", "", {}, "sha512-UdtziYp5HuTz7e5j8Nvq+a/3HQo+2/aJZ9xntNTpmRRIg/3YYqDVgiS9fvAhtNbnyfbv2ZBe0bqCHqzhE7FqWQ=="],
 
-    "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
+    "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" }, "peerDependencies": { "supports-color": "*" }, "optionalPeers": ["supports-color"] }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
 
     "decompress": ["decompress@4.2.1", "", { "dependencies": { "decompress-tar": "^4.0.0", "decompress-tarbz2": "^4.0.0", "decompress-targz": "^4.0.0", "decompress-unzip": "^4.0.1", "graceful-fs": "^4.1.10", "make-dir": "^1.0.0", "pify": "^2.3.0", "strip-dirs": "^2.0.0" } }, "sha512-e48kc2IjU+2Zw8cTb6VZcJQ3lgVbS4uuB1TfCHbiZIP/haNXm+SVyhu+87jts5/3ROpd82GSVCoNs/z8l4ZOaQ=="],
 
