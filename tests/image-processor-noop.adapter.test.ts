@@ -16,7 +16,6 @@ describe("ImageProcessorNoopAdapter", () => {
       maxSide,
       to: v.parse(tools.Extension, "webp"),
       quality: tools.Int.positive(73),
-      background: "#FFFFFF",
     };
 
     expect(await adapter.process(recipe)).toEqual(tools.FilePathAbsolute.fromString("/var/in/photo.webp"));
