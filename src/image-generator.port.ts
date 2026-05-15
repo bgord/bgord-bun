@@ -1,5 +1,7 @@
 import type * as tools from "@bgord/tools";
 
+export type ImageGeneratorAcceptedFormat = "png" | "jpeg" | "webp";
+
 export interface ImageGenerator {
   generate(
     template: string,
