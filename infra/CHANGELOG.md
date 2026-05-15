@@ -1,9 +1,13 @@
 # Changelog
+## 2026-05-15 19:30 v1.19.2
+- 2026-05-15 19:30 92140ef7 **1.19.2**
 - 2026-05-15 19:28 ddc609fb **step: test image generator web view adapter**
 - 2026-05-15 19:04 89716edd **step: test noop adapter**
 - 2026-05-15 18:59 312b9504 **step: add image generator web view adapter**
 - 2026-05-15 18:58 770ac44a **step: add image generator noop adapter**
 - 2026-05-15 18:56 0cffd711 **step: add image generator port**
+- 2026-05-15 17:30 e53e0750 **docs: generate readme**
+- 2026-05-15 17:29 ec563835 **docs: generate CHANGELOG**
 ## 2026-05-15 15:11 v1.19.1
 - 2026-05-15 15:11 87f1fd25 **1.19.1**
 - 2026-05-15 15:11 49c0bb59 **step: update packages**
