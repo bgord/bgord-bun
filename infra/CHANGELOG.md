@@ -1,4 +1,5 @@
 # Changelog
+- 2026-05-15 15:11 49c0bb59 **step: update packages**
 - 2026-05-13 22:17 f3ce48b0 **step: bump bgord/scripts**
 - 2026-05-13 22:17 54800af5 **step: update workflows**
 ## 2026-05-13 21:58 v1.19.0
@@ -12,6 +13,7 @@
 - 2026-05-13 20:36 e235ca8b **step: add native grayscale adapter**
 - 2026-05-13 20:32 3c0838c9 **step: remove image alpha**
 - 2026-05-13 20:28 3ae1a8d4 **step: add native formatter adapter**
+- 2026-05-13 20:17 d561ab67 **docs: generate CHANGELOG**
 - 2026-05-13 20:14 65095e5f **step: add native compressor adapter**
 - 2026-05-13 20:11 16d8d579 **step: add native exit clear adapter**
 - 2026-05-13 20:04 28c17f32 **step: add native resizer adapter**
