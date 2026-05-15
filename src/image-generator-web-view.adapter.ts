@@ -1,20 +1,18 @@
-import type * as tools from "@bgord/tools";
-import type { ImageGenerator, ImageGeneratorAcceptedFormat } from "./image-generator.port";
+import type {
+  ImageGenerator,
+  ImageGeneratorAcceptedFormat,
+  ImageGeneratorConfig,
+} from "./image-generator.port";
 
 export class ImageGeneratorWebViewAdapter implements ImageGenerator {
-  async generate(
-    template: string,
-    filename: tools.Filename,
-    width: tools.ImageWidthType,
-    height: tools.ImageHeightType,
-  ): Promise<Uint8Array<ArrayBuffer>> {
-    await using view = new Bun.WebView({ height, width });
+  async generate(config: ImageGeneratorConfig): Promise<Uint8Array<ArrayBuffer>> {
+    await using view = new Bun.WebView(config);
 
-    await view.navigate(`data:text/html;charset=utf-8,${encodeURIComponent(template)}`);
+    await view.navigate(`data:text/html;charset=utf-8,${encodeURIComponent(config.template)}`);
 
     const image = await view.screenshot({
       encoding: "buffer",
-      format: filename.getExtension() as ImageGeneratorAcceptedFormat,
+      format: config.filename.getExtension() as ImageGeneratorAcceptedFormat,
     });
 
     return new Uint8Array(image);
