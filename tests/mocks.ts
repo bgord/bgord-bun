@@ -317,3 +317,5 @@ export const GenericSendEmailJobSerialized = {
 
 export const cleanFile = new Uint8Array([1, 2, 3]);
 export const virusFile = new Uint8Array([0x45]);
+
+export const asyncNoop = async () => {};
