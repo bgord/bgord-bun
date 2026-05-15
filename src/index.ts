@@ -225,6 +225,7 @@ export * from "./image-formatter-noop.adapter";
 export * from "./image-formatter-with-semaphore.adapter";
 export * from "./image-generator.port";
 export * from "./image-generator-noop.adapter";
+export * from "./image-generator-web-view.adapter";
 export * from "./image-grayscale.adapter";
 export * from "./image-grayscale.port";
 export * from "./image-grayscale-noop.adapter";
