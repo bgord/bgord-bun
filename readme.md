@@ -248,6 +248,9 @@ src/
 ├── image-formatter-with-semaphore.adapter.ts
 ├── image-formatter.adapter.ts
 ├── image-formatter.port.ts
+├── image-generator-noop.adapter.ts
+├── image-generator-web-view.adapter.ts
+├── image-generator.port.ts
 ├── image-grayscale-noop.adapter.ts
 ├── image-grayscale-with-semaphore.adapter.ts
 ├── image-grayscale.adapter.ts
