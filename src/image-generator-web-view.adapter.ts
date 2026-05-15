@@ -1,10 +1,10 @@
 import type {
-  ImageGenerator,
   ImageGeneratorAcceptedFormat,
   ImageGeneratorConfig,
+  ImageGeneratorPort,
 } from "./image-generator.port";
 
-export class ImageGeneratorWebViewAdapter implements ImageGenerator {
+export class ImageGeneratorWebViewAdapter implements ImageGeneratorPort {
   async generate(config: ImageGeneratorConfig): Promise<Uint8Array<ArrayBuffer>> {
     await using view = new Bun.WebView(config);
 

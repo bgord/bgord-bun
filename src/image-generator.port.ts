@@ -9,6 +9,6 @@ export type ImageGeneratorConfig = {
 
 export type ImageGeneratorAcceptedFormat = "png" | "jpeg" | "webp";
 
-export interface ImageGenerator {
+export interface ImageGeneratorPort {
   generate(config: ImageGeneratorConfig): Promise<Uint8Array<ArrayBuffer>>;
 }
