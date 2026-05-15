@@ -1,5 +1,8 @@
 # Changelog
+## 2026-05-15 15:11 v1.19.1
+- 2026-05-15 15:11 87f1fd25 **1.19.1**
 - 2026-05-15 15:11 49c0bb59 **step: update packages**
+- 2026-05-15 13:11 578d1340 **docs: generate CHANGELOG**
 - 2026-05-13 22:17 f3ce48b0 **step: bump bgord/scripts**
 - 2026-05-13 22:17 54800af5 **step: update workflows**
 ## 2026-05-13 21:58 v1.19.0
