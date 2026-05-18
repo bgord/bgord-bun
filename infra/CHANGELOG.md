@@ -1,4 +1,5 @@
 # Changelog
+- 2026-05-18 12:52 2f2e5c0b **step: update packages**
 ## 2026-05-15 19:43 v1.19.3
 - 2026-05-15 19:43 3aaad19b **1.19.3**
 - 2026-05-15 19:41 719d12ba **step: rename port**
@@ -10,6 +11,7 @@
 - 2026-05-15 18:59 312b9504 **step: add image generator web view adapter**
 - 2026-05-15 18:58 770ac44a **step: add image generator noop adapter**
 - 2026-05-15 18:56 0cffd711 **step: add image generator port**
+- 2026-05-15 17:43 2caa4f1e **docs: generate CHANGELOG**
 - 2026-05-15 17:41 2122ecd2 **docs: generate CHANGELOG**
 - 2026-05-15 17:40 51b9feac **docs: generate CHANGELOG**
 - 2026-05-15 17:31 6076a5fa **docs: generate CHANGELOG**
