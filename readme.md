@@ -380,9 +380,9 @@ src/
 │   │   ├── command-handlers
 │   │   │   ├── handleSetUserLanguageCommand.ts
 │   │   ├── commands
-│   │   │   └── SET_USER_LANGUAGE_COMMAND.ts
+│   │   │   ├── SET_USER_LANGUAGE_COMMAND.ts
 │   │   ├── events
-│   │   │   └── USER_LANGUAGE_SET_EVENT.ts
+│   │   │   ├── USER_LANGUAGE_SET_EVENT.ts
 │   │   ├── invariants
 │   │   │   └── user-language-has-changed.ts
 │   │   ├── open-host-queries
@@ -397,13 +397,13 @@ src/
 │       ├── events
 │       │   ├── HOUR_HAS_PASSED_EVENT.ts
 │       │   ├── MINUTE_HAS_PASSED_EVENT.ts
-│       │   └── SECURITY_VIOLATION_DETECTED_EVENT.ts
+│       │   ├── SECURITY_VIOLATION_DETECTED_EVENT.ts
 │       ├── invariants
 │       │   ├── feature-flag-enabled.ts
 │       ├── job-handlers
 │       │   └── send-email-job.handler.ts
 │       └── jobs
-│           └── SEND_EMAIL_JOB.ts
+│           ├── SEND_EMAIL_JOB.ts
 ├── node-env.vo.ts
 ├── nonce-provider-crypto.adapter.ts
 ├── nonce-provider-deterministic.adapter.ts
