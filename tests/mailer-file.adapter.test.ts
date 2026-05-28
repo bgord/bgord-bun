@@ -23,9 +23,10 @@ describe("MailerFileAdapter", () => {
 
     // @ts-expect-error Partial access
     const [filename, file] = temporaryFileWrite.mock.calls[0];
+    const result = await file.text();
 
     expect(filename.get()).toEqual(`${Clock.now().ms}.html`);
-    expect(await file.text()).toEqualIgnoringWhitespace(`
+    expect(result).toEqualIgnoringWhitespace(`
       From: ${mocks.template.config.from}
       To: ${mocks.template.config.to}
       Subject: ${mocks.template.message.subject}
@@ -34,6 +35,7 @@ describe("MailerFileAdapter", () => {
       ${"-".repeat(50)}
       ${mocks.template.message.html}
     `);
+    expect(result).toContain("\n");
   });
 
   test("verify", async () => {

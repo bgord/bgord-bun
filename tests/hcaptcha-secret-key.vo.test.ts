@@ -64,4 +64,10 @@ describe("HCaptchaSecretKey", () => {
       "hcaptcha.secret.key.invalid.format",
     );
   });
+
+  test("rejects valid key with extra leading characters", () => {
+    expect(() => v.parse(HCaptchaSecretKey, "extra0x" + "a".repeat(40))).toThrow(
+      "hcaptcha.secret.key.invalid.format",
+    );
+  });
 });
