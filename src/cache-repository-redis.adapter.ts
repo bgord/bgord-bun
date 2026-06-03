@@ -1,3 +1,4 @@
+// cSpell:ignore setex
 import type { RedisClient } from "bun";
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { Hash } from "./hash.vo";
