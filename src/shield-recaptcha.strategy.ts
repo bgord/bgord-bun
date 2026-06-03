@@ -1,3 +1,4 @@
+// cspell:ignore remoteip
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";

@@ -1,3 +1,4 @@
+// cspell:ignore macbook
 import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";

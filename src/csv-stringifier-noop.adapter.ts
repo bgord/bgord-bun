@@ -1,3 +1,4 @@
+// cspell:ignore Stringifier
 import type { CsvColumnType, CsvRowType, CsvStringifierPort } from "./csv-stringifier.port";
 
 export class CsvStringifierNoopAdapter implements CsvStringifierPort {

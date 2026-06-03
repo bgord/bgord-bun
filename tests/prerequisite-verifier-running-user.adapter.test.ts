@@ -1,3 +1,4 @@
+// cspell:ignore appuser
 import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";

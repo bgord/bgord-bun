@@ -1,3 +1,4 @@
+// cspell:ignore Handleable
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { Handleable, HandlerStrategy } from "./handler.strategy";

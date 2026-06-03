@@ -1,3 +1,4 @@
+// cspell:ignore Tarpit
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";

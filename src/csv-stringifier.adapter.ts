@@ -1,3 +1,4 @@
+// cspell:ignore Stringifier
 import { text } from "node:stream/consumers";
 import type { CsvColumnType, CsvRowType, CsvStringifierPort } from "./csv-stringifier.port";
 import { DynamicImport } from "./dynamic-import.service";

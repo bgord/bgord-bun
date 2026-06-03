@@ -24,14 +24,14 @@ describe("ApiVersionMiddleware", async () => {
 
   test("happy path", async () => {
     using buildInfoRepositoryGet = spyOn(deps.BuildInfoConfig, "get");
-    using cacheRepositoryget = spyOn(CacheRepository, "get");
+    using cacheRepositoryGet = spyOn(CacheRepository, "get");
 
     expect(await middleware.evaluate()).toEqual(v.parse(BuildInfo.entries.version, mocks.version));
-    expect(cacheRepositoryget).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
 
     expect(await middleware.evaluate()).toEqual(v.parse(BuildInfo.entries.version, mocks.version));
     expect(buildInfoRepositoryGet).toBeCalledTimes(1);
-    expect(cacheRepositoryget).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
 
     await CacheRepository.flush();
   });

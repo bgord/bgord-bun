@@ -1,3 +1,4 @@
+// cspell:ignore nosniff
 import type * as tools from "@bgord/tools";
 import { type Context, Hono } from "hono";
 import { serveStatic } from "hono/bun";

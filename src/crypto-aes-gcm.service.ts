@@ -1,3 +1,4 @@
+// cspell:ignore ciphertext
 import { EncryptionIV } from "./encryption-iv.vo";
 
 /** @public */

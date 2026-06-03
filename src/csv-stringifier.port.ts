@@ -1,3 +1,4 @@
+// cspell:ignore Stringifier
 export type CsvColumnType = string;
 export type CsvRowType = Record<string, any>;
 

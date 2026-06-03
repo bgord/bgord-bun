@@ -1,5 +1,6 @@
 export * from "./ab.middleware";
 export * from "./ab-assignment.strategy";
+// cspell:ignore clamav tarpit stringifier exif resizer
 export * from "./ab-assignment-composite.strategy";
 export * from "./ab-assignment-cookie.strategy";
 export * from "./ab-assignment-fixed.strategy";

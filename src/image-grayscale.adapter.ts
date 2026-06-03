@@ -1,3 +1,4 @@
+// cspell:ignore grayscaled
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";

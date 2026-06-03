@@ -1,3 +1,4 @@
+// cspell:ignore Exif
 import { describe, expect, spyOn, test } from "bun:test";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";

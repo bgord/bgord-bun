@@ -12,7 +12,7 @@ const wrongBody = "wrong-body";
 
 const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy(secret);
 const signature = WebhookSignatureCreator.create(body);
-const wrongSignature = v.parse(WebhookSignature, "tooshort");
+const wrongSignature = v.parse(WebhookSignature, "too_short");
 
 const verifier = new WebhookVerifierSha256Strategy({ WebhookSignatureCreator });
 

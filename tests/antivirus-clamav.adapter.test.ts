@@ -1,3 +1,4 @@
+// cspell:ignore Clamav clamscan Eicar
 import { describe, expect, spyOn, test } from "bun:test";
 import { AntivirusClamavAdapter } from "../src/antivirus-clamav.adapter";
 import * as mocks from "./mocks";

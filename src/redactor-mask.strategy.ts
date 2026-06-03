@@ -1,3 +1,4 @@
+/* cspell:disable */
 import * as tools from "@bgord/tools";
 import type { RedactorStrategy } from "./redactor.strategy";
 

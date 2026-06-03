@@ -1,3 +1,4 @@
+// cspell:ignore Stringifier
 import { describe, expect, test } from "bun:test";
 import { CsvStringifierNoopAdapter } from "../src/csv-stringifier-noop.adapter";
 

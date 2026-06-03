@@ -1,3 +1,4 @@
+// cspell:ignore upcasted
 import type { GenericEvent } from "./event.types";
 import type { EventFinderPort } from "./event-finder.port";
 import type { EventFinderLastPort } from "./event-finder-last.port";

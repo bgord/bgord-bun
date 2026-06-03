@@ -1,3 +1,4 @@
+// cspell:ignore Yazl
 import { Readable } from "node:stream";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";

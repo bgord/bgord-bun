@@ -28,7 +28,7 @@ const entryWithoutCorrelation = {
 
 const two = tools.Int.positive(2);
 
-describe("WoodchoperSamplingCorrelationId", () => {
+describe("WoodchopperSamplingCorrelationId", () => {
   test("decide - determinism", () => {
     const strategy = new WoodchopperSamplingCorrelationId({ everyNth: two });
 

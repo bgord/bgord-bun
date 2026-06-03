@@ -1,3 +1,4 @@
+// cspell:ignore krowa owca
 import { describe, expect, spyOn, test } from "bun:test";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { I18n, type TranslationsType } from "../src/i18n.service";
