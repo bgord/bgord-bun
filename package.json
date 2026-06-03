@@ -31,11 +31,11 @@
     "@types/nodemailer": "8.0.0",
     "@types/yazl": "3.3.1",
     "@typescript/native-preview": "7.0.0-dev.20260527.2",
-    "better-auth": "1.6.11",
+    "better-auth": "1.6.13",
     "croner": "10.0.1",
-    "cspell": "10.0.0",
+    "cspell": "10.0.1",
     "csv": "6.5.1",
-    "knip": "6.14.2",
+    "knip": "6.15.0",
     "lefthook": "2.1.9",
     "lockfile-lint": "5.0.0",
     "nodemailer": "8.0.10",
@@ -52,7 +52,7 @@
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
-    "better-auth": "1.6.11",
+    "better-auth": "1.6.13",
     "csv": "6.5.1",
     "croner": "10.0.1",
     "nodemailer": "8.0.10",
