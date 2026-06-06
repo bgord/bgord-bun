@@ -22,8 +22,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
-    "@commitlint/cli": "21.0.2",
-    "@commitlint/config-conventional": "21.0.2",
     "@standard-schema/spec": "1.1.0",
     "@stryker-mutator/core": "9.6.1",
     "@stryker-mutator/typescript-checker": "9.6.1",
@@ -31,7 +29,7 @@
     "@types/nodemailer": "8.0.0",
     "@types/yazl": "3.3.1",
     "@typescript/native-preview": "7.0.0-dev.20260527.2",
-    "better-auth": "1.6.13",
+    "better-auth": "1.6.14",
     "croner": "10.0.1",
     "cspell": "10.0.1",
     "csv": "6.5.1",
@@ -52,7 +50,7 @@
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
-    "better-auth": "1.6.13",
+    "better-auth": "1.6.14",
     "csv": "6.5.1",
     "croner": "10.0.1",
     "nodemailer": "8.0.10",
