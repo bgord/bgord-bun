@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-export
 import type * as tools from "@bgord/tools";
 import type { Languages } from "../../../languages.vo";
 import type { UUIDType } from "../../../uuid.vo";

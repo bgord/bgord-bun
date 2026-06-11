@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-export
 import * as v from "valibot";
 import { EventEnvelopeSchema } from "../../../event-envelope";
 import * as VO from "../value-objects";

@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-export
 import * as v from "valibot";
 
 export const HistoryPayload = v.record(v.string(), v.unknown());

@@ -1,3 +1,4 @@
+// fallow-ignore-file unused-export
 import type * as Events from "../events";
 import type * as Ports from "../ports";
 
