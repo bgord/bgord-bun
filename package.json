@@ -33,6 +33,7 @@
     "croner": "10.0.1",
     "cspell": "10.0.1",
     "csv": "6.5.1",
+    "fallow": "2.89.0",
     "knip": "6.15.0",
     "lefthook": "2.1.9",
     "lockfile-lint": "5.0.0",
