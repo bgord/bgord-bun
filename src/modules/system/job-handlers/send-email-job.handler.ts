@@ -1,12 +1,13 @@
-import * as bg from "@bgord/bun";
+import type { MailerPort } from "../../../mailer.port";
+import { MailerTemplate } from "../../../mailer-template.vo";
 import type { SendEmailJobType } from "../jobs";
 
-type Dependencies = { Mailer: bg.MailerPort };
+type Dependencies = { Mailer: MailerPort };
 
 export const SendEmailJobHandler =
   (deps: Dependencies) =>
   async (job: SendEmailJobType): Promise<void> => {
-    const template = new bg.MailerTemplate(
+    const template = new MailerTemplate(
       { from: job.payload.from, to: job.payload.to },
       { subject: job.payload.subject, html: job.payload.html },
     );
