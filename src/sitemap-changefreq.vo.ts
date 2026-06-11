@@ -1,3 +1,5 @@
+// fallow-ignore-file unused-enum-member
+
 export enum SitemapChangefreqEnum {
   always = "always",
   hourly = "hourly",
