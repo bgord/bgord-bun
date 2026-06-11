@@ -70,8 +70,6 @@ export const connInfo = { server: { requestIP: () => ({ address: ip }) } };
 // Tue Nov 14 2023 22:13:20 GMT+0000
 export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
 
-export const TIME_ZERO_DATE = "2023-11-14";
-
 export const TIME_ZERO_PLAIN_DATE_TIME = "2023-11-14T22:13:20Z";
 
 export const SHA = CommitSha.fromString("a".repeat(40));
@@ -128,7 +126,7 @@ export class PrerequisiteVerifierFailThenPass implements PrerequisiteVerifierPor
   }
 }
 
-export class PrerequisiteVerifierFailWithStack implements PrerequisiteVerifierPort {
+class PrerequisiteVerifierFailWithStack implements PrerequisiteVerifierPort {
   async verify(): Promise<PrerequisiteVerificationResult> {
     return PrerequisiteVerification.failure(new Error(IntentionalError));
   }
@@ -147,10 +145,6 @@ export const hashValue = v.parse(
   "0000000000000000000000000000000000000000000000000000000000000000",
 );
 export const hash = Hash.fromValue(hashValue);
-
-export const expectAnyId = expect.stringMatching(
-  /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
-);
 
 export const GenericHourHasPassedEvent = {
   id: correlationId,
