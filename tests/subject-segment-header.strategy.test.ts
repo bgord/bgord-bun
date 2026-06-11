@@ -8,7 +8,7 @@ const segment = new SubjectSegmentHeaderStrategy(name);
 
 describe("SubjectSegmentHeaderStrategy", () => {
   test("happy path", () => {
-    const context = new RequestContextBuilder().withHeader(name, value).build();
+    const context = new RequestContextBuilder().withHeaders([{ name, value }]).build();
 
     expect(segment.create(context)).toEqual(value);
   });
