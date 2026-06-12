@@ -7,7 +7,6 @@ export const PrerequisitesError = { Failure: "prerequisites.failure" };
 
 type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
-/** @public */
 export class PrerequisiteRunnerStartup {
   private readonly base = { component: "infra", operation: "startup" };
 

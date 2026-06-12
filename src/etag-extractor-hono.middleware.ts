@@ -4,7 +4,6 @@ import { ETagExtractorMiddleware, type ETagExtractorMiddlewareConfig } from "./e
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 
-/** @public */
 export type ETagVariables = { ETag: tools.ETag | null };
 
 export class ETagExtractorHonoMiddleware implements MiddlewareHonoPort {
