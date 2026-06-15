@@ -29,7 +29,7 @@
     "@types/nodemailer": "8.0.1",
     "@types/yazl": "3.3.1",
     "@typescript/native-preview": "7.0.0-dev.20260612.1",
-    "better-auth": "1.6.17",
+    "better-auth": "1.6.18",
     "croner": "10.0.1",
     "cspell": "10.0.1",
     "csv": "6.5.1",
@@ -50,7 +50,7 @@
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
-    "better-auth": "1.6.17",
+    "better-auth": "1.6.18",
     "csv": "6.5.1",
     "croner": "10.0.1",
     "nodemailer": "8.0.11",
