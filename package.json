@@ -74,5 +74,15 @@
     "yazl": {
       "optional": true
     }
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "bun",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "bun",
+      "onFail": "error"
+    }
   }
 }
