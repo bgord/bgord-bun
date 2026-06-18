@@ -37,7 +37,6 @@
     "lockfile-lint": "5.0.0",
     "nodemailer": "9.0.1",
     "publint": "0.3.21",
-    "resend": "6.12.4",
     "shellcheck": "4.1.0",
     "typescript": "6.0.3",
     "yazl": "3.3.1"
@@ -53,7 +52,6 @@
     "csv": "6.6.0",
     "croner": "10.0.1",
     "nodemailer": "9.0.1",
-    "resend": "6.12.4",
     "yazl": "3.3.1"
   },
   "peerDependenciesMeta": {
@@ -67,9 +65,6 @@
       "optional": true
     },
     "nodemailer": {
-      "optional": true
-    },
-    "resend": {
       "optional": true
     },
     "yazl": {

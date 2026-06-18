@@ -336,7 +336,6 @@ src/
 ├── mailer-content-html.vo.ts
 ├── mailer-file.adapter.ts
 ├── mailer-noop.adapter.ts
-├── mailer-resend.adapter.ts
 ├── mailer-smtp.adapter.ts
 ├── mailer-subject.vo.ts
 ├── mailer-template.vo.ts

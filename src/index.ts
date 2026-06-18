@@ -313,7 +313,6 @@ export * from "./mailer-collecting.adapter";
 export * from "./mailer-content-html.vo";
 export * from "./mailer-file.adapter";
 export * from "./mailer-noop.adapter";
-export * from "./mailer-resend.adapter";
 export * from "./mailer-smtp.adapter";
 export * from "./mailer-subject.vo";
 export * from "./mailer-template.vo";
