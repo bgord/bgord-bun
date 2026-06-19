@@ -542,6 +542,7 @@ export * from "./trailing-slash.middleware";
 export * from "./trailing-slash-hono.middleware";
 export * from "./translations.handler";
 export * from "./translations-hono.handler";
+export * from "./translations-provider.port";
 export * from "./uptime.service";
 export * from "./uuid.vo";
 export * from "./visitor-id.strategy";
