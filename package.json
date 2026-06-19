@@ -27,8 +27,8 @@
     "@types/bun": "1.3.14",
     "@types/nodemailer": "8.0.1",
     "@types/yazl": "3.3.1",
-    "@typescript/native-preview": "7.0.0-dev.20260615.1",
-    "better-auth": "1.6.18",
+    "@typescript/native-preview": "7.0.0-dev.20260616.1",
+    "better-auth": "1.6.19",
     "croner": "10.0.1",
     "cspell": "10.0.1",
     "csv": "6.6.0",
@@ -48,7 +48,7 @@
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
-    "better-auth": "1.6.18",
+    "better-auth": "1.6.19",
     "csv": "6.6.0",
     "croner": "10.0.1",
     "nodemailer": "9.0.1",
