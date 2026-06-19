@@ -11,7 +11,7 @@ rm -rf $OUTPUT_DIRECTORY
 step_end "Directory clear"
 
 step_start "Package build"
-bunx tsgo
+bunx tsc
 step_end "Package build"
 
 step_start "Guards"
