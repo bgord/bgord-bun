@@ -8,9 +8,6 @@ export type TranslationPlaceholderType = string;
 export type TranslationPlaceholderValueType = string | number;
 export type TranslationVariableType = Record<TranslationPlaceholderType, TranslationPlaceholderValueType>;
 
-// TODO: getters
 export interface TranslationsProviderPort {
   getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType>;
-
-  getLanguages(): ReadonlyArray<tools.LanguageType>;
 }

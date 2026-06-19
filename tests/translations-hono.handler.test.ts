@@ -9,7 +9,7 @@ import { TranslationsProviderNoopAdapter } from "../src/translations-provider-no
 const SupportedLanguages = ["pl", "en"] as const;
 const languages = new Languages(SupportedLanguages, "en");
 
-const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+const TranslationsProvider = new TranslationsProviderNoopAdapter({
   en: { hello: "Hello" },
   pl: { hello: "Hello" },
 });
