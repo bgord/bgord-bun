@@ -7,7 +7,7 @@ type Config = { path?: tools.DirectoryPathRelativeType };
 type Dependencies = { FileReaderJson: FileReaderJsonPort };
 
 export class TranslationsProviderJsonAdapter implements TranslationsProviderPort {
-  static DEFAULT_PATH = v.parse(tools.DirectoryPathRelativeSchema, "infra/translations");
+  static readonly DEFAULT_PATH = v.parse(tools.DirectoryPathRelativeSchema, "infra/translations");
 
   constructor(
     private readonly deps: Dependencies,
