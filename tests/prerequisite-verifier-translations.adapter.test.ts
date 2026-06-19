@@ -13,16 +13,14 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success - single language", async () => {
     const SupportedLanguages = ["en"] as const;
     const languages = new Languages(SupportedLanguages, "en");
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
-      en: { hello: "Hello" },
-    });
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({ en: { hello: "Hello" } });
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("success - two languages", async () => {
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({
       en: { dog: "dog", cat: "cat", cow: "cow" },
       pl: { dog: "pies", cat: "kot", cow: "krowa" },
     });
@@ -32,7 +30,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one language translations not available", async () => {
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({
       en: { dog: "dog", cat: "cat", cow: "cow" },
     });
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
@@ -46,7 +44,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - both language translations not available", async () => {
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {});
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({});
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
 
     using _ = spyOn(TranslationsProvider, "getTranslationsFor").mockImplementation(
@@ -59,7 +57,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one difference", async () => {
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({
       en: { dog: "dog", cat: "cat", cow: "cow" },
       pl: { dog: "pies", cat: "kot" },
     });
@@ -77,7 +75,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
       "Key: cow, exists in en, missing in pl",
     ];
 
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({
       en: { dog: "dog", cat: "cat", cow: "cow" },
       pl: {},
     });
@@ -89,7 +87,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("failure - both different", async () => {
     const summary = ["Key: horse, exists in en, missing in pl", "Key: sheep, exists in pl, missing in en"];
 
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({
       en: { dog: "dog", cat: "cat", horse: "horse" },
       pl: { dog: "pies", cat: "kot", sheep: "owca" },
     });
@@ -99,9 +97,7 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("kind", () => {
-    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
-      en: { hello: "Hello" },
-    });
+    const TranslationsProvider = new TranslationsProviderNoopAdapter({ en: { hello: "Hello" } });
     const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
 
     expect(prerequisite.kind).toEqual("translations");
