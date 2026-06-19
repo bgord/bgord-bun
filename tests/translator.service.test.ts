@@ -6,15 +6,15 @@ const translations = { greeting: "Hello", welcome: "Welcome, {{name}}!" };
 const t = TranslatorService.use(translations);
 
 describe("TranslatorService", () => {
-  test("useTranslations", () => {
+  test("use", () => {
     expect(t("greeting")).toEqual("Hello");
   });
 
-  test("useTranslations - placeholder", () => {
+  test("use - placeholder", () => {
     expect(t("welcome", { name: "John" })).toEqual("Welcome, John!");
   });
 
-  test("useTranslations - passthrough", () => {
+  test("use - passthrough", () => {
     expect(t("missing")).toEqual("missing");
   });
 });
