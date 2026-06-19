@@ -1,22 +1,19 @@
 import type * as tools from "@bgord/tools";
-import type { FileReaderJsonPort } from "./file-reader-json.port";
-import type * as types from "./i18n.service";
-import { I18n } from "./i18n.service";
 import type { Languages } from "./languages.vo";
-import type { LoggerPort } from "./logger.port";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
+import type { TranslationsKeyType, TranslationsProviderPort } from "./translations-provider.port";
 
 type PrerequisiteTranslationsProblemType = {
-  key: types.TranslationsKeyType;
+  key: TranslationsKeyType;
   existsIn: tools.LanguageType;
   missingIn: tools.LanguageType;
 };
 
-type Dependencies = { Logger: LoggerPort; FileReaderJson: FileReaderJsonPort };
+type Dependencies = { TranslationsProvider: TranslationsProviderPort };
 
 export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageType>
   implements PrerequisiteVerifierPort
@@ -27,14 +24,13 @@ export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageTyp
   ) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
-    const i18n = new I18n(this.deps);
     const languages = this.config.values;
 
-    const dictionary: Partial<Record<T, ReadonlyArray<types.TranslationsKeyType>>> = {};
+    const dictionary: Partial<Record<T, ReadonlyArray<TranslationsKeyType>>> = {};
 
     for (const language of languages) {
       try {
-        const translations = await i18n.getTranslations(language);
+        const translations = await this.deps.TranslationsProvider.getTranslationsFor(language);
         dictionary[language] = Object.keys(translations);
       } catch {
         return PrerequisiteVerification.failure(`${language} translations not available`);
