@@ -1,49 +1,48 @@
 import { describe, expect, test } from "bun:test";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { Languages } from "../src/languages.vo";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHandler } from "../src/translations.handler";
+import { TranslationsProviderNoopAdapter } from "../src/translations-provider-noop.adapter";
 
 const SupportedLanguages = ["pl", "en"] as const;
+const languages = new Languages(SupportedLanguages, "en");
 
-const i18n = new Languages(SupportedLanguages, "en");
+const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+  en: { hello: "Hello" },
+  pl: { hello: "Hello" },
+});
 
-const Logger = new LoggerNoopAdapter();
-const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
-const deps = { FileReaderJson, Logger };
-
-const handler = new TranslationsHandler(i18n, deps);
+const handler = new TranslationsHandler(languages, { TranslationsProvider });
 
 describe("TranslationsHandler", () => {
   test("happy path - no language specified", async () => {
     expect(await handler.execute("en")).toEqual({
       translations: { hello: "Hello" },
       language: "en",
-      supportedLanguages: i18n.supported,
+      supportedLanguages: languages.supported,
     });
   });
 
   test("happy path - en", async () => {
-    expect(await handler.execute(i18n.supported.en)).toEqual({
+    expect(await handler.execute(languages.supported.en)).toEqual({
       translations: { hello: "Hello" },
       language: "en",
-      supportedLanguages: i18n.supported,
+      supportedLanguages: languages.supported,
     });
   });
 
   test("happy path - pl", async () => {
-    expect(await handler.execute(i18n.supported.pl)).toEqual({
+    expect(await handler.execute(languages.supported.pl)).toEqual({
       translations: { hello: "Hello" },
       language: "pl",
-      supportedLanguages: i18n.supported,
+      supportedLanguages: languages.supported,
     });
   });
 
   test("happy path - other", async () => {
     expect(await handler.execute("es")).toEqual({
-      translations: { hello: "Hello" },
+      translations: {},
       language: "es",
-      supportedLanguages: i18n.supported,
+      supportedLanguages: languages.supported,
     });
   });
 });

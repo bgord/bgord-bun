@@ -1,23 +1,23 @@
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { LanguageDetectorCookieStrategy } from "../src/language-detector-cookie.strategy";
 import { LanguageDetectorHonoMiddleware } from "../src/language-detector-hono.middleware";
 import { Languages } from "../src/languages.vo";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { TranslationsHonoHandler } from "../src/translations-hono.handler";
+import { TranslationsProviderNoopAdapter } from "../src/translations-provider-noop.adapter";
 
 const SupportedLanguages = ["pl", "en"] as const;
 const languages = new Languages(SupportedLanguages, "en");
 
-const Logger = new LoggerNoopAdapter();
-const FileReaderJson = new FileReaderJsonNoopAdapter({ hello: "Hello" });
-const deps = { FileReaderJson, Logger };
+const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+  en: { hello: "Hello" },
+  pl: { hello: "Hello" },
+});
 
 const cookie = new LanguageDetectorCookieStrategy("language");
 const app = new Hono()
   .use(new LanguageDetectorHonoMiddleware({ languages, strategies: [cookie] }).handle())
-  .get("/get-translations", ...new TranslationsHonoHandler(languages, deps).handle());
+  .get("/get-translations", ...new TranslationsHonoHandler(languages, { TranslationsProvider }).handle());
 
 describe("TranslationsHonoHandler", () => {
   test("happy path - no language specified", async () => {
