@@ -10,7 +10,7 @@ export type TranslationVariableType = Record<TranslationPlaceholderType, Transla
 
 // TODO: getters
 export interface TranslationsProviderPort {
-  getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType | null>;
+  getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType>;
 
   getLanguages(): ReadonlyArray<tools.LanguageType>;
 }

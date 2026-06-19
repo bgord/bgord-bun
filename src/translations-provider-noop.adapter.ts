@@ -7,8 +7,8 @@ export class TranslationsProviderNoopAdapter implements TranslationsProviderPort
     private readonly translations: Record<tools.LanguageType, TranslationsType>,
   ) {}
 
-  async getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType | null> {
-    return this.translations[language] ?? null;
+  async getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType> {
+    return this.translations[language] ?? {};
   }
 
   getLanguages(): ReadonlyArray<tools.LanguageType> {

@@ -14,18 +14,16 @@ export class TranslationsProviderJsonAdapter implements TranslationsProviderPort
     private readonly deps: Dependencies,
   ) {}
 
-  async getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType | null> {
+  async getTranslationsFor(language: tools.LanguageType): Promise<TranslationsType> {
     const path = tools.FilePathRelative.fromParts(
       this.config.path ?? TranslationsProviderJsonAdapter.DEFAULT_PATH,
       tools.Filename.fromParts(language, "json"),
     );
 
     try {
-      const translations = await this.deps.FileReaderJson.read(path);
-
-      return translations ?? null;
+      return await this.deps.FileReaderJson.read(path);
     } catch (error) {
-      return null;
+      return {};
     }
   }
 
