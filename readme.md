@@ -614,6 +614,7 @@ src/
 ├── trailing-slash-hono.middleware.ts
 ├── trailing-slash.middleware.ts
 ├── translations-hono.handler.ts
+├── translations-provider-json.adapter.ts
 ├── translations-provider-noop.adapter.ts
 ├── translations-provider.port.ts
 ├── translations.handler.ts
