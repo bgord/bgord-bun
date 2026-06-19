@@ -618,6 +618,7 @@ src/
 ├── translations-provider-noop.adapter.ts
 ├── translations-provider.port.ts
 ├── translations.handler.ts
+├── translator.service.ts
 ├── uptime.service.ts
 ├── uuid.vo.ts
 ├── visitor-id-client.strategy.ts

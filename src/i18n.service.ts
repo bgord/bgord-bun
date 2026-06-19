@@ -28,30 +28,4 @@ export class I18n {
 
     return this.deps.FileReaderJson.read(path);
   }
-
-  useTranslations(translations: TranslationsType) {
-    const that = this;
-
-    return function translate(key: TranslationsKeyType, variables?: TranslationVariableType) {
-      const translation = translations[key];
-
-      if (!translation) {
-        that.deps.Logger.warn({
-          message: "Missing translation key",
-          component: "infra",
-          operation: "translations",
-          metadata: { key },
-        });
-
-        return key;
-      }
-
-      if (!variables) return translation;
-
-      return Object.entries(variables).reduce(
-        (result, [placeholder, value]) => result.replaceAll(`{{${placeholder}}}`, String(value)),
-        translation,
-      );
-    };
-  }
 }
