@@ -203,7 +203,6 @@ export * from "./healthcheck.handler";
 export * from "./healthcheck-hono.handler";
 export * from "./http-logger.middleware";
 export * from "./http-logger-hono.middleware";
-export * from "./i18n.service";
 export * from "./id-provider.port";
 export * from "./id-provider-crypto.adapter";
 export * from "./id-provider-deterministic.adapter";

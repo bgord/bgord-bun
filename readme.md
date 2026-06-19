@@ -228,7 +228,6 @@ src/
 ├── healthcheck.handler.ts
 ├── http-logger-hono.middleware.ts
 ├── http-logger.middleware.ts
-├── i18n.service.ts
 ├── id-provider-crypto.adapter.ts
 ├── id-provider-deterministic.adapter.ts
 ├── id-provider.port.ts
