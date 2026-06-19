@@ -1,13 +1,12 @@
 import type * as tools from "@bgord/tools";
 import { createFactory } from "hono/factory";
-import type { FileReaderJsonPort } from "./file-reader-json.port";
 import type { HandlerHonoPort } from "./handler-hono.port";
 import type { LanguageDetectorVariables } from "./language-detector-hono.middleware";
 import type { Languages } from "./languages.vo";
-import type { LoggerPort } from "./logger.port";
 import { TranslationsHandler } from "./translations.handler";
+import type { TranslationsProviderPort } from "./translations-provider.port";
 
-type Dependencies = { FileReaderJson: FileReaderJsonPort; Logger: LoggerPort };
+type Dependencies = { TranslationsProvider: TranslationsProviderPort };
 
 const factory = createFactory();
 
