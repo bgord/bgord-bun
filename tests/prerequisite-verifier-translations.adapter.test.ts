@@ -1,58 +1,44 @@
-// cspell:ignore krowa owca
+// cspell:ignore krowa,owca
 import { describe, expect, spyOn, test } from "bun:test";
-import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
-import { I18n, type TranslationsType } from "../src/i18n.service";
 import { Languages } from "../src/languages.vo";
-import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierTranslationsAdapter } from "../src/prerequisite-verifier-translations.adapter";
+import { TranslationsProviderNoopAdapter } from "../src/translations-provider-noop.adapter";
 import * as mocks from "./mocks";
 
-const Logger = new LoggerNoopAdapter();
-const FileReaderJson = new FileReaderJsonNoopAdapter({});
-const deps = { Logger, FileReaderJson };
-
-const prerequisite = new PrerequisiteVerifierTranslationsAdapter(mocks.languages, deps);
+const SupportedLanguages = ["en", "pl"] as const;
+const languages = new Languages(SupportedLanguages, "en");
 
 describe("PrerequisiteVerifierTranslationsAdapter", () => {
   test("success - single language", async () => {
     const SupportedLanguages = ["en"] as const;
-    const i18n = new Languages(SupportedLanguages, "en");
-    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(i18n, deps);
+    const languages = new Languages(SupportedLanguages, "en");
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { hello: "Hello" },
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("success - two languages", async () => {
-    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
-      async (language: string): Promise<TranslationsType> => {
-        switch (language) {
-          case "en":
-            return { dog: "dog", cat: "cat", cow: "cow" };
-          case "pl":
-            return { dog: "pies", cat: "kot", cow: "krowa" };
-          default:
-            return {};
-        }
-      },
-    );
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { dog: "dog", cat: "cat", cow: "cow" },
+      pl: { dog: "pies", cat: "kot", cow: "krowa" },
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
   test("failure - one language translations not available", async () => {
-    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
-      async (language: string): Promise<TranslationsType> => {
-        switch (language) {
-          case "en":
-            return { dog: "dog", cat: "cat", cow: "cow" };
-          case "pl":
-            throw mocks.throwIntentionalErrorAsync;
-          default:
-            return {};
-        }
-      },
-    );
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { dog: "dog", cat: "cat", cow: "cow" },
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
+    using _ = spyOn(TranslationsProvider, "getTranslationsFor")
+      .mockImplementationOnce(async () => ({ dog: "dog", cat: "cat", cow: "cow" }))
+      .mockImplementationOnce(mocks.throwIntentionalErrorAsync);
 
     expect(await prerequisite.verify()).toEqual(
       PrerequisiteVerification.failure("pl translations not available"),
@@ -60,16 +46,12 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - both language translations not available", async () => {
-    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(async (language: string) => {
-      switch (language) {
-        case "en":
-          throw mocks.throwIntentionalErrorAsync;
-        case "pl":
-          throw mocks.throwIntentionalErrorAsync;
-        default:
-          return {};
-      }
-    });
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {});
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
+
+    using _ = spyOn(TranslationsProvider, "getTranslationsFor").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(await prerequisite.verify()).toEqual(
       PrerequisiteVerification.failure("en translations not available"),
@@ -77,18 +59,11 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one difference", async () => {
-    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
-      async (language: string): Promise<TranslationsType> => {
-        switch (language) {
-          case "en":
-            return { dog: "dog", cat: "cat", cow: "cow" };
-          case "pl":
-            return { dog: "pies", cat: "kot" };
-          default:
-            return {};
-        }
-      },
-    );
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { dog: "dog", cat: "cat", cow: "cow" },
+      pl: { dog: "pies", cat: "kot" },
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
 
     expect(await prerequisite.verify()).toEqual(
       PrerequisiteVerification.failure("Key: cow, exists in en, missing in pl"),
@@ -96,46 +71,39 @@ describe("PrerequisiteVerifierTranslationsAdapter", () => {
   });
 
   test("failure - one empty", async () => {
-    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
-      async (language: string): Promise<TranslationsType> => {
-        switch (language) {
-          case "en":
-            return { dog: "dog", cat: "cat", cow: "cow" };
-          case "pl":
-            return {};
-          default:
-            return {};
-        }
-      },
-    );
-
     const summary = [
       "Key: dog, exists in en, missing in pl",
       "Key: cat, exists in en, missing in pl",
       "Key: cow, exists in en, missing in pl",
     ];
+
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { dog: "dog", cat: "cat", cow: "cow" },
+      pl: {},
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
+
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(summary.join("\n")));
   });
 
   test("failure - both different", async () => {
-    using _ = spyOn(I18n.prototype, "getTranslations").mockImplementation(
-      async (language: string): Promise<TranslationsType> => {
-        switch (language) {
-          case "en":
-            return { dog: "dog", cat: "cat", horse: "horse" };
-          case "pl":
-            return { dog: "pies", cat: "kot", sheep: "owca" };
-          default:
-            return {};
-        }
-      },
-    );
-
     const summary = ["Key: horse, exists in en, missing in pl", "Key: sheep, exists in pl, missing in en"];
+
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { dog: "dog", cat: "cat", horse: "horse" },
+      pl: { dog: "pies", cat: "kot", sheep: "owca" },
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
+
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure(summary.join("\n")));
   });
 
   test("kind", () => {
+    const TranslationsProvider = new TranslationsProviderNoopAdapter(SupportedLanguages, {
+      en: { hello: "Hello" },
+    });
+    const prerequisite = new PrerequisiteVerifierTranslationsAdapter(languages, { TranslationsProvider });
+
     expect(prerequisite.kind).toEqual("translations");
   });
 });
