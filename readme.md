@@ -614,6 +614,7 @@ src/
 ├── trailing-slash-hono.middleware.ts
 ├── trailing-slash.middleware.ts
 ├── translations-hono.handler.ts
+├── translations-provider.port.ts
 ├── translations.handler.ts
 ├── uptime.service.ts
 ├── uuid.vo.ts
