@@ -1,7 +1,6 @@
 // cspell:ignore ciphertext
 import { EncryptionIV } from "./encryption-iv.vo";
 
-// fallow-ignore-next-line unused-export
 export const CryptoAesGcmError = { InvalidPayload: "aes.gcm.crypto.invalid.payload" };
 
 export class CryptoAesGcm {

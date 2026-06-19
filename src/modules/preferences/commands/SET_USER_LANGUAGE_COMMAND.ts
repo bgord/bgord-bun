@@ -1,4 +1,3 @@
-// fallow-ignore-file unused-export
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CommandEnvelopeSchema } from "../../../command-envelope";
