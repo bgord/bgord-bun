@@ -21,7 +21,12 @@ export class I18n {
   ) {}
 
   async getTranslations(language: tools.LanguageType): Promise<TranslationsType> {
-    return this.deps.FileReaderJson.read(this.getTranslationPathForLanguage(language));
+    const path = tools.FilePathRelative.fromParts(
+      this.translationsPath,
+      tools.Filename.fromParts(language, "json"),
+    );
+
+    return this.deps.FileReaderJson.read(path);
   }
 
   useTranslations(translations: TranslationsType) {
@@ -48,12 +53,5 @@ export class I18n {
         translation,
       );
     };
-  }
-
-  getTranslationPathForLanguage(language: tools.LanguageType): tools.FilePathRelative {
-    return tools.FilePathRelative.fromParts(
-      this.translationsPath,
-      tools.Filename.fromParts(language, "json"),
-    );
   }
 }
