@@ -41,7 +41,7 @@
     "yazl": "3.3.1"
   },
   "dependencies": {
-    "@bgord/tools": "1.5.17",
+    "@bgord/tools": "1.5.18",
     "emittery": "2.0.0",
     "hono": "4.12.25",
     "node-cache": "5.1.2"
