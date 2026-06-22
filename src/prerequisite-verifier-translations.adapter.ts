@@ -41,14 +41,14 @@ export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageTyp
 
     for (const language in dictionary) {
       // Stryker disable all
-      const phrases = dictionary[language] ?? [];
+      const translations = dictionary[language] ?? [];
       // Stryker restore all
 
-      for (const phrase of phrases) {
+      for (const key of translations) {
         for (const supportedLanguage of languages) {
-          const phraseExists = new Set(dictionary[supportedLanguage]).has(phrase);
+          const exists = new Set(dictionary[supportedLanguage]).has(key);
 
-          if (!phraseExists) problems.push({ key: phrase, existsIn: language, missingIn: supportedLanguage });
+          if (!exists) problems.push({ key, existsIn: language, missingIn: supportedLanguage });
         }
       }
     }
