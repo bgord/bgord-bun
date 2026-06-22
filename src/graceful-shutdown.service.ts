@@ -1,7 +1,8 @@
 import * as tools from "@bgord/tools";
 import type { LoggerPort } from "./logger.port";
 
-type ServerType = ReturnType<typeof Bun.serve>;
+export type ServerType = ReturnType<typeof Bun.serve>;
+type Cleanup = () => Promise<void> | void;
 
 type Dependencies = { Logger: LoggerPort };
 
@@ -11,10 +12,10 @@ export class GracefulShutdown {
 
   constructor(
     private readonly deps: Dependencies,
-    private readonly exitFn: (code: number) => never = (code: number) => process.exit(code),
+    private readonly exitFn: (code: number) => never = process.exit,
   ) {}
 
-  private shutdown(server: ServerType, cleanup: () => any, exitCode: number) {
+  private async shutdown(server: ServerType, cleanup: Cleanup, exitCode: number) {
     // Stryker disable all
     if (this.isShuttingDown) return;
     this.isShuttingDown = true;
@@ -26,32 +27,30 @@ export class GracefulShutdown {
       this.deps.Logger.error({ message: "Server stop failed", error, ...this.base });
     }
 
-    Promise.resolve()
-      .then(() => cleanup())
-      .then(() => this.deps.Logger.info({ message: "HTTP server closed", ...this.base }))
-      .catch((error) => this.deps.Logger.error({ message: "Cleanup hook failed", error, ...this.base }))
-      .finally(() => this.exitFn(exitCode));
+    try {
+      await cleanup();
+      this.deps.Logger.info({ message: "HTTP server closed", ...this.base });
+    } catch (error) {
+      this.deps.Logger.error({ message: "Cleanup hook failed", error, ...this.base });
+    } finally {
+      this.exitFn(exitCode);
+    }
   }
 
-  applyTo(server: ServerType, cleanup: () => any = tools.noop) {
-    process.once("SIGTERM", () => {
-      this.deps.Logger.info({ message: "SIGTERM received", ...this.base });
+  applyTo(server: ServerType, cleanup: Cleanup = tools.noop) {
+    const graceful = (signal: string) => () => {
+      this.deps.Logger.info({ message: `${signal} received`, ...this.base });
       this.shutdown(server, cleanup, 0);
-    });
+    };
 
-    process.once("SIGINT", () => {
-      this.deps.Logger.info({ message: "SIGINT received", ...this.base });
-      this.shutdown(server, cleanup, 0);
-    });
-
-    process.once("unhandledRejection", (error) => {
-      this.deps.Logger.error({ message: "UnhandledRejection received", error, ...this.base });
+    const fatal = (event: string) => (error: unknown) => {
+      this.deps.Logger.error({ message: `${event} received`, error, ...this.base });
       this.shutdown(server, cleanup, 1);
-    });
+    };
 
-    process.once("uncaughtException", (error) => {
-      this.deps.Logger.error({ message: "UncaughtException received", error, ...this.base });
-      this.shutdown(server, cleanup, 1);
-    });
+    process.once("SIGTERM", graceful("SIGTERM"));
+    process.once("SIGINT", graceful("SIGINT"));
+    process.once("unhandledRejection", fatal("UnhandledRejection"));
+    process.once("uncaughtException", fatal("UncaughtException"));
   }
 }

@@ -1,15 +1,12 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import { GracefulShutdown } from "../src/graceful-shutdown.service";
+import { GracefulShutdown, type ServerType } from "../src/graceful-shutdown.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
-
-type ServerType = ReturnType<typeof Bun.serve>;
 
 const Logger = new LoggerNoopAdapter();
 const deps = { Logger };
 
-// Helper to wait for promises to settle
-const tick = () => new Promise((r) => setTimeout(r, 0));
+const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 function setup() {
   const server = { stop: jest.fn() } as unknown as ServerType;
@@ -107,7 +104,6 @@ describe("GracefulShutdown", () => {
 
     process.emit("SIGTERM");
     await tick();
-    await tick(); // Extra tick for the promise chain in cleanup
 
     expect(server.stop).toHaveBeenCalled();
     expect(exitCalls[0]).toEqual(0);
@@ -121,10 +117,10 @@ describe("GracefulShutdown", () => {
 
   test("idempotency", async () => {
     const { server, gs, exitCalls } = setup();
-    using _ = spyOn(server, "stop").mockImplementation(mocks.throwIntentionalError);
     using loggerInfo = spyOn(Logger, "info");
     gs.applyTo(server);
 
+    process.emit("SIGTERM");
     process.emit("SIGTERM");
     await tick();
 
