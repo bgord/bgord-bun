@@ -2,9 +2,9 @@ import * as tools from "@bgord/tools";
 import type { LoggerPort } from "./logger.port";
 
 export type ServerType = ReturnType<typeof Bun.serve>;
-type Cleanup = () => Promise<void> | void;
 
 type Dependencies = { Logger: LoggerPort };
+type Config = { cleanup: () => Promise<void> | void; exit?: (code: number) => never };
 
 export class GracefulShutdown {
   private readonly base = { operation: "shutdown", component: "infra" } as const;
@@ -12,10 +12,10 @@ export class GracefulShutdown {
 
   constructor(
     private readonly deps: Dependencies,
-    private readonly exitFn: (code: number) => never = process.exit,
+    private readonly config: Config = { cleanup: tools.noop, exit: process.exit },
   ) {}
 
-  private async shutdown(server: ServerType, cleanup: Cleanup, exitCode: number) {
+  private async shutdown(server: ServerType, exitCode: number) {
     // Stryker disable all
     if (this.isShuttingDown) return;
     this.isShuttingDown = true;
@@ -28,24 +28,24 @@ export class GracefulShutdown {
     }
 
     try {
-      await cleanup();
+      await this.config.cleanup();
       this.deps.Logger.info({ message: "HTTP server closed", ...this.base });
     } catch (error) {
       this.deps.Logger.error({ message: "Cleanup hook failed", error, ...this.base });
     } finally {
-      this.exitFn(exitCode);
+      this.config.exit?.(exitCode);
     }
   }
 
-  applyTo(server: ServerType, cleanup: Cleanup = tools.noop) {
+  applyTo(server: ServerType) {
     const graceful = (signal: string) => () => {
       this.deps.Logger.info({ message: `${signal} received`, ...this.base });
-      this.shutdown(server, cleanup, 0);
+      this.shutdown(server, 0);
     };
 
     const fatal = (event: string) => (error: unknown) => {
       this.deps.Logger.error({ message: `${event} received`, error, ...this.base });
-      this.shutdown(server, cleanup, 1);
+      this.shutdown(server, 1);
     };
 
     process.once("SIGTERM", graceful("SIGTERM"));

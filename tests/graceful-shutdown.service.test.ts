@@ -1,4 +1,5 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { GracefulShutdown, type ServerType } from "../src/graceful-shutdown.service";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
@@ -8,11 +9,11 @@ const deps = { Logger };
 
 const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
 
-function setup() {
+function setup(cleanup: () => Promise<void> | void = tools.noop) {
   const server = { stop: jest.fn() } as unknown as ServerType;
   const exitCalls: Array<number> = [];
-  const exitFn = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
-  const gs = new GracefulShutdown(deps, exitFn);
+  const exit = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
+  const gs = new GracefulShutdown(deps, { cleanup, exit });
 
   return { server, gs, exitCalls };
 }
@@ -98,9 +99,9 @@ describe("GracefulShutdown", () => {
 
   test("cleanup failure", async () => {
     using loggerError = spyOn(Logger, "error");
-    const { server, gs, exitCalls } = setup();
     const cleanup = jest.fn().mockRejectedValue(new Error(mocks.IntentionalError));
-    gs.applyTo(server, cleanup);
+    const { server, gs, exitCalls } = setup(cleanup);
+    gs.applyTo(server);
 
     process.emit("SIGTERM");
     await tick();
