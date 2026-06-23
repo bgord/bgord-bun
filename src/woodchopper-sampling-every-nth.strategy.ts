@@ -14,7 +14,6 @@ export class WoodchopperSamplingEveryNth implements WoodchopperSamplingStrategy 
     this.counter++;
     // Stryker restore all
 
-    if (this.counter % this.config.n !== 0) return false;
-    return true;
+    return this.counter % this.config.n === 0;
   }
 }
