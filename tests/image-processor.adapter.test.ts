@@ -6,6 +6,8 @@ import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageProcessorAdapter } from "../src/image-processor.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
+import * as mocks from "./mocks";
 
 const processed = new TextEncoder().encode("processed").buffer;
 const maxSide = v.parse(tools.ImageWidth, 512);
@@ -13,7 +15,8 @@ const maxSide = v.parse(tools.ImageWidth, 512);
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileCleaner, FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 4));
+const deps = { FileCleaner, FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new ImageProcessorAdapter(deps);
 
@@ -38,7 +41,7 @@ describe("ImageProcessorAdapter", () => {
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const final = tools.FilePathAbsolute.fromString("/var/img/photo.webp");
-    const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-processed.webp");
+    const temporary = tools.FilePathAbsolute.fromString(`/var/img/photo-processed-${mocks.nonce}.webp`);
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
@@ -63,7 +66,7 @@ describe("ImageProcessorAdapter", () => {
     using fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathRelative.fromString("var/img/image.png");
-    const temporary = tools.FilePathRelative.fromString("var/img/image-processed.png");
+    const temporary = tools.FilePathRelative.fromString(`var/img/image-processed-${mocks.nonce}.png`);
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
@@ -86,7 +89,7 @@ describe("ImageProcessorAdapter", () => {
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const output = tools.FilePathAbsolute.fromString("/var/img/result.jpg");
-    const temporary = tools.FilePathAbsolute.fromString("/var/img/result-processed.jpg");
+    const temporary = tools.FilePathAbsolute.fromString(`/var/img/result-processed-${mocks.nonce}.jpg`);
     const recipe: ImageProcessorStrategy = {
       strategy: "output_path",
       input,
@@ -111,7 +114,7 @@ describe("ImageProcessorAdapter", () => {
 
     const input = tools.FilePathRelative.fromString("var/img/photo.png");
     const output = tools.FilePathRelative.fromString("var/img/result.jpg");
-    const temporary = tools.FilePathRelative.fromString("var/img/result-processed.jpg");
+    const temporary = tools.FilePathRelative.fromString(`var/img/result-processed-${mocks.nonce}.jpg`);
     const recipe: ImageProcessorStrategy = {
       strategy: "output_path",
       input,

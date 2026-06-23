@@ -7,13 +7,16 @@ import type {
   ImageCompressorInPlaceStrategy,
   ImageCompressorOutputPathStrategy,
 } from "../src/image-compressor.port";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
+import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const compressed = new TextEncoder().encode("compressed").buffer;
 
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 5));
+const deps = { FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new ImageCompressorAdapter(deps);
 

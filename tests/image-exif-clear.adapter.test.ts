@@ -1,5 +1,7 @@
 // cspell:ignore Exif
+
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageExifClearAdapter } from "../src/image-exif-clear.adapter";
@@ -7,13 +9,16 @@ import type {
   ImageExifClearInPlaceStrategy,
   ImageExifClearOutputPathStrategy,
 } from "../src/image-exif-clear.port";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
+import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const cleared = new TextEncoder().encode("cleared").buffer;
 
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 5));
+const deps = { FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new ImageExifClearAdapter(deps);
 

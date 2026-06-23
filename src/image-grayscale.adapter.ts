@@ -4,8 +4,13 @@ import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
 import type { ImageSupportedType } from "./image.types";
 import type { ImageGrayscalePort, ImageGrayscaleStrategy } from "./image-grayscale.port";
+import type { NonceProviderPort } from "./nonce-provider.port";
 
-type Dependencies = { FileRenamer: FileRenamerPort; FileWriter: FileWriterPort };
+type Dependencies = {
+  FileRenamer: FileRenamerPort;
+  FileWriter: FileWriterPort;
+  NonceProvider: NonceProviderPort;
+};
 
 export class ImageGrayscaleAdapter implements ImageGrayscalePort {
   constructor(private readonly deps: Dependencies) {}
@@ -14,7 +19,9 @@ export class ImageGrayscaleAdapter implements ImageGrayscalePort {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
     const filename = final.getFilename();
-    const temporary = final.withFilename(filename.withSuffix("-grayscale"));
+    const temporary = final.withFilename(
+      filename.withSuffix(`-grayscale-${this.deps.NonceProvider.generate()}`),
+    );
 
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;

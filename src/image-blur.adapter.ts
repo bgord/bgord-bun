@@ -3,8 +3,13 @@ import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
 import type { ImageSupportedType } from "./image.types";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
+import type { NonceProviderPort } from "./nonce-provider.port";
 
-type Dependencies = { FileRenamer: FileRenamerPort; FileWriter: FileWriterPort };
+type Dependencies = {
+  FileRenamer: FileRenamerPort;
+  FileWriter: FileWriterPort;
+  NonceProvider: NonceProviderPort;
+};
 
 export class ImageBlurAdapter implements ImageBlurPort {
   constructor(private readonly deps: Dependencies) {}
@@ -13,7 +18,9 @@ export class ImageBlurAdapter implements ImageBlurPort {
     const final = recipe.strategy === "output_path" ? recipe.output : recipe.input;
 
     const filename = final.getFilename();
-    const temporary = final.withFilename(filename.withSuffix("-blurred"));
+    const temporary = final.withFilename(
+      filename.withSuffix(`-blurred-${this.deps.NonceProvider.generate()}`),
+    );
 
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;

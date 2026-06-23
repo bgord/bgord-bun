@@ -6,13 +6,16 @@ import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageFormatterAdapter } from "../src/image-formatter.adapter";
 import type { ImageFormatterStrategy } from "../src/image-formatter.port";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
+import * as mocks from "./mocks";
 
 const formatted = new TextEncoder().encode("formatted").buffer;
 
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileCleaner, FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 4));
+const deps = { FileCleaner, FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new ImageFormatterAdapter(deps);
 
@@ -33,7 +36,7 @@ describe("ImageFormatterAdapter", () => {
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const final = tools.FilePathAbsolute.fromString("/var/img/photo.webp");
-    const temporary = tools.FilePathAbsolute.fromString("/var/img/photo-formatted.webp");
+    const temporary = tools.FilePathAbsolute.fromString(`/var/img/photo-formatted-${mocks.nonce}.webp`);
     const to = v.parse(tools.Extension, "webp");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
@@ -51,7 +54,7 @@ describe("ImageFormatterAdapter", () => {
 
     const input = tools.FilePathRelative.fromString("var/img/photo.png");
     const final = tools.FilePathRelative.fromString("var/img/photo.png");
-    const temporary = tools.FilePathRelative.fromString("var/img/photo-formatted.png");
+    const temporary = tools.FilePathRelative.fromString(`var/img/photo-formatted-${mocks.nonce}.png`);
     const to = v.parse(tools.Extension, "png");
     const recipe: ImageFormatterStrategy = { strategy: "in_place", input, to };
 
@@ -69,7 +72,7 @@ describe("ImageFormatterAdapter", () => {
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const output = tools.FilePathAbsolute.fromString("/var/img/result.webp");
-    const temporary = tools.FilePathAbsolute.fromString("/var/img/result-formatted.webp");
+    const temporary = tools.FilePathAbsolute.fromString(`/var/img/result-formatted-${mocks.nonce}.webp`);
     const recipe: ImageFormatterStrategy = { strategy: "output_path", input, output };
 
     expect(await adapter.format(recipe)).toEqual(output);
@@ -87,7 +90,7 @@ describe("ImageFormatterAdapter", () => {
 
     const input = tools.FilePathRelative.fromString("var/img/photo.webp");
     const output = tools.FilePathRelative.fromString("var/img/result.jpg");
-    const temporary = tools.FilePathRelative.fromString("var/img/result-formatted.jpg");
+    const temporary = tools.FilePathRelative.fromString(`var/img/result-formatted-${mocks.nonce}.jpg`);
     const recipe: ImageFormatterStrategy = { strategy: "output_path", input, output };
 
     expect(await adapter.format(recipe)).toEqual(output);

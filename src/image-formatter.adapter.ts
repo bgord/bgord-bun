@@ -4,11 +4,13 @@ import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
 import type { ImageSupportedType } from "./image.types";
 import type { ImageFormatterPort, ImageFormatterStrategy } from "./image-formatter.port";
+import type { NonceProviderPort } from "./nonce-provider.port";
 
 type Dependencies = {
   FileCleaner: FileCleanerPort;
   FileRenamer: FileRenamerPort;
   FileWriter: FileWriterPort;
+  NonceProvider: NonceProviderPort;
 };
 
 export class ImageFormatterAdapter implements ImageFormatterPort {
@@ -20,7 +22,9 @@ export class ImageFormatterAdapter implements ImageFormatterPort {
         ? recipe.output
         : recipe.input.withFilename(recipe.input.getFilename().withExtension(recipe.to));
 
-    const temporary = final.withFilename(final.getFilename().withSuffix("-formatted"));
+    const temporary = final.withFilename(
+      final.getFilename().withSuffix(`-formatted-${this.deps.NonceProvider.generate()}`),
+    );
 
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;

@@ -6,6 +6,8 @@ import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageResizerAdapter } from "../src/image-resizer.adapter";
 import type { ImageResizerInPlaceStrategy, ImageResizerOutputPathStrategy } from "../src/image-resizer.port";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
+import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const resized = new TextEncoder().encode("resized").buffer;
@@ -13,7 +15,8 @@ const maxSide = v.parse(tools.ImageWidth, 512);
 
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 5));
+const deps = { FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new ImageResizerAdapter(deps);
 

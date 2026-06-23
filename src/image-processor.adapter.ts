@@ -4,11 +4,13 @@ import type { FileRenamerPort } from "./file-renamer.port";
 import type { FileWriterPort } from "./file-writer.port";
 import type { ImageSupportedType } from "./image.types";
 import type { ImageProcessorPort, ImageProcessorStrategy } from "./image-processor.port";
+import type { NonceProviderPort } from "./nonce-provider.port";
 
 type Dependencies = {
   FileCleaner: FileCleanerPort;
   FileRenamer: FileRenamerPort;
   FileWriter: FileWriterPort;
+  NonceProvider: NonceProviderPort;
 };
 
 export class ImageProcessorAdapter implements ImageProcessorPort {
@@ -22,7 +24,9 @@ export class ImageProcessorAdapter implements ImageProcessorPort {
         ? recipe.output
         : recipe.input.withFilename(recipe.input.getFilename().withExtension(recipe.to));
 
-    const temporary = final.withFilename(final.getFilename().withSuffix("-processed"));
+    const temporary = final.withFilename(
+      final.getFilename().withSuffix(`-processed-${this.deps.NonceProvider.generate()}`),
+    );
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
     const quality = recipe.quality ?? ImageProcessorAdapter.DEFAULT_QUALITY;

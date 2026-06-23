@@ -1,13 +1,17 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageBlurAdapter } from "../src/image-blur.adapter";
 import type { ImageBlurStrategy } from "../src/image-blur.port";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
+import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 4));
+const deps = { FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new ImageBlurAdapter(deps);
 
