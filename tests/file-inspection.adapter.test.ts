@@ -265,40 +265,40 @@ describe("FileInspectionAdapter", () => {
   test("size - error - string", async () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await adapter.size(string)).toEqual(null);
+    expect(async () => adapter.size(string)).toThrow(mocks.IntentionalError);
   });
 
   test("size - error - relative", async () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await adapter.size(relative)).toEqual(null);
+    expect(async () => adapter.size(relative)).toThrow(mocks.IntentionalError);
   });
 
   test("size - error - absolute", async () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await adapter.size(absolute)).toEqual(null);
+    expect(async () => adapter.size(absolute)).toThrow(mocks.IntentionalError);
   });
 
   test("size - invalid value - string", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ size: "invalid" });
 
-    expect(await adapter.size(string)).toEqual(null);
+    expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
   });
 
   test("size - invalid value - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ size: "invalid" });
 
-    expect(await adapter.size(string)).toEqual(null);
+    expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
   });
 
   test("size - invalid value - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ size: "invalid" });
 
-    expect(await adapter.size(string)).toEqual(null);
+    expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
   });
 
   test("lastModified - string", async () => {
@@ -328,39 +328,39 @@ describe("FileInspectionAdapter", () => {
   test("lastModified - error - string", async () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await adapter.lastModified(string)).toEqual(null);
+    expect(async () => adapter.lastModified(string)).toThrow(mocks.IntentionalError);
   });
 
   test("lastModified - error - relative", async () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await adapter.lastModified(relative)).toEqual(null);
+    expect(async () => adapter.lastModified(relative)).toThrow(mocks.IntentionalError);
   });
 
   test("lastModified - error - absolute", async () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
 
-    expect(await adapter.lastModified(absolute)).toEqual(null);
+    expect(async () => adapter.lastModified(absolute)).toThrow(mocks.IntentionalError);
   });
 
   test("lastModified - invalid value - string", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ lastModified: "invalid" });
 
-    expect(await adapter.lastModified(string)).toEqual(null);
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
   });
 
   test("lastModified - invalid value - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ lastModified: "invalid" });
 
-    expect(await adapter.lastModified(string)).toEqual(null);
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
   });
 
   test("lastModified - invalid value - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ lastModified: "invalid" });
 
-    expect(await adapter.lastModified(string)).toEqual(null);
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
   });
 });
