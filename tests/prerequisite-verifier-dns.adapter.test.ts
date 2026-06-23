@@ -4,10 +4,9 @@ import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierDnsAdapter } from "../src/prerequisite-verifier-dns.adapter";
 import * as mocks from "./mocks";
 
-const hostname = "api.example.com";
-const result = { address: hostname, family: 4 };
+const result = { address: mocks.hostname, family: 4 };
 
-const prerequisite = new PrerequisiteVerifierDnsAdapter({ hostname });
+const prerequisite = new PrerequisiteVerifierDnsAdapter({ hostname: mocks.hostname });
 
 describe("PrerequisiteVerifierDnsAdapter", () => {
   test("success", async () => {

@@ -9,6 +9,7 @@ import { CommitSha } from "../src/commit-sha.vo";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
+import { Hostname } from "../src/hostname.vo";
 import { JobEnvelopeSchema } from "../src/job-envelope";
 import { Languages } from "../src/languages.vo";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
@@ -43,6 +44,8 @@ export function stringToStream(string: string): ReadableStream<Uint8Array> {
     },
   });
 }
+
+export const hostname = v.parse(Hostname, "api.example.com");
 
 export const IntentionalCause = "intentional.cause" as const;
 export const IntentionalError = "intentional.error" as const;

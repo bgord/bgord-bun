@@ -1,11 +1,12 @@
 import dns from "node:dns/promises";
+import type { HostnameType } from "./hostname.vo";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
   type PrerequisiteVerifierPort,
 } from "./prerequisite-verifier.port";
 
-type Config = { hostname: string };
+type Config = { hostname: HostnameType };
 
 export class PrerequisiteVerifierDnsAdapter implements PrerequisiteVerifierPort {
   constructor(private readonly config: Config) {}
