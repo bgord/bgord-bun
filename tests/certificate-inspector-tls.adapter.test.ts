@@ -1,8 +1,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import tls from "node:tls";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CertificateInspectorTLSAdapter } from "../src/certificate-inspector-tls.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { Hostname } from "../src/hostname.vo";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -10,7 +12,7 @@ const deps = { Clock };
 
 const adapter = new CertificateInspectorTLSAdapter(deps);
 
-const host = "example.com";
+const host = v.parse(Hostname, "example.com");
 
 const month = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
   .toZonedDateTimeISO("UTC")

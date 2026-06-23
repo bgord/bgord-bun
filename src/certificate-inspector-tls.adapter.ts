@@ -2,13 +2,14 @@ import tls from "node:tls";
 import * as tools from "@bgord/tools";
 import type { CertificateInspection, CertificateInspectorPort } from "./certificate-inspector.port";
 import type { ClockPort } from "./clock.port";
+import type { HostnameType } from "./hostname.vo";
 
 type Dependencies = { Clock: ClockPort };
 
 export class CertificateInspectorTLSAdapter implements CertificateInspectorPort {
   constructor(private readonly deps: Dependencies) {}
 
-  async inspect(hostname: string): Promise<CertificateInspection> {
+  async inspect(hostname: HostnameType): Promise<CertificateInspection> {
     return new Promise((resolve) => {
       // Stryker disable all
       const cleanup = (socket: tls.TLSSocket) => socket.destroy();
