@@ -24,6 +24,7 @@ export class FileUploaderMiddleware {
 
     if (size.isGreaterThan(this.config.maxSize)) return { valid: false, error: FileUploaderError.SizeLimit };
 
+    // TODO: MIME spoofing possible by reading client-supplied file.type
     const mime = tools.Mime.fromString(file.type);
 
     if (!this.config.MimeRegistry.hasMime(mime)) {
