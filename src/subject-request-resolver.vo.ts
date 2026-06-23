@@ -11,8 +11,6 @@ export const SubjectRequestResolverError = {
 };
 
 export class SubjectRequestResolver {
-  private readonly SEPARATOR = "|";
-
   constructor(
     private readonly segments: ReadonlyArray<SubjectSegmentRequestStrategy>,
     private readonly deps: Dependencies,
@@ -22,10 +20,8 @@ export class SubjectRequestResolver {
   }
 
   async resolve(context: RequestContext): Promise<{ hex: Hash; raw: ReadonlyArray<SubjectSegmentType> }> {
-    const segments = this.segments.map((segment) =>
-      segment.create(context).replaceAll(this.SEPARATOR, encodeURIComponent(this.SEPARATOR)),
-    );
-    const subject = segments.join(this.SEPARATOR);
+    const segments = this.segments.map((segment) => segment.create(context));
+    const subject = JSON.stringify(segments);
 
     const hex = await this.deps.HashContent.hash(subject);
 

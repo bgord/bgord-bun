@@ -28,7 +28,7 @@ describe("SubjectRequestResolver", () => {
 
     expect(result.raw).toEqual(["response"]);
     expect(result.hex).toEqual(
-      Hash.fromString("a9f4b3d22a523fdada41c85c175425bcd15b32b4cd0f54d9433accd52d7195a1"),
+      Hash.fromString("d26d4f55806083f067207948ce977e0ae3d5e84df796d58441909de2c247c170"),
     );
   });
 
@@ -39,7 +39,7 @@ describe("SubjectRequestResolver", () => {
 
     expect(result.raw).toEqual(["response", "/about"]);
     expect(result.hex).toEqual(
-      Hash.fromString("f762d6b7acf6b55b4a918eb367c488c1ae06104717b26b2ab7f2253b08240a25"),
+      Hash.fromString("7411c4fc5467f3272ba5d21f57ab3139b24256ec8ea0acc0ee6db1d92a00917f"),
     );
   });
 
@@ -50,7 +50,7 @@ describe("SubjectRequestResolver", () => {
 
     expect(result.raw).toEqual(["response", "/about", "en"]);
     expect(result.hex).toEqual(
-      Hash.fromString("700ea2f37779cf5274fd0439ba7d0726572da1084d84c44fe42a9664c9bd0d79"),
+      Hash.fromString("b1d1b44511add0850768ec6084f40c6f52b464b312f413009103795dcabb3cf7"),
     );
   });
 
@@ -68,7 +68,7 @@ describe("SubjectRequestResolver", () => {
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json"]);
     expect(result.hex).toEqual(
-      Hash.fromString("0cbd18c1c26a8fce0f083ad89d00d39bdb764f15611fbf0a9d644ac4c70cc2ec"),
+      Hash.fromString("ddedc400730fcaedfa0196ca8519b24b212cd1353a8f577e599dc58d27435a5a"),
     );
   });
 
@@ -87,7 +87,7 @@ describe("SubjectRequestResolver", () => {
 
     expect(result.raw).toEqual(["response", "/about", "en", "application/json", "aaa=123&bbb=234"]);
     expect(result.hex).toEqual(
-      Hash.fromString("52085fa9b342b7c6442fdfc8f8513aa0e2916807ba60ae45f5fffd987e33593d"),
+      Hash.fromString("128cec94f30ca49cbda9596113a1f475d293b25886f6de09c28ae536e50d72ad"),
     );
   });
 
@@ -114,7 +114,7 @@ describe("SubjectRequestResolver", () => {
       "123456789",
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("0a444aa132ac3d1f3e28ec59b0cd7ecdf89b432529698b4c0ba31c2ece9537e5"),
+      Hash.fromString("204dfc68878f8072be6a6dc463cfd4fa01387ed4788a0f26128280cc6d9a6fc2"),
     );
   });
 
@@ -146,17 +146,5 @@ describe("SubjectRequestResolver", () => {
         deps,
       ).resolve(context),
     ).not.toThrow();
-  });
-
-  test("sanitization", async () => {
-    const context = new RequestContextBuilder().build();
-    const fixed = new SubjectSegmentFixedStrategy("a|b|c|");
-
-    const result = await new SubjectRequestResolver([fixed], deps).resolve(context);
-
-    expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
-    expect(result.hex).toEqual(
-      Hash.fromString("8525434b92846688a55d7bd14ae4fb3d2bb7650b77c3d69f87eb8f4fb5683068"),
-    );
   });
 });

@@ -24,7 +24,7 @@ describe("SubjectApplicationResolver", () => {
 
     expect(result.raw).toEqual(["request"]);
     expect(result.hex).toEqual(
-      Hash.fromString("1f58b9145b24d108d7ac38887338b3ea3229833b9c1e418250343f907bfd1047"),
+      Hash.fromString("a0cfbaaad23ecf3571470996e24f20c36e2b97d19682619de6a353f2bfa9b8e2"),
     );
   });
 
@@ -33,7 +33,7 @@ describe("SubjectApplicationResolver", () => {
 
     expect(result.raw).toEqual(["request", "response"]);
     expect(result.hex).toEqual(
-      Hash.fromString("d5d717a32f2180dede356b4091bee495571e2f76d77af225e2197a26eaebd92f"),
+      Hash.fromString("2229bc6a24359f2ccf0c9a70a2b1d246e51bba5df54bd8927f7aa3f5965e9b57"),
     );
   });
 
@@ -42,7 +42,7 @@ describe("SubjectApplicationResolver", () => {
 
     expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production]);
     expect(result.hex).toEqual(
-      Hash.fromString("82bbdcacdea5d8a4c9905184eb6e074a6af199b7bdb56f1f7e2dee7e4cbfcc75"),
+      Hash.fromString("90382b2ba1f0b50b2ddb4248896229d668e75476b841a8d760cd21fb750b8581"),
     );
   });
 
@@ -51,7 +51,7 @@ describe("SubjectApplicationResolver", () => {
 
     expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production, version.toString()]);
     expect(result.hex).toEqual(
-      Hash.fromString("65222d61acd8176553ac178a7aff938b956f7bc1176a4df2b7658762b4531db1"),
+      Hash.fromString("36be7d57dd6e3131e73ec1964248412b65d7a1912f36a9f57c4fe393e19f4ed3"),
     );
   });
 
@@ -89,16 +89,5 @@ describe("SubjectApplicationResolver", () => {
         deps,
       ).resolve(),
     ).not.toThrow();
-  });
-
-  test("sanitization", async () => {
-    const fixed = new SubjectSegmentFixedStrategy("a|b|c|");
-
-    const result = await new SubjectApplicationResolver([fixed], deps).resolve();
-
-    expect(result.raw).toEqual(["a%7Cb%7Cc%7C"]);
-    expect(result.hex).toEqual(
-      Hash.fromString("8525434b92846688a55d7bd14ae4fb3d2bb7650b77c3d69f87eb8f4fb5683068"),
-    );
   });
 });

@@ -33,7 +33,7 @@ describe("AbAssignmentHashStrategy", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
 
-    expect(await strategy.assign(context, variants)).toEqual(control);
+    expect(await strategy.assign(context, variants)).toEqual(treatment);
   });
 
   test("idempotence", async () => {

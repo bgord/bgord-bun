@@ -40,7 +40,7 @@ describe("AbMiddleware", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
 
-    expect(await ab.evaluate(context)).toEqual(control);
+    expect(await ab.evaluate(context)).toEqual(treatment);
   });
 
   test("query", async () => {

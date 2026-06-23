@@ -46,7 +46,7 @@ describe("AbAssignmentCompositeStrategy", () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 
-    expect(await strategy.assign(context, variants)).toEqual(control);
+    expect(await strategy.assign(context, variants)).toEqual(treatment);
   });
 
   test("happy path - query", async () => {
