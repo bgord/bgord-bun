@@ -19,7 +19,7 @@ describe("PrerequisiteVerifierBinaryAdapter", () => {
   test("failure - binary not found", async () => {
     using _ = spyOn(Bun, "which").mockReturnValue(null);
 
-    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure());
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Binary not present"));
   });
 
   test("failure - error", async () => {

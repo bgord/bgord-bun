@@ -15,7 +15,7 @@ export class PrerequisiteVerifierBinaryAdapter implements PrerequisiteVerifierPo
       const result = Bun.which(this.config.binary);
 
       if (result) return PrerequisiteVerification.success;
-      return PrerequisiteVerification.failure();
+      return PrerequisiteVerification.failure("Binary not present");
     } catch (error) {
       return PrerequisiteVerification.failure(error);
     }
