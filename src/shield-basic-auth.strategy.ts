@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import type { BasicAuthPasswordType } from "./basic-auth-password.vo";
 import type { BasicAuthUsernameType } from "./basic-auth-username.vo";
 import type { HasRequestHeader } from "./request-context.port";
@@ -18,9 +19,10 @@ export class ShieldBasicAuthStrategy {
       const [username, password] = credentials.split(":");
 
       if (username !== this.config.username) return false;
-      if (password !== this.config.password) return false;
 
-      return true;
+      if (password?.length !== this.config.password.length) return false;
+
+      return timingSafeEqual(Buffer.from(password), Buffer.from(this.config.password));
     } catch {
       return false;
     }

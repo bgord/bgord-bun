@@ -15,7 +15,7 @@ export class ShieldApiKeyStrategy {
     const header = context.request.header(ShieldApiKeyStrategy.HEADER_NAME);
     const config = this.config.API_KEY;
 
-    if (header.length !== config.length) return false;
+    if (header?.length !== config.length) return false;
 
     return timingSafeEqual(Buffer.from(header), Buffer.from(config));
   }
