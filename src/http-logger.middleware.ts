@@ -44,7 +44,7 @@ export class HttpLoggerMiddleware {
   ) {}
 
   shouldSkip(context: HasRequestPath & HasRequestHeader): boolean {
-    if (context.request.header("accept") === "text/event-stream") return true;
+    if (context.request.header("accept")?.toLowerCase().startsWith("text/event-stream")) return true;
 
     return (
       this.config?.skip?.some((rule) => {
