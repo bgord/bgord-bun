@@ -9,6 +9,8 @@ export interface FileInspectionPort {
   canWrite(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean>;
   canExecute(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<boolean>;
 
-  size(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size>;
-  lastModified(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Timestamp>;
+  size(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size | null>;
+  lastModified(
+    path: tools.FilePathRelative | tools.FilePathAbsolute | string,
+  ): Promise<tools.Timestamp | null>;
 }
