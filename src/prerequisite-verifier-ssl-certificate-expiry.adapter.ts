@@ -1,5 +1,6 @@
 import type * as tools from "@bgord/tools";
 import type { CertificateInspectorPort } from "./certificate-inspector.port";
+import type { HostnameType } from "./hostname.vo";
 import {
   PrerequisiteVerification,
   type PrerequisiteVerificationResult,
@@ -8,7 +9,7 @@ import {
 
 type Dependencies = { CertificateInspector: CertificateInspectorPort };
 
-type Config = { hostname: string; minimum: tools.Duration };
+type Config = { hostname: HostnameType; minimum: tools.Duration };
 
 export class PrerequisiteVerifierSSLCertificateExpiryAdapter implements PrerequisiteVerifierPort {
   constructor(

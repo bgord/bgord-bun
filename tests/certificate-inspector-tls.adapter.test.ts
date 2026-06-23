@@ -1,18 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import tls from "node:tls";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { CertificateInspectorTLSAdapter } from "../src/certificate-inspector-tls.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { Hostname } from "../src/hostname.vo";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const deps = { Clock };
 
 const adapter = new CertificateInspectorTLSAdapter(deps);
-
-const host = v.parse(Hostname, "example.com");
 
 const month = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
   .toZonedDateTimeISO("UTC")
@@ -40,12 +36,12 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect(host)).toEqual({
+    expect(await adapter.inspect(mocks.hostname)).toEqual({
       success: true,
       remaining: tools.Duration.Days(30),
     });
     expect(tlsConnect).toHaveBeenCalledWith(
-      { host, port: 443, rejectUnauthorized: false, servername: host },
+      { host: mocks.hostname, port: 443, rejectUnauthorized: false, servername: mocks.hostname },
       expect.any(Function),
     );
   });
@@ -67,12 +63,12 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect(host)).toEqual({
+    expect(await adapter.inspect(mocks.hostname)).toEqual({
       success: true,
       remaining: tools.Duration.Days(-2),
     });
     expect(tlsConnect).toHaveBeenCalledWith(
-      { host, port: 443, rejectUnauthorized: false, servername: host },
+      { host: mocks.hostname, port: 443, rejectUnauthorized: false, servername: mocks.hostname },
       expect.any(Function),
     );
   });
@@ -95,9 +91,9 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect(host)).toEqual({ success: false });
+    expect(await adapter.inspect(mocks.hostname)).toEqual({ success: false });
     expect(tlsConnect).toHaveBeenCalledWith(
-      { host, port: 443, rejectUnauthorized: false, servername: host },
+      { host: mocks.hostname, port: 443, rejectUnauthorized: false, servername: mocks.hostname },
       expect.any(Function),
     );
   });
@@ -118,9 +114,9 @@ describe("CertificateInspectorTLSAdapter", () => {
       return socket;
     });
 
-    expect(await adapter.inspect(host)).toEqual({ success: false });
+    expect(await adapter.inspect(mocks.hostname)).toEqual({ success: false });
     expect(tlsConnect).toHaveBeenCalledWith(
-      { host, port: 443, rejectUnauthorized: false, servername: host },
+      { host: mocks.hostname, port: 443, rejectUnauthorized: false, servername: mocks.hostname },
       expect.any(Function),
     );
   });

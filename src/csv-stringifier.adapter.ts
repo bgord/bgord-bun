@@ -24,6 +24,7 @@ export class CsvStringifierAdapter implements CsvStringifierPort {
   }
 
   async process(columns: ReadonlyArray<CsvColumnType>, data: Array<CsvRowType>): Promise<string> {
+    // TODO: Potential formula injection
     return text(this.csv.stringify(data, { header: true, columns }));
   }
 }

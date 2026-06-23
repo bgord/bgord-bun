@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { CertificateInspectorNoopAdapter } from "../src/certificate-inspector-noop.adapter";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierSSLCertificateExpiryAdapter } from "../src/prerequisite-verifier-ssl-certificate-expiry.adapter";
+import * as mocks from "./mocks";
 
 class CertificateInspectorUnavailableAdapter {
   async inspect() {
@@ -10,7 +11,7 @@ class CertificateInspectorUnavailableAdapter {
   }
 }
 
-const config = { hostname: "example.com", minimum: tools.Duration.Days(30) };
+const config = { hostname: mocks.hostname, minimum: tools.Duration.Days(30) };
 
 const deps = { CertificateInspector: new CertificateInspectorNoopAdapter(tools.Duration.Days(100)) };
 
