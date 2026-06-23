@@ -5,7 +5,7 @@ import { TimingMiddleware } from "../src/timing.middleware";
 import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const context = new RequestContextBuilder().build();
+const context = new RequestContextBuilder().withHeader("accept", "anything").build();
 const duration = tools.Duration.Ms(100);
 
 describe("TimingMiddleware", () => {
