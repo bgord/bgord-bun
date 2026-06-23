@@ -18,6 +18,7 @@ import { MailerTemplate } from "../src/mailer-template.vo";
 import type * as Preferences from "../src/modules/preferences";
 import type * as System from "../src/modules/system";
 import { SEND_EMAIL_JOB, type SendEmailJobType } from "../src/modules/system/jobs";
+import { NonceValue } from "../src/nonce-value.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import {
   PrerequisiteVerification,
@@ -30,6 +31,8 @@ export const correlationId = "00000000-0000-0000-0000-000000000000";
 
 export const userId = "00000000-0000-0000-0000-000000000000";
 export const anotherUserId = "22222222-2222-2222-2222-222222222222";
+
+export const nonce = v.parse(NonceValue, "0000000000000000");
 
 export const SupportedLanguages = ["en", "pl"] as const;
 export const languages = new Languages(SupportedLanguages, "en");

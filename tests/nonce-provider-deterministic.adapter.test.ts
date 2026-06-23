@@ -1,17 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import * as v from "valibot";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
-import { NonceValue } from "../src/nonce-value.vo";
-
-const zeros = v.parse(NonceValue, "0000000000000000");
-const ones = v.parse(NonceValue, "1111111111111111");
+import * as mocks from "./mocks";
 
 describe("NonceProviderDeterministicAdapter", () => {
   test("happy path", () => {
-    const provider = new NonceProviderDeterministicAdapter([zeros, ones]);
+    const provider = new NonceProviderDeterministicAdapter([mocks.nonce, mocks.nonce]);
 
-    expect(provider.generate()).toEqual(zeros);
-    expect(provider.generate()).toEqual(ones);
+    expect(provider.generate()).toEqual(mocks.nonce);
+    expect(provider.generate()).toEqual(mocks.nonce);
     expect(() => provider.generate()).toThrow("nonce.provider.deterministic.adapter.sequence.exhausted");
   });
 });

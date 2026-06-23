@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import * as v from "valibot";
 import { NonceProviderNoopAdapter } from "../src/nonce-provider-noop.adapter";
-import { NonceValue } from "../src//nonce-value.vo";
+import * as mocks from "./mocks";
 
 describe("NonceProviderNoopAdapter", () => {
   test("happy path", () => {
@@ -9,6 +8,6 @@ describe("NonceProviderNoopAdapter", () => {
 
     const result = adapter.generate();
 
-    expect(result).toEqual(v.parse(NonceValue, "0000000000000000"));
+    expect(result).toEqual(mocks.nonce);
   });
 });

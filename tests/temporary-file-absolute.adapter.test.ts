@@ -4,6 +4,7 @@ import * as v from "valibot";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { TemporaryFileAbsoluteAdapter } from "../src/temporary-file-absolute.adapter";
 import * as mocks from "./mocks";
 
@@ -12,13 +13,14 @@ const content = new File([new TextEncoder().encode("hello")], "ignored.bin", {
 });
 const directory = v.parse(tools.DirectoryPathAbsoluteSchema, "/tmp/bgord-tests");
 const filename = tools.Filename.fromString("avatar.webp");
-const partial = tools.FilePathAbsolute.fromPartsSafe(directory, filename.withSuffix("-part"));
+const partial = tools.FilePathAbsolute.fromPartsSafe(directory, filename.withSuffix(`-part-${mocks.nonce}`));
 const final = tools.FilePathAbsolute.fromPartsSafe(directory, filename);
 
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileWriter = new FileWriterNoopAdapter();
-const deps = { FileCleaner, FileRenamer, FileWriter };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 3));
+const deps = { FileCleaner, FileRenamer, FileWriter, NonceProvider };
 
 const adapter = new TemporaryFileAbsoluteAdapter(directory, deps);
 
