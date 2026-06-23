@@ -33,4 +33,12 @@ describe("SitemapEntry", () => {
       "<url><loc>https://example.com</loc><lastmod>2025-01-01</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>",
     );
   });
+
+  test("loc escaping", () => {
+    const loc = v.parse(SitemapUrl, "https://example.com/page?a=1&b=2<3\"4'5");
+
+    expect(new SitemapEntry({ loc }).toXml()).toEqual(
+      "<url><loc>https://example.com/page?a=1&amp;b=2&lt;3&quot;4&apos;5</loc></url>",
+    );
+  });
 });
