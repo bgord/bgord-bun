@@ -4,12 +4,14 @@ export const BasicAuthUsernameError = {
   Type: "basic.auth.username.type",
   Empty: "basic.auth.username.empty",
   TooLong: "basic.auth.username.too.long",
+  NonLatin: "basic.auth.username.non.latin",
 };
 
 export const BasicAuthUsername = v.pipe(
   v.string(BasicAuthUsernameError.Type),
   v.minLength(1, BasicAuthUsernameError.Empty),
   v.maxLength(128, BasicAuthUsernameError.TooLong),
+  v.check((value) => [...value].every((c) => c.charCodeAt(0) <= 255), BasicAuthUsernameError.NonLatin),
   // Stryker disable next-line StringLiteral
   v.brand("BasicAuthUsername"),
 );
