@@ -10,9 +10,7 @@ export class TimingMiddleware {
   constructor(private readonly deps: Dependencies) {}
 
   async measure(context: RequestContext, action: () => void | Promise<void>): Promise<string | null> {
-    const header = context.request.header("accept");
-
-    if (header === "text/event-stream") return null;
+    if (context.request.header("accept")?.toLowerCase().startsWith("text/event-stream")) return null;
 
     const stopwatch = new Stopwatch(this.deps);
 

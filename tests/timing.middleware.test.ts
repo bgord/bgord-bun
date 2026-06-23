@@ -24,6 +24,16 @@ describe("TimingMiddleware", () => {
     expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual(null);
   });
 
+  test("sync - SSE - non-standard header", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const middleware = new TimingMiddleware({ Clock });
+    const context = new RequestContextBuilder()
+      .withHeader("accept", "text/event-stream;charset=utf-8")
+      .build();
+
+    expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual(null);
+  });
+
   test("async", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const middleware = new TimingMiddleware({ Clock });
@@ -35,6 +45,16 @@ describe("TimingMiddleware", () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const middleware = new TimingMiddleware({ Clock });
     const context = new RequestContextBuilder().withHeader("accept", "text/event-stream").build();
+
+    expect(await middleware.measure(context, async () => Clock.advanceBy(duration))).toEqual(null);
+  });
+
+  test("async - SSE - non-standard header", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const middleware = new TimingMiddleware({ Clock });
+    const context = new RequestContextBuilder()
+      .withHeader("accept", "text/event-stream;charset=utf-8")
+      .build();
 
     expect(await middleware.measure(context, async () => Clock.advanceBy(duration))).toEqual(null);
   });
