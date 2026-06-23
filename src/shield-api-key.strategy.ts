@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import type * as tools from "@bgord/tools";
 import type { HasRequestHeader } from "./request-context.port";
 
@@ -11,6 +12,11 @@ export class ShieldApiKeyStrategy {
   constructor(private readonly config: ApiKeyShieldConfig) {}
 
   evaluate(context: HasRequestHeader): boolean {
-    return context.request.header(ShieldApiKeyStrategy.HEADER_NAME) === this.config.API_KEY;
+    const header = context.request.header(ShieldApiKeyStrategy.HEADER_NAME);
+    const config = this.config.API_KEY;
+
+    if (header.length !== config.length) return false;
+
+    return timingSafeEqual(Buffer.from(header), Buffer.from(config));
   }
 }
