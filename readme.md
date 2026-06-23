@@ -410,7 +410,6 @@ src/
 ├── nonce-provider-noop.adapter.ts
 ├── nonce-provider.port.ts
 ├── nonce-value.vo.ts
-├── ok
 ├── payload-serializer-collecting.adapter.ts
 ├── payload-serializer-json.adapter.ts
 ├── payload-serializer.port.ts

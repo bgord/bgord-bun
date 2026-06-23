@@ -5,6 +5,7 @@ import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileCopierPort } from "./file-copier.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { HashFilePort } from "./hash-file.port";
+import type { NonceProviderPort } from "./nonce-provider.port";
 import type {
   RemoteFileStoragePort,
   RemoteHeadResult,
@@ -18,6 +19,7 @@ type Dependencies = {
   FileRenamer: FileRenamerPort;
   FileCopier: FileCopierPort;
   DirectoryEnsurer: DirectoryEnsurerPort;
+  NonceProvider: NonceProviderPort;
 };
 
 type Config = { root: tools.DirectoryPathAbsoluteType };
@@ -39,7 +41,9 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
 
   async putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult> {
     const final = this.resolveKeyToAbsoluteFilePath(input.key);
-    const temporary = final.withFilename(final.getFilename().withSuffix("-part"));
+    const temporary = final.withFilename(
+      final.getFilename().withSuffix(`-part-${this.deps.NonceProvider.generate()}`),
+    );
 
     await this.deps.DirectoryEnsurer.ensure(final.getDirectory());
     await this.deps.FileCopier.copy(input.path, temporary);

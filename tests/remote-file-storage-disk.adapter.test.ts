@@ -6,6 +6,7 @@ import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
+import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 import * as mocks from "./mocks";
 
@@ -23,7 +24,8 @@ const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileCopier = new FileCopierNoopAdapter();
 const DirectoryEnsurer = new DirectoryEnsurerNoopAdapter();
-const deps = { HashFile, FileCleaner, FileRenamer, FileCopier, DirectoryEnsurer };
+const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 10));
+const deps = { HashFile, FileCleaner, FileRenamer, FileCopier, DirectoryEnsurer, NonceProvider };
 
 const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
@@ -35,7 +37,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
     using fileRenamerRename = spyOn(FileRenamer, "rename");
 
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
-    const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
+    const temporary = tools.FilePathAbsolute.fromString(`/root/users/1/avatar-part-${mocks.nonce}.webp`);
     const final = tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp");
 
     const output = await adapter.putFromPath({ key, path: input });
@@ -54,7 +56,7 @@ describe("RemoteFileStorageDiskAdapter", () => {
     using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
-    const temporary = tools.FilePathAbsolute.fromString("/root/users/1/avatar-part.webp");
+    const temporary = tools.FilePathAbsolute.fromString(`/root/users/1/avatar-part-${mocks.nonce}.webp`);
 
     expect(adapter.putFromPath({ key, path: input })).rejects.toThrow(mocks.IntentionalError);
     expect(fileCleanerDelete).toHaveBeenCalledWith(temporary);

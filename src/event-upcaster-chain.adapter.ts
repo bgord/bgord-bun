@@ -23,7 +23,7 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
     );
 
     for (const [_, chain] of Object.entries(this.upcasters)) {
-      if (chain.length > 0 && chain[0].config.fromVersion !== 1) {
+      if (chain.length > 0 && chain[0]?.config.fromVersion !== 1) {
         throw new Error(EventUpcasterChainAdapterError.StartOffset);
       }
     }
