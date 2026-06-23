@@ -4,11 +4,15 @@ import * as v from "valibot";
 import type { AbVariables } from "../src/ab-hono.middleware";
 import { AbHonoNoopMiddleware } from "../src/ab-hono-noop.middleware";
 import { AbVariant } from "../src/ab-variant.vo";
+import { AbVariantName } from "../src/ab-variant-name.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 
 type Config = { Variables: AbVariables };
 
-const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
+const control = new AbVariant({
+  name: v.parse(AbVariantName, "control"),
+  weight: v.parse(AbVariantWeight, 50),
+});
 
 const app = new Hono<Config>()
   .use(new AbHonoNoopMiddleware(control).handle())

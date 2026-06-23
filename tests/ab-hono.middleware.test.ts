@@ -6,6 +6,7 @@ import { AbAssignmentHashStrategy } from "../src/ab-assignment-hash.strategy";
 import { AbAssignmentQueryStrategy } from "../src/ab-assignment-query.strategy";
 import { AbHonoMiddleware, type AbVariables } from "../src/ab-hono.middleware";
 import { AbVariant } from "../src/ab-variant.vo";
+import { AbVariantName } from "../src/ab-variant-name.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -15,8 +16,14 @@ import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy
 
 type Config = { Variables: AbVariables };
 
-const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
-const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
+const control = new AbVariant({
+  name: v.parse(AbVariantName, "control"),
+  weight: v.parse(AbVariantWeight, 50),
+});
+const treatment = new AbVariant({
+  name: v.parse(AbVariantName, "treatment"),
+  weight: v.parse(AbVariantWeight, 50),
+});
 const variants = new AbVariants([control, treatment]);
 
 const subject = new SubjectRequestResolver(

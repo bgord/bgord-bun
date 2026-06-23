@@ -1,13 +1,20 @@
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { AbVariant } from "../src/ab-variant.vo";
+import { AbVariantName } from "../src/ab-variant-name.vo";
 import { AbVariantSelector } from "../src/ab-variant-selector.service";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
 import { Hash } from "../src/hash.vo";
 
-const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
-const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
+const control = new AbVariant({
+  name: v.parse(AbVariantName, "control"),
+  weight: v.parse(AbVariantWeight, 50),
+});
+const treatment = new AbVariant({
+  name: v.parse(AbVariantName, "treatment"),
+  weight: v.parse(AbVariantWeight, 50),
+});
 
 const variants = new AbVariants([control, treatment]);
 
@@ -32,8 +39,14 @@ describe("AbVariantSelector", () => {
   });
 
   test("uneven split", () => {
-    const majority = new AbVariant({ name: "majority", weight: v.parse(AbVariantWeight, 90) });
-    const minority = new AbVariant({ name: "minority", weight: v.parse(AbVariantWeight, 10) });
+    const majority = new AbVariant({
+      name: v.parse(AbVariantName, "majority"),
+      weight: v.parse(AbVariantWeight, 90),
+    });
+    const minority = new AbVariant({
+      name: v.parse(AbVariantName, "minority"),
+      weight: v.parse(AbVariantWeight, 10),
+    });
     const selector = new AbVariantSelector(new AbVariants([majority, minority]));
 
     expect(selector.select(zeros)).toEqual(majority);
@@ -49,9 +62,18 @@ describe("AbVariantSelector", () => {
   });
 
   test("three variants", () => {
-    const variantA = new AbVariant({ name: "a", weight: v.parse(AbVariantWeight, 33) });
-    const variantB = new AbVariant({ name: "b", weight: v.parse(AbVariantWeight, 33) });
-    const variantC = new AbVariant({ name: "c", weight: v.parse(AbVariantWeight, 34) });
+    const variantA = new AbVariant({
+      name: v.parse(AbVariantName, "a"),
+      weight: v.parse(AbVariantWeight, 33),
+    });
+    const variantB = new AbVariant({
+      name: v.parse(AbVariantName, "b"),
+      weight: v.parse(AbVariantWeight, 33),
+    });
+    const variantC = new AbVariant({
+      name: v.parse(AbVariantName, "c"),
+      weight: v.parse(AbVariantWeight, 34),
+    });
     const selector = new AbVariantSelector(new AbVariants([variantA, variantB, variantC]));
 
     const selected = selector.select(a);

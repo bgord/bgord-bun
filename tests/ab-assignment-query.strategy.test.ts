@@ -2,12 +2,19 @@ import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { AbAssignmentQueryStrategy } from "../src/ab-assignment-query.strategy";
 import { AbVariant } from "../src/ab-variant.vo";
+import { AbVariantName } from "../src/ab-variant-name.vo";
 import { AbVariantWeight } from "../src/ab-variant-weight.vo";
 import { AbVariants } from "../src/ab-variants.vo";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const control = new AbVariant({ name: "control", weight: v.parse(AbVariantWeight, 50) });
-const treatment = new AbVariant({ name: "treatment", weight: v.parse(AbVariantWeight, 50) });
+const control = new AbVariant({
+  name: v.parse(AbVariantName, "control"),
+  weight: v.parse(AbVariantWeight, 50),
+});
+const treatment = new AbVariant({
+  name: v.parse(AbVariantName, "treatment"),
+  weight: v.parse(AbVariantWeight, 50),
+});
 const variants = new AbVariants([control, treatment]);
 
 const strategy = new AbAssignmentQueryStrategy("ab-override");
