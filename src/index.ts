@@ -10,6 +10,7 @@ export * from "./ab-assignment-query.strategy";
 export * from "./ab-hono.middleware";
 export * from "./ab-hono-noop.middleware";
 export * from "./ab-variant.vo";
+export * from "./ab-variant-name.vo";
 export * from "./ab-variant-selector.service";
 export * from "./ab-variant-weight.vo";
 export * from "./ab-variants.vo";

@@ -33,6 +33,7 @@ src/
 ├── ab-assignment.strategy.ts
 ├── ab-hono-noop.middleware.ts
 ├── ab-hono.middleware.ts
+├── ab-variant-name.vo.ts
 ├── ab-variant-selector.service.ts
 ├── ab-variant-weight.vo.ts
 ├── ab-variant.vo.ts
