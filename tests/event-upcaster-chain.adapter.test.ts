@@ -93,6 +93,12 @@ describe("EventUpcasterChainAdapter", () => {
     );
   });
 
+  test("start offset", () => {
+    expect(() => new EventUpcasterChainAdapter({ HOUR_HAS_PASSED_EVENT: [v2v3] })).toThrow(
+      "event.upcaster.chain.start.offset",
+    );
+  });
+
   test("gap in chain", () => {
     const v3v4 = new EventUpcasterStep<HourV3, HourV4>({
       fromVersion: 3,

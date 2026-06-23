@@ -6,6 +6,7 @@ import type { EventUpcasterStep } from "./event-upcaster-step.vo";
 const EventUpcasterChainAdapterError = {
   DuplicateStep: "event.upcaster.chain.duplicate.step",
   GapInChain: "event.upcaster.chain.gap",
+  StartOffset: "event.upcaster.chain.start.offset",
 };
 
 type EventUpcasterChainConfig = Record<GenericEvent["name"], ReadonlyArray<EventUpcasterStep<any, any>>>;
@@ -20,6 +21,12 @@ export class EventUpcasterChainAdapter implements EventUpcasterPort {
         [...chain].sort((a, b) => a.config.fromVersion - b.config.fromVersion),
       ]),
     );
+
+    for (const [_, chain] of Object.entries(this.upcasters)) {
+      if (chain.length > 0 && chain[0].config.fromVersion !== 1) {
+        throw new Error(EventUpcasterChainAdapterError.StartOffset);
+      }
+    }
 
     for (const chain of Object.values(this.upcasters)) {
       const versions = chain.map((step) => step.config.fromVersion);
