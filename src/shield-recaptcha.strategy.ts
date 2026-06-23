@@ -25,7 +25,7 @@ export class ShieldRecaptchaStrategy {
     try {
       const header = context.request.header("x-recaptcha-token");
       const query = context.request.query()["recaptchaToken"];
-      const remoteip = context.request.header("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
+      const remoteip = context.request.header("x-forwarded-for")?.split(",")[0] ?? "";
 
       const token = header ?? query ?? formToken;
 

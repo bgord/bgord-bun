@@ -18,6 +18,8 @@ describe("BasicAuthUsername", () => {
 
   test("rejects non-Latin characters", () => {
     expect(() => v.parse(BasicAuthUsername, "€")).toThrow("basic.auth.username.non.latin");
+    expect(() => v.parse(BasicAuthUsername, "€a")).toThrow("basic.auth.username.non.latin");
+    expect(() => v.parse(BasicAuthUsername, "\u0100")).toThrow("basic.auth.username.non.latin");
   });
 
   test("rejects empty", () => {

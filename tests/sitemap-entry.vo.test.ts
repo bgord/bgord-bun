@@ -35,10 +35,10 @@ describe("SitemapEntry", () => {
   });
 
   test("loc escaping", () => {
-    const loc = v.parse(SitemapUrl, "https://example.com/page?a=1&b=2<3\"4'5");
+    const loc = v.parse(SitemapUrl, "https://example.com/page?a=1&b=2<3\"4'5>");
 
     expect(new SitemapEntry({ loc }).toXml()).toEqual(
-      "<url><loc>https://example.com/page?a=1&amp;b=2&lt;3&quot;4&apos;5</loc></url>",
+      "<url><loc>https://example.com/page?a=1&amp;b=2&lt;3&quot;4&apos;5&gt;</loc></url>",
     );
   });
 });

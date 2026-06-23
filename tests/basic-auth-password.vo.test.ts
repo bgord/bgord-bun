@@ -18,6 +18,8 @@ describe("BasicAuthPassword", () => {
 
   test("rejects non-Latin characters", () => {
     expect(() => v.parse(BasicAuthPassword, "€")).toThrow("basic.auth.password.non.latin");
+    expect(() => v.parse(BasicAuthPassword, "€a")).toThrow("basic.auth.password.non.latin");
+    expect(() => v.parse(BasicAuthPassword, "\u0100")).toThrow("basic.auth.password.non.latin");
   });
 
   test("rejects empty", () => {
