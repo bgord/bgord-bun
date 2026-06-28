@@ -20,7 +20,7 @@
     "build": "bash scripts/package-build.sh"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.0",
+    "@biomejs/biome": "2.5.1",
     "@standard-schema/spec": "1.1.0",
     "@stryker-mutator/core": "9.6.1",
     "@stryker-mutator/typescript-checker": "9.6.1",
@@ -31,7 +31,7 @@
     "croner": "10.0.1",
     "cspell": "10.0.1",
     "csv": "6.6.0",
-    "fallow": "2.101.0",
+    "fallow": "2.102.0",
     "lefthook": "2.1.9",
     "lockfile-lint": "5.0.0",
     "nodemailer": "9.0.1",
@@ -43,7 +43,7 @@
   "dependencies": {
     "@bgord/tools": "1.5.18",
     "emittery": "2.0.0",
-    "hono": "4.12.26",
+    "hono": "4.12.27",
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
