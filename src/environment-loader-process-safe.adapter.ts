@@ -1,11 +1,11 @@
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import {
-  type EnvironmentLoaderConfig,
-  EnvironmentLoaderError,
-  type EnvironmentLoaderPort,
-  type EnvironmentResultType,
+import type {
+  EnvironmentLoaderConfig,
+  EnvironmentLoaderPort,
+  EnvironmentResultType,
 } from "./environment-loader.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
@@ -22,12 +22,9 @@ export class EnvironmentLoaderProcessSafeAdapter<T extends object> implements En
     const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], this.deps);
     const subject = await resolver.resolve();
 
-    const parsed = await this.deps.CacheResolver.resolve(subject.hex, async () => {
-      const result = this.config.EnvironmentSchema["~standard"].validate(this.env);
-      if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
-      if (result.issues) throw new Error(result.issues[0]?.message);
-      return result.value;
-    });
+    const parsed = await this.deps.CacheResolver.resolve(subject.hex, async () =>
+      StandardSchemaValidator.validate(this.config.EnvironmentSchema, this.env),
+    );
 
     for (const key of Object.keys(parsed)) delete process.env[key];
 

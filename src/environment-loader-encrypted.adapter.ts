@@ -1,12 +1,12 @@
 import util from "node:util";
 import type * as tools from "@bgord/tools";
 import type { EncryptionPort } from "./encryption.port";
-import {
-  type EnvironmentLoaderConfig,
-  EnvironmentLoaderError,
-  type EnvironmentLoaderPort,
-  type EnvironmentResultType,
+import type {
+  EnvironmentLoaderConfig,
+  EnvironmentLoaderPort,
+  EnvironmentResultType,
 } from "./environment-loader.port";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
 type Dependencies = { Encryption: EncryptionPort };
 
@@ -22,9 +22,9 @@ export class EnvironmentLoaderEncryptedAdapter<T extends object> implements Envi
     const plaintext = new TextDecoder().decode(file);
     const env = util.parseEnv(plaintext);
 
-    const result = this.config.EnvironmentSchema["~standard"].validate(env);
-    if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
-    if (result.issues) throw new Error(result.issues[0]?.message);
-    return Object.freeze({ ...result.value, type: this.config.type });
+    return Object.freeze({
+      ...StandardSchemaValidator.validate(this.config.EnvironmentSchema, env),
+      type: this.config.type,
+    });
   }
 }

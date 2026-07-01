@@ -1,9 +1,9 @@
-import {
-  type EnvironmentLoaderConfig,
-  EnvironmentLoaderError,
-  type EnvironmentLoaderPort,
-  type EnvironmentResultType,
+import type {
+  EnvironmentLoaderConfig,
+  EnvironmentLoaderPort,
+  EnvironmentResultType,
 } from "./environment-loader.port";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
 export class EnvironmentLoaderProcessAdapter<T extends object> implements EnvironmentLoaderPort<T> {
   constructor(
@@ -12,9 +12,9 @@ export class EnvironmentLoaderProcessAdapter<T extends object> implements Enviro
   ) {}
 
   async load(): Promise<Readonly<EnvironmentResultType<T>>> {
-    const result = this.config.EnvironmentSchema["~standard"].validate(this.env);
-    if (result instanceof Promise) throw new Error(EnvironmentLoaderError.NoAsyncSchema);
-    if (result.issues) throw new Error(result.issues[0]?.message);
-    return Object.freeze({ ...result.value, type: this.config.type });
+    return Object.freeze({
+      ...StandardSchemaValidator.validate(this.config.EnvironmentSchema, this.env),
+      type: this.config.type,
+    });
   }
 }

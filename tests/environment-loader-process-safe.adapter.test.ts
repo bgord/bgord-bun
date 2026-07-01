@@ -70,6 +70,6 @@ describe("EnvironmentLoaderProcessSafe", () => {
       deps,
     );
 
-    expect(async () => adapter.load()).toThrow("environment.loader.no.async.schema");
+    expect(async () => adapter.load()).toThrow("standard.schema.validate.error.no.async.schema");
   });
 });
