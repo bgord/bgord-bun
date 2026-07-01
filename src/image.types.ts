@@ -1,1 +1,1 @@
-export type ImageSupportedType = Exclude<Bun.Image.Format, "bmp" | "tiff" | "gif">;
+export type ImageSupportedType = "jpeg" | "png" | "webp";

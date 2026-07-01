@@ -1,11 +1,10 @@
 // cSpell:ignore setex
-import type { RedisClient } from "bun";
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { Hash } from "./hash.vo";
 
 export class CacheRepositoryRedisAdapter implements CacheRepositoryPort {
   constructor(
-    private readonly client: RedisClient,
+    private readonly client: Bun.RedisClient,
     private readonly config: CacheRepositoryTtlType,
   ) {}
 
