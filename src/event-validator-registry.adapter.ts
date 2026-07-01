@@ -1,9 +1,7 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import type { GenericEvent } from "./event.types";
-import {
-  EventValidatorRegistryError,
-  type EventValidatorRegistryPort,
-} from "./event-validator-registry.port";
+import type { EventValidatorRegistryPort } from "./event-validator-registry.port";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
 export type GenericEventSchemaRegistry<Event> = Readonly<
   Record<GenericEvent["name"], StandardSchemaV1<unknown, Event>>
@@ -34,10 +32,6 @@ export class EventValidatorRegistryAdapter<Event> implements EventValidatorRegis
     const schema = this.map.get(name);
     if (!schema) throw new Error(EventValidatorRegistryAdapterError.UnknownEvent);
 
-    const result = schema["~standard"].validate(raw);
-
-    if (result instanceof Promise) throw new Error(EventValidatorRegistryError.NoAsyncSchema);
-    if (result.issues) throw new Error(result.issues[0]?.message);
-    return result.value;
+    return StandardSchemaValidator.validate(schema, raw);
   }
 }

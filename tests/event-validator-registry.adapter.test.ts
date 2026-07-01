@@ -60,7 +60,7 @@ describe("EventValidatorRegistryAdapter", () => {
     });
 
     expect(() => registry.validate(mocks.GenericHourHasPassedEvent)).toThrow(
-      "event.validator.registry.no.async.schema",
+      "standard.schema.validate.error.no.async.schema",
     );
   });
 });
