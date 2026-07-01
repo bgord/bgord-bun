@@ -45,16 +45,12 @@ describe("JobRegistryAdapter", () => {
   });
 
   test("validate - async schema", () => {
-    const asyncSchema = {
-      "~standard": {
-        version: 1 as const,
-        vendor: "test",
-        validate: () => Promise.resolve({ value: mocks.GenericSendEmailJob }),
-      },
-    };
-
     const registry = new JobRegistryAdapter<SendEmailJobType>({
-      [SEND_EMAIL_JOB]: { schema: asyncSchema, retry, handler: async (_job) => {} },
+      [SEND_EMAIL_JOB]: {
+        schema: mocks.asyncSchemaCreator({ value: mocks.GenericSendEmailJob }),
+        retry,
+        handler: async (_job) => {},
+      },
     });
 
     expect(() => registry.validate(mocks.GenericSendEmailJob)).toThrow(

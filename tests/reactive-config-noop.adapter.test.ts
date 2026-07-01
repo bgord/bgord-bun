@@ -26,8 +26,7 @@ describe("ReactiveConfigNoopAdapter", () => {
   });
 
   test("failure - async schema", async () => {
-    // @ts-expect-error intentional schema mismatch
-    const adapter = new ReactiveConfigNoopAdapter(mocks.asyncSchema, {});
+    const adapter = new ReactiveConfigNoopAdapter(mocks.asyncSchemaCreator({ value: {} }), {});
 
     expect(async () => adapter.get()).toThrow("standard.schema.validate.error.no.async.schema");
   });

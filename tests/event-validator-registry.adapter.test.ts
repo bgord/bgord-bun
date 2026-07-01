@@ -46,16 +46,10 @@ describe("EventValidatorRegistryAdapter", () => {
   });
 
   test("validate - async schema", () => {
-    const asyncSchema = {
-      "~standard": {
-        version: 1 as const,
-        vendor: "test",
-        validate: () => Promise.resolve({ value: mocks.GenericHourHasPassedEvent }),
-      },
-    };
-
     const registry = new EventValidatorRegistryAdapter<AcceptedEvent>({
-      [System.Events.HOUR_HAS_PASSED_EVENT]: asyncSchema,
+      [System.Events.HOUR_HAS_PASSED_EVENT]: mocks.asyncSchemaCreator({
+        value: mocks.GenericHourHasPassedEvent,
+      }),
       [System.Events.MINUTE_HAS_PASSED_EVENT]: System.Events.MinuteHasPassedEvent,
     });
 

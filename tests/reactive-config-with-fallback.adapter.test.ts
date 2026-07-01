@@ -39,8 +39,7 @@ describe("ReactiveConfigWithFallbackAdapter", () => {
 
   test("fallback failure - async schema", async () => {
     using _ = spyOn(inner, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
-    // @ts-expect-error intentional schema mismatch
-    const adapter = new ReactiveConfigWithFallbackAdapter(inner, mocks.asyncSchema, {});
+    const adapter = new ReactiveConfigWithFallbackAdapter(inner, mocks.asyncSchemaCreator({ value: {} }), {});
 
     expect(async () => adapter.get()).toThrow("standard.schema.validate.error.no.async.schema");
   });
