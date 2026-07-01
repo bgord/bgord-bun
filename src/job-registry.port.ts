@@ -1,8 +1,6 @@
 import type { GenericJob } from "./job.types";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 
-export const JobRegistryError = { NoAsyncSchema: "job.registry.no.async.schema" };
-
 export type JobHandler<Job extends GenericJob> = (job: Job) => Promise<void>;
 
 export interface JobRegistryPort<Job extends GenericJob> {

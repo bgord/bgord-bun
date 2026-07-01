@@ -1,7 +1,8 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
 import type { GenericJob } from "./job.types";
-import { type JobHandler, JobRegistryError, type JobRegistryPort } from "./job-registry.port";
+import type { JobHandler, JobRegistryPort } from "./job-registry.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
 export type JobRegistryEntry<Specific extends GenericJob> = {
   schema: StandardSchemaV1<unknown, Specific>;
@@ -38,11 +39,7 @@ export class JobRegistryAdapter<Job extends GenericJob> implements JobRegistryPo
     const entry = this.map.get(name);
     if (!entry) throw new Error(JobRegistryAdapterError.UnknownJob);
 
-    const result = entry.schema["~standard"].validate(raw);
-
-    if (result instanceof Promise) throw new Error(JobRegistryError.NoAsyncSchema);
-    if (result.issues) throw new Error(result.issues[0]?.message);
-    return result.value;
+    return StandardSchemaValidator.validate(entry.schema, raw);
   }
 
   getRetryPolicy(name: GenericJob["name"]): JobRetryPolicyStrategy {

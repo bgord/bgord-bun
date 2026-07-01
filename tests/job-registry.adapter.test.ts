@@ -57,7 +57,9 @@ describe("JobRegistryAdapter", () => {
       [SEND_EMAIL_JOB]: { schema: asyncSchema, retry, handler: async (_job) => {} },
     });
 
-    expect(() => registry.validate(mocks.GenericSendEmailJob)).toThrow("job.registry.no.async.schema");
+    expect(() => registry.validate(mocks.GenericSendEmailJob)).toThrow(
+      "standard.schema.validate.error.no.async.schema",
+    );
   });
 
   test("getRetryPolicy", () => {
