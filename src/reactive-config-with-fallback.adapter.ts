@@ -1,8 +1,5 @@
-import {
-  ReactiveConfigError,
-  type ReactiveConfigPort,
-  type ReactiveConfigSchema,
-} from "./reactive-config.port";
+import type { ReactiveConfigPort, ReactiveConfigSchema } from "./reactive-config.port";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
 export class ReactiveConfigWithFallbackAdapter<T extends object> implements ReactiveConfigPort<T> {
   constructor(
@@ -15,10 +12,7 @@ export class ReactiveConfigWithFallbackAdapter<T extends object> implements Reac
     try {
       return await this.inner.get();
     } catch {
-      const result = this.schema["~standard"].validate(this.fallback);
-      if (result instanceof Promise) throw new Error(ReactiveConfigError.NoAsyncSchema);
-      if (result.issues) throw new Error(result.issues[0]?.message);
-      return Object.freeze(result.value);
+      return Object.freeze(StandardSchemaValidator.validate(this.schema, this.fallback));
     }
   }
 }

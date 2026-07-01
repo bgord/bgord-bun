@@ -42,6 +42,6 @@ describe("ReactiveConfigFileJsonAdapter", () => {
     const FileReaderJson = new FileReaderJsonNoopAdapter(config);
     const adapter = new ReactiveConfigFileJsonAdapter(path, mocks.asyncSchema, { FileReaderJson });
 
-    expect(async () => adapter.get()).toThrow("reactive.config.no.async.schema");
+    expect(async () => adapter.get()).toThrow("standard.schema.validate.error.no.async.schema");
   });
 });
