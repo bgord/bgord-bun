@@ -31,13 +31,13 @@
     "croner": "10.0.1",
     "cspell": "10.0.1",
     "csv": "6.6.1",
-    "fallow": "2.103.0",
+    "fallow": "3.1.0",
     "lefthook": "2.1.9",
     "lockfile-lint": "5.0.0",
     "nodemailer": "9.0.3",
     "publint": "0.3.21",
     "shellcheck": "4.1.0",
-    "typescript": "7.0.1-rc",
+    "typescript": "7.0.2",
     "yazl": "3.3.1"
   },
   "dependencies": {
