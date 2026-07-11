@@ -20,7 +20,7 @@
     "build": "bash scripts/package-build.sh"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.3",
     "@standard-schema/spec": "1.1.0",
     "@stryker-mutator/core": "9.6.1",
     "@stryker-mutator/typescript-checker": "9.6.1",
@@ -32,7 +32,7 @@
     "cspell": "10.0.1",
     "csv": "6.6.1",
     "fallow": "3.2.0",
-    "lefthook": "2.1.9",
+    "lefthook": "2.1.10",
     "lockfile-lint": "5.0.0",
     "nodemailer": "9.0.3",
     "publint": "0.3.21",
