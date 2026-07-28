@@ -1,23 +1,18 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import { BuildInfo, type BuildInfoType } from "../src/build-info.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CommitSha } from "../src/commit-sha.vo";
+import type { CommitShaValueType } from "../src/commit-sha-value.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventEnvelopeSchema, event } from "../src/event-envelope";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
-import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
+import { StaticConfigAdapter } from "../src/static-config.adapter";
 import * as mocks from "./mocks";
 
 const stream = "stream";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoConfig = new ReactiveConfigNoopAdapter<BuildInfoType>(BuildInfo, {
-  timestamp: tools.Timestamp.fromNumber(1767775662000).ms,
-  version: v.parse(tools.PackageVersionSchema, "v1.0.0"),
-  sha: CommitSha.fromString("a".repeat(40)).value,
-  size: tools.Size.fromBytes(0).toBytes(),
-});
+const CommitConfig = new StaticConfigAdapter<CommitShaValueType>(CommitSha.fromString("a".repeat(40)).value);
 
 describe("EventEnvelope", () => {
   test("schema", () => {
@@ -46,7 +41,7 @@ describe("EventEnvelope", () => {
     });
 
     expect(async () =>
-      event(Event, stream, { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider, BuildInfoConfig }),
+      event(Event, stream, { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider, CommitConfig }),
     ).toThrow("correlation.storage.missing");
   });
 
@@ -61,7 +56,7 @@ describe("EventEnvelope", () => {
       });
 
       expect(
-        await event(Event, stream, { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider, BuildInfoConfig }),
+        event(Event, stream, { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider, CommitConfig }),
       ).toEqual({
         correlationId: mocks.correlationId,
         id: mocks.correlationId,
@@ -87,11 +82,11 @@ describe("EventEnvelope", () => {
       });
 
       expect(
-        await event(
+        event(
           EventV2,
           stream,
           { timestamp: mocks.TIME_ZERO.ms, source: "system" },
-          { Clock, IdProvider, BuildInfoConfig },
+          { Clock, IdProvider, CommitConfig },
         ),
       ).toEqual({
         correlationId: mocks.correlationId,
