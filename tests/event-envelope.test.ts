@@ -40,7 +40,7 @@ describe("EventEnvelope", () => {
       payload: v.object({ timestamp: tools.TimestampValue }),
     });
 
-    expect(async () =>
+    expect(() =>
       event(Event, stream, { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider, CommitConfig }),
     ).toThrow("correlation.storage.missing");
   });
@@ -48,7 +48,7 @@ describe("EventEnvelope", () => {
   test("event", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
+    await CorrelationStorage.run(mocks.correlationId, () => {
       const Event = v.object({
         ...EventEnvelopeSchema,
         name: v.literal("EVENT"),
@@ -73,7 +73,7 @@ describe("EventEnvelope", () => {
   test("event - v2", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 
-    await CorrelationStorage.run(mocks.correlationId, async () => {
+    await CorrelationStorage.run(mocks.correlationId, () => {
       const EventV2 = v.object({
         ...EventEnvelopeSchema,
         version: v.literal(2),

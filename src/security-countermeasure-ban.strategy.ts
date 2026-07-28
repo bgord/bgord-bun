@@ -1,6 +1,6 @@
 import * as v from "valibot";
-import type { BuildInfoType } from "./build-info.vo";
 import type { ClockPort } from "./clock.port";
+import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { event } from "./event-envelope";
 import type { EventStorePort } from "./event-store.port";
@@ -10,13 +10,13 @@ import {
   SecurityViolationDetectedEvent,
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
-import type { ReactiveConfigPort } from "./reactive-config.port";
 import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import {
   SecurityCountermeasureName,
   type SecurityCountermeasureNameType,
 } from "./security-countermeasure-name.vo";
+import type { StaticConfigPort } from "./static-config.port";
 
 export const SecurityCountermeasureBanStrategyError = {
   Executed: "security.countermeasure.ban.strategy.executed",
@@ -27,7 +27,7 @@ type Dependencies = {
   Clock: ClockPort;
   Logger: LoggerPort;
   EventStore: EventStorePort<SecurityViolationDetectedEventType>;
-  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
+  CommitConfig: StaticConfigPort<CommitShaValueType>;
 };
 
 type Config = { response: { status: number } };
@@ -54,7 +54,7 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
     });
 
     await this.deps.EventStore.save([
-      await event(SecurityViolationDetectedEvent, "security", { action: action.kind, ...context }, this.deps),
+      event(SecurityViolationDetectedEvent, "security", { action: action.kind, ...context }, this.deps),
     ]);
 
     return action;

@@ -1,11 +1,11 @@
 import type * as tools from "@bgord/tools";
-import type { BuildInfoType } from "../../../build-info.vo";
 import type { ClockPort } from "../../../clock.port";
+import type { CommitShaValueType } from "../../../commit-sha-value.vo";
 import { event } from "../../../event-envelope";
 import type { EventStorePort } from "../../../event-store.port";
 import type { IdProviderPort } from "../../../id-provider.port";
 import type { Languages } from "../../../languages.vo";
-import type { ReactiveConfigPort } from "../../../reactive-config.port";
+import type { StaticConfigPort } from "../../../static-config.port";
 import type * as Commands from "../commands";
 import * as Events from "../events";
 import * as Invariants from "../invariants";
@@ -20,7 +20,7 @@ type Dependencies = {
   IdProvider: IdProviderPort;
   Clock: ClockPort;
   UserLanguageQuery: Ports.UserLanguageQueryPort;
-  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
+  CommitConfig: StaticConfigPort<CommitShaValueType>;
 };
 
 type AcceptedEvent = Events.UserLanguageSetEventType;
@@ -37,7 +37,7 @@ export const handleSetUserLanguageCommand =
     if (!Invariants.UserLanguageHasChanged.passes({ current, candidate })) return;
 
     await deps.EventStore.save([
-      await event(
+      event(
         Events.UserLanguageSetEvent,
         `preferences_${command.payload.userId}`,
         { userId: command.payload.userId, language: candidate },

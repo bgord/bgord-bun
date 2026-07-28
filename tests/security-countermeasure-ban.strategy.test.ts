@@ -1,28 +1,23 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import { BuildInfo, type BuildInfoType } from "../src/build-info.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CommitSha } from "../src/commit-sha.vo";
+import type { CommitShaValueType } from "../src/commit-sha-value.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import type { SecurityViolationDetectedEventType } from "../src/modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
-import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SecurityContext } from "../src/security-context.vo";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 import { SecurityRulePassStrategy } from "../src/security-rule-pass.strategy";
+import { StaticConfigAdapter } from "../src/static-config.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const BuildInfoConfig = new ReactiveConfigNoopAdapter<BuildInfoType>(BuildInfo, {
-  timestamp: tools.Timestamp.fromNumber(1767775662000).ms,
-  version: v.parse(tools.PackageVersionSchema, "v1.0.0"),
-  sha: CommitSha.fromString("a".repeat(40)).value,
-  size: tools.Size.fromBytes(0).toBytes(),
-});
+const CommitConfig = new StaticConfigAdapter<CommitShaValueType>(CommitSha.fromString("a".repeat(40)).value);
 
 const rule = new SecurityRulePassStrategy();
 
@@ -36,7 +31,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       EventStore,
       Logger,
       IdProvider,
-      BuildInfoConfig,
+      CommitConfig,
     });
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
 
@@ -69,7 +64,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       Clock,
       Logger,
       IdProvider,
-      BuildInfoConfig,
+      CommitConfig,
     });
     const contextWithoutClient = new SecurityContext(
       rule.name,
@@ -104,7 +99,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const config = { response: { status: 404 } };
     const countermeasure = new SecurityCountermeasureBanStrategy(
-      { EventStore, Clock, Logger, IdProvider, BuildInfoConfig },
+      { EventStore, Clock, Logger, IdProvider, CommitConfig },
       config,
     );
     const context = new SecurityContext(rule.name, countermeasure.name, mocks.client, undefined);
@@ -138,7 +133,7 @@ describe("SecurityCountermeasureBanStrategy", () => {
       Clock,
       Logger,
       IdProvider,
-      BuildInfoConfig,
+      CommitConfig,
     });
 
     expect(countermeasure.name).toEqual(v.parse(SecurityCountermeasureName, "ban"));
