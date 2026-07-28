@@ -1,16 +1,25 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { BuildInfo, type BuildInfoType } from "../src/build-info.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CommitSha } from "../src/commit-sha.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import * as Preferences from "../src/modules/preferences";
+import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import * as mocks from "./mocks";
 
 const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const deps = { Clock, IdProvider };
+const BuildInfoConfig = new ReactiveConfigNoopAdapter<BuildInfoType>(BuildInfo, {
+  timestamp: tools.Timestamp.fromNumber(1767775662000).ms,
+  version: v.parse(tools.PackageVersionSchema, "v1.0.0"),
+  sha: CommitSha.fromString("a".repeat(40)).value,
+  size: tools.Size.fromBytes(0).toBytes(),
+});
+const deps = { Clock, IdProvider, BuildInfoConfig };
 
 class UserLanguageQueryNoopAdapter implements Preferences.Ports.UserLanguageQueryPort {
   async get(): Promise<tools.LanguageType | null> {
