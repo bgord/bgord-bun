@@ -1,12 +1,16 @@
 // cspell:ignore Tarpit
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
+import { BuildInfo, type BuildInfoType } from "../src/build-info.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CommitSha } from "../src/commit-sha.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventStoreCollectingAdapter } from "../src/event-store-collecting.adapter";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import type { SecurityViolationDetectedEventType } from "../src/modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
+import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SecurityCountermeasureBanStrategy } from "../src/security-countermeasure-ban.strategy";
 import { SecurityCountermeasureMirageStrategy } from "../src/security-countermeasure-mirage.strategy";
 import { SecurityCountermeasureNoopStrategy } from "../src/security-countermeasure-noop.strategy";
@@ -20,7 +24,13 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const deps = { Logger, Clock };
+const BuildInfoConfig = new ReactiveConfigNoopAdapter<BuildInfoType>(BuildInfo, {
+  timestamp: tools.Timestamp.fromNumber(1767775662000).ms,
+  version: v.parse(tools.PackageVersionSchema, "v1.0.0"),
+  sha: CommitSha.fromString("a".repeat(40)).value,
+  size: tools.Size.fromBytes(0).toBytes(),
+});
+const deps = { Logger, Clock, BuildInfoConfig };
 
 const pass = new SecurityRulePassStrategy();
 const fail = new SecurityRuleFailStrategy();

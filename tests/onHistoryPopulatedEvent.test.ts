@@ -22,6 +22,7 @@ const event = v.parse(History.Events.HistoryPopulatedEvent, {
   createdAt: mocks.TIME_ZERO.ms,
   stream: "history_order",
   version: 1,
+  commit: mocks.SHA.value,
 });
 
 describe("onHistoryPopulatedEvent", () => {

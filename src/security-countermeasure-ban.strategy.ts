@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import type { BuildInfoType } from "./build-info.vo";
 import type { ClockPort } from "./clock.port";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { event } from "./event-envelope";
@@ -9,6 +10,7 @@ import {
   SecurityViolationDetectedEvent,
   type SecurityViolationDetectedEventType,
 } from "./modules/system/events/SECURITY_VIOLATION_DETECTED_EVENT";
+import type { ReactiveConfigPort } from "./reactive-config.port";
 import type { SecurityContext } from "./security-context.vo";
 import type { SecurityAction, SecurityCountermeasureStrategy } from "./security-countermeasure.strategy";
 import {
@@ -25,6 +27,7 @@ type Dependencies = {
   Clock: ClockPort;
   Logger: LoggerPort;
   EventStore: EventStorePort<SecurityViolationDetectedEventType>;
+  BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
 };
 
 type Config = { response: { status: number } };
@@ -51,7 +54,7 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
     });
 
     await this.deps.EventStore.save([
-      event(SecurityViolationDetectedEvent, "security", { action: action.kind, ...context }, this.deps),
+      await event(SecurityViolationDetectedEvent, "security", { action: action.kind, ...context }, this.deps),
     ]);
 
     return action;
