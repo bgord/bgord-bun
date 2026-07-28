@@ -158,6 +158,7 @@ export const GenericHourHasPassedEvent = {
   createdAt: TIME_ZERO.ms,
   stream: "passage_of_time",
   version: 1,
+  commit: SHA.value,
   name: "HOUR_HAS_PASSED_EVENT",
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.HourHasPassedEventType;
@@ -168,6 +169,7 @@ export const GenericMinuteHasPassedEvent = {
   createdAt: TIME_ZERO.ms,
   stream: "passage_of_time",
   version: 1,
+  commit: SHA.value,
   name: "MINUTE_HAS_PASSED_EVENT",
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.MinuteHasPassedEventType;
@@ -178,6 +180,7 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
   createdAt: TIME_ZERO.ms,
   stream: "security",
   version: 1,
+  commit: SHA.value,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
   payload: {
     rule: expect.any(String),
@@ -194,6 +197,7 @@ export const GenericSecurityViolationDetectedBanDenyWithoutContextEvent = {
   createdAt: TIME_ZERO.ms,
   stream: "security",
   version: 1,
+  commit: SHA.value,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
   payload: {
     rule: expect.any(String),
@@ -210,6 +214,7 @@ export const GenericUserLanguageSetEvent = {
   createdAt: TIME_ZERO.ms,
   stream: `preferences_${correlationId}`,
   version: 1,
+  commit: SHA.value,
   name: "USER_LANGUAGE_SET_EVENT",
   payload: { userId, language: languages.supported.pl },
 } satisfies Preferences.Events.UserLanguageSetEventType;
