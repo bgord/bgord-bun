@@ -580,6 +580,7 @@ src/
 ├── ssr-csp.ts
 ├── ssr.service.ts
 ├── standard-schema-validator.service.ts
+├── static-config.adapter.ts
 ├── static-config.port.ts
 ├── static-files-hono.service.ts
 ├── stopwatch.service.ts
