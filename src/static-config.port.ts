@@ -1,3 +1,3 @@
 export interface StaticConfigPort<T> {
-  get(): T;
+  get(): Readonly<T>;
 }
