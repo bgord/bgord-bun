@@ -1,5 +1,5 @@
 import type * as tools from "@bgord/tools";
-import { Duration } from "@bgord/tools";
+import { Duration, Revision } from "@bgord/tools";
 import type { RequestContext } from "../src/request-context.port";
 
 export class RequestContextBuilder {
@@ -17,6 +17,7 @@ export class RequestContextBuilder {
   private ip: string | undefined = undefined;
   private ua: string | undefined = undefined;
   private weakETag: tools.WeakETag | null = null;
+  private etag: tools.ETag | null = null;
   private timeZoneOffset: tools.Duration = Duration.ZERO;
   private language: tools.LanguageType = "en";
 
@@ -121,7 +122,10 @@ export class RequestContextBuilder {
         ua: () => this.ua,
       },
       middleware: {
-        weakETag: () => this.weakETag,
+        revision: {
+          fromWeakETag: () => Revision.fromWeakETag(this.weakETag),
+          fromETag: () => Revision.fromETag(this.etag),
+        },
         timeZoneOffset: () => this.timeZoneOffset,
         language: () => this.language,
       },

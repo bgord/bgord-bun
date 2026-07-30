@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import { getConnInfo } from "hono/bun";
 import { getCookie } from "hono/cookie";
@@ -68,7 +69,10 @@ export class RequestContextHonoAdapter implements RequestContext {
     };
 
     this.middleware = {
-      weakETag: () => context.get("WeakETag"),
+      revision: {
+        fromWeakETag: () => tools.Revision.fromWeakETag(context.get("WeakETag")),
+        fromETag: () => tools.Revision.fromETag(context.get("ETag")),
+      },
       timeZoneOffset: () => context.get("timeZoneOffset"),
       language: () => context.get("language"),
     };

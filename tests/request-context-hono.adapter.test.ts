@@ -1,6 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { ETagExtractorHeaderStrategy } from "../src/etag-extractor-header.strategy";
+import { ETagExtractorHonoMiddleware } from "../src/etag-extractor-hono.middleware";
 import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
 import { LanguageDetectorHonoMiddleware } from "../src/language-detector-hono.middleware";
 import { RequestContextHonoAdapter } from "../src/request-context-hono.adapter";
@@ -252,47 +254,88 @@ describe("RequestContextHonoAdapter", () => {
     expect(await response.json()).toEqual({ ua: "test-agent" });
   });
 
-  test("weakETag", async () => {
+  test("revision - fromWeakETag", async () => {
     const strategy = new WeakETagExtractorHeaderStrategy();
     const app = new Hono()
       .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({ weakETag: new RequestContextHonoAdapter(context).middleware.weakETag() }),
+        context.json({
+          revision: new RequestContextHonoAdapter(context).middleware.revision.fromWeakETag(),
+        }),
       );
 
     const response = await app.request("/test", {
       headers: { [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" },
     });
 
-    expect(await response.json()).toEqual({ weakETag: { revision: 12345, value: "W/12345" } });
+    expect(await response.json()).toEqual({ revision: 12345 });
   });
 
-  test("weakETag - missing header", async () => {
+  test("revision - fromWeakETag - missing header", async () => {
     const strategy = new WeakETagExtractorHeaderStrategy();
     const app = new Hono()
       .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({ weakETag: new RequestContextHonoAdapter(context).middleware.weakETag() }),
-      );
+        context.json({
+          revision: new RequestContextHonoAdapter(context).middleware.revision.fromWeakETag(),
+        }),
+      )
+      .onError((error, context) => context.json({ error: error.message }, 500));
 
     const response = await app.request("/test");
 
-    expect(await response.json()).toEqual({ weakETag: null });
+    expect(await response.json()).toEqual({ error: tools.RevisionError.Missing });
   });
 
-  test("weakETag - invalid header - format", async () => {
+  test("revision - fromWeakETag - invalid header - format", async () => {
     const strategy = new WeakETagExtractorHeaderStrategy();
     const app = new Hono()
       .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({ weakETag: new RequestContextHonoAdapter(context).middleware.weakETag() }),
-      );
+        context.json({
+          revision: new RequestContextHonoAdapter(context).middleware.revision.fromWeakETag(),
+        }),
+      )
+      .onError((error, context) => context.json({ error: error.message }, 500));
 
     const response = await app.request("/test", {
       headers: { [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid" },
     });
 
-    expect(await response.json()).toEqual({ weakETag: null });
+    expect(await response.json()).toEqual({ error: tools.RevisionError.Missing });
+  });
+
+  test("revision - fromETag", async () => {
+    const strategy = new ETagExtractorHeaderStrategy();
+    const app = new Hono()
+      .use(new ETagExtractorHonoMiddleware({ strategy }).handle())
+      .get("/test", (context) =>
+        context.json({
+          revision: new RequestContextHonoAdapter(context).middleware.revision.fromETag(),
+        }),
+      );
+
+    const response = await app.request("/test", {
+      headers: { [tools.ETag.IF_MATCH_HEADER_NAME]: "12345" },
+    });
+
+    expect(await response.json()).toEqual({ revision: 12345 });
+  });
+
+  test("revision - fromETag - missing header", async () => {
+    const strategy = new ETagExtractorHeaderStrategy();
+    const app = new Hono()
+      .use(new ETagExtractorHonoMiddleware({ strategy }).handle())
+      .get("/test", (context) =>
+        context.json({
+          revision: new RequestContextHonoAdapter(context).middleware.revision.fromETag(),
+        }),
+      )
+      .onError((error, context) => context.json({ error: error.message }, 500));
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ error: tools.RevisionError.Missing });
   });
 
   test("timeZoneOffset", async () => {

@@ -25,7 +25,7 @@ export interface RequestContext {
   };
 
   readonly middleware: {
-    weakETag(): tools.WeakETag | null;
+    revision: { fromWeakETag(): tools.Revision; fromETag(): tools.Revision };
     timeZoneOffset(): tools.Duration;
     language(): tools.LanguageType;
   };
@@ -95,8 +95,8 @@ export interface HasIdentityUa {
   readonly identity: { ua(): string | undefined };
 }
 
-export interface HasMiddlewareWeakETag {
-  readonly middleware: { weakETag(): tools.WeakETag | null };
+export interface HasMiddlewareRevision {
+  readonly middleware: { revision: { fromWeakETag(): tools.Revision; fromETag(): tools.Revision } };
 }
 
 export interface HasMiddlewareTimeZoneOffset {
