@@ -18,9 +18,8 @@ export class ShieldRecaptchaHonoStrategy implements MiddlewareHonoPort {
   handle(): MiddlewareHandler {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
-      const token = (await c.req.formData()).get("g-recaptcha-response")?.toString() ?? null;
 
-      if (await this.strategy.evaluate(context, token)) return next();
+      if (await this.strategy.evaluate(context)) return next();
 
       throw new HTTPException(403, { message: ShieldRecaptchaStrategyError.Rejected });
     };

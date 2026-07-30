@@ -2,12 +2,14 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import type { HasRequestHeader, HasRequestQuery } from "./request-context.port";
+import type { HasRequestForm, HasRequestHeader, HasRequestQuery } from "./request-context.port";
 
 export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType; threshold?: number };
 export type RecaptchaResult = { success: boolean; score: number };
 
 export const ShieldRecaptchaStrategyError = { Rejected: "shield.recaptcha.rejected" };
+
+export const ShieldRecaptchaStrategyField = "g-recaptcha-response";
 
 export class ShieldRecaptchaStrategy {
   private static readonly URL = v.parse(
@@ -19,13 +21,15 @@ export class ShieldRecaptchaStrategy {
 
   constructor(private readonly config: ShieldRecaptchaConfig) {}
 
-  async evaluate(context: HasRequestHeader & HasRequestQuery, formToken: string | null): Promise<boolean> {
+  async evaluate(context: HasRequestHeader & HasRequestQuery & HasRequestForm): Promise<boolean> {
     const threshold = this.config.threshold ?? ShieldRecaptchaStrategy.DEFAULT_THRESHOLD;
 
     try {
       const header = context.request.header("x-recaptcha-token");
       const query = context.request.query()["recaptchaToken"];
       const remoteip = context.request.header("x-forwarded-for")?.split(",")[0] ?? "";
+      const form = await context.request.form();
+      const formToken = form.get(ShieldRecaptchaStrategyField)?.toString();
 
       const token = header ?? query ?? formToken;
 

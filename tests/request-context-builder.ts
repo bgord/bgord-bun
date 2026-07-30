@@ -90,21 +90,6 @@ export class RequestContextBuilder {
     return this;
   }
 
-  withWeakETag(weakETag: tools.WeakETag | null) {
-    this.weakETag = weakETag;
-    return this;
-  }
-
-  withTimeZoneOffset(timeZoneOffset: tools.Duration) {
-    this.timeZoneOffset = timeZoneOffset;
-    return this;
-  }
-
-  withLanguage(language: tools.LanguageType) {
-    this.language = language;
-    return this;
-  }
-
   build(): RequestContext {
     return {
       request: {

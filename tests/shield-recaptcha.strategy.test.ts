@@ -2,7 +2,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as v from "valibot";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
-import { ShieldRecaptchaStrategy } from "../src/shield-recaptcha.strategy";
+import { ShieldRecaptchaStrategy, ShieldRecaptchaStrategyField } from "../src/shield-recaptcha.strategy";
 import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
@@ -25,7 +25,7 @@ describe("ShieldRecaptchaStrategy", () => {
       .withQuery({ recaptchaToken: VALID_TOKEN })
       .build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip }),
@@ -42,7 +42,7 @@ describe("ShieldRecaptchaStrategy", () => {
       .withQuery({ recaptchaToken: VALID_TOKEN })
       .build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip }),
@@ -56,7 +56,7 @@ describe("ShieldRecaptchaStrategy", () => {
     );
     const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
@@ -70,7 +70,23 @@ describe("ShieldRecaptchaStrategy", () => {
     );
     const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      headers: HEADERS,
+    });
+  });
+
+  test("happy path - form fallback", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9 })),
+    );
+    const form = new FormData();
+    form.set(ShieldRecaptchaStrategyField, VALID_TOKEN);
+    const context = new RequestContextBuilder().withForm(form).build();
+
+    expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
@@ -84,7 +100,7 @@ describe("ShieldRecaptchaStrategy", () => {
     );
     const context = new RequestContextBuilder().build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual(false);
     expect(globalFetch).not.toHaveBeenCalled();
   });
 
@@ -92,7 +108,7 @@ describe("ShieldRecaptchaStrategy", () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: false })));
     const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual(false);
   });
 
   test("failure - low score", async () => {
@@ -101,7 +117,7 @@ describe("ShieldRecaptchaStrategy", () => {
     );
     const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual(false);
   });
 
   test("failure - custom threshold", async () => {
@@ -114,13 +130,13 @@ describe("ShieldRecaptchaStrategy", () => {
       threshold: 0.2,
     });
 
-    expect(await strategy.evaluate(context, null)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual(false);
   });
 
   test("failure - fetch throws", async () => {
     using _ = spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
     const context = new RequestContextBuilder().withHeader("x-recaptcha-token", VALID_TOKEN).build();
 
-    expect(await strategy.evaluate(context, null)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual(false);
   });
 });
