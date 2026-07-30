@@ -12,8 +12,10 @@ export class FileUploaderHonoMiddleware implements MiddlewareHonoPort {
   }
 
   handle() {
-    return createMiddleware(async (context, next) => {
-      const result = await this.middleware.validate(new RequestContextHonoAdapter(context));
+    return createMiddleware(async (c, next) => {
+      const context = new RequestContextHonoAdapter(c);
+
+      const result = await this.middleware.validate(context);
 
       if (result.valid === false) throw new HTTPException(400, { message: result.error });
       return next();
