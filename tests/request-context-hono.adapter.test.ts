@@ -149,6 +149,36 @@ describe("RequestContextHonoAdapter", () => {
     expect(await response.json()).toEqual({ text: "" });
   });
 
+  test("form", async () => {
+    const app = new Hono().post("/test", async (context) =>
+      context.json({
+        name: (await new RequestContextHonoAdapter(context).request.form()).get("name"),
+      }),
+    );
+
+    const form = new FormData();
+    form.append("name", "abc");
+
+    const response = await app.request("/test", { method: "POST", body: form });
+
+    expect(await response.json()).toEqual({ name: "abc" });
+  });
+
+  test("form - invalid", async () => {
+    const app = new Hono().post("/test", async (context) => {
+      const form = await new RequestContextHonoAdapter(context).request.form();
+      return context.json({ size: [...form.entries()].length });
+    });
+
+    const response = await app.request("/test", {
+      method: "POST",
+      headers: { "content-type": "multipart/form-data" },
+      body: "invalid",
+    });
+
+    expect(await response.json()).toEqual({ size: 0 });
+  });
+
   test("userId", async () => {
     const app = new Hono<Config>().get(
       "/test",

@@ -10,6 +10,7 @@ export class RequestContextBuilder {
   private cookies: Record<string, string> = {};
   private json: Record<string, unknown> = {};
   private text = "";
+  private form = new FormData();
   private userId: string | undefined = undefined;
   private ip: string | undefined = undefined;
   private ua: string | undefined = undefined;
@@ -46,6 +47,11 @@ export class RequestContextBuilder {
 
   withText(text: string) {
     this.text = text;
+    return this;
+  }
+
+  withForm(form: FormData) {
+    this.form = form;
     return this;
   }
 
@@ -102,6 +108,7 @@ export class RequestContextBuilder {
         cookie: (name) => this.cookies[name],
         json: async () => this.json,
         text: async () => this.text,
+        form: async () => this.form,
       },
       identity: {
         userId: () => this.userId,

@@ -12,6 +12,7 @@ export interface RequestContext {
     cookie(name: string): string | undefined;
     json(): Promise<Record<string, unknown>>;
     text(): Promise<string>;
+    form(): Promise<FormData>;
     headers: () => Headers;
     headersObject: () => Record<string, string>;
   };
@@ -69,6 +70,10 @@ export interface HasRequestJSON {
 
 export interface HasRequestText {
   readonly request: { text(): Promise<string> };
+}
+
+export interface HasRequestForm {
+  readonly request: { form(): Promise<FormData> };
 }
 
 export interface HasIdentityUserId {
