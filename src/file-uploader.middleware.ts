@@ -1,6 +1,7 @@
 import * as tools from "@bgord/tools";
+import type { HasRequestForm } from "./request-context.port";
 
-export type FileUploaderConfig = { MimeRegistry: tools.MimeRegistry; maxSize: tools.Size };
+export type FileUploaderConfig = { MimeRegistry: tools.MimeRegistry; maxSize: tools.Size; field: string };
 
 export const FileUploaderError = {
   MissingFile: "file.uploader.missing.file",
@@ -16,8 +17,11 @@ export type FileValidationResult = { valid: true } | { valid: false; error: File
 export class FileUploaderMiddleware {
   constructor(private readonly config: FileUploaderConfig) {}
 
-  validate(file: File | null): FileValidationResult {
-    if (!file) return { valid: false, error: FileUploaderError.MissingFile };
+  async validate(context: HasRequestForm): Promise<FileValidationResult> {
+    const form = await context.request.form();
+    const file = form.get(this.config.field);
+
+    if (!(file instanceof File)) return { valid: false, error: FileUploaderError.MissingFile };
     if (file.size === 0) return { valid: false, error: FileUploaderError.EmptyFile };
 
     const size = tools.Size.fromBytes(file.size);
