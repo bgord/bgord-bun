@@ -6,6 +6,7 @@ import type { RequestContext } from "./request-context.port";
 export class RequestContextHonoAdapter implements RequestContext {
   readonly request: RequestContext["request"];
   readonly identity: RequestContext["identity"];
+  readonly middleware: RequestContext["middleware"];
 
   constructor(context: Context) {
     this.request = {
@@ -64,6 +65,12 @@ export class RequestContextHonoAdapter implements RequestContext {
         context.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
         getConnInfo(context).remote.address,
       ua: () => context.req.header("user-agent"),
+    };
+
+    this.middleware = {
+      weakETag: () => context.get("WeakETag"),
+      timeZoneOffset: () => context.get("timeZoneOffset"),
+      language: () => context.get("language"),
     };
   }
 }

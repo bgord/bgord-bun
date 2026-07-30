@@ -1,3 +1,4 @@
+import type * as tools from "@bgord/tools";
 import type { UUIDType } from "./uuid.vo";
 
 export interface RequestContext {
@@ -21,6 +22,12 @@ export interface RequestContext {
     userId(): UUIDType | undefined;
     ip(): string | undefined;
     ua(): string | undefined;
+  };
+
+  readonly middleware: {
+    weakETag(): tools.WeakETag | null;
+    timeZoneOffset(): tools.Duration;
+    language(): tools.LanguageType;
   };
 }
 
@@ -86,4 +93,16 @@ export interface HasIdentityIp {
 
 export interface HasIdentityUa {
   readonly identity: { ua(): string | undefined };
+}
+
+export interface HasMiddlewareWeakETag {
+  readonly middleware: { weakETag(): tools.WeakETag | null };
+}
+
+export interface HasMiddlewareTimeZoneOffset {
+  readonly middleware: { timeZoneOffset(): tools.Duration };
+}
+
+export interface HasMiddlewareLanguage {
+  readonly middleware: { language(): tools.LanguageType };
 }
