@@ -1,3 +1,5 @@
+import type * as tools from "@bgord/tools";
+import { Duration } from "@bgord/tools";
 import type { RequestContext } from "../src/request-context.port";
 
 export class RequestContextBuilder {
@@ -14,6 +16,9 @@ export class RequestContextBuilder {
   private userId: string | undefined = undefined;
   private ip: string | undefined = undefined;
   private ua: string | undefined = undefined;
+  private weakETag: tools.WeakETag | null = null;
+  private timeZoneOffset: tools.Duration = Duration.ZERO;
+  private language: tools.LanguageType = "en";
 
   withPath(path: string) {
     this.path = path;
@@ -85,6 +90,21 @@ export class RequestContextBuilder {
     return this;
   }
 
+  withWeakETag(weakETag: tools.WeakETag | null) {
+    this.weakETag = weakETag;
+    return this;
+  }
+
+  withTimeZoneOffset(timeZoneOffset: tools.Duration) {
+    this.timeZoneOffset = timeZoneOffset;
+    return this;
+  }
+
+  withLanguage(language: tools.LanguageType) {
+    this.language = language;
+    return this;
+  }
+
   build(): RequestContext {
     return {
       request: {
@@ -114,6 +134,11 @@ export class RequestContextBuilder {
         userId: () => this.userId,
         ip: () => this.ip,
         ua: () => this.ua,
+      },
+      middleware: {
+        weakETag: () => this.weakETag,
+        timeZoneOffset: () => this.timeZoneOffset,
+        language: () => this.language,
       },
     };
   }

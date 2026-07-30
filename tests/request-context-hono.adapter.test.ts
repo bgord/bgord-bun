@@ -1,6 +1,13 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.strategy";
+import { LanguageDetectorHonoMiddleware } from "../src/language-detector-hono.middleware";
 import { RequestContextHonoAdapter } from "../src/request-context-hono.adapter";
+import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
+import { TimeZoneOffsetHonoMiddleware } from "../src/time-zone-offset-hono.middleware";
+import { WeakETagExtractorHeaderStrategy } from "../src/weak-etag-extractor-header.strategy";
+import { WeakETagExtractorHonoMiddleware } from "../src/weak-etag-extractor-hono.middleware";
 import * as mocks from "./mocks";
 
 type Config = { Variables: { user: { id: number } } };
@@ -243,5 +250,113 @@ describe("RequestContextHonoAdapter", () => {
     const response = await app.request("/test", { headers: { "user-agent": "test-agent" } });
 
     expect(await response.json()).toEqual({ ua: "test-agent" });
+  });
+
+  test("weakETag", async () => {
+    const strategy = new WeakETagExtractorHeaderStrategy();
+    const app = new Hono()
+      .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
+      .get("/test", (context) =>
+        context.json({ weakETag: new RequestContextHonoAdapter(context).middleware.weakETag() }),
+      );
+
+    const response = await app.request("/test", {
+      headers: { [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" },
+    });
+
+    expect(await response.json()).toEqual({ weakETag: { revision: 12345, value: "W/12345" } });
+  });
+
+  test("weakETag - missing header", async () => {
+    const strategy = new WeakETagExtractorHeaderStrategy();
+    const app = new Hono()
+      .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
+      .get("/test", (context) =>
+        context.json({ weakETag: new RequestContextHonoAdapter(context).middleware.weakETag() }),
+      );
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ weakETag: null });
+  });
+
+  test("weakETag - invalid header - format", async () => {
+    const strategy = new WeakETagExtractorHeaderStrategy();
+    const app = new Hono()
+      .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
+      .get("/test", (context) =>
+        context.json({ weakETag: new RequestContextHonoAdapter(context).middleware.weakETag() }),
+      );
+
+    const response = await app.request("/test", {
+      headers: { [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid" },
+    });
+
+    expect(await response.json()).toEqual({ weakETag: null });
+  });
+
+  test("timeZoneOffset", async () => {
+    const app = new Hono().use(new TimeZoneOffsetHonoMiddleware().handle()).get("/test", (context) =>
+      context.json({
+        timeZoneOffset: new RequestContextHonoAdapter(context).middleware.timeZoneOffset().ms,
+      }),
+    );
+
+    const response = await app.request("/test", {
+      headers: { [TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME]: "120" },
+    });
+
+    expect(await response.json()).toEqual({ timeZoneOffset: tools.Duration.Minutes(120).ms });
+  });
+
+  test("timeZoneOffset - missing header", async () => {
+    const app = new Hono().use(new TimeZoneOffsetHonoMiddleware().handle()).get("/test", (context) =>
+      context.json({
+        timeZoneOffset: new RequestContextHonoAdapter(context).middleware.timeZoneOffset().ms,
+      }),
+    );
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ timeZoneOffset: tools.Duration.Minutes(0).ms });
+  });
+
+  test("timeZoneOffset - invalid header - format", async () => {
+    const app = new Hono().use(new TimeZoneOffsetHonoMiddleware().handle()).get("/test", (context) =>
+      context.json({
+        timeZoneOffset: new RequestContextHonoAdapter(context).middleware.timeZoneOffset().ms,
+      }),
+    );
+
+    const response = await app.request("/test", {
+      headers: { [TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME]: "invalid-offset" },
+    });
+
+    expect(await response.json()).toEqual({ timeZoneOffset: tools.Duration.Minutes(0).ms });
+  });
+
+  test("language", async () => {
+    const header = new LanguageDetectorHeaderStrategy();
+    const app = new Hono()
+      .use(new LanguageDetectorHonoMiddleware({ languages: mocks.languages, strategies: [header] }).handle())
+      .get("/test", (context) =>
+        context.json({ language: new RequestContextHonoAdapter(context).middleware.language() }),
+      );
+
+    const response = await app.request("/test", { headers: { "Accept-Language": "pl-PL" } });
+
+    expect(await response.json()).toEqual({ language: mocks.languages.supported.pl });
+  });
+
+  test("language - fallback", async () => {
+    const app = new Hono()
+      .use(new LanguageDetectorHonoMiddleware({ languages: mocks.languages, strategies: [] }).handle())
+      .get("/test", (context) =>
+        context.json({ language: new RequestContextHonoAdapter(context).middleware.language() }),
+      );
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ language: mocks.languages.fallback });
   });
 });
