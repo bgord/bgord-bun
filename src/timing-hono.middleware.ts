@@ -21,7 +21,7 @@ export class TimingHonoMiddleware implements MiddlewareHonoPort {
 
       if (!timing) return next();
 
-      c.header(TimingMiddleware.HEADER_NAME, timing);
+      c.header(TimingMiddleware.HEADER_NAME, timing, { append: true });
     });
   }
 }

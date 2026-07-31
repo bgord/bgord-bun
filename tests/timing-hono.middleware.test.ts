@@ -23,6 +23,20 @@ describe("TimingHonoMiddleware", () => {
     expect(await response.text()).toEqual("ok");
   });
 
+  test("sync - appends Server-Timing header", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/ping", (c) => {
+      c.header(TimingMiddleware.HEADER_NAME, "db;dur=5");
+      Clock.advanceBy(duration);
+      return c.text("ok");
+    });
+
+    const response = await app.request("/ping");
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual(`db;dur=5, total;dur=${duration}`);
+  });
+
   test("sync - streaming", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/ping", (c) => {
