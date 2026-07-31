@@ -43,4 +43,15 @@ describe("ApiVersionHonoMiddleware", async () => {
 
     await CacheRepository.flush();
   });
+
+  test("failure", async () => {
+    using _ = spyOn(deps.BuildInfoConfig, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    const response = await app.request("/ping", { method: "GET" });
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(ApiVersionMiddleware.HEADER_NAME)).toEqual(null);
+
+    await CacheRepository.flush();
+  });
 });

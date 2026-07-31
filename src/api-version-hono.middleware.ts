@@ -21,9 +21,11 @@ export class ApiVersionHonoMiddleware implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (c, next) => {
-      const version = await this.middleware.evaluate();
+      try {
+        const version = await this.middleware.evaluate();
 
-      c.header(ApiVersionMiddleware.HEADER_NAME, version.toString());
+        c.header(ApiVersionMiddleware.HEADER_NAME, version.toString());
+      } catch {}
 
       return next();
     };
