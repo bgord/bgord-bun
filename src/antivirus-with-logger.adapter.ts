@@ -31,7 +31,7 @@ export class AntivirusWithLoggerAdapter implements AntivirusPort {
       this.deps.Logger.info({
         message: "Antivirus scan success",
         correlationId: CorrelationStorage.get(),
-        metadata: { clean: result.clean, duration: duration.stop() },
+        metadata: { ...result, duration: duration.stop() },
         ...this.base,
       });
 

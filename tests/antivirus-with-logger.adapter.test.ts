@@ -36,6 +36,33 @@ describe("AntivirusWithLoggerAdapter", () => {
     ]);
   });
 
+  test("scan - detected", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const inner = new AntivirusNoopAdapter();
+    using _ = spyOn(inner, "scan").mockResolvedValue({ clean: false, signature: "Test-Signature" });
+    const adapter = new AntivirusWithLoggerAdapter({ inner, Logger, Clock });
+
+    expect(
+      await CorrelationStorage.run(mocks.correlationId, async () => adapter.scan(mocks.cleanFile)),
+    ).toEqual({ clean: false, signature: "Test-Signature" });
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        operation: "antivirus",
+        message: "Antivirus scan attempt",
+        correlationId: mocks.correlationId,
+        metadata: { size: 3 },
+      },
+      {
+        component: "infra",
+        operation: "antivirus",
+        message: "Antivirus scan success",
+        correlationId: mocks.correlationId,
+        metadata: { clean: false, signature: "Test-Signature", duration: expect.any(tools.Duration) },
+      },
+    ]);
+  });
+
   test("scan - failure", async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new AntivirusNoopAdapter();
