@@ -22,36 +22,46 @@ describe("SubjectApplicationResolver", () => {
   test("fixed", async () => {
     const result = await new SubjectApplicationResolver([request], deps).resolve();
 
-    expect(result.raw).toEqual(["request"]);
+    expect(result.raw).toEqual([["fixed", "request"]]);
     expect(result.hex).toEqual(
-      Hash.fromString("a0cfbaaad23ecf3571470996e24f20c36e2b97d19682619de6a353f2bfa9b8e2"),
+      Hash.fromString("e3d06b9edd360d43783f602c8e520a48e78437648c625cbf7be9095683079858"),
     );
   });
 
   test("two fixed", async () => {
     const result = await new SubjectApplicationResolver([request, response], deps).resolve();
 
-    expect(result.raw).toEqual(["request", "response"]);
+    expect(result.raw).toEqual([
+      ["fixed", "request"],
+      ["fixed", "response"],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("2229bc6a24359f2ccf0c9a70a2b1d246e51bba5df54bd8927f7aa3f5965e9b57"),
+      Hash.fromString("fbc7d9e4b276bdd49e392796d4a30bb752a1a0c9b4e18906a8f13765483f7da5"),
     );
   });
 
   test("fixed, env", async () => {
     const result = await new SubjectApplicationResolver([request, env], deps).resolve();
 
-    expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production]);
+    expect(result.raw).toEqual([
+      ["fixed", "request"],
+      ["env", NodeEnvironmentEnum.production],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("90382b2ba1f0b50b2ddb4248896229d668e75476b841a8d760cd21fb750b8581"),
+      Hash.fromString("89d36fcd40f1744d135861c092aef088185159fe7da9db85753b7fe753dfd969"),
     );
   });
 
   test("fixed, env, build", async () => {
     const result = await new SubjectApplicationResolver([request, env, build], deps).resolve();
 
-    expect(result.raw).toEqual(["request", NodeEnvironmentEnum.production, version.toString()]);
+    expect(result.raw).toEqual([
+      ["fixed", "request"],
+      ["env", NodeEnvironmentEnum.production],
+      ["build", version.toString()],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("36be7d57dd6e3131e73ec1964248412b65d7a1912f36a9f57c4fe393e19f4ed3"),
+      Hash.fromString("435878fe5af32044c66ee3fc54cb8fafe76417bb80aa714ebd5d5222f25b6ed1"),
     );
   });
 

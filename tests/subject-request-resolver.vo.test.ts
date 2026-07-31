@@ -28,9 +28,9 @@ describe("SubjectRequestResolver", () => {
 
     const result = await new SubjectRequestResolver([fixed], deps).resolve(context);
 
-    expect(result.raw).toEqual(["response"]);
+    expect(result.raw).toEqual([["fixed", "response"]]);
     expect(result.hex).toEqual(
-      Hash.fromString("d26d4f55806083f067207948ce977e0ae3d5e84df796d58441909de2c247c170"),
+      Hash.fromString("2545e03d0b1c5c0e78b95be323eac3cc378ef9c5570ead3f1cfe872a220373ac"),
     );
   });
 
@@ -39,9 +39,12 @@ describe("SubjectRequestResolver", () => {
 
     const result = await new SubjectRequestResolver([fixed, method], deps).resolve(context);
 
-    expect(result.raw).toEqual(["response", "POST"]);
+    expect(result.raw).toEqual([
+      ["fixed", "response"],
+      ["method", "POST"],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("89f21a1c6fe4d18c052da73daca5c15bef0cda7af5339622e76dc6210773dec0"),
+      Hash.fromString("c31f21e48b34e403ffbbb14d9ad84f86d75fb9475ef5c98288878ee26b6b6fe6"),
     );
   });
 
@@ -50,9 +53,13 @@ describe("SubjectRequestResolver", () => {
 
     const result = await new SubjectRequestResolver([fixed, method, path], deps).resolve(context);
 
-    expect(result.raw).toEqual(["response", "POST", "/about"]);
+    expect(result.raw).toEqual([
+      ["fixed", "response"],
+      ["method", "POST"],
+      ["path", "/about"],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("7f2092678cd226cad93065c8a07d277422b473a39d62d5cd1a88fc577854d97a"),
+      Hash.fromString("48464f433b119f5b0ded641b33bbb3f2f9333e44f8b0fda543cc627f3823c4e0"),
     );
   });
 
@@ -67,9 +74,14 @@ describe("SubjectRequestResolver", () => {
       context,
     );
 
-    expect(result.raw).toEqual(["response", "POST", "/about", "en"]);
+    expect(result.raw).toEqual([
+      ["fixed", "response"],
+      ["method", "POST"],
+      ["path", "/about"],
+      ["cookie:language", "en"],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("db78668c2d2f6b781ec24ab7dc8b4b956437f8b6c19b0644f6c237606601615b"),
+      Hash.fromString("f3cb1c6b9a88d8c964429be92b0945b43eafc5b4b6c4f1b0da4d7d03d5147ce1"),
     );
   });
 
@@ -86,9 +98,15 @@ describe("SubjectRequestResolver", () => {
       deps,
     ).resolve(context);
 
-    expect(result.raw).toEqual(["response", "POST", "/about", "en", "application/json"]);
+    expect(result.raw).toEqual([
+      ["fixed", "response"],
+      ["method", "POST"],
+      ["path", "/about"],
+      ["cookie:language", "en"],
+      ["header:accept", "application/json"],
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("33997b29733cfc972972c8ffebb28c0aeb1c6aec658eaa63aa289e4d57006b61"),
+      Hash.fromString("ac0eb135d26e496699332fbeb60e678a43a50eee42c115b8afce26439009a8c2"),
     );
   });
 
@@ -107,15 +125,15 @@ describe("SubjectRequestResolver", () => {
     ).resolve(context);
 
     expect(result.raw).toEqual([
-      "response",
-      "POST",
-      "/about",
-      "en",
-      "application/json",
-      `[["aaa",["123"]],["bbb",["234"]]]`,
+      ["fixed", "response"],
+      ["method", "POST"],
+      ["path", "/about"],
+      ["cookie:language", "en"],
+      ["header:accept", "application/json"],
+      ["query", `[["aaa",["123"]],["bbb",["234"]]]`],
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("7ab08f41208830f8640dfd0ee091cdd6486d72767b99dec8859eb14ec4fe3fbc"),
+      Hash.fromString("0d9cfed53ebbeee9a87c29693424295629a13ddebd8d2a72044055a1e2091feb"),
     );
   });
 
@@ -135,16 +153,16 @@ describe("SubjectRequestResolver", () => {
     ).resolve(context);
 
     expect(result.raw).toEqual([
-      "response",
-      "POST",
-      "/about",
-      "en",
-      "application/json",
-      `[["aaa",["123"]],["bbb",["234"]]]`,
-      "123456789",
+      ["fixed", "response"],
+      ["method", "POST"],
+      ["path", "/about"],
+      ["cookie:language", "en"],
+      ["header:accept", "application/json"],
+      ["query", `[["aaa",["123"]],["bbb",["234"]]]`],
+      ["user", "123456789"],
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("e4e98d1a25dfeee7695ce8b8e0323182b58fe01f10aa2c81914f200c68c1cf35"),
+      Hash.fromString("f71c843742eb58c699eb0ff0ef25cc172c926f6998ac31d1db91efe42aa5a3c8"),
     );
   });
 
