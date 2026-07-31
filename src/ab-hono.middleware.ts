@@ -17,9 +17,13 @@ export class AbHonoMiddleware implements MiddlewareHonoPort {
   handle(): MiddlewareHandler {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
-      const variant = await this.middleware.evaluate(context);
 
-      c.set("abVariant", variant);
+      try {
+        const variant = await this.middleware.evaluate(context);
+        c.set("abVariant", variant);
+      } catch (error) {
+        c.set("abVariant", undefined);
+      }
 
       return next();
     };

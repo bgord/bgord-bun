@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import * as v from "valibot";
 import { AbAssignmentCompositeStrategy } from "../src/ab-assignment-composite.strategy";
@@ -13,6 +13,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 
 type Config = { Variables: AbVariables };
 
@@ -68,5 +69,17 @@ describe("AbHonoMiddleware", () => {
     const response = await app.request("/test");
 
     expect(await response.text()).toEqual(treatment.config.name);
+  });
+
+  test("failure", async () => {
+    using _ = spyOn(hash, "assign").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const app = new Hono<Config>()
+      .use(new AbHonoMiddleware(hash).handle())
+      .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+
+    const response = await app.request("/test");
+
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("unknown");
   });
 });
