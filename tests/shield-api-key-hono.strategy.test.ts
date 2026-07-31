@@ -15,7 +15,7 @@ const app = new Hono()
   .get("/ping", (c) => c.text("OK"))
   .onError((error, c) => {
     if (error.message === ShieldApiKeyStrategyError.Rejected) {
-      return c.json({ message: ShieldApiKeyStrategyError.Rejected, _known: true }, 403);
+      return c.json({ message: ShieldApiKeyStrategyError.Rejected, _known: true }, 401);
     }
     return c.json({}, 500);
   });
@@ -35,7 +35,7 @@ describe("ShieldApiKeyStrategy", () => {
     const result = await app.request("/ping", { method: "GET" });
     const json = await result.json();
 
-    expect(result.status).toEqual(403);
+    expect(result.status).toEqual(401);
     expect(json.message).toEqual("shield.api.key.rejected");
   });
 
@@ -46,7 +46,7 @@ describe("ShieldApiKeyStrategy", () => {
     });
     const json = await result.json();
 
-    expect(result.status).toEqual(403);
+    expect(result.status).toEqual(401);
     expect(json.message).toEqual("shield.api.key.rejected");
   });
 
@@ -57,7 +57,7 @@ describe("ShieldApiKeyStrategy", () => {
     });
     const json = await result.json();
 
-    expect(result.status).toEqual(403);
+    expect(result.status).toEqual(401);
     expect(json.message).toEqual("shield.api.key.rejected");
   });
 
@@ -68,7 +68,7 @@ describe("ShieldApiKeyStrategy", () => {
     });
     const json = await result.json();
 
-    expect(result.status).toEqual(403);
+    expect(result.status).toEqual(401);
     expect(json.message).toEqual("shield.api.key.rejected");
   });
 });

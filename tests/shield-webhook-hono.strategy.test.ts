@@ -28,7 +28,7 @@ const app = new Hono()
   .post("/webhook", ShieldWebhook.handle(), (c) => c.text("ok"))
   .onError((error, c) => {
     if (error.message === ShieldWebhookStrategyError.Rejected) {
-      return c.json({ message: ShieldWebhookStrategyError.Rejected, _known: true }, 403);
+      return c.json({ message: ShieldWebhookStrategyError.Rejected, _known: true }, 401);
     }
     return c.json({}, 500);
   });
@@ -48,7 +48,7 @@ describe("ShieldWebhookHonoStrategy", () => {
     const response = await app.request("/webhook", { method: "POST", body });
     const json = await response.json();
 
-    expect(response.status).toEqual(403);
+    expect(response.status).toEqual(401);
     expect(json.message).toEqual("shield.webhook.rejected");
   });
 
@@ -59,13 +59,13 @@ describe("ShieldWebhookHonoStrategy", () => {
       headers: { [header]: wrongSignature },
     });
 
-    expect(response.status).toEqual(403);
+    expect(response.status).toEqual(401);
   });
 
   test("evaluate - false - no body", async () => {
     const response = await app.request("/webhook", { method: "POST", headers: { [header]: signature } });
 
-    expect(response.status).toEqual(403);
+    expect(response.status).toEqual(401);
   });
 
   test("evaluate - false - wrong body", async () => {
@@ -75,6 +75,6 @@ describe("ShieldWebhookHonoStrategy", () => {
       headers: { [header]: signature },
     });
 
-    expect(response.status).toEqual(403);
+    expect(response.status).toEqual(401);
   });
 });

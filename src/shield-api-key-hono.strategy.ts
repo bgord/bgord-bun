@@ -20,7 +20,7 @@ export class ShieldApiKeyHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw new HTTPException(403, { message: ShieldApiKeyStrategyError.Rejected });
+      throw new HTTPException(401, { message: ShieldApiKeyStrategyError.Rejected });
     };
   }
 }

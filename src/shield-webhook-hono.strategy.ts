@@ -20,7 +20,7 @@ export class ShieldWebhookHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (await this.strategy.evaluate(context)) return next();
-      throw new HTTPException(403, { message: ShieldWebhookStrategyError.Rejected });
+      throw new HTTPException(401, { message: ShieldWebhookStrategyError.Rejected });
     };
   }
 }
