@@ -59,8 +59,16 @@ describe("AbHonoMiddleware", () => {
   });
 
   test("idempotence", async () => {
-    const first = await app.request("/test", { headers: { Cookie: "session=user-123" } });
-    const second = await app.request("/test", { headers: { Cookie: "session=user-123" } });
+    const app = new Hono<Config>()
+      .use(async (c, next) => {
+        c.set("user", { id: "user-123" });
+        return next();
+      })
+      .use(new AbHonoMiddleware(hash).handle())
+      .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+
+    const first = await app.request("/test");
+    const second = await app.request("/test");
 
     expect(await first.text()).toEqual(await second.text());
   });

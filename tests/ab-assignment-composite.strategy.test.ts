@@ -65,4 +65,8 @@ describe("AbAssignmentCompositeStrategy", () => {
 
     expect(await composite.assign(context)).toEqual(undefined);
   });
+
+  test("no strategies", () => {
+    expect(() => new AbAssignmentCompositeStrategy([])).toThrow("ab.assignment.composite.strategies.min");
+  });
 });
