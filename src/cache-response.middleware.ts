@@ -2,9 +2,9 @@ import type { CacheResolverStrategy, CacheSourceEnum } from "./cache-resolver.st
 import type { RequestContext } from "./request-context.port";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
-type Dependencies = { CacheResolver: CacheResolverStrategy };
+export type CacheResponseMiddlewareDependencies = { CacheResolver: CacheResolverStrategy };
 
-export type CacheResponseConfig = { enabled: boolean; resolver: SubjectRequestResolver };
+export type CacheResponseMiddlewareConfig = { enabled: boolean; resolver: SubjectRequestResolver };
 
 export type CachedResponse<T = string> = {
   body: T;
@@ -21,8 +21,8 @@ export class CacheResponseMiddleware {
   static readonly CACHE_HIT_HEADER = "Cache-Hit";
 
   constructor(
-    private readonly config: CacheResponseConfig,
-    private readonly deps: Dependencies,
+    private readonly config: CacheResponseMiddlewareConfig,
+    private readonly deps: CacheResponseMiddlewareDependencies,
   ) {}
 
   async evaluate<T = string>(

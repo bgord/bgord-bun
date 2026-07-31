@@ -1,15 +1,12 @@
 import { createMiddleware } from "hono/factory";
-import type { ClockPort } from "./clock.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-import { TimingMiddleware } from "./timing.middleware";
-
-type Dependencies = { Clock: ClockPort };
+import { TimingMiddleware, type TimingMiddlewareDependencies } from "./timing.middleware";
 
 export class TimingHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: TimingMiddleware;
 
-  constructor(deps: Dependencies) {
+  constructor(deps: TimingMiddlewareDependencies) {
     this.middleware = new TimingMiddleware(deps);
   }
 

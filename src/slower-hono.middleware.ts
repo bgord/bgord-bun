@@ -1,15 +1,12 @@
 import type * as tools from "@bgord/tools";
 import type { MiddlewareHandler } from "hono";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import type { SleeperPort } from "./sleeper.port";
-import { SlowerMiddleware } from "./slower.middleware";
-
-type Dependencies = { Sleeper: SleeperPort };
+import { SlowerMiddleware, type SlowerMiddlewareDependencies } from "./slower.middleware";
 
 export class SlowerHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: SlowerMiddleware;
 
-  constructor(offset: tools.Duration, deps: Dependencies) {
+  constructor(offset: tools.Duration, deps: SlowerMiddlewareDependencies) {
     this.middleware = new SlowerMiddleware(offset, deps);
   }
 

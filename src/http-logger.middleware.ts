@@ -25,7 +25,7 @@ export const UNINFORMATIVE_HEADERS = [
   "priority",
 ];
 
-type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
+export type HttpLoggerMiddlewareDependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 export type HttpLoggerConfig = { skip?: ReadonlyArray<string | URLPattern> };
 
@@ -39,7 +39,7 @@ export type HttpLoggerAfterInput = {
 
 export class HttpLoggerMiddleware {
   constructor(
-    private readonly deps: Dependencies,
+    private readonly deps: HttpLoggerMiddlewareDependencies,
     private readonly config?: HttpLoggerConfig,
   ) {}
 

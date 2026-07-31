@@ -1,17 +1,17 @@
 import { createMiddleware } from "hono/factory";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
-import type { CacheResolverStrategy } from "./cache-resolver.strategy";
-import type { CacheResponseConfig } from "./cache-response.middleware";
-import { CacheResponseMiddleware } from "./cache-response.middleware";
+import {
+  CacheResponseMiddleware,
+  type CacheResponseMiddlewareConfig,
+  type CacheResponseMiddlewareDependencies,
+} from "./cache-response.middleware";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-
-type Dependencies = { CacheResolver: CacheResolverStrategy };
 
 export class CacheResponseHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: CacheResponseMiddleware;
 
-  constructor(config: CacheResponseConfig, deps: Dependencies) {
+  constructor(config: CacheResponseMiddlewareConfig, deps: CacheResponseMiddlewareDependencies) {
     this.middleware = new CacheResponseMiddleware(config, deps);
   }
 

@@ -1,18 +1,18 @@
 import type { MiddlewareHandler } from "hono";
 import { CacheSourceEnum } from "./cache-resolver.strategy";
 import { CacheResponseMiddleware } from "./cache-response.middleware";
-import type { ClockPort } from "./clock.port";
-import { type HttpLoggerConfig, HttpLoggerMiddleware } from "./http-logger.middleware";
-import type { LoggerPort } from "./logger.port";
+import {
+  type HttpLoggerConfig,
+  HttpLoggerMiddleware,
+  type HttpLoggerMiddlewareDependencies,
+} from "./http-logger.middleware";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-
-type Dependencies = { Logger: LoggerPort; Clock: ClockPort };
 
 export class HttpLoggerHonoMiddleware implements MiddlewareHonoPort {
   private readonly middleware: HttpLoggerMiddleware;
 
-  constructor(deps: Dependencies, config?: HttpLoggerConfig) {
+  constructor(deps: HttpLoggerMiddlewareDependencies, config?: HttpLoggerConfig) {
     this.middleware = new HttpLoggerMiddleware(deps, config);
   }
 

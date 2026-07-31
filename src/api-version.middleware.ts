@@ -6,7 +6,7 @@ import type { ReactiveConfigPort } from "./reactive-config.port";
 import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
-type Dependencies = {
+export type ApiVersionMiddlewareDependencies = {
   CacheResolver: CacheResolverStrategy;
   HashContent: HashContentStrategy;
   BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
@@ -17,7 +17,7 @@ export class ApiVersionMiddleware {
 
   private readonly resolver: SubjectApplicationResolver;
 
-  constructor(private readonly deps: Dependencies) {
+  constructor(private readonly deps: ApiVersionMiddlewareDependencies) {
     this.resolver = new SubjectApplicationResolver(
       [new SubjectSegmentFixedStrategy("api-version")],
       this.deps,

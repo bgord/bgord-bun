@@ -1,19 +1,16 @@
 import { createMiddleware } from "hono/factory";
-import { CorrelationMiddleware } from "./correlation.middleware";
+import { CorrelationMiddleware, type CorrelationMiddlewareDependencies } from "./correlation.middleware";
 import { CorrelationStorage } from "./correlation-storage.service";
-import type { IdProviderPort } from "./id-provider.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import type { UUIDType } from "./uuid.vo";
-
-type Dependencies = { IdProvider: IdProviderPort };
 
 export type CorrelationVariables = { correlationId: UUIDType };
 
 export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
   private readonly correlationId: CorrelationMiddleware;
 
-  constructor(deps: Dependencies) {
+  constructor(deps: CorrelationMiddlewareDependencies) {
     this.correlationId = new CorrelationMiddleware(deps);
   }
 

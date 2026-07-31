@@ -2,12 +2,12 @@ import type { ClockPort } from "./clock.port";
 import type { HasRequestHeader } from "./request-context.port";
 import { Stopwatch } from "./stopwatch.service";
 
-type Dependencies = { Clock: ClockPort };
+export type TimingMiddlewareDependencies = { Clock: ClockPort };
 
 export class TimingMiddleware {
   static readonly HEADER_NAME = "Server-Timing";
 
-  constructor(private readonly deps: Dependencies) {}
+  constructor(private readonly deps: TimingMiddlewareDependencies) {}
 
   async measure(context: HasRequestHeader, action: () => void | Promise<void>): Promise<string | null> {
     if (TimingMiddleware.isEventStream(context.request.header("accept"))) return null;
