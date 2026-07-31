@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import {
   AuthSessionReaderNoopAdapter,
   type AuthSessionReaderNoopSessionType,
@@ -13,6 +13,8 @@ const session = { id: "session-123" };
 type Env = {
   Variables: { user: AuthSessionReaderNoopUserType | null; session: AuthSessionReaderNoopSessionType | null };
 };
+
+const onError = (_error: Error, c: Context) => c.text("internal error", 500);
 
 describe("ShieldAuthHonoStrategy", () => {
   test("attach", async () => {
@@ -79,14 +81,17 @@ describe("ShieldAuthHonoStrategy", () => {
     expect(await response.text()).toEqual("shield.auth.rejected");
   });
 
-  test("verify - no attach", async () => {
+  test("verify - no attached", async () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
     const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
-    const app = new Hono<Env>().use(strategy.verify).get("/", (c) => c.text("ok"));
+    const app = new Hono<Env>()
+      .use(strategy.verify)
+      .get("/", (c) => c.text("ok"))
+      .onError(onError);
 
     const response = await app.request("/");
 
-    expect(response.status).toEqual(401);
+    expect(response.status).toEqual(500);
   });
 
   test("reverse - guest user", async () => {
@@ -104,6 +109,19 @@ describe("ShieldAuthHonoStrategy", () => {
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("ok");
+  });
+
+  test("reverse - no attached", async () => {
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
+    const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
+    const app = new Hono<Env>()
+      .use(strategy.reverse)
+      .get("/", (c) => c.text("ok"))
+      .onError(onError);
+
+    const response = await app.request("/");
+
+    expect(response.status).toEqual(500);
   });
 
   test("reverse - authenticated user", async () => {

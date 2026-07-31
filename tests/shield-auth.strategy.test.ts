@@ -43,11 +43,25 @@ describe("ShieldAuthStrategy", () => {
     expect(strategy.verify(null)).toEqual(false);
   });
 
+  test("verify - not attached", () => {
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
+
+    expect(() => strategy.verify(undefined)).toThrow("shield.auth.not.attached");
+  });
+
   test("reverse - guest user", () => {
     const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: null, session: null });
     const strategy = new ShieldAuthStrategy({ AuthSessionReader });
 
     expect(strategy.reverse(null)).toEqual(true);
+  });
+
+  test("reverse - not attached", () => {
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user, session });
+    const strategy = new ShieldAuthStrategy({ AuthSessionReader });
+
+    expect(() => strategy.reverse(undefined)).toThrow("shield.auth.not.attached");
   });
 
   test("reverse - authenticated user", () => {
