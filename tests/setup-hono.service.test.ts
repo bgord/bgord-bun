@@ -64,7 +64,7 @@ describe("SetupHono", () => {
     const response = await app.request("/data/", {}, mocks.connInfo);
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data");
+    expect(response.headers.get("location")).toEqual("/data");
   });
 
   test("correlation - forwarding", async () => {

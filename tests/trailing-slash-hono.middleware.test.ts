@@ -27,7 +27,7 @@ describe("TrailingSlashHonoMiddleware", () => {
     const response = await app.request("/data/");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data");
+    expect(response.headers.get("location")).toEqual("/data");
   });
 
   test("redirect - nested path with trailing slash", async () => {
@@ -36,42 +36,42 @@ describe("TrailingSlashHonoMiddleware", () => {
     const response = await app.request("/api/users/");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/api/users");
+    expect(response.headers.get("location")).toEqual("/api/users");
   });
 
   test("redirect - preserves query string", async () => {
     const response = await app.request("/data/?page=1");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data?page=1");
+    expect(response.headers.get("location")).toEqual("/data?page=1");
   });
 
   test("redirect - preserves hash", async () => {
     const response = await app.request("/data/#section");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data#section");
+    expect(response.headers.get("location")).toEqual("/data#section");
   });
 
   test("redirect - preserves query and hash", async () => {
     const response = await app.request("/data/?page=1#section");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data?page=1#section");
+    expect(response.headers.get("location")).toEqual("/data?page=1#section");
   });
 
   test("redirect - two trailing slashes", async () => {
     const response = await app.request("/data//");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data");
+    expect(response.headers.get("location")).toEqual("/data");
   });
 
   test("redirect - three trailing slashes", async () => {
     const response = await app.request("/data///");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/data");
+    expect(response.headers.get("location")).toEqual("/data");
   });
 
   test("redirect - root path with extra trailing slashes", async () => {
@@ -80,6 +80,22 @@ describe("TrailingSlashHonoMiddleware", () => {
     const response = await app.request("//");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("http://localhost/");
+    expect(response.headers.get("location")).toEqual("/");
+  });
+
+  test("redirect - no protocol-relative location", async () => {
+    const app = new Hono().use(middleware.handle()).get("/evil.com", (c) => c.text("ok"));
+
+    const response = await app.request("//evil.com/");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("/evil.com");
+  });
+
+  test("redirect - no host header in the location", async () => {
+    const response = await app.request("/data/", { headers: { host: "evil.example" } });
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("/data");
   });
 });

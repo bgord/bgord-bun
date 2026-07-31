@@ -56,4 +56,16 @@ describe("TrailingSlashMiddleware", () => {
 
     expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/", status: 308 });
   });
+
+  test("redirect - no protocol-relative location", () => {
+    const context = new RequestContextBuilder().withPath("//evil.com/").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/evil.com", status: 308 });
+  });
+
+  test("redirect - no host header in the location", async () => {
+    const context = new RequestContextBuilder().withPath("/data/").withHeader("host", "evil.example").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/data", status: 308 });
+  });
 });
