@@ -51,6 +51,20 @@ describe("TimingHonoMiddleware", () => {
     expect(await response.text()).toEqual("ok");
   });
 
+  test("clamps a negative duration to zero", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/ping", (c) => {
+      Clock.advanceBy(tools.Duration.Ms(-50));
+      return c.text("ok");
+    });
+
+    const response = await app.request("/ping");
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual("total;dur=0");
+    expect(await response.text()).toEqual("ok");
+  });
+
   test("async", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/async", async (c) => {

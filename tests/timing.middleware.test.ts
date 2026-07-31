@@ -34,6 +34,15 @@ describe("TimingMiddleware", () => {
     expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual(null);
   });
 
+  test("clamps a negative duration to zero", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const middleware = new TimingMiddleware({ Clock });
+
+    expect(await middleware.measure(context, () => Clock.advanceBy(tools.Duration.Ms(-50)))).toEqual(
+      "total;dur=0",
+    );
+  });
+
   test("async", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const middleware = new TimingMiddleware({ Clock });

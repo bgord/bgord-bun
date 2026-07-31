@@ -16,6 +16,6 @@ export class TimingMiddleware {
 
     await action();
 
-    return `total;dur=${stopwatch.stop().ms}`;
+    return `total;dur=${Math.max(0, stopwatch.stop().ms)}`;
   }
 }
