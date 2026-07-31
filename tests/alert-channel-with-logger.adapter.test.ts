@@ -24,7 +24,7 @@ describe("AlertChannelWithLoggerAdapter", () => {
         operation: "alert_channel",
         message: "Alert channel attempt",
         correlationId: mocks.correlationId,
-        metadata: mocks.alert.toJSON(),
+        metadata: { alert: mocks.alert.toJSON() },
       },
       {
         component: "infra",
@@ -50,7 +50,7 @@ describe("AlertChannelWithLoggerAdapter", () => {
       operation: "alert_channel",
       message: "Alert channel attempt",
       correlationId: mocks.correlationId,
-      metadata: mocks.alert.toJSON(),
+      metadata: { alert: mocks.alert.toJSON() },
     });
     expect(Logger.entries[1]).toEqual({
       component: "infra",

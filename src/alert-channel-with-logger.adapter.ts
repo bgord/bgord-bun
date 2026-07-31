@@ -23,7 +23,7 @@ export class AlertChannelWithLoggerAdapter implements AlertChannelPort {
       this.deps.Logger.info({
         message: "Alert channel attempt",
         correlationId: CorrelationStorage.get(),
-        metadata: alert.toJSON(),
+        metadata: { alert: alert.toJSON() },
         ...this.base,
       });
 
