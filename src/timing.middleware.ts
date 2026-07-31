@@ -10,12 +10,21 @@ export class TimingMiddleware {
   constructor(private readonly deps: Dependencies) {}
 
   async measure(context: HasRequestHeader, action: () => void | Promise<void>): Promise<string | null> {
-    if (context.request.header("accept")?.toLowerCase().startsWith("text/event-stream")) return null;
+    if (TimingMiddleware.isEventStream(context.request.header("accept"))) return null;
 
     const stopwatch = new Stopwatch(this.deps);
 
     await action();
 
     return `total;dur=${Math.max(0, stopwatch.stop().ms)}`;
+  }
+
+  private static isEventStream(accept: string | undefined): boolean {
+    if (!accept) return false;
+
+    return accept
+      .toLowerCase()
+      .split(",")
+      .some((type) => type.split(";")[0]?.trim() === "text/event-stream");
   }
 }

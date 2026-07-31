@@ -34,6 +34,14 @@ describe("TimingMiddleware", () => {
     expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual(null);
   });
 
+  test("sync - SSE - multi-value accept list", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const middleware = new TimingMiddleware({ Clock });
+    const context = new RequestContextBuilder().withHeader("accept", "text/html, text/event-stream").build();
+
+    expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual(null);
+  });
+
   test("clamps a negative duration to zero", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const middleware = new TimingMiddleware({ Clock });
