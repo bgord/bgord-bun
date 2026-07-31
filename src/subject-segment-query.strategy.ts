@@ -11,9 +11,7 @@ export class SubjectSegmentQueryStrategy implements SubjectSegmentRequestStrateg
 
     const keys = Object.keys(query).toSorted();
 
-    const result = keys.map((key) => `${key}=${query[key]}`).join("&");
-
-    if (!result) return SubjectSegmentRequestEmpty;
-    return result;
+    if (keys.length === 0) return SubjectSegmentRequestEmpty;
+    return JSON.stringify(keys.map((key) => [key, query[key]]));
   }
 }

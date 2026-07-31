@@ -4,8 +4,8 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentCookieStrategy } from "../src/subject-segment-cookie.strategy";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
-import { SubjectSegmentMethodStrategy } from "../src/subject-segment-method.strategy";
 import { SubjectSegmentHeaderStrategy } from "../src/subject-segment-header.strategy";
+import { SubjectSegmentMethodStrategy } from "../src/subject-segment-method.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentQueryStrategy } from "../src/subject-segment-query.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
@@ -106,9 +106,16 @@ describe("SubjectRequestResolver", () => {
       deps,
     ).resolve(context);
 
-    expect(result.raw).toEqual(["response", "POST", "/about", "en", "application/json", "aaa=123&bbb=234"]);
+    expect(result.raw).toEqual([
+      "response",
+      "POST",
+      "/about",
+      "en",
+      "application/json",
+      `[["aaa","123"],["bbb","234"]]`,
+    ]);
     expect(result.hex).toEqual(
-      Hash.fromString("45c3813f8b1ff7e3f714424446ee25963b62c2a0109c37e7b631bdd8d04e741d"),
+      Hash.fromString("b461a2c441f6d6fa199b9bb242b9db604037bedd03d0016b4f55eb0143444c2c"),
     );
   });
 
@@ -133,11 +140,11 @@ describe("SubjectRequestResolver", () => {
       "/about",
       "en",
       "application/json",
-      "aaa=123&bbb=234",
+      `[["aaa","123"],["bbb","234"]]`,
       "123456789",
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("59f2081f71598edef7f995dae6aa4b43ef7fec5abc20bab7f2928af9b1065730"),
+      Hash.fromString("244f88bbee6e2992a311d560b5696baf160ecca5aa785eeffd70fd371a9be69b"),
     );
   });
 
