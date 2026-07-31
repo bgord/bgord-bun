@@ -119,8 +119,8 @@ src/
 ├── directory-ensurer-noop.adapter.ts
 ├── directory-ensurer.adapter.ts
 ├── directory-ensurer.port.ts
+├── disk-space-checker-fs.adapter.ts
 ├── disk-space-checker-noop.adapter.ts
-├── disk-space-checker-shell.adapter.ts
 ├── disk-space-checker.port.ts
 ├── dynamic-import.service.ts
 ├── encryption-aes-gcm.adapter.ts
