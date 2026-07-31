@@ -8,7 +8,7 @@ describe("SubjectSegmentQueryStrategy", () => {
   test("happy path", () => {
     const context = new RequestContextBuilder().withQuery({ aaa: "123", bbb: "234" }).build();
 
-    expect(segment.create(context)).toEqual(`[["aaa","123"],["bbb","234"]]`);
+    expect(segment.create(context)).toEqual(`[["aaa",["123"]],["bbb",["234"]]]`);
   });
 
   test("empty", () => {
@@ -29,5 +29,12 @@ describe("SubjectSegmentQueryStrategy", () => {
     const separate = new RequestContextBuilder().withQuery({ a: "b", c: "d" }).build();
 
     expect(segment.create(encoded)).not.toEqual(segment.create(separate));
+  });
+
+  test("do not drop repeated keys", () => {
+    const repeated = new RequestContextBuilder().withQueries({ a: ["1", "2"] }).build();
+    const single = new RequestContextBuilder().withQuery({ a: "1" }).build();
+
+    expect(segment.create(repeated)).not.toEqual(segment.create(single));
   });
 });

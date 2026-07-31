@@ -112,10 +112,10 @@ describe("SubjectRequestResolver", () => {
       "/about",
       "en",
       "application/json",
-      `[["aaa","123"],["bbb","234"]]`,
+      `[["aaa",["123"]],["bbb",["234"]]]`,
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("b461a2c441f6d6fa199b9bb242b9db604037bedd03d0016b4f55eb0143444c2c"),
+      Hash.fromString("7ab08f41208830f8640dfd0ee091cdd6486d72767b99dec8859eb14ec4fe3fbc"),
     );
   });
 
@@ -140,11 +140,11 @@ describe("SubjectRequestResolver", () => {
       "/about",
       "en",
       "application/json",
-      `[["aaa","123"],["bbb","234"]]`,
+      `[["aaa",["123"]],["bbb",["234"]]]`,
       "123456789",
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("244f88bbee6e2992a311d560b5696baf160ecca5aa785eeffd70fd371a9be69b"),
+      Hash.fromString("e4e98d1a25dfeee7695ce8b8e0323182b58fe01f10aa2c81914f200c68c1cf35"),
     );
   });
 
