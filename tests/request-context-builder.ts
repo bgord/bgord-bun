@@ -7,7 +7,7 @@ export class RequestContextBuilder {
   private method = "";
   private url = "/";
   private headers = new Headers();
-  private query: Record<string, string> = {};
+  private queries: Record<string, Array<string>> = {};
   private params: Record<string, string> = {};
   private cookies: Record<string, string> = {};
   private json: Record<string, unknown> = {};
@@ -62,7 +62,12 @@ export class RequestContextBuilder {
   }
 
   withQuery(query: Record<string, string>) {
-    this.query = query;
+    this.queries = Object.fromEntries(Object.entries(query).map(([key, value]) => [key, [value]]));
+    return this;
+  }
+
+  withQueries(queries: Record<string, Array<string>>) {
+    this.queries = queries;
     return this;
   }
 
@@ -108,7 +113,8 @@ export class RequestContextBuilder {
           return headers;
         },
         headers: () => this.headers,
-        query: () => this.query,
+        query: () => Object.fromEntries(Object.entries(this.queries).map(([key, value]) => [key, value[0]])),
+        queries: () => this.queries,
         params: () => this.params,
         param: (name: string) => this.params[name],
         cookie: (name) => this.cookies[name],

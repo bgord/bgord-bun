@@ -85,6 +85,16 @@ describe("RequestContextHonoAdapter", () => {
     expect(await response.json()).toEqual({ query: { aaa: "123", bbb: "234" } });
   });
 
+  test("queries", async () => {
+    const app = new Hono().get("/test", (context) =>
+      context.json({ queries: new RequestContextHonoAdapter(context).request.queries() }),
+    );
+
+    const response = await app.request("/test?aaa=123&aaa=234");
+
+    expect(await response.json()).toEqual({ queries: { aaa: ["123", "234"] } });
+  });
+
   test("params", async () => {
     const app = new Hono().get("/test/:id/:context", (context) =>
       context.json({ params: new RequestContextHonoAdapter(context).request.params() }),

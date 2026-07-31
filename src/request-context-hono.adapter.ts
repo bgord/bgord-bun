@@ -26,6 +26,7 @@ export class RequestContextHonoAdapter implements RequestContext {
         return headers;
       },
       query: () => context.req.query(),
+      queries: () => context.req.queries(),
       params: () => context.req.param(),
       param: (name: string) => context.req.param(name),
       cookie: (name) => getCookie(context)[name],

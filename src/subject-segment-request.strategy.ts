@@ -6,7 +6,7 @@ import type {
   HasRequestMethod,
   HasRequestParam,
   HasRequestPath,
-  HasRequestQuery,
+  HasRequestQueries,
 } from "./request-context.port";
 
 export type SubjectSegmentType = string;
@@ -17,7 +17,7 @@ type RequestContextCapabilities = HasRequestCookie &
   HasRequestHeader &
   HasRequestMethod &
   HasRequestPath &
-  HasRequestQuery &
+  HasRequestQueries &
   HasRequestParam &
   HasIdentityIp &
   HasIdentityUserId;
