@@ -20,7 +20,7 @@
     "build": "bash scripts/package-build.sh"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.5",
+    "@biomejs/biome": "2.5.6",
     "@standard-schema/spec": "1.1.0",
     "@stryker-mutator/core": "9.6.1",
     "@stryker-mutator/typescript-checker": "9.6.1",
