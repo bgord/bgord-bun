@@ -28,6 +28,15 @@ describe("ShieldApiKeyStrategy", () => {
     });
 
     expect(result.status).toEqual(200);
+    expect(await result.text()).toEqual("OK");
+  });
+
+  test("denied - no api key header", async () => {
+    const result = await app.request("/ping", { method: "GET" });
+    const json = await result.json();
+
+    expect(result.status).toEqual(403);
+    expect(json.message).toEqual("shield.api.key.rejected");
   });
 
   test("denied - no api key", async () => {
@@ -45,6 +54,17 @@ describe("ShieldApiKeyStrategy", () => {
     const result = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [ShieldApiKeyStrategy.HEADER_NAME]: INVALID_API_KEY }),
+    });
+    const json = await result.json();
+
+    expect(result.status).toEqual(403);
+    expect(json.message).toEqual("shield.api.key.rejected");
+  });
+
+  test("denied - different UTF-8 byte length", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ [ShieldApiKeyStrategy.HEADER_NAME]: `${"x".repeat(63)}é` }),
     });
     const json = await result.json();
 

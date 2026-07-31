@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { HasRequestHeader } from "./request-context.port";
 
 export type ApiKeyShieldConfig = { API_KEY: tools.ApiKeyType };
@@ -12,11 +13,10 @@ export class ShieldApiKeyStrategy {
   constructor(private readonly config: ApiKeyShieldConfig) {}
 
   evaluate(context: HasRequestHeader): boolean {
-    const header = context.request.header(ShieldApiKeyStrategy.HEADER_NAME);
-    const config = this.config.API_KEY;
+    const header = v.safeParse(tools.ApiKey, context.request.header(ShieldApiKeyStrategy.HEADER_NAME));
 
-    if (header?.length !== config.length) return false;
+    if (!header.success) return false;
 
-    return timingSafeEqual(Buffer.from(header), Buffer.from(config));
+    return timingSafeEqual(Buffer.from(header.output), Buffer.from(this.config.API_KEY));
   }
 }

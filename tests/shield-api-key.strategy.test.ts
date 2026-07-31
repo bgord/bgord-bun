@@ -18,6 +18,12 @@ describe("ShieldApiKeyStrategy", () => {
     expect(strategy.evaluate(context)).toEqual(true);
   });
 
+  test("denied - no api key header", () => {
+    const context = new RequestContextBuilder().build();
+
+    expect(strategy.evaluate(context)).toEqual(false);
+  });
+
   test("denied - no api key", () => {
     const context = new RequestContextBuilder().withHeader(ShieldApiKeyStrategy.HEADER_NAME, "").build();
 
@@ -27,6 +33,14 @@ describe("ShieldApiKeyStrategy", () => {
   test("denied - invalid api key", () => {
     const context = new RequestContextBuilder()
       .withHeader(ShieldApiKeyStrategy.HEADER_NAME, INVALID_API_KEY)
+      .build();
+
+    expect(strategy.evaluate(context)).toEqual(false);
+  });
+
+  test("denied - different UTF-8 byte length", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(ShieldApiKeyStrategy.HEADER_NAME, `${"x".repeat(63)}é`)
       .build();
 
     expect(strategy.evaluate(context)).toEqual(false);
