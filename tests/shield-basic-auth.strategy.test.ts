@@ -28,6 +28,18 @@ describe("ShieldBasicAuthStrategy", () => {
     expect(strategy.evaluate(context)).toEqual(true);
   });
 
+  test("happy path - password containing a colon", () => {
+    const config = {
+      username: v.parse(BasicAuthUsername, "admin"),
+      password: v.parse(BasicAuthPassword, "pa:ss"),
+    };
+    const context = new RequestContextBuilder()
+      .withHeader("authorization", BasicAuth.toHeader(config).get("authorization") as string)
+      .build();
+
+    expect(new ShieldBasicAuthStrategy(config).evaluate(context)).toEqual(true);
+  });
+
   test("denied - missing authorization", () => {
     const context = new RequestContextBuilder().build();
 

@@ -25,6 +25,20 @@ describe("ShieldBasicAuthHonoStrategy", () => {
     expect(await result.text()).toEqual("OK");
   });
 
+  test("happy path - password containing a colon", async () => {
+    const config = {
+      username: v.parse(BasicAuthUsername, "admin"),
+      password: v.parse(BasicAuthPassword, "pa:ss"),
+    };
+    const shield = new ShieldBasicAuthHonoStrategy(config);
+    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "GET", headers: BasicAuth.toHeader(config) });
+
+    expect(result.status).toEqual(200);
+    expect(await result.text()).toEqual("OK");
+  });
+
   test("denied - missing authorization", async () => {
     const result = await app.request("/ping", { method: "GET" });
 

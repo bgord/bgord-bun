@@ -16,11 +16,16 @@ export class ShieldBasicAuthStrategy {
     try {
       const credentials = atob(String(header).replace("Basic ", ""));
 
-      const [username, password] = credentials.split(":");
+      const index = credentials.indexOf(":");
+
+      if (index === -1) return false;
+
+      const username = credentials.slice(0, index);
+      const password = credentials.slice(index + 1);
 
       if (username !== this.config.username) return false;
 
-      if (password?.length !== this.config.password.length) return false;
+      if (password.length !== this.config.password.length) return false;
 
       return timingSafeEqual(Buffer.from(password), Buffer.from(this.config.password));
     } catch {
