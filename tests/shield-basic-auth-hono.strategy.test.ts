@@ -75,4 +75,15 @@ describe("ShieldBasicAuthHonoStrategy", () => {
     expect(await result.text()).toEqual("shield.basic.auth.rejected");
     expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
   });
+
+  test("denied - same-length wrong password", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: BasicAuth.toHeader({ ...config, password: v.parse(BasicAuthPassword, "passworD") }),
+    });
+
+    expect(result.status).toEqual(401);
+    expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
+  });
 });

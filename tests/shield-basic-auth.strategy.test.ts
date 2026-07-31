@@ -65,4 +65,15 @@ describe("ShieldBasicAuthStrategy", () => {
 
     expect(strategy.evaluate(context)).toEqual(false);
   });
+
+  test("denied - same-length wrong password", () => {
+    const password = BasicAuth.toHeader({
+      username: v.parse(BasicAuthUsername, "admin"),
+      password: v.parse(BasicAuthPassword, "passworD"),
+    }).get("authorization");
+
+    const context = new RequestContextBuilder().withHeader("authorization", password as string).build();
+
+    expect(strategy.evaluate(context)).toEqual(false);
+  });
 });

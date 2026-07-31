@@ -27,7 +27,9 @@ export class ShieldBasicAuthStrategy {
       const username = credentials.slice(0, index);
       const password = credentials.slice(index + 1);
 
-      if (username !== this.config.username) return false;
+      if (username.length !== this.config.username.length) return false;
+
+      if (!timingSafeEqual(Buffer.from(username), Buffer.from(this.config.username))) return false;
 
       if (password.length !== this.config.password.length) return false;
 
