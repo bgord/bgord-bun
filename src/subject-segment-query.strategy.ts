@@ -6,6 +6,8 @@ import {
 } from "./subject-segment-request.strategy";
 
 export class SubjectSegmentQueryStrategy implements SubjectSegmentRequestStrategy {
+  readonly label = "query";
+
   create(context: HasRequestQueries): SubjectSegmentType {
     const queries = context.request.queries();
 

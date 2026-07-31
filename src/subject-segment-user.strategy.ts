@@ -6,6 +6,8 @@ import {
 } from "./subject-segment-request.strategy";
 
 export class SubjectSegmentUserStrategy implements SubjectSegmentRequestStrategy {
+  readonly label = "user";
+
   create(context: HasIdentityUserId): SubjectSegmentType {
     return context.identity.userId() ?? SubjectSegmentRequestEmpty;
   }

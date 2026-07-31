@@ -6,6 +6,8 @@ import {
 import type { SubjectSegmentType } from "./subject-segment-request.strategy";
 
 export class SubjectSegmentBuildStrategy implements SubjectSegmentApplicationStrategy {
+  readonly label = "build";
+
   constructor(private readonly build?: tools.PackageVersion) {}
 
   create(): SubjectSegmentType {

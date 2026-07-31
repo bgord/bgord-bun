@@ -3,6 +3,8 @@ import type { SubjectSegmentApplicationStrategy } from "./subject-segment-applic
 import type { SubjectSegmentType } from "./subject-segment-request.strategy";
 
 export class SubjectSegmentEnvStrategy implements SubjectSegmentApplicationStrategy {
+  readonly label = "env";
+
   constructor(private readonly type: NodeEnvironmentEnum) {}
 
   create(): SubjectSegmentType {

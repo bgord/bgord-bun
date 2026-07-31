@@ -6,6 +6,8 @@ import {
 } from "./subject-segment-request.strategy";
 
 export class SubjectSegmentIpStrategy implements SubjectSegmentRequestStrategy {
+  readonly label = "ip";
+
   create(context: HasIdentityIp): SubjectSegmentType {
     return context.identity.ip() ?? SubjectSegmentRequestEmpty;
   }

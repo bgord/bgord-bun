@@ -4,6 +4,8 @@ import type { SubjectSegmentRequestStrategy, SubjectSegmentType } from "./subjec
 export class SubjectSegmentFixedStrategy
   implements SubjectSegmentRequestStrategy, SubjectSegmentApplicationStrategy
 {
+  readonly label = "fixed";
+
   constructor(private readonly value: string) {}
 
   create(): SubjectSegmentType {

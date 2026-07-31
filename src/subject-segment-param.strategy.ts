@@ -8,6 +8,10 @@ import {
 export class SubjectSegmentParamStrategy implements SubjectSegmentRequestStrategy {
   constructor(private readonly param: string) {}
 
+  get label(): string {
+    return `param:${this.param}`;
+  }
+
   create(context: HasRequestParam): SubjectSegmentType {
     return context.request.param(this.param) ?? SubjectSegmentRequestEmpty;
   }

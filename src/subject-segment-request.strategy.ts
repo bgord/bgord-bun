@@ -24,5 +24,6 @@ type RequestContextCapabilities = HasRequestCookie &
   HasIdentityUserId;
 
 export interface SubjectSegmentRequestStrategy {
+  readonly label: string;
   create(context: RequestContextCapabilities): SubjectSegmentType;
 }

@@ -8,6 +8,10 @@ import {
 export class SubjectSegmentCookieStrategy implements SubjectSegmentRequestStrategy {
   constructor(private readonly name: string) {}
 
+  get label(): string {
+    return `cookie:${this.name}`;
+  }
+
   create(context: HasRequestCookie): SubjectSegmentType {
     return context.request.cookie(this.name) ?? SubjectSegmentRequestEmpty;
   }
