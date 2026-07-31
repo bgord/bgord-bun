@@ -10,6 +10,7 @@ import type {
 } from "./request-context.port";
 
 export type SubjectSegmentType = string | null;
+export type SubjectSegmentsRawType = ReadonlyArray<readonly [string, SubjectSegmentType]>;
 
 export const SubjectSegmentRequestEmpty: SubjectSegmentType = null;
 

@@ -1,7 +1,10 @@
 import type { Hash } from "./hash.vo";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { RequestContext } from "./request-context.port";
-import type { SubjectSegmentRequestStrategy, SubjectSegmentType } from "./subject-segment-request.strategy";
+import type {
+  SubjectSegmentRequestStrategy,
+  SubjectSegmentsRawType,
+} from "./subject-segment-request.strategy";
 
 type Dependencies = { HashContent: HashContentStrategy };
 
@@ -19,8 +22,8 @@ export class SubjectRequestResolver {
     if (this.segments.length > 10) throw new Error(SubjectRequestResolverError.TooManySegments);
   }
 
-  async resolve(context: RequestContext): Promise<{ hex: Hash; raw: ReadonlyArray<SubjectSegmentType> }> {
-    const segments = this.segments.map((segment) => segment.create(context));
+  async resolve(context: RequestContext): Promise<{ hex: Hash; raw: SubjectSegmentsRawType }> {
+    const segments = this.segments.map((segment) => [segment.label, segment.create(context)] as const);
     const subject = JSON.stringify(segments);
 
     const hex = await this.deps.HashContent.hash(subject);
