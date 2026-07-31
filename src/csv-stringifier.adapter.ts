@@ -23,8 +23,8 @@ export class CsvStringifierAdapter implements CsvStringifierPort {
     return new CsvStringifierAdapter(dependency);
   }
 
-  async process(columns: ReadonlyArray<CsvColumnType>, data: Array<CsvRowType>): Promise<string> {
+  async process(columns: ReadonlyArray<CsvColumnType>, data: ReadonlyArray<CsvRowType>): Promise<string> {
     // TODO: Potential formula injection
-    return text(this.csv.stringify(data, { header: true, columns }));
+    return text(this.csv.stringify([...data], { header: true, columns }));
   }
 }
