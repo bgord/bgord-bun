@@ -11,7 +11,7 @@ import {
 export class ShieldBasicAuthHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldBasicAuthStrategy;
 
-  constructor(config: ShieldBasicAuthConfig) {
+  constructor(private readonly config: ShieldBasicAuthConfig) {
     this.strategy = new ShieldBasicAuthStrategy(config);
   }
 
@@ -20,7 +20,13 @@ export class ShieldBasicAuthHonoStrategy implements MiddlewareHonoPort {
       const context = new RequestContextHonoAdapter(c);
 
       if (this.strategy.evaluate(context)) return next();
-      throw new HTTPException(401, { message: ShieldBasicAuthStrategyError.Rejected });
+
+      throw new HTTPException(401, {
+        message: ShieldBasicAuthStrategyError.Rejected,
+        res: new Response(ShieldBasicAuthStrategyError.Rejected, {
+          headers: { "WWW-Authenticate": `Basic realm="${this.config.realm}"` },
+        }),
+      });
     };
   }
 }

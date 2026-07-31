@@ -9,6 +9,7 @@ import { ShieldBasicAuthHonoStrategy } from "../src/shield-basic-auth-hono.strat
 const config = {
   username: v.parse(BasicAuthUsername, "admin"),
   password: v.parse(BasicAuthPassword, "password"),
+  realm: "Restricted",
 };
 const username = { ...config, username: v.parse(BasicAuthUsername, "wrong") };
 const password = { ...config, password: v.parse(BasicAuthPassword, "wrong") };
@@ -29,6 +30,7 @@ describe("ShieldBasicAuthHonoStrategy", () => {
     const config = {
       username: v.parse(BasicAuthUsername, "admin"),
       password: v.parse(BasicAuthPassword, "pa:ss"),
+      realm: "Restricted",
     };
     const shield = new ShieldBasicAuthHonoStrategy(config);
     const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
@@ -44,6 +46,7 @@ describe("ShieldBasicAuthHonoStrategy", () => {
 
     expect(result.status).toEqual(401);
     expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
   });
 
   test("denied - invalid authorization", async () => {
@@ -54,6 +57,7 @@ describe("ShieldBasicAuthHonoStrategy", () => {
 
     expect(result.status).toEqual(401);
     expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
   });
 
   test("denied - invalid username", async () => {
@@ -61,6 +65,7 @@ describe("ShieldBasicAuthHonoStrategy", () => {
 
     expect(result.status).toEqual(401);
     expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
   });
 
   test("denied - invalid password", async () => {
@@ -68,5 +73,6 @@ describe("ShieldBasicAuthHonoStrategy", () => {
 
     expect(result.status).toEqual(401);
     expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
   });
 });

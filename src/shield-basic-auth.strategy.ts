@@ -3,7 +3,11 @@ import type { BasicAuthPasswordType } from "./basic-auth-password.vo";
 import type { BasicAuthUsernameType } from "./basic-auth-username.vo";
 import type { HasRequestHeader } from "./request-context.port";
 
-export type ShieldBasicAuthConfig = { username: BasicAuthUsernameType; password: BasicAuthPasswordType };
+export type ShieldBasicAuthConfig = {
+  username: BasicAuthUsernameType;
+  password: BasicAuthPasswordType;
+  realm: string;
+};
 
 export const ShieldBasicAuthStrategyError = { Rejected: "shield.basic.auth.rejected" };
 

@@ -9,6 +9,7 @@ import { RequestContextBuilder } from "./request-context-builder";
 const config = {
   username: v.parse(BasicAuthUsername, "admin"),
   password: v.parse(BasicAuthPassword, "password"),
+  realm: "Restricted",
 };
 
 const header = BasicAuth.toHeader(config).get("authorization");
@@ -32,6 +33,7 @@ describe("ShieldBasicAuthStrategy", () => {
     const config = {
       username: v.parse(BasicAuthUsername, "admin"),
       password: v.parse(BasicAuthPassword, "pa:ss"),
+      realm: "Restricted",
     };
     const context = new RequestContextBuilder()
       .withHeader("authorization", BasicAuth.toHeader(config).get("authorization") as string)
