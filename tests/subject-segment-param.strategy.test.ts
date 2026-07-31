@@ -16,6 +16,6 @@ describe("SubjectSegmentParamStrategy", () => {
   test("missing", () => {
     const context = new RequestContextBuilder().build();
 
-    expect(segment.create(context)).toEqual("__absent__");
+    expect(segment.create(context)).toEqual(null);
   });
 });

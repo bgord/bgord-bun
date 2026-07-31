@@ -10,6 +10,6 @@ describe("SubjectSegmentBuildStrategy", () => {
   });
 
   test("empty", () => {
-    expect(new SubjectSegmentBuildStrategy().create()).toEqual("__absent__");
+    expect(new SubjectSegmentBuildStrategy().create()).toEqual(null);
   });
 });

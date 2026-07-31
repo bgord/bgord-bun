@@ -42,7 +42,7 @@ describe("AbHonoMiddleware", () => {
   test("happy path", async () => {
     const response = await app.request("/test");
 
-    expect(await response.text()).toEqual(control.config.name);
+    expect(await response.text()).toEqual(treatment.config.name);
   });
 
   test("query", async () => {
@@ -67,6 +67,6 @@ describe("AbHonoMiddleware", () => {
   test("empty context", async () => {
     const response = await app.request("/test");
 
-    expect(await response.text()).toEqual(control.config.name);
+    expect(await response.text()).toEqual(treatment.config.name);
   });
 });

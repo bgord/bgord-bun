@@ -14,7 +14,7 @@ describe("SubjectSegmentQueryStrategy", () => {
   test("empty", () => {
     const context = new RequestContextBuilder().build();
 
-    expect(segment.create(context)).toEqual("__absent__");
+    expect(segment.create(context)).toEqual(null);
   });
 
   test("order independence", () => {

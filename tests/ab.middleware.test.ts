@@ -61,6 +61,6 @@ describe("AbMiddleware", () => {
   test("empty context", async () => {
     const context = new RequestContextBuilder().withUserId(undefined).build();
 
-    expect(await ab.evaluate(context)).toEqual(control);
+    expect(await ab.evaluate(context)).toEqual(treatment);
   });
 });

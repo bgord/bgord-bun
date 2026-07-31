@@ -45,6 +45,6 @@ describe("AbAssignmentHashStrategy", () => {
   test("empty context", async () => {
     const context = new RequestContextBuilder().withUserId(undefined).build();
 
-    expect(await strategy.assign(context, variants)).toEqual(control);
+    expect(await strategy.assign(context, variants)).toEqual(treatment);
   });
 });

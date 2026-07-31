@@ -9,9 +9,9 @@ import type {
   HasRequestQueries,
 } from "./request-context.port";
 
-export type SubjectSegmentType = string;
+export type SubjectSegmentType = string | null;
 
-export const SubjectSegmentRequestEmpty: SubjectSegmentType = "__absent__";
+export const SubjectSegmentRequestEmpty: SubjectSegmentType = null;
 
 type RequestContextCapabilities = HasRequestCookie &
   HasRequestHeader &

@@ -15,6 +15,6 @@ describe("SubjectSegmentUserStrategy", () => {
   test("empty", () => {
     const context = new RequestContextBuilder().withUserId(undefined).build();
 
-    expect(segment.create(context)).toEqual("__absent__");
+    expect(segment.create(context)).toEqual(null);
   });
 });
