@@ -17,12 +17,13 @@ export class AntivirusClamavAdapter implements AntivirusPort {
     if (!antivirus.stdin) throw new Error(AntivirusPortError.ScanFailed);
     antivirus.stdin.write(bytes);
     await antivirus.stdin.end();
+
+    const stdoutText = new Response(antivirus.stdout).text();
+    const stderrText = new Response(antivirus.stderr).text();
+
     await antivirus.exited;
 
-    const [stdout, stderr] = await Promise.all([
-      new Response(antivirus.stdout).text(),
-      new Response(antivirus.stderr).text(),
-    ]);
+    const [stdout, stderr] = await Promise.all([stdoutText, stderrText]);
 
     if (antivirus.exitCode === 0) return { clean: true };
 
