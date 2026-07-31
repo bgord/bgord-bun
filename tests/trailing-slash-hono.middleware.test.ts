@@ -59,4 +59,27 @@ describe("TrailingSlashHonoMiddleware", () => {
     expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("http://localhost/data?page=1#section");
   });
+
+  test("redirect - two trailing slashes", async () => {
+    const response = await app.request("/data//");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("http://localhost/data");
+  });
+
+  test("redirect - three trailing slashes", async () => {
+    const response = await app.request("/data///");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("http://localhost/data");
+  });
+
+  test("redirect - root path with extra trailing slashes", async () => {
+    const app = new Hono().use(middleware.handle()).get("/", (c) => c.text("root"));
+
+    const response = await app.request("//");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("http://localhost/");
+  });
 });

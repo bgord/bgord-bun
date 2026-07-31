@@ -38,4 +38,22 @@ describe("TrailingSlashMiddleware", () => {
       status: 308,
     });
   });
+
+  test("redirect - two trailing slashes", () => {
+    const context = new RequestContextBuilder().withPath("/data//").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/data", status: 308 });
+  });
+
+  test("redirect - three trailing slashes", () => {
+    const context = new RequestContextBuilder().withPath("/data///").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/data", status: 308 });
+  });
+
+  test("redirect - root path with extra trailing slashes", () => {
+    const context = new RequestContextBuilder().withPath("//").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/", status: 308 });
+  });
 });

@@ -11,7 +11,7 @@ export class TrailingSlashMiddleware {
     if (context.request.path === "/") return { redirect: false };
     return {
       redirect: true,
-      pathname: context.request.path.slice(0, -1),
+      pathname: context.request.path.replace(/\/+$/, "") || "/", // Strip all trailing slashes
       status: TrailingSlashMiddleware.STATUS,
     };
   }
