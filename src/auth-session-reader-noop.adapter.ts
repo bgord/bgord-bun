@@ -1,5 +1,5 @@
-import type { AuthSessionReaderPort, AuthSessionType } from "../src/auth-session-reader.port";
-import type { HasRequestHeaders } from "../src/request-context.port";
+import type { AuthSessionReaderPort, AuthSessionType } from "./auth-session-reader.port";
+import type { HasRequestHeaders } from "./request-context.port";
 
 export type AuthSessionReaderNoopUserType = { id: string; email: string };
 export type AuthSessionReaderNoopSessionType = { id: string };

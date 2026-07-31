@@ -1,5 +1,5 @@
 import type { StandardSchemaV1 } from "@standard-schema/spec";
-import type { NodeEnvironmentEnum } from "../src/node-env.vo";
+import type { NodeEnvironmentEnum } from "./node-env.vo";
 
 export type EnvironmentLoaderConfig<T extends object> = {
   type: NodeEnvironmentEnum;
