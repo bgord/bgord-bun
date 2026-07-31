@@ -98,4 +98,11 @@ describe("TrailingSlashHonoMiddleware", () => {
     expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("/data");
   });
+
+  test("redirect - preserves percent-encoding", async () => {
+    const response = await app.request("/caf%C3%A9/");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("/café");
+  });
 });

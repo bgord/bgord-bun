@@ -68,4 +68,10 @@ describe("TrailingSlashMiddleware", () => {
 
     expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/data", status: 308 });
   });
+
+  test("redirect - preserves percent-encoding", () => {
+    const context = new RequestContextBuilder().withPath("/caf%C3%A9/").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/caf%C3%A9", status: 308 });
+  });
 });
