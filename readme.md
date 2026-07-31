@@ -593,6 +593,7 @@ src/
 ├── subject-segment-fixed.strategy.ts
 ├── subject-segment-header.strategy.ts
 ├── subject-segment-ip.strategy.ts
+├── subject-segment-method.strategy.ts
 ├── subject-segment-param.strategy.ts
 ├── subject-segment-path.strategy.ts
 ├── subject-segment-query.strategy.ts

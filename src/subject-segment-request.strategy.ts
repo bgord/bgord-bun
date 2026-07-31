@@ -3,6 +3,7 @@ import type {
   HasIdentityUserId,
   HasRequestCookie,
   HasRequestHeader,
+  HasRequestMethod,
   HasRequestParam,
   HasRequestPath,
   HasRequestQuery,
@@ -14,6 +15,7 @@ export const SubjectSegmentRequestEmpty: SubjectSegmentType = "__absent__";
 
 type RequestContextCapabilities = HasRequestCookie &
   HasRequestHeader &
+  HasRequestMethod &
   HasRequestPath &
   HasRequestQuery &
   HasRequestParam &

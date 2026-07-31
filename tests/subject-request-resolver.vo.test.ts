@@ -4,6 +4,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentCookieStrategy } from "../src/subject-segment-cookie.strategy";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
+import { SubjectSegmentMethodStrategy } from "../src/subject-segment-method.strategy";
 import { SubjectSegmentHeaderStrategy } from "../src/subject-segment-header.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentQueryStrategy } from "../src/subject-segment-query.strategy";
@@ -11,6 +12,7 @@ import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy
 import { RequestContextBuilder } from "./request-context-builder";
 
 const fixed = new SubjectSegmentFixedStrategy("response");
+const method = new SubjectSegmentMethodStrategy();
 const path = new SubjectSegmentPathStrategy();
 const cookieLanguage = new SubjectSegmentCookieStrategy("language");
 const headerAccept = new SubjectSegmentHeaderStrategy("accept");
@@ -32,48 +34,67 @@ describe("SubjectRequestResolver", () => {
     );
   });
 
-  test("fixed, path", async () => {
-    const context = new RequestContextBuilder().withPath("/about").build();
+  test("fixed, method", async () => {
+    const context = new RequestContextBuilder().withMethod("POST").build();
 
-    const result = await new SubjectRequestResolver([fixed, path], deps).resolve(context);
+    const result = await new SubjectRequestResolver([fixed, method], deps).resolve(context);
 
-    expect(result.raw).toEqual(["response", "/about"]);
+    expect(result.raw).toEqual(["response", "POST"]);
     expect(result.hex).toEqual(
-      Hash.fromString("7411c4fc5467f3272ba5d21f57ab3139b24256ec8ea0acc0ee6db1d92a00917f"),
+      Hash.fromString("89f21a1c6fe4d18c052da73daca5c15bef0cda7af5339622e76dc6210773dec0"),
     );
   });
 
-  test("fixed, path, cookie language", async () => {
-    const context = new RequestContextBuilder().withPath("/about").withCookie("language", "en").build();
+  test("fixed, method, path", async () => {
+    const context = new RequestContextBuilder().withMethod("POST").withPath("/about").build();
 
-    const result = await new SubjectRequestResolver([fixed, path, cookieLanguage], deps).resolve(context);
+    const result = await new SubjectRequestResolver([fixed, method, path], deps).resolve(context);
 
-    expect(result.raw).toEqual(["response", "/about", "en"]);
+    expect(result.raw).toEqual(["response", "POST", "/about"]);
     expect(result.hex).toEqual(
-      Hash.fromString("b1d1b44511add0850768ec6084f40c6f52b464b312f413009103795dcabb3cf7"),
+      Hash.fromString("7f2092678cd226cad93065c8a07d277422b473a39d62d5cd1a88fc577854d97a"),
     );
   });
 
-  test("fixed, path, cookie language, header accept", async () => {
+  test("fixed, method, path, cookie language", async () => {
     const context = new RequestContextBuilder()
+      .withMethod("POST")
+      .withPath("/about")
+      .withCookie("language", "en")
+      .build();
+
+    const result = await new SubjectRequestResolver([fixed, method, path, cookieLanguage], deps).resolve(
+      context,
+    );
+
+    expect(result.raw).toEqual(["response", "POST", "/about", "en"]);
+    expect(result.hex).toEqual(
+      Hash.fromString("db78668c2d2f6b781ec24ab7dc8b4b956437f8b6c19b0644f6c237606601615b"),
+    );
+  });
+
+  test("fixed, method, path, cookie language, header accept", async () => {
+    const context = new RequestContextBuilder()
+      .withMethod("POST")
       .withPath("/about")
       .withCookie("language", "en")
       .withHeader("accept", "application/json")
       .build();
 
     const result = await new SubjectRequestResolver(
-      [fixed, path, cookieLanguage, headerAccept],
+      [fixed, method, path, cookieLanguage, headerAccept],
       deps,
     ).resolve(context);
 
-    expect(result.raw).toEqual(["response", "/about", "en", "application/json"]);
+    expect(result.raw).toEqual(["response", "POST", "/about", "en", "application/json"]);
     expect(result.hex).toEqual(
-      Hash.fromString("ddedc400730fcaedfa0196ca8519b24b212cd1353a8f577e599dc58d27435a5a"),
+      Hash.fromString("33997b29733cfc972972c8ffebb28c0aeb1c6aec658eaa63aa289e4d57006b61"),
     );
   });
 
-  test("fixed, path, cookie language, header accept, query", async () => {
+  test("fixed, method, path, cookie language, header accept, query", async () => {
     const context = new RequestContextBuilder()
+      .withMethod("POST")
       .withPath("/about")
       .withCookie("language", "en")
       .withHeader("accept", "application/json")
@@ -81,18 +102,19 @@ describe("SubjectRequestResolver", () => {
       .build();
 
     const result = await new SubjectRequestResolver(
-      [fixed, path, cookieLanguage, headerAccept, query],
+      [fixed, method, path, cookieLanguage, headerAccept, query],
       deps,
     ).resolve(context);
 
-    expect(result.raw).toEqual(["response", "/about", "en", "application/json", "aaa=123&bbb=234"]);
+    expect(result.raw).toEqual(["response", "POST", "/about", "en", "application/json", "aaa=123&bbb=234"]);
     expect(result.hex).toEqual(
-      Hash.fromString("128cec94f30ca49cbda9596113a1f475d293b25886f6de09c28ae536e50d72ad"),
+      Hash.fromString("45c3813f8b1ff7e3f714424446ee25963b62c2a0109c37e7b631bdd8d04e741d"),
     );
   });
 
-  test("fixed, path, cookie language, header accept, query, user", async () => {
+  test("fixed, method, path, cookie language, header accept, query, user", async () => {
     const context = new RequestContextBuilder()
+      .withMethod("POST")
       .withPath("/about")
       .withCookie("language", "en")
       .withHeader("accept", "application/json")
@@ -101,12 +123,13 @@ describe("SubjectRequestResolver", () => {
       .build();
 
     const result = await new SubjectRequestResolver(
-      [fixed, path, cookieLanguage, headerAccept, query, user],
+      [fixed, method, path, cookieLanguage, headerAccept, query, user],
       deps,
     ).resolve(context);
 
     expect(result.raw).toEqual([
       "response",
+      "POST",
       "/about",
       "en",
       "application/json",
@@ -114,7 +137,7 @@ describe("SubjectRequestResolver", () => {
       "123456789",
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("204dfc68878f8072be6a6dc463cfd4fa01387ed4788a0f26128280cc6d9a6fc2"),
+      Hash.fromString("59f2081f71598edef7f995dae6aa4b43ef7fec5abc20bab7f2928af9b1065730"),
     );
   });
 

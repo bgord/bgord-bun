@@ -518,6 +518,7 @@ export * from "./subject-segment-env.strategy";
 export * from "./subject-segment-fixed.strategy";
 export * from "./subject-segment-header.strategy";
 export * from "./subject-segment-ip.strategy";
+export * from "./subject-segment-method.strategy";
 export * from "./subject-segment-param.strategy";
 export * from "./subject-segment-path.strategy";
 export * from "./subject-segment-query.strategy";
