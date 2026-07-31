@@ -46,7 +46,9 @@ describe("AlertChannelCompositeAdapter", () => {
     const failing = new AlertChannelCollectingAdapter();
     using _ = spyOn(failing, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    await new AlertChannelCompositeAdapter([failing, failing]).send(mocks.alert);
+    expect(async () => new AlertChannelCompositeAdapter([failing, failing]).send(mocks.alert)).toThrow(
+      "alert.channel.composite.all.failed",
+    );
   });
 
   test("verify", async () => {
