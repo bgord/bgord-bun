@@ -20,18 +20,22 @@ describe("TrailingSlashMiddleware", () => {
   test("redirect - trailing slash", () => {
     const context = new RequestContextBuilder().withPath("/data/").build();
 
-    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/data" });
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/data", status: 308 });
   });
 
   test("redirect - nested path with trailing slash", () => {
     const context = new RequestContextBuilder().withPath("/api/users/").build();
 
-    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/api/users" });
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/api/users", status: 308 });
   });
 
   test("redirect - multiple segments", () => {
     const context = new RequestContextBuilder().withPath("/api/v1/users/123/").build();
 
-    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/api/v1/users/123" });
+    expect(middleware.evaluate(context)).toEqual({
+      redirect: true,
+      pathname: "/api/v1/users/123",
+      status: 308,
+    });
   });
 });

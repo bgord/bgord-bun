@@ -26,7 +26,7 @@ describe("TrailingSlashHonoMiddleware", () => {
   test("redirect - trailing slash", async () => {
     const response = await app.request("/data/");
 
-    expect(response.status).toEqual(301);
+    expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("http://localhost/data");
   });
 
@@ -35,28 +35,28 @@ describe("TrailingSlashHonoMiddleware", () => {
 
     const response = await app.request("/api/users/");
 
-    expect(response.status).toEqual(301);
+    expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("http://localhost/api/users");
   });
 
   test("redirect - preserves query string", async () => {
     const response = await app.request("/data/?page=1");
 
-    expect(response.status).toEqual(301);
+    expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("http://localhost/data?page=1");
   });
 
   test("redirect - preserves hash", async () => {
     const response = await app.request("/data/#section");
 
-    expect(response.status).toEqual(301);
+    expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("http://localhost/data#section");
   });
 
   test("redirect - preserves query and hash", async () => {
     const response = await app.request("/data/?page=1#section");
 
-    expect(response.status).toEqual(301);
+    expect(response.status).toEqual(308);
     expect(response.headers.get("location")).toEqual("http://localhost/data?page=1#section");
   });
 });

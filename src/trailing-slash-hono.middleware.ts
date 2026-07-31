@@ -21,7 +21,7 @@ export class TrailingSlashHonoMiddleware implements MiddlewareHonoPort {
       const url = new URL(context.request.url());
       url.pathname = result.pathname;
 
-      return c.redirect(url.toString(), 301);
+      return c.redirect(url.toString(), result.status);
     });
   }
 }
