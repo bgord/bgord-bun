@@ -44,6 +44,18 @@ describe("ApiVersionHonoMiddleware", async () => {
     await CacheRepository.flush();
   });
 
+  test("raw response", async () => {
+    const app = new Hono().use(middleware.handle()).get("/raw", () => new Response("raw"));
+
+    const response = await app.request("/raw", { method: "GET" });
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(ApiVersionMiddleware.HEADER_NAME)).toEqual(mocks.version);
+    expect(await response.text()).toEqual("raw");
+
+    await CacheRepository.flush();
+  });
+
   test("failure", async () => {
     using _ = spyOn(deps.BuildInfoConfig, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
 
