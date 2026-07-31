@@ -32,10 +32,10 @@ const subject = new SubjectRequestResolver(
 );
 
 const hash = new AbAssignmentHashStrategy(variants, subject);
-const query = new AbAssignmentQueryStrategy("ab-variant");
+const query = new AbAssignmentQueryStrategy(variants, "ab-variant");
 
 const app = new Hono<Config>()
-  .use(new AbHonoMiddleware(variants, hash).handle())
+  .use(new AbHonoMiddleware(hash).handle())
   .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
 
 describe("AbHonoMiddleware", () => {
@@ -49,7 +49,7 @@ describe("AbHonoMiddleware", () => {
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 
     const app = new Hono<Config>()
-      .use(new AbHonoMiddleware(variants, strategy).handle())
+      .use(new AbHonoMiddleware(strategy).handle())
       .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
 
     const response = await app.request("/test?ab-variant=treatment");

@@ -4,11 +4,14 @@ import type { AbVariants } from "./ab-variants.vo";
 import type { HasRequestHeader } from "./request-context.port";
 
 export class AbAssignmentHeaderStrategy implements AbAssignmentStrategy {
-  constructor(private readonly name: string) {}
+  constructor(
+    private readonly variants: AbVariants,
+    private readonly name: string,
+  ) {}
 
-  async assign(context: HasRequestHeader, variants: AbVariants): Promise<AbVariant | undefined> {
+  async assign(context: HasRequestHeader): Promise<AbVariant | undefined> {
     const override = context.request.header(this.name);
 
-    return variants.variants.find((v) => v.config.name === override);
+    return this.variants.variants.find((v) => v.config.name === override);
   }
 }

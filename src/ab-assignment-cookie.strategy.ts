@@ -4,11 +4,14 @@ import type { AbVariants } from "./ab-variants.vo";
 import type { HasRequestCookie } from "./request-context.port";
 
 export class AbAssignmentCookieStrategy implements AbAssignmentStrategy {
-  constructor(private readonly name: string) {}
+  constructor(
+    private readonly variants: AbVariants,
+    private readonly name: string,
+  ) {}
 
-  async assign(context: HasRequestCookie, variants: AbVariants): Promise<AbVariant | undefined> {
+  async assign(context: HasRequestCookie): Promise<AbVariant | undefined> {
     const override = context.request.cookie(this.name);
 
-    return variants.variants.find((v) => v.config.name === override);
+    return this.variants.variants.find((v) => v.config.name === override);
   }
 }

@@ -33,18 +33,18 @@ describe("AbAssignmentHashStrategy", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("idempotence", async () => {
     const context = new RequestContextBuilder().withUserId("user-456").build();
 
-    expect(await strategy.assign(context, variants)).toEqual(await strategy.assign(context, variants));
+    expect(await strategy.assign(context)).toEqual(await strategy.assign(context));
   });
 
   test("empty context", async () => {
     const context = new RequestContextBuilder().withUserId(undefined).build();
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 });

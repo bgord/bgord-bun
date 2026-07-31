@@ -17,24 +17,24 @@ const treatment = new AbVariant({
 });
 const variants = new AbVariants([control, treatment]);
 
-const strategy = new AbAssignmentCookieStrategy("ab-override");
+const strategy = new AbAssignmentCookieStrategy(variants, "ab-override");
 
 describe("AbAssignmentCookieStrategy", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withCookie("ab-override", "treatment").build();
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("unknown variant", async () => {
     const context = new RequestContextBuilder().withCookie("ab-override", "unknown").build();
 
-    expect(await strategy.assign(context, variants)).toEqual(undefined);
+    expect(await strategy.assign(context)).toEqual(undefined);
   });
 
   test("no cookie", async () => {
     const context = new RequestContextBuilder().build();
 
-    expect(await strategy.assign(context, variants)).toEqual(undefined);
+    expect(await strategy.assign(context)).toEqual(undefined);
   });
 });

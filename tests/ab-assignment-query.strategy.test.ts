@@ -17,24 +17,24 @@ const treatment = new AbVariant({
 });
 const variants = new AbVariants([control, treatment]);
 
-const strategy = new AbAssignmentQueryStrategy("ab-override");
+const strategy = new AbAssignmentQueryStrategy(variants, "ab-override");
 
 describe("AbAssignmentQueryStrategy", () => {
   test("happy path", async () => {
     const context = new RequestContextBuilder().withQuery({ "ab-override": "treatment" }).build();
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("unknown variant", async () => {
     const context = new RequestContextBuilder().withQuery({ "ab-override": "unknown" }).build();
 
-    expect(await strategy.assign(context, variants)).toEqual(undefined);
+    expect(await strategy.assign(context)).toEqual(undefined);
   });
 
   test("no query params", async () => {
     const context = new RequestContextBuilder().build();
 
-    expect(await strategy.assign(context, variants)).toEqual(undefined);
+    expect(await strategy.assign(context)).toEqual(undefined);
   });
 });

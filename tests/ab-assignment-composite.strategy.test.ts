@@ -30,7 +30,7 @@ const subject = new SubjectRequestResolver(
   { HashContent: new HashContentSha256Strategy() },
 );
 
-const query = new AbAssignmentQueryStrategy("ab-variant");
+const query = new AbAssignmentQueryStrategy(variants, "ab-variant");
 const fixed = new AbAssignmentFixedStrategy(treatment);
 const hash = new AbAssignmentHashStrategy(variants, subject);
 
@@ -39,14 +39,14 @@ describe("AbAssignmentCompositeStrategy", () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
     const strategy = new AbAssignmentCompositeStrategy([fixed, hash]);
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("happy path - second", async () => {
     const context = new RequestContextBuilder().withUserId("user-123").build();
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("happy path - query", async () => {
@@ -56,13 +56,13 @@ describe("AbAssignmentCompositeStrategy", () => {
       .build();
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 
-    expect(await strategy.assign(context, variants)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("undefined", async () => {
     const context = new RequestContextBuilder().build();
     const composite = new AbAssignmentCompositeStrategy([query]);
 
-    expect(await composite.assign(context, variants)).toEqual(undefined);
+    expect(await composite.assign(context)).toEqual(undefined);
   });
 });

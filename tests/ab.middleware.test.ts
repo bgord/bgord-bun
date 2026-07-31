@@ -30,11 +30,11 @@ const subject = new SubjectRequestResolver(
 );
 
 const hash = new AbAssignmentHashStrategy(variants, subject);
-const query = new AbAssignmentQueryStrategy("ab-variant");
+const query = new AbAssignmentQueryStrategy(variants, "ab-variant");
 
 const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 
-const ab = new AbMiddleware(variants, strategy);
+const ab = new AbMiddleware(strategy);
 
 describe("AbMiddleware", () => {
   test("happy path", async () => {

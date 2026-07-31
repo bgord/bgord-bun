@@ -15,7 +15,7 @@ export class AbAssignmentHashStrategy implements AbAssignmentStrategy {
     this.selector = new AbVariantSelector(variants);
   }
 
-  async assign(context: RequestContext, _variants: AbVariants): Promise<AbVariant> {
+  async assign(context: RequestContext): Promise<AbVariant> {
     const { hex } = await this.subject.resolve(context);
 
     return this.selector.select(hex);
