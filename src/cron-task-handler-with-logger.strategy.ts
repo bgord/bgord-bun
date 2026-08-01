@@ -24,13 +24,6 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
           this.deps.Logger.info({ message: `${task.label} start`, correlationId, ...this.base });
 
           await CorrelationStorage.run(correlationId, task.handler);
-
-          this.deps.Logger.info({
-            message: `${task.label} success`,
-            correlationId,
-            metadata: { duration: duration.stop() },
-            ...this.base,
-          });
         } catch (error) {
           this.deps.Logger.error({
             message: `${task.label} error`,
@@ -40,8 +33,15 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
             ...this.base,
           });
 
-          throw error;
+          return;
         }
+
+        this.deps.Logger.info({
+          message: `${task.label} success`,
+          correlationId,
+          metadata: { duration: duration.stop() },
+          ...this.base,
+        });
       },
     };
   }

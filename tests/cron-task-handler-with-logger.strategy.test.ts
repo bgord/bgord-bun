@@ -54,7 +54,8 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const handler = new CronTaskHandlerWithLoggerStrategy({ Logger, Clock, IdProvider });
 
-    expect(async () => handler.handle(mocks.task).handler()).toThrow(mocks.IntentionalError);
+    await handler.handle(mocks.task).handler();
+
     expect(Logger.entries).toEqual([
       {
         message: "cron start",
