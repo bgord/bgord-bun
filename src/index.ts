@@ -74,7 +74,6 @@ export * from "./correlation-storage.service";
 export * from "./cron-expression.vo";
 export * from "./cron-scheduler.adapter";
 export * from "./cron-scheduler.port";
-export * from "./cron-scheduler-croner.adapter";
 export * from "./cron-scheduler-noop.adapter";
 export * from "./cron-scheduler-with-logger.adapter";
 export * from "./cron-task.vo";

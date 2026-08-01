@@ -97,7 +97,6 @@ src/
 ├── correlation-storage.service.ts
 ├── correlation.middleware.ts
 ├── cron-expression.vo.ts
-├── cron-scheduler-croner.adapter.ts
 ├── cron-scheduler-noop.adapter.ts
 ├── cron-scheduler-with-logger.adapter.ts
 ├── cron-scheduler.adapter.ts
