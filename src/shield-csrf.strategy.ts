@@ -1,6 +1,6 @@
 import type { HasRequestHeader, HasRequestMethod } from "./request-context.port";
 
-const STATE_CHANGING_METHODS = ["POST", "PUT", "PATCH", "DELETE"];
+const SAFE_METHODS = ["GET", "HEAD", "OPTIONS", "TRACE"];
 
 export type ShieldCsrfConfig = { origin: ReadonlyArray<string> };
 
@@ -10,7 +10,7 @@ export class ShieldCsrfStrategy {
   constructor(private readonly config: ShieldCsrfConfig) {}
 
   evaluate(context: HasRequestMethod & HasRequestHeader): boolean {
-    if (!STATE_CHANGING_METHODS.includes(context.request.method)) return true;
+    if (SAFE_METHODS.includes(context.request.method)) return true;
 
     const origin = context.request.header("origin");
 
