@@ -18,19 +18,24 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
       const socket = tls.connect(
         { host: hostname, port: 443, servername: hostname, rejectUnauthorized: false },
         () => {
-          const certificate = socket.getPeerCertificate();
+          try {
+            const certificate = socket.getPeerCertificate();
 
-          if (!certificate?.valid_to) {
+            if (!certificate?.valid_to) {
+              cleanup(socket);
+              return resolve({ success: false });
+            }
+            // biome-ignore lint: lint/style/noRestrictedGlobals
+            const remaining = tools.Timestamp.fromNumber(new Date(certificate.valid_to).getTime()).difference(
+              this.deps.Clock.now(),
+            );
+
             cleanup(socket);
-            return resolve({ success: false });
+            resolve({ success: true, remaining });
+          } catch {
+            cleanup(socket);
+            resolve({ success: false });
           }
-          // biome-ignore lint: lint/style/noRestrictedGlobals
-          const remaining = tools.Timestamp.fromNumber(new Date(certificate.valid_to).getTime()).difference(
-            this.deps.Clock.now(),
-          );
-
-          cleanup(socket);
-          resolve({ success: true, remaining });
         },
       );
 

@@ -120,4 +120,27 @@ describe("CertificateInspectorTLSAdapter", () => {
       expect.any(Function),
     );
   });
+
+  test("failure - unparseable certificate valid_to", async () => {
+    using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
+      const socket: any = {
+        once() {
+          return this;
+        },
+        getPeerCertificate() {
+          return { valid_to: "not-a-date" };
+        },
+        end() {},
+        destroy() {},
+      };
+      queueMicrotask(onSecure);
+      return socket;
+    });
+
+    expect(await adapter.inspect(mocks.hostname)).toEqual({ success: false });
+    expect(tlsConnect).toHaveBeenCalledWith(
+      { host: mocks.hostname, port: 443, rejectUnauthorized: false, servername: mocks.hostname },
+      expect.any(Function),
+    );
+  });
 });
