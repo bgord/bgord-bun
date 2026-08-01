@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.6.1",
+        "@bgord/tools": "1.6.2",
         "emittery": "2.0.0",
         "hono": "4.12.32",
         "node-cache": "5.1.2",
@@ -127,7 +127,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.3.1", "", {}, "sha512-ABkD1WhyfPZprKRQI3bhATjeiFuNWC9PXhfGWqL+sg/gKrM977oFrYkdb4msM3hgUGonr7KlOsOFT5TU2rht9g=="],
 
-    "@bgord/tools": ["@bgord/tools@1.6.1", "", { "dependencies": { "temporal-polyfill": "1.0.1", "valibot": "1.4.2" } }, "sha512-KXP1jRcOAi0C1fAoWKcNYXO5d38xl53eakZ2/H9ReiT8zq5Tkf90nf18SR2Fd5dOeuyrhLxg2R9zgFl1rdxV7Q=="],
+    "@bgord/tools": ["@bgord/tools@1.6.2", "", { "dependencies": { "temporal-polyfill": "1.0.2", "valibot": "1.4.2" } }, "sha512-G0nd84HF0O85MB5CBsvYm1yTCWKSzOT6CzumSx1Tlo5SsgcPFiFqiIQ82qk7Aq0PVEGVyZee2Id1PYo9AxAB4A=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.5.6", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.5.6", "@biomejs/cli-darwin-x64": "2.5.6", "@biomejs/cli-linux-arm64": "2.5.6", "@biomejs/cli-linux-arm64-musl": "2.5.6", "@biomejs/cli-linux-x64": "2.5.6", "@biomejs/cli-linux-x64-musl": "2.5.6", "@biomejs/cli-win32-arm64": "2.5.6", "@biomejs/cli-win32-x64": "2.5.6" }, "bin": { "biome": "bin/biome" } }, "sha512-lxVNjv7UF6KfhMJfL9gaUHbWdJdHbsAj6OSmwSYNdhRuG67NxNQ4Xdvh3TUxsSK9sBzJBQhEJj3AopmmNJ5pSA=="],
 
@@ -959,9 +959,9 @@
 
     "teex": ["teex@1.0.1", "", { "dependencies": { "streamx": "^2.12.5" } }, "sha512-eYE6iEI62Ni1H8oIa7KlDU6uQBtqr4Eajni3wX7rpfXD8ysFx8z0+dri+KWEPWpBsxXfxu58x/0jvTVT1ekOSg=="],
 
-    "temporal-polyfill": ["temporal-polyfill@1.0.1", "", { "dependencies": { "temporal-spec": "1.0.0", "temporal-utils": "1.0.1" } }, "sha512-N2SoI9olnW7BUsU8RosDphZQl9s+WJ8O7PoJMFCr/e5/1rFkVI4GNOWaSeySG+UoP04foPYsnLWbJmbXOiShZg=="],
+    "temporal-polyfill": ["temporal-polyfill@1.0.2", "", { "dependencies": { "temporal-spec": "1.0.1", "temporal-utils": "1.0.1" } }, "sha512-pTyp/7kfStJQbJ8YOHmcJItkxvOGCZHu3PaVgLvLnxFS7O12EPiWLElnRre/rw77z4TGZX/gvdqMXWn6ispQvA=="],
 
-    "temporal-spec": ["temporal-spec@1.0.0", "", {}, "sha512-00Ahj1e1ifaERTMOIIGpOCdOo9IEk2m6GGSMedsn9a2SIsGLdOTbmME1Htv6IM82b6VHrzSUTIVc7YHy6hdhFQ=="],
+    "temporal-spec": ["temporal-spec@1.0.1", "", {}, "sha512-wxVoanmDeavXie1vu2JaQ3WIc3JZnWAOYFBsJyATaVsXsycKYUflGsyBmrRSnoCpZJpwPyr38VpgSUlQ8CbFxg=="],
 
     "temporal-utils": ["temporal-utils@1.0.1", "", {}, "sha512-HAixuesxFQIUaQk3ptX2jhfO/FsOkgVkDDMawvp6n/fkB1q6BKfs3lURw9I+pK/2e2e/q/vrLrxmeqauBoyGMQ=="],
 
