@@ -32,7 +32,7 @@ export const correlationId = "00000000-0000-0000-0000-000000000000";
 export const userId = "00000000-0000-0000-0000-000000000000";
 export const anotherUserId = "22222222-2222-2222-2222-222222222222";
 
-export const nonce = v.parse(NonceValue, "0000000000000000");
+export const nonce = v.parse(NonceValue, "00000000000000000000000000000000");
 
 export const SupportedLanguages = ["en", "pl"] as const;
 export const languages = new Languages(SupportedLanguages, "en");

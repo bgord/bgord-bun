@@ -6,8 +6,8 @@ import { NonceValue, type NonceValueType } from "../src/nonce-value.vo";
 import { SSRBun } from "../src/ssr-bun.service";
 import { SsrCsp } from "../src/ssr-csp";
 
-const zeros = v.parse(NonceValue, "0000000000000000");
-const ones = v.parse(NonceValue, "1111111111111111");
+const zeros = v.parse(NonceValue, "00000000000000000000000000000000");
+const ones = v.parse(NonceValue, "11111111111111111111111111111111");
 
 describe("SSRBun", async () => {
   test("happy path", async () => {

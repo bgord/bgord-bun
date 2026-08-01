@@ -9,7 +9,7 @@ describe("NonceProviderCryptoAdapter", () => {
 
     const result = adapter.generate();
 
-    expect(result.length).toEqual(16);
+    expect(result.length).toEqual(32);
     expect(typeof result).toEqual("string");
     expect(v.safeParse(NonceValue, result).success).toEqual(true);
   });

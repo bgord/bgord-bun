@@ -5,8 +5,8 @@ export const NonceValueError = {
   InvalidHex: "nonce.value.invalid.hex",
 };
 
-// 16 hex chars allowed
-const CHARS_WHITELIST = /^[a-fA-F0-9]{16}$/;
+// 32 hex chars allowed
+const CHARS_WHITELIST = /^[a-fA-F0-9]{32}$/;
 
 export const NonceValue = v.pipe(
   v.string(NonceValueError.Type),

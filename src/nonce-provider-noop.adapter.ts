@@ -4,6 +4,6 @@ import { NonceValue, type NonceValueType } from "./nonce-value.vo";
 
 export class NonceProviderNoopAdapter implements NonceProviderPort {
   generate(): NonceValueType {
-    return v.parse(NonceValue, "0000000000000000");
+    return v.parse(NonceValue, "00000000000000000000000000000000");
   }
 }

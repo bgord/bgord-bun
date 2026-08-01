@@ -4,7 +4,7 @@ import { NonceValue } from "../src/nonce-value.vo";
 
 describe("NonceValue", () => {
   test("happy path", () => {
-    expect(v.safeParse(NonceValue, "f".repeat(16)).success).toEqual(true);
+    expect(v.safeParse(NonceValue, "f".repeat(32)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
@@ -20,14 +20,14 @@ describe("NonceValue", () => {
   });
 
   test("rejects invalid hex", () => {
-    expect(() => v.parse(NonceValue, `${"f".repeat(15)}x`)).toThrow("nonce.value.invalid.hex");
+    expect(() => v.parse(NonceValue, `${"f".repeat(31)}x`)).toThrow("nonce.value.invalid.hex");
   });
 
   test("rejects too long", () => {
-    expect(() => v.parse(NonceValue, "f".repeat(17))).toThrow("nonce.value.invalid.hex");
+    expect(() => v.parse(NonceValue, "f".repeat(33))).toThrow("nonce.value.invalid.hex");
   });
 
   test("rejects too short", () => {
-    expect(() => v.parse(NonceValue, "f".repeat(15))).toThrow("nonce.value.invalid.hex");
+    expect(() => v.parse(NonceValue, "f".repeat(31))).toThrow("nonce.value.invalid.hex");
   });
 });
