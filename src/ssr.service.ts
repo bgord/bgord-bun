@@ -33,7 +33,7 @@ export class SSRService {
     private readonly config?: SSRConfig,
   ) {}
 
-  get nonce(): NonceValueType {
+  generateNonce(): NonceValueType {
     return this.deps.NonceProvider.generate();
   }
 

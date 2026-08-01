@@ -13,7 +13,7 @@ export class SSRBun {
     const service = new SSRService(deps, config);
 
     return async (request: Request): Promise<Response> => {
-      const nonce = service.nonce;
+      const nonce = service.generateNonce();
 
       const response = await handler(request, nonce);
 
