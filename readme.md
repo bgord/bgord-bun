@@ -456,6 +456,7 @@ src/
 ├── reactive-config-noop.adapter.ts
 ├── reactive-config-with-cache.adapter.ts
 ├── reactive-config-with-fallback.adapter.ts
+├── reactive-config-with-logger.adapter.ts
 ├── reactive-config.port.ts
 ├── readiness-hono.handler.ts
 ├── readiness.handler.ts

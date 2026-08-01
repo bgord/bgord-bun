@@ -383,6 +383,7 @@ export * from "./reactive-config-file-json.adapter";
 export * from "./reactive-config-noop.adapter";
 export * from "./reactive-config-with-cache.adapter";
 export * from "./reactive-config-with-fallback.adapter";
+export * from "./reactive-config-with-logger.adapter";
 export * from "./readiness.handler";
 export * from "./readiness-hono.handler";
 export * from "./recaptcha-secret-key.vo";
