@@ -14,6 +14,6 @@ export class ReactiveConfigWithCacheAdapter<T extends object> implements Reactiv
   async get(): Promise<Readonly<T>> {
     const key = await this.deps.HashContent.hash(this.subject);
 
-    return this.deps.CacheResolver.resolve(key, () => this.inner.get());
+    return Object.freeze(await this.deps.CacheResolver.resolve(key, () => this.inner.get()));
   }
 }

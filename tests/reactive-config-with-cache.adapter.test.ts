@@ -24,7 +24,10 @@ describe("ReactiveConfigWithCacheAdapter", () => {
   test("happy path", async () => {
     const adapter = new ReactiveConfigWithCacheAdapter(inner, "limits", deps);
 
-    expect(await adapter.get()).toEqual({ threshold: 42 });
+    const result = await adapter.get();
+
+    expect(result).toEqual({ threshold: 42 });
+    expect(Object.isFrozen(result)).toEqual(true);
 
     await CacheResolver.flush();
   });
