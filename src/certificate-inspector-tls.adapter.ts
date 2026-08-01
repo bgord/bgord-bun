@@ -11,9 +11,12 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
 
   async inspect(hostname: HostnameType): Promise<CertificateInspection> {
     return new Promise((resolve) => {
-      // Stryker disable all
-      const cleanup = (socket: tls.TLSSocket) => socket.destroy();
-      // Stryker restore all
+      const settle = (result: CertificateInspection) => {
+        // Stryker disable all
+        socket.destroy();
+        // Stryker restore all
+        resolve(result);
+      };
 
       const socket = tls.connect(
         { host: hostname, port: 443, servername: hostname, rejectUnauthorized: false },
@@ -21,30 +24,23 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
           try {
             const certificate = socket.getPeerCertificate();
 
-            if (!certificate?.valid_to) {
-              cleanup(socket);
-              return resolve({ success: false });
-            }
+            if (!certificate?.valid_to) return settle({ success: false });
+
             // biome-ignore lint: lint/style/noRestrictedGlobals
             const remaining = tools.Timestamp.fromNumber(new Date(certificate.valid_to).getTime()).difference(
               this.deps.Clock.now(),
             );
 
-            cleanup(socket);
-            resolve({ success: true, remaining });
+            settle({ success: true, remaining });
           } catch {
-            cleanup(socket);
-            resolve({ success: false });
+            settle({ success: false });
           }
         },
       );
 
       // Stryker disable all
-      socket.once("error", () => {
-        // Stryker restore all
-        cleanup(socket);
-        resolve({ success: false });
-      });
+      socket.once("error", () => settle({ success: false }));
+      // Stryker restore all
     });
   }
 }
