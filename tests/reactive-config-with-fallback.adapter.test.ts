@@ -25,22 +25,21 @@ describe("ReactiveConfigWithFallbackAdapter", () => {
     expect(Object.isFrozen(result)).toEqual(true);
   });
 
-  test("fallback failure - schema violation", async () => {
-    using _ = spyOn(inner, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const adapter = new ReactiveConfigWithFallbackAdapter(
-      inner,
-      schema,
-      // @ts-expect-error intentional schema mismatch
-      { rate: "not-a-number" },
-    );
-
-    expect(async () => adapter.get()).toThrow("rate.invalid");
+  test("fallback failure - schema violation", () => {
+    expect(
+      () =>
+        new ReactiveConfigWithFallbackAdapter(
+          inner,
+          schema,
+          // @ts-expect-error intentional schema mismatch
+          { rate: "not-a-number" },
+        ),
+    ).toThrow("rate.invalid");
   });
 
-  test("fallback failure - async schema", async () => {
-    using _ = spyOn(inner, "get").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const adapter = new ReactiveConfigWithFallbackAdapter(inner, mocks.asyncSchemaCreator({ value: {} }), {});
-
-    expect(async () => adapter.get()).toThrow("standard.schema.validate.error.no.async.schema");
+  test("fallback failure - async schema", () => {
+    expect(
+      () => new ReactiveConfigWithFallbackAdapter(inner, mocks.asyncSchemaCreator({ value: {} }), {}),
+    ).toThrow("standard.schema.validate.error.no.async.schema");
   });
 });

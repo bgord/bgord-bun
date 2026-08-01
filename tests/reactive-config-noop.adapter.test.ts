@@ -15,19 +15,20 @@ describe("ReactiveConfigNoopAdapter", () => {
     expect(Object.isFrozen(result)).toEqual(true);
   });
 
-  test("failure - schema violation", async () => {
-    const adapter = new ReactiveConfigNoopAdapter(
-      schema,
-      // @ts-expect-error intentional schema mismatch
-      { timeout: "not-a-number", label: "default" },
-    );
-
-    expect(async () => adapter.get()).toThrow("timeout.invalid");
+  test("failure - schema violation", () => {
+    expect(
+      () =>
+        new ReactiveConfigNoopAdapter(
+          schema,
+          // @ts-expect-error intentional schema mismatch
+          { timeout: "not-a-number", label: "default" },
+        ),
+    ).toThrow("timeout.invalid");
   });
 
-  test("failure - async schema", async () => {
-    const adapter = new ReactiveConfigNoopAdapter(mocks.asyncSchemaCreator({ value: {} }), {});
-
-    expect(async () => adapter.get()).toThrow("standard.schema.validate.error.no.async.schema");
+  test("failure - async schema", () => {
+    expect(() => new ReactiveConfigNoopAdapter(mocks.asyncSchemaCreator({ value: {} }), {})).toThrow(
+      "standard.schema.validate.error.no.async.schema",
+    );
   });
 });

@@ -2,12 +2,13 @@ import type { ReactiveConfigPort, ReactiveConfigSchema } from "./reactive-config
 import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
 export class ReactiveConfigNoopAdapter<T extends object> implements ReactiveConfigPort<T> {
-  constructor(
-    private readonly schema: ReactiveConfigSchema<T>,
-    private readonly value: T,
-  ) {}
+  private readonly value: Readonly<T>;
+
+  constructor(schema: ReactiveConfigSchema<T>, value: T) {
+    this.value = Object.freeze(StandardSchemaValidator.validate(schema, value));
+  }
 
   async get(): Promise<Readonly<T>> {
-    return Object.freeze(StandardSchemaValidator.validate(this.schema, this.value));
+    return this.value;
   }
 }
