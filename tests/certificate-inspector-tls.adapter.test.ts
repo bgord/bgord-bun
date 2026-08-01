@@ -121,7 +121,7 @@ describe("CertificateInspectorTLSAdapter", () => {
     );
   });
 
-  test("failure - unparseable certificate valid_to", async () => {
+  test("failure - invalid certificate valid_to", async () => {
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
         once() {

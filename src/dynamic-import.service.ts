@@ -11,8 +11,8 @@ export class DynamicImport<T> {
   async resolve(): Promise<T> {
     try {
       return await this.import();
-    } catch {
-      throw new Error(this.error);
+    } catch (error) {
+      throw new Error(this.error, { cause: error });
     }
   }
 
