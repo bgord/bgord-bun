@@ -15,4 +15,8 @@ describe("CronSchedulerAdapter", () => {
   test("verify - true", async () => {
     expect(await adapter.verify()).toEqual(true);
   });
+
+  test("verify - false", async () => {
+    expect(await new CronSchedulerAdapter().verify()).toEqual(false);
+  });
 });
