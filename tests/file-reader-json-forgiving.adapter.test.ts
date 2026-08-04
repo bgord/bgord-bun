@@ -43,4 +43,13 @@ describe("FileReaderJsonForgivingAdapter", () => {
     expect(await FileReaderJson.read(path)).toEqual({});
     expect(bunFile).toHaveBeenCalledWith(path.get());
   });
+
+  test("happy path - malformed json", async () => {
+    // @ts-expect-error Partial access
+    using bunFile = spyOn(Bun, "file").mockReturnValue({ json: mocks.throwIntentionalErrorAsync });
+    const path = tools.FilePathAbsolute.fromString("/users/package.json");
+
+    expect(await FileReaderJson.read(path)).toEqual({});
+    expect(bunFile).toHaveBeenCalledWith(path.get());
+  });
 });

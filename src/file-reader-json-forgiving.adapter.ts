@@ -6,7 +6,7 @@ export class FileReaderJsonForgivingAdapter implements FileReaderJsonPort {
     path: tools.FilePathRelative | tools.FilePathAbsolute | string,
   ): Promise<FileReaderJsonOutputType> {
     try {
-      return Bun.file(typeof path === "string" ? path : path.get()).json();
+      return await Bun.file(typeof path === "string" ? path : path.get()).json();
     } catch {
       return {};
     }
