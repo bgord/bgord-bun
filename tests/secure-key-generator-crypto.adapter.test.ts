@@ -11,4 +11,14 @@ describe("SecureKeyGeneratorCryptoAdapter", () => {
     expect(result.length).toEqual(8);
     expect(result.toHex().length).toEqual(16);
   });
+
+  test("happy path - above the limit", () => {
+    const adapter = new SecureKeyGeneratorCryptoAdapter();
+    const bytes = SecureKeyGeneratorCryptoAdapter.MAX_BYTES + 1;
+
+    const result = adapter.generate(tools.Int.positive(bytes));
+
+    expect(result.length).toEqual(bytes);
+    expect(result.subarray(SecureKeyGeneratorCryptoAdapter.MAX_BYTES).some(Boolean)).toEqual(true);
+  });
 });
