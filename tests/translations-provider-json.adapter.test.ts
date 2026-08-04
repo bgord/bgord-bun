@@ -41,6 +41,13 @@ describe("TranslationsProviderJsonAdapter", () => {
     expect(await adapter.getTranslationsFor(language)).toEqual({});
   });
 
+  test("error - nested translations", async () => {
+    const FileReaderJson = new FileReaderJsonNoopAdapter({ auth: { login: "Log in" } });
+    const adapter = new TranslationsProviderJsonAdapter({ FileReaderJson });
+
+    expect(adapter.getTranslationsFor(language)).rejects.toThrow("translations.invalid");
+  });
+
   test("error - file reader json propagates", async () => {
     const FileReaderJson = new FileReaderJsonNoopAdapter(translations);
     const adapter = new TranslationsProviderJsonAdapter({ FileReaderJson });

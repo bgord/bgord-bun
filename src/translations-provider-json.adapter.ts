@@ -1,7 +1,11 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { FileReaderJsonPort } from "./file-reader-json.port";
-import type { TranslationsProviderPort, TranslationsType } from "./translations-provider.port";
+import {
+  Translations,
+  type TranslationsProviderPort,
+  type TranslationsType,
+} from "./translations-provider.port";
 
 type Config = { path?: tools.DirectoryPathRelativeType };
 type Dependencies = { FileReaderJson: FileReaderJsonPort };
@@ -20,6 +24,6 @@ export class TranslationsProviderJsonAdapter implements TranslationsProviderPort
       tools.Filename.fromParts(language, "json"),
     );
 
-    return this.deps.FileReaderJson.read(path);
+    return v.parse(Translations, await this.deps.FileReaderJson.read(path));
   }
 }
