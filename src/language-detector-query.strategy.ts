@@ -9,7 +9,7 @@ export class LanguageDetectorQueryStrategy<T extends tools.LanguageType>
   constructor(private readonly name: string) {}
 
   detect(context: HasRequestQuery, languages: Languages<T>): T | null {
-    const detected = context.request.query()[this.name];
+    const detected = context.request.query()[this.name]?.toLowerCase();
 
     return languages.isSupported(detected) ? detected : null;
   }

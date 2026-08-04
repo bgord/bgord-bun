@@ -15,6 +15,12 @@ describe("LanguageDetectorQueryStrategy", () => {
     expect(strategy.detect(pl, mocks.languages)).toEqual(mocks.languages.supported.pl);
   });
 
+  test("happy path - uppercase", () => {
+    const context = new RequestContextBuilder().withQuery({ [query]: "EN" }).build();
+
+    expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.en);
+  });
+
   test("missing", () => {
     const context = new RequestContextBuilder().build();
 

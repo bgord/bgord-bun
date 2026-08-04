@@ -9,7 +9,7 @@ export class LanguageDetectorCookieStrategy<T extends tools.LanguageType>
   constructor(private readonly name: string) {}
 
   detect(context: HasRequestCookie, languages: Languages<T>): T | null {
-    const detected = context.request.cookie(this.name);
+    const detected = context.request.cookie(this.name)?.toLowerCase();
 
     return languages.isSupported(detected) ? detected : null;
   }
