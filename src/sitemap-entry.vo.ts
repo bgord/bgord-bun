@@ -28,7 +28,7 @@ export class SitemapEntry {
     const lastmod = this.entry.lastmod ? `<lastmod>${this.entry.lastmod}</lastmod>` : "";
     const changefreq = this.entry.changefreq ? `<changefreq>${this.entry.changefreq}</changefreq>` : "";
     const priority =
-      this.entry.priority !== undefined ? `<priority>${this.entry.priority.toFixed(1)}</priority>` : "";
+      this.entry.priority !== undefined ? `<priority>${this.entry.priority.toFixed(2)}</priority>` : "";
 
     return ["<url>", loc, lastmod, changefreq, priority, "</url>"].join("");
   }

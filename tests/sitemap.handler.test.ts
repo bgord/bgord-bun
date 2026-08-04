@@ -56,7 +56,7 @@ describe("SitemapHandler", () => {
             <loc>https://two.com</loc>
             <lastmod>2025-01-01</lastmod>
             <changefreq>monthly</changefreq>
-            <priority>0.5</priority>
+            <priority>0.50</priority>
           </url>
         </urlset>
       `,

@@ -6,6 +6,7 @@ export const SitemapPriority = v.pipe(
   v.number(SitemapPriorityError.Invalid),
   v.minValue(0, SitemapPriorityError.Invalid),
   v.maxValue(1, SitemapPriorityError.Invalid),
+  v.check((value) => Number(value.toFixed(2)) === value, SitemapPriorityError.Invalid),
   // Stryker disable next-line StringLiteral
   v.brand("SitemapPriority"),
 );

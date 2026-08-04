@@ -6,6 +6,7 @@ describe("SitemapPriority", () => {
   test("happy path", () => {
     expect(v.safeParse(SitemapPriority, 0).success).toEqual(true);
     expect(v.safeParse(SitemapPriority, 0.5).success).toEqual(true);
+    expect(v.safeParse(SitemapPriority, 0.85).success).toEqual(true);
     expect(v.safeParse(SitemapPriority, 1).success).toEqual(true);
   });
 
@@ -23,5 +24,9 @@ describe("SitemapPriority", () => {
 
   test("rejects above range", () => {
     expect(() => v.parse(SitemapPriority, 1.1)).toThrow("sitemap.priority.invalid");
+  });
+
+  test("rejects more than two decimals", () => {
+    expect(() => v.parse(SitemapPriority, 0.855)).toThrow("sitemap.priority.invalid");
   });
 });

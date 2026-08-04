@@ -30,7 +30,15 @@ describe("SitemapEntry", () => {
 
   test("loc + lastmod + changefreq + priority", () => {
     expect(new SitemapEntry({ loc, lastmod, changefreq, priority }).toXml()).toEqual(
-      "<url><loc>https://example.com</loc><lastmod>2025-01-01</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>",
+      "<url><loc>https://example.com</loc><lastmod>2025-01-01</lastmod><changefreq>daily</changefreq><priority>0.80</priority></url>",
+    );
+  });
+
+  test("loc + priority with two decimals", () => {
+    const priority = v.parse(SitemapPriority, 0.85);
+
+    expect(new SitemapEntry({ loc, priority }).toXml()).toEqual(
+      "<url><loc>https://example.com</loc><priority>0.85</priority></url>",
     );
   });
 
