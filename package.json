@@ -42,7 +42,7 @@
   "dependencies": {
     "@bgord/tools": "1.6.2",
     "emittery": "2.0.0",
-    "hono": "4.12.32",
+    "hono": "4.12.33",
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
