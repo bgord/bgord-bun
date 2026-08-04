@@ -41,11 +41,11 @@ describe("TranslationsProviderJsonAdapter", () => {
     expect(await adapter.getTranslationsFor(language)).toEqual({});
   });
 
-  test("error - file reader json", async () => {
+  test("error - file reader json propagates", async () => {
     const FileReaderJson = new FileReaderJsonNoopAdapter(translations);
     const adapter = new TranslationsProviderJsonAdapter({ FileReaderJson });
     using _ = spyOn(FileReaderJson, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(await adapter.getTranslationsFor(language)).toEqual({});
+    expect(adapter.getTranslationsFor(language)).rejects.toThrow();
   });
 });

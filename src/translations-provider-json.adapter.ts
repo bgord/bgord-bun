@@ -20,10 +20,6 @@ export class TranslationsProviderJsonAdapter implements TranslationsProviderPort
       tools.Filename.fromParts(language, "json"),
     );
 
-    try {
-      return await this.deps.FileReaderJson.read(path);
-    } catch (error) {
-      return {};
-    }
+    return this.deps.FileReaderJson.read(path);
   }
 }
