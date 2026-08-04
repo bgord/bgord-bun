@@ -3,7 +3,7 @@ import * as v from "valibot";
 import type { TimekeeperPort } from "./timekeeper.port";
 
 export class TimekeeperGoogleAdapter implements TimekeeperPort {
-  static URL = v.parse(tools.UrlWithoutSlash, "https://www.google.com/generate_204");
+  static readonly URL = v.parse(tools.UrlWithoutSlash, "https://www.google.com/generate_204");
 
   async get(): Promise<tools.Timestamp | null> {
     try {
