@@ -29,6 +29,18 @@ describe("CorrelationHonoMiddleware", () => {
     });
   });
 
+  test("no incoming - raw response", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono<Config>()
+      .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
+      .get("/ping", () => new Response("raw"));
+
+    const response = await app.request("/ping");
+
+    expect(response.headers.get(CorrelationMiddleware.HEADER_NAME)).toEqual(mocks.correlationId);
+    expect(await response.text()).toEqual("raw");
+  });
+
   test("incoming - correct", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 0));
     const app = new Hono<Config>()

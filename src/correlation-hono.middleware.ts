@@ -21,9 +21,12 @@ export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
       const result = this.correlationId.evaluate(context);
 
       c.set("correlationId", result);
-      c.header(CorrelationMiddleware.HEADER_NAME, result);
 
-      return CorrelationStorage.run(result, next);
+      return CorrelationStorage.run(result, async () => {
+        await next();
+
+        c.header(CorrelationMiddleware.HEADER_NAME, result);
+      });
     });
   }
 }
