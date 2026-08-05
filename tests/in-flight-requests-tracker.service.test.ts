@@ -24,4 +24,12 @@ describe("InFlightRequestsTracker", () => {
 
     expect(InFlightRequestsTracker.get()).toEqual(tools.Int.of(0));
   });
+
+  test("zero clamping", () => {
+    InFlightRequestsTracker._resetForTest();
+
+    InFlightRequestsTracker.decrement();
+
+    expect(InFlightRequestsTracker.get()).toEqual(tools.Int.of(0));
+  });
 });

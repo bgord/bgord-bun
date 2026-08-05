@@ -4,11 +4,11 @@ export class InFlightRequestsTracker {
   private static count: tools.IntegerType = tools.Int.of(0);
 
   static increment(): void {
-    InFlightRequestsTracker.count++;
+    InFlightRequestsTracker.count = tools.Int.of(InFlightRequestsTracker.count + 1);
   }
 
   static decrement(): void {
-    InFlightRequestsTracker.count--;
+    InFlightRequestsTracker.count = tools.Int.of(Math.max(0, InFlightRequestsTracker.count - 1));
   }
 
   static get(): tools.IntegerType {
