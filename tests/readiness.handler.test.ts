@@ -22,19 +22,7 @@ describe("ReadinessHandler", () => {
     });
   });
 
-  test("503", async () => {
-    const handler = new ReadinessHandler({
-      prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
-    });
-
-    const result = await handler.check();
-
-    expect(result.ok).toEqual(false);
-    expect(result.details[0]?.outcome.outcome).toEqual(PrerequisiteVerificationOutcome.success);
-    expect(result.details[1]?.outcome.outcome).toEqual(PrerequisiteVerificationOutcome.failure);
-  });
-
-  test("ignores port prerequisite", async () => {
+  test("200 - ignores port prerequisite", async () => {
     const handler = new ReadinessHandler({
       prerequisites: [
         mocks.PrerequisiteOk,
@@ -46,5 +34,17 @@ describe("ReadinessHandler", () => {
 
     expect(result.ok).toEqual(true);
     expect(result.details.length).toEqual(1);
+  });
+
+  test("503", async () => {
+    const handler = new ReadinessHandler({
+      prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteFail],
+    });
+
+    const result = await handler.check();
+
+    expect(result.ok).toEqual(false);
+    expect(result.details[0]?.outcome.outcome).toEqual(PrerequisiteVerificationOutcome.success);
+    expect(result.details[1]?.outcome.outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });
 });

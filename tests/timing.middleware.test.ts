@@ -14,6 +14,7 @@ describe("TimingMiddleware", () => {
     const middleware = new TimingMiddleware({ Clock });
 
     expect(await middleware.measure(context, () => Clock.advanceBy(duration))).toEqual("total;dur=100");
+    expect(TimingMiddleware.HEADER_NAME).toEqual("Server-Timing");
   });
 
   test("sync - SSE", async () => {
@@ -93,9 +94,5 @@ describe("TimingMiddleware", () => {
     };
 
     expect(async () => middleware.measure(context, action)).toThrow(mocks.IntentionalError);
-  });
-
-  test("header name", () => {
-    expect(TimingMiddleware.HEADER_NAME).toEqual("Server-Timing");
   });
 });

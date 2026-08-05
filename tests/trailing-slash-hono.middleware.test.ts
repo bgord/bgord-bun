@@ -39,6 +39,15 @@ describe("TrailingSlashHonoMiddleware", () => {
     expect(response.headers.get("location")).toEqual("/api/users");
   });
 
+  test("redirect - multiple segments", async () => {
+    const app = new Hono().use(middleware.handle()).get("/api/v1/users/123", (c) => c.text("ok"));
+
+    const response = await app.request("/api/v1/users/123/");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("/api/v1/users/123");
+  });
+
   test("redirect - preserves query string", async () => {
     const response = await app.request("/data/?page=1");
 

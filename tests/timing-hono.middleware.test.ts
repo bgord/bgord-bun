@@ -37,7 +37,7 @@ describe("TimingHonoMiddleware", () => {
     expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual(`db;dur=5, total;dur=${duration}`);
   });
 
-  test("sync - streaming", async () => {
+  test("sync - SSE", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/ping", (c) => {
       Clock.advanceBy(duration);
@@ -45,6 +45,20 @@ describe("TimingHonoMiddleware", () => {
     });
 
     const response = await app.request("/ping", { headers: { accept: "text/event-stream" } });
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual(null);
+    expect(await response.text()).toEqual("ok");
+  });
+
+  test("sync - streaming - non-standard header", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/ping", (c) => {
+      Clock.advanceBy(duration);
+      return c.text("ok");
+    });
+
+    const response = await app.request("/ping", { headers: { accept: "text/event-stream;charset=utf-8" } });
 
     expect(response.status).toEqual(200);
     expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual(null);
@@ -93,7 +107,7 @@ describe("TimingHonoMiddleware", () => {
     expect(await response.text()).toEqual("ok");
   });
 
-  test("async - streaming", async () => {
+  test("async - SSE", async () => {
     const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
     const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/async", async (c) => {
       Clock.advanceBy(duration);
@@ -101,6 +115,20 @@ describe("TimingHonoMiddleware", () => {
     });
 
     const response = await app.request("/async", { headers: { accept: "text/event-stream" } });
+
+    expect(response.status).toEqual(200);
+    expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual(null);
+    expect(await response.text()).toEqual("ok");
+  });
+
+  test("async - streaming - non-standard header", async () => {
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const app = new Hono().use(new TimingHonoMiddleware({ Clock }).handle()).get("/async", async (c) => {
+      Clock.advanceBy(duration);
+      return c.text("ok");
+    });
+
+    const response = await app.request("/async", { headers: { accept: "text/event-stream;charset=utf-8" } });
 
     expect(response.status).toEqual(200);
     expect(response.headers.get(TimingMiddleware.HEADER_NAME)).toEqual(null);

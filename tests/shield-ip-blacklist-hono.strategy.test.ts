@@ -42,6 +42,14 @@ describe("ShieldIpBlacklistHonoStrategy", () => {
     expect(json.message).toEqual("shield.ip.blacklist.rejected");
   });
 
+  test("denied - no ip", async () => {
+    const result = await app.request("/ping", { method: "GET" }, { server: { requestIP: () => null } });
+    const json = await result.json();
+
+    expect(result.status).toEqual(403);
+    expect(json.message).toEqual("shield.ip.blacklist.rejected");
+  });
+
   test("denied - invalid ip", async () => {
     const result = await app.request("/ping", {
       method: "GET",

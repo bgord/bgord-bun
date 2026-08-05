@@ -11,6 +11,7 @@ const shield = new ShieldCsrfHonoStrategy({ origin: [APP_ORIGIN] });
 const app = new Hono()
   .use(shield.handle())
   .get("/ping", (c) => c.text("ok"))
+  .on(["HEAD", "OPTIONS", "TRACE"], "/ping", (c) => c.text("ok"))
   .post("/action", (c) => c.text("ok"))
   .put("/action", (c) => c.text("ok"))
   .patch("/action", (c) => c.text("ok"))
@@ -36,6 +37,14 @@ describe("ShieldCsrfHonoStrategy", () => {
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("ok");
+  });
+
+  test("safe method - allowed - every safe method", async () => {
+    for (const method of ["HEAD", "OPTIONS", "TRACE"]) {
+      const response = await app.request("/ping", { method, headers: { Origin: EVIL_ORIGIN } });
+
+      expect(response.status).toEqual(200);
+    }
   });
 
   test("state-changing - allowed - no origin", async () => {

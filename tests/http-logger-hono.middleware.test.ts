@@ -20,7 +20,7 @@ const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 11));
+const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 14));
 const deps = { Logger, Clock, IdProvider };
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
@@ -197,6 +197,19 @@ describe("HttpLoggerHonoMiddleware", () => {
     expect(loggerHttp).not.toHaveBeenCalled();
   });
 
+  test("skip - sse - non-standard header", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request(
+      "/ping",
+      { method: "GET", headers: { accept: "text/event-stream;charset=utf-8" } },
+      mocks.connInfo,
+    );
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).not.toHaveBeenCalled();
+  });
+
   test("skip - path", async () => {
     using loggerHttp = spyOn(Logger, "http");
 
@@ -218,6 +231,20 @@ describe("HttpLoggerHonoMiddleware", () => {
 
     expect(profile.status).toEqual(200);
     expect(loggerHttp).toHaveBeenCalled();
+  });
+
+  test("skip - no config", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const app = new Hono()
+      .use(new CorrelationHonoMiddleware(deps).handle())
+      .use(new HttpLoggerHonoMiddleware(deps, { skip: undefined }).handle())
+      .get("/anything", (c) => c.json({ message: "OK" }));
+
+    const result = await app.request("/anything", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenCalledTimes(2);
   });
 
   test("cache-hit", async () => {

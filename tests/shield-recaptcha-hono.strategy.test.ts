@@ -45,6 +45,26 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     });
   });
 
+  test("happy path - query fallback", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9 })),
+    );
+
+    const response = await app.request(`http://localhost/?recaptchaToken=${VALID_TOKEN}`, {
+      method: "POST",
+      headers: HEADERS,
+      body: SAFE_BODY,
+    });
+
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("ok");
+    expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      headers: HEADERS,
+    });
+  });
+
   test("happy path - remote ip list", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
@@ -148,7 +168,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     expect(response.status).toEqual(403);
   });
 
-  test("failure - low score", async () => {
+  test("failure - custom threshold", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.1 })),
     );

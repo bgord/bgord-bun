@@ -60,6 +60,36 @@ describe("ShieldBasicAuthHonoStrategy", () => {
     expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
   });
 
+  test("denied - credentials without a separator", async () => {
+    const config = {
+      username: v.parse(BasicAuthUsername, "a"),
+      password: v.parse(BasicAuthPassword, "ab"),
+      realm: "Restricted",
+    };
+    const shield = new ShieldBasicAuthHonoStrategy(config);
+    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: new Headers({ authorization: `Basic ${btoa("ab")}` }),
+    });
+
+    expect(result.status).toEqual(401);
+    expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
+  });
+
+  test("denied - different-length username", async () => {
+    const result = await app.request("/ping", {
+      method: "GET",
+      headers: BasicAuth.toHeader({ ...config, username: v.parse(BasicAuthUsername, "ad") }),
+    });
+
+    expect(result.status).toEqual(401);
+    expect(await result.text()).toEqual("shield.basic.auth.rejected");
+    expect(result.headers.get("WWW-Authenticate")).toEqual('Basic realm="Restricted"');
+  });
+
   test("denied - invalid username", async () => {
     const result = await app.request("/ping", { method: "GET", headers: username });
 
