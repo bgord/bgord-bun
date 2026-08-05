@@ -27,6 +27,19 @@ describe("ShieldMaintenanceHonoStrategy", () => {
     expect(header).toEqual(tools.Duration.Hours(1).seconds.toString());
   });
 
+  test("enabled - rounding", async () => {
+    const shield = new ShieldMaintenanceHonoStrategy({
+      MaintenanceConfig: MaintenanceConfigEnabled,
+      RetryAfter: tools.Duration.Ms(1500),
+    });
+    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+
+    const result = await app.request("/ping", { method: "GET" });
+
+    expect(result.status).toEqual(503);
+    expect(result.headers.get("Retry-After")).toEqual("2");
+  });
+
   test("enabled - custom retry after", async () => {
     const RetryAfter = tools.Duration.Hours(2);
     const shield = new ShieldMaintenanceHonoStrategy({
