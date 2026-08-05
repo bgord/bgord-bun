@@ -44,33 +44,51 @@ describe("ShieldMaintenanceStrategy", () => {
   test("enabled - default retry after", async () => {
     const strategy = new ShieldMaintenanceStrategy({ MaintenanceConfig: MaintenanceConfigEnabled });
 
-    expect(await strategy.evaluate()).toEqual({ enabled: true, RetryAfter: tools.Duration.Hours(1) });
+    expect(await strategy.evaluate()).toEqual({
+      enabled: true,
+      code: 503,
+      body: { reason: "maintenance" },
+      headers: { "Retry-After": "3600" },
+    });
   });
 
   test("enabled - custom retry after", async () => {
-    const RetryAfter = tools.Duration.Hours(2);
     const strategy = new ShieldMaintenanceStrategy({
       MaintenanceConfig: MaintenanceConfigEnabled,
-      RetryAfter,
+      RetryAfter: tools.Duration.Hours(2),
     });
 
-    expect(await strategy.evaluate()).toEqual({ enabled: true, RetryAfter });
+    expect(await strategy.evaluate()).toEqual({
+      enabled: true,
+      code: 503,
+      body: { reason: "maintenance" },
+      headers: { "Retry-After": "7200" },
+    });
   });
 
   test("enabled - rounding", async () => {
-    const RetryAfter = tools.Duration.Ms(1500);
     const strategy = new ShieldMaintenanceStrategy({
       MaintenanceConfig: MaintenanceConfigEnabled,
-      RetryAfter,
+      RetryAfter: tools.Duration.Ms(1500),
     });
 
-    expect(await strategy.evaluate()).toEqual({ enabled: true, RetryAfter });
+    expect(await strategy.evaluate()).toEqual({
+      enabled: true,
+      code: 503,
+      body: { reason: "maintenance" },
+      headers: { "Retry-After": "2" },
+    });
   });
 
   test("disabled", async () => {
     const strategy = new ShieldMaintenanceStrategy({ MaintenanceConfig: MaintenanceConfigDisabled });
 
-    expect(await strategy.evaluate()).toEqual({ enabled: false, RetryAfter: tools.Duration.Hours(1) });
+    expect(await strategy.evaluate()).toEqual({
+      enabled: false,
+      code: 503,
+      body: { reason: "maintenance" },
+      headers: { "Retry-After": "3600" },
+    });
   });
 
   test("no config - disabled by default", async () => {

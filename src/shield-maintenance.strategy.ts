@@ -13,7 +13,15 @@ export type ShieldMaintenanceConfig = {
   skip?: ReadonlyArray<string | URLPattern>;
 };
 
+export type ShieldMaintenanceResult = {
+  enabled: boolean;
+  code: 503;
+  body: { reason: string };
+  headers: Record<string, string>;
+};
+
 export class ShieldMaintenanceStrategy {
+  private readonly rounding = new tools.RoundingUpStrategy();
   private readonly MaintenanceConfig?: ReactiveConfigPort<MaintenanceType>;
   private readonly RetryAfter: tools.Duration;
 
@@ -31,10 +39,15 @@ export class ShieldMaintenanceStrategy {
     );
   }
 
-  async evaluate(): Promise<{ enabled: boolean; RetryAfter: tools.Duration }> {
+  async evaluate(): Promise<ShieldMaintenanceResult> {
     const maintenance = await this.MaintenanceConfig?.get();
     const enabled = maintenance ? tools.FeatureFlag.from(maintenance.enabled).isEnabled() : false;
 
-    return { enabled, RetryAfter: this.RetryAfter };
+    return {
+      enabled,
+      code: 503,
+      body: { reason: "maintenance" },
+      headers: { "Retry-After": this.rounding.round(this.RetryAfter.seconds).toString() },
+    };
   }
 }
