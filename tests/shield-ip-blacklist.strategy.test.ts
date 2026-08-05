@@ -34,4 +34,10 @@ describe("ShieldIpBlacklistStrategy", () => {
 
     expect(strategy.evaluate(context)).toEqual(false);
   });
+
+  test("denied - spoofed proxy headers", () => {
+    const context = new RequestContextBuilder().withIp(ALLOWED_IP).withRemoteIp(BLOCKED_IP).build();
+
+    expect(strategy.evaluate(context)).toEqual(false);
+  });
 });

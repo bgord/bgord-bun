@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { ClientIp, type ClientIpType } from "./client-ip.vo";
-import type { HasIdentityIp } from "./request-context.port";
+import type { HasIdentityRemoteIp } from "./request-context.port";
 
 export type ShieldIpBlacklistConfig = { blacklist: ReadonlyArray<ClientIpType> };
 
@@ -9,8 +9,8 @@ export const ShieldIpBlacklistStrategyError = { Rejected: "shield.ip.blacklist.r
 export class ShieldIpBlacklistStrategy {
   constructor(private readonly config: ShieldIpBlacklistConfig) {}
 
-  evaluate(context: HasIdentityIp): boolean {
-    const ip = v.safeParse(ClientIp, context.identity.ip());
+  evaluate(context: HasIdentityRemoteIp): boolean {
+    const ip = v.safeParse(ClientIp, context.identity.remoteIp());
 
     if (!ip.success) return false;
     return !this.config.blacklist.includes(ip.output);

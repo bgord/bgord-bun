@@ -9,6 +9,10 @@ const BLOCKED_IP = v.parse(ClientIp, "10.0.0.1");
 const ALLOWED_IP = "192.168.1.1";
 const INVALID_IP = "not-an-ip";
 
+const connInfo = (address: string | null) => ({
+  server: { requestIP: () => (address ? { address } : null) },
+});
+
 const shield = new ShieldIpBlacklistHonoStrategy({ blacklist: [BLOCKED_IP] });
 
 const app = new Hono()
@@ -23,19 +27,13 @@ const app = new Hono()
 
 describe("ShieldIpBlacklistHonoStrategy", () => {
   test("happy path", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ "x-forwarded-for": ALLOWED_IP }),
-    });
+    const result = await app.request("/ping", { method: "GET" }, connInfo(ALLOWED_IP));
 
     expect(result.status).toEqual(200);
   });
 
   test("denied - ip in blacklist", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ "x-forwarded-for": BLOCKED_IP }),
-    });
+    const result = await app.request("/ping", { method: "GET" }, connInfo(BLOCKED_IP));
     const json = await result.json();
 
     expect(result.status).toEqual(403);
@@ -43,7 +41,7 @@ describe("ShieldIpBlacklistHonoStrategy", () => {
   });
 
   test("denied - no ip", async () => {
-    const result = await app.request("/ping", { method: "GET" }, { server: { requestIP: () => null } });
+    const result = await app.request("/ping", { method: "GET" }, connInfo(null));
     const json = await result.json();
 
     expect(result.status).toEqual(403);
@@ -51,10 +49,19 @@ describe("ShieldIpBlacklistHonoStrategy", () => {
   });
 
   test("denied - invalid ip", async () => {
-    const result = await app.request("/ping", {
-      method: "GET",
-      headers: new Headers({ "x-forwarded-for": INVALID_IP }),
-    });
+    const result = await app.request("/ping", { method: "GET" }, connInfo(INVALID_IP));
+    const json = await result.json();
+
+    expect(result.status).toEqual(403);
+    expect(json.message).toEqual("shield.ip.blacklist.rejected");
+  });
+
+  test("denied - spoofed proxy headers", async () => {
+    const result = await app.request(
+      "/ping",
+      { method: "GET", headers: new Headers({ "x-real-ip": ALLOWED_IP, "x-forwarded-for": ALLOWED_IP }) },
+      connInfo(BLOCKED_IP),
+    );
     const json = await result.json();
 
     expect(result.status).toEqual(403);
