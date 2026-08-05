@@ -6,9 +6,15 @@ import {
 
 export type ReadinessConfig = { prerequisites: ReadonlyArray<Prerequisite> };
 
+export enum ReadinessStatusCode {
+  Ready = 200,
+  NotReady = 503,
+}
+
 type ReadinessResult = {
-  ok: boolean;
+  code: ReadinessStatusCode;
   details: ReadonlyArray<{ label: PrerequisiteLabelType; outcome: PrerequisiteVerificationResult }>;
+  headers: Record<string, string>;
 };
 
 export class ReadinessHandler {
@@ -26,8 +32,13 @@ export class ReadinessHandler {
       })),
     );
 
+    // Undetermined keeps traffic flowing here, unlike healthcheck where it degrades to 207
     const ok = details.every((detail) => detail.outcome.outcome !== PrerequisiteVerificationOutcome.failure);
 
-    return { ok, details };
+    return {
+      code: ok ? ReadinessStatusCode.Ready : ReadinessStatusCode.NotReady,
+      details,
+      headers: { "Cache-Control": "no-store" },
+    };
   }
 }

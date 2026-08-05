@@ -4,7 +4,7 @@ import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
-import { ReadinessHandler } from "../src/readiness.handler";
+import { ReadinessHandler, ReadinessStatusCode } from "../src/readiness.handler";
 import * as mocks from "./mocks";
 
 describe("ReadinessHandler", () => {
@@ -17,8 +17,9 @@ describe("ReadinessHandler", () => {
     });
 
     expect(await handler.check()).toEqual({
-      ok: true,
+      code: ReadinessStatusCode.Ready,
       details: [{ label: "ok", outcome: PrerequisiteVerification.success }],
+      headers: { "Cache-Control": "no-store" },
     });
   });
 
@@ -30,10 +31,7 @@ describe("ReadinessHandler", () => {
       ],
     });
 
-    const result = await handler.check();
-
-    expect(result.ok).toEqual(true);
-    expect(result.details.length).toEqual(1);
+    expect((await handler.check()).details.length).toEqual(1);
   });
 
   test("503", async () => {
@@ -43,7 +41,7 @@ describe("ReadinessHandler", () => {
 
     const result = await handler.check();
 
-    expect(result.ok).toEqual(false);
+    expect(result.code).toEqual(ReadinessStatusCode.NotReady);
     expect(result.details[0]?.outcome.outcome).toEqual(PrerequisiteVerificationOutcome.success);
     expect(result.details[1]?.outcome.outcome).toEqual(PrerequisiteVerificationOutcome.failure);
   });

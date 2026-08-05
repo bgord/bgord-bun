@@ -13,10 +13,9 @@ export class ReadinessHonoHandler implements HandlerHonoPort {
 
   handle() {
     return factory.createHandlers(async (c) => {
-      const readiness = await this.handler.check();
-      const code = readiness.ok ? 200 : 503;
+      const result = await this.handler.check();
 
-      return c.json(readiness, code);
+      return c.json(result.details, result.code, result.headers);
     });
   }
 }
