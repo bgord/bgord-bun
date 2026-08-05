@@ -11,7 +11,7 @@ export class ShieldMaintenanceHonoStrategy implements MiddlewareHonoPort {
 
   handle(): MiddlewareHandler {
     return async (c, next) => {
-      const maintenance = this.strategy.evaluate();
+      const maintenance = await this.strategy.evaluate();
 
       if (!maintenance.enabled) return next();
 

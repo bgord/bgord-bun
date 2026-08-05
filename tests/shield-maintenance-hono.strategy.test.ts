@@ -1,11 +1,21 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
+import { Maintenance } from "../src/shield-maintenance.strategy";
 import { ShieldMaintenanceHonoStrategy } from "../src/shield-maintenance-hono.strategy";
+
+const MaintenanceConfigEnabled = new ReactiveConfigNoopAdapter(Maintenance, {
+  enabled: tools.FeatureFlagEnum.yes,
+});
+
+const MaintenanceConfigDisabled = new ReactiveConfigNoopAdapter(Maintenance, {
+  enabled: tools.FeatureFlagEnum.no,
+});
 
 describe("ShieldMaintenanceHonoStrategy", () => {
   test("enabled - default retry after", async () => {
-    const shield = new ShieldMaintenanceHonoStrategy({ enabled: true });
+    const shield = new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigEnabled });
     const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET" });
@@ -19,7 +29,10 @@ describe("ShieldMaintenanceHonoStrategy", () => {
 
   test("enabled - custom retry after", async () => {
     const RetryAfter = tools.Duration.Hours(2);
-    const shield = new ShieldMaintenanceHonoStrategy({ enabled: true, RetryAfter });
+    const shield = new ShieldMaintenanceHonoStrategy({
+      MaintenanceConfig: MaintenanceConfigEnabled,
+      RetryAfter,
+    });
     const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET" });
@@ -32,7 +45,7 @@ describe("ShieldMaintenanceHonoStrategy", () => {
   });
 
   test("disabled", async () => {
-    const shield = new ShieldMaintenanceHonoStrategy({ enabled: false });
+    const shield = new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigDisabled });
     const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
 
     const result = await app.request("/ping", { method: "GET" });

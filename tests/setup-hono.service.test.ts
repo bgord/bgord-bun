@@ -16,6 +16,7 @@ import type { LanguageDetectorVariables } from "../src/language-detector-hono.mi
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SetupHono } from "../src/setup-hono.service";
+import { Maintenance } from "../src/shield-maintenance.strategy";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
 import type { TimeZoneOffsetVariables } from "../src/time-zone-offset-hono.middleware";
 import * as mocks from "./mocks";
@@ -42,7 +43,18 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(
-        ...SetupHono.essentials({ csrf, I18n, maintenanceMode: { enabled: true } }, { ...deps, IdProvider }),
+        ...SetupHono.essentials(
+          {
+            csrf,
+            I18n,
+            maintenanceMode: {
+              MaintenanceConfig: new ReactiveConfigNoopAdapter(Maintenance, {
+                enabled: tools.FeatureFlagEnum.yes,
+              }),
+            },
+          },
+          { ...deps, IdProvider },
+        ),
       )
       .get("/ping", (c) => c.text("OK"));
 
