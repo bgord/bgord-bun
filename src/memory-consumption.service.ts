@@ -7,10 +7,6 @@ type MemoryConsumptionSnapshotType = { total: tools.Size; heap: { used: tools.Si
 // Heap used - how much of the reserved memory is actually used for the JS heap
 
 export class MemoryConsumption {
-  static get(): tools.Size {
-    return tools.Size.fromBytes(process.memoryUsage().rss);
-  }
-
   static snapshot(): MemoryConsumptionSnapshotType {
     const { rss, heapUsed, heapTotal } = process.memoryUsage();
 

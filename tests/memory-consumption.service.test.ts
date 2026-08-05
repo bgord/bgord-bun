@@ -15,21 +15,13 @@ const memoryUsage = {
 };
 
 describe("MemoryConsumption", () => {
-  test("get", () => {
-    using _ = spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
-
-    const result = MemoryConsumption.get();
-
-    expect(result.equals(rss)).toEqual(true);
-    expect(result.format(tools.Size.unit.MB)).toEqual("117.74 MB");
-  });
-
   test("snapshot", () => {
     using _ = spyOn(process, "memoryUsage").mockReturnValue(memoryUsage);
 
     const result = MemoryConsumption.snapshot();
 
     expect(result.total.equals(rss)).toEqual(true);
+    expect(result.total.format(tools.Size.unit.MB)).toEqual("117.74 MB");
     expect(result.heap.total.equals(heapTotal)).toEqual(true);
     expect(result.heap.used.equals(heapUsed)).toEqual(true);
   });

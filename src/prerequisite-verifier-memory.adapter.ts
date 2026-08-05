@@ -12,7 +12,7 @@ export class PrerequisiteVerifierMemoryAdapter implements PrerequisiteVerifierPo
   constructor(private readonly config: Config) {}
 
   async verify(): Promise<PrerequisiteVerificationResult> {
-    const memoryConsumption = MemoryConsumption.get();
+    const memoryConsumption = MemoryConsumption.snapshot().total;
 
     if (memoryConsumption.isSmallerThan(this.config.maximum)) return PrerequisiteVerification.success;
     return PrerequisiteVerification.failure(
