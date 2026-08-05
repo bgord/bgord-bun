@@ -8,6 +8,10 @@ export class LivenessHonoHandler implements HandlerHonoPort {
   private readonly handler = new LivenessHandler();
 
   handle() {
-    return factory.createHandlers(async (c) => c.json(this.handler.execute(), 200));
+    return factory.createHandlers(async (c) => {
+      const { headers, ...body } = this.handler.execute();
+
+      return c.json(body, 200, headers);
+    });
   }
 }

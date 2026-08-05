@@ -9,6 +9,10 @@ describe("LivenessHonoHandler", () => {
     const response = await app.request("/liveness");
 
     expect(response.status).toEqual(200);
+    expect(Object.fromEntries(response.headers.entries())).toEqual({
+      "cache-control": "no-store",
+      "content-type": "application/json",
+    });
     expect(await response.json()).toEqual({ ok: true });
   });
 });

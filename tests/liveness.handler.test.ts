@@ -5,6 +5,6 @@ describe("LivenessHandler", () => {
   test("happy path", () => {
     const handler = new LivenessHandler();
 
-    expect(handler.execute()).toEqual({ ok: true });
+    expect(handler.execute()).toEqual({ ok: true, headers: { "Cache-Control": "no-store" } });
   });
 });
