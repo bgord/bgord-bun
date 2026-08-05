@@ -4,8 +4,8 @@ import { MailerContentHtml } from "../src/mailer-content-html.vo";
 
 describe("MailerContentHtml", () => {
   test("happy path", () => {
-    expect(v.safeParse(MailerContentHtml, "a".repeat(10_000)).success).toEqual(true);
-    expect(v.safeParse(MailerContentHtml, "A".repeat(10_000)).success).toEqual(true);
+    expect(v.safeParse(MailerContentHtml, "a".repeat(100_000)).success).toEqual(true);
+    expect(v.safeParse(MailerContentHtml, "A".repeat(100_000)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
@@ -21,6 +21,8 @@ describe("MailerContentHtml", () => {
   });
 
   test("rejects too long", () => {
-    expect(() => v.parse(MailerContentHtml, `${"a".repeat(10_000)}a`)).toThrow("mailer.content.html.invalid");
+    expect(() => v.parse(MailerContentHtml, `${"a".repeat(100_000)}a`)).toThrow(
+      "mailer.content.html.invalid",
+    );
   });
 });
