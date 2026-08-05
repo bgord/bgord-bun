@@ -21,6 +21,7 @@ const deps = { CacheResolver, HashContent };
 describe("EnvironmentLoaderProcessSafe", () => {
   test("happy path", async () => {
     process.env["APP_NAME"] = "MyApp";
+    const env = { ...process.env, APP_NAME: "MyApp" };
 
     const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], {
       HashContent,
@@ -28,7 +29,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const subject = await resolver.resolve();
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
-      { ...process.env, APP_NAME: "MyApp" },
+      env,
       { type: NodeEnvironmentEnum.local, EnvironmentSchema },
       deps,
     );
@@ -38,6 +39,7 @@ describe("EnvironmentLoaderProcessSafe", () => {
     expect(result.APP_NAME).toEqual("MyApp");
     expect(result.type).toEqual(NodeEnvironmentEnum.local);
     expect(Object.isFrozen(result)).toEqual(true);
+    expect(env["APP_NAME"]).toBeUndefined();
     expect(process.env["APP_NAME"]).toBeUndefined();
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
 

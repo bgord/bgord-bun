@@ -26,7 +26,10 @@ export class EnvironmentLoaderProcessSafeAdapter<T extends object> implements En
       StandardSchemaValidator.validate(this.config.EnvironmentSchema, this.env),
     );
 
-    for (const key of Object.keys(parsed)) delete process.env[key];
+    for (const key of Object.keys(parsed)) {
+      delete this.env[key];
+      delete process.env[key];
+    }
 
     return Object.freeze({ ...parsed, type: this.config.type });
   }
