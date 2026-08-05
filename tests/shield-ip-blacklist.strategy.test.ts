@@ -23,16 +23,16 @@ describe("ShieldIpBlacklistStrategy", () => {
     expect(strategy.evaluate(context)).toEqual(false);
   });
 
-  test("denied - no ip", () => {
+  test("allowed - no ip", () => {
     const context = new RequestContextBuilder().withIp(undefined).build();
 
-    expect(strategy.evaluate(context)).toEqual(false);
+    expect(strategy.evaluate(context)).toEqual(true);
   });
 
-  test("denied - invalid ip", () => {
+  test("allowed - invalid ip", () => {
     const context = new RequestContextBuilder().withIp(INVALID_IP).build();
 
-    expect(strategy.evaluate(context)).toEqual(false);
+    expect(strategy.evaluate(context)).toEqual(true);
   });
 
   test("denied - spoofed proxy headers", () => {

@@ -12,7 +12,7 @@ export class ShieldIpBlacklistStrategy {
   evaluate(context: HasIdentityRemoteIp): boolean {
     const ip = v.safeParse(ClientIp, context.identity.remoteIp());
 
-    if (!ip.success) return false;
+    if (!ip.success) return true;
     return !this.config.blacklist.includes(ip.output);
   }
 }
