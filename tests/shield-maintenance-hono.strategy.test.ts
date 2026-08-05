@@ -13,71 +13,108 @@ const MaintenanceConfigDisabled = new ReactiveConfigNoopAdapter(Maintenance, {
   enabled: tools.FeatureFlagEnum.no,
 });
 
-describe("ShieldMaintenanceHonoStrategy", () => {
-  test("enabled - default retry after", async () => {
-    const shield = new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigEnabled });
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+const build = (shield: ShieldMaintenanceHonoStrategy) =>
+  new Hono()
+    .basePath("/api")
+    .use(shield.handle())
+    .get("/liveness", (c) => c.text("OK"))
+    .get("/readiness", (c) => c.text("OK"))
+    .get("/healthcheck", (c) => c.text("OK"))
+    .get("/ping", (c) => c.text("OK"));
 
-    const result = await app.request("/ping", { method: "GET" });
-    const json = await result.json();
-    const header = result.headers.get("Retry-After");
+describe("ShieldMaintenanceHonoStrategy", () => {
+  test("skip - no rules", async () => {
+    const app = build(new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigEnabled }));
+
+    const result = await app.request("/api/liveness", { method: "GET" });
 
     expect(result.status).toEqual(503);
-    expect(json).toEqual({ reason: "maintenance" });
-    expect(header).toEqual(tools.Duration.Hours(1).seconds.toString());
   });
 
-  test("enabled - rounding", async () => {
-    const shield = new ShieldMaintenanceHonoStrategy({
-      MaintenanceConfig: MaintenanceConfigEnabled,
-      RetryAfter: tools.Duration.Ms(1500),
-    });
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+  test("skip - string prefix", async () => {
+    const app = build(
+      new ShieldMaintenanceHonoStrategy({
+        MaintenanceConfig: MaintenanceConfigEnabled,
+        skip: ["/api/liveness"],
+      }),
+    );
 
-    const result = await app.request("/ping", { method: "GET" });
+    const skipped = await app.request("/api/liveness", { method: "GET" });
+    const guarded = await app.request("/api/ping", { method: "GET" });
+
+    expect(skipped.status).toEqual(200);
+    expect(await skipped.text()).toEqual("OK");
+    expect(guarded.status).toEqual(503);
+  });
+
+  test("skip - url pattern", async () => {
+    const app = build(
+      new ShieldMaintenanceHonoStrategy({
+        MaintenanceConfig: MaintenanceConfigEnabled,
+        skip: [new URLPattern({ pathname: "/api/:probe(liveness|readiness)" })],
+      }),
+    );
+
+    const skipped = await app.request("/api/readiness", { method: "GET" });
+    const guarded = await app.request("/api/healthcheck", { method: "GET" });
+
+    expect(skipped.status).toEqual(200);
+    expect(await skipped.text()).toEqual("OK");
+    expect(guarded.status).toEqual(503);
+  });
+
+  test("enabled - default retry after", async () => {
+    const app = build(new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigEnabled }));
+
+    const result = await app.request("/api/ping", { method: "GET" });
 
     expect(result.status).toEqual(503);
-    expect(result.headers.get("Retry-After")).toEqual("2");
+    expect(await result.json()).toEqual({ reason: "maintenance" });
+    expect(result.headers.get("Retry-After")).toEqual(tools.Duration.Hours(1).seconds.toString());
   });
 
   test("enabled - custom retry after", async () => {
     const RetryAfter = tools.Duration.Hours(2);
-    const shield = new ShieldMaintenanceHonoStrategy({
-      MaintenanceConfig: MaintenanceConfigEnabled,
-      RetryAfter,
-    });
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+    const app = build(
+      new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigEnabled, RetryAfter }),
+    );
 
-    const result = await app.request("/ping", { method: "GET" });
-    const json = await result.json();
-    const header = result.headers.get("Retry-After");
+    const result = await app.request("/api/ping", { method: "GET" });
 
     expect(result.status).toEqual(503);
-    expect(json).toEqual({ reason: "maintenance" });
-    expect(header).toEqual(RetryAfter.seconds.toString());
+    expect(await result.json()).toEqual({ reason: "maintenance" });
+    expect(result.headers.get("Retry-After")).toEqual(RetryAfter.seconds.toString());
+  });
+
+  test("enabled - rounding", async () => {
+    const RetryAfter = tools.Duration.Ms(1500);
+    const app = build(
+      new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigEnabled, RetryAfter }),
+    );
+
+    const result = await app.request("/api/ping", { method: "GET" });
+
+    expect(result.status).toEqual(503);
+    expect(await result.json()).toEqual({ reason: "maintenance" });
+    expect(result.headers.get("Retry-After")).toEqual("2");
   });
 
   test("disabled", async () => {
-    const shield = new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigDisabled });
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+    const app = build(new ShieldMaintenanceHonoStrategy({ MaintenanceConfig: MaintenanceConfigDisabled }));
 
-    const result = await app.request("/ping", { method: "GET" });
-    const text = await result.text();
-    const header = result.headers.get("Retry-After");
+    const result = await app.request("/api/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);
-    expect(text).toEqual("OK");
-    expect(header).toEqual(null);
+    expect(await result.text()).toEqual("OK");
+    expect(result.headers.get("Retry-After")).toEqual(null);
   });
 
   test("no config - disabled by default", async () => {
-    const shield = new ShieldMaintenanceHonoStrategy();
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+    const app = build(new ShieldMaintenanceHonoStrategy());
 
-    const result = await app.request("/ping", { method: "GET" });
-    const text = await result.text();
+    const result = await app.request("/api/ping", { method: "GET" });
 
     expect(result.status).toEqual(200);
-    expect(text).toEqual("OK");
+    expect(await result.text()).toEqual("OK");
   });
 });
