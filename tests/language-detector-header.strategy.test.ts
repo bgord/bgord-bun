@@ -35,10 +35,10 @@ describe("LanguageDetectorHeaderStrategy", () => {
     expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.pl);
   });
 
-  test("happy path - quality of zero", () => {
-    const context = new RequestContextBuilder().withHeader(header, "en;q=0,pl").build();
+  test("quality of zero is not a candidate", () => {
+    const context = new RequestContextBuilder().withHeader(header, "en;q=0").build();
 
-    expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.pl);
+    expect(strategy.detect(context, mocks.languages)).toEqual(null);
   });
 
   test("happy path - missing quality wins over explicit one", () => {
@@ -54,7 +54,7 @@ describe("LanguageDetectorHeaderStrategy", () => {
   });
 
   test("whitespace", () => {
-    const context = new RequestContextBuilder().withHeader(header, " en-US , pl ; q=0.8 ").build();
+    const context = new RequestContextBuilder().withHeader(header, " de , en ; q=0.8 ").build();
 
     expect(strategy.detect(context, mocks.languages)).toEqual(mocks.languages.supported.en);
   });

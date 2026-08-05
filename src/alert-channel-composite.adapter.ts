@@ -18,9 +18,7 @@ export class AlertChannelCompositeAdapter implements AlertChannelPort {
 
     if (results.some((result) => result.status === "fulfilled")) return;
 
-    const reasons = results
-      .filter((result): result is PromiseRejectedResult => result.status === "rejected")
-      .map((result) => result.reason);
+    const reasons = results.map((result) => (result as PromiseRejectedResult).reason);
 
     throw new AggregateError(reasons, AlertChannelCompositeError.AllFailed);
   }

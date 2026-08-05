@@ -26,6 +26,17 @@ describe("ShieldCsrfStrategy", () => {
     expect(strategy.evaluate(context)).toEqual(true);
   });
 
+  test("safe method - allowed - every safe method", () => {
+    for (const method of ["HEAD", "OPTIONS", "TRACE"]) {
+      const context = new RequestContextBuilder()
+        .withMethod(method)
+        .withHeader("origin", EVIL_ORIGIN)
+        .build();
+
+      expect(strategy.evaluate(context)).toEqual(true);
+    }
+  });
+
   test("state-changing - allowed - no origin", () => {
     const context = new RequestContextBuilder().withMethod("POST").build();
 

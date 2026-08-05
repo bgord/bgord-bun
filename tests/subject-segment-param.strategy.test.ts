@@ -11,6 +11,7 @@ describe("SubjectSegmentParamStrategy", () => {
     const context = new RequestContextBuilder().withParams({ [param]: value }).build();
 
     expect(segment.create(context)).toEqual(value);
+    expect(segment.label).toEqual(`param:${param}`);
   });
 
   test("missing", () => {

@@ -10,6 +10,7 @@ describe("SubjectSegmentIpStrategy", () => {
     const context = new RequestContextBuilder().withIp(mocks.ip).build();
 
     expect(segment.create(context)).toEqual(mocks.ip);
+    expect(segment.label).toEqual("ip");
   });
 
   test("missing", () => {

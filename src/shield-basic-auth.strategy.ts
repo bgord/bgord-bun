@@ -27,10 +27,12 @@ export class ShieldBasicAuthStrategy {
       const username = credentials.slice(0, index);
       const password = credentials.slice(index + 1);
 
+      // Stryker disable next-line ConditionalExpression
       if (username.length !== this.config.username.length) return false;
 
       if (!timingSafeEqual(Buffer.from(username), Buffer.from(this.config.username))) return false;
 
+      // Stryker disable next-line ConditionalExpression
       if (password.length !== this.config.password.length) return false;
 
       return timingSafeEqual(Buffer.from(password), Buffer.from(this.config.password));

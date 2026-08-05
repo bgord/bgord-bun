@@ -54,6 +54,27 @@ describe("ShieldBasicAuthStrategy", () => {
     expect(strategy.evaluate(context)).toEqual(false);
   });
 
+  test("denied - credentials without a separator", () => {
+    const config = {
+      username: v.parse(BasicAuthUsername, "a"),
+      password: v.parse(BasicAuthPassword, "ab"),
+      realm: "Restricted",
+    };
+    const context = new RequestContextBuilder().withHeader("authorization", `Basic ${btoa("ab")}`).build();
+
+    expect(new ShieldBasicAuthStrategy(config).evaluate(context)).toEqual(false);
+  });
+
+  test("denied - different-length username", () => {
+    const shorter = BasicAuth.toHeader({ ...config, username: v.parse(BasicAuthUsername, "ad") }).get(
+      "authorization",
+    );
+
+    const context = new RequestContextBuilder().withHeader("authorization", shorter as string).build();
+
+    expect(strategy.evaluate(context)).toEqual(false);
+  });
+
   test("denied - invalid username", () => {
     const context = new RequestContextBuilder().withHeader("authorization", username as string).build();
 

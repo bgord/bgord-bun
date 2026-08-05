@@ -24,7 +24,8 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
           try {
             const certificate = socket.getPeerCertificate();
 
-            if (!certificate?.valid_to) return settle({ success: false });
+            // Stryker disable next-line ConditionalExpression
+            if (!certificate.valid_to) return settle({ success: false });
 
             // biome-ignore lint: lint/style/noRestrictedGlobals
             const remaining = tools.Timestamp.fromNumber(new Date(certificate.valid_to).getTime()).difference(

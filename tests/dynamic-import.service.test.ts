@@ -32,6 +32,10 @@ describe("DynamicImport", () => {
     using _ = spyOn(importer, "import").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => importer.resolve()).toThrow(mocks.IntentionalError);
+
+    const error = await importer.resolve().catch((error) => error);
+
+    expect(error.cause).toEqual(new Error(mocks.IntentionalError));
   });
 
   test("obfuscate", () => {

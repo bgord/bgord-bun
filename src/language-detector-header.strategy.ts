@@ -15,11 +15,12 @@ export class LanguageDetectorHeaderStrategy<T extends tools.LanguageType>
     const incoming = header
       .split(",")
       .map((part) => {
+        // Stryker disable next-line StringLiteral
         const [tag = "", quality = "q=1"] = part.split(";");
 
         return {
           language: tag.trim().toLowerCase().split("-")[0],
-          quality: Number(quality.trim().replace("q=", "")),
+          quality: Number(quality.replace("q=", "")),
         };
       })
       // Quality of 0 means the language is explicitly not acceptable

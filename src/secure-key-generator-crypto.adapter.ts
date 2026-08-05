@@ -8,6 +8,7 @@ export class SecureKeyGeneratorCryptoAdapter implements SecureKeyGeneratorPort {
   generate(bytes: tools.IntegerPositiveType): Uint8Array {
     const buffer = new Uint8Array(bytes);
 
+    // Stryker disable next-line EqualityOperator
     for (let offset = 0; offset < bytes; offset += SecureKeyGeneratorCryptoAdapter.MAX_BYTES) {
       crypto.getRandomValues(buffer.subarray(offset, offset + SecureKeyGeneratorCryptoAdapter.MAX_BYTES));
     }

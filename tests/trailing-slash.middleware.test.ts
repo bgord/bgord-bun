@@ -63,6 +63,12 @@ describe("TrailingSlashMiddleware", () => {
     expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "/evil.com", status: 308 });
   });
 
+  test("redirect - collapses leading slashes only", () => {
+    const context = new RequestContextBuilder().withPath("data//path/").build();
+
+    expect(middleware.evaluate(context)).toEqual({ redirect: true, pathname: "data//path", status: 308 });
+  });
+
   test("redirect - no host header in the location", async () => {
     const context = new RequestContextBuilder().withPath("/data/").withHeader("host", "evil.example").build();
 
