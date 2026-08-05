@@ -15,6 +15,7 @@ export class RequestContextBuilder {
   private form = new FormData();
   private userId: string | undefined = undefined;
   private ip: string | undefined = undefined;
+  private remoteIp: string | undefined = undefined;
   private ua: string | undefined = undefined;
   private weakETag: tools.WeakETag | null = null;
   private etag: tools.ETag | null = null;
@@ -91,6 +92,11 @@ export class RequestContextBuilder {
     return this;
   }
 
+  withRemoteIp(remoteIp: string | undefined) {
+    this.remoteIp = remoteIp;
+    return this;
+  }
+
   withUa(ua: string | undefined) {
     this.ua = ua;
     return this;
@@ -125,6 +131,7 @@ export class RequestContextBuilder {
       identity: {
         userId: () => this.userId,
         ip: () => this.ip,
+        remoteIp: () => this.remoteIp ?? this.ip,
         ua: () => this.ua,
       },
       middleware: {

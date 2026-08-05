@@ -22,6 +22,7 @@ export interface RequestContext {
   readonly identity: {
     userId(): UUIDType | undefined;
     ip(): string | undefined;
+    remoteIp(): string | undefined;
     ua(): string | undefined;
   };
 
@@ -94,6 +95,10 @@ export interface HasIdentityUserId {
 
 export interface HasIdentityIp {
   readonly identity: { ip(): string | undefined };
+}
+
+export interface HasIdentityRemoteIp {
+  readonly identity: { remoteIp(): string | undefined };
 }
 
 export interface HasIdentityUa {

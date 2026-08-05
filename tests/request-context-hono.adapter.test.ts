@@ -254,6 +254,16 @@ describe("RequestContextHonoAdapter", () => {
     expect(await response.json()).toEqual({ ip: "127.0.0.1" });
   });
 
+  test("remoteIp", async () => {
+    const app = new Hono().get("/test", (context) =>
+      context.json({ remoteIp: new RequestContextHonoAdapter(context).identity.remoteIp() }),
+    );
+
+    const response = await app.request("/test", {}, mocks.connInfo);
+
+    expect(await response.json()).toEqual({ remoteIp: "127.0.0.1" });
+  });
+
   test("ua", async () => {
     const app = new Hono().get("/test", (context) =>
       context.json({ ua: new RequestContextHonoAdapter(context).identity.ua() }),
