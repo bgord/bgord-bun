@@ -5,6 +5,6 @@ describe("SimulatedErrorMiddleware", () => {
   test("throws simulated error", () => {
     const middleware = new SimulatedErrorMiddleware();
 
-    expect(() => middleware.evaluate()).toThrow("Simulated error");
+    expect(() => middleware.evaluate()).toThrow("simulated.error");
   });
 });
