@@ -61,6 +61,7 @@ describe("MailerSmtpAdapter", () => {
       host: smtp.SMTP_HOST,
       port: smtp.SMTP_PORT,
       auth: { user: smtp.SMTP_USER, pass: smtp.SMTP_PASS },
+      requireTLS: true,
     });
   });
 

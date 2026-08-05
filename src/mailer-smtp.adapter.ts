@@ -36,6 +36,7 @@ export class MailerSmtpAdapter implements MailerPort {
         host: config.SMTP_HOST,
         port: config.SMTP_PORT,
         auth: { user: config.SMTP_USER, pass: config.SMTP_PASS },
+        requireTLS: true,
       }),
     );
   }
