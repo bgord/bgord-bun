@@ -5,7 +5,10 @@ import type { SealerPort } from "./sealer.port";
 
 type Dependencies = { CryptoKeyProvider: CryptoKeyProviderPort };
 
-export const SealerAesGcmAdapterError = { InvalidPayload: "sealer.aes.gcm.adapter.invalid.payload" };
+export const SealerAesGcmAdapterError = {
+  InvalidPayload: "sealer.aes.gcm.adapter.invalid.payload",
+  Undefined: "sealer.aes.gcm.adapter.undefined.value",
+};
 
 export class SealerAesGcmAdapter implements SealerPort {
   private static readonly PREFIX = "sealed:gcm:";
@@ -13,6 +16,8 @@ export class SealerAesGcmAdapter implements SealerPort {
   constructor(private readonly deps: Dependencies) {}
 
   async seal(value: unknown): Promise<string> {
+    if (value === undefined) throw new Error(SealerAesGcmAdapterError.Undefined);
+
     const key = await this.deps.CryptoKeyProvider.get();
     const iv = EncryptionIV.generate();
 

@@ -43,6 +43,17 @@ describe("SealerAesGcmAdapter", () => {
     expect(encrypted).toEqual(new Uint8Array(cryptoAesGcmDecrypt.mock.calls[0][1]));
   });
 
+  test("seal - undefined", async () => {
+    expect(adapter.seal(undefined)).rejects.toThrow("sealer.aes.gcm.adapter.undefined.value");
+  });
+
+  test("seal - null", async () => {
+    using _ = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
+    using __ = spyOn(CryptoAesGcm, "encrypt").mockResolvedValue(encrypted);
+
+    expect(await adapter.seal(null)).toEqual(sealedValue);
+  });
+
   test("unseal - invalid payload", async () => {
     expect(adapter.unseal("invalid:payload")).rejects.toThrow("sealer.aes.gcm.adapter.invalid.payload");
   });
