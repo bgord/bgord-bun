@@ -9,6 +9,8 @@ export class ETagExtractorParamStrategy implements ETagExtractorStrategy {
     try {
       const value = context.request.param(this.name);
 
+      if (!value?.trim()) return null;
+
       return tools.ETag.fromHeader(value);
     } catch {
       return null;

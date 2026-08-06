@@ -21,6 +21,18 @@ describe("ETagExtractorParamStrategy", () => {
     expect(strategy.detect(context)).toEqual(null);
   });
 
+  test("invalid header - empty", () => {
+    const context = new RequestContextBuilder().withParams({ [name]: "" }).build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
+  test("invalid header - blank", () => {
+    const context = new RequestContextBuilder().withParams({ [name]: " " }).build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
   test("invalid header - NaN", () => {
     const context = new RequestContextBuilder().withParams({ [name]: "invalid" }).build();
 

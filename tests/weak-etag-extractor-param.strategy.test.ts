@@ -21,6 +21,18 @@ describe("WeakETagExtractorParamStrategy", () => {
     expect(strategy.detect(context)).toEqual(null);
   });
 
+  test("invalid param - empty", () => {
+    const context = new RequestContextBuilder().withParams({ [name]: "" }).build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
+  test("invalid param - blank", () => {
+    const context = new RequestContextBuilder().withParams({ [name]: " " }).build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
   test("invalid param - NaN", () => {
     const context = new RequestContextBuilder().withParams({ [name]: "invalid" }).build();
 

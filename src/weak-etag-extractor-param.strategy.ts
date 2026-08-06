@@ -9,6 +9,8 @@ export class WeakETagExtractorParamStrategy implements WeakETagExtractorStrategy
     try {
       const value = context.request.param(this.name);
 
+      if (!value?.trim()) return null;
+
       return tools.WeakETag.fromHeader(`W/${value}`);
     } catch {
       return null;

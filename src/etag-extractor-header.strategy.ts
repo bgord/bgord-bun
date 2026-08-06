@@ -7,6 +7,8 @@ export class ETagExtractorHeaderStrategy implements ETagExtractorStrategy {
     try {
       const header = context.request.header(tools.ETag.IF_MATCH_HEADER_NAME);
 
+      if (!header?.trim()) return null;
+
       return tools.ETag.fromHeader(header);
     } catch {
       return null;

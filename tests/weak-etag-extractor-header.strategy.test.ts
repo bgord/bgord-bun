@@ -23,6 +23,26 @@ describe("WeakETagExtractorHeaderStrategy", () => {
     expect(strategy.detect(context)).toEqual(null);
   });
 
+  test("invalid header - empty", () => {
+    const context = new RequestContextBuilder().withHeader(tools.WeakETag.IF_MATCH_HEADER_NAME, "").build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
+  test("invalid header - prefix only", () => {
+    const context = new RequestContextBuilder().withHeader(tools.WeakETag.IF_MATCH_HEADER_NAME, "W/").build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
+  test("invalid header - prefix and blank", () => {
+    const context = new RequestContextBuilder()
+      .withHeader(tools.WeakETag.IF_MATCH_HEADER_NAME, "W/ ")
+      .build();
+
+    expect(strategy.detect(context)).toEqual(null);
+  });
+
   test("invalid header - NaN", () => {
     const context = new RequestContextBuilder()
       .withHeader(tools.WeakETag.IF_MATCH_HEADER_NAME, "invalid")
