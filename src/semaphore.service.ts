@@ -3,24 +3,27 @@ import type * as tools from "@bgord/tools";
 export type SemaphoreConfig = { limit: tools.IntegerPositiveType };
 
 export class Semaphore {
-  private readonly slots: Array<Promise<void>>;
+  private readonly limit: tools.IntegerPositiveType;
+
+  private active = 0;
+
+  private readonly waiting: Array<() => void> = [];
 
   constructor(config: SemaphoreConfig) {
-    this.slots = Array.from({ length: config.limit }, () => Promise.resolve());
+    this.limit = config.limit;
   }
 
   async run<T>(action: () => Promise<T>): Promise<T> {
-    const slot = this.slots.shift();
-    const { promise, resolve } = Promise.withResolvers<void>();
-
-    this.slots.push(promise);
-
-    await slot;
+    if (this.active >= this.limit) await new Promise<void>((resolve) => this.waiting.push(resolve));
+    else this.active++;
 
     try {
       return await action();
     } finally {
-      resolve();
+      const next = this.waiting.shift();
+
+      if (next) next();
+      else this.active--;
     }
   }
 }

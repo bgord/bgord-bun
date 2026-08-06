@@ -46,6 +46,36 @@ describe("Semaphore", () => {
     expect(maxRunning).toEqual(2);
   });
 
+  test("uses free capacity", async () => {
+    const semaphore = new Semaphore({ limit });
+    const started: Array<number> = [];
+    const gates = [
+      Promise.withResolvers<void>(),
+      Promise.withResolvers<void>(),
+      Promise.withResolvers<void>(),
+    ];
+    const action = (id: number) => async () => {
+      started.push(id);
+      await gates[id]?.promise;
+    };
+
+    const runs = [semaphore.run(action(0)), semaphore.run(action(1)), semaphore.run(action(2))];
+
+    for (let flush = 0; flush < 5; flush++) await Promise.resolve();
+
+    expect(started).toEqual([0, 1]);
+
+    gates[1]?.resolve();
+
+    for (let flush = 0; flush < 5; flush++) await Promise.resolve();
+
+    expect(started).toEqual([0, 1, 2]);
+
+    gates[0]?.resolve();
+    gates[2]?.resolve();
+    await Promise.all(runs);
+  });
+
   test("preserves ordering", async () => {
     const order: Array<number> = [];
     const action = (id: number) => async () => order.push(id);
