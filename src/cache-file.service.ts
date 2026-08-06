@@ -15,7 +15,8 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
       headers: new Headers({
         ETag: options.etag.get(),
         "Cache-Control": "private, max-age=0, must-revalidate",
-        "Last-Modified": options.lastModified.toInstant().toString(),
+        // biome-ignore lint: lint/style/noRestrictedGlobals
+        "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
         Vary: "Authorization, Cookie",
         ...overrides,
       }),
@@ -28,7 +29,8 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
       "Cache-Control": "private, max-age=0, must-revalidate",
       ETag: options.etag.get(),
       "Content-Length": options.size.toBytes().toString(),
-      "Last-Modified": options.lastModified.toInstant().toString(),
+      // biome-ignore lint: lint/style/noRestrictedGlobals
+      "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
       "Accept-Ranges": "bytes",
       Vary: "Authorization, Cookie",
       ...overrides,
