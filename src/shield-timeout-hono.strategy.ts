@@ -13,7 +13,7 @@ export class ShieldTimeoutHonoStrategy implements MiddlewareHonoPort {
 
     this.timeout = timeout(
       strategy.config.ms,
-      new HTTPException(408, { message: ShieldTimeoutStrategyError.Rejected }),
+      new HTTPException(504, { message: ShieldTimeoutStrategyError.Rejected }),
     );
   }
 

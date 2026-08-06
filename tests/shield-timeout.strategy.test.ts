@@ -18,6 +18,22 @@ describe("ShieldTimeoutStrategy", () => {
     expect(result.status).toEqual(200);
   });
 
+  test("denied - without a custom error handler", async () => {
+    jest.useFakeTimers();
+
+    const app = new Hono().use(new ShieldTimeoutHonoStrategy(duration).handle()).get("/ping", async (c) => {
+      jest.advanceTimersByTime(duration.times(v.parse(tools.MultiplicationFactor, 2)).ms);
+      return c.text("OK");
+    });
+
+    const result = await app.request("/ping", { method: "GET" });
+
+    expect(result.status).toEqual(504);
+    expect(await result.text()).toEqual("shield.timeout.rejected");
+
+    jest.useRealTimers();
+  });
+
   test("denied", async () => {
     jest.useFakeTimers();
 
