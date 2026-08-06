@@ -46,7 +46,9 @@ export class ShieldRecaptchaStrategy {
 
       const result: RecaptchaResult = await response.json();
 
-      if (!result.success || result.score < threshold) return false;
+      if (!result.success) return false;
+      if (typeof result.score !== "number" || result.score < threshold) return false;
+
       return true;
     } catch {
       return false;

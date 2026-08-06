@@ -124,6 +124,22 @@ describe("ShieldRecaptchaStrategy", () => {
     expect(await strategy.evaluate(context)).toEqual(false);
   });
 
+  test("failure - missing score", async () => {
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: true })));
+    const context = new RequestContextBuilder().withForm(form).build();
+
+    expect(await strategy.evaluate(context)).toEqual(false);
+  });
+
+  test("failure - non-numeric score", async () => {
+    using _ = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: "0.9" })),
+    );
+    const context = new RequestContextBuilder().withForm(form).build();
+
+    expect(await strategy.evaluate(context)).toEqual(false);
+  });
+
   test("failure - low score", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.4 })),

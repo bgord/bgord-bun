@@ -162,6 +162,32 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     expect(response.status).toEqual(403);
   });
 
+  test("failure - missing score", async () => {
+    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: true })));
+
+    const response = await app.request("http://localhost/", {
+      method: "POST",
+      headers: HEADERS,
+      body: TOKEN_BODY,
+    });
+
+    expect(response.status).toEqual(403);
+  });
+
+  test("failure - non-numeric score", async () => {
+    using _ = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: "0.9" })),
+    );
+
+    const response = await app.request("http://localhost/", {
+      method: "POST",
+      headers: HEADERS,
+      body: TOKEN_BODY,
+    });
+
+    expect(response.status).toEqual(403);
+  });
+
   test("failure - low score", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.4 })),
