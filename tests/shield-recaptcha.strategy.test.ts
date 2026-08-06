@@ -9,7 +9,6 @@ import { RequestContextBuilder } from "./request-context-builder";
 const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
 const remoteip = "1.2.3.4";
-const remoteipList = "1.2.3.4,2.3.4.5";
 
 const strategy = new ShieldRecaptchaStrategy({ secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY) });
 
@@ -23,10 +22,7 @@ describe("ShieldRecaptchaStrategy", () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
-    const context = new RequestContextBuilder()
-      .withHeader("x-forwarded-for", remoteip)
-      .withForm(form)
-      .build();
+    const context = new RequestContextBuilder().withIp(remoteip).withForm(form).build();
 
     expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
@@ -36,24 +32,7 @@ describe("ShieldRecaptchaStrategy", () => {
     });
   });
 
-  test("happy path - remote ip list", async () => {
-    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
-    );
-    const context = new RequestContextBuilder()
-      .withHeader("x-forwarded-for", remoteipList)
-      .withForm(form)
-      .build();
-
-    expect(await strategy.evaluate(context)).toEqual(true);
-    expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
-      method: "POST",
-      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip }),
-      headers: HEADERS,
-    });
-  });
-
-  test("happy path - remote ip fallback", async () => {
+  test("happy path - no remote ip", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
@@ -62,7 +41,7 @@ describe("ShieldRecaptchaStrategy", () => {
     expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
-      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN }),
       headers: HEADERS,
     });
   });
@@ -76,7 +55,7 @@ describe("ShieldRecaptchaStrategy", () => {
     expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
-      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN }),
       headers: HEADERS,
     });
   });
@@ -92,7 +71,7 @@ describe("ShieldRecaptchaStrategy", () => {
     expect(await strategy.evaluate(context)).toEqual(true);
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
-      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
+      body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN }),
       headers: HEADERS,
     });
   });

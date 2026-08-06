@@ -2,7 +2,7 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import type { HasRequestForm, HasRequestHeader, HasRequestJSON } from "./request-context.port";
+import type { HasIdentityIp, HasRequestForm, HasRequestJSON } from "./request-context.port";
 
 export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType; threshold?: number };
 export type RecaptchaResult = { success: boolean; score: number };
@@ -21,11 +21,10 @@ export class ShieldRecaptchaStrategy {
 
   constructor(private readonly config: ShieldRecaptchaConfig) {}
 
-  async evaluate(context: HasRequestHeader & HasRequestForm & HasRequestJSON): Promise<boolean> {
+  async evaluate(context: HasIdentityIp & HasRequestForm & HasRequestJSON): Promise<boolean> {
     const threshold = this.config.threshold ?? ShieldRecaptchaStrategy.DEFAULT_THRESHOLD;
 
     try {
-      const remoteip = context.request.header("x-forwarded-for")?.split(",")[0] ?? "";
       const form = await context.request.form();
       const json = await context.request.json();
 
@@ -36,7 +35,11 @@ export class ShieldRecaptchaStrategy {
 
       if (!token) return false;
 
-      const params = new URLSearchParams({ secret: this.config.secretKey, response: token, remoteip });
+      const remoteip = context.identity.ip();
+
+      const params = new URLSearchParams({ secret: this.config.secretKey, response: token });
+
+      if (remoteip) params.set("remoteip", remoteip);
 
       const response = await fetch(ShieldRecaptchaStrategy.URL, {
         method: "POST",
