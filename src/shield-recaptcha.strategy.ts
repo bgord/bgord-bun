@@ -2,7 +2,7 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import type { HasRequestForm, HasRequestHeader, HasRequestQuery } from "./request-context.port";
+import type { HasRequestForm, HasRequestHeader, HasRequestJSON } from "./request-context.port";
 
 export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType; threshold?: number };
 export type RecaptchaResult = { success: boolean; score: number };
@@ -21,17 +21,18 @@ export class ShieldRecaptchaStrategy {
 
   constructor(private readonly config: ShieldRecaptchaConfig) {}
 
-  async evaluate(context: HasRequestHeader & HasRequestQuery & HasRequestForm): Promise<boolean> {
+  async evaluate(context: HasRequestHeader & HasRequestForm & HasRequestJSON): Promise<boolean> {
     const threshold = this.config.threshold ?? ShieldRecaptchaStrategy.DEFAULT_THRESHOLD;
 
     try {
-      const header = context.request.header("x-recaptcha-token");
-      const query = context.request.query()["recaptchaToken"];
       const remoteip = context.request.header("x-forwarded-for")?.split(",")[0] ?? "";
       const form = await context.request.form();
-      const formToken = form.get(ShieldRecaptchaStrategyField)?.toString();
+      const json = await context.request.json();
 
-      const token = header ?? query ?? formToken;
+      const fromForm = form.get(ShieldRecaptchaStrategyField)?.toString();
+      const fromJson = json[ShieldRecaptchaStrategyField];
+
+      const token = fromForm ?? (typeof fromJson === "string" ? fromJson : undefined);
 
       if (!token) return false;
 

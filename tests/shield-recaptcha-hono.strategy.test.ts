@@ -15,6 +15,8 @@ const shield = new ShieldRecaptchaHonoStrategy({ secretKey: v.parse(RecaptchaSec
 
 const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 const SAFE_BODY = "dummy=1";
+const TOKEN_BODY = new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString();
+const TOKEN_JSON_BODY = JSON.stringify({ "g-recaptcha-response": VALID_TOKEN });
 
 const onError = (error: Error, c: Context) => {
   if (error instanceof Error) return c.json({ message: error.message }, 403);
@@ -32,7 +34,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     const response = await app.request("http://localhost/", {
       method: "POST",
       headers: { ...HEADERS, "x-forwarded-for": remoteip },
-      body: new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString(),
+      body: TOKEN_BODY,
     });
     const text = await response.text();
 
@@ -45,16 +47,12 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     });
   });
 
-  test("happy path - query fallback", async () => {
+  test("happy path - json body fallback", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
 
-    const response = await app.request(`http://localhost/?recaptchaToken=${VALID_TOKEN}`, {
-      method: "POST",
-      headers: HEADERS,
-      body: SAFE_BODY,
-    });
+    const response = await app.request("http://localhost/", { method: "POST", body: TOKEN_JSON_BODY });
 
     expect(response.status).toEqual(200);
     expect(await response.text()).toEqual("ok");
@@ -73,7 +71,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     const response = await app.request("http://localhost/", {
       method: "POST",
       headers: { ...HEADERS, "x-forwarded-for": remoteipList },
-      body: new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString(),
+      body: TOKEN_BODY,
     });
     const text = await response.text();
 
@@ -91,11 +89,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
       new Response(JSON.stringify({ success: true, score: 0.9 })),
     );
 
-    await app.request("http://localhost/", {
-      method: "POST",
-      headers: HEADERS,
-      body: new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString(),
-    });
+    await app.request("http://localhost/", { method: "POST", headers: HEADERS, body: TOKEN_BODY });
 
     expect(globalFetch).toHaveBeenCalledWith("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
@@ -111,8 +105,8 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
-      body: SAFE_BODY,
+      headers: HEADERS,
+      body: TOKEN_BODY,
     });
     const text = await response.text();
 
@@ -123,6 +117,20 @@ describe("ShieldRecaptchaHonoStrategy", () => {
       body: new URLSearchParams({ secret: VALID_SECRET_KEY, response: VALID_TOKEN, remoteip: "" }),
       headers: HEADERS,
     });
+  });
+
+  test("failure - non-string json token", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9 })),
+    );
+
+    const response = await app.request("http://localhost/", {
+      method: "POST",
+      body: JSON.stringify({ "g-recaptcha-response": 123 }),
+    });
+
+    expect(response.status).toEqual(403);
+    expect(globalFetch).not.toHaveBeenCalled();
   });
 
   test("failure - missing token", async () => {
@@ -147,8 +155,8 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
-      body: SAFE_BODY,
+      headers: HEADERS,
+      body: TOKEN_BODY,
     });
 
     expect(response.status).toEqual(403);
@@ -161,8 +169,8 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
-      body: SAFE_BODY,
+      headers: HEADERS,
+      body: TOKEN_BODY,
     });
 
     expect(response.status).toEqual(403);
@@ -180,8 +188,8 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
-      body: SAFE_BODY,
+      headers: HEADERS,
+      body: TOKEN_BODY,
     });
 
     expect(response.status).toEqual(403);
@@ -192,8 +200,8 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
     const response = await app.request("http://localhost/", {
       method: "POST",
-      headers: { ...HEADERS, "x-recaptcha-token": VALID_TOKEN },
-      body: SAFE_BODY,
+      headers: HEADERS,
+      body: TOKEN_BODY,
     });
 
     expect(response.status).toEqual(403);

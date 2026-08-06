@@ -47,7 +47,6 @@ describe("ShieldHcaptchaHonoStrategy", () => {
 
     const response = await app.request("/secure", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ "h-captcha-response": ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"] }),
     });
 
@@ -64,7 +63,6 @@ describe("ShieldHcaptchaHonoStrategy", () => {
 
     const response = await app.request("/secure", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ "h-captcha-response": 123 }),
     });
 
