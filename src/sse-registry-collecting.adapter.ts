@@ -5,7 +5,9 @@ import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
 export class SseRegistryCollectingAdapter<Messages extends Message> implements SseRegistryPort<Messages> {
   public emitted: Array<{ identity: HashValueType; message: Messages }> = [];
 
-  register(_identity: HashValueType, _sender: SseSenderType<Messages>): void {}
+  register(_identity: HashValueType, _sender: SseSenderType<Messages>): boolean {
+    return true;
+  }
 
   unregister(_identity: HashValueType, _sender: SseSenderType<Messages>): void {}
 

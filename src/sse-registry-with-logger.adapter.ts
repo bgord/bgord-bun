@@ -11,15 +11,17 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
   constructor(private readonly deps: Dependencies<Messages>) {}
 
-  register(identity: HashValueType, sender: SseSenderType<Messages>): void {
+  register(identity: HashValueType, sender: SseSenderType<Messages>): boolean {
+    const registered = this.deps.inner.register(identity, sender);
+
     this.deps.Logger.info({
-      message: "SSE sender registered",
-      metadata: { identity },
+      message: registered ? "SSE sender registered" : "SSE sender rejected",
+      metadata: { identity, registered },
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });
 
-    this.deps.inner.register(identity, sender);
+    return registered;
   }
 
   unregister(identity: HashValueType, sender: SseSenderType<Messages>): void {

@@ -22,7 +22,7 @@ describe("SseRegistryAdapter", async () => {
     const sender = jest.fn();
     const registry = new SseRegistryAdapter<mocks.MessageType>();
 
-    registry.register(subject.hex.get(), sender);
+    expect(registry.register(subject.hex.get(), sender)).toEqual(true);
 
     expect(registry["senders"]).toEqual(new Map().set(subject.hex.get(), new Set().add(sender)));
   });

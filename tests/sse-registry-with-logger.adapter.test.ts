@@ -1,8 +1,10 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
+import * as tools from "@bgord/tools";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
+import { SseRegistryWithLimitAdapter } from "../src/sse-registry-with-limit.adapter";
 import { SseRegistryWithLoggerAdapter } from "../src/sse-registry-with-logger.adapter";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
@@ -32,13 +34,39 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     expect(Logger.entries).toEqual([
       {
         message: "SSE sender registered",
-        metadata: { identity: subject.hex.get() },
+        metadata: { identity: subject.hex.get(), registered: true },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
       },
     ]);
     expect(register).toHaveBeenCalledWith(subject.hex.get(), sender);
+  });
+
+  test("register - rejected", async () => {
+    const limited = new SseRegistryWithLimitAdapter<mocks.MessageType>({
+      inner: new SseRegistryAdapter<mocks.MessageType>(),
+      limit: tools.Int.positive(1),
+    });
+    const Logger = new LoggerCollectingAdapter();
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner: limited, Logger });
+
+    await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.register(subject.hex.get(), sender),
+    );
+
+    const rejected = await CorrelationStorage.run(mocks.correlationId, async () =>
+      registry.register(subject.hex.get(), jest.fn()),
+    );
+
+    expect(rejected).toEqual(false);
+    expect(Logger.entries[1]).toEqual({
+      message: "SSE sender rejected",
+      metadata: { identity: subject.hex.get(), registered: false },
+      correlationId: mocks.correlationId,
+      component: "infra",
+      operation: "sse_registry",
+    });
   });
 
   test("unregister", async () => {

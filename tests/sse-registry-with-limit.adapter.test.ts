@@ -24,9 +24,9 @@ describe("SseRegistryWithLimitAdapter", async () => {
     const registry = new SseRegistryWithLimitAdapter<mocks.MessageType>({ inner, limit });
     using register = spyOn(inner, "register");
 
-    registry.register(subject.hex.get(), jest.fn());
-    registry.register(subject.hex.get(), jest.fn());
-    registry.register(subject.hex.get(), jest.fn());
+    expect(registry.register(subject.hex.get(), jest.fn())).toEqual(true);
+    expect(registry.register(subject.hex.get(), jest.fn())).toEqual(true);
+    expect(registry.register(subject.hex.get(), jest.fn())).toEqual(false);
 
     expect(register).toHaveBeenCalledTimes(2);
   });

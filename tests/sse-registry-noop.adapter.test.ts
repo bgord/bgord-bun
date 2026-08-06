@@ -18,7 +18,7 @@ describe("SseRegistryNoopAdapter", async () => {
   const subject = await resolver.resolve(context);
 
   test("register", async () => {
-    expect(() => registry.register(subject.hex.get(), sender)).not.toThrow();
+    expect(registry.register(subject.hex.get(), sender)).toEqual(true);
   });
 
   test("unregister", async () => {

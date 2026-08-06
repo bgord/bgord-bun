@@ -11,10 +11,10 @@ type Dependencies<Messages extends Message> = {
 export class SseRegistryWithLimitAdapter<Messages extends Message> implements SseRegistryPort<Messages> {
   constructor(private readonly deps: Dependencies<Messages>) {}
 
-  register(identity: HashValueType, sender: SseSenderType<Messages>): void {
-    if (this.deps.inner.count(identity) >= this.deps.limit) return;
+  register(identity: HashValueType, sender: SseSenderType<Messages>): boolean {
+    if (this.deps.inner.count(identity) >= this.deps.limit) return false;
 
-    this.deps.inner.register(identity, sender);
+    return this.deps.inner.register(identity, sender);
   }
 
   unregister(identity: HashValueType, sender: SseSenderType<Messages>): void {

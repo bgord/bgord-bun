@@ -6,6 +6,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ShieldAuthHonoStrategy } from "../src/shield-auth-hono.strategy";
 import { SseHonoHandler } from "../src/sse-hono.handler";
 import { SseRegistryAdapter } from "../src/sse-registry.adapter";
+import { SseRegistryWithLimitAdapter } from "../src/sse-registry-with-limit.adapter";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import * as mocks from "./mocks";
@@ -75,6 +76,27 @@ describe("SseHonoHandler", async () => {
     jest.useRealTimers();
 
     expect(text).toEqualIgnoringWhitespace(`event: ping data: ${JSON.stringify({ keepalive: true })}`);
+  });
+
+  test("register - over the limit", async () => {
+    const inner = new SseRegistryAdapter<mocks.MessageType>();
+    const registry = new SseRegistryWithLimitAdapter<mocks.MessageType>({
+      inner,
+      limit: tools.Int.positive(1),
+    });
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
+    const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
+    const handler = new SseHonoHandler<mocks.MessageType>(config, { resolver, registry, HashContent });
+    const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
+
+    await app.request("/sse");
+
+    const response = await app.request("/sse");
+    const reader = response.body?.getReader();
+    const result = await reader?.read();
+
+    expect(result?.done).toEqual(true);
+    expect(registry.count(subject.hex.get())).toEqual(1);
   });
 
   test("abort", async () => {

@@ -3,7 +3,9 @@ import type { Message } from "./message.types";
 import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
 
 export class SseRegistryNoopAdapter<Messages extends Message> implements SseRegistryPort<Messages> {
-  register(_identity: HashValueType, _sender: SseSenderType<Messages>): void {}
+  register(_identity: HashValueType, _sender: SseSenderType<Messages>): boolean {
+    return true;
+  }
 
   unregister(_identity: HashValueType, _sender: SseSenderType<Messages>): void {}
 

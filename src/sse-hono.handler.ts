@@ -34,7 +34,9 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
           await stream.writeSSE({ event: message.name, data: JSON.stringify(message) });
         };
 
-        this.deps.registry.register(subject.hex.get(), send);
+        const registered = this.deps.registry.register(subject.hex.get(), send);
+
+        if (!registered) return;
 
         // Stryker disable all
         stream.onAbort(() => this.deps.registry.unregister(subject.hex.get(), send));

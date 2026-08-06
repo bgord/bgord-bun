@@ -4,7 +4,7 @@ import type { Message } from "./message.types";
 export type SseSenderType<Messages extends Message> = <M extends Messages>(message: M) => Promise<void>;
 
 export interface SseRegistryPort<Messages extends Message> {
-  register(identity: HashValueType, sender: SseSenderType<Messages>): void;
+  register(identity: HashValueType, sender: SseSenderType<Messages>): boolean;
 
   unregister(identity: HashValueType, sender: SseSenderType<Messages>): void;
 

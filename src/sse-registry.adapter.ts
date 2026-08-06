@@ -5,10 +5,12 @@ import type { SseRegistryPort, SseSenderType } from "./sse-registry.port";
 export class SseRegistryAdapter<Messages extends Message> implements SseRegistryPort<Messages> {
   private readonly senders = new Map<HashValueType, Set<SseSenderType<Messages>>>();
 
-  register(identity: HashValueType, connection: SseSenderType<Messages>): void {
+  register(identity: HashValueType, connection: SseSenderType<Messages>): boolean {
     if (!this.senders.has(identity)) this.senders.set(identity, new Set());
 
     this.senders.get(identity)?.add(connection);
+
+    return true;
   }
 
   unregister(identity: HashValueType, connection: SseSenderType<Messages>): void {
