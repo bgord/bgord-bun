@@ -183,7 +183,6 @@ src/
 ├── file-reader-json.port.ts
 ├── file-reader-raw-forgiving.adapter.ts
 ├── file-reader-raw-noop.adapter.ts
-├── file-reader-raw-with-cache.adapter.ts
 ├── file-reader-raw.adapter.ts
 ├── file-reader-raw.port.ts
 ├── file-reader-text-forgiving.adapter.ts
