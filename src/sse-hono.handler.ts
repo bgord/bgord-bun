@@ -40,7 +40,7 @@ export class SseHonoHandler<Messages extends Message> implements HandlerHonoPort
         stream.onAbort(() => this.deps.registry.unregister(subject.hex.get(), send));
         // Stryker restore all
 
-        while (!stream.closed) {
+        while (!(stream.closed || stream.aborted)) {
           await stream.sleep(this.config.keepalive.ms);
           await stream.writeSSE({ event: "ping", data: JSON.stringify({ keepalive: true }) });
         }

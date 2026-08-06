@@ -76,4 +76,29 @@ describe("SseHonoHandler", async () => {
 
     expect(text).toEqualIgnoringWhitespace(`event: ping data: ${JSON.stringify({ keepalive: true })}`);
   });
+
+  test("abort", async () => {
+    jest.useFakeTimers();
+
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+    const AuthSessionReader = new AuthSessionReaderNoopAdapter({ user: mocks.user, session: mocks.session });
+    const ShieldAuth = new ShieldAuthHonoStrategy({ AuthSessionReader });
+    const handler = new SseHonoHandler<mocks.MessageType>(config, { resolver, registry, HashContent });
+    const app = new Hono().use(ShieldAuth.attach).get("/sse", ShieldAuth.verify, ...handler.handle());
+
+    const response = await app.request("/sse");
+    const reader = response.body?.getReader();
+
+    await reader?.cancel();
+
+    jest.advanceTimersByTime(config.keepalive.ms);
+    for (let flush = 0; flush < 20; flush++) await Promise.resolve();
+
+    const timers = jest.getTimerCount();
+
+    jest.useRealTimers();
+
+    expect(registry.count(subject.hex.get())).toEqual(0);
+    expect(timers).toEqual(0);
+  });
 });
