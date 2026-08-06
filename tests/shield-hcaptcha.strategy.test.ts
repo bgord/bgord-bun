@@ -43,10 +43,7 @@ describe("ShieldHcaptchaStrategy", () => {
     const context = new RequestContextBuilder().withForm(new FormData()).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);
-    expect(hcaptchaVerify).toHaveBeenCalledWith(
-      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
-      undefined,
-    );
+    expect(hcaptchaVerify).not.toHaveBeenCalled();
   });
 
   test("failure - unknown error", async () => {

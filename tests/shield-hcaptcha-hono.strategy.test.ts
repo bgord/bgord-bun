@@ -49,10 +49,7 @@ describe("ShieldHcaptchaHonoStrategy", () => {
 
     expect(response.status).toEqual(403);
     expect(await response.text()).toEqual("shield.hcaptcha.rejected");
-    expect(hcaptchaVerify).toHaveBeenCalledWith(
-      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
-      undefined,
-    );
+    expect(hcaptchaVerify).not.toHaveBeenCalled();
   });
 
   test("failure - unknown error", async () => {

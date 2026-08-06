@@ -47,12 +47,12 @@ describe("HCaptchaService", () => {
     });
   });
 
-  test("verify - failure - missing token", async () => {
+  test("verify - failure - empty token", async () => {
     using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify({ success: false }), { status: 200 }),
     );
 
-    const result = await service.verify(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"], undefined);
+    const result = await service.verify(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"], "");
 
     expect(result).toEqual({ success: false });
     expect(globalFetch).toHaveBeenCalledWith("https://hcaptcha.com/siteverify", {

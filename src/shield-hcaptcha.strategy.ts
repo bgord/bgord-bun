@@ -14,9 +14,11 @@ export class ShieldHcaptchaStrategy {
   async evaluate(context: HasRequestForm): Promise<boolean> {
     try {
       const form = await context.request.form();
-      const token = form.get(ShieldHcaptchaStrategyField);
+      const token = form.get(ShieldHcaptchaStrategyField)?.toString();
 
-      const result = await this.hcaptcha.verify(this.secretKey, token?.toString());
+      if (!token) return false;
+
+      const result = await this.hcaptcha.verify(this.secretKey, token);
 
       return result.success;
     } catch {

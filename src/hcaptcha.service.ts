@@ -2,7 +2,7 @@ import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 
 export const HCaptchaServiceError = { Error: "hcaptcha.service.error" };
 
-type HcaptchaTokenType = string | undefined;
+type HcaptchaTokenType = string;
 
 export type HCaptchaVerificationResult = { success: boolean; errorCodes?: ReadonlyArray<string> };
 
@@ -11,7 +11,7 @@ export class HCaptchaService {
     secretKey: HCaptchaSecretKeyType,
     token: HcaptchaTokenType,
   ): Promise<HCaptchaVerificationResult> {
-    const body = new URLSearchParams({ secret: secretKey, response: token ?? "" });
+    const body = new URLSearchParams({ secret: secretKey, response: token });
 
     const response = await fetch("https://hcaptcha.com/siteverify", {
       method: "POST",
