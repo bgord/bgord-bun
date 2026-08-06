@@ -42,6 +42,37 @@ describe("ShieldHcaptchaHonoStrategy", () => {
     );
   });
 
+  test("happy path - json body fallback", async () => {
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+
+    const response = await app.request("/secure", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ "h-captcha-response": ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"] }),
+    });
+
+    expect(response.status).toEqual(200);
+    expect(await response.text()).toEqual("OK");
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
+  });
+
+  test("failure - non-string json token", async () => {
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+
+    const response = await app.request("/secure", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ "h-captcha-response": 123 }),
+    });
+
+    expect(response.status).toEqual(403);
+    expect(await response.text()).toEqual("shield.hcaptcha.rejected");
+    expect(hcaptchaVerify).not.toHaveBeenCalled();
+  });
+
   test("failure - missing token", async () => {
     using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
 

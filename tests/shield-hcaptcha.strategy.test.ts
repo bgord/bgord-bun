@@ -38,6 +38,27 @@ describe("ShieldHcaptchaStrategy", () => {
     );
   });
 
+  test("happy path - json body fallback", async () => {
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    const context = new RequestContextBuilder()
+      .withJson({ [ShieldHcaptchaStrategyField]: ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"] })
+      .build();
+
+    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(hcaptchaVerify).toHaveBeenCalledWith(
+      ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+      ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"],
+    );
+  });
+
+  test("failure - non-string json token", async () => {
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    const context = new RequestContextBuilder().withJson({ [ShieldHcaptchaStrategyField]: 123 }).build();
+
+    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(hcaptchaVerify).not.toHaveBeenCalled();
+  });
+
   test("failure - missing token", async () => {
     using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
     const context = new RequestContextBuilder().withForm(new FormData()).build();

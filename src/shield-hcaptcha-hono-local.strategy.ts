@@ -3,7 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import * as v from "valibot";
 import { HCaptchaSecretKey } from "./hcaptcha-secret-key.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
-import type { HasRequestForm } from "./request-context.port";
+import type { HasRequestForm, HasRequestJSON } from "./request-context.port";
 import { ShieldHcaptchaStrategy, ShieldHcaptchaStrategyField } from "./shield-hcaptcha.strategy";
 
 export const ShieldHcaptchaLocalStrategyError = { Rejected: "shield.hcaptcha.local.rejected" };
@@ -26,7 +26,9 @@ export class ShieldHcaptchaLocalHonoStrategy implements MiddlewareHonoPort {
     return async (_c, next) => {
       const form = new FormData();
       form.set(ShieldHcaptchaStrategyField, ShieldHcaptchaLocalHonoStrategy.TOKEN_LOCAL);
-      const context: HasRequestForm = { request: { form: async () => form } };
+      const context: HasRequestForm & HasRequestJSON = {
+        request: { form: async () => form, json: async () => ({}) },
+      };
 
       if (await this.strategy.evaluate(context)) return next();
       throw new HTTPException(403, { message: ShieldHcaptchaLocalStrategyError.Rejected });
