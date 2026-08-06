@@ -24,6 +24,14 @@ describe("Hash", () => {
     expect(Hash.fromString(mocks.hashValue).get()).toEqual(mocks.hashValue);
   });
 
+  test("fromString - uppercase", () => {
+    const uppercase = "ABCDEF0000000000000000000000000000000000000000000000000000000000";
+    const lowercase = "abcdef0000000000000000000000000000000000000000000000000000000000";
+
+    expect(Hash.fromString(uppercase).get()).toEqual(lowercase);
+    expect(Hash.fromString(uppercase).matches(Hash.fromString(lowercase))).toEqual(true);
+  });
+
   test("fromString - invalid", () => {
     expect(() => Hash.fromString("xyz").get()).toThrow("hash.value.invalid.hex");
   });

@@ -26,6 +26,7 @@ describe("StandardSchemaValidator", () => {
       "~standard": {
         version: 1 as const,
         vendor: "test",
+        // biome-ignore lint: lint/suspicious/noThenProperty
         validate: () => ({ then: () => {}, value: { name } }) as never,
       },
     };

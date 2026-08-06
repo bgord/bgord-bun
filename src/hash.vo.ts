@@ -13,7 +13,7 @@ export class Hash {
   }
 
   static fromString(candidate: string): Hash {
-    return new Hash(v.parse(HashValue, candidate));
+    return new Hash(v.parse(HashValue, candidate.toLowerCase()));
   }
 
   get(): HashValueType {
