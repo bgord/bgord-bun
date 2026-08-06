@@ -41,7 +41,7 @@ export class AntivirusWithLoggerAdapter implements AntivirusPort {
         message: "Antivirus scan error",
         correlationId: CorrelationStorage.get(),
         error,
-        metadata: duration.stop(),
+        metadata: { duration: duration.stop() },
         ...this.base,
       });
 

@@ -24,7 +24,7 @@ describe("SmsWithLoggerAdapter", () => {
         component: "infra",
         message: "SMS attempt",
         correlationId: mocks.correlationId,
-        metadata: mocks.sms.toJSON(),
+        metadata: { message: mocks.sms.toJSON() },
         operation: "sms",
       },
       {
@@ -51,7 +51,7 @@ describe("SmsWithLoggerAdapter", () => {
         component: "infra",
         message: "SMS attempt",
         correlationId: mocks.correlationId,
-        metadata: mocks.sms.toJSON(),
+        metadata: { message: mocks.sms.toJSON() },
         operation: "sms",
       },
       {

@@ -19,7 +19,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
       this.deps.Logger.info({
         message: "Mailer attempt",
         correlationId: CorrelationStorage.get(),
-        metadata: template.toJSON(),
+        metadata: { template: template.toJSON() },
         ...this.base,
       });
 
@@ -36,7 +36,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
         message: "Mailer error",
         correlationId: CorrelationStorage.get(),
         error,
-        metadata: duration.stop(),
+        metadata: { duration: duration.stop() },
         ...this.base,
       });
 

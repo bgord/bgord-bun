@@ -59,7 +59,7 @@ describe("PdfGeneratorWithLoggerAdapter", () => {
         correlationId: mocks.correlationId,
         operation: "pdf_generator",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });

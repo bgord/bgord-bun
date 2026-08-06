@@ -19,7 +19,7 @@ export class SmsWithLoggerAdapter implements SmsPort {
       this.deps.Logger.info({
         message: "SMS attempt",
         correlationId: CorrelationStorage.get(),
-        metadata: message.toJSON(),
+        metadata: { message: message.toJSON() },
         ...this.base,
       });
 

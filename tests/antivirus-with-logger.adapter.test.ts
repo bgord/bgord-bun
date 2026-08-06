@@ -86,7 +86,7 @@ describe("AntivirusWithLoggerAdapter", () => {
         message: "Antivirus scan error",
         correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });

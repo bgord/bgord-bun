@@ -58,7 +58,7 @@ describe("ReactiveConfigWithLoggerAdapter", () => {
         message: "Reactive config read error",
         correlationId: mocks.correlationId,
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });

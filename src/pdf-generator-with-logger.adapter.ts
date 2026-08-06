@@ -39,7 +39,7 @@ export class PdfGeneratorWithLoggerAdapter implements PdfGeneratorPort {
         message: "PDF generator error",
         correlationId: CorrelationStorage.get(),
         error,
-        metadata: duration.stop(),
+        metadata: { duration: duration.stop() },
         ...this.base,
       });
 

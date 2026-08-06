@@ -40,7 +40,7 @@ export class ReactiveConfigWithLoggerAdapter<T extends object> implements Reacti
         message: "Reactive config read error",
         correlationId: CorrelationStorage.get(),
         error,
-        metadata: duration.stop(),
+        metadata: { duration: duration.stop() },
         ...this.base,
       });
 

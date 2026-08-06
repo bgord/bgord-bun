@@ -25,7 +25,7 @@ describe("MailerWithLoggerAdapter", async () => {
         component: "infra",
         message: "Mailer attempt",
         correlationId: mocks.correlationId,
-        metadata: mocks.template.toJSON(),
+        metadata: { template: mocks.template.toJSON() },
         operation: "mailer",
       },
       {
@@ -52,7 +52,7 @@ describe("MailerWithLoggerAdapter", async () => {
         component: "infra",
         message: "Mailer attempt",
         correlationId: mocks.correlationId,
-        metadata: mocks.template.toJSON(),
+        metadata: { template: mocks.template.toJSON() },
         operation: "mailer",
       },
       {
@@ -61,7 +61,7 @@ describe("MailerWithLoggerAdapter", async () => {
         correlationId: mocks.correlationId,
         operation: "mailer",
         error: new Error(mocks.IntentionalError),
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });

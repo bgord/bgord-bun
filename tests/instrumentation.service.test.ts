@@ -22,7 +22,7 @@ describe("Instrumentation", () => {
         message: `${label} measurement`,
         component: "infra",
         operation: "instrumentation_measure",
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });
@@ -47,7 +47,7 @@ describe("Instrumentation", () => {
         message: `${label} measurement`,
         component: "infra",
         operation: "instrumentation_measure",
-        metadata: expect.any(tools.Duration),
+        metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
   });
