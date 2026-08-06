@@ -4,7 +4,7 @@ import type { ClockPort } from "./clock.port";
 import type { RequestContext } from "./request-context.port";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
-export type ShieldRateLimitConfig = { resolver: SubjectRequestResolver; window: tools.Duration };
+export type ShieldRateLimitConfig = { resolver: SubjectRequestResolver; interval: tools.Duration };
 type ShieldRateLimitResult = { allowed: true } | { allowed: false; retryAfter: tools.Duration };
 
 type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
@@ -24,7 +24,7 @@ export class ShieldRateLimitStrategy {
 
     const limiter = await this.deps.CacheResolver.resolve(
       subject.hex,
-      async () => new tools.RateLimiter(this.config.window),
+      async () => new tools.RateLimiter(this.config.interval),
     );
 
     const decision = limiter.verify(this.deps.Clock.now());

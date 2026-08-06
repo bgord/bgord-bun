@@ -27,7 +27,7 @@ const resolver = new SubjectRequestResolver(
   deps,
 );
 
-const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
 const allowed = { allowed: true } as const;
 const rejected = { allowed: false, retryAfter: tools.Duration.Seconds(1) } as const;
 
@@ -77,7 +77,7 @@ describe("ShieldRateLimitStrategy", () => {
   });
 
   test("user - failure - TooManyRequestsError", async () => {
-    const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
     const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
@@ -87,7 +87,7 @@ describe("ShieldRateLimitStrategy", () => {
   });
 
   test("user - happy path - after rate limit", async () => {
-    const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
     const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
@@ -100,7 +100,7 @@ describe("ShieldRateLimitStrategy", () => {
   });
 
   test("user - does not impact other users", async () => {
-    const strategy = new ShieldRateLimitStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
     const firstUserContext = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
     const secondUserContext = new RequestContextBuilder().withPath("/ping").withUserId("def").build();
 

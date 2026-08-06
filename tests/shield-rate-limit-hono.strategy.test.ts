@@ -29,7 +29,10 @@ const resolver = new SubjectRequestResolver(
   deps,
 );
 
-const shieldRateLimit = new ShieldRateLimitHonoStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+const shieldRateLimit = new ShieldRateLimitHonoStrategy(
+  { resolver, interval: ttl },
+  { Clock, CacheResolver },
+);
 
 const onError = (error: Error, c: Context) => {
   if (error.message === ShieldRateLimitStrategyError.Rejected) {
@@ -86,7 +89,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
   });
 
   test("user - failure - TooManyRequestsError", async () => {
-    const shield = new ShieldRateLimitHonoStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
     const app = new Hono<mocks.Config>()
       .get(
         "/ping",
@@ -110,7 +113,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
   });
 
   test("user - happy path - after rate limit", async () => {
-    const shield = new ShieldRateLimitHonoStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
     const app = new Hono<mocks.Config>()
       .get(
         "/ping",
@@ -133,7 +136,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
   });
 
   test("user - does not impact other users", async () => {
-    const shield = new ShieldRateLimitHonoStrategy({ resolver, window: ttl }, { Clock, CacheResolver });
+    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
     const app = new Hono<mocks.Config>()
       .get(
         "/ping",
