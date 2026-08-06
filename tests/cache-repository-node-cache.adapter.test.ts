@@ -42,6 +42,20 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     expect(storeSet).toHaveBeenCalled();
   });
 
+  // ShieldRateLimitStrategy mutates the cached RateLimiter in place, and
+  // FileReaderRawWithCacheAdapter caches ArrayBuffers - both break under useClones
+  test("get - returns the stored instance, not a copy", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const limiter = new tools.RateLimiter(tools.Duration.Seconds(1));
+
+    await adapter.set(subject.hex, limiter);
+
+    const cached = await adapter.get<tools.RateLimiter>(subject.hex);
+
+    expect(cached).toBe(limiter);
+    expect(typeof cached?.verify).toEqual("function");
+  });
+
   test("delete", async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
