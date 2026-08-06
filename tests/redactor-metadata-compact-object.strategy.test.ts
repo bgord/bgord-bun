@@ -40,6 +40,7 @@ describe("RedactorMetadataCompactObject", () => {
     const input = { message: "message" };
 
     expect(redactor.redact(input)).toEqual(input);
+    expect("metadata" in redactor.redact(input)).toEqual(false);
   });
 
   test("redact - noop - metadata - not plain object", () => {

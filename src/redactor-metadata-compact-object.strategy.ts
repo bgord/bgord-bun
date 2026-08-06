@@ -14,6 +14,7 @@ export class RedactorMetadataCompactObject implements RedactorStrategy {
 
   redact<T>(input: T): T {
     if (!tools.isPlainObject(input)) return input;
+    if (!("metadata" in input)) return input;
 
     return {
       ...input,
