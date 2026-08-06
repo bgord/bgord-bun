@@ -20,4 +20,18 @@ describe("StandardSchemaValidator", () => {
       "standard.schema.validate.error.no.async.schema",
     );
   });
+
+  test("thenable schema", () => {
+    const thenable = {
+      "~standard": {
+        version: 1 as const,
+        vendor: "test",
+        validate: () => ({ then: () => {}, value: { name } }) as never,
+      },
+    };
+
+    expect(() => StandardSchemaValidator.validate(thenable, {})).toThrow(
+      "standard.schema.validate.error.no.async.schema",
+    );
+  });
 });
