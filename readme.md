@@ -469,6 +469,7 @@ src/
 ├── redactor-metadata-compact-array.strategy.ts
 ├── redactor-metadata-compact-object.strategy.ts
 ├── redactor-noop.strategy.ts
+├── redactor-url-query.strategy.ts
 ├── redactor.strategy.ts
 ├── remote-file-storage-disk.adapter.ts
 ├── remote-file-storage-noop.adapter.ts

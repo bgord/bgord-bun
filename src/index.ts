@@ -396,6 +396,7 @@ export * from "./redactor-mask.strategy";
 export * from "./redactor-metadata-compact-array.strategy";
 export * from "./redactor-metadata-compact-object.strategy";
 export * from "./redactor-noop.strategy";
+export * from "./redactor-url-query.strategy";
 export * from "./remote-file-storage.port";
 export * from "./remote-file-storage-disk.adapter";
 export * from "./remote-file-storage-noop.adapter";
