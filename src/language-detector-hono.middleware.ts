@@ -16,7 +16,7 @@ export class LanguageDetectorHonoMiddleware<T extends tools.LanguageType> implem
     this.middleware = new LanguageDetectorMiddleware(config);
   }
 
-  handle(): MiddlewareHandler {
+  handle(): MiddlewareHandler<{ Variables: LanguageDetectorVariables }> {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
 

@@ -16,7 +16,7 @@ export class WeakETagExtractorHonoMiddleware implements MiddlewareHonoPort {
     this.middleware = new WeakETagExtractorMiddleware(config);
   }
 
-  handle(): MiddlewareHandler {
+  handle(): MiddlewareHandler<{ Variables: WeakETagVariables }> {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
       const weakETag = this.middleware.evaluate(context);

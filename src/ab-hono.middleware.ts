@@ -14,7 +14,7 @@ export class AbHonoMiddleware implements MiddlewareHonoPort {
     this.middleware = new AbMiddleware(strategy);
   }
 
-  handle(): MiddlewareHandler {
+  handle(): MiddlewareHandler<{ Variables: AbVariables }> {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
 

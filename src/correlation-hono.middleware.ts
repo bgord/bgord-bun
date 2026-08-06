@@ -15,7 +15,7 @@ export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
   }
 
   handle() {
-    return createMiddleware(async (c, next) => {
+    return createMiddleware<{ Variables: CorrelationVariables }>(async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
 
       const result = this.correlationId.evaluate(context);

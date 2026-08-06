@@ -13,7 +13,7 @@ export class TimeZoneOffsetHonoMiddleware implements MiddlewareHonoPort {
     this.middleware = new TimeZoneOffsetMiddleware();
   }
 
-  handle(): MiddlewareHandler {
+  handle(): MiddlewareHandler<{ Variables: TimeZoneOffsetVariables }> {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
       const offset = this.middleware.evaluate(context);

@@ -13,7 +13,7 @@ export class ETagExtractorHonoMiddleware implements MiddlewareHonoPort {
     this.middleware = new ETagExtractorMiddleware(config);
   }
 
-  handle(): MiddlewareHandler {
+  handle(): MiddlewareHandler<{ Variables: ETagVariables }> {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
       const etag = this.middleware.evaluate(context);
