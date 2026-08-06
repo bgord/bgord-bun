@@ -11,16 +11,16 @@ const middleware = new TimeZoneOffsetHonoMiddleware();
 const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => c.json(c.get("timeZoneOffset")));
 
 describe("TimeZoneOffsetHonoMiddleware", () => {
-  test("valid header - positive", async () => {
+  test("valid header - UTC-5 sends 300", async () => {
     const response = await app.request("/ping", {
       method: "GET",
-      headers: new Headers({ [TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME]: "120" }),
+      headers: new Headers({ [TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME]: "300" }),
     });
 
-    expect(tools.Duration.Ms(await response.json())).toEqual(tools.Duration.Minutes(120));
+    expect(tools.Duration.Ms(await response.json())).toEqual(tools.Duration.Minutes(300));
   });
 
-  test("valid header - negative", async () => {
+  test("valid header - UTC+2 sends -120", async () => {
     const response = await app.request("/ping", {
       method: "GET",
       headers: new Headers({ [TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME]: "-120" }),

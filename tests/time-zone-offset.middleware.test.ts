@@ -6,15 +6,15 @@ import { RequestContextBuilder } from "./request-context-builder";
 const middleware = new TimeZoneOffsetMiddleware();
 
 describe("TimeZoneOffsetMiddleware", () => {
-  test("valid header - positive", () => {
+  test("valid header - UTC-5 sends 300", () => {
     const context = new RequestContextBuilder()
-      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "120")
+      .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "300")
       .build();
 
-    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(120));
+    expect(middleware.evaluate(context)).toEqual(tools.Duration.Minutes(300));
   });
 
-  test("valid header - negative", () => {
+  test("valid header - UTC+2 sends -120", () => {
     const context = new RequestContextBuilder()
       .withHeader(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME, "-120")
       .build();
