@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestHeader, HasRequestParam } from "./request-context.port";
 
 export interface WeakETagExtractorStrategy {
-  detect(context: RequestContext): tools.WeakETag | null;
+  detect(context: HasRequestHeader & HasRequestParam): tools.WeakETag | null;
 }

@@ -1,10 +1,8 @@
-import type { HasRequestJSON, HasRequestPath } from "./request-context.port";
+import type { HasRequestJson, HasRequestPath } from "./request-context.port";
 import type { SecurityRuleNameType } from "./security-rule-name.vo";
 
-type RequestContextCapabilities = HasRequestPath & HasRequestJSON;
-
 export interface SecurityRuleStrategy {
-  isViolated(context: RequestContextCapabilities): Promise<boolean>;
+  isViolated(context: HasRequestPath & HasRequestJson): Promise<boolean>;
 
   get name(): SecurityRuleNameType;
 }

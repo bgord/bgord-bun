@@ -1,6 +1,6 @@
 import { HCaptchaService } from "./hcaptcha.service";
 import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
-import type { HasRequestForm, HasRequestJSON } from "./request-context.port";
+import type { HasRequestForm, HasRequestJson } from "./request-context.port";
 
 export const ShieldHcaptchaStrategyError = { Rejected: "shield.hcaptcha.rejected" };
 
@@ -11,7 +11,7 @@ export class ShieldHcaptchaStrategy {
 
   constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
 
-  async evaluate(context: HasRequestForm & HasRequestJSON): Promise<boolean> {
+  async evaluate(context: HasRequestForm & HasRequestJson): Promise<boolean> {
     try {
       const form = await context.request.form();
       const json = await context.request.json();

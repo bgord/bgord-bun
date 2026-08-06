@@ -77,7 +77,7 @@ export interface HasRequestCookie {
   readonly request: { cookie(name: string): string | undefined };
 }
 
-export interface HasRequestJSON {
+export interface HasRequestJson {
   readonly request: { json(): Promise<Record<string, unknown>> };
 }
 

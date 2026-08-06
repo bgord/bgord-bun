@@ -2,7 +2,7 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
-import type { HasIdentityIp, HasRequestForm, HasRequestJSON } from "./request-context.port";
+import type { HasIdentityIp, HasRequestForm, HasRequestJson } from "./request-context.port";
 
 export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType; threshold?: number };
 export type RecaptchaResult = { success: boolean; score: number };
@@ -21,7 +21,7 @@ export class ShieldRecaptchaStrategy {
 
   constructor(private readonly config: ShieldRecaptchaConfig) {}
 
-  async evaluate(context: HasIdentityIp & HasRequestForm & HasRequestJSON): Promise<boolean> {
+  async evaluate(context: HasIdentityIp & HasRequestForm & HasRequestJson): Promise<boolean> {
     const threshold = this.config.threshold ?? ShieldRecaptchaStrategy.DEFAULT_THRESHOLD;
 
     try {

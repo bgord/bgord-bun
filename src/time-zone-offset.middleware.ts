@@ -1,12 +1,12 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestHeader } from "./request-context.port";
 
 export class TimeZoneOffsetMiddleware {
   static readonly TIME_ZONE_OFFSET_HEADER_NAME = "time-zone-offset";
   static readonly DEFAULT = tools.Duration.Minutes(0);
 
-  evaluate(context: RequestContext): tools.Duration {
+  evaluate(context: HasRequestHeader): tools.Duration {
     const header = context.request.header(TimeZoneOffsetMiddleware.TIME_ZONE_OFFSET_HEADER_NAME);
     const offset = v.safeParse(tools.TimeZoneOffsetValue, header);
 

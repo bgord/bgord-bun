@@ -1,6 +1,6 @@
 import type * as tools from "@bgord/tools";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestHeader, HasRequestParam } from "./request-context.port";
 
 export interface ETagExtractorStrategy {
-  detect(context: RequestContext): tools.ETag | null;
+  detect(context: HasRequestHeader & HasRequestParam): tools.ETag | null;
 }

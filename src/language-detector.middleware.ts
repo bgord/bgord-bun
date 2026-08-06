@@ -1,7 +1,7 @@
 import type * as tools from "@bgord/tools";
 import type { LanguageDetectorStrategy } from "./language-detector.strategy";
 import type { Languages } from "./languages.vo";
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestCookie, HasRequestHeaders, HasRequestQuery } from "./request-context.port";
 
 export const LanguageDetectorMiddlewareError = {
   MaxStrategies: "language.detector.middleware.max.strategies",
@@ -17,7 +17,7 @@ export class LanguageDetectorMiddleware<T extends tools.LanguageType> {
     if (config.strategies.length > 5) throw new Error(LanguageDetectorMiddlewareError.MaxStrategies);
   }
 
-  evaluate(context: RequestContext): T {
+  evaluate(context: HasRequestCookie & HasRequestHeaders & HasRequestQuery): T {
     for (const strategy of this.config.strategies) {
       const detected = strategy.detect(context, this.config.languages);
       if (detected !== null) return detected;

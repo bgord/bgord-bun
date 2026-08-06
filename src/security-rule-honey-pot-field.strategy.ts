@@ -1,12 +1,12 @@
 import * as v from "valibot";
-import type { HasRequestJSON } from "./request-context.port";
+import type { HasRequestJson } from "./request-context.port";
 import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 
 export class SecurityRuleHoneyPotFieldStrategy implements SecurityRuleStrategy {
   constructor(private readonly field: string) {}
 
-  async isViolated(context: HasRequestJSON): Promise<boolean> {
+  async isViolated(context: HasRequestJson): Promise<boolean> {
     const body = await context.request.json();
 
     const value = body[this.field];

@@ -1,4 +1,4 @@
-import type { RequestContext } from "./request-context.port";
+import type { HasRequestHeader, HasRequestText } from "./request-context.port";
 import type { WebhookBodyBuilderStrategy } from "./webhook-body-builder.strategy";
 import type { WebhookSignatureExtractorStrategy } from "./webhook-signature-extractor.strategy";
 import type { WebhookVerifierStrategy } from "./webhook-verifier.strategy";
@@ -14,7 +14,7 @@ export type ShieldWebhookStrategyConfig = {
 export class ShieldWebhookStrategy {
   constructor(private readonly config: ShieldWebhookStrategyConfig) {}
 
-  async evaluate(context: RequestContext): Promise<boolean> {
+  async evaluate(context: HasRequestHeader & HasRequestText): Promise<boolean> {
     const signature = this.config.WebhookSignatureExtractor.extract(context);
 
     if (!signature) return false;
