@@ -50,16 +50,16 @@ export class FileInspectionAdapter implements FileInspectionPort {
   }
 
   async size(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<tools.Size> {
-    const file = Bun.file(typeof path === "string" ? path : path.get());
+    const node = await stat(typeof path === "string" ? path : path.get());
 
-    return tools.Size.fromBytes(file.size);
+    return tools.Size.fromBytes(node.size);
   }
 
   async lastModified(
     path: tools.FilePathRelative | tools.FilePathAbsolute | string,
   ): Promise<tools.Timestamp> {
-    const file = Bun.file(typeof path === "string" ? path : path.get());
+    const node = await stat(typeof path === "string" ? path : path.get());
 
-    return tools.Timestamp.fromNumber(file.lastModified);
+    return tools.Timestamp.fromNumber(Math.round(node.mtimeMs));
   }
 }
