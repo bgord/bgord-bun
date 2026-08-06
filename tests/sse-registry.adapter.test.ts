@@ -39,7 +39,26 @@ describe("SseRegistryAdapter", async () => {
     registry.unregister(subject.hex.get(), sender);
 
     // @ts-expect-error Private property
-    expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set()));
+    expect(registry.senders).toEqual(new Map());
+  });
+
+  test("unregister - keeps identity with remaining senders", async () => {
+    const first = jest.fn();
+    const second = jest.fn();
+    const registry = new SseRegistryAdapter<mocks.MessageType>();
+
+    registry.register(subject.hex.get(), first);
+    registry.register(subject.hex.get(), second);
+
+    registry.unregister(subject.hex.get(), first);
+
+    // @ts-expect-error Private property
+    expect(registry.senders).toEqual(new Map().set(subject.hex.get(), new Set().add(second)));
+
+    registry.unregister(subject.hex.get(), second);
+
+    // @ts-expect-error Private property
+    expect(registry.senders).toEqual(new Map());
   });
 
   test("unregister - unknown userId", async () => {

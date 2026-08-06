@@ -12,7 +12,13 @@ export class SseRegistryAdapter<Messages extends Message> implements SseRegistry
   }
 
   unregister(identity: HashValueType, connection: SseSenderType<Messages>): void {
-    this.senders.get(identity)?.delete(connection);
+    const senders = this.senders.get(identity);
+
+    if (!senders) return;
+
+    senders.delete(connection);
+
+    if (senders.size === 0) this.senders.delete(identity);
   }
 
   async emit<M extends Messages>(identity: HashValueType, message: M): Promise<void> {
