@@ -3,6 +3,7 @@ import * as v from "valibot";
 import type { DirectoryEnsurerPort } from "./directory-ensurer.port";
 import type { FileCleanerPort } from "./file-cleaner.port";
 import type { FileCopierPort } from "./file-copier.port";
+import type { FileInspectionPort } from "./file-inspection.port";
 import type { FileRenamerPort } from "./file-renamer.port";
 import type { HashFilePort } from "./hash-file.port";
 import type { NonceProviderPort } from "./nonce-provider.port";
@@ -15,6 +16,7 @@ import type {
 
 type Dependencies = {
   HashFile: HashFilePort;
+  FileInspection: FileInspectionPort;
   FileCleaner: FileCleanerPort;
   FileRenamer: FileRenamerPort;
   FileCopier: FileCopierPort;
@@ -71,11 +73,9 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
   async getStream(key: tools.ObjectKeyType): Promise<ReadableStream | null> {
     const path = this.resolveKeyToAbsoluteFilePath(key);
 
-    try {
-      return Bun.file(path.get()).stream();
-    } catch {
-      return null;
-    }
+    if (!(await this.deps.FileInspection.exists(path))) return null;
+
+    return Bun.file(path.get()).stream();
   }
 
   async delete(key: tools.ObjectKeyType): Promise<tools.ObjectKeyType> {

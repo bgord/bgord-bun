@@ -4,6 +4,7 @@ import * as v from "valibot";
 import { DirectoryEnsurerNoopAdapter } from "../src/directory-ensurer-noop.adapter";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
+import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
@@ -23,9 +24,18 @@ const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
 const FileRenamer = new FileRenamerNoopAdapter();
 const FileCopier = new FileCopierNoopAdapter();
+const FileInspection = new FileInspectionNoopAdapter({ exists: true });
 const DirectoryEnsurer = new DirectoryEnsurerNoopAdapter();
 const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 10));
-const deps = { HashFile, FileCleaner, FileRenamer, FileCopier, DirectoryEnsurer, NonceProvider };
+const deps = {
+  HashFile,
+  FileCleaner,
+  FileRenamer,
+  FileCopier,
+  FileInspection,
+  DirectoryEnsurer,
+  NonceProvider,
+};
 
 const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
 
@@ -81,18 +91,26 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
   test("getStream", async () => {
     const stream = new ReadableStream();
+    using fileInspectionExists = spyOn(FileInspection, "exists").mockResolvedValue(true);
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
 
     expect(await adapter.getStream(key)).toEqual(stream);
+    expect(fileInspectionExists).toHaveBeenCalledWith(
+      tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
+    );
   });
 
   test("getStream - null", async () => {
-    using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
+    using _ = spyOn(FileInspection, "exists").mockResolvedValue(false);
 
-    const result = await adapter.getStream(key);
+    expect(await adapter.getStream(key)).toEqual(null);
+  });
 
-    expect(result).toEqual(null);
+  test("getStream - error", async () => {
+    using _ = spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(adapter.getStream(key)).rejects.toThrow(mocks.IntentionalError);
   });
 
   test("delete", async () => {
