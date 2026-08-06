@@ -1,4 +1,5 @@
 import type { ClockPort } from "./clock.port";
+import { CorrelationStorage } from "./correlation-storage.service";
 import type { LoggerPort } from "./logger.port";
 import { Stopwatch } from "./stopwatch.service";
 
@@ -14,6 +15,7 @@ export class Instrumentation {
 
     this.deps.Logger.info({
       message: `${label} measurement`,
+      correlationId: CorrelationStorage.get(),
       component: "infra",
       operation: "instrumentation_measure",
       metadata: { duration: stopwatch.stop() },
@@ -29,6 +31,7 @@ export class Instrumentation {
 
     this.deps.Logger.info({
       message: `${label} measurement`,
+      correlationId: CorrelationStorage.get(),
       component: "infra",
       operation: "instrumentation_measure",
       metadata: { duration: stopwatch.stop() },

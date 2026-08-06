@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { CorrelationStorage } from "../src/correlation-storage.service";
 import { Instrumentation } from "../src/instrumentation.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
@@ -14,12 +15,13 @@ describe("Instrumentation", () => {
     const Logger = new LoggerCollectingAdapter();
     const service = new Instrumentation({ Clock, Logger });
 
-    const result = service.measure(label, () => 1);
+    const result = CorrelationStorage.run(mocks.correlationId, () => service.measure(label, () => 1));
 
     expect(result).toEqual(1);
     expect(Logger.entries).toEqual([
       {
         message: `${label} measurement`,
+        correlationId: mocks.correlationId,
         component: "infra",
         operation: "instrumentation_measure",
         metadata: { duration: expect.any(tools.Duration) },
@@ -31,7 +33,9 @@ describe("Instrumentation", () => {
     const Logger = new LoggerCollectingAdapter();
     const service = new Instrumentation({ Clock, Logger });
 
-    expect(() => service.measure(label, mocks.throwIntentionalError)).toThrow(mocks.IntentionalError);
+    expect(() =>
+      CorrelationStorage.run(mocks.correlationId, () => service.measure(label, mocks.throwIntentionalError)),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries.length).toEqual(0);
   });
 
@@ -39,12 +43,15 @@ describe("Instrumentation", () => {
     const Logger = new LoggerCollectingAdapter();
     const service = new Instrumentation({ Clock, Logger });
 
-    const result = await service.measureAsync(label, () => 1);
+    const result = await CorrelationStorage.run(mocks.correlationId, async () =>
+      service.measureAsync(label, () => 1),
+    );
 
     expect(result).toEqual(1);
     expect(Logger.entries).toEqual([
       {
         message: `${label} measurement`,
+        correlationId: mocks.correlationId,
         component: "infra",
         operation: "instrumentation_measure",
         metadata: { duration: expect.any(tools.Duration) },
@@ -56,9 +63,11 @@ describe("Instrumentation", () => {
     const Logger = new LoggerCollectingAdapter();
     const service = new Instrumentation({ Clock, Logger });
 
-    expect(async () => service.measureAsync(label, mocks.throwIntentionalErrorAsync)).toThrow(
-      mocks.IntentionalError,
-    );
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        service.measureAsync(label, mocks.throwIntentionalErrorAsync),
+      ),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries.length).toEqual(0);
   });
 });
