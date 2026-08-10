@@ -655,6 +655,10 @@ src/
 ├── woodchopper-dispatcher-sampling.strategy.ts
 ├── woodchopper-dispatcher-sync.strategy.ts
 ├── woodchopper-dispatcher.strategy.ts
+├── woodchopper-formatter-human.strategy.ts
+├── woodchopper-formatter-json-raw.strategy.ts
+├── woodchopper-formatter-json.strategy.ts
+├── woodchopper-formatter.strategy.ts
 ├── woodchopper-sampling-composite.strategy.ts
 ├── woodchopper-sampling-correlation-id.strategy.ts
 ├── woodchopper-sampling-every-nth.strategy.ts
@@ -663,10 +667,7 @@ src/
 ├── woodchopper-sampling.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
-├── woodchopper-sink-stderr-raw.strategy.ts
 ├── woodchopper-sink-stderr.strategy.ts
-├── woodchopper-sink-stdout-human.strategy.ts
-├── woodchopper-sink-stdout-raw.strategy.ts
 ├── woodchopper-sink-stdout.strategy.ts
 ├── woodchopper-sink.strategy.ts
 ├── woodchopper-stats.service.ts
