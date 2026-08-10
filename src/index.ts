@@ -595,6 +595,7 @@ export * from "./woodchopper-sampling-every-nth.strategy";
 export * from "./woodchopper-sampling-pass-component.strategy";
 export * from "./woodchopper-sampling-pass-level.strategy";
 export * from "./woodchopper-sink.strategy";
+export * from "./woodchopper-sink-buffered.strategy";
 export * from "./woodchopper-sink-collecting.strategy";
 export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink-stderr.strategy";

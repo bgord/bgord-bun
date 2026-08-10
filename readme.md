@@ -665,6 +665,7 @@ src/
 ├── woodchopper-sampling-pass-component.strategy.ts
 ├── woodchopper-sampling-pass-level.strategy.ts
 ├── woodchopper-sampling.strategy.ts
+├── woodchopper-sink-buffered.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
 ├── woodchopper-sink-stderr-buffered.strategy.ts

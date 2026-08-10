@@ -1,11 +1,13 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
+import { WoodchopperFormatterJson } from "../src/woodchopper-formatter-json.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
+import { WoodchopperSinkStdoutBuffered } from "../src/woodchopper-sink-stdout-buffered.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -140,6 +142,22 @@ describe("WoodchopperDispatcherAsync", () => {
       { ...entry, message: "2" },
       { ...entry, message: "3" },
     ]);
+  });
+
+  test("close - flushes a buffering sink", async () => {
+    using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
+
+    const sink = new WoodchopperSinkStdoutBuffered(new WoodchopperFormatterJson());
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
+
+    dispatcher.dispatch(entry);
+    dispatcher.close();
+
+    await mocks.tick();
+
+    expect(processStdoutWrite).toHaveBeenCalledWith(
+      '{"app":"woodchopper","component":"infra","environment":"local","level":"info","message":"message","operation":"test","timestamp":"2023-11-14T22:13:20.000Z"}\n',
+    );
   });
 
   test("close - error", async () => {

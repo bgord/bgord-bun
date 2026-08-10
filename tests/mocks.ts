@@ -224,6 +224,10 @@ export async function tick() {
   await Promise.resolve();
 }
 
+export async function turn() {
+  await new Promise<void>((resolve) => setImmediate(resolve));
+}
+
 export const user = {
   id: userId,
   // biome-ignore lint: lint/style/noRestrictedGlobals

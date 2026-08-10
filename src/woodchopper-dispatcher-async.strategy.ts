@@ -51,6 +51,8 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
     this.buffer.length = 0;
 
+    this.sink.close?.();
+
     // wake so the loop can exit immediately
     this.wakeConsumer();
   }

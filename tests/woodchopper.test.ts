@@ -1,4 +1,4 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { LogLevelEnum } from "../src/logger.port";
@@ -15,8 +15,10 @@ import { Woodchopper } from "../src/woodchopper";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
+import { WoodchopperFormatterJson } from "../src/woodchopper-formatter-json.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
+import { WoodchopperSinkStdoutBuffered } from "../src/woodchopper-sink-stdout-buffered.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -560,6 +562,27 @@ describe("Woodchopper", async () => {
     });
     expect(dispatcherClose).toHaveBeenCalledTimes(1);
     expect(diagnostics.entries.length).toEqual(0);
+  });
+
+  test("close - flushes a buffering sink all the way to stdout", () => {
+    using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
+
+    const sink = new WoodchopperSinkStdoutBuffered(new WoodchopperFormatterJson());
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const config = { app, level: LogLevelEnum.info, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
+
+    woodchopper.info(entry);
+    woodchopper.info(entry);
+
+    expect(processStdoutWrite).toHaveBeenCalledTimes(0);
+
+    woodchopper.close();
+
+    expect(processStdoutWrite).toHaveBeenCalledTimes(1);
+    expect(processStdoutWrite).toHaveBeenCalledWith(
+      '{"timestamp":"2023-11-14T22:13:20.000Z","level":"info","app":"woodchopper","environment":"local","message":"message","component":"infra","operation":"test"}\n{"timestamp":"2023-11-14T22:13:20.000Z","level":"info","app":"woodchopper","environment":"local","message":"message","component":"infra","operation":"test"}\n',
+    );
   });
 
   test("getStats", () => {
