@@ -8,11 +8,6 @@ enum WoodchopperDispatcherAsyncState {
   closed = "closed",
 }
 
-export const WoodchopperDispatcherAsyncError = {
-  ClosedWithBufferedEntries: (count: tools.IntegerPositiveType) =>
-    `woodchopper.dispatcher.async.closed.with.buffered.entries.${count}`,
-};
-
 export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
   onError?: (error: unknown) => void;
 
@@ -46,12 +41,12 @@ export class WoodchopperDispatcherAsync implements WoodchopperDispatcher {
 
     this.state = WoodchopperDispatcherAsyncState.closed;
 
-    if (this.buffer.length > 0) {
-      const message = WoodchopperDispatcherAsyncError.ClosedWithBufferedEntries(
-        tools.Int.positive(this.buffer.length),
-      );
-
-      this.onError?.(new Error(message));
+    for (const entry of this.buffer) {
+      try {
+        this.sink.write(entry);
+      } catch (error) {
+        this.onError?.(error);
+      }
     }
 
     this.buffer.length = 0;

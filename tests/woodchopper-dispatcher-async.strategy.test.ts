@@ -107,15 +107,13 @@ describe("WoodchopperDispatcherAsync", () => {
 
     await mocks.tick();
 
-    expect(sink.entries.length).toEqual(0);
+    expect(sink.entries).toEqual([entry]);
     expect(dispatcher.dispatch(entry)).toEqual(false);
   });
 
   test("close - idempotency", async () => {
-    const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const sink = new WoodchopperSinkNoop();
+    const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
-    dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     dispatcher.dispatch(entry);
     dispatcher.close();
@@ -123,23 +121,39 @@ describe("WoodchopperDispatcherAsync", () => {
 
     await mocks.tick();
 
-    expect(diagnostics.entries.length).toEqual(1);
+    expect(sink.entries).toEqual([entry]);
   });
 
   test("close - buffered entries", async () => {
+    const sink = new WoodchopperSinkCollecting();
+    const dispatcher = new WoodchopperDispatcherAsync(sink);
+
+    dispatcher.dispatch({ ...entry, message: "1" });
+    await mocks.tick();
+    dispatcher.dispatch({ ...entry, message: "2" });
+    dispatcher.dispatch({ ...entry, message: "3" });
+    dispatcher.close();
+    await mocks.tick();
+
+    expect(sink.entries).toEqual([
+      { ...entry, message: "1" },
+      { ...entry, message: "2" },
+      { ...entry, message: "3" },
+    ]);
+  });
+
+  test("close - error", async () => {
     const diagnostics = new WoodchopperDiagnosticsCollecting();
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherAsync(sink);
     dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
 
     dispatcher.dispatch(entry);
-    await mocks.tick();
-    dispatcher.dispatch(entry);
+    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
     dispatcher.close();
+
     await mocks.tick();
 
-    expect(diagnostics.entries).toMatchObject([
-      { kind: "sink", error: { message: "woodchopper.dispatcher.async.closed.with.buffered.entries.1" } },
-    ]);
+    expect(diagnostics.entries).toMatchObject([{ kind: "sink", error: { message: mocks.IntentionalError } }]);
   });
 });
