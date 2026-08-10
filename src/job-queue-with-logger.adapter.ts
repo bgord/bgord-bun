@@ -13,7 +13,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
   constructor(private readonly deps: Dependencies<Job>) {}
 
-  async enqueue<EnqueuedJob extends Job>(job: EnqueuedJob): Promise<EnqueuedJob> {
+  async enqueue<EnqueuedJob extends Job>(job: EnqueuedJob, delay?: tools.Duration): Promise<EnqueuedJob> {
     this.deps.Logger.info({
       message: `${job.name} enqueued`,
       metadata: job,
@@ -21,7 +21,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
       ...this.base,
     });
 
-    return this.deps.inner.enqueue(job);
+    return this.deps.inner.enqueue(job, delay);
   }
 
   async claim(limit: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>> {

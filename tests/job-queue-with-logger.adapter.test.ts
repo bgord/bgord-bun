@@ -42,7 +42,20 @@ describe("JobQueueWithLoggerAdapter", () => {
         ...base,
       },
     ]);
-    expect(enqueue).toHaveBeenCalledWith(mocks.GenericSendEmailJob);
+    expect(enqueue).toHaveBeenCalledWith(mocks.GenericSendEmailJob, undefined);
+  });
+
+  test("enqueue - delay", async () => {
+    const delay = tools.Duration.Minutes(5);
+    using enqueue = spyOn(inner, "enqueue");
+    const Logger = new LoggerCollectingAdapter();
+    const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger });
+
+    await CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+      queue.enqueue(mocks.GenericSendEmailJob, delay),
+    );
+
+    expect(enqueue).toHaveBeenCalledWith(mocks.GenericSendEmailJob, delay);
   });
 
   test("claim - no jobs", async () => {
