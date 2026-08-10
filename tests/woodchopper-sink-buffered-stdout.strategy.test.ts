@@ -80,8 +80,24 @@ describe("WoodchopperSinkStdoutBuffered", () => {
     expect(processStdoutWrite).toHaveBeenCalledWith(output.repeat(256));
   });
 
+  test("write - schedules the flush once per turn", () => {
+    using _ = spyOn(process.stdout, "write").mockImplementation(jest.fn());
+    using setImmediateSpy = spyOn(globalThis, "setImmediate");
+
+    const sink = new WoodchopperSinkBufferedStdout(formatter);
+
+    sink.write(entry);
+    sink.write(entry);
+    sink.write(entry);
+
+    expect(setImmediateSpy).toHaveBeenCalledTimes(1);
+
+    sink.close();
+  });
+
   test("close - flushes what is left and cancels the scheduled flush", async () => {
     using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
+    using clearImmediateSpy = spyOn(globalThis, "clearImmediate");
 
     const sink = new WoodchopperSinkBufferedStdout(formatter);
 
@@ -94,10 +110,12 @@ describe("WoodchopperSinkStdoutBuffered", () => {
     await mocks.turn();
 
     expect(processStdoutWrite).toHaveBeenCalledTimes(1);
+    expect(clearImmediateSpy).toHaveBeenCalledTimes(1);
   });
 
   test("close - empty buffer", () => {
     using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
+    using clearImmediateSpy = spyOn(globalThis, "clearImmediate");
 
     const sink = new WoodchopperSinkBufferedStdout(formatter);
 
@@ -105,5 +123,6 @@ describe("WoodchopperSinkStdoutBuffered", () => {
     sink.close();
 
     expect(processStdoutWrite).toHaveBeenCalledTimes(0);
+    expect(clearImmediateSpy).toHaveBeenCalledTimes(0);
   });
 });

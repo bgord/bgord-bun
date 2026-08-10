@@ -27,7 +27,10 @@ export abstract class WoodchopperSinkBuffered implements WoodchopperSinkStrategy
   write(entry: LoggerEntry): void {
     this.buffer.push(this.formatter.format(entry));
 
-    if (this.buffer.length >= this.cap) return this.flush();
+    if (this.buffer.length >= this.cap) {
+      this.flush();
+      return;
+    }
     if (this.scheduled) return;
 
     this.scheduled = setImmediate(() => {
