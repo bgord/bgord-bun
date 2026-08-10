@@ -29,6 +29,24 @@ describe("ShieldMaintenanceStrategy", () => {
     expect(strategy.shouldSkip(new RequestContextBuilder().withPath("/api/ping").build())).toEqual(false);
   });
 
+  test("skip - string prefix - partial path", () => {
+    const strategy = new ShieldMaintenanceStrategy({
+      MaintenanceConfig: MaintenanceConfigEnabled,
+      skip: ["/api"],
+    });
+
+    expect(strategy.shouldSkip(new RequestContextBuilder().withPath("/api/liveness").build())).toEqual(true);
+  });
+
+  test("skip - one of many rules", () => {
+    const strategy = new ShieldMaintenanceStrategy({
+      MaintenanceConfig: MaintenanceConfigEnabled,
+      skip: ["/api/readiness", "/api/liveness"],
+    });
+
+    expect(strategy.shouldSkip(new RequestContextBuilder().withPath("/api/liveness").build())).toEqual(true);
+  });
+
   test("skip - url pattern", () => {
     const strategy = new ShieldMaintenanceStrategy({
       MaintenanceConfig: MaintenanceConfigEnabled,

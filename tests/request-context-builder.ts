@@ -7,6 +7,7 @@ export class RequestContextBuilder {
   private method = "";
   private url = "/";
   private headers = new Headers();
+  private rawHeaders: Record<string, string> = {};
   private queries: Record<string, Array<string>> = {};
   private params: Record<string, string> = {};
   private cookies: Record<string, string> = {};
@@ -39,6 +40,11 @@ export class RequestContextBuilder {
 
   withHeader(name: string, value: string) {
     this.headers.set(name, value);
+    return this;
+  }
+
+  withRawHeader(name: string, value: string) {
+    this.rawHeaders[name] = value;
     return this;
   }
 
@@ -108,7 +114,7 @@ export class RequestContextBuilder {
         path: this.path,
         method: this.method,
         url: () => this.url,
-        header: (name) => this.headers.get(name) ?? undefined,
+        header: (name) => this.rawHeaders[name] ?? this.headers.get(name) ?? undefined,
         headersObject: () => {
           const headers: Record<string, string> = {};
 

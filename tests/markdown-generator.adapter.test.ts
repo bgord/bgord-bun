@@ -1,11 +1,18 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import { MarkdownGeneratorAdapter } from "../src/markdown-generator.adapter";
 
 describe("MarkdownGeneratorAdapter", () => {
   test("generate", () => {
+    using bunMarkdown = spyOn(Bun.markdown, "html");
     const adapter = new MarkdownGeneratorAdapter();
+    const template = "# Example";
 
-    expect(adapter.generate("# Example")).toEqualIgnoringWhitespace("<h1>Example</h1>");
+    expect(adapter.generate(template)).toEqualIgnoringWhitespace("<h1>Example</h1>");
+    expect(bunMarkdown).toHaveBeenCalledWith(template, {
+      tagFilter: true,
+      noHtmlBlocks: true,
+      noHtmlSpans: true,
+    });
   });
 
   test("generate - escapes raw html", () => {

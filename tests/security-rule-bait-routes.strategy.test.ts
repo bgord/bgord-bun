@@ -27,6 +27,12 @@ describe("SecurityRuleBaitRoutesStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(true);
   });
 
+  test("isViolated - true - repeated trailing slashes", async () => {
+    const context = new RequestContextBuilder().withPath(`${forbidden}///`).build();
+
+    expect(await rule.isViolated(context)).toEqual(true);
+  });
+
   test("isViolated - true - uppercase", async () => {
     const context = new RequestContextBuilder().withPath("/.ENV").build();
 

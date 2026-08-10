@@ -12,7 +12,7 @@ export class SecurityRuleHoneyPotFieldStrategy implements SecurityRuleStrategy {
 
     const value = body[this.field] ?? form.get(this.field);
 
-    return value !== undefined && value !== null && value !== "";
+    return value !== null && value !== "";
   }
 
   get name(): SecurityRuleNameType {

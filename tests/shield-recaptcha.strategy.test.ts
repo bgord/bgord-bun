@@ -97,7 +97,9 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - upstream api rejection", async () => {
-    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: false })));
+    using _ = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: false, score: 0.9 })),
+    );
     const context = new RequestContextBuilder().withForm(form).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);
