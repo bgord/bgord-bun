@@ -119,7 +119,8 @@ export class RequestContextBuilder {
           return headers;
         },
         headers: () => this.headers,
-        query: () => Object.fromEntries(Object.entries(this.queries).map(([key, value]) => [key, value[0]])),
+        query: () =>
+          Object.fromEntries(Object.entries(this.queries).map(([key, value]) => [key, value[0] ?? ""])),
         queries: () => this.queries,
         params: () => this.params,
         param: (name: string) => this.params[name],

@@ -15,7 +15,7 @@ import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strate
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import * as mocks from "./mocks";
 
-type Config = { Variables: AbVariables };
+type Config = { Variables: AbVariables & mocks.Config["Variables"] };
 
 const control = new AbVariant({
   name: v.parse(AbVariantName, "control"),

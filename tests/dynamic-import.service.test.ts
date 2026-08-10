@@ -33,7 +33,7 @@ describe("DynamicImport", () => {
 
     expect(async () => importer.resolve()).toThrow(mocks.IntentionalError);
 
-    const error = await importer.resolve().catch((error) => error);
+    const error = (await importer.resolve().catch((error: unknown) => error)) as Error;
 
     expect(error.cause).toEqual(new Error(mocks.IntentionalError));
   });
