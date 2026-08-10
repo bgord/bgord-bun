@@ -73,8 +73,8 @@ export class StaticFilesHono {
 
           const contentType = context.res.headers.get("Content-Type");
 
-          if (contentType?.startsWith("text/html")) staticDocumentHeaders(context, noop);
-          else staticAssetHeaders(context, noop);
+          if (contentType?.startsWith("text/html")) await staticDocumentHeaders(context, noop);
+          else await staticAssetHeaders(context, noop);
         },
         etag(),
         serveStatic({ root, precompressed: true, onFound: strategy }),
