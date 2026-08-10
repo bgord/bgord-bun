@@ -4,7 +4,7 @@ export enum LoggerState {
 }
 
 export type LoggerStatsSnapshot = {
-  written: number;
+  accepted: number;
   dropped: number;
   deliveryFailures: number;
   state: LoggerState;

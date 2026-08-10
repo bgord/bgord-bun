@@ -1,10 +1,10 @@
 export class WoodchopperStats {
-  private written = 0;
+  private accepted = 0;
   private dropped = 0;
   private deliveryFailures = 0;
 
-  recordWritten(): void {
-    this.written++;
+  recordAccepted(): void {
+    this.accepted++;
   }
 
   recordDropped(): void {
@@ -16,6 +16,6 @@ export class WoodchopperStats {
   }
 
   get snapshot() {
-    return { written: this.written, dropped: this.dropped, deliveryFailures: this.deliveryFailures };
+    return { accepted: this.accepted, dropped: this.dropped, deliveryFailures: this.deliveryFailures };
   }
 }

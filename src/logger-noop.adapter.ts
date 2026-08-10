@@ -17,6 +17,6 @@ export class LoggerNoopAdapter implements LoggerPort, LoggerStatsProviderPort {
   close() {}
 
   getStats(): LoggerStatsSnapshot {
-    return { written: 0, dropped: 0, deliveryFailures: 0, state: LoggerState.open };
+    return { accepted: 0, dropped: 0, deliveryFailures: 0, state: LoggerState.open };
   }
 }

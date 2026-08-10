@@ -6,6 +6,6 @@ import {
 
 export class LoggerStatsProviderNoopAdapter implements LoggerStatsProviderPort {
   getStats(): LoggerStatsSnapshot {
-    return { state: LoggerState.open, dropped: 0, deliveryFailures: 0, written: 0 };
+    return { state: LoggerState.open, dropped: 0, deliveryFailures: 0, accepted: 0 };
   }
 }

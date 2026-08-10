@@ -18,7 +18,7 @@ describe("LoggerNoopAdapter", () => {
 
   test("getStats", () => {
     expect(adapter.getStats()).toEqual({
-      written: 0,
+      accepted: 0,
       dropped: 0,
       deliveryFailures: 0,
       state: LoggerState.open,

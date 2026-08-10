@@ -10,7 +10,7 @@ describe("LoggerStatsProviderNoopAdapter", () => {
       state: LoggerState.open,
       dropped: 0,
       deliveryFailures: 0,
-      written: 0,
+      accepted: 0,
     });
   });
 });

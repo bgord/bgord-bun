@@ -200,7 +200,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(1);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 1,
+      accepted: 1,
       dropped: 6,
       deliveryFailures: 0,
     });
@@ -223,7 +223,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(2);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 2,
+      accepted: 2,
       dropped: 5,
       deliveryFailures: 0,
     });
@@ -246,7 +246,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(3);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 3,
+      accepted: 3,
       dropped: 4,
       deliveryFailures: 0,
     });
@@ -269,7 +269,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(4);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 4,
+      accepted: 4,
       dropped: 3,
       deliveryFailures: 0,
     });
@@ -292,7 +292,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(5);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 5,
+      accepted: 5,
       dropped: 2,
       deliveryFailures: 0,
     });
@@ -315,7 +315,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(6);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 6,
+      accepted: 6,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -338,7 +338,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(7);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 7,
+      accepted: 7,
       dropped: 0,
       deliveryFailures: 0,
     });
@@ -504,7 +504,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 1,
+      accepted: 1,
       dropped: 0,
       deliveryFailures: 0,
     });
@@ -518,7 +518,7 @@ describe("Woodchopper", async () => {
     expect(sink.entries.length).toEqual(1);
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.closed,
-      written: 1,
+      accepted: 1,
       dropped: 2,
       deliveryFailures: 0,
     });
@@ -558,7 +558,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 3,
+      accepted: 3,
       dropped: 0,
       deliveryFailures: 0,
     });
@@ -576,7 +576,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -597,7 +597,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -615,7 +615,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -636,7 +636,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -655,7 +655,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -677,7 +677,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 0,
     });
@@ -695,7 +695,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 1,
     });
@@ -716,7 +716,7 @@ describe("Woodchopper", async () => {
 
     expect(woodchopper.getStats()).toEqual({
       state: LoggerState.open,
-      written: 0,
+      accepted: 0,
       dropped: 1,
       deliveryFailures: 1,
     });
