@@ -8,4 +8,6 @@ export class WoodchopperSinkStderr implements WoodchopperSinkStrategy {
   write(entry: LoggerEntry): void {
     process.stderr.write(this.formatter.format(entry));
   }
+
+  close(): void {}
 }

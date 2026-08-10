@@ -53,4 +53,10 @@ describe("WoodchopperSinkStdout", () => {
   "timestamp": "2023-11-14T22:13:20.000Z"
 }\n`);
   });
+
+  test("close", () => {
+    const sink = new WoodchopperSinkStdout(new WoodchopperFormatterJson());
+
+    expect(() => sink.close()).not.toThrow();
+  });
 });

@@ -18,6 +18,6 @@ export class WoodchopperDispatcherSync implements WoodchopperDispatcher {
   }
 
   close(): void {
-    this.sink.close?.();
+    this.sink.close();
   }
 }

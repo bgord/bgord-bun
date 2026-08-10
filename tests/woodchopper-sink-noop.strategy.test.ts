@@ -20,4 +20,10 @@ describe("WoodchopperSinkNoop", () => {
 
     expect(() => sink.write(entry)).not.toThrow();
   });
+
+  test("close", () => {
+    const sink = new WoodchopperSinkNoop();
+
+    expect(() => sink.close()).not.toThrow();
+  });
 });

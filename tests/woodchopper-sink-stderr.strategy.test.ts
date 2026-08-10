@@ -36,4 +36,10 @@ describe("WoodchopperSinkStderr", () => {
       '{"app":"woodchopper","component":"infra","environment":"local","level":"error","message":"message","operation":"test","timestamp":"2023-11-14T22:13:20.000Z"}',
     );
   });
+
+  test("close", () => {
+    const sink = new WoodchopperSinkStderr(new WoodchopperFormatterJson());
+
+    expect(() => sink.close()).not.toThrow();
+  });
 });

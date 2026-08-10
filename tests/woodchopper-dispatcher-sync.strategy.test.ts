@@ -53,15 +53,17 @@ describe("WoodchopperDispatcherSync", () => {
   test("close", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
+    using sinkClose = spyOn(sink, "close");
 
     expect(() => dispatcher.close()).not.toThrow();
+    expect(sinkClose).toHaveBeenCalled();
   });
 
-  test("close - flushes a buffering sink", () => {
-    using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
-
+  test("close - buffered sink", () => {
     const sink = new WoodchopperSinkStdoutBuffered(new WoodchopperFormatterJson());
     const dispatcher = new WoodchopperDispatcherSync(sink);
+    using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
+    using sinkBufferedClose = spyOn(sink, "close");
 
     dispatcher.dispatch(entry);
     dispatcher.close();
@@ -69,5 +71,6 @@ describe("WoodchopperDispatcherSync", () => {
     expect(processStdoutWrite).toHaveBeenCalledWith(
       '{"app":"woodchopper","component":"infra","environment":"local","level":"error","message":"message","operation":"test","timestamp":"2023-11-14T22:13:20.000Z"}\n',
     );
+    expect(sinkBufferedClose).toHaveBeenCalled();
   });
 });

@@ -8,4 +8,6 @@ export class WoodchopperSinkStdout implements WoodchopperSinkStrategy {
   write(entry: LoggerEntry): void {
     process.stdout.write(this.formatter.format(entry));
   }
+
+  close(): void {}
 }

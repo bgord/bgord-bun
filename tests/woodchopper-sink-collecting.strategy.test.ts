@@ -22,4 +22,13 @@ describe("WoodchopperSinkCollecting", () => {
 
     expect(sink.entries[0]).toEqual(entry);
   });
+
+  test("close - keeps the collected entries", () => {
+    const sink = new WoodchopperSinkCollecting();
+
+    sink.write(entry);
+    sink.close();
+
+    expect(sink.entries[0]).toEqual(entry);
+  });
 });

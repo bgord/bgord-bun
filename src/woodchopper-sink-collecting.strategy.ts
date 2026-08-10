@@ -7,4 +7,6 @@ export class WoodchopperSinkCollecting implements WoodchopperSinkStrategy {
   write(entry: LoggerEntry): void {
     this.entries.push(entry);
   }
+
+  close(): void {}
 }
