@@ -33,6 +33,8 @@ export class GracefulShutdown {
     } catch (error) {
       this.deps.Logger.error({ message: "Cleanup hook failed", error, ...this.base });
     } finally {
+      this.deps.Logger.close();
+
       (this.config.exit ?? process.exit)(exitCode);
     }
   }

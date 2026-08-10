@@ -213,4 +213,21 @@ describe("GracefulShutdown", () => {
 
     expect(exitCalls[0]).toEqual(1);
   });
+
+  test("logger closing", async () => {
+    const order: Array<string> = [];
+    using loggerClose = spyOn(Logger, "close").mockImplementation(() => order.push("close"));
+    const server = { stop: jest.fn() } as unknown as ServerType;
+    const exit = ((_code: number) => {
+      order.push("exit");
+    }) as unknown as (code: number) => never;
+    const gs = new GracefulShutdown(deps, { cleanup: tools.noop, exit });
+    gs.applyTo(server);
+
+    process.emit("SIGTERM");
+    await tick();
+
+    expect(loggerClose).toHaveBeenCalledTimes(1);
+    expect(order).toEqual(["close", "exit"]);
+  });
 });
