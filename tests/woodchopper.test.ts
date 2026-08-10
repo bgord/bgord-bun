@@ -562,17 +562,6 @@ describe("Woodchopper", async () => {
     expect(diagnostics.entries.length).toEqual(0);
   });
 
-  test("Object.freeze", () => {
-    const sink = new WoodchopperSinkCollecting();
-    const dispatcher = new WoodchopperDispatcherSync(sink);
-    const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-
-    woodchopper.info(entry);
-
-    expect(Object.isFrozen(sink.entries[0])).toEqual(true);
-  });
-
   test("getStats", () => {
     const sink = new WoodchopperSinkNoop();
     const dispatcher = new WoodchopperDispatcherSync(sink);
