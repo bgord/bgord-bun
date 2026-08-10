@@ -7,7 +7,7 @@ export class SecurityRuleBaitRoutesStrategy implements SecurityRuleStrategy {
   constructor(private readonly routes: ReadonlyArray<string>) {}
 
   async isViolated(context: HasRequestPath): Promise<boolean> {
-    return this.routes.includes(context.request.path);
+    return this.routes.includes(context.request.path.toLowerCase().replace(/\/+$/, ""));
   }
 
   get name(): SecurityRuleNameType {

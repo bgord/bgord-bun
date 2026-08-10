@@ -21,6 +21,18 @@ describe("SecurityRuleBaitRoutesStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
+  test("isViolated - true - trailing slash", async () => {
+    const context = new RequestContextBuilder().withPath(`${forbidden}/`).build();
+
+    expect(await rule.isViolated(context)).toEqual(true);
+  });
+
+  test("isViolated - true - uppercase", async () => {
+    const context = new RequestContextBuilder().withPath("/.ENV").build();
+
+    expect(await rule.isViolated(context)).toEqual(true);
+  });
+
   test("name", () => {
     expect(rule.name).toEqual(v.parse(SecurityRuleName, "bait_routes"));
   });
