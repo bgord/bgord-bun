@@ -36,6 +36,12 @@ describe("JobQueueSqliteStore", () => {
     expect(indexes).toEqual([{ name: "idx_jobs_claimable" }]);
   });
 
+  test("busy timeout", () => {
+    const timeout = store.db.query("PRAGMA busy_timeout").get();
+
+    expect(timeout).toEqual({ timeout: 5000 });
+  });
+
   test("idempotence", () => {
     new JobQueueSqliteStore({ database: ":memory:" });
 
