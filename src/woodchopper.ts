@@ -97,9 +97,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
       return;
     }
 
-    const final = withRedaction;
-
-    this.config.dispatcher.dispatch(final) ? this.stats.recordAccepted() : this.stats.recordDropped();
+    this.config.dispatcher.dispatch(withRedaction) ? this.stats.recordAccepted() : this.stats.recordDropped();
   }
 
   error: LoggerPort["error"] = (entry) => this.log(LogLevelEnum.error, entry);
