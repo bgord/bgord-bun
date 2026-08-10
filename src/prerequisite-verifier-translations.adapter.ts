@@ -26,12 +26,12 @@ export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageTyp
   async verify(): Promise<PrerequisiteVerificationResult> {
     const languages = this.config.values;
 
-    const dictionary: Partial<Record<T, ReadonlyArray<TranslationsKeyType>>> = {};
+    const translations = new Map<T, Set<TranslationsKeyType>>();
 
     for (const language of languages) {
       try {
-        const translations = await this.deps.TranslationsProvider.getTranslationsFor(language);
-        dictionary[language] = Object.keys(translations);
+        const dictionary = await this.deps.TranslationsProvider.getTranslationsFor(language);
+        translations.set(language, new Set(Object.keys(dictionary)));
       } catch {
         return PrerequisiteVerification.failure(`${language} translations not available`);
       }
@@ -39,16 +39,10 @@ export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageTyp
 
     const problems: Array<PrerequisiteTranslationsProblemType> = [];
 
-    for (const language in dictionary) {
-      // Stryker disable all
-      const translations = dictionary[language] ?? [];
-      // Stryker restore all
-
-      for (const key of translations) {
-        for (const supportedLanguage of languages) {
-          const exists = new Set(dictionary[supportedLanguage]).has(key);
-
-          if (!exists) problems.push({ key, existsIn: language, missingIn: supportedLanguage });
+    for (const [language, keys] of translations) {
+      for (const key of keys) {
+        for (const [supportedLanguage, supported] of translations) {
+          if (!supported.has(key)) problems.push({ key, existsIn: language, missingIn: supportedLanguage });
         }
       }
     }
