@@ -4,9 +4,9 @@ import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperFormatterJson } from "../src/woodchopper-formatter-json.strategy";
+import { WoodchopperSinkBufferedStdout } from "../src/woodchopper-sink-buffered-stdout.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
-import { WoodchopperSinkStdoutBuffered } from "../src/woodchopper-sink-stdout-buffered.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -60,7 +60,7 @@ describe("WoodchopperDispatcherSync", () => {
   });
 
   test("close - buffered sink", () => {
-    const sink = new WoodchopperSinkStdoutBuffered(new WoodchopperFormatterJson());
+    const sink = new WoodchopperSinkBufferedStdout(new WoodchopperFormatterJson());
     const dispatcher = new WoodchopperDispatcherSync(sink);
     using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
     using sinkBufferedClose = spyOn(sink, "close");

@@ -664,12 +664,12 @@ src/
 ├── woodchopper-sampling-pass-component.strategy.ts
 ├── woodchopper-sampling-pass-level.strategy.ts
 ├── woodchopper-sampling.strategy.ts
+├── woodchopper-sink-buffered-stderr.strategy.ts
+├── woodchopper-sink-buffered-stdout.strategy.ts
 ├── woodchopper-sink-buffered.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
-├── woodchopper-sink-stderr-buffered.strategy.ts
 ├── woodchopper-sink-stderr.strategy.ts
-├── woodchopper-sink-stdout-buffered.strategy.ts
 ├── woodchopper-sink-stdout.strategy.ts
 ├── woodchopper-sink.strategy.ts
 ├── woodchopper-stats.service.ts

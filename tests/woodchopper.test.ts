@@ -15,9 +15,9 @@ import { Woodchopper } from "../src/woodchopper";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperFormatterJson } from "../src/woodchopper-formatter-json.strategy";
+import { WoodchopperSinkBufferedStdout } from "../src/woodchopper-sink-buffered-stdout.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import { WoodchopperSinkNoop } from "../src/woodchopper-sink-noop.strategy";
-import { WoodchopperSinkStdoutBuffered } from "../src/woodchopper-sink-stdout-buffered.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -528,7 +528,7 @@ describe("Woodchopper", async () => {
   test("close - flushes a buffering sink all the way to stdout", () => {
     using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStdoutBuffered(new WoodchopperFormatterJson());
+    const sink = new WoodchopperSinkBufferedStdout(new WoodchopperFormatterJson());
     const dispatcher = new WoodchopperDispatcherSync(sink);
     const config = { app, level: LogLevelEnum.info, environment };
     const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);

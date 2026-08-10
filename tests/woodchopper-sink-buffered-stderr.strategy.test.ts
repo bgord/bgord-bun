@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperFormatterJson } from "../src/woodchopper-formatter-json.strategy";
-import { WoodchopperSinkStderrBuffered } from "../src/woodchopper-sink-stderr-buffered.strategy";
+import { WoodchopperSinkBufferedStderr } from "../src/woodchopper-sink-buffered-stderr.strategy";
 import * as mocks from "./mocks";
 
 const entry = {
@@ -25,7 +25,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
   test("write - buffers within the turn", async () => {
     using processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStderrBuffered(formatter);
+    const sink = new WoodchopperSinkBufferedStderr(formatter);
 
     sink.write(entry);
     sink.write(entry);
@@ -41,7 +41,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
   test("write - single entry within the turn", async () => {
     using processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStderrBuffered(formatter);
+    const sink = new WoodchopperSinkBufferedStderr(formatter);
 
     sink.write(entry);
     await mocks.turn();
@@ -53,7 +53,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
   test("write - two flashes", () => {
     using processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStderrBuffered(formatter, tools.Int.positive(2));
+    const sink = new WoodchopperSinkBufferedStderr(formatter, tools.Int.positive(2));
 
     sink.write(entry);
     sink.write(entry);
@@ -68,7 +68,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
   test("write - default cap", () => {
     using processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStderrBuffered(formatter);
+    const sink = new WoodchopperSinkBufferedStderr(formatter);
 
     for (let index = 0; index < 255; index++) sink.write(entry);
 
@@ -83,7 +83,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
   test("close - flushes what is left and cancels the scheduled flush", async () => {
     using processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStderrBuffered(formatter);
+    const sink = new WoodchopperSinkBufferedStderr(formatter);
 
     sink.write(entry);
     sink.close();
@@ -99,7 +99,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
   test("close - empty buffer", () => {
     using processStderrWrite = spyOn(process.stderr, "write").mockImplementation(jest.fn());
 
-    const sink = new WoodchopperSinkStderrBuffered(formatter);
+    const sink = new WoodchopperSinkBufferedStderr(formatter);
 
     sink.close();
     sink.close();
