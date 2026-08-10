@@ -53,6 +53,7 @@ export class SetupHono {
       new ShieldMaintenanceHonoStrategy(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
       new CorrelationHonoMiddleware(deps).handle(),
+      new TimingHonoMiddleware(deps).handle(),
       new ApiVersionHonoMiddleware(deps).handle(),
       new ShieldCsrfHonoStrategy(config.csrf).handle(),
       secureHeaders({
@@ -76,7 +77,6 @@ export class SetupHono {
       new LanguageDetectorHonoMiddleware(config.I18n).handle(),
       new TimeZoneOffsetHonoMiddleware().handle(),
       new HttpLoggerHonoMiddleware(deps, config.httpLogger).handle(),
-      new TimingHonoMiddleware(deps).handle(),
     ];
   }
 }
