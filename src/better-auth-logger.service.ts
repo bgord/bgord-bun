@@ -27,6 +27,10 @@ export class BetterAuthLogger {
             this.deps.Logger.warn(base);
             break;
           }
+          case LogLevelEnum.debug: {
+            this.deps.Logger.debug(base);
+            break;
+          }
           default: {
             this.deps.Logger.info(base);
             break;
@@ -39,6 +43,7 @@ export class BetterAuthLogger {
   private mapLevel(level: LogLevel | undefined) {
     if (level === "warn") return LogLevelEnum.warn;
     if (level === "error") return LogLevelEnum.error;
+    if (level === "debug") return LogLevelEnum.debug;
     return LogLevelEnum.info;
   }
 }

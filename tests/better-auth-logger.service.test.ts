@@ -8,15 +8,29 @@ describe("BetterAuthLogger", () => {
     const Logger = new LoggerCollectingAdapter();
     const service = new BetterAuthLogger({ Logger }).attach();
 
+    using loggerInfo = spyOn(Logger, "info");
+
     service.log("info", "User login attempt");
     service.log("success", "User logged in");
-    service.log("debug", "User metadata");
 
     expect(Logger.entries).toEqual([
       { component: "infra", message: "User login attempt", metadata: { args: [] }, operation: "better-auth" },
       { component: "infra", message: "User logged in", metadata: { args: [] }, operation: "better-auth" },
+    ]);
+    expect(loggerInfo).toHaveBeenCalledTimes(2);
+  });
+
+  test("debug", () => {
+    const Logger = new LoggerCollectingAdapter();
+    using loggerDebug = spyOn(Logger, "debug");
+    const service = new BetterAuthLogger({ Logger }).attach();
+
+    service.log("debug", "User metadata");
+
+    expect(Logger.entries).toEqual([
       { component: "infra", message: "User metadata", metadata: { args: [] }, operation: "better-auth" },
     ]);
+    expect(loggerDebug).toHaveBeenCalled();
   });
 
   test("warn", () => {
