@@ -3,6 +3,7 @@ import type { ClockPort } from "./clock.port";
 
 export class ClockSystemAdapter implements ClockPort {
   now(): tools.Timestamp {
-    return tools.Timestamp.fromInstant(tools.Temporal.Now.instant());
+    // biome-ignore lint: lint/style/noRestrictedGlobals
+    return tools.Timestamp.fromNumber(Date.now());
   }
 }
