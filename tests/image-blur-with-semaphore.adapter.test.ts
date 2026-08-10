@@ -7,7 +7,8 @@ import { Semaphore } from "../src/semaphore.service";
 import * as mocks from "./mocks";
 
 const input = tools.FilePathAbsolute.fromString("/var/img/photo.jpg");
-const recipe: ImageBlurStrategy = { strategy: "in_place", input };
+const output = tools.FilePathAbsolute.fromString("/var/img/photo-blurred.png");
+const recipe: ImageBlurStrategy = { input, output };
 const limit = tools.Int.positive(1);
 
 const semaphore = new Semaphore({ limit });
@@ -16,7 +17,7 @@ const adapter = new ImageBlurWithSemaphoreAdapter({ inner, semaphore });
 
 describe("ImageBlurWithSemaphoreAdapter", () => {
   test("blur - success", async () => {
-    expect(await adapter.blur(recipe)).toEqual(input);
+    expect(await adapter.blur(recipe)).toEqual(output);
   });
 
   test("blur - error", async () => {

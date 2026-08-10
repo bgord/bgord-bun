@@ -16,66 +16,24 @@ const deps = { FileRenamer, FileWriter, NonceProvider };
 const adapter = new ImageBlurAdapter(deps);
 
 const base64 = "bW9jay1kYXRh";
-const placeholder = `data:image/jpg;base64,${base64}`;
+const placeholder = `data:image/png;base64,${base64}`;
 const buffer = Buffer.from(base64, "base64");
-const image = {
-  jpeg: () => ({ placeholder: async () => placeholder }),
-  png: () => ({ placeholder: async () => placeholder }),
-  webp: () => ({ placeholder: async () => placeholder }),
-};
+const image = { placeholder: async () => placeholder };
 
 describe("ImageBlurAdapter", () => {
-  test("in_place - absolute", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
-
-    const recipe: ImageBlurStrategy = {
-      strategy: "in_place",
-      input: testcase.images.in_place.absolute.input,
-    };
-
-    expect(await adapter.blur(recipe)).toEqual(testcase.images.in_place.absolute.input);
-    expect(write).toHaveBeenCalledWith(testcase.images.in_place.absolute.temporary("blurred").get(), buffer);
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.in_place.absolute.temporary("blurred"),
-      testcase.images.in_place.absolute.input,
-    );
-  });
-
-  test("in_place - relative", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
-
-    const recipe: ImageBlurStrategy = {
-      strategy: "in_place",
-      input: testcase.images.in_place.relative.input,
-    };
-
-    expect(await adapter.blur(recipe)).toEqual(testcase.images.in_place.relative.input);
-    expect(write).toHaveBeenCalledWith(testcase.images.in_place.relative.temporary("blurred").get(), buffer);
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.in_place.relative.temporary("blurred"),
-      testcase.images.in_place.relative.input,
-    );
-  });
-
   test("output_path - absolute", async () => {
     // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using file = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using write = spyOn(FileWriter, "write");
     using rename = spyOn(FileRenamer, "rename");
 
     const recipe: ImageBlurStrategy = {
-      strategy: "output_path",
       input: testcase.images.output_path.absolute.input,
       output: testcase.images.output_path.absolute.output,
     };
 
     expect(await adapter.blur(recipe)).toEqual(testcase.images.output_path.absolute.output);
+    expect(file).toHaveBeenCalledWith(testcase.images.output_path.absolute.input.get());
     expect(write).toHaveBeenCalledWith(
       testcase.images.output_path.absolute.temporary("blurred").get(),
       buffer,
@@ -86,6 +44,29 @@ describe("ImageBlurAdapter", () => {
     );
   });
 
+  test("output_path - relative", async () => {
+    // @ts-expect-error Partial access
+    using file = spyOn(Bun, "file").mockReturnValue({ image: () => image });
+    using write = spyOn(FileWriter, "write");
+    using rename = spyOn(FileRenamer, "rename");
+
+    const recipe: ImageBlurStrategy = {
+      input: testcase.images.output_path.relative.input,
+      output: testcase.images.output_path.relative.output,
+    };
+
+    expect(await adapter.blur(recipe)).toEqual(testcase.images.output_path.relative.output);
+    expect(file).toHaveBeenCalledWith(testcase.images.output_path.relative.input.get());
+    expect(write).toHaveBeenCalledWith(
+      testcase.images.output_path.relative.temporary("blurred").get(),
+      buffer,
+    );
+    expect(rename).toHaveBeenCalledWith(
+      testcase.images.output_path.relative.temporary("blurred"),
+      testcase.images.output_path.relative.output,
+    );
+  });
+
   test("jpg_to_jpeg", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
@@ -93,8 +74,8 @@ describe("ImageBlurAdapter", () => {
     using rename = spyOn(FileRenamer, "rename");
 
     const recipe: ImageBlurStrategy = {
-      strategy: "in_place",
-      input: testcase.images.jpg_to_jpeg.input,
+      input: testcase.images.output_path.absolute.input,
+      output: testcase.images.jpg_to_jpeg.input,
     };
 
     expect(await adapter.blur(recipe)).toEqual(testcase.images.jpg_to_jpeg.input);
