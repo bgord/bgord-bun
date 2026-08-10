@@ -156,6 +156,54 @@ describe("GracefulShutdown", () => {
     });
   });
 
+  test("server stop rejection", async () => {
+    const { server, gs } = setup();
+    using _ = spyOn(server, "stop").mockRejectedValue(new Error(mocks.IntentionalError));
+    using loggerError = spyOn(Logger, "error");
+    gs.applyTo(server);
+
+    process.emit("SIGTERM");
+    await tick();
+
+    expect(loggerError).toHaveBeenCalledWith({
+      message: "Server stop failed",
+      operation: "shutdown",
+      component: "infra",
+      error: new Error(mocks.IntentionalError),
+    });
+  });
+
+  test("drains before cleanup", async () => {
+    const order: Array<string> = [];
+    const cleanup = jest.fn(() => {
+      order.push("cleanup");
+    });
+    const { server, gs } = setup(cleanup);
+    using _ = spyOn(server, "stop").mockImplementation(async () => {
+      await tick();
+      order.push("stop");
+    });
+    gs.applyTo(server);
+
+    process.emit("SIGTERM");
+    await tick();
+    await tick();
+
+    expect(order).toEqual(["stop", "cleanup"]);
+  });
+
+  test("exit - default", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
+    const gs = new GracefulShutdown(deps, { cleanup: tools.noop });
+    using exit = spyOn(process, "exit").mockImplementation(() => undefined as never);
+    gs.applyTo(server);
+
+    process.emit("SIGTERM");
+    await tick();
+
+    expect(exit).toHaveBeenCalledWith(0);
+  });
+
   test("unhandledRejection - exit code", async () => {
     const { server, gs, exitCalls } = setup();
     gs.applyTo(server);

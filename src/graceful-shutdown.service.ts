@@ -12,7 +12,7 @@ export class GracefulShutdown {
 
   constructor(
     private readonly deps: Dependencies,
-    private readonly config: Config = { cleanup: tools.noop, exit: process.exit },
+    private readonly config: Config = { cleanup: tools.noop },
   ) {}
 
   private async shutdown(server: ServerType, exitCode: number) {
@@ -22,7 +22,7 @@ export class GracefulShutdown {
     // Stryker restore all
 
     try {
-      server.stop();
+      await server.stop();
     } catch (error) {
       this.deps.Logger.error({ message: "Server stop failed", error, ...this.base });
     }
@@ -33,7 +33,7 @@ export class GracefulShutdown {
     } catch (error) {
       this.deps.Logger.error({ message: "Cleanup hook failed", error, ...this.base });
     } finally {
-      this.config.exit?.(exitCode);
+      (this.config.exit ?? process.exit)(exitCode);
     }
   }
 
