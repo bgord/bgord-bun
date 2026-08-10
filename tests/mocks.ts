@@ -76,7 +76,8 @@ export const connInfo = { server: { requestIP: () => ({ address: ip }) } };
 // Tue Nov 14 2023 22:13:20 GMT+0000
 export const TIME_ZERO = tools.Timestamp.fromNumber(1700000000000);
 
-export const TIME_ZERO_PLAIN_DATE_TIME = "2023-11-14T22:13:20Z";
+export const TIME_ZERO_PLAIN_DATE_TIME = "2023-11-14T22:13:20.000Z";
+export const TIME_ZERO_PLAIN_DATE_TIME_SHORT = "2023-11-14T22:13:20Z";
 
 export const SHA = CommitSha.fromString("a".repeat(40));
 

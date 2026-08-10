@@ -73,7 +73,8 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
     let withInjectedFields: LoggerEntry;
     try {
       withInjectedFields = {
-        timestamp: this.deps.Clock.now().toInstant().toString(),
+        // biome-ignore lint: lint/style/noRestrictedGlobals
+        timestamp: new Date(this.deps.Clock.now().ms).toISOString(),
         level,
         app: this.config.app,
         environment: this.config.environment,
