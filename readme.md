@@ -650,7 +650,6 @@ src/
 ├── woodchopper-diagnostics-console-error.strategy.ts
 ├── woodchopper-diagnostics-noop.strategy.ts
 ├── woodchopper-diagnostics.strategy.ts
-├── woodchopper-dispatcher-async.strategy.ts
 ├── woodchopper-dispatcher-noop.strategy.ts
 ├── woodchopper-dispatcher-sampling.strategy.ts
 ├── woodchopper-dispatcher-sync.strategy.ts

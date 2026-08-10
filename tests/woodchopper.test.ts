@@ -13,7 +13,6 @@ import { RedactorMetadataCompactObject } from "../src/redactor-metadata-compact-
 import { RedactorNoop } from "../src/redactor-noop.strategy";
 import { Woodchopper } from "../src/woodchopper";
 import { WoodchopperDiagnosticsCollecting } from "../src/woodchopper-diagnostics-collecting.strategy";
-import { WoodchopperDispatcherAsync } from "../src/woodchopper-dispatcher-async.strategy";
 import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
 import { WoodchopperFormatterJson } from "../src/woodchopper-formatter-json.strategy";
 import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
@@ -526,44 +525,6 @@ describe("Woodchopper", async () => {
     expect(dispatcherClose).toHaveBeenCalledTimes(1);
   });
 
-  test("close - idempotency - dispatcher async", async () => {
-    const sink = new WoodchopperSinkCollecting();
-    const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const dispatcher = new WoodchopperDispatcherAsync(sink);
-    dispatcher.onError = (error) => diagnostics.handle({ kind: "sink", error });
-    using dispatcherClose = spyOn(dispatcher, "close");
-    const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-
-    woodchopper.info(entry);
-
-    await mocks.tick();
-
-    expect(sink.entries[0]).toEqual({ ...config, ...entry, timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME });
-    expect(woodchopper.getStats()).toEqual({
-      state: LoggerState.open,
-      written: 1,
-      dropped: 0,
-      deliveryFailures: 0,
-    });
-
-    woodchopper.close();
-    woodchopper.close();
-
-    woodchopper.info(entry);
-    woodchopper.info(entry);
-
-    expect(sink.entries.length).toEqual(1);
-    expect(woodchopper.getStats()).toEqual({
-      state: LoggerState.closed,
-      written: 1,
-      dropped: 2,
-      deliveryFailures: 0,
-    });
-    expect(dispatcherClose).toHaveBeenCalledTimes(1);
-    expect(diagnostics.entries.length).toEqual(0);
-  });
-
   test("close - flushes a buffering sink all the way to stdout", () => {
     using processStdoutWrite = spyOn(process.stdout, "write").mockImplementation(jest.fn());
 
@@ -757,49 +718,6 @@ describe("Woodchopper", async () => {
       state: LoggerState.open,
       written: 0,
       dropped: 1,
-      deliveryFailures: 1,
-    });
-  });
-
-  test("pipeline - sink - dispatcher async - diagnostics", async () => {
-    const sink = new WoodchopperSinkNoop();
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
-    const dispatcher = new WoodchopperDispatcherAsync(sink);
-    const diagnostics = new WoodchopperDiagnosticsCollecting();
-    const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher, diagnostics }, deps);
-
-    woodchopper.info(entry);
-
-    await mocks.tick();
-
-    expect(woodchopper.getStats()).toEqual({
-      state: LoggerState.open,
-      written: 1,
-      dropped: 0,
-      deliveryFailures: 1,
-    });
-    expect(diagnostics.entries[0]).toMatchObject({
-      kind: "sink",
-      error: { message: mocks.IntentionalError },
-    });
-  });
-
-  test("pipeline - sink - dispatcher async - no diagnostics", async () => {
-    const sink = new WoodchopperSinkNoop();
-    using _ = spyOn(sink, "write").mockImplementation(mocks.throwIntentionalError);
-    const dispatcher = new WoodchopperDispatcherAsync(sink);
-    const config = { app, level: LogLevelEnum.info, environment };
-    const woodchopper = new Woodchopper({ ...config, dispatcher }, deps);
-
-    woodchopper.info(entry);
-
-    await mocks.tick();
-
-    expect(woodchopper.getStats()).toEqual({
-      state: LoggerState.open,
-      written: 1,
-      dropped: 0,
       deliveryFailures: 1,
     });
   });
