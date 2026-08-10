@@ -667,7 +667,9 @@ src/
 ├── woodchopper-sampling.strategy.ts
 ├── woodchopper-sink-collecting.strategy.ts
 ├── woodchopper-sink-noop.strategy.ts
+├── woodchopper-sink-stderr-buffered.strategy.ts
 ├── woodchopper-sink-stderr.strategy.ts
+├── woodchopper-sink-stdout-buffered.strategy.ts
 ├── woodchopper-sink-stdout.strategy.ts
 ├── woodchopper-sink.strategy.ts
 ├── woodchopper-stats.service.ts

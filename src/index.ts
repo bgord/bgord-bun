@@ -598,5 +598,7 @@ export * from "./woodchopper-sink.strategy";
 export * from "./woodchopper-sink-collecting.strategy";
 export * from "./woodchopper-sink-noop.strategy";
 export * from "./woodchopper-sink-stderr.strategy";
+export * from "./woodchopper-sink-stderr-buffered.strategy";
 export * from "./woodchopper-sink-stdout.strategy";
+export * from "./woodchopper-sink-stdout-buffered.strategy";
 export * from "./woodchopper-stats.service";
