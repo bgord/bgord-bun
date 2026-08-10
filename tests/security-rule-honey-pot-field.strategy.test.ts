@@ -38,6 +38,28 @@ describe("SecurityRuleHoneyPotFieldStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(false);
   });
 
+  test("isViolated - true - form", async () => {
+    const form = new FormData();
+    form.set(field, "abc");
+    const context = new RequestContextBuilder().withForm(form).build();
+
+    expect(await rule.isViolated(context)).toEqual(true);
+  });
+
+  test("isViolated - false - form - missing field", async () => {
+    const context = new RequestContextBuilder().withForm(new FormData()).build();
+
+    expect(await rule.isViolated(context)).toEqual(false);
+  });
+
+  test("isViolated - false - form - missing string", async () => {
+    const form = new FormData();
+    form.set(field, "");
+    const context = new RequestContextBuilder().withForm(form).build();
+
+    expect(await rule.isViolated(context)).toEqual(false);
+  });
+
   test("name", () => {
     expect(rule.name).toEqual(v.parse(SecurityRuleName, "honey_pot_field"));
   });
