@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import * as v from "valibot";
 import type { WebhookSecretType } from "./webhook-secret.vo";
 import { WebhookSignature, type WebhookSignatureType } from "./webhook-signature.vo";

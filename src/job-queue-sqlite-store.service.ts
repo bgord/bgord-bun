@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import { Database } from "bun:sqlite";
 import { JobStatusEnum } from "./job-status.vo";
 

@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import * as tools from "@bgord/tools";
 import type { Context } from "hono";
 import { getConnInfo } from "hono/bun";

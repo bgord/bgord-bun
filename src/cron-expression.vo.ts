@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import * as v from "valibot";
 
 export const CronExpressionError = { Type: "cron.expression.type", Invalid: "cron.expression.invalid" };

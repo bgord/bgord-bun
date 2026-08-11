@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 // cSpell:ignore clamav, clamscan
 import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from "./antivirus.port";
 

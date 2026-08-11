@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 // cspell:ignore nosniff
 import type * as tools from "@bgord/tools";
 import { type Context, Hono } from "hono";

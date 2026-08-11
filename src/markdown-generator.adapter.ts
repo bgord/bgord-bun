@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type { MarkdownGeneratorPort } from "./markdown-generator.port";
 
 export class MarkdownGeneratorAdapter implements MarkdownGeneratorPort {

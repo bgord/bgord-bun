@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type * as tools from "@bgord/tools";
 import type { FileCleanerPort } from "./file-cleaner.port";
 

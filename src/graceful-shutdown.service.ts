@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import * as tools from "@bgord/tools";
 import type { LoggerPort } from "./logger.port";
 

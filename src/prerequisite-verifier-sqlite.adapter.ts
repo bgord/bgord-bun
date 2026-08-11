@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type { Database } from "bun:sqlite";
 import {
   PrerequisiteVerification,

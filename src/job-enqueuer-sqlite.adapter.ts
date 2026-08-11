@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type { Database } from "bun:sqlite";
 import type * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";

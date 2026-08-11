@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import { access, constants, stat } from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import type { FileInspectionPort } from "./file-inspection.port";

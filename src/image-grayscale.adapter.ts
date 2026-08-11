@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 // cspell:ignore grayscaled
 import type * as tools from "@bgord/tools";
 import type { FileRenamerPort } from "./file-renamer.port";

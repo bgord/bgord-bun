@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type { BinaryType } from "./binary.vo";
 import {
   PrerequisiteVerification,

@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type {
   ImageGeneratorAcceptedFormat,
   ImageGeneratorConfig,

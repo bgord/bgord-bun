@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { ImageInfoPort, ImageInfoType } from "./image-info.port";

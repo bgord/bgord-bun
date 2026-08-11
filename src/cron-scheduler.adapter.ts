@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type { CronSchedulerPort } from "./cron-scheduler.port";
 import type { CronTask } from "./cron-task.vo";
 

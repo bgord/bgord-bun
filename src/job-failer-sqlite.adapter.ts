@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type { Database } from "bun:sqlite";
 import type { GenericJob } from "./job.types";
 import type { JobFailerPort } from "./job-failer.port";

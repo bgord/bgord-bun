@@ -1,3 +1,4 @@
+// [BUN DEPENDENCY]
 import type * as tools from "@bgord/tools";
 import type { FileReaderRawPort } from "./file-reader-raw.port";
 
