@@ -44,8 +44,7 @@ export class FileDraftZip extends FileDraft {
     });
 
     for (const part of this.parts) {
-      const body = await part.create();
-      const bytes = new Uint8Array(await new Response(body).arrayBuffer());
+      const bytes = await new Response(await part.create()).bytes();
 
       zip.addReadStream(Readable.from([bytes]), part.filename.get());
     }
