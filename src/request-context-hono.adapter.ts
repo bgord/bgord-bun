@@ -17,15 +17,7 @@ export class RequestContextHonoAdapter implements RequestContext {
       url: () => context.req.url,
       header: (name) => context.req.header(name),
       headers: () => context.req.raw.headers,
-      headersObject: () => {
-        const headers: Record<string, string> = {};
-
-        context.req.raw.headers.forEach((value, key) => {
-          headers[key] = value;
-        });
-
-        return headers;
-      },
+      headersObject: () => Object.fromEntries(context.req.raw.headers),
       query: () => context.req.query(),
       queries: () => context.req.queries(),
       params: () => context.req.param(),
@@ -33,18 +25,14 @@ export class RequestContextHonoAdapter implements RequestContext {
       cookie: (name) => getCookie(context)[name],
       json: async () => {
         try {
-          const request = context.req.raw.clone();
-
-          return await request.json();
+          return await context.req.raw.clone().json();
         } catch {
           return {};
         }
       },
       text: async () => {
         try {
-          const request = context.req.raw.clone();
-
-          return await request.text();
+          return await context.req.raw.clone().text();
         } catch {
           // Stryker disable next-line StringLiteral
           return "";
@@ -52,9 +40,7 @@ export class RequestContextHonoAdapter implements RequestContext {
       },
       form: async () => {
         try {
-          const request = context.req.raw.clone();
-
-          return await request.formData();
+          return await context.req.raw.clone().formData();
         } catch {
           return new FormData();
         }
