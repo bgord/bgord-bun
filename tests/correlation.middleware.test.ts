@@ -1,11 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CorrelationMiddleware } from "../src/correlation.middleware";
+import { CorrelationId } from "../src/correlation-id.vo";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const valid = "550e8400-e29b-41d4-a716-446655440000";
+const valid = v.parse(CorrelationId, "550e8400-e29b-41d4-a716-446655440000");
 const invalid = "not-a-valid-uuid";
 
 describe("CorrelationMiddleware", () => {

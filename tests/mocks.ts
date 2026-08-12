@@ -6,6 +6,7 @@ import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
+import { CorrelationId } from "../src/correlation-id.vo";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
@@ -27,7 +28,7 @@ import {
 } from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
-export const correlationId = "00000000-0000-0000-0000-000000000000";
+export const correlationId = v.parse(CorrelationId, "00000000-0000-0000-0000-000000000000");
 
 export const userId = "00000000-0000-0000-0000-000000000000";
 export const anotherUserId = "22222222-2222-2222-2222-222222222222";

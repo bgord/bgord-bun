@@ -2,6 +2,7 @@ import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { ClockPort } from "./clock.port";
 import { CommitShaValue, type CommitShaValueType } from "./commit-sha-value.vo";
+import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { EventStream, type EventStreamType } from "./event-stream.vo";
 import type { IdProviderPort } from "./id-provider.port";
@@ -16,7 +17,7 @@ type Dependencies = {
 
 export const EventEnvelopeSchema = {
   id: UUID,
-  correlationId: UUID,
+  correlationId: CorrelationId,
   createdAt: tools.TimestampValue,
   stream: EventStream,
   version: v.literal(1),

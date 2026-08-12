@@ -1,11 +1,11 @@
 import { createMiddleware } from "hono/factory";
 import { CorrelationMiddleware, type CorrelationMiddlewareDependencies } from "./correlation.middleware";
+import type { CorrelationIdType } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-import type { UUIDType } from "./uuid.vo";
 
-export type CorrelationVariables = { correlationId: UUIDType };
+export type CorrelationVariables = { correlationId: CorrelationIdType };
 
 export class CorrelationHonoMiddleware implements MiddlewareHonoPort {
   private readonly correlationId: CorrelationMiddleware;

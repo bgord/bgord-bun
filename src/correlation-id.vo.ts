@@ -1,6 +1,6 @@
-import type * as v from "valibot";
+import * as v from "valibot";
 import { UUID } from "./uuid.vo";
 
-export const CorrelationId = UUID;
+export const CorrelationId = v.pipe(UUID, v.brand("CorrelationId"));
 
 export type CorrelationIdType = v.InferOutput<typeof CorrelationId>;

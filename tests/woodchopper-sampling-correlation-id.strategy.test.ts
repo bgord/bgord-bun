@@ -1,5 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
+import { CorrelationId } from "../src/correlation-id.vo";
 import { LogLevelEnum } from "../src/logger.port";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { WoodchopperSamplingCorrelationId } from "../src/woodchopper-sampling-correlation-id.strategy";
@@ -12,13 +14,13 @@ const entryWithCorrelation = {
   level: LogLevelEnum.info,
   message: "message",
   operation: "test",
-  correlationId: "550e8400-e29b-41d4-a716-446655440000",
+  correlationId: v.parse(CorrelationId, "550e8400-e29b-41d4-a716-446655440000"),
   timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
 };
 
 const entryWithDifferentCorrelation = {
   ...entryWithCorrelation,
-  correlationId: "550e8400-e29b-41d4-a716-446655440001",
+  correlationId: v.parse(CorrelationId, "550e8400-e29b-41d4-a716-446655440001"),
 };
 
 const entryWithoutCorrelation = {

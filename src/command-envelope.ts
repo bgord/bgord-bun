@@ -1,13 +1,18 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import type { ClockPort } from "./clock.port";
+import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { IdProviderPort } from "./id-provider.port";
 import { UUID } from "./uuid.vo";
 
 type Dependencies = { IdProvider: IdProviderPort; Clock: ClockPort };
 
-export const CommandEnvelopeSchema = { id: UUID, correlationId: UUID, createdAt: tools.TimestampValue };
+export const CommandEnvelopeSchema = {
+  id: UUID,
+  correlationId: CorrelationId,
+  createdAt: tools.TimestampValue,
+};
 
 export const createCommandEnvelope = (deps: Dependencies) =>
   ({

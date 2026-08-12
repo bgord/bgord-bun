@@ -1,4 +1,6 @@
+import * as v from "valibot";
 import type { ClockPort } from "./clock.port";
+import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { CronTask } from "./cron-task.vo";
 import type { CronTaskHandlerStrategy } from "./cron-task-handler.strategy";
@@ -17,7 +19,7 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
     return {
       ...task,
       handler: async () => {
-        const correlationId = this.deps.IdProvider.generate();
+        const correlationId = v.parse(CorrelationId, this.deps.IdProvider.generate());
         const duration = new Stopwatch(this.deps);
 
         try {

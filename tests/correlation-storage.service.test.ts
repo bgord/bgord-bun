@@ -1,6 +1,11 @@
 import { describe, expect, test } from "bun:test";
+import * as v from "valibot";
+import { CorrelationId } from "../src/correlation-id.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import * as mocks from "./mocks";
+
+const outer = mocks.correlationId;
+const inner = v.parse(CorrelationId, "bf732a6a-fcb8-4c24-ae79-fd51c96b17e5");
 
 describe("CorrelationStorage", () => {
   test("run - sync", () => {
@@ -20,12 +25,12 @@ describe("CorrelationStorage", () => {
   });
 
   test("run - inner and outer", () => {
-    CorrelationStorage.run("outer", () => {
-      expect(CorrelationStorage.get()).toEqual("outer");
+    CorrelationStorage.run(outer, () => {
+      expect(CorrelationStorage.get()).toEqual(outer);
 
-      CorrelationStorage.run("inner", () => expect(CorrelationStorage.get()).toEqual("inner"));
+      CorrelationStorage.run(inner, () => expect(CorrelationStorage.get()).toEqual(inner));
 
-      expect(CorrelationStorage.get()).toEqual("outer");
+      expect(CorrelationStorage.get()).toEqual(outer);
     });
   });
 

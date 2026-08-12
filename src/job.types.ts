@@ -1,9 +1,10 @@
 import type * as tools from "@bgord/tools";
+import type { CorrelationIdType } from "./correlation-id.vo";
 import type { UUIDType } from "./uuid.vo";
 
 export type GenericJob = {
   id: UUIDType;
-  correlationId: UUIDType;
+  correlationId: CorrelationIdType;
   createdAt: number;
   name: string;
   revision: tools.RevisionValueType;

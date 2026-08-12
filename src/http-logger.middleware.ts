@@ -1,4 +1,5 @@
 import type { ClockPort } from "./clock.port";
+import type { CorrelationIdType } from "./correlation-id.vo";
 import { type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { HasRequestHeader, HasRequestPath, RequestContext } from "./request-context.port";
 import { Stopwatch } from "./stopwatch.service";
@@ -54,7 +55,7 @@ export class HttpLoggerMiddleware {
     );
   }
 
-  before(context: RequestContext, correlationId: string, body: any = {}): HttpLoggerBeforeResult {
+  before(context: RequestContext, correlationId: CorrelationIdType, body: any = {}): HttpLoggerBeforeResult {
     const client = { ip: context.identity.ip(), ua: context.identity.ua() };
 
     const metadata = {
@@ -82,7 +83,7 @@ export class HttpLoggerMiddleware {
     return { stopwatch: new Stopwatch(this.deps) };
   }
 
-  after(context: RequestContext, correlationId: string, input: HttpLoggerAfterInput): void {
+  after(context: RequestContext, correlationId: CorrelationIdType, input: HttpLoggerAfterInput): void {
     const client = { ip: context.identity.ip(), ua: context.identity.ua() };
     const duration = input.stopwatch.stop();
     const level = input.status >= 400 ? LogLevelEnum.error : LogLevelEnum.http;

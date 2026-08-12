@@ -16,6 +16,6 @@ export class CorrelationMiddleware {
     const existing = v.safeParse(CorrelationId, incoming);
 
     if (existing.success) return existing.output;
-    return this.deps.IdProvider.generate();
+    return v.parse(CorrelationId, this.deps.IdProvider.generate());
   }
 }
