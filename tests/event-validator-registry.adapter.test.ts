@@ -42,7 +42,7 @@ describe("EventValidatorRegistryAdapter", () => {
   test("validate - invalid shape", () => {
     expect(() =>
       registry.validate({ ...mocks.GenericHourHasPassedEvent, payload: { timestamp: "not-a-number" } }),
-    ).toThrow("timestamp.invalid");
+    ).toThrow("timestamp.type");
   });
 
   test("validate - async schema", () => {

@@ -17,10 +17,7 @@ describe("ETagExtractorHonoMiddleware", () => {
       method: "GET",
       headers: new Headers({ [tools.ETag.IF_MATCH_HEADER_NAME]: "12345" }),
     });
-    const json = await result.json();
-
-    expect(json.revision).toEqual(12345);
-    expect(json.value).toEqual("12345");
+    expect(await result.json()).toEqual("12345");
   });
 
   test("missing header", async () => {

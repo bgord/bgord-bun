@@ -284,21 +284,21 @@ describe("FileInspectionAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(fs, "stat").mockImplementation(async () => ({ size: "invalid" }));
 
-    expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
+    expect(async () => adapter.size(string)).toThrow("size.bytes.type");
   });
 
   test("size - invalid value - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(fs, "stat").mockImplementation(async () => ({ size: "invalid" }));
 
-    expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
+    expect(async () => adapter.size(string)).toThrow("size.bytes.type");
   });
 
   test("size - invalid value - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(fs, "stat").mockImplementation(async () => ({ size: "invalid" }));
 
-    expect(async () => adapter.size(string)).toThrow("size.bytes.invalid");
+    expect(async () => adapter.size(string)).toThrow("size.bytes.type");
   });
 
   test("lastModified - string", async () => {
@@ -347,20 +347,20 @@ describe("FileInspectionAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(fs, "stat").mockImplementation(async () => ({ mtimeMs: "invalid" }));
 
-    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.type");
   });
 
   test("lastModified - invalid value - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(fs, "stat").mockImplementation(async () => ({ mtimeMs: "invalid" }));
 
-    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.type");
   });
 
   test("lastModified - invalid value - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(fs, "stat").mockImplementation(async () => ({ mtimeMs: "invalid" }));
 
-    expect(async () => adapter.lastModified(string)).toThrow("timestamp.invalid");
+    expect(async () => adapter.lastModified(string)).toThrow("timestamp.type");
   });
 });

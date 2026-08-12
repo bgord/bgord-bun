@@ -141,7 +141,7 @@ export class HealthcheckHandler {
       deployment: {
         version: build.version,
         timestamp: build.timestamp,
-        date: tools.Timestamp.fromValue(build.timestamp).toInstant().toString(),
+        date: tools.Timestamp.fromNumber(build.timestamp).toInstant().toString(),
         sha: build.sha,
         size: tools.Size.fromBytes(build.size).format(tools.Size.unit.MB),
         environment: this.config.Env,

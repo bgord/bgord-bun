@@ -21,10 +21,7 @@ describe("WeakETagExtractorHonoMiddleware", () => {
       method: "GET",
       headers: new Headers({ [tools.WeakETag.IF_MATCH_HEADER_NAME]: "W/12345" }),
     });
-    const json = await result.json();
-
-    expect(json.revision).toEqual(12345);
-    expect(json.value).toEqual("W/12345");
+    expect(await result.json()).toEqual("W/12345");
   });
 
   test("missing header", async () => {
