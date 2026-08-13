@@ -4,7 +4,7 @@ import type { ClockPort } from "./clock.port";
 import { CommitShaValue, type CommitShaValueType } from "./commit-sha-value.vo";
 import { CorrelationId } from "./correlation-id.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
-import { EventStream, type EventStreamType } from "./event-stream.vo";
+import { EventStream } from "./event-stream.vo";
 import type { IdProviderPort } from "./id-provider.port";
 import type { StaticConfigPort } from "./static-config.port";
 import { UUID } from "./uuid.vo";
@@ -25,7 +25,7 @@ export const EventEnvelopeSchema = {
   commit: CommitShaValue,
 };
 
-const createEventEnvelope = (stream: EventStreamType, deps: Dependencies) =>
+const createEventEnvelope = (stream: string, deps: Dependencies) =>
   ({
     id: deps.IdProvider.generate(),
     correlationId: CorrelationStorage.get(),
@@ -36,7 +36,7 @@ const createEventEnvelope = (stream: EventStreamType, deps: Dependencies) =>
 
 export function event<Schema extends v.ObjectSchema<any, any>>(
   schema: Schema,
-  stream: EventStreamType,
+  stream: string,
   payload: v.InferOutput<Schema>["payload"],
   deps: Dependencies,
 ): v.InferOutput<Schema> {

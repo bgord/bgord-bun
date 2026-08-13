@@ -4,7 +4,6 @@ import type { CommitShaValueType } from "./commit-sha-value.vo";
 import { CorrelationStorage } from "./correlation-storage.service";
 import { event } from "./event-envelope";
 import type { EventStorePort } from "./event-store.port";
-import { EventStream } from "./event-stream.vo";
 import type { IdProviderPort } from "./id-provider.port";
 import type { LoggerPort } from "./logger.port";
 import {
@@ -55,12 +54,7 @@ export class SecurityCountermeasureBanStrategy implements SecurityCountermeasure
     });
 
     await this.deps.EventStore.save([
-      event(
-        SecurityViolationDetectedEvent,
-        v.parse(EventStream, "security"),
-        { action: action.kind, ...context },
-        this.deps,
-      ),
+      event(SecurityViolationDetectedEvent, "security", { action: action.kind, ...context }, this.deps),
     ]);
 
     return action;

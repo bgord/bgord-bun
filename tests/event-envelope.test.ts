@@ -71,6 +71,43 @@ describe("EventEnvelope", () => {
     });
   });
 
+  test("event - invalid stream", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+
+    await CorrelationStorage.run(mocks.correlationId, () => {
+      const Event = v.object({
+        ...EventEnvelopeSchema,
+        name: v.literal("EVENT"),
+        payload: v.object({ timestamp: tools.TimestampValue }),
+      });
+
+      expect(() =>
+        event(Event, "", { timestamp: mocks.TIME_ZERO.ms }, { Clock, IdProvider, CommitConfig }),
+      ).toThrow("event.stream.empty");
+    });
+  });
+
+  test("event - stream too long", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+
+    await CorrelationStorage.run(mocks.correlationId, () => {
+      const Event = v.object({
+        ...EventEnvelopeSchema,
+        name: v.literal("EVENT"),
+        payload: v.object({ timestamp: tools.TimestampValue }),
+      });
+
+      expect(() =>
+        event(
+          Event,
+          `${"a".repeat(256)}a`,
+          { timestamp: mocks.TIME_ZERO.ms },
+          { Clock, IdProvider, CommitConfig },
+        ),
+      ).toThrow("event.stream.too.long");
+    });
+  });
+
   test("event - v2", async () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
 
