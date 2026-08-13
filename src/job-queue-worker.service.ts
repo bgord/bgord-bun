@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { CronTask } from "./cron-task.vo";
 import type { GenericJob } from "./job.types";
@@ -28,7 +29,7 @@ export function JobQueueWorker<Job extends GenericJob>(config: Config, deps: Dep
             const retry = policy.evaluate(job, tools.ErrorNormalizer.normalize(error));
 
             if (!retry) return deps.JobQueue.fail(job.id);
-            await deps.JobQueue.requeue(job.id, job.revision + 1, retry);
+            await deps.JobQueue.requeue(job.id, v.parse(tools.RevisionValue, job.revision + 1), retry);
           }
         });
       }
