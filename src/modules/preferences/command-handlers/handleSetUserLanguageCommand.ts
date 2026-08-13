@@ -1,8 +1,10 @@
 import type * as tools from "@bgord/tools";
+import * as v from "valibot";
 import type { ClockPort } from "../../../clock.port";
 import type { CommitShaValueType } from "../../../commit-sha-value.vo";
 import { event } from "../../../event-envelope";
 import type { EventStorePort } from "../../../event-store.port";
+import { EventStream } from "../../../event-stream.vo";
 import type { IdProviderPort } from "../../../id-provider.port";
 import type { Languages } from "../../../languages.vo";
 import type { StaticConfigPort } from "../../../static-config.port";
@@ -39,7 +41,7 @@ export const handleSetUserLanguageCommand =
     await deps.EventStore.save([
       event(
         Events.UserLanguageSetEvent,
-        `preferences_${command.payload.userId}`,
+        v.parse(EventStream, `preferences_${command.payload.userId}`),
         { userId: command.payload.userId, language: candidate },
         deps,
       ),

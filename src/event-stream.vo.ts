@@ -10,6 +10,7 @@ export const EventStream = v.pipe(
   v.string(EventStreamError.Type),
   v.minLength(1, EventStreamError.Empty),
   v.maxLength(256, EventStreamError.TooLong),
+  v.brand("EventStream"),
 );
 
 export type EventStreamType = v.InferOutput<typeof EventStream>;
