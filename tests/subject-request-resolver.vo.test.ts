@@ -9,6 +9,7 @@ import { SubjectSegmentMethodStrategy } from "../src/subject-segment-method.stra
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentQueryStrategy } from "../src/subject-segment-query.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const fixed = new SubjectSegmentFixedStrategy("response");
@@ -144,7 +145,7 @@ describe("SubjectRequestResolver", () => {
       .withCookie("language", "en")
       .withHeader("accept", "application/json")
       .withQuery({ aaa: "123", bbb: "234" })
-      .withUserId("123456789")
+      .withUserId(mocks.userId)
       .build();
 
     const result = await new SubjectRequestResolver(
@@ -159,10 +160,10 @@ describe("SubjectRequestResolver", () => {
       ["cookie:language", "en"],
       ["header:accept", "application/json"],
       ["query", `[["aaa",["123"]],["bbb",["234"]]]`],
-      ["user", "123456789"],
+      ["user", mocks.userId],
     ]);
     expect(result.hex).toEqual(
-      Hash.fromString("f71c843742eb58c699eb0ff0ef25cc172c926f6998ac31d1db91efe42aa5a3c8"),
+      Hash.fromString("3ee7e33d0b116a08faf1000a284a95ed5d7e2466edb715f63c870b341135db0d"),
     );
   });
 

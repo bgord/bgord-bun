@@ -28,13 +28,18 @@ import {
   type PrerequisiteVerifierPort,
 } from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
+import { UUID } from "../src/uuid.vo";
 
 export const correlationId = v.parse(CorrelationId, "00000000-0000-0000-0000-000000000000");
 export const revision = v.parse(tools.RevisionValue, 0);
 export const stream = v.parse(EventStream, "stream");
 
-export const userId = "00000000-0000-0000-0000-000000000000";
-export const anotherUserId = "22222222-2222-2222-2222-222222222222";
+export const userId = v.parse(UUID, "00000000-0000-0000-0000-000000000000");
+export const anotherUserId = v.parse(UUID, "22222222-2222-2222-2222-222222222222");
+
+export const firstId = v.parse(UUID, "11111111-1111-1111-1111-111111111111");
+export const secondId = v.parse(UUID, "33333333-3333-3333-3333-333333333333");
+export const thirdId = v.parse(UUID, "44444444-4444-4444-4444-444444444444");
 
 export const nonce = v.parse(NonceValue, "00000000000000000000000000000000");
 

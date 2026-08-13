@@ -12,6 +12,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const control = new AbVariant({
@@ -36,22 +37,22 @@ const hash = new AbAssignmentHashStrategy(variants, subject);
 
 describe("AbAssignmentCompositeStrategy", () => {
   test("happy path - first", async () => {
-    const context = new RequestContextBuilder().withUserId("user-123").build();
+    const context = new RequestContextBuilder().withUserId(mocks.userId).build();
     const strategy = new AbAssignmentCompositeStrategy([fixed, hash]);
 
     expect(await strategy.assign(context)).toEqual(treatment);
   });
 
   test("happy path - second", async () => {
-    const context = new RequestContextBuilder().withUserId("user-123").build();
+    const context = new RequestContextBuilder().withUserId(mocks.userId).build();
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);
 
-    expect(await strategy.assign(context)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(control);
   });
 
   test("happy path - query", async () => {
     const context = new RequestContextBuilder()
-      .withUserId("user-123")
+      .withUserId(mocks.userId)
       .withQuery({ "ab-variant": "treatment" })
       .build();
     const strategy = new AbAssignmentCompositeStrategy([query, hash]);

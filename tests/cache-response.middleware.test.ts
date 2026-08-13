@@ -9,6 +9,7 @@ import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
@@ -132,8 +133,11 @@ describe("CacheResponseMiddleware", () => {
   });
 
   test("hit for one user, miss for another", async () => {
-    const contextAdam = new RequestContextBuilder().withPath("/ping-cached").withUserId("Adam").build();
-    const contextEve = new RequestContextBuilder().withPath("/ping-cached").withUserId("Eve").build();
+    const contextAdam = new RequestContextBuilder().withPath("/ping-cached").withUserId(mocks.userId).build();
+    const contextEve = new RequestContextBuilder()
+      .withPath("/ping-cached")
+      .withUserId(mocks.anotherUserId)
+      .build();
 
     const firstAdam = await cacheResponse.evaluate(contextAdam, async () => ({
       body: JSON.stringify({ message: "ping" }),

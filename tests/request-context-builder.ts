@@ -1,6 +1,7 @@
 import type * as tools from "@bgord/tools";
 import { Duration, Revision } from "@bgord/tools";
 import type { RequestContext } from "../src/request-context.port";
+import type { UUIDType } from "../src/uuid.vo";
 
 export class RequestContextBuilder {
   private path = "/";
@@ -14,7 +15,7 @@ export class RequestContextBuilder {
   private json: Record<string, unknown> = {};
   private text = "";
   private form = new FormData();
-  private userId: string | undefined = undefined;
+  private userId: UUIDType | undefined = undefined;
   private ip: string | undefined = undefined;
   private remoteIp: string | undefined = undefined;
   private ua: string | undefined = undefined;
@@ -88,7 +89,7 @@ export class RequestContextBuilder {
     return this;
   }
 
-  withUserId(id: string | undefined) {
+  withUserId(id: UUIDType | undefined) {
     this.userId = id;
     return this;
   }

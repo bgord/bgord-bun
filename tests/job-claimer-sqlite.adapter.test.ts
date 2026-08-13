@@ -48,9 +48,9 @@ describe("JobClaimerSqliteAdapter", () => {
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
     const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
 
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "a" });
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "b" });
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "c" });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.firstId });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.secondId });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.thirdId });
     const result = await claimer.claim([mocks.GenericSendEmailJob.name], tools.Int.positive(2));
 
     expect(result.length).toEqual(2);
@@ -62,9 +62,9 @@ describe("JobClaimerSqliteAdapter", () => {
     const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
     const names = [mocks.GenericSendEmailJob.name, "sms"];
 
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "a" });
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "b", name: "sms" });
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "c" });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.firstId });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.secondId, name: "sms" });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.thirdId });
     const result = await claimer.claim(names, tools.Int.positive(2));
 
     expect(result.length).toEqual(2);
@@ -75,13 +75,13 @@ describe("JobClaimerSqliteAdapter", () => {
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
     const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
 
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "late", createdAt: 2 });
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "early", createdAt: 1 });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.secondId, createdAt: 2 });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.firstId, createdAt: 1 });
 
     const result = await claimer.claim([mocks.GenericSendEmailJob.name], limit);
 
-    expect(result[0]?.id).toEqual("early");
-    expect(result[1]?.id).toEqual("late");
+    expect(result[0]?.id).toEqual(mocks.firstId);
+    expect(result[1]?.id).toEqual(mocks.secondId);
   });
 
   test("claim - delay", async () => {
@@ -105,7 +105,7 @@ describe("JobClaimerSqliteAdapter", () => {
     const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
 
     await enqueuer.enqueue(mocks.GenericSendEmailJobSerialized);
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "a", name: "REPORT_JOB" });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.firstId, name: "REPORT_JOB" });
 
     const result = await claimer.claim([mocks.GenericSendEmailJob.name], limit);
 

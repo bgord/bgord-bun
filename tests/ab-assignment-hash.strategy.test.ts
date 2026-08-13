@@ -9,6 +9,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const control = new AbVariant({
@@ -31,13 +32,13 @@ const strategy = new AbAssignmentHashStrategy(variants, subject);
 
 describe("AbAssignmentHashStrategy", () => {
   test("happy path", async () => {
-    const context = new RequestContextBuilder().withUserId("user-123").build();
+    const context = new RequestContextBuilder().withUserId(mocks.userId).build();
 
-    expect(await strategy.assign(context)).toEqual(treatment);
+    expect(await strategy.assign(context)).toEqual(control);
   });
 
   test("idempotence", async () => {
-    const context = new RequestContextBuilder().withUserId("user-456").build();
+    const context = new RequestContextBuilder().withUserId(mocks.anotherUserId).build();
 
     expect(await strategy.assign(context)).toEqual(await strategy.assign(context));
   });

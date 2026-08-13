@@ -77,8 +77,8 @@ describe("JobQueueStatsProviderSqliteAdapter", () => {
     const enqueuer = new JobEnqueuerSqliteAdapter({ db: store.db, Clock });
     const stats = new JobQueueStatsProviderSqliteAdapter({ db: store.db });
 
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "old", createdAt: 1000 });
-    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: "new", createdAt: 2000 });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.firstId, createdAt: 1000 });
+    await enqueuer.enqueue({ ...mocks.GenericSendEmailJobSerialized, id: mocks.secondId, createdAt: 2000 });
 
     expect(await stats.getStats()).toEqual({
       ...snapshot,

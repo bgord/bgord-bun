@@ -9,6 +9,7 @@ import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import { SubjectSegmentPathStrategy } from "../src/subject-segment-path.strategy";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const ttl = tools.Duration.Seconds(1);
@@ -78,7 +79,7 @@ describe("ShieldRateLimitStrategy", () => {
 
   test("user - failure - TooManyRequestsError", async () => {
     const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
-    const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
+    const context = new RequestContextBuilder().withPath("/ping").withUserId(mocks.userId).build();
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
     expect(await strategy.evaluate(context)).toEqual(rejected);
@@ -88,7 +89,7 @@ describe("ShieldRateLimitStrategy", () => {
 
   test("user - happy path - after rate limit", async () => {
     const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
-    const context = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
+    const context = new RequestContextBuilder().withPath("/ping").withUserId(mocks.userId).build();
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
 
@@ -101,8 +102,11 @@ describe("ShieldRateLimitStrategy", () => {
 
   test("user - does not impact other users", async () => {
     const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
-    const firstUserContext = new RequestContextBuilder().withPath("/ping").withUserId("abc").build();
-    const secondUserContext = new RequestContextBuilder().withPath("/ping").withUserId("def").build();
+    const firstUserContext = new RequestContextBuilder().withPath("/ping").withUserId(mocks.userId).build();
+    const secondUserContext = new RequestContextBuilder()
+      .withPath("/ping")
+      .withUserId(mocks.anotherUserId)
+      .build();
 
     const firstUserFirstRequest = await strategy.evaluate(firstUserContext);
 
