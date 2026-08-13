@@ -8,8 +8,8 @@ const requeuer = new JobRequeuerCollectingAdapter();
 
 describe("JobRequeuerCollectingAdapter", () => {
   test("requeue", async () => {
-    await requeuer.requeue(mocks.correlationId, 1, delay);
+    await requeuer.requeue(mocks.correlationId, mocks.revision, delay);
 
-    expect(requeuer.requeued).toEqual([{ id: mocks.correlationId, revision: 1, delay }]);
+    expect(requeuer.requeued).toEqual([{ id: mocks.correlationId, revision: mocks.revision, delay }]);
   });
 });

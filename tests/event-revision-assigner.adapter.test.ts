@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { EventRevisionAssignerAdapter } from "../src/event-revision-assigner.adapter";
 import type * as System from "../src/modules/system";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
@@ -19,27 +21,27 @@ const another = serialized(mocks.GenericMinuteHasPassedEvent);
 
 describe("EventRevisionAssignerAdapter", () => {
   test("empty stream", () => {
-    expect(assigner.assign([event])[0]?.revision).toEqual(0);
+    expect(assigner.assign([event])[0]?.revision).toEqual(mocks.revision);
   });
 
   test("empty stream - multiple events", () => {
     const result = assigner.assign([event, another]);
 
-    expect(result[0]?.revision).toEqual(0);
-    expect(result[1]?.revision).toEqual(1);
+    expect(result[0]?.revision).toEqual(mocks.revision);
+    expect(result[1]?.revision).toEqual(v.parse(tools.RevisionValue, 1));
   });
 
   test("non-empty stream - one event", () => {
     const result = assigner.assign([event], 2);
 
-    expect(result[0]?.revision).toEqual(3);
+    expect(result[0]?.revision).toEqual(v.parse(tools.RevisionValue, 3));
   });
 
   test("non-empty stream - multiple events", () => {
     const result = assigner.assign([event, another], 2);
 
-    expect(result[0]?.revision).toEqual(3);
-    expect(result[1]?.revision).toEqual(4);
+    expect(result[0]?.revision).toEqual(v.parse(tools.RevisionValue, 3));
+    expect(result[1]?.revision).toEqual(v.parse(tools.RevisionValue, 4));
   });
 
   test("no events", () => {

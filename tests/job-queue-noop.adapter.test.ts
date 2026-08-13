@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { JobQueueAdapterNoop } from "../src/job-queue-noop.adapter";
 import { JobRegistryAdapter } from "../src/job-registry.adapter";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
@@ -30,7 +31,7 @@ describe("JobQueueAdapter", () => {
 
   test("requeue", async () => {
     expect(async () =>
-      queue.requeue(mocks.GenericSendEmailJob.id, 1, tools.Duration.Seconds(5)),
+      queue.requeue(mocks.GenericSendEmailJob.id, v.parse(tools.RevisionValue, 1), tools.Duration.Seconds(5)),
     ).not.toThrow();
   });
 

@@ -15,11 +15,11 @@ const store = new EventStoreNoopAdapter<PassageOfTimeEvent>();
 
 describe("EventStoreNoopAdapter", () => {
   test("find", async () => {
-    expect(await store.find(registry, "passage_of_time")).toEqual([]);
+    expect(await store.find(registry, mocks.stream)).toEqual([]);
   });
 
   test("findLast", async () => {
-    expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+    expect(await store.findLast(registry, mocks.stream)).toEqual(null);
   });
 
   test("save", async () => {

@@ -15,13 +15,13 @@ describe("EventStoreCollectingAdapter", () => {
   test("find", async () => {
     const store = new EventStoreCollectingAdapter<PassageOfTimeEvent>();
 
-    expect(await store.find(registry, "passage_of_time")).toEqual([]);
+    expect(await store.find(registry, mocks.stream)).toEqual([]);
   });
 
   test("findLast", async () => {
     const store = new EventStoreCollectingAdapter<PassageOfTimeEvent>();
 
-    expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+    expect(await store.findLast(registry, mocks.stream)).toEqual(null);
   });
 
   test("save", async () => {

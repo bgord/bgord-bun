@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
 import { JobClaimerNoopAdapter } from "../src/job-claimer-noop.adapter";
@@ -107,12 +108,16 @@ describe("JobQueueWorker", () => {
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
 
-    expect(requeuer.requeued).toEqual([{ id: mocks.GenericSendEmailJob.id, revision: 1, delay: base }]);
+    expect(requeuer.requeued).toEqual([
+      { id: mocks.GenericSendEmailJob.id, revision: v.parse(tools.RevisionValue, 1), delay: base },
+    ]);
   });
 
   test("fail - out of retries", async () => {
     const failer = new JobFailerCollectingAdapter();
-    const claimer = new JobClaimerNoopAdapter([{ ...mocks.GenericSendEmailJobSerialized, revision: 3 }]);
+    const claimer = new JobClaimerNoopAdapter([
+      { ...mocks.GenericSendEmailJobSerialized, revision: v.parse(tools.RevisionValue, 3) },
+    ]);
     const registry = new JobRegistryAdapter<SendEmailJobType>({
       [SEND_EMAIL_JOB]: { schema: SendEmailJobSchema, retry, handler: mocks.throwIntentionalErrorAsync },
     });

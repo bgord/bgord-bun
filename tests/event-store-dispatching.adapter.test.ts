@@ -40,7 +40,7 @@ describe("EventStoreDispatchingAdapter", () => {
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
-    expect(await store.find(registry, "passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
+    expect(await store.find(registry, mocks.stream)).toEqual([mocks.GenericHourHasPassedEvent]);
     expect(EventBus.messages).toEqual([]);
   });
 
@@ -50,7 +50,7 @@ describe("EventStoreDispatchingAdapter", () => {
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
-    expect(await store.findLast(registry, "passage_of_time")).toEqual(mocks.GenericHourHasPassedEvent);
+    expect(await store.findLast(registry, mocks.stream)).toEqual(mocks.GenericHourHasPassedEvent);
     expect(EventBus.messages).toEqual([]);
   });
 
@@ -59,7 +59,7 @@ describe("EventStoreDispatchingAdapter", () => {
     const EventBus = new EventBusCollectingAdapter<PassageOfTimeEvent>();
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
-    expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+    expect(await store.findLast(registry, mocks.stream)).toEqual(null);
     expect(EventBus.messages).toEqual([]);
   });
 

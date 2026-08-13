@@ -7,6 +7,7 @@ import { EventFinderLastNoopAdapter } from "../src/event-finder-last-noop.adapte
 import { EventFinderNoopAdapter } from "../src/event-finder-noop.adapter";
 import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
+import { EventStream } from "../src/event-stream.vo";
 import { EventUpcasterChainAdapter } from "../src/event-upcaster-chain.adapter";
 import { EventUpcasterStep } from "../src/event-upcaster-step.vo";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
@@ -55,14 +56,16 @@ const store = new EventStoreAdapter({ finder, finderLast, inserter, serializer }
 
 describe("EventStoreAdapter", () => {
   test("find - no events", async () => {
-    expect(await store.find(registry, "passage_of_time")).toEqual([]);
+    expect(await store.find(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual([]);
   });
 
   test("find - one event", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
     const store = new EventStoreAdapter({ finder, finderLast, inserter, serializer });
 
-    expect(await store.find(registry, "passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
+    expect(await store.find(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual([
+      mocks.GenericHourHasPassedEvent,
+    ]);
   });
 
   test("find - multiple events", async () => {
@@ -72,7 +75,7 @@ describe("EventStoreAdapter", () => {
     ]);
     const store = new EventStoreAdapter({ finder, finderLast, inserter, serializer });
 
-    expect(await store.find(registry, "passage_of_time")).toEqual([
+    expect(await store.find(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual([
       mocks.GenericHourHasPassedEvent,
       mocks.GenericMinuteHasPassedEvent,
     ]);
@@ -86,7 +89,7 @@ describe("EventStoreAdapter", () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
     const store = new EventStoreAdapter({ finder, finderLast, inserter, serializer, upcaster });
 
-    expect(await store.find(registry, "passage_of_time")).toEqual([
+    expect(await store.find(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual([
       {
         ...mocks.GenericHourHasPassedEvent,
         version: 2,
@@ -96,7 +99,7 @@ describe("EventStoreAdapter", () => {
   });
 
   test("findLast - no events", async () => {
-    expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+    expect(await store.findLast(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual(null);
   });
 
   test("findLast - with upcaster", async () => {
@@ -107,7 +110,7 @@ describe("EventStoreAdapter", () => {
     const finderLast = new EventFinderLastNoopAdapter(serialized(mocks.GenericHourHasPassedEvent));
     const store = new EventStoreAdapter({ finder, finderLast, inserter, serializer, upcaster });
 
-    expect(await store.findLast(registry, "passage_of_time")).toEqual({
+    expect(await store.findLast(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual({
       ...mocks.GenericHourHasPassedEvent,
       version: 2,
       payload: { ...mocks.GenericHourHasPassedEvent.payload, source: "system" },
@@ -118,7 +121,9 @@ describe("EventStoreAdapter", () => {
     const finderLast = new EventFinderLastNoopAdapter(serialized(mocks.GenericHourHasPassedEvent));
     const store = new EventStoreAdapter({ finder, finderLast, inserter, serializer });
 
-    expect(await store.findLast(registry, "passage_of_time")).toEqual(mocks.GenericHourHasPassedEvent);
+    expect(await store.findLast(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual(
+      mocks.GenericHourHasPassedEvent,
+    );
   });
 
   test("save - no events", async () => {
@@ -146,7 +151,7 @@ describe("EventStoreAdapter", () => {
   });
 
   test("save - unique stream", async () => {
-    const event = { ...mocks.GenericMinuteHasPassedEvent, stream: "unique_stream" };
+    const event = { ...mocks.GenericMinuteHasPassedEvent, stream: v.parse(EventStream, "unique_stream") };
 
     expect(() => store.save([mocks.GenericHourHasPassedEvent, event])).toThrow(
       "event.store.adapter.error.unique.stream",

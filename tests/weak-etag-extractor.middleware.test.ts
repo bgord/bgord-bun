@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { WeakETagExtractorMiddleware } from "../src/weak-etag-extractor.middleware";
 import { WeakETagExtractorHeaderStrategy } from "../src/weak-etag-extractor-header.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
@@ -15,7 +16,7 @@ describe("WeakETagExtractorMiddleware", () => {
 
     const result = middleware.evaluate(context);
 
-    expect(result?.revision).toEqual(12345);
+    expect(result?.revision).toEqual(v.parse(tools.RevisionValue, 12345));
     expect(result?.value).toEqual("W/12345");
   });
 

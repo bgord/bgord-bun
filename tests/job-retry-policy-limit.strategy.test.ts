@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { JobRetryPolicyLimitStrategy } from "../src/job-retry-policy-limit.strategy";
 import * as mocks from "./mocks";
 
@@ -13,19 +14,19 @@ describe("JobRetryPolicyLimitStrategy", () => {
   });
 
   test("below limit", () => {
-    const job = { ...mocks.GenericSendEmailJob, revision: 2 };
+    const job = { ...mocks.GenericSendEmailJob, revision: v.parse(tools.RevisionValue, 2) };
 
     expect(policy.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(tools.Duration.ZERO);
   });
 
   test("at the limit", () => {
-    const job = { ...mocks.GenericSendEmailJob, revision: 3 };
+    const job = { ...mocks.GenericSendEmailJob, revision: v.parse(tools.RevisionValue, 3) };
 
     expect(policy.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(false);
   });
 
   test("above limit", () => {
-    const job = { ...mocks.GenericSendEmailJob, revision: 4 };
+    const job = { ...mocks.GenericSendEmailJob, revision: v.parse(tools.RevisionValue, 4) };
 
     expect(policy.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(false);
   });

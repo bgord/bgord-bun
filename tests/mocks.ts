@@ -8,6 +8,7 @@ import { ClientUserAgent } from "../src/client-user-agent.vo";
 import { CommitSha } from "../src/commit-sha.vo";
 import { CorrelationId } from "../src/correlation-id.vo";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
+import { EventStream } from "../src/event-stream.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import { Hostname } from "../src/hostname.vo";
@@ -29,6 +30,8 @@ import {
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
 
 export const correlationId = v.parse(CorrelationId, "00000000-0000-0000-0000-000000000000");
+export const revision = v.parse(tools.RevisionValue, 0);
+export const stream = v.parse(EventStream, "stream");
 
 export const userId = "00000000-0000-0000-0000-000000000000";
 export const anotherUserId = "22222222-2222-2222-2222-222222222222";
@@ -158,7 +161,7 @@ export const GenericHourHasPassedEvent = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
-  stream: "passage_of_time",
+  stream: v.parse(EventStream, "passage_of_time"),
   version: 1,
   commit: SHA.value,
   name: "HOUR_HAS_PASSED_EVENT",
@@ -169,7 +172,7 @@ export const GenericMinuteHasPassedEvent = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
-  stream: "passage_of_time",
+  stream: v.parse(EventStream, "passage_of_time"),
   version: 1,
   commit: SHA.value,
   name: "MINUTE_HAS_PASSED_EVENT",
@@ -180,7 +183,7 @@ export const GenericSecurityViolationDetectedBanDenyEvent = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
-  stream: "security",
+  stream: v.parse(EventStream, "security"),
   version: 1,
   commit: SHA.value,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
@@ -197,7 +200,7 @@ export const GenericSecurityViolationDetectedBanDenyWithoutContextEvent = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
-  stream: "security",
+  stream: v.parse(EventStream, "security"),
   version: 1,
   commit: SHA.value,
   name: "SECURITY_VIOLATION_DETECTED_EVENT",
@@ -214,7 +217,7 @@ export const GenericUserLanguageSetEvent = {
   id: correlationId,
   correlationId,
   createdAt: TIME_ZERO.ms,
-  stream: `preferences_${correlationId}`,
+  stream: v.parse(EventStream, `preferences_${correlationId}`),
   version: 1,
   commit: SHA.value,
   name: "USER_LANGUAGE_SET_EVENT",
@@ -316,7 +319,7 @@ export const GenericSendEmailJob = {
   correlationId,
   createdAt: TIME_ZERO.ms,
   name: SEND_EMAIL_JOB,
-  revision: 0,
+  revision,
   payload: {
     to: mailer.config.to,
     from: mailer.config.from,

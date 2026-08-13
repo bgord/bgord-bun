@@ -36,7 +36,9 @@ describe("EventStoreWithLoggerAdapter", () => {
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await store.find(registry, "passage_of_time")).toEqual([mocks.GenericHourHasPassedEvent]);
+      expect(await store.find(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual([
+        mocks.GenericHourHasPassedEvent,
+      ]);
     });
 
     expect(Logger.entries).toEqual([
@@ -61,7 +63,9 @@ describe("EventStoreWithLoggerAdapter", () => {
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await store.findLast(registry, "passage_of_time")).toEqual(mocks.GenericHourHasPassedEvent);
+      expect(await store.findLast(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual(
+        mocks.GenericHourHasPassedEvent,
+      );
     });
 
     expect(Logger.entries).toEqual([
@@ -85,7 +89,7 @@ describe("EventStoreWithLoggerAdapter", () => {
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      expect(await store.findLast(registry, "passage_of_time")).toEqual(null);
+      expect(await store.findLast(registry, mocks.GenericHourHasPassedEvent.stream)).toEqual(null);
     });
 
     expect(Logger.entries).toEqual([

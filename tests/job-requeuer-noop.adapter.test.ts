@@ -7,6 +7,8 @@ const requeuer = new JobRequeuerNoopAdapter();
 
 describe("JobRequeuerNoopAdapter", () => {
   test("requeue", async () => {
-    expect(async () => requeuer.requeue(mocks.correlationId, 1, tools.Duration.Seconds(5))).not.toThrow();
+    expect(async () =>
+      requeuer.requeue(mocks.correlationId, mocks.revision, tools.Duration.Seconds(5)),
+    ).not.toThrow();
   });
 });

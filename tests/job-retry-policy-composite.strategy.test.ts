@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { JobRetryPolicyBackoffStrategy } from "../src/job-retry-policy-backoff.strategy";
 import { JobRetryPolicyCompositeStrategy } from "../src/job-retry-policy-composite.strategy";
 import { JobRetryPolicyErrorFilterStrategy } from "../src/job-retry-policy-error-filter.strategy";
@@ -45,14 +46,14 @@ describe("JobRetryPolicyCompositeStrategy", () => {
 
   test("middle fails", () => {
     const composite = new JobRetryPolicyCompositeStrategy([pass, limit, backoff]);
-    const job = { ...mocks.GenericSendEmailJob, revision: 3 };
+    const job = { ...mocks.GenericSendEmailJob, revision: v.parse(tools.RevisionValue, 3) };
 
     expect(composite.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(false);
   });
 
   test("last fails", () => {
     const composite = new JobRetryPolicyCompositeStrategy([backoff, limit]);
-    const job = { ...mocks.GenericSendEmailJob, revision: 3 };
+    const job = { ...mocks.GenericSendEmailJob, revision: v.parse(tools.RevisionValue, 3) };
 
     expect(composite.evaluate(job, mocks.IntentionalErrorNormalized)).toEqual(false);
   });

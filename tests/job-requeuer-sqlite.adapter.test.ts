@@ -20,7 +20,7 @@ describe("JobRequeuerSqliteAdapter", () => {
     const claimer = new JobClaimerSqliteAdapter({ db: store.db, Clock });
 
     await enqueuer.enqueue(mocks.GenericSendEmailJobSerialized);
-    await requeuer.requeue(mocks.GenericSendEmailJob.id, 1, delay);
+    await requeuer.requeue(mocks.GenericSendEmailJob.id, mocks.revision, delay);
 
     const rows = store.db.query("SELECT * FROM jobs WHERE id = ?").all(mocks.GenericSendEmailJob.id);
 
@@ -28,7 +28,7 @@ describe("JobRequeuerSqliteAdapter", () => {
       ...mocks.GenericSendEmailJobSerialized,
       status: JobStatusEnum.pending,
       claimableAt: mocks.TIME_ZERO.add(delay).ms,
-      revision: 1,
+      revision: mocks.revision,
     });
 
     expect(await claimer.claim([mocks.GenericSendEmailJob.name], limit)).toEqual([]);
@@ -37,6 +37,6 @@ describe("JobRequeuerSqliteAdapter", () => {
 
     const result = await claimer.claim([mocks.GenericSendEmailJob.name], limit);
 
-    expect(result).toEqual([{ ...mocks.GenericSendEmailJobSerialized, revision: 1 }]);
+    expect(result).toEqual([{ ...mocks.GenericSendEmailJobSerialized, revision: mocks.revision }]);
   });
 });

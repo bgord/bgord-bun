@@ -6,11 +6,12 @@ import { CommitSha } from "../src/commit-sha.vo";
 import type { CommitShaValueType } from "../src/commit-sha-value.vo";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { EventEnvelopeSchema, event } from "../src/event-envelope";
+import { EventStream } from "../src/event-stream.vo";
 import { IdProviderDeterministicAdapter } from "../src/id-provider-deterministic.adapter";
 import { StaticConfigAdapter } from "../src/static-config.adapter";
 import * as mocks from "./mocks";
 
-const stream = "stream";
+const stream = v.parse(EventStream, "stream");
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const CommitConfig = new StaticConfigAdapter<CommitShaValueType>(CommitSha.fromString("a".repeat(40)).value);
 
@@ -62,7 +63,7 @@ describe("EventEnvelope", () => {
         id: mocks.correlationId,
         createdAt: mocks.TIME_ZERO.ms,
         name: "EVENT",
-        stream: "stream",
+        stream,
         version: 1,
         commit: mocks.SHA.value,
         payload: { timestamp: mocks.TIME_ZERO.ms },
@@ -93,7 +94,7 @@ describe("EventEnvelope", () => {
         id: mocks.correlationId,
         createdAt: mocks.TIME_ZERO.ms,
         name: "EVENT",
-        stream: "stream",
+        stream,
         version: 2,
         commit: mocks.SHA.value,
         payload: { timestamp: mocks.TIME_ZERO.ms, source: "system" },

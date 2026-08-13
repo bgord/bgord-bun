@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { JobQueueAdapterNoop } from "../src/job-queue-noop.adapter";
 import { JobQueueWithLoggerAdapter } from "../src/job-queue-with-logger.adapter";
@@ -20,7 +21,7 @@ const deps = { registry };
 
 const base = { component: "infra", operation: "job_queue" };
 
-const revision = mocks.GenericSendEmailJob.revision + 1;
+const revision = v.parse(tools.RevisionValue, mocks.GenericSendEmailJob.revision + 1);
 
 const inner = new JobQueueAdapterNoop<SendEmailJobType>(deps);
 

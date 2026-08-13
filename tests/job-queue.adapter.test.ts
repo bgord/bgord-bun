@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { JobClaimerNoopAdapter } from "../src/job-claimer-noop.adapter";
 import { JobCompleterCollectingAdapter } from "../src/job-completer-collecting.adapter";
 import { JobCompleterNoopAdapter } from "../src/job-completer-noop.adapter";
@@ -97,9 +98,11 @@ describe("JobQueueAdapter", () => {
     const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, requeuer });
     const delay = tools.Duration.Seconds(5);
 
-    await queue.requeue(mocks.GenericSendEmailJob.id, 1, delay);
+    await queue.requeue(mocks.GenericSendEmailJob.id, v.parse(tools.RevisionValue, 1), delay);
 
-    expect(requeuer.requeued).toEqual([{ id: mocks.GenericSendEmailJob.id, revision: 1, delay }]);
+    expect(requeuer.requeued).toEqual([
+      { id: mocks.GenericSendEmailJob.id, revision: v.parse(tools.RevisionValue, 1), delay },
+    ]);
   });
 
   test("getRetryPolicy", async () => {

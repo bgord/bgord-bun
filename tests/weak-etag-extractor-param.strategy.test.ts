@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { WeakETagExtractorParamStrategy } from "../src/weak-etag-extractor-param.strategy";
 import { RequestContextBuilder } from "./request-context-builder";
 
@@ -11,7 +13,7 @@ describe("WeakETagExtractorParamStrategy", () => {
 
     const result = strategy.detect(context);
 
-    expect(result?.revision).toEqual(12345);
+    expect(result?.revision).toEqual(v.parse(tools.RevisionValue, 12345));
     expect(result?.value).toEqual("W/12345");
   });
 
