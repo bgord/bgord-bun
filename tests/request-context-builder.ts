@@ -1,6 +1,8 @@
 import type * as tools from "@bgord/tools";
 import { Duration, Revision } from "@bgord/tools";
+import { HTTPException } from "hono/http-exception";
 import type { RequestContext } from "../src/request-context.port";
+import { ShieldAuthStrategyError } from "../src/shield-auth.strategy";
 import type { UUIDType } from "../src/uuid.vo";
 
 export class RequestContextBuilder {
@@ -138,6 +140,12 @@ export class RequestContextBuilder {
       },
       identity: {
         userId: () => this.userId,
+        authenticatedUserId: () => {
+          const userId = this.userId;
+
+          if (userId !== undefined) return userId;
+          throw new HTTPException(401, { message: ShieldAuthStrategyError.Rejected });
+        },
         ip: () => this.ip,
         remoteIp: () => this.remoteIp ?? this.ip,
         ua: () => this.ua,

@@ -9,7 +9,7 @@ const signedOut = null;
 
 describe("AuthSessionReaderBetterAuthAdapter", () => {
   test("signed in", async () => {
-    const auth = { api: { getSession: async () => signedIn } } as ReturnType<typeof betterAuth>;
+    const auth = { api: { getSession: async () => signedIn } } as unknown as ReturnType<typeof betterAuth>;
     using getSession = spyOn(auth.api, "getSession");
     const adapter = new AuthSessionReaderBetterAuthAdapter(auth);
     const context = new RequestContextBuilder().withHeader("cookie", "session=abc").build();
@@ -19,7 +19,7 @@ describe("AuthSessionReaderBetterAuthAdapter", () => {
   });
 
   test("signed out", async () => {
-    const auth = { api: { getSession: async () => signedOut } } as ReturnType<typeof betterAuth>;
+    const auth = { api: { getSession: async () => signedOut } } as unknown as ReturnType<typeof betterAuth>;
     using getSession = spyOn(auth.api, "getSession");
     const adapter = new AuthSessionReaderBetterAuthAdapter(auth);
     const context = new RequestContextBuilder().build();

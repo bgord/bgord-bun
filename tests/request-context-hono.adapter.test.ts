@@ -17,7 +17,7 @@ type Config = { Variables: { user: { id: number } } };
 describe("RequestContextHonoAdapter", () => {
   test("path", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ path: new RequestContextHonoAdapter(context).request.path }),
+      Response.json({ path: new RequestContextHonoAdapter(context).request.path }),
     );
 
     const response = await app.request("/test");
@@ -27,7 +27,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("method", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ method: new RequestContextHonoAdapter(context).request.method }),
+      Response.json({ method: new RequestContextHonoAdapter(context).request.method }),
     );
 
     const response = await app.request("/test");
@@ -37,7 +37,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("url", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ url: new RequestContextHonoAdapter(context).request.url() }),
+      Response.json({ url: new RequestContextHonoAdapter(context).request.url() }),
     );
 
     const response = await app.request("/test");
@@ -47,7 +47,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("header", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ header: new RequestContextHonoAdapter(context).request.header("accept") }),
+      Response.json({ header: new RequestContextHonoAdapter(context).request.header("accept") }),
     );
 
     const response = await app.request("/test", { headers: { accept: "application/json" } });
@@ -57,7 +57,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("headers", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ headers: new RequestContextHonoAdapter(context).request.headers() }),
+      Response.json({ headers: new RequestContextHonoAdapter(context).request.headers() }),
     );
 
     const response = await app.request("/test", { headers: { accept: "application/json" } });
@@ -67,7 +67,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("headersObject", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ headersObject: new RequestContextHonoAdapter(context).request.headersObject() }),
+      Response.json({ headersObject: new RequestContextHonoAdapter(context).request.headersObject() }),
     );
 
     const response = await app.request("/test", { headers: { accept: "application/json" } });
@@ -77,7 +77,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("query", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ query: new RequestContextHonoAdapter(context).request.query() }),
+      Response.json({ query: new RequestContextHonoAdapter(context).request.query() }),
     );
 
     const response = await app.request("/test?aaa=123&bbb=234");
@@ -87,7 +87,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("queries", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ queries: new RequestContextHonoAdapter(context).request.queries() }),
+      Response.json({ queries: new RequestContextHonoAdapter(context).request.queries() }),
     );
 
     const response = await app.request("/test?aaa=123&aaa=234");
@@ -97,7 +97,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("params", async () => {
     const app = new Hono().get("/test/:id/:context", (context) =>
-      context.json({ params: new RequestContextHonoAdapter(context).request.params() }),
+      Response.json({ params: new RequestContextHonoAdapter(context).request.params() }),
     );
 
     const response = await app.request("/test/123/234");
@@ -107,7 +107,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("param", async () => {
     const app = new Hono().get("/test/:id/:context", (context) =>
-      context.json({ param: new RequestContextHonoAdapter(context).request.param("id") }),
+      Response.json({ param: new RequestContextHonoAdapter(context).request.param("id") }),
     );
 
     const response = await app.request("/test/123/234");
@@ -117,7 +117,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("cookie", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ language: new RequestContextHonoAdapter(context).request.cookie("language") }),
+      Response.json({ language: new RequestContextHonoAdapter(context).request.cookie("language") }),
     );
 
     const response = await app.request("/test", { headers: { cookie: "language=en" } });
@@ -127,7 +127,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("json", async () => {
     const app = new Hono().post("/test", async (context) =>
-      context.json(await new RequestContextHonoAdapter(context).request.json()),
+      Response.json(await new RequestContextHonoAdapter(context).request.json()),
     );
 
     const response = await app.request("/test", {
@@ -140,7 +140,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("json – invalid", async () => {
     const app = new Hono().post("/", async (context) =>
-      context.json(await new RequestContextHonoAdapter(context).request.json()),
+      Response.json(await new RequestContextHonoAdapter(context).request.json()),
     );
 
     const response = await app.request("http://localhost/", { method: "POST", body: "{ invalid json" });
@@ -150,7 +150,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("text", async () => {
     const app = new Hono().post("/test", async (context) =>
-      context.json({ text: await new RequestContextHonoAdapter(context).request.text() }),
+      Response.json({ text: await new RequestContextHonoAdapter(context).request.text() }),
     );
 
     const response = await app.request("/test", { method: "POST", body: "abc" });
@@ -160,7 +160,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("text - empty", async () => {
     const app = new Hono().post("/test", async (context) =>
-      context.json({ text: await new RequestContextHonoAdapter(context).request.text() }),
+      Response.json({ text: await new RequestContextHonoAdapter(context).request.text() }),
     );
 
     const response = await app.request("/test", { method: "POST" });
@@ -170,7 +170,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("form", async () => {
     const app = new Hono().post("/test", async (context) =>
-      context.json({
+      Response.json({
         name: (await new RequestContextHonoAdapter(context).request.form()).get("name"),
       }),
     );
@@ -186,7 +186,7 @@ describe("RequestContextHonoAdapter", () => {
   test("form - invalid", async () => {
     const app = new Hono().post("/test", async (context) => {
       const form = await new RequestContextHonoAdapter(context).request.form();
-      return context.json({ size: [...form.entries()].length });
+      return Response.json({ size: [...form.entries()].length });
     });
 
     const response = await app.request("/test", {
@@ -206,7 +206,7 @@ describe("RequestContextHonoAdapter", () => {
         context.set("user", { id: mocks.user.id });
         await next();
       },
-      (context) => context.json({ userId: new RequestContextHonoAdapter(context).identity.userId() }),
+      (context) => Response.json({ userId: new RequestContextHonoAdapter(context).identity.userId() }),
     );
 
     const response = await app.request("/test");
@@ -214,9 +214,54 @@ describe("RequestContextHonoAdapter", () => {
     expect(await response.json()).toEqual({ userId: mocks.userId });
   });
 
+  test("authenticatedUserId - authenticated user", async () => {
+    const app = new Hono<Config>().get(
+      "/test",
+      async (context, next) => {
+        // @ts-expect-error
+        context.set("user", { id: mocks.user.id });
+        await next();
+      },
+      (context) =>
+        Response.json({ userId: new RequestContextHonoAdapter(context).identity.authenticatedUserId() }),
+    );
+
+    const response = await app.request("/test");
+
+    expect(await response.json()).toEqual({ userId: mocks.userId });
+  });
+
+  test("authenticatedUserId - guest user", async () => {
+    const app = new Hono<Config>().get(
+      "/test",
+      async (context, next) => {
+        // @ts-expect-error
+        context.set("user", null);
+        await next();
+      },
+      (context) =>
+        Response.json({ userId: new RequestContextHonoAdapter(context).identity.authenticatedUserId() }),
+    );
+
+    const response = await app.request("/test");
+
+    expect(response.status).toEqual(401);
+    expect(await response.text()).toEqual("shield.auth.rejected");
+  });
+
+  test("authenticatedUserId - not attached", async () => {
+    const app = new Hono<Config>().get("/test", (context) =>
+      Response.json({ userId: new RequestContextHonoAdapter(context).identity.authenticatedUserId() }),
+    );
+
+    const response = await app.request("/test");
+
+    expect(response.status).toEqual(500);
+  });
+
   test("ip - x-real-ip", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
+      Response.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
     );
 
     const response = await app.request("/test", { headers: { "x-real-ip": "127.0.0.1" } });
@@ -226,7 +271,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("ip - x-forwarded-for - single", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
+      Response.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
     );
 
     const response = await app.request("/test", { headers: { "x-forwarded-for": "10.0.0.1" } });
@@ -236,7 +281,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("ip - x-forwarded-for - multi", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
+      Response.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
     );
 
     const response = await app.request("/test", { headers: { "x-forwarded-for": "10.0.0.1 ,10.0.0.2" } });
@@ -246,7 +291,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("ip - getConnInfo", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
+      Response.json({ ip: new RequestContextHonoAdapter(context).identity.ip() }),
     );
 
     const response = await app.request("/test", {}, mocks.connInfo);
@@ -256,7 +301,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("remoteIp", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ remoteIp: new RequestContextHonoAdapter(context).identity.remoteIp() }),
+      Response.json({ remoteIp: new RequestContextHonoAdapter(context).identity.remoteIp() }),
     );
 
     const response = await app.request("/test", {}, mocks.connInfo);
@@ -266,7 +311,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("ua", async () => {
     const app = new Hono().get("/test", (context) =>
-      context.json({ ua: new RequestContextHonoAdapter(context).identity.ua() }),
+      Response.json({ ua: new RequestContextHonoAdapter(context).identity.ua() }),
     );
 
     const response = await app.request("/test", { headers: { "user-agent": "test-agent" } });
@@ -279,7 +324,7 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({
+        Response.json({
           revision: new RequestContextHonoAdapter(context).middleware.revision.fromWeakETag(),
         }),
       );
@@ -296,11 +341,11 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({
+        Response.json({
           revision: new RequestContextHonoAdapter(context).middleware.revision.fromWeakETag(),
         }),
       )
-      .onError((error, context) => context.json({ error: error.message }, 500));
+      .onError((error) => Response.json({ error: error.message }, { status: 500 }));
 
     const response = await app.request("/test");
 
@@ -312,11 +357,11 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({
+        Response.json({
           revision: new RequestContextHonoAdapter(context).middleware.revision.fromWeakETag(),
         }),
       )
-      .onError((error, context) => context.json({ error: error.message }, 500));
+      .onError((error) => Response.json({ error: error.message }, { status: 500 }));
 
     const response = await app.request("/test", {
       headers: { [tools.WeakETag.IF_MATCH_HEADER_NAME]: "invalid" },
@@ -330,7 +375,7 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new ETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({
+        Response.json({
           revision: new RequestContextHonoAdapter(context).middleware.revision.fromETag(),
         }),
       );
@@ -347,11 +392,11 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new ETagExtractorHonoMiddleware({ strategy }).handle())
       .get("/test", (context) =>
-        context.json({
+        Response.json({
           revision: new RequestContextHonoAdapter(context).middleware.revision.fromETag(),
         }),
       )
-      .onError((error, context) => context.json({ error: error.message }, 500));
+      .onError((error) => Response.json({ error: error.message }, { status: 500 }));
 
     const response = await app.request("/test");
 
@@ -360,7 +405,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("timeZoneOffset", async () => {
     const app = new Hono().use(new TimeZoneOffsetHonoMiddleware().handle()).get("/test", (context) =>
-      context.json({
+      Response.json({
         timeZoneOffset: new RequestContextHonoAdapter(context).middleware.timeZoneOffset().ms,
       }),
     );
@@ -374,7 +419,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("timeZoneOffset - missing header", async () => {
     const app = new Hono().use(new TimeZoneOffsetHonoMiddleware().handle()).get("/test", (context) =>
-      context.json({
+      Response.json({
         timeZoneOffset: new RequestContextHonoAdapter(context).middleware.timeZoneOffset().ms,
       }),
     );
@@ -386,7 +431,7 @@ describe("RequestContextHonoAdapter", () => {
 
   test("timeZoneOffset - invalid header - format", async () => {
     const app = new Hono().use(new TimeZoneOffsetHonoMiddleware().handle()).get("/test", (context) =>
-      context.json({
+      Response.json({
         timeZoneOffset: new RequestContextHonoAdapter(context).middleware.timeZoneOffset().ms,
       }),
     );
@@ -403,7 +448,7 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new LanguageDetectorHonoMiddleware({ languages: mocks.languages, strategies: [header] }).handle())
       .get("/test", (context) =>
-        context.json({ language: new RequestContextHonoAdapter(context).middleware.language() }),
+        Response.json({ language: new RequestContextHonoAdapter(context).middleware.language() }),
       );
 
     const response = await app.request("/test", { headers: { "Accept-Language": "pl-PL" } });
@@ -415,7 +460,7 @@ describe("RequestContextHonoAdapter", () => {
     const app = new Hono()
       .use(new LanguageDetectorHonoMiddleware({ languages: mocks.languages, strategies: [] }).handle())
       .get("/test", (context) =>
-        context.json({ language: new RequestContextHonoAdapter(context).middleware.language() }),
+        Response.json({ language: new RequestContextHonoAdapter(context).middleware.language() }),
       );
 
     const response = await app.request("/test");
