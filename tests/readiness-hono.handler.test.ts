@@ -19,7 +19,7 @@ describe("ReadinessHonoHandler", () => {
     expect(response.status).toEqual(200);
     expect(Object.fromEntries(response.headers.entries())).toEqual({
       "cache-control": "no-store",
-      "content-type": "application/json",
+      "content-type": "application/json;charset=utf-8",
     });
     expect(json).toEqual([{ label: "ok", outcome: PrerequisiteVerification.success }]);
   });

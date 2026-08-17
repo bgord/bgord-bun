@@ -22,7 +22,7 @@ describe("ShieldAuthHonoStrategy", () => {
     const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.attach)
-      .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
+      .get("/", (c) => Response.json({ user: c.get("user"), session: c.get("session") }));
 
     const response = await app.request("/", { headers: { cookie: "session_token=123" } });
     const json = await response.json();
@@ -37,7 +37,7 @@ describe("ShieldAuthHonoStrategy", () => {
     const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.attach)
-      .get("/", (c) => c.json({ user: c.get("user"), session: c.get("session") }));
+      .get("/", (c) => Response.json({ user: c.get("user"), session: c.get("session") }));
 
     const response = await app.request("/");
     const json = await response.json();

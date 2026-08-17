@@ -26,11 +26,11 @@ const wrongSignature = WebhookSignatureCreator.create(wrongBody);
 
 const app = new Hono()
   .post("/webhook", ShieldWebhook.handle(), (c) => c.text("ok"))
-  .onError((error, c) => {
+  .onError((error) => {
     if (error.message === ShieldWebhookStrategyError.Rejected) {
-      return c.json({ message: ShieldWebhookStrategyError.Rejected, _known: true }, 401);
+      return Response.json({ message: ShieldWebhookStrategyError.Rejected, _known: true }, { status: 401 });
     }
-    return c.json({}, 500);
+    return Response.json({}, { status: 500 });
   });
 
 describe("ShieldWebhookHonoStrategy", () => {

@@ -12,7 +12,7 @@ export class CacheRepositoryRedisAdapter implements CacheRepositoryPort {
   async get<T>(subject: Hash): Promise<T | null> {
     const value = await this.client.get(subject.get());
     if (value === null) return null;
-    return JSON.parse(value) as T;
+    return JSON.parse(value);
   }
 
   async set<T>(subject: Hash, value: T): Promise<void> {

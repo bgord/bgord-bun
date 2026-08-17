@@ -17,7 +17,7 @@ describe("CorrelationHonoMiddleware", () => {
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) =>
-        c.json({ correlationId: c.get("correlationId"), storage: CorrelationStorage.get() }),
+        Response.json({ correlationId: c.get("correlationId"), storage: CorrelationStorage.get() }),
       );
 
     const response = await app.request("/ping");
@@ -46,7 +46,7 @@ describe("CorrelationHonoMiddleware", () => {
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) =>
-        c.json({ correlationId: c.get("correlationId"), storage: CorrelationStorage.get() }),
+        Response.json({ correlationId: c.get("correlationId"), storage: CorrelationStorage.get() }),
       );
 
     const response = await app.request("/ping", {
@@ -65,7 +65,7 @@ describe("CorrelationHonoMiddleware", () => {
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .get("/ping", (c) =>
-        c.json({ correlationId: c.get("correlationId"), storage: CorrelationStorage.get() }),
+        Response.json({ correlationId: c.get("correlationId"), storage: CorrelationStorage.get() }),
       );
 
     const response = await app.request("/ping", {
@@ -83,7 +83,7 @@ describe("CorrelationHonoMiddleware", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
-      .get("/ping", (c) => c.json({}));
+      .get("/ping", () => Response.json({}));
 
     await app.request("/ping");
 

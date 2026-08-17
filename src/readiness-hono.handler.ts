@@ -12,10 +12,10 @@ export class ReadinessHonoHandler implements HandlerHonoPort {
   }
 
   handle() {
-    return factory.createHandlers(async (c) => {
+    return factory.createHandlers(async () => {
       const result = await this.handler.check();
 
-      return c.json(result.details, result.code, result.headers);
+      return Response.json(result.details, { status: result.code, headers: result.headers });
     });
   }
 }

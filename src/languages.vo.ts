@@ -22,6 +22,6 @@ export class Languages<T extends tools.LanguageType> {
   }
 
   isSupported(value: unknown): value is T {
-    return this.values.includes(value as T);
+    return this.values.some((language) => language === value);
   }
 }

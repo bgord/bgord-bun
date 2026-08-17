@@ -62,7 +62,7 @@ describe("SetupHono", () => {
 
     expect(await response.json()).toEqual({ reason: "maintenance" });
     expect(response.headers.toJSON()).toEqual({
-      "content-type": "application/json",
+      "content-type": "application/json;charset=utf-8",
       "retry-after": tools.Duration.Hours(1).seconds.toString(),
     });
   });
@@ -83,7 +83,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ correlationId: c.get("correlationId") }));
+      .get("/ping", (c) => Response.json({ correlationId: c.get("correlationId") }));
 
     const response = await app.request(
       "/ping",
@@ -98,7 +98,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ correlationId: c.get("correlationId") }));
+      .get("/ping", (c) => Response.json({ correlationId: c.get("correlationId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -109,7 +109,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ correlationId: c.get("correlationId") }));
+      .get("/ping", (c) => Response.json({ correlationId: c.get("correlationId") }));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -133,7 +133,7 @@ describe("SetupHono", () => {
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
       .get("/ping", (c) =>
-        c.json({
+        Response.json({
           correlationId: c.get("correlationId"),
           timeZoneOffset: c.get("timeZoneOffset"),
           language: c.get("language"),
@@ -148,7 +148,7 @@ describe("SetupHono", () => {
       language: I18n.languages.fallback,
     });
     expect(response.headers.toJSON()).toEqual({
-      "content-type": "application/json",
+      "content-type": "application/json;charset=utf-8",
       "server-timing": expect.any(String),
       "referrer-policy": "no-referrer",
       "strict-transport-security": "max-age=15552000; includeSubDomains",
@@ -279,7 +279,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ timeZoneOffset: c.get("timeZoneOffset") }));
+      .get("/ping", (c) => Response.json({ timeZoneOffset: c.get("timeZoneOffset") }));
 
     const response = await app.request(
       "/ping",
@@ -299,7 +299,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({ message: "OK" }));
+      .get("/ping", () => Response.json({ message: "OK" }));
 
     const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [header]: "abc" }), {});
 
@@ -340,7 +340,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({}));
+      .get("/ping", () => Response.json({}));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -363,7 +363,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.json({}));
+      .get("/ping", () => Response.json({}));
 
     await app.request("/ping", { method: "GET" }, mocks.connInfo);
 

@@ -20,7 +20,7 @@ export class ShieldMaintenanceHonoStrategy implements MiddlewareHonoPort {
 
       if (!maintenance.enabled) return next();
 
-      return c.json(maintenance.body, maintenance.code, maintenance.headers);
+      return Response.json(maintenance.body, { status: maintenance.code, headers: maintenance.headers });
     };
   }
 }

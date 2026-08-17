@@ -18,7 +18,7 @@ const TOKEN_BODY = new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).
 const TOKEN_JSON_BODY = JSON.stringify({ "g-recaptcha-response": VALID_TOKEN });
 
 const onError = (error: Error, c: Context) => {
-  if (error instanceof Error) return c.json({ message: error.message }, 403);
+  if (error instanceof Error) return Response.json({ message: error.message }, { status: 403 });
   return c.text("internal error", 500);
 };
 

@@ -22,7 +22,7 @@ export class TranslationsHonoHandler<T extends tools.LanguageType> implements Ha
       const language = c.get("language");
       const result = await this.handler.execute(language);
 
-      return c.json(result);
+      return Response.json(result);
     });
   }
 }

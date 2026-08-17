@@ -9,7 +9,7 @@ type Config = { Variables: ETagVariables };
 
 const strategy = new ETagExtractorHeaderStrategy();
 const middleware = new ETagExtractorHonoMiddleware({ strategy });
-const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => c.json(c.get("ETag")));
+const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => Response.json(c.get("ETag")));
 
 describe("ETagExtractorHonoMiddleware", () => {
   test("valid header", async () => {

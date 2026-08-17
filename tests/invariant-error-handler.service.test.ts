@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
 import { type ErrorHandler as ErrorHandlerType, Hono } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { Invariant, InvariantFailureKind } from "../src/invariant.service";
 import { InvariantErrorHandler } from "../src/invariant-error-handler.service";
 
@@ -16,16 +15,16 @@ class SampleInvariantFactory extends Invariant<{ threshold: number }> {
 }
 
 export class ErrorHandler {
-  static handle: ErrorHandlerType = async (error, c) => {
+  static handle: ErrorHandlerType = async (error) => {
     const invariantError = InvariantErrorHandler.detect([SampleInvariant], error);
 
     if (invariantError) {
       const [message, code] = InvariantErrorHandler.respond(invariantError);
 
-      return c.json(message, code as ContentfulStatusCode);
+      return Response.json(message, { status: code });
     }
 
-    return c.json({ message: "general.unknown" }, 500);
+    return Response.json({ message: "general.unknown" }, { status: 500 });
   };
 }
 

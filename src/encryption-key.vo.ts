@@ -24,7 +24,7 @@ export class EncryptionKey {
     return this.key === another.key;
   }
 
-  toBytes(): Uint8Array {
+  toBytes(): Uint8Array<ArrayBuffer> {
     return Uint8Array.fromHex(this.key);
   }
 

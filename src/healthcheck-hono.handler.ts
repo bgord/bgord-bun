@@ -16,10 +16,10 @@ export class HealthcheckHonoHandler implements HandlerHonoPort {
   }
 
   handle() {
-    return factory.createHandlers(async (c) => {
+    return factory.createHandlers(async () => {
       const healthcheck = await this.handler.check();
 
-      return c.json(healthcheck, healthcheck.code);
+      return Response.json(healthcheck, { status: healthcheck.code });
     });
   }
 }

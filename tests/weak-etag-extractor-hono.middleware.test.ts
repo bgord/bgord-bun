@@ -13,7 +13,7 @@ const strategy = new WeakETagExtractorHeaderStrategy();
 
 const app = new Hono<Config>()
   .use(new WeakETagExtractorHonoMiddleware({ strategy }).handle())
-  .get("/ping", (c) => c.json(c.get("WeakETag")));
+  .get("/ping", (c) => Response.json(c.get("WeakETag")));
 
 describe("WeakETagExtractorHonoMiddleware", () => {
   test("valid header", async () => {

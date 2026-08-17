@@ -22,7 +22,7 @@ const first = new SitemapEntry({ loc: one });
 const second = new SitemapEntry({ loc: two, lastmod, changefreq, priority });
 
 const onError = (error: Error, c: Context) => {
-  if (error instanceof Error) return c.json({ message: error.message }, 400);
+  if (error instanceof Error) return Response.json({ message: error.message }, { status: 400 });
   return c.text("internal error", 500);
 };
 
@@ -82,7 +82,7 @@ describe("SitemapHonoHandler", () => {
     const response = await app.request("/sitemap");
 
     expect(response.status).toEqual(400);
-    expect(response.headers.get("Content-Type")).toEqual("application/json");
+    expect(response.headers.get("Content-Type")).toEqual("application/json;charset=utf-8");
     expect(await response.json()).toEqual({ message: mocks.IntentionalError });
   });
 });

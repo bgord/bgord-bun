@@ -39,8 +39,8 @@ const app = new Hono<mocks.Config>()
     context.set("user", { id: context.req.header("id") });
     return next();
   })
-  .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
-  .post("/clear", cacheResponse.clear(), (c) => c.json({ message: "cleared" }));
+  .get("/ping-cached", cacheResponse.handle(), () => Response.json({ message: "ping" }))
+  .post("/clear", cacheResponse.clear(), () => Response.json({ message: "cleared" }));
 
 describe("CacheResponseHonoMiddleware", () => {
   beforeEach(() => jest.useFakeTimers());
@@ -158,7 +158,7 @@ describe("CacheResponseHonoMiddleware", () => {
         context.set("user", { id: context.req.header("id") });
         return next();
       })
-      .get("/ping", cacheResponseDisabled.handle(), (c) => c.json({ message: "ping" }));
+      .get("/ping", cacheResponseDisabled.handle(), () => Response.json({ message: "ping" }));
 
     const response = await app.request("/ping");
     const json = await response.json();

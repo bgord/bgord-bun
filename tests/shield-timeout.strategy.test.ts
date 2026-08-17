@@ -43,11 +43,14 @@ describe("ShieldTimeoutStrategy", () => {
         jest.advanceTimersByTime(duration.times(v.parse(tools.MultiplicationFactor, 2)).ms);
         return c.text("OK");
       })
-      .onError((error, c) => {
+      .onError((error) => {
         if (error.message === ShieldTimeoutStrategyError.Rejected) {
-          return c.json({ message: ShieldTimeoutStrategyError.Rejected, _known: true }, 408);
+          return Response.json(
+            { message: ShieldTimeoutStrategyError.Rejected, _known: true },
+            { status: 408 },
+          );
         }
-        return c.json({}, 500);
+        return Response.json({}, { status: 500 });
       });
 
     const result = await app.request("/ping", { method: "GET" });

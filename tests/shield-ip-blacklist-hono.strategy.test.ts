@@ -18,11 +18,14 @@ const shield = new ShieldIpBlacklistHonoStrategy({ blacklist: [BLOCKED_IP] });
 const app = new Hono()
   .use(shield.handle())
   .get("/ping", (c) => c.text("OK"))
-  .onError((error, c) => {
+  .onError((error) => {
     if (error.message === ShieldIpBlacklistStrategyError.Rejected) {
-      return c.json({ message: ShieldIpBlacklistStrategyError.Rejected, _known: true }, 403);
+      return Response.json(
+        { message: ShieldIpBlacklistStrategyError.Rejected, _known: true },
+        { status: 403 },
+      );
     }
-    return c.json({}, 500);
+    return Response.json({}, { status: 500 });
   });
 
 describe("ShieldIpBlacklistHonoStrategy", () => {

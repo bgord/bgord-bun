@@ -39,14 +39,14 @@ const app = new Hono()
     }).handle(),
   )
   .use(new TimingHonoMiddleware(deps).handle())
-  .get("/ping", (c) => c.json({ message: "OK" }))
-  .get("/ping-cached", cacheResponse.handle(), (c) => c.json({ message: "ping" }))
-  .get("/pong", (c) => c.json({ message: "general.unknown" }, 500))
-  .get("/pang", (c) => c.json({ message: "general.unknown" }, 400))
+  .get("/ping", () => Response.json({ message: "OK" }))
+  .get("/ping-cached", cacheResponse.handle(), () => Response.json({ message: "ping" }))
+  .get("/pong", () => Response.json({ message: "general.unknown" }, { status: 500 }))
+  .get("/pang", () => Response.json({ message: "general.unknown" }, { status: 400 }))
   .get("/html", (c) => c.html("<h1>Hello</h1>"))
   .get("/users/:id/account", (c) => c.text("account"))
   .get("/users/:id/profile", (c) => c.text("profile"))
-  .get("/i18n/en.json", (c) => c.json({ hello: "world" }));
+  .get("/i18n/en.json", () => Response.json({ hello: "world" }));
 
 describe("HttpLoggerHonoMiddleware", () => {
   test("200", async () => {
@@ -239,7 +239,7 @@ describe("HttpLoggerHonoMiddleware", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware(deps).handle())
       .use(new HttpLoggerHonoMiddleware(deps, { skip: undefined }).handle())
-      .get("/anything", (c) => c.json({ message: "OK" }));
+      .get("/anything", () => Response.json({ message: "OK" }));
 
     const result = await app.request("/anything", { method: "GET" }, mocks.connInfo);
 

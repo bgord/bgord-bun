@@ -53,6 +53,6 @@ export class JobRegistryAdapter<Job extends GenericJob> implements JobRegistryPo
     const entry = this.map.get(name);
     if (!entry) throw new Error(JobRegistryAdapterError.UnknownJob);
 
-    return entry.handler as JobHandler<Job>;
+    return entry.handler;
   }
 }

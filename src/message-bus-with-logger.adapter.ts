@@ -1,5 +1,5 @@
 import { CorrelationStorage } from "./correlation-storage.service";
-import type { LogCoreType, LoggerPort } from "./logger.port";
+import type { LoggerPort } from "./logger.port";
 import type { Message, ToMessageMap } from "./message.types";
 import type { MessageBusPort } from "./message-bus.port";
 
@@ -13,7 +13,7 @@ export class MessageBusWithLoggerAdapter<Messages extends Message> implements Me
   async emit<M extends Messages>(message: M): Promise<void> {
     this.deps.Logger.info({
       message: `${message.name} emitted`,
-      metadata: message as LogCoreType["metadata"],
+      metadata: message,
       correlationId: CorrelationStorage.get(),
       ...this.base,
     });

@@ -37,7 +37,7 @@ export class ShieldSecurityHonoStrategy implements MiddlewareHonoPort {
           return c.text(action.reason, action.response.status as ContentfulStatusCode);
 
         case "mirage":
-          return c.json({}, action.response.status as ContentfulStatusCode);
+          return Response.json({}, { status: action.response.status });
 
         case "delay": {
           await this.deps.Sleeper.wait(action.duration);
@@ -50,7 +50,7 @@ export class ShieldSecurityHonoStrategy implements MiddlewareHonoPort {
               return c.text(action.after.reason, action.after.response.status as ContentfulStatusCode);
 
             case "mirage":
-              return c.json({}, action.after.response.status as ContentfulStatusCode);
+              return Response.json({}, { status: action.after.response.status });
 
             default:
               throw new Error(ShieldSecurityHonoStrategyError.Unhandled);

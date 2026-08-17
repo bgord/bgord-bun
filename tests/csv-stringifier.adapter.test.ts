@@ -19,8 +19,8 @@ describe("CsvStringifierAdapter", async () => {
   });
 
   test("process - empty", async () => {
-    const columns = [] as ReadonlyArray<string>;
-    const data = [] as Array<Record<string, any>>;
+    const columns: ReadonlyArray<string> = [];
+    const data: Array<Record<string, any>> = [];
     const stringifier = await CsvStringifierAdapter.build();
 
     expect(await stringifier.process(columns, data)).toEqualIgnoringWhitespace("");

@@ -19,7 +19,7 @@ const header = new LanguageDetectorHeaderStrategy();
 describe("LanguageDetectorHonoMiddleware", () => {
   test("fallback - no strategies", async () => {
     const middleware = new LanguageDetectorHonoMiddleware({ languages: mocks.languages, strategies: [] });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/");
 
@@ -31,7 +31,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [query, cookie, header],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/");
 
@@ -43,7 +43,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [query],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request(`/?language=${mocks.languages.supported.pl}`);
 
@@ -55,7 +55,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [cookie],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/", {
       headers: { Cookie: `language=${mocks.languages.supported.pl}` },
@@ -69,7 +69,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [header],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/", { headers: { "Accept-Language": "pl-PL" } });
 
@@ -81,7 +81,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [query, cookie, header],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request(`/?language=${mocks.languages.supported.en}`, {
       headers: {
@@ -98,7 +98,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [query, cookie, header],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/", {
       headers: {
@@ -115,7 +115,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [query, cookie, header],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/", { headers: { "Accept-Language": mocks.languages.supported.pl } });
 
@@ -127,7 +127,7 @@ describe("LanguageDetectorHonoMiddleware", () => {
       languages: mocks.languages,
       strategies: [query, cookie, header],
     });
-    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => c.json(c.get("language")));
+    const app = new Hono<Config>().use(middleware.handle()).get("/", (c) => Response.json(c.get("language")));
 
     const response = await app.request("/");
 

@@ -8,7 +8,7 @@ import { TimeZoneOffsetHonoMiddleware } from "../src/time-zone-offset-hono.middl
 type Config = { Variables: TimeZoneOffsetVariables };
 
 const middleware = new TimeZoneOffsetHonoMiddleware();
-const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => c.json(c.get("timeZoneOffset")));
+const app = new Hono<Config>().use(middleware.handle()).get("/ping", (c) => Response.json(c.get("timeZoneOffset")));
 
 describe("TimeZoneOffsetHonoMiddleware", () => {
   test("valid header - UTC-5 sends 300", async () => {
