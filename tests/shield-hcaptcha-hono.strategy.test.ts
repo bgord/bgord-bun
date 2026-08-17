@@ -9,7 +9,7 @@ const INVALID_TOKEN = "invalid-token";
 
 const shield = new ShieldHcaptchaHonoStrategy(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"]);
 
-const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
+const app = new Hono().use("/secure", shield.handle()).post("/secure", () => new Response("OK"));
 
 describe("ShieldHcaptchaHonoStrategy", () => {
   test("happy path", async () => {

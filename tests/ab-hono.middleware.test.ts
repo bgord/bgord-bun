@@ -37,7 +37,7 @@ const query = new AbAssignmentQueryStrategy(variants, "ab-variant");
 
 const app = new Hono<Config>()
   .use(new AbHonoMiddleware(hash).handle())
-  .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+  .get("/test", (c) => new Response(c.get("abVariant")?.config.name ?? "unknown"));
 
 describe("AbHonoMiddleware", () => {
   test("happy path", async () => {
@@ -51,7 +51,7 @@ describe("AbHonoMiddleware", () => {
 
     const app = new Hono<Config>()
       .use(new AbHonoMiddleware(strategy).handle())
-      .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+      .get("/test", (c) => new Response(c.get("abVariant")?.config.name ?? "unknown"));
 
     const response = await app.request("/test?ab-variant=treatment");
 
@@ -65,7 +65,7 @@ describe("AbHonoMiddleware", () => {
         return next();
       })
       .use(new AbHonoMiddleware(hash).handle())
-      .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+      .get("/test", (c) => new Response(c.get("abVariant")?.config.name ?? "unknown"));
 
     const first = await app.request("/test");
     const second = await app.request("/test");
@@ -83,7 +83,7 @@ describe("AbHonoMiddleware", () => {
     using _ = spyOn(hash, "assign").mockImplementation(mocks.throwIntentionalErrorAsync);
     const app = new Hono<Config>()
       .use(new AbHonoMiddleware(hash).handle())
-      .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+      .get("/test", (c) => new Response(c.get("abVariant")?.config.name ?? "unknown"));
 
     const response = await app.request("/test");
 

@@ -6,7 +6,7 @@ import { ShieldBodyLimitHonoStrategy } from "../src/shield-body-limit-hono.strat
 const maxSize = tools.Size.fromKb(100);
 const shield = new ShieldBodyLimitHonoStrategy({ maxSize });
 
-const app = new Hono().use(shield.handle()).post("/upload", (c) => c.text("ok"));
+const app = new Hono().use(shield.handle()).post("/upload", () => new Response("ok"));
 
 describe("ShieldBodyLimitHonoStrategy", () => {
   test("happy path - below limit", async () => {

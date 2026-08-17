@@ -17,10 +17,10 @@ const build = (shield: ShieldMaintenanceHonoStrategy) =>
   new Hono()
     .basePath("/api")
     .use(shield.handle())
-    .get("/liveness", (c) => c.text("OK"))
-    .get("/readiness", (c) => c.text("OK"))
-    .get("/healthcheck", (c) => c.text("OK"))
-    .get("/ping", (c) => c.text("OK"));
+    .get("/liveness", () => new Response("OK"))
+    .get("/readiness", () => new Response("OK"))
+    .get("/healthcheck", () => new Response("OK"))
+    .get("/ping", () => new Response("OK"));
 
 describe("ShieldMaintenanceHonoStrategy", () => {
   test("skip - no rules", async () => {

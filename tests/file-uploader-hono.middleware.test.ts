@@ -15,7 +15,7 @@ const uploader = new FileUploaderHonoMiddleware({
   maxSize: tools.Size.fromKb(10),
   field: "file",
 });
-const app = new Hono().use(uploader.handle()).post("/uploader", (c) => c.text("uploaded"));
+const app = new Hono().use(uploader.handle()).post("/uploader", () => new Response("uploaded"));
 
 describe("FileUploaderHonoMiddleware", () => {
   test("happy path - png", async () => {
@@ -63,7 +63,7 @@ describe("FileUploaderHonoMiddleware", () => {
       maxSize: tools.Size.fromBytes(0),
       field: "file",
     });
-    const app = new Hono().use(uploader.handle()).post("/uploader", (c) => c.text("uploaded"));
+    const app = new Hono().use(uploader.handle()).post("/uploader", () => new Response("uploaded"));
 
     const form = new FormData();
     form.append("file", png);

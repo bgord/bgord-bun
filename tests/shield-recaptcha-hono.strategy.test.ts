@@ -1,6 +1,6 @@
 // cspell:ignore remoteip
 import { describe, expect, spyOn, test } from "bun:test";
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 import * as v from "valibot";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
 import { ShieldRecaptchaHonoStrategy } from "../src/shield-recaptcha-hono.strategy";
@@ -17,12 +17,12 @@ const SAFE_BODY = "dummy=1";
 const TOKEN_BODY = new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString();
 const TOKEN_JSON_BODY = JSON.stringify({ "g-recaptcha-response": VALID_TOKEN });
 
-const onError = (error: Error, c: Context) => {
+const onError = (error: Error) => {
   if (error instanceof Error) return Response.json({ message: error.message }, { status: 403 });
-  return c.text("internal error", 500);
+  return new Response("internal error", { status: 500 });
 };
 
-const app = new Hono().post("/", shield.handle(), (c) => c.text("ok")).onError(onError);
+const app = new Hono().post("/", shield.handle(), () => new Response("ok")).onError(onError);
 
 describe("ShieldRecaptchaHonoStrategy", () => {
   test("happy path", async () => {
@@ -205,7 +205,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
       secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
       threshold: 0.2,
     });
-    const app = new Hono().post("/", shield.handle(), (c) => c.text("ok")).onError(onError);
+    const app = new Hono().post("/", shield.handle(), () => new Response("ok")).onError(onError);
 
     const response = await app.request(
       "http://localhost/",

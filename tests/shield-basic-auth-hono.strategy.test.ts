@@ -16,7 +16,7 @@ const password = { ...config, password: v.parse(BasicAuthPassword, "wrong") };
 
 const shield = new ShieldBasicAuthHonoStrategy(config);
 
-const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+const app = new Hono().use(shield.handle()).get("/ping", () => new Response("OK"));
 
 describe("ShieldBasicAuthHonoStrategy", () => {
   test("happy path", async () => {
@@ -33,7 +33,7 @@ describe("ShieldBasicAuthHonoStrategy", () => {
       realm: "Restricted",
     };
     const shield = new ShieldBasicAuthHonoStrategy(config);
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+    const app = new Hono().use(shield.handle()).get("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "GET", headers: BasicAuth.toHeader(config) });
 
@@ -67,7 +67,7 @@ describe("ShieldBasicAuthHonoStrategy", () => {
       realm: "Restricted",
     };
     const shield = new ShieldBasicAuthHonoStrategy(config);
-    const app = new Hono().use(shield.handle()).get("/ping", (c) => c.text("OK"));
+    const app = new Hono().use(shield.handle()).get("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", {
       method: "GET",

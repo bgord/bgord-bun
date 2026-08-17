@@ -18,7 +18,7 @@ const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo
 const deps = { CacheResolver, HashContent, BuildInfoConfig };
 
 const middleware = new ApiVersionHonoMiddleware(deps);
-const app = new Hono().use(middleware.handle()).get("/ping", (c) => c.text("OK"));
+const app = new Hono().use(middleware.handle()).get("/ping", () => new Response("OK"));
 
 describe("ApiVersionHonoMiddleware", async () => {
   const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("api-version")], deps);

@@ -44,8 +44,8 @@ const app = new Hono()
   .get("/pong", () => Response.json({ message: "general.unknown" }, { status: 500 }))
   .get("/pang", () => Response.json({ message: "general.unknown" }, { status: 400 }))
   .get("/html", (c) => c.html("<h1>Hello</h1>"))
-  .get("/users/:id/account", (c) => c.text("account"))
-  .get("/users/:id/profile", (c) => c.text("profile"))
+  .get("/users/:id/account", () => new Response("account"))
+  .get("/users/:id/profile", () => new Response("profile"))
   .get("/i18n/en.json", () => Response.json({ hello: "world" }));
 
 describe("HttpLoggerHonoMiddleware", () => {

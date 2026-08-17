@@ -4,7 +4,7 @@ import { TrailingSlashHonoMiddleware } from "../src/trailing-slash-hono.middlewa
 
 const middleware = new TrailingSlashHonoMiddleware();
 
-const app = new Hono().use(middleware.handle()).get("/data", (c) => c.text("ok"));
+const app = new Hono().use(middleware.handle()).get("/data", () => new Response("ok"));
 
 describe("TrailingSlashHonoMiddleware", () => {
   test("no redirect - no trailing slash", async () => {
@@ -15,7 +15,7 @@ describe("TrailingSlashHonoMiddleware", () => {
   });
 
   test("no redirect - root path", async () => {
-    const app = new Hono().use(middleware.handle()).get("/", (c) => c.text("root"));
+    const app = new Hono().use(middleware.handle()).get("/", () => new Response("root"));
 
     const response = await app.request("/");
 
@@ -31,7 +31,7 @@ describe("TrailingSlashHonoMiddleware", () => {
   });
 
   test("redirect - nested path with trailing slash", async () => {
-    const app = new Hono().use(middleware.handle()).get("/api/users", (c) => c.text("ok"));
+    const app = new Hono().use(middleware.handle()).get("/api/users", () => new Response("ok"));
 
     const response = await app.request("/api/users/");
 
@@ -40,7 +40,7 @@ describe("TrailingSlashHonoMiddleware", () => {
   });
 
   test("redirect - multiple segments", async () => {
-    const app = new Hono().use(middleware.handle()).get("/api/v1/users/123", (c) => c.text("ok"));
+    const app = new Hono().use(middleware.handle()).get("/api/v1/users/123", () => new Response("ok"));
 
     const response = await app.request("/api/v1/users/123/");
 
@@ -84,7 +84,7 @@ describe("TrailingSlashHonoMiddleware", () => {
   });
 
   test("redirect - root path with extra trailing slashes", async () => {
-    const app = new Hono().use(middleware.handle()).get("/", (c) => c.text("root"));
+    const app = new Hono().use(middleware.handle()).get("/", () => new Response("root"));
 
     const response = await app.request("//");
 
@@ -93,7 +93,7 @@ describe("TrailingSlashHonoMiddleware", () => {
   });
 
   test("redirect - no protocol-relative location", async () => {
-    const app = new Hono().use(middleware.handle()).get("/evil.com", (c) => c.text("ok"));
+    const app = new Hono().use(middleware.handle()).get("/evil.com", () => new Response("ok"));
 
     const response = await app.request("//evil.com/");
 

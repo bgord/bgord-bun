@@ -12,7 +12,7 @@ describe("SlowerHonoMiddleware", () => {
   test("waits before calling next", async () => {
     using sleeperWait = spyOn(Sleeper, "wait");
     const middleware = new SlowerHonoMiddleware(duration, deps);
-    const app = new Hono().use(middleware.handle()).get("/slower", (c) => c.text("OK"));
+    const app = new Hono().use(middleware.handle()).get("/slower", () => new Response("OK"));
 
     const response = await app.request("/slower");
 

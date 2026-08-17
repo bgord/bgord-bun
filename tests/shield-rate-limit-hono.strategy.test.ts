@@ -43,7 +43,7 @@ const onError = (error: Error, c: Context) => {
 
 const app = new Hono()
   .use(shieldRateLimit.handle())
-  .get("/ping", (c) => c.text("pong"))
+  .get("/ping", () => new Response("pong"))
   .onError(onError);
 
 describe("ShieldRateLimitHonoStrategy", () => {
@@ -98,7 +98,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
           return next();
         },
         shield.handle(),
-        (c) => c.text("pong"),
+        () => new Response("pong"),
       )
       .onError(onError);
 
@@ -122,7 +122,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
           return next();
         },
         shield.handle(),
-        (c) => c.text("pong"),
+        () => new Response("pong"),
       )
       .onError(onError);
 
@@ -145,7 +145,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
           return next();
         },
         shield.handle(),
-        (c) => c.text("pong"),
+        () => new Response("pong"),
       )
       .onError(onError);
 

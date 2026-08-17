@@ -10,12 +10,12 @@ const shield = new ShieldCsrfHonoStrategy({ origin: [APP_ORIGIN] });
 
 const app = new Hono()
   .use(shield.handle())
-  .get("/ping", (c) => c.text("ok"))
-  .on(["HEAD", "OPTIONS", "TRACE"], "/ping", (c) => c.text("ok"))
-  .post("/action", (c) => c.text("ok"))
-  .put("/action", (c) => c.text("ok"))
-  .patch("/action", (c) => c.text("ok"))
-  .delete("/action", (c) => c.text("ok"));
+  .get("/ping", () => new Response("ok"))
+  .on(["HEAD", "OPTIONS", "TRACE"], "/ping", () => new Response("ok"))
+  .post("/action", () => new Response("ok"))
+  .put("/action", () => new Response("ok"))
+  .patch("/action", () => new Response("ok"))
+  .delete("/action", () => new Response("ok"));
 
 describe("ShieldCsrfHonoStrategy", () => {
   test("safe method - allowed - no origin", async () => {

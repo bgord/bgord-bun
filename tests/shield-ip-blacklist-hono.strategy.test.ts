@@ -17,7 +17,7 @@ const shield = new ShieldIpBlacklistHonoStrategy({ blacklist: [BLOCKED_IP] });
 
 const app = new Hono()
   .use(shield.handle())
-  .get("/ping", (c) => c.text("OK"))
+  .get("/ping", () => new Response("OK"))
   .onError((error) => {
     if (error.message === ShieldIpBlacklistStrategyError.Rejected) {
       return Response.json(

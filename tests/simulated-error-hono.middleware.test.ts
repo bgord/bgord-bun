@@ -5,8 +5,8 @@ import { SimulatedErrorHonoMiddleware } from "../src/simulated-error-hono.middle
 describe("SimulatedErrorHonoMiddleware", () => {
   test("throws simulated error in handler", async () => {
     const app = new Hono()
-      .onError((error, c) => {
-        if (error.message === "simulated.error") return c.text("caught", 418);
+      .onError((error) => {
+        if (error.message === "simulated.error") return new Response("caught", { status: 418 });
         throw error;
       })
       .get("/simulated-error", new SimulatedErrorHonoMiddleware().handle());

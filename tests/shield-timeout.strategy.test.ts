@@ -11,7 +11,7 @@ describe("ShieldTimeoutStrategy", () => {
   test("happy path", async () => {
     const app = new Hono()
       .use(new ShieldTimeoutHonoStrategy(duration).handle())
-      .get("/ping", async (c) => c.text("OK"));
+      .get("/ping", async () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "GET" });
 
@@ -21,9 +21,9 @@ describe("ShieldTimeoutStrategy", () => {
   test("denied - without a custom error handler", async () => {
     jest.useFakeTimers();
 
-    const app = new Hono().use(new ShieldTimeoutHonoStrategy(duration).handle()).get("/ping", async (c) => {
+    const app = new Hono().use(new ShieldTimeoutHonoStrategy(duration).handle()).get("/ping", async () => {
       jest.advanceTimersByTime(duration.times(v.parse(tools.MultiplicationFactor, 2)).ms);
-      return c.text("OK");
+      return new Response("OK");
     });
 
     const result = await app.request("/ping", { method: "GET" });
@@ -39,9 +39,9 @@ describe("ShieldTimeoutStrategy", () => {
 
     const app = new Hono()
       .use(new ShieldTimeoutHonoStrategy(duration).handle())
-      .get("/ping", async (c) => {
+      .get("/ping", async () => {
         jest.advanceTimersByTime(duration.times(v.parse(tools.MultiplicationFactor, 2)).ms);
-        return c.text("OK");
+        return new Response("OK");
       })
       .onError((error) => {
         if (error.message === ShieldTimeoutStrategyError.Rejected) {

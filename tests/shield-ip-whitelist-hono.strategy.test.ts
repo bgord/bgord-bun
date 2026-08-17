@@ -17,7 +17,7 @@ const shield = new ShieldIpWhitelistHonoStrategy({ whitelist: [ALLOWED_IP] });
 
 const app = new Hono()
   .use(shield.handle())
-  .get("/ping", (c) => c.text("OK"))
+  .get("/ping", () => new Response("OK"))
   .onError((error) => {
     if (error.message === ShieldIpWhitelistStrategyError.Rejected) {
       return Response.json(

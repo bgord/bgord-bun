@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 import {
   AuthSessionReaderNoopAdapter,
   type AuthSessionReaderNoopSessionType,
@@ -14,7 +14,7 @@ type Env = {
   Variables: { user: AuthSessionReaderNoopUserType | null; session: AuthSessionReaderNoopSessionType | null };
 };
 
-const onError = (_error: Error, c: Context) => c.text("internal error", 500);
+const onError = () => new Response("internal error", { status: 500 });
 
 describe("ShieldAuthHonoStrategy", () => {
   test("attach", async () => {
@@ -56,7 +56,7 @@ describe("ShieldAuthHonoStrategy", () => {
         await next();
       })
       .use(strategy.verify)
-      .get("/", (c) => c.text("ok"));
+      .get("/", () => new Response("ok"));
 
     const response = await app.request("/");
 
@@ -73,7 +73,7 @@ describe("ShieldAuthHonoStrategy", () => {
         await next();
       })
       .use(strategy.verify)
-      .get("/", (c) => c.text("ok"));
+      .get("/", () => new Response("ok"));
 
     const response = await app.request("/");
 
@@ -86,7 +86,7 @@ describe("ShieldAuthHonoStrategy", () => {
     const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.verify)
-      .get("/", (c) => c.text("ok"))
+      .get("/", () => new Response("ok"))
       .onError(onError);
 
     const response = await app.request("/");
@@ -103,7 +103,7 @@ describe("ShieldAuthHonoStrategy", () => {
         await next();
       })
       .use(strategy.reverse)
-      .get("/", (c) => c.text("ok"));
+      .get("/", () => new Response("ok"));
 
     const response = await app.request("/");
 
@@ -116,7 +116,7 @@ describe("ShieldAuthHonoStrategy", () => {
     const strategy = new ShieldAuthHonoStrategy({ AuthSessionReader });
     const app = new Hono<Env>()
       .use(strategy.reverse)
-      .get("/", (c) => c.text("ok"))
+      .get("/", () => new Response("ok"))
       .onError(onError);
 
     const response = await app.request("/");
@@ -133,7 +133,7 @@ describe("ShieldAuthHonoStrategy", () => {
         await next();
       })
       .use(strategy.reverse)
-      .get("/", (c) => c.text("ok"));
+      .get("/", () => new Response("ok"));
 
     const response = await app.request("/");
 

@@ -56,7 +56,7 @@ describe("SetupHono", () => {
           { ...deps, IdProvider },
         ),
       )
-      .get("/ping", (c) => c.text("OK"));
+      .get("/ping", () => new Response("OK"));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 
@@ -71,7 +71,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/data", (c) => c.text("ok"));
+      .get("/data", () => new Response("ok"));
 
     const response = await app.request("/data/", {}, mocks.connInfo);
 
@@ -120,7 +120,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf: { origin: [APP_ORIGIN] }, I18n }, { ...deps, IdProvider }))
-      .post("/action", (c) => c.text("ok"));
+      .post("/action", () => new Response("ok"));
 
     const response = await app.request("/action", { method: "POST", headers: { Origin: EVIL_ORIGIN } });
 
@@ -165,7 +165,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/cors", (c) => c.text("ok"));
+      .get("/cors", () => new Response("ok"));
 
     const response = await app.request("/cors", {}, mocks.connInfo);
 
@@ -177,7 +177,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/cors", (c) => c.text("ok"));
+      .get("/cors", () => new Response("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: "http://localhost" } }, mocks.connInfo);
 
@@ -189,7 +189,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/cors", (c) => c.text("ok"));
+      .get("/cors", () => new Response("ok"));
 
     const response = await app.request(
       "/cors",
@@ -205,7 +205,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .options("/cors", (c) => c.text("ok"));
+      .options("/cors", () => new Response("ok"));
 
     const response = await app.request("/cors", {
       method: "OPTIONS",
@@ -221,7 +221,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono()
       .use(...SetupHono.essentials({ csrf, I18n, cors: { origin } }, { ...deps, IdProvider }))
-      .get("/cors", (c) => c.text("ok"));
+      .get("/cors", () => new Response("ok"));
 
     const response = await app.request("/cors", { headers: { Origin: origin } }, mocks.connInfo);
 
@@ -233,7 +233,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/lang", (c) => c.text(c.get("language")));
+      .get("/lang", (c) => new Response(c.get("language")));
 
     const response = await app.request(
       "/lang",
@@ -248,7 +248,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/lang", (c) => c.text(c.get("language")));
+      .get("/lang", (c) => new Response(c.get("language")));
 
     const response = await app.request(
       "/lang",
@@ -263,7 +263,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/lang", (c) => c.text(c.get("language")));
+      .get("/lang", (c) => new Response(c.get("language")));
 
     const response = await app.request(
       "/lang",
@@ -351,7 +351,7 @@ describe("SetupHono", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
     const app = new Hono<Config>()
       .use(...SetupHono.essentials({ csrf, I18n }, { ...deps, IdProvider }))
-      .get("/ping", (c) => c.text(CorrelationStorage.get()));
+      .get("/ping", () => new Response(CorrelationStorage.get()));
 
     const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
 

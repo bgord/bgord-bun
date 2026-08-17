@@ -5,7 +5,7 @@ import { MiddlewareHonoNoopAdapter } from "../src/middleware-hono-noop.adapter";
 describe("MiddlewareHonoNoopAdapter", () => {
   test("happy path", async () => {
     const shield = new MiddlewareHonoNoopAdapter();
-    const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
+    const app = new Hono().use("/secure", shield.handle()).post("/secure", () => new Response("OK"));
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });
 

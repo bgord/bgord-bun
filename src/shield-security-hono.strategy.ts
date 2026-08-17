@@ -1,5 +1,4 @@
 import type { MiddlewareHandler } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import type { SecurityPolicy } from "./security-policy.vo";
@@ -34,7 +33,7 @@ export class ShieldSecurityHonoStrategy implements MiddlewareHonoPort {
           return next();
 
         case "deny":
-          return c.text(action.reason, action.response.status as ContentfulStatusCode);
+          return new Response(action.reason, { status: action.response.status });
 
         case "mirage":
           return Response.json({}, { status: action.response.status });
@@ -47,7 +46,7 @@ export class ShieldSecurityHonoStrategy implements MiddlewareHonoPort {
               return next();
 
             case "deny":
-              return c.text(action.after.reason, action.after.response.status as ContentfulStatusCode);
+              return new Response(action.after.reason, { status: action.after.response.status });
 
             case "mirage":
               return Response.json({}, { status: action.after.response.status });

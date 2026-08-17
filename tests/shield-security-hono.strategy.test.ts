@@ -44,7 +44,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -60,7 +60,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -78,7 +78,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -96,7 +96,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -114,7 +114,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -136,7 +136,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -159,7 +159,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"));
+      .post("/ping", () => new Response("OK"));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
@@ -181,8 +181,8 @@ describe("ShieldSecurityHonoStrategy", () => {
     const app = new Hono()
       .use(new CorrelationHonoMiddleware({ IdProvider }).handle())
       .use(shield.handle())
-      .post("/ping", (c) => c.text("OK"))
-      .onError((error, c) => c.text(error.message, 500));
+      .post("/ping", () => new Response("OK"))
+      .onError((error) => new Response(error.message, { status: 500 }));
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 

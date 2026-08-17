@@ -33,9 +33,9 @@ const SampleInvariant = new SampleInvariantFactory();
 describe("InvariantErrorHandler", () => {
   test("hono", async () => {
     const app = new Hono()
-      .post("/ping", async (c) => {
+      .post("/ping", async () => {
         SampleInvariant.enforce({ threshold: 15 });
-        return c.text("OK");
+        return new Response("OK");
       })
       .onError(ErrorHandler.handle);
 

@@ -16,7 +16,7 @@ const control = new AbVariant({
 
 const app = new Hono<Config>()
   .use(new AbHonoNoopMiddleware(control).handle())
-  .get("/test", (c) => c.text(c.get("abVariant")?.config.name ?? "unknown"));
+  .get("/test", (c) => new Response(c.get("abVariant")?.config.name ?? "unknown"));
 
 describe("AbHonoNoopMiddleware", () => {
   test("happy path", async () => {

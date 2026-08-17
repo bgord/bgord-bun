@@ -12,7 +12,7 @@ const shield = new ShieldApiKeyHonoStrategy({ API_KEY: v.parse(tools.ApiKey, VAL
 
 const app = new Hono()
   .use(shield.handle())
-  .get("/ping", (c) => c.text("OK"))
+  .get("/ping", () => new Response("OK"))
   .onError((error) => {
     if (error.message === ShieldApiKeyStrategyError.Rejected) {
       return Response.json({ message: ShieldApiKeyStrategyError.Rejected, _known: true }, { status: 401 });

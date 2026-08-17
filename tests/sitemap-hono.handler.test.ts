@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 import * as v from "valibot";
 import { Sitemap } from "../src/sitemap.service";
 import { SitemapChangefreqEnum } from "../src/sitemap-changefreq.vo";
@@ -21,9 +21,9 @@ const changefreq = SitemapChangefreqEnum.monthly;
 const first = new SitemapEntry({ loc: one });
 const second = new SitemapEntry({ loc: two, lastmod, changefreq, priority });
 
-const onError = (error: Error, c: Context) => {
+const onError = (error: Error) => {
   if (error instanceof Error) return Response.json({ message: error.message }, { status: 400 });
-  return c.text("internal error", 500);
+  return new Response("internal error", { status: 500 });
 };
 
 describe("SitemapHonoHandler", () => {

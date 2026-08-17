@@ -6,7 +6,7 @@ import * as mocks from "./mocks";
 
 const shield = new ShieldHcaptchaLocalHonoStrategy();
 
-const app = new Hono().use("/secure", shield.handle()).post("/secure", (c) => c.text("OK"));
+const app = new Hono().use("/secure", shield.handle()).post("/secure", () => new Response("OK"));
 
 describe("ShieldHcaptchaLocalStrategy", () => {
   test("happy path", async () => {
