@@ -1,3 +1,7 @@
+import * as v from "valibot";
 import { UUID } from "../../../uuid.vo";
 
-export const HistoryId = UUID;
+// Stryker disable next-line StringLiteral
+export const HistoryId = v.pipe(UUID, v.brand("HistoryId"));
+
+export type HistoryIdType = v.InferOutput<typeof HistoryId>;

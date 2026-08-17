@@ -10,4 +10,8 @@ export const HistoryOperation = v.pipe(
   v.string(HistoryOperationError.Type),
   v.minLength(1, HistoryOperationError.Empty),
   v.maxLength(128, HistoryOperationError.TooLong),
+  // Stryker disable next-line StringLiteral
+  v.brand("HistoryOperation"),
 );
+
+export type HistoryOperationType = v.InferOutput<typeof HistoryOperation>;
