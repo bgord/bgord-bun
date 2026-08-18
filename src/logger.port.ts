@@ -35,7 +35,6 @@ export type LogHttpType = LogCoreType & {
   status?: number;
   ms?: tools.DurationMsType;
   client: HttpClientInfo;
-  cacheHit?: boolean;
 };
 
 export type LogErrorType = LogCoreType & { level: LogLevelEnum.error; error?: unknown };

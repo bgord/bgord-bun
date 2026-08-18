@@ -34,7 +34,6 @@ export type HttpLoggerBeforeResult = { stopwatch: Stopwatch };
 export type HttpLoggerAfterInput = {
   stopwatch: Stopwatch;
   status: number;
-  cacheHit: boolean;
   responseBody: any;
 };
 
@@ -98,7 +97,6 @@ export class HttpLoggerMiddleware {
       status: input.status,
       ms: duration.ms,
       client,
-      cacheHit: input.cacheHit,
       metadata: { response: input.responseBody },
     });
   }

@@ -331,7 +331,6 @@ describe("SetupHono", () => {
       status: 200,
       ms: expect.any(Number),
       client: { ip: mocks.ip, ua: "abc" },
-      cacheHit: false,
       metadata: { response: { message: "OK" } },
     });
   });

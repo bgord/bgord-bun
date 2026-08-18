@@ -50,14 +50,12 @@ describe("HttpLoggerMiddleware", () => {
     const input = {
       stopwatch,
       status: 200,
-      cacheHit: false,
       responseBody: { message: "OK" },
     };
 
     middleware.after(context, mocks.correlationId, input);
 
     expect(loggerHttp).toHaveBeenCalledWith({
-      cacheHit: false,
       client: { ip: undefined, ua: undefined },
       component: "http",
       correlationId: mocks.correlationId,
@@ -78,14 +76,12 @@ describe("HttpLoggerMiddleware", () => {
     const input = {
       stopwatch,
       status: 400,
-      cacheHit: false,
       responseBody: { error: mocks.IntentionalError },
     };
 
     middleware.after(context, mocks.correlationId, input);
 
     expect(loggerError).toHaveBeenCalledWith({
-      cacheHit: false,
       client: { ip: undefined, ua: undefined },
       component: "http",
       correlationId: mocks.correlationId,
@@ -106,14 +102,12 @@ describe("HttpLoggerMiddleware", () => {
     const input = {
       stopwatch,
       status: 500,
-      cacheHit: false,
       responseBody: { error: mocks.IntentionalError },
     };
 
     middleware.after(context, mocks.correlationId, input);
 
     expect(loggerError).toHaveBeenCalledWith({
-      cacheHit: false,
       client: { ip: undefined, ua: undefined },
       component: "http",
       correlationId: mocks.correlationId,
@@ -170,33 +164,5 @@ describe("HttpLoggerMiddleware", () => {
     const context = new RequestContextBuilder().withPath("/anything").build();
 
     expect(middleware.shouldSkip(context)).toEqual(false);
-  });
-
-  test("cache-hit", () => {
-    using loggerHttp = spyOn(Logger, "http");
-    const context = new RequestContextBuilder().withMethod("GET").withUrl("http://localhost/ping").build();
-    const stopwatch = new Stopwatch(deps);
-    const input = {
-      stopwatch,
-      status: 200,
-      cacheHit: true,
-      responseBody: { message: "OK" },
-    };
-
-    middleware.after(context, mocks.correlationId, input);
-
-    expect(loggerHttp).toHaveBeenCalledWith({
-      cacheHit: true,
-      client: { ip: undefined, ua: undefined },
-      component: "http",
-      correlationId: mocks.correlationId,
-      ms: expect.any(Number),
-      message: "response",
-      metadata: { response: { message: "OK" } },
-      method: "GET",
-      operation: "http_request_after",
-      status: 200,
-      url: "http://localhost/ping",
-    });
   });
 });
