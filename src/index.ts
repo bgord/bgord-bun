@@ -545,6 +545,7 @@ export * from "./translations-hono.handler";
 export * from "./translations-provider.port";
 export * from "./translations-provider-json.adapter";
 export * from "./translations-provider-noop.adapter";
+export * from "./translations-provider-with-cache.adapter";
 export * from "./translator.service";
 export * from "./uptime.service";
 export * from "./uuid.vo";
