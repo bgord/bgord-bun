@@ -108,6 +108,7 @@ describe("HealthcheckHandler", () => {
       queue: await JobQueueStatsProvider.getStats(),
       ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
+      headers: { "Cache-Control": "no-store" },
     });
   });
 
@@ -168,6 +169,7 @@ describe("HealthcheckHandler", () => {
       ],
       ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
+      headers: { "Cache-Control": "no-store" },
     });
   });
 
@@ -261,6 +263,7 @@ describe("HealthcheckHandler", () => {
       ],
       ms: expect.any(Number),
       timestamp: mocks.TIME_ZERO.ms,
+      headers: { "Cache-Control": "no-store" },
     });
   });
 });

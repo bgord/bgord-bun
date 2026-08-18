@@ -87,6 +87,7 @@ export type HealthcheckResult = {
   queue?: JobQueueStatsSnapshot;
   ms: tools.Duration["ms"];
   timestamp: tools.TimestampValueType;
+  headers: Record<string, string>;
 };
 
 export class HealthcheckHandler {
@@ -175,6 +176,7 @@ export class HealthcheckHandler {
       queue: await this.deps.JobQueueStatsProvider?.getStats(),
       ms: stopwatch.stop().ms,
       timestamp: this.deps.Clock.now().ms,
+      headers: { "Cache-Control": "no-store" },
     };
   }
 }
