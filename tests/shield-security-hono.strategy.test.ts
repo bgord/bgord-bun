@@ -90,7 +90,7 @@ describe("ShieldSecurityHonoStrategy", () => {
   test("mirage", async () => {
     using loggerInfo = spyOn(Logger, "info");
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
-    const mirage = new SecurityCountermeasureMirageStrategy(deps);
+    const mirage = new SecurityCountermeasureMirageStrategy(deps, { response: { status: 418 } });
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, mirage)], deps);
 
     const app = new Hono()
@@ -100,7 +100,7 @@ describe("ShieldSecurityHonoStrategy", () => {
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
-    expect(result.status).toEqual(200);
+    expect(result.status).toEqual(418);
     expect(loggerInfo).toHaveBeenCalled();
   });
 
@@ -152,7 +152,7 @@ describe("ShieldSecurityHonoStrategy", () => {
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 2));
     const tarpit = new SecurityCountermeasureTarpitStrategy(deps, {
       duration,
-      after: { kind: "mirage", response: { status: 200 } },
+      after: { kind: "mirage", response: { status: 418 } },
     });
     const shield = new ShieldSecurityHonoStrategy([new SecurityPolicy(fail, tarpit)], deps);
 
@@ -163,7 +163,7 @@ describe("ShieldSecurityHonoStrategy", () => {
 
     const result = await app.request("/ping", { method: "POST" }, mocks.connInfo);
 
-    expect(result.status).toEqual(200);
+    expect(result.status).toEqual(418);
     expect(loggerInfo).toHaveBeenCalled();
     expect(sleeperWait).toHaveBeenCalledWith(duration);
   });

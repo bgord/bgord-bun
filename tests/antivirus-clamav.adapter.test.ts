@@ -7,13 +7,15 @@ const adapter = new AntivirusClamavAdapter();
 
 describe("AntivirusClamavAdapter", () => {
   test("scan - clean - true", async () => {
+    const written: Array<Uint8Array> = [];
     using bunSpawn = spyOn(Bun, "spawn").mockImplementation(() => ({
       // @ts-expect-error Partial access
-      stdin: { write: () => {}, end: () => {} },
+      stdin: { write: (bytes: Uint8Array) => written.push(bytes), end: () => {} },
       exitCode: 0,
     }));
 
     expect(await adapter.scan(mocks.cleanFile)).toEqual({ clean: true });
+    expect(written).toEqual([mocks.cleanFile]);
     expect(bunSpawn).toHaveBeenCalledWith({
       cmd: ["clamscan", "--infected", "--no-summary", "--stdout", "-"],
       stderr: "pipe",

@@ -1,12 +1,7 @@
 import * as tools from "@bgord/tools";
 import { Invariant, InvariantFailureKind } from "../../../invariant.service";
 
-class FeatureFlagEnabledError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, FeatureFlagEnabledError.prototype);
-  }
-}
+class FeatureFlagEnabledError extends Error {}
 
 type FeatureFlagEnabledConfigType = { flag: tools.FeatureFlagValueType };
 

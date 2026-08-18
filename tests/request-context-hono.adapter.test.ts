@@ -250,13 +250,16 @@ describe("RequestContextHonoAdapter", () => {
   });
 
   test("authenticatedUserId - not attached", async () => {
-    const app = new Hono<Config>().get("/test", (context) =>
-      Response.json({ userId: new RequestContextHonoAdapter(context).identity.authenticatedUserId() }),
-    );
+    const app = new Hono<Config>()
+      .get("/test", (context) =>
+        Response.json({ userId: new RequestContextHonoAdapter(context).identity.authenticatedUserId() }),
+      )
+      .onError((error) => new Response(error.message, { status: 500 }));
 
     const response = await app.request("/test");
 
     expect(response.status).toEqual(500);
+    expect(await response.text()).toEqual("shield.auth.not.attached");
   });
 
   test("ip - x-real-ip", async () => {

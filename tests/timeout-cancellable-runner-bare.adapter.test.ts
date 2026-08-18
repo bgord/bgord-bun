@@ -10,17 +10,38 @@ const adapter = new TimeoutCancellableRunnerBare();
 
 describe("TimeoutCancellableRunnerBare", () => {
   test(" happy path", async () => {
-    const action = async (_signal: AbortSignal) => 2;
+    jest.useFakeTimers();
+    let signal: AbortSignal | undefined;
+    const action = async (received: AbortSignal) => {
+      signal = received;
+      return 2;
+    };
 
     const result = await adapter.cancellable(action, timeout);
+    jest.runAllTimers();
 
     expect(result).toEqual(2);
+    expect(signal?.aborted).toEqual(false);
+
+    jest.useRealTimers();
   });
 
   test("cancellable - error propagation", async () => {
-    expect(async () => adapter.cancellable(mocks.throwIntentionalErrorAsync, timeout)).toThrow(
-      mocks.IntentionalError,
-    );
+    jest.useFakeTimers();
+    let signal: AbortSignal | undefined;
+    const action = async (received: AbortSignal) => {
+      signal = received;
+      return mocks.throwIntentionalErrorAsync();
+    };
+
+    const runner = adapter.cancellable(action, timeout);
+    await runner.catch(() => {});
+    jest.runAllTimers();
+
+    expect(runner).rejects.toThrow(mocks.IntentionalError);
+    expect(signal?.aborted).toEqual(false);
+
+    jest.useRealTimers();
   });
 
   test("cancellable - timeout", async () => {

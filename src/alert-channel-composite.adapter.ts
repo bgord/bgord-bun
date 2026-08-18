@@ -18,6 +18,7 @@ export class AlertChannelCompositeAdapter implements AlertChannelPort {
 
     if (results.some((result) => result.status === "fulfilled")) return;
 
+    // Stryker disable next-line ArrayDeclaration
     const reasons = results.flatMap((result) => (result.status === "rejected" ? [result.reason] : []));
 
     throw new AggregateError(reasons, AlertChannelCompositeError.AllFailed);

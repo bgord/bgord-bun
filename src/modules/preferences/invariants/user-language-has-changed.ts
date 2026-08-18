@@ -3,12 +3,7 @@ import { Invariant, InvariantFailureKind } from "../../../invariant.service";
 
 type Config = { current?: tools.LanguageType | null; candidate: tools.LanguageType };
 
-class UserLanguageHasChangedError extends Error {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, UserLanguageHasChangedError.prototype);
-  }
-}
+class UserLanguageHasChangedError extends Error {}
 
 class UserLanguageHasChangedFactory extends Invariant<Config> {
   passes(config: Config) {

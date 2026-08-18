@@ -27,11 +27,13 @@ describe("EventLoopLag", () => {
 
   test("start - custom resolution", () => {
     using monitorEventLoopDelay = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
+    using enable = spyOn(histogram, "enable");
     EventLoopLag._resetForTest();
 
     EventLoopLag.start(tools.Duration.Ms(40));
 
     expect(monitorEventLoopDelay).toHaveBeenCalledWith({ resolution: 40 });
+    expect(enable).toHaveBeenCalled();
   });
 
   test("snapshot", () => {

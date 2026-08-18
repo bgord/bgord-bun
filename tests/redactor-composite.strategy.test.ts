@@ -39,11 +39,11 @@ describe("RedactorComposite", () => {
       },
     };
 
+    // @ts-expect-error Changed schema assertion
     expect(redactor.redact(log)).toEqual({
       ...log,
       timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
       error,
-      // @ts-expect-error Changed schema assertion
       metadata: { password: "***", users: { length: 3, type: "Array" }, types: { type: "Object", keys: 4 } },
     });
   });
