@@ -76,8 +76,6 @@ src/
 ├── cache-repository.port.ts
 ├── cache-resolver-simple.strategy.ts
 ├── cache-resolver.strategy.ts
-├── cache-response-hono.middleware.ts
-├── cache-response.middleware.ts
 ├── certificate-inspector-noop.adapter.ts
 ├── certificate-inspector-tls.adapter.ts
 ├── certificate-inspector.port.ts
