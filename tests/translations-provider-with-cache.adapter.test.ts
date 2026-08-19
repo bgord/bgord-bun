@@ -41,17 +41,32 @@ describe("TranslationsProviderWithCacheAdapter", () => {
 
     expect(await adapter.getTranslationsFor(mocks.languages.supported.en)).toEqual({ hello: "Hello" });
     expect(innerGetTranslationsFor).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      1,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     expect(await adapter.getTranslationsFor(mocks.languages.supported.en)).toEqual({ hello: "Hello" });
     expect(innerGetTranslationsFor).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(2, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      2,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.Minutes(1)).ms);
 
     expect(await adapter.getTranslationsFor(mocks.languages.supported.en)).toEqual({ hello: "Hello" });
     expect(innerGetTranslationsFor).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      3,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.useRealTimers();
   });
