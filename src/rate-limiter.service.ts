@@ -1,10 +1,13 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 
 type RateLimiterResultSuccessType = { allowed: true };
 type RateLimiterResultErrorType = { allowed: false; remaining: tools.Duration };
 type RateLimiterResultType = RateLimiterResultSuccessType | RateLimiterResultErrorType;
 
-export type RateLimiterStateType = { lastInvocation: tools.TimestampValueType | null };
+export const RateLimiterState = v.object({ lastInvocation: v.nullable(tools.TimestampValue) });
+
+export type RateLimiterStateType = v.InferOutput<typeof RateLimiterState>;
 
 export class RateLimiter {
   private lastInvocation: tools.Timestamp | null = null;
