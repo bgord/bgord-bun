@@ -1,3 +1,4 @@
+import { CacheCodecIdentityStrategy } from "./cache-codec-identity.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { PrerequisiteVerificationResult, PrerequisiteVerifierPort } from "./prerequisite-verifier.port";
@@ -8,6 +9,8 @@ type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashCon
 type Config = { id: string; inner: PrerequisiteVerifierPort };
 
 export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifierPort {
+  private readonly codec = new CacheCodecIdentityStrategy<PrerequisiteVerificationResult>();
+
   constructor(
     private readonly config: Config,
     private readonly deps: Dependencies,
@@ -25,8 +28,10 @@ export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifie
 
     const subject = await resolver.resolve();
 
-    return this.deps.CacheResolver.resolve<PrerequisiteVerificationResult>(subject.hex, () =>
-      this.config.inner.verify(),
+    return this.deps.CacheResolver.resolve<PrerequisiteVerificationResult>(
+      subject.hex,
+      async () => this.config.inner.verify(),
+      this.codec,
     );
   }
 

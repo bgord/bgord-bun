@@ -35,7 +35,12 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      1,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
     expect(passVerify).toHaveBeenCalledTimes(1);
