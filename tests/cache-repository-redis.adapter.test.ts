@@ -3,15 +3,9 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import type { CacheRepositoryTtlType } from "../src/cache-repository.port";
 import { CacheRepositoryRedisAdapter } from "../src/cache-repository-redis.adapter";
-import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
-import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
-const value = "value";
-
-const HashContent = new HashContentSha256Strategy();
 const config: CacheRepositoryTtlType = { type: "finite", ttl: tools.Duration.Hours(1) };
 
 const client = {
@@ -24,124 +18,127 @@ const client = {
 } as any;
 
 describe("CacheRepositoryRedisAdapter", async () => {
-  const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("key")], { HashContent });
-  const subject = await resolver.resolve();
-  const other = await new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("other")], {
-    HashContent,
-  }).resolve();
+  const cases = await testcase.cacheRepository();
 
-  test("get - null", async () => {
+  test(cases.getNull.name, async () => {
     using _ = spyOn(client, "get").mockResolvedValue(null);
+    using parse = spyOn(JSON, "parse");
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.getNull.output);
+    expect(parse).not.toHaveBeenCalled();
   });
 
-  test("get - value", async () => {
-    using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify(value));
+  test(cases.getValue.name, async () => {
+    using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify(cases.getValue.input));
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    expect(await adapter.get(subject.hex)).toEqual(value);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.getValue.output);
   });
 
-  test("get - copy", async () => {
-    const stored = { nested: { count: 1 } };
-    using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify(stored));
+  test(cases.getCopy.name, async () => {
+    using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify(cases.getCopy.input));
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    const cached = await adapter.get(subject.hex);
+    const cached = await adapter.get(cases.subjects.primary);
 
-    expect(cached).toEqual(stored);
-    expect(cached).not.toBe(stored);
+    expect(cached).toEqual(cases.getCopy.output);
+    expect(cached).not.toBe(cases.getCopy.input);
   });
 
-  test("get - no mutation leak", async () => {
-    using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify({ count: 1 }));
+  test(cases.getNoMutationLeak.name, async () => {
+    using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify(cases.getNoMutationLeak.input));
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    expect(await adapter.get(subject.hex)).not.toBe(await adapter.get(subject.hex));
+    expect(await adapter.get(cases.subjects.primary)).not.toBe(await adapter.get(cases.subjects.primary));
   });
 
-  test("get - other subject", async () => {
+  test(cases.getOtherSubject.name, async () => {
     using get = spyOn(client, "get").mockResolvedValue(null);
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    expect(await adapter.get(other.hex)).toEqual(null);
-    expect(get).toHaveBeenCalledWith(other.hex.get());
+    expect(await adapter.get(cases.subjects.other)).toEqual(cases.getOtherSubject.output);
+    expect(get).toHaveBeenCalledWith(cases.subjects.other.get());
   });
 
-  test("set - overwrite", async () => {
+  test(cases.setOverwrite.name, async () => {
     using setex = spyOn(client, "setex");
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    await adapter.set(subject.hex, "first");
-    await adapter.set(subject.hex, "second");
+    await adapter.set(cases.subjects.primary, cases.setOverwrite.input.first);
+    await adapter.set(cases.subjects.primary, cases.setOverwrite.input.second);
 
     expect(setex).toHaveBeenLastCalledWith(
-      subject.hex.get(),
+      cases.subjects.primary.get(),
       config.ttl.seconds,
-      JSON.stringify("second"),
+      JSON.stringify(cases.setOverwrite.output),
     );
   });
 
-  test("set - failure", async () => {
+  test(cases.setFailure.name, async () => {
     using setex = spyOn(client, "setex").mockImplementation(mocks.throwIntentionalError);
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.setFailure.input);
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.setFailure.output);
     expect(setex).toHaveBeenCalled();
   });
 
-  test("delete", async () => {
+  test(cases.delete.name, async () => {
     using del = spyOn(client, "del");
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    await adapter.delete(subject.hex);
+    await adapter.delete(cases.subjects.primary);
 
-    expect(del).toHaveBeenCalledWith(subject.hex.get());
+    expect(del).toHaveBeenCalledWith(cases.subjects.primary.get());
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.delete.output);
   });
 
-  test("flush", async () => {
+  test(cases.flush.name, async () => {
     using send = spyOn(client, "send");
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
     await adapter.flush();
 
     expect(send).toHaveBeenCalledWith("FLUSHDB", []);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.flush.output);
   });
 
-  test("ttl - finite", async () => {
+  test(cases.ttlFinite.name, async () => {
     using setex = spyOn(client, "setex");
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.ttlFinite.input);
 
-    expect(setex).toHaveBeenCalledWith(subject.hex.get(), config.ttl.seconds, JSON.stringify(value));
+    expect(setex).toHaveBeenCalledWith(
+      cases.subjects.primary.get(),
+      config.ttl.seconds,
+      JSON.stringify(cases.ttlFinite.input),
+    );
   });
 
-  test("ttl - infinite", async () => {
+  test(cases.ttlInfinite.name, async () => {
     using set = spyOn(client, "set");
     using expire = spyOn(client, "expire");
     const adapter = new CacheRepositoryRedisAdapter(client, { type: "infinite" });
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.ttlInfinite.input);
 
-    expect(set).toHaveBeenCalledWith(subject.hex.get(), JSON.stringify(value));
+    expect(set).toHaveBeenCalledWith(cases.subjects.primary.get(), JSON.stringify(cases.ttlInfinite.output));
     expect(expire).not.toHaveBeenCalled();
   });
 
-  for (const { name, value } of testcase.cacheValues) {
-    test(`round trip - ${name}`, async () => {
+  for (const roundTrip of cases.roundTrips) {
+    test(roundTrip.name, async () => {
       using setex = spyOn(client, "setex");
       const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-      await adapter.set(subject.hex, value);
+      await adapter.set(cases.subjects.primary, roundTrip.input);
 
       using _ = spyOn(client, "get").mockResolvedValue(setex.mock.calls[0]?.[2]);
 
-      expect(await adapter.get(subject.hex)).toEqual(value);
+      expect(await adapter.get(cases.subjects.primary)).toEqual(roundTrip.output);
     });
   }
 });

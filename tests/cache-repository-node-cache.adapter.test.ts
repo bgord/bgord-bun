@@ -1,140 +1,123 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
-import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
-const value = "value";
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 
-const HashContent = new HashContentSha256Strategy();
-
 describe("CacheRepositoryNodeCacheAdapter", async () => {
-  const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("key")], {
-    HashContent,
-  });
-  const subject = await resolver.resolve();
-  const other = await new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("other")], {
-    HashContent,
-  }).resolve();
+  const cases = await testcase.cacheRepository();
 
-  test("get - null", async () => {
+  test(cases.getNull.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.getNull.output);
   });
 
-  test("get - value", async () => {
-    const value = "secret";
+  test(cases.getValue.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.getValue.input);
 
-    expect(await adapter.get(subject.hex)).toEqual(value);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.getValue.output);
   });
 
-  test("get - copy", async () => {
-    const stored = { nested: { count: 1 } };
+  test(cases.getCopy.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, stored);
+    await adapter.set(cases.subjects.primary, cases.getCopy.input);
 
-    const cached = await adapter.get(subject.hex);
+    const cached = await adapter.get(cases.subjects.primary);
 
-    expect(cached).toEqual(stored);
-    expect(cached).not.toBe(stored);
+    expect(cached).toEqual(cases.getCopy.output);
+    expect(cached).not.toBe(cases.getCopy.input);
   });
 
-  test("get - no mutation leak", async () => {
+  test(cases.getNoMutationLeak.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, { count: 1 });
+    await adapter.set(cases.subjects.primary, cases.getNoMutationLeak.input);
 
-    expect(await adapter.get(subject.hex)).not.toBe(await adapter.get(subject.hex));
+    expect(await adapter.get(cases.subjects.primary)).not.toBe(await adapter.get(cases.subjects.primary));
   });
 
-  test("get - other subject", async () => {
+  test(cases.getOtherSubject.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.getOtherSubject.input);
 
-    expect(await adapter.get(other.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.other)).toEqual(cases.getOtherSubject.output);
   });
 
-  test("set - overwrite", async () => {
+  test(cases.setOverwrite.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, "first");
-    await adapter.set(subject.hex, "second");
+    await adapter.set(cases.subjects.primary, cases.setOverwrite.input.first);
+    await adapter.set(cases.subjects.primary, cases.setOverwrite.input.second);
 
-    expect(await adapter.get(subject.hex)).toEqual("second");
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.setOverwrite.output);
   });
 
-  test("set - failure", async () => {
+  test(cases.setFailure.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
     using storeSet = spyOn(adapter["store"], "set").mockImplementation(mocks.throwIntentionalError);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.setFailure.input);
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.setFailure.output);
     expect(storeSet).toHaveBeenCalled();
   });
 
-  test("delete", async () => {
+  test(cases.delete.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.delete.input);
+    await adapter.delete(cases.subjects.primary);
 
-    expect(await adapter.get(subject.hex)).toEqual(value);
-
-    await adapter.delete(subject.hex);
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.delete.output);
   });
 
-  test("flush", async () => {
+  test(cases.flush.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.flush.input);
     await adapter.flush();
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.flush.output);
   });
 
-  test("ttl - finite", async () => {
+  test(cases.ttlFinite.name, async () => {
     jest.useFakeTimers();
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.ttlFinite.input);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.ttlFinite.output);
 
     jest.useRealTimers();
   });
 
-  test("ttl - infinite", async () => {
+  test(cases.ttlInfinite.name, async () => {
     jest.useFakeTimers();
     const adapter = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 
-    await adapter.set(subject.hex, value);
+    await adapter.set(cases.subjects.primary, cases.ttlInfinite.input);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
-    expect(await adapter.get(subject.hex)).toEqual(value);
+    expect(await adapter.get(cases.subjects.primary)).toEqual(cases.ttlInfinite.output);
 
     jest.useRealTimers();
   });
 
-  for (const { name, value } of testcase.cacheValues) {
-    test(`round trip - ${name}`, async () => {
+  for (const roundTrip of cases.roundTrips) {
+    test(roundTrip.name, async () => {
       const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
-      await adapter.set(subject.hex, value);
+      await adapter.set(cases.subjects.primary, roundTrip.input);
 
-      expect(await adapter.get(subject.hex)).toEqual(value);
+      expect(await adapter.get(cases.subjects.primary)).toEqual(roundTrip.output);
     });
   }
 });

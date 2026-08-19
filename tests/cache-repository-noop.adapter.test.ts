@@ -1,104 +1,73 @@
 import { describe, expect, test } from "bun:test";
 import { CacheRepositoryNoopAdapter } from "../src/cache-repository-noop.adapter";
-import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
-import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as testcase from "./testcases";
 
-const value = "value";
-
-const HashContent = new HashContentSha256Strategy();
+const adapter = new CacheRepositoryNoopAdapter();
 
 describe("CacheRepositoryNoopAdapter", async () => {
-  const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("key")], {
-    HashContent,
-  });
-  const subject = await resolver.resolve();
-  const other = await new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("other")], {
-    HashContent,
-  }).resolve();
+  const cases = await testcase.cacheRepository();
+  const { primary, other } = cases.subjects;
 
-  test("get - null", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+  test(cases.getNull.name, async () => {
+    expect(await adapter.get(primary)).toEqual(cases.getNull.output);
   });
 
-  test("get - value", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
+  test(cases.getValue.name, async () => {
+    await adapter.set(primary, cases.getValue.input);
 
-    await adapter.set(subject.hex, value);
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(null);
   });
 
-  test("get - copy", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
-    const stored = { nested: { count: 1 } };
+  test(cases.getCopy.name, async () => {
+    await adapter.set(primary, cases.getCopy.input);
 
-    await adapter.set(subject.hex, stored);
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(null);
   });
 
-  test("get - no mutation leak", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
+  test(cases.getNoMutationLeak.name, async () => {
+    await adapter.set(primary, cases.getNoMutationLeak.input);
 
-    await adapter.set(subject.hex, { count: 1 });
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(null);
   });
 
-  test("get - other subject", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
+  test(cases.getOtherSubject.name, async () => {
+    await adapter.set(primary, cases.getOtherSubject.input);
 
-    await adapter.set(subject.hex, value);
-
-    expect(await adapter.get(other.hex)).toEqual(null);
+    expect(await adapter.get(other)).toEqual(cases.getOtherSubject.output);
   });
 
-  test("set - overwrite", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
+  test(cases.setOverwrite.name, async () => {
+    await adapter.set(primary, cases.setOverwrite.input.first);
+    await adapter.set(primary, cases.setOverwrite.input.second);
 
-    await adapter.set(subject.hex, "first");
-    await adapter.set(subject.hex, "second");
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(null);
   });
 
-  test("set - failure", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
+  test(cases.setFailure.name, async () => {
+    await adapter.set(primary, cases.setFailure.input);
 
-    await adapter.set(subject.hex, value);
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(cases.setFailure.output);
   });
 
-  test("delete", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
+  test(cases.delete.name, async () => {
+    await adapter.set(primary, cases.delete.input);
+    await adapter.delete(primary);
 
-    await adapter.set(subject.hex, value);
-    await adapter.delete(subject.hex);
-
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(cases.delete.output);
   });
 
-  test("flush", async () => {
-    const adapter = new CacheRepositoryNoopAdapter();
-
-    await adapter.set(subject.hex, value);
+  test(cases.flush.name, async () => {
+    await adapter.set(primary, cases.flush.input);
     await adapter.flush();
 
-    expect(await adapter.get(subject.hex)).toEqual(null);
+    expect(await adapter.get(primary)).toEqual(cases.flush.output);
   });
 
-  for (const { name, value } of testcase.cacheValues) {
-    test(`round trip - ${name}`, async () => {
-      const adapter = new CacheRepositoryNoopAdapter();
+  for (const roundTrip of cases.roundTrips) {
+    test(roundTrip.name, async () => {
+      await adapter.set(primary, roundTrip.input);
 
-      await adapter.set(subject.hex, value);
-
-      expect(await adapter.get(subject.hex)).toEqual(null);
+      expect(await adapter.get(primary)).toEqual(null);
     });
   }
 });
