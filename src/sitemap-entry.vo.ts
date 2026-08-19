@@ -1,15 +1,19 @@
 // cspell:ignore apos
-import type * as tools from "@bgord/tools";
-import type { SitemapChangefreqEnum } from "./sitemap-changefreq.vo";
-import type { SitemapPriorityType } from "./sitemap-priority.vo";
-import type { SitemapUrlType } from "./sitemap-url.vo";
+import * as tools from "@bgord/tools";
+import * as v from "valibot";
+import { SitemapChangefreqEnum } from "./sitemap-changefreq.vo";
+import { SitemapPriority } from "./sitemap-priority.vo";
+import { SitemapUrl } from "./sitemap-url.vo";
+import { StandardSchemaValidator } from "./standard-schema-validator.service";
 
-export type SitemapEntryType = {
-  loc: SitemapUrlType;
-  lastmod?: tools.DayIsoIdType;
-  changefreq?: SitemapChangefreqEnum;
-  priority?: SitemapPriorityType;
-};
+export const SitemapEntrySchema = v.object({
+  loc: SitemapUrl,
+  lastmod: v.optional(tools.DayIsoId),
+  changefreq: v.optional(v.enum(SitemapChangefreqEnum)),
+  priority: v.optional(SitemapPriority),
+});
+
+export type SitemapEntryType = v.InferOutput<typeof SitemapEntrySchema>;
 
 export class SitemapEntry {
   constructor(private readonly entry: SitemapEntryType) {}
@@ -21,6 +25,14 @@ export class SitemapEntry {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&apos;");
+  }
+
+  static fromJSON(raw: unknown): SitemapEntry {
+    return new SitemapEntry(StandardSchemaValidator.validate(SitemapEntrySchema, raw));
+  }
+
+  toJSON(): SitemapEntryType {
+    return { ...this.entry };
   }
 
   toXml(): string {

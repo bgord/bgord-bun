@@ -49,4 +49,22 @@ describe("SitemapEntry", () => {
       "<url><loc>https://example.com/page?a=1&amp;b=2&lt;3&quot;4&apos;5&gt;</loc></url>",
     );
   });
+
+  test("toJSON", () => {
+    expect(new SitemapEntry({ loc }).toJSON()).toEqual({ loc });
+  });
+
+  test("fromJSON - absent fields", () => {
+    expect(SitemapEntry.fromJSON({ loc }).toXml()).toEqual("<url><loc>https://example.com</loc></url>");
+  });
+
+  test("fromJSON - error", () => {
+    expect(() => SitemapEntry.fromJSON({ loc: "not-a-url" })).toThrow();
+  });
+
+  test("round trip", () => {
+    const entry = new SitemapEntry({ loc, lastmod, changefreq, priority });
+
+    expect(SitemapEntry.fromJSON(JSON.parse(JSON.stringify(entry))).toXml()).toEqual(entry.toXml());
+  });
 });
