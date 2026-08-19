@@ -62,6 +62,7 @@ export const cacheRepository = async () => {
     setOverwrite: { name: "set - overwrite", input: { first: "first", second: "second" }, output: "second" },
     setFailure: { name: "set - failure", input: "value", output: null },
     delete: { name: "delete", input: "value", output: null },
+    deleteFailure: { name: "delete - failure", input: "value" },
     flush: { name: "flush", input: "value", output: null },
     ttlFinite: { name: "ttl - finite", input: "value", output: null },
     ttlInfinite: { name: "ttl - infinite", input: "value", output: "value" },

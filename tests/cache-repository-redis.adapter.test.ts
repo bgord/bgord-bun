@@ -95,6 +95,14 @@ describe("CacheRepositoryRedisAdapter", async () => {
     expect(await adapter.get(cases.subjects.primary)).toEqual(cases.delete.output);
   });
 
+  test(cases.deleteFailure.name, async () => {
+    using del = spyOn(client, "del").mockImplementation(mocks.throwIntentionalError);
+    const adapter = new CacheRepositoryRedisAdapter(client, config);
+
+    expect(async () => adapter.delete(cases.subjects.primary)).toThrow(mocks.IntentionalError);
+    expect(del).toHaveBeenCalled();
+  });
+
   test(cases.flush.name, async () => {
     using send = spyOn(client, "send");
     const adapter = new CacheRepositoryRedisAdapter(client, config);

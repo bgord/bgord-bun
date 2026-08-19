@@ -78,6 +78,16 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     expect(await adapter.get(cases.subjects.primary)).toEqual(cases.delete.output);
   });
 
+  test(cases.deleteFailure.name, async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    using storeDel = spyOn(adapter["store"], "del").mockImplementation(mocks.throwIntentionalError);
+
+    await adapter.set(cases.subjects.primary, cases.deleteFailure.input);
+
+    expect(async () => adapter.delete(cases.subjects.primary)).toThrow(mocks.IntentionalError);
+    expect(storeDel).toHaveBeenCalled();
+  });
+
   test(cases.flush.name, async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 

@@ -56,6 +56,13 @@ describe("CacheRepositoryNoopAdapter", async () => {
     expect(await adapter.get(primary)).toEqual(cases.delete.output);
   });
 
+  test(cases.deleteFailure.name, async () => {
+    await adapter.set(primary, cases.deleteFailure.input);
+    await adapter.delete(primary);
+
+    expect(await adapter.get(primary)).toEqual(null);
+  });
+
   test(cases.flush.name, async () => {
     await adapter.set(primary, cases.flush.input);
     await adapter.flush();
