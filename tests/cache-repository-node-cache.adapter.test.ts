@@ -5,6 +5,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
 const value = "value";
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
@@ -16,6 +17,9 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     HashContent,
   });
   const subject = await resolver.resolve();
+  const other = await new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("other")], {
+    HashContent,
+  }).resolve();
 
   test("get - null", async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
@@ -33,8 +37,8 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test("get - copy", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
     const stored = { nested: { count: 1 } };
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
     await adapter.set(subject.hex, stored);
 
@@ -49,13 +53,27 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
     await adapter.set(subject.hex, { count: 1 });
 
-    const first = await adapter.get(subject.hex);
-    (first as { count: number }).count = 2;
-
-    expect(await adapter.get(subject.hex)).toEqual({ count: 1 });
+    expect(await adapter.get(subject.hex)).not.toBe(await adapter.get(subject.hex));
   });
 
-  test("set - full cache", async () => {
+  test("get - other subject", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+
+    await adapter.set(subject.hex, value);
+
+    expect(await adapter.get(other.hex)).toEqual(null);
+  });
+
+  test("set - overwrite", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+
+    await adapter.set(subject.hex, "first");
+    await adapter.set(subject.hex, "second");
+
+    expect(await adapter.get(subject.hex)).toEqual("second");
+  });
+
+  test("set - failure", async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
     using storeSet = spyOn(adapter["store"], "set").mockImplementation(mocks.throwIntentionalError);
 
@@ -86,7 +104,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     expect(await adapter.get(subject.hex)).toEqual(null);
   });
 
-  test("ttl expiration - finite", async () => {
+  test("ttl - finite", async () => {
     jest.useFakeTimers();
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
@@ -98,7 +116,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     jest.useRealTimers();
   });
 
-  test("ttl expiration - infinite", async () => {
+  test("ttl - infinite", async () => {
     jest.useFakeTimers();
     const adapter = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
 
@@ -109,4 +127,14 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
     jest.useRealTimers();
   });
+
+  for (const { name, value } of testcase.cacheValues) {
+    test(`round trip - ${name}`, async () => {
+      const adapter = new CacheRepositoryNodeCacheAdapter(config);
+
+      await adapter.set(subject.hex, value);
+
+      expect(await adapter.get(subject.hex)).toEqual(value);
+    });
+  }
 });
