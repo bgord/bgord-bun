@@ -112,7 +112,7 @@ src/
 ├── crypto-key-provider-file.adapter.ts
 ├── crypto-key-provider-memory.adapter.ts
 ├── crypto-key-provider-noop.adapter.ts
-├── crypto-key-provider-with-cache.adapter.ts
+├── crypto-key-provider-with-memo.adapter.ts
 ├── crypto-key-provider.port.ts
 ├── csv-stringifier-noop.adapter.ts
 ├── csv-stringifier.adapter.ts

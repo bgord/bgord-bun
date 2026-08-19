@@ -83,7 +83,7 @@ export * from "./crypto-key-provider.port";
 export * from "./crypto-key-provider-file.adapter";
 export * from "./crypto-key-provider-memory.adapter";
 export * from "./crypto-key-provider-noop.adapter";
-export * from "./crypto-key-provider-with-cache.adapter";
+export * from "./crypto-key-provider-with-memo.adapter";
 export * from "./csv-stringifier.adapter";
 export * from "./csv-stringifier.port";
 export * from "./csv-stringifier-noop.adapter";
