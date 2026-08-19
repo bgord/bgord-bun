@@ -38,17 +38,32 @@ describe("SitemapEntriesProviderWithCacheAdapter", () => {
 
     expect(await adapter.produce()).toEqual(entries);
     expect(innerProduce).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      1,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     expect(await adapter.produce()).toEqual(entries);
     expect(innerProduce).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(2, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      2,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.Minutes(1)).ms);
 
     expect(await adapter.produce()).toEqual(entries);
     expect(innerProduce).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      3,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.useRealTimers();
   });

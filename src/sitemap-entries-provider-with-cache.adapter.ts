@@ -1,3 +1,4 @@
+import { CacheCodecSitemapEntriesStrategy } from "./cache-codec-sitemap-entries.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { SitemapEntriesProvider } from "./sitemap-entries-provider.port";
@@ -9,6 +10,8 @@ type Config = { id: string; inner: SitemapEntriesProvider };
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
 export class SitemapEntriesProviderWithCacheAdapter implements SitemapEntriesProvider {
+  private readonly codec = new CacheCodecSitemapEntriesStrategy();
+
   constructor(
     private readonly config: Config,
     private readonly deps: Dependencies,
@@ -25,8 +28,10 @@ export class SitemapEntriesProviderWithCacheAdapter implements SitemapEntriesPro
 
     const subject = await resolver.resolve();
 
-    return this.deps.CacheResolver.resolve<ReadonlyArray<SitemapEntry>>(subject.hex, () =>
-      this.config.inner.produce(),
+    return this.deps.CacheResolver.resolve<ReadonlyArray<SitemapEntry>>(
+      subject.hex,
+      async () => this.config.inner.produce(),
+      this.codec,
     );
   }
 }
