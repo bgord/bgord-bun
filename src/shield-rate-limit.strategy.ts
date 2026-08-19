@@ -1,5 +1,4 @@
 import * as tools from "@bgord/tools";
-import { CacheCodecIdentityStrategy } from "./cache-codec-identity.strategy";
 import type { CacheRepositoryPort } from "./cache-repository.port";
 import type { ClockPort } from "./clock.port";
 import { RateLimiter, type RateLimiterStateType } from "./rate-limiter.service";
@@ -15,7 +14,6 @@ export const ShieldRateLimitStrategyError = { Rejected: "shield.rate.limit.rejec
 
 export class ShieldRateLimitStrategy {
   private readonly rounding = new tools.RoundingUpStrategy();
-  private readonly codec = new CacheCodecIdentityStrategy<RateLimiterStateType>();
 
   constructor(
     private readonly config: ShieldRateLimitConfig,
@@ -30,7 +28,7 @@ export class ShieldRateLimitStrategy {
     const limiter =
       state === null
         ? new RateLimiter(this.config.interval)
-        : RateLimiter.fromState(this.config.interval, this.codec.decode(state));
+        : RateLimiter.fromState(this.config.interval, state as RateLimiterStateType);
 
     const decision = limiter.verify(this.deps.Clock.now());
 
