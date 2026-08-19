@@ -1,4 +1,5 @@
 import type * as tools from "@bgord/tools";
+import { CacheCodecIdentityStrategy } from "./cache-codec-identity.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { FileReaderJsonOutputType, FileReaderJsonPort } from "./file-reader-json.port";
 import type { HashContentStrategy } from "./hash-content.strategy";
@@ -9,6 +10,8 @@ type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashCon
 type Config = { id: string; inner: FileReaderJsonPort };
 
 export class FileReaderJsonWithCacheAdapter implements FileReaderJsonPort {
+  private readonly codec = new CacheCodecIdentityStrategy<FileReaderJsonOutputType>();
+
   constructor(
     private readonly config: Config,
     private readonly deps: Dependencies,
@@ -28,8 +31,10 @@ export class FileReaderJsonWithCacheAdapter implements FileReaderJsonPort {
 
     const subject = await resolver.resolve();
 
-    return this.deps.CacheResolver.resolve<FileReaderJsonOutputType>(subject.hex, () =>
-      this.config.inner.read(path),
+    return this.deps.CacheResolver.resolve<FileReaderJsonOutputType>(
+      subject.hex,
+      async () => this.config.inner.read(path),
+      this.codec,
     );
   }
 }
