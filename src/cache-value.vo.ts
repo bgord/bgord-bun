@@ -4,4 +4,4 @@ export type CacheValueType =
   | boolean
   | null
   | ReadonlyArray<CacheValueType>
-  | { readonly [key: string]: CacheValueType };
+  | { readonly [key: string]: CacheValueType | undefined };

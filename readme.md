@@ -70,8 +70,6 @@ src/
 ├── bots.vo.ts
 ├── build-info.vo.ts
 ├── cache-codec-identity.strategy.ts
-├── cache-codec-rate-limiter.strategy.ts
-├── cache-codec-schema.strategy.ts
 ├── cache-codec-sitemap-entries.strategy.ts
 ├── cache-codec.strategy.ts
 ├── cache-file.service.ts
