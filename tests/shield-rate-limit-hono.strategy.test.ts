@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { type Context, Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ShieldRateLimitStrategyError } from "../src/shield-rate-limit.strategy";
@@ -15,10 +14,9 @@ import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256Strategy();
-const deps = { Clock, CacheResolver, HashContent };
+const deps = { Clock, HashContent };
 
 const resolver = new SubjectRequestResolver(
   [
@@ -31,7 +29,7 @@ const resolver = new SubjectRequestResolver(
 
 const shieldRateLimit = new ShieldRateLimitHonoStrategy(
   { resolver, interval: ttl },
-  { Clock, CacheResolver },
+  { Clock, CacheRepository },
 );
 
 const onError = (error: Error, c: Context) => {
@@ -53,7 +51,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
     expect(result.status).toEqual(200);
     expect(await result.text()).toEqual("pong");
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("anon - failure - TooManyRequestsError", async () => {
@@ -66,7 +64,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
     expect(failure.headers.get("retry-after")).toEqual("1");
     expect(json.message).toEqual("shield.rate.limit.rejected");
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("anon - happy path - after rate limit", async () => {
@@ -76,7 +74,7 @@ describe("ShieldRateLimitHonoStrategy", () => {
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - happy path - within rate limit", async () => {
@@ -85,11 +83,11 @@ describe("ShieldRateLimitHonoStrategy", () => {
     expect(result.status).toEqual(200);
     expect(await result.text()).toEqual("pong");
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - failure - TooManyRequestsError", async () => {
-    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
     const app = new Hono<mocks.Config>()
       .get(
         "/ping",
@@ -109,11 +107,11 @@ describe("ShieldRateLimitHonoStrategy", () => {
     expect(failure.status).toEqual(429);
     expect(failure.headers.get("retry-after")).toEqual("1");
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - happy path - after rate limit", async () => {
-    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
     const app = new Hono<mocks.Config>()
       .get(
         "/ping",
@@ -132,11 +130,11 @@ describe("ShieldRateLimitHonoStrategy", () => {
 
     expect((await app.request("/ping", { method: "GET" })).status).toEqual(200);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - does not impact other users", async () => {
-    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+    const shield = new ShieldRateLimitHonoStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
     const app = new Hono<mocks.Config>()
       .get(
         "/ping",
@@ -167,6 +165,6 @@ describe("ShieldRateLimitHonoStrategy", () => {
 
     expect(firstUserSecondRequest.status).toEqual(200);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 });

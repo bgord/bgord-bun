@@ -1,14 +1,14 @@
 import * as tools from "@bgord/tools";
-import type { CacheResolverStrategy } from "./cache-resolver.strategy";
+import type { CacheRepositoryPort } from "./cache-repository.port";
 import type { ClockPort } from "./clock.port";
-import { RateLimiter } from "./rate-limiter.service";
+import { RateLimiter, type RateLimiterStateType } from "./rate-limiter.service";
 import type { RequestContext } from "./request-context.port";
 import type { SubjectRequestResolver } from "./subject-request-resolver.vo";
 
 export type ShieldRateLimitConfig = { resolver: SubjectRequestResolver; interval: tools.Duration };
 type ShieldRateLimitResult = { allowed: true } | { allowed: false; retryAfter: tools.Duration };
 
-type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
+type Dependencies = { Clock: ClockPort; CacheRepository: CacheRepositoryPort };
 
 export const ShieldRateLimitStrategyError = { Rejected: "shield.rate.limit.rejected" };
 
@@ -23,14 +23,20 @@ export class ShieldRateLimitStrategy {
   async evaluate(context: RequestContext): Promise<ShieldRateLimitResult> {
     const subject = await this.config.resolver.resolve(context);
 
-    const limiter = await this.deps.CacheResolver.resolve(
-      subject.hex,
-      async () => new RateLimiter(this.config.interval),
-    );
+    const state = await this.deps.CacheRepository.get<RateLimiterStateType>(subject.hex);
+
+    const limiter =
+      state === null
+        ? new RateLimiter(this.config.interval)
+        : RateLimiter.fromState(this.config.interval, state);
 
     const decision = limiter.verify(this.deps.Clock.now());
 
-    if (decision.allowed) return { allowed: true };
+    if (decision.allowed) {
+      await this.deps.CacheRepository.set(subject.hex, limiter.toJSON());
+
+      return { allowed: true };
+    }
 
     return {
       allowed: false,

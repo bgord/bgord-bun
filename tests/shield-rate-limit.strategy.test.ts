@@ -1,7 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
@@ -14,10 +13,9 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const ttl = tools.Duration.Seconds(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256Strategy();
-const deps = { Clock, CacheResolver, HashContent };
+const deps = { Clock, HashContent };
 
 const resolver = new SubjectRequestResolver(
   [
@@ -28,7 +26,7 @@ const resolver = new SubjectRequestResolver(
   deps,
 );
 
-const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
 const allowed = { allowed: true } as const;
 const rejected = { allowed: false, retryAfter: tools.Duration.Seconds(1) } as const;
 
@@ -40,7 +38,7 @@ describe("ShieldRateLimitStrategy", () => {
 
     expect(result).toEqual(allowed);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("anon - failure - TooManyRequestsError", async () => {
@@ -52,7 +50,7 @@ describe("ShieldRateLimitStrategy", () => {
 
     expect(failure).toEqual({ allowed: false, retryAfter: tools.Duration.Seconds(1) });
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("anon - happy path - after rate limit", async () => {
@@ -64,7 +62,7 @@ describe("ShieldRateLimitStrategy", () => {
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - happy path - within rate limit", async () => {
@@ -74,21 +72,21 @@ describe("ShieldRateLimitStrategy", () => {
 
     expect(result).toEqual(allowed);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - failure - TooManyRequestsError", async () => {
-    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
     const context = new RequestContextBuilder().withPath("/ping").withUserId(mocks.userId).build();
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
     expect(await strategy.evaluate(context)).toEqual(rejected);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - happy path - after rate limit", async () => {
-    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
     const context = new RequestContextBuilder().withPath("/ping").withUserId(mocks.userId).build();
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
@@ -97,11 +95,11 @@ describe("ShieldRateLimitStrategy", () => {
 
     expect(await strategy.evaluate(context)).toEqual(allowed);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 
   test("user - does not impact other users", async () => {
-    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheResolver });
+    const strategy = new ShieldRateLimitStrategy({ resolver, interval: ttl }, { Clock, CacheRepository });
     const firstUserContext = new RequestContextBuilder().withPath("/ping").withUserId(mocks.userId).build();
     const secondUserContext = new RequestContextBuilder()
       .withPath("/ping")
@@ -125,6 +123,6 @@ describe("ShieldRateLimitStrategy", () => {
 
     expect(firstUserSecondRequest).toEqual(allowed);
 
-    await CacheResolver.flush();
+    await CacheRepository.flush();
   });
 });

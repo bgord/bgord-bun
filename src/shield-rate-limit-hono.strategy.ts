@@ -1,6 +1,6 @@
 import type { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
-import type { CacheResolverStrategy } from "./cache-resolver.strategy";
+import type { CacheRepositoryPort } from "./cache-repository.port";
 import type { ClockPort } from "./clock.port";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
@@ -10,7 +10,7 @@ import {
   ShieldRateLimitStrategyError,
 } from "./shield-rate-limit.strategy";
 
-type Dependencies = { Clock: ClockPort; CacheResolver: CacheResolverStrategy };
+type Dependencies = { Clock: ClockPort; CacheRepository: CacheRepositoryPort };
 
 export class ShieldRateLimitHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldRateLimitStrategy;
