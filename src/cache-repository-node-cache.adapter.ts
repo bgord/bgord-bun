@@ -11,7 +11,6 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
       stdTTL: config.type === "finite" ? config.ttl.seconds : 0,
       deleteOnExpire: true,
       maxKeys: 100_000,
-      useClones: false,
     });
   }
 
