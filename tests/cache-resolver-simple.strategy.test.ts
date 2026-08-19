@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { CacheCodecIdentityStrategy } from "../src/cache-codec-identity.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
@@ -13,6 +14,7 @@ const fresh = "fresh-value";
 const config = { type: "finite", ttl: tools.Duration.Hours(1) } as const;
 
 const HashContent = new HashContentSha256Strategy();
+const codec = new CacheCodecIdentityStrategy<string>();
 const deps = { HashContent };
 
 describe("CacheResolverSimpleStrategy", async () => {
@@ -24,7 +26,7 @@ describe("CacheResolverSimpleStrategy", async () => {
     using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const result = await CacheResolver.resolve(subject.hex, async () => fresh);
+    const result = await CacheResolver.resolve(subject.hex, async () => fresh, codec);
 
     expect(result).toEqual(cached);
     expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
@@ -35,7 +37,7 @@ describe("CacheResolverSimpleStrategy", async () => {
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const result = await CacheResolver.resolve(subject.hex, async () => fresh);
+    const result = await CacheResolver.resolve(subject.hex, async () => fresh, codec);
 
     expect(result).toEqual(fresh);
     expect(cacheRepositorySet).toHaveBeenCalledWith(subject.hex, fresh);
@@ -46,7 +48,7 @@ describe("CacheResolverSimpleStrategy", async () => {
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    expect(async () => CacheResolver.resolve(subject.hex, mocks.throwIntentionalErrorAsync)).toThrow(
+    expect(async () => CacheResolver.resolve(subject.hex, mocks.throwIntentionalErrorAsync, codec)).toThrow(
       mocks.IntentionalError,
     );
     expect(cacheRepositorySet).not.toHaveBeenCalled();
@@ -57,7 +59,7 @@ describe("CacheResolverSimpleStrategy", async () => {
     using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
+    const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh, codec);
 
     expect(result).toEqual({ value: cached, source: CacheSourceEnum.hit });
     expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
@@ -68,7 +70,7 @@ describe("CacheResolverSimpleStrategy", async () => {
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
+    const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh, codec);
 
     expect(result).toEqual({ value: fresh, source: CacheSourceEnum.miss });
     expect(cacheRepositorySet).toHaveBeenCalledWith(subject.hex, fresh);
@@ -80,7 +82,7 @@ describe("CacheResolverSimpleStrategy", async () => {
     using cacheRepositoryFlush = spyOn(CacheRepository, "flush");
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const first = await CacheResolver.resolveWithContext(subject.hex, async () => fresh);
+    const first = await CacheResolver.resolveWithContext(subject.hex, async () => fresh, codec);
 
     expect(first).toEqual({ value: fresh, source: CacheSourceEnum.miss });
     expect(cacheRepositorySet).toHaveBeenCalled();
@@ -95,13 +97,13 @@ describe("CacheResolverSimpleStrategy", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const first = await CacheResolver.resolve(subject.hex, async () => fresh);
+    const first = await CacheResolver.resolve(subject.hex, async () => fresh, codec);
 
     expect(first).toEqual(fresh);
 
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
-    const second = await CacheResolver.resolve(subject.hex, async () => fresh);
+    const second = await CacheResolver.resolve(subject.hex, async () => fresh, codec);
 
     expect(second).toEqual(fresh);
 
