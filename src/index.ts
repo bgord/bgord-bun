@@ -374,6 +374,7 @@ export * from "./randomness.strategy";
 export * from "./randomness-crypto.strategy";
 export * from "./randomness-math.strategy";
 export * from "./randomness-noop.strategy";
+export * from "./rate-limiter.service";
 export * from "./reactive-config.port";
 export * from "./reactive-config-file-json.adapter";
 export * from "./reactive-config-noop.adapter";

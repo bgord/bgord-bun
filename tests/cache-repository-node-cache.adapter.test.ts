@@ -2,6 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { RateLimiter } from "../src/rate-limiter.service";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
@@ -44,11 +45,11 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
   test("get - returns the stored instance, not a copy", async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
-    const limiter = new tools.RateLimiter(tools.Duration.Seconds(1));
+    const limiter = new RateLimiter(tools.Duration.Seconds(1));
 
     await adapter.set(subject.hex, limiter);
 
-    const cached = await adapter.get<tools.RateLimiter>(subject.hex);
+    const cached = await adapter.get<RateLimiter>(subject.hex);
 
     expect(cached).toBe(limiter);
     expect(typeof cached?.verify).toEqual("function");
