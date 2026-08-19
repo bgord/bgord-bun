@@ -11,22 +11,23 @@ type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashCon
 
 export class SitemapEntriesProviderWithCacheAdapter implements SitemapEntriesProvider {
   private readonly codec = new CacheCodecSitemapEntriesStrategy();
+  private readonly resolver: SubjectApplicationResolver;
 
   constructor(
     private readonly config: Config,
     private readonly deps: Dependencies,
-  ) {}
-
-  async produce(): Promise<ReadonlyArray<SitemapEntry>> {
-    const resolver = new SubjectApplicationResolver(
+  ) {
+    this.resolver = new SubjectApplicationResolver(
       [
         new SubjectSegmentFixedStrategy("sitemap_entries_provider"),
         new SubjectSegmentFixedStrategy(this.config.id),
       ],
       this.deps,
     );
+  }
 
-    const subject = await resolver.resolve();
+  async produce(): Promise<ReadonlyArray<SitemapEntry>> {
+    const subject = await this.resolver.resolve();
 
     return this.deps.CacheResolver.resolve<ReadonlyArray<SitemapEntry>>(
       subject.hex,

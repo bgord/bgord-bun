@@ -10,14 +10,13 @@ type Config = { id: string; inner: PrerequisiteVerifierPort };
 
 export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifierPort {
   private readonly codec = new CacheCodecIdentityStrategy<PrerequisiteVerificationResult>();
+  private readonly resolver: SubjectApplicationResolver;
 
   constructor(
     private readonly config: Config,
     private readonly deps: Dependencies,
-  ) {}
-
-  async verify(): Promise<PrerequisiteVerificationResult> {
-    const resolver = new SubjectApplicationResolver(
+  ) {
+    this.resolver = new SubjectApplicationResolver(
       [
         new SubjectSegmentFixedStrategy("prerequisite_verifier"),
         new SubjectSegmentFixedStrategy(this.kind),
@@ -25,8 +24,10 @@ export class PrerequisiteVerifierWithCacheAdapter implements PrerequisiteVerifie
       ],
       this.deps,
     );
+  }
 
-    const subject = await resolver.resolve();
+  async verify(): Promise<PrerequisiteVerificationResult> {
+    const subject = await this.resolver.resolve();
 
     return this.deps.CacheResolver.resolve<PrerequisiteVerificationResult>(
       subject.hex,
