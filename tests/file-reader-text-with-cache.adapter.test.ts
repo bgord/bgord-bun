@@ -40,17 +40,32 @@ describe("FileReaderTextWithCacheAdapter", () => {
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      1,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(2, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      2,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.read(path)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      3,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.useFakeTimers();
   });
@@ -71,17 +86,32 @@ describe("FileReaderTextWithCacheAdapter", () => {
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      1,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(2, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      2,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.read(relative)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      3,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.useFakeTimers();
   });
@@ -102,17 +132,32 @@ describe("FileReaderTextWithCacheAdapter", () => {
 
     expect(await adapter.read(absolute)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(1, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      1,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     expect(await adapter.read(absolute)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(1);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(2, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      2,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.advanceTimersByTime(ttl.add(tools.Duration.MIN).ms);
 
     expect(await adapter.read(absolute)).toEqual(content);
     expect(innerRead).toHaveBeenCalledTimes(2);
-    expect(cacheResolverResolve).toHaveBeenNthCalledWith(3, subject.hex, expect.any(Function));
+    expect(cacheResolverResolve).toHaveBeenNthCalledWith(
+      3,
+      subject.hex,
+      expect.any(Function),
+      expect.any(Object),
+    );
 
     jest.useFakeTimers();
   });
