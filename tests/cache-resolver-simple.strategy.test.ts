@@ -2,7 +2,6 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheCodecIdentityStrategy } from "../src/cache-codec-identity.strategy";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheSourceEnum } from "../src/cache-resolver.strategy";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
@@ -54,37 +53,13 @@ describe("CacheResolverSimpleStrategy", async () => {
     expect(cacheRepositorySet).not.toHaveBeenCalled();
   });
 
-  test("resolveWithContext - hit", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-
-    const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh, codec);
-
-    expect(result).toEqual({ value: cached, source: CacheSourceEnum.hit });
-    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
-  });
-
-  test("resolveWithContext - miss", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
-    using cacheRepositorySet = spyOn(CacheRepository, "set");
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
-
-    const result = await CacheResolver.resolveWithContext(subject.hex, async () => fresh, codec);
-
-    expect(result).toEqual({ value: fresh, source: CacheSourceEnum.miss });
-    expect(cacheRepositorySet).toHaveBeenCalledWith(subject.hex, fresh);
-  });
-
   test("flush", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     using cacheRepositoryFlush = spyOn(CacheRepository, "flush");
     const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
 
-    const first = await CacheResolver.resolveWithContext(subject.hex, async () => fresh, codec);
-
-    expect(first).toEqual({ value: fresh, source: CacheSourceEnum.miss });
+    expect(await CacheResolver.resolve(subject.hex, async () => fresh, codec)).toEqual(fresh);
     expect(cacheRepositorySet).toHaveBeenCalled();
 
     await CacheResolver.flush();
