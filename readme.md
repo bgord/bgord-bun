@@ -69,6 +69,10 @@ src/
 ├── binary.vo.ts
 ├── bots.vo.ts
 ├── build-info.vo.ts
+├── cache-codec-rate-limiter.strategy.ts
+├── cache-codec-schema.strategy.ts
+├── cache-codec-sitemap-entries.strategy.ts
+├── cache-codec.strategy.ts
 ├── cache-file.service.ts
 ├── cache-repository-node-cache.adapter.ts
 ├── cache-repository-noop.adapter.ts
@@ -76,6 +80,7 @@ src/
 ├── cache-repository.port.ts
 ├── cache-resolver-simple.strategy.ts
 ├── cache-resolver.strategy.ts
+├── cache-value.vo.ts
 ├── certificate-inspector-noop.adapter.ts
 ├── certificate-inspector-tls.adapter.ts
 ├── certificate-inspector.port.ts
