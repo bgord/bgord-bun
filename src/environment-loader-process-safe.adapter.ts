@@ -1,4 +1,6 @@
+import { CacheCodecIdentityStrategy } from "./cache-codec-identity.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
+import type { CacheValueType } from "./cache-value.vo";
 import type {
   EnvironmentLoaderConfig,
   EnvironmentLoaderPort,
@@ -11,7 +13,11 @@ import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
-export class EnvironmentLoaderProcessSafeAdapter<T extends object> implements EnvironmentLoaderPort<T> {
+export class EnvironmentLoaderProcessSafeAdapter<T extends object & CacheValueType>
+  implements EnvironmentLoaderPort<T>
+{
+  private readonly codec = new CacheCodecIdentityStrategy<T>();
+
   constructor(
     private env: NodeJS.ProcessEnv,
     private readonly config: EnvironmentLoaderConfig<T>,
@@ -22,8 +28,10 @@ export class EnvironmentLoaderProcessSafeAdapter<T extends object> implements En
     const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], this.deps);
     const subject = await resolver.resolve();
 
-    const parsed = await this.deps.CacheResolver.resolve(subject.hex, async () =>
-      StandardSchemaValidator.validate(this.config.EnvironmentSchema, this.env),
+    const parsed = await this.deps.CacheResolver.resolve<T>(
+      subject.hex,
+      async () => StandardSchemaValidator.validate(this.config.EnvironmentSchema, this.env),
+      this.codec,
     );
 
     for (const key of Object.keys(parsed)) {
@@ -31,6 +39,6 @@ export class EnvironmentLoaderProcessSafeAdapter<T extends object> implements En
       delete process.env[key];
     }
 
-    return Object.freeze({ ...parsed, type: this.config.type });
+    return Object.freeze(Object.assign({}, parsed, { type: this.config.type }));
   }
 }
