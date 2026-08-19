@@ -1,7 +1,9 @@
-export type CacheValueType =
+type CacheJsonType =
   | string
   | number
   | boolean
   | null
-  | ReadonlyArray<CacheValueType>
-  | { readonly [key: string]: CacheValueType | undefined };
+  | ReadonlyArray<CacheJsonType>
+  | { readonly [key: string]: CacheJsonType | undefined };
+
+export type CacheValueType = Exclude<CacheJsonType, null>;

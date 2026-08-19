@@ -70,7 +70,6 @@ export const cacheRepository = async () => {
       { name: "round trip - string", input: "value", output: "value" },
       { name: "round trip - number", input: 42, output: 42 },
       { name: "round trip - boolean", input: false, output: false },
-      { name: "round trip - null", input: null, output: null },
       { name: "round trip - array", input: [1, "two", null], output: [1, "two", null] },
       { name: "round trip - object", input: { nested: { count: 1 } }, output: { nested: { count: 1 } } },
       { name: "round trip - empty array", input: [], output: [] },
