@@ -32,12 +32,10 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
     if (!violated) return false;
 
     try {
-      const count = (await this.deps.CacheRepository.get<tools.IntegerNonNegativeType>(subject.hex)) ?? 0;
+      const cached = await this.deps.CacheRepository.get(subject.hex);
+      const count = typeof cached === "number" ? cached : 0;
 
-      await this.deps.CacheRepository.set<tools.IntegerNonNegativeType>(
-        subject.hex,
-        tools.Int.nonNegative(count + 1),
-      );
+      await this.deps.CacheRepository.set(subject.hex, tools.Int.nonNegative(count + 1));
 
       if (count + 1 >= this.config.threshold) return true;
       return false;

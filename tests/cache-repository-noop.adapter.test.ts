@@ -22,13 +22,13 @@ describe("CacheRepositoryNoopAdapter", async () => {
   test("get - value", async () => {
     await adapter.set(subject.hex, value);
 
-    expect(await adapter.get<string>(subject.hex)).toEqual(null);
+    expect(await adapter.get(subject.hex)).toEqual(null);
   });
 
   test("delete", async () => {
     await adapter.set(subject.hex, value);
 
-    expect(await adapter.get<string>(subject.hex)).toEqual(null);
+    expect(await adapter.get(subject.hex)).toEqual(null);
 
     await adapter.delete(subject.hex);
 

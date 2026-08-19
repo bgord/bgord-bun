@@ -4,6 +4,7 @@ import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { Sitemap } from "../src/sitemap.service";
 import { SitemapEntriesProviderStaticAdapter } from "../src/sitemap-entries-provider-static.adapter";
 import { SitemapEntriesProviderWithCacheAdapter } from "../src/sitemap-entries-provider-with-cache.adapter";
 import { SitemapEntry } from "../src/sitemap-entry.vo";
@@ -66,5 +67,20 @@ describe("SitemapEntriesProviderWithCacheAdapter", () => {
     );
 
     jest.useRealTimers();
+  });
+
+  // TODO
+  test("a cached entry still produces xml", async () => {
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const adapter = new SitemapEntriesProviderWithCacheAdapter({ id, inner }, { CacheResolver, HashContent });
+    const xml =
+      '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://example.com</loc></url></urlset>';
+
+    expect(await new Sitemap([adapter]).toXml()).toEqual(xml);
+
+    // The second read comes back through the cache, so the entries are rebuilt
+    // from their serialized form rather than handed back as live objects.
+    expect(await new Sitemap([adapter]).toXml()).toEqual(xml);
   });
 });

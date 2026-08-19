@@ -1,7 +1,6 @@
 import type { CacheCodecStrategy } from "./cache-codec.strategy";
 import type { CacheRepositoryPort } from "./cache-repository.port";
 import { type CacheResolverStrategy, CacheSourceEnum } from "./cache-resolver.strategy";
-import type { CacheValueType } from "./cache-value.vo";
 import type { Hash } from "./hash.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort };
@@ -20,7 +19,7 @@ export class CacheResolverSimpleStrategy implements CacheResolverStrategy {
     producer: () => Promise<T>,
     codec: CacheCodecStrategy<T>,
   ): Promise<{ value: T; source: CacheSourceEnum }> {
-    const cached = await this.deps.CacheRepository.get<CacheValueType>(subject);
+    const cached = await this.deps.CacheRepository.get(subject);
 
     if (cached !== null) return { value: codec.decode(cached), source: CacheSourceEnum.hit };
 

@@ -37,7 +37,7 @@ describe("CacheRepositoryRedisAdapter", async () => {
     using _ = spyOn(client, "get").mockResolvedValue(JSON.stringify(value));
     const adapter = new CacheRepositoryRedisAdapter(client, config);
 
-    expect(await adapter.get<string>(subject.hex)).toEqual(value);
+    expect(await adapter.get(subject.hex)).toEqual(value);
   });
 
   test("set - finite ttl", async () => {

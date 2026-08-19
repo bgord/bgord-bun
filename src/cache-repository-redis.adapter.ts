@@ -1,6 +1,7 @@
 // [BUN DEPENDENCY]
 // cSpell:ignore setex
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
+import type { CacheValueType } from "./cache-value.vo";
 import type { Hash } from "./hash.vo";
 
 export class CacheRepositoryRedisAdapter implements CacheRepositoryPort {
@@ -9,13 +10,13 @@ export class CacheRepositoryRedisAdapter implements CacheRepositoryPort {
     private readonly config: CacheRepositoryTtlType,
   ) {}
 
-  async get<T>(subject: Hash): Promise<T | null> {
+  async get(subject: Hash): Promise<CacheValueType | null> {
     const value = await this.client.get(subject.get());
     if (value === null) return null;
     return JSON.parse(value);
   }
 
-  async set<T>(subject: Hash, value: T): Promise<void> {
+  async set(subject: Hash, value: CacheValueType): Promise<void> {
     const serialized = JSON.stringify(value);
 
     if (this.config.type === "finite") {

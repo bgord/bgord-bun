@@ -2,7 +2,6 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { RateLimiter } from "../src/rate-limiter.service";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
@@ -30,7 +29,30 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
     await adapter.set(subject.hex, value);
 
-    expect(await adapter.get<string>(subject.hex)).toEqual(value);
+    expect(await adapter.get(subject.hex)).toEqual(value);
+  });
+
+  test("get - copy", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const stored = { nested: { count: 1 } };
+
+    await adapter.set(subject.hex, stored);
+
+    const cached = await adapter.get(subject.hex);
+
+    expect(cached).toEqual(stored);
+    expect(cached).not.toBe(stored);
+  });
+
+  test("get - no mutation leak", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+
+    await adapter.set(subject.hex, { count: 1 });
+
+    const first = await adapter.get(subject.hex);
+    (first as { count: number }).count = 2;
+
+    expect(await adapter.get(subject.hex)).toEqual({ count: 1 });
   });
 
   test("set - full cache", async () => {
@@ -43,24 +65,12 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     expect(storeSet).toHaveBeenCalled();
   });
 
-  test("get - returns the stored instance, not a copy", async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
-    const limiter = new RateLimiter(tools.Duration.Seconds(1));
-
-    await adapter.set(subject.hex, limiter);
-
-    const cached = await adapter.get<RateLimiter>(subject.hex);
-
-    expect(cached).toBe(limiter);
-    expect(typeof cached?.verify).toEqual("function");
-  });
-
   test("delete", async () => {
     const adapter = new CacheRepositoryNodeCacheAdapter(config);
 
     await adapter.set(subject.hex, value);
 
-    expect(await adapter.get<string>(subject.hex)).toEqual(value);
+    expect(await adapter.get(subject.hex)).toEqual(value);
 
     await adapter.delete(subject.hex);
 
@@ -95,7 +105,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     await adapter.set(subject.hex, value);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
-    expect(await adapter.get<string>(subject.hex)).toEqual(value);
+    expect(await adapter.get(subject.hex)).toEqual(value);
 
     jest.useRealTimers();
   });

@@ -1,5 +1,6 @@
 import NodeCache from "node-cache";
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
+import type { CacheValueType } from "./cache-value.vo";
 import type { Hash } from "./hash.vo";
 
 export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
@@ -14,13 +15,17 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
     });
   }
 
-  async get<T>(subject: Hash): Promise<T | null> {
-    return this.store.get(subject.get()) ?? null;
+  async get(subject: Hash): Promise<CacheValueType | null> {
+    const value = this.store.get<string>(subject.get());
+
+    if (value === undefined) return null;
+
+    return JSON.parse(value);
   }
 
-  async set<T>(subject: Hash, value: T): Promise<void> {
+  async set(subject: Hash, value: CacheValueType): Promise<void> {
     try {
-      this.store.set(subject.get(), value);
+      this.store.set(subject.get(), JSON.stringify(value));
     } catch {}
   }
 
