@@ -16,6 +16,8 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const header = "x-signature";
 const idHeader = "x-webhook-id";
+const namespace = "stripe";
+const otherNamespace = "github";
 const id = "evt_123";
 const invalidId = "";
 const body = "body";
@@ -27,6 +29,7 @@ const signature = WebhookSignatureCreator.create(body);
 const wrongSignature = WebhookSignatureCreator.create(wrongBody);
 
 const config = {
+  namespace,
   WebhookBodyBuilder: new WebhookBodyBuilderTextStrategy(),
   WebhookIdExtractor: new WebhookIdExtractorHeaderStrategy(idHeader),
   WebhookSignatureExtractor: new WebhookSignatureExtractorHeaderStrategy(header),
@@ -101,7 +104,7 @@ describe("ShieldWebhookStrategy", () => {
     expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
-  test("evaluate - false - replay", async () => {
+  test("evaluate - duplicate - replay", async () => {
     const strategy = new ShieldWebhookStrategy(config, {
       HashContent,
       IdempotencyStore: new IdempotencyStoreCacheAdapter({
@@ -120,5 +123,25 @@ describe("ShieldWebhookStrategy", () => {
     await strategy.evaluate(context);
 
     expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "duplicate" });
+  });
+
+  test("evaluate - true - cross namespace", async () => {
+    const IdempotencyStore = new IdempotencyStoreCacheAdapter({
+      CacheRepository: new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) }),
+    });
+    const strategy = new ShieldWebhookStrategy(config, { HashContent, IdempotencyStore });
+    const other = new ShieldWebhookStrategy(
+      { ...config, namespace: otherNamespace },
+      { HashContent, IdempotencyStore },
+    );
+    const context = new RequestContextBuilder()
+      .withHeader(header, signature)
+      .withHeader(idHeader, id)
+      .withText(body)
+      .build();
+
+    await strategy.evaluate(context);
+
+    expect(await other.evaluate(context)).toEqual({ accepted: true });
   });
 });

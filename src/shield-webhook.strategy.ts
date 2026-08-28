@@ -17,6 +17,7 @@ export type ShieldWebhookStrategyResult =
   | { accepted: false; reason: "duplicate" };
 
 export type ShieldWebhookStrategyConfig = {
+  namespace: string;
   WebhookBodyBuilder: WebhookBodyBuilderStrategy;
   WebhookIdExtractor: WebhookIdExtractorStrategy;
   WebhookSignatureExtractor: WebhookSignatureExtractorStrategy;
@@ -49,7 +50,9 @@ export class ShieldWebhookStrategy {
 
     if (!id) return { accepted: false, reason: "rejected" };
 
-    const claimed = await this.deps.IdempotencyStore.claim(await this.deps.HashContent.hash(id));
+    const subject = await this.deps.HashContent.hash(JSON.stringify([[this.config.namespace, id]]));
+
+    const claimed = await this.deps.IdempotencyStore.claim(subject);
 
     if (!claimed) return { accepted: false, reason: "duplicate" };
 

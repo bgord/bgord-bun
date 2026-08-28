@@ -17,6 +17,8 @@ import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.st
 
 const header = "x-signature";
 const idHeader = "x-webhook-id";
+const namespace = "stripe";
+const otherNamespace = "github";
 const id = "evt_123";
 const invalidId = "";
 const body = "body";
@@ -28,6 +30,7 @@ const signature = WebhookSignatureCreator.create(body);
 const wrongSignature = WebhookSignatureCreator.create(wrongBody);
 
 const config = {
+  namespace,
   WebhookBodyBuilder: new WebhookBodyBuilderTextStrategy(),
   WebhookIdExtractor: new WebhookIdExtractorHeaderStrategy(idHeader),
   WebhookSignatureExtractor: new WebhookSignatureExtractorHeaderStrategy(header),
@@ -147,5 +150,36 @@ describe("ShieldWebhookHonoStrategy", () => {
 
     expect(response.status).toEqual(200);
     expect(json.message).toEqual("shield.webhook.duplicate");
+  });
+
+  test("evaluate - true - cross namespace", async () => {
+    const IdempotencyStore = new IdempotencyStoreCacheAdapter({
+      CacheRepository: new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) }),
+    });
+    const app = new Hono()
+      .post(
+        "/webhook",
+        new ShieldWebhookHonoStrategy(config, { HashContent, IdempotencyStore }).handle(),
+        () => Response.json({ handled: true }),
+      )
+      .post(
+        "/other-webhook",
+        new ShieldWebhookHonoStrategy(
+          { ...config, namespace: otherNamespace },
+          { HashContent, IdempotencyStore },
+        ).handle(),
+        () => Response.json({ handled: true }),
+      );
+
+    await app.request("/webhook", { method: "POST", body, headers: { [header]: signature, [idHeader]: id } });
+    const response = await app.request("/other-webhook", {
+      method: "POST",
+      body,
+      headers: { [header]: signature, [idHeader]: id },
+    });
+    const json = await response.json();
+
+    expect(response.status).toEqual(200);
+    expect(json.handled).toEqual(true);
   });
 });
