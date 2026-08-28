@@ -9,7 +9,6 @@ const adapter = await MailerSmtpAdapter.build(cases.subjects.config);
 
 describe("MailerSmtpAdapter", () => {
   test(cases.send.name, async () => {
-    // @ts-expect-error Private field
     using transportSendMail = spyOn(adapter["transport"], "sendMail").mockResolvedValue(undefined);
 
     await adapter.send(cases.send.input);
@@ -22,7 +21,6 @@ describe("MailerSmtpAdapter", () => {
   });
 
   test(cases.verify.name, async () => {
-    // @ts-expect-error Private field
     using transportVerify = spyOn(adapter["transport"], "verify").mockResolvedValue(cases.verify.output);
 
     expect(await adapter.verify()).toEqual(cases.verify.output);

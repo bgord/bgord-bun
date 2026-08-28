@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import type { AlertMessage } from "../src/alert-message.vo";
 import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
@@ -164,7 +165,7 @@ export const cryptoKeyProvider = () => {
       output: {
         type: "secret",
         algorithm: { name: "AES-GCM", length: 256 },
-        usages: ["encrypt", "decrypt"],
+        usages: ["encrypt", "decrypt"] as KeyUsage[],
         extractable: false,
       },
     },
@@ -194,7 +195,7 @@ export const alertChannel = () =>
       template: mocks.template,
       sms: mocks.sms,
     },
-    send: { name: "send", input: mocks.alert, output: [mocks.alert] },
+    send: { name: "send", input: mocks.alert, output: [mocks.alert] as AlertMessage[] },
     verify: { name: "verify", output: true },
   }) as const;
 
