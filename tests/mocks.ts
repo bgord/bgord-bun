@@ -278,7 +278,7 @@ export function asyncSchemaCreator<T>(result: T) {
   return { "~standard": { version: 1 as const, vendor: "test", validate: () => Promise.resolve(result) } };
 }
 
-export const mailer = {
+const mailer = {
   config: {
     from: v.parse(tools.Email, "sender@example.com"),
     to: v.parse(tools.Email, "recipient@example.com"),
