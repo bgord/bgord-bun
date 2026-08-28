@@ -204,3 +204,15 @@ export const mailer = () =>
     },
     dependency: { name: "import", output: "nodemailer" },
   }) as const;
+
+export const alertChannel = () =>
+  ({
+    subjects: {
+      alert: mocks.alert,
+      alertWithError: mocks.alertWithError,
+      template: mocks.template,
+      sms: mocks.sms,
+    },
+    send: { name: "send", input: mocks.alert, output: [mocks.alert] },
+    verify: { name: "verify", output: true },
+  }) as const;

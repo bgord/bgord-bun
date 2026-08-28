@@ -4,6 +4,9 @@ import { AlertChannelCollectingAdapter } from "../src/alert-channel-collecting.a
 import { AlertChannelCompositeAdapter } from "../src/alert-channel-composite.adapter";
 import { AlertChannelNoopAdapter } from "../src/alert-channel-noop.adapter";
 import * as mocks from "./mocks";
+import * as testcase from "./testcases";
+
+const cases = testcase.alertChannel();
 
 const noop = new AlertChannelNoopAdapter();
 
@@ -22,14 +25,14 @@ describe("AlertChannelCompositeAdapter", () => {
     expect(() => new AlertChannelCompositeAdapter(tools.repeat(noop, 5))).not.toThrow();
   });
 
-  test("send", async () => {
+  test(cases.send.name, async () => {
     const first = new AlertChannelCollectingAdapter();
     const second = new AlertChannelCollectingAdapter();
 
-    await new AlertChannelCompositeAdapter([first, second]).send(mocks.alert);
+    await new AlertChannelCompositeAdapter([first, second]).send(cases.send.input);
 
-    expect(first.alerts).toEqual([mocks.alert]);
-    expect(second.alerts).toEqual([mocks.alert]);
+    expect(first.alerts).toEqual(cases.send.output);
+    expect(second.alerts).toEqual(cases.send.output);
   });
 
   test("send - one failure", async () => {
@@ -37,16 +40,16 @@ describe("AlertChannelCompositeAdapter", () => {
     const failing = new AlertChannelCollectingAdapter();
     using _ = spyOn(failing, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    await new AlertChannelCompositeAdapter([failing, passing]).send(mocks.alert);
+    await new AlertChannelCompositeAdapter([failing, passing]).send(cases.send.input);
 
-    expect(passing.alerts).toEqual([mocks.alert]);
+    expect(passing.alerts).toEqual(cases.send.output);
   });
 
   test("send - all failures", async () => {
     const failing = new AlertChannelCollectingAdapter();
     using _ = spyOn(failing, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(async () => new AlertChannelCompositeAdapter([failing, failing]).send(mocks.alert)).toThrow(
+    expect(async () => new AlertChannelCompositeAdapter([failing, failing]).send(cases.send.input)).toThrow(
       "alert.channel.composite.all.failed",
     );
   });
@@ -56,14 +59,14 @@ describe("AlertChannelCompositeAdapter", () => {
     using _ = spyOn(failing, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     const error = await new AlertChannelCompositeAdapter([failing, failing])
-      .send(mocks.alert)
+      .send(cases.send.input)
       .catch((error) => error);
 
     expect(error.errors).toEqual([new Error(mocks.IntentionalError), new Error(mocks.IntentionalError)]);
   });
 
-  test("verify", async () => {
-    expect(await new AlertChannelCompositeAdapter([noop, noop]).verify()).toEqual(true);
+  test(cases.verify.name, async () => {
+    expect(await new AlertChannelCompositeAdapter([noop, noop]).verify()).toEqual(cases.verify.output);
   });
 
   test("verify - false", async () => {

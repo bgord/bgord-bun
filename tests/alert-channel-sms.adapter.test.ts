@@ -1,19 +1,21 @@
 import { describe, expect, test } from "bun:test";
 import { AlertChannelSmsAdapter } from "../src/alert-channel-sms.adapter";
 import { SmsCollectingAdapter } from "../src/sms-collecting.adapter";
-import * as mocks from "./mocks";
+import * as testcase from "./testcases";
+
+const cases = testcase.alertChannel();
 
 const Sms = new SmsCollectingAdapter();
-const adapter = new AlertChannelSmsAdapter({ message: () => mocks.sms }, { Sms });
+const adapter = new AlertChannelSmsAdapter({ message: () => cases.subjects.sms }, { Sms });
 
 describe("AlertChannelSmsAdapter", () => {
-  test("send", async () => {
-    await adapter.send(mocks.alert);
+  test(cases.send.name, async () => {
+    await adapter.send(cases.send.input);
 
-    expect(Sms.messages).toEqual([mocks.sms]);
+    expect(Sms.messages).toEqual([cases.subjects.sms]);
   });
 
-  test("verify", async () => {
-    expect(await adapter.verify()).toEqual(true);
+  test(cases.verify.name, async () => {
+    expect(await adapter.verify()).toEqual(cases.verify.output);
   });
 });
