@@ -175,7 +175,7 @@ src/
 ├── file-copier-noop.adapter.ts
 ├── file-copier.adapter.ts
 ├── file-copier.port.ts
-├── file-draft-zip.service.ts
+├── file-draft-tar-gz.service.ts
 ├── file-draft.service.ts
 ├── file-inspection-noop.adapter.ts
 ├── file-inspection.adapter.ts
