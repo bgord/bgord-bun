@@ -9,7 +9,7 @@ describe("CryptoKeyProviderNoopAdapter", () => {
 
     expect(result).toBeInstanceOf(CryptoKey);
     expect(result.algorithm.name).toEqual("AES-GCM");
-    expect(result.usages).toEqual(["decrypt", "encrypt"]);
+    expect(result.usages).toEqual(["encrypt", "decrypt"]);
     expect(result.extractable).toEqual(false);
   });
 });
