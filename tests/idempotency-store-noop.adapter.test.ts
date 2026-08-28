@@ -7,13 +7,13 @@ const adapter = new IdempotencyStoreNoopAdapter();
 const primary = Hash.fromString("a".repeat(64));
 
 describe("IdempotencyStoreNoopAdapter", () => {
-  test("register - first time", async () => {
-    expect(await adapter.register(primary)).toEqual(true);
+  test("claim - first time", async () => {
+    expect(await adapter.claim(primary)).toEqual(true);
   });
 
-  test("register - replay", async () => {
-    await adapter.register(primary);
+  test("claim - replay", async () => {
+    await adapter.claim(primary);
 
-    expect(await adapter.register(primary)).toEqual(true);
+    expect(await adapter.claim(primary)).toEqual(true);
   });
 });

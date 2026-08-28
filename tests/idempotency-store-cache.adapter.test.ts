@@ -10,53 +10,53 @@ const primary = Hash.fromString("a".repeat(64));
 const other = Hash.fromString("b".repeat(64));
 
 describe("IdempotencyStoreCacheAdapter", () => {
-  test("register - first time", async () => {
+  test("claim - first time", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
-    expect(await adapter.register(primary)).toEqual(true);
+    expect(await adapter.claim(primary)).toEqual(true);
   });
 
-  test("register - replay", async () => {
+  test("claim - replay", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
-    await adapter.register(primary);
+    await adapter.claim(primary);
 
-    expect(await adapter.register(primary)).toEqual(false);
+    expect(await adapter.claim(primary)).toEqual(false);
   });
 
-  test("register - other subject", async () => {
+  test("claim - other subject", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
-    await adapter.register(primary);
+    await adapter.claim(primary);
 
-    expect(await adapter.register(other)).toEqual(true);
+    expect(await adapter.claim(other)).toEqual(true);
   });
 
-  test("register - after ttl", async () => {
+  test("claim - after ttl", async () => {
     jest.useFakeTimers();
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
-    await adapter.register(primary);
+    await adapter.claim(primary);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
 
-    expect(await adapter.register(primary)).toEqual(true);
+    expect(await adapter.claim(primary)).toEqual(true);
 
     jest.useRealTimers();
   });
 
-  test("register - within ttl", async () => {
+  test("claim - within ttl", async () => {
     jest.useFakeTimers();
     const CacheRepository = new CacheRepositoryNodeCacheAdapter(config);
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
-    await adapter.register(primary);
+    await adapter.claim(primary);
     jest.advanceTimersByTime(tools.Duration.Minutes(59).ms);
 
-    expect(await adapter.register(primary)).toEqual(false);
+    expect(await adapter.claim(primary)).toEqual(false);
 
     jest.useRealTimers();
   });

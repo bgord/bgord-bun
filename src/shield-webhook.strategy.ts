@@ -39,6 +39,6 @@ export class ShieldWebhookStrategy {
 
     if (!id) return false;
 
-    return this.deps.IdempotencyStore.register(await this.deps.HashContent.hash(id));
+    return this.deps.IdempotencyStore.claim(await this.deps.HashContent.hash(id));
   }
 }
