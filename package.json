@@ -38,7 +38,7 @@
     "typescript": "7.0.2"
   },
   "dependencies": {
-    "@bgord/tools": "1.6.9",
+    "@bgord/tools": "1.6.10",
     "emittery": "2.0.0",
     "hono": "4.13.3",
     "node-cache": "5.1.2"
