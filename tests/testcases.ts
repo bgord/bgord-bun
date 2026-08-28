@@ -1,4 +1,5 @@
 import * as tools from "@bgord/tools";
+import * as v from "valibot";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
@@ -76,5 +77,47 @@ export const cacheRepository = async () => {
       { name: "round trip - empty object", input: {}, output: {} },
       { name: "round trip - absent field", input: { present: 1, absent: undefined }, output: { present: 1 } },
     ],
+  } as const;
+};
+
+export const remoteFileStorage = () => {
+  const root = v.parse(tools.DirectoryPathAbsoluteSchema, "/root");
+  const key = v.parse(tools.ObjectKey, "users/1/avatar.webp");
+  const source = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
+  const stream = new ReadableStream();
+
+  const stored = {
+    etag: mocks.hash,
+    size: tools.Size.fromBytes(1000),
+    lastModified: mocks.TIME_ZERO,
+    mime: tools.Mimes.text.mime,
+  };
+
+  return {
+    subjects: {
+      root,
+      key,
+      source,
+      stream,
+      stored,
+      directory: `${root}/users/1`,
+      final: tools.FilePathAbsolute.fromString(`${root}/users/1/avatar.webp`),
+      temporary: tools.FilePathAbsolute.fromString(`${root}/users/1/avatar-part-${mocks.nonce}.webp`),
+    },
+    putFromPath: { name: "putFromPath", input: { key, path: source }, output: stored },
+    putFromPathFailure: {
+      name: "putFromPath - failure",
+      input: { key, path: source },
+      output: mocks.IntentionalError,
+    },
+    head: { name: "head", input: key, output: { exists: true, ...stored } },
+    headMissing: { name: "head - missing", input: key, output: { exists: false } },
+    headFailure: { name: "head - failure", input: key, output: mocks.IntentionalError },
+    getStream: { name: "getStream", input: key, output: stream },
+    getStreamNull: { name: "getStream - null", input: key, output: null },
+    getStreamFailure: { name: "getStream - failure", input: key, output: mocks.IntentionalError },
+    delete: { name: "delete", input: key, output: key },
+    deleteFailure: { name: "delete - failure", input: key, output: mocks.IntentionalError },
+    root: { name: "get root", output: root },
   } as const;
 };
