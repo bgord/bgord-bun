@@ -568,6 +568,7 @@ export * from "./weak-etag-extractor-param.strategy";
 export * from "./webhook-body-builder.strategy";
 export * from "./webhook-body-builder-text.strategy";
 export * from "./webhook-id.vo";
+export * from "./webhook-id-extractor.strategy";
 export * from "./webhook-secret.vo";
 export * from "./webhook-signature.vo";
 export * from "./webhook-signature-creator.strategy";
