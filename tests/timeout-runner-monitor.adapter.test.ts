@@ -9,7 +9,7 @@ const timeout = tools.Duration.MIN;
 const over = timeout.times(v.parse(tools.MultiplicationFactor, 10)).ms;
 
 describe("TimeoutRunnerMonitorAdapter", () => {
-  test("monitor - under timeout", async () => {
+  test("run - success", async () => {
     const Logger = new LoggerCollectingAdapter();
     const adapter = new TimeoutRunnerMonitorAdapter({ Logger });
     const action = async () => 2;
@@ -17,10 +17,10 @@ describe("TimeoutRunnerMonitorAdapter", () => {
     const result = await adapter.run(action(), timeout);
 
     expect(result).toEqual(2);
-    expect(Logger.entries.length).toEqual(0);
+    expect(Logger.entries).toEqual([]);
   });
 
-  test("monitor - over timeout", async () => {
+  test("run - over timeout", async () => {
     jest.useFakeTimers();
     using globalClearTimeout = spyOn(global, "clearTimeout");
 

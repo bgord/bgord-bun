@@ -7,7 +7,7 @@ const timeout = tools.Duration.Seconds(5);
 const adapter = new TimeoutRunnerNoopAdapter();
 
 describe("TimeoutRunnerNoopAdapter", () => {
-  test("run", async () => {
+  test("run - success", async () => {
     expect(await adapter.run(action(), timeout)).toEqual(2);
   });
 });

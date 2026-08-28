@@ -12,14 +12,14 @@ const over = timeout.times(v.parse(tools.MultiplicationFactor, 10)).ms;
 const adapter = new TimeoutRunnerBareAdapter();
 
 describe("TimeoutRunnerBareAdapter", () => {
-  test("run - happy path", async () => {
+  test("run - success", async () => {
     using clear = spyOn(globalThis, "clearTimeout");
 
     expect(await adapter.run(immediate(), timeout)).toEqual(2);
     expect(clear).toHaveBeenCalledTimes(1);
   });
 
-  test("run - error propagation", async () => {
+  test("run - failure", async () => {
     using clear = spyOn(globalThis, "clearTimeout");
 
     expect(async () => adapter.run(mocks.throwIntentionalErrorAsync(), timeout)).toThrow(
