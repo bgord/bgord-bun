@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
@@ -117,7 +117,7 @@ describe("Prerequisite", () => {
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [PrerequisiteDecorator.withCache("example", deps)],
@@ -145,7 +145,7 @@ describe("Prerequisite", () => {
     using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver };
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [PrerequisiteDecorator.withCache("example", deps)],
@@ -172,7 +172,7 @@ describe("Prerequisite", () => {
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver, Sleeper, TimeoutRunner };
     const prerequisite = new Prerequisite("example", pass, {
@@ -210,7 +210,7 @@ describe("Prerequisite", () => {
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver, TimeoutRunner };
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -232,7 +232,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver, TimeoutRunner };
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -254,7 +254,7 @@ describe("Prerequisite", () => {
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver, TimeoutRunner };
     const prerequisite = new Prerequisite("example", pass, {
       decorators: [
@@ -277,7 +277,7 @@ describe("Prerequisite", () => {
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { HashContent, CacheResolver, Sleeper };
     const prerequisite = new Prerequisite("example", fail, {
       decorators: [
@@ -299,7 +299,7 @@ describe("Prerequisite", () => {
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
     const prerequisite = new Prerequisite("example", pass, {
@@ -320,7 +320,7 @@ describe("Prerequisite", () => {
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const Logger = new LoggerCollectingAdapter();
     const deps = { Clock, Logger, HashContent, CacheResolver };
     const prerequisite = new Prerequisite("example", pass, {

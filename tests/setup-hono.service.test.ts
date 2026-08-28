@@ -4,7 +4,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfo } from "../src/build-info.vo";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { CorrelationVariables } from "../src/correlation-hono.middleware";
 import { CorrelationStorage } from "../src/correlation-storage.service";
@@ -32,7 +32,7 @@ const csrf = { origin: [] };
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
 const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
 

@@ -77,7 +77,7 @@ src/
 ├── cache-repository-noop.adapter.ts
 ├── cache-repository-redis.adapter.ts
 ├── cache-repository.port.ts
-├── cache-resolver-simple.strategy.ts
+├── cache-resolver-read-through.strategy.ts
 ├── cache-resolver.strategy.ts
 ├── cache-value.vo.ts
 ├── certificate-inspector-noop.adapter.ts

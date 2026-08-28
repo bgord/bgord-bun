@@ -2,7 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { Sitemap } from "../src/sitemap.service";
 import { SitemapEntriesProviderStaticAdapter } from "../src/sitemap-entries-provider-static.adapter";
@@ -19,7 +19,7 @@ const inner = new SitemapEntriesProviderStaticAdapter(entries);
 const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
 const HashContent = new HashContentSha256Strategy();
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const deps = { CacheResolver, HashContent };
 
 const id = "id";
@@ -72,7 +72,7 @@ describe("SitemapEntriesProviderWithCacheAdapter", () => {
   // TODO
   test("a cached entry still produces xml", async () => {
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const adapter = new SitemapEntriesProviderWithCacheAdapter({ id, inner }, { CacheResolver, HashContent });
     const xml =
       '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://example.com</loc></url></urlset>';

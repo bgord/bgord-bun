@@ -5,13 +5,15 @@ import type { Hash } from "./hash.vo";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort };
 
-export class CacheResolverSimpleStrategy implements CacheResolverStrategy {
+export class CacheResolverReadThroughStrategy implements CacheResolverStrategy {
   constructor(private readonly deps: Dependencies) {}
 
   async resolve<T>(subject: Hash, producer: () => Promise<T>, codec: CacheCodecStrategy<T>): Promise<T> {
-    const cached = await this.deps.CacheRepository.get(subject);
+    try {
+      const cached = await this.deps.CacheRepository.get(subject);
 
-    if (cached !== null) return codec.decode(cached);
+      if (cached !== null) return codec.decode(cached);
+    } catch {}
 
     const value = await producer();
     await this.deps.CacheRepository.set(subject, codec.encode(value));

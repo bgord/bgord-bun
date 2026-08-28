@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { ApiVersionMiddleware } from "../src/api-version.middleware";
 import { BuildInfo } from "../src/build-info.vo";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
@@ -11,7 +11,7 @@ import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strate
 import * as mocks from "./mocks";
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
 const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
 const deps = { CacheResolver, HashContent, BuildInfoConfig };

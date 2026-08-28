@@ -2,7 +2,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { FileReaderJsonNoopAdapter } from "../src/file-reader-json-noop.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ReactiveConfigFileJsonAdapter } from "../src/reactive-config-file-json.adapter";
@@ -16,7 +16,7 @@ const FileReaderJson = new FileReaderJsonNoopAdapter(config);
 const inner = new ReactiveConfigFileJsonAdapter(path, schema, { FileReaderJson });
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
 const deps = { CacheResolver, HashContent };
 

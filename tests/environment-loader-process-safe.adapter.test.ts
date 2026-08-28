@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
@@ -12,7 +12,7 @@ const cases = testcase.environmentLoader();
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
 const deps = { CacheResolver, HashContent };
 

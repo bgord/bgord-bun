@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
@@ -19,7 +19,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const config = { id: "example", inner: pass };
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new SubjectApplicationResolver(
       [
@@ -60,7 +60,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "example", inner: fail }, deps);
 
@@ -84,7 +84,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
 
     const ttl = tools.Duration.Minutes(1);
     const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
-    const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+    const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "dns", inner: pass }, deps);

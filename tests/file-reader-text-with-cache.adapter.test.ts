@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
-import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
+import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import { FileReaderTextWithCacheAdapter } from "../src/file-reader-text-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -18,7 +18,7 @@ const absolute = tools.FilePathAbsolute.fromString("/project/package.txt");
 const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
 const HashContent = new HashContentSha256Strategy();
-const CacheResolver = new CacheResolverSimpleStrategy({ CacheRepository });
+const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const deps = { CacheResolver, HashContent };
 
 const adapter = new FileReaderTextWithCacheAdapter({ id: "text", inner }, deps);

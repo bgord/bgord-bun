@@ -53,7 +53,7 @@ export * from "./cache-repository-node-cache.adapter";
 export * from "./cache-repository-noop.adapter";
 export * from "./cache-repository-redis.adapter";
 export * from "./cache-resolver.strategy";
-export * from "./cache-resolver-simple.strategy";
+export * from "./cache-resolver-read-through.strategy";
 export * from "./cache-value.vo";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
