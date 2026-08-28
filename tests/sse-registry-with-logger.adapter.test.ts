@@ -1,5 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
@@ -10,6 +11,8 @@ import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy";
 import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
+
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 const HashContent = new HashContentSha256Strategy();
 const deps = { HashContent };
@@ -25,7 +28,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
   test("register", async () => {
     using register = spyOn(inner, "register");
     const Logger = new LoggerCollectingAdapter();
-    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () =>
       registry.register(subject.hex.get(), sender),
@@ -33,8 +36,19 @@ describe("SseRegistryWithLoggerAdapter", async () => {
 
     expect(Logger.entries).toEqual([
       {
-        message: "SSE sender registered",
-        metadata: { identity: subject.hex.get(), registered: true },
+        message: "SSE registry register attempt",
+        metadata: { identity: subject.hex.get() },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+      {
+        message: "SSE registry register success",
+        metadata: {
+          identity: subject.hex.get(),
+          registered: true,
+          duration: expect.any(tools.Duration),
+        },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
@@ -49,7 +63,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
       limit: tools.Int.positive(1),
     });
     const Logger = new LoggerCollectingAdapter();
-    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner: limited, Logger });
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner: limited, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () =>
       registry.register(subject.hex.get(), sender),
@@ -60,9 +74,13 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     );
 
     expect(rejected).toEqual(false);
-    expect(Logger.entries[1]).toEqual({
-      message: "SSE sender rejected",
-      metadata: { identity: subject.hex.get(), registered: false },
+    expect(Logger.entries[3]).toEqual({
+      message: "SSE registry register success",
+      metadata: {
+        identity: subject.hex.get(),
+        registered: false,
+        duration: expect.any(tools.Duration),
+      },
       correlationId: mocks.correlationId,
       component: "infra",
       operation: "sse_registry",
@@ -72,7 +90,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
   test("unregister", async () => {
     using unregister = spyOn(inner, "unregister");
     const Logger = new LoggerCollectingAdapter();
-    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () =>
       registry.unregister(subject.hex.get(), sender),
@@ -80,8 +98,15 @@ describe("SseRegistryWithLoggerAdapter", async () => {
 
     expect(Logger.entries).toEqual([
       {
-        message: "SSE sender unregistered",
+        message: "SSE registry unregister attempt",
         metadata: { identity: subject.hex.get() },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+      {
+        message: "SSE registry unregister success",
+        metadata: { identity: subject.hex.get(), duration: expect.any(tools.Duration) },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
@@ -93,7 +118,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
   test("emit", async () => {
     using emit = spyOn(inner, "emit");
     const Logger = new LoggerCollectingAdapter();
-    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () =>
       registry.emit(subject.hex.get(), mocks.message),
@@ -101,8 +126,19 @@ describe("SseRegistryWithLoggerAdapter", async () => {
 
     expect(Logger.entries).toEqual([
       {
-        message: "TEST_MESSAGE emitted",
+        message: "SSE registry emit attempt",
         metadata: { identity: subject.hex.get(), message: mocks.message },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+      {
+        message: "SSE registry emit success",
+        metadata: {
+          identity: subject.hex.get(),
+          message: mocks.message,
+          duration: expect.any(tools.Duration),
+        },
         correlationId: mocks.correlationId,
         component: "infra",
         operation: "sse_registry",
@@ -111,9 +147,42 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     expect(emit).toHaveBeenCalledWith(subject.hex.get(), mocks.message);
   });
 
+  test("emit - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "emit").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        registry.emit(subject.hex.get(), mocks.message),
+      ),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "SSE registry emit attempt",
+        metadata: { identity: subject.hex.get(), message: mocks.message },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+      {
+        message: "SSE registry emit error",
+        error: new Error(mocks.IntentionalError),
+        metadata: {
+          identity: subject.hex.get(),
+          message: mocks.message,
+          duration: expect.any(tools.Duration),
+        },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+    ]);
+  });
+
   test("count", async () => {
     const Logger = new LoggerCollectingAdapter();
-    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger });
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () =>
       registry.register(subject.hex.get(), sender),

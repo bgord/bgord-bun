@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
 import { JobClaimerNoopAdapter } from "../src/job-claimer-noop.adapter";
@@ -23,6 +24,8 @@ import { SEND_EMAIL_JOB, SendEmailJobSchema, type SendEmailJobType } from "../sr
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import { RetryBackoffLinearStrategy } from "../src/retry-backoff-linear.strategy";
 import * as mocks from "./mocks";
+
+const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 const base = tools.Duration.Seconds(1);
 const retry = new JobRetryPolicyLimitStrategy(tools.Int.nonNegative(0));
@@ -148,7 +151,7 @@ describe("JobQueueWorker", () => {
     const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
     const inner = new JobQueueAdapter<SendEmailJobType>({ ...deps, claimer, completer });
     const Logger = new LoggerCollectingAdapter();
-    const JobQueue = new JobQueueWithLoggerAdapter({ inner, Logger });
+    const JobQueue = new JobQueueWithLoggerAdapter({ inner, Logger, Clock });
     const worker = JobQueueWorker(config, { JobQueue });
 
     await CorrelationStorage.run(mocks.correlationId, worker.handler);
@@ -156,17 +159,36 @@ describe("JobQueueWorker", () => {
     expect(completer.completed).toEqual([mocks.GenericSendEmailJob.id]);
     expect(Logger.entries).toEqual([
       {
-        message: "Claimed 1 job(s)",
+        message: "Job queue claim attempt",
         component: "infra",
         operation: "job_queue",
-        metadata: { count: 1, jobs: [mocks.GenericSendEmailJob], limit },
+        metadata: { limit },
         correlationId: mocks.GenericSendEmailJob.correlationId,
       },
       {
-        message: "Job completed",
+        message: "Job queue claim success",
+        component: "infra",
+        operation: "job_queue",
+        metadata: {
+          count: 1,
+          jobs: [mocks.GenericSendEmailJob],
+          limit,
+          duration: expect.any(tools.Duration),
+        },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+      },
+      {
+        message: "Job queue complete attempt",
         component: "infra",
         operation: "job_queue",
         metadata: { id: mocks.GenericSendEmailJob.id },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+      },
+      {
+        message: "Job queue complete success",
+        component: "infra",
+        operation: "job_queue",
+        metadata: { id: mocks.GenericSendEmailJob.id, duration: expect.any(tools.Duration) },
         correlationId: mocks.GenericSendEmailJob.correlationId,
       },
     ]);
