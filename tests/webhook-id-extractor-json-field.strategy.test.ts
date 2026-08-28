@@ -21,6 +21,12 @@ describe("WebhookIdExtractorJsonFieldStrategy", () => {
     expect(await extractor.extract(context)).toBeNull();
   });
 
+  test("too long field", async () => {
+    const context = new RequestContextBuilder().withJson({ id: "a".repeat(129) }).build();
+
+    expect(await extractor.extract(context)).toBeNull();
+  });
+
   test("empty field", async () => {
     const context = new RequestContextBuilder().withJson({ [field]: "" }).build();
 

@@ -4,8 +4,8 @@ import { WebhookId } from "../src/webhook-id.vo";
 
 describe("WebhookId", () => {
   test("happy path", () => {
-    expect(v.safeParse(WebhookId, "evt_123").success).toEqual(true);
     expect(v.safeParse(WebhookId, "a").success).toEqual(true);
+    expect(v.safeParse(WebhookId, "a".repeat(128)).success).toEqual(true);
   });
 
   test("rejects non-string - null", () => {
@@ -18,5 +18,9 @@ describe("WebhookId", () => {
 
   test("rejects empty", () => {
     expect(() => v.parse(WebhookId, "")).toThrow("webhook.id.empty");
+  });
+
+  test("rejects too long", () => {
+    expect(() => v.parse(WebhookId, "a".repeat(129))).toThrow("webhook.id.too.long");
   });
 });

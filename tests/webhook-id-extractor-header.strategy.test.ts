@@ -21,6 +21,12 @@ describe("WebhookIdExtractorHeaderStrategy", () => {
     expect(await extractor.extract(context)).toBeNull();
   });
 
+  test("too long header", async () => {
+    const context = new RequestContextBuilder().withHeader(header, "a".repeat(129)).build();
+
+    expect(await extractor.extract(context)).toBeNull();
+  });
+
   test("empty header", async () => {
     const context = new RequestContextBuilder().withHeader(header, "").build();
 
