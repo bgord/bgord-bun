@@ -20,6 +20,7 @@ describe("RemoteFileStorageNoopAdapter", () => {
     expect(output.etag.matches(mocks.hash)).toEqual(true);
     expect(output.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 10));
     expect(output.lastModified).toEqual(mocks.TIME_ZERO);
+    expect(output.mime).toEqual(tools.Mimes.text.mime);
   });
 
   test("head", async () => {
