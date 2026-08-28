@@ -165,7 +165,7 @@ export const cryptoKeyProvider = () => {
       output: {
         type: "secret",
         algorithm: { name: "AES-GCM", length: 256 },
-        usages: ["encrypt", "decrypt"] as KeyUsage[],
+        usages: ["encrypt", "decrypt"] as Array<KeyUsage>,
         extractable: false,
       },
     },
@@ -195,7 +195,7 @@ export const alertChannel = () =>
       template: mocks.template,
       sms: mocks.sms,
     },
-    send: { name: "send", input: mocks.alert, output: [mocks.alert] as AlertMessage[] },
+    send: { name: "send", input: mocks.alert, output: [mocks.alert] as Array<AlertMessage> },
     verify: { name: "verify", output: true },
   }) as const;
 
