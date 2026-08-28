@@ -47,13 +47,13 @@ describe("ShieldWebhookStrategy", () => {
       .withText(body)
       .build();
 
-    expect(await strategy.evaluate(context)).toEqual(true);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: true });
   });
 
   test("evaluate - false - no signature", async () => {
     const context = new RequestContextBuilder().withHeader(idHeader, id).build();
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
   test("evaluate - false - wrong signature", async () => {
@@ -63,7 +63,7 @@ describe("ShieldWebhookStrategy", () => {
       .withText(body)
       .build();
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
   test("evaluate - false - no text", async () => {
@@ -72,7 +72,7 @@ describe("ShieldWebhookStrategy", () => {
       .withHeader(idHeader, id)
       .build();
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
   test("evaluate - false - wrong text", async () => {
@@ -82,13 +82,13 @@ describe("ShieldWebhookStrategy", () => {
       .withText(wrongBody)
       .build();
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
   test("evaluate - false - no id", async () => {
     const context = new RequestContextBuilder().withHeader(header, signature).withText(body).build();
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
   test("evaluate - false - invalid id", async () => {
@@ -98,7 +98,7 @@ describe("ShieldWebhookStrategy", () => {
       .withText(body)
       .build();
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "rejected" });
   });
 
   test("evaluate - false - replay", async () => {
@@ -119,6 +119,6 @@ describe("ShieldWebhookStrategy", () => {
 
     await strategy.evaluate(context);
 
-    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(await strategy.evaluate(context)).toEqual({ accepted: false, reason: "duplicate" });
   });
 });

@@ -20,7 +20,14 @@ export class ShieldWebhookHonoStrategy implements MiddlewareHonoPort {
     return async (c, next) => {
       const context = new RequestContextHonoAdapter(c);
 
-      if (await this.strategy.evaluate(context)) return next();
+      const result = await this.strategy.evaluate(context);
+
+      if (result.accepted) return next();
+
+      if (result.reason === "duplicate") {
+        return c.json({ message: ShieldWebhookStrategyError.Duplicate }, 200);
+      }
+
       throw new HTTPException(401, { message: ShieldWebhookStrategyError.Rejected });
     };
   }

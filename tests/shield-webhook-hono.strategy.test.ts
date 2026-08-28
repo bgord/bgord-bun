@@ -115,7 +115,7 @@ describe("ShieldWebhookHonoStrategy", () => {
     expect(response.status).toEqual(401);
   });
 
-  test("evaluate - false - replay", async () => {
+  test("evaluate - duplicate - replay", async () => {
     const ShieldWebhook = new ShieldWebhookHonoStrategy(config, {
       HashContent,
       IdempotencyStore: new IdempotencyStoreCacheAdapter({
@@ -143,7 +143,9 @@ describe("ShieldWebhookHonoStrategy", () => {
       body,
       headers: { [header]: signature, [idHeader]: id },
     });
+    const json = await response.json();
 
-    expect(response.status).toEqual(401);
+    expect(response.status).toEqual(200);
+    expect(json.message).toEqual("shield.webhook.duplicate");
   });
 });

@@ -6,7 +6,15 @@ import type { WebhookIdExtractorStrategy } from "./webhook-id-extractor.strategy
 import type { WebhookSignatureExtractorStrategy } from "./webhook-signature-extractor.strategy";
 import type { WebhookVerifierStrategy } from "./webhook-verifier.strategy";
 
-export const ShieldWebhookStrategyError = { Rejected: "shield.webhook.rejected" };
+export const ShieldWebhookStrategyError = {
+  Rejected: "shield.webhook.rejected",
+  Duplicate: "shield.webhook.duplicate",
+};
+
+export type ShieldWebhookStrategyResult =
+  | { accepted: true }
+  | { accepted: false; reason: "rejected" }
+  | { accepted: false; reason: "duplicate" };
 
 export type ShieldWebhookStrategyConfig = {
   WebhookBodyBuilder: WebhookBodyBuilderStrategy;
@@ -26,19 +34,25 @@ export class ShieldWebhookStrategy {
     private readonly deps: ShieldWebhookStrategyDependencies,
   ) {}
 
-  async evaluate(context: HasRequestHeader & HasRequestJson & HasRequestText): Promise<boolean> {
+  async evaluate(
+    context: HasRequestHeader & HasRequestJson & HasRequestText,
+  ): Promise<ShieldWebhookStrategyResult> {
     const signature = this.config.WebhookSignatureExtractor.extract(context);
 
-    if (!signature) return false;
+    if (!signature) return { accepted: false, reason: "rejected" };
 
     const body = await this.config.WebhookBodyBuilder.build(context);
 
-    if (!this.config.WebhookVerifier.verify(body, signature)) return false;
+    if (!this.config.WebhookVerifier.verify(body, signature)) return { accepted: false, reason: "rejected" };
 
     const id = await this.config.WebhookIdExtractor.extract(context);
 
-    if (!id) return false;
+    if (!id) return { accepted: false, reason: "rejected" };
 
-    return this.deps.IdempotencyStore.claim(await this.deps.HashContent.hash(id));
+    const claimed = await this.deps.IdempotencyStore.claim(await this.deps.HashContent.hash(id));
+
+    if (!claimed) return { accepted: false, reason: "duplicate" };
+
+    return { accepted: true };
   }
 }
