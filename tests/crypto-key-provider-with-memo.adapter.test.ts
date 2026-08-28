@@ -1,23 +1,26 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as v from "valibot";
 import { CryptoKeyProviderMemoryAdapter } from "../src/crypto-key-provider-memory.adapter";
 import { CryptoKeyProviderWithMemoAdapter } from "../src/crypto-key-provider-with-memo.adapter";
-import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
+import * as testcase from "./testcases";
 
-const HEX = v.parse(
-  EncryptionKeyValue,
-  "000102030405060708090a0b0c0d0e0f" + "000102030405060708090a0b0c0d0e0f",
-);
+const cases = testcase.cryptoKeyProvider();
 
 describe("CryptoKeyProviderWithMemoAdapter", () => {
-  test("happy path", async () => {
-    const inner = new CryptoKeyProviderMemoryAdapter(HEX);
+  test(cases.happyPath.name, async () => {
+    const inner = new CryptoKeyProviderMemoryAdapter(cases.happyPath.input);
     using innerGet = spyOn(inner, "get");
     const adapter = new CryptoKeyProviderWithMemoAdapter({ inner });
 
     const result = await adapter.get();
 
-    expect(result.type).toEqual("secret");
+    expect(result).toBeInstanceOf(CryptoKey);
+    expect({
+      type: result.type,
+      algorithm: result.algorithm,
+      usages: result.usages,
+      extractable: result.extractable,
+    }).toEqual(cases.happyPath.output);
+
     expect(result).toBe(await adapter.get());
     expect(innerGet).toHaveBeenCalledTimes(1);
   });

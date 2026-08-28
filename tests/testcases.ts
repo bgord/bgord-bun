@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
@@ -145,5 +146,36 @@ export const environmentLoader = () => {
       input: { APP_NAME: "MyApp" },
       output: "standard.schema.validate.error.no.async.schema",
     },
+  } as const;
+};
+
+export const cryptoKeyProvider = () => {
+  const hex = v.parse(EncryptionKeyValue, "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
+
+  return {
+    subjects: { hex, path: tools.FilePathAbsolute.fromString("/run/secret.key") },
+    happyPath: {
+      name: "happy path",
+      input: hex,
+      output: {
+        type: "secret",
+        algorithm: { name: "AES-GCM", length: 256 },
+        usages: ["encrypt", "decrypt"],
+        extractable: false,
+      },
+    },
+    happyPathTrimmed: { name: "happy path - trimmed EOL", input: `${"0".repeat(64)}\n` },
+    missingFile: {
+      name: "missing file",
+      input: hex,
+      output: "crypto.key.provider.file.adapter.missing.file",
+    },
+    emptyContent: { name: "empty content", input: "", output: "encryption.key.value.invalid.hex" },
+    invalidContent: {
+      name: "invalid content",
+      input: "invalid-hex-string",
+      output: "encryption.key.value.invalid.hex",
+    },
+    readError: { name: "read error", input: hex, output: mocks.IntentionalError },
   } as const;
 };

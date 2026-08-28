@@ -1,69 +1,90 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { CryptoKeyProviderFileAdapter } from "../src/crypto-key-provider-file.adapter";
-import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const HEX = v.parse(EncryptionKeyValue, "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90");
-const path = tools.FilePathAbsolute.fromString("/run/secret.key");
+const cases = testcase.cryptoKeyProvider();
 
 const FileInspection = new FileInspectionNoopAdapter({ exists: true });
 
 describe("CryptoKeyProviderFileAdapter", () => {
-  test("happy path", async () => {
-    const FileReaderText = new FileReaderTextNoopAdapter(HEX);
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
+  test(cases.happyPath.name, async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter(cases.happyPath.input);
+    const adapter = new CryptoKeyProviderFileAdapter(cases.subjects.path, {
+      FileInspection,
+      FileReaderText,
+    });
 
     const result = await adapter.get();
 
     expect(result).toBeInstanceOf(CryptoKey);
-    expect(result.algorithm.name).toEqual("AES-GCM");
-    expect(result.usages).toEqual(["encrypt", "decrypt"]);
-    expect(result.extractable).toEqual(false);
+    expect({
+      type: result.type,
+      algorithm: result.algorithm,
+      usages: result.usages,
+      extractable: result.extractable,
+    }).toEqual(cases.happyPath.output);
   });
 
-  test("happy path - trimmed EOL", async () => {
-    const FileReaderText = new FileReaderTextNoopAdapter(`${"0".repeat(64)}\n`);
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
+  test(cases.happyPathTrimmed.name, async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter(cases.happyPathTrimmed.input);
+    const adapter = new CryptoKeyProviderFileAdapter(cases.subjects.path, {
+      FileInspection,
+      FileReaderText,
+    });
 
     const result = await adapter.get();
 
     expect(result).toBeInstanceOf(CryptoKey);
-    expect(result.algorithm.name).toEqual("AES-GCM");
-    expect(result.usages).toEqual(["encrypt", "decrypt"]);
-    expect(result.extractable).toEqual(false);
+    expect({
+      type: result.type,
+      algorithm: result.algorithm,
+      usages: result.usages,
+      extractable: result.extractable,
+    }).toEqual(cases.happyPath.output);
   });
 
-  test("missing file", async () => {
-    const FileReaderText = new FileReaderTextNoopAdapter(HEX);
+  test(cases.missingFile.name, async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter(cases.missingFile.input);
     const FileInspection = new FileInspectionNoopAdapter({ exists: false });
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
+    const adapter = new CryptoKeyProviderFileAdapter(cases.subjects.path, {
+      FileInspection,
+      FileReaderText,
+    });
 
-    expect(async () => adapter.get()).toThrow("crypto.key.provider.file.adapter.missing.file");
+    expect(async () => adapter.get()).toThrow(cases.missingFile.output);
   });
 
-  test("empty file", async () => {
-    const FileReaderText = new FileReaderTextNoopAdapter("");
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
+  test(cases.emptyContent.name, async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter(cases.emptyContent.input);
+    const adapter = new CryptoKeyProviderFileAdapter(cases.subjects.path, {
+      FileInspection,
+      FileReaderText,
+    });
 
-    expect(async () => adapter.get()).toThrow("encryption.key.value.invalid.hex");
+    expect(async () => adapter.get()).toThrow(cases.emptyContent.output);
   });
 
-  test("invalid content", async () => {
-    const FileReaderText = new FileReaderTextNoopAdapter("invalid-hex-string");
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
+  test(cases.invalidContent.name, async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter(cases.invalidContent.input);
+    const adapter = new CryptoKeyProviderFileAdapter(cases.subjects.path, {
+      FileInspection,
+      FileReaderText,
+    });
 
-    expect(async () => adapter.get()).toThrow("encryption.key.value.invalid.hex");
+    expect(async () => adapter.get()).toThrow(cases.invalidContent.output);
   });
 
-  test("read error", async () => {
-    const FileReaderText = new FileReaderTextNoopAdapter(HEX);
+  test(cases.readError.name, async () => {
+    const FileReaderText = new FileReaderTextNoopAdapter(cases.readError.input);
     using _ = spyOn(FileReaderText, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
-    const adapter = new CryptoKeyProviderFileAdapter(path, { FileInspection, FileReaderText });
+    const adapter = new CryptoKeyProviderFileAdapter(cases.subjects.path, {
+      FileInspection,
+      FileReaderText,
+    });
 
-    expect(async () => adapter.get()).toThrow(mocks.IntentionalError);
+    expect(async () => adapter.get()).toThrow(cases.readError.output);
   });
 });
