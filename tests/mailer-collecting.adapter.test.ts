@@ -1,17 +1,19 @@
 import { describe, expect, test } from "bun:test";
 import { MailerCollectingAdapter } from "../src/mailer-collecting.adapter";
-import * as mocks from "./mocks";
+import * as testcase from "./testcases";
+
+const cases = testcase.mailer();
 
 const adapter = new MailerCollectingAdapter();
 
 describe("MailerCollectingAdapter", () => {
-  test("send", async () => {
-    await adapter.send(mocks.template);
+  test(cases.send.name, async () => {
+    await adapter.send(cases.send.input);
 
-    expect(adapter.messages).toEqual([mocks.template]);
+    expect(adapter.messages).toEqual([cases.send.input]);
   });
 
-  test("verify", async () => {
-    expect(await adapter.verify()).toEqual(true);
+  test(cases.verify.name, async () => {
+    expect(await adapter.verify()).toEqual(cases.verify.output);
   });
 });

@@ -3,6 +3,10 @@ import * as v from "valibot";
 import { EncryptionKeyValue } from "../src/encryption-key-value.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
+import { SmtpHost } from "../src/smtp-host.vo";
+import { SmtpPass } from "../src/smtp-pass.vo";
+import { SmtpPort } from "../src/smtp-port.vo";
+import { SmtpUser } from "../src/smtp-user.vo";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
@@ -179,3 +183,24 @@ export const cryptoKeyProvider = () => {
     readError: { name: "read error", input: hex, output: mocks.IntentionalError },
   } as const;
 };
+
+export const mailer = () =>
+  ({
+    subjects: {
+      template: mocks.template,
+      config: {
+        SMTP_HOST: v.parse(SmtpHost, "smtp.example.com"),
+        SMTP_PORT: v.parse(SmtpPort, 587),
+        SMTP_USER: v.parse(SmtpUser, "user"),
+        SMTP_PASS: v.parse(SmtpPass, "pass"),
+      },
+    },
+    send: { name: "send", input: mocks.template },
+    sendFailure: { name: "send - failure", input: mocks.template, output: mocks.IntentionalError },
+    verify: { name: "verify", output: true },
+    missingDependency: {
+      name: "missing dependency",
+      output: "mailer.smtp.adapter.error.missing.dependency",
+    },
+    dependency: { name: "import", output: "nodemailer" },
+  }) as const;

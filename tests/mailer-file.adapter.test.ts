@@ -5,6 +5,9 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { MailerFileAdapter } from "../src/mailer-file.adapter";
 import { TemporaryFileNoopAdapter } from "../src/temporary-file-noop.adapter";
 import * as mocks from "./mocks";
+import * as testcase from "./testcases";
+
+const cases = testcase.mailer();
 
 const directory = v.parse(tools.DirectoryPathAbsoluteSchema, "/tmp");
 const TemporaryFile = new TemporaryFileNoopAdapter(directory);
@@ -14,10 +17,10 @@ const deps = { Clock, TemporaryFile };
 const mailer = new MailerFileAdapter(deps);
 
 describe("MailerFileAdapter", () => {
-  test("send - success", async () => {
+  test(cases.send.name, async () => {
     using temporaryFileWrite = spyOn(TemporaryFile, "write");
 
-    await mailer.send(mocks.template);
+    await mailer.send(cases.send.input);
 
     expect(temporaryFileWrite).toHaveBeenCalledTimes(1);
 
@@ -27,18 +30,18 @@ describe("MailerFileAdapter", () => {
 
     expect(filename.get()).toEqual(`${Clock.now().ms}.html`);
     expect(result).toEqualIgnoringWhitespace(`
-      From: ${mocks.template.config.from}
-      To: ${mocks.template.config.to}
-      Subject: ${mocks.template.message.subject}
+      From: ${cases.send.input.config.from}
+      To: ${cases.send.input.config.to}
+      Subject: ${cases.send.input.message.subject}
       Date: ${mocks.TIME_ZERO.toInstant().toZonedDateTimeISO("UTC").toPlainDateTime()}
-      Attachments: ${mocks.template.attachments?.length ?? 0}
+      Attachments: ${cases.send.input.attachments?.length ?? 0}
       ${"-".repeat(50)}
-      ${mocks.template.message.html}
+      ${cases.send.input.message.html}
     `);
     expect(result).toContain("\n");
   });
 
-  test("verify", async () => {
-    expect(await mailer.verify()).toEqual(true);
+  test(cases.verify.name, async () => {
+    expect(await mailer.verify()).toEqual(cases.verify.output);
   });
 });
