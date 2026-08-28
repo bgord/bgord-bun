@@ -22,17 +22,19 @@ describe("MailerWithRetryAdapter", () => {
 
   test("send - retry", async () => {
     using sleeperWait = spyOn(Sleeper, "wait");
-    using _ = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
+    using innerSend = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalError);
 
     expect(async () => adapter.send(mocks.template)).toThrow(mocks.IntentionalError);
+    expect(innerSend).toHaveBeenCalledTimes(3);
     expect(sleeperWait).toHaveBeenCalledTimes(2);
   });
 
   test("send - recovery", async () => {
     using sleeperWait = spyOn(Sleeper, "wait");
-    using _ = spyOn(inner, "send").mockImplementationOnce(mocks.throwIntentionalError);
+    using innerSend = spyOn(inner, "send").mockImplementationOnce(mocks.throwIntentionalError);
 
     expect(async () => adapter.send(mocks.template)).not.toThrow();
+    expect(innerSend).toHaveBeenCalledTimes(2);
     expect(sleeperWait).toHaveBeenCalledTimes(1);
   });
 
