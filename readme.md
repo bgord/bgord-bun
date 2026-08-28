@@ -237,6 +237,7 @@ src/
 ├── id-provider.port.ts
 ├── idempotency-store-cache.adapter.ts
 ├── idempotency-store-noop.adapter.ts
+├── idempotency-store-with-logger.adapter.ts
 ├── idempotency-store.port.ts
 ├── image-blur-noop.adapter.ts
 ├── image-blur-with-semaphore.adapter.ts
