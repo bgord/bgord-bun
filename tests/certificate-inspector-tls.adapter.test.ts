@@ -10,11 +10,11 @@ const deps = { Clock };
 
 const adapter = new CertificateInspectorTLSAdapter(deps);
 
-const month = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
+const month = Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
   .toZonedDateTimeISO("UTC")
   .add({ days: 30 }).epochMilliseconds;
 
-const twoDaysAgo = tools.Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
+const twoDaysAgo = Temporal.Instant.fromEpochMilliseconds(Clock.now().ms)
   .toZonedDateTimeISO("UTC")
   .add({ days: -2 }).epochMilliseconds;
 
