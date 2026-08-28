@@ -27,7 +27,11 @@ export class RequestContextHonoAdapter implements RequestContext {
       cookie: (name) => getCookie(context)[name],
       json: async () => {
         try {
-          return await context.req.raw.clone().json();
+          const body = await context.req.raw.clone().json();
+
+          if (body === null || typeof body !== "object") return {};
+
+          return body;
         } catch {
           return {};
         }
