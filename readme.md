@@ -645,7 +645,7 @@ src/
 ├── weak-etag-extractor.strategy.ts
 ├── webhook-body-builder-text.strategy.ts
 ├── webhook-body-builder.strategy.ts
-├── webhook-id-extractor-header-exact.strategy.ts
+├── webhook-id-extractor-header.strategy.ts
 ├── webhook-id-extractor-json-field.strategy.ts
 ├── webhook-id-extractor.strategy.ts
 ├── webhook-id.vo.ts
