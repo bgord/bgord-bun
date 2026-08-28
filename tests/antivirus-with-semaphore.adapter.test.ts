@@ -16,7 +16,7 @@ describe("AntivirusWithSemaphoreAdapter", () => {
     expect(await adapter.scan(mocks.cleanFile)).toEqual({ clean: true });
   });
 
-  test("scan - error", async () => {
+  test("scan - failure", async () => {
     using _ = spyOn(inner, "scan").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.scan(mocks.cleanFile)).toThrow(mocks.IntentionalError);

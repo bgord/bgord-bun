@@ -19,7 +19,7 @@ describe("ImageGrayscaleWithSemaphoreAdapter", () => {
     expect(await adapter.grayscale(recipe)).toEqual(input);
   });
 
-  test("grayscale - error", async () => {
+  test("grayscale - failure", async () => {
     using _ = spyOn(inner, "grayscale").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.grayscale(recipe)).toThrow(mocks.IntentionalError);

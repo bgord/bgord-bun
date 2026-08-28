@@ -19,7 +19,7 @@ describe("ImageCompressorWithSemaphoreAdapter", () => {
     expect(await adapter.compress(recipe)).toEqual(input);
   });
 
-  test("compress - error", async () => {
+  test("compress - failure", async () => {
     using _ = spyOn(inner, "compress").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.compress(recipe)).toThrow(mocks.IntentionalError);

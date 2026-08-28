@@ -27,7 +27,7 @@ describe("ImageProcessorWithSemaphoreAdapter", () => {
     expect(await adapter.process(recipe)).toEqual(output);
   });
 
-  test("process - error", async () => {
+  test("process - failure", async () => {
     using _ = spyOn(inner, "process").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.process(recipe)).toThrow(mocks.IntentionalError);

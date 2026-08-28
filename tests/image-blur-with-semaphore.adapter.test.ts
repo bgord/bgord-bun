@@ -20,7 +20,7 @@ describe("ImageBlurWithSemaphoreAdapter", () => {
     expect(await adapter.blur(recipe)).toEqual(output);
   });
 
-  test("blur - error", async () => {
+  test("blur - failure", async () => {
     using _ = spyOn(inner, "blur").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.blur(recipe)).toThrow(mocks.IntentionalError);

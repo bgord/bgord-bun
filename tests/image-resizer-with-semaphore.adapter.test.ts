@@ -21,7 +21,7 @@ describe("ImageResizerWithSemaphoreAdapter", () => {
     expect(await adapter.resize(recipe)).toEqual(input);
   });
 
-  test("resize - error", async () => {
+  test("resize - failure", async () => {
     using _ = spyOn(inner, "resize").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.resize(recipe)).toThrow(mocks.IntentionalError);

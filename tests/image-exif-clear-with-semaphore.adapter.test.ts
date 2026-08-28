@@ -20,7 +20,7 @@ describe("ImageExifClearWithSemaphoreAdapter", () => {
     expect(await adapter.clear(recipe)).toEqual(input);
   });
 
-  test("clear - error", async () => {
+  test("clear - failure", async () => {
     using _ = spyOn(inner, "clear").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.clear(recipe)).toThrow(mocks.IntentionalError);

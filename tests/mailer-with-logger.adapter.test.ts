@@ -40,22 +40,22 @@ describe("MailerWithLoggerAdapter", () => {
     ]);
   });
 
-  test(cases.sendFailure.name, async () => {
+  test("send - failure", async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new MailerNoopAdapter();
     using _ = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new MailerWithLoggerAdapter({ inner, Logger, Clock });
 
     expect(async () =>
-      CorrelationStorage.run(mocks.correlationId, async () => adapter.send(cases.sendFailure.input)),
-    ).toThrow(cases.sendFailure.output);
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.template)),
+    ).toThrow(mocks.IntentionalError);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
         operation: "mailer",
         message: "Mailer attempt",
         correlationId: mocks.correlationId,
-        metadata: { template: cases.sendFailure.input.toJSON() },
+        metadata: { template: mocks.template.toJSON() },
       },
       {
         component: "infra",

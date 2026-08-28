@@ -17,7 +17,7 @@ describe("ImageInfoWithSemaphoreAdapter", () => {
     expect(async () => adapter.inspect(input)).not.toThrow();
   });
 
-  test("inspect - error", async () => {
+  test("inspect - failure", async () => {
     using _ = spyOn(inner, "inspect").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.inspect(input)).toThrow(mocks.IntentionalError);

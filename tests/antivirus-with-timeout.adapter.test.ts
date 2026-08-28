@@ -8,16 +8,21 @@ import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
 const TimeoutRunner = new TimeoutRunnerNoopAdapter();
-
 const timeout = tools.Duration.Ms(1);
 const over = timeout.times(v.parse(tools.MultiplicationFactor, 2));
 
 const inner = new AntivirusNoopAdapter();
-const antivirus = new AntivirusWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
+const adapter = new AntivirusWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
 
 describe("AntivirusWithTimeoutAdapter", () => {
-  test("scan", async () => {
-    expect(async () => antivirus.scan(mocks.cleanFile)).not.toThrow();
+  test("scan - success", async () => {
+    expect(async () => adapter.scan(mocks.cleanFile)).not.toThrow();
+  });
+
+  test("scan - failure", async () => {
+    using _ = spyOn(inner, "scan").mockImplementation(mocks.throwIntentionalError);
+
+    expect(async () => adapter.scan(mocks.cleanFile)).toThrow(mocks.IntentionalError);
   });
 
   test("scan - timeout", async () => {
@@ -26,9 +31,9 @@ describe("AntivirusWithTimeoutAdapter", () => {
       () => new Promise((resolve) => setTimeout(resolve, over.ms)),
     );
     const TimeoutRunner = new TimeoutRunnerBareAdapter();
-    const antivirus = new AntivirusWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
+    const adapter = new AntivirusWithTimeoutAdapter({ timeout }, { inner, TimeoutRunner });
 
-    const result = antivirus.scan(mocks.cleanFile);
+    const result = adapter.scan(mocks.cleanFile);
     jest.runAllTimers();
 
     expect(result).rejects.toThrow("timeout.exceeded");

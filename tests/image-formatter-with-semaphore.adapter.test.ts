@@ -20,7 +20,7 @@ describe("ImageFormatterWithSemaphoreAdapter", () => {
     expect(await adapter.format(recipe)).toEqual(output);
   });
 
-  test("format - error", async () => {
+  test("format - failure", async () => {
     using _ = spyOn(inner, "format").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.format(recipe)).toThrow(mocks.IntentionalError);

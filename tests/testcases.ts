@@ -110,19 +110,19 @@ export const remoteFileStorage = () => {
       final: tools.FilePathAbsolute.fromString(`${root}/users/1/avatar.webp`),
       temporary: tools.FilePathAbsolute.fromString(`${root}/users/1/avatar-part-${mocks.nonce}.webp`),
     },
-    putFromPath: { name: "putFromPath", input: { key, path: source }, output: stored },
+    putFromPath: { name: "putFromPath - success", input: { key, path: source }, output: stored },
     putFromPathFailure: {
       name: "putFromPath - failure",
       input: { key, path: source },
       output: mocks.IntentionalError,
     },
-    head: { name: "head", input: key, output: { exists: true, ...stored } },
+    head: { name: "head - success", input: key, output: { exists: true, ...stored } },
     headMissing: { name: "head - missing", input: key, output: { exists: false } },
     headFailure: { name: "head - failure", input: key, output: mocks.IntentionalError },
-    getStream: { name: "getStream", input: key, output: stream },
+    getStream: { name: "getStream - success", input: key, output: stream },
     getStreamNull: { name: "getStream - null", input: key, output: null },
     getStreamFailure: { name: "getStream - failure", input: key, output: mocks.IntentionalError },
-    delete: { name: "delete", input: key, output: key },
+    delete: { name: "delete - success", input: key, output: key },
     deleteFailure: { name: "delete - failure", input: key, output: mocks.IntentionalError },
     root: { name: "get root", output: root },
   } as const;
@@ -182,8 +182,7 @@ export const mailer = () =>
         SMTP_PASS: v.parse(SmtpPass, "pass"),
       },
     },
-    send: { name: "send", input: mocks.template },
-    sendFailure: { name: "send - failure", input: mocks.template, output: mocks.IntentionalError },
+    send: { name: "send - success", input: mocks.template },
     verify: { name: "verify", output: true },
   }) as const;
 
