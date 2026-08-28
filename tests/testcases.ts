@@ -1,6 +1,7 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
@@ -119,5 +120,30 @@ export const remoteFileStorage = () => {
     delete: { name: "delete", input: key, output: key },
     deleteFailure: { name: "delete - failure", input: key, output: mocks.IntentionalError },
     root: { name: "get root", output: root },
+  } as const;
+};
+
+export const environmentLoader = () => {
+  const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") }, "env.empty");
+
+  return {
+    subjects: {
+      config: { type: NodeEnvironmentEnum.local, EnvironmentSchema },
+      asyncConfig: { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+      path: tools.FilePathAbsolute.fromString("/config/secrets.txt"),
+      encoded: new TextEncoder().encode("APP_NAME=MyApp").buffer,
+    },
+    happyPath: {
+      name: "happy path",
+      input: { APP_NAME: "MyApp" },
+      output: { APP_NAME: "MyApp", type: NodeEnvironmentEnum.local },
+    },
+    failure: { name: "failure", input: { APP_NAME: 123 }, output: "app.name.invalid" },
+    failureEmpty: { name: "failure - empty", output: "env.empty" },
+    failureAsyncSchema: {
+      name: "failure - async schema",
+      input: { APP_NAME: "MyApp" },
+      output: "standard.schema.validate.error.no.async.schema",
+    },
   } as const;
 };
