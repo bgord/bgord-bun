@@ -5,14 +5,15 @@ import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 import {
   ShieldWebhookStrategy,
   type ShieldWebhookStrategyConfig,
+  type ShieldWebhookStrategyDependencies,
   ShieldWebhookStrategyError,
 } from "./shield-webhook.strategy";
 
 export class ShieldWebhookHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldWebhookStrategy;
 
-  constructor(config: ShieldWebhookStrategyConfig) {
-    this.strategy = new ShieldWebhookStrategy(config);
+  constructor(config: ShieldWebhookStrategyConfig, deps: ShieldWebhookStrategyDependencies) {
+    this.strategy = new ShieldWebhookStrategy(config, deps);
   }
 
   handle(): MiddlewareHandler {

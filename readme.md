@@ -653,7 +653,7 @@ src/
 ├── webhook-signature-creator-noop.strategy.ts
 ├── webhook-signature-creator-sha256.strategy.ts
 ├── webhook-signature-creator.strategy.ts
-├── webhook-signature-extractor-header-exact.strategy.ts
+├── webhook-signature-extractor-header.strategy.ts
 ├── webhook-signature-extractor.strategy.ts
 ├── webhook-signature.vo.ts
 ├── webhook-verifier-noop.strategy.ts
