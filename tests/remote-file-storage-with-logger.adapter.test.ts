@@ -7,21 +7,23 @@ import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { RemoteFileStorageNoopAdapter } from "../src/remote-file-storage-noop.adapter";
 import { RemoteFileStorageWithLoggerAdapter } from "../src/remote-file-storage-with-logger.adapter";
 import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const root = v.parse(tools.DirectoryPathAbsoluteSchema, "/root");
-const key = v.parse(tools.ObjectKey, "users/1/avatar.webp");
-const path = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
+const cases = testcase.remoteFileStorage();
+
+const root = cases.subjects.root;
+const key = cases.subjects.key;
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("RemoteFileStorageWithLoggerAdapter", () => {
-  test("putFromPath - success", async () => {
+  test(cases.putFromPath.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
-      const result = await adapter.putFromPath({ key, path });
+      const result = await adapter.putFromPath(cases.putFromPath.input);
 
       expect(result.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 10));
       expect(Logger.entries).toEqual([
@@ -43,15 +45,17 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     });
   });
 
-  test("putFromPath - failure", async () => {
+  test(cases.putFromPathFailure.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     using _ = spyOn(inner, "putFromPath").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
     expect(async () =>
-      CorrelationStorage.run(mocks.correlationId, async () => adapter.putFromPath({ key, path })),
-    ).toThrow(mocks.IntentionalError);
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        adapter.putFromPath(cases.putFromPathFailure.input),
+      ),
+    ).toThrow(cases.putFromPathFailure.output);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -71,14 +75,14 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("head - success", async () => {
+  test(cases.headMissing.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(await CorrelationStorage.run(mocks.correlationId, async () => adapter.head(key))).toEqual({
-      exists: false,
-    });
+    expect(
+      await CorrelationStorage.run(mocks.correlationId, async () => adapter.head(cases.headMissing.input)),
+    ).toEqual(cases.headMissing.output);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -97,15 +101,15 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("head - failure", async () => {
+  test(cases.headFailure.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     using _ = spyOn(inner, "head").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => CorrelationStorage.run(mocks.correlationId, async () => adapter.head(key))).toThrow(
-      mocks.IntentionalError,
-    );
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.head(cases.headFailure.input)),
+    ).toThrow(cases.headFailure.output);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -125,14 +129,16 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("getStream - success", async () => {
+  test(cases.getStreamNull.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(await CorrelationStorage.run(mocks.correlationId, async () => adapter.getStream(key))).toEqual(
-      null,
-    );
+    expect(
+      await CorrelationStorage.run(mocks.correlationId, async () =>
+        adapter.getStream(cases.getStreamNull.input),
+      ),
+    ).toEqual(cases.getStreamNull.output);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -151,15 +157,17 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("getStream - failure", async () => {
+  test(cases.getStreamFailure.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     using _ = spyOn(inner, "getStream").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
     expect(async () =>
-      CorrelationStorage.run(mocks.correlationId, async () => adapter.getStream(key)),
-    ).toThrow(mocks.IntentionalError);
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        adapter.getStream(cases.getStreamFailure.input),
+      ),
+    ).toThrow(cases.getStreamFailure.output);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -179,13 +187,13 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("delete - success", async () => {
+  test(cases.delete.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () =>
-      expect(await adapter.delete(key)).toEqual(key),
+      expect(await adapter.delete(cases.delete.input)).toEqual(cases.delete.output),
     );
 
     expect(Logger.entries).toEqual([
@@ -206,15 +214,15 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("delete - failure", async () => {
+  test(cases.deleteFailure.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     using _ = spyOn(inner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(async () => CorrelationStorage.run(mocks.correlationId, async () => adapter.delete(key))).toThrow(
-      mocks.IntentionalError,
-    );
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.delete(cases.deleteFailure.input)),
+    ).toThrow(cases.deleteFailure.output);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
@@ -234,11 +242,11 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     ]);
   });
 
-  test("get root", () => {
+  test(cases.root.name, () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new RemoteFileStorageNoopAdapter({ root }, { Clock });
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
-    expect(adapter.root).toEqual(root);
+    expect(adapter.root).toEqual(cases.root.output);
   });
 });

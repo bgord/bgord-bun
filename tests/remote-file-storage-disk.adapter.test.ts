@@ -1,6 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { DirectoryEnsurerNoopAdapter } from "../src/directory-ensurer-noop.adapter";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
 import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
@@ -10,15 +9,9 @@ import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const hash = {
-  etag: mocks.hash,
-  size: tools.Size.fromBytes(42),
-  lastModified: tools.Timestamp.fromNumber(1000),
-  mime: tools.Mimes.text.mime,
-};
-const root = v.parse(tools.DirectoryPathAbsoluteSchema, "/root");
-const key = v.parse(tools.ObjectKey, "users/1/avatar.webp");
+const cases = testcase.remoteFileStorage();
 
 const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
@@ -37,98 +30,85 @@ const deps = {
   NonceProvider,
 };
 
-const adapter = new RemoteFileStorageDiskAdapter({ root }, deps);
+const adapter = new RemoteFileStorageDiskAdapter({ root: cases.subjects.root }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
-  test("putFromPath", async () => {
+  test(cases.putFromPath.name, async () => {
     using fileCopierCopy = spyOn(FileCopier, "copy");
-    using fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(hash);
+    using fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(cases.subjects.stored);
     using directoryEnsurerEnsure = spyOn(DirectoryEnsurer, "ensure");
     using fileRenamerRename = spyOn(FileRenamer, "rename");
 
-    const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
-    const temporary = tools.FilePathAbsolute.fromString(`/root/users/1/avatar-part-${mocks.nonce}.webp`);
-    const final = tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp");
-
-    const output = await adapter.putFromPath({ key, path: input });
-
-    expect(directoryEnsurerEnsure).toHaveBeenCalledWith("/root/users/1");
-    expect(fileCopierCopy).toHaveBeenCalledWith(input, temporary);
-    expect(fileRenamerRename).toHaveBeenCalledWith(temporary, final);
-    expect(fileHashHash).toHaveBeenCalledTimes(1);
-    expect(output.etag).toEqual(hash.etag);
-    expect(output.size.toBytes()).toEqual(v.parse(tools.SizeBytes, 42));
+    expect(await adapter.putFromPath(cases.putFromPath.input)).toEqual(cases.putFromPath.output);
+    expect(directoryEnsurerEnsure).toHaveBeenCalledWith(cases.subjects.directory);
+    expect(fileCopierCopy).toHaveBeenCalledWith(cases.subjects.source, cases.subjects.temporary);
+    expect(fileRenamerRename).toHaveBeenCalledWith(cases.subjects.temporary, cases.subjects.final);
+    expect(fileHashHash).toHaveBeenCalledWith(cases.subjects.final);
   });
 
-  test("putFromPath - renamer error", async () => {
+  test(cases.putFromPathFailure.name, async () => {
     using _ = spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
     using __ = spyOn(FileCopier, "copy");
     using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
-    const input = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
-    const temporary = tools.FilePathAbsolute.fromString(`/root/users/1/avatar-part-${mocks.nonce}.webp`);
-
-    expect(adapter.putFromPath({ key, path: input })).rejects.toThrow(mocks.IntentionalError);
-    expect(fileCleanerDelete).toHaveBeenCalledWith(temporary);
+    expect(async () => adapter.putFromPath(cases.putFromPathFailure.input)).toThrow(
+      cases.putFromPathFailure.output,
+    );
+    expect(fileCleanerDelete).toHaveBeenCalledWith(cases.subjects.temporary);
   });
 
-  test("head", async () => {
-    using fileHashHash = spyOn(HashFile, "hash")
-      .mockResolvedValueOnce(hash)
-      .mockRejectedValueOnce(mocks.IntentionalError);
+  test(cases.head.name, async () => {
+    using fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(cases.subjects.stored);
 
-    const success = await adapter.head(key);
-
-    // @ts-expect-error Partial access
-    expect(success.etag).toEqual(hash.etag);
-    expect(success.exists).toEqual(true);
-
-    const error = await adapter.head(key);
-
-    expect(error.exists).toEqual(false);
-    expect(fileHashHash).toHaveBeenCalledTimes(2);
+    expect(await adapter.head(cases.head.input)).toEqual(cases.head.output);
+    expect(fileHashHash).toHaveBeenCalledWith(cases.subjects.final);
   });
 
-  test("getStream", async () => {
-    const stream = new ReadableStream();
+  test(cases.headMissing.name, async () => {
+    using fileHashHash = spyOn(HashFile, "hash").mockRejectedValue(cases.headFailure.output);
+
+    expect(await adapter.head(cases.headMissing.input)).toEqual(cases.headMissing.output);
+    expect(fileHashHash).toHaveBeenCalledWith(cases.subjects.final);
+  });
+
+  test(cases.getStream.name, async () => {
     using fileInspectionExists = spyOn(FileInspection, "exists").mockResolvedValue(true);
     // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "file").mockImplementation(() => ({ stream: () => stream }));
+    using _ = spyOn(Bun, "file").mockImplementation(() => ({ stream: () => cases.subjects.stream }));
 
-    expect(await adapter.getStream(key)).toEqual(stream);
-    expect(fileInspectionExists).toHaveBeenCalledWith(
-      tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
-    );
+    expect(await adapter.getStream(cases.getStream.input)).toEqual(cases.getStream.output);
+    expect(fileInspectionExists).toHaveBeenCalledWith(cases.subjects.final);
   });
 
-  test("getStream - null", async () => {
-    using _ = spyOn(FileInspection, "exists").mockResolvedValue(false);
+  test(cases.getStreamNull.name, async () => {
+    using fileInspectionExists = spyOn(FileInspection, "exists").mockResolvedValue(false);
 
-    expect(await adapter.getStream(key)).toEqual(null);
+    expect(await adapter.getStream(cases.getStreamNull.input)).toEqual(cases.getStreamNull.output);
+    expect(fileInspectionExists).toHaveBeenCalledWith(cases.subjects.final);
   });
 
-  test("getStream - error", async () => {
+  test(cases.getStreamFailure.name, async () => {
     using _ = spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(adapter.getStream(key)).rejects.toThrow(mocks.IntentionalError);
-  });
-
-  test("delete", async () => {
-    using fileCleanerDelete = spyOn(FileCleaner, "delete");
-
-    expect(await adapter.delete(key)).toEqual(key);
-    expect(fileCleanerDelete).toHaveBeenCalledWith(
-      tools.FilePathAbsolute.fromString("/root/users/1/avatar.webp"),
+    expect(async () => adapter.getStream(cases.getStreamFailure.input)).toThrow(
+      cases.getStreamFailure.output,
     );
   });
 
-  test("delete - cleaner failure", async () => {
-    using _ = spyOn(FileCleaner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
+  test(cases.delete.name, async () => {
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
-    expect(async () => await adapter.delete(key)).toThrow(mocks.IntentionalError);
+    expect(await adapter.delete(cases.delete.input)).toEqual(cases.delete.output);
+    expect(fileCleanerDelete).toHaveBeenCalledWith(cases.subjects.final);
   });
 
-  test("get root", () => {
-    expect(adapter.root).toEqual(root);
+  test(cases.deleteFailure.name, async () => {
+    using _ = spyOn(FileCleaner, "delete").mockImplementation(mocks.throwIntentionalErrorAsync);
+
+    expect(async () => adapter.delete(cases.deleteFailure.input)).toThrow(cases.deleteFailure.output);
+  });
+
+  test(cases.root.name, () => {
+    expect(adapter.root).toEqual(cases.root.output);
   });
 });
