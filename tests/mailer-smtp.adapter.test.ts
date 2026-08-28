@@ -29,23 +29,23 @@ describe("MailerSmtpAdapter", () => {
     expect(transportVerify).toHaveBeenCalledTimes(1);
   });
 
-  test(cases.missingDependency.name, async () => {
+  test("missing dependency", async () => {
     // @ts-expect-error Private method
     using _ = spyOn(MailerSmtpAdapter["importer"], "import").mockImplementation(
       mocks.throwIntentionalErrorAsync,
     );
 
     expect(async () => MailerSmtpAdapter.build(cases.subjects.config)).toThrow(
-      cases.missingDependency.output,
+      "mailer.smtp.adapter.error.missing.dependency",
     );
   });
 
-  test(cases.dependency.name, async () => {
+  test("import", async () => {
     // @ts-expect-error Private method
     using obfuscateSpy = spyOn(MailerSmtpAdapter["importer"], "obfuscate");
 
     await MailerSmtpAdapter.build(cases.subjects.config);
 
-    expect(obfuscateSpy).toHaveBeenCalledWith(cases.dependency.output);
+    expect(obfuscateSpy).toHaveBeenCalledWith("nodemailer");
   });
 });

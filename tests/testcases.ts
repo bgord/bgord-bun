@@ -168,19 +168,6 @@ export const cryptoKeyProvider = () => {
         extractable: false,
       },
     },
-    happyPathTrimmed: { name: "happy path - trimmed EOL", input: `${"0".repeat(64)}\n` },
-    missingFile: {
-      name: "missing file",
-      input: hex,
-      output: "crypto.key.provider.file.adapter.missing.file",
-    },
-    emptyContent: { name: "empty content", input: "", output: "encryption.key.value.invalid.hex" },
-    invalidContent: {
-      name: "invalid content",
-      input: "invalid-hex-string",
-      output: "encryption.key.value.invalid.hex",
-    },
-    readError: { name: "read error", input: hex, output: mocks.IntentionalError },
   } as const;
 };
 
@@ -198,11 +185,6 @@ export const mailer = () =>
     send: { name: "send", input: mocks.template },
     sendFailure: { name: "send - failure", input: mocks.template, output: mocks.IntentionalError },
     verify: { name: "verify", output: true },
-    missingDependency: {
-      name: "missing dependency",
-      output: "mailer.smtp.adapter.error.missing.dependency",
-    },
-    dependency: { name: "import", output: "nodemailer" },
   }) as const;
 
 export const alertChannel = () =>
