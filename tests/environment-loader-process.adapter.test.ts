@@ -1,48 +1,43 @@
 import { describe, expect, test } from "bun:test";
-import * as v from "valibot";
 import { EnvironmentLoaderProcessAdapter } from "../src/environment-loader-process.adapter";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") });
+const cases = testcase.environmentLoader();
 
 describe("EnvironmentLoaderProcess", () => {
-  test("happy path", async () => {
+  test(cases.happyPath.name, async () => {
     const adapter = new EnvironmentLoaderProcessAdapter(
-      { ...process.env, APP_NAME: "MyApp" },
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
+      { ...process.env, ...cases.happyPath.input },
+      cases.subjects.config,
     );
 
     const result = await adapter.load();
 
-    expect(result.APP_NAME).toEqual("MyApp");
-    expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    expect(result).toEqual(cases.happyPath.output);
     expect(Object.isFrozen(result)).toEqual(true);
 
     const second = await adapter.load();
 
-    expect(second.APP_NAME).toEqual("MyApp");
-    expect(second.type).toEqual(NodeEnvironmentEnum.local);
+    expect(second).toEqual(cases.happyPath.output);
     expect(Object.isFrozen(second)).toEqual(true);
   });
 
-  test("failure", () => {
-    expect(
-      async () =>
-        await new EnvironmentLoaderProcessAdapter(
-          // @ts-expect-error Changed schema assertion
-          { ...process.env, APP_NAME: 123 },
-          { type: NodeEnvironmentEnum.local, EnvironmentSchema },
-        ).load(),
-    ).toThrow("app.name.invalid");
-  });
-
-  test("failure - async schema", async () => {
+  test(cases.failure.name, () => {
     const adapter = new EnvironmentLoaderProcessAdapter(
-      { ...process.env, APP_NAME: "MyApp" },
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+      // @ts-expect-error Changed schema assertion
+      { ...process.env, ...cases.failure.input },
+      cases.subjects.config,
     );
 
-    expect(async () => adapter.load()).toThrow("standard.schema.validate.error.no.async.schema");
+    expect(async () => adapter.load()).toThrow(cases.failure.output);
+  });
+
+  test(cases.failureAsyncSchema.name, async () => {
+    const adapter = new EnvironmentLoaderProcessAdapter(
+      { ...process.env, ...cases.failureAsyncSchema.input },
+      cases.subjects.asyncConfig,
+    );
+
+    expect(async () => adapter.load()).toThrow(cases.failureAsyncSchema.output);
   });
 });

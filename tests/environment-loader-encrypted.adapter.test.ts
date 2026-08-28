@@ -1,45 +1,40 @@
 import { describe, expect, test } from "bun:test";
-import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { EncryptionNoopAdapter } from "../src/encryption-noop.adapter";
 import { EnvironmentLoaderEncryptedAdapter } from "../src/environment-loader-encrypted.adapter";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") }, "env.empty");
-
-const config = { type: NodeEnvironmentEnum.local, EnvironmentSchema };
-
-const path = tools.FilePathAbsolute.fromString("/config/secrets.txt");
-const env = new TextEncoder().encode("APP_NAME=MyApp").buffer;
+const cases = testcase.environmentLoader();
 
 describe("EnvironmentLoaderEncryptedAdapter", () => {
-  test("happy path", async () => {
-    const result = await new EnvironmentLoaderEncryptedAdapter(path, config, {
-      Encryption: new EncryptionNoopAdapter(env),
-    }).load();
+  test(cases.happyPath.name, async () => {
+    const adapter = new EnvironmentLoaderEncryptedAdapter(cases.subjects.path, cases.subjects.config, {
+      Encryption: new EncryptionNoopAdapter(cases.subjects.encoded),
+    });
 
-    expect(result.APP_NAME).toEqual("MyApp");
-    expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    const result = await adapter.load();
+
+    expect(result).toEqual(cases.happyPath.output);
     expect(Object.isFrozen(result)).toEqual(true);
+
+    const second = await adapter.load();
+
+    expect(second).toEqual(cases.happyPath.output);
+    expect(Object.isFrozen(second)).toEqual(true);
   });
 
-  test("failure", () => {
-    expect(
-      async () =>
-        await new EnvironmentLoaderEncryptedAdapter(path, config, {
-          Encryption: new EncryptionNoopAdapter(),
-        }).load(),
-    ).toThrow("env.empty");
+  test(cases.failureEmpty.name, () => {
+    const adapter = new EnvironmentLoaderEncryptedAdapter(cases.subjects.path, cases.subjects.config, {
+      Encryption: new EncryptionNoopAdapter(),
+    });
+
+    expect(async () => adapter.load()).toThrow(cases.failureEmpty.output);
   });
 
-  test("failure - async schema", async () => {
-    const adapter = new EnvironmentLoaderEncryptedAdapter(
-      path,
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
-      { Encryption: new EncryptionNoopAdapter(env) },
-    );
+  test(cases.failureAsyncSchema.name, async () => {
+    const adapter = new EnvironmentLoaderEncryptedAdapter(cases.subjects.path, cases.subjects.asyncConfig, {
+      Encryption: new EncryptionNoopAdapter(cases.subjects.encoded),
+    });
 
-    expect(async () => adapter.load()).toThrow("standard.schema.validate.error.no.async.schema");
+    expect(async () => adapter.load()).toThrow(cases.failureAsyncSchema.output);
   });
 });

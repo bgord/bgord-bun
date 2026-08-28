@@ -1,47 +1,37 @@
 import { describe, expect, test } from "bun:test";
-import * as v from "valibot";
 import { EnvironmentLoaderNoopAdapter } from "../src/environment-loader-noop.adapter";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
-import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const EnvironmentSchema = v.object({ APP_NAME: v.string() });
+const cases = testcase.environmentLoader();
 
 describe("EnvironmentLoaderNoopAdapter", () => {
-  test("happy path", async () => {
-    const adapter = new EnvironmentLoaderNoopAdapter(
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
-      { APP_NAME: "MyApp" },
-    );
+  test(cases.happyPath.name, async () => {
+    const adapter = new EnvironmentLoaderNoopAdapter(cases.subjects.config, cases.happyPath.input);
 
     const result = await adapter.load();
 
-    expect(result.APP_NAME).toEqual("MyApp");
-    expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    expect(result).toEqual(cases.happyPath.output);
     expect(Object.isFrozen(result)).toEqual(true);
 
     const second = await adapter.load();
 
-    expect(second.APP_NAME).toEqual("MyApp");
-    expect(second.type).toEqual(NodeEnvironmentEnum.local);
+    expect(second).toEqual(cases.happyPath.output);
     expect(Object.isFrozen(second)).toEqual(true);
   });
 
-  test("failure", async () => {
-    const adapter = new EnvironmentLoaderNoopAdapter(
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
-      // @ts-expect-error Changed schema assertion
-      { APP_NAME: 123 },
-    );
+  test(cases.failure.name, async () => {
+    // @ts-expect-error Changed schema assertion
+    const adapter = new EnvironmentLoaderNoopAdapter(cases.subjects.config, cases.failure.input);
 
-    expect(async () => adapter.load()).toThrow();
+    expect(async () => adapter.load()).toThrow(cases.failure.output);
   });
 
-  test("failure - async schema", async () => {
+  test(cases.failureAsyncSchema.name, async () => {
     const adapter = new EnvironmentLoaderNoopAdapter(
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
-      { APP_NAME: "MyApp" },
+      cases.subjects.asyncConfig,
+      cases.failureAsyncSchema.input,
     );
 
-    expect(async () => adapter.load()).toThrow("standard.schema.validate.error.no.async.schema");
+    expect(async () => adapter.load()).toThrow(cases.failureAsyncSchema.output);
   });
 });

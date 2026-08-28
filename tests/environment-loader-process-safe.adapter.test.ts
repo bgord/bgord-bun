@@ -1,16 +1,14 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverSimpleStrategy } from "../src/cache-resolver-simple.strategy";
 import { EnvironmentLoaderProcessSafeAdapter } from "../src/environment-loader-process-safe.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
-import * as mocks from "./mocks";
+import * as testcase from "./testcases";
 
-const EnvironmentSchema = v.object({ APP_NAME: v.string("app.name.invalid") });
+const cases = testcase.environmentLoader();
 
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) });
 
@@ -19,25 +17,20 @@ const HashContent = new HashContentSha256Strategy();
 const deps = { CacheResolver, HashContent };
 
 describe("EnvironmentLoaderProcessSafe", () => {
-  test("happy path", async () => {
-    process.env["APP_NAME"] = "MyApp";
-    const env = { ...process.env, APP_NAME: "MyApp" };
+  test(cases.happyPath.name, async () => {
+    process.env["APP_NAME"] = cases.happyPath.input.APP_NAME;
+    const env = { ...process.env, ...cases.happyPath.input };
 
     const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("env")], {
       HashContent,
     });
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const subject = await resolver.resolve();
-    const adapter = new EnvironmentLoaderProcessSafeAdapter(
-      env,
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
-      deps,
-    );
+    const adapter = new EnvironmentLoaderProcessSafeAdapter(env, cases.subjects.config, deps);
 
     const result = await adapter.load();
 
-    expect(result.APP_NAME).toEqual("MyApp");
-    expect(result.type).toEqual(NodeEnvironmentEnum.local);
+    expect(result).toEqual(cases.happyPath.output);
     expect(Object.isFrozen(result)).toEqual(true);
     expect(env["APP_NAME"]).toBeUndefined();
     expect(process.env["APP_NAME"]).toBeUndefined();
@@ -50,8 +43,8 @@ describe("EnvironmentLoaderProcessSafe", () => {
 
     const second = await adapter.load();
 
-    expect(second.APP_NAME).toEqual("MyApp");
-    expect(second.type).toEqual(NodeEnvironmentEnum.local);
+    expect(second).toEqual(cases.happyPath.output);
+    expect(Object.isFrozen(second)).toEqual(true);
     expect(cacheResolverResolve).toHaveBeenNthCalledWith(
       2,
       subject.hex,
@@ -62,26 +55,26 @@ describe("EnvironmentLoaderProcessSafe", () => {
     await CacheResolver.flush();
   });
 
-  test("failure", async () => {
+  test(cases.failure.name, async () => {
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
       // @ts-expect-error Changed schema assertion
-      { ...process.env, APP_NAME: 123 },
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema },
+      { ...process.env, ...cases.failure.input },
+      cases.subjects.config,
       deps,
     );
 
-    expect(async () => adapter.load()).toThrow("app.name.invalid");
+    expect(async () => adapter.load()).toThrow(cases.failure.output);
 
     await CacheResolver.flush();
   });
 
-  test("failure - async schema", async () => {
+  test(cases.failureAsyncSchema.name, async () => {
     const adapter = new EnvironmentLoaderProcessSafeAdapter(
-      { ...process.env, APP_NAME: "MyApp" },
-      { type: NodeEnvironmentEnum.local, EnvironmentSchema: mocks.asyncSchema },
+      { ...process.env, ...cases.failureAsyncSchema.input },
+      cases.subjects.asyncConfig,
       deps,
     );
 
-    expect(async () => adapter.load()).toThrow("standard.schema.validate.error.no.async.schema");
+    expect(async () => adapter.load()).toThrow(cases.failureAsyncSchema.output);
   });
 });
