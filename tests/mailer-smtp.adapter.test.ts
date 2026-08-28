@@ -27,6 +27,17 @@ describe("MailerSmtpAdapter", () => {
     expect(transportVerify).toHaveBeenCalledTimes(1);
   });
 
+  test("build - transport options", async () => {
+    const built = await MailerSmtpAdapter.build(cases.subjects.config);
+
+    expect(built["transport"].options as Record<string, unknown>).toEqual({
+      host: "smtp.example.com",
+      port: 587,
+      auth: { user: "user", pass: "pass" },
+      requireTLS: true,
+    });
+  });
+
   test("missing dependency", async () => {
     // @ts-expect-error Private method
     using _ = spyOn(MailerSmtpAdapter["importer"], "import").mockImplementation(

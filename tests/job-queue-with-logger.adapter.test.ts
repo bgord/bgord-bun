@@ -141,6 +141,31 @@ describe("JobQueueWithLoggerAdapter", () => {
     expect(claim).toHaveBeenCalledWith(5);
   });
 
+  test("claim - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "claim").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () => queue.claim(limit)),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Job queue claim attempt",
+        metadata: { limit: 5 },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+      {
+        message: "Job queue claim error",
+        error: new Error(mocks.IntentionalError),
+        metadata: { limit: 5, duration: expect.any(tools.Duration) },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+    ]);
+  });
+
   test("complete - success", async () => {
     using complete = spyOn(inner, "complete");
     const Logger = new LoggerCollectingAdapter();
@@ -167,6 +192,33 @@ describe("JobQueueWithLoggerAdapter", () => {
     expect(complete).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
   });
 
+  test("complete - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "complete").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+        queue.complete(mocks.GenericSendEmailJob.id),
+      ),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Job queue complete attempt",
+        metadata: { id: mocks.GenericSendEmailJob.id },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+      {
+        message: "Job queue complete error",
+        error: new Error(mocks.IntentionalError),
+        metadata: { id: mocks.GenericSendEmailJob.id, duration: expect.any(tools.Duration) },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+    ]);
+  });
+
   test("fail - success", async () => {
     using fail = spyOn(inner, "fail");
     const Logger = new LoggerCollectingAdapter();
@@ -191,6 +243,33 @@ describe("JobQueueWithLoggerAdapter", () => {
       },
     ]);
     expect(fail).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
+  });
+
+  test("fail - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "fail").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+        queue.fail(mocks.GenericSendEmailJob.id),
+      ),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Job queue fail attempt",
+        metadata: { id: mocks.GenericSendEmailJob.id },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+      {
+        message: "Job queue fail error",
+        error: new Error(mocks.IntentionalError),
+        metadata: { id: mocks.GenericSendEmailJob.id, duration: expect.any(tools.Duration) },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+    ]);
   });
 
   test("requeue - success", async () => {
@@ -222,6 +301,38 @@ describe("JobQueueWithLoggerAdapter", () => {
       },
     ]);
     expect(requeue).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id, revision, tools.Duration.ZERO);
+  });
+
+  test("requeue - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "requeue").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.GenericSendEmailJob.correlationId, async () =>
+        queue.requeue(mocks.GenericSendEmailJob.id, revision, tools.Duration.ZERO),
+      ),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Job queue requeue attempt",
+        metadata: { id: mocks.GenericSendEmailJob.id, revision, delay: tools.Duration.ZERO },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+      {
+        message: "Job queue requeue error",
+        error: new Error(mocks.IntentionalError),
+        metadata: {
+          id: mocks.GenericSendEmailJob.id,
+          revision,
+          delay: tools.Duration.ZERO,
+          duration: expect.any(tools.Duration),
+        },
+        correlationId: mocks.GenericSendEmailJob.correlationId,
+        ...base,
+      },
+    ]);
   });
 
   test("getRetryPolicy", async () => {

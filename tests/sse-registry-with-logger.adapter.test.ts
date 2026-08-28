@@ -87,6 +87,33 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     });
   });
 
+  test("register - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "register").mockImplementation(mocks.throwIntentionalError);
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => registry.register(subject.hex.get(), sender)),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "SSE registry register attempt",
+        metadata: { identity: subject.hex.get() },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+      {
+        message: "SSE registry register error",
+        error: new Error(mocks.IntentionalError),
+        metadata: { identity: subject.hex.get(), duration: expect.any(tools.Duration) },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+    ]);
+  });
+
   test("unregister - success", async () => {
     using unregister = spyOn(inner, "unregister");
     const Logger = new LoggerCollectingAdapter();
@@ -113,6 +140,33 @@ describe("SseRegistryWithLoggerAdapter", async () => {
       },
     ]);
     expect(unregister).toHaveBeenCalledWith(subject.hex.get(), sender);
+  });
+
+  test("unregister - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "unregister").mockImplementation(mocks.throwIntentionalError);
+    const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => registry.unregister(subject.hex.get(), sender)),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "SSE registry unregister attempt",
+        metadata: { identity: subject.hex.get() },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+      {
+        message: "SSE registry unregister error",
+        error: new Error(mocks.IntentionalError),
+        metadata: { identity: subject.hex.get(), duration: expect.any(tools.Duration) },
+        correlationId: mocks.correlationId,
+        component: "infra",
+        operation: "sse_registry",
+      },
+    ]);
   });
 
   test("emit - success", async () => {

@@ -15,6 +15,7 @@ describe("IdempotencyStoreCacheAdapter", () => {
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
     expect(await adapter.claim(primary)).toEqual(true);
+    expect(await CacheRepository.get(primary)).toEqual(true);
   });
 
   test("claim - replay", async () => {

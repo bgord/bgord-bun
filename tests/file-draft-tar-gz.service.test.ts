@@ -56,7 +56,7 @@ describe("FileDraftTarGz", () => {
     expect(tar).toContain("first.csv");
     expect(tar).toContain("second.csv");
     expect(tar).toContain(content);
-    expect(bytes.length).toEqual(137);
+    expect(Bun.gunzipSync(bytes).length).toEqual(10240);
   });
 
   test("create - empty", async () => {

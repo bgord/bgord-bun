@@ -68,6 +68,40 @@ describe("EventStoreWithLoggerAdapter", () => {
     ]);
   });
 
+  test("find - failure", async () => {
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "find").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        store.find(registry, mocks.GenericHourHasPassedEvent.stream),
+      ),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Event store find attempt",
+        component: "infra",
+        operation: "event_store",
+        correlationId: mocks.correlationId,
+        metadata: { stream: "passage_of_time", names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"] },
+      },
+      {
+        message: "Event store find error",
+        component: "infra",
+        operation: "event_store",
+        correlationId: mocks.correlationId,
+        error: new Error(mocks.IntentionalError),
+        metadata: {
+          stream: "passage_of_time",
+          names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"],
+          duration: expect.any(tools.Duration),
+        },
+      },
+    ]);
+  });
+
   test("findLast - success", async () => {
     const finderLast = new EventFinderLastNoopAdapter(serialized(mocks.GenericHourHasPassedEvent));
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
@@ -129,6 +163,40 @@ describe("EventStoreWithLoggerAdapter", () => {
           stream: "passage_of_time",
           names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"],
           found: false,
+          duration: expect.any(tools.Duration),
+        },
+      },
+    ]);
+  });
+
+  test("findLast - failure", async () => {
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "findLast").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () =>
+        store.findLast(registry, mocks.GenericHourHasPassedEvent.stream),
+      ),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Event store find last attempt",
+        component: "infra",
+        operation: "event_store",
+        correlationId: mocks.correlationId,
+        metadata: { stream: "passage_of_time", names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"] },
+      },
+      {
+        message: "Event store find last error",
+        component: "infra",
+        operation: "event_store",
+        correlationId: mocks.correlationId,
+        error: new Error(mocks.IntentionalError),
+        metadata: {
+          stream: "passage_of_time",
+          names: ["HOUR_HAS_PASSED_EVENT", "MINUTE_HAS_PASSED_EVENT"],
           duration: expect.any(tools.Duration),
         },
       },
