@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import { FileCleanerAdapter } from "../src/file-cleaner.adapter";
 import * as mocks from "./mocks";
+import * as testcases from "./testcases";
 
 const deleter = { delete: async () => ({}) };
 
@@ -11,34 +11,30 @@ describe("FileCleanerAdapter", () => {
   test("happy path - string", async () => {
     // @ts-expect-error Partial access
     using bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
-    const path = "package.json";
 
-    expect(async () => FileCleaner.delete(path)).not.toThrow();
-    expect(bunFile).toHaveBeenCalledWith(path);
+    expect(async () => FileCleaner.delete(testcases.file.input.string)).not.toThrow();
+    expect(bunFile).toHaveBeenCalledWith(testcases.file.input.string);
   });
 
   test("happy path - relative", async () => {
     // @ts-expect-error Partial access
     using bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
-    const path = tools.FilePathRelative.fromString("users/package.json");
 
-    expect(async () => FileCleaner.delete(path)).not.toThrow();
-    expect(bunFile).toHaveBeenCalledWith(path.get());
+    expect(async () => FileCleaner.delete(testcases.file.input.relative)).not.toThrow();
+    expect(bunFile).toHaveBeenCalledWith(testcases.file.input.relative.get());
   });
 
   test("happy path - absolute", async () => {
     // @ts-expect-error Partial access
     using bunFile = spyOn(Bun, "file").mockReturnValue(deleter);
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(async () => FileCleaner.delete(path)).not.toThrow();
-    expect(bunFile).toHaveBeenCalledWith(path.get());
+    expect(async () => FileCleaner.delete(testcases.file.input.absolute)).not.toThrow();
+    expect(bunFile).toHaveBeenCalledWith(testcases.file.input.absolute.get());
   });
 
   test("throw an error", () => {
     using _ = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
 
-    expect(async () => FileCleaner.delete(path)).toThrow();
+    expect(async () => FileCleaner.delete(testcases.file.input.absolute)).toThrow();
   });
 });

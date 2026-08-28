@@ -198,3 +198,11 @@ export const alertChannel = () =>
     send: { name: "send", input: mocks.alert, output: [mocks.alert] },
     verify: { name: "verify", output: true },
   }) as const;
+
+export const file = {
+  input: {
+    string: "package.json",
+    relative: tools.FilePathRelative.fromString("users/package.json"),
+    absolute: tools.FilePathAbsolute.fromString("/users/package.json"),
+  },
+};

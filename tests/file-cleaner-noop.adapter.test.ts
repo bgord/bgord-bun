@@ -1,25 +1,19 @@
 import { describe, expect, test } from "bun:test";
-import * as tools from "@bgord/tools";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
+import * as testcases from "./testcases";
 
 const adapter = new FileCleanerNoopAdapter();
 
 describe("FileCleanerNoopAdapter", () => {
   test("happy path - string", async () => {
-    const path = "package.json";
-
-    expect(async () => adapter.delete(path)).not.toThrow();
+    expect(async () => adapter.delete(testcases.file.input.string)).not.toThrow();
   });
 
   test("happy path - relative", async () => {
-    const path = tools.FilePathRelative.fromString("users/package.json");
-
-    expect(async () => adapter.delete(path)).not.toThrow();
+    expect(async () => adapter.delete(testcases.file.input.relative)).not.toThrow();
   });
 
   test("happy path - absolute", async () => {
-    const path = tools.FilePathAbsolute.fromString("/users/package.json");
-
-    expect(async () => adapter.delete(path)).not.toThrow();
+    expect(async () => adapter.delete(testcases.file.input.absolute)).not.toThrow();
   });
 });
