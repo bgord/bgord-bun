@@ -4,13 +4,12 @@ import { CronSchedulerWithLoggerAdapter } from "../src/cron-scheduler-with-logge
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import * as mocks from "./mocks";
 
-const inner = new CronSchedulerNoopAdapter();
-const Logger = new LoggerCollectingAdapter();
-const adapter = new CronSchedulerWithLoggerAdapter({ Logger, inner });
-
 describe("CronSchedulerWithLoggerAdapter", async () => {
   test("schedule", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const inner = new CronSchedulerNoopAdapter();
     using innerSchedule = spyOn(inner, "schedule");
+    const adapter = new CronSchedulerWithLoggerAdapter({ Logger, inner });
 
     adapter.schedule(mocks.task);
 
@@ -26,10 +25,11 @@ describe("CronSchedulerWithLoggerAdapter", async () => {
   });
 
   test("verify", async () => {
-    using innerVerify = spyOn(inner, "verify");
+    const Logger = new LoggerCollectingAdapter();
+    const inner = new CronSchedulerNoopAdapter();
+    const adapter = new CronSchedulerWithLoggerAdapter({ Logger, inner });
 
-    await adapter.verify();
-
-    expect(innerVerify).toHaveBeenCalled();
+    expect(await adapter.verify()).toEqual(true);
+    expect(Logger.entries).toEqual([]);
   });
 });

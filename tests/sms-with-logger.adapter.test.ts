@@ -8,12 +8,12 @@ import { SmsWithLoggerAdapter } from "../src/sms-with-logger.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const inner = new SmsNoopAdapter();
 
 describe("SmsWithLoggerAdapter", () => {
   test("send - success", async () => {
-    using sendSpy = spyOn(inner, "send").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
+    const inner = new SmsNoopAdapter();
+    using sendSpy = spyOn(inner, "send").mockImplementation(jest.fn());
     const adapter = new SmsWithLoggerAdapter({ Logger, Clock, inner });
 
     await CorrelationStorage.run(mocks.correlationId, async () => adapter.send(mocks.sms));
@@ -38,8 +38,9 @@ describe("SmsWithLoggerAdapter", () => {
   });
 
   test("send - failure", async () => {
-    using sendSpy = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
     const Logger = new LoggerCollectingAdapter();
+    const inner = new SmsNoopAdapter();
+    using sendSpy = spyOn(inner, "send").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new SmsWithLoggerAdapter({ Logger, Clock, inner });
 
     expect(async () =>
@@ -66,12 +67,11 @@ describe("SmsWithLoggerAdapter", () => {
   });
 
   test("verify", async () => {
-    using verifySpy = spyOn(inner, "verify").mockImplementation(jest.fn());
     const Logger = new LoggerCollectingAdapter();
+    const inner = new SmsNoopAdapter();
     const adapter = new SmsWithLoggerAdapter({ Logger, Clock, inner });
 
-    await adapter.verify();
-
-    expect(verifySpy).toHaveBeenCalled();
+    expect(await adapter.verify()).toEqual(true);
+    expect(Logger.entries).toEqual([]);
   });
 });

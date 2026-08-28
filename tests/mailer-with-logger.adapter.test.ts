@@ -16,10 +16,12 @@ describe("MailerWithLoggerAdapter", () => {
   test(cases.send.name, async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new MailerNoopAdapter();
+    using innerSend = spyOn(inner, "send");
     const adapter = new MailerWithLoggerAdapter({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () => adapter.send(cases.send.input));
 
+    expect(innerSend).toHaveBeenCalledWith(cases.send.input);
     expect(Logger.entries).toEqual([
       {
         component: "infra",
