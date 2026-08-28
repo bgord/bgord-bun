@@ -35,7 +35,7 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
             ...this.base,
           });
 
-          return;
+          throw error;
         }
 
         this.deps.Logger.info({
