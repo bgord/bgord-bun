@@ -8,7 +8,13 @@ export class CryptoKeyProviderWithMemoAdapter implements CryptoKeyProviderPort {
   constructor(private readonly config: Config) {}
 
   async get(): Promise<CryptoKey> {
-    if (this.memoized === null) this.memoized = this.config.inner.get();
+    if (this.memoized === null) {
+      this.memoized = this.config.inner.get().catch((error) => {
+        this.memoized = null;
+
+        throw error;
+      });
+    }
 
     return this.memoized;
   }

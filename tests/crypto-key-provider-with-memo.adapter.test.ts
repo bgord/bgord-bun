@@ -1,6 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { CryptoKeyProviderMemoryAdapter } from "../src/crypto-key-provider-memory.adapter";
 import { CryptoKeyProviderWithMemoAdapter } from "../src/crypto-key-provider-with-memo.adapter";
+import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const cases = testcase.cryptoKeyProvider();
@@ -23,5 +24,19 @@ describe("CryptoKeyProviderWithMemoAdapter", () => {
 
     expect(result).toBe(await adapter.get());
     expect(innerGet).toHaveBeenCalledTimes(1);
+  });
+
+  test("rejection", async () => {
+    const inner = new CryptoKeyProviderMemoryAdapter(cases.happyPath.input);
+    using innerGet = spyOn(inner, "get").mockRejectedValueOnce(new Error(mocks.IntentionalError));
+    const adapter = new CryptoKeyProviderWithMemoAdapter({ inner });
+
+    expect(async () => adapter.get()).toThrow(mocks.IntentionalError);
+
+    const result = await adapter.get();
+
+    expect(result).toBeInstanceOf(CryptoKey);
+    expect(result).toBe(await adapter.get());
+    expect(innerGet).toHaveBeenCalledTimes(2);
   });
 });
