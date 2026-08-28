@@ -149,7 +149,7 @@ export * from "./file-copier.adapter";
 export * from "./file-copier.port";
 export * from "./file-copier-noop.adapter";
 export * from "./file-draft.service";
-export * from "./file-draft-zip.service";
+export * from "./file-draft-tar-gz.service";
 export * from "./file-inspection.adapter";
 export * from "./file-inspection.port";
 export * from "./file-inspection-noop.adapter";
