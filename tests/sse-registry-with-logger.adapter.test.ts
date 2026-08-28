@@ -25,7 +25,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
   const context = new RequestContextBuilder().withUserId(mocks.userId).build();
   const subject = await resolver.resolve(context);
 
-  test("register", async () => {
+  test("register - success", async () => {
     using register = spyOn(inner, "register");
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
@@ -87,7 +87,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     });
   });
 
-  test("unregister", async () => {
+  test("unregister - success", async () => {
     using unregister = spyOn(inner, "unregister");
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
@@ -115,7 +115,7 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     expect(unregister).toHaveBeenCalledWith(subject.hex.get(), sender);
   });
 
-  test("emit", async () => {
+  test("emit - success", async () => {
     using emit = spyOn(inner, "emit");
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
@@ -180,20 +180,17 @@ describe("SseRegistryWithLoggerAdapter", async () => {
     ]);
   });
 
-  test("count", async () => {
+  test("count", () => {
     const Logger = new LoggerCollectingAdapter();
     const registry = new SseRegistryWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 
-    await CorrelationStorage.run(mocks.correlationId, async () =>
-      registry.register(subject.hex.get(), sender),
-    );
+    inner.register(subject.hex.get(), sender);
 
     expect(registry.count(subject.hex.get())).toEqual(1);
 
-    await CorrelationStorage.run(mocks.correlationId, async () =>
-      registry.unregister(subject.hex.get(), sender),
-    );
+    inner.unregister(subject.hex.get(), sender);
 
     expect(registry.count(subject.hex.get())).toEqual(0);
+    expect(Logger.entries).toEqual([]);
   });
 });

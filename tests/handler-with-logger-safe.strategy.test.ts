@@ -9,17 +9,17 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("HandlerWithLoggerSafeStrategy", () => {
-  test("happy path", async () => {
+  test("handle - success", async () => {
     const Logger = new LoggerCollectingAdapter();
     const handler = new HandlerWithLoggerSafeStrategy({ Clock, Logger });
     const fn = async (_: mocks.MessageType) => {};
 
     await handler.handle(fn)(mocks.message);
 
-    expect(Logger.entries.length).toEqual(0);
+    expect(Logger.entries).toEqual([]);
   });
 
-  test("error path", async () => {
+  test("handle - failure", async () => {
     const Logger = new LoggerCollectingAdapter();
     const handler = new HandlerWithLoggerSafeStrategy({ Clock, Logger });
 

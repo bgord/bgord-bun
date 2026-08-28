@@ -29,7 +29,7 @@ const revision = v.parse(tools.RevisionValue, mocks.GenericSendEmailJob.revision
 const inner = new JobQueueAdapterNoop<SendEmailJobType>(deps);
 
 describe("JobQueueWithLoggerAdapter", () => {
-  test("enqueue", async () => {
+  test("enqueue - success", async () => {
     using enqueue = spyOn(inner, "enqueue");
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
@@ -141,7 +141,7 @@ describe("JobQueueWithLoggerAdapter", () => {
     expect(claim).toHaveBeenCalledWith(5);
   });
 
-  test("complete", async () => {
+  test("complete - success", async () => {
     using complete = spyOn(inner, "complete");
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
@@ -167,7 +167,7 @@ describe("JobQueueWithLoggerAdapter", () => {
     expect(complete).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
   });
 
-  test("fail", async () => {
+  test("fail - success", async () => {
     using fail = spyOn(inner, "fail");
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
@@ -193,7 +193,7 @@ describe("JobQueueWithLoggerAdapter", () => {
     expect(fail).toHaveBeenCalledWith(mocks.GenericSendEmailJob.id);
   });
 
-  test("requeue", async () => {
+  test("requeue - success", async () => {
     using requeue = spyOn(inner, "requeue");
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
@@ -229,13 +229,16 @@ describe("JobQueueWithLoggerAdapter", () => {
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
 
     expect(queue.getRetryPolicy(mocks.GenericSendEmailJob.name)).toEqual(retry);
+    expect(Logger.entries).toEqual([]);
   });
 
   test("getRetryPolicy - missing", async () => {
     const Logger = new LoggerCollectingAdapter();
 
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
+
     expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+    expect(Logger.entries).toEqual([]);
   });
 
   test("getHandler", async () => {
@@ -243,12 +246,14 @@ describe("JobQueueWithLoggerAdapter", () => {
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
 
     expect(queue.getHandler(mocks.GenericSendEmailJob.name)).toEqual(handler);
+    expect(Logger.entries).toEqual([]);
   });
 
   test("getHandler - missing", async () => {
     const Logger = new LoggerCollectingAdapter();
     const queue = new JobQueueWithLoggerAdapter<SendEmailJobType>({ inner, Logger, Clock });
 
-    expect(() => queue.getRetryPolicy("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+    expect(() => queue.getHandler("unknown")).toThrow("job.registry.adapter.error.unknown.job");
+    expect(Logger.entries).toEqual([]);
   });
 });

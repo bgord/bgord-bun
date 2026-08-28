@@ -10,7 +10,7 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("PdfGeneratorWithLoggerAdapter", () => {
-  test("success", async () => {
+  test("request - success", async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new PdfGeneratorNoopAdapter();
     const adapter = new PdfGeneratorWithLoggerAdapter({ Logger, Clock, inner });
@@ -36,7 +36,7 @@ describe("PdfGeneratorWithLoggerAdapter", () => {
     ]);
   });
 
-  test("failure", async () => {
+  test("request - failure", async () => {
     const inner = new PdfGeneratorNoopAdapter();
     using _ = spyOn(inner, "request").mockImplementation(mocks.throwIntentionalErrorAsync);
     const Logger = new LoggerCollectingAdapter();

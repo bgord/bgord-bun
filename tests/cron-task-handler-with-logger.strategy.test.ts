@@ -9,7 +9,7 @@ import * as mocks from "./mocks";
 const Clock = new ClockSystemAdapter();
 
 describe("CronTaskHandlerWithLoggerStrategy", () => {
-  test("happy path", async () => {
+  test("handle - success", async () => {
     using task = spyOn(mocks.task, "handler");
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
@@ -48,7 +48,7 @@ describe("CronTaskHandlerWithLoggerStrategy", () => {
     expect(task).toHaveBeenCalled();
   });
 
-  test("failure", async () => {
+  test("handle - failure", async () => {
     using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
     const Logger = new LoggerCollectingAdapter();
     const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));

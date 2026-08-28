@@ -248,5 +248,6 @@ describe("RemoteFileStorageWithLoggerAdapter", () => {
     const adapter = new RemoteFileStorageWithLoggerAdapter({ inner, Logger, Clock });
 
     expect(adapter.root).toEqual(cases.root.output);
+    expect(Logger.entries).toEqual([]);
   });
 });

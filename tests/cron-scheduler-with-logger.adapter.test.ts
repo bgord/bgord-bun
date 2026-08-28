@@ -10,7 +10,7 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("CronSchedulerWithLoggerAdapter", async () => {
-  test("schedule", async () => {
+  test("schedule - success", async () => {
     const Logger = new LoggerCollectingAdapter();
     const inner = new CronSchedulerNoopAdapter();
     using innerSchedule = spyOn(inner, "schedule");

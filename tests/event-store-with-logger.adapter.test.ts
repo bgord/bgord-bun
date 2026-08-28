@@ -33,7 +33,7 @@ const serialized = (event: PassageOfTimeEvent) => ({
 });
 
 describe("EventStoreWithLoggerAdapter", () => {
-  test("find", async () => {
+  test("find - success", async () => {
     const finder = new EventFinderNoopAdapter([serialized(mocks.GenericHourHasPassedEvent)]);
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const Logger = new LoggerCollectingAdapter();
@@ -68,7 +68,7 @@ describe("EventStoreWithLoggerAdapter", () => {
     ]);
   });
 
-  test("findLast", async () => {
+  test("findLast - success", async () => {
     const finderLast = new EventFinderLastNoopAdapter(serialized(mocks.GenericHourHasPassedEvent));
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const Logger = new LoggerCollectingAdapter();
@@ -160,7 +160,7 @@ describe("EventStoreWithLoggerAdapter", () => {
     ]);
   });
 
-  test("save", async () => {
+  test("save - success", async () => {
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const Logger = new LoggerCollectingAdapter();
     const store = new EventStoreWithLoggerAdapter<PassageOfTimeEvent>({ inner, Logger, Clock });

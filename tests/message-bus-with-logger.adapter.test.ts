@@ -10,7 +10,7 @@ import * as mocks from "./mocks";
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 
 describe("MessageBusWithLoggerAdapter", () => {
-  test("emit", async () => {
+  test("emit - success", async () => {
     const handler = jest.fn();
     const Logger = new LoggerCollectingAdapter();
     const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
