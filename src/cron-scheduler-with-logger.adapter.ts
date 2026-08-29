@@ -1,5 +1,4 @@
 import type { ClockPort } from "./clock.port";
-import { CorrelationStorage } from "./correlation-storage.service";
 import type { CronSchedulerPort } from "./cron-scheduler.port";
 import type { CronTask } from "./cron-task.vo";
 import type { LoggerPort } from "./logger.port";
@@ -18,7 +17,6 @@ export class CronSchedulerWithLoggerAdapter implements CronSchedulerPort {
     try {
       this.deps.Logger.info({
         message: "Cron scheduler schedule attempt",
-        correlationId: CorrelationStorage.get(),
         metadata: { label: task.label, cron: task.cron },
         ...this.base,
       });
@@ -27,14 +25,12 @@ export class CronSchedulerWithLoggerAdapter implements CronSchedulerPort {
 
       this.deps.Logger.info({
         message: "Cron scheduler schedule success",
-        correlationId: CorrelationStorage.get(),
         metadata: { label: task.label, cron: task.cron, duration: duration.stop() },
         ...this.base,
       });
     } catch (error) {
       this.deps.Logger.error({
         message: "Cron scheduler schedule error",
-        correlationId: CorrelationStorage.get(),
         error,
         metadata: { label: task.label, cron: task.cron, duration: duration.stop() },
         ...this.base,
