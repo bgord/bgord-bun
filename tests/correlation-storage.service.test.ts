@@ -8,8 +8,8 @@ const outer = mocks.correlationId;
 const inner = v.parse(CorrelationId, "bf732a6a-fcb8-4c24-ae79-fd51c96b17e5");
 
 describe("CorrelationStorage", () => {
-  test("run - sync", () => {
-    CorrelationStorage.run(mocks.correlationId, () =>
+  test("run - sync", async () => {
+    await CorrelationStorage.run(mocks.correlationId, () =>
       expect(CorrelationStorage.get()).toEqual(mocks.correlationId),
     );
   });
@@ -24,11 +24,11 @@ describe("CorrelationStorage", () => {
     expect(() => CorrelationStorage.get()).toThrow("correlation.storage.missing");
   });
 
-  test("run - inner and outer", () => {
-    CorrelationStorage.run(outer, () => {
+  test("run - inner and outer", async () => {
+    await CorrelationStorage.run(outer, async () => {
       expect(CorrelationStorage.get()).toEqual(outer);
 
-      CorrelationStorage.run(inner, () => expect(CorrelationStorage.get()).toEqual(inner));
+      await CorrelationStorage.run(inner, () => expect(CorrelationStorage.get()).toEqual(inner));
 
       expect(CorrelationStorage.get()).toEqual(outer);
     });

@@ -41,14 +41,14 @@ export class GracefulShutdown {
   }
 
   applyTo(server: ServerType) {
-    const graceful = (signal: string) => () => {
+    const graceful = (signal: string) => async () => {
       this.deps.Logger.info({ message: `${signal} received`, ...this.base });
-      this.shutdown(server, 0);
+      await this.shutdown(server, 0);
     };
 
-    const fatal = (event: string) => (error: unknown) => {
+    const fatal = (event: string) => async (error: unknown) => {
       this.deps.Logger.error({ message: `${event} received`, error, ...this.base });
-      this.shutdown(server, 1);
+      await this.shutdown(server, 1);
     };
 
     process.once("SIGTERM", graceful("SIGTERM"));

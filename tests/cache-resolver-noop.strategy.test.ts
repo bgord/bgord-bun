@@ -7,7 +7,6 @@ import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strate
 import * as mocks from "./mocks";
 
 const first = "first-value";
-const second = "second-value";
 
 const HashContent = new HashContentSha256Strategy();
 const codec = new CacheCodecIdentityStrategy<string>();
