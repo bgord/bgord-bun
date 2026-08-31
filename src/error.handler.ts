@@ -2,10 +2,13 @@ import type { ErrorClassifierStrategy } from "./error-classifier.strategy";
 import { ErrorClassifierUnknownStrategy } from "./error-classifier-unknown.strategy";
 import type { HasRequestUrl } from "./request-context.port";
 
-export type ErrorHandlerConfig = { classifiers: ReadonlyArray<ErrorClassifierStrategy> };
+export type ErrorHandlerConfig = {
+  classifiers: ReadonlyArray<ErrorClassifierStrategy>;
+  fallback?: ErrorClassifierStrategy;
+};
 
 export class ErrorHandler {
-  private static readonly fallback = new ErrorClassifierUnknownStrategy();
+  private static readonly unknown = new ErrorClassifierUnknownStrategy();
 
   constructor(private readonly config: ErrorHandlerConfig) {}
 
@@ -16,6 +19,10 @@ export class ErrorHandler {
       if (response) return response;
     }
 
-    return ErrorHandler.fallback.classify(error);
+    const fallback = this.config.fallback?.classify(error, context);
+
+    if (fallback) return fallback;
+
+    return ErrorHandler.unknown.classify(error);
   }
 }
