@@ -214,6 +214,22 @@ describe("GracefulShutdown", () => {
     expect(exitCalls[0]).toEqual(1);
   });
 
+  test("fatal handlers stay registered after the first event", async () => {
+    const ownLogger = new LoggerNoopAdapter();
+    using loggerError = spyOn(ownLogger, "error");
+    const server = { stop: jest.fn() } as unknown as ServerType;
+    const exit = (() => undefined) as unknown as (code: number) => never;
+    new GracefulShutdown({ Logger: ownLogger }, { cleanup: tools.noop, exit }).applyTo(server);
+
+    process.emit("uncaughtException", new Error(mocks.IntentionalError));
+    process.emit("uncaughtException", new Error(mocks.IntentionalError));
+    process.emit("unhandledRejection", new Error(mocks.IntentionalError), {});
+    process.emit("unhandledRejection", new Error(mocks.IntentionalError), {});
+    await tick();
+
+    expect(loggerError).toHaveBeenCalledTimes(4);
+  });
+
   test("logger closing", async () => {
     const order: Array<string> = [];
     using loggerClose = spyOn(Logger, "close").mockImplementation(() => order.push("close"));

@@ -53,7 +53,7 @@ export class GracefulShutdown {
 
     process.once("SIGTERM", graceful("SIGTERM"));
     process.once("SIGINT", graceful("SIGINT"));
-    process.once("unhandledRejection", fatal("UnhandledRejection"));
-    process.once("uncaughtException", fatal("UncaughtException"));
+    process.on("unhandledRejection", fatal("UnhandledRejection"));
+    process.on("uncaughtException", fatal("UncaughtException"));
   }
 }
