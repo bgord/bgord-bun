@@ -14,6 +14,19 @@ describe("ErrorClassifierHttpExceptionHonoStrategy", () => {
     expect(await result?.json()).toEqual({ message });
   });
 
+  test("happy path - headers", async () => {
+    const result = strategy.classify(
+      new HTTPException(401, {
+        message,
+        res: new Response(message, { headers: { "WWW-Authenticate": 'Basic realm="app"' } }),
+      }),
+    );
+
+    expect(result?.status).toEqual(401);
+    expect(result?.headers.get("WWW-Authenticate")).toEqual('Basic realm="app"');
+    expect(await result?.json()).toEqual({ message });
+  });
+
   test("unknown http exception", async () => {
     const result = strategy.classify(new HTTPException(413, { message: "shield.body.limit.rejected" }));
 
