@@ -11,6 +11,6 @@ export class ErrorClassifierHttpExceptionHonoStrategy implements ErrorClassifier
 
     if (!this.config.known.includes(error.message)) return error.getResponse();
 
-    return Response.json({ message: error.message }, { status: error.status });
+    return Response.json({ message: error.message }, { status: error.status, headers: error.res?.headers });
   }
 }
