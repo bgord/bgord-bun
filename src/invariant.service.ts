@@ -18,7 +18,7 @@ export abstract class Invariant<T extends Config> {
   abstract kind: InvariantFailureKind;
 
   throw() {
-    throw new this.error();
+    throw new this.error(this.message);
   }
 
   enforce(config: T) {

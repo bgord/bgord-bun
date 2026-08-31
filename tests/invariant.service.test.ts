@@ -27,4 +27,12 @@ describe("Invariant", () => {
   test("ensure - failure", async () => {
     expect(async () => invariant.enforce({ threshold: 15 })).toThrow(invariant.error);
   });
+
+  test("ensure - failure carries the message", async () => {
+    expect(async () => invariant.enforce({ threshold: 15 })).toThrow("SampleInvariant failed");
+  });
+
+  test("throw - carries the message", async () => {
+    expect(() => invariant.throw()).toThrow("SampleInvariant failed");
+  });
 });
