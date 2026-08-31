@@ -142,6 +142,7 @@ src/
 ├── error-classifier-message-map.strategy.ts
 ├── error-classifier-unknown.strategy.ts
 ├── error-classifier-validation.strategy.ts
+├── error-classifier-with-logger.strategy.ts
 ├── error-classifier.strategy.ts
 ├── error-hono.handler.ts
 ├── error.handler.ts
