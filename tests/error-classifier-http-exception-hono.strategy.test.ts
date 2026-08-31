@@ -11,7 +11,7 @@ describe("ErrorClassifierHttpExceptionHonoStrategy", () => {
     const result = strategy.classify(new HTTPException(401, { message }));
 
     expect(result?.status).toEqual(401);
-    expect(await result?.json()).toEqual({ message, _known: true });
+    expect(await result?.json()).toEqual({ message });
   });
 
   test("unknown http exception", async () => {
