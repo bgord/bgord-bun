@@ -114,6 +114,7 @@ export * from "./error-classifier.strategy";
 export * from "./error-classifier-http-exception-hono.strategy";
 export * from "./error-classifier-invariant.strategy";
 export * from "./error-classifier-message-map.strategy";
+export * from "./error-classifier-unknown.strategy";
 export * from "./error-classifier-validation.strategy";
 export * from "./etag-extractor.middleware";
 export * from "./etag-extractor.strategy";
