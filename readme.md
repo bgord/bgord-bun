@@ -137,6 +137,7 @@ src/
 ├── environment-loader-process-safe.adapter.ts
 ├── environment-loader-process.adapter.ts
 ├── environment-loader.port.ts
+├── error-classifier.strategy.ts
 ├── etag-extractor-fixed.strategy.ts
 ├── etag-extractor-header.strategy.ts
 ├── etag-extractor-hono.middleware.ts
