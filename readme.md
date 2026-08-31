@@ -143,6 +143,7 @@ src/
 ├── error-classifier-unknown.strategy.ts
 ├── error-classifier-validation.strategy.ts
 ├── error-classifier.strategy.ts
+├── error.handler.ts
 ├── etag-extractor-fixed.strategy.ts
 ├── etag-extractor-header.strategy.ts
 ├── etag-extractor-hono.middleware.ts
