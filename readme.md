@@ -139,6 +139,7 @@ src/
 ├── environment-loader.port.ts
 ├── error-classifier-http-exception-hono.strategy.ts
 ├── error-classifier-message-map.strategy.ts
+├── error-classifier-validation.strategy.ts
 ├── error-classifier.strategy.ts
 ├── etag-extractor-fixed.strategy.ts
 ├── etag-extractor-header.strategy.ts
