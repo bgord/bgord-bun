@@ -4,7 +4,7 @@ import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifie
 
 const message = "shield.api.key.rejected";
 
-const strategy = new ErrorClassifierHttpExceptionHonoStrategy({ known: [message] });
+const strategy = new ErrorClassifierHttpExceptionHonoStrategy({ errors: [message] });
 
 describe("ErrorClassifierHttpExceptionHonoStrategy", () => {
   test("happy path", async () => {
