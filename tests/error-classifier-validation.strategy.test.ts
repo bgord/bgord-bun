@@ -24,6 +24,12 @@ describe("ErrorClassifierValidationStrategy", () => {
     expect(await result?.json()).toEqual({ message: "payload.invalid.error" });
   });
 
+  test("malformed issue", () => {
+    const error = Object.assign(new Error("validation"), { issues: [{ message: "uuid.type" }, null] });
+
+    expect(strategy.classify(error)).toEqual(null);
+  });
+
   test("error without issues", () => {
     expect(strategy.classify(new Error("uuid.type"))).toEqual(null);
   });
