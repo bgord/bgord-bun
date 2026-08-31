@@ -22,6 +22,9 @@ export class ErrorClassifierValidationStrategy implements ErrorClassifierStrateg
 
     const issues = (error as Partial<ValidationErrorLike>).issues;
 
-    return Array.isArray(issues) && issues.every((issue) => typeof issue?.message === "string");
+    if (!Array.isArray(issues)) return false;
+    if (issues.length === 0) return false;
+
+    return issues.every((issue) => typeof issue?.message === "string");
   }
 }

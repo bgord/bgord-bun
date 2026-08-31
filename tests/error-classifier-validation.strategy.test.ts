@@ -30,6 +30,12 @@ describe("ErrorClassifierValidationStrategy", () => {
     expect(strategy.classify(error)).toEqual(null);
   });
 
+  test("empty issues", () => {
+    const error = Object.assign(new Error("validation"), { issues: [] });
+
+    expect(strategy.classify(error)).toEqual(null);
+  });
+
   test("error without issues", () => {
     expect(strategy.classify(new Error("uuid.type"))).toEqual(null);
   });
