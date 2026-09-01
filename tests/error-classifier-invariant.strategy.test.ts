@@ -2,32 +2,74 @@ import { describe, expect, test } from "bun:test";
 import { ErrorClassifierInvariantStrategy } from "../src/error-classifier-invariant.strategy";
 import { Invariant, InvariantFailureKind } from "../src/invariant.service";
 
-class SampleError extends Error {}
+class ForbiddenError extends Error {}
+class NotFoundError extends Error {}
+class PreconditionError extends Error {}
 
-class SampleInvariantFactory extends Invariant<{ threshold: number }> {
+class ForbiddenInvariantFactory extends Invariant<{ threshold: number }> {
   passes(config: { threshold: number }) {
     return config.threshold <= 10;
   }
-  error = SampleError;
-  kind = InvariantFailureKind.not_found;
-  message = "sample.invariant.failed";
+  error = ForbiddenError;
+  kind = InvariantFailureKind.forbidden;
+  message = "forbidden.invariant.failed";
 }
 
-const strategy = new ErrorClassifierInvariantStrategy([new SampleInvariantFactory()]);
+class NotFoundInvariantFactory extends Invariant<{ threshold: number }> {
+  passes(config: { threshold: number }) {
+    return config.threshold <= 10;
+  }
+  error = NotFoundError;
+  kind = InvariantFailureKind.not_found;
+  message = "not.found.invariant.failed";
+}
+
+class PreconditionInvariantFactory extends Invariant<{ threshold: number }> {
+  passes(config: { threshold: number }) {
+    return config.threshold <= 10;
+  }
+  error = PreconditionError;
+  kind = InvariantFailureKind.precondition;
+  message = "precondition.invariant.failed";
+}
+
+const strategy = new ErrorClassifierInvariantStrategy([
+  new ForbiddenInvariantFactory(),
+  new NotFoundInvariantFactory(),
+  new PreconditionInvariantFactory(),
+]);
 
 describe("ErrorClassifierInvariantStrategy", () => {
-  test("happy path", async () => {
-    const result = strategy.classify(new SampleError("sample.invariant.failed"));
+  test("forbidden", async () => {
+    const result = strategy.classify(new ForbiddenError("whatever"));
+
+    expect(result?.status).toEqual(403);
+    expect(await result?.json()).toEqual({ message: "forbidden.invariant.failed" });
+  });
+
+  test("not_found", async () => {
+    const result = strategy.classify(new NotFoundError("whatever"));
 
     expect(result?.status).toEqual(404);
-    expect(await result?.json()).toEqual({ message: "sample.invariant.failed" });
+    expect(await result?.json()).toEqual({ message: "not.found.invariant.failed" });
+  });
+
+  test("precondition", async () => {
+    const result = strategy.classify(new PreconditionError("whatever"));
+
+    expect(result?.status).toEqual(400);
+    expect(await result?.json()).toEqual({ message: "precondition.invariant.failed" });
   });
 
   test("unknown error", () => {
-    expect(strategy.classify(new Error("sample.invariant.failed"))).toEqual(null);
+    expect(strategy.classify(new Error("whatever"))).toEqual(null);
   });
 
   test("null", () => {
     expect(strategy.classify(null)).toEqual(null);
+  });
+
+  test("no invariants", () => {
+    expect(new ErrorClassifierInvariantStrategy([]).classify(new NotFoundError("whatever"))).toEqual(null);
   });
 });

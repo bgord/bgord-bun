@@ -1,19 +1,25 @@
 import type { ErrorClassifierStrategy } from "./error-classifier.strategy";
-import type { Invariant } from "./invariant.service";
-import { InvariantErrorHandler } from "./invariant-error-handler.service";
+import { type Invariant, InvariantFailureKind } from "./invariant.service";
 
 export type ErrorClassifierInvariantConfig = ReadonlyArray<Invariant<any>>;
 
 export class ErrorClassifierInvariantStrategy implements ErrorClassifierStrategy {
+  private static readonly code: Record<InvariantFailureKind, number> = {
+    [InvariantFailureKind.forbidden]: 403,
+    [InvariantFailureKind.not_found]: 404,
+    [InvariantFailureKind.precondition]: 400,
+  };
+
   constructor(private readonly config: ErrorClassifierInvariantConfig) {}
 
   classify(error: unknown): Response | null {
-    const invariantError = InvariantErrorHandler.detect(this.config, error);
+    const invariant = this.config.find((candidate) => error instanceof candidate.error);
 
-    if (!invariantError) return null;
+    if (!invariant) return null;
 
-    const [body, status] = InvariantErrorHandler.respond(invariantError);
-
-    return Response.json({ message: body.message }, { status });
+    return Response.json(
+      { message: invariant.message },
+      { status: ErrorClassifierInvariantStrategy.code[invariant.kind] },
+    );
   }
 }
