@@ -45,10 +45,7 @@ describe("ShieldTimeoutStrategy", () => {
       })
       .onError((error) => {
         if (error.message === ShieldTimeoutStrategyError.Rejected) {
-          return Response.json(
-            { message: ShieldTimeoutStrategyError.Rejected, _known: true },
-            { status: 408 },
-          );
+          return Response.json({ message: ShieldTimeoutStrategyError.Rejected }, { status: 408 });
         }
         return Response.json({}, { status: 500 });
       });

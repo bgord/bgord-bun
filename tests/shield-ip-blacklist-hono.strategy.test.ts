@@ -20,10 +20,7 @@ const app = new Hono()
   .get("/ping", () => new Response("OK"))
   .onError((error) => {
     if (error.message === ShieldIpBlacklistStrategyError.Rejected) {
-      return Response.json(
-        { message: ShieldIpBlacklistStrategyError.Rejected, _known: true },
-        { status: 403 },
-      );
+      return Response.json({ message: ShieldIpBlacklistStrategyError.Rejected }, { status: 403 });
     }
     return Response.json({}, { status: 500 });
   });

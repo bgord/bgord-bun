@@ -15,7 +15,7 @@ const app = new Hono()
   .get("/ping", () => new Response("OK"))
   .onError((error) => {
     if (error.message === ShieldApiKeyStrategyError.Rejected) {
-      return Response.json({ message: ShieldApiKeyStrategyError.Rejected, _known: true }, { status: 401 });
+      return Response.json({ message: ShieldApiKeyStrategyError.Rejected }, { status: 401 });
     }
     return Response.json({}, { status: 500 });
   });

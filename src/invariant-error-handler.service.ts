@@ -2,7 +2,7 @@ import { type Invariant, InvariantFailureKind } from "./invariant.service";
 
 type BaseInvariantType = Invariant<any>;
 type InvariantMessageType = BaseInvariantType["message"];
-type ErrorResponseTupleType = [{ message: InvariantMessageType; _known: true }, number];
+type ErrorResponseTupleType = [{ message: InvariantMessageType }, number];
 
 export class InvariantErrorHandler {
   static detect(invariants: ReadonlyArray<BaseInvariantType>, error: unknown): BaseInvariantType | null {
@@ -16,6 +16,6 @@ export class InvariantErrorHandler {
       [InvariantFailureKind.precondition]: 400,
     };
 
-    return [{ message: error.message, _known: true }, code[error.kind]];
+    return [{ message: error.message }, code[error.kind]];
   }
 }

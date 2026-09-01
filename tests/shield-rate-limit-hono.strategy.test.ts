@@ -34,7 +34,7 @@ const shieldRateLimit = new ShieldRateLimitHonoStrategy(
 
 const onError = (error: Error, c: Context) => {
   if (error.message === ShieldRateLimitStrategyError.Rejected) {
-    return c.json({ message: ShieldRateLimitStrategyError.Rejected, _known: true }, 429);
+    return c.json({ message: ShieldRateLimitStrategyError.Rejected }, 429);
   }
   return c.json({}, 500);
 };

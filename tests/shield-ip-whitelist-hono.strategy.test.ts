@@ -20,10 +20,7 @@ const app = new Hono()
   .get("/ping", () => new Response("OK"))
   .onError((error) => {
     if (error.message === ShieldIpWhitelistStrategyError.Rejected) {
-      return Response.json(
-        { message: ShieldIpWhitelistStrategyError.Rejected, _known: true },
-        { status: 403 },
-      );
+      return Response.json({ message: ShieldIpWhitelistStrategyError.Rejected }, { status: 403 });
     }
     return Response.json({}, { status: 500 });
   });

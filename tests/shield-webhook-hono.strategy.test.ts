@@ -45,7 +45,7 @@ const app = new Hono()
   .post("/webhook", new ShieldWebhookHonoStrategy(config, deps).handle(), () => new Response("ok"))
   .onError((error) => {
     if (error.message === ShieldWebhookStrategyError.Rejected) {
-      return Response.json({ message: ShieldWebhookStrategyError.Rejected, _known: true }, { status: 401 });
+      return Response.json({ message: ShieldWebhookStrategyError.Rejected }, { status: 401 });
     }
     return Response.json({}, { status: 500 });
   });
@@ -132,10 +132,7 @@ describe("ShieldWebhookHonoStrategy", () => {
       .post("/webhook", ShieldWebhook.handle(), () => new Response("ok"))
       .onError((error) => {
         if (error.message === ShieldWebhookStrategyError.Rejected) {
-          return Response.json(
-            { message: ShieldWebhookStrategyError.Rejected, _known: true },
-            { status: 401 },
-          );
+          return Response.json({ message: ShieldWebhookStrategyError.Rejected }, { status: 401 });
         }
         return Response.json({}, { status: 500 });
       });

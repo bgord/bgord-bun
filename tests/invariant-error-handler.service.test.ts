@@ -43,6 +43,6 @@ describe("InvariantErrorHandler", () => {
     const json = await result.json();
 
     expect(result.status).toEqual(400);
-    expect(json).toEqual({ message: SampleInvariant.message, _known: true });
+    expect(json).toEqual({ message: SampleInvariant.message });
   });
 });
