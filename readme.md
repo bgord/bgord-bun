@@ -239,6 +239,7 @@ src/
 ├── healthcheck-hono.handler.ts
 ├── healthcheck.handler.ts
 ├── hostname.vo.ts
+├── http-exception-errors.ts
 ├── http-logger-hono.middleware.ts
 ├── http-logger.middleware.ts
 ├── id-provider-crypto.adapter.ts

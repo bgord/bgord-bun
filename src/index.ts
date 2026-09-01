@@ -212,6 +212,7 @@ export * from "./hcaptcha-site-key.vo";
 export * from "./healthcheck.handler";
 export * from "./healthcheck-hono.handler";
 export * from "./hostname.vo";
+export * from "./http-exception-errors";
 export * from "./http-logger.middleware";
 export * from "./http-logger-hono.middleware";
 export * from "./id-provider.port";
