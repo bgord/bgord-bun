@@ -4,7 +4,7 @@ import { ErrorClassifierWithLoggerStrategy } from "./error-classifier-with-logge
 import type { LoggerPort } from "./logger.port";
 import type { HasRequestUrl } from "./request-context.port";
 
-export type ErrorHandlerConfig = { classifiers: ReadonlyArray<ErrorClassifierStrategy> };
+export type ErrorHandlerConfig = ReadonlyArray<ErrorClassifierStrategy>;
 
 export type ErrorHandlerDependencies = { Logger: LoggerPort };
 
@@ -24,7 +24,7 @@ export class ErrorHandler {
   }
 
   handle(error: unknown, context: HasRequestUrl): Response {
-    for (const classifier of this.config.classifiers) {
+    for (const classifier of this.config) {
       const response = classifier.classify(error, context);
 
       if (response) return response;

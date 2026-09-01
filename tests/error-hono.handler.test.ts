@@ -7,16 +7,17 @@ import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import * as mocks from "./mocks";
 
+const Logger = new LoggerNoopAdapter();
+const deps = { Logger };
+
 describe("ErrorHonoHandler", () => {
   test("happy path", async () => {
     const handler = new ErrorHonoHandler(
-      {
-        classifiers: [
-          new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "first", status: 412 } }),
-          new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 400 } }),
-        ],
-      },
-      { Logger: new LoggerNoopAdapter() },
+      [
+        new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "first", status: 412 } }),
+        new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 400 } }),
+      ],
+      deps,
     );
     const app = new Hono()
       .get("/ping", () => {
@@ -32,13 +33,11 @@ describe("ErrorHonoHandler", () => {
 
   test("unmatched classifier", async () => {
     const handler = new ErrorHonoHandler(
-      {
-        classifiers: [
-          new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
-          new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 412 } }),
-        ],
-      },
-      { Logger: new LoggerNoopAdapter() },
+      [
+        new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
+        new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 412 } }),
+      ],
+      deps,
     );
     const app = new Hono()
       .get("/ping", () => {
@@ -54,12 +53,8 @@ describe("ErrorHonoHandler", () => {
 
   test("no matches", async () => {
     const handler = new ErrorHonoHandler(
-      {
-        classifiers: [
-          new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
-        ],
-      },
-      { Logger: new LoggerNoopAdapter() },
+      [new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } })],
+      deps,
     );
     const app = new Hono()
       .get("/ping", () => {
@@ -74,7 +69,7 @@ describe("ErrorHonoHandler", () => {
   });
 
   test("no classifiers", async () => {
-    const handler = new ErrorHonoHandler({ classifiers: [] }, { Logger: new LoggerNoopAdapter() });
+    const handler = new ErrorHonoHandler([], deps);
     const app = new Hono()
       .get("/ping", () => {
         throw new Error("revision.mismatch");
@@ -89,8 +84,7 @@ describe("ErrorHonoHandler", () => {
 
   test("terminal classifier logs the unknown error", async () => {
     const Logger = new LoggerCollectingAdapter();
-
-    const handler = new ErrorHonoHandler({ classifiers: [] }, { Logger });
+    const handler = new ErrorHonoHandler([], { Logger });
     const app = new Hono()
       .get("/ping", () => {
         throw new Error("revision.mismatch");
@@ -115,15 +109,8 @@ describe("ErrorHonoHandler", () => {
 
   test("trailing classifier without a match", async () => {
     const Logger = new LoggerCollectingAdapter();
-
     const handler = new ErrorHonoHandler(
-      {
-        classifiers: [
-          new ErrorClassifierMessageMapStrategy({
-            "mime.value.invalid": { message: "first", status: 400 },
-          }),
-        ],
-      },
+      [new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } })],
       { Logger },
     );
     const app = new Hono()
@@ -150,13 +137,11 @@ describe("ErrorHonoHandler", () => {
 
   test("matching trailing classifier", async () => {
     const handler = new ErrorHonoHandler(
-      {
-        classifiers: [
-          new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
-          new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 412 } }),
-        ],
-      },
-      { Logger: new LoggerNoopAdapter() },
+      [
+        new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
+        new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 412 } }),
+      ],
+      deps,
     );
     const app = new Hono()
       .get("/ping", () => {
