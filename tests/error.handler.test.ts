@@ -73,7 +73,7 @@ describe("ErrorHandler", () => {
     expect(await result.json()).toEqual({ message: "general.unknown" });
   });
 
-  test("default fallback logs the unknown error", async () => {
+  test("terminal classifier logs the unknown error", async () => {
     const Logger = new LoggerCollectingAdapter();
 
     const handler = new ErrorHandler({ classifiers: [] }, { Logger });
@@ -99,7 +99,7 @@ describe("ErrorHandler", () => {
     ]);
   });
 
-  test("default fallback does not log a classified error", async () => {
+  test("terminal classifier does not log a classified error", async () => {
     const Logger = new LoggerCollectingAdapter();
 
     const handler = new ErrorHandler(
@@ -117,33 +117,48 @@ describe("ErrorHandler", () => {
     expect(Logger.entries).toEqual([]);
   });
 
-  test("fallback without a match", async () => {
+  test("trailing classifier without a match", async () => {
     const Logger = new LoggerCollectingAdapter();
 
     const handler = new ErrorHandler(
       {
-        classifiers: [],
-        fallback: new ErrorClassifierMessageMapStrategy({
-          "mime.value.invalid": { message: "first", status: 400 },
-        }),
+        classifiers: [
+          new ErrorClassifierMessageMapStrategy({
+            "mime.value.invalid": { message: "first", status: 400 },
+          }),
+        ],
       },
       { Logger },
     );
 
-    const result = handler.handle(new Error("revision.mismatch"), context);
+    const result = await CorrelationStorage.run(mocks.correlationId, () =>
+      handler.handle(
+        new Error("revision.mismatch"),
+        new RequestContextBuilder().withUrl("http://localhost/ping").build(),
+      ),
+    );
 
     expect(result.status).toEqual(500);
     expect(await result.json()).toEqual({ message: "general.unknown" });
-    expect(Logger.entries).toEqual([]);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Classified error",
+        component: "http",
+        operation: "unknown_error",
+        correlationId: mocks.correlationId,
+        metadata: { url: "http://localhost/ping", status: 500 },
+        error: new Error("revision.mismatch"),
+      },
+    ]);
   });
 
-  test("matching fallback", async () => {
+  test("matching trailing classifier", async () => {
     const handler = new ErrorHandler(
       {
-        classifiers: [],
-        fallback: new ErrorClassifierMessageMapStrategy({
-          "revision.mismatch": { message: "second", status: 412 },
-        }),
+        classifiers: [
+          new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
+          new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 412 } }),
+        ],
       },
       { Logger: new LoggerNoopAdapter() },
     );

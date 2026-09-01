@@ -87,7 +87,7 @@ describe("ErrorHonoHandler", () => {
     expect(await result.json()).toEqual({ message: "general.unknown" });
   });
 
-  test("default fallback logs the unknown error", async () => {
+  test("terminal classifier logs the unknown error", async () => {
     const Logger = new LoggerCollectingAdapter();
 
     const handler = new ErrorHonoHandler({ classifiers: [] }, { Logger });
@@ -113,15 +113,16 @@ describe("ErrorHonoHandler", () => {
     ]);
   });
 
-  test("fallback without a match", async () => {
+  test("trailing classifier without a match", async () => {
     const Logger = new LoggerCollectingAdapter();
 
     const handler = new ErrorHonoHandler(
       {
-        classifiers: [],
-        fallback: new ErrorClassifierMessageMapStrategy({
-          "mime.value.invalid": { message: "first", status: 400 },
-        }),
+        classifiers: [
+          new ErrorClassifierMessageMapStrategy({
+            "mime.value.invalid": { message: "first", status: 400 },
+          }),
+        ],
       },
       { Logger },
     );
@@ -131,20 +132,29 @@ describe("ErrorHonoHandler", () => {
       })
       .onError(handler.handle());
 
-    const result = await app.request("/ping");
+    const result = await CorrelationStorage.run(mocks.correlationId, () => app.request("/ping"));
 
     expect(result.status).toEqual(500);
     expect(await result.json()).toEqual({ message: "general.unknown" });
-    expect(Logger.entries).toEqual([]);
+    expect(Logger.entries).toEqual([
+      {
+        message: "Classified error",
+        component: "http",
+        operation: "unknown_error",
+        correlationId: mocks.correlationId,
+        metadata: { url: "http://localhost/ping", status: 500 },
+        error: new Error("revision.mismatch"),
+      },
+    ]);
   });
 
-  test("matching fallback", async () => {
+  test("matching trailing classifier", async () => {
     const handler = new ErrorHonoHandler(
       {
-        classifiers: [],
-        fallback: new ErrorClassifierMessageMapStrategy({
-          "revision.mismatch": { message: "second", status: 412 },
-        }),
+        classifiers: [
+          new ErrorClassifierMessageMapStrategy({ "mime.value.invalid": { message: "first", status: 400 } }),
+          new ErrorClassifierMessageMapStrategy({ "revision.mismatch": { message: "second", status: 412 } }),
+        ],
       },
       { Logger: new LoggerNoopAdapter() },
     );
