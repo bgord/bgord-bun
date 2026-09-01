@@ -13,7 +13,7 @@ class SampleInvariantFactory extends Invariant<{ threshold: number }> {
   message = "sample.invariant.failed";
 }
 
-const strategy = new ErrorClassifierInvariantStrategy({ invariants: [new SampleInvariantFactory()] });
+const strategy = new ErrorClassifierInvariantStrategy([new SampleInvariantFactory()]);
 
 describe("ErrorClassifierInvariantStrategy", () => {
   test("happy path", async () => {

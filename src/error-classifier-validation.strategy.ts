@@ -1,6 +1,6 @@
 import type { ErrorClassifierStrategy } from "./error-classifier.strategy";
 
-export type ErrorClassifierValidationConfig = { errors: ReadonlyArray<string> };
+export type ErrorClassifierValidationConfig = ReadonlyArray<string>;
 
 type ValidationErrorLike = { issues: ReadonlyArray<{ message: string }> };
 
@@ -10,7 +10,7 @@ export class ErrorClassifierValidationStrategy implements ErrorClassifierStrateg
   classify(error: unknown): Response | null {
     if (!ErrorClassifierValidationStrategy.isValidationError(error)) return null;
 
-    const validationError = error.issues.find((issue) => this.config.errors.includes(issue.message));
+    const validationError = error.issues.find((issue) => this.config.includes(issue.message));
 
     return Response.json({ message: validationError?.message ?? "payload.invalid.error" }, { status: 400 });
   }

@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { ErrorClassifierValidationStrategy } from "../src/error-classifier-validation.strategy";
 
-const strategy = new ErrorClassifierValidationStrategy({ errors: ["uuid.type"] });
+const strategy = new ErrorClassifierValidationStrategy(["uuid.type"]);
 
 const parsed = v.safeParse(v.string("uuid.type"), 123);
 const valibotError = parsed.success ? null : new v.ValiError(parsed.issues);
