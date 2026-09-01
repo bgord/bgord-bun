@@ -288,7 +288,6 @@ src/
 ├── in-flight-requests-tracker.service.ts
 ├── in-flight-requests.middleware.ts
 ├── instrumentation.service.ts
-├── invariant-error-handler.service.ts
 ├── invariant.service.ts
 ├── job-claimer-noop.adapter.ts
 ├── job-claimer-sqlite.adapter.ts

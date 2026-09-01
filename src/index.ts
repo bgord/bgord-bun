@@ -261,7 +261,6 @@ export * from "./in-flight-requests-hono.middleware";
 export * from "./in-flight-requests-tracker.service";
 export * from "./instrumentation.service";
 export * from "./invariant.service";
-export * from "./invariant-error-handler.service";
 export * from "./job.types";
 export * from "./job-claimer.port";
 export * from "./job-claimer-noop.adapter";
