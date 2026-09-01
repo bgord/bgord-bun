@@ -2,7 +2,9 @@ import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { ErrorClassifierValidationStrategy } from "../src/error-classifier-validation.strategy";
 
-const strategy = new ErrorClassifierValidationStrategy(["uuid.type"]);
+const SampleError = { Invalid: "sample.invalid", Type: "sample.type" };
+
+const strategy = new ErrorClassifierValidationStrategy(["uuid.type", SampleError]);
 
 const parsed = v.safeParse(v.string("uuid.type"), 123);
 const valibotError = parsed.success ? null : new v.ValiError(parsed.issues);
@@ -15,9 +17,36 @@ describe("ErrorClassifierValidationStrategy", () => {
     expect(await result?.json()).toEqual({ message: "uuid.type" });
   });
 
+  test("object entry first member", async () => {
+    const result = strategy.classify(
+      Object.assign(new Error("validation"), { issues: [{ message: "sample.invalid" }] }),
+    );
+
+    expect(result?.status).toEqual(400);
+    expect(await result?.json()).toEqual({ message: "sample.invalid" });
+  });
+
+  test("object entry second member", async () => {
+    const result = strategy.classify(
+      Object.assign(new Error("validation"), { issues: [{ message: "sample.type" }] }),
+    );
+
+    expect(result?.status).toEqual(400);
+    expect(await result?.json()).toEqual({ message: "sample.type" });
+  });
+
   test("unexpected issue", async () => {
     const result = strategy.classify(
       Object.assign(new Error("validation"), { issues: [{ message: "string.type" }] }),
+    );
+
+    expect(result?.status).toEqual(400);
+    expect(await result?.json()).toEqual({ message: "payload.invalid.error" });
+  });
+
+  test("empty config", async () => {
+    const result = new ErrorClassifierValidationStrategy([]).classify(
+      Object.assign(new Error("validation"), { issues: [{ message: "uuid.type" }] }),
     );
 
     expect(result?.status).toEqual(400);
