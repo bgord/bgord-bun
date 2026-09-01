@@ -1,7 +1,7 @@
 import type { ErrorClassifierStrategy } from "./error-classifier.strategy";
 import { type Invariant, InvariantFailureKind } from "./invariant.service";
 
-export type ErrorClassifierInvariantConfig = ReadonlyArray<Invariant<any>>;
+export type ErrorClassifierInvariantConfig = ReadonlyArray<Record<string, Invariant<any>>>;
 
 export class ErrorClassifierInvariantStrategy implements ErrorClassifierStrategy {
   private static readonly code: Record<InvariantFailureKind, number> = {
@@ -10,10 +10,14 @@ export class ErrorClassifierInvariantStrategy implements ErrorClassifierStrategy
     [InvariantFailureKind.precondition]: 400,
   };
 
-  constructor(private readonly config: ErrorClassifierInvariantConfig) {}
+  private readonly invariants: ReadonlyArray<Invariant<any>>;
+
+  constructor(config: ErrorClassifierInvariantConfig) {
+    this.invariants = config.flatMap((module) => Object.values(module));
+  }
 
   classify(error: unknown): Response | null {
-    const invariant = this.config.find((candidate) => error instanceof candidate.error);
+    const invariant = this.invariants.find((candidate) => error instanceof candidate.error);
 
     if (!invariant) return null;
 

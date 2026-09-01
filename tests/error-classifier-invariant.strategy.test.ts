@@ -34,9 +34,8 @@ class PreconditionInvariantFactory extends Invariant<{ threshold: number }> {
 }
 
 const strategy = new ErrorClassifierInvariantStrategy([
-  new ForbiddenInvariantFactory(),
-  new NotFoundInvariantFactory(),
-  new PreconditionInvariantFactory(),
+  { Forbidden: new ForbiddenInvariantFactory() },
+  { NotFound: new NotFoundInvariantFactory(), Precondition: new PreconditionInvariantFactory() },
 ]);
 
 describe("ErrorClassifierInvariantStrategy", () => {
@@ -69,7 +68,11 @@ describe("ErrorClassifierInvariantStrategy", () => {
     expect(strategy.classify(null)).toEqual(null);
   });
 
-  test("no invariants", () => {
+  test("no modules", () => {
     expect(new ErrorClassifierInvariantStrategy([]).classify(new NotFoundError("whatever"))).toEqual(null);
+  });
+
+  test("empty module", () => {
+    expect(new ErrorClassifierInvariantStrategy([{}]).classify(new NotFoundError("whatever"))).toEqual(null);
   });
 });
