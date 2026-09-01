@@ -1,15 +1,21 @@
 import { HTTPException } from "hono/http-exception";
 import type { ErrorClassifierStrategy } from "./error-classifier.strategy";
 
-export type ErrorClassifierHttpExceptionConfig = ReadonlyArray<string>;
+export type ErrorClassifierHttpExceptionConfig = ReadonlyArray<string | Record<string, string>>;
 
 export class ErrorClassifierHttpExceptionHonoStrategy implements ErrorClassifierStrategy {
-  constructor(private readonly config: ErrorClassifierHttpExceptionConfig) {}
+  private readonly errors: ReadonlySet<string>;
+
+  constructor(config: ErrorClassifierHttpExceptionConfig) {
+    this.errors = new Set(
+      config.flatMap((entry) => (typeof entry === "string" ? [entry] : Object.values(entry))),
+    );
+  }
 
   classify(error: unknown): Response | null {
     if (!(error instanceof HTTPException)) return null;
 
-    if (!this.config.includes(error.message)) return error.getResponse();
+    if (!this.errors.has(error.message)) return error.getResponse();
 
     return Response.json({ message: error.message }, { status: error.status, headers: error.res?.headers });
   }
