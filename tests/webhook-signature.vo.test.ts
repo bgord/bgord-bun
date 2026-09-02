@@ -19,4 +19,12 @@ describe("WebhookSignature", () => {
   test("rejects empty", () => {
     expect(() => v.parse(WebhookSignature, "")).toThrow("webhook.signature.empty");
   });
+
+  test("rejects non-hex chars", () => {
+    expect(() => v.parse(WebhookSignature, "too_short")).toThrow("webhook.signature.invalid.hex");
+  });
+
+  test("rejects multibyte chars", () => {
+    expect(() => v.parse(WebhookSignature, "\u00e9".repeat(64))).toThrow("webhook.signature.invalid.hex");
+  });
 });
