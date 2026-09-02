@@ -207,6 +207,9 @@ src/
 ├── file-renamer-node.adapter.ts
 ├── file-renamer-noop.adapter.ts
 ├── file-renamer.port.ts
+├── file-type-detector-magic-bytes.strategy.ts
+├── file-type-detector-noop.strategy.ts
+├── file-type-detector.strategy.ts
 ├── file-uploader-hono.middleware.ts
 ├── file-uploader.middleware.ts
 ├── file-writer-forgiving.adapter.ts
