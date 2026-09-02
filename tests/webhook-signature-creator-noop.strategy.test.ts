@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { WebhookSignature } from "../src/webhook-signature.vo";
 import { WebhookSignatureCreatorNoopStrategy } from "../src/webhook-signature-creator-noop.strategy";
 
-const signature = v.parse(WebhookSignature, "noop");
+const signature = v.parse(WebhookSignature, "beef");
 const body = "test-body";
 
 const creator = new WebhookSignatureCreatorNoopStrategy(signature);

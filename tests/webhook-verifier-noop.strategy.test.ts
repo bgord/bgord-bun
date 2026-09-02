@@ -5,7 +5,7 @@ import { WebhookVerifierNoopStrategy } from "../src/webhook-verifier-noop.strate
 
 const body = "test-body";
 
-const signature = v.parse(WebhookSignature, "noop");
+const signature = v.parse(WebhookSignature, "beef");
 
 const verifier = new WebhookVerifierNoopStrategy();
 

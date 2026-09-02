@@ -12,7 +12,7 @@ const wrongBody = "wrong-body";
 
 const WebhookSignatureCreator = new WebhookSignatureCreatorSha256Strategy(secret);
 const signature = WebhookSignatureCreator.create(body);
-const wrongSignature = v.parse(WebhookSignature, "too_short");
+const wrongSignature = v.parse(WebhookSignature, "abcdef");
 
 const verifier = new WebhookVerifierSha256Strategy({ WebhookSignatureCreator });
 
@@ -31,5 +31,10 @@ describe("WebhookVerifierSha256Strategy", () => {
 
   test("verify - false - length", () => {
     expect(verifier.verify(body, wrongSignature)).toEqual(false);
+  });
+
+  test("verify - false - multibyte signature", () => {
+    // @ts-expect-error Changed schema assertion
+    expect(verifier.verify(body, "\u00e9".repeat(64))).toEqual(false);
   });
 });
