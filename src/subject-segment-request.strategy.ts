@@ -1,5 +1,6 @@
 import type {
   HasIdentityIp,
+  HasIdentityRemoteIp,
   HasIdentityUserId,
   HasRequestCookie,
   HasRequestHeader,
@@ -21,6 +22,7 @@ type RequestContextCapabilities = HasRequestCookie &
   HasRequestQueries &
   HasRequestParam &
   HasIdentityIp &
+  HasIdentityRemoteIp &
   HasIdentityUserId;
 
 export interface SubjectSegmentRequestStrategy {

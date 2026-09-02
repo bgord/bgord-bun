@@ -537,6 +537,7 @@ export * from "./subject-segment-method.strategy";
 export * from "./subject-segment-param.strategy";
 export * from "./subject-segment-path.strategy";
 export * from "./subject-segment-query.strategy";
+export * from "./subject-segment-remote-ip.strategy";
 export * from "./subject-segment-request.strategy";
 export * from "./subject-segment-user.strategy";
 export * from "./temporary-file.port";
