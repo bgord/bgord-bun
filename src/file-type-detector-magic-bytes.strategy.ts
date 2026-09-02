@@ -18,7 +18,9 @@ const SIGNATURES: ReadonlyArray<Signature> = [
 ];
 
 export class FileTypeDetectorMagicBytesStrategy implements FileTypeDetectorStrategy {
-  detect(bytes: Uint8Array): tools.Mime | null {
+  async detect(file: File): Promise<tools.Mime | null> {
+    const bytes = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+
     for (const signature of SIGNATURES) {
       if (bytes.length < signature.offset + signature.bytes.length) continue;
 

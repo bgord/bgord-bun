@@ -9,7 +9,9 @@ const isControlByte = (byte: number) =>
 export class FileTypeDetectorTextStrategy implements FileTypeDetectorStrategy {
   constructor(private readonly mime: tools.Mime) {}
 
-  detect(bytes: Uint8Array): tools.Mime | null {
+  async detect(file: File): Promise<tools.Mime | null> {
+    const bytes = new Uint8Array(await file.slice(0, 1445).arrayBuffer());
+
     if (bytes.length === 0) return null;
     if (bytes.some(isControlByte)) return null;
 
