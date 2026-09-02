@@ -1,3 +1,4 @@
+// cSpell:ignore ftypisom
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileTypeDetectorMagicBytesStrategy } from "../src/file-type-detector-magic-bytes.strategy";

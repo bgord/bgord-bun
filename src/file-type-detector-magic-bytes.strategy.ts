@@ -1,3 +1,4 @@
+// cSpell:ignore ftyp
 import * as tools from "@bgord/tools";
 import type { FileTypeDetectorStrategy } from "./file-type-detector.strategy";
 
