@@ -1,29 +1,42 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { FileTypeDetectorMagicBytesStrategy } from "../src/file-type-detector-magic-bytes.strategy";
+import { FileTypeDetectorTextStrategy } from "../src/file-type-detector-text.strategy";
 import { FileUploaderMiddleware } from "../src/file-uploader.middleware";
+import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
-const MimeRegistry = new tools.MimeRegistry([tools.Mimes.png, tools.Mimes.csv]);
-
 const png = new FormData();
-png.append("file", new File(["image"], "image.png", { type: "image/png" }));
+png.append("file", new File([new Uint8Array(mocks.PNG_BYTES)], "image.png", { type: "image/png" }));
 
 const csv = new FormData();
-csv.append("file", new File(["csv"], "data.csv", { type: "text/csv" }));
+csv.append("file", new File(["id,name\n1,John\n"], "data.csv", { type: "text/csv" }));
 
 const missing = new FormData();
 
 const empty = new FormData();
 empty.append("file", new File([], "data.csv", { type: "text/csv" }));
 
-const invalid = new FormData();
-invalid.append("file", new File(["document"], "document.pdf", { type: "application/pdf" }));
+const pdf = new FormData();
+pdf.append("file", new File(["%PDF-1.7"], "document.pdf", { type: "application/pdf" }));
 
-const middleware = new FileUploaderMiddleware({
-  MimeRegistry,
-  maxSize: tools.Size.fromKb(10),
-  field: "file",
-});
+const spoofed = new FormData();
+spoofed.append(
+  "file",
+  new File(["<!DOCTYPE html><script>alert(1)</script>"], "image.png", {
+    type: "image/png",
+  }),
+);
+
+const middleware = new FileUploaderMiddleware(
+  { MimeRegistry: new tools.MimeRegistry([tools.Mimes.png]), maxSize: tools.Size.fromKb(10), field: "file" },
+  { FileTypeDetector: new FileTypeDetectorMagicBytesStrategy() },
+);
+
+const textMiddleware = new FileUploaderMiddleware(
+  { MimeRegistry: new tools.MimeRegistry([tools.Mimes.csv]), maxSize: tools.Size.fromKb(10), field: "file" },
+  { FileTypeDetector: new FileTypeDetectorTextStrategy(tools.Mimes.csv.mime) },
+);
 
 describe("FileUploaderMiddleware", () => {
   test("happy path - png", async () => {
@@ -35,7 +48,7 @@ describe("FileUploaderMiddleware", () => {
   test("happy path - csv", async () => {
     const context = new RequestContextBuilder().withForm(csv).build();
 
-    expect(await middleware.validate(context)).toEqual({ valid: true });
+    expect(await textMiddleware.validate(context)).toEqual({ valid: true });
   });
 
   test("missing file", async () => {
@@ -51,18 +64,33 @@ describe("FileUploaderMiddleware", () => {
   });
 
   test("size limit", async () => {
-    const middleware = new FileUploaderMiddleware({
-      MimeRegistry,
-      maxSize: tools.Size.fromBytes(0),
-      field: "file",
-    });
+    const middleware = new FileUploaderMiddleware(
+      {
+        MimeRegistry: new tools.MimeRegistry([tools.Mimes.png]),
+        maxSize: tools.Size.fromBytes(0),
+        field: "file",
+      },
+      { FileTypeDetector: new FileTypeDetectorMagicBytesStrategy() },
+    );
     const context = new RequestContextBuilder().withForm(png).build();
 
     expect(await middleware.validate(context)).toEqual({ valid: false, error: "file.uploader.size.limit" });
   });
 
-  test("invalid mime", async () => {
-    const context = new RequestContextBuilder().withForm(invalid).build();
+  test("invalid mime - detected but not in the registry", async () => {
+    const context = new RequestContextBuilder().withForm(pdf).build();
+
+    expect(await middleware.validate(context)).toEqual({ valid: false, error: "file.uploader.invalid.mime" });
+  });
+
+  test("invalid mime - spoofed content type", async () => {
+    const context = new RequestContextBuilder().withForm(spoofed).build();
+
+    expect(await middleware.validate(context)).toEqual({ valid: false, error: "file.uploader.invalid.mime" });
+  });
+
+  test("invalid mime - undetectable content", async () => {
+    const context = new RequestContextBuilder().withForm(csv).build();
 
     expect(await middleware.validate(context)).toEqual({ valid: false, error: "file.uploader.invalid.mime" });
   });

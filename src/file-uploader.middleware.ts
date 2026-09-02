@@ -1,7 +1,10 @@
 import * as tools from "@bgord/tools";
+import type { FileTypeDetectorStrategy } from "./file-type-detector.strategy";
 import type { HasRequestForm } from "./request-context.port";
 
 export type FileUploaderConfig = { MimeRegistry: tools.MimeRegistry; maxSize: tools.Size; field: string };
+
+type Dependencies = { FileTypeDetector: FileTypeDetectorStrategy };
 
 export const FileUploaderError = {
   MissingFile: "file.uploader.missing.file",
@@ -15,7 +18,10 @@ export type FileValidationError = (typeof FileUploaderError)[keyof typeof FileUp
 export type FileValidationResult = { valid: true } | { valid: false; error: FileValidationError };
 
 export class FileUploaderMiddleware {
-  constructor(private readonly config: FileUploaderConfig) {}
+  constructor(
+    private readonly config: FileUploaderConfig,
+    private readonly deps: Dependencies,
+  ) {}
 
   async validate(context: HasRequestForm): Promise<FileValidationResult> {
     const form = await context.request.form();
@@ -28,8 +34,9 @@ export class FileUploaderMiddleware {
 
     if (size.isGreaterThan(this.config.maxSize)) return { valid: false, error: FileUploaderError.SizeLimit };
 
-    // TODO: MIME spoofing possible by reading client-supplied file.type
-    const mime = tools.Mime.fromString(file.type);
+    const mime = await this.deps.FileTypeDetector.detect(file);
+
+    if (!mime) return { valid: false, error: FileUploaderError.InvalidMime };
 
     if (!this.config.MimeRegistry.hasMime(mime)) {
       return { valid: false, error: FileUploaderError.InvalidMime };
