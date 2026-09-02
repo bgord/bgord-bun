@@ -25,8 +25,11 @@ import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
 import { RedactorComposite } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
+import { RedactorNoop } from "../src/redactor-noop.strategy";
 import { Uptime } from "../src/uptime.service";
 import * as mocks from "./mocks";
+
+const redactor = new RedactorNoop();
 
 const hostname = "macbook";
 const cpus: Array<os.CpuInfo> = [
@@ -66,6 +69,7 @@ describe("HealthcheckHonoHandler", () => {
       ...new HealthcheckHonoHandler(
         {
           Env: NodeEnvironmentEnum.production,
+          redactor,
           prerequisites: [
             mocks.PrerequisiteOk,
             new Prerequisite("disabled", new mocks.PrerequisiteVerifierPass(), { enabled: false }),
@@ -139,6 +143,7 @@ describe("HealthcheckHonoHandler", () => {
       ...new HealthcheckHonoHandler(
         {
           Env: NodeEnvironmentEnum.production,
+          redactor,
           prerequisites: [
             new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: v.parse(Port, 8000) })),
             mocks.PrerequisiteOk,
@@ -206,6 +211,7 @@ describe("HealthcheckHonoHandler", () => {
       ...new HealthcheckHonoHandler(
         {
           Env: NodeEnvironmentEnum.production,
+          redactor,
           prerequisites: [mocks.PrerequisiteOk, mocks.PrerequisiteUndetermined],
         },
         deps,

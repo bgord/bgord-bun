@@ -3,8 +3,12 @@ import {
   PrerequisiteVerificationOutcome,
   type PrerequisiteVerificationResult,
 } from "./prerequisite-verifier.port";
+import type { RedactorStrategy } from "./redactor.strategy";
 
-export type ReadinessConfig = { prerequisites: ReadonlyArray<Prerequisite> };
+export type ReadinessConfig = {
+  prerequisites: ReadonlyArray<Prerequisite>;
+  redactor: RedactorStrategy;
+};
 
 export enum ReadinessStatusCode {
   Ready = 200,
@@ -28,7 +32,7 @@ export class ReadinessHandler {
     const details = await Promise.all(
       prerequisites.map(async (prerequisite) => ({
         label: prerequisite.label,
-        outcome: await prerequisite.build().verify(),
+        outcome: this.config.redactor.redact(await prerequisite.build().verify()),
       })),
     );
 

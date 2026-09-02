@@ -6,11 +6,14 @@ import { Prerequisite } from "../src/prerequisite.vo";
 import { PrerequisiteVerification, PrerequisiteVerificationOutcome } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierPortAdapter } from "../src/prerequisite-verifier-port.adapter";
 import { ReadinessHonoHandler } from "../src/readiness-hono.handler";
+import { RedactorNoop } from "../src/redactor-noop.strategy";
 import * as mocks from "./mocks";
+
+const redactor = new RedactorNoop();
 
 describe("ReadinessHonoHandler", () => {
   test("200", async () => {
-    const readiness = new ReadinessHonoHandler({ prerequisites: [mocks.PrerequisiteOk] });
+    const readiness = new ReadinessHonoHandler({ redactor, prerequisites: [mocks.PrerequisiteOk] });
     const app = new Hono().get("/readiness", ...readiness.handle());
 
     const response = await app.request("/readiness");
@@ -26,6 +29,7 @@ describe("ReadinessHonoHandler", () => {
 
   test("200 - ignores port prerequisite", async () => {
     const readiness = new ReadinessHonoHandler({
+      redactor,
       prerequisites: [
         mocks.PrerequisiteOk,
         new Prerequisite("port", new PrerequisiteVerifierPortAdapter({ port: v.parse(Port, 3000) })),
@@ -41,7 +45,7 @@ describe("ReadinessHonoHandler", () => {
   });
 
   test("503", async () => {
-    const readiness = new ReadinessHonoHandler({ prerequisites: [mocks.PrerequisiteFail] });
+    const readiness = new ReadinessHonoHandler({ redactor, prerequisites: [mocks.PrerequisiteFail] });
     const app = new Hono().get("/readiness", ...readiness.handle());
 
     const response = await app.request("/readiness");

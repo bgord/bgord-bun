@@ -37,7 +37,7 @@ export type HealthcheckDependencies = {
 export type HealthcheckConfig = {
   Env: NodeEnvironmentEnum;
   prerequisites: ReadonlyArray<Prerequisite>;
-  redactor?: RedactorStrategy;
+  redactor: RedactorStrategy;
 };
 
 const self = new Prerequisite("self", new PrerequisiteVerifierSelfAdapter());
@@ -111,7 +111,7 @@ export class HealthcheckHandler {
 
         return {
           label: prerequisite.label,
-          outcome: this.config.redactor ? this.config.redactor.redact(outcome) : outcome,
+          outcome: this.config.redactor.redact(outcome),
           ms: stopwatch.stop().ms,
         };
       }),
