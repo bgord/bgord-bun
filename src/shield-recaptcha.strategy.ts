@@ -4,8 +4,13 @@ import * as v from "valibot";
 import type { RecaptchaSecretKeyType } from "./recaptcha-secret-key.vo";
 import type { HasIdentityIp, HasRequestForm, HasRequestJson } from "./request-context.port";
 
-export type ShieldRecaptchaConfig = { secretKey: RecaptchaSecretKeyType; threshold?: number };
-export type RecaptchaResult = { success: boolean; score: number };
+export type ShieldRecaptchaConfig = {
+  secretKey: RecaptchaSecretKeyType;
+  hostname: string;
+  action?: string;
+  threshold?: number;
+};
+export type RecaptchaResult = { success: boolean; score: number; hostname?: string; action?: string };
 
 export const ShieldRecaptchaStrategyError = { Rejected: "shield.recaptcha.rejected" };
 
@@ -51,6 +56,9 @@ export class ShieldRecaptchaStrategy {
 
       if (!result.success) return false;
       if (typeof result.score !== "number" || result.score < threshold) return false;
+      if (typeof result.hostname !== "string") return false;
+      if (result.hostname !== this.config.hostname) return false;
+      if (this.config.action !== undefined && result.action !== this.config.action) return false;
 
       return true;
     } catch {

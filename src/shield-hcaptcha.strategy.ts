@@ -6,10 +6,12 @@ export const ShieldHcaptchaStrategyError = { Rejected: "shield.hcaptcha.rejected
 
 export const ShieldHcaptchaStrategyField = "h-captcha-response";
 
+export type ShieldHcaptchaConfig = { secretKey: HCaptchaSecretKeyType; hostname: string };
+
 export class ShieldHcaptchaStrategy {
   private readonly hcaptcha = new HCaptchaService();
 
-  constructor(private readonly secretKey: HCaptchaSecretKeyType) {}
+  constructor(private readonly config: ShieldHcaptchaConfig) {}
 
   async evaluate(context: HasRequestForm & HasRequestJson): Promise<boolean> {
     try {
@@ -23,9 +25,13 @@ export class ShieldHcaptchaStrategy {
 
       if (!token) return false;
 
-      const result = await this.hcaptcha.verify(this.secretKey, token);
+      const result = await this.hcaptcha.verify(this.config.secretKey, token);
 
-      return result.success;
+      if (!result.success) return false;
+      if (typeof result.hostname !== "string") return false;
+      if (result.hostname !== this.config.hostname) return false;
+
+      return true;
     } catch {
       return false;
     }

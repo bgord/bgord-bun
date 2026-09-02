@@ -18,8 +18,13 @@ export class ShieldHcaptchaLocalHonoStrategy implements MiddlewareHonoPort {
 
   private static readonly TOKEN_LOCAL = "10000000-aaaa-bbbb-cccc-000000000001";
 
+  private static readonly HOSTNAME_LOCAL = "local-pass";
+
   constructor() {
-    this.strategy = new ShieldHcaptchaStrategy(ShieldHcaptchaLocalHonoStrategy.SECRET_KEY_LOCAL);
+    this.strategy = new ShieldHcaptchaStrategy({
+      secretKey: ShieldHcaptchaLocalHonoStrategy.SECRET_KEY_LOCAL,
+      hostname: ShieldHcaptchaLocalHonoStrategy.HOSTNAME_LOCAL,
+    });
   }
 
   handle(): MiddlewareHandler {

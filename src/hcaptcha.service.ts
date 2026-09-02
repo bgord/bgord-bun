@@ -4,7 +4,7 @@ export const HCaptchaServiceError = { Error: "hcaptcha.service.error" };
 
 type HcaptchaTokenType = string;
 
-export type HCaptchaVerificationResult = { success: boolean };
+export type HCaptchaVerificationResult = { success: boolean; hostname?: string };
 
 export class HCaptchaService {
   async verify(

@@ -1,15 +1,18 @@
 import type { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
-import type { HCaptchaSecretKeyType } from "./hcaptcha-secret-key.vo";
 import type { MiddlewareHonoPort } from "./middleware-hono.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-import { ShieldHcaptchaStrategy, ShieldHcaptchaStrategyError } from "./shield-hcaptcha.strategy";
+import {
+  type ShieldHcaptchaConfig,
+  ShieldHcaptchaStrategy,
+  ShieldHcaptchaStrategyError,
+} from "./shield-hcaptcha.strategy";
 
 export class ShieldHcaptchaHonoStrategy implements MiddlewareHonoPort {
   private readonly strategy: ShieldHcaptchaStrategy;
 
-  constructor(secretKey: HCaptchaSecretKeyType) {
-    this.strategy = new ShieldHcaptchaStrategy(secretKey);
+  constructor(config: ShieldHcaptchaConfig) {
+    this.strategy = new ShieldHcaptchaStrategy(config);
   }
 
   handle(): MiddlewareHandler {

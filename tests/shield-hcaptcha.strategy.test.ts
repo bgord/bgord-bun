@@ -7,7 +7,10 @@ import { RequestContextBuilder } from "./request-context-builder";
 
 const INVALID_TOKEN = "invalid-token";
 
-const strategy = new ShieldHcaptchaStrategy(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"]);
+const strategy = new ShieldHcaptchaStrategy({
+  secretKey: ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
+  hostname: ShieldHcaptchaLocalHonoStrategy["HOSTNAME_LOCAL"],
+});
 
 const valid = new FormData();
 valid.set(ShieldHcaptchaStrategyField, ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"]);
@@ -17,7 +20,10 @@ invalid.set(ShieldHcaptchaStrategyField, INVALID_TOKEN);
 
 describe("ShieldHcaptchaStrategy", () => {
   test("happy path", async () => {
-    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({
+      success: true,
+      hostname: ShieldHcaptchaLocalHonoStrategy["HOSTNAME_LOCAL"],
+    });
     const context = new RequestContextBuilder().withForm(valid).build();
 
     expect(await strategy.evaluate(context)).toEqual(true);
@@ -39,7 +45,10 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("happy path - json body fallback", async () => {
-    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({
+      success: true,
+      hostname: ShieldHcaptchaLocalHonoStrategy["HOSTNAME_LOCAL"],
+    });
     const context = new RequestContextBuilder()
       .withJson({ [ShieldHcaptchaStrategyField]: ShieldHcaptchaLocalHonoStrategy["TOKEN_LOCAL"] })
       .build();
@@ -52,7 +61,10 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - non-string json token", async () => {
-    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({
+      success: true,
+      hostname: ShieldHcaptchaLocalHonoStrategy["HOSTNAME_LOCAL"],
+    });
     const context = new RequestContextBuilder().withJson({ [ShieldHcaptchaStrategyField]: 123 }).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);
@@ -65,6 +77,25 @@ describe("ShieldHcaptchaStrategy", () => {
 
     expect(await strategy.evaluate(context)).toEqual(false);
     expect(hcaptchaVerify).not.toHaveBeenCalled();
+  });
+
+  test("failure - foreign hostname", async () => {
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({
+      success: true,
+      hostname: "evil.example",
+    });
+    const context = new RequestContextBuilder().withForm(valid).build();
+
+    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(hcaptchaVerify).toHaveBeenCalled();
+  });
+
+  test("failure - missing hostname", async () => {
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: true });
+    const context = new RequestContextBuilder().withForm(valid).build();
+
+    expect(await strategy.evaluate(context)).toEqual(false);
+    expect(hcaptchaVerify).toHaveBeenCalled();
   });
 
   test("failure - unknown error", async () => {

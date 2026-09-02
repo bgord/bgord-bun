@@ -10,7 +10,12 @@ const VALID_SECRET_KEY = "x".repeat(40);
 const VALID_TOKEN = "valid_token";
 const remoteip = "1.2.3.4";
 
-const shield = new ShieldRecaptchaHonoStrategy({ secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY) });
+const HOSTNAME = "app.example";
+
+const shield = new ShieldRecaptchaHonoStrategy({
+  secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
+  hostname: HOSTNAME,
+});
 
 const HEADERS = { "Content-Type": "application/x-www-form-urlencoded" };
 const SAFE_BODY = "dummy=1";
@@ -27,7 +32,7 @@ const app = new Hono().post("/", shield.handle(), () => new Response("ok")).onEr
 describe("ShieldRecaptchaHonoStrategy", () => {
   test("happy path", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
     );
 
     const response = await app.request(
@@ -47,7 +52,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - conn info ip", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
     );
 
     const response = await app.request(
@@ -67,7 +72,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - boundary score", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.5 })),
+      new Response(JSON.stringify({ success: true, score: 0.5, hostname: HOSTNAME })),
     );
 
     const response = await app.request(
@@ -87,7 +92,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - json body fallback", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
     );
 
     const response = await app.request(
@@ -107,7 +112,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - non-string json token", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
     );
 
     const response = await app.request(
@@ -122,7 +127,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - missing token", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
     );
 
     const response = await app.request(
@@ -199,10 +204,11 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - custom threshold", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.1 })),
+      new Response(JSON.stringify({ success: true, score: 0.1, hostname: HOSTNAME })),
     );
     const shield = new ShieldRecaptchaHonoStrategy({
       secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
+      hostname: HOSTNAME,
       threshold: 0.2,
     });
     const app = new Hono().post("/", shield.handle(), () => new Response("ok")).onError(onError);
@@ -221,6 +227,78 @@ describe("ShieldRecaptchaHonoStrategy", () => {
     using globalFetch = spyOn(global, "fetch").mockRejectedValue(mocks.IntentionalError);
 
     const response = await app.request(
+      "http://localhost/",
+      { method: "POST", headers: HEADERS, body: TOKEN_BODY },
+      mocks.connInfo,
+    );
+
+    expect(response.status).toEqual(403);
+    expect(globalFetch).toHaveBeenCalled();
+  });
+
+  test("failure - foreign hostname", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: "evil.example" })),
+    );
+
+    const response = await app.request(
+      "http://localhost/",
+      { method: "POST", headers: HEADERS, body: TOKEN_BODY },
+      mocks.connInfo,
+    );
+
+    expect(response.status).toEqual(403);
+    expect(globalFetch).toHaveBeenCalled();
+  });
+
+  test("failure - missing hostname", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9 })),
+    );
+
+    const response = await app.request(
+      "http://localhost/",
+      { method: "POST", headers: HEADERS, body: TOKEN_BODY },
+      mocks.connInfo,
+    );
+
+    expect(response.status).toEqual(403);
+    expect(globalFetch).toHaveBeenCalled();
+  });
+
+  test("happy path - matching action", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" })),
+    );
+    const withAction = new ShieldRecaptchaHonoStrategy({
+      secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
+      hostname: HOSTNAME,
+      action: "login",
+    });
+    const scoped = new Hono().post("/", withAction.handle(), () => new Response("ok")).onError(onError);
+
+    const response = await scoped.request(
+      "http://localhost/",
+      { method: "POST", headers: HEADERS, body: TOKEN_BODY },
+      mocks.connInfo,
+    );
+
+    expect(response.status).toEqual(200);
+    expect(globalFetch).toHaveBeenCalled();
+  });
+
+  test("failure - mismatched action", async () => {
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "newsletter" })),
+    );
+    const withAction = new ShieldRecaptchaHonoStrategy({
+      secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
+      hostname: HOSTNAME,
+      action: "login",
+    });
+    const scoped = new Hono().post("/", withAction.handle(), () => new Response("ok")).onError(onError);
+
+    const response = await scoped.request(
       "http://localhost/",
       { method: "POST", headers: HEADERS, body: TOKEN_BODY },
       mocks.connInfo,
