@@ -111,4 +111,11 @@ describe("RemoteFileStorageDiskAdapter", () => {
   test(cases.root.name, () => {
     expect(adapter.root).toEqual(cases.root.output);
   });
+
+  test(cases.deleteRootKey.name, async () => {
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
+
+    expect(await adapter.delete(cases.deleteRootKey.input)).toEqual(cases.deleteRootKey.output);
+    expect(fileCleanerDelete).toHaveBeenCalledWith(cases.subjects.rootFinal);
+  });
 });

@@ -37,7 +37,10 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
     const parts = key.split("/");
     const filename = tools.Filename.fromString(parts.pop() as string);
 
-    const directory = v.parse(tools.DirectoryPathAbsoluteSchema, `${this.config.root}/${parts.join("/")}`);
+    if (parts.length === 0) return tools.FilePathAbsolute.fromPartsSafe(this.config.root, filename);
+
+    const base = this.config.root === "/" ? "" : this.config.root;
+    const directory = v.parse(tools.DirectoryPathAbsoluteSchema, `${base}/${parts.join("/")}`);
 
     return tools.FilePathAbsolute.fromPartsSafe(directory, filename);
   }
