@@ -24,7 +24,7 @@ export type WoodchopperConfig = {
   level: LogLevelEnum;
   environment: NodeEnvironmentEnum;
   dispatcher: WoodchopperDispatcher;
-  redactor?: RedactorStrategy;
+  redactor: RedactorStrategy;
   diagnostics?: WoodchopperDiagnosticsStrategy;
 };
 
@@ -88,9 +88,7 @@ export class Woodchopper implements LoggerPort, LoggerStatsProviderPort {
 
     let withRedaction: LoggerEntry;
     try {
-      withRedaction = this.config.redactor
-        ? this.config.redactor.redact(withInjectedFields)
-        : withInjectedFields;
+      withRedaction = this.config.redactor.redact(withInjectedFields);
     } catch (error) {
       this.stats.recordDropped();
       this.config.diagnostics?.handle({ kind: "redaction", error });
