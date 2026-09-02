@@ -653,6 +653,7 @@ src/
 ├── weak-etag-extractor-param.strategy.ts
 ├── weak-etag-extractor.middleware.ts
 ├── weak-etag-extractor.strategy.ts
+├── webhook-body-builder-signed-headers.strategy.ts
 ├── webhook-body-builder-text.strategy.ts
 ├── webhook-body-builder.strategy.ts
 ├── webhook-id-extractor-header.strategy.ts

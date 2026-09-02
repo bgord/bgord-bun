@@ -576,6 +576,7 @@ export * from "./weak-etag-extractor-header.strategy";
 export * from "./weak-etag-extractor-hono.middleware";
 export * from "./weak-etag-extractor-param.strategy";
 export * from "./webhook-body-builder.strategy";
+export * from "./webhook-body-builder-signed-headers.strategy";
 export * from "./webhook-body-builder-text.strategy";
 export * from "./webhook-id.vo";
 export * from "./webhook-id-extractor.strategy";
