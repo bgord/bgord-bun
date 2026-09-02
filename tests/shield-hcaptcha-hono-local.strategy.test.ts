@@ -12,7 +12,7 @@ describe("ShieldHcaptchaLocalStrategy", () => {
   test("happy path", async () => {
     using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({
       success: true,
-      hostname: ShieldHcaptchaLocalHonoStrategy["HOSTNAME_LOCAL"],
+      hostname: "local-pass",
     });
 
     const response = await app.request("/secure", { method: "POST", body: new FormData() });

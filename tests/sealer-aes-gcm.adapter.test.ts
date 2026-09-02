@@ -1,4 +1,4 @@
-// cspell:ignore ciphertext
+// cspell:disable
 import { describe, expect, spyOn, test } from "bun:test";
 import { CryptoAesGcm } from "../src/crypto-aes-gcm.service";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
@@ -44,7 +44,7 @@ describe("SealerAesGcmAdapter", () => {
   });
 
   test("seal - undefined", async () => {
-    expect(adapter.seal(undefined)).rejects.toThrow("sealer.aes.gcm.adapter.undefined.value");
+    expect(async () => adapter.seal(undefined)).toThrow("sealer.aes.gcm.adapter.undefined.value");
   });
 
   test("seal - null", async () => {
@@ -55,23 +55,28 @@ describe("SealerAesGcmAdapter", () => {
   });
 
   test("unseal - invalid payload", async () => {
-    expect(adapter.unseal("invalid:payload")).rejects.toThrow("sealer.aes.gcm.adapter.invalid.payload");
+    using cryptoAesGcmDecrypt = spyOn(CryptoAesGcm, "decrypt").mockResolvedValue(plaintext.buffer);
+
+    expect(async () => adapter.unseal(`notsealed::${Buffer.from(encrypted).toString("base64")}`)).toThrow(
+      "sealer.aes.gcm.adapter.invalid.payload",
+    );
+    expect(cryptoAesGcmDecrypt).not.toHaveBeenCalled();
   });
 
   test("unseal - malformed base64", async () => {
-    expect(adapter.unseal("sealed:gcm:!!!!")).rejects.toThrow("sealer.aes.gcm.adapter.invalid.payload");
+    expect(async () => adapter.unseal("sealed:gcm:!!!!")).toThrow("sealer.aes.gcm.adapter.invalid.payload");
   });
 
   test("unseal - payload shorter than the IV", async () => {
-    expect(adapter.unseal(`sealed:gcm:${Buffer.from(new Uint8Array(5)).toString("base64")}`)).rejects.toThrow(
-      "sealer.aes.gcm.adapter.invalid.payload",
-    );
+    expect(async () =>
+      adapter.unseal(`sealed:gcm:${Buffer.from(new Uint8Array(5)).toString("base64")}`),
+    ).toThrow("sealer.aes.gcm.adapter.invalid.payload");
   });
 
   test("unseal - tampered ciphertext", async () => {
     const sealed = await adapter.seal(input);
     const tampered = `${sealed.slice(0, -4)}AAAA`;
 
-    expect(adapter.unseal(tampered)).rejects.toThrow("sealer.aes.gcm.adapter.invalid.payload");
+    expect(async () => adapter.unseal(tampered)).toThrow("sealer.aes.gcm.adapter.invalid.payload");
   });
 });

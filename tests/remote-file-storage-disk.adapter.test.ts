@@ -31,6 +31,7 @@ const deps = {
 };
 
 const adapter = new RemoteFileStorageDiskAdapter({ root: cases.subjects.root }, deps);
+const slashRootAdapter = new RemoteFileStorageDiskAdapter({ root: cases.subjects.slashRoot }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
   test(cases.putFromPath.name, async () => {
@@ -110,6 +111,13 @@ describe("RemoteFileStorageDiskAdapter", () => {
 
   test(cases.root.name, () => {
     expect(adapter.root).toEqual(cases.root.output);
+  });
+
+  test(cases.deleteSlashRoot.name, async () => {
+    using fileCleanerDelete = spyOn(FileCleaner, "delete");
+
+    expect(await slashRootAdapter.delete(cases.deleteSlashRoot.input)).toEqual(cases.deleteSlashRoot.output);
+    expect(fileCleanerDelete).toHaveBeenCalledWith(cases.subjects.slashRootFinal);
   });
 
   test(cases.deleteRootKey.name, async () => {

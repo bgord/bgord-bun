@@ -56,7 +56,6 @@ export class ShieldRecaptchaStrategy {
 
       if (!result.success) return false;
       if (typeof result.score !== "number" || result.score < threshold) return false;
-      if (typeof result.hostname !== "string") return false;
       if (result.hostname !== this.config.hostname) return false;
       if (this.config.action !== undefined && result.action !== this.config.action) return false;
 

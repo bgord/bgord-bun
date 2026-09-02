@@ -40,7 +40,7 @@ describe("TemporaryFileAbsoluteAdapter", () => {
     using _ = spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
     using fileRenamerRename = spyOn(FileRenamer, "rename");
 
-    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
+    expect(async () => adapter.write(filename, content)).toThrow(mocks.IntentionalError);
     expect(fileRenamerRename).not.toHaveBeenCalled();
   });
 
@@ -48,7 +48,7 @@ describe("TemporaryFileAbsoluteAdapter", () => {
     using _ = spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
     using fileCleanerDelete = spyOn(FileCleaner, "delete");
 
-    expect(adapter.write(filename, content)).rejects.toThrow(mocks.IntentionalError);
+    expect(async () => adapter.write(filename, content)).toThrow(mocks.IntentionalError);
     expect(fileCleanerDelete).toHaveBeenCalledWith(partial);
   });
 

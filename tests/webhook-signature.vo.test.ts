@@ -24,6 +24,14 @@ describe("WebhookSignature", () => {
     expect(() => v.parse(WebhookSignature, "too_short")).toThrow("webhook.signature.invalid.hex");
   });
 
+  test("rejects leading non-hex chars", () => {
+    expect(() => v.parse(WebhookSignature, `zz${"a".repeat(128)}`)).toThrow("webhook.signature.invalid.hex");
+  });
+
+  test("rejects trailing non-hex chars", () => {
+    expect(() => v.parse(WebhookSignature, `${"a".repeat(128)}zz`)).toThrow("webhook.signature.invalid.hex");
+  });
+
   test("rejects multibyte chars", () => {
     expect(() => v.parse(WebhookSignature, "\u00e9".repeat(64))).toThrow("webhook.signature.invalid.hex");
   });

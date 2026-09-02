@@ -25,7 +25,7 @@ form.set(ShieldRecaptchaStrategyField, VALID_TOKEN);
 describe("ShieldRecaptchaStrategy", () => {
   test("happy path", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" })),
     );
     const context = new RequestContextBuilder().withIp(remoteip).withForm(form).build();
 
@@ -103,7 +103,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - upstream api rejection", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: false, score: 0.9 })),
+      new Response(JSON.stringify({ success: false, score: 0.9, hostname: HOSTNAME })),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -119,7 +119,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - non-numeric score", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: "0.9" })),
+      new Response(JSON.stringify({ success: true, score: "0.9", hostname: HOSTNAME })),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 

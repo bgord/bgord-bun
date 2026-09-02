@@ -1,5 +1,5 @@
 // cSpell:ignore ftypisom
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileTypeDetectorMagicBytesStrategy } from "../src/file-type-detector-magic-bytes.strategy";
 
@@ -70,6 +70,15 @@ describe("FileTypeDetectorMagicBytesStrategy", () => {
     const file = new File([new Uint8Array([0x89, 0x50, 0x4e])], "sample");
 
     expect(await detector.detect(file)).toEqual(null);
+  });
+
+  test("reads only the first 12 bytes", async () => {
+    const file = new File([new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])], "sample");
+    const slice = spyOn(file, "slice");
+
+    await detector.detect(file);
+
+    expect(slice).toHaveBeenCalledWith(0, 12);
   });
 
   test("signature past the prefix is not matched", async () => {

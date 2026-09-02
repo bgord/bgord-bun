@@ -6,7 +6,7 @@ const detector = new FileTypeDetectorTextStrategy(tools.Mimes.csv.mime);
 
 describe("FileTypeDetectorTextStrategy", () => {
   test("happy path", async () => {
-    const file = new File(["id,name\n1,John\n"], "sample");
+    const file = new File(["id,name\n1,John Doe\n"], "sample");
 
     expect(await detector.detect(file)).toEqual(tools.Mimes.csv.mime);
   });
@@ -27,6 +27,18 @@ describe("FileTypeDetectorTextStrategy", () => {
     const file = new File([new Uint8Array([0x69, 0x64, 0x00, 0x6e])], "sample");
 
     expect(await detector.detect(file)).toEqual(null);
+  });
+
+  test("delete byte", async () => {
+    const file = new File([new Uint8Array([0x69, 0x64, 0x7f, 0x6e])], "sample");
+
+    expect(await detector.detect(file)).toEqual(null);
+  });
+
+  test("control byte past the prefix is not inspected", async () => {
+    const file = new File(["a".repeat(1445), new Uint8Array([0x00])], "sample");
+
+    expect(await detector.detect(file)).toEqual(tools.Mimes.csv.mime);
   });
 
   test("png bytes", async () => {

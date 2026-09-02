@@ -34,7 +34,10 @@ describe("ShieldHcaptchaStrategy", () => {
   });
 
   test("failure - known error", async () => {
-    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({ success: false });
+    using hcaptchaVerify = spyOn(HCaptchaService.prototype, "verify").mockResolvedValue({
+      success: false,
+      hostname: "local-pass",
+    });
     const context = new RequestContextBuilder().withForm(invalid).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);

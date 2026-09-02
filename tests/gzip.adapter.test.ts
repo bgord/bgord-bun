@@ -37,7 +37,7 @@ describe("GzipAdapter", () => {
     using _ = spyOn(FileReaderRaw, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
     using bunGzipSync = spyOn(Bun, "gzipSync");
 
-    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
+    expect(async () => adapter.pack({ input, output })).toThrow(mocks.IntentionalError);
     expect(bunGzipSync).not.toHaveBeenCalled();
   });
 
@@ -45,6 +45,6 @@ describe("GzipAdapter", () => {
     using _bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
     using _fileWriterWrite = spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError);
 
-    expect(adapter.pack({ input, output })).rejects.toThrow(mocks.IntentionalError);
+    expect(async () => adapter.pack({ input, output })).toThrow(mocks.IntentionalError);
   });
 });

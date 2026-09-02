@@ -28,7 +28,6 @@ export class ShieldHcaptchaStrategy {
       const result = await this.hcaptcha.verify(this.config.secretKey, token);
 
       if (!result.success) return false;
-      if (typeof result.hostname !== "string") return false;
       if (result.hostname !== this.config.hostname) return false;
 
       return true;

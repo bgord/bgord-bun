@@ -22,8 +22,6 @@ export class FileTypeDetectorMagicBytesStrategy implements FileTypeDetectorStrat
     const bytes = new Uint8Array(await file.slice(0, 12).arrayBuffer());
 
     for (const signature of SIGNATURES) {
-      if (bytes.length < signature.offset + signature.bytes.length) continue;
-
       if (signature.bytes.every((byte, index) => bytes[signature.offset + index] === byte)) {
         return signature.mime;
       }

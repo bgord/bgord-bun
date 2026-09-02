@@ -89,6 +89,7 @@ export const cacheRepository = async () => {
 
 export const remoteFileStorage = () => {
   const root = v.parse(tools.DirectoryPathAbsoluteSchema, "/root");
+  const slashRoot = v.parse(tools.DirectoryPathAbsoluteSchema, "/");
   const key = v.parse(tools.ObjectKey, "users/1/avatar.webp");
   const rootKey = v.parse(tools.ObjectKey, "avatar.webp");
   const source = tools.FilePathAbsolute.fromString("/tmp/upload/avatar.webp");
@@ -113,6 +114,8 @@ export const remoteFileStorage = () => {
       temporary: tools.FilePathAbsolute.fromString(`${root}/users/1/avatar-part-${mocks.nonce}.webp`),
       rootKey,
       rootFinal: tools.FilePathAbsolute.fromString(`${root}/avatar.webp`),
+      slashRoot,
+      slashRootFinal: tools.FilePathAbsolute.fromString("/users/1/avatar.webp"),
     },
     putFromPath: { name: "putFromPath - success", input: { key, path: source }, output: stored },
     putFromPathFailure: {
@@ -128,6 +131,7 @@ export const remoteFileStorage = () => {
     getStreamFailure: { name: "getStream - failure", input: key, output: mocks.IntentionalError },
     delete: { name: "delete - success", input: key, output: key },
     deleteRootKey: { name: "delete - root level key", input: rootKey, output: rootKey },
+    deleteSlashRoot: { name: "delete - slash root", input: key, output: key },
     deleteFailure: { name: "delete - failure", input: key, output: mocks.IntentionalError },
     root: { name: "get root", output: root },
   } as const;

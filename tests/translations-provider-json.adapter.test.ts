@@ -45,7 +45,7 @@ describe("TranslationsProviderJsonAdapter", () => {
     const FileReaderJson = new FileReaderJsonNoopAdapter({ auth: { login: "Log in" } });
     const adapter = new TranslationsProviderJsonAdapter({ FileReaderJson });
 
-    expect(adapter.getTranslationsFor(language)).rejects.toThrow("translations.invalid");
+    expect(async () => adapter.getTranslationsFor(language)).toThrow("translations.invalid");
   });
 
   test("error - file reader json propagates", async () => {
@@ -53,6 +53,6 @@ describe("TranslationsProviderJsonAdapter", () => {
     const adapter = new TranslationsProviderJsonAdapter({ FileReaderJson });
     using _ = spyOn(FileReaderJson, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
 
-    expect(adapter.getTranslationsFor(language)).rejects.toThrow();
+    expect(async () => adapter.getTranslationsFor(language)).toThrow();
   });
 });
