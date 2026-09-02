@@ -52,14 +52,21 @@ describe("ShieldBodyLimitHonoStrategy", () => {
       headers: { "content-length": "invalid" },
     });
 
-    expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
+    expect(response.status).toEqual(413);
+    expect(await response.text()).toEqual("shield.body.limit.rejected");
   });
 
   test("negative header", async () => {
     const response = await app.request("/upload", { method: "POST", headers: { "content-length": "-100" } });
 
-    expect(response.status).toEqual(200);
-    expect(await response.text()).toEqual("ok");
+    expect(response.status).toEqual(413);
+    expect(await response.text()).toEqual("shield.body.limit.rejected");
+  });
+
+  test("out of range header", async () => {
+    const response = await app.request("/upload", { method: "POST", headers: { "content-length": "1e99" } });
+
+    expect(response.status).toEqual(413);
+    expect(await response.text()).toEqual("shield.body.limit.rejected");
   });
 });

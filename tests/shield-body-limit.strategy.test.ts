@@ -40,11 +40,23 @@ describe("ShieldBodyLimitStrategy", () => {
   test("invalid header", () => {
     const context = new RequestContextBuilder().withHeader("content-length", "invalid").build();
 
-    expect(shield.evaluate(context)).toEqual(true);
+    expect(shield.evaluate(context)).toEqual(false);
   });
 
   test("negative header", () => {
     const context = new RequestContextBuilder().withHeader("content-length", "-100").build();
+
+    expect(shield.evaluate(context)).toEqual(false);
+  });
+
+  test("out of range header", () => {
+    const context = new RequestContextBuilder().withHeader("content-length", "1e99").build();
+
+    expect(shield.evaluate(context)).toEqual(false);
+  });
+
+  test("empty header", () => {
+    const context = new RequestContextBuilder().withHeader("content-length", "").build();
 
     expect(shield.evaluate(context)).toEqual(true);
   });
