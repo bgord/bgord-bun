@@ -6,6 +6,7 @@ import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
 import { SecurityRuleViolationThresholdStrategy } from "../src/security-rule-violation-threshold.strategy";
+import { SubjectSegmentRemoteIpStrategy } from "../src/subject-segment-remote-ip.strategy";
 import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
@@ -17,7 +18,7 @@ const ttl = tools.Duration.Minutes(1);
 const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
 const HashContent = new HashContentSha256Strategy();
 const deps = { CacheRepository, HashContent };
-const config = { threshold: tools.Int.positive(3) };
+const config = { threshold: tools.Int.positive(3), segments: [new SubjectSegmentRemoteIpStrategy()] };
 
 const rule = new SecurityRuleViolationThresholdStrategy(baitRoutes, config, deps);
 
@@ -66,6 +67,17 @@ describe("SecurityRuleViolationThresholdStrategy", () => {
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
     expect(await rule.isViolated(context)).toEqual(false);
+
+    await CacheRepository.flush();
+  });
+
+  test("isViolated - a spoofed forwarded ip does not reset the counter", async () => {
+    const context = new RequestContextBuilder().withPath(forbidden).withRemoteIp(mocks.ip).withIp("1.1.1.1");
+    const spoofed = new RequestContextBuilder().withPath(forbidden).withRemoteIp(mocks.ip).withIp("2.2.2.2");
+
+    expect(await rule.isViolated(context.build())).toEqual(false);
+    expect(await rule.isViolated(spoofed.build())).toEqual(false);
+    expect(await rule.isViolated(context.build())).toEqual(true);
 
     await CacheRepository.flush();
   });

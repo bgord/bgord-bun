@@ -7,25 +7,31 @@ import type { SecurityRuleStrategy } from "./security-rule.strategy";
 import { SecurityRuleName, type SecurityRuleNameType } from "./security-rule-name.vo";
 import { SubjectRequestResolver } from "./subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
-import { SubjectSegmentIpStrategy } from "./subject-segment-ip.strategy";
+import type { SubjectSegmentRequestStrategy } from "./subject-segment-request.strategy";
 
 type Dependencies = { CacheRepository: CacheRepositoryPort; HashContent: HashContentStrategy };
-type Config = { threshold: tools.IntegerPositiveType };
+type Config = {
+  threshold: tools.IntegerPositiveType;
+  segments: ReadonlyArray<SubjectSegmentRequestStrategy>;
+};
 
 export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrategy {
+  private readonly resolver: SubjectRequestResolver;
+
   constructor(
     private readonly rule: SecurityRuleStrategy,
     private readonly config: Config,
     private readonly deps: Dependencies,
-  ) {}
+  ) {
+    this.resolver = new SubjectRequestResolver(
+      [new SubjectSegmentFixedStrategy(this.name), ...this.config.segments],
+      this.deps,
+    );
+  }
 
   // Best-effort increment, occasional lost increments are acceptable for concurrent requests.
   async isViolated(context: RequestContext): Promise<boolean> {
-    const resolver = new SubjectRequestResolver(
-      [new SubjectSegmentFixedStrategy(this.name), new SubjectSegmentIpStrategy()],
-      this.deps,
-    );
-    const subject = await resolver.resolve(context);
+    const subject = await this.resolver.resolve(context);
 
     const violated = await this.rule.isViolated(context);
 
