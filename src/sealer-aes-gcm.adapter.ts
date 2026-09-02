@@ -34,9 +34,13 @@ export class SealerAesGcmAdapter implements SealerPort {
 
     const key = await this.deps.CryptoKeyProvider.get();
 
-    const encrypted = Uint8Array.fromBase64(value.slice(SealerAesGcmAdapter.PREFIX.length));
-    const plaintext = await CryptoAesGcm.decrypt(key, encrypted);
+    try {
+      const encrypted = Uint8Array.fromBase64(value.slice(SealerAesGcmAdapter.PREFIX.length));
+      const plaintext = await CryptoAesGcm.decrypt(key, encrypted);
 
-    return JSON.parse(new TextDecoder().decode(plaintext));
+      return JSON.parse(new TextDecoder().decode(plaintext));
+    } catch {
+      throw new Error(SealerAesGcmAdapterError.InvalidPayload);
+    }
   }
 }
