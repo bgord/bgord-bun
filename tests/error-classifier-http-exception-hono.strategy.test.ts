@@ -50,7 +50,22 @@ describe("ErrorClassifierHttpExceptionHonoStrategy", () => {
     const result = strategy.classify(new HTTPException(413, { message: "shield.body.limit.rejected" }));
 
     expect(result?.status).toEqual(413);
-    expect(await result?.text()).toEqual("shield.body.limit.rejected");
+    expect(await result?.json()).toEqual({ message: "general.unknown" });
+  });
+
+  test("unknown http exception - headers", async () => {
+    const result = strategy.classify(
+      new HTTPException(401, {
+        message: "jwt.signature.invalid",
+        res: new Response("jwt.signature.invalid", {
+          headers: { "WWW-Authenticate": 'Basic realm="app"' },
+        }),
+      }),
+    );
+
+    expect(result?.status).toEqual(401);
+    expect(result?.headers.get("WWW-Authenticate")).toEqual('Basic realm="app"');
+    expect(await result?.json()).toEqual({ message: "general.unknown" });
   });
 
   test("empty config", async () => {
@@ -59,7 +74,7 @@ describe("ErrorClassifierHttpExceptionHonoStrategy", () => {
     );
 
     expect(result?.status).toEqual(401);
-    expect(await result?.text()).toEqual(message);
+    expect(await result?.json()).toEqual({ message: "general.unknown" });
   });
 
   test("null", () => {

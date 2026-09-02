@@ -15,7 +15,12 @@ export class ErrorClassifierHttpExceptionHonoStrategy implements ErrorClassifier
   classify(error: unknown): Response | null {
     if (!(error instanceof HTTPException)) return null;
 
-    if (!this.errors.has(error.message)) return error.getResponse();
+    if (!this.errors.has(error.message)) {
+      return Response.json(
+        { message: "general.unknown" },
+        { status: error.status, headers: error.res?.headers },
+      );
+    }
 
     return Response.json({ message: error.message }, { status: error.status, headers: error.res?.headers });
   }
