@@ -23,7 +23,6 @@ export class LanguageDetectorHeaderStrategy<T extends tools.LanguageType>
           quality: Number(quality.replace("q=", "")),
         };
       })
-      // Quality of 0 means the language is explicitly not acceptable
       .filter((candidate) => candidate.quality > 0)
       .sort((first, second) => second.quality - first.quality)
       .map((candidate) => candidate.language);

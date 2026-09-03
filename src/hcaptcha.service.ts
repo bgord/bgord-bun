@@ -7,11 +7,8 @@ type HcaptchaTokenType = string;
 export type HCaptchaVerificationResult = { success: boolean; hostname?: string };
 
 export class HCaptchaService {
-  async verify(
-    secretKey: HCaptchaSecretKeyType,
-    token: HcaptchaTokenType,
-  ): Promise<HCaptchaVerificationResult> {
-    const body = new URLSearchParams({ secret: secretKey, response: token });
+  async verify(secret: HCaptchaSecretKeyType, token: HcaptchaTokenType): Promise<HCaptchaVerificationResult> {
+    const body = new URLSearchParams({ secret, response: token });
 
     const response = await fetch("https://hcaptcha.com/siteverify", {
       method: "POST",

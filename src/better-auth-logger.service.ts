@@ -11,13 +11,18 @@ export class BetterAuthLogger {
     return {
       disabled: false,
       level: "debug",
-      log: (level: LogLevel | undefined, message: string, ...args: ReadonlyArray<unknown>) => {
-        const entry = { component: "infra", operation: "better-auth", message, metadata: { args } } as const;
+      log: (level: LogLevel | undefined, message: string, ...params: ReadonlyArray<unknown>) => {
+        const entry = {
+          component: "infra",
+          operation: "better-auth",
+          message,
+          metadata: { params },
+        } as const;
 
         if (level === "error") {
           this.deps.Logger.error({
             ...entry,
-            error: args.find((arg) => arg instanceof Error) ?? new Error(message),
+            error: params.find((param) => param instanceof Error) ?? new Error(message),
           });
         } else if (level === "warn") {
           this.deps.Logger.warn(entry);

@@ -14,8 +14,13 @@ describe("BetterAuthLogger", () => {
     service.log("success", "User logged in");
 
     expect(Logger.entries).toEqual([
-      { component: "infra", message: "User login attempt", metadata: { args: [] }, operation: "better-auth" },
-      { component: "infra", message: "User logged in", metadata: { args: [] }, operation: "better-auth" },
+      {
+        component: "infra",
+        message: "User login attempt",
+        metadata: { params: [] },
+        operation: "better-auth",
+      },
+      { component: "infra", message: "User logged in", metadata: { params: [] }, operation: "better-auth" },
     ]);
     expect(loggerInfo).toHaveBeenCalledTimes(2);
   });
@@ -28,7 +33,7 @@ describe("BetterAuthLogger", () => {
     service.log("debug", "User metadata");
 
     expect(Logger.entries).toEqual([
-      { component: "infra", message: "User metadata", metadata: { args: [] }, operation: "better-auth" },
+      { component: "infra", message: "User metadata", metadata: { params: [] }, operation: "better-auth" },
     ]);
     expect(loggerDebug).toHaveBeenCalled();
   });
@@ -41,7 +46,7 @@ describe("BetterAuthLogger", () => {
     service.log("warn", "User unavailable");
 
     expect(Logger.entries).toEqual([
-      { component: "infra", message: "User unavailable", metadata: { args: [] }, operation: "better-auth" },
+      { component: "infra", message: "User unavailable", metadata: { params: [] }, operation: "better-auth" },
     ]);
     expect(loggerWarn).toHaveBeenCalled();
   });
@@ -57,7 +62,7 @@ describe("BetterAuthLogger", () => {
       {
         component: "infra",
         message,
-        metadata: { args: [{ error: new Error(mocks.IntentionalError) }] },
+        metadata: { params: [{ error: new Error(mocks.IntentionalError) }] },
         operation: "better-auth",
         error: new Error(message),
       },
