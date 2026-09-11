@@ -27,7 +27,7 @@
     "@types/bun": "1.4.2",
     "@types/nodemailer": "8.0.1",
     "better-auth": "1.7.3",
-    "cspell": "10.2.2",
+    "cspell": "10.3.0",
     "fallow": "3.22.0",
     "lefthook": "2.1.12",
     "lockfile-lint": "5.0.1",
@@ -37,7 +37,7 @@
     "typescript": "7.0.2"
   },
   "dependencies": {
-    "@bgord/tools": "1.6.10",
+    "@bgord/tools": "1.6.11",
     "emittery": "2.0.0",
     "hono": "4.13.7",
     "node-cache": "5.1.2"
