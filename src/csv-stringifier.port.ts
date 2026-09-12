@@ -1,6 +1,4 @@
-// cspell:ignore Stringifier
-export type CsvColumnType = string;
-export type CsvRowType = Record<string, any>;
+import type { CsvColumnType, CsvRowType } from "./csv.types";
 
 export interface CsvStringifierPort {
   process(columns: ReadonlyArray<CsvColumnType>, data: ReadonlyArray<CsvRowType>): Promise<string>;
