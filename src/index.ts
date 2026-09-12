@@ -90,6 +90,7 @@ export * from "./crypto-key-provider-memory.adapter";
 export * from "./crypto-key-provider-noop.adapter";
 export * from "./crypto-key-provider-with-memo.adapter";
 export * from "./csv.types";
+export * from "./csv-parser.port";
 export * from "./csv-stringifier.port";
 export * from "./csv-stringifier-noop.adapter";
 export * from "./directory-ensurer.adapter";
