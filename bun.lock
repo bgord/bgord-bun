@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.6.12",
+        "@bgord/tools": "1.6.13",
         "emittery": "2.0.0",
         "hono": "4.13.7",
         "node-cache": "5.1.2",
@@ -130,7 +130,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.3.1", "", {}, "sha512-ABkD1WhyfPZprKRQI3bhATjeiFuNWC9PXhfGWqL+sg/gKrM977oFrYkdb4msM3hgUGonr7KlOsOFT5TU2rht9g=="],
 
-    "@bgord/tools": ["@bgord/tools@1.6.12", "", { "dependencies": { "valibot": "1.5.0" } }, "sha512-mpI9c/Z3uo4RvDoxxL5AfR+cMHp60r9lLtf8ejqdDXnflcRBABAKgAl1yh80tkxDblHoYSowIXZOoFCZgcKKLg=="],
+    "@bgord/tools": ["@bgord/tools@1.6.13", "", { "dependencies": { "valibot": "1.5.0" } }, "sha512-GDeSF5gICYTMEJQfOiypJeOsd/8KiIr5Tow8pUwOhzby0AqJ7NmhDBWCb/2NcGZnWYarb9yq0iSUGfEzlI/y7A=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.5.13", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.5.13", "@biomejs/cli-darwin-x64": "2.5.13", "@biomejs/cli-linux-arm64": "2.5.13", "@biomejs/cli-linux-arm64-musl": "2.5.13", "@biomejs/cli-linux-x64": "2.5.13", "@biomejs/cli-linux-x64-musl": "2.5.13", "@biomejs/cli-win32-arm64": "2.5.13", "@biomejs/cli-win32-x64": "2.5.13" }, "bin": { "biome": "bin/biome" } }, "sha512-+SEC/mFk1a+5mvUANZgbZTaiZXs1nj4iMhL/PHiqDT5TPUEPFIlliEtkKKZB4N862yylHC3UI+/Sj2I0HJEqhA=="],
 
