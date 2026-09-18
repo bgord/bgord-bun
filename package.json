@@ -26,12 +26,12 @@
     "@stryker-mutator/typescript-checker": "10.0.0",
     "@types/bun": "1.4.2",
     "@types/nodemailer": "8.0.1",
-    "better-auth": "1.7.4",
+    "better-auth": "1.7.5",
     "cspell": "10.3.0",
     "fallow": "3.25.0",
-    "lefthook": "2.1.12",
+    "lefthook": "2.1.14",
     "lockfile-lint": "5.0.1",
-    "nodemailer": "10.0.0",
+    "nodemailer": "10.0.10",
     "publint": "0.3.24",
     "shellcheck": "4.1.0",
     "typescript": "7.0.2"
@@ -39,12 +39,12 @@
   "dependencies": {
     "@bgord/tools": "1.6.13",
     "emittery": "2.0.0",
-    "hono": "4.13.7",
+    "hono": "4.13.8",
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
-    "better-auth": "1.7.4",
-    "nodemailer": "10.0.0"
+    "better-auth": "1.7.5",
+    "nodemailer": "10.0.10"
   },
   "peerDependenciesMeta": {
     "better-auth": {
