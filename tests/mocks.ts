@@ -12,6 +12,7 @@ import { EventStream } from "../src/event-stream.vo";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import { Hostname } from "../src/hostname.vo";
+import { Invariant, InvariantFailureKind } from "../src/invariant.service";
 import { JobEnvelopeSchema } from "../src/job-envelope";
 import { Languages } from "../src/languages.vo";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
@@ -344,3 +345,15 @@ export const virusFile = new Uint8Array([0x45]);
 export const asyncNoop = async () => {};
 
 export const PNG_BYTES = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+
+class SampleInvariantError extends Error {}
+
+export class SampleInvariant extends Invariant<{ threshold: number }> {
+  passes(config: { threshold: number }) {
+    return config.threshold <= 10;
+  }
+  error = SampleInvariantError;
+  // fallow-ignore-next-line unused-class-member
+  kind = InvariantFailureKind.precondition;
+  message = "SampleInvariant failed";
+}

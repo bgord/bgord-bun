@@ -14,6 +14,8 @@ export * from "./ab-variant-name.vo";
 export * from "./ab-variant-selector.service";
 export * from "./ab-variant-weight.vo";
 export * from "./ab-variants.vo";
+export * from "./action-blocker.vo";
+export * from "./action-state.vo";
 export * from "./alert-channel.builder";
 export * from "./alert-channel.port";
 export * from "./alert-channel-collecting.adapter";

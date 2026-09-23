@@ -1,23 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import { Invariant, InvariantFailureKind } from "../src/invariant.service";
+import * as mocks from "./mocks";
 
-class MockError extends Error {}
-
-class SampleInvariant extends Invariant<{ threshold: number }> {
-  passes(config: { threshold: number }) {
-    return config.threshold <= 10;
-  }
-  error = MockError;
-  kind = InvariantFailureKind.precondition;
-  message = "SampleInvariant failed";
-}
-
-const invariant = new SampleInvariant();
+const invariant = new mocks.SampleInvariant();
 
 describe("Invariant", () => {
   test("passes", async () => {
     expect(invariant.passes({ threshold: 15 })).toEqual(false);
     expect(invariant.passes({ threshold: 10 })).toEqual(true);
+    expect(mocks.SampleInvariant).toBeDefined();
   });
 
   test("ensure - success", async () => {
