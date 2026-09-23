@@ -1,9 +1,15 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { LogLevelEnum } from "../src/logger.port";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
+import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithLoggerAdapter } from "../src/prerequisite-verifier-with-logger.adapter";
+import { RedactorNoop } from "../src/redactor-noop.strategy";
+import { Woodchopper } from "../src/woodchopper";
+import { WoodchopperDispatcherSync } from "../src/woodchopper-dispatcher-sync.strategy";
+import { WoodchopperSinkCollecting } from "../src/woodchopper-sink-collecting.strategy";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
@@ -42,6 +48,25 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
         metadata: { duration: expect.any(tools.Duration) },
       },
     ]);
+  });
+
+  test("failure - woodchopper", async () => {
+    const sink = new WoodchopperSinkCollecting();
+    const Logger = new Woodchopper(
+      {
+        app: "woodchopper",
+        level: LogLevelEnum.error,
+        environment: NodeEnvironmentEnum.local,
+        dispatcher: new WoodchopperDispatcherSync(sink),
+        redactor: new RedactorNoop(),
+      },
+      { Clock },
+    );
+    const prerequisite = new PrerequisiteVerifierWithLoggerAdapter({ inner: fail }, { Clock, Logger });
+
+    await prerequisite.verify();
+
+    expect(sink.entries[0]?.error).toEqual({ message: mocks.IntentionalError });
   });
 
   test("undetermined", async () => {

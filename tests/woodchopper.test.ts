@@ -87,6 +87,25 @@ describe("Woodchopper", async () => {
     });
   });
 
+  test("error - normalized error", () => {
+    const sink = new WoodchopperSinkCollecting();
+    const dispatcher = new WoodchopperDispatcherSync(sink);
+    const config = { app, level: LogLevelEnum.error, environment };
+    const woodchopper = new Woodchopper({ ...config, dispatcher, redactor }, deps);
+
+    woodchopper.error({
+      ...entry,
+      error: tools.ErrorNormalizer.normalize(new Error(mocks.IntentionalError)),
+    });
+
+    expect(sink.entries[0]).toEqual({
+      ...config,
+      ...entry,
+      timestamp: mocks.TIME_ZERO_PLAIN_DATE_TIME,
+      error: mocks.IntentionalErrorNormalized,
+    });
+  });
+
   test("warn - no error", () => {
     const sink = new WoodchopperSinkCollecting();
     const dispatcher = new WoodchopperDispatcherSync(sink);
