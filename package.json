@@ -28,7 +28,7 @@
     "@types/nodemailer": "8.0.2",
     "better-auth": "1.7.5",
     "cspell": "10.3.3",
-    "fallow": "3.27.0",
+    "fallow": "3.28.0",
     "lefthook": "2.1.14",
     "lockfile-lint": "5.0.1",
     "nodemailer": "10.0.10",
