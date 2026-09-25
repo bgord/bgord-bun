@@ -74,6 +74,10 @@ src/
 ├── cache-codec-identity.strategy.ts
 ├── cache-codec-sitemap-entries.strategy.ts
 ├── cache-codec.strategy.ts
+├── cache-control-immutable.strategy.ts
+├── cache-control-must-revalidate.strategy.ts
+├── cache-control-noop.strategy.ts
+├── cache-control.strategy.ts
 ├── cache-file.service.ts
 ├── cache-repository-node-cache.adapter.ts
 ├── cache-repository-noop.adapter.ts
