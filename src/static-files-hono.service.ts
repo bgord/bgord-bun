@@ -1,21 +1,12 @@
 // [BUN DEPENDENCY]
 // cspell:ignore nosniff
-import type * as tools from "@bgord/tools";
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { etag } from "hono/etag";
 import { secureHeaders } from "hono/secure-headers";
+import type { CacheControlStrategy } from "./cache-control.strategy";
 
 const noop = async () => {};
-
-type StaticFilesStrategy = (path: string, context: Context) => Promise<void> | void;
-
-export const StaticFileStrategyNoop: StaticFilesStrategy = () => {};
-
-export const StaticFileStrategyMustRevalidate: (duration: tools.Duration) => StaticFilesStrategy =
-  (duration) => (_, c) => {
-    c.header("Cache-Control", `public, max-age=${duration.seconds}, must-revalidate`);
-  };
 
 const staticAssetHeaders = secureHeaders({
   crossOriginResourcePolicy: "same-origin",
@@ -61,7 +52,7 @@ const staticDocumentHeaders = secureHeaders({
 type StaticFilesOptions = { root?: string };
 
 export class StaticFilesHono {
-  static handle(path: string, strategy: StaticFilesStrategy, options?: StaticFilesOptions) {
+  static handle(path: string, strategy: CacheControlStrategy, options?: StaticFilesOptions) {
     // Stryker disable all
     const root = options?.root ?? "./";
     // Stryker restore all
