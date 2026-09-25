@@ -9,7 +9,7 @@ const FIXTURES_ROOT = "tests/fixtures";
 const CSS = "http://localhost/public/main.css";
 const HTML = "http://localhost/public/login.html";
 
-const routes = StaticFilesHono.handle("/public/*", CacheControlNoopStrategy, { root: FIXTURES_ROOT });
+const routes = StaticFilesHono.handle("/public/*", new CacheControlNoopStrategy(), { root: FIXTURES_ROOT });
 
 describe("StaticFilesHono", () => {
   test("static assets - transport and no csp", async () => {
@@ -57,7 +57,7 @@ describe("StaticFilesHono", () => {
   test("strategy - must-revalidate", async () => {
     const duration = tools.Duration.Minutes(5);
 
-    const routes = StaticFilesHono.handle("/public/*", CacheControlMustRevalidateStrategy(duration), {
+    const routes = StaticFilesHono.handle("/public/*", new CacheControlMustRevalidateStrategy(duration), {
       root: FIXTURES_ROOT,
     });
 
@@ -82,7 +82,7 @@ describe("StaticFilesHono", () => {
   });
 
   test("default root", async () => {
-    const routes = StaticFilesHono.handle("/public/*", CacheControlNoopStrategy);
+    const routes = StaticFilesHono.handle("/public/*", new CacheControlNoopStrategy());
 
     const response = await routes["/public/*"]?.(
       new Request("http://localhost/tests/fixtures/public/main.css"),

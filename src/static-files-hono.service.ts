@@ -5,6 +5,7 @@ import { serveStatic } from "hono/bun";
 import { etag } from "hono/etag";
 import { secureHeaders } from "hono/secure-headers";
 import type { CacheControlStrategy } from "./cache-control.strategy";
+import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
 
 const noop = async () => {};
 
@@ -69,7 +70,15 @@ export class StaticFilesHono {
           else await staticAssetHeaders(context, noop);
         },
         etag(),
-        serveStatic({ root, precompressed: true, onFound: strategy }),
+        serveStatic({
+          root,
+          precompressed: true,
+          onFound: (_, context) => {
+            const value = strategy.resolve(new RequestContextHonoAdapter(context));
+
+            if (value) context.header("Cache-Control", value);
+          },
+        }),
       ).fetch,
     };
   }

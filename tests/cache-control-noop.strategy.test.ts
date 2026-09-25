@@ -1,16 +1,13 @@
 import { describe, expect, test } from "bun:test";
-import { Hono } from "hono";
 import { CacheControlNoopStrategy } from "../src/cache-control-noop.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const app = new Hono().get("/*", async (c) => {
-  await CacheControlNoopStrategy(c.req.path, c);
-  return c.body(null);
-});
+const strategy = new CacheControlNoopStrategy();
 
 describe("CacheControlNoopStrategy", () => {
-  test("happy path", async () => {
-    const response = await app.request("/main.css");
+  test("happy path", () => {
+    const context = new RequestContextBuilder().withPath("/main.css").build();
 
-    expect(response.headers.get("cache-control")).toEqual(null);
+    expect(strategy.resolve(context)).toEqual(null);
   });
 });

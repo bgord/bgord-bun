@@ -1,19 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
 import { CacheControlMustRevalidateStrategy } from "../src/cache-control-must-revalidate.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const strategy = CacheControlMustRevalidateStrategy(tools.Duration.Minutes(5));
-
-const app = new Hono().get("/*", async (c) => {
-  await strategy(c.req.path, c);
-  return c.body(null);
-});
+const strategy = new CacheControlMustRevalidateStrategy(tools.Duration.Minutes(5));
 
 describe("CacheControlMustRevalidateStrategy", () => {
-  test("happy path", async () => {
-    const response = await app.request("/main.css");
+  test("happy path", () => {
+    const context = new RequestContextBuilder().withPath("/main.css").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 });

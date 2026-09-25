@@ -1,80 +1,77 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { Hono } from "hono";
 import { CacheControlImmutableStrategy } from "../src/cache-control-immutable.strategy";
 import { CacheControlMustRevalidateStrategy } from "../src/cache-control-must-revalidate.strategy";
+import { RequestContextBuilder } from "./request-context-builder";
 
-const strategy = CacheControlImmutableStrategy(CacheControlMustRevalidateStrategy(tools.Duration.Minutes(5)));
-
-const app = new Hono().get("/*", async (c) => {
-  await strategy(c.req.path, c);
-  return c.body(null);
-});
+const strategy = new CacheControlImmutableStrategy(
+  new CacheControlMustRevalidateStrategy(tools.Duration.Minutes(5)),
+);
 
 describe("CacheControlImmutableStrategy", () => {
-  test("hashed", async () => {
-    const response = await app.request("/main-a1b2c3d4.js");
+  test("hashed", () => {
+    const context = new RequestContextBuilder().withPath("/main-a1b2c3d4.js").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=31536000, immutable");
+    expect(strategy.resolve(context)).toEqual("public, max-age=31536000, immutable");
   });
 
-  test("hashed - nested", async () => {
-    const response = await app.request("/assets/main-a1b2c3d4.js");
+  test("hashed - nested", () => {
+    const context = new RequestContextBuilder().withPath("/assets/main-a1b2c3d4.js").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=31536000, immutable");
+    expect(strategy.resolve(context)).toEqual("public, max-age=31536000, immutable");
   });
 
-  test("versioned", async () => {
-    const response = await app.request("/main.css?v=123");
+  test("versioned", () => {
+    const context = new RequestContextBuilder().withPath("/main.css").withQuery({ v: "123" }).build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=31536000, immutable");
+    expect(strategy.resolve(context)).toEqual("public, max-age=31536000, immutable");
   });
 
-  test("fallback", async () => {
-    const response = await app.request("/main.css");
+  test("fallback", () => {
+    const context = new RequestContextBuilder().withPath("/main.css").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - empty version", async () => {
-    const response = await app.request("/main.css?v=");
+  test("fallback - empty version", () => {
+    const context = new RequestContextBuilder().withPath("/main.css").withQuery({ v: "" }).build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - hash too short", async () => {
-    const response = await app.request("/main-a1b2c3d.js");
+  test("fallback - hash too short", () => {
+    const context = new RequestContextBuilder().withPath("/main-a1b2c3d.js").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - hash too long", async () => {
-    const response = await app.request("/main-a1b2c3d4e.js");
+  test("fallback - hash too long", () => {
+    const context = new RequestContextBuilder().withPath("/main-a1b2c3d4e.js").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - hash uppercase", async () => {
-    const response = await app.request("/main-A1B2C3D4.js");
+  test("fallback - hash uppercase", () => {
+    const context = new RequestContextBuilder().withPath("/main-A1B2C3D4.js").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - hash without dash", async () => {
-    const response = await app.request("/main.a1b2c3d4.js");
+  test("fallback - hash without dash", () => {
+    const context = new RequestContextBuilder().withPath("/main.a1b2c3d4.js").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - hashed not js", async () => {
-    const response = await app.request("/main-a1b2c3d4.css");
+  test("fallback - hashed not js", () => {
+    const context = new RequestContextBuilder().withPath("/main-a1b2c3d4.css").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 
-  test("fallback - hashed js not at end", async () => {
-    const response = await app.request("/main-a1b2c3d4.js.map");
+  test("fallback - hashed js not at end", () => {
+    const context = new RequestContextBuilder().withPath("/main-a1b2c3d4.js.map").build();
 
-    expect(response.headers.get("cache-control")).toEqual("public, max-age=300, must-revalidate");
+    expect(strategy.resolve(context)).toEqual("public, max-age=300, must-revalidate");
   });
 });

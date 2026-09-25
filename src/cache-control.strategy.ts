@@ -1,3 +1,5 @@
-import type { Context } from "hono";
+import type { HasRequestPath, HasRequestQuery } from "./request-context.port";
 
-export type CacheControlStrategy = (path: string, context: Context) => Promise<void> | void;
+export interface CacheControlStrategy {
+  resolve(context: HasRequestPath & HasRequestQuery): string | null;
+}
