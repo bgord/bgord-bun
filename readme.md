@@ -238,6 +238,9 @@ src/
 ├── handler-with-logger.strategy.ts
 ├── handler.strategy.ts
 ├── hash-bucket.vo.ts
+├── hash-bytes-noop.strategy.ts
+├── hash-bytes-sha256.strategy.ts
+├── hash-bytes.strategy.ts
 ├── hash-content-noop.strategy.ts
 ├── hash-content-sha256.strategy.ts
 ├── hash-content.strategy.ts
