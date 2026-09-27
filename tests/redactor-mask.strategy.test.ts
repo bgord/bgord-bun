@@ -64,4 +64,47 @@ describe("RedactorMask", () => {
       code: "***",
     });
   });
+
+  test("default keys - snake_case variants", () => {
+    const input = {
+      access_token: "a",
+      refresh_token: "a",
+      password_confirmation: "a",
+      client_secret: "a",
+      private_key: "a",
+      api_key: "a",
+      "access-token": "a",
+      "refresh-token": "a",
+      "client-secret": "a",
+      "private-key": "a",
+      "api-key": "a",
+    };
+
+    expect(new RedactorMask().redact(input)).toEqual({
+      access_token: "***",
+      refresh_token: "***",
+      password_confirmation: "***",
+      client_secret: "***",
+      private_key: "***",
+      api_key: "***",
+      "access-token": "***",
+      "refresh-token": "***",
+      "client-secret": "***",
+      "private-key": "***",
+      "api-key": "***",
+    });
+  });
+
+  test("custom keys - separator variants", () => {
+    const redactor = new RedactorMask(["client_secret"]);
+
+    const input = { clientSecret: "a", "client-secret": "a", client_secret: "a", ok: "a" };
+
+    expect(redactor.redact(input)).toEqual({
+      clientSecret: "***",
+      "client-secret": "***",
+      client_secret: "***",
+      ok: "a",
+    });
+  });
 });

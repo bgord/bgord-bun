@@ -78,6 +78,15 @@ describe("RedactorUrlQuery", () => {
     });
   });
 
+  test("default keys - snake_case variants", () => {
+    const redactor = new RedactorUrlQuery();
+    const input = { url: "https://example.com/callback?access_token=a&api_key=b&client_secret=c&ok=1" };
+
+    expect(redactor.redact(input)).toEqual({
+      url: "https://example.com/callback?access_token=***&api_key=***&client_secret=***&ok=1",
+    });
+  });
+
   test("default keys - empty override", () => {
     const redactor = new RedactorUrlQuery([]);
     const input = { url: "https://example.com/callback?code=oauth-code" };
