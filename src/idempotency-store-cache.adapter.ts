@@ -7,6 +7,7 @@ type Dependencies = { CacheRepository: CacheRepositoryPort };
 export class IdempotencyStoreCacheAdapter implements IdempotencyStorePort {
   constructor(private readonly deps: Dependencies) {}
 
+  // Non-atomic get-then-set: concurrent claims of the same subject can both succeed
   async claim(subject: Hash): Promise<boolean> {
     const processed = await this.deps.CacheRepository.get(subject);
 
