@@ -6,7 +6,8 @@ export class CronSchedulerAdapter implements CronSchedulerPort {
   private readonly tasks: Array<Bun.CronJob> = [];
 
   schedule(task: CronTask): void {
-    this.tasks.push(Bun.cron(task.cron, task.handler));
+    // Bun.cron turns a rejected run into an unhandledRejection, which GracefulShutdown treats as fatal.
+    this.tasks.push(Bun.cron(task.cron, () => task.handler().catch(() => {})));
   }
 
   async verify(): Promise<boolean> {
