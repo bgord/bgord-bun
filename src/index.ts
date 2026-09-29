@@ -119,6 +119,7 @@ export * from "./environment-loader-encrypted.adapter";
 export * from "./environment-loader-noop.adapter";
 export * from "./environment-loader-process.adapter";
 export * from "./environment-loader-process-safe.adapter";
+export * from "./environment-loader-with-memo.adapter";
 export * from "./error.handler";
 export * from "./error-classifier.strategy";
 export * from "./error-classifier-http-exception-hono.strategy";

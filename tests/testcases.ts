@@ -152,6 +152,11 @@ export const environmentLoader = () => {
       input: { APP_NAME: "MyApp" },
       output: { APP_NAME: "MyApp", type: NodeEnvironmentEnum.local },
     },
+    happyPathSeparateInstances: {
+      name: "happy path - separate instances",
+      input: { APP_NAME: "OtherApp" },
+      output: { APP_NAME: "OtherApp", type: NodeEnvironmentEnum.local },
+    },
     failure: { name: "failure", input: { APP_NAME: 123 }, output: "app.name.invalid" },
     failureEmpty: { name: "failure - empty", output: "env.empty" },
     failureAsyncSchema: {
