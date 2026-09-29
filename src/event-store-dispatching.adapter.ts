@@ -32,7 +32,8 @@ export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements
   ): Promise<ReadonlyArray<SavedEvent>> {
     const saved = await this.deps.inner.save(events);
 
-    for (const event of saved) this.deps.EventBus.emit(event);
+    // Fire-and-forget: events are already persisted, handler errors are logged by the handler strategy.
+    for (const event of saved) this.deps.EventBus.emit(event).catch(() => {});
 
     return saved;
   }

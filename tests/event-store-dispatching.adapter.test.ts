@@ -8,6 +8,7 @@ import { EventInserterNoopAdapter } from "../src/event-inserter-noop.adapter";
 import { EventStoreAdapter } from "../src/event-store.adapter";
 import { EventStoreDispatchingAdapter } from "../src/event-store-dispatching.adapter";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
+import { HandlerWithLoggerStrategy } from "../src/handler-with-logger.strategy";
 import { HandlerWithLoggerSafeStrategy } from "../src/handler-with-logger-safe.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
@@ -94,6 +95,34 @@ describe("EventStoreDispatchingAdapter", () => {
           correlationId: CorrelationStorage.get(),
           component: "infra",
           operation: "handler_safe",
+          metadata: { name: mocks.GenericHourHasPassedEvent.name, duration: expect.any(tools.Duration) },
+          error: new Error(mocks.IntentionalError),
+        },
+      ]);
+    });
+  });
+
+  test("save - dispatching - unsafe handler", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
+    const finder = new EventFinderNoopAdapter([]);
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const handler = new HandlerWithLoggerStrategy({ Logger, Clock });
+    const EventBus = new EventBusEmitteryAdapter<PassageOfTimeEvent>();
+    EventBus.on(System.Events.HOUR_HAS_PASSED_EVENT, handler.handle(mocks.throwIntentionalErrorAsync));
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
+
+    await CorrelationStorage.run(mocks.correlationId, async () => {
+      expect(await store.save([mocks.GenericHourHasPassedEvent])).toEqual([mocks.GenericHourHasPassedEvent]);
+
+      await mocks.tick();
+
+      expect(Logger.entries).toEqual([
+        {
+          message: `Unknown ${mocks.GenericHourHasPassedEvent.name} handler error`,
+          correlationId: CorrelationStorage.get(),
+          component: "infra",
+          operation: "handler",
           metadata: { name: mocks.GenericHourHasPassedEvent.name, duration: expect.any(tools.Duration) },
           error: new Error(mocks.IntentionalError),
         },
