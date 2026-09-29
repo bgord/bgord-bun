@@ -6,13 +6,16 @@ import { RedactorKey } from "./redactor-key.vo";
 export class RedactorMask implements RedactorStrategy {
   static readonly DEFAULT_KEYS: ReadonlyArray<string> = [
     "authorization",
+    "proxy-authorization",
     "cookie",
     "set-cookie",
     "x-api-key",
+    "x-auth-token",
     "apikey",
     "token",
     "accesstoken",
     "refreshtoken",
+    "idtoken",
     "password",
     "currentpassword",
     "newpassword",

@@ -28,13 +28,16 @@ describe("RedactorMask", () => {
   test("default keys", () => {
     const input = {
       authorization: "a",
+      "proxy-authorization": "a",
       cookie: "a",
       "set-cookie": "a",
       "x-api-key": "a",
+      "x-auth-token": "a",
       apiKey: "a",
       token: "a",
       accessToken: "a",
       refreshToken: "a",
+      idToken: "a",
       password: "a",
       currentPassword: "a",
       newPassword: "a",
@@ -47,13 +50,16 @@ describe("RedactorMask", () => {
 
     expect(new RedactorMask().redact(input)).toEqual({
       authorization: "***",
+      "proxy-authorization": "***",
       cookie: "***",
       "set-cookie": "***",
       "x-api-key": "***",
+      "x-auth-token": "***",
       apiKey: "***",
       token: "***",
       accessToken: "***",
       refreshToken: "***",
+      idToken: "***",
       password: "***",
       currentPassword: "***",
       newPassword: "***",
@@ -65,10 +71,11 @@ describe("RedactorMask", () => {
     });
   });
 
-  test("default keys - snake_case variants", () => {
+  test("default keys - separator variants", () => {
     const input = {
       access_token: "a",
       refresh_token: "a",
+      id_token: "a",
       password_confirmation: "a",
       client_secret: "a",
       private_key: "a",
@@ -83,6 +90,7 @@ describe("RedactorMask", () => {
     expect(new RedactorMask().redact(input)).toEqual({
       access_token: "***",
       refresh_token: "***",
+      id_token: "***",
       password_confirmation: "***",
       client_secret: "***",
       private_key: "***",
