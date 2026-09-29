@@ -75,6 +75,44 @@ describe("JobQueueAdapter", () => {
     expect(await queue.claim(limit)).toEqual([mocks.GenericSendEmailJob]);
   });
 
+  test("claim - with jobs - nothing failed", async () => {
+    const claimer = new JobClaimerNoopAdapter([mocks.GenericSendEmailJobSerialized]);
+    const failer = new JobFailerCollectingAdapter();
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, claimer, failer });
+
+    await queue.claim(limit);
+
+    expect(failer.failed).toEqual([]);
+  });
+
+  test("claim - invalid payload", async () => {
+    const claimer = new JobClaimerNoopAdapter([
+      mocks.InvalidSendEmailJobSerialized,
+      mocks.GenericSendEmailJobSerialized,
+    ]);
+    const failer = new JobFailerCollectingAdapter();
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, claimer, failer });
+
+    const result = await queue.claim(limit);
+
+    expect(result).toEqual([mocks.GenericSendEmailJob]);
+    expect(failer.failed).toEqual([mocks.InvalidSendEmailJobSerialized.id]);
+  });
+
+  test("claim - malformed payload", async () => {
+    const claimer = new JobClaimerNoopAdapter([
+      mocks.MalformedSendEmailJobSerialized,
+      mocks.GenericSendEmailJobSerialized,
+    ]);
+    const failer = new JobFailerCollectingAdapter();
+    const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, claimer, failer });
+
+    const result = await queue.claim(limit);
+
+    expect(result).toEqual([mocks.GenericSendEmailJob]);
+    expect(failer.failed).toEqual([mocks.MalformedSendEmailJobSerialized.id]);
+  });
+
   test("complete", async () => {
     const completer = new JobCompleterCollectingAdapter();
     const queue = new JobQueueAdapter<SendEmailJobType>({ ...deps, completer });

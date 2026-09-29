@@ -34,10 +34,18 @@ export class JobQueueAdapter<Job extends GenericJob> implements JobQueuePort<Job
 
   async claim(limit: tools.IntegerPositiveType): Promise<ReadonlyArray<Job>> {
     const jobs = await this.config.claimer.claim(this.config.registry.names, limit);
+    const valid: Array<Job> = [];
 
-    return jobs
-      .map((job) => ({ ...job, payload: this.config.serializer.deserialize(job.payload) }))
-      .map((job) => this.config.registry.validate(job));
+    for (const job of jobs) {
+      try {
+        valid.push(
+          this.config.registry.validate({ ...job, payload: this.config.serializer.deserialize(job.payload) }),
+        );
+      } catch {
+        await this.config.failer.fail(job.id);
+      }
+    }
+    return valid;
   }
 
   async complete(id: GenericJob["id"]): Promise<void> {
