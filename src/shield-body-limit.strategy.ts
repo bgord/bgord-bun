@@ -12,6 +12,7 @@ export class ShieldBodyLimitStrategy {
   evaluate(context: HasRequestHeader): boolean {
     const header = context.request.header("content-length");
 
+    // Header-only check: bodies without Content-Length (chunked/streamed) are bounded by Bun.serve's maxRequestBodySize instead.
     if (header === undefined) return true;
 
     const contentLength = v.safeParse(tools.SizeBytes, Number(header));
