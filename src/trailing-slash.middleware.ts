@@ -1,4 +1,4 @@
-import type { HasRequestPath } from "./request-context.port";
+import type { HasRequestUrl } from "./request-context.port";
 
 export type TrailingSlashResult = { redirect: false } | { redirect: true; pathname: string; status: 308 };
 
@@ -9,14 +9,13 @@ export class TrailingSlashMiddleware {
   // RFC 7231 6.4.7 - 308 preserves the request method and body, unlike 301.
   static readonly STATUS = 308;
 
-  evaluate(context: HasRequestPath): TrailingSlashResult {
-    if (!context.request.path.endsWith("/")) return { redirect: false };
-    if (context.request.path === "/") return { redirect: false };
+  evaluate(context: HasRequestUrl): TrailingSlashResult {
+    const path = new URL(context.request.url()).pathname;
 
-    const pathname = (context.request.path.replace(TRAILING_SLASHES, "") || "/").replace(
-      LEADING_SLASHES,
-      "/",
-    );
+    if (!path.endsWith("/")) return { redirect: false };
+    if (path === "/") return { redirect: false };
+
+    const pathname = (path.replace(TRAILING_SLASHES, "") || "/").replace(LEADING_SLASHES, "/");
 
     return { redirect: true, pathname, status: TrailingSlashMiddleware.STATUS };
   }

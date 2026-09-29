@@ -101,6 +101,20 @@ describe("TrailingSlashHonoMiddleware", () => {
     expect(response.headers.get("location")).toEqual("/evil.com");
   });
 
+  test("redirect - no backslash location", async () => {
+    const response = await app.request("/%5Cevil.com/");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("/%5Cevil.com");
+  });
+
+  test("redirect - no tab location", async () => {
+    const response = await app.request("/%09/evil.com/");
+
+    expect(response.status).toEqual(308);
+    expect(response.headers.get("location")).toEqual("/%09/evil.com");
+  });
+
   test("redirect - no host header in the location", async () => {
     const response = await app.request("/data/", { headers: { host: "evil.example" } });
 
@@ -112,6 +126,6 @@ describe("TrailingSlashHonoMiddleware", () => {
     const response = await app.request("/caf%C3%A9/");
 
     expect(response.status).toEqual(308);
-    expect(response.headers.get("location")).toEqual("/café");
+    expect(response.headers.get("location")).toEqual("/caf%C3%A9");
   });
 });
