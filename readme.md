@@ -145,6 +145,7 @@ src/
 ├── environment-loader-noop.adapter.ts
 ├── environment-loader-process-safe.adapter.ts
 ├── environment-loader-process.adapter.ts
+├── environment-loader-with-memo.adapter.ts
 ├── environment-loader.port.ts
 ├── error-classifier-http-exception-hono.strategy.ts
 ├── error-classifier-invariant.strategy.ts
