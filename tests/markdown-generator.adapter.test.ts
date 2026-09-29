@@ -1,3 +1,4 @@
+/* cSpell:disable */
 import { describe, expect, spyOn, test } from "bun:test";
 import { MarkdownGeneratorAdapter } from "../src/markdown-generator.adapter";
 
