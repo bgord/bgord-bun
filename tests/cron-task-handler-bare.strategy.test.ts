@@ -16,6 +16,16 @@ describe("CronTaskHandlerBareStrategy", () => {
     expect(task).toHaveBeenCalled();
   });
 
+  test("happy path - correlation id per run", async () => {
+    using idProviderGenerate = spyOn(IdProvider, "generate");
+    const task = handler.handle(mocks.task);
+
+    await task.handler();
+    await task.handler();
+
+    expect(idProviderGenerate).toHaveBeenCalledTimes(2);
+  });
+
   test("failure", async () => {
     using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
 

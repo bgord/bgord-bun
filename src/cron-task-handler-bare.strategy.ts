@@ -11,11 +11,13 @@ export class CronTaskHandlerBareStrategy implements CronTaskHandlerStrategy {
   constructor(private readonly deps: Dependencies) {}
 
   handle(task: CronTask): CronTask {
-    const correlationId = v.parse(CorrelationId, this.deps.IdProvider.generate());
-
     return {
       ...task,
-      handler: async () => CorrelationStorage.run(correlationId, task.handler),
+      handler: async () => {
+        const correlationId = v.parse(CorrelationId, this.deps.IdProvider.generate());
+
+        return CorrelationStorage.run(correlationId, task.handler);
+      },
     };
   }
 }
