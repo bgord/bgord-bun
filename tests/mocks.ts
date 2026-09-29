@@ -163,6 +163,10 @@ export const hashValue = v.parse(
 );
 export const hash = Hash.fromValue(hashValue);
 
+export const rawHello = new TextEncoder().encode("hello").buffer;
+export const rawAbc = new TextEncoder().encode("abc").buffer;
+export const rawBinary = new Uint8Array([0xff, 0x41]).buffer;
+
 export const GenericHourHasPassedEvent = {
   id: correlationId,
   correlationId,

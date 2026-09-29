@@ -20,11 +20,9 @@ const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgE
 const HashBytes = new HashBytesSha256Strategy();
 const deps = { HashBytes, FileInspection, MimeRegistry };
 
-const raw = (content: string) => new TextEncoder().encode(content).buffer as ArrayBuffer;
-
 describe("HashFileSha256Adapter", () => {
   test("absolute path", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("hello"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawHello);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
     const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
 
@@ -40,7 +38,7 @@ describe("HashFileSha256Adapter", () => {
 
   test("absolute path - mime not found", async () => {
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.pdf");
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("hello"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawHello);
     const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
 
     expect(async () => adapter.hash(input)).toThrow(tools.MimeRegistryError.MimeNotFound);
@@ -50,7 +48,7 @@ describe("HashFileSha256Adapter", () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
     using _ = spyOn(FileInspection, "size").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("hello"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawHello);
     const adapter = new HashFileSha256Adapter({ ...deps, FileReaderRaw, FileInspection });
 
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
@@ -60,14 +58,14 @@ describe("HashFileSha256Adapter", () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
     using _ = spyOn(FileInspection, "lastModified").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("hello"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawHello);
     const adapter = new HashFileSha256Adapter({ ...deps, FileReaderRaw, FileInspection });
 
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
 
   test("absolute path - read error", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("hello"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawHello);
     using _ = spyOn(FileReaderRaw, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
     const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
     const input = tools.FilePathAbsolute.fromString("/var/data/hello.jpg");
@@ -76,7 +74,7 @@ describe("HashFileSha256Adapter", () => {
   });
 
   test("relative path", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("abc"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawAbc);
     const input = tools.FilePathRelative.fromString("images/payload.jpeg");
     const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
 
@@ -92,7 +90,7 @@ describe("HashFileSha256Adapter", () => {
 
   test("relative path - mime not found", async () => {
     const input = tools.FilePathRelative.fromString("images/payload.pdf");
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("abc"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawAbc);
     const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
 
     expect(async () => adapter.hash(input)).toThrow(tools.MimeRegistryError.MimeNotFound);
@@ -102,24 +100,24 @@ describe("HashFileSha256Adapter", () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
     using _ = spyOn(FileInspection, "size").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathRelative.fromString("images/payload.jpg");
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("abc"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawAbc);
     const adapter = new HashFileSha256Adapter({ ...deps, FileReaderRaw, FileInspection });
 
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
 
-  test("relative path - size error", async () => {
+  test("relative path - last modified error", async () => {
     const FileInspection = new FileInspectionNoopAdapter({ exists: true, size });
     using _ = spyOn(FileInspection, "lastModified").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathRelative.fromString("images/payload.jpg");
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("abc"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawAbc);
     const adapter = new HashFileSha256Adapter({ ...deps, FileReaderRaw, FileInspection });
 
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
 
   test("relative path - read error", async () => {
-    const FileReaderRaw = new FileReaderRawNoopAdapter(raw("abc"));
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawAbc);
     using _ = spyOn(FileReaderRaw, "read").mockImplementation(mocks.throwIntentionalErrorAsync);
     const input = tools.FilePathRelative.fromString("images/payload.jpeg");
     const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
@@ -127,16 +125,15 @@ describe("HashFileSha256Adapter", () => {
     expect(async () => adapter.hash(input)).toThrow(mocks.IntentionalError);
   });
 
-  test("absolute path - distinct binary content, distinct etags", async () => {
-    const first = new FileReaderRawNoopAdapter(new Uint8Array([0xff, 0x41]).buffer as ArrayBuffer);
-    const second = new FileReaderRawNoopAdapter(new Uint8Array([0xfe, 0x41]).buffer as ArrayBuffer);
+  test("absolute path - binary content", async () => {
+    const FileReaderRaw = new FileReaderRawNoopAdapter(mocks.rawBinary);
     const input = tools.FilePathAbsolute.fromString("/var/data/payload.jpg");
-    const firstAdapter = new HashFileSha256Adapter({ FileReaderRaw: first, ...deps });
-    const secondAdapter = new HashFileSha256Adapter({ FileReaderRaw: second, ...deps });
+    const adapter = new HashFileSha256Adapter({ FileReaderRaw, ...deps });
 
-    const resultFirst = await firstAdapter.hash(input);
-    const resultSecond = await secondAdapter.hash(input);
+    const result = await adapter.hash(input);
 
-    expect(resultFirst.etag.matches(resultSecond.etag)).toEqual(false);
+    expect(result.etag).toEqual(
+      Hash.fromString("be611a063fe2322ed4671804fd2e68027756b32e14ec8d64f2e790344eb93261"),
+    );
   });
 });

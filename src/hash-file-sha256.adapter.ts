@@ -24,6 +24,6 @@ export class HashFileSha256Adapter implements HashFilePort {
     const lastModified = await this.deps.FileInspection.lastModified(path);
     const bytes = await this.deps.FileReaderRaw.read(path);
 
-    return { etag: await this.deps.HashBytes.hash(new Uint8Array(bytes)), size, lastModified, mime };
+    return { etag: await this.deps.HashBytes.hash(bytes), size, lastModified, mime };
   }
 }

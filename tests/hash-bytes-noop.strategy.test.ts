@@ -4,7 +4,7 @@ import * as mocks from "./mocks";
 
 describe("HashBytesNoopStrategy", () => {
   test("happy path", async () => {
-    const result = await new HashBytesNoopStrategy().hash(new Uint8Array());
+    const result = await new HashBytesNoopStrategy().hash(new ArrayBuffer(0));
 
     expect(result.matches(mocks.hash)).toEqual(true);
   });
