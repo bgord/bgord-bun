@@ -3,6 +3,7 @@ import type { Database } from "bun:sqlite";
 import * as tools from "@bgord/tools";
 import type { ClockPort } from "./clock.port";
 import type { JobPrunerPort } from "./job-pruner.port";
+import { JobStatusEnum } from "./job-status.vo";
 
 type Dependencies = { db: Database; Clock: ClockPort };
 
@@ -14,7 +15,7 @@ export class JobPrunerSqliteAdapter implements JobPrunerPort {
 
     const result = this.deps.db.run<[tools.TimestampValueType]>(
       `DELETE FROM jobs
-         WHERE status IN ('completed', 'failed')
+         WHERE status IN ('${JobStatusEnum.completed}', '${JobStatusEnum.failed}')
            AND createdAt <= ?`,
       [threshold],
     );

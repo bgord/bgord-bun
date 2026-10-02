@@ -25,10 +25,10 @@ export class JobQueueStatsProviderSqliteAdapter implements JobQueueStatsProvider
     const counts = Object.fromEntries(snapshot.map((row) => [row.status, row.count]));
 
     return {
-      pending: tools.Int.nonNegative(counts["pending"] ?? 0),
-      claimed: tools.Int.nonNegative(counts["claimed"] ?? 0),
-      completed: tools.Int.nonNegative(counts["completed"] ?? 0),
-      failed: tools.Int.nonNegative(counts["failed"] ?? 0),
+      pending: tools.Int.nonNegative(counts[JobStatusEnum.pending] ?? 0),
+      claimed: tools.Int.nonNegative(counts[JobStatusEnum.claimed] ?? 0),
+      completed: tools.Int.nonNegative(counts[JobStatusEnum.completed] ?? 0),
+      failed: tools.Int.nonNegative(counts[JobStatusEnum.failed] ?? 0),
       oldestPending: oldestPending?.createdAt ? tools.Timestamp.fromNumber(oldestPending.createdAt).ms : null,
     };
   }
