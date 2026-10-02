@@ -1,5 +1,6 @@
 import { expect } from "bun:test";
 import * as tools from "@bgord/tools";
+import type os from "node:os";
 import * as v from "valibot";
 import { AlertMessage } from "../src/alert-message.vo";
 import { Client } from "../src/client.vo";
@@ -303,6 +304,29 @@ export const sms = new tools.SmsMessage(
 
 export const alert = new AlertMessage("Payment failed");
 export const alertWithError = new AlertMessage("Payment failed", new Error(IntentionalError));
+
+export const osHostname = "server";
+export const osCpus: Array<os.CpuInfo> = [
+  { model: "cpu", speed: 1, times: { user: 0, nice: 0, sys: 0, idle: 0, irq: 0 } },
+];
+export const memoryConsumption = {
+  total: tools.Size.fromMB(3),
+  heap: { used: tools.Size.fromMB(1), total: tools.Size.fromMB(2) },
+};
+export const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
+export const eventLoopLag = {
+  p50: tools.Duration.Ms(1),
+  p95: tools.Duration.Ms(5),
+  p99: tools.Duration.Ms(9),
+};
+export const eventLoopUtilization = 0.5;
+export const inFlightRequests = tools.Int.of(3);
+export const runtimeStats = {
+  uptime,
+  memory: memoryConsumption,
+  eventLoop: { lag: eventLoopLag, utilization: eventLoopUtilization },
+  inFlight: inFlightRequests,
+};
 
 export const version = "v1.2.3";
 export const buildInfo = {

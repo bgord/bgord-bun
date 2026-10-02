@@ -1,6 +1,9 @@
 import * as tools from "@bgord/tools";
 
-type MemoryConsumptionSnapshotType = { total: tools.Size; heap: { used: tools.Size; total: tools.Size } };
+export type MemoryConsumptionSnapshotType = {
+  total: tools.Size;
+  heap: { used: tools.Size; total: tools.Size };
+};
 
 // RSS - resident set size - how much memory this process uses
 // Heap total - how much memory is reserved for the JS heap

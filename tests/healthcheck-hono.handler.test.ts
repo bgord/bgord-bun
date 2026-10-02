@@ -1,4 +1,3 @@
-// cspell:ignore macbook
 import { describe, expect, spyOn, test } from "bun:test";
 import os from "node:os";
 import * as tools from "@bgord/tools";
@@ -6,16 +5,10 @@ import { Hono } from "hono";
 import * as v from "valibot";
 import { BuildInfo } from "../src/build-info.vo";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
-import { EventLoopLag, type EventLoopLagSnapshotType } from "../src/event-loop-lag.service";
-import {
-  EventLoopUtilization,
-  type EventLoopUtilizationSnapshot,
-} from "../src/event-loop-utilization.service";
 import { HealthcheckStatusEnum } from "../src/healthcheck.handler";
 import { HealthcheckHonoHandler } from "../src/healthcheck-hono.handler";
 import { JobQueueStatsProviderNoopAdapter } from "../src/job-queue-stats-provider-noop.adapter";
 import { LoggerStatsProviderNoopAdapter } from "../src/logger-stats-provider-noop.adapter";
-import { MemoryConsumption } from "../src/memory-consumption.service";
 import { NodeEnvironmentEnum } from "../src/node-env.vo";
 import { Port } from "../src/port.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
@@ -26,43 +19,22 @@ import { RedactorComposite } from "../src/redactor-composite.strategy";
 import { RedactorErrorCauseDepthLimit } from "../src/redactor-error-cause-depth-limit.strategy";
 import { RedactorErrorStackHide } from "../src/redactor-error-stack-hide.strategy";
 import { RedactorNoop } from "../src/redactor-noop.strategy";
-import { Uptime } from "../src/uptime.service";
+import { RuntimeStatsProviderNoopAdapter } from "../src/runtime-stats-provider-noop.adapter";
 import * as mocks from "./mocks";
 
 const redactor = new RedactorNoop();
-
-const hostname = "macbook";
-const cpus: Array<os.CpuInfo> = [
-  { model: "cpu", speed: 1, times: { user: 0, nice: 0, sys: 0, idle: 0, irq: 0 } },
-];
-const memory = {
-  total: tools.Size.fromMB(3),
-  heap: { used: tools.Size.fromMB(1), total: tools.Size.fromMB(2) },
-};
-const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
-const histogram: EventLoopLagSnapshotType = {
-  p50: tools.Duration.Ms(1),
-  p95: tools.Duration.Ms(5),
-  p99: tools.Duration.Ms(9),
-};
-const utilization: EventLoopUtilizationSnapshot = 0.5;
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
 const LoggerStatsProvider = new LoggerStatsProviderNoopAdapter();
 const JobQueueStatsProvider = new JobQueueStatsProviderNoopAdapter();
-const deps = { Clock, BuildInfoConfig };
+const RuntimeStatsProvider = new RuntimeStatsProviderNoopAdapter();
+const deps = { Clock, BuildInfoConfig, RuntimeStatsProvider };
 
 describe("HealthcheckHonoHandler", () => {
   test("200", async () => {
-    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
-    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
-    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
-    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
-    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
-    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
-      utilization,
-    );
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(mocks.osCpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(mocks.osHostname);
 
     const app = new Hono().get(
       "/health",
@@ -100,20 +72,20 @@ describe("HealthcheckHonoHandler", () => {
       },
       server: {
         pid: expect.any(Number),
-        hostname,
+        hostname: mocks.osHostname,
         cpus: 1,
         startup: expect.any(Number),
-        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: 0, formatted: "0 seconds ago" },
         memory: {
-          total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
+          total: { bytes: 0, formatted: "0 MB" },
           heap: {
-            used: { bytes: memory.heap.used.toBytes(), formatted: "1 MB" },
-            total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
+            used: { bytes: 0, formatted: "0 MB" },
+            total: { bytes: 0, formatted: "0 MB" },
           },
         },
         eventLoop: {
-          lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
-          utilization,
+          lag: { p50: 0, p95: 0, p99: 0 },
+          utilization: 0,
         },
         inFlight: 0,
       },
@@ -129,14 +101,8 @@ describe("HealthcheckHonoHandler", () => {
   });
 
   test("200 - ignores port prerequisite", async () => {
-    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
-    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
-    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
-    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
-    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
-    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
-      utilization,
-    );
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(mocks.osCpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(mocks.osHostname);
 
     const app = new Hono().get(
       "/health",
@@ -170,20 +136,20 @@ describe("HealthcheckHonoHandler", () => {
       },
       server: {
         pid: expect.any(Number),
-        hostname,
+        hostname: mocks.osHostname,
         cpus: 1,
         startup: expect.any(Number),
-        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: 0, formatted: "0 seconds ago" },
         memory: {
-          total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
+          total: { bytes: 0, formatted: "0 MB" },
           heap: {
-            used: { bytes: memory.heap.used.toBytes(), formatted: "1 MB" },
-            total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
+            used: { bytes: 0, formatted: "0 MB" },
+            total: { bytes: 0, formatted: "0 MB" },
           },
         },
         eventLoop: {
-          lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
-          utilization,
+          lag: { p50: 0, p95: 0, p99: 0 },
+          utilization: 0,
         },
         inFlight: 0,
       },
@@ -197,14 +163,8 @@ describe("HealthcheckHonoHandler", () => {
   });
 
   test("207", async () => {
-    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
-    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
-    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
-    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
-    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
-    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
-      utilization,
-    );
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(mocks.osCpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(mocks.osHostname);
 
     const app = new Hono().get(
       "/health",
@@ -226,14 +186,8 @@ describe("HealthcheckHonoHandler", () => {
   });
 
   test("424", async () => {
-    using _osCpus = spyOn(os, "cpus").mockReturnValue(cpus);
-    using _osHostname = spyOn(os, "hostname").mockReturnValue(hostname);
-    using _memoryConsumption = spyOn(MemoryConsumption, "snapshot").mockReturnValue(memory);
-    using _uptimeGet = spyOn(Uptime, "get").mockReturnValue(uptime);
-    using _eventLoopLagSnapshot = spyOn(EventLoopLag, "snapshot").mockReturnValue(histogram);
-    using _eventLoopUtilizationSnapshot = spyOn(EventLoopUtilization, "snapshot").mockReturnValue(
-      utilization,
-    );
+    using _osCpus = spyOn(os, "cpus").mockReturnValue(mocks.osCpus);
+    using _osHostname = spyOn(os, "hostname").mockReturnValue(mocks.osHostname);
     const app = new Hono().get(
       "/health",
       ...new HealthcheckHonoHandler(
@@ -266,20 +220,20 @@ describe("HealthcheckHonoHandler", () => {
       },
       server: {
         pid: expect.any(Number),
-        hostname,
+        hostname: mocks.osHostname,
         cpus: 1,
         startup: expect.any(Number),
-        uptime: { ms: uptime.duration.ms, formatted: uptime.formatted },
+        uptime: { ms: 0, formatted: "0 seconds ago" },
         memory: {
-          total: { bytes: memory.total.toBytes(), formatted: "3 MB" },
+          total: { bytes: 0, formatted: "0 MB" },
           heap: {
-            used: { bytes: memory.heap.used.toBytes(), formatted: "1 MB" },
-            total: { bytes: memory.heap.total.toBytes(), formatted: "2 MB" },
+            used: { bytes: 0, formatted: "0 MB" },
+            total: { bytes: 0, formatted: "0 MB" },
           },
         },
         eventLoop: {
-          lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
-          utilization,
+          lag: { p50: 0, p95: 0, p99: 0 },
+          utilization: 0,
         },
         inFlight: 0,
       },

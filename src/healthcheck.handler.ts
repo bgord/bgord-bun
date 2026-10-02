@@ -3,12 +3,9 @@ import * as tools from "@bgord/tools";
 import type { BuildInfoType } from "./build-info.vo";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
-import { EventLoopLag } from "./event-loop-lag.service";
-import { EventLoopUtilization, type EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
-import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
+import type { EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
 import type { JobQueueStatsProviderPort, JobQueueStatsSnapshot } from "./job-queue-stats-provider.port";
 import type { LoggerStatsProviderPort, LoggerStatsSnapshot } from "./logger-stats-provider.port";
-import { MemoryConsumption } from "./memory-consumption.service";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
 import { Prerequisite, type PrerequisiteLabelType } from "./prerequisite.vo";
 import {
@@ -18,8 +15,9 @@ import {
 import { PrerequisiteVerifierSelfAdapter } from "./prerequisite-verifier-self.adapter";
 import type { ReactiveConfigPort } from "./reactive-config.port";
 import type { RedactorStrategy } from "./redactor.strategy";
+import type { RuntimeStatsProviderPort } from "./runtime-stats-provider.port";
 import { Stopwatch } from "./stopwatch.service";
-import { Uptime, type UptimeResultType } from "./uptime.service";
+import type { UptimeResultType } from "./uptime.service";
 
 export enum HealthcheckStatusEnum {
   healthy = "healthy",
@@ -30,6 +28,7 @@ export enum HealthcheckStatusEnum {
 export type HealthcheckDependencies = {
   Clock: ClockPort;
   BuildInfoConfig: ReactiveConfigPort<BuildInfoType>;
+  RuntimeStatsProvider: RuntimeStatsProviderPort;
   LoggerStatsProvider?: LoggerStatsProviderPort;
   JobQueueStatsProvider?: JobQueueStatsProviderPort;
 };
@@ -131,9 +130,7 @@ export class HealthcheckHandler {
         : HealthcheckStatusEnum.healthy;
 
     const build = await this.deps.BuildInfoConfig.get();
-    const uptime = Uptime.get(this.deps.Clock);
-    const histogram = EventLoopLag.snapshot();
-    const memory = MemoryConsumption.snapshot();
+    const { uptime, memory, eventLoop, inFlight } = this.deps.RuntimeStatsProvider.getStats();
 
     return {
       status,
@@ -173,10 +170,10 @@ export class HealthcheckHandler {
           },
         },
         eventLoop: {
-          lag: { p50: histogram.p50.ms, p95: histogram.p95.ms, p99: histogram.p99.ms },
-          utilization: EventLoopUtilization.snapshot(),
+          lag: { p50: eventLoop.lag.p50.ms, p95: eventLoop.lag.p95.ms, p99: eventLoop.lag.p99.ms },
+          utilization: eventLoop.utilization,
         },
-        inFlight: InFlightRequestsTracker.get(),
+        inFlight,
       },
       logger: this.deps.LoggerStatsProvider?.getStats(),
       queue: await this.deps.JobQueueStatsProvider?.getStats(),
