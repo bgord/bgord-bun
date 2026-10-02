@@ -31,11 +31,11 @@ export class SecurityRuleViolationThresholdStrategy implements SecurityRuleStrat
 
   // Best-effort increment, occasional lost increments are acceptable for concurrent requests.
   async isViolated(context: RequestContext): Promise<boolean> {
-    const subject = await this.resolver.resolve(context);
-
     const violated = await this.rule.isViolated(context);
 
     if (!violated) return false;
+
+    const subject = await this.resolver.resolve(context);
 
     try {
       const cached = await this.deps.CacheRepository.get(subject.hex);
