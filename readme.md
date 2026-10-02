@@ -61,6 +61,10 @@ src/
 ├── antivirus.port.ts
 ├── api-version-hono.middleware.ts
 ├── api-version.middleware.ts
+├── atomic-file-writer-collecting.adapter.ts
+├── atomic-file-writer-noop.adapter.ts
+├── atomic-file-writer.adapter.ts
+├── atomic-file-writer.port.ts
 ├── auth-session-reader-better-auth.adapter.ts
 ├── auth-session-reader-noop.adapter.ts
 ├── auth-session-reader.port.ts
