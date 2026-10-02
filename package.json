@@ -27,7 +27,7 @@
     "@types/bun": "1.4.2",
     "@types/nodemailer": "8.0.2",
     "better-auth": "1.7.6",
-    "cspell": "10.3.3",
+    "cspell": "10.3.6",
     "fallow": "3.30.0",
     "lefthook": "2.1.14",
     "lockfile-lint": "5.0.1",
