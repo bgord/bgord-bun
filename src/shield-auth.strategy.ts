@@ -1,12 +1,7 @@
 import type { AuthSessionReaderPort, AuthSessionType } from "./auth-session-reader.port";
-import type { HasRequestHeaders } from "./request-context.port";
+import { type HasRequestHeaders, RequestIdentityError } from "./request-context.port";
 
 type Dependencies<User, Session> = { AuthSessionReader: AuthSessionReaderPort<User, Session> };
-
-export const ShieldAuthStrategyError = {
-  Rejected: "shield.auth.rejected",
-  NotAttached: "shield.auth.not.attached",
-};
 
 export class ShieldAuthStrategy<User, Session> {
   constructor(private readonly deps: Dependencies<User, Session>) {}
@@ -16,12 +11,12 @@ export class ShieldAuthStrategy<User, Session> {
   }
 
   verify(user: User | null | undefined): boolean {
-    if (user === undefined) throw new Error(ShieldAuthStrategyError.NotAttached);
+    if (user === undefined) throw new Error(RequestIdentityError.NotAttached);
     return user !== null;
   }
 
   reverse(user: User | null | undefined): boolean {
-    if (user === undefined) throw new Error(ShieldAuthStrategyError.NotAttached);
+    if (user === undefined) throw new Error(RequestIdentityError.NotAttached);
     return user === null;
   }
 }

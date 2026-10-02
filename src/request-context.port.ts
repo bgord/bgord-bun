@@ -1,6 +1,11 @@
 import type * as tools from "@bgord/tools";
 import type { UUIDType } from "./uuid.vo";
 
+export const RequestIdentityError = {
+  Rejected: "shield.auth.rejected",
+  NotAttached: "shield.auth.not.attached",
+};
+
 export interface RequestContext {
   readonly request: {
     readonly path: string;

@@ -1,6 +1,6 @@
 import { FileUploaderError } from "./file-uploader.middleware";
+import { RequestIdentityError } from "./request-context.port";
 import { ShieldApiKeyStrategyError } from "./shield-api-key.strategy";
-import { ShieldAuthStrategyError } from "./shield-auth.strategy";
 import { ShieldBasicAuthStrategyError } from "./shield-basic-auth.strategy";
 import { ShieldBodyLimitError } from "./shield-body-limit.strategy";
 import { ShieldCsrfStrategyError } from "./shield-csrf.strategy";
@@ -15,7 +15,7 @@ import { ShieldWebhookStrategyError } from "./shield-webhook.strategy";
 
 export const HttpExceptionErrors = {
   ShieldApiKeyRejected: ShieldApiKeyStrategyError.Rejected,
-  ShieldAuthRejected: ShieldAuthStrategyError.Rejected,
+  ShieldAuthRejected: RequestIdentityError.Rejected,
   ShieldBasicAuthRejected: ShieldBasicAuthStrategyError.Rejected,
   ShieldBodyLimitTooBig: ShieldBodyLimitError.TooBig,
   ShieldCsrfRejected: ShieldCsrfStrategyError.Rejected,

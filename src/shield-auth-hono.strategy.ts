@@ -2,8 +2,9 @@ import type hono from "hono";
 import { createMiddleware } from "hono/factory";
 import { HTTPException } from "hono/http-exception";
 import type { AuthSessionReaderPort } from "./auth-session-reader.port";
+import { RequestIdentityError } from "./request-context.port";
 import { RequestContextHonoAdapter } from "./request-context-hono.adapter";
-import { ShieldAuthStrategy, ShieldAuthStrategyError } from "./shield-auth.strategy";
+import { ShieldAuthStrategy } from "./shield-auth.strategy";
 
 type Dependencies<User, Session> = { AuthSessionReader: AuthSessionReaderPort<User, Session> };
 
@@ -27,13 +28,13 @@ export class ShieldAuthHonoStrategy<User, Session> {
     const user = c.get("user");
 
     if (this.strategy.verify(user)) return next();
-    throw new HTTPException(401, { message: ShieldAuthStrategyError.Rejected });
+    throw new HTTPException(401, { message: RequestIdentityError.Rejected });
   });
 
   reverse = createMiddleware(async (c: hono.Context, next: hono.Next) => {
     const user = c.get("user");
 
     if (this.strategy.reverse(user)) return next();
-    throw new HTTPException(403, { message: ShieldAuthStrategyError.Rejected });
+    throw new HTTPException(403, { message: RequestIdentityError.Rejected });
   });
 }

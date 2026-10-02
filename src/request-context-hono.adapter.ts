@@ -4,8 +4,7 @@ import type { Context } from "hono";
 import { getConnInfo } from "hono/bun";
 import { getCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
-import type { RequestContext } from "./request-context.port";
-import { ShieldAuthStrategyError } from "./shield-auth.strategy";
+import { type RequestContext, RequestIdentityError } from "./request-context.port";
 
 export class RequestContextHonoAdapter implements RequestContext {
   readonly request: RequestContext["request"];
@@ -58,8 +57,8 @@ export class RequestContextHonoAdapter implements RequestContext {
       authenticatedUserId: () => {
         const user = context.get("user");
 
-        if (user === undefined) throw new Error(ShieldAuthStrategyError.NotAttached);
-        if (user === null) throw new HTTPException(401, { message: ShieldAuthStrategyError.Rejected });
+        if (user === undefined) throw new Error(RequestIdentityError.NotAttached);
+        if (user === null) throw new HTTPException(401, { message: RequestIdentityError.Rejected });
         return user.id;
       },
       ip: () =>
