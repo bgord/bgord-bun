@@ -1,5 +1,6 @@
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { PathMatcher } from "./path-matcher.service";
 import type { ReactiveConfigPort } from "./reactive-config.port";
 import type { HasRequestPath } from "./request-context.port";
 
@@ -31,12 +32,7 @@ export class ShieldMaintenanceStrategy {
   }
 
   shouldSkip(context: HasRequestPath): boolean {
-    return (
-      this.config?.skip?.some((rule) => {
-        if (rule instanceof URLPattern) return rule.test({ pathname: context.request.path });
-        return context.request.path.startsWith(rule);
-      }) ?? false
-    );
+    return PathMatcher.matches(this.config?.skip, context.request.path);
   }
 
   async evaluate(): Promise<ShieldMaintenanceResult> {

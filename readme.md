@@ -444,6 +444,7 @@ src/
 ├── nonce-provider-noop.adapter.ts
 ├── nonce-provider.port.ts
 ├── nonce-value.vo.ts
+├── path-matcher.service.ts
 ├── payload-serializer-collecting.adapter.ts
 ├── payload-serializer-json.adapter.ts
 ├── payload-serializer.port.ts
