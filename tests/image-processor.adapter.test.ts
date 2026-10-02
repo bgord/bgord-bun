@@ -1,22 +1,17 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
-import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
-import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { ImageProcessorAdapter } from "../src/image-processor.adapter";
 import type { ImageProcessorStrategy } from "../src/image-processor.port";
-import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
-import * as mocks from "./mocks";
 
 const processed = new TextEncoder().encode("processed").buffer;
 const maxSide = v.parse(tools.ImageWidth, 512);
 
 const FileCleaner = new FileCleanerNoopAdapter();
-const FileRenamer = new FileRenamerNoopAdapter();
-const FileWriter = new FileWriterNoopAdapter();
-const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 4));
-const deps = { FileCleaner, FileRenamer, FileWriter, NonceProvider };
+const AtomicFileWriter = new AtomicFileWriterNoopAdapter();
+const deps = { AtomicFileWriter, FileCleaner };
 
 const adapter = new ImageProcessorAdapter(deps);
 
@@ -35,13 +30,11 @@ describe("ImageProcessorAdapter", () => {
     using rotate = spyOn(image, "rotate");
     using resize = spyOn(image, "resize");
     using webp = spyOn(image, "webp");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
     using fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const final = tools.FilePathAbsolute.fromString("/var/img/photo.webp");
-    const temporary = tools.FilePathAbsolute.fromString(`/var/img/photo-processed-${mocks.nonce}.webp`);
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
@@ -54,19 +47,17 @@ describe("ImageProcessorAdapter", () => {
     expect(rotate).toHaveBeenCalledWith(0);
     expect(resize).toHaveBeenCalledWith(maxSide, maxSide, { fit: "inside", withoutEnlargement: true });
     expect(webp).toHaveBeenCalledWith({ quality: 72 });
-    expect(write).toHaveBeenCalledWith(temporary.get(), processed);
-    expect(rename).toHaveBeenCalledWith(temporary, final);
+    expect(write).toHaveBeenCalledWith(final, processed);
     expect(fileCleaner).toHaveBeenCalledWith(input.get());
   });
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
     using fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathRelative.fromString("var/img/image.png");
-    const temporary = tools.FilePathRelative.fromString(`var/img/image-processed-${mocks.nonce}.png`);
     const recipe: ImageProcessorStrategy = {
       strategy: "in_place",
       input,
@@ -75,7 +66,7 @@ describe("ImageProcessorAdapter", () => {
     };
 
     expect(await adapter.process(recipe)).toEqual(input);
-    expect(rename).toHaveBeenCalledWith(temporary, input);
+    expect(write).toHaveBeenCalledWith(input, processed);
     expect(fileCleaner).not.toHaveBeenCalled();
   });
 
@@ -83,13 +74,11 @@ describe("ImageProcessorAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using jpeg = spyOn(image, "jpeg");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
     using fileCleaner = spyOn(FileCleaner, "delete");
 
     const input = tools.FilePathAbsolute.fromString("/var/img/photo.png");
     const output = tools.FilePathAbsolute.fromString("/var/img/result.jpg");
-    const temporary = tools.FilePathAbsolute.fromString(`/var/img/result-processed-${mocks.nonce}.jpg`);
     const recipe: ImageProcessorStrategy = {
       strategy: "output_path",
       input,
@@ -100,8 +89,7 @@ describe("ImageProcessorAdapter", () => {
 
     expect(await adapter.process(recipe)).toEqual(output);
     expect(jpeg).toHaveBeenCalledWith({ quality: 85 });
-    expect(write).toHaveBeenCalledWith(temporary.get(), processed);
-    expect(rename).toHaveBeenCalledWith(temporary, output);
+    expect(write).toHaveBeenCalledWith(output, processed);
     expect(fileCleaner).not.toHaveBeenCalled();
   });
 
@@ -109,12 +97,10 @@ describe("ImageProcessorAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using jpeg = spyOn(image, "jpeg");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const input = tools.FilePathRelative.fromString("var/img/photo.png");
     const output = tools.FilePathRelative.fromString("var/img/result.jpg");
-    const temporary = tools.FilePathRelative.fromString(`var/img/result-processed-${mocks.nonce}.jpg`);
     const recipe: ImageProcessorStrategy = {
       strategy: "output_path",
       input,
@@ -125,7 +111,6 @@ describe("ImageProcessorAdapter", () => {
 
     expect(await adapter.process(recipe)).toEqual(output);
     expect(jpeg).toHaveBeenCalledWith({ quality: 85 });
-    expect(write).toHaveBeenCalledWith(temporary.get(), processed);
-    expect(rename).toHaveBeenCalledWith(temporary, output);
+    expect(write).toHaveBeenCalledWith(output, processed);
   });
 });

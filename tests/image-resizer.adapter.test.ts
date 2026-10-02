@@ -2,21 +2,16 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
-import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
+import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { ImageResizerAdapter } from "../src/image-resizer.adapter";
 import type { ImageResizerInPlaceStrategy, ImageResizerOutputPathStrategy } from "../src/image-resizer.port";
-import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
-import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const resized = new TextEncoder().encode("resized").buffer;
 const maxSide = v.parse(tools.ImageWidth, 512);
 
-const FileRenamer = new FileRenamerNoopAdapter();
-const FileWriter = new FileWriterNoopAdapter();
-const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 5));
-const deps = { FileRenamer, FileWriter, NonceProvider };
+const AtomicFileWriter = new AtomicFileWriterNoopAdapter();
+const deps = { AtomicFileWriter };
 
 const adapter = new ImageResizerAdapter(deps);
 
@@ -33,8 +28,7 @@ describe("ImageResizerAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using resize = spyOn(image, "resize");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageResizerInPlaceStrategy = {
       strategy: "in_place",
@@ -47,19 +41,14 @@ describe("ImageResizerAdapter", () => {
       fit: "inside",
       withoutEnlargement: true,
     });
-    expect(write).toHaveBeenCalledWith(testcase.images.in_place.absolute.temporary("resized").get(), resized);
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.in_place.absolute.temporary("resized"),
-      testcase.images.in_place.absolute.input,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.in_place.absolute.input, resized);
   });
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using resize = spyOn(image, "resize");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageResizerInPlaceStrategy = {
       strategy: "in_place",
@@ -72,19 +61,14 @@ describe("ImageResizerAdapter", () => {
       fit: "inside",
       withoutEnlargement: true,
     });
-    expect(write).toHaveBeenCalledWith(testcase.images.in_place.relative.temporary("resized").get(), resized);
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.in_place.relative.temporary("resized"),
-      testcase.images.in_place.relative.input,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.in_place.relative.input, resized);
   });
 
   test("output_path - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using resize = spyOn(image, "resize");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageResizerOutputPathStrategy = {
       strategy: "output_path",
@@ -98,22 +82,14 @@ describe("ImageResizerAdapter", () => {
       fit: "inside",
       withoutEnlargement: true,
     });
-    expect(write).toHaveBeenCalledWith(
-      testcase.images.output_path.absolute.temporary("resized").get(),
-      resized,
-    );
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.output_path.absolute.temporary("resized"),
-      testcase.images.output_path.absolute.output,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.output_path.absolute.output, resized);
   });
 
   test("output_path - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using resize = spyOn(image, "resize");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageResizerOutputPathStrategy = {
       strategy: "output_path",
@@ -127,22 +103,14 @@ describe("ImageResizerAdapter", () => {
       fit: "inside",
       withoutEnlargement: true,
     });
-    expect(write).toHaveBeenCalledWith(
-      testcase.images.output_path.relative.temporary("resized").get(),
-      resized,
-    );
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.output_path.relative.temporary("resized"),
-      testcase.images.output_path.relative.output,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.output_path.relative.output, resized);
   });
 
   test("jpg_to_jpeg", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using resize = spyOn(image, "resize");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageResizerInPlaceStrategy = {
       strategy: "in_place",
@@ -155,10 +123,6 @@ describe("ImageResizerAdapter", () => {
       fit: "inside",
       withoutEnlargement: true,
     });
-    expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.temporary("resized").get(), resized);
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.jpg_to_jpeg.temporary("resized"),
-      testcase.images.jpg_to_jpeg.input,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.input, resized);
   });
 });

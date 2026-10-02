@@ -1,10 +1,10 @@
 // [BUN DEPENDENCY]
 import type * as tools from "@bgord/tools";
+import type { AtomicFileWriterPort } from "./atomic-file-writer.port";
 import type { FileReaderRawPort } from "./file-reader-raw.port";
-import type { FileWriterPort } from "./file-writer.port";
 import type { GzipPort, GzipRecipe } from "./gzip.port";
 
-type Dependencies = { FileReaderRaw: FileReaderRawPort; FileWriter: FileWriterPort };
+type Dependencies = { FileReaderRaw: FileReaderRawPort; AtomicFileWriter: AtomicFileWriterPort };
 
 export class GzipAdapter implements GzipPort {
   constructor(private readonly deps: Dependencies) {}
@@ -13,7 +13,7 @@ export class GzipAdapter implements GzipPort {
     const file = await this.deps.FileReaderRaw.read(recipe.input);
     const archive = Bun.gzipSync(file);
 
-    await this.deps.FileWriter.write(recipe.output, archive);
+    await this.deps.AtomicFileWriter.write(recipe.output, archive);
 
     return recipe.output;
   }

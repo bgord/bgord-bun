@@ -1,22 +1,17 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
-import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
+import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { ImageCompressorAdapter } from "../src/image-compressor.adapter";
 import type {
   ImageCompressorInPlaceStrategy,
   ImageCompressorOutputPathStrategy,
 } from "../src/image-compressor.port";
-import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
-import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const compressed = new TextEncoder().encode("compressed").buffer;
 
-const FileRenamer = new FileRenamerNoopAdapter();
-const FileWriter = new FileWriterNoopAdapter();
-const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 5));
-const deps = { FileRenamer, FileWriter, NonceProvider };
+const AtomicFileWriter = new AtomicFileWriterNoopAdapter();
+const deps = { AtomicFileWriter };
 
 const adapter = new ImageCompressorAdapter(deps);
 
@@ -32,8 +27,7 @@ describe("ImageCompressorAdapter", () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using format = spyOn(image, "jpeg");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const quality = tools.Int.positive(30);
     const recipe: ImageCompressorInPlaceStrategy = {
@@ -44,22 +38,14 @@ describe("ImageCompressorAdapter", () => {
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.in_place.absolute.input);
     expect(format).toHaveBeenCalledWith({ quality });
-    expect(write).toHaveBeenCalledWith(
-      testcase.images.in_place.absolute.temporary("compressed").get(),
-      compressed,
-    );
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.in_place.absolute.temporary("compressed"),
-      testcase.images.in_place.absolute.input,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.in_place.absolute.input, compressed);
   });
 
   test("in_place - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using format = spyOn(image, "png");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageCompressorInPlaceStrategy = {
       strategy: "in_place",
@@ -68,22 +54,14 @@ describe("ImageCompressorAdapter", () => {
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.in_place.relative.input);
     expect(format).toHaveBeenCalledWith({ quality: 85 });
-    expect(write).toHaveBeenCalledWith(
-      testcase.images.in_place.relative.temporary("compressed").get(),
-      compressed,
-    );
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.in_place.relative.temporary("compressed"),
-      testcase.images.in_place.relative.input,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.in_place.relative.input, compressed);
   });
 
   test("output_path - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using format = spyOn(image, "webp");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageCompressorOutputPathStrategy = {
       strategy: "output_path",
@@ -93,22 +71,14 @@ describe("ImageCompressorAdapter", () => {
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.output_path.absolute.output);
     expect(format).toHaveBeenCalledWith({ quality: 85 });
-    expect(write).toHaveBeenCalledWith(
-      testcase.images.output_path.absolute.temporary("compressed").get(),
-      compressed,
-    );
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.output_path.absolute.temporary("compressed"),
-      testcase.images.output_path.absolute.output,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.output_path.absolute.output, compressed);
   });
 
   test("output_path - relative", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using format = spyOn(image, "png");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageCompressorOutputPathStrategy = {
       strategy: "output_path",
@@ -118,22 +88,14 @@ describe("ImageCompressorAdapter", () => {
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.output_path.relative.output);
     expect(format).toHaveBeenCalledWith({ quality: 85 });
-    expect(write).toHaveBeenCalledWith(
-      testcase.images.output_path.relative.temporary("compressed").get(),
-      compressed,
-    );
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.output_path.relative.temporary("compressed"),
-      testcase.images.output_path.relative.output,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.output_path.relative.output, compressed);
   });
 
   test("jpg_to_jpeg", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
     using format = spyOn(image, "jpeg");
-    using write = spyOn(FileWriter, "write");
-    using rename = spyOn(FileRenamer, "rename");
+    using write = spyOn(AtomicFileWriter, "write");
 
     const recipe: ImageCompressorInPlaceStrategy = {
       strategy: "in_place",
@@ -142,10 +104,6 @@ describe("ImageCompressorAdapter", () => {
 
     expect(await adapter.compress(recipe)).toEqual(testcase.images.jpg_to_jpeg.input);
     expect(format).toHaveBeenCalledWith({ quality: 85 });
-    expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.temporary("compressed").get(), compressed);
-    expect(rename).toHaveBeenCalledWith(
-      testcase.images.jpg_to_jpeg.temporary("compressed"),
-      testcase.images.jpg_to_jpeg.input,
-    );
+    expect(write).toHaveBeenCalledWith(testcase.images.jpg_to_jpeg.input, compressed);
   });
 });

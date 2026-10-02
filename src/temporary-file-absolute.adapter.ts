@@ -1,15 +1,11 @@
 import * as tools from "@bgord/tools";
+import type { AtomicFileWriterPort } from "./atomic-file-writer.port";
 import type { FileCleanerPort } from "./file-cleaner.port";
-import type { FileRenamerPort } from "./file-renamer.port";
-import type { FileWriterPort } from "./file-writer.port";
-import type { NonceProviderPort } from "./nonce-provider.port";
 import type { TemporaryFilePort } from "./temporary-file.port";
 
 type Dependencies = {
+  AtomicFileWriter: AtomicFileWriterPort;
   FileCleaner: FileCleanerPort;
-  FileRenamer: FileRenamerPort;
-  FileWriter: FileWriterPort;
-  NonceProvider: NonceProviderPort;
 };
 
 export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
@@ -19,20 +15,9 @@ export class TemporaryFileAbsoluteAdapter implements TemporaryFilePort {
   ) {}
 
   async write(filename: tools.Filename, content: File): Promise<tools.FilePathAbsolute> {
-    const temporary = tools.FilePathAbsolute.fromPartsSafe(
-      this.directory,
-      filename.withSuffix(`-part-${this.deps.NonceProvider.generate()}`),
-    );
     const final = tools.FilePathAbsolute.fromPartsSafe(this.directory, filename);
 
-    await this.deps.FileWriter.write(temporary.get(), content);
-
-    try {
-      await this.deps.FileRenamer.rename(temporary, final);
-    } catch (error) {
-      await this.deps.FileCleaner.delete(temporary);
-      throw error;
-    }
+    await this.deps.AtomicFileWriter.write(final, content);
 
     return final;
   }

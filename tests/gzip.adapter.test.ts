@@ -1,7 +1,7 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { FileReaderRawNoopAdapter } from "../src/file-reader-raw-noop.adapter";
-import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import { GzipAdapter } from "../src/gzip.adapter";
 import * as mocks from "./mocks";
 
@@ -11,9 +11,9 @@ const output = tools.FilePathAbsolute.fromString("/var/uploads/sample.txt.gz");
 const content = new TextEncoder().encode("hello world").buffer;
 const gzipped = new Uint8Array([31, 139, 8, 0, 0, 0]);
 
-const FileWriter = new FileWriterNoopAdapter();
+const AtomicFileWriter = new AtomicFileWriterNoopAdapter();
 const FileReaderRaw = new FileReaderRawNoopAdapter(content);
-const deps = { FileReaderRaw, FileWriter };
+const deps = { FileReaderRaw, AtomicFileWriter };
 
 const adapter = new GzipAdapter(deps);
 
@@ -43,7 +43,7 @@ describe("GzipAdapter", () => {
 
   test("write error propagation", async () => {
     using _bunGzipSync = spyOn(Bun, "gzipSync").mockReturnValue(gzipped);
-    using _fileWriterWrite = spyOn(FileWriter, "write").mockRejectedValue(mocks.IntentionalError);
+    using _atomicFileWriterWrite = spyOn(AtomicFileWriter, "write").mockRejectedValue(mocks.IntentionalError);
 
     expect(async () => adapter.pack({ input, output })).toThrow(mocks.IntentionalError);
   });

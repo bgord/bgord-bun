@@ -1,15 +1,15 @@
 import type * as tools from "@bgord/tools";
+import type { AtomicFileWriterPort } from "./atomic-file-writer.port";
 import { CryptoAesGcm } from "./crypto-aes-gcm.service";
 import type { CryptoKeyProviderPort } from "./crypto-key-provider.port";
 import type { EncryptionPort, EncryptionRecipe } from "./encryption.port";
 import { EncryptionIV } from "./encryption-iv.vo";
 import type { FileInspectionPort } from "./file-inspection.port";
 import type { FileReaderRawPort } from "./file-reader-raw.port";
-import type { FileWriterPort } from "./file-writer.port";
 
 type Dependencies = {
   FileReaderRaw: FileReaderRawPort;
-  FileWriter: FileWriterPort;
+  AtomicFileWriter: AtomicFileWriterPort;
   CryptoKeyProvider: CryptoKeyProviderPort;
   FileInspection: FileInspectionPort;
 };
@@ -29,7 +29,7 @@ export class EncryptionAesGcmAdapter implements EncryptionPort {
     const plaintext = await this.deps.FileReaderRaw.read(recipe.input);
     const encrypted = await CryptoAesGcm.encrypt(key, plaintext, iv);
 
-    await this.deps.FileWriter.write(recipe.output, encrypted);
+    await this.deps.AtomicFileWriter.write(recipe.output, encrypted);
 
     return recipe.output;
   }
@@ -43,7 +43,7 @@ export class EncryptionAesGcmAdapter implements EncryptionPort {
     const encrypted = new Uint8Array(await this.deps.FileReaderRaw.read(recipe.input));
     const plaintext = await CryptoAesGcm.decrypt(key, encrypted);
 
-    await this.deps.FileWriter.write(recipe.output, plaintext);
+    await this.deps.AtomicFileWriter.write(recipe.output, plaintext);
 
     return recipe.output;
   }

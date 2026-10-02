@@ -1,12 +1,12 @@
 // cspell:ignore ciphertext
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
+import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";
 import { EncryptionAesGcmAdapter } from "../src/encryption-aes-gcm.adapter";
 import { EncryptionIV } from "../src/encryption-iv.vo";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
 import { FileReaderRawNoopAdapter } from "../src/file-reader-raw-noop.adapter";
-import { FileWriterNoopAdapter } from "../src/file-writer-noop.adapter";
 import * as mocks from "./mocks";
 
 const iv = new Uint8Array(Array.from({ length: 12 }, (_, i) => i + 1));
@@ -23,11 +23,11 @@ const recipe = {
   output: tools.FilePathAbsolute.fromString("/tmp/out.bin"),
 };
 
-const FileWriter = new FileWriterNoopAdapter();
+const AtomicFileWriter = new AtomicFileWriterNoopAdapter();
 const FileReaderRaw = new FileReaderRawNoopAdapter(plaintext.buffer);
 const FileInspection = new FileInspectionNoopAdapter({ exists: true });
 const CryptoKeyProvider = new CryptoKeyProviderNoopAdapter();
-const deps = { CryptoKeyProvider, FileInspection, FileReaderRaw, FileWriter };
+const deps = { CryptoKeyProvider, FileInspection, FileReaderRaw, AtomicFileWriter };
 
 const adapter = new EncryptionAesGcmAdapter(deps);
 
@@ -35,10 +35,10 @@ describe("EncryptionAesGcmAdapter", () => {
   test("encrypt", async () => {
     using _encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     using _cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
-    using fileWriterWrite = spyOn(FileWriter, "write");
+    using atomicFileWriterWrite = spyOn(AtomicFileWriter, "write");
 
     expect(await adapter.encrypt(recipe)).toEqual(recipe.output);
-    expect(fileWriterWrite.mock.calls[0]?.[1]).toEqual(encryptedFileBytes);
+    expect(atomicFileWriterWrite.mock.calls[0]?.[1]).toEqual(encryptedFileBytes);
   });
 
   test("encrypt - failure - missing file", async () => {
@@ -48,7 +48,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.encrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
@@ -64,7 +64,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.encrypt(recipe)).toThrow(mocks.IntentionalError);
@@ -73,7 +73,9 @@ describe("EncryptionAesGcmAdapter", () => {
   test("encrypt - failure - write error", async () => {
     using _encryptionIvGenerate = spyOn(EncryptionIV, "generate").mockReturnValue(iv);
     using _cryptoSubtleEncrypt = spyOn(crypto.subtle, "encrypt").mockResolvedValue(ciphertext.buffer);
-    using _fileWriterWrite = spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _atomicFileWriterWrite = spyOn(AtomicFileWriter, "write").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     expect(async () => adapter.encrypt(recipe)).toThrow(mocks.IntentionalError);
   });
@@ -81,18 +83,18 @@ describe("EncryptionAesGcmAdapter", () => {
   test("decrypt", async () => {
     using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
-    using fileWriterWrite = spyOn(FileWriter, "write");
+    using atomicFileWriterWrite = spyOn(AtomicFileWriter, "write");
 
     const adapter = new EncryptionAesGcmAdapter({
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(await adapter.decrypt(recipe)).toEqual(recipe.output);
     // @ts-expect-error Coercion
-    expect(new Uint8Array(fileWriterWrite.mock.calls[0]?.[1])).toEqual(plaintext);
+    expect(new Uint8Array(atomicFileWriterWrite.mock.calls[0]?.[1])).toEqual(plaintext);
   });
 
   test("decrypt - failure - invalid payload", async () => {
@@ -101,7 +103,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.decrypt(recipe)).toThrow("aes.gcm.crypto.invalid.payload");
@@ -113,7 +115,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.decrypt(recipe)).toThrow("encryption.aes.gcm.adapter.missing.file");
@@ -125,7 +127,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
     using _ = spyOn(FileInspection, "exists").mockImplementation(mocks.throwIntentionalErrorAsync);
 
@@ -135,13 +137,15 @@ describe("EncryptionAesGcmAdapter", () => {
   test("decrypt - failure - write error", async () => {
     using _ = spyOn(crypto.subtle, "decrypt").mockResolvedValue(plaintext.buffer);
     const FileReaderRaw = new FileReaderRawNoopAdapter(encryptedFileBytes.buffer);
-    using _fileWriterWrite = spyOn(FileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
+    using _atomicFileWriterWrite = spyOn(AtomicFileWriter, "write").mockImplementation(
+      mocks.throwIntentionalErrorAsync,
+    );
 
     const adapter = new EncryptionAesGcmAdapter({
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.decrypt(recipe)).toThrow(mocks.IntentionalError);
@@ -154,7 +158,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(await adapter.view(recipe.input)).toEqual(plaintext.buffer);
@@ -166,7 +170,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.view(recipe.input)).toThrow("aes.gcm.crypto.invalid.payload");
@@ -178,7 +182,7 @@ describe("EncryptionAesGcmAdapter", () => {
       CryptoKeyProvider,
       FileInspection,
       FileReaderRaw,
-      FileWriter,
+      AtomicFileWriter,
     });
 
     expect(async () => adapter.view(recipe.input)).toThrow("encryption.aes.gcm.adapter.missing.file");

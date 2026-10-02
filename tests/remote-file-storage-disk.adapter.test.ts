@@ -1,61 +1,46 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as tools from "@bgord/tools";
+import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { DirectoryEnsurerNoopAdapter } from "../src/directory-ensurer-noop.adapter";
 import { FileCleanerNoopAdapter } from "../src/file-cleaner-noop.adapter";
-import { FileCopierNoopAdapter } from "../src/file-copier-noop.adapter";
 import { FileInspectionNoopAdapter } from "../src/file-inspection-noop.adapter";
-import { FileRenamerNoopAdapter } from "../src/file-renamer-noop.adapter";
 import { HashFileNoopAdapter } from "../src/hash-file-noop.adapter";
-import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";
 import { RemoteFileStorageDiskAdapter } from "../src/remote-file-storage-disk.adapter";
 import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const cases = testcase.remoteFileStorage();
 
+const AtomicFileWriter = new AtomicFileWriterNoopAdapter();
 const HashFile = new HashFileNoopAdapter();
 const FileCleaner = new FileCleanerNoopAdapter();
-const FileRenamer = new FileRenamerNoopAdapter();
-const FileCopier = new FileCopierNoopAdapter();
 const FileInspection = new FileInspectionNoopAdapter({ exists: true });
 const DirectoryEnsurer = new DirectoryEnsurerNoopAdapter();
-const NonceProvider = new NonceProviderDeterministicAdapter(tools.repeat(mocks.nonce, 10));
-const deps = {
-  HashFile,
-  FileCleaner,
-  FileRenamer,
-  FileCopier,
-  FileInspection,
-  DirectoryEnsurer,
-  NonceProvider,
-};
+const deps = { AtomicFileWriter, HashFile, FileCleaner, FileInspection, DirectoryEnsurer };
 
 const adapter = new RemoteFileStorageDiskAdapter({ root: cases.subjects.root }, deps);
 const slashRootAdapter = new RemoteFileStorageDiskAdapter({ root: cases.subjects.slashRoot }, deps);
 
 describe("RemoteFileStorageDiskAdapter", () => {
   test(cases.putFromPath.name, async () => {
-    using fileCopierCopy = spyOn(FileCopier, "copy");
-    using fileHashHash = spyOn(HashFile, "hash").mockResolvedValue(cases.subjects.stored);
-    using directoryEnsurerEnsure = spyOn(DirectoryEnsurer, "ensure");
-    using fileRenamerRename = spyOn(FileRenamer, "rename");
+    using spies = new DisposableStack();
+    // @ts-expect-error Partial access
+    spies.use(spyOn(Bun, "file").mockReturnValue(cases.subjects.sourceFile));
+    const atomicFileWriterWrite = spies.use(spyOn(AtomicFileWriter, "write"));
+    const fileHashHash = spies.use(spyOn(HashFile, "hash").mockResolvedValue(cases.subjects.stored));
+    const directoryEnsurerEnsure = spies.use(spyOn(DirectoryEnsurer, "ensure"));
 
     expect(await adapter.putFromPath(cases.putFromPath.input)).toEqual(cases.putFromPath.output);
     expect(directoryEnsurerEnsure).toHaveBeenCalledWith(cases.subjects.directory);
-    expect(fileCopierCopy).toHaveBeenCalledWith(cases.subjects.source, cases.subjects.temporary);
-    expect(fileRenamerRename).toHaveBeenCalledWith(cases.subjects.temporary, cases.subjects.final);
+    expect(atomicFileWriterWrite).toHaveBeenCalledWith(cases.subjects.final, cases.subjects.sourceFile);
     expect(fileHashHash).toHaveBeenCalledWith(cases.subjects.final);
   });
 
   test(cases.putFromPathFailure.name, async () => {
-    using _ = spyOn(FileRenamer, "rename").mockImplementation(mocks.throwIntentionalErrorAsync);
-    using __ = spyOn(FileCopier, "copy");
-    using fileCleanerDelete = spyOn(FileCleaner, "delete");
+    using _ = spyOn(AtomicFileWriter, "write").mockImplementation(mocks.throwIntentionalErrorAsync);
 
     expect(async () => adapter.putFromPath(cases.putFromPathFailure.input)).toThrow(
       cases.putFromPathFailure.output,
     );
-    expect(fileCleanerDelete).toHaveBeenCalledWith(cases.subjects.temporary);
   });
 
   test(cases.head.name, async () => {

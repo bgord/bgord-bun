@@ -1,14 +1,10 @@
 // [BUN DEPENDENCY]
 import type * as tools from "@bgord/tools";
-import type { FileRenamerPort } from "./file-renamer.port";
-import type { FileWriterPort } from "./file-writer.port";
+import type { AtomicFileWriterPort } from "./atomic-file-writer.port";
 import type { ImageBlurPort, ImageBlurStrategy } from "./image-blur.port";
-import type { NonceProviderPort } from "./nonce-provider.port";
 
 type Dependencies = {
-  FileRenamer: FileRenamerPort;
-  FileWriter: FileWriterPort;
-  NonceProvider: NonceProviderPort;
+  AtomicFileWriter: AtomicFileWriterPort;
 };
 
 export class ImageBlurAdapter implements ImageBlurPort {
@@ -17,16 +13,10 @@ export class ImageBlurAdapter implements ImageBlurPort {
   async blur(recipe: ImageBlurStrategy): Promise<tools.FilePathRelative | tools.FilePathAbsolute> {
     const final = recipe.output;
 
-    const filename = final.getFilename();
-    const temporary = final.withFilename(
-      filename.withSuffix(`-blurred-${this.deps.NonceProvider.generate()}`),
-    );
-
     const blurred = await Bun.file(recipe.input.get()).image().placeholder();
     const bytes = Buffer.from(blurred.substring(blurred.indexOf(",") + 1), "base64");
 
-    await this.deps.FileWriter.write(temporary.get(), bytes);
-    await this.deps.FileRenamer.rename(temporary, final);
+    await this.deps.AtomicFileWriter.write(final, bytes);
 
     return final;
   }

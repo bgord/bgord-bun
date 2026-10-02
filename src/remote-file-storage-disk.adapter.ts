@@ -1,13 +1,11 @@
 // [BUN DEPENDENCY]
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
+import type { AtomicFileWriterPort } from "./atomic-file-writer.port";
 import type { DirectoryEnsurerPort } from "./directory-ensurer.port";
 import type { FileCleanerPort } from "./file-cleaner.port";
-import type { FileCopierPort } from "./file-copier.port";
 import type { FileInspectionPort } from "./file-inspection.port";
-import type { FileRenamerPort } from "./file-renamer.port";
 import type { HashFilePort } from "./hash-file.port";
-import type { NonceProviderPort } from "./nonce-provider.port";
 import type {
   RemoteFileStoragePort,
   RemoteHeadResult,
@@ -16,13 +14,11 @@ import type {
 } from "./remote-file-storage.port";
 
 type Dependencies = {
+  AtomicFileWriter: AtomicFileWriterPort;
   HashFile: HashFilePort;
   FileInspection: FileInspectionPort;
   FileCleaner: FileCleanerPort;
-  FileRenamer: FileRenamerPort;
-  FileCopier: FileCopierPort;
   DirectoryEnsurer: DirectoryEnsurerPort;
-  NonceProvider: NonceProviderPort;
 };
 
 type Config = { root: tools.DirectoryPathAbsoluteType };
@@ -47,19 +43,9 @@ export class RemoteFileStorageDiskAdapter implements RemoteFileStoragePort {
 
   async putFromPath(input: RemotePutFromPathInput): Promise<RemotePutFromPathResult> {
     const final = this.resolveKeyToAbsoluteFilePath(input.key);
-    const temporary = final.withFilename(
-      final.getFilename().withSuffix(`-part-${this.deps.NonceProvider.generate()}`),
-    );
 
     await this.deps.DirectoryEnsurer.ensure(final.getDirectory());
-    await this.deps.FileCopier.copy(input.path, temporary);
-
-    try {
-      await this.deps.FileRenamer.rename(temporary, final);
-    } catch (error) {
-      await this.deps.FileCleaner.delete(temporary);
-      throw error;
-    }
+    await this.deps.AtomicFileWriter.write(final, Bun.file(input.path.get()));
 
     return this.deps.HashFile.hash(final);
   }
