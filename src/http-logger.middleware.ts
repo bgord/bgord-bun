@@ -1,5 +1,6 @@
 import type { ClockPort } from "./clock.port";
 import type { CorrelationIdType } from "./correlation-id.vo";
+import { EventStreamAccept } from "./event-stream-accept.service";
 import { type LoggerPort, LogLevelEnum } from "./logger.port";
 import type { HasRequestHeader, HasRequestPath, RequestContext } from "./request-context.port";
 import { Stopwatch } from "./stopwatch.service";
@@ -44,7 +45,7 @@ export class HttpLoggerMiddleware {
   ) {}
 
   shouldSkip(context: HasRequestPath & HasRequestHeader): boolean {
-    if (context.request.header("accept")?.toLowerCase().startsWith("text/event-stream")) return true;
+    if (EventStreamAccept.matches(context.request.header("accept"))) return true;
 
     return (
       this.config?.skip?.some((rule) => {

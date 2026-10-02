@@ -180,6 +180,7 @@ src/
 ├── event-store-with-logger.adapter.ts
 ├── event-store.adapter.ts
 ├── event-store.port.ts
+├── event-stream-accept.service.ts
 ├── event-stream.vo.ts
 ├── event-upcaster-chain.adapter.ts
 ├── event-upcaster-noop.adapter.ts

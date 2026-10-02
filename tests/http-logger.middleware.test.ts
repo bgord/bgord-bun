@@ -137,6 +137,15 @@ describe("HttpLoggerMiddleware", () => {
     expect(middleware.shouldSkip(context)).toEqual(true);
   });
 
+  test("skip - SSE - multi-value accept list", () => {
+    const middleware = new HttpLoggerMiddleware(deps, { skip: undefined });
+    const context = new RequestContextBuilder()
+      .withHeader("accept", "application/json, text/event-stream")
+      .build();
+
+    expect(middleware.shouldSkip(context)).toEqual(true);
+  });
+
   test("skip - path", () => {
     const middleware = new HttpLoggerMiddleware(deps, { skip: ["/i18n/", "/api/"] });
     const i18n = new RequestContextBuilder().withPath("/i18n/en.json").build();
