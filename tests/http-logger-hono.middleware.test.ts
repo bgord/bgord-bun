@@ -14,7 +14,7 @@ const headers = UNINFORMATIVE_HEADERS.reduce((result, header) => ({ ...result, [
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 14));
+const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 20));
 const deps = { Logger, Clock, IdProvider };
 
 const app = new Hono()
@@ -29,6 +29,18 @@ const app = new Hono()
   .get("/pong", () => Response.json({ message: "general.unknown" }, { status: 500 }))
   .get("/pang", () => Response.json({ message: "general.unknown" }, { status: 400 }))
   .get("/html", (c) => c.html("<h1>Hello</h1>"))
+  .post("/echo", () => Response.json({ message: "OK" }))
+  .get("/text", () => new Response('{"message":"OK"}', { headers: { "content-type": "text/plain" } }))
+  .get(
+    "/problem",
+    () => new Response('{"message":"OK"}', { headers: { "content-type": "application/problem+json" } }),
+  )
+  .get("/invalid", () => new Response("{", { headers: { "content-type": "application/json" } }))
+  .get(
+    "/stream",
+    () =>
+      new Response(new ReadableStream({ start: (controller) => controller.enqueue(new Uint8Array([1])) })),
+  )
   .get("/users/:id/account", () => new Response("account"))
   .get("/users/:id/profile", () => new Response("profile"))
   .get("/i18n/en.json", () => Response.json({ hello: "world" }));
@@ -153,6 +165,119 @@ describe("HttpLoggerHonoMiddleware", () => {
       client: { ip: mocks.ip },
       metadata: { response: undefined },
     });
+  });
+
+  test("request body - json", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request(
+      "/echo",
+      { method: "POST", headers: { "content-type": "application/json" }, body: '{"name":"abc"}' },
+      mocks.connInfo,
+    );
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(1, {
+      operation: "http_request_before",
+      component: "http",
+      correlationId: mocks.correlationId,
+      message: "request",
+      method: "POST",
+      url: "http://localhost/echo",
+      client: { ip: mocks.ip },
+      metadata: { headers: {}, body: { name: "abc" }, params: {}, query: {} },
+    });
+  });
+
+  test("request body - non-json content type", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request(
+      "/echo",
+      { method: "POST", headers: { "content-type": "text/plain" }, body: '{"name":"abc"}' },
+      mocks.connInfo,
+    );
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(1, {
+      operation: "http_request_before",
+      component: "http",
+      correlationId: mocks.correlationId,
+      message: "request",
+      method: "POST",
+      url: "http://localhost/echo",
+      client: { ip: mocks.ip },
+      metadata: { headers: {}, body: {}, params: {}, query: {} },
+    });
+  });
+
+  test("response - non-json content type", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request("/text", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+      operation: "http_request_after",
+      component: "http",
+      correlationId: mocks.correlationId,
+      message: "response",
+      method: "GET",
+      url: "http://localhost/text",
+      status: 200,
+      ms: expect.any(Number),
+      client: { ip: mocks.ip },
+      metadata: { response: undefined },
+    });
+  });
+
+  test("response - json suffix content type", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request("/problem", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+      operation: "http_request_after",
+      component: "http",
+      correlationId: mocks.correlationId,
+      message: "response",
+      method: "GET",
+      url: "http://localhost/problem",
+      status: 200,
+      ms: expect.any(Number),
+      client: { ip: mocks.ip },
+      metadata: { response: { message: "OK" } },
+    });
+  });
+
+  test("response - invalid json", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request("/invalid", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenNthCalledWith(2, {
+      operation: "http_request_after",
+      component: "http",
+      correlationId: mocks.correlationId,
+      message: "response",
+      method: "GET",
+      url: "http://localhost/invalid",
+      status: 200,
+      ms: expect.any(Number),
+      client: { ip: mocks.ip },
+      metadata: { response: undefined },
+    });
+  });
+
+  test("response - stream not buffered", async () => {
+    using loggerHttp = spyOn(Logger, "http");
+
+    const result = await app.request("/stream", { method: "GET" }, mocks.connInfo);
+
+    expect(result.status).toEqual(200);
+    expect(loggerHttp).toHaveBeenCalledTimes(2);
   });
 
   test("client extraction", async () => {

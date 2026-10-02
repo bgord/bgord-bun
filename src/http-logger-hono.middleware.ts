@@ -20,28 +20,34 @@ export class HttpLoggerHonoMiddleware implements MiddlewareHonoPort {
 
       if (this.middleware.shouldSkip(context)) return await next();
 
-      const request = c.req.raw.clone();
       const correlationId = c.get("correlationId");
-      const body = await HttpLoggerHonoMiddleware.parseJSON(request);
+      const body = await HttpLoggerHonoMiddleware.parseJSON(c.req.raw);
 
       const { stopwatch } = this.middleware.before(context, correlationId, body);
 
       await next();
 
-      const response = c.res.clone();
-      const responseBody = await HttpLoggerHonoMiddleware.parseJSON(response);
+      const responseBody = await HttpLoggerHonoMiddleware.parseJSON(c.res);
 
       this.middleware.after(context, correlationId, {
         stopwatch,
-        status: response.status,
+        status: c.res.status,
         responseBody,
       });
     };
   }
 
   private static async parseJSON(resource: Request | Response): Promise<any> {
+    if (!HttpLoggerHonoMiddleware.isJSON(resource.headers.get("content-type"))) return undefined;
+
     try {
-      return await resource.json();
+      return await resource.clone().json();
     } catch {}
+  }
+
+  private static isJSON(contentType: string | null): boolean {
+    const type = contentType?.split(";")[0]?.trim().toLowerCase();
+
+    return type === "application/json" || Boolean(type?.endsWith("+json"));
   }
 }
