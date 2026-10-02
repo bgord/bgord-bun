@@ -309,7 +309,10 @@ export const buildInfo = {
   version: v.parse(tools.PackageVersionSchema, version),
   timestamp: TIME_ZERO.ms,
   sha: SHA.value,
-  size: tools.Size.fromBytes(0).toBytes(),
+  sizes: {
+    server: tools.Size.fromBytes(0).toBytes(),
+    web: { js: tools.Size.fromBytes(0).toBytes(), css: tools.Size.fromBytes(0).toBytes() },
+  },
 };
 
 export const task = { label: "cron", cron: CronExpressionSchedules.EVERY_HOUR, handler: async () => {} };

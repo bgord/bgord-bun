@@ -95,7 +95,7 @@ describe("HealthcheckHonoHandler", () => {
         timestamp: mocks.TIME_ZERO.ms,
         date: mocks.TIME_ZERO_PLAIN_DATE_TIME_SHORT,
         sha: mocks.SHA.toString(),
-        size: "0 MB",
+        sizes: { server: "0 MB", web: { js: "0 kB", css: "0 kB" } },
         environment: NodeEnvironmentEnum.production,
       },
       server: {
@@ -165,7 +165,7 @@ describe("HealthcheckHonoHandler", () => {
         timestamp: mocks.TIME_ZERO.ms,
         date: mocks.TIME_ZERO_PLAIN_DATE_TIME_SHORT,
         sha: mocks.SHA.toString(),
-        size: "0 MB",
+        sizes: { server: "0 MB", web: { js: "0 kB", css: "0 kB" } },
         environment: NodeEnvironmentEnum.production,
       },
       server: {
@@ -261,7 +261,7 @@ describe("HealthcheckHonoHandler", () => {
         timestamp: mocks.TIME_ZERO.ms,
         date: mocks.TIME_ZERO_PLAIN_DATE_TIME_SHORT,
         sha: mocks.SHA.toString(),
-        size: "0 MB",
+        sizes: { server: "0 MB", web: { js: "0 kB", css: "0 kB" } },
         environment: NodeEnvironmentEnum.production,
       },
       server: {

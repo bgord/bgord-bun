@@ -6,7 +6,10 @@ export const BuildInfo = v.object({
   timestamp: tools.TimestampValue,
   version: tools.PackageVersionSchema,
   sha: CommitShaValue,
-  size: tools.SizeBytes,
+  sizes: v.object({
+    server: tools.SizeBytes,
+    web: v.object({ js: tools.SizeBytes, css: tools.SizeBytes }),
+  }),
 });
 
 export type BuildInfoType = v.InferOutput<typeof BuildInfo>;

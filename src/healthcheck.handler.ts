@@ -56,7 +56,7 @@ export type HealthcheckResult = {
     timestamp: tools.TimestampValueType;
     date: string;
     sha: CommitShaValueType;
-    size: string;
+    sizes: { server: string; web: { js: string; css: string } };
     environment: NodeEnvironmentEnum;
   };
   server: {
@@ -144,7 +144,13 @@ export class HealthcheckHandler {
         timestamp: build.timestamp,
         date: tools.Timestamp.fromNumber(build.timestamp).toInstant().toString(),
         sha: build.sha,
-        size: tools.Size.fromBytes(build.size).format(tools.Size.unit.MB),
+        sizes: {
+          server: tools.Size.fromBytes(build.sizes.server).format(tools.Size.unit.MB),
+          web: {
+            js: tools.Size.fromBytes(build.sizes.web.js).format(tools.Size.unit.kB),
+            css: tools.Size.fromBytes(build.sizes.web.css).format(tools.Size.unit.kB),
+          },
+        },
         environment: this.config.Env,
       },
       server: {
