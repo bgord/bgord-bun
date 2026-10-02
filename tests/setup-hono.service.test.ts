@@ -15,6 +15,7 @@ import { LanguageDetectorHeaderStrategy } from "../src/language-detector-header.
 import type { LanguageDetectorVariables } from "../src/language-detector-hono.middleware";
 import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
+import { ReactiveConfigWithLoggerAdapter } from "../src/reactive-config-with-logger.adapter";
 import { SetupHono } from "../src/setup-hono.service";
 import { Maintenance } from "../src/shield-maintenance.strategy";
 import { TimeZoneOffsetMiddleware } from "../src/time-zone-offset.middleware";
@@ -63,8 +64,36 @@ describe("SetupHono", () => {
     expect(await response.json()).toEqual({ reason: "maintenance" });
     expect(response.headers.toJSON()).toEqual({
       "content-type": "application/json;charset=utf-8",
+      "correlation-id": mocks.correlationId,
       "retry-after": tools.Duration.Hours(1).seconds.toString(),
     });
+  });
+
+  test("maintenance - with logger", async () => {
+    const IdProvider = new IdProviderDeterministicAdapter(tools.repeat(mocks.correlationId, 1));
+    const app = new Hono<Config>()
+      .use(
+        ...SetupHono.essentials(
+          {
+            csrf,
+            I18n,
+            maintenanceMode: {
+              MaintenanceConfig: new ReactiveConfigWithLoggerAdapter({
+                inner: new ReactiveConfigNoopAdapter(Maintenance, { enabled: tools.FeatureFlagEnum.yes }),
+                Logger,
+                Clock,
+              }),
+            },
+          },
+          { ...deps, IdProvider },
+        ),
+      )
+      .get("/ping", () => new Response("OK"));
+
+    const response = await app.request("/ping", { method: "GET" }, mocks.connInfo);
+
+    expect(response.status).toEqual(503);
+    expect(await response.json()).toEqual({ reason: "maintenance" });
   });
 
   test("trailing slash trim", async () => {

@@ -50,9 +50,9 @@ export class SetupHono {
     deps: Dependencies,
   ): Array<MiddlewareHandler> {
     return [
+      new CorrelationHonoMiddleware(deps).handle(),
       new ShieldMaintenanceHonoStrategy(config.maintenanceMode).handle(),
       new TrailingSlashHonoMiddleware().handle(),
-      new CorrelationHonoMiddleware(deps).handle(),
       new TimingHonoMiddleware(deps).handle(),
       new ApiVersionHonoMiddleware(deps).handle(),
       new ShieldCsrfHonoStrategy(config.csrf).handle(),
