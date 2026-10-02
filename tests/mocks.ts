@@ -1,6 +1,6 @@
 import { expect } from "bun:test";
-import * as tools from "@bgord/tools";
 import type os from "node:os";
+import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { AlertMessage } from "../src/alert-message.vo";
 import { Client } from "../src/client.vo";

@@ -339,6 +339,10 @@ src/
 ├── job-queue-worker.service.ts
 ├── job-queue.adapter.ts
 ├── job-queue.port.ts
+├── job-recoverer-collecting.adapter.ts
+├── job-recoverer-noop.adapter.ts
+├── job-recoverer-sqlite.adapter.ts
+├── job-recoverer.port.ts
 ├── job-registry.adapter.ts
 ├── job-registry.port.ts
 ├── job-requeuer-collecting.adapter.ts
