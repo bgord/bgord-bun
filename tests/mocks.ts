@@ -402,6 +402,7 @@ export class SampleInvariant extends Invariant<{ threshold: number }> {
 }
 
 export class SampleAggregate {
+  // fallow-ignore-next-line unused-class-member
   static readonly registry = new EventValidatorRegistryAdapter<System.Events.HourHasPassedEventType>({
     [System.Events.HOUR_HAS_PASSED_EVENT]: System.Events.HourHasPassedEvent,
   });
@@ -414,6 +415,7 @@ export class SampleAggregate {
     readonly deps: { Clock: ClockPort },
   ) {}
 
+  // fallow-ignore-next-line unused-class-member
   static build(
     id: UUIDType,
     events: ReadonlyArray<System.Events.HourHasPassedEventType>,
@@ -424,14 +426,17 @@ export class SampleAggregate {
     return new SampleAggregate(id, events, deps);
   }
 
+  // fallow-ignore-next-line unused-class-member
   static getStream(id: UUIDType): EventStreamType {
     return v.parse(EventStream, `sample_${id}`);
   }
 
+  // fallow-ignore-next-line unused-class-member
   record(event: System.Events.HourHasPassedEventType): void {
     this.pending.push(event);
   }
 
+  // fallow-ignore-next-line unused-class-member
   pullEvents(): ReadonlyArray<System.Events.HourHasPassedEventType> {
     return this.pending.splice(0);
   }

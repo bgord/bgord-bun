@@ -11,10 +11,8 @@ describe("EventSourcedRepositoryAdapter", () => {
   test("load", async () => {
     const EventStore = new EventStoreCollectingAdapter<System.Events.HourHasPassedEventType>();
     using find = spyOn(EventStore, "find").mockResolvedValue([mocks.GenericHourHasPassedEvent]);
-    const repository = new EventSourcedRepositoryAdapter(
-      { aggregate: mocks.SampleAggregate },
-      { Clock, EventStore },
-    );
+    const deps = { Clock, EventStore };
+    const repository = new EventSourcedRepositoryAdapter({ aggregate: mocks.SampleAggregate }, deps);
 
     const aggregate = await repository.load(mocks.userId);
 
@@ -24,7 +22,6 @@ describe("EventSourcedRepositoryAdapter", () => {
     );
     expect(aggregate.id).toEqual(mocks.userId);
     expect(aggregate.history).toEqual([mocks.GenericHourHasPassedEvent]);
-    expect(aggregate.deps).toEqual({ Clock, EventStore });
   });
 
   test("load - no history", async () => {

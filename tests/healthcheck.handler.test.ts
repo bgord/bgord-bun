@@ -62,7 +62,7 @@ describe("HealthcheckHandler", () => {
         hostname: mocks.osHostname,
         cpus: tools.Int.nonNegative(1),
         startup: expect.any(Number),
-        uptime: { ms: 0, formatted: "0 seconds ago" },
+        uptime: { ms: tools.Duration.Ms(0).ms, formatted: "0 seconds ago" },
         memory: {
           total: { bytes: 0, formatted: "0 MB" },
           heap: {
@@ -71,10 +71,10 @@ describe("HealthcheckHandler", () => {
           },
         },
         eventLoop: {
-          lag: { p50: 0, p95: 0, p99: 0 },
+          lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
           utilization: 0,
         },
-        inFlight: 0,
+        inFlight: tools.Int.of(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
@@ -120,7 +120,7 @@ describe("HealthcheckHandler", () => {
         hostname: mocks.osHostname,
         cpus: tools.Int.nonNegative(1),
         startup: expect.any(Number),
-        uptime: { ms: 0, formatted: "0 seconds ago" },
+        uptime: { ms: tools.Duration.Ms(0).ms, formatted: "0 seconds ago" },
         memory: {
           total: { bytes: 0, formatted: "0 MB" },
           heap: {
@@ -129,10 +129,10 @@ describe("HealthcheckHandler", () => {
           },
         },
         eventLoop: {
-          lag: { p50: 0, p95: 0, p99: 0 },
+          lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
           utilization: 0,
         },
-        inFlight: 0,
+        inFlight: tools.Int.of(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },
@@ -195,7 +195,7 @@ describe("HealthcheckHandler", () => {
         hostname: mocks.osHostname,
         cpus: tools.Int.nonNegative(1),
         startup: expect.any(Number),
-        uptime: { ms: 0, formatted: "0 seconds ago" },
+        uptime: { ms: tools.Duration.Ms(0).ms, formatted: "0 seconds ago" },
         memory: {
           total: { bytes: 0, formatted: "0 MB" },
           heap: {
@@ -204,10 +204,10 @@ describe("HealthcheckHandler", () => {
           },
         },
         eventLoop: {
-          lag: { p50: 0, p95: 0, p99: 0 },
+          lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
           utilization: 0,
         },
-        inFlight: 0,
+        inFlight: tools.Int.of(0),
       },
       details: [
         { label: "self", outcome: PrerequisiteVerification.success, ms: expect.any(Number) },

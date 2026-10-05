@@ -1,6 +1,8 @@
-import { describe, expect, spyOn, test } from "bun:test";
+import { describe, expect, type Mock, spyOn, test } from "bun:test";
 import { CronSchedulerAdapter } from "../src/cron-scheduler.adapter";
 import * as mocks from "./mocks";
+
+type BunCronSchedule = (schedule: string, handler: () => Promise<void>) => Bun.CronJob;
 
 const adapter = new CronSchedulerAdapter();
 
@@ -13,7 +15,9 @@ describe("CronSchedulerAdapter", () => {
   });
 
   test("schedule - handler", async () => {
-    using bunCron = spyOn(Bun, "cron").mockReturnValue({} as Bun.CronJob);
+    using bunCron = (spyOn(Bun, "cron") as unknown as Mock<BunCronSchedule>).mockReturnValue(
+      {} as Bun.CronJob,
+    );
     using taskHandler = spyOn(mocks.task, "handler");
     new CronSchedulerAdapter().schedule(mocks.task);
 
@@ -23,7 +27,9 @@ describe("CronSchedulerAdapter", () => {
   });
 
   test("schedule - handler failure", async () => {
-    using bunCron = spyOn(Bun, "cron").mockReturnValue({} as Bun.CronJob);
+    using bunCron = (spyOn(Bun, "cron") as unknown as Mock<BunCronSchedule>).mockReturnValue(
+      {} as Bun.CronJob,
+    );
     using _ = spyOn(mocks.task, "handler").mockImplementation(mocks.throwIntentionalErrorAsync);
     new CronSchedulerAdapter().schedule(mocks.task);
 

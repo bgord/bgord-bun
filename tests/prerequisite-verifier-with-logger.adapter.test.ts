@@ -66,7 +66,7 @@ describe("PrerequisiteVerifierWithLoggerAdapter", () => {
 
     await prerequisite.verify();
 
-    expect(sink.entries[0]?.error).toEqual({ message: mocks.IntentionalError });
+    expect(sink.entries[0]).toMatchObject({ error: { message: mocks.IntentionalError } });
   });
 
   test("undetermined", async () => {

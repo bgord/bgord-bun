@@ -1,4 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test";
+import type * as Nodemailer from "nodemailer";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
 import * as mocks from "./mocks";
 import * as testcase from "./testcases";
@@ -9,7 +10,9 @@ const adapter = await MailerSmtpAdapter.build(cases.subjects.config);
 
 describe("MailerSmtpAdapter", () => {
   test(cases.send.name, async () => {
-    using transportSendMail = spyOn(adapter["transport"], "sendMail").mockResolvedValue(undefined);
+    using transportSendMail = spyOn(adapter["transport"], "sendMail").mockImplementation(
+      async () => ({}) as Nodemailer.SentMessageInfo,
+    );
 
     await adapter.send(cases.send.input);
 
