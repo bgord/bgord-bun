@@ -32,7 +32,7 @@
     "lefthook": "2.1.14",
     "lockfile-lint": "5.0.1",
     "nodemailer": "10.0.10",
-    "publint": "0.3.24",
+    "publint": "0.3.25",
     "shellcheck": "4.1.0",
     "typescript": "7.0.2"
   },
