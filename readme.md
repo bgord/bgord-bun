@@ -394,6 +394,7 @@ src/
 ├── message-bus-collecting.adapter.ts
 ├── message-bus-emittery.adapter.ts
 ├── message-bus-noop.adapter.ts
+├── message-bus-strict.adapter.ts
 ├── message-bus-with-logger.adapter.ts
 ├── message-bus.port.ts
 ├── message.types.ts

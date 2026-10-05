@@ -271,6 +271,8 @@ export const session = {
 
 export type MessageType = { name: "TEST_MESSAGE" };
 export const message = { name: "TEST_MESSAGE" } as const;
+export type AnotherMessageType = { name: "ANOTHER_MESSAGE" };
+export const anotherMessage = { name: "ANOTHER_MESSAGE" } as const;
 
 export const asyncSchema = {
   "~standard": {

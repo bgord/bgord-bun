@@ -367,6 +367,7 @@ export * from "./message-bus.port";
 export * from "./message-bus-collecting.adapter";
 export * from "./message-bus-emittery.adapter";
 export * from "./message-bus-noop.adapter";
+export * from "./message-bus-strict.adapter";
 export * from "./message-bus-with-logger.adapter";
 export * from "./middleware-hono.port";
 export * from "./middleware-hono-noop.adapter";
