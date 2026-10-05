@@ -1,6 +1,6 @@
 import type { Message, ToMessageMap } from "./message.types";
 
-export interface MessageBusPort<Messages extends Message> {
+export interface MessageBusPort<in Messages extends Message> {
   emit<M extends Messages>(message: M): Promise<void>;
 
   on<MessageName extends keyof ToMessageMap<Messages>>(

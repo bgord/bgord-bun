@@ -3,7 +3,7 @@ import type { GenericJob } from "./job.types";
 import type { JobHandler } from "./job-registry.port";
 import type { JobRetryPolicyStrategy } from "./job-retry-policy.strategy";
 
-export interface JobDispatcherPort<Job extends GenericJob> {
+export interface JobDispatcherPort<in Job extends GenericJob> {
   enqueue<EnqueuedJob extends Job>(job: EnqueuedJob, delay?: tools.Duration): Promise<EnqueuedJob>;
 }
 

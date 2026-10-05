@@ -5,7 +5,7 @@ import type { EventValidatorRegistryPort } from "./event-validator-registry.port
 
 export type EventFinderConfig = { fromRevision?: tools.RevisionValueType };
 
-export interface EventStorePort<Event extends GenericEvent> {
+export interface EventStorePort<in Event extends GenericEvent> {
   find<FoundEvent extends Event>(
     registry: EventValidatorRegistryPort<FoundEvent>,
     stream: EventStreamType,
