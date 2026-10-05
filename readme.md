@@ -174,6 +174,8 @@ src/
 ├── event-finder.port.ts
 ├── event-inserter-noop.adapter.ts
 ├── event-inserter.port.ts
+├── event-log-reader-memory.adapter.ts
+├── event-log-reader.port.ts
 ├── event-loop-lag.service.ts
 ├── event-loop-utilization.service.ts
 ├── event-revision-assigner.adapter.ts
@@ -494,6 +496,7 @@ src/
 ├── prerequisite-verifier.decorator.ts
 ├── prerequisite-verifier.port.ts
 ├── prerequisite.vo.ts
+├── projection-rebuild.service.ts
 ├── randomness-crypto.strategy.ts
 ├── randomness-math.strategy.ts
 ├── randomness-noop.strategy.ts
