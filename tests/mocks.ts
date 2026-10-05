@@ -10,6 +10,7 @@ import type { ClockPort } from "../src/clock.port";
 import { CommitSha } from "../src/commit-sha.vo";
 import { CorrelationId } from "../src/correlation-id.vo";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
+import type { EventLogEntry } from "../src/event-log-reader.port";
 import { EventStream, type EventStreamType } from "../src/event-stream.vo";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { Hash } from "../src/hash.vo";
@@ -35,6 +36,7 @@ import { SecurityCountermeasureName } from "../src/security-countermeasure-name.
 import { UUID, type UUIDType } from "../src/uuid.vo";
 
 export const correlationId = v.parse(CorrelationId, "00000000-0000-0000-0000-000000000000");
+export const anotherCorrelationId = v.parse(CorrelationId, "22222222-2222-2222-2222-222222222222");
 export const revision = v.parse(tools.RevisionValue, 0);
 export const stream = v.parse(EventStream, "stream");
 
@@ -191,6 +193,20 @@ export const GenericMinuteHasPassedEvent = {
   name: "MINUTE_HAS_PASSED_EVENT",
   payload: { timestamp: TIME_ZERO.ms },
 } satisfies System.Events.MinuteHasPassedEventType;
+
+export const GenericHourHasPassedEventLogEntry = {
+  ...GenericHourHasPassedEvent,
+  payload: JSON.stringify(GenericHourHasPassedEvent.payload),
+  position: 1,
+} satisfies EventLogEntry;
+
+export const GenericMinuteHasPassedEventLogEntry = {
+  ...GenericMinuteHasPassedEvent,
+  payload: JSON.stringify(GenericMinuteHasPassedEvent.payload),
+  position: 2,
+} satisfies EventLogEntry;
+
+export const transaction = async (fn: () => Promise<void>): Promise<void> => fn();
 
 export const GenericSecurityViolationDetectedBanDenyEvent = {
   id: correlationId,
