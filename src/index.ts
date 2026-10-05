@@ -152,6 +152,7 @@ export * from "./event-loop-lag.service";
 export * from "./event-loop-utilization.service";
 export * from "./event-revision-assigner.adapter";
 export * from "./event-revision-assigner.port";
+export * from "./event-sourced-repository.adapter";
 export * from "./event-store.adapter";
 export * from "./event-store.port";
 export * from "./event-store-collecting.adapter";

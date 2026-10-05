@@ -178,6 +178,7 @@ src/
 ├── event-loop-utilization.service.ts
 ├── event-revision-assigner.adapter.ts
 ├── event-revision-assigner.port.ts
+├── event-sourced-repository.adapter.ts
 ├── event-store-collecting.adapter.ts
 ├── event-store-dispatching.adapter.ts
 ├── event-store-noop.adapter.ts

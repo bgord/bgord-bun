@@ -6,10 +6,12 @@ import { AlertMessage } from "../src/alert-message.vo";
 import { Client } from "../src/client.vo";
 import { ClientIp } from "../src/client-ip.vo";
 import { ClientUserAgent } from "../src/client-user-agent.vo";
+import type { ClockPort } from "../src/clock.port";
 import { CommitSha } from "../src/commit-sha.vo";
 import { CorrelationId } from "../src/correlation-id.vo";
 import { CronExpressionSchedules } from "../src/cron-expression.vo";
-import { EventStream } from "../src/event-stream.vo";
+import { EventStream, type EventStreamType } from "../src/event-stream.vo";
+import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { Hash } from "../src/hash.vo";
 import { HashValue } from "../src/hash-value.vo";
 import { Hostname } from "../src/hostname.vo";
@@ -20,7 +22,7 @@ import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerSubject } from "../src/mailer-subject.vo";
 import { MailerTemplate } from "../src/mailer-template.vo";
 import type * as Preferences from "../src/modules/preferences";
-import type * as System from "../src/modules/system";
+import * as System from "../src/modules/system";
 import { SEND_EMAIL_JOB, type SendEmailJobType } from "../src/modules/system/jobs";
 import { NonceValue } from "../src/nonce-value.vo";
 import { Prerequisite } from "../src/prerequisite.vo";
@@ -30,7 +32,7 @@ import {
   type PrerequisiteVerifierPort,
 } from "../src/prerequisite-verifier.port";
 import { SecurityCountermeasureName } from "../src/security-countermeasure-name.vo";
-import { UUID } from "../src/uuid.vo";
+import { UUID, type UUIDType } from "../src/uuid.vo";
 
 export const correlationId = v.parse(CorrelationId, "00000000-0000-0000-0000-000000000000");
 export const revision = v.parse(tools.RevisionValue, 0);
@@ -397,4 +399,40 @@ export class SampleInvariant extends Invariant<{ threshold: number }> {
   // fallow-ignore-next-line unused-class-member
   kind = InvariantFailureKind.precondition;
   message = "SampleInvariant failed";
+}
+
+export class SampleAggregate {
+  static readonly registry = new EventValidatorRegistryAdapter<System.Events.HourHasPassedEventType>({
+    [System.Events.HOUR_HAS_PASSED_EVENT]: System.Events.HourHasPassedEvent,
+  });
+
+  private readonly pending: Array<System.Events.HourHasPassedEventType> = [];
+
+  private constructor(
+    readonly id: UUIDType,
+    readonly history: ReadonlyArray<System.Events.HourHasPassedEventType>,
+    readonly deps: { Clock: ClockPort },
+  ) {}
+
+  static build(
+    id: UUIDType,
+    events: ReadonlyArray<System.Events.HourHasPassedEventType>,
+    deps: { Clock: ClockPort },
+  ): SampleAggregate {
+    if (events.length === 0) throw new Error("sample.aggregate.missing");
+
+    return new SampleAggregate(id, events, deps);
+  }
+
+  static getStream(id: UUIDType): EventStreamType {
+    return v.parse(EventStream, `sample_${id}`);
+  }
+
+  record(event: System.Events.HourHasPassedEventType): void {
+    this.pending.push(event);
+  }
+
+  pullEvents(): ReadonlyArray<System.Events.HourHasPassedEventType> {
+    return this.pending.splice(0);
+  }
 }
