@@ -27,8 +27,10 @@ export class ShieldRateLimitHonoStrategy implements MiddlewareHonoPort {
 
       if (result.allowed) return next();
 
-      c.header("Retry-After", result.retryAfter.seconds.toString());
-      throw new HTTPException(429, { message: ShieldRateLimitStrategyError.Rejected });
+      throw new HTTPException(429, {
+        message: ShieldRateLimitStrategyError.Rejected,
+        res: new Response(null, { headers: { "Retry-After": result.retryAfter.seconds.toString() } }),
+      });
     };
   }
 }

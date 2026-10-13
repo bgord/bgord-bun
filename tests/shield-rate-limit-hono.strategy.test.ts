@@ -1,10 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
+import { ErrorHonoHandler } from "../src/error-hono.handler";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
-import { ShieldRateLimitStrategyError } from "../src/shield-rate-limit.strategy";
+import { HttpExceptionErrors } from "../src/http-exception-errors";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { ShieldRateLimitHonoStrategy } from "../src/shield-rate-limit-hono.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
@@ -32,12 +35,9 @@ const shieldRateLimit = new ShieldRateLimitHonoStrategy(
   { Clock, CacheRepository },
 );
 
-const onError = (error: Error, c: Context) => {
-  if (error.message === ShieldRateLimitStrategyError.Rejected) {
-    return c.json({ message: ShieldRateLimitStrategyError.Rejected }, 429);
-  }
-  return c.json({}, 500);
-};
+const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
+  Logger: new LoggerNoopAdapter(),
+}).handle();
 
 const app = new Hono()
   .use(shieldRateLimit.handle())
