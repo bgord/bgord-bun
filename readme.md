@@ -482,6 +482,7 @@ src/
 ├── prerequisite-verifier-self.adapter.ts
 ├── prerequisite-verifier-sms.adapter.ts
 ├── prerequisite-verifier-space.adapter.ts
+├── prerequisite-verifier-sqlite-connection.adapter.ts
 ├── prerequisite-verifier-sqlite.adapter.ts
 ├── prerequisite-verifier-ssl-certificate-expiry.adapter.ts
 ├── prerequisite-verifier-timezone-utc.adapter.ts

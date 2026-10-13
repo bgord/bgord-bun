@@ -412,6 +412,7 @@ export * from "./prerequisite-verifier-self.adapter";
 export * from "./prerequisite-verifier-sms.adapter";
 export * from "./prerequisite-verifier-space.adapter";
 export * from "./prerequisite-verifier-sqlite.adapter";
+export * from "./prerequisite-verifier-sqlite-connection.adapter";
 export * from "./prerequisite-verifier-ssl-certificate-expiry.adapter";
 export * from "./prerequisite-verifier-timezone-utc.adapter";
 export * from "./prerequisite-verifier-translations.adapter";
