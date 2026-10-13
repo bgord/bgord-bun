@@ -339,12 +339,11 @@ export const eventLoopLag = {
   p95: tools.Duration.Ms(5),
   p99: tools.Duration.Ms(9),
 };
-export const eventLoopUtilization = 0.5;
 export const inFlightRequests = tools.Int.of(3);
 export const runtimeStats = {
   uptime,
   memory: memoryConsumption,
-  eventLoop: { lag: eventLoopLag, utilization: eventLoopUtilization },
+  eventLoop: { lag: eventLoopLag },
   inFlight: inFlightRequests,
 };
 

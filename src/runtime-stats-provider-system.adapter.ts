@@ -1,6 +1,5 @@
 import type { ClockPort } from "./clock.port";
 import { EventLoopLag } from "./event-loop-lag.service";
-import { EventLoopUtilization } from "./event-loop-utilization.service";
 import { InFlightRequestsTracker } from "./in-flight-requests-tracker.service";
 import { MemoryConsumption } from "./memory-consumption.service";
 import type { RuntimeStatsProviderPort, RuntimeStatsSnapshot } from "./runtime-stats-provider.port";
@@ -17,7 +16,7 @@ export class RuntimeStatsProviderSystemAdapter implements RuntimeStatsProviderPo
     return {
       uptime: Uptime.get(this.deps.Clock),
       memory: MemoryConsumption.snapshot(),
-      eventLoop: { lag: EventLoopLag.snapshot(), utilization: EventLoopUtilization.snapshot() },
+      eventLoop: { lag: EventLoopLag.snapshot() },
       inFlight: InFlightRequestsTracker.get(),
     };
   }

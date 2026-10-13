@@ -85,7 +85,6 @@ describe("HealthcheckHonoHandler", () => {
         },
         eventLoop: {
           lag: { p50: 0, p95: 0, p99: 0 },
-          utilization: 0,
         },
         inFlight: 0,
       },
@@ -149,7 +148,6 @@ describe("HealthcheckHonoHandler", () => {
         },
         eventLoop: {
           lag: { p50: 0, p95: 0, p99: 0 },
-          utilization: 0,
         },
         inFlight: 0,
       },
@@ -233,7 +231,6 @@ describe("HealthcheckHonoHandler", () => {
         },
         eventLoop: {
           lag: { p50: 0, p95: 0, p99: 0 },
-          utilization: 0,
         },
         inFlight: 0,
       },

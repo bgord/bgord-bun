@@ -72,7 +72,6 @@ describe("HealthcheckHandler", () => {
         },
         eventLoop: {
           lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
-          utilization: 0,
         },
         inFlight: tools.Int.of(0),
       },
@@ -130,7 +129,6 @@ describe("HealthcheckHandler", () => {
         },
         eventLoop: {
           lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
-          utilization: 0,
         },
         inFlight: tools.Int.of(0),
       },
@@ -205,7 +203,6 @@ describe("HealthcheckHandler", () => {
         },
         eventLoop: {
           lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
-          utilization: 0,
         },
         inFlight: tools.Int.of(0),
       },

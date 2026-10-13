@@ -3,7 +3,6 @@ import * as tools from "@bgord/tools";
 import type { BuildInfoType } from "./build-info.vo";
 import type { ClockPort } from "./clock.port";
 import type { CommitShaValueType } from "./commit-sha-value.vo";
-import type { EventLoopUtilizationSnapshot } from "./event-loop-utilization.service";
 import type { JobQueueStatsProviderPort, JobQueueStatsSnapshot } from "./job-queue-stats-provider.port";
 import type { LoggerStatsProviderPort, LoggerStatsSnapshot } from "./logger-stats-provider.port";
 import type { NodeEnvironmentEnum } from "./node-env.vo";
@@ -73,7 +72,6 @@ export type HealthcheckResult = {
     };
     eventLoop: {
       lag: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
-      utilization: EventLoopUtilizationSnapshot;
     };
     inFlight: tools.IntegerType;
   };
@@ -171,7 +169,6 @@ export class HealthcheckHandler {
         },
         eventLoop: {
           lag: { p50: eventLoop.lag.p50.ms, p95: eventLoop.lag.p95.ms, p99: eventLoop.lag.p99.ms },
-          utilization: eventLoop.utilization,
         },
         inFlight,
       },

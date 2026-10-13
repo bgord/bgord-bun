@@ -175,7 +175,6 @@ src/
 ├── event-log-reader-memory.adapter.ts
 ├── event-log-reader.port.ts
 ├── event-loop-lag.service.ts
-├── event-loop-utilization.service.ts
 ├── event-revision-assigner.adapter.ts
 ├── event-revision-assigner.port.ts
 ├── event-sourced-repository.adapter.ts

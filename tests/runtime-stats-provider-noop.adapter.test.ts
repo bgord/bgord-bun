@@ -11,7 +11,7 @@ describe("RuntimeStatsProviderNoopAdapter", () => {
     expect(adapter.getStats()).toEqual({
       uptime: { duration: zero, formatted: "0 seconds ago" },
       memory: { total: empty, heap: { used: empty, total: empty } },
-      eventLoop: { lag: { p50: zero, p95: zero, p99: zero }, utilization: 0 },
+      eventLoop: { lag: { p50: zero, p95: zero, p99: zero } },
       inFlight: tools.Int.of(0),
     });
   });
