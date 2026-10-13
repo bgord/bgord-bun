@@ -24,7 +24,7 @@ describe("PdfGeneratorWithLoggerAdapter", () => {
         message: "PDF generator attempt",
         correlationId: mocks.correlationId,
         operation: "pdf_generator",
-        metadata: { data: {}, template: "welcome" },
+        metadata: { template: "welcome" },
       },
       {
         component: "infra",
@@ -51,7 +51,7 @@ describe("PdfGeneratorWithLoggerAdapter", () => {
         message: "PDF generator attempt",
         correlationId: mocks.correlationId,
         operation: "pdf_generator",
-        metadata: { data: {}, template: "welcome" },
+        metadata: { template: "welcome" },
       },
       {
         component: "infra",

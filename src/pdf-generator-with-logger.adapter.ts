@@ -19,7 +19,7 @@ export class PdfGeneratorWithLoggerAdapter implements PdfGeneratorPort {
       this.deps.Logger.info({
         message: "PDF generator attempt",
         correlationId: CorrelationStorage.get(),
-        metadata: { template, data },
+        metadata: { template },
         ...this.base,
       });
 
