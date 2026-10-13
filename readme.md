@@ -98,7 +98,6 @@ src/
 ├── client-user-agent.vo.ts
 ├── client.vo.ts
 ├── clock-fixed.adapter.ts
-├── clock-offset.adapter.ts
 ├── clock-system.adapter.ts
 ├── clock.port.ts
 ├── command-envelope.ts

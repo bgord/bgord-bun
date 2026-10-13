@@ -74,7 +74,6 @@ export * from "./client-ip.vo";
 export * from "./client-user-agent.vo";
 export * from "./clock.port";
 export * from "./clock-fixed.adapter";
-export * from "./clock-offset.adapter";
 export * from "./clock-system.adapter";
 export * from "./command-envelope";
 export * from "./commit-sha.vo";
