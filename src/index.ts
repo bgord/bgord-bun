@@ -69,7 +69,6 @@ export * from "./cache-value.vo";
 export * from "./certificate-inspector.port";
 export * from "./certificate-inspector-noop.adapter";
 export * from "./certificate-inspector-tls.adapter";
-export * from "./checksum.service";
 export * from "./client.vo";
 export * from "./client-ip.vo";
 export * from "./client-user-agent.vo";
