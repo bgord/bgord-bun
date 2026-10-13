@@ -21,7 +21,7 @@ export class JobRetryPolicyCompositeStrategy implements JobRetryPolicyStrategy {
 
       if (!result) return false;
 
-      delay = result;
+      if (result.isLongerThan(delay)) delay = result;
     }
 
     return delay;

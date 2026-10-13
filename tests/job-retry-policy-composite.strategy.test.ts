@@ -38,6 +38,12 @@ describe("JobRetryPolicyCompositeStrategy", () => {
     expect(composite.evaluate(mocks.GenericSendEmailJob, mocks.IntentionalErrorNormalized)).toEqual(base);
   });
 
+  test("all pass - longest delay wins regardless of order", () => {
+    const composite = new JobRetryPolicyCompositeStrategy([backoff, limit, pass]);
+
+    expect(composite.evaluate(mocks.GenericSendEmailJob, mocks.IntentionalErrorNormalized)).toEqual(base);
+  });
+
   test("first fails", () => {
     const composite = new JobRetryPolicyCompositeStrategy([fail, backoff]);
 
