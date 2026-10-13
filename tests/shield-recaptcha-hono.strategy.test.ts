@@ -2,6 +2,10 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import * as v from "valibot";
+import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
+import { ErrorHonoHandler } from "../src/error-hono.handler";
+import { HttpExceptionErrors } from "../src/http-exception-errors";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";
 import { ShieldRecaptchaHonoStrategy } from "../src/shield-recaptcha-hono.strategy";
 import * as mocks from "./mocks";
@@ -22,10 +26,9 @@ const SAFE_BODY = "dummy=1";
 const TOKEN_BODY = new URLSearchParams({ "g-recaptcha-response": VALID_TOKEN }).toString();
 const TOKEN_JSON_BODY = JSON.stringify({ "g-recaptcha-response": VALID_TOKEN });
 
-const onError = (error: Error) => {
-  if (error instanceof Error) return Response.json({ message: error.message }, { status: 403 });
-  return new Response("internal error", { status: 500 });
-};
+const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
+  Logger: new LoggerNoopAdapter(),
+}).handle();
 
 const app = new Hono().post("/", shield.handle(), () => new Response("ok")).onError(onError);
 

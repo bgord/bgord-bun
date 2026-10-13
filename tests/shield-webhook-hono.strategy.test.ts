@@ -3,10 +3,13 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
+import { ErrorHonoHandler } from "../src/error-hono.handler";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
+import { HttpExceptionErrors } from "../src/http-exception-errors";
 import { IdempotencyStoreCacheAdapter } from "../src/idempotency-store-cache.adapter";
 import { IdempotencyStoreNoopAdapter } from "../src/idempotency-store-noop.adapter";
-import { ShieldWebhookStrategyError } from "../src/shield-webhook.strategy";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { ShieldWebhookHonoStrategy } from "../src/shield-webhook-hono.strategy";
 import { WebhookBodyBuilderTextStrategy } from "../src/webhook-body-builder-text.strategy";
 import { WebhookIdExtractorHeaderStrategy } from "../src/webhook-id-extractor-header.strategy";
@@ -14,6 +17,10 @@ import { WebhookSecret } from "../src/webhook-secret.vo";
 import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
 import { WebhookSignatureExtractorHeaderStrategy } from "../src/webhook-signature-extractor-header.strategy";
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
+
+const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
+  Logger: new LoggerNoopAdapter(),
+}).handle();
 
 const header = "x-signature";
 const idHeader = "x-webhook-id";
@@ -43,12 +50,7 @@ const deps = { IdempotencyStore, HashContent };
 
 const app = new Hono()
   .post("/webhook", new ShieldWebhookHonoStrategy(config, deps).handle(), () => new Response("ok"))
-  .onError((error) => {
-    if (error.message === ShieldWebhookStrategyError.Rejected) {
-      return Response.json({ message: ShieldWebhookStrategyError.Rejected }, { status: 401 });
-    }
-    return Response.json({}, { status: 500 });
-  });
+  .onError(onError);
 
 describe("ShieldWebhookHonoStrategy", () => {
   test("evaluate - true", async () => {
@@ -130,12 +132,7 @@ describe("ShieldWebhookHonoStrategy", () => {
     });
     const app = new Hono()
       .post("/webhook", ShieldWebhook.handle(), () => new Response("ok"))
-      .onError((error) => {
-        if (error.message === ShieldWebhookStrategyError.Rejected) {
-          return Response.json({ message: ShieldWebhookStrategyError.Rejected }, { status: 401 });
-        }
-        return Response.json({}, { status: 500 });
-      });
+      .onError(onError);
 
     await app.request("/webhook", { method: "POST", body, headers: { [header]: signature, [idHeader]: id } });
     const response = await app.request("/webhook", {

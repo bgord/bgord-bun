@@ -2,8 +2,16 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
-import { ShieldApiKeyStrategy, ShieldApiKeyStrategyError } from "../src/shield-api-key.strategy";
+import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
+import { ErrorHonoHandler } from "../src/error-hono.handler";
+import { HttpExceptionErrors } from "../src/http-exception-errors";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
+import { ShieldApiKeyStrategy } from "../src/shield-api-key.strategy";
 import { ShieldApiKeyHonoStrategy } from "../src/shield-api-key-hono.strategy";
+
+const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
+  Logger: new LoggerNoopAdapter(),
+}).handle();
 
 const VALID_API_KEY = "x".repeat(64);
 const INVALID_API_KEY = "invalid-api-key";
@@ -13,12 +21,7 @@ const shield = new ShieldApiKeyHonoStrategy({ API_KEY: v.parse(tools.ApiKey, VAL
 const app = new Hono()
   .use(shield.handle())
   .get("/ping", () => new Response("OK"))
-  .onError((error) => {
-    if (error.message === ShieldApiKeyStrategyError.Rejected) {
-      return Response.json({ message: ShieldApiKeyStrategyError.Rejected }, { status: 401 });
-    }
-    return Response.json({}, { status: 500 });
-  });
+  .onError(onError);
 
 describe("ShieldApiKeyStrategy", () => {
   test("happy path", async () => {

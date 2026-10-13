@@ -2,8 +2,15 @@ import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
-import { ShieldTimeoutStrategyError } from "../src/shield-timeout.strategy";
+import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
+import { ErrorHonoHandler } from "../src/error-hono.handler";
+import { HttpExceptionErrors } from "../src/http-exception-errors";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { ShieldTimeoutHonoStrategy } from "../src/shield-timeout-hono.strategy";
+
+const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
+  Logger: new LoggerNoopAdapter(),
+}).handle();
 
 const duration = tools.Duration.Ms(5);
 
@@ -43,17 +50,12 @@ describe("ShieldTimeoutStrategy", () => {
         jest.advanceTimersByTime(duration.times(v.parse(tools.MultiplicationFactor, 2)).ms);
         return new Response("OK");
       })
-      .onError((error) => {
-        if (error.message === ShieldTimeoutStrategyError.Rejected) {
-          return Response.json({ message: ShieldTimeoutStrategyError.Rejected }, { status: 408 });
-        }
-        return Response.json({}, { status: 500 });
-      });
+      .onError(onError);
 
     const result = await app.request("/ping", { method: "GET" });
     const json = await result.json();
 
-    expect(result.status).toEqual(408);
+    expect(result.status).toEqual(504);
     expect(json.message).toEqual("shield.timeout.rejected");
 
     jest.useRealTimers();

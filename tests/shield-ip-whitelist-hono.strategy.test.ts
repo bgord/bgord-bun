@@ -2,8 +2,15 @@ import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import * as v from "valibot";
 import { ClientIp } from "../src/client-ip.vo";
-import { ShieldIpWhitelistStrategyError } from "../src/shield-ip-whitelist.strategy";
+import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
+import { ErrorHonoHandler } from "../src/error-hono.handler";
+import { HttpExceptionErrors } from "../src/http-exception-errors";
+import { LoggerNoopAdapter } from "../src/logger-noop.adapter";
 import { ShieldIpWhitelistHonoStrategy } from "../src/shield-ip-whitelist-hono.strategy";
+
+const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
+  Logger: new LoggerNoopAdapter(),
+}).handle();
 
 const ALLOWED_IP = v.parse(ClientIp, "192.168.1.1");
 const BLOCKED_IP = "10.0.0.1";
@@ -18,12 +25,7 @@ const shield = new ShieldIpWhitelistHonoStrategy({ whitelist: [ALLOWED_IP] });
 const app = new Hono()
   .use(shield.handle())
   .get("/ping", () => new Response("OK"))
-  .onError((error) => {
-    if (error.message === ShieldIpWhitelistStrategyError.Rejected) {
-      return Response.json({ message: ShieldIpWhitelistStrategyError.Rejected }, { status: 403 });
-    }
-    return Response.json({}, { status: 500 });
-  });
+  .onError(onError);
 
 describe("ShieldIpWhitelistHonoStrategy", () => {
   test("happy path", async () => {
