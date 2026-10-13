@@ -40,6 +40,14 @@ describe("FileReaderTextForgivingAdapter", () => {
     expect(bunFile).toHaveBeenCalledWith(testcases.file.input.absolute.get());
   });
 
+  test("happy path - read error", async () => {
+    // @ts-expect-error Partial access
+    using bunFile = spyOn(Bun, "file").mockReturnValue({ text: mocks.throwIntentionalErrorAsync });
+
+    expect(await adapter.read(testcases.file.input.absolute)).toEqual("");
+    expect(bunFile).toHaveBeenCalledWith(testcases.file.input.absolute.get());
+  });
+
   test("happy path - error - custom fallback", async () => {
     using bunFile = spyOn(Bun, "file").mockImplementation(mocks.throwIntentionalError);
     const adapter = new FileReaderTextForgivingAdapter("unknown");

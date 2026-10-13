@@ -7,7 +7,7 @@ export class FileReaderRawForgivingAdapter implements FileReaderRawPort {
 
   async read(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<ArrayBuffer> {
     try {
-      return Bun.file(typeof path === "string" ? path : path.get()).arrayBuffer();
+      return await Bun.file(typeof path === "string" ? path : path.get()).arrayBuffer();
     } catch {
       return this.fallback;
     }

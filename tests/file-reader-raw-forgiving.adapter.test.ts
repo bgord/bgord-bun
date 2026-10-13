@@ -40,4 +40,12 @@ describe("FileReaderRawForgivingAdapter", () => {
     expect(await adapter.read(testcases.file.input.absolute)).toEqual(fallback);
     expect(bunFile).toHaveBeenCalledWith(testcases.file.input.absolute.get());
   });
+
+  test("happy path - read error", async () => {
+    // @ts-expect-error Partial access
+    using bunFile = spyOn(Bun, "file").mockReturnValue({ arrayBuffer: mocks.throwIntentionalErrorAsync });
+
+    expect(await adapter.read(testcases.file.input.absolute)).toEqual(fallback);
+    expect(bunFile).toHaveBeenCalledWith(testcases.file.input.absolute.get());
+  });
 });

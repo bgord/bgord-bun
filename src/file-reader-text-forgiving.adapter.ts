@@ -7,7 +7,7 @@ export class FileReaderTextForgivingAdapter implements FileReaderTextPort {
 
   async read(path: tools.FilePathRelative | tools.FilePathAbsolute | string): Promise<string> {
     try {
-      return Bun.file(typeof path === "string" ? path : path.get()).text();
+      return await Bun.file(typeof path === "string" ? path : path.get()).text();
     } catch {
       return this.fallback;
     }
