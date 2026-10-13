@@ -15,7 +15,7 @@ export class FileTypeDetectorTextStrategy implements FileTypeDetectorStrategy {
     if (bytes.length === 0) return null;
     if (bytes.some(isControlByte)) return null;
 
-    const text = new TextDecoder().decode(bytes);
+    const text = new TextDecoder().decode(bytes, { stream: file.size > bytes.length });
 
     if (text.includes("\ufffd")) return null;
     if (text.trimStart().startsWith("<")) return null;

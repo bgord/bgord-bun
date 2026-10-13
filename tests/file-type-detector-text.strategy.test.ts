@@ -1,3 +1,4 @@
+// cSpell:ignore łódź
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileTypeDetectorTextStrategy } from "../src/file-type-detector-text.strategy";
@@ -39,6 +40,18 @@ describe("FileTypeDetectorTextStrategy", () => {
     const file = new File(["a".repeat(1445), new Uint8Array([0x00])], "sample");
 
     expect(await detector.detect(file)).toEqual(tools.Mimes.csv.mime);
+  });
+
+  test("multi-byte character split at the prefix boundary", async () => {
+    const file = new File(["a".repeat(1444), "łódź,1\n"], "sample");
+
+    expect(await detector.detect(file)).toEqual(tools.Mimes.csv.mime);
+  });
+
+  test("truncated multi-byte character at the end of the file", async () => {
+    const file = new File([new Uint8Array([0x69, 0x64, 0xc5])], "sample");
+
+    expect(await detector.detect(file)).toEqual(null);
   });
 
   test("png bytes", async () => {
