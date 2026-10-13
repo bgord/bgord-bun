@@ -6,11 +6,15 @@ import type {
 } from "./image-generator.port";
 
 export class ImageGeneratorWebViewAdapter implements ImageGeneratorPort {
+  static readonly CSP =
+    `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data: http: https:; font-src data:">`;
+
   async generate(config: ImageGeneratorConfig): Promise<Uint8Array<ArrayBuffer>> {
     await using view = new Bun.WebView(config);
 
-    // TODO: Potential XSS risk
-    await view.navigate(`data:text/html;charset=utf-8,${encodeURIComponent(config.template)}`);
+    const html = ImageGeneratorWebViewAdapter.CSP + config.template;
+
+    await view.navigate(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
 
     const image = await view.screenshot({
       encoding: "buffer",

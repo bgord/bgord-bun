@@ -5,6 +5,7 @@ import { ImageGeneratorWebViewAdapter } from "../src/image-generator-web-view.ad
 import * as mocks from "./mocks";
 
 const template = "<html></html>";
+const html = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data: http: https:; font-src data:"><html></html>`;
 const filename = tools.Filename.fromParts(mocks.TIME_ZERO.ms.toString(), "png");
 const width = v.parse(tools.ImageWidth, 800);
 const height = v.parse(tools.ImageHeight, 600);
@@ -22,7 +23,7 @@ describe("ImageGeneratorWebViewAdapter", () => {
     const result = await adapter.generate(config);
 
     expect(result).toBeInstanceOf(Uint8Array);
-    expect(navigate).toHaveBeenCalledWith(`data:text/html;charset=utf-8,${encodeURIComponent(template)}`);
+    expect(navigate).toHaveBeenCalledWith(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
     expect(screenshot).toHaveBeenCalledWith({ encoding: "buffer", format: filename.getExtension() });
   });
 
@@ -34,7 +35,7 @@ describe("ImageGeneratorWebViewAdapter", () => {
 
     expect(async () => adapter.generate(config)).toThrow(mocks.IntentionalError);
 
-    expect(navigate).toHaveBeenCalledWith(`data:text/html;charset=utf-8,${encodeURIComponent(template)}`);
+    expect(navigate).toHaveBeenCalledWith(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
     expect(screenshot).not.toHaveBeenCalled();
   });
 
@@ -46,7 +47,7 @@ describe("ImageGeneratorWebViewAdapter", () => {
 
     expect(async () => adapter.generate(config)).toThrow(mocks.IntentionalError);
 
-    expect(navigate).toHaveBeenCalledWith(`data:text/html;charset=utf-8,${encodeURIComponent(template)}`);
+    expect(navigate).toHaveBeenCalledWith(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
     expect(screenshot).toHaveBeenCalledWith({ encoding: "buffer", format: filename.getExtension() });
   });
 });
