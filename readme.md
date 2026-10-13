@@ -251,6 +251,7 @@ src/
 ├── hash-content-noop.strategy.ts
 ├── hash-content-sha256.strategy.ts
 ├── hash-content.strategy.ts
+├── hash-file-metadata.adapter.ts
 ├── hash-file-noop.adapter.ts
 ├── hash-file-sha256.adapter.ts
 ├── hash-file.port.ts

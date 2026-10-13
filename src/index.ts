@@ -225,6 +225,7 @@ export * from "./hash-content.strategy";
 export * from "./hash-content-noop.strategy";
 export * from "./hash-content-sha256.strategy";
 export * from "./hash-file.port";
+export * from "./hash-file-metadata.adapter";
 export * from "./hash-file-noop.adapter";
 export * from "./hash-file-sha256.adapter";
 export * from "./hash-value.vo";
