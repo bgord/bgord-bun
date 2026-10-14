@@ -21,9 +21,9 @@ export abstract class Invariant<T extends Config, N extends T = T> {
     throw new this.error(this.message);
   }
 
-  enforce(config: T): N {
+  enforce<C extends T>(config: C): C & N {
     if (!this.passes(config)) this.throw();
 
-    return config as N;
+    return config as C & N;
   }
 }
