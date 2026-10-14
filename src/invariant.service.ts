@@ -8,7 +8,7 @@ export enum InvariantFailureKind {
   not_found = "not_found",
 }
 
-export abstract class Invariant<T extends Config> {
+export abstract class Invariant<T extends Config, N extends T = T> {
   abstract passes(config: T): boolean;
 
   abstract error: Constructor<Error>;
@@ -21,7 +21,9 @@ export abstract class Invariant<T extends Config> {
     throw new this.error(this.message);
   }
 
-  enforce(config: T) {
+  enforce(config: T): N {
     if (!this.passes(config)) this.throw();
+
+    return config as N;
   }
 }

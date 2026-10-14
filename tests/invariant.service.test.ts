@@ -14,6 +14,14 @@ describe("Invariant", () => {
     expect(async () => invariant.enforce({ threshold: 5 })).not.toThrow();
   });
 
+  test("ensure - returns the config", async () => {
+    const config = { threshold: 5 };
+
+    const result = invariant.enforce(config);
+
+    expect(result).toBe(config);
+  });
+
   test("ensure - failure", async () => {
     expect(async () => invariant.enforce({ threshold: 15 })).toThrow(invariant.error);
   });
