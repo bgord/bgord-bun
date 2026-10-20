@@ -35,7 +35,7 @@ const app = new Hono().post("/", shield.handle(), () => new Response("ok")).onEr
 describe("ShieldRecaptchaHonoStrategy", () => {
   test("happy path", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
 
     const response = await app.request(
@@ -55,7 +55,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - conn info ip", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
 
     const response = await app.request(
@@ -75,7 +75,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - boundary score", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.5, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.5, hostname: HOSTNAME }),
     );
 
     const response = await app.request(
@@ -95,7 +95,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - json body fallback", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
 
     const response = await app.request(
@@ -115,7 +115,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - non-string json token", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
 
     const response = await app.request(
@@ -130,7 +130,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - missing token", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
 
     const response = await app.request(
@@ -146,9 +146,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
   });
 
   test("failure - upstream api rejection", async () => {
-    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: false })),
-    );
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(Response.json({ success: false }));
 
     const response = await app.request(
       "http://localhost/",
@@ -161,9 +159,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
   });
 
   test("failure - missing score", async () => {
-    using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true })),
-    );
+    using globalFetch = spyOn(global, "fetch").mockResolvedValue(Response.json({ success: true }));
 
     const response = await app.request(
       "http://localhost/",
@@ -177,7 +173,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - non-numeric score", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: "0.9" })),
+      Response.json({ success: true, score: "0.9" }),
     );
 
     const response = await app.request(
@@ -192,7 +188,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - low score", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.4 })),
+      Response.json({ success: true, score: 0.4 }),
     );
 
     const response = await app.request(
@@ -207,7 +203,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - custom threshold", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.1, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.1, hostname: HOSTNAME }),
     );
     const shield = new ShieldRecaptchaHonoStrategy({
       secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
@@ -241,7 +237,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - foreign hostname", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: "evil.example" })),
+      Response.json({ success: true, score: 0.9, hostname: "evil.example" }),
     );
 
     const response = await app.request(
@@ -256,7 +252,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - missing hostname", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
+      Response.json({ success: true, score: 0.9 }),
     );
 
     const response = await app.request(
@@ -271,7 +267,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("happy path - matching action", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" }),
     );
     const withAction = new ShieldRecaptchaHonoStrategy({
       secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),
@@ -292,7 +288,7 @@ describe("ShieldRecaptchaHonoStrategy", () => {
 
   test("failure - mismatched action", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "newsletter" })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME, action: "newsletter" }),
     );
     const withAction = new ShieldRecaptchaHonoStrategy({
       secretKey: v.parse(RecaptchaSecretKey, VALID_SECRET_KEY),

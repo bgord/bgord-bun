@@ -25,7 +25,7 @@ form.set(ShieldRecaptchaStrategyField, VALID_TOKEN);
 describe("ShieldRecaptchaStrategy", () => {
   test("happy path", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" }),
     );
     const context = new RequestContextBuilder().withIp(remoteip).withForm(form).build();
 
@@ -39,7 +39,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("happy path - no remote ip", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -53,7 +53,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("happy path - boundary score", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.5, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.5, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -67,7 +67,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("happy path - json body fallback", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder()
       .withJson({ [ShieldRecaptchaStrategyField]: VALID_TOKEN })
@@ -83,7 +83,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - non-string json token", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().withJson({ [ShieldRecaptchaStrategyField]: 123 }).build();
 
@@ -93,7 +93,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - missing token", async () => {
     using globalFetch = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().build();
 
@@ -103,7 +103,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - upstream api rejection", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: false, score: 0.9, hostname: HOSTNAME })),
+      Response.json({ success: false, score: 0.9, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -111,7 +111,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - missing score", async () => {
-    using _ = spyOn(global, "fetch").mockResolvedValue(new Response(JSON.stringify({ success: true })));
+    using _ = spyOn(global, "fetch").mockResolvedValue(Response.json({ success: true }));
     const context = new RequestContextBuilder().withForm(form).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);
@@ -119,7 +119,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - non-numeric score", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: "0.9", hostname: HOSTNAME })),
+      Response.json({ success: true, score: "0.9", hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -127,9 +127,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - low score", async () => {
-    using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.4 })),
-    );
+    using _ = spyOn(global, "fetch").mockResolvedValue(Response.json({ success: true, score: 0.4 }));
     const context = new RequestContextBuilder().withForm(form).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);
@@ -137,7 +135,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - custom threshold", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.1, hostname: HOSTNAME })),
+      Response.json({ success: true, score: 0.1, hostname: HOSTNAME }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
     const strategy = new ShieldRecaptchaStrategy({
@@ -158,7 +156,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - foreign hostname", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: "evil.example" })),
+      Response.json({ success: true, score: 0.9, hostname: "evil.example" }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -166,9 +164,7 @@ describe("ShieldRecaptchaStrategy", () => {
   });
 
   test("failure - missing hostname", async () => {
-    using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9 })),
-    );
+    using _ = spyOn(global, "fetch").mockResolvedValue(Response.json({ success: true, score: 0.9 }));
     const context = new RequestContextBuilder().withForm(form).build();
 
     expect(await strategy.evaluate(context)).toEqual(false);
@@ -176,7 +172,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("happy path - matching action", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME, action: "login" }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 
@@ -191,7 +187,7 @@ describe("ShieldRecaptchaStrategy", () => {
 
   test("failure - mismatched action", async () => {
     using _ = spyOn(global, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true, score: 0.9, hostname: HOSTNAME, action: "newsletter" })),
+      Response.json({ success: true, score: 0.9, hostname: HOSTNAME, action: "newsletter" }),
     );
     const context = new RequestContextBuilder().withForm(form).build();
 

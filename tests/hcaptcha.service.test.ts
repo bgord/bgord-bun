@@ -9,9 +9,7 @@ const service = new HCaptchaService();
 
 describe("HCaptchaService", () => {
   test("verify - happy path", async () => {
-    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: true }), { status: 200 }),
-    );
+    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(Response.json({ success: true }));
 
     const result = await service.verify(
       ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"],
@@ -30,9 +28,7 @@ describe("HCaptchaService", () => {
   });
 
   test("verify - failure - hcaptcha rejected token", async () => {
-    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: false }), { status: 200 }),
-    );
+    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(Response.json({ success: false }));
 
     const result = await service.verify(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"], INVALID_TOKEN);
 
@@ -48,9 +44,7 @@ describe("HCaptchaService", () => {
   });
 
   test("verify - failure - empty token", async () => {
-    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(JSON.stringify({ success: false }), { status: 200 }),
-    );
+    using globalFetch = spyOn(globalThis, "fetch").mockResolvedValue(Response.json({ success: false }));
 
     const result = await service.verify(ShieldHcaptchaLocalHonoStrategy["SECRET_KEY_LOCAL"], "");
 
