@@ -13,7 +13,7 @@ export class TranslatorService {
       if (!variables) return translation;
 
       return Object.entries(variables).reduce(
-        (result, [placeholder, value]) => result.replaceAll(`{{${placeholder}}}`, String(value)),
+        (result, [placeholder, value]) => result.replaceAll(`{{${placeholder}}}`, () => String(value)),
         translation,
       );
     };

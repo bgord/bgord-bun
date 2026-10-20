@@ -14,6 +14,10 @@ describe("TranslatorService", () => {
     expect(t("welcome", { name: "John" })).toEqual("Welcome, John!");
   });
 
+  test("use - special characters in value", () => {
+    expect(t("welcome", { name: "$& $$" })).toEqual("Welcome, $& $$!");
+  });
+
   test("use - passthrough", () => {
     expect(t("missing")).toEqual("missing");
   });
