@@ -4,9 +4,10 @@ import type { HasRequestHeaders } from "./request-context.port";
 export type AuthSessionReaderNoopUserType = { id: string; email: string };
 export type AuthSessionReaderNoopSessionType = { id: string };
 
-export class AuthSessionReaderNoopAdapter
-  implements AuthSessionReaderPort<AuthSessionReaderNoopUserType, AuthSessionReaderNoopSessionType>
-{
+export class AuthSessionReaderNoopAdapter implements AuthSessionReaderPort<
+  AuthSessionReaderNoopUserType,
+  AuthSessionReaderNoopSessionType
+> {
   constructor(
     private readonly auth: AuthSessionType<AuthSessionReaderNoopUserType, AuthSessionReaderNoopSessionType>,
   ) {}

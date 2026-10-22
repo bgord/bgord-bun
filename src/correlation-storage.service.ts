@@ -11,8 +11,7 @@ export class CorrelationStorage {
   // biome-ignore lint: lint/suspicious/noAssignInExpressions
   private static readonly als: AsyncLocalStorage<CorrelationContext> = ((globalThis as any)[
     this.GLOBAL_KEY
-  ] ??=
-    new AsyncLocalStorage<CorrelationContext>());
+  ] ??= new AsyncLocalStorage<CorrelationContext>());
 
   static run<T>(correlationId: CorrelationIdType, action: () => T | Promise<T>): T | Promise<T> {
     return CorrelationStorage.als.run({ correlationId }, action);

@@ -2,9 +2,10 @@ import type { Auth } from "better-auth";
 import type { AuthSessionReaderPort } from "./auth-session-reader.port";
 import type { HasRequestHeaders } from "./request-context.port";
 
-export class AuthSessionReaderBetterAuthAdapter<TAuth extends Auth<any>>
-  implements AuthSessionReaderPort<TAuth["$Infer"]["Session"]["user"], TAuth["$Infer"]["Session"]["session"]>
-{
+export class AuthSessionReaderBetterAuthAdapter<TAuth extends Auth<any>> implements AuthSessionReaderPort<
+  TAuth["$Infer"]["Session"]["user"],
+  TAuth["$Infer"]["Session"]["session"]
+> {
   constructor(private readonly auth: TAuth) {}
 
   async getSession(context: HasRequestHeaders) {

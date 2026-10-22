@@ -14,9 +14,9 @@ export class UserLanguageResolverThrowIfMissing implements UserLanguageResolverP
   }
 }
 
-export class UserLanguageResolverSystemDefaultFallback<T extends tools.LanguageType>
-  implements UserLanguageResolverPort
-{
+export class UserLanguageResolverSystemDefaultFallback<
+  T extends tools.LanguageType,
+> implements UserLanguageResolverPort {
   constructor(private readonly languages: Languages<T>) {}
 
   resolve(stored: tools.LanguageType | null) {

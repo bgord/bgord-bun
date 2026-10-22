@@ -12,9 +12,7 @@ export const ShieldWebhookStrategyError = {
 };
 
 export type ShieldWebhookStrategyResult =
-  | { accepted: true }
-  | { accepted: false; reason: "rejected" }
-  | { accepted: false; reason: "duplicate" };
+  { accepted: true } | { accepted: false; reason: "rejected" } | { accepted: false; reason: "duplicate" };
 
 export type ShieldWebhookStrategyConfig = {
   namespace: string;

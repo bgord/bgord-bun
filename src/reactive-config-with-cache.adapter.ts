@@ -6,9 +6,9 @@ import type { ReactiveConfigPort } from "./reactive-config.port";
 
 type Dependencies = { CacheResolver: CacheResolverStrategy; HashContent: HashContentStrategy };
 
-export class ReactiveConfigWithCacheAdapter<T extends object & CacheValueType>
-  implements ReactiveConfigPort<T>
-{
+export class ReactiveConfigWithCacheAdapter<
+  T extends object & CacheValueType,
+> implements ReactiveConfigPort<T> {
   private readonly codec = new CacheCodecIdentityStrategy<T>();
 
   constructor(

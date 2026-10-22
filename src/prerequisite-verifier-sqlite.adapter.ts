@@ -14,8 +14,7 @@ export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPo
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
       const integrity = this.config.sqlite.query("PRAGMA integrity_check;").get() as
-        | { integrity_check?: string }
-        | undefined;
+        { integrity_check?: string } | undefined;
 
       if (integrity?.integrity_check?.toLowerCase() !== "ok") {
         return PrerequisiteVerification.failure("Integrity check failed");

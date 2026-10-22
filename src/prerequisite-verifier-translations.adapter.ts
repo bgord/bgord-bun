@@ -15,9 +15,9 @@ type PrerequisiteTranslationsProblemType = {
 
 type Dependencies = { TranslationsProvider: TranslationsProviderPort };
 
-export class PrerequisiteVerifierTranslationsAdapter<T extends tools.LanguageType>
-  implements PrerequisiteVerifierPort
-{
+export class PrerequisiteVerifierTranslationsAdapter<
+  T extends tools.LanguageType,
+> implements PrerequisiteVerifierPort {
   constructor(
     private readonly config: Languages<T>,
     private readonly deps: Dependencies,

@@ -13,9 +13,7 @@ export type PrerequisiteVerificationFailure = {
 };
 export type PrerequisiteVerificationUndetermined = { outcome: PrerequisiteVerificationOutcome.undetermined };
 export type PrerequisiteVerificationResult =
-  | PrerequisiteVerificationSuccess
-  | PrerequisiteVerificationFailure
-  | PrerequisiteVerificationUndetermined;
+  PrerequisiteVerificationSuccess | PrerequisiteVerificationFailure | PrerequisiteVerificationUndetermined;
 
 export class PrerequisiteVerification {
   static success = { outcome: PrerequisiteVerificationOutcome.success };
