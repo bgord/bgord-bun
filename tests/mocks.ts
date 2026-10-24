@@ -22,6 +22,7 @@ import { Languages } from "../src/languages.vo";
 import { MailerContentHtml } from "../src/mailer-content-html.vo";
 import { MailerSubject } from "../src/mailer-subject.vo";
 import { MailerTemplate } from "../src/mailer-template.vo";
+import type * as Auth from "../src/modules/auth";
 import type * as Preferences from "../src/modules/preferences";
 import * as System from "../src/modules/system";
 import { SEND_EMAIL_JOB, type SendEmailJobType } from "../src/modules/system/jobs";
@@ -252,6 +253,25 @@ export const GenericUserLanguageSetEvent = {
   name: "USER_LANGUAGE_SET_EVENT",
   payload: { userId, language: languages.supported.pl },
 } satisfies Preferences.Events.UserLanguageSetEventType;
+
+export const GenericAccountCreatedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: v.parse(EventStream, `account_${userId}`),
+  version: 1,
+  commit: SHA.value,
+  name: "ACCOUNT_CREATED_EVENT",
+  payload: { userId, timestamp: TIME_ZERO.ms },
+} satisfies Auth.Events.AccountCreatedEventType;
+
+export const GenericSetUserLanguageCommand = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  name: "SET_USER_LANGUAGE_COMMAND",
+  payload: { userId, language: languages.supported.pl },
+} satisfies Preferences.Commands.SetUserLanguageCommandType;
 
 export async function tick() {
   await Promise.resolve();
