@@ -1,1 +1,3 @@
+export * from "./PROFILE_AVATAR_REMOVED_EVENT";
+export * from "./PROFILE_AVATAR_UPDATED_EVENT";
 export * from "./USER_LANGUAGE_SET_EVENT";

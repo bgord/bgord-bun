@@ -6,3 +6,4 @@ export * as Invariants from "./invariants";
 export * as OHQ from "./open-host-queries";
 export * as Policies from "./policies";
 export * as Ports from "./ports";
+export * as VO from "./value-objects";

@@ -431,22 +431,35 @@ src/
 │   │       ├── history.ts
 │   ├── preferences
 │   │   ├── command-handlers
+│   │   │   ├── handleRemoveProfileAvatarCommand.ts
 │   │   │   ├── handleSetUserLanguageCommand.ts
+│   │   │   ├── handleUpdateProfileAvatarCommand.ts
 │   │   ├── commands
-│   │   │   └── SET_USER_LANGUAGE_COMMAND.ts
+│   │   │   ├── REMOVE_PROFILE_AVATAR_COMMAND.ts
+│   │   │   ├── SET_USER_LANGUAGE_COMMAND.ts
+│   │   │   └── UPDATE_PROFILE_AVATAR_COMMAND.ts
 │   │   ├── events
+│   │   │   ├── PROFILE_AVATAR_REMOVED_EVENT.ts
+│   │   │   ├── PROFILE_AVATAR_UPDATED_EVENT.ts
 │   │   │   └── USER_LANGUAGE_SET_EVENT.ts
 │   │   ├── http
+│   │   │   ├── get-profile-avatar.ts
+│   │   │   ├── remove-profile-avatar.ts
+│   │   │   ├── update-profile-avatar.ts
 │   │   │   └── update-user-language.ts
 │   │   ├── invariants
+│   │   │   ├── profile-avatar-constraints.ts
 │   │   │   └── user-language-has-changed.ts
 │   │   ├── open-host-queries
 │   │   │   └── user-language.ts
 │   │   ├── policies
+│   │   │   ├── profile-avatar-eraser.ts
 │   │   │   └── set-default-user-language.ts
-│   │   └── ports
-│   │       ├── user-language-query.ts
-│   │       └── user-language-resolver.ts
+│   │   ├── ports
+│   │   │   ├── user-language-query.ts
+│   │   │   └── user-language-resolver.ts
+│   │   └── value-objects
+│   │       └── profile-avatar.ts
 │   └── system
 │       ├── cron-tasks
 │       │   ├── passage-of-time-hourly.ts

@@ -273,6 +273,77 @@ export const GenericSetUserLanguageCommand = {
   payload: { userId, language: languages.supported.pl },
 } satisfies Preferences.Commands.SetUserLanguageCommandType;
 
+export const GenericAccountDeletedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: v.parse(EventStream, `account_${userId}`),
+  version: 1,
+  commit: SHA.value,
+  name: "ACCOUNT_DELETED_EVENT",
+  payload: { userId, timestamp: TIME_ZERO.ms },
+} satisfies Auth.Events.AccountDeletedEventType;
+
+export const ProfileAvatar = {
+  MaxSide: v.parse(tools.ImageWidth, 4000),
+  MaxSize: tools.Size.fromMB(10),
+  MimeRegistry: new tools.MimeRegistry([tools.Mimes.png, tools.Mimes.jpg, tools.Mimes.webp]),
+  Side: v.parse(tools.ImageWidth, 256),
+  key: (userId: UUIDType) => v.parse(tools.ObjectKey, `users/${userId}/avatar.webp`),
+} satisfies Preferences.VO.ProfileAvatarType;
+
+export const profileAvatarObjectKey = v.parse(tools.ObjectKey, `users/${userId}/avatar.webp`);
+
+export const temporaryDirectory = v.parse(tools.DirectoryPathAbsoluteSchema, "/tmp/profile-avatars");
+
+export const png = new File([new Uint8Array([1, 2, 3])], "avatar.png", { type: "image/png" });
+
+export const GenericUpdateProfileAvatarCommand = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  name: "UPDATE_PROFILE_AVATAR_COMMAND",
+  payload: { userId, absoluteFilePath: `/tmp/profile-avatars/${userId}.png` },
+} satisfies Preferences.Commands.UpdateProfileAvatarCommandType;
+
+export const GenericRemoveProfileAvatarCommand = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  name: "REMOVE_PROFILE_AVATAR_COMMAND",
+  payload: { userId },
+} satisfies Preferences.Commands.RemoveProfileAvatarCommandType;
+
+export const GenericProfileAvatarUpdatedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: v.parse(EventStream, `preferences_${userId}`),
+  version: 1,
+  commit: SHA.value,
+  name: "PROFILE_AVATAR_UPDATED_EVENT",
+  payload: { userId, key: profileAvatarObjectKey, etag: hashValue },
+} satisfies Preferences.Events.ProfileAvatarUpdatedEventType;
+
+export const GenericProfileAvatarRemovedEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: v.parse(EventStream, `preferences_${userId}`),
+  version: 1,
+  commit: SHA.value,
+  name: "PROFILE_AVATAR_REMOVED_EVENT",
+  payload: { userId },
+} satisfies Preferences.Events.ProfileAvatarRemovedEventType;
+
+export const profileAvatarHead = {
+  exists: true,
+  etag: hash,
+  size: tools.Size.fromBytes(3),
+  lastModified: TIME_ZERO,
+  mime: tools.Mimes.webp.mime,
+} as const;
+
 export async function tick() {
   await Promise.resolve();
 }
