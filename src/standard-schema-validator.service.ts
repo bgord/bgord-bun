@@ -9,7 +9,7 @@ export class StandardSchemaValidator {
     const result = schema["~standard"].validate(raw);
 
     if ("then" in result) throw new Error(StandardSchemaValidatorError.NoAsyncSchema);
-    if (result.issues) throw new Error(result.issues[0]?.message);
+    if (result.issues) throw Object.assign(new Error(result.issues[0]?.message), { issues: result.issues });
     return result.value;
   }
 }

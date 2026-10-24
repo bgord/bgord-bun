@@ -1,3 +1,4 @@
 export * from "./REMOVE_PROFILE_AVATAR_COMMAND";
+export * from "./SET_PREFERENCE_COMMAND";
 export * from "./SET_USER_LANGUAGE_COMMAND";
 export * from "./UPDATE_PROFILE_AVATAR_COMMAND";

@@ -58,7 +58,7 @@ describe("handleUpdateProfileAvatarCommand", () => {
       key: mocks.profileAvatarObjectKey,
       path: tools.FilePathAbsolute.fromString(`/tmp/profile-avatars/${mocks.userId}.webp`),
     });
-    expect(temporaryFileCleanup.mock.calls[0]?.[0].get()).toEqual(`${mocks.userId}.webp`);
+    expect(temporaryFileCleanup).toHaveBeenCalledWith(tools.Filename.fromString(`${mocks.userId}.webp`));
   });
 
   test("ProfileAvatarConstraints", async () => {
@@ -84,6 +84,6 @@ describe("handleUpdateProfileAvatarCommand", () => {
 
     expect(EventStore.saved).toEqual([]);
     expect(remoteFileStoragePutFromPath).not.toHaveBeenCalled();
-    expect(temporaryFileCleanup.mock.calls[0]?.[0].get()).toEqual(`${mocks.userId}.png`);
+    expect(temporaryFileCleanup).toHaveBeenCalledWith(tools.Filename.fromString(`${mocks.userId}.png`));
   });
 });

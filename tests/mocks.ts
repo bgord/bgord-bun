@@ -273,6 +273,47 @@ export const GenericSetUserLanguageCommand = {
   payload: { userId, language: languages.supported.pl },
 } satisfies Preferences.Commands.SetUserLanguageCommandType;
 
+export const NotificationPreference = {
+  key: "notification",
+  field: "notification",
+  schema: v.picklist(["on", "off"], "notification.invalid"),
+  default: "on",
+} as const satisfies Preferences.VO.PreferenceDefinitionType;
+
+export const EmailPreference = {
+  key: "email",
+  field: "email",
+  schema: v.pipe(v.string("email.invalid"), v.email("email.invalid")),
+  default: null,
+} as const satisfies Preferences.VO.PreferenceDefinitionType;
+
+export const PreferenceReader = {
+  get: async (_userId: UUIDType, _key: string): Promise<string | null> => null,
+} satisfies Preferences.Ports.PreferenceReaderPort;
+
+export const PreferenceWriter = {
+  set: async (_input: Preferences.Ports.PreferenceWriterInput<string>): Promise<void> => {},
+} satisfies Preferences.Ports.PreferenceWriterPort;
+
+export const GenericSetPreferenceCommand = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  name: "SET_PREFERENCE_COMMAND",
+  payload: { userId, preference: "notification", value: "off" },
+} satisfies Preferences.Commands.SetPreferenceCommandType;
+
+export const GenericPreferenceSetEvent = {
+  id: correlationId,
+  correlationId,
+  createdAt: TIME_ZERO.ms,
+  stream: v.parse(EventStream, `preferences_${userId}`),
+  version: 1,
+  commit: SHA.value,
+  name: "PREFERENCE_SET_EVENT",
+  payload: { userId, preference: "notification", value: "off" },
+} satisfies Preferences.Events.PreferenceSetEventType;
+
 export const GenericAccountDeletedEvent = {
   id: correlationId,
   correlationId,

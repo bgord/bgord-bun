@@ -15,6 +15,12 @@ describe("StandardSchemaValidator", () => {
     expect(() => StandardSchemaValidator.validate(schema, { name: 123 })).toThrow();
   });
 
+  test("validation error - issues", () => {
+    expect(() => StandardSchemaValidator.validate(v.string("name.type"), 123)).toThrow(
+      expect.objectContaining({ message: "name.type", issues: [expect.objectContaining({ message: "name.type" })] }),
+    );
+  });
+
   test("async schema", () => {
     expect(() => StandardSchemaValidator.validate(mocks.asyncSchema, {})).toThrow(
       "standard.schema.validate.error.no.async.schema",

@@ -432,33 +432,46 @@ src/
 │   ├── preferences
 │   │   ├── command-handlers
 │   │   │   ├── handleRemoveProfileAvatarCommand.ts
+│   │   │   ├── handleSetPreferenceCommand.ts
 │   │   │   ├── handleSetUserLanguageCommand.ts
 │   │   │   ├── handleUpdateProfileAvatarCommand.ts
 │   │   ├── commands
 │   │   │   ├── REMOVE_PROFILE_AVATAR_COMMAND.ts
+│   │   │   ├── SET_PREFERENCE_COMMAND.ts
 │   │   │   ├── SET_USER_LANGUAGE_COMMAND.ts
 │   │   │   └── UPDATE_PROFILE_AVATAR_COMMAND.ts
+│   │   ├── event-handlers
+│   │   │   ├── onPreferenceSetEvent.ts
+│   │   │   └── onUserLanguageSetEvent.ts
 │   │   ├── events
+│   │   │   ├── PREFERENCE_SET_EVENT.ts
 │   │   │   ├── PROFILE_AVATAR_REMOVED_EVENT.ts
 │   │   │   ├── PROFILE_AVATAR_UPDATED_EVENT.ts
 │   │   │   └── USER_LANGUAGE_SET_EVENT.ts
 │   │   ├── http
+│   │   │   ├── get-preference.ts
 │   │   │   ├── get-profile-avatar.ts
 │   │   │   ├── remove-profile-avatar.ts
+│   │   │   ├── update-preference.ts
 │   │   │   ├── update-profile-avatar.ts
 │   │   │   └── update-user-language.ts
 │   │   ├── invariants
+│   │   │   ├── preference-has-changed.ts
 │   │   │   ├── profile-avatar-constraints.ts
 │   │   │   └── user-language-has-changed.ts
 │   │   ├── open-host-queries
+│   │   │   ├── preference.ts
 │   │   │   └── user-language.ts
 │   │   ├── policies
 │   │   │   ├── profile-avatar-eraser.ts
 │   │   │   └── set-default-user-language.ts
 │   │   ├── ports
+│   │   │   ├── preference-reader.ts
+│   │   │   ├── preference-writer.ts
 │   │   │   ├── user-language-query.ts
 │   │   │   └── user-language-resolver.ts
 │   │   └── value-objects
+│   │       ├── preference-definition.ts
 │   │       └── profile-avatar.ts
 │   └── system
 │       ├── cron-tasks

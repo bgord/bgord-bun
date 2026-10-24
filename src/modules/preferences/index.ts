@@ -1,5 +1,6 @@
 export * as CommandHandlers from "./command-handlers";
 export * as Commands from "./commands";
+export * as EventHandlers from "./event-handlers";
 export * as Events from "./events";
 export * as HTTP from "./http";
 export * as Invariants from "./invariants";
