@@ -372,6 +372,7 @@ export * from "./message-bus-strict.adapter";
 export * from "./message-bus-with-logger.adapter";
 export * from "./middleware-hono.port";
 export * from "./middleware-hono-noop.adapter";
+export * as Auth from "./modules/auth";
 export * as History from "./modules/history";
 export * as Preferences from "./modules/preferences";
 export * as System from "./modules/system";
