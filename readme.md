@@ -441,8 +441,7 @@ src/
 │   │   │   ├── SET_USER_LANGUAGE_COMMAND.ts
 │   │   │   └── UPDATE_PROFILE_AVATAR_COMMAND.ts
 │   │   ├── event-handlers
-│   │   │   ├── onPreferenceSetEvent.ts
-│   │   │   └── onUserLanguageSetEvent.ts
+│   │   │   └── onPreferenceSetEvent.ts
 │   │   ├── events
 │   │   │   ├── PREFERENCE_SET_EVENT.ts
 │   │   │   ├── PROFILE_AVATAR_REMOVED_EVENT.ts
