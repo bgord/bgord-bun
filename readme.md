@@ -533,6 +533,7 @@ src/
 ├── prerequisite-verifier.decorator.ts
 ├── prerequisite-verifier.port.ts
 ├── prerequisite.vo.ts
+├── probability.ts
 ├── projection-rebuild.service.ts
 ├── randomness-crypto.strategy.ts
 ├── randomness-math.strategy.ts

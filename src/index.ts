@@ -417,6 +417,7 @@ export * from "./prerequisite-verifier-sqlite-connection.adapter";
 export * from "./prerequisite-verifier-ssl-certificate-expiry.adapter";
 export * from "./prerequisite-verifier-timezone-utc.adapter";
 export * from "./prerequisite-verifier-translations.adapter";
+export * from "./probability";
 export * from "./projection-rebuild.service";
 export * from "./randomness.strategy";
 export * from "./randomness-crypto.strategy";
