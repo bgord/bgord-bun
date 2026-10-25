@@ -729,6 +729,10 @@ src/
 ├── weak-etag-extractor-param.strategy.ts
 ├── weak-etag-extractor.middleware.ts
 ├── weak-etag-extractor.strategy.ts
+├── web-page-fetcher-bare.adapter.ts
+├── web-page-fetcher-with-size-limit.adapter.ts
+├── web-page-fetcher-with-timeout.adapter.ts
+├── web-page-fetcher.port.ts
 ├── webhook-body-builder-signed-headers.strategy.ts
 ├── webhook-body-builder-text.strategy.ts
 ├── webhook-body-builder.strategy.ts
