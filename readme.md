@@ -730,6 +730,7 @@ src/
 ├── weak-etag-extractor.middleware.ts
 ├── weak-etag-extractor.strategy.ts
 ├── web-page-fetcher-bare.adapter.ts
+├── web-page-fetcher-noop.adapter.ts
 ├── web-page-fetcher-with-size-limit.adapter.ts
 ├── web-page-fetcher-with-timeout.adapter.ts
 ├── web-page-fetcher.port.ts
