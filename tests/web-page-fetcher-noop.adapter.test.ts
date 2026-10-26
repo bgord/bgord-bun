@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import * as mocks from "./mocks";
 import { WebPageFetcherNoopAdapter } from "../src/web-page-fetcher-noop.adapter";
+import * as mocks from "./mocks";
 
 const json = { hello: "world" };
 

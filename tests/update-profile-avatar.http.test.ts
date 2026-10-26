@@ -31,7 +31,7 @@ describe("Preferences.HTTP.UpdateProfileAvatar", () => {
     form.append("file", new File([new Uint8Array([1])], "avatar"));
     const context = new RequestContextBuilder().withUserId(mocks.userId).withForm(form).build();
 
-    expect(async () => endpoint(context)).toThrow("extension.type");
+    expect(async () => endpoint(context)).toThrow("filename.from.string.invalid");
   });
 
   test("validation - file - extension - trailing dot", async () => {
@@ -41,7 +41,7 @@ describe("Preferences.HTTP.UpdateProfileAvatar", () => {
     form.append("file", new File([new Uint8Array([1])], "avatar."));
     const context = new RequestContextBuilder().withUserId(mocks.userId).withForm(form).build();
 
-    expect(async () => endpoint(context)).toThrow("extension.type");
+    expect(async () => endpoint(context)).toThrow("filename.from.string.invalid");
   });
 
   test("happy path", async () => {

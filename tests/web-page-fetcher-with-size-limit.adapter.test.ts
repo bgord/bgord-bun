@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import * as mocks from "./mocks";
-import { WebPageFetcherWithSizeLimitAdapter } from "../src/web-page-fetcher-with-size-limit.adapter";
 import { WebPageFetcherNoopAdapter } from "../src/web-page-fetcher-noop.adapter";
+import { WebPageFetcherWithSizeLimitAdapter } from "../src/web-page-fetcher-with-size-limit.adapter";
+import * as mocks from "./mocks";
 
 const config = { max: tools.Size.fromBytes(4) };
 
