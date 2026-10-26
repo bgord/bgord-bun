@@ -12,10 +12,11 @@ export class WebPageFetcherWithSizeLimitAdapter implements WebPageFetcherPort {
 
   async fetch(url: string, signal?: AbortSignal): Promise<Response> {
     const response = await this.deps.inner.fetch(url, signal);
+
+    const contentLength = Number(response.headers.get("content-length"));
     const max = this.config.max.toBytes();
 
-    if (Number(response.headers.get("content-length")) > max) throw new Error(WebPageFetcherError.TooLarge);
-
+    if (contentLength > max) throw new Error(WebPageFetcherError.TooLarge);
     if (!response.body) return response;
 
     let total = 0;
@@ -25,13 +26,13 @@ export class WebPageFetcherWithSizeLimitAdapter implements WebPageFetcherPort {
         transform(chunk, controller) {
           total += chunk.byteLength;
 
-          if (total > max) return controller.error(new Error(WebPageFetcherError.TooLarge));
+          if (total > max) throw new Error(WebPageFetcherError.TooLarge);
 
           controller.enqueue(chunk);
         },
       }),
     );
 
-    return new Response(body, { status: response.status, headers: response.headers });
+    return new Response(body, response);
   }
 }
