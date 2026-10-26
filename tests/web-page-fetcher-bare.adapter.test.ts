@@ -14,4 +14,14 @@ describe("WebPageFetcherBareAdapter", () => {
     expect(response.status).toEqual(200);
     expect(await response.json()).toEqual(json);
   });
+
+  test("happy path - headers", async () => {
+    const adapter = new WebPageFetcherBareAdapter();
+    using fetch = spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 304 }));
+
+    const response = await adapter.fetch(mocks.hostname, { headers: { "if-none-match": "etag" } });
+
+    expect(response.status).toEqual(304);
+    expect(fetch).toHaveBeenCalledWith(mocks.hostname, { headers: { "if-none-match": "etag" } });
+  });
 });

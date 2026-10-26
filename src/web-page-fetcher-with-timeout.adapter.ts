@@ -1,6 +1,6 @@
 import type * as bg from "@bgord/bun";
 import type * as tools from "@bgord/tools";
-import type { WebPageFetcherPort } from "./web-page-fetcher.port";
+import type { WebPageFetcherOptions, WebPageFetcherPort } from "./web-page-fetcher.port";
 
 export type WebPageFetcherWithTimeoutAdapterDependencies = {
   TimeoutCancellableRunner: bg.TimeoutCancellableRunnerPort;
@@ -14,9 +14,9 @@ export class WebPageFetcherWithTimeoutAdapter implements WebPageFetcherPort {
     private readonly deps: WebPageFetcherWithTimeoutAdapterDependencies,
   ) {}
 
-  async fetch(url: string): Promise<Response> {
+  async fetch(url: string, options?: WebPageFetcherOptions): Promise<Response> {
     return this.deps.TimeoutCancellableRunner.cancellable(async (signal) => {
-      const response = await this.deps.inner.fetch(url, signal);
+      const response = await this.deps.inner.fetch(url, { ...options, signal });
 
       return new Response(await response.arrayBuffer(), {
         status: response.status,

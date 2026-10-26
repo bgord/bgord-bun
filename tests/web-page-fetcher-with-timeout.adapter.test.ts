@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as bg from "@bgord/bun";
 import * as tools from "@bgord/tools";
 import { WebPageFetcherNoopAdapter } from "../src/web-page-fetcher-noop.adapter";
@@ -29,5 +29,19 @@ describe("WebPageFetcherWithTimeoutAdapter", () => {
     });
 
     await expect(() => adapter.fetch(mocks.hostname)).toThrow("timeout.cancellable.exceeded");
+  });
+
+  test("fetch - headers", async () => {
+    const inner = new WebPageFetcherNoopAdapter(new Response(null, { status: 304 }));
+    const adapter = new WebPageFetcherWithTimeoutAdapter(config, { TimeoutCancellableRunner, inner });
+    using fetch = spyOn(inner, "fetch");
+
+    const response = await adapter.fetch(mocks.hostname, { headers: { "if-none-match": "etag" } });
+
+    expect(response.status).toEqual(304);
+    expect(fetch).toHaveBeenCalledWith(mocks.hostname, {
+      headers: { "if-none-match": "etag" },
+      signal: expect.any(AbortSignal),
+    });
   });
 });
