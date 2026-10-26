@@ -8,14 +8,13 @@ const config = { max: tools.Size.fromBytes(4) };
 
 describe("WebPageFetcherWithSizeLimitAdapter", () => {
   test("fetch", async () => {
-    const json = {};
     const adapter = new WebPageFetcherWithSizeLimitAdapter(config, {
-      inner: new WebPageFetcherNoopAdapter(Response.json(json)),
+      inner: new WebPageFetcherNoopAdapter(new Response("abcd", { headers: { "content-length": "4" } })),
     });
 
     const response = await adapter.fetch(mocks.hostname);
 
-    expect(await response.json()).toEqual(json);
+    expect(await response.text()).toEqual("abcd");
   });
 
   test("fetch - content length", async () => {

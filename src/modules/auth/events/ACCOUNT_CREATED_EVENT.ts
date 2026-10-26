@@ -3,6 +3,7 @@ import * as v from "valibot";
 import { EventEnvelopeSchema } from "../../../event-envelope";
 import { UserId } from "../value-objects/user-id";
 
+// Stryker disable next-line StringLiteral: event name is only a discriminator
 export const ACCOUNT_CREATED_EVENT = "ACCOUNT_CREATED_EVENT";
 
 export const AccountCreatedEvent = v.object({
