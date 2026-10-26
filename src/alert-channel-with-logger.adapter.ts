@@ -20,7 +20,7 @@ export class AlertChannelWithLoggerAdapter implements AlertChannelPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Alert channel attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { alert: alert.toJSON() },
@@ -29,7 +29,7 @@ export class AlertChannelWithLoggerAdapter implements AlertChannelPort {
 
       await this.deps.inner.send(alert);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Alert channel success",
         correlationId: CorrelationStorage.get(),
         metadata: { alert: alert.toJSON(), duration: duration.stop() },

@@ -21,7 +21,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SSE registry register attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { identity },
@@ -30,7 +30,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
       const registered = this.deps.inner.register(identity, sender);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SSE registry register success",
         correlationId: CorrelationStorage.get(),
         metadata: { identity, registered, duration: duration.stop() },
@@ -55,7 +55,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SSE registry unregister attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { identity },
@@ -64,7 +64,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
       this.deps.inner.unregister(identity, sender);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SSE registry unregister success",
         correlationId: CorrelationStorage.get(),
         metadata: { identity, duration: duration.stop() },
@@ -87,7 +87,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SSE registry emit attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { identity, message },
@@ -96,7 +96,7 @@ export class SseRegistryWithLoggerAdapter<Messages extends Message> implements S
 
       await this.deps.inner.emit(identity, message);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SSE registry emit success",
         correlationId: CorrelationStorage.get(),
         metadata: { identity, message, duration: duration.stop() },

@@ -19,7 +19,7 @@ export class ReactiveConfigWithLoggerAdapter<T extends object> implements Reacti
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Reactive config read attempt",
         correlationId: CorrelationStorage.get(),
         ...this.base,
@@ -27,7 +27,7 @@ export class ReactiveConfigWithLoggerAdapter<T extends object> implements Reacti
 
       const result = await this.deps.inner.get();
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Reactive config read success",
         correlationId: CorrelationStorage.get(),
         metadata: { duration: duration.stop() },

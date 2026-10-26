@@ -15,7 +15,7 @@ export class CronSchedulerWithLoggerAdapter implements CronSchedulerPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Cron scheduler schedule attempt",
         metadata: { label: task.label, cron: task.cron },
         ...this.base,
@@ -23,7 +23,7 @@ export class CronSchedulerWithLoggerAdapter implements CronSchedulerPort {
 
       this.deps.inner.schedule(task);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Cron scheduler schedule success",
         metadata: { label: task.label, cron: task.cron, duration: duration.stop() },
         ...this.base,

@@ -16,7 +16,7 @@ export class IdempotencyStoreWithLoggerAdapter implements IdempotencyStorePort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Idempotency store claim attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { subject: subject.get() },
@@ -36,7 +36,7 @@ export class IdempotencyStoreWithLoggerAdapter implements IdempotencyStorePort {
         return false;
       }
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Idempotency store claim success",
         correlationId: CorrelationStorage.get(),
         metadata: { subject: subject.get(), duration: duration.stop() },

@@ -16,7 +16,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Mailer attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { template: template.toJSON() },
@@ -25,7 +25,7 @@ export class MailerWithLoggerAdapter implements MailerPort {
 
       await this.deps.inner.send(template);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Mailer success",
         correlationId: CorrelationStorage.get(),
         metadata: { template: template.toJSON(), duration: duration.stop() },

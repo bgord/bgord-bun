@@ -26,7 +26,7 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Event store find attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { stream, names: registry.names, config },
@@ -35,7 +35,7 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
 
       const result = await this.deps.inner.find(registry, stream, config);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Event store find success",
         correlationId: CorrelationStorage.get(),
         metadata: { stream, names: registry.names, config, count: result.length, duration: duration.stop() },
@@ -63,7 +63,7 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Event store find last attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { stream, names: registry.names },
@@ -72,7 +72,7 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
 
       const result = await this.deps.inner.findLast(registry, stream);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Event store find last success",
         correlationId: CorrelationStorage.get(),
         metadata: { stream, names: registry.names, found: !!result, duration: duration.stop() },
@@ -104,7 +104,7 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
     };
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Event store save attempt",
         correlationId: CorrelationStorage.get(),
         metadata,
@@ -113,7 +113,7 @@ export class EventStoreWithLoggerAdapter<Event extends GenericEvent> implements 
 
       const result = await this.deps.inner.save(events);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Event store save success",
         correlationId: CorrelationStorage.get(),
         metadata: { ...metadata, duration: duration.stop() },

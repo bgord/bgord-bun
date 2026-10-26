@@ -16,7 +16,7 @@ export class PdfGeneratorWithLoggerAdapter implements PdfGeneratorPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "PDF generator attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { template },
@@ -26,7 +26,7 @@ export class PdfGeneratorWithLoggerAdapter implements PdfGeneratorPort {
       const pdf = await this.deps.inner.request(template, data);
       const size = tools.Size.fromBytes(pdf.byteLength);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "PDF generator success",
         correlationId: CorrelationStorage.get(),
         metadata: { size, duration: duration.stop() },

@@ -23,7 +23,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Job queue enqueue attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { job, delay },
@@ -32,7 +32,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
       const result = await this.deps.inner.enqueue(job, delay);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Job queue enqueue success",
         correlationId: CorrelationStorage.get(),
         metadata: { job, delay, duration: duration.stop() },
@@ -57,7 +57,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Job queue claim attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { limit },
@@ -66,7 +66,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
       const jobs = await this.deps.inner.claim(limit);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Job queue claim success",
         correlationId: CorrelationStorage.get(),
         metadata: { limit, count: jobs.length, jobs, duration: duration.stop() },
@@ -91,7 +91,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Job queue complete attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { id },
@@ -100,7 +100,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
       await this.deps.inner.complete(id);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Job queue complete success",
         correlationId: CorrelationStorage.get(),
         metadata: { id, duration: duration.stop() },
@@ -123,7 +123,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.warn({
+      this.deps.Logger.debug({
         message: "Job queue fail attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { id },
@@ -132,7 +132,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
 
       await this.deps.inner.fail(id);
 
-      this.deps.Logger.warn({
+      this.deps.Logger.error({
         message: "Job queue fail success",
         correlationId: CorrelationStorage.get(),
         metadata: { id, duration: duration.stop() },
@@ -159,7 +159,7 @@ export class JobQueueWithLoggerAdapter<Job extends GenericJob> implements JobQue
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.warn({
+      this.deps.Logger.debug({
         message: "Job queue requeue attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { id, revision, delay },

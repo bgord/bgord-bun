@@ -19,7 +19,7 @@ export class AntivirusWithLoggerAdapter implements AntivirusPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Antivirus scan attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { size: bytes.byteLength },
@@ -28,7 +28,7 @@ export class AntivirusWithLoggerAdapter implements AntivirusPort {
 
       const result = await this.deps.inner.scan(bytes);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Antivirus scan success",
         correlationId: CorrelationStorage.get(),
         metadata: { ...result, duration: duration.stop() },

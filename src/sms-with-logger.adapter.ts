@@ -16,7 +16,7 @@ export class SmsWithLoggerAdapter implements SmsPort {
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SMS attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { message: message.toJSON() },
@@ -25,7 +25,7 @@ export class SmsWithLoggerAdapter implements SmsPort {
 
       await this.deps.inner.send(message);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "SMS success",
         correlationId: CorrelationStorage.get(),
         metadata: { message: message.toJSON(), duration: duration.stop() },

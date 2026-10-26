@@ -20,7 +20,7 @@ export class MessageBusWithLoggerAdapter<Messages extends Message> implements Me
     const duration = new Stopwatch(this.deps);
 
     try {
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Message bus emit attempt",
         correlationId: CorrelationStorage.get(),
         metadata: { message },
@@ -29,7 +29,7 @@ export class MessageBusWithLoggerAdapter<Messages extends Message> implements Me
 
       await this.deps.inner.emit(message);
 
-      this.deps.Logger.info({
+      this.deps.Logger.debug({
         message: "Message bus emit success",
         correlationId: CorrelationStorage.get(),
         metadata: { message, duration: duration.stop() },

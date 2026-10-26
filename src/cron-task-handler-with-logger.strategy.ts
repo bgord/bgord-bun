@@ -23,7 +23,7 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
         const duration = new Stopwatch(this.deps);
 
         try {
-          this.deps.Logger.info({ message: `${task.label} start`, correlationId, ...this.base });
+          this.deps.Logger.debug({ message: `${task.label} start`, correlationId, ...this.base });
 
           await CorrelationStorage.run(correlationId, task.handler);
         } catch (error) {
@@ -38,7 +38,7 @@ export class CronTaskHandlerWithLoggerStrategy implements CronTaskHandlerStrateg
           throw error;
         }
 
-        this.deps.Logger.info({
+        this.deps.Logger.debug({
           message: `${task.label} success`,
           correlationId,
           metadata: { duration: duration.stop() },
