@@ -382,6 +382,7 @@ export * from "./nonce-provider-crypto.adapter";
 export * from "./nonce-provider-deterministic.adapter";
 export * from "./nonce-provider-noop.adapter";
 export * from "./nonce-value.vo";
+export * from "./page.vo";
 export * from "./payload-serializer.port";
 export * from "./payload-serializer-collecting.adapter";
 export * from "./payload-serializer-json.adapter";
