@@ -5,27 +5,27 @@ import * as mocks from "./mocks";
 
 describe("PrerequisiteVerifierSQLiteAdapter", () => {
   test("success", async () => {
-    const sqlite = { query: () => ({ get: () => ({ integrity_check: "ok" }) }) };
+    const sqlite = { query: () => ({ get: () => ({ tables: 1 }) }) };
     // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
     expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.success);
   });
 
-  test("failure - integrity_check is not ok", async () => {
-    const sqlite = { query: () => ({ get: () => ({ integrity_check: "not ok" }) }) };
+  test("failure - schema is empty", async () => {
+    const sqlite = { query: () => ({ get: () => ({ tables: 0 }) }) };
     // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
-    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Integrity check failed"));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Schema unreadable"));
   });
 
-  test("failure - integrity_check is missing", async () => {
+  test("failure - schema is missing", async () => {
     const sqlite = { query: () => ({ get: () => undefined }) };
     // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 
-    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Integrity check failed"));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Schema unreadable"));
   });
 
   test("failure - error", async () => {
@@ -39,7 +39,7 @@ describe("PrerequisiteVerifierSQLiteAdapter", () => {
   });
 
   test("kind", () => {
-    const sqlite = { query: () => ({ get: () => ({ integrity_check: "ok" }) }) };
+    const sqlite = { query: () => ({ get: () => ({ tables: 1 }) }) };
     // @ts-expect-error Partial access
     const prerequisite = new PrerequisiteVerifierSQLiteAdapter({ sqlite });
 

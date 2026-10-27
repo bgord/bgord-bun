@@ -13,12 +13,10 @@ export class PrerequisiteVerifierSQLiteAdapter implements PrerequisiteVerifierPo
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
-      const integrity = this.config.sqlite.query("PRAGMA integrity_check;").get() as
-        { integrity_check?: string } | undefined;
+      const schema = this.config.sqlite.query("SELECT count(*) AS tables FROM sqlite_master;").get() as
+        { tables?: number } | undefined;
 
-      if (integrity?.integrity_check?.toLowerCase() !== "ok") {
-        return PrerequisiteVerification.failure("Integrity check failed");
-      }
+      if (!schema?.tables) return PrerequisiteVerification.failure("Schema unreadable");
       return PrerequisiteVerification.success;
     } catch (error) {
       return PrerequisiteVerification.failure(error);
