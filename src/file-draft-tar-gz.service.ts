@@ -1,6 +1,5 @@
 // [BUN DEPENDENCY]
 import * as tools from "@bgord/tools";
-import * as v from "valibot";
 import { FileDraft } from "./file-draft.service";
 
 export class FileDraftTarGz extends FileDraft {
@@ -8,7 +7,7 @@ export class FileDraftTarGz extends FileDraft {
     basename: tools.BasenameType,
     private readonly parts: ReadonlyArray<FileDraft>,
   ) {
-    super(basename, v.parse(tools.Extension, tools.Mimes.tar.extensions[0]), tools.Mimes.tar.mime);
+    super(basename, tools.Mimes.tar.extension, tools.Mimes.tar.mime);
   }
 
   async create(): Promise<BodyInit> {

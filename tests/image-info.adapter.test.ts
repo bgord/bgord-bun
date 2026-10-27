@@ -12,7 +12,9 @@ const jpegExtension = v.parse(tools.Extension, "jpeg");
 
 const metadata = { width: 120, height: 80, format: "jpeg" };
 
-const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgExtension, jpegExtension] }]);
+const MimeRegistry = new tools.MimeRegistry([
+  new tools.MimeRegistryEntry(jpegMime, jpgExtension, [jpegExtension]),
+]);
 const deps = { MimeRegistry };
 
 const adapter = new ImageInfoAdapter(deps);

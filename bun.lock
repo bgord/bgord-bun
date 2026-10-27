@@ -5,7 +5,7 @@
     "": {
       "name": "@bgord/bun",
       "dependencies": {
-        "@bgord/tools": "1.6.16",
+        "@bgord/tools": "1.6.17",
         "emittery": "2.2.0",
         "hono": "4.13.14",
         "node-cache": "5.1.2",
@@ -130,7 +130,7 @@
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.3.2", "", {}, "sha512-Gs7n99b5tqUC6cQAPbV0uED3IraHB6xQbHLQ/C3l7ZFafHScOx9pQ+DYmP5blbLFShVWLqxNUlI9wi4xU/X+ow=="],
 
-    "@bgord/tools": ["@bgord/tools@1.6.16", "", { "dependencies": { "valibot": "1.5.0" } }, "sha512-GDGlxPvG5qIDWsbCyIdE2u7ZgKZ5I3V8xDGuPDTAB4ikylnz81aRi4WA1l+ti0vAkNoaWfXOAlesfmjVByPkOg=="],
+    "@bgord/tools": ["@bgord/tools@1.6.17", "", { "dependencies": { "valibot": "1.5.0" } }, "sha512-ADiQhzAgBQni9vlVJ1HKJ7+/37gCsDr+L6846cnWB/5fPco9PhzQB1OPnXVk/mhKChG2iwAn+Fnpp3tBJUewOQ=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.6.3", "", { "optionalDependencies": { "@biomejs/cli-android-arm64": "2.6.3", "@biomejs/cli-android-x64": "2.6.3", "@biomejs/cli-darwin-arm64": "2.6.3", "@biomejs/cli-darwin-x64": "2.6.3", "@biomejs/cli-linux-arm64": "2.6.3", "@biomejs/cli-linux-arm64-musl": "2.6.3", "@biomejs/cli-linux-x64": "2.6.3", "@biomejs/cli-linux-x64-musl": "2.6.3", "@biomejs/cli-win32-arm64": "2.6.3", "@biomejs/cli-win32-x64": "2.6.3" }, "bin": { "biome": "bin/biome" } }, "sha512-va/0xPku7wnfzv+D8Zpdm5uKiGJWiV8neqoEPnRjvNQQwhl4tVXS4fETs4H0CCB2rGeqJ4cu9y4iOZOnOYKAUA=="],
 

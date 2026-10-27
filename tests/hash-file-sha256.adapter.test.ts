@@ -15,7 +15,9 @@ const jpegExtension = v.parse(tools.Extension, "jpeg");
 const size = tools.Size.fromKb(1);
 const lastModified = mocks.TIME_ZERO;
 const FileInspection = new FileInspectionNoopAdapter({ exists: true, size, lastModified });
-const MimeRegistry = new tools.MimeRegistry([{ mime: jpegMime, extensions: [jpgExtension, jpegExtension] }]);
+const MimeRegistry = new tools.MimeRegistry([
+  new tools.MimeRegistryEntry(jpegMime, jpgExtension, [jpegExtension]),
+]);
 
 const HashBytes = new HashBytesSha256Strategy();
 const deps = { HashBytes, FileInspection, MimeRegistry };
