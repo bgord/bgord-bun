@@ -11,7 +11,7 @@ describe("SSRService", () => {
     const service = new SSRService({ NonceProvider });
 
     expect(service.secure(mocks.nonce)).toEqual({
-      "Content-Security-Policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; script-src 'self' 'nonce-${mocks.nonce}'; script-src-elem 'self' 'nonce-${mocks.nonce}'; style-src 'self' 'nonce-${mocks.nonce}'; style-src-attr 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'`,
+      "Content-Security-Policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; script-src 'self' 'nonce-${mocks.nonce}'; script-src-elem 'self' 'nonce-${mocks.nonce}'; style-src 'self' 'nonce-${mocks.nonce}'; style-src-attr 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; form-action 'self'`,
       "Permissions-Policy":
         "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "Cross-Origin-Opener-Policy": "same-origin",
@@ -30,7 +30,7 @@ describe("SSRService", () => {
     const service = new SSRService({ NonceProvider }, { csp: SsrCsp.hcaptcha });
 
     expect(service.secure(mocks.nonce)).toEqual({
-      "Content-Security-Policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none' https://newassets.hcaptcha.com; frame-ancestors 'none'; script-src 'self' 'nonce-${mocks.nonce}' https://js.hcaptcha.com; script-src-elem 'self' 'nonce-${mocks.nonce}' https://js.hcaptcha.com; style-src 'self' 'nonce-${mocks.nonce}' https://newassets.hcaptcha.com; style-src-attr 'unsafe-inline'; img-src 'self' https://imgs.hcaptcha.com; media-src 'self'; font-src 'self'; connect-src 'self' https://api.hcaptcha.com; form-action 'self'`,
+      "Content-Security-Policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none' https://newassets.hcaptcha.com; frame-ancestors 'none'; script-src 'self' 'nonce-${mocks.nonce}' https://js.hcaptcha.com; script-src-elem 'self' 'nonce-${mocks.nonce}' https://js.hcaptcha.com; style-src 'self' 'nonce-${mocks.nonce}' https://newassets.hcaptcha.com; style-src-attr 'unsafe-inline'; img-src 'self' https://imgs.hcaptcha.com; media-src 'self'; font-src 'self'; connect-src 'self' https://api.hcaptcha.com; manifest-src 'self'; form-action 'self'`,
       "Permissions-Policy":
         "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "Cross-Origin-Opener-Policy": "same-origin",

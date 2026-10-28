@@ -59,6 +59,7 @@ export class SSRService {
         "media-src 'self'",
         "font-src 'self'",
         `connect-src ${connectSources}`,
+        "manifest-src 'self'",
         "form-action 'self'",
       ].join("; "),
       "Permissions-Policy": [

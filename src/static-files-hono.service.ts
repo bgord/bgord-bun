@@ -32,6 +32,7 @@ const staticDocumentHeaders = secureHeaders({
     fontSrc: ["'self'"],
     mediaSrc: ["'self'"],
     connectSrc: ["'self'"],
+    manifestSrc: ["'self'"],
     formAction: ["'self'"],
   },
   permissionsPolicy: {

@@ -20,7 +20,7 @@ describe("SSRBun", async () => {
     const response = await fetch(new Request("http://localhost/"));
 
     expect(response.headers.toJSON()).toEqual({
-      "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}'; script-src-elem 'self' 'nonce-${zeros}'; style-src 'self' 'nonce-${zeros}'; style-src-attr 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self'`,
+      "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}'; script-src-elem 'self' 'nonce-${zeros}'; style-src 'self' 'nonce-${zeros}'; style-src-attr 'unsafe-inline'; img-src 'self'; media-src 'self'; font-src 'self'; connect-src 'self'; manifest-src 'self'; form-action 'self'`,
       "permissions-policy":
         "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "cross-origin-opener-policy": "same-origin",
@@ -45,7 +45,7 @@ describe("SSRBun", async () => {
     const response = await fetch(new Request("http://localhost/"));
 
     expect(response.headers.toJSON()).toEqual({
-      "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none' https://newassets.hcaptcha.com; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}' https://js.hcaptcha.com; script-src-elem 'self' 'nonce-${zeros}' https://js.hcaptcha.com; style-src 'self' 'nonce-${zeros}' https://newassets.hcaptcha.com; style-src-attr 'unsafe-inline'; img-src 'self' https://imgs.hcaptcha.com; media-src 'self'; font-src 'self'; connect-src 'self' https://api.hcaptcha.com; form-action 'self'`,
+      "content-security-policy": `default-src 'none'; base-uri 'none'; object-src 'none'; frame-src 'none' https://newassets.hcaptcha.com; frame-ancestors 'none'; script-src 'self' 'nonce-${zeros}' https://js.hcaptcha.com; script-src-elem 'self' 'nonce-${zeros}' https://js.hcaptcha.com; style-src 'self' 'nonce-${zeros}' https://newassets.hcaptcha.com; style-src-attr 'unsafe-inline'; img-src 'self' https://imgs.hcaptcha.com; media-src 'self'; font-src 'self'; connect-src 'self' https://api.hcaptcha.com; manifest-src 'self'; form-action 'self'`,
       "permissions-policy":
         "accelerometer=(), autoplay=(), camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
       "cross-origin-opener-policy": "same-origin",
