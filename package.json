@@ -26,7 +26,7 @@
     "@stryker-mutator/typescript-checker": "10.1.1",
     "@types/bun": "1.4.4",
     "@types/nodemailer": "8.0.2",
-    "better-auth": "1.7.12",
+    "better-auth": "1.7.14",
     "cspell": "10.4.0",
     "fallow": "3.35.0",
     "lefthook": "2.2.2",
@@ -43,7 +43,7 @@
     "node-cache": "5.1.2"
   },
   "peerDependencies": {
-    "better-auth": "1.7.12",
+    "better-auth": "1.7.14",
     "nodemailer": "10.2.1"
   },
   "peerDependenciesMeta": {
