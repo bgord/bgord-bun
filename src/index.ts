@@ -159,6 +159,8 @@ export * from "./event-store-dispatching.adapter";
 export * from "./event-store-noop.adapter";
 export * from "./event-store-with-logger.adapter";
 export * from "./event-stream.vo";
+export * from "./event-stream-eraser.port";
+export * from "./event-stream-eraser-noop.adapter";
 export * from "./event-upcaster.port";
 export * from "./event-upcaster-chain.adapter";
 export * from "./event-upcaster-noop.adapter";

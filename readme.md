@@ -185,6 +185,8 @@ src/
 ├── event-store.adapter.ts
 ├── event-store.port.ts
 ├── event-stream-accept.service.ts
+├── event-stream-eraser-noop.adapter.ts
+├── event-stream-eraser.port.ts
 ├── event-stream.vo.ts
 ├── event-upcaster-chain.adapter.ts
 ├── event-upcaster-noop.adapter.ts
@@ -409,6 +411,8 @@ src/
 │   │   ├── open-host-queries
 │   │   │   ├── user-contact.ts
 │   │   │   └── user-directory.ts
+│   │   ├── policies
+│   │   │   ├── event-stream-eraser.ts
 │   │   └── value-objects
 │   │       └── user-id.ts
 │   ├── history
