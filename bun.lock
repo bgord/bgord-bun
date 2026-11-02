@@ -22,14 +22,14 @@
         "fallow": "3.35.0",
         "lefthook": "2.2.2",
         "lockfile-lint": "5.1.0",
-        "nodemailer": "10.2.1",
+        "nodemailer": "10.3.1",
         "publint": "0.3.25",
         "shellcheck": "4.1.0",
         "typescript": "7.0.2",
       },
       "peerDependencies": {
         "better-auth": "1.7.14",
-        "nodemailer": "10.2.1",
+        "nodemailer": "10.3.1",
       },
       "optionalPeers": [
         "better-auth",
@@ -804,7 +804,7 @@
 
     "node-releases": ["node-releases@2.0.59", "", {}, "sha512-5qr2okC4ItAI0hG5SaV0HoYMpnM/Y6+Oqr7AmPYy/2uEoGvS+GbSKLeRxSS1uAdu59yz0ouzcuXievSgg///WA=="],
 
-    "nodemailer": ["nodemailer@10.2.1", "", {}, "sha512-ZrDNsPFoDMwefNs7sJwrYiEJ/CG4ClJWDZv05iNJsEBWa8GRDry1QJHTJxsuTAY9eDDKjX4k+q3SxslXJOao7w=="],
+    "nodemailer": ["nodemailer@10.3.1", "", {}, "sha512-uF0AFsJC07Y1vdW7p580DKAnh7rAO+4UPSSB3mDCPNDufoiaOebV6JmrzpxB14OjEEEiBsNdYoM2Y+fN8M7BBA=="],
 
     "npm-run-path": ["npm-run-path@6.0.0", "", { "dependencies": { "path-key": "^4.0.0", "unicorn-magic": "^0.3.0" } }, "sha512-9qny7Z9DsQU8Ou39ERsPU4OZQlSTP47ShQzuKZ6PRXpYLtIFgl/DEBYEXKlvcEa+9tHVcK8CF81Y2V72qaZhWA=="],
 
