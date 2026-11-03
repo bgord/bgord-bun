@@ -404,6 +404,7 @@ export * from "./prerequisite-verifier-directory.adapter";
 export * from "./prerequisite-verifier-dns.adapter";
 export * from "./prerequisite-verifier-external-api.adapter";
 export * from "./prerequisite-verifier-file.adapter";
+export * from "./prerequisite-verifier-job-queue-lag.adapter";
 export * from "./prerequisite-verifier-mailer.adapter";
 export * from "./prerequisite-verifier-memory.adapter";
 export * from "./prerequisite-verifier-node.adapter";

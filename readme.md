@@ -514,6 +514,7 @@ src/
 ├── prerequisite-verifier-dns.adapter.ts
 ├── prerequisite-verifier-external-api.adapter.ts
 ├── prerequisite-verifier-file.adapter.ts
+├── prerequisite-verifier-job-queue-lag.adapter.ts
 ├── prerequisite-verifier-mailer.adapter.ts
 ├── prerequisite-verifier-memory.adapter.ts
 ├── prerequisite-verifier-node.adapter.ts
