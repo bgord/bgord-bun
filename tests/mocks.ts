@@ -456,6 +456,7 @@ export const sms = new tools.SmsMessage(
 
 export const alert = new AlertMessage("Payment failed");
 export const alertWithError = new AlertMessage("Payment failed", new Error(IntentionalError));
+export const apiKey = v.parse(tools.ApiKey, "a".repeat(64));
 
 export const osHostname = "server";
 export const osCpus: Array<os.CpuInfo> = [

@@ -20,6 +20,7 @@ export * from "./alert-channel.builder";
 export * from "./alert-channel.port";
 export * from "./alert-channel-collecting.adapter";
 export * from "./alert-channel-composite.adapter";
+export * from "./alert-channel-lobbygow.adapter";
 export * from "./alert-channel-mailer.adapter";
 export * from "./alert-channel-noop.adapter";
 export * from "./alert-channel-sms.adapter";

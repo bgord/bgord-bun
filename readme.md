@@ -43,6 +43,7 @@ src/
 ├── action-state.vo.ts
 ├── alert-channel-collecting.adapter.ts
 ├── alert-channel-composite.adapter.ts
+├── alert-channel-lobbygow.adapter.ts
 ├── alert-channel-mailer.adapter.ts
 ├── alert-channel-noop.adapter.ts
 ├── alert-channel-sms.adapter.ts
