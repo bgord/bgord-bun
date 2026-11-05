@@ -397,6 +397,7 @@ export * from "./prerequisite.vo";
 export * from "./prerequisite-runner-startup.service";
 export * from "./prerequisite-verifier.decorator";
 export * from "./prerequisite-verifier.port";
+export * from "./prerequisite-verifier-backup.adapter";
 export * from "./prerequisite-verifier-binary.adapter";
 export * from "./prerequisite-verifier-bun.adapter";
 export * from "./prerequisite-verifier-clock-drift.adapter";

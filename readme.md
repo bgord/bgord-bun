@@ -507,6 +507,7 @@ src/
 ├── pdf-generator.port.ts
 ├── port.vo.ts
 ├── prerequisite-runner-startup.service.ts
+├── prerequisite-verifier-backup.adapter.ts
 ├── prerequisite-verifier-binary.adapter.ts
 ├── prerequisite-verifier-bun.adapter.ts
 ├── prerequisite-verifier-clock-drift.adapter.ts
