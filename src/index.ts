@@ -201,6 +201,7 @@ export * from "./file-renamer-noop.adapter";
 export * from "./file-type-detector.strategy";
 export * from "./file-type-detector-fixed.strategy";
 export * from "./file-type-detector-magic-bytes.strategy";
+export * from "./file-type-detector-svg.strategy";
 export * from "./file-type-detector-text.strategy";
 export * from "./file-uploader.middleware";
 export * from "./file-uploader-hono.middleware";
