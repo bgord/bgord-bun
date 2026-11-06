@@ -226,6 +226,7 @@ src/
 ├── file-renamer-node.adapter.ts
 ├── file-renamer-noop.adapter.ts
 ├── file-renamer.port.ts
+├── file-type-detector-composite.strategy.ts
 ├── file-type-detector-fixed.strategy.ts
 ├── file-type-detector-magic-bytes.strategy.ts
 ├── file-type-detector-svg.strategy.ts
