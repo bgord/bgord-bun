@@ -1,4 +1,4 @@
-// cSpell:ignore ftypisom
+// cSpell:ignore ftypisom ftyp
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileTypeDetectorMagicBytesStrategy } from "../src/file-type-detector-magic-bytes.strategy";
@@ -34,6 +34,24 @@ describe("FileTypeDetectorMagicBytesStrategy", () => {
     const file = new File([new Uint8Array([0, 0, 0, 0x20]), "ftypisom"], "sample");
 
     expect(await detector.detect(file)).toEqual(tools.Mimes.mp4.mime);
+  });
+
+  test("mp4 - 256-byte ftyp box", async () => {
+    const file = new File([new Uint8Array([0, 0, 0x01, 0]), "ftypisom"], "sample");
+
+    expect(await detector.detect(file)).toEqual(tools.Mimes.mp4.mime);
+  });
+
+  test("ico", async () => {
+    const file = new File([new Uint8Array([0, 0, 0x01, 0, 0x01, 0])], "sample");
+
+    expect(await detector.detect(file)).toEqual(tools.Mimes.ico.mime);
+  });
+
+  test("cur is not ico", async () => {
+    const file = new File([new Uint8Array([0, 0, 0x02, 0, 0x01, 0])], "sample");
+
+    expect(await detector.detect(file)).toEqual(null);
   });
 
   test("pdf", async () => {

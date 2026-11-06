@@ -11,6 +11,7 @@ const SIGNATURES: ReadonlyArray<Signature> = [
   { mime: tools.Mimes.webp.mime, offset: 8, bytes: ASCII("WEBP") },
   { mime: tools.Mimes.wav.mime, offset: 8, bytes: ASCII("WAVE") },
   { mime: tools.Mimes.mp4.mime, offset: 4, bytes: ASCII("ftyp") },
+  { mime: tools.Mimes.ico.mime, offset: 0, bytes: [0x00, 0x00, 0x01, 0x00] },
   { mime: tools.Mimes.pdf.mime, offset: 0, bytes: ASCII("%PDF-") },
   { mime: tools.Mimes.zip.mime, offset: 0, bytes: [0x50, 0x4b, 0x03, 0x04] },
   { mime: tools.Mimes.jpg.mime, offset: 0, bytes: [0xff, 0xd8, 0xff] },
