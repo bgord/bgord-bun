@@ -31,7 +31,7 @@ describe("PrerequisiteVerifierBackupAdapter", () => {
       mocks.TIME_ZERO.subtract(tools.Duration.Hours(27)),
     );
 
-    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Age: 97200s"));
+    expect(await prerequisite.verify()).toEqual(PrerequisiteVerification.failure("Age: 27h"));
   });
 
   test("failure - file inspection", async () => {

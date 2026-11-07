@@ -22,7 +22,7 @@ export class PrerequisiteVerifierBackupAdapter implements PrerequisiteVerifierPo
       const age = this.deps.Clock.now().difference(lastModified);
 
       if (age.isLongerThan(this.config.maximum)) {
-        return PrerequisiteVerification.failure(`Age: ${age.seconds}s`);
+        return PrerequisiteVerification.failure(`Age: ${age.hours}h`);
       }
       return PrerequisiteVerification.success;
     } catch (error) {
