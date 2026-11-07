@@ -128,6 +128,7 @@ src/
 ├── csv-parser-noop.adapter.ts
 ├── csv-parser.port.ts
 ├── csv-stringifier-noop.adapter.ts
+├── csv-stringifier.adapter.ts
 ├── csv-stringifier.port.ts
 ├── csv.types.ts
 ├── directory-ensurer-noop.adapter.ts
