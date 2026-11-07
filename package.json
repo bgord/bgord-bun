@@ -33,7 +33,6 @@
     "lockfile-lint": "5.1.0",
     "nodemailer": "10.3.1",
     "publint": "0.3.25",
-    "shellcheck": "4.1.0",
     "typescript": "7.0.2"
   },
   "dependencies": {
