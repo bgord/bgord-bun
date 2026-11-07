@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -18,7 +18,7 @@ const entries = [new SitemapEntry({ loc: url })];
 const inner = new SitemapEntriesProviderStaticAdapter(entries);
 
 const ttl = tools.Duration.Minutes(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+const CacheRepository = new CacheRepositoryInMemoryAdapter(
   { type: "finite", ttl },
   { Clock: new ClockSystemAdapter() },
 );
@@ -75,7 +75,7 @@ describe("SitemapEntriesProviderWithCacheAdapter", () => {
 
   // TODO
   test("a cached entry still produces xml", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );

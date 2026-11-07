@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
@@ -17,7 +17,7 @@ import { SubjectSegmentUserStrategy } from "../src/subject-segment-user.strategy
 import type * as mocks from "./mocks";
 
 const ttl = tools.Duration.Seconds(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+const CacheRepository = new CacheRepositoryInMemoryAdapter(
   { type: "finite", ttl },
   { Clock: new ClockSystemAdapter() },
 );

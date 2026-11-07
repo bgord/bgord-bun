@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
@@ -117,7 +117,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -148,7 +148,7 @@ describe("Prerequisite", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -178,7 +178,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -219,7 +219,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -244,7 +244,7 @@ describe("Prerequisite", () => {
     using _ = spyOn(TimeoutRunner, "run").mockImplementation(mocks.throwIntentionalError);
     const pass = new mocks.PrerequisiteVerifierPass();
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -269,7 +269,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -294,7 +294,7 @@ describe("Prerequisite", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -320,7 +320,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -344,7 +344,7 @@ describe("Prerequisite", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
     using passVerify = spyOn(pass, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );

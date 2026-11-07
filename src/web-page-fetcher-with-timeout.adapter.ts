@@ -1,9 +1,9 @@
-import type * as bg from "@bgord/bun";
 import type * as tools from "@bgord/tools";
+import type { TimeoutCancellableRunnerPort } from "./timeout-cancellable-runner.port";
 import type { WebPageFetcherOptions, WebPageFetcherPort } from "./web-page-fetcher.port";
 
 export type WebPageFetcherWithTimeoutAdapterDependencies = {
-  TimeoutCancellableRunner: bg.TimeoutCancellableRunnerPort;
+  TimeoutCancellableRunner: TimeoutCancellableRunnerPort;
   inner: WebPageFetcherPort;
 };
 export type WebPageFetcherWithTimeoutAdapterConfig = { timeout: tools.Duration };

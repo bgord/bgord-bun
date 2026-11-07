@@ -1,6 +1,6 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -19,7 +19,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     using passVerify = spyOn(pass, "verify");
     const config = { id: "example", inner: pass };
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -63,7 +63,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );
@@ -90,7 +90,7 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "finite", ttl },
       { Clock: new ClockSystemAdapter() },
     );

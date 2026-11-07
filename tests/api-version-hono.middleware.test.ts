@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { ApiVersionMiddleware } from "../src/api-version.middleware";
 import { ApiVersionHonoMiddleware } from "../src/api-version-hono.middleware";
 import { BuildInfo } from "../src/build-info.vo";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -12,7 +12,7 @@ import { SubjectApplicationResolver } from "../src/subject-application-resolver.
 import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+const CacheRepository = new CacheRepositoryInMemoryAdapter(
   { type: "infinite" },
   { Clock: new ClockSystemAdapter() },
 );

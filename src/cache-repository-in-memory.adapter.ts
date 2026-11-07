@@ -8,7 +8,7 @@ type CacheRepositoryEntry = { value: string; expiresAt: tools.Timestamp | null }
 
 type Dependencies = { Clock: ClockPort };
 
-export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
+export class CacheRepositoryInMemoryAdapter implements CacheRepositoryPort {
   private static readonly CAPACITY = 100_000;
 
   private readonly store = new Map<string, CacheRepositoryEntry>();
@@ -23,10 +23,7 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
 
     if (entry === undefined) return null;
 
-    if (entry.expiresAt !== null && entry.expiresAt.isBefore(this.deps.Clock.now())) {
-      this.store.delete(subject.get());
-      return null;
-    }
+    if (entry.expiresAt?.isBefore(this.deps.Clock.now())) return null;
 
     return JSON.parse(entry.value);
   }
@@ -37,7 +34,7 @@ export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
     try {
       this.store.delete(subject.get());
 
-      if (this.store.size >= CacheRepositoryNodeCacheAdapter.CAPACITY) {
+      if (this.store.size >= CacheRepositoryInMemoryAdapter.CAPACITY) {
         this.store.delete(this.store.keys().next().value as string);
       }
 

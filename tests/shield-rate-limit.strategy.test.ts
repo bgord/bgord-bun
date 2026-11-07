@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -13,7 +13,7 @@ import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const ttl = tools.Duration.Seconds(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+const CacheRepository = new CacheRepositoryInMemoryAdapter(
   { type: "finite", ttl },
   { Clock: new ClockSystemAdapter() },
 );

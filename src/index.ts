@@ -60,7 +60,7 @@ export * from "./cache-control-must-revalidate.strategy";
 export * from "./cache-control-noop.strategy";
 export * from "./cache-file.service";
 export * from "./cache-repository.port";
-export * from "./cache-repository-node-cache.adapter";
+export * from "./cache-repository-in-memory.adapter";
 export * from "./cache-repository-noop.adapter";
 export * from "./cache-repository-redis.adapter";
 export * from "./cache-resolver.strategy";

@@ -84,7 +84,7 @@ src/
 ├── cache-control-noop.strategy.ts
 ├── cache-control.strategy.ts
 ├── cache-file.service.ts
-├── cache-repository-node-cache.adapter.ts
+├── cache-repository-in-memory.adapter.ts
 ├── cache-repository-noop.adapter.ts
 ├── cache-repository-redis.adapter.ts
 ├── cache-repository.port.ts

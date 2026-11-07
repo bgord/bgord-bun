@@ -1,7 +1,7 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheCodecIdentityStrategy } from "../src/cache-codec-identity.strategy";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -22,7 +22,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
   const subject = await resolver.resolve();
 
   test("success - hit", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     using cacheRepositoryGet = spyOn(CacheRepository, "get").mockResolvedValue(cached);
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 
@@ -33,7 +33,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
   });
 
   test("success - miss", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 
@@ -44,7 +44,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
   });
 
   test("success - miss - unreachable repository", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     using _ = spyOn(CacheRepository, "get").mockImplementation(mocks.throwIntentionalError);
     using cacheRepositorySet = spyOn(CacheRepository, "set");
@@ -56,7 +56,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
   });
 
   test("success - miss - undecodable entry", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const failing = new CacheCodecIdentityStrategy<string>();
     using _ = spyOn(CacheRepository, "get").mockResolvedValue(cached);
     using __ = spyOn(failing, "decode").mockImplementation(mocks.throwIntentionalError);
@@ -68,7 +68,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
   });
 
   test("failure - error propagation", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 
@@ -79,7 +79,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
   });
 
   test("flush", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     using cacheRepositorySet = spyOn(CacheRepository, "set");
     using cacheRepositoryFlush = spyOn(CacheRepository, "flush");
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
@@ -94,7 +94,7 @@ describe("CacheResolverReadThroughStrategy", async () => {
 
   test("ttl - infinite", async () => {
     jest.useFakeTimers();
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(
       { type: "infinite" },
       { Clock: new ClockSystemAdapter() },
     );

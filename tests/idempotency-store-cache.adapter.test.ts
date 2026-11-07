@@ -1,6 +1,6 @@
 import { describe, expect, jest, test } from "bun:test";
 import * as tools from "@bgord/tools";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { Hash } from "../src/hash.vo";
 import { IdempotencyStoreCacheAdapter } from "../src/idempotency-store-cache.adapter";
@@ -12,7 +12,7 @@ const other = Hash.fromString("b".repeat(64));
 
 describe("IdempotencyStoreCacheAdapter", () => {
   test("claim - first time", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
     expect(await adapter.claim(primary)).toEqual(true);
@@ -20,7 +20,7 @@ describe("IdempotencyStoreCacheAdapter", () => {
   });
 
   test("claim - replay", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
     await adapter.claim(primary);
@@ -29,7 +29,7 @@ describe("IdempotencyStoreCacheAdapter", () => {
   });
 
   test("claim - other subject", async () => {
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
     await adapter.claim(primary);
@@ -39,7 +39,7 @@ describe("IdempotencyStoreCacheAdapter", () => {
 
   test("claim - after ttl", async () => {
     jest.useFakeTimers();
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
     await adapter.claim(primary);
@@ -52,7 +52,7 @@ describe("IdempotencyStoreCacheAdapter", () => {
 
   test("claim - within ttl", async () => {
     jest.useFakeTimers();
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
     const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
 
     await adapter.claim(primary);

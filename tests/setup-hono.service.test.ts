@@ -3,7 +3,7 @@ import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import { BuildInfo } from "../src/build-info.vo";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import type { CorrelationVariables } from "../src/correlation-hono.middleware";
@@ -32,7 +32,7 @@ const csrf = { origin: [] };
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+const CacheRepository = new CacheRepositoryInMemoryAdapter(
   { type: "infinite" },
   { Clock: new ClockSystemAdapter() },
 );

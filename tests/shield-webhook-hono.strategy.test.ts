@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
-import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
 import { ErrorHonoHandler } from "../src/error-hono.handler";
@@ -125,7 +125,7 @@ describe("ShieldWebhookHonoStrategy", () => {
     const ShieldWebhook = new ShieldWebhookHonoStrategy(config, {
       HashContent,
       IdempotencyStore: new IdempotencyStoreCacheAdapter({
-        CacheRepository: new CacheRepositoryNodeCacheAdapter(
+        CacheRepository: new CacheRepositoryInMemoryAdapter(
           {
             type: "finite",
             ttl: tools.Duration.Hours(1),
@@ -152,7 +152,7 @@ describe("ShieldWebhookHonoStrategy", () => {
 
   test("evaluate - true - cross namespace", async () => {
     const IdempotencyStore = new IdempotencyStoreCacheAdapter({
-      CacheRepository: new CacheRepositoryNodeCacheAdapter(
+      CacheRepository: new CacheRepositoryInMemoryAdapter(
         { type: "finite", ttl: tools.Duration.Hours(1) },
         { Clock: new ClockSystemAdapter() },
       ),
