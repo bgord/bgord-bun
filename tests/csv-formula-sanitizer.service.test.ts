@@ -28,6 +28,22 @@ describe("CsvFormulaSanitizer", () => {
     expect(CsvFormulaSanitizer.sanitize("\r=1+1")).toEqual("'\r=1+1");
   });
 
+  test("full-width equals", () => {
+    expect(CsvFormulaSanitizer.sanitize("＝1+1")).toEqual("'＝1+1");
+  });
+
+  test("full-width plus", () => {
+    expect(CsvFormulaSanitizer.sanitize("＋1+1")).toEqual("'＋1+1");
+  });
+
+  test("full-width minus", () => {
+    expect(CsvFormulaSanitizer.sanitize("－1+1")).toEqual("'－1+1");
+  });
+
+  test("full-width at", () => {
+    expect(CsvFormulaSanitizer.sanitize("＠SUM(A1)")).toEqual("'＠SUM(A1)");
+  });
+
   test("plain text", () => {
     expect(CsvFormulaSanitizer.sanitize("Left calf")).toEqual("Left calf");
   });

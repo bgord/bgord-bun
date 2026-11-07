@@ -50,6 +50,7 @@ describe("CsvStringifierAdapter", () => {
   });
 
   test("process - date", async () => {
+    // biome-ignore lint: lint/style/noRestrictedGlobals
     const data = [{ id: 1, name: new Date(1_700_000_000_000) }];
 
     expect(await adapter.process(["id", "name"], data)).toEqual("id,name\n1,1700000000000\n");

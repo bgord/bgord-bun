@@ -24,6 +24,7 @@ class CsvField {
     if (typeof value === "string") return CsvFormulaSanitizer.sanitize(value);
     if (typeof value === "number" || typeof value === "bigint") return String(value);
     if (typeof value === "boolean") return value ? "1" : "";
+    // biome-ignore lint: lint/style/noRestrictedGlobals
     if (value instanceof Date) return String(value.getTime());
     if (typeof value === "object") return JSON.stringify(value);
 
