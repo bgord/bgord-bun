@@ -1,12 +1,12 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
-import { MessageBusEmitteryAdapter } from "../src/message-bus-emittery.adapter";
+import { MessageBusInMemoryAdapter } from "../src/message-bus-in-memory.adapter";
 import { MessageBusStrictAdapter } from "../src/message-bus-strict.adapter";
 import * as mocks from "./mocks";
 
 describe("MessageBusStrictAdapter", () => {
   test("happy path", async () => {
     const handler = jest.fn();
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType>();
     const bus = new MessageBusStrictAdapter<mocks.MessageType>({ inner });
     bus.on("TEST_MESSAGE", handler);
 
@@ -18,7 +18,7 @@ describe("MessageBusStrictAdapter", () => {
   test("happy path - different names", async () => {
     const handler = jest.fn();
     const anotherHandler = jest.fn();
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType | mocks.AnotherMessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType | mocks.AnotherMessageType>();
     const bus = new MessageBusStrictAdapter<mocks.MessageType | mocks.AnotherMessageType>({ inner });
     bus.on("TEST_MESSAGE", handler);
     bus.on("ANOTHER_MESSAGE", anotherHandler);
@@ -33,7 +33,7 @@ describe("MessageBusStrictAdapter", () => {
   });
 
   test("no handler", async () => {
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType>();
     using innerEmit = spyOn(inner, "emit");
     const bus = new MessageBusStrictAdapter<mocks.MessageType>({ inner });
 
@@ -42,7 +42,7 @@ describe("MessageBusStrictAdapter", () => {
   });
 
   test("no handler - another name registered", async () => {
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType | mocks.AnotherMessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType | mocks.AnotherMessageType>();
     const bus = new MessageBusStrictAdapter<mocks.MessageType | mocks.AnotherMessageType>({ inner });
     bus.on("ANOTHER_MESSAGE", jest.fn());
 
@@ -51,7 +51,7 @@ describe("MessageBusStrictAdapter", () => {
 
   test("duplicate handler", () => {
     const handler = jest.fn();
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType>();
     const bus = new MessageBusStrictAdapter<mocks.MessageType>({ inner });
     bus.on("TEST_MESSAGE", handler);
 
@@ -59,7 +59,7 @@ describe("MessageBusStrictAdapter", () => {
   });
 
   test("error propagation", async () => {
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType>();
     const bus = new MessageBusStrictAdapter<mocks.MessageType>({ inner });
     bus.on("TEST_MESSAGE", mocks.throwIntentionalErrorAsync);
 

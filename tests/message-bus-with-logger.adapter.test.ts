@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
-import { MessageBusEmitteryAdapter } from "../src/message-bus-emittery.adapter";
+import { MessageBusInMemoryAdapter } from "../src/message-bus-in-memory.adapter";
 import { MessageBusWithLoggerAdapter } from "../src/message-bus-with-logger.adapter";
 import * as mocks from "./mocks";
 
@@ -13,7 +13,7 @@ describe("MessageBusWithLoggerAdapter", () => {
   test("emit - success", async () => {
     const handler = jest.fn();
     const Logger = new LoggerCollectingAdapter();
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType>();
     const bus = new MessageBusWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 
     await CorrelationStorage.run(mocks.correlationId, async () => {
@@ -57,7 +57,7 @@ describe("MessageBusWithLoggerAdapter", () => {
 
   test("emit - failure", async () => {
     const Logger = new LoggerCollectingAdapter();
-    const inner = new MessageBusEmitteryAdapter<mocks.MessageType>();
+    const inner = new MessageBusInMemoryAdapter<mocks.MessageType>();
     using _ = spyOn(inner, "emit").mockImplementation(mocks.throwIntentionalErrorAsync);
     const bus = new MessageBusWithLoggerAdapter<mocks.MessageType>({ inner, Logger, Clock });
 

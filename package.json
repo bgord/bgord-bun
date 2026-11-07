@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "@bgord/tools": "1.6.18",
-    "emittery": "2.2.0",
     "hono": "4.13.16",
     "node-cache": "5.1.2"
   },

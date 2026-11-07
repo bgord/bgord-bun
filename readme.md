@@ -399,7 +399,7 @@ src/
 ├── markdown-generator.port.ts
 ├── memory-consumption.service.ts
 ├── message-bus-collecting.adapter.ts
-├── message-bus-emittery.adapter.ts
+├── message-bus-in-memory.adapter.ts
 ├── message-bus-noop.adapter.ts
 ├── message-bus-strict.adapter.ts
 ├── message-bus-with-logger.adapter.ts

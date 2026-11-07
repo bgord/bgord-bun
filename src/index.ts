@@ -372,7 +372,7 @@ export * from "./memory-consumption.service";
 export * from "./message.types";
 export * from "./message-bus.port";
 export * from "./message-bus-collecting.adapter";
-export * from "./message-bus-emittery.adapter";
+export * from "./message-bus-in-memory.adapter";
 export * from "./message-bus-noop.adapter";
 export * from "./message-bus-strict.adapter";
 export * from "./message-bus-with-logger.adapter";

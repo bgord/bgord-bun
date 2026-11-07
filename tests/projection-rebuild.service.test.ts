@@ -9,7 +9,7 @@ import { EventUpcasterStep } from "../src/event-upcaster-step.vo";
 import { EventValidatorRegistryAdapter } from "../src/event-validator-registry.adapter";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
-import { EventBusEmitteryAdapter } from "../src/message-bus-emittery.adapter";
+import { EventBusInMemoryAdapter } from "../src/message-bus-in-memory.adapter";
 import * as System from "../src/modules/system";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import { ProjectionRebuild } from "../src/projection-rebuild.service";
@@ -53,7 +53,7 @@ describe("ProjectionRebuild", () => {
       mocks.GenericHourHasPassedEventLogEntry,
     ]);
     using read = spyOn(EventLogReader, "read");
-    const EventBus = new EventBusEmitteryAdapter<PassageOfTimeEvent>();
+    const EventBus = new EventBusInMemoryAdapter<PassageOfTimeEvent>();
     EventBus.on("HOUR_HAS_PASSED_EVENT", async (event) => {
       calls.push(`HOUR_HAS_PASSED_EVENT start ${CorrelationStorage.get()}`);
       await new Promise((resolve) => setTimeout(resolve, 1));
@@ -223,7 +223,7 @@ describe("ProjectionRebuild", () => {
       mocks.GenericHourHasPassedEventLogEntry,
       mocks.GenericMinuteHasPassedEventLogEntry,
     ]);
-    const EventBus = new EventBusEmitteryAdapter<PassageOfTimeEvent>();
+    const EventBus = new EventBusInMemoryAdapter<PassageOfTimeEvent>();
     EventBus.on("HOUR_HAS_PASSED_EVENT", mocks.throwIntentionalErrorAsync);
     EventBus.on("MINUTE_HAS_PASSED_EVENT", async () => {
       calls.push("MINUTE_HAS_PASSED_EVENT");

@@ -12,7 +12,7 @@ import { HandlerWithLoggerStrategy } from "../src/handler-with-logger.strategy";
 import { HandlerWithLoggerSafeStrategy } from "../src/handler-with-logger-safe.strategy";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { EventBusCollectingAdapter } from "../src/message-bus-collecting.adapter";
-import { EventBusEmitteryAdapter } from "../src/message-bus-emittery.adapter";
+import { EventBusInMemoryAdapter } from "../src/message-bus-in-memory.adapter";
 import * as System from "../src/modules/system";
 import { PayloadSerializerJsonAdapter } from "../src/payload-serializer-json.adapter";
 import * as mocks from "./mocks";
@@ -80,7 +80,7 @@ describe("EventStoreDispatchingAdapter", () => {
     const finder = new EventFinderNoopAdapter([]);
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const handler = new HandlerWithLoggerSafeStrategy({ Logger, Clock });
-    const EventBus = new EventBusEmitteryAdapter<PassageOfTimeEvent>();
+    const EventBus = new EventBusInMemoryAdapter<PassageOfTimeEvent>();
     EventBus.on(System.Events.HOUR_HAS_PASSED_EVENT, handler.handle(mocks.throwIntentionalErrorAsync));
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
@@ -108,7 +108,7 @@ describe("EventStoreDispatchingAdapter", () => {
     const finder = new EventFinderNoopAdapter([]);
     const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
     const handler = new HandlerWithLoggerStrategy({ Logger, Clock });
-    const EventBus = new EventBusEmitteryAdapter<PassageOfTimeEvent>();
+    const EventBus = new EventBusInMemoryAdapter<PassageOfTimeEvent>();
     EventBus.on(System.Events.HOUR_HAS_PASSED_EVENT, handler.handle(mocks.throwIntentionalErrorAsync));
     const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
 
