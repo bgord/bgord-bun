@@ -1,38 +1,55 @@
-import NodeCache from "node-cache";
+import type * as tools from "@bgord/tools";
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { CacheValueType } from "./cache-value.vo";
+import type { ClockPort } from "./clock.port";
 import type { Hash } from "./hash.vo";
 
-export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
-  private readonly store: NodeCache;
+type CacheRepositoryEntry = { value: string; expiresAt: tools.Timestamp | null };
 
-  constructor(config: CacheRepositoryTtlType) {
-    this.store = new NodeCache({
-      stdTTL: config.type === "finite" ? config.ttl.seconds : 0,
-      deleteOnExpire: true,
-      maxKeys: 100_000,
-    });
-  }
+type Dependencies = { Clock: ClockPort };
+
+export class CacheRepositoryNodeCacheAdapter implements CacheRepositoryPort {
+  private static readonly CAPACITY = 100_000;
+
+  private readonly store = new Map<string, CacheRepositoryEntry>();
+
+  constructor(
+    private readonly config: CacheRepositoryTtlType,
+    private readonly deps: Dependencies,
+  ) {}
 
   async get(subject: Hash): Promise<CacheValueType | null> {
-    const value = this.store.get<string>(subject.get());
+    const entry = this.store.get(subject.get());
 
-    if (value === undefined) return null;
+    if (entry === undefined) return null;
 
-    return JSON.parse(value);
+    if (entry.expiresAt !== null && entry.expiresAt.isBefore(this.deps.Clock.now())) {
+      this.store.delete(subject.get());
+      return null;
+    }
+
+    return JSON.parse(entry.value);
   }
 
   async set(subject: Hash, value: CacheValueType): Promise<void> {
+    const expiresAt = this.config.type === "finite" ? this.deps.Clock.now().add(this.config.ttl) : null;
+
     try {
-      this.store.set(subject.get(), JSON.stringify(value));
+      this.store.delete(subject.get());
+
+      if (this.store.size >= CacheRepositoryNodeCacheAdapter.CAPACITY) {
+        this.store.delete(this.store.keys().next().value as string);
+      }
+
+      this.store.set(subject.get(), { value: JSON.stringify(value), expiresAt });
     } catch {}
   }
 
   async delete(subject: Hash): Promise<void> {
-    this.store.del(subject.get());
+    this.store.delete(subject.get());
   }
 
   async flush(): Promise<void> {
-    this.store.flushAll();
+    this.store.clear();
   }
 }

@@ -2,6 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { FileReaderTextNoopAdapter } from "../src/file-reader-text-noop.adapter";
 import { FileReaderTextWithCacheAdapter } from "../src/file-reader-text-with-cache.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -16,7 +17,10 @@ const relative = tools.FilePathRelative.fromString("project/package.txt");
 const absolute = tools.FilePathAbsolute.fromString("/project/package.txt");
 
 const ttl = tools.Duration.Minutes(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+  { type: "finite", ttl },
+  { Clock: new ClockSystemAdapter() },
+);
 const HashContent = new HashContentSha256Strategy();
 const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const deps = { CacheResolver, HashContent };

@@ -2,6 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-through.strategy";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierWithCacheAdapter } from "../src/prerequisite-verifier-with-cache.adapter";
@@ -18,7 +19,10 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     using passVerify = spyOn(pass, "verify");
     const config = { id: "example", inner: pass };
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+      { type: "finite", ttl },
+      { Clock: new ClockSystemAdapter() },
+    );
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     using cacheResolverResolve = spyOn(CacheResolver, "resolve");
     const resolver = new SubjectApplicationResolver(
@@ -59,7 +63,10 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const fail = new mocks.PrerequisiteVerifierFail();
     using failVerify = spyOn(fail, "verify");
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+      { type: "finite", ttl },
+      { Clock: new ClockSystemAdapter() },
+    );
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
     const prerequisite = new PrerequisiteVerifierWithCacheAdapter({ id: "example", inner: fail }, deps);
@@ -83,7 +90,10 @@ describe("PrerequisiteVerifierWithCacheAdapter", () => {
     const pass = new mocks.PrerequisiteVerifierPass();
 
     const ttl = tools.Duration.Minutes(1);
-    const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+    const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+      { type: "finite", ttl },
+      { Clock: new ClockSystemAdapter() },
+    );
     const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
     const deps = { CacheResolver, HashContent };
 

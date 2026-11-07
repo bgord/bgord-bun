@@ -1,6 +1,8 @@
 import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { Hash } from "../src/hash.vo";
 import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
@@ -10,13 +12,13 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   const cases = await testcase.cacheRepository();
 
   test(cases.getNull.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     expect(await adapter.get(cases.subjects.primary)).toEqual(cases.getNull.output);
   });
 
   test(cases.getValue.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.getValue.input);
 
@@ -24,7 +26,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.getCopy.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.getCopy.input);
 
@@ -35,7 +37,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.getNoMutationLeak.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.getNoMutationLeak.input);
 
@@ -43,7 +45,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.getOtherSubject.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.getOtherSubject.input);
 
@@ -51,7 +53,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.setOverwrite.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.setOverwrite.input.first);
     await adapter.set(cases.subjects.primary, cases.setOverwrite.input.second);
@@ -60,7 +62,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.setFailure.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
     using storeSet = spyOn(adapter["store"], "set").mockImplementation(mocks.throwIntentionalError);
 
     await adapter.set(cases.subjects.primary, cases.setFailure.input);
@@ -70,7 +72,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.delete.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.delete.input);
     await adapter.delete(cases.subjects.primary);
@@ -79,8 +81,8 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.deleteFailure.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
-    using storeDel = spyOn(adapter["store"], "del").mockImplementation(mocks.throwIntentionalError);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    using storeDel = spyOn(adapter["store"], "delete").mockImplementation(mocks.throwIntentionalError);
 
     await adapter.set(cases.subjects.primary, cases.deleteFailure.input);
 
@@ -89,7 +91,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
   });
 
   test(cases.flush.name, async () => {
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.flush.input);
     await adapter.flush();
@@ -99,7 +101,7 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
   test(cases.ttlFinite.name, async () => {
     jest.useFakeTimers();
-    const adapter = new CacheRepositoryNodeCacheAdapter(config);
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
     await adapter.set(cases.subjects.primary, cases.ttlFinite.input);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
@@ -111,7 +113,10 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
 
   test(cases.ttlInfinite.name, async () => {
     jest.useFakeTimers();
-    const adapter = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
+    const adapter = new CacheRepositoryNodeCacheAdapter(
+      { type: "infinite" },
+      { Clock: new ClockSystemAdapter() },
+    );
 
     await adapter.set(cases.subjects.primary, cases.ttlInfinite.input);
     jest.advanceTimersByTime(config.ttl.add(tools.Duration.MIN).ms);
@@ -121,9 +126,153 @@ describe("CacheRepositoryNodeCacheAdapter", async () => {
     jest.useRealTimers();
   });
 
+  test("ttl - at boundary", async () => {
+    jest.useFakeTimers();
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    await adapter.set(cases.subjects.primary, "value");
+
+    jest.advanceTimersByTime(config.ttl.ms);
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+
+    jest.useRealTimers();
+  });
+
+  test("ttl - past boundary", async () => {
+    jest.useFakeTimers();
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    await adapter.set(cases.subjects.primary, "value");
+
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.Ms(1)).ms);
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual(null);
+
+    jest.useRealTimers();
+  });
+
+  test("delete - missing", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    await adapter.set(cases.subjects.primary, "value");
+
+    await adapter.delete(cases.subjects.other);
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+  });
+
+  test("flush - empty", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+
+    await adapter.flush();
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual(null);
+  });
+
+  test("cap - last key within cap", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 99_999; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+  });
+
+  test("cap - evicts oldest", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+    expect(await adapter.get(Hash.fromString("0".repeat(64)))).toEqual(null);
+  });
+
+  test("cap - overwrite", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+
+    await adapter.set(Hash.fromString("0".repeat(64)), "second");
+
+    expect(await adapter.get(Hash.fromString("0".repeat(64)))).toEqual("second");
+    expect(await adapter.get(Hash.fromString("1".padStart(64, "0")))).toEqual("value");
+  });
+
+  test("cap - overwrite becomes newest", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+    await adapter.set(Hash.fromString("0".repeat(64)), "second");
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(Hash.fromString("0".repeat(64)))).toEqual("second");
+    expect(await adapter.get(Hash.fromString("1".padStart(64, "0")))).toEqual(null);
+  });
+
+  test("cap - after delete", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+    await adapter.delete(Hash.fromString("0".repeat(64)));
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+  });
+
+  test("cap - after flush", async () => {
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+    await adapter.flush();
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+  });
+
+  test("cap - expired entry read", async () => {
+    jest.useFakeTimers();
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.Ms(1)).ms);
+    await adapter.get(Hash.fromString("0".repeat(64)));
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+
+    jest.useRealTimers();
+  });
+
+  test("cap - expired entries", async () => {
+    jest.useFakeTimers();
+    const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
+    for (let i = 0; i < 100_000; i++) {
+      await adapter.set(Hash.fromString(i.toString(16).padStart(64, "0")), "value");
+    }
+    jest.advanceTimersByTime(config.ttl.add(tools.Duration.Minutes(10)).ms);
+
+    await adapter.set(cases.subjects.primary, "value");
+
+    expect(await adapter.get(cases.subjects.primary)).toEqual("value");
+
+    jest.useRealTimers();
+  });
+
   for (const roundTrip of cases.roundTrips) {
     test(roundTrip.name, async () => {
-      const adapter = new CacheRepositoryNodeCacheAdapter(config);
+      const adapter = new CacheRepositoryNodeCacheAdapter(config, { Clock: new ClockSystemAdapter() });
 
       await adapter.set(cases.subjects.primary, roundTrip.input);
 

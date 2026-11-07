@@ -1,6 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import * as bg from "@bgord/bun";
 import * as tools from "@bgord/tools";
+import { TimeoutCancellableRunnerBare } from "../src/timeout-cancellable-runner-bare.adapter";
 import { WebPageFetcherNoopAdapter } from "../src/web-page-fetcher-noop.adapter";
 import { WebPageFetcherWithTimeoutAdapter } from "../src/web-page-fetcher-with-timeout.adapter";
 import * as mocks from "./mocks";
@@ -8,7 +8,7 @@ import * as mocks from "./mocks";
 const config = { timeout: tools.Duration.Ms(10) };
 const json = { hello: "world" };
 
-const TimeoutCancellableRunner = new bg.TimeoutCancellableRunnerBare();
+const TimeoutCancellableRunner = new TimeoutCancellableRunnerBare();
 
 describe("WebPageFetcherWithTimeoutAdapter", () => {
   test("fetch", async () => {

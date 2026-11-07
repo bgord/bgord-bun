@@ -3,6 +3,7 @@ import * as tools from "@bgord/tools";
 import { Hono } from "hono";
 import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { ErrorClassifierHttpExceptionHonoStrategy } from "../src/error-classifier-http-exception-hono.strategy";
 import { ErrorHonoHandler } from "../src/error-hono.handler";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
@@ -124,10 +125,13 @@ describe("ShieldWebhookHonoStrategy", () => {
     const ShieldWebhook = new ShieldWebhookHonoStrategy(config, {
       HashContent,
       IdempotencyStore: new IdempotencyStoreCacheAdapter({
-        CacheRepository: new CacheRepositoryNodeCacheAdapter({
-          type: "finite",
-          ttl: tools.Duration.Hours(1),
-        }),
+        CacheRepository: new CacheRepositoryNodeCacheAdapter(
+          {
+            type: "finite",
+            ttl: tools.Duration.Hours(1),
+          },
+          { Clock: new ClockSystemAdapter() },
+        ),
       }),
     });
     const app = new Hono()
@@ -148,7 +152,10 @@ describe("ShieldWebhookHonoStrategy", () => {
 
   test("evaluate - true - cross namespace", async () => {
     const IdempotencyStore = new IdempotencyStoreCacheAdapter({
-      CacheRepository: new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) }),
+      CacheRepository: new CacheRepositoryNodeCacheAdapter(
+        { type: "finite", ttl: tools.Duration.Hours(1) },
+        { Clock: new ClockSystemAdapter() },
+      ),
     });
     const app = new Hono()
       .post(

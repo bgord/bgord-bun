@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ShieldRateLimitStrategy } from "../src/shield-rate-limit.strategy";
 import { SubjectRequestResolver } from "../src/subject-request-resolver.vo";
@@ -12,7 +13,10 @@ import * as mocks from "./mocks";
 import { RequestContextBuilder } from "./request-context-builder";
 
 const ttl = tools.Duration.Seconds(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+  { type: "finite", ttl },
+  { Clock: new ClockSystemAdapter() },
+);
 const Clock = new ClockFixedAdapter(tools.Timestamp.fromNumber(1000));
 const HashContent = new HashContentSha256Strategy();
 const deps = { Clock, HashContent };

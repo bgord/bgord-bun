@@ -2,6 +2,7 @@ import { describe, expect, jest, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { SecurityRuleBaitRoutesStrategy } from "../src/security-rule-bait-routes.strategy";
 import { SecurityRuleName } from "../src/security-rule-name.vo";
@@ -15,7 +16,10 @@ const forbidden = "/.env";
 const baitRoutes = new SecurityRuleBaitRoutesStrategy([forbidden]);
 
 const ttl = tools.Duration.Minutes(1);
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl });
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+  { type: "finite", ttl },
+  { Clock: new ClockSystemAdapter() },
+);
 const HashContent = new HashContentSha256Strategy();
 const deps = { CacheRepository, HashContent };
 const config = { threshold: tools.Int.positive(3), segments: [new SubjectSegmentRemoteIpStrategy()] };

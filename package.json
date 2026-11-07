@@ -38,8 +38,7 @@
   },
   "dependencies": {
     "@bgord/tools": "1.6.18",
-    "hono": "4.13.16",
-    "node-cache": "5.1.2"
+    "hono": "4.13.16"
   },
   "peerDependencies": {
     "better-auth": "1.7.14",

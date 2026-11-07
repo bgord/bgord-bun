@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CacheRepositoryNodeCacheAdapter } from "../src/cache-repository-node-cache.adapter";
+import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdempotencyStoreCacheAdapter } from "../src/idempotency-store-cache.adapter";
 import { IdempotencyStoreNoopAdapter } from "../src/idempotency-store-noop.adapter";
@@ -108,10 +109,13 @@ describe("ShieldWebhookStrategy", () => {
     const strategy = new ShieldWebhookStrategy(config, {
       HashContent,
       IdempotencyStore: new IdempotencyStoreCacheAdapter({
-        CacheRepository: new CacheRepositoryNodeCacheAdapter({
-          type: "finite",
-          ttl: tools.Duration.Hours(1),
-        }),
+        CacheRepository: new CacheRepositoryNodeCacheAdapter(
+          {
+            type: "finite",
+            ttl: tools.Duration.Hours(1),
+          },
+          { Clock: new ClockSystemAdapter() },
+        ),
       }),
     });
     const context = new RequestContextBuilder()
@@ -127,7 +131,10 @@ describe("ShieldWebhookStrategy", () => {
 
   test("evaluate - true - cross namespace", async () => {
     const IdempotencyStore = new IdempotencyStoreCacheAdapter({
-      CacheRepository: new CacheRepositoryNodeCacheAdapter({ type: "finite", ttl: tools.Duration.Hours(1) }),
+      CacheRepository: new CacheRepositoryNodeCacheAdapter(
+        { type: "finite", ttl: tools.Duration.Hours(1) },
+        { Clock: new ClockSystemAdapter() },
+      ),
     });
     const strategy = new ShieldWebhookStrategy(config, { HashContent, IdempotencyStore });
     const other = new ShieldWebhookStrategy(

@@ -32,7 +32,10 @@ const csrf = { origin: [] };
 
 const Logger = new LoggerNoopAdapter();
 const Clock = new ClockSystemAdapter();
-const CacheRepository = new CacheRepositoryNodeCacheAdapter({ type: "infinite" });
+const CacheRepository = new CacheRepositoryNodeCacheAdapter(
+  { type: "infinite" },
+  { Clock: new ClockSystemAdapter() },
+);
 const CacheResolver = new CacheResolverReadThroughStrategy({ CacheRepository });
 const HashContent = new HashContentSha256Strategy();
 const BuildInfoConfig = new ReactiveConfigNoopAdapter(BuildInfo, mocks.buildInfo);
