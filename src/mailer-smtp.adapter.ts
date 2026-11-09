@@ -1,5 +1,4 @@
 import type * as Nodemailer from "nodemailer";
-import { DynamicImport } from "./dynamic-import.service";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
 import type { SmtpHostType } from "./smtp-host.vo";

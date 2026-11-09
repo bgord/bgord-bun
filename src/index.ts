@@ -111,7 +111,6 @@ export * from "./directory-ensurer-noop.adapter";
 export * from "./disk-space-checker.port";
 export * from "./disk-space-checker-fs.adapter";
 export * from "./disk-space-checker-noop.adapter";
-export * from "./dynamic-import.service";
 export * from "./encryption.port";
 export * from "./encryption-aes-gcm.adapter";
 export * from "./encryption-key.vo";
