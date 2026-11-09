@@ -1,4 +1,4 @@
-import type * as tools from "@bgord/tools";
+import * as tools from "@bgord/tools";
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { CacheValueType } from "./cache-value.vo";
 import type { ClockPort } from "./clock.port";
@@ -6,17 +6,22 @@ import type { Hash } from "./hash.vo";
 
 type CacheRepositoryEntry = { value: string; expiresAt: tools.Timestamp | null };
 
+type Config = CacheRepositoryTtlType & { capacity?: tools.IntegerPositiveType };
+
 type Dependencies = { Clock: ClockPort };
 
 export class CacheRepositoryInMemoryAdapter implements CacheRepositoryPort {
-  private static readonly CAPACITY = 100_000;
+  private static readonly DEFAULT_CAPACITY = tools.Int.positive(100_000);
 
   private readonly store = new Map<string, CacheRepositoryEntry>();
+  private readonly capacity: tools.IntegerPositiveType;
 
   constructor(
-    private readonly config: CacheRepositoryTtlType,
+    private readonly config: Config,
     private readonly deps: Dependencies,
-  ) {}
+  ) {
+    this.capacity = config.capacity ?? CacheRepositoryInMemoryAdapter.DEFAULT_CAPACITY;
+  }
 
   async get(subject: Hash): Promise<CacheValueType | null> {
     const entry = this.store.get(subject.get());
@@ -34,7 +39,7 @@ export class CacheRepositoryInMemoryAdapter implements CacheRepositoryPort {
     try {
       this.store.delete(subject.get());
 
-      if (this.store.size >= CacheRepositoryInMemoryAdapter.CAPACITY) {
+      if (this.store.size >= this.capacity) {
         this.store.delete(this.store.keys().next().value as string);
       }
 
