@@ -1,12 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test";
-import type * as Nodemailer from "nodemailer";
+import * as Nodemailer from "nodemailer";
 import { MailerSmtpAdapter } from "../src/mailer-smtp.adapter";
-import * as mocks from "./mocks";
 import * as testcase from "./testcases";
 
 const cases = testcase.mailer();
 
-const adapter = await MailerSmtpAdapter.build(cases.subjects.config);
+const adapter = MailerSmtpAdapter.build(cases.subjects.config, { Nodemailer });
 
 describe("MailerSmtpAdapter", () => {
   test(cases.send.name, async () => {
@@ -30,8 +29,8 @@ describe("MailerSmtpAdapter", () => {
     expect(transportVerify).toHaveBeenCalledTimes(1);
   });
 
-  test("build - transport options", async () => {
-    const built = await MailerSmtpAdapter.build(cases.subjects.config);
+  test("build - transport options", () => {
+    const built = MailerSmtpAdapter.build(cases.subjects.config, { Nodemailer });
 
     expect(built["transport"].options as Record<string, unknown>).toEqual({
       host: "smtp.example.com",
@@ -39,25 +38,5 @@ describe("MailerSmtpAdapter", () => {
       auth: { user: "user", pass: "pass" },
       requireTLS: true,
     });
-  });
-
-  test("missing dependency", async () => {
-    // @ts-expect-error Private method
-    using _ = spyOn(MailerSmtpAdapter["importer"], "import").mockImplementation(
-      mocks.throwIntentionalErrorAsync,
-    );
-
-    expect(async () => MailerSmtpAdapter.build(cases.subjects.config)).toThrow(
-      "mailer.smtp.adapter.error.missing.dependency",
-    );
-  });
-
-  test("import", async () => {
-    // @ts-expect-error Private method
-    using obfuscateSpy = spyOn(MailerSmtpAdapter["importer"], "obfuscate");
-
-    await MailerSmtpAdapter.build(cases.subjects.config);
-
-    expect(obfuscateSpy).toHaveBeenCalledWith("nodemailer");
   });
 });
