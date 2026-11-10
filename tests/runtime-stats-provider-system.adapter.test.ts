@@ -1,5 +1,6 @@
 import { describe, expect, spyOn, test } from "bun:test";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
+import { CpuConsumption } from "../src/cpu-consumption.service";
 import { EventLoopLag } from "../src/event-loop-lag.service";
 import { InFlightRequestsTracker } from "../src/in-flight-requests-tracker.service";
 import { MemoryConsumption } from "../src/memory-consumption.service";
@@ -23,6 +24,7 @@ describe("RuntimeStatsProviderSystemAdapter", () => {
     spies.use(spyOn(EventLoopLag, "start").mockImplementation(() => {}));
     spies.use(spyOn(EventLoopLag, "snapshot").mockReturnValue(mocks.eventLoopLag));
     spies.use(spyOn(MemoryConsumption, "snapshot").mockReturnValue(mocks.memoryConsumption));
+    spies.use(spyOn(CpuConsumption, "snapshot").mockReturnValue(mocks.cpuConsumption));
     spies.use(spyOn(InFlightRequestsTracker, "get").mockReturnValue(mocks.inFlightRequests));
     const uptimeGet = spies.use(spyOn(Uptime, "get").mockReturnValue(mocks.uptime));
     const adapter = new RuntimeStatsProviderSystemAdapter({ Clock });

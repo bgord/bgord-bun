@@ -9,6 +9,7 @@ export class RuntimeStatsProviderNoopAdapter implements RuntimeStatsProviderPort
     return {
       uptime: { duration: zero, formatted: "0 seconds ago" },
       memory: { total: empty, heap: { used: empty, total: empty } },
+      cpu: { time: { user: zero, system: zero } },
       eventLoop: { lag: { p50: zero, p95: zero, p99: zero } },
       inFlight: tools.Int.of(0),
     };
