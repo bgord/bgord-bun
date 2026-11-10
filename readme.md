@@ -108,6 +108,7 @@ src/
 ├── correlation-id.vo.ts
 ├── correlation-storage.service.ts
 ├── correlation.middleware.ts
+├── cpu-consumption.service.ts
 ├── cron-expression.vo.ts
 ├── cron-scheduler-noop.adapter.ts
 ├── cron-scheduler-with-logger.adapter.ts
