@@ -70,6 +70,7 @@ describe("HealthcheckHandler", () => {
             total: { bytes: 0, formatted: "0 MB" },
           },
         },
+        cpu: { time: { user: tools.Duration.Ms(0).ms, system: tools.Duration.Ms(0).ms } },
         eventLoop: {
           lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
         },
@@ -127,6 +128,7 @@ describe("HealthcheckHandler", () => {
             total: { bytes: 0, formatted: "0 MB" },
           },
         },
+        cpu: { time: { user: tools.Duration.Ms(0).ms, system: tools.Duration.Ms(0).ms } },
         eventLoop: {
           lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
         },
@@ -201,6 +203,7 @@ describe("HealthcheckHandler", () => {
             total: { bytes: 0, formatted: "0 MB" },
           },
         },
+        cpu: { time: { user: tools.Duration.Ms(0).ms, system: tools.Duration.Ms(0).ms } },
         eventLoop: {
           lag: { p50: tools.Duration.Ms(0).ms, p95: tools.Duration.Ms(0).ms, p99: tools.Duration.Ms(0).ms },
         },

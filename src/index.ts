@@ -83,6 +83,7 @@ export * from "./correlation.middleware";
 export * from "./correlation-hono.middleware";
 export * from "./correlation-id.vo";
 export * from "./correlation-storage.service";
+export * from "./cpu-consumption.service";
 export * from "./cron-expression.vo";
 export * from "./cron-scheduler.adapter";
 export * from "./cron-scheduler.port";

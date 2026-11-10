@@ -70,6 +70,7 @@ export type HealthcheckResult = {
         total: { bytes: tools.Size["bytes"]; formatted: ReturnType<tools.Size["format"]> };
       };
     };
+    cpu: { time: { user: tools.DurationMsType; system: tools.DurationMsType } };
     eventLoop: {
       lag: { p50: tools.DurationMsType; p95: tools.DurationMsType; p99: tools.DurationMsType };
     };
@@ -128,7 +129,7 @@ export class HealthcheckHandler {
         : HealthcheckStatusEnum.healthy;
 
     const build = await this.deps.BuildInfoConfig.get();
-    const { uptime, memory, eventLoop, inFlight } = this.deps.RuntimeStatsProvider.getStats();
+    const { uptime, memory, cpu, eventLoop, inFlight } = this.deps.RuntimeStatsProvider.getStats();
 
     return {
       status,
@@ -167,6 +168,7 @@ export class HealthcheckHandler {
             },
           },
         },
+        cpu: { time: { user: cpu.time.user.ms, system: cpu.time.system.ms } },
         eventLoop: {
           lag: { p50: eventLoop.lag.p50.ms, p95: eventLoop.lag.p95.ms, p99: eventLoop.lag.p99.ms },
         },

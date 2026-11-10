@@ -83,6 +83,7 @@ describe("HealthcheckHonoHandler", () => {
             total: { bytes: 0, formatted: "0 MB" },
           },
         },
+        cpu: { time: { user: 0, system: 0 } },
         eventLoop: {
           lag: { p50: 0, p95: 0, p99: 0 },
         },
@@ -146,6 +147,7 @@ describe("HealthcheckHonoHandler", () => {
             total: { bytes: 0, formatted: "0 MB" },
           },
         },
+        cpu: { time: { user: 0, system: 0 } },
         eventLoop: {
           lag: { p50: 0, p95: 0, p99: 0 },
         },
@@ -229,6 +231,7 @@ describe("HealthcheckHonoHandler", () => {
             total: { bytes: 0, formatted: "0 MB" },
           },
         },
+        cpu: { time: { user: 0, system: 0 } },
         eventLoop: {
           lag: { p50: 0, p95: 0, p99: 0 },
         },

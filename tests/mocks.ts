@@ -466,6 +466,7 @@ export const memoryConsumption = {
   total: tools.Size.fromMB(3),
   heap: { used: tools.Size.fromMB(1), total: tools.Size.fromMB(2) },
 };
+export const cpuConsumption = { user: tools.Duration.Ms(1200), system: tools.Duration.Ms(300) };
 export const uptime = { duration: tools.Duration.Seconds(5), formatted: "5 seconds ago" };
 export const eventLoopLag = {
   p50: tools.Duration.Ms(1),
@@ -476,6 +477,7 @@ export const inFlightRequests = tools.Int.of(3);
 export const runtimeStats = {
   uptime,
   memory: memoryConsumption,
+  cpu: { time: cpuConsumption },
   eventLoop: { lag: eventLoopLag },
   inFlight: inFlightRequests,
 };
