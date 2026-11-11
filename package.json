@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@bgord/tools": "1.6.18",
+    "@hono/bun": "1.0.1",
     "hono": "4.13.17"
   },
   "peerDependencies": {

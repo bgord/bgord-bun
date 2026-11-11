@@ -1,7 +1,7 @@
 // [BUN DEPENDENCY]
 import * as tools from "@bgord/tools";
+import { getConnInfo } from "@hono/bun";
 import type { Context } from "hono";
-import { getConnInfo } from "hono/bun";
 import { getCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
 import { type RequestContext, RequestIdentityError } from "./request-context.port";

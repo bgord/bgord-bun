@@ -1,7 +1,8 @@
 // [BUN DEPENDENCY]
 // cspell:ignore nosniff
+
+import { serveStatic } from "@hono/bun";
 import { Hono } from "hono";
-import { serveStatic } from "hono/bun";
 import { etag } from "hono/etag";
 import { secureHeaders } from "hono/secure-headers";
 import type { CacheControlStrategy } from "./cache-control.strategy";
