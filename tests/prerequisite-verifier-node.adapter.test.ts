@@ -3,7 +3,7 @@ import * as tools from "@bgord/tools";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";
 import { PrerequisiteVerifierNodeAdapter } from "../src/prerequisite-verifier-node.adapter";
 
-const version = tools.PackageVersion.fromString("20.0.0");
+const version = tools.PackageVersion.fromVersionString("20.0.0");
 
 describe("PrerequisiteVerifierNodeAdapter", () => {
   test("success - equal version", async () => {

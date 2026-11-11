@@ -12,7 +12,7 @@ export class PrerequisiteVerifierBunAdapter implements PrerequisiteVerifierPort 
 
   async verify(): Promise<PrerequisiteVerificationResult> {
     try {
-      const current = tools.PackageVersion.fromString(this.config.current);
+      const current = tools.PackageVersion.fromVersionString(this.config.current);
 
       if (current.isGreaterThanOrEqual(this.config.version)) return PrerequisiteVerification.success;
       return PrerequisiteVerification.failure(`Version: ${this.config.version.toString()}`);

@@ -12,7 +12,7 @@ const request = new SubjectSegmentFixedStrategy("request");
 const response = new SubjectSegmentFixedStrategy("response");
 const env = new SubjectSegmentEnvStrategy(NodeEnvironmentEnum.production);
 
-const version = tools.PackageVersion.fromString("1.2.3");
+const version = tools.PackageVersion.fromVersionString("1.2.3");
 const build = new SubjectSegmentBuildStrategy(version);
 
 const HashContent = new HashContentSha256Strategy();
