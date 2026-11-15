@@ -20,7 +20,7 @@
     "build": "bash scripts/package-build.sh"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.6",
+    "@biomejs/biome": "2.6.7",
     "@standard-schema/spec": "1.1.0",
     "@stryker-mutator/core": "10.1.1",
     "@stryker-mutator/typescript-checker": "10.1.1",
@@ -28,21 +28,21 @@
     "@types/nodemailer": "8.0.2",
     "better-auth": "1.7.18",
     "cspell": "10.4.1",
-    "fallow": "3.38.1",
+    "fallow": "3.42.0",
     "lefthook": "2.2.2",
     "lockfile-lint": "5.1.0",
-    "nodemailer": "10.3.1",
+    "nodemailer": "10.5.0",
     "publint": "0.3.25",
     "typescript": "7.0.2"
   },
   "dependencies": {
     "@bgord/tools": "1.7.0",
     "@hono/bun": "1.0.1",
-    "hono": "4.13.17"
+    "hono": "4.13.18"
   },
   "peerDependencies": {
     "better-auth": "1.7.18",
-    "nodemailer": "10.3.1"
+    "nodemailer": "10.5.0"
   },
   "peerDependenciesMeta": {
     "better-auth": {
