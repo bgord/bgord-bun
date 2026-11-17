@@ -13,10 +13,9 @@ export class RedactorUrlQuery implements RedactorStrategy {
   }
 
   redact<T>(input: T): T {
-    if (!tools.isPlainObject(input)) return input;
-    if (typeof input["url"] !== "string") return input;
-
-    return { ...input, url: this.mask(input["url"]) };
+    return tools.deepCloneWith(input, (value, key) =>
+      key === "url" && typeof value === "string" ? this.mask(value) : undefined,
+    );
   }
 
   private mask(url: string): string {

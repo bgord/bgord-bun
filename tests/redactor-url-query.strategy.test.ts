@@ -50,6 +50,14 @@ describe("RedactorUrlQuery", () => {
     });
   });
 
+  test("redact - nested url", () => {
+    const input = { metadata: { url: "https://example.com/callback?code=oauth-code&page=2", status: 400 } };
+
+    expect(redactor.redact(input)).toEqual({
+      metadata: { url: "https://example.com/callback?code=***&page=2", status: 400 },
+    });
+  });
+
   test("redact - no url", () => {
     const input = { method: "GET" };
 
