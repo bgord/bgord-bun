@@ -22,7 +22,14 @@ export class ShieldWebhookHonoStrategy implements MiddlewareHonoPort {
 
       const result = await this.strategy.evaluate(context);
 
-      if (result.accepted) return next();
+      if (result.accepted) {
+        await next();
+
+        // A failed delivery stays retryable: the provider's retry must not be taken for a duplicate
+        if (c.error || !c.res.ok) await this.strategy.release(result.subject);
+
+        return;
+      }
 
       if (result.reason === "duplicate") {
         return c.json({ message: ShieldWebhookStrategyError.Duplicate }, 200);

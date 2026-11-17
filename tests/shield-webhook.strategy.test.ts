@@ -1,8 +1,9 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
+import { Hash } from "../src/hash.vo";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { IdempotencyStoreCacheAdapter } from "../src/idempotency-store-cache.adapter";
 import { IdempotencyStoreNoopAdapter } from "../src/idempotency-store-noop.adapter";
@@ -51,7 +52,7 @@ describe("ShieldWebhookStrategy", () => {
       .withText(body)
       .build();
 
-    expect(await strategy.evaluate(context)).toEqual({ accepted: true });
+    expect(await strategy.evaluate(context)).toEqual({ accepted: true, subject: expect.any(Hash) });
   });
 
   test("evaluate - false - no signature", async () => {
@@ -149,6 +150,15 @@ describe("ShieldWebhookStrategy", () => {
 
     await strategy.evaluate(context);
 
-    expect(await other.evaluate(context)).toEqual({ accepted: true });
+    expect(await other.evaluate(context)).toEqual({ accepted: true, subject: expect.any(Hash) });
+  });
+
+  test("release", async () => {
+    const subject = Hash.fromString("a".repeat(64));
+    using release = spyOn(IdempotencyStore, "release");
+
+    await strategy.release(subject);
+
+    expect(release).toHaveBeenCalledWith(subject);
   });
 });

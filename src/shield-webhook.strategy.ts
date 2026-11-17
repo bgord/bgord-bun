@@ -1,3 +1,4 @@
+import type { Hash } from "./hash.vo";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { IdempotencyStorePort } from "./idempotency-store.port";
 import type { HasRequestHeader, HasRequestJson, HasRequestText } from "./request-context.port";
@@ -12,7 +13,9 @@ export const ShieldWebhookStrategyError = {
 };
 
 export type ShieldWebhookStrategyResult =
-  { accepted: true } | { accepted: false; reason: "rejected" } | { accepted: false; reason: "duplicate" };
+  | { accepted: true; subject: Hash }
+  | { accepted: false; reason: "rejected" }
+  | { accepted: false; reason: "duplicate" };
 
 export type ShieldWebhookStrategyConfig = {
   namespace: string;
@@ -54,6 +57,10 @@ export class ShieldWebhookStrategy {
 
     if (!claimed) return { accepted: false, reason: "duplicate" };
 
-    return { accepted: true };
+    return { accepted: true, subject };
+  }
+
+  async release(subject: Hash): Promise<void> {
+    await this.deps.IdempotencyStore.release(subject);
   }
 }

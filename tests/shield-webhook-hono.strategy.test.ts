@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { Hono } from "hono";
+import { HTTPException } from "hono/http-exception";
 import * as v from "valibot";
 import { CacheRepositoryInMemoryAdapter } from "../src/cache-repository-in-memory.adapter";
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
@@ -18,6 +19,7 @@ import { WebhookSecret } from "../src/webhook-secret.vo";
 import { WebhookSignatureCreatorSha256Strategy } from "../src/webhook-signature-creator-sha256.strategy";
 import { WebhookSignatureExtractorHeaderStrategy } from "../src/webhook-signature-extractor-header.strategy";
 import { WebhookVerifierSha256Strategy } from "../src/webhook-verifier-sha256.strategy";
+import * as mocks from "./mocks";
 
 const onError = new ErrorHonoHandler([new ErrorClassifierHttpExceptionHonoStrategy([HttpExceptionErrors])], {
   Logger: new LoggerNoopAdapter(),
@@ -182,5 +184,60 @@ describe("ShieldWebhookHonoStrategy", () => {
 
     expect(response.status).toEqual(200);
     expect(json.handled).toEqual(true);
+  });
+
+  test("evaluate - true - handler failure releases", async () => {
+    const IdempotencyStore = new IdempotencyStoreCacheAdapter({
+      CacheRepository: new CacheRepositoryInMemoryAdapter(
+        { type: "finite", ttl: tools.Duration.Hours(1) },
+        { Clock: new ClockSystemAdapter() },
+      ),
+    });
+    const app = new Hono()
+      .post(
+        "/webhook",
+        new ShieldWebhookHonoStrategy(config, { HashContent, IdempotencyStore }).handle(),
+        () => {
+          throw new HTTPException(500, { message: mocks.IntentionalError });
+        },
+      )
+      .onError(onError);
+    await app.request("/webhook", { method: "POST", body, headers: { [header]: signature, [idHeader]: id } });
+
+    const response = await app.request("/webhook", {
+      method: "POST",
+      body,
+      headers: { [header]: signature, [idHeader]: id },
+    });
+
+    const json = await response.json();
+
+    expect(response.status).toEqual(500);
+    expect(json.message).toEqual("general.unknown");
+  });
+
+  test("evaluate - true - handler non-ok status releases", async () => {
+    const IdempotencyStore = new IdempotencyStoreCacheAdapter({
+      CacheRepository: new CacheRepositoryInMemoryAdapter(
+        { type: "finite", ttl: tools.Duration.Hours(1) },
+        { Clock: new ClockSystemAdapter() },
+      ),
+    });
+    const app = new Hono()
+      .post(
+        "/webhook",
+        new ShieldWebhookHonoStrategy(config, { HashContent, IdempotencyStore }).handle(),
+        () => new Response(null, { status: 503 }),
+      )
+      .onError(onError);
+    await app.request("/webhook", { method: "POST", body, headers: { [header]: signature, [idHeader]: id } });
+
+    const response = await app.request("/webhook", {
+      method: "POST",
+      body,
+      headers: { [header]: signature, [idHeader]: id },
+    });
+
+    expect(response.status).toEqual(503);
   });
 });
