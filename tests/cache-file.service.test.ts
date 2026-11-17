@@ -50,7 +50,7 @@ describe("CacheFileMustRevalidate", () => {
     expect(headers.get("ETag")).toEqual(meta.etag.get());
     expect(headers.get("Content-Length")).toEqual(meta.size.toBytes().toString());
     expect(headers.get("Last-Modified")).toEqual("Tue, 14 Nov 2023 22:13:20 GMT");
-    expect(headers.get("Accept-Ranges")).toEqual("bytes");
+    expect(headers.get("Accept-Ranges")).toEqual(null);
     expect(headers.get("Vary")).toEqual("Authorization, Cookie");
   });
 

@@ -31,7 +31,6 @@ export const CacheFileMustRevalidate: CacheFileHandler = {
       "Content-Length": options.size.toBytes().toString(),
       // biome-ignore lint: lint/style/noRestrictedGlobals
       "Last-Modified": new Date(options.lastModified.ms).toUTCString(),
-      "Accept-Ranges": "bytes",
       Vary: "Authorization, Cookie",
       ...overrides,
     });
