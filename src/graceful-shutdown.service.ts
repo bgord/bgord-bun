@@ -5,9 +5,15 @@ import type { LoggerPort } from "./logger.port";
 export type ServerType = ReturnType<typeof Bun.serve>;
 
 type Dependencies = { Logger: LoggerPort };
-type Config = { cleanup: () => Promise<void> | void; exit?: (code: number) => never };
+type Config = {
+  cleanup: () => Promise<void> | void;
+  exit?: (code: number) => never;
+  grace?: tools.Duration;
+};
 
 export class GracefulShutdown {
+  private static readonly DEFAULT_GRACE = tools.Duration.Seconds(5);
+
   private readonly base = { operation: "shutdown", component: "infra" } as const;
   private isShuttingDown = false;
 
@@ -23,7 +29,7 @@ export class GracefulShutdown {
     // Stryker restore all
 
     try {
-      await server.stop();
+      await this.stop(server);
     } catch (error) {
       this.deps.Logger.error({ message: "Server stop failed", error, ...this.base });
     }
@@ -38,6 +44,27 @@ export class GracefulShutdown {
 
       (this.config.exit ?? process.exit)(exitCode);
     }
+  }
+
+  // Open streams (SSE) never finish on their own, so a graceful stop is closed by force after the grace
+  private async stop(server: ServerType) {
+    const stopped = server.stop();
+
+    let deadline: ReturnType<typeof setTimeout> | undefined;
+    const exceeded = new Promise<"exceeded">((resolve) => {
+      deadline = setTimeout(
+        () => resolve("exceeded"),
+        (this.config.grace ?? GracefulShutdown.DEFAULT_GRACE).ms,
+      );
+    });
+
+    const outcome = await Promise.race([stopped, exceeded]);
+    clearTimeout(deadline);
+
+    if (outcome !== "exceeded") return;
+
+    this.deps.Logger.warn({ message: "Server stop grace exceeded", ...this.base });
+    await server.stop(true);
   }
 
   applyTo(server: ServerType) {

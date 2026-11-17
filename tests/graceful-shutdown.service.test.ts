@@ -173,6 +173,29 @@ describe("GracefulShutdown", () => {
     });
   });
 
+  test("server stop - grace exceeded", async () => {
+    const server = { stop: jest.fn() } as unknown as ServerType;
+    const exitCalls: Array<number> = [];
+    const exit = ((code: number) => exitCalls.push(code)) as unknown as (code: number) => never;
+    using serverStop = spyOn(server, "stop").mockImplementation((force?: boolean) =>
+      force ? Promise.resolve() : new Promise(() => {}),
+    );
+    using loggerWarn = spyOn(Logger, "warn");
+    new GracefulShutdown(deps, { cleanup: tools.noop, exit, grace: tools.Duration.Ms(1) }).applyTo(server);
+
+    process.emit("SIGTERM");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(serverStop).toHaveBeenNthCalledWith(1);
+    expect(serverStop).toHaveBeenNthCalledWith(2, true);
+    expect(exitCalls).toEqual([0]);
+    expect(loggerWarn).toHaveBeenCalledWith({
+      message: "Server stop grace exceeded",
+      operation: "shutdown",
+      component: "infra",
+    });
+  });
+
   test("drains before cleanup", async () => {
     const order: Array<string> = [];
     const cleanup = jest.fn(() => {
