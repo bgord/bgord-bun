@@ -1,11 +1,9 @@
 import type * as tools from "@bgord/tools";
 import type { BuildInfoType } from "./build-info.vo";
-import { CacheCodecIdentityStrategy } from "./cache-codec-identity.strategy";
 import type { CacheResolverStrategy } from "./cache-resolver.strategy";
 import type { HashContentStrategy } from "./hash-content.strategy";
 import type { ReactiveConfigPort } from "./reactive-config.port";
-import { SubjectApplicationResolver } from "./subject-application-resolver.vo";
-import { SubjectSegmentFixedStrategy } from "./subject-segment-fixed.strategy";
+import { ReactiveConfigWithCacheAdapter } from "./reactive-config-with-cache.adapter";
 
 export type ApiVersionMiddlewareDependencies = {
   CacheResolver: CacheResolverStrategy;
@@ -16,25 +14,15 @@ export type ApiVersionMiddlewareDependencies = {
 export class ApiVersionMiddleware {
   static readonly HEADER_NAME = "api-version";
 
-  private readonly resolver: SubjectApplicationResolver;
-  private readonly codec = new CacheCodecIdentityStrategy<BuildInfoType>();
+  private readonly config: ReactiveConfigPort<BuildInfoType>;
 
-  constructor(private readonly deps: ApiVersionMiddlewareDependencies) {
-    this.resolver = new SubjectApplicationResolver(
-      [new SubjectSegmentFixedStrategy("api-version")],
-      this.deps,
-    );
+  constructor(deps: ApiVersionMiddlewareDependencies) {
+    this.config = new ReactiveConfigWithCacheAdapter(deps.BuildInfoConfig, "api-version", deps);
   }
 
   async evaluate(): Promise<tools.PackageVersionSchemaType> {
-    const subject = await this.resolver.resolve();
+    const config = await this.config.get();
 
-    const build = await this.deps.CacheResolver.resolve<BuildInfoType>(
-      subject.hex,
-      async () => this.deps.BuildInfoConfig.get(),
-      this.codec,
-    );
-
-    return build.version;
+    return config.version;
   }
 }

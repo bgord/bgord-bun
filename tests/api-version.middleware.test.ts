@@ -7,8 +7,6 @@ import { CacheResolverReadThroughStrategy } from "../src/cache-resolver-read-thr
 import { ClockSystemAdapter } from "../src/clock-system.adapter";
 import { HashContentSha256Strategy } from "../src/hash-content-sha256.strategy";
 import { ReactiveConfigNoopAdapter } from "../src/reactive-config-noop.adapter";
-import { SubjectApplicationResolver } from "../src/subject-application-resolver.vo";
-import { SubjectSegmentFixedStrategy } from "../src/subject-segment-fixed.strategy";
 import * as mocks from "./mocks";
 
 const CacheRepository = new CacheRepositoryInMemoryAdapter(
@@ -23,19 +21,18 @@ const deps = { CacheResolver, HashContent, BuildInfoConfig };
 const middleware = new ApiVersionMiddleware(deps);
 
 describe("ApiVersionMiddleware", async () => {
-  const resolver = new SubjectApplicationResolver([new SubjectSegmentFixedStrategy("api-version")], deps);
-  const subject = await resolver.resolve();
+  const subject = await HashContent.hash("api-version");
 
   test("happy path", async () => {
     using buildInfoRepositoryGet = spyOn(deps.BuildInfoConfig, "get");
     using cacheRepositoryGet = spyOn(CacheRepository, "get");
 
     expect(await middleware.evaluate()).toEqual(v.parse(BuildInfo.entries.version, mocks.version));
-    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject);
 
     expect(await middleware.evaluate()).toEqual(v.parse(BuildInfo.entries.version, mocks.version));
     expect(buildInfoRepositoryGet).toBeCalledTimes(1);
-    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject.hex);
+    expect(cacheRepositoryGet).toHaveBeenCalledWith(subject);
 
     await CacheRepository.flush();
   });
