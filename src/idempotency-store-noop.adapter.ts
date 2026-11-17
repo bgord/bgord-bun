@@ -5,4 +5,6 @@ export class IdempotencyStoreNoopAdapter implements IdempotencyStorePort {
   async claim(_subject: Hash): Promise<boolean> {
     return true;
   }
+
+  async release(_subject: Hash): Promise<void> {}
 }

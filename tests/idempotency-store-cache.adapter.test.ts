@@ -62,4 +62,14 @@ describe("IdempotencyStoreCacheAdapter", () => {
 
     jest.useRealTimers();
   });
+
+  test("release", async () => {
+    const CacheRepository = new CacheRepositoryInMemoryAdapter(config, { Clock: new ClockSystemAdapter() });
+    const adapter = new IdempotencyStoreCacheAdapter({ CacheRepository });
+    await adapter.claim(primary);
+
+    await adapter.release(primary);
+
+    expect(await adapter.claim(primary)).toEqual(true);
+  });
 });

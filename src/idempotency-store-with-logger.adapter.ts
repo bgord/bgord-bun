@@ -56,4 +56,27 @@ export class IdempotencyStoreWithLoggerAdapter implements IdempotencyStorePort {
       throw error;
     }
   }
+
+  async release(subject: Hash): Promise<void> {
+    try {
+      await this.deps.inner.release(subject);
+
+      this.deps.Logger.debug({
+        message: "Idempotency store release success",
+        correlationId: CorrelationStorage.get(),
+        metadata: { subject: subject.get() },
+        ...this.base,
+      });
+    } catch (error) {
+      this.deps.Logger.error({
+        message: "Idempotency store release error",
+        correlationId: CorrelationStorage.get(),
+        error,
+        metadata: { subject: subject.get() },
+        ...this.base,
+      });
+
+      throw error;
+    }
+  }
 }

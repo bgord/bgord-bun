@@ -16,4 +16,10 @@ describe("IdempotencyStoreNoopAdapter", () => {
 
     expect(await adapter.claim(primary)).toEqual(true);
   });
+
+  test("release", async () => {
+    await adapter.release(primary);
+
+    expect(await adapter.claim(primary)).toEqual(true);
+  });
 });

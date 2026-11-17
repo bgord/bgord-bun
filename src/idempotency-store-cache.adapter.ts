@@ -17,4 +17,8 @@ export class IdempotencyStoreCacheAdapter implements IdempotencyStorePort {
 
     return true;
   }
+
+  async release(subject: Hash): Promise<void> {
+    await this.deps.CacheRepository.delete(subject);
+  }
 }

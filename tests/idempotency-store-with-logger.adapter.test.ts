@@ -91,4 +91,41 @@ describe("IdempotencyStoreWithLoggerAdapter", () => {
       },
     ]);
   });
+
+  test("release - success", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    const adapter = new IdempotencyStoreWithLoggerAdapter({ inner, Logger, Clock });
+
+    await CorrelationStorage.run(mocks.correlationId, async () => adapter.release(subject));
+
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        operation: "idempotency_store",
+        message: "Idempotency store release success",
+        correlationId: mocks.correlationId,
+        metadata: { subject: "a".repeat(64) },
+      },
+    ]);
+  });
+
+  test("release - failure", async () => {
+    const Logger = new LoggerCollectingAdapter();
+    using _ = spyOn(inner, "release").mockImplementation(mocks.throwIntentionalErrorAsync);
+    const adapter = new IdempotencyStoreWithLoggerAdapter({ inner, Logger, Clock });
+
+    expect(async () =>
+      CorrelationStorage.run(mocks.correlationId, async () => adapter.release(subject)),
+    ).toThrow(mocks.IntentionalError);
+    expect(Logger.entries).toEqual([
+      {
+        component: "infra",
+        operation: "idempotency_store",
+        message: "Idempotency store release error",
+        correlationId: mocks.correlationId,
+        error: new Error(mocks.IntentionalError),
+        metadata: { subject: "a".repeat(64) },
+      },
+    ]);
+  });
 });
