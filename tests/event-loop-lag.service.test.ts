@@ -5,6 +5,7 @@ import { EventLoopLag } from "../src/event-loop-lag.service";
 
 const histogram = {
   enable: () => {},
+  reset: () => {},
   percentile: (value: number) => {
     if (value === 50) return 1_000_000;
     if (value === 95) return 5_000_000;
@@ -37,7 +38,9 @@ describe("EventLoopLag", () => {
   });
 
   test("snapshot", () => {
-    using _ = spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram);
+    using spies = new DisposableStack();
+    spies.use(spyOn(perf_hooks, "monitorEventLoopDelay").mockReturnValue(histogram));
+    const reset = spies.use(spyOn(histogram, "reset"));
     EventLoopLag._resetForTest();
     EventLoopLag.start();
 
@@ -46,6 +49,7 @@ describe("EventLoopLag", () => {
     expect(snapshot.p50.equals(tools.Duration.Ms(1))).toEqual(true);
     expect(snapshot.p95.equals(tools.Duration.Ms(5))).toEqual(true);
     expect(snapshot.p99.equals(tools.Duration.Ms(9))).toEqual(true);
+    expect(reset).toHaveBeenCalledTimes(1);
   });
 
   test("snapshot - not started", () => {

@@ -18,11 +18,15 @@ export class EventLoopLag {
   static snapshot(): EventLoopLagSnapshotType {
     if (!EventLoopLag.histogram) throw new Error(EventLoopLagError.NotStarted);
 
-    return {
+    const snapshot = {
       p50: tools.Duration.Ns(EventLoopLag.histogram.percentile(50)),
       p95: tools.Duration.Ns(EventLoopLag.histogram.percentile(95)),
       p99: tools.Duration.Ns(EventLoopLag.histogram.percentile(99)),
     };
+
+    EventLoopLag.histogram.reset();
+
+    return snapshot;
   }
 
   /** @internal */
