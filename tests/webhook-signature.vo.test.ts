@@ -8,6 +8,10 @@ describe("WebhookSignature", () => {
     expect(v.safeParse(WebhookSignature, "A".repeat(128)).success).toEqual(true);
   });
 
+  test("happy path - uppercase", () => {
+    expect(v.parse(WebhookSignature, "ABCDEF")).toEqual("abcdef");
+  });
+
   test("rejects non-string - null", () => {
     expect(() => v.parse(WebhookSignature, null)).toThrow("webhook.signature.type");
   });

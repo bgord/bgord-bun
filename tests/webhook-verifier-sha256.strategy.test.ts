@@ -21,6 +21,12 @@ describe("WebhookVerifierSha256Strategy", () => {
     expect(verifier.verify(body, signature)).toEqual(true);
   });
 
+  test("verify - true - uppercase", () => {
+    const uppercase = v.parse(WebhookSignature, signature.toUpperCase());
+
+    expect(verifier.verify(body, uppercase)).toEqual(true);
+  });
+
   test("verify - false - body wrong", () => {
     expect(verifier.verify(wrongBody, signature)).toEqual(false);
   });

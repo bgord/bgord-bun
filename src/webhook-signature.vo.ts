@@ -12,6 +12,7 @@ const CHARS_WHITELIST = /^[a-fA-F0-9]+$/;
 export const WebhookSignature = v.pipe(
   v.string(WebhookSignatureError.Type),
   v.nonEmpty(WebhookSignatureError.Empty),
+  v.toLowerCase(),
   v.regex(CHARS_WHITELIST, WebhookSignatureError.InvalidHex),
   // Stryker disable next-line StringLiteral
   v.brand("WebhookSignature"),
