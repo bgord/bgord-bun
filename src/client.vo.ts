@@ -12,10 +12,10 @@ export class Client {
     const parsedIp = v.safeParse(ClientIp, ip);
     const parsedUa = v.safeParse(ClientUserAgent, ua);
 
-    if (parsedIp.success && parsedUa.success) return new Client(parsedIp.output, parsedUa.output);
-    if (parsedIp.success && !parsedUa.success) return new Client(parsedIp.output, undefined);
-    if (!parsedIp.success && parsedUa.success) return new Client(undefined, parsedUa.output);
-    return new Client(undefined, undefined);
+    return new Client(
+      parsedIp.success ? parsedIp.output : undefined,
+      parsedUa.success ? parsedUa.output : undefined,
+    );
   }
 
   static fromSafeParts(ip: ClientIpType | undefined, ua: ClientUserAgentType | undefined): Client {
