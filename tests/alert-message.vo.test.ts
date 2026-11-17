@@ -20,6 +20,9 @@ describe("AlertMessage", () => {
   });
 
   test("toJSON - message + error", () => {
-    expect(alertWthError.toJSON()).toEqual({ message: "Payment failed", error });
+    expect(alertWthError.toJSON()).toEqual({
+      message: "Payment failed",
+      error: { message: "db connection lost", name: "Error", stack: error.stack, cause: undefined },
+    });
   });
 });

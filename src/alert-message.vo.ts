@@ -1,3 +1,5 @@
+import * as tools from "@bgord/tools";
+
 export class AlertMessage {
   constructor(
     readonly message: string,
@@ -5,6 +7,9 @@ export class AlertMessage {
   ) {}
 
   toJSON() {
-    return { message: this.message, error: this.error };
+    return {
+      message: this.message,
+      error: this.error === undefined ? undefined : tools.ErrorNormalizer.normalize(this.error),
+    };
   }
 }
