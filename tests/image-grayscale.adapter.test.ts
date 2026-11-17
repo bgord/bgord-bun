@@ -16,7 +16,6 @@ const deps = { AtomicFileWriter };
 const adapter = new ImageGrayscaleAdapter(deps);
 
 const image = {
-  rotate: () => image,
   modulate: () => image,
   webp: () => ({ bytes: () => grayscaled }),
   png: () => ({ bytes: () => grayscaled }),

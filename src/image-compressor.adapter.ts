@@ -21,7 +21,7 @@ export class ImageCompressorAdapter implements ImageCompressorPort {
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
-    const compressed = await Bun.file(recipe.input.get()).image().rotate(0)[format]({ quality }).bytes();
+    const compressed = await Bun.file(recipe.input.get()).image()[format]({ quality }).bytes();
 
     await this.deps.AtomicFileWriter.write(final, compressed);
 

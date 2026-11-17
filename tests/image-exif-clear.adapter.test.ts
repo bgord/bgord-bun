@@ -17,7 +17,6 @@ const deps = { AtomicFileWriter };
 const adapter = new ImageExifClearAdapter(deps);
 
 const image = {
-  rotate: () => image,
   jpeg: () => ({ bytes: () => cleared }),
   png: () => ({ bytes: () => cleared }),
   webp: () => ({ bytes: () => cleared }),

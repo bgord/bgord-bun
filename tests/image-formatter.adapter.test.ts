@@ -15,7 +15,6 @@ const deps = { AtomicFileWriter, FileCleaner };
 const adapter = new ImageFormatterAdapter(deps);
 
 const image = {
-  rotate: () => image,
   webp: () => ({ bytes: () => formatted }),
   png: () => ({ bytes: () => formatted }),
   jpeg: () => ({ bytes: () => formatted }),

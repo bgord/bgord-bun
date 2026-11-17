@@ -20,7 +20,6 @@ export class ImageGrayscaleAdapter implements ImageGrayscalePort {
 
     const grayscaled = await Bun.file(recipe.input.get())
       .image()
-      .rotate(0)
       .modulate({ saturation: 0 })
       [format]()
       .bytes();

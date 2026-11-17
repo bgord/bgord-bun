@@ -16,7 +16,6 @@ const deps = { AtomicFileWriter, FileCleaner };
 const adapter = new ImageProcessorAdapter(deps);
 
 const image = {
-  rotate: () => image,
   resize: () => image,
   webp: () => ({ bytes: () => processed }),
   png: () => ({ bytes: () => processed }),
@@ -27,7 +26,6 @@ describe("ImageProcessorAdapter", () => {
   test("in_place - absolute", async () => {
     // @ts-expect-error Partial access
     using _ = spyOn(Bun, "file").mockReturnValue({ image: () => image });
-    using rotate = spyOn(image, "rotate");
     using resize = spyOn(image, "resize");
     using webp = spyOn(image, "webp");
     using write = spyOn(AtomicFileWriter, "write");
@@ -44,7 +42,6 @@ describe("ImageProcessorAdapter", () => {
     };
 
     expect(await adapter.process(recipe)).toEqual(final);
-    expect(rotate).toHaveBeenCalledWith(0);
     expect(resize).toHaveBeenCalledWith(maxSide, maxSide, { fit: "inside", withoutEnlargement: true });
     expect(webp).toHaveBeenCalledWith({ quality: 72 });
     expect(write).toHaveBeenCalledWith(final, processed);

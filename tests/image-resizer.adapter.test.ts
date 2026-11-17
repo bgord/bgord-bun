@@ -16,7 +16,6 @@ const deps = { AtomicFileWriter };
 const adapter = new ImageResizerAdapter(deps);
 
 const image = {
-  rotate: () => image,
   resize: () => image,
   webp: () => ({ bytes: () => resized }),
   png: () => ({ bytes: () => resized }),

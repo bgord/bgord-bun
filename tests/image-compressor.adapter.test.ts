@@ -16,7 +16,6 @@ const deps = { AtomicFileWriter };
 const adapter = new ImageCompressorAdapter(deps);
 
 const image = {
-  rotate: () => image,
   webp: () => ({ bytes: () => compressed }),
   png: () => ({ bytes: () => compressed }),
   jpeg: () => ({ bytes: () => compressed }),

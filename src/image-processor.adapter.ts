@@ -27,7 +27,6 @@ export class ImageProcessorAdapter implements ImageProcessorPort {
 
     const processed = await Bun.file(recipe.input.get())
       .image()
-      .rotate(0)
       .resize(recipe.maxSide, recipe.maxSide, { fit: "inside", withoutEnlargement: true })
       [format]({ quality })
       .bytes();

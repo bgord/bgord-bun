@@ -22,7 +22,7 @@ export class ImageFormatterAdapter implements ImageFormatterPort {
     const extension = final.getFilename().getExtension();
     const format = (extension === "jpg" ? "jpeg" : extension) as ImageSupportedType;
 
-    const bytes = await Bun.file(recipe.input.get()).image().rotate(0)[format]().bytes();
+    const bytes = await Bun.file(recipe.input.get()).image()[format]().bytes();
 
     await this.deps.AtomicFileWriter.write(final, bytes);
 
