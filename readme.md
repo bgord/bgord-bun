@@ -665,7 +665,6 @@ src/
 ├── sms-noop.adapter.ts
 ├── sms-with-logger.adapter.ts
 ├── sms-with-retry.adapter.ts
-├── sms-with-timeout.adapter.ts
 ├── sms.builder.ts
 ├── sms.port.ts
 ├── smtp-host.vo.ts

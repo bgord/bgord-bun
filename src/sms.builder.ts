@@ -5,11 +5,6 @@ import {
   type SmsWithRetryAdapterConfig,
   type SmsWithRetryAdapterDependencies,
 } from "./sms-with-retry.adapter";
-import {
-  SmsWithTimeoutAdapter,
-  type SmsWithTimeoutAdapterConfig,
-  type SmsWithTimeoutAdapterDependencies,
-} from "./sms-with-timeout.adapter";
 
 export class SmsBuilder {
   constructor(private readonly inner: SmsPort) {}
@@ -24,10 +19,6 @@ export class SmsBuilder {
 
   withRetry(config: SmsWithRetryAdapterConfig, deps: Omit<SmsWithRetryAdapterDependencies, "inner">) {
     return SmsBuilder.of(new SmsWithRetryAdapter(config, { ...deps, inner: this.inner }));
-  }
-
-  withTimeout(config: SmsWithTimeoutAdapterConfig, deps: Omit<SmsWithTimeoutAdapterDependencies, "inner">) {
-    return SmsBuilder.of(new SmsWithTimeoutAdapter(config, { ...deps, inner: this.inner }));
   }
 
   build() {

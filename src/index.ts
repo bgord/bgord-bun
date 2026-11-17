@@ -548,7 +548,6 @@ export * from "./sms-collecting.adapter";
 export * from "./sms-noop.adapter";
 export * from "./sms-with-logger.adapter";
 export * from "./sms-with-retry.adapter";
-export * from "./sms-with-timeout.adapter";
 export * from "./smtp-host.vo";
 export * from "./smtp-pass.vo";
 export * from "./smtp-port.vo";
