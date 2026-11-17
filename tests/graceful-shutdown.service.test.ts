@@ -20,7 +20,9 @@ function setup(cleanup: () => Promise<void> | void = tools.noop) {
 
 describe("GracefulShutdown", () => {
   test("handles SIGTERM correctly", async () => {
-    using loggerInfo = spyOn(Logger, "info");
+    using spies = new DisposableStack();
+    const loggerInfo = spies.use(spyOn(Logger, "info"));
+    const clearTimeout = spies.use(spyOn(globalThis, "clearTimeout"));
     const { server, gs, exitCalls } = setup();
 
     gs.applyTo(server);
@@ -28,6 +30,7 @@ describe("GracefulShutdown", () => {
     await tick();
 
     expect(server.stop).toHaveBeenCalled();
+    expect(clearTimeout).toHaveBeenCalledTimes(1);
     expect(exitCalls[0]).toEqual(0);
     expect(loggerInfo).toHaveBeenCalledWith({
       message: "SIGTERM received",

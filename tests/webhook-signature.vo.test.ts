@@ -9,7 +9,7 @@ describe("WebhookSignature", () => {
   });
 
   test("happy path - uppercase", () => {
-    expect(v.parse(WebhookSignature, "ABCDEF")).toEqual("abcdef");
+    expect<string>(v.parse(WebhookSignature, "ABCDEF")).toEqual("abcdef");
   });
 
   test("rejects non-string - null", () => {

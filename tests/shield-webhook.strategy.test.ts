@@ -51,8 +51,9 @@ describe("ShieldWebhookStrategy", () => {
       .withHeader(idHeader, id)
       .withText(body)
       .build();
+    const subject = await HashContent.hash(JSON.stringify([[namespace, id]]));
 
-    expect(await strategy.evaluate(context)).toEqual({ accepted: true, subject: expect.any(Hash) });
+    expect(await strategy.evaluate(context)).toEqual({ accepted: true, subject });
   });
 
   test("evaluate - false - no signature", async () => {
@@ -147,10 +148,11 @@ describe("ShieldWebhookStrategy", () => {
       .withHeader(idHeader, id)
       .withText(body)
       .build();
+    const subject = await HashContent.hash(JSON.stringify([[otherNamespace, id]]));
 
     await strategy.evaluate(context);
 
-    expect(await other.evaluate(context)).toEqual({ accepted: true, subject: expect.any(Hash) });
+    expect(await other.evaluate(context)).toEqual({ accepted: true, subject });
   });
 
   test("release", async () => {

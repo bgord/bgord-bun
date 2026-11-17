@@ -41,11 +41,15 @@ describe("RedactorUrlQuery", () => {
   });
 
   test("redact - other fields untouched", () => {
-    const input = { url: "https://example.com/callback?code=oauth-code", method: "GET", status: 200 };
+    const input = {
+      url: "https://example.com/callback?code=oauth-code",
+      referrer: "https://example.com/login?code=oauth-code",
+      status: 200,
+    };
 
     expect(redactor.redact(input)).toEqual({
       url: "https://example.com/callback?code=***",
-      method: "GET",
+      referrer: "https://example.com/login?code=oauth-code",
       status: 200,
     });
   });
