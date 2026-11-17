@@ -1,3 +1,4 @@
+import * as tools from "@bgord/tools";
 import type * as Nodemailer from "nodemailer";
 import type { MailerPort } from "./mailer.port";
 import type { MailerTemplate } from "./mailer-template.vo";
@@ -16,6 +17,10 @@ type Config = {
 type Dependencies = { Nodemailer: typeof Nodemailer };
 
 export class MailerSmtpAdapter implements MailerPort {
+  static readonly CONNECTION_TIMEOUT = tools.Duration.Seconds(10);
+  static readonly GREETING_TIMEOUT = tools.Duration.Seconds(10);
+  static readonly SOCKET_TIMEOUT = tools.Duration.Seconds(30);
+
   private constructor(private readonly transport: Nodemailer.Transporter) {}
 
   static build(config: Config, deps: Dependencies): MailerSmtpAdapter {
@@ -25,6 +30,9 @@ export class MailerSmtpAdapter implements MailerPort {
         port: config.SMTP_PORT,
         auth: { user: config.SMTP_USER, pass: config.SMTP_PASS },
         requireTLS: true,
+        connectionTimeout: MailerSmtpAdapter.CONNECTION_TIMEOUT.ms,
+        greetingTimeout: MailerSmtpAdapter.GREETING_TIMEOUT.ms,
+        socketTimeout: MailerSmtpAdapter.SOCKET_TIMEOUT.ms,
       }),
     );
   }

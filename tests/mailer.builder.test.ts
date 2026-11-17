@@ -7,14 +7,10 @@ import { MailerBuilder } from "../src/mailer.builder";
 import { MailerNoopAdapter } from "../src/mailer-noop.adapter";
 import { RetryBackoffNoopStrategy } from "../src/retry-backoff-noop.strategy";
 import { SleeperNoopAdapter } from "../src/sleeper-noop.adapter";
-import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
 const Sleeper = new SleeperNoopAdapter();
-const TimeoutRunner = new TimeoutRunnerNoopAdapter();
-
-const timeout = tools.Duration.MIN;
 
 const max = tools.Int.positive(3);
 const backoff = new RetryBackoffNoopStrategy();
@@ -50,19 +46,9 @@ describe("MailerBuilder", () => {
     expect(sleeperWait).toHaveBeenCalledTimes(2);
   });
 
-  test("build - with timeout", async () => {
-    using runnerRun = spyOn(TimeoutRunner, "run");
-    const mailer = MailerBuilder.of(inner).withTimeout({ timeout }, { TimeoutRunner }).build();
-
-    await mailer.send(mocks.template);
-
-    expect(runnerRun).toHaveBeenCalledTimes(1);
-  });
-
   test("build - all", async () => {
     const inner = new MailerNoopAdapter();
     const mailer = MailerBuilder.of(inner)
-      .withTimeout({ timeout }, { TimeoutRunner })
       .withRetry({ retry: { max, backoff } }, { Sleeper })
       .withLogger({ Logger: new LoggerCollectingAdapter(), Clock })
       .build();

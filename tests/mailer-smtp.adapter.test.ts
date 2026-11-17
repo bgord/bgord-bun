@@ -37,6 +37,9 @@ describe("MailerSmtpAdapter", () => {
       port: 587,
       auth: { user: "user", pass: "pass" },
       requireTLS: true,
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 30_000,
     });
   });
 });
