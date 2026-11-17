@@ -4,17 +4,14 @@ export const BasicAuthPasswordError = {
   Type: "basic.auth.password.type",
   Empty: "basic.auth.password.empty",
   TooLong: "basic.auth.password.too.long",
-  NonLatin: "basic.auth.password.non.latin",
+  NonAscii: "basic.auth.password.non.ascii",
 };
 
 export const BasicAuthPassword = v.pipe(
   v.string(BasicAuthPasswordError.Type),
   v.minLength(1, BasicAuthPasswordError.Empty),
   v.maxLength(128, BasicAuthPasswordError.TooLong),
-  v.check(
-    (value) => [...value].every((character) => character.charCodeAt(0) < 256),
-    BasicAuthPasswordError.NonLatin,
-  ),
+  v.regex(/^[\x20-\x7E]*$/, BasicAuthPasswordError.NonAscii),
   // Stryker disable next-line StringLiteral
   v.brand("BasicAuthPassword"),
 );

@@ -16,10 +16,11 @@ describe("BasicAuthPassword", () => {
     expect(() => v.parse(BasicAuthPassword, 123)).toThrow("basic.auth.password.type");
   });
 
-  test("rejects non-Latin characters", () => {
-    expect(() => v.parse(BasicAuthPassword, "€")).toThrow("basic.auth.password.non.latin");
-    expect(() => v.parse(BasicAuthPassword, "€a")).toThrow("basic.auth.password.non.latin");
-    expect(() => v.parse(BasicAuthPassword, "\u0100")).toThrow("basic.auth.password.non.latin");
+  test("rejects non-ASCII characters", () => {
+    expect(() => v.parse(BasicAuthPassword, "€")).toThrow("basic.auth.password.non.ascii");
+    expect(() => v.parse(BasicAuthPassword, "€a")).toThrow("basic.auth.password.non.ascii");
+    expect(() => v.parse(BasicAuthPassword, "ä")).toThrow("basic.auth.password.non.ascii");
+    expect(() => v.parse(BasicAuthPassword, "\t")).toThrow("basic.auth.password.non.ascii");
   });
 
   test("rejects empty", () => {
