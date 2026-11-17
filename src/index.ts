@@ -34,7 +34,6 @@ export * from "./antivirus-clamav.adapter";
 export * from "./antivirus-noop.adapter";
 export * from "./antivirus-with-logger.adapter";
 export * from "./antivirus-with-semaphore.adapter";
-export * from "./antivirus-with-timeout.adapter";
 export * from "./api-version.middleware";
 export * from "./api-version-hono.middleware";
 export * from "./atomic-file-writer.adapter";

@@ -57,7 +57,6 @@ src/
 ├── antivirus-noop.adapter.ts
 ├── antivirus-with-logger.adapter.ts
 ├── antivirus-with-semaphore.adapter.ts
-├── antivirus-with-timeout.adapter.ts
 ├── antivirus.builder.ts
 ├── antivirus.port.ts
 ├── api-version-hono.middleware.ts

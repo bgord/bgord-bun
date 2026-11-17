@@ -1,23 +1,26 @@
 // [BUN DEPENDENCY]
 // cSpell:ignore clamav, clamscan
+import type * as tools from "@bgord/tools";
 import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from "./antivirus.port";
+
+export type AntivirusClamavAdapterConfig = { timeout: tools.Duration };
 
 export class AntivirusClamavAdapter implements AntivirusPort {
   // Stryker disable all
   private readonly signature = /:\s+(?<signature>.+)\s+FOUND\s*$/m;
   // Stryker restore all
 
+  constructor(private readonly config: AntivirusClamavAdapterConfig) {}
+
   async scan(bytes: Uint8Array): Promise<AntivirusScanResult> {
     const antivirus = Bun.spawn({
       cmd: ["clamscan", "--infected", "--no-summary", "--stdout", "-"],
-      stdin: "pipe",
+      stdin: bytes,
       stdout: "pipe",
       stderr: "pipe",
+      timeout: this.config.timeout.ms,
+      killSignal: "SIGKILL",
     });
-
-    if (!antivirus.stdin) throw new Error(AntivirusPortError.ScanFailed);
-    antivirus.stdin.write(bytes);
-    await antivirus.stdin.end();
 
     const stdoutText = new Response(antivirus.stdout).text();
     const stderrText = new Response(antivirus.stderr).text();

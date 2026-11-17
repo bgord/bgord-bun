@@ -6,13 +6,9 @@ import { ClockFixedAdapter } from "../src/clock-fixed.adapter";
 import { CorrelationStorage } from "../src/correlation-storage.service";
 import { LoggerCollectingAdapter } from "../src/logger-collecting.adapter";
 import { Semaphore } from "../src/semaphore.service";
-import { TimeoutRunnerNoopAdapter } from "../src/timeout-runner-noop.adapter";
 import * as mocks from "./mocks";
 
 const Clock = new ClockFixedAdapter(mocks.TIME_ZERO);
-const TimeoutRunner = new TimeoutRunnerNoopAdapter();
-
-const timeout = tools.Duration.MIN;
 
 const limit = tools.Int.positive(1);
 const semaphore = new Semaphore({ limit });
@@ -38,15 +34,6 @@ describe("AntivirusBuilder", () => {
     expect(Logger.entries.length).toEqual(2);
   });
 
-  test("build - with timeout", async () => {
-    using runnerRun = spyOn(TimeoutRunner, "run");
-    const antivirus = AntivirusBuilder.of(inner).withTimeout({ timeout }, { TimeoutRunner }).build();
-
-    await antivirus.scan(mocks.cleanFile);
-
-    expect(runnerRun).toHaveBeenCalledTimes(1);
-  });
-
   test("build - with semaphore", async () => {
     const antivirus = AntivirusBuilder.of(inner).withSemaphore({ semaphore }).build();
 
@@ -57,7 +44,6 @@ describe("AntivirusBuilder", () => {
     const inner = new AntivirusNoopAdapter();
     const antivirus = AntivirusBuilder.of(inner)
       .withSemaphore({ semaphore })
-      .withTimeout({ timeout }, { TimeoutRunner })
       .withLogger({ Logger: new LoggerCollectingAdapter(), Clock })
       .build();
 
