@@ -39,6 +39,6 @@ export class AntivirusClamavAdapter implements AntivirusPort {
       // Stryker restore all
     }
 
-    throw new Error(AntivirusPortError.ScanFailed);
+    throw new Error(AntivirusPortError.ScanFailed, { cause: stderr });
   }
 }

@@ -43,9 +43,14 @@ describe("AntivirusClamavAdapter", () => {
   });
 
   test("scan - failure - exit code", async () => {
-    // @ts-expect-error Partial access
-    using _ = spyOn(Bun, "spawn").mockImplementation(() => ({ exitCode: 2 }));
+    using _ = spyOn(Bun, "spawn").mockImplementation(() => ({
+      exitCode: 2,
+      // @ts-expect-error Partial access
+      stderr: mocks.stringToStream("can't open database"),
+    }));
 
-    expect(async () => adapter.scan(mocks.virusFile)).toThrow("antivirus.scan.failed");
+    expect(async () => adapter.scan(mocks.virusFile)).toThrow(
+      expect.objectContaining({ message: "antivirus.scan.failed", cause: "can't open database" }),
+    );
   });
 });
