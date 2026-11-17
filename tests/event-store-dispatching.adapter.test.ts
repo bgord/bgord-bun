@@ -140,6 +140,30 @@ describe("EventStoreDispatchingAdapter", () => {
       mocks.GenericHourHasPassedEvent,
       mocks.GenericMinuteHasPassedEvent,
     ]);
+
+    await mocks.tick();
+
     expect(EventBus.messages).toEqual([mocks.GenericHourHasPassedEvent, mocks.GenericMinuteHasPassedEvent]);
+  });
+
+  test("save - multiple events - sequential handlers", async () => {
+    const order: Array<string> = [];
+    const finder = new EventFinderNoopAdapter([]);
+    const inner = new EventStoreAdapter<PassageOfTimeEvent>({ finder, finderLast, inserter, serializer });
+    const EventBus = new EventBusInMemoryAdapter<PassageOfTimeEvent>();
+    EventBus.on(System.Events.HOUR_HAS_PASSED_EVENT, async () => {
+      order.push("hour:start");
+      await mocks.tick();
+      order.push("hour:end");
+    });
+    EventBus.on(System.Events.MINUTE_HAS_PASSED_EVENT, async () => {
+      order.push("minute");
+    });
+    const store = new EventStoreDispatchingAdapter<PassageOfTimeEvent>({ inner, EventBus });
+
+    await store.save([mocks.GenericHourHasPassedEvent, mocks.GenericMinuteHasPassedEvent]);
+    await mocks.turn();
+
+    expect(order).toEqual(["hour:start", "hour:end", "minute"]);
   });
 });

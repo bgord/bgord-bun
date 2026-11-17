@@ -33,7 +33,10 @@ export class EventStoreDispatchingAdapter<Event extends GenericEvent> implements
     const saved = await this.deps.inner.save(events);
 
     // Fire-and-forget: events are already persisted, handler errors are logged by the handler strategy.
-    for (const event of saved) this.deps.EventBus.emit(event).catch(() => {});
+    // Sequential: handlers of an event finish before handlers of the next one start.
+    void (async () => {
+      for (const event of saved) await this.deps.EventBus.emit(event);
+    })().catch(() => {});
 
     return saved;
   }
