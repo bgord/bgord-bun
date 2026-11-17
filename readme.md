@@ -769,7 +769,6 @@ src/
 ├── woodchopper-dispatcher-sync.strategy.ts
 ├── woodchopper-dispatcher.strategy.ts
 ├── woodchopper-formatter-human.strategy.ts
-├── woodchopper-formatter-json-raw.strategy.ts
 ├── woodchopper-formatter-json.strategy.ts
 ├── woodchopper-formatter.strategy.ts
 ├── woodchopper-sampling-composite.strategy.ts

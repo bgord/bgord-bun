@@ -652,7 +652,6 @@ export * from "./woodchopper-dispatcher-sync.strategy";
 export * from "./woodchopper-formatter.strategy";
 export * from "./woodchopper-formatter-human.strategy";
 export * from "./woodchopper-formatter-json.strategy";
-export * from "./woodchopper-formatter-json-raw.strategy";
 export * from "./woodchopper-sampling.strategy";
 export * from "./woodchopper-sampling-composite.strategy";
 export * from "./woodchopper-sampling-correlation-id.strategy";
