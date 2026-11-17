@@ -22,6 +22,7 @@ describe("CertificateInspectorTLSAdapter", () => {
   test("success - remaining 30 days", async () => {
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
+        authorized: true,
         once() {
           return this;
         },
@@ -49,6 +50,7 @@ describe("CertificateInspectorTLSAdapter", () => {
   test("success - expired 2 days ago", async () => {
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
+        authorized: true,
         once() {
           return this;
         },
@@ -98,9 +100,35 @@ describe("CertificateInspectorTLSAdapter", () => {
     );
   });
 
+  test("failure - unauthorized certificate", async () => {
+    using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
+      const socket: any = {
+        authorized: false,
+        once() {
+          return this;
+        },
+        getPeerCertificate() {
+          // biome-ignore lint: lint/style/noRestrictedGlobals
+          return { valid_to: new Date(month).toUTCString().replace("UTC", "GMT") };
+        },
+        end() {},
+        destroy() {},
+      };
+      queueMicrotask(onSecure);
+      return socket;
+    });
+
+    expect(await adapter.inspect(mocks.hostname)).toEqual({ success: false });
+    expect(tlsConnect).toHaveBeenCalledWith(
+      { host: mocks.hostname, port: 443, rejectUnauthorized: false, servername: mocks.hostname },
+      expect.any(Function),
+    );
+  });
+
   test("failure - missing certificate", async () => {
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
+        authorized: true,
         once() {
           return this;
         },
@@ -124,6 +152,7 @@ describe("CertificateInspectorTLSAdapter", () => {
   test("failure - invalid certificate valid_to", async () => {
     using tlsConnect = spyOn(tls, "connect").mockImplementation((_: any, onSecure: any) => {
       const socket: any = {
+        authorized: true,
         once() {
           return this;
         },

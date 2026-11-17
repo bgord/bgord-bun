@@ -22,6 +22,8 @@ export class CertificateInspectorTLSAdapter implements CertificateInspectorPort 
         { host: hostname, port: 443, servername: hostname, rejectUnauthorized: false },
         () => {
           try {
+            if (!socket.authorized) return settle({ success: false });
+
             const certificate = socket.getPeerCertificate();
 
             // Stryker disable next-line ConditionalExpression
