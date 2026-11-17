@@ -16,12 +16,14 @@ export class SealerAesGcmAdapter implements SealerPort {
   constructor(private readonly deps: Dependencies) {}
 
   async seal(value: unknown): Promise<string> {
-    if (value === undefined) throw new Error(SealerAesGcmAdapterError.Undefined);
+    const json = JSON.stringify(value);
+
+    if (json === undefined) throw new Error(SealerAesGcmAdapterError.Undefined);
 
     const key = await this.deps.CryptoKeyProvider.get();
     const iv = EncryptionIV.generate();
 
-    const plaintext = new TextEncoder().encode(JSON.stringify(value));
+    const plaintext = new TextEncoder().encode(json);
     const encrypted = await CryptoAesGcm.encrypt(key, plaintext.buffer, iv);
 
     return SealerAesGcmAdapter.PREFIX + encrypted.toBase64();

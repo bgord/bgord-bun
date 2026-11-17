@@ -6,6 +6,6 @@ export class SealerNoopAdapter implements SealerPort {
   }
 
   async unseal(value: string): Promise<unknown> {
-    return JSON.parse(value.replaceAll("sealed:", ""));
+    return JSON.parse(value.slice("sealed:".length));
   }
 }

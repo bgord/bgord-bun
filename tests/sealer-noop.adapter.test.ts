@@ -18,4 +18,10 @@ describe("SealerNoopAdapter", () => {
 
     expect(result).toEqual(input);
   });
+
+  test("unseal - prefix in value", async () => {
+    const result = await adapter.unseal('sealed:"sealed:x"');
+
+    expect(result).toEqual("sealed:x");
+  });
 });
