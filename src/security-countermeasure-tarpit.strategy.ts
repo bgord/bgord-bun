@@ -1,4 +1,3 @@
-// cspell:ignore Tarpit
 import type * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { CorrelationStorage } from "./correlation-storage.service";

@@ -1,4 +1,3 @@
-/* cSpell:disable */
 import { describe, expect, test } from "bun:test";
 import { TrailingSlashMiddleware } from "../src/trailing-slash.middleware";
 import { RequestContextBuilder } from "./request-context-builder";

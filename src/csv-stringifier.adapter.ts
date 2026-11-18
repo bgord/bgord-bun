@@ -1,4 +1,3 @@
-// cspell:ignore Stringifier
 import type { CsvColumnType, CsvRowType } from "./csv.types";
 import { CsvFormulaSanitizer } from "./csv-formula-sanitizer.service";
 import type { CsvStringifierPort } from "./csv-stringifier.port";

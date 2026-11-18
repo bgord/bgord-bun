@@ -1,4 +1,3 @@
-// cspell:ignore nosniff
 import * as tools from "@bgord/tools";
 import type { MiddlewareHandler } from "hono";
 import { cors } from "hono/cors";

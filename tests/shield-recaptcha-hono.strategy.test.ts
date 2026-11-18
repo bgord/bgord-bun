@@ -1,4 +1,3 @@
-// cspell:ignore remoteip
 import { describe, expect, spyOn, test } from "bun:test";
 import { Hono } from "hono";
 import * as v from "valibot";

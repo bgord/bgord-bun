@@ -1,4 +1,3 @@
-// cspell:ignore krowa,owca
 import { describe, expect, spyOn, test } from "bun:test";
 import { Languages } from "../src/languages.vo";
 import { PrerequisiteVerification } from "../src/prerequisite-verifier.port";

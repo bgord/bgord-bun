@@ -1,5 +1,4 @@
 // [BUN DEPENDENCY]
-// cSpell:ignore clamav, clamscan
 import type * as tools from "@bgord/tools";
 import { type AntivirusPort, AntivirusPortError, type AntivirusScanResult } from "./antivirus.port";
 

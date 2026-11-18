@@ -1,4 +1,3 @@
-// cspell:ignore setex
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import type { CacheRepositoryTtlType } from "../src/cache-repository.port";

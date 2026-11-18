@@ -1,4 +1,3 @@
-/* cSpell:disable */
 import { describe, expect, test } from "bun:test";
 import { RedactorKey } from "../src/redactor-key.vo";
 

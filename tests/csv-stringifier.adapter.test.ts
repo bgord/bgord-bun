@@ -1,4 +1,3 @@
-// cspell:ignore Stringifier
 import { describe, expect, test } from "bun:test";
 import { CsvStringifierAdapter } from "../src/csv-stringifier.adapter";
 
@@ -77,13 +76,17 @@ describe("CsvStringifierAdapter", () => {
   test("process - symbol", async () => {
     const data = [{ id: 1, name: Symbol("Anne") }];
 
-    expect(async () => adapter.process(["id", "name"], data)).toThrow("csv.stringifier.adapter.invalid.value");
+    expect(async () => adapter.process(["id", "name"], data)).toThrow(
+      "csv.stringifier.adapter.invalid.value",
+    );
   });
 
   test("process - function", async () => {
     const data = [{ id: 1, name: () => "Anne" }];
 
-    expect(async () => adapter.process(["id", "name"], data)).toThrow("csv.stringifier.adapter.invalid.value");
+    expect(async () => adapter.process(["id", "name"], data)).toThrow(
+      "csv.stringifier.adapter.invalid.value",
+    );
   });
 
   test("process - empty string", async () => {

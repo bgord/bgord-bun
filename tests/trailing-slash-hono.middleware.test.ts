@@ -1,4 +1,3 @@
-/* cSpell:disable */
 import { describe, expect, test } from "bun:test";
 import { Hono } from "hono";
 import { TrailingSlashHonoMiddleware } from "../src/trailing-slash-hono.middleware";

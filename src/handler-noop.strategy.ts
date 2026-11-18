@@ -1,4 +1,3 @@
-// cspell:ignore Handleable
 import type { Handleable, HandlerStrategy } from "./handler.strategy";
 
 export class HandlerNoopStrategy implements HandlerStrategy {

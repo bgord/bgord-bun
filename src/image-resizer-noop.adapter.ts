@@ -1,4 +1,3 @@
-// cspell:ignore Resizer
 import type * as tools from "@bgord/tools";
 import type { ImageResizerPort, ImageResizerStrategy } from "./image-resizer.port";
 

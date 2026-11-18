@@ -1,4 +1,3 @@
-// cspell:ignore Tarpit
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { ClockFixedAdapter } from "../src/clock-fixed.adapter";

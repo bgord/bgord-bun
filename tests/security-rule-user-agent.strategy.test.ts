@@ -1,4 +1,3 @@
-/* cSpell:ignore claudebot */
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { SecurityRuleName } from "../src/security-rule-name.vo";

@@ -1,4 +1,3 @@
-// cspell:ignore Exif
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import type {

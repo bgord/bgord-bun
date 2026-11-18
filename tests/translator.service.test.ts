@@ -1,4 +1,3 @@
-/* cSpell:disable */
 import { describe, expect, test } from "bun:test";
 import { TranslatorService } from "../src/translator.service";
 

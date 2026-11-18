@@ -1,4 +1,3 @@
-// cspell:ignore noopen nosniff
 import { describe, expect, test } from "bun:test";
 import * as v from "valibot";
 import { NonceProviderDeterministicAdapter } from "../src/nonce-provider-deterministic.adapter";

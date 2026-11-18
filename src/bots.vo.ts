@@ -1,5 +1,4 @@
 // Source: https://github.com/honojs/middleware/blob/main/packages/ua-blocker/src/generated.ts
-/* cSpell:disable */
 // Stryker disable all
 export const ALL_BOTS = [
   "AddSearchBot",

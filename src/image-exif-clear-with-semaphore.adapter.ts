@@ -1,4 +1,3 @@
-// cspell:ignore Exif
 import type * as tools from "@bgord/tools";
 import type { ImageExifClearPort, ImageExifClearStrategy } from "./image-exif-clear.port";
 import type { Semaphore } from "./semaphore.service";

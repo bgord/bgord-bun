@@ -1,4 +1,3 @@
-// cspell:ignore grayscaled
 import { describe, expect, spyOn, test } from "bun:test";
 import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { ImageGrayscaleAdapter } from "../src/image-grayscale.adapter";

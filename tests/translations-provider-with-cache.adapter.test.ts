@@ -11,7 +11,6 @@ import { TranslationsProviderWithCacheAdapter } from "../src/translations-provid
 import * as mocks from "./mocks";
 
 const english = { hello: "Hello" };
-// cspell:ignore Cześć
 const polish = { hello: "Cześć" };
 const inner = new TranslationsProviderNoopAdapter({ en: english, pl: polish });
 

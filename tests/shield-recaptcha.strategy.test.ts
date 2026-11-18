@@ -1,4 +1,3 @@
-// cspell:ignore remoteip
 import { describe, expect, spyOn, test } from "bun:test";
 import * as v from "valibot";
 import { RecaptchaSecretKey } from "../src/recaptcha-secret-key.vo";

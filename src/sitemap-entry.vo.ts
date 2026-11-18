@@ -1,4 +1,3 @@
-// cspell:ignore apos
 import * as tools from "@bgord/tools";
 import * as v from "valibot";
 import { SitemapChangefreqEnum } from "./sitemap-changefreq.vo";

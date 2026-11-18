@@ -1,5 +1,4 @@
 // [BUN DEPENDENCY]
-// cspell:ignore nosniff
 
 import { serveStatic } from "@hono/bun";
 import { Hono } from "hono";

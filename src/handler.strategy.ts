@@ -1,4 +1,3 @@
-// cspell:ignore Handleable
 export type Handleable = { name: string };
 
 export interface HandlerStrategy {

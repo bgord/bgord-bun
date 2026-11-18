@@ -1,4 +1,3 @@
-// cspell:ignore ciphertext
 import { describe, expect, spyOn, test } from "bun:test";
 import { CryptoAesGcm } from "../src/crypto-aes-gcm.service";
 import { EncryptionIV } from "../src/encryption-iv.vo";

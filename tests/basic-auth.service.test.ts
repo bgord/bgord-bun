@@ -4,7 +4,6 @@ import { BasicAuth } from "../src/basic-auth.service";
 import { BasicAuthPassword } from "../src/basic-auth-password.vo";
 import { BasicAuthUsername } from "../src/basic-auth-username.vo";
 
-// cSpell:ignore YWRtaW46cGFzc3dvcmQ
 const result = { authorization: "Basic YWRtaW46cGFzc3dvcmQ=" };
 const config = {
   username: v.parse(BasicAuthUsername, "admin"),

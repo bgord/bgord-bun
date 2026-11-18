@@ -1,5 +1,4 @@
 // [BUN DEPENDENCY]
-// cspell:ignore grayscaled
 import type * as tools from "@bgord/tools";
 import type { AtomicFileWriterPort } from "./atomic-file-writer.port";
 import type { ImageSupportedType } from "./image.types";

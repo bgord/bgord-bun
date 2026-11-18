@@ -1,4 +1,3 @@
-// cspell:ignore noopen nosniff
 import type { NonceProviderPort } from "./nonce-provider.port";
 import type { NonceValueType } from "./nonce-value.vo";
 

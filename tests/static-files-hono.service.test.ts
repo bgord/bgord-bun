@@ -1,4 +1,3 @@
-// cspell:ignore noopen nosniff
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { CacheControlMustRevalidateStrategy } from "../src/cache-control-must-revalidate.strategy";

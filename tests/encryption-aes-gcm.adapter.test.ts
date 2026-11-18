@@ -1,4 +1,3 @@
-// cspell:ignore ciphertext
 import { describe, expect, spyOn, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";

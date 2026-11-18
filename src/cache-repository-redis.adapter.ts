@@ -1,5 +1,4 @@
 // [BUN DEPENDENCY]
-// cSpell:ignore setex
 import type { CacheRepositoryPort, CacheRepositoryTtlType } from "./cache-repository.port";
 import type { CacheValueType } from "./cache-value.vo";
 import type { Hash } from "./hash.vo";

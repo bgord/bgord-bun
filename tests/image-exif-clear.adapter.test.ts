@@ -1,5 +1,3 @@
-// cspell:ignore Exif
-
 import { describe, expect, spyOn, test } from "bun:test";
 import { AtomicFileWriterNoopAdapter } from "../src/atomic-file-writer-noop.adapter";
 import { ImageExifClearAdapter } from "../src/image-exif-clear.adapter";

@@ -1,4 +1,3 @@
-// cSpell:ignore upcasted
 import type * as tools from "@bgord/tools";
 import { CorrelationStorage } from "./correlation-storage.service";
 import type { GenericEvent } from "./event.types";

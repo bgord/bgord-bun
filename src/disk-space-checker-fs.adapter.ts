@@ -1,4 +1,3 @@
-/* cSpell:disable */
 import fs from "node:fs/promises";
 import * as tools from "@bgord/tools";
 import type { DiskSpaceCheckerPort } from "./disk-space-checker.port";

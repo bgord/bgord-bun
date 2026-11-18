@@ -1,4 +1,3 @@
-// cspell:disable
 import { describe, expect, spyOn, test } from "bun:test";
 import { CryptoAesGcm } from "../src/crypto-aes-gcm.service";
 import { CryptoKeyProviderNoopAdapter } from "../src/crypto-key-provider-noop.adapter";

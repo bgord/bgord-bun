@@ -1,4 +1,3 @@
-// cSpell:ignore łódź
 import { describe, expect, test } from "bun:test";
 import * as tools from "@bgord/tools";
 import { FileTypeDetectorTextStrategy } from "../src/file-type-detector-text.strategy";
