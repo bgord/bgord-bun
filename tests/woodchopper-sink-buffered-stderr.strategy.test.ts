@@ -30,7 +30,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
     sink.write(entry);
     sink.write(entry);
 
-    expect(processStderrWrite).toHaveBeenCalledTimes(0);
+    expect(processStderrWrite).not.toHaveBeenCalled();
 
     await mocks.turn();
 
@@ -72,7 +72,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
 
     for (let index = 0; index < 255; index++) sink.write(entry);
 
-    expect(processStderrWrite).toHaveBeenCalledTimes(0);
+    expect(processStderrWrite).not.toHaveBeenCalled();
 
     sink.write(entry);
 
@@ -122,7 +122,7 @@ describe("WoodchopperSinkStderrBuffered", () => {
     sink.close();
     sink.close();
 
-    expect(processStderrWrite).toHaveBeenCalledTimes(0);
-    expect(clearImmediateSpy).toHaveBeenCalledTimes(0);
+    expect(processStderrWrite).not.toHaveBeenCalled();
+    expect(clearImmediateSpy).not.toHaveBeenCalled();
   });
 });

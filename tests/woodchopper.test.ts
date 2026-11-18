@@ -557,7 +557,7 @@ describe("Woodchopper", async () => {
     woodchopper.info(entry);
     woodchopper.info(entry);
 
-    expect(processStdoutWrite).toHaveBeenCalledTimes(0);
+    expect(processStdoutWrite).not.toHaveBeenCalled();
 
     woodchopper.close();
 

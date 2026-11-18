@@ -4,7 +4,7 @@ import type { FileTypeDetectorStrategy } from "./file-type-detector.strategy";
 
 type Signature = { mime: tools.Mime; offset: number; bytes: ReadonlyArray<number> };
 
-const ASCII = (value: string): ReadonlyArray<number> => [...value].map((char) => char.charCodeAt(0));
+const ASCII = (value: string): ReadonlyArray<number> => Array.from(value, (char) => char.charCodeAt(0));
 
 const SIGNATURES: ReadonlyArray<Signature> = [
   { mime: tools.Mimes.png.mime, offset: 0, bytes: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a] },
